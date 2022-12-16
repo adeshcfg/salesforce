@@ -1,0 +1,59 @@
+<apex:page showHeader="false" sidebar="false" controller="ApplicationDeclineDecisionController" standardstylesheets="false" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        
+        <apex:stylesheet value="{!URLFOR($Resource.ApplicationResource, 'css/traction/application.css')}"/>
+        <apex:includeScript value="{!$Resource.jQuery}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/application.js')}" />
+        <script type="text/javascript">
+            var topOrigin = '{!JSENCODE(AppFormSettings.Parent_Page_Domain__c)}';
+            
+            $(document).ready( function () {
+                scrollToTop();            
+            });
+            
+            function loading(id) {
+                // Disable continue and do not continue buttons
+                $("[id*=id]").attr("disabled", "true");
+                // Show spinner
+                $("#loading").show();
+            }
+        </script>
+    </head>
+    <body>
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W6F9RX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W6F9RX');</script>
+    <!-- End Google Tag Manager -->
+    <div id="innerContainer" class="inner-container"> 
+        <!--wrapArea Start-->
+        <apex:form id="application-result">
+            
+            <apex:outputPanel layout="block">
+                <script>
+                pushHit('/application-form/application_declined', 'Application Declined');
+                </script>
+                <div class="fleft">
+                    <div>
+                        <h2>Thank you for your application.</h2>
+                        <h2>We've reviewed it carefully and unfortunately, we are not able to offer you an unsecured credit product at this time. </h2>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            
+        </apex:form>
+        <!--wrapArea End-->
+
+        <!-- Commission Soup Pixel -->
+        <iframe src="https://www.commissionsoup.com/optt.aspx?p=4437&s=2&iframe=1" width="1" height="1" frameborder="0"></iframe>
+        <!-- End Commission Soup Pixel -->
+    </div>
+    </body>
+</html>
+</apex:page>

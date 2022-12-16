@@ -1,0 +1,48 @@
+<apex:page standardController="Remittance__c" extensions="PaymentReversalController" id="page" showHeader="false">
+    <style>
+        .myheader1{
+        z-index: 0;
+        position: fixed;
+        margin-top: 5px;
+        background-color: #f8f8f8;
+        width: 95.7%;
+        text-align: center;
+        margin-left: 0.1%;
+        height: 28px;
+        margin-top:0px;
+        padding-top: 12px;    border-top: 3px solid #fc4f59;border-bottom: 1px solid #eaeaea;
+        }
+        
+        input::-webkit-input-placeholder {
+        font-size: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+    
+    function CloseAndRefresh(){
+        alert('Dividend has been successfully reversed');
+        window.opener.location='/{!$CurrentPage.parameters.id}';
+        window.close();
+    } 
+    function closeWindow(){
+        window.close();
+    }
+    
+    </script>
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pagemessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Submit"  id="submitbutton" disabled="{!if(Remittance__c.Status__c=='Payment Reversed'|| Remittance__c.Status__c=='In Progress' || Remittance__c.Status__c=='New',True,false)}" action="{!submit}" oncomplete="CloseAndRefresh()"/>
+                <apex:commandButton value="Cancel" action="{!cancel}" onclick="closeWindow()"/> 
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Payment Reversal Reason">
+                <apex:selectList value="{!PaymentReversal}" size="1" label="Payment Reversal:">
+                    <apex:selectOptions value="{!Items}"/>
+                </apex:selectList>
+                                                                      
+            </apex:pageBlockSection>                                                                        
+        </apex:pageBlock>
+        
+    </apex:form>
+</apex:page>

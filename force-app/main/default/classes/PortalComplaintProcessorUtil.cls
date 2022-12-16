@@ -1,0 +1,304 @@
+/**************************************************************************************************
+*
+*  Class:   
+*
+*  @description : Util class for Portal Customer Processing API
+*  @author : A5E Consulting
+*  @date : 23/02/2021
+
+*************************************************************************************************/
+public class PortalComplaintProcessorUtil {
+    //Create Request Fund record 
+    public static String processComplaint(Map<String,String> paramMap, Work_Assignment__c complaint){
+        //Create temporary account instance to store request values
+        complaint.Task_Number__c = paramMap.get('Task_Number');
+        complaint.Description__c = paramMap.get('Description');
+        complaint.Priority__c = paramMap.get('Priority');
+        complaint.Status__c = paramMap.get('Status');
+        if(String.isNotBlank(paramMap.get('Requested_Date'))){
+            complaint.Requested_Date__c = Date.valueOf(paramMap.get('Requested_Date'));    
+        }
+         if(String.isNotBlank(paramMap.get('Next_follow_up_date'))){
+            complaint.Next_follow_up_date__c = Date.valueOf(paramMap.get('Next_follow_up_date'));    
+        }
+        if(String.isNotBlank(paramMap.get('Due_Date'))){
+            complaint.Due_Date__c = Date.valueOf(paramMap.get('Due_Date'));    
+        }
+        complaint.CFG_Complaint_Analysis__c = paramMap.get('CFG_Complaint_Analysis');
+        complaint.Complaint_Type__c = paramMap.get('Complaint_Type');
+        complaint.Root_Cause__c = paramMap.get('Root_Cause');
+        complaint.Original_Creditor__c = paramMap.get('Original_Creditor');
+        complaint.Resolution_By__c = paramMap.get('Resolution_By');
+        if(String.isNotBlank(paramMap.get('Resolution_Date'))){
+            complaint.Resolution_Date__c = Date.valueOf(paramMap.get('Resolution_Date'));    
+        }
+       // complaint.Agency_Investigation_Notes__c = paramMap.get('Agency_Investigation_Notes');
+        complaint.Agency_Investigation_Notes__c = paramMap.get('Result_of_Investigation');
+        complaint.Source__c = paramMap.get('Source');
+        complaint.Assign_To__c = paramMap.get('Assign_To');
+       // complaint.Assign_To_Agency_User__c = paramMap.get('Assign_To_Agency_User');
+         complaint.Assign_To_Agency_User__c = AgencyPortalUtil.getUserNamefromEmail(paramMap.get('Assign_To_Agency_User')); //For populating name from email
+         System.debug('Assign_To_Agency_User__c-->'+ complaint.Assign_To_Agency_User__c);//Debug to check Assign_To_Agency_User__c
+        complaint.Assigned_To_User_Name__c = paramMap.get('Assigned_To_User_Name');
+        complaint.Customer_Identifier__c = paramMap.get('Customer_Identifier');
+       
+        //complaint.Judgment_Identifier__c = paramMap.get('Judgment_Identifier');
+        complaint.Product_Identifier__c = paramMap.get('Product_Identifier');
+        //complaint.Settlement_Identifier__c = paramMap.get('Settlement_Identifier');
+        complaint.Placement_Agency_Identifier__c = paramMap.get('Placement_Agency_Identifier');
+        complaint.Assigned_To_Agency_User_Email__c = paramMap.get('Assign_To_Agency_User');
+        complaint.Last_Modified_By__c = paramMap.get('Last_Modified_By');
+        //complaint.Comment_Reply__c = paramMap.get('Comment_Reply');
+        complaint.Reopen_Comments__c = paramMap.get('Reopen_Comments');
+        //complaint.Complaint_Related_To_Another_Products__c = paramMap.get('Complaint_Related_To_Another_Products');
+        if(String.isNotBlank(paramMap.get('Complaint_Related_To_Another_Products__c'))){
+            complaint.Complaint_Related_To_Another_Products__c = Boolean.valueOf(paramMap.get('Complaint_Related_To_Another_Products__c'));    
+        } 
+        complaint.Root_Cause_Other__c = paramMap.get('Root_Cause_Other');
+        complaint.Complaint_Type_Other__c = paramMap.get('Complaint_Type_Other');
+        complaint.Is_The_Complaint_Valid__c = paramMap.get('Is_The_Complaint_Valid');
+        complaint.Have_You_Provided_Supporting_Media__c = paramMap.get('Have_You_Provided_Supporting_Media');
+        //complaint.Request_To_Reopen__c = paramMap.get('Request_To_Reopen');
+        complaint.Account_Being_CB_Reported_By_Agency__c = paramMap.get('Account_Being_CB_Reported_By_Agency');
+        complaint.Agency_Currently_Has_Account_On_Hold__c = paramMap.get('Agency_Currently_Has_Account_On_Hold');
+       // complaint.Canaccede_Entity__c = paramMap.get('Canaccede_Entity');
+        if(String.isNotBlank(paramMap.get('Date_Complaint_Received_By_Agency'))){
+            complaint.Date_Complaint_Received_By_Agency__c = Date.valueOf(paramMap.get('Date_Complaint_Received_By_Agency'));    
+        }
+        //New Field Added for agency
+        complaint.Products_List__c = paramMap.get('Products_List');
+        if(String.isNotBlank(paramMap.get('Is_Multiple_Products'))){
+            complaint.Is_Multiple_Products__c = Boolean.valueOf(paramMap.get('Is_Multiple_Products'));
+        }
+        if(complaint.Products_List__c != null){
+                complaint.Is_Multiple_Products__c = True;
+        }
+        
+        system.debug('Comment_Reply: '+paramMap.get('Comment_Reply'));
+        system.debug('Last_Modified_By__c: '+paramMap.get('Last_Modified_By'));
+        
+        DateTime dT = System.now();
+        if(String.isNotBlank(paramMap.get('Comment_Reply'))){
+            if(complaint.Latest_Comment__c != paramMap.get('Comment_Reply')){
+                system.debug('--Comments_History__c: '+complaint.Comments_History__c);
+                system.debug('complaint.Comment_Reply__c: '+complaint.Latest_Comment__c);
+                complaint.Latest_Comment__c = paramMap.get('Comment_Reply');
+                String Comment = complaint.Last_Modified_By__c + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day()
+                + '/' + dT.year() + ';' + ' ' + ' ' + complaint.Latest_Comment__c + '\n' + '\n';
+                system.debug('Comment : '+Comment );
+                
+                if(String.isNotBlank(complaint.Comments_History__c)){
+                    Comment  = Comment  + complaint.Comments_History__c;
+                }
+                //Comment  += (String.isNotBlank(complaint.Comments_History__c) ? complaint.Comments_History__c: '');
+                system.debug('Comment  2:'+Comment);
+                complaint.Comments_History__c = Comment ;
+                system.debug('Comment History 3:' +complaint.Comments_History__c );
+              }
+        } 
+        Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
+        
+        try{
+            //to not run workassignment trigger
+            WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
+            
+            //Populate identifier fields from handler method
+            list<Work_Assignment__c> listWorkAssignments = new list<Work_Assignment__c>();
+            listWorkAssignments.add(complaint);
+            //WorkAssignmentTriggerHandler.getWorkAssignRelatedAgencyData(listWorkAssignments);
+            getWorkAssignRelatedAgencyData(listWorkAssignments);
+            complaint.Inbound_API_Request_Body__c = String.valueOf(paramMap);
+            complaint.Inbound_API_Response_Body__c = 'Successfully Created';
+            
+            
+            if(complaint.ID == NULL){
+                complaint.RecordTypeID = portalSettings.AgencyComplaintWorkAssignmentRecordType__c ;
+                complaint.Record_Type_Identifier__c = 'Agency_Complaint';
+                //Ticket-3196 Added new field Customer Name 
+                complaint.Customer_Name__c = paramMap.get('Customer_Name');
+                insert complaint;
+                system.debug('complaint: '+complaint);
+            }
+            else{
+                update complaint;
+            }
+            getComplaintCountAgency(listWorkAssignments);
+            WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+            return 'success';
+        }
+        catch(Exception ex){
+            system.debug('Exception in payment transaction insert :'+ex);
+            complaint.Inbound_API_Response_Body__c = ex.getMessage();
+            if(complaint.ID != NULL){
+            update complaint;
+                }
+            WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+            return ex.getMessage();
+        }
+    }
+    
+    //using this inner method populate the Lookup fields using agency data.
+    public static void getWorkAssignRelatedAgencyData(list<Work_Assignment__c> listWorkAssignments){
+     
+     
+        set<String> setPlacementID = new set<String>();
+        set<String> setProductID = new set<String>();
+        set<String> setCustomerID = new set<String>();
+        set<String> setSettlementID = new set<String>();
+        set<String> setJudgmentID = new set<String>();
+
+     
+        map<String, Id> mapPlacementNames = new map<String, Id>();
+        map<String, Id> mapProductNames = new map<String, Id>();
+        map<String, Id> mapCustomerNames = new map<String, Id>();
+        map<String, Id> mapSettlementNames = new map<String, Id>();
+        map<String, Id> mapJudgmentNames = new map<String, Id>();
+
+        //getComplaintCountAgency(listWorkAssignments);
+        
+        for(Work_Assignment__c workAssignObj : listWorkAssignments){
+     
+            setPlacementID.add(workAssignObj.Placement_Agency_Identifier__c);
+            setProductID.add(workAssignObj.Product_Identifier__c);
+            setCustomerID.add(workAssignObj.Customer_Identifier__c);
+            setSettlementID.add(workAssignObj.Settlement_Identifier__c);
+            setJudgmentID.add(workAssignObj.Judgment_Identifier__c);
+       
+        }
+        
+        for(Placement__c placement : [SELECT ID, Name
+                                     FROM Placement__c
+                                     WHERE Name IN : setPlacementID]){
+            mapPlacementNames.put(placement.Name, placement.Id);
+            
+        }
+        
+        for(Product__c product : [SELECT ID, Name
+                                     FROM Product__c
+                                     WHERE Name IN :setProductID]){
+            mapProductNames.put(product.Name, product.ID);
+            
+        }
+        
+        try{
+            for(Account Customer : [SELECT ID, Name, SF_ID__c
+                                         FROM Account
+                                         WHERE SF_ID__c IN :setCustomerID]){
+                mapCustomerNames.put(Customer.SF_ID__c, Customer.ID);
+            
+                system.debug('Cutomer name' +mapCustomerNames);
+            
+            }
+        }catch(Exception e){
+        
+        }
+        for(Settlement__c Settlement : [SELECT ID, Settlement_Number__c
+                                     FROM Settlement__c
+                                     WHERE Settlement_Number__c IN :setSettlementID]){
+            mapSettlementNames.put(Settlement.Settlement_Number__c, Settlement.ID);
+            
+        }
+        for(Judgment__c Judgment : [SELECT ID, Judgment_Number__c
+                                     FROM Judgment__c
+                                     WHERE Judgment_Number__c IN :setJudgmentID]){
+            mapJudgmentNames.put(Judgment.Judgment_Number__c, Judgment.ID);
+            
+        }
+        
+        for(Work_Assignment__c workAssignObj : listWorkAssignments){
+        
+       
+            workAssignObj.Placement_Agency__c = mapPlacementNames.get(workAssignObj.Placement_Agency_Identifier__c);
+            if(workAssignObj.ID == NULL){
+              
+                workAssignObj.Product__c = mapProductNames.get(workAssignObj.Product_Identifier__c);
+                workAssignObj.Customer__c = mapCustomerNames.get(workAssignObj.Customer_Identifier__c);
+            }
+            workAssignObj.Settlement__c = mapSettlementNames.get(workAssignObj.Settlement_Identifier__c);
+            workAssignObj.Judgment__c = mapJudgmentNames.get(workAssignObj.Judgment_Identifier__c);
+
+        }
+    }
+    
+    //Complaint count on Customer and Product
+    public static void getComplaintCountAgency(list<Work_Assignment__c> listWorkAssignments){
+        system.debug('listWorkAssignments:::' +listWorkAssignments);
+        Work_Assignment__c newListWorkAss = listWorkAssignments.get(0);
+        set<String> setProductIDs = new set<String>();
+        set<String> setCustomerIDs = new set<String>();
+        
+        system.debug('setProductIDs Test::' +setProductIDs);
+        system.debug('newListWorkAss:::' +newListWorkAss);
+        
+        if(newListWorkAss.Complaint_Type__c != null){
+              
+            for(Work_Assignment__c wrkAss : listWorkAssignments){
+                setProductIDs.add(wrkAss.Product_Identifier__c);
+                setCustomerIDs.add(wrkAss.Customer_Identifier__c);
+            }
+            System.Debug('setProductIDs:::' +setProductIDs);
+            AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)count2 from Work_Assignment__c 
+                                                WHERE (Customer__r.SF_ID__c IN :setCustomerIDs AND Customer__r.SF_ID__c != NULL)
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified') GROUP BY Customer__c];
+            System.Debug('custGroupedResults' +custGroupedResults);
+            for (AggregateResult arr : custGroupedResults)  {
+                if((decimal)arr.get('count2') > 0){
+                    Account cust=new Account();
+                    cust.Id=(id)arr.get('Customer__c'); 
+                    cust.Number_Of_Open_Complaint__c=(decimal)arr.get('count2'); 
+                    update cust;
+                }
+            }
+            set<ID> customerID =new set<ID>(); 
+            AggregateResult[] prodGroupedResults = [select Product__c,Count(Product__r.Name)count1 from Work_Assignment__c 
+                                                WHERE (Product__r.Name IN :setProductIDs AND Product__r.Name != NULL)
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified' AND Status__c != NULL) GROUP BY Product__c];
+            System.Debug('prodGroupedResults' +prodGroupedResults);
+            for (AggregateResult ar : prodGroupedResults)  {
+                if((decimal)ar.get('count1') > 0){
+                    Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)ar.get('Product__c')];
+                    //Account acc = new Account(); 
+                    customerID.add(prodCustomer.Customer__c);
+                    Product__c pr1=new Product__c();
+                    pr1.Id=(id)ar.get('Product__c'); 
+                    pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('count1');
+                    //acc.id = prodCustomer.Customer__c;
+                    //acc.Number_Of_Open_Product_Complaint__c = (decimal)ar.get('count1'); 
+                    update pr1;
+                    //update acc;
+                }
+            }
+            set<Id> custProdId = new set<ID>();
+                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID];
+                system.debug('cutProdList:'+cutProdList);
+                for(Product__C custprod : cutProdList){
+                    custProdId.add(custprod.Id);
+                }
+                AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
+                                                WHERE (Product__c IN :custProdId AND Product__c != NULL)
+                                                AND (Status__c != 'Closed') AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
+                system.debug('prodGroupedResults1:'+prodGroupedResults1);
+                Id cutomerId;
+                Decimal prodcomplaintcount = 0;
+                for(AggregateResult prdlist : prodGroupedResults1){
+                    Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
+                    cutomerId = prodCustomer1.Customer__c;
+                    //system.debug('inside for');
+                    prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
+                    //system.debug('prodcomplaintcount::'+prodcomplaintcount);
+                }
+                system.debug('prodcomplaintcount211::'+prodcomplaintcount);
+                //system.debug('cutomerId::'+cutomerId);
+                if(cutomerId != null){
+                    //system.debug('prodcomplaintcount45785:'+prodcomplaintcount);
+                    Account acc = new Account();
+                    acc.id = cutomerId;
+                    acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
+                    //update pr1;
+                    CustomerTriggerHandler.runCustomerTrigger= false;
+                    update acc;     
+                    CustomerTriggerHandler.runCustomerTrigger= true;
+                }
+        }
+    }
+}

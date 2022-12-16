@@ -1,0 +1,52 @@
+<aura:component>
+    <aura:attribute name="header" type="String" default="Action"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showImage" type="Boolean" default="false" />
+    <aura:attribute name="save" type="Aura.Component[]"/>
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand"/>
+    </aura:if>
+    
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        height:unset !important;
+        max-height:unset !important;
+        min-height:20rem !important;
+        }
+        .modal-content {
+         height: auto !important;
+        max-height: calc(100vh - 340px) !important;
+        }
+        .slds-modal__container{
+        min-width: 100% !important;
+        width:100% !important;
+}
+
+    </aura:html>
+    <div class="modal-container" style="width:100%; max-width:none !important;">
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">{! v.header }</h2>
+        </header>
+        
+        <div class="slds-modal__content slds-p-around_medium scrollable modal-content">
+            {! v.body }
+            
+            <aura:if isTrue="{! v.showImage }">
+                <div class="slds-align_absolute-center slds-m-around_small">
+                    
+                </div>
+            </aura:if>
+        </div>
+        <footer class="slds-modal__footer">
+            <lightning:button name="Cancel" label="Cancel" onclick="{! c.handleCancel }"/>
+            {! v.save }
+        </footer>
+    </div>
+</aura:component>

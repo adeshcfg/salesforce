@@ -1,0 +1,315 @@
+<apex:page controller="DisplayProductAllocateStagingController" showheader="true" standardStyleSheets="false" 
+           sidebar="false" cache="false" docType="html-5.0" >
+     <apex:slds />
+    <style type="text/css">
+        table{
+            width: 100%;
+            background-color: white;
+            border:1px solid black;
+            padding: 5px;
+        }
+        
+        tr{
+            text-align: left;
+            padding: 5px;
+        }
+        
+        td{
+            padding: 5px!important;
+        
+        }
+        .first h3{
+            background-color: #0CA1CF;
+            padding: 5px 3px;
+        }
+        
+        .page_navigation{
+            font-family: tahoma;
+            font-size: 11px;
+            float: left;
+            
+        }
+        
+        .page_navigation a{
+            text-decoration: none;
+            padding: 3px 5px;
+            margin: 0 2px;
+            background-color: white;
+            color: #28ADD9;
+            display: block;
+            float: left;
+            text-align: center;
+            border-color:#28ADD9;
+        }
+        
+        .page_navigation .active_page{
+            background-color: white;
+            color: black;
+        }
+        
+        .demo2{
+            margin: 10px 5px;
+            background-color: #00064F;
+            overflow:auto;
+            text-align: center
+        }
+        
+        .title{
+            font-family: Georgia;
+            font-size: 36px;
+            font-style: italic;
+            color: white;
+            padding: 10px;
+        }
+        
+        .head{
+            font-family: Tahoma;
+            font-size:20px;
+            color: orange;
+            padding: 5px;
+            overflow: auto;
+            
+        }
+        thead{
+            border: 1px solid;
+            text-align:center;
+        }
+        .th{
+        text-align:center;
+        }
+        .body {
+            
+            
+        }
+        
+        .content {
+            width: 90%;
+            margin: 0px auto;
+            overflow: auto;
+        }
+        
+        .item{
+            color: black;
+            font-family: Georgia;
+            font-size: 16px;
+            padding: 10px;
+            display: block;
+            
+        }
+        
+        .block{
+            display:block;
+        }
+        
+        .panel {
+            width: 40%;
+            float: left;
+            padding: 0 30px;
+            
+        }
+        
+        .demo2 .page_navigation a{
+            background-color: orange;
+            color: black;
+        }
+        
+        .demo2 .page_navigation .active_page{
+            background-color: transparent;
+            color: white;
+        }
+        
+        #theid{
+            align-content: center;
+            text-align: center;
+            margin-left: 32%;
+            margin-top: 3%;
+        }       
+        
+    </style>
+    <apex:includeScript value="{!$Resource.EFTJQuery}"/>     
+    <apex:includeScript value="{!$Resource.Paginate}"/>       
+    <script type="text/javascript">
+        $.noConflict();
+        
+        jQuery(document).ready(function($){
+            $(esc(pbsId)).pajinate({
+                item_container_id : esc(accountTableBodyId),
+                items_per_page : 25
+            });
+            
+            $('.demo2').pajinate();
+        }); 
+        
+        function esc(myid) {
+           return '#' + myid.replace(/(:|\.)/g,'\\\\$1');
+        }
+    
+        function selectAllCheckboxes(obj,receivedInputID){
+            var inputCheckBox = document.getElementsByTagName("input");                
+            for(var i=0; i<inputCheckBox.length; i++){ 
+                console.log(inputCheckBox[i].disabled);
+                if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1 && inputCheckBox[i].disabled == false) {                                    
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        }
+     </script>
+    <apex:form id="form">
+   
+        
+        <apex:pageMessages ></apex:pageMessages>
+      
+             <apex:define name="content"> 
+        
+        <apex:outputPanel rendered="{!!listProductStaging.Empty}" id="panel2">
+            <apex:outputPanel >
+            <div style = "font-weight:bold;font-size:large; visibility:{!showHide}" >
+                {!IF(documentType=='Product Allocation File', 'Product Staging Records for Placement Allocation to verify :', 'Product Staging Records to verify :')}
+            </div>
+            
+            <apex:outputPanel title="" id="pbs" >
+                 <div class="page_navigation" style = "visibility:{!showHide}"></div>
+                    <script> 
+                        var accountTableId = '{!$Component.accountTable}'; 
+                        var accountTableBodyId = accountTableId + ':tb';
+                        var pbsId = '{!$Component.pbs}';
+                    </script>
+            
+            <apex:datatable value="{!listProductStagingWrapper}" var="productWrapper" id="accountTable" style="visibility:{!showHide}">
+                <apex:column headerValue="Action" >
+                                <apex:facet name="header">
+                                   <!-- <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')">
+                                        <apex:actionSupport event="onchange" />
+                                    </apex:inputCheckbox>-->
+                                    <!--apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')"> -->
+                                    <apex:inputCheckbox selected="{!isSelected}" style="visibility:{!showHideisSelected}">
+                                        <apex:actionSupport event="onchange" action="{!selectAll}" reRender="pbId,panel2"/>
+                                    </apex:inputCheckbox>
+                                </apex:facet>
+                                <apex:inputCheckbox id="inputId" value="{!productWrapper.selected}" disabled="{!productWrapper.disabled}">
+                    </apex:inputCheckbox>
+                            </apex:column>
+                <!--<apex:column headerValue="Action" >
+                    <apex:facet name="header">
+                        <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')">
+                        
+                        </apex:inputCheckbox>
+                    </apex:facet>
+                    <apex:inputCheckbox id="inputId" value="{!productWrapper.selected}" disabled="{!productWrapper.disabled}">
+                
+                    </apex:inputCheckbox>
+                </apex:column>-->
+                <apex:column >
+                    <apex:facet name="header"><apex:outputText value="Product"/></apex:facet>
+                        <apex:outputLink value="/{!productWrapper.productStaging.Product_ID__c}" target="_blank">
+                            {!productWrapper.productStaging.Name__c}
+                        </apex:outputLink>
+                    <!--<apex:outputField value="{!productWrapper.productStaging.Name__c}"/>-->
+                </apex:column>
+                
+                <apex:column rendered="{!documentType == 'Product Allocation File'}">
+                    <apex:facet name="header">Collection Agency</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Placement_Agency__c}"></apex:outputfield>
+                    </apex:column>
+                <apex:column rendered="{!documentType == 'Product Allocation File'}">
+                    <apex:facet name="header">Pool Name</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Pool_Name__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column rendered="{!documentType == 'Product Allocation File'}">
+                    <apex:facet name="header">Current Commission rate</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Current_Commission_Rate__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column rendered="{!documentType == 'Product Allocation File'}">
+                    <apex:facet name="header">Commission Rate at time of Placement</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Placed_Commission_Rate__c}"></apex:outputfield>
+                </apex:column>                
+                <apex:column rendered="{!documentType == 'Product Allocation File'}">
+                    <apex:facet name="header">Current Settlement Rate</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Current_Settlement_Rate__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column rendered="{!documentType == 'Product Allocation File'}">
+                    <apex:facet name="header">Settlement Rate at time of Placement</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Placed_Settlement_Rate__c}"></apex:outputfield>
+                </apex:column>
+                 <apex:column rendered="{!documentType == 'Product Allocation File'}">
+                    <apex:facet name="header">Value Tier at time of Placement</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Value_Tier_at_Time_of_Placement__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column rendered="{!documentType == 'Account Status Update File'}">
+                    <apex:facet name="header">Status Code</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Placement_Status_Code__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column rendered="{!documentType == 'Account Status Update File'}">
+                    <apex:facet name="header">Status Changed Date</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Status_Changed_Date__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column style="" >
+                    <apex:facet name="header">Comment</apex:facet>
+                    <apex:outputText value="{!productWrapper.productStaging.Comment__c}" escape="false"></apex:outputText>
+                </apex:column> 
+                <apex:column style="vertical-align:baseline">
+                    <apex:facet name="header">Expected Result</apex:facet>
+                    <apex:outputText value="{!productWrapper.productStaging.Expected_Value__c}" escape="false"></apex:outputText>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Status</apex:facet>
+                    <apex:outputfield value="{!productWrapper.productStaging.Status__c}"></apex:outputfield>
+                </apex:column>
+            </apex:datatable>
+            <apex:actionStatus id="status">
+            <apex:facet name="start">
+            <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.75; z-index: 1000; background-color: black;">
+                &nbsp;
+            </div>
+            <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 30% 50%">
+                <img src="http://upload.wikimedia.org/wikipedia/commons/e/ed/Cursor_Windows_Vista.gif" />
+            </div>
+            </apex:facet>
+        </apex:actionStatus>
+            <apex:actionFunction action="{!SaveRecords}" name="InsertRecord_JS" Rerender="panel1, panel2, status, form"
+                                 status="status"  ><!--oncomplete="CallWebService_JS();"-->
+                                    <apex:param id="param2" name="tempLineId2" value="false" assignTo="{!executeWarning}" /> 
+            </apex:actionFunction>
+           <!-- <apex:actionFunction action="{!SaveRecords}" name="InsertRecordW_JS" Rerender="panel1, panel2, status, form"
+                                 status="status" oncomplete="location.reload()"> oncomplete="CallWebService_JS();"
+                <apex:param id="param1" name="tempLineId2" value="true" assignTo="{!executeWarning}" /> 
+            </apex:actionFunction>-->
+            <!--<apex:actionFunction action="{!postDocumentAPI}" name="CallWebService_JS" status="status"
+                                 reRender="panel1, panel2, status, form"/>-->
+            <div class="page_navigation" style = "visibility:{!showHide}"></div>
+                <div style = "padding-top: 1%;">
+                <apex:commandButton onclick="InsertRecord_JS();return false;"
+                                    value="Process Records" id="theButtonn" 
+                                    styleclass="slds-button slds-button_neutral" 
+                                    style="margin-left: 45%;"
+                                   disabled="{!showButton}">
+                                    
+                </apex:commandButton>
+             
+                </div>
+                
+            </apex:outputPanel>
+                </apex:outputPanel>
+    
+            
+                <apex:outputPanel style="text-align:center; visibility:{!showHide}" layout="block">
+                    <apex:commandButton value="First" reRender="pbId,panel2,pbId1" action="{!first}" disabled="{!NOT(hasPrevious)}" status="paginationStatus"/>
+                    <apex:commandButton value="Previous" rerender="pbId,panel2" action="{!previous}" disabled="{!NOT(hasPrevious)}" status="paginationStatus"/>&nbsp;Page {!pageNumber} of {!totalPages}&nbsp;
+                    <apex:commandButton value="Next" rerender="pbId,panel2,pbId1" action="{!next}" disabled="{!NOT(hasNext)}" status="paginationStatus"/>
+                    <apex:commandButton value="Last" rerender="pbId,panel2,pbId1" action="{!last}" disabled="{!NOT(hasNext)}" status="paginationStatus"/>
+                    <apex:actionStatus id="paginationStatus">
+                        <apex:facet name="start">
+                            Please wait...<img src="/img/loading32.gif" style="width: 18px;"/>
+                        </apex:facet>
+                    </apex:actionStatus>
+                </apex:outputPanel>
+            </apex:outputPanel> 
+          
+    <apex:outputPanel rendered="{!displayPanel}" id="panel1" style="color: #4f9241;font-weight: 500;font-size: 13px;"> 
+                Records Process Complete! <br/>
+                Please check
+                <apex:outputlink value="/{!workAssignmentId}"> Work Assignment </apex:outputlink>&nbsp;record
+            </apex:outputPanel>
+ </apex:define>   
+            </apex:form>
+</apex:page>

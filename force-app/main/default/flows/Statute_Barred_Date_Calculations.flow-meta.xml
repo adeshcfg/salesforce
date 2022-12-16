@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Entry criteria</label>
+        </rules>
+    </decisions>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>IF(([Product__c].Statute_Date__c &lt; [Product__c].Date_for_Stat_Barred_calculations__c ), [Product__c].Statute_Date__c,
+IF(ISNULL([Product__c].Date_for_Stat_Barred_calculations__c ), ([Product__c].Date_for_Stat_Barred_calculations__c),
+CASE([Product__c].State__c,
+&apos;British Columbia&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;Alberta&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;Saskatchewan&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;Manitoba&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;New Brunswick&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;Nova Scotia&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;Newfoundland and Labrador&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;Prince Edward Island&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;Ontario&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;Quebec&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 36),
+&apos;Yukon&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;Northwest Territories&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;Nunavut&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;BC&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;AB&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;SK&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;MB&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;NB&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;NS&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;NL&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;PE&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;ON&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 24),
+&apos;QC&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 36),
+&apos;YT&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;NT&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+&apos;NU&apos;,ADDMONTHS([Product__c].Date_for_Stat_Barred_calculations__c, 72),
+null)))</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_2_myRule_1_A1_7805884802</name>
+        <dataType>Date</dataType>
+        <expression>IF(({!myVariable_current.Statute_Date__c} &lt; {!myVariable_current.Date_for_Stat_Barred_calculations__c} ), {!myVariable_current.Statute_Date__c},
+IF(ISNULL({!myVariable_current.Date_for_Stat_Barred_calculations__c} ), ({!myVariable_current.Date_for_Stat_Barred_calculations__c}),
+CASE({!myVariable_current.State__c},
+&apos;British Columbia&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;Alberta&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;Saskatchewan&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;Manitoba&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;New Brunswick&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;Nova Scotia&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;Newfoundland and Labrador&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;Prince Edward Island&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;Ontario&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;Quebec&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 36),
+&apos;Yukon&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;Northwest Territories&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;Nunavut&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;BC&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;AB&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;SK&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;MB&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;NB&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;NS&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;NL&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;PE&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;ON&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 24),
+&apos;QC&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 36),
+&apos;YT&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;NT&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+&apos;NU&apos;,ADDMONTHS({!myVariable_current.Date_for_Stat_Barred_calculations__c}, 72),
+null)))</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>ISNEW()  ||   ISCHANGED([Product__c].Last_Payment_Date__c)  || ISCHANGED([Product__c].Open_Date__c )</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()  ||   ISCHANGED({!myVariable_current.Last_Payment_Date__c})  || ISCHANGED({!myVariable_current.Open_Date__c} )</expression>
+    </formulas>
+    <interviewLabel>Statute_Barred_Date_Calculations-9_InterviewLabel</interviewLabel>
+    <label>Statute Barred Date Calculations</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>Product__c</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Product__c]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_1_A1</name>
+        <label>Update Statute Barred date</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Date</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Statute Date</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Statute_Date__c</field>
+            <value>
+                <elementReference>formula_2_myRule_1_A1_7805884802</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Product__c</object>
+    </recordUpdates>
+    <startElementReference>myDecision</startElementReference>
+    <status>Obsolete</status>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Product__c</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Product__c</objectType>
+    </variables>
+</Flow>

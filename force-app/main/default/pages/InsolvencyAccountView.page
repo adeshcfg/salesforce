@@ -1,0 +1,3 @@
+<apex:page StandardController="Insolvency_Account__c" tabStyle="Insolvency_Account__c" sidebar="true" >
+    <apex:detail inlineEdit="true" relatedList="true"/>
+</apex:page>

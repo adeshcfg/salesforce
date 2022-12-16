@@ -1,0 +1,462 @@
+<aura:component controller="ProductExtensionWidgetController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <!-- attributes -->
+    <aura:attribute name="entityId" type="String" access="public" />
+    <aura:attribute name="draftValues" type="Product__c[]" />
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    
+    
+    <!-- Handler-->
+    <aura:handler name="init" value="{!this }" action="{!c.doinit }" />
+    <table
+           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
+        
+        <thead>
+            <tr >
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Agency Name">
+                    <div>Name</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Agency ID">
+                    <div>Dealer</div>
+                </th>
+            </tr>
+        </thead>
+       <tbody>
+            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Name}"
+                        title="{!draftValue.Name}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Name != null , draftValue != null)}">
+                            {!draftValue.Name}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                        
+                    </td>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Dealer__c}"
+                        title="{!draftValue.Dealer__c}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Dealer__c != null , draftValue != null)}">
+                            {!draftValue.Dealer__c}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                    
+                  </tr>
+            </aura:iteration> 
+        </tbody>
+    </table>
+    <table
+            class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
+      <thead>
+            <tr >
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Agency Phone Number">
+                    <div>City</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Place Status Description">
+                    <div>Country</div>
+                </th> 
+            </tr>
+        </thead>
+         <tbody>
+              <aura:iteration items="{!v.draftValues}" var="draftValue">
+                
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.City__c}"
+                        title="{!draftValue.City__c}">
+                        
+                        <aura:if isTrue="{!or(draftValue.City__c != null , draftValue != null)}">
+                            {!draftValue.City__c}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                        
+                    </td>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Country__c}"
+                        title="{!draftValue.Country__c}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Country__c != null , draftValue != null)}">
+                            {!draftValue.Country__c}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                  </tr>
+            </aura:iteration> 
+        </tbody>
+    </table>
+    
+    <aura:if isTrue="{!v.isModalOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"> Information </h2> 
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                     <h3 id="modal-heading-01" class="slds-text-heading_small slds-text-align_center slds-hyphenate"> <b> Product Extension Details </b> </h3> 
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Name">
+                                    <div>Name</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Dealer">
+                                    <div>Dealer</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Description">
+                                    <div>Description</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Value">
+                                    <div>Value</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!draftValue.Name}"
+                                        title="{!draftValue.Name}"
+                                        
+                                        >
+                                        {!draftValue.Name}
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Dealer"
+                                        title="Dealer"
+                                        >
+                                        <aura:if isTrue="{!draftValue.Dealer__c != null}">
+                                           {!draftValue.Dealer__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Description"
+                                        title="Description" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.Description__c != null}">
+                                           {!draftValue.Description__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Value"
+                                        title="Value" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.Value__c != null}">
+                                           {!draftValue.Value__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Repossession Date">
+                                    <div>Repossession Date</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Address Line1">
+                                    <div>Address Line1</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Address Line2">
+                                    <div>Address Line2</div>
+                                </th>
+                             </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!draftValue.Repossession_Date__c}"
+                                        title="{!draftValue.Repossession_Date__c}"
+                                        
+                                        >
+                                        <aura:if isTrue="{!draftValue.Repossession_Date__c != null}">
+                                           {!draftValue.Repossession_Date__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Address Line1"
+                                        title="Address Line1"
+                                        >
+                                        <aura:if isTrue="{!draftValue.Address_Line1__c != null}">
+                                           {!draftValue.Address_Line1__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Address Line2"
+                                        title="Address Line2" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.Address_Line2__c != null}">
+                                           {!draftValue.Address_Line2__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                    
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr>
+                                 <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="City">
+                                    <div>City</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Zip Code">
+                                    <div>Zip Code</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Country">
+                                    <div>Country</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="City__c"
+                                        title="City__c" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.City__c != null}">
+                                           {!draftValue.City__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!draftValue.Zip_Code__c}"
+                                        title="{!draftValue.Zip_Code__c}"
+                                        
+                                        >
+                                        <aura:if isTrue="{!draftValue.Zip_Code__c != null}">
+                                           {!draftValue.Zip_Code__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Country"
+                                        title="Country"
+                                        >
+                                        <aura:if isTrue="{!draftValue.Country__c != null}">
+                                           {!draftValue.Country__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                 </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                    
+                   <h3 id="modal-heading-01" class="slds-text-heading_small slds-text-align_center slds-hyphenate"> <b> Equipments Details </b> </h3> 
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr> <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Equipment Description">
+                                    <div>Equipment Description</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Equipment S/N">
+                                    <div>Equipment S/N</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!draftValue.Equipment_Description__c}"
+                                        title="{!draftValue.Equipment_Description__c}"
+                                        
+                                        >
+                                        <aura:if isTrue="{!draftValue.Equipment_Description__c != null}">
+                                           {!draftValue.Equipment_Description__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Equipment S/N"
+                                        title="Equipment S/N" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.Equipment_S_N__c != null}">
+                                           {!draftValue.Equipment_S_N__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                    <table
+                    class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Equipment Value">
+                                    <div>Equipment Value</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Equipment Location">
+                                    <div>Equipment Location</div>
+                                </th>
+                                 <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Equipment Returned Date">
+                                    <div>Equipment Returned Date</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!draftValue.Equipment_Value__c}"
+                                        title="{!draftValue.Equipment_Value__c}"
+                                        
+                                        >
+                                        <aura:if isTrue="{!draftValue.Equipment_Value__c != null}">
+                                           {!draftValue.Equipment_Value__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Equipment Location"
+                                        title="Equipment Location"
+                                        >
+                                        <aura:if isTrue="{!draftValue.Equipment_Location__c != null}">
+                                           {!draftValue.Equipment_Location__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                   <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Equipment Returned Date"
+                                        title="Equipment Returned Date" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.Equipment_Returned_Date__c != null}">
+                                           {!draftValue.Equipment_Returned_Date__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                     </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer">                       
+                    <lightning:button variant="neutral"
+                                      label="OK"
+                                      title="OK"
+                                      onclick="{! c.closeModel }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+                    
+     
+</aura:component>

@@ -1,0 +1,111 @@
+<apex:page renderAs="pdf" controller="MCAEmailStatementController">
+    <apex:form style="">
+        <table style = "width:100%;">
+            <tr>
+                <td><h2>STATEMENT</h2></td>
+                <td style = "text-align:right">
+                    <apex:image url="{!$Resource.MCA_Statement_Logo}" width="105" height="35"/>
+                </td>
+            </tr>
+        </table>
+        <div style = "width:100%;font-size:11px">
+            <table style = "width:100%;font-size:11px">
+                <tr>
+                    <td>
+                        Date:&nbsp; <apex:outputText value="{!strTodayDate}"></apex:outputText>
+                        <br/>Statement Month: {!statementMonth}
+                        <br/>Account Number: {!merchantAcc.Name}
+                        <!--
+                        <br/>Former BFS Capital Account Number (last 4 digits): {!merchantAcc.Former_BFS_Capital_Account_Number_XXXX__c}
+                        -->
+                    </td>
+                    <td style = "text-align:right">
+                        <apex:outputText value="{!$Setup.MCA_Configuration__c.Company_Address__c}" escape="false"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <div style = "width:100%;font-size:11px">
+            <table style = "width:100%;font-size:11px">
+                <tr>
+                    <td>
+                        {!merchantAcc.Merchant__r.DBA__c}<br/>
+                        {!merchantAcc.Address__c}<br/>
+                        {!merchantAcc.City__c},{!merchantAcc.Province__c},{!merchantAcc.Postal_Code__c}
+                    </td>
+                    <td style = "text-align:right">
+                        <br/>
+                        Customer Service: <apex:outputText value="{!$Setup.MCA_Configuration__c.Company_Phone__c}"
+                                                           escape="false"/>
+                        <br/>
+                        <apex:outputText value="{!$Setup.MCA_Configuration__c.Company_Email__c}" escape="false"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/><br/>
+        
+        <!--
+        <div style="border:1px solid;border-bottom:none;padding-bottom: 10px;width:100%;font-size:12px">
+            <a>Register here</a> to review your most current statement online, any time.
+        </div>
+        -->
+        <div style = "width:100%;font-size:11px">
+            <table style = "width:100%;font-size:11px;border:1px solid;border-spacing: 0px;">
+                <tr style = "border:1px solid">
+                    <th style = "border-bottom:1px solid;border-right:1px solid;text-align:left;padding-left:3px">
+                        TRANSACTION TYPE</th>
+                    <th style = "border-bottom:1px solid;border-right:1px solid;text-align:center">DATE</th>
+                    <th style = "border-bottom:1px solid;border-right:1px solid;text-align:center">DESCRIPTION</th>
+                    <th style = "border-bottom:1px solid;border-right:1px solid;text-align:right;padding-right:3px">AMOUNT</th>
+                    <th style = "border-bottom:1px solid;text-align:right;padding-right:3px">BALANCE</th>
+                </tr>
+                <tbody>
+                    <apex:repeat value="{!listPaymentsToDisplay}" var="wrapperInstance">
+                        <tr>
+                            <td  style = "border-bottom:1px solid;border-right:1px solid;padding-left:3px">
+                                {!wrapperInstance.TranType__c}
+                            </td>
+                            <td  style = "border-bottom:1px solid;border-right:1px solid;text-align:center">
+                                <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                    <apex:param value="{!wrapperInstance.TranDate__c}" /> 
+                                </apex:outputText>
+                            </td>
+                            <td style = "border-bottom:1px solid;border-right:1px solid;text-align:center">
+                                {!wrapperInstance.Processor__c}</td>
+                                    <td style = "border-bottom:1px solid;border-right:1px solid;text-align:right;padding-right:3px">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{!wrapperInstance.Amount__c}" />
+                                    </apex:outputText>
+                            </td>
+                            <td style = "border-bottom:1px solid;;text-align:right;padding-right:3px">
+                                <apex:outputText value="{0, Number, Currency}">
+                                    <apex:param value="{!wrapperInstance.Current_Balance__c}" />
+                                </apex:outputText>
+                            </td>
+                        </tr>    
+                    </apex:repeat>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th style = "text-align:right;border-right:1px solid;padding-right:3px" id="total" colspan="4">
+                            TOTAL DUE</th>
+                        <td style = "text-align:right;padding-right:3px">
+                            <apex:outputText value="{0, Number, Currency}">
+                                <apex:param value="{!totalDue}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!--
+        <div style = "width:100%;font-size:11px;margin-top:10px;text-align:center">
+            The products offered by BFS Capital can be either Business Loans or Merchant Cash Advances.<br/>
+            These products are not consumer loans. Business Loans provided by third parties and subject to lender approval.
+        </div>
+        -->
+    </apex:form>
+</apex:page>

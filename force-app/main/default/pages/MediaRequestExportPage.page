@@ -1,0 +1,128 @@
+<apex:page extensions="MediaRequestExportController" standardController="Work_Assignment__c" >
+    <apex:slds ></apex:slds>
+   <apex:form id="form1">
+    <script>
+     function downloadfunction(){
+         alert('Success'); 
+         DownloadFile();
+         linkFunction();
+     }
+    function linkFunction() {
+        alert('function');        
+        alert('{!pdfBlob}');
+        // window.open("data:application/vnd.ms-excel;content-disposition:attachment;base64,{!pdfBlob}");
+
+      }
+    </script>	
+      
+        <apex:actionFunction name="DownloadFile" action="{!downloadFile}" />
+       
+        <apex:actionFunction name="getDocument" action="{!getDocumentInfo}"  oncomplete="downloadfilecontents();" rerender="scriptPanel,form1" >
+            <apex:param name="documentid" assignto="{!documentID}" value="" />
+        </apex:actionFunction>
+       <apex:actionFunction name="downloadfilecontents" oncomplete="downloadDocument('{!blobContents}');return false;" />
+        <br/>
+      
+        <div>
+            <apex:outputText escape="false" value="&nbsp;&nbsp;Click below button to export all the eligible Media Request Records which are in Requested Status.">
+            </apex:outputText>
+        </div>
+        <br/>
+       <div >
+       <apex:outputPanel id="scriptPanel">
+        <script>
+       	function downloadDocument( blobcontents1){
+            console.log('download doc called');
+            console.log('blobContents from class---', '{!blobContents}');
+            //  alert('1');
+            var byteCharacters = atob('{!blobContents}');
+            console.log('byte length::'+byteCharacters.length);
+            let buf = new Array(byteCharacters.length);
+            for (var i = 0; i != byteCharacters.length; ++i) buf[i] = byteCharacters.charCodeAt(i);// & 0xFF;
+            // alert('2');
+            let view = new Uint8Array(buf);
+            //let blob = new Blob([blobcontents1], { type: 'application/vnd.ms-excel' });
+            let blob = new Blob([view], {
+                    type: '{!contentType}'
+                });
+            console.log('view-',view);
+            console.log('blob-',blob);
+            //	alert('3');
+            var downloadLink = document.createElement('a');
+            //console.log('downloadLink-',downloadLink);
+            //alert('4');
+            var url = URL.createObjectURL(blob);
+            downloadLink.href = url;
+            //  alert('5');
+            downloadLink.download = "Download.csv";  //Name the file here
+            // alert('6');
+            window.open(downloadLink);
+            /*alert(downloadLink);
+            downloadLink.body.appendChild(downloadLink);
+            alert('aa');
+            downloadLink.click();
+            alert('7');
+            downloadLink.body.removeChild(downloadLink); 
+            //console.log('downloadLink - ',downloadLink);
+            console.log('dwnloading--');
+            alert('8');
+           
+            window.open("data:application/vnd.ms-excel;content-disposition:attachment;base64,blobcontents1");
+              alert('9');*/
+            //var blob = new Blob(["\ufeff", blobcontents1]);
+            /*let blob = new Blob([blobcontents1], { type: 'application/vnd.ms-excel' });
+            var url = URL.createObjectURL(blob);
+            downloadLink.href = url;
+            downloadLink.download = "Download.csv";  //Name the file here
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+                
+            
+            console.log('---', '{!documentId}');
+            var byteCharacters = atob({!blobContents});
+            const buf = new Array(byteCharacters.length);
+            //for (var i = 0; i != byteCharacters.length; ++i) buf[i] = byteCharacters.charCodeAt(i);
+            //const view = new Uint8Array(buf);*/
+            //console.log('dwnloading--');
+            //window.open("data:application/vnd.ms-excel;content-disposition:attachment;base64,{!blobContents}");
+    	}
+       </script>
+       </apex:outputPanel>
+       </div>
+        <apex:outputPanel id="panel"> 
+            <div>
+                <apex:commandButton action="{!createCSV}"
+                                    value="Export Records" 
+                                    reRender="panel"
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    disabled="{!IF(DisableExportBtn == true ,true,false)}"/> 
+            </div>  
+            <br/>
+            <div>
+                <apex:outputText escape="false" value="{!ERROR_MSG}"></apex:outputText>
+            </div>
+            <br/>
+            <apex:pageBlock >
+                <apex:pageBlockTable value="{!listDocStorage}" var="DocStorage" id="tableRerender">
+                    <apex:column >
+                        <apex:facet name="header"><apex:outputText value="Document" /></apex:facet>
+                        <apex:outputLink value="/{!DocStorage.id}" target="_blank">
+                            {!DocStorage.Name}
+                        </apex:outputLink>
+                    </apex:column>                 
+                    <apex:column value="{!DocStorage.File_Processing_Date__c}"/>
+ 					<apex:column value="{!DocStorage.Creator__c}"/>  
+                    <apex:column >
+                         <apex:facet name="header"><apex:outputText value="Download" /></apex:facet>
+                      <!--  <apex:CommandButton value="Export File" onClick="downloadfunction();" />-->
+                        
+                        <apex:inputHidden value="{!DocStorage.Document_Id__c}"/>
+                       <apex:CommandButton value="Export File" onclick="getDocument('{!DocStorage.Document_Id__c}');return false;">
+                           </apex:CommandButton>
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:outputPanel>         
+    </apex:form> 
+</apex:page>

@@ -1,0 +1,115 @@
+<apex:page showHeader="false" sidebar="false" controller="trac_UserVerificationController" standardstylesheets="false" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false" action="{!sendAuthRequest}">
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+        <apex:stylesheet value="{!URLFOR($Resource.ApplicationResource, 'css/traction/application.css')}"/>
+        <apex:includeScript value="{!$Resource.jQuery}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/application.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/validation.js')}" />
+        <script type="text/javascript">
+            var topOrigin = '{!JSENCODE(AppFormSettings.Parent_Page_Domain__c)}';
+            
+            function authenticate() {    
+                // Disable submit button
+                $("[id*='authContinue']").attr("disabled", "true");
+                
+                // Set answer end time
+                $("input[id$='ansEndTimeMilli']").val(new Date().getTime());
+
+                // Show spinner
+                $("#loading").show();
+                
+                // Validate and send request
+                validateAuthentication();
+            }
+            function initAnsStartTime() {
+                $("input[id$='ansStartTimeMilli']").val(new Date().getTime());
+            }
+            $(document).ready(function() {
+                initAnsStartTime();
+            });
+        </script>
+
+    </head>
+    <body>
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W6F9RX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W6F9RX');</script>
+    <!-- End Google Tag Manager -->
+    <div id="innerContainer" class="inner-container"> 
+        <!--wrapArea Start-->
+        <apex:outputPanel layout="block" id="questionaire" rendered="{!emailAuthError == false && alreadyAuthenticated == false}">
+            <script>
+            pushHit('/application-form/authentication_questions', 'Authentication Questions');
+            </script>
+            <div class="fleft">
+                <apex:form >
+                    <apex:inputHidden id="ansStartTimeMilli" value="{!AnswerStartTimeMilli}"/>
+                    <apex:inputHidden id="ansEndTimeMilli" value="{!AnswerEndTimeMilli}"/>
+                    <apex:variable value="{!1}" var="count"/>
+                    <apex:repeat value="{!questions}" var="question">
+                        <div>
+                            <apex:outputPanel rendered="{!firstQuestions}">
+                                <h3 class="questionHeader">&nbsp;Question {!count}&nbsp;</h3>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!!firstQuestions}">
+                                <h3 class="questionHeader">&nbsp;Final Question&nbsp;</h3>
+                            </apex:outputPanel>
+                            <h4>{!question.text}</h4>
+                            <div>
+                                <apex:selectRadio styleClass="answerField answerField" id="answerField" value="{!question.answer}">
+                                    <apex:selectOptions value="{!question.choices}"/>
+                                </apex:selectRadio>
+                                <div id="answerErrMsg" class="invalidFieldMsg hidden">Please select an answer.</div>
+                            </div>
+                        </div>
+                        <apex:variable var="count" value="{!count+ 1}"/>
+                    </apex:repeat>
+                    <apex:pageBlock rendered="{!firstQuestions}" id="maiden-name">
+                        <h3 class="questionHeader">&nbsp;Question {!count}&nbsp;</h3>
+                        <h4>What is your mother's Maiden Name</h4>
+                        <apex:inputText id="maidenNameField" value="{!maidenName}" />
+                        <div id="maidenNameErrMsg" class="invalidFieldMsg hidden">Please select an answer.</div>
+                    </apex:pageBlock>
+                    <br/><br/>
+                    <span class="submitBtn">
+                        <apex:commandButton id="authContinue" value="SUBMIT" onclick="authenticate(); return false;" />
+                    </span>
+                    <span id="loading" class="loadingSpinner">
+                        <apex:image url="{!$Resource.loadingGif}" style="vertical-align:middle;"/>
+                    </span>
+                    <apex:actionFunction name="sendAnswersRequest" action="{!sendAnswersRequest}" rerender="questionaire" oncomplete="initAnsStartTime()"/>
+                </apex:form>
+            </div>
+        </apex:outputPanel>
+        
+        <apex:outputPanel layout="block" rendered="{!emailAuthError == true}">
+            <div>
+                <h2>Our apologies - it seems that we are unable to complete your identity verification process at this time.</h2>
+                <h2>Your application is still in progress. To complete your application process, you can call us at 1-855-220-7531.</h2>
+            </div>
+        </apex:outputPanel>
+        
+        <!--Already Authenticated-->
+        <apex:outputPanel layout="block" rendered="{!alreadyAuthenticated == true}">
+            <div>
+                <h2>Our apologies - it seems that you have already completed Authentication process.</h2>
+                <h2>You can call us at 1-855-220-7531.</h2>
+            </div>
+        </apex:outputPanel>
+        
+        <!--wrapArea End-->
+
+        <!-- Commission Soup Pixel -->
+        <iframe src="https://www.commissionsoup.com/optt.aspx?p=4437&s=2&iframe=1" width="1" height="1" frameborder="0"></iframe>
+        <!-- End Commission Soup Pixel -->
+    </div>
+    </body>
+</html>
+</apex:page>

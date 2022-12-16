@@ -1,0 +1,352 @@
+<apex:page controller="DisplayJudgmentStagingController" showheader="true" standardStyleSheets="false" 
+           sidebar="false" cache="false" docType="html-5.0" >
+    <apex:form id="form">
+    <apex:slds />
+    <style type="text/css">
+       
+        table{
+            width: 100%;
+            background-color: white;
+            border:1px solid black;
+            padding: 5px;
+        }
+        
+        tr{
+            text-align: left;
+            padding: 5px;
+            
+        }
+        
+        td{
+        padding: 5px!important;
+        //padding: 0 15px 0 15px!important;
+        
+        }
+        th{
+            padding: 0 15px 0 15px !important;
+            text-align:center;
+            vertical-align:top;
+          }
+        .first h3{
+            background-color: #0CA1CF;
+            padding: 5px 3px;
+        }
+        
+        .page_navigation{
+            font-family: tahoma;
+            font-size: 11px;
+            float: right;
+            
+        }
+        
+        .page_navigation a{
+            text-decoration: none;
+            padding: 3px 5px;
+            margin: 0 2px;
+            background-color: white;
+            color: #28ADD9;
+            display: block;
+            float: left;
+            text-align: center;
+            border-color:#28ADD9;
+        }
+        
+        .page_navigation .active_page{
+            background-color: white;
+            color: black;
+        }
+        
+        .demo2{
+            margin: 10px 5px;
+            background-color: #00064F;
+            overflow:auto;
+            text-align: center
+        }
+        
+        .title{
+            font-family: Georgia;
+            font-size: 36px;
+            font-style: italic;
+            color: white;
+            padding: 10px;
+        }
+        
+        .head{
+            font-family: Tahoma;
+            font-size:20px;
+            color: orange;
+            padding: 5px;
+            overflow: auto;
+            
+        }
+        thead{
+            border: 1px solid;
+            text-align:center;
+        }
+        .th{
+        text-align:center;
+        }
+        .body {
+            
+            
+        }
+        
+        .content {
+            width: 90%;
+            margin: 0px auto;
+            overflow: auto;
+        }
+        
+        .item{
+            color: black;
+            font-family: Georgia;
+            font-size: 16px;
+            padding: 10px;
+            display: block;
+            
+        }
+        
+        .block{
+            display:block;
+        }
+        
+        .panel {
+            width: 40%;
+            float: left;
+            padding: 0 30px;
+            
+        }
+        
+        .demo2 .page_navigation a{
+            background-color: orange;
+            color: black;
+        }
+        
+        .demo2 .page_navigation .active_page{
+            background-color: transparent;
+            color: white;
+        }
+        
+        #theid{
+            align-content: center;
+            text-align: center;
+            margin-left: 32%;
+            margin-top: 3%;
+        }       
+        
+    </style>
+        <apex:includeScript value="{!$Resource.EFTJQuery}"/>     
+        <apex:includeScript value="{!$Resource.Paginate}"/>       
+        <script type="text/javascript">
+        $.noConflict();
+        
+        jQuery(document).ready(function($){
+            $(esc(pbsId)).pajinate({
+                item_container_id : esc(accountTableBodyId),
+                items_per_page : 25
+            });
+            
+            $('.demo2').pajinate();
+        }); 
+        
+        function esc(myid) {
+            return '#' + myid.replace(/(:|\.)/g,'\\\\$1');
+        }
+        
+         function selectAllCheckboxes(obj,receivedInputID){
+            var inputCheckBox = document.getElementsByTagName("input");                
+            for(var i=0; i<inputCheckBox.length; i++){ 
+                console.log(inputCheckBox[i].disabled);
+                if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1 && inputCheckBox[i].disabled == false) {                                    
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        }
+        
+        </script>
+        
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:define name="content"> 
+            
+        
+        <apex:outputPanel rendered="{!!listProductPayStagingWrapper.Empty}" id="panel2">
+            <apex:outputPanel >
+            <div style = "font-weight:bold;font-size:large">
+                Account(having judgment) Staging Records to verify
+            </div>
+            <apex:outputPanel title="" id="pbs" >
+                 <div class="page_navigation"></div>
+                    <script> 
+                        var accountTableId = '{!$Component.accountTable}'; 
+                        var accountTableBodyId = accountTableId + ':tb';
+                        var pbsId = '{!$Component.pbs}';
+                    </script>
+     		
+            <apex:datatable value="{!listProductPayStagingWrapper}" var="accJudgment" id="accountTable">
+                <apex:column headerValue="Action" >
+                    <apex:facet name="header">
+                        <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')">
+                            <!--<apex:actionSupport event="onchange" />-->
+                        </apex:inputCheckbox>
+                    </apex:facet>
+                    <apex:inputCheckbox id="inputId" value="{!accJudgment.selected}" disabled="{!accJudgment.disabled}">
+                         <!--<apex:actionSupport event="onchange" />-->
+                    </apex:inputCheckbox>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Account <br/> Name</apex:facet>
+                    <apex:outputLink value="/{!accJudgment.payStaging.Product_Id__c}" target="_blank">
+                        {!accJudgment.payStaging.Data_Id__c}
+                    </apex:outputLink>
+                    <!--<apex:outputField value="{!accJudgment.payStaging.Data_Id__c}"/>-->
+                </apex:column>
+                <apex:column style="margin-right:20px">
+                    <apex:facet name="header">Product<br/> Status</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Product_Status__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column style="margin-right:20px;margin-left:20px">
+                    <apex:facet name="header">Suit <br/> Amount</apex:facet>
+                    <apex:outputField value="{!accJudgment.payStaging.Suit_Amount__c}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Case <br/>Number</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Case_Number__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">First<br/> Name</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.First_Name__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Last<br/> Name</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Last_Name__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Placement<br/> Status</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Placement_Status__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column style="padding-left:10px">
+                    <apex:facet name="header">Filing <br/>Date</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Filing_Date_Text__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Judgment <br/> Province</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Judgment_Province__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">County</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.County__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Type of<br/> court</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Type_of_Court__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Legal<br/> Firm</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Legal_Firm__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Judgment <br/>Date</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Judgment_Date_Text__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Judgment <br/>Amount</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Judgment_Amount__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Writ<br/> Date</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Date_Writ_Issued_Text__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Writ<br/> Amount</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Writ_Amount__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Garnishment <br/>Date</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Garnishment_Date_Text__c}"></apex:outputfield>
+                </apex:column>
+                 <apex:column >
+                    <apex:facet name="header">Garnishment <br/>Amount</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Garnishment_Amount__c}"></apex:outputfield>
+                </apex:column>
+                 <apex:column >
+                    <apex:facet name="header">Legal<br/> Agency</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Legal_Agency__c}"></apex:outputfield>
+                </apex:column>
+                 <apex:column >
+                    <apex:facet name="header">Agency <br/>Initiated</apex:facet>
+                    <apex:outputfield value="{!accJudgment.payStaging.Agency_Initiated_Legal_Action__c}"></apex:outputfield>
+                </apex:column>
+                 <apex:column headervalue="Comment">
+                     <!--<apex:facet name="header">Comment</apex:facet>-->
+                    <apex:outputText value="{!accJudgment.payStaging.Comment__c}" escape="false"></apex:outputText>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Expected<br/> Value</apex:facet>
+                    <apex:outputText value="{!accJudgment.payStaging.Expected_Value__c}" escape="false"></apex:outputText>
+                </apex:column>
+                 <apex:column >
+                    <apex:facet name="header">Status<br/> Value</apex:facet>
+                    <apex:outputText value="{!accJudgment.payStaging.Status__c}" escape="false"></apex:outputText>
+                </apex:column>
+         
+            </apex:datatable>
+            <apex:actionStatus id="status">
+            <apex:facet name="start">
+            <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.75; z-index: 1000; background-color: black;">
+                &nbsp;
+            </div>
+            <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 30% 50%">
+                <img src="http://upload.wikimedia.org/wikipedia/commons/e/ed/Cursor_Windows_Vista.gif" />
+            </div>
+            </apex:facet>
+        </apex:actionStatus>
+            <apex:actionFunction action="{!Save}" name="InsertRecord_JS" Rerender="panel1, panel2, status, form"
+                                 status="status" oncomplete="CallWebService_JS();">
+                					<apex:param id="param2" name="tempLineId2" value="false" assignTo="{!executeWarning}" /> 
+            </apex:actionFunction>
+            <apex:actionFunction action="{!Save}" name="InsertRecordW_JS" Rerender="panel1, panel2, status, form"
+                                 status="status" oncomplete="CallWebService_JS();">
+                <apex:param id="param1" name="tempLineId2" value="true" assignTo="{!executeWarning}" /> 
+            </apex:actionFunction>
+            <apex:actionFunction action="{!postDocumentAPI}" name="CallWebService_JS" status="status"
+                                 reRender="panel1, panel2, status, form"/>
+            <div class="page_navigation"></div>
+                <div style = "padding-top: 1%;">
+                <!--<apex:commandButton onclick="InsertRecord_JS();return false;"
+                                    value="Process Records Without Warnings" id="theButtonn" 
+                                    styleclass="slds-button slds-button_neutral" 
+                                    style="margin-left: 20%;"
+                                    disabled="{!!showButton}">
+                </apex:commandButton>
+                 
+                <apex:commandButton onclick="InsertRecordW_JS();return false;"
+                                    value="Process Records With Warnings" id="theWButtonn" 
+                                    styleclass="slds-button slds-button_neutral" 
+                                    style="margin-left: 20%;"
+                                    disabled="{!!showButton}">
+					
+                </apex:commandButton>
+                -->
+                    
+                <apex:commandButton onclick="InsertRecordW_JS();return false;"
+                                    value="Process Records" id="theWButtonn" 
+                                    styleclass="slds-button slds-button_neutral" 
+                                    style="margin-left: 45%;"
+                                    disabled="{!!showButton}">
+					
+                </apex:commandButton>
+                </div>
+                
+            </apex:outputPanel>
+                </apex:outputPanel>
+    </apex:outputPanel> 
+    <apex:outputPanel rendered="{!displayPanel}" id="panel1" style="color: #4f9241;
+    font-weight: 500;
+    font-size: 13px;"> 
+                Records Process Complete! <br/>
+                Please check
+                <apex:outputlink value="/{!workAssignmentId}"> Work Assignment </apex:outputlink>&nbsp;record
+            </apex:outputPanel>
+        </apex:define>
+            </apex:form>
+</apex:page>

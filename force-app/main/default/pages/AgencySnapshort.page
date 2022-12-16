@@ -1,0 +1,22 @@
+<apex:page standardController="Placement__c" extensions="AgencySnapshotController">
+    <apex:slds ></apex:slds>
+    <apex:form >
+        <apex:outputPanel id="panel">
+			<div style = "margin-left: 5%; margin-top: 2%;"> 
+                <apex:commandButton action="{!agencySnapshotData}"
+                                    value="Agency Snapshot" 
+                                    reRender="panel, buttons"
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    disabled="{!IF(SUCCESS_MSG == true ,true,false)}"/>
+                
+                <apex:commandButton action="{!redirectToAgency}" 
+                                    value="Back" 
+                                    reRender=""
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    />
+                <br/>
+
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

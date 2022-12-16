@@ -1,0 +1,214 @@
+<apex:page standardController="Case" extensions="AddAttachmentToUnallocatedController" showHeader="False" sidebar="False">
+    <style>
+   .myheader1{
+       z-index: 0;
+    position: fixed;
+    margin-top: 5px;
+    background-color: #f8f8f8;
+    width: 95.7%;
+    text-align: center;
+    margin-left: 0.1%;
+    height: 28px;
+    margin-top:0px;
+    padding-top: 12px;    border-top: 3px solid #fc4f59;border-bottom: 1px solid #eaeaea;
+   }
+
+input::-webkit-input-placeholder {
+    font-size: 10px;
+}
+    </style>
+    <script>
+        // function when attachment is selected un unselected
+        function fileOptionchanged(ele, attId){
+            if(ele.checked == true)
+                attachmentSelected(attId);
+            else
+                attachmentRemoved(attId);
+        }
+        
+        // function when Payment is selected un unselected
+        function paymntOptionchanged(ele, attId){
+            //alert(''+ele + ' ' + attId);
+            if(ele.checked == true)
+                paymentSelected(attId);
+            else
+                paymentRemoved(attId);
+        }
+        
+        function checkforEnterKey(e, searchEle){
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if(code == 13) { //Enter keycode
+                searchUnallocPay();
+                return false;
+            }
+        }
+        function showMessage(){
+            //alert(""+{!errorOccured});
+            //if({!errorOccured} == true){
+              //  alert("Document has been attached to selected unallocated record/s");
+            //}
+        }
+    </script>
+    
+    <apex:form >
+        
+        <apex:actionStatus id="spinner">
+            <apex:facet name="start">
+                <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.25; z-index: 1000; background-color: black;">
+                    &nbsp;
+                </div>
+                <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 12% 40%">
+                    <div style="display: inline-block; padding: 2px; background-color: #fff; width: 125px;">
+                        <img src="/img/loading.gif" style="float: left; margin: 8px;" />
+                        <span style="display: inline-block; padding: 10px 0px;">Please Wait...</span>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+        
+        <apex:ActionFunction name="searchUnallocPay"  action="{!searchUnallPayments}" reRender="finalDisplayBlock,displayBlock" status="spinner">
+        </apex:ActionFunction>
+        <apex:ActionFunction name="attachmentSelected"  action="{!attachmentSelected}" reRender="none" status="spinner">
+            <apex:param name="attachmentSelected" value="attachmentSelected" assignTo="{!attachmentSelected}"/>
+        </apex:ActionFunction>
+        <apex:ActionFunction name="attachmentRemoved"  action="{!attachmentRemoved}" reRender="none" status="spinner">
+            <apex:param name="attachmentRemoved" value="attachmentRemoved" assignTo="{!attachmentSelected}"/>
+        </apex:ActionFunction>
+        
+        <apex:ActionFunction name="paymentSelected"  action="{!paymentSelected}" reRender="none" status="spinner">
+            <apex:param name="paymentSelected" value="paymentSelected" assignTo="{!paymentSelected}"/>
+        </apex:ActionFunction>
+        <apex:ActionFunction name="paymentRemoved"  action="{!paymentRemoved}" reRender="none" status="spinner">
+            <apex:param name="paymentRemoved" value="paymentRemoved" assignTo="{!paymentSelected}"/>
+        </apex:ActionFunction>
+        
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="2">
+                <apex:pageBlockSectionItem >
+                 <apex:outputLabel >Assignment</apex:outputLabel>
+                 <apex:outputField value="{!caseObj.CaseNumber}"/>
+             </apex:pageBlockSectionItem>
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >Subject</apex:outputLabel>
+                 <apex:outputField value="{!caseObj.Subject}"/>
+             </apex:pageBlockSectionItem>
+             
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >Assign To</apex:outputLabel>
+                 <apex:outputField value="{!caseObj.Assign_To__c}"/>
+             </apex:pageBlockSectionItem>
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >Insolvency Assignment Type</apex:outputLabel>
+                 <apex:outputField value="{!caseObj.Insolvency_Assignment_Type__c}"/>
+             </apex:pageBlockSectionItem>             
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >Assigned To</apex:outputLabel>
+                 <apex:outputField value="{!caseObj.Assigned_To__c}"/>
+             </apex:pageBlockSectionItem>
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >Date/Time Opened</apex:outputLabel>
+                 <apex:outputField value="{!caseObj.CreatedDate}"/>
+             </apex:pageBlockSectionItem>
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >Form Type</apex:outputLabel>
+                 <apex:outputField value="{!caseObj.Form_Types__c}"/>
+             </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection columns="1">
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel ><b>Attachments</b></apex:outputLabel>
+                </apex:pageblockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel rendered="{!attachDocument.size=0}">No records to display</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+         
+         <apex:pageBlockTable value="{!attachDocument}" var="remAttach" columns="3" rendered="{!attachDocument.size > 0}">
+             <apex:column headerValue="SELECT">
+                 <apex:inputCheckbox styleClass="my-checkbox" html-name="options" id="att"  value="{!remAttach.selected}" onchange="fileOptionchanged(this, '{!remAttach.attId}')"></apex:inputCheckbox>
+             </apex:column>
+             <apex:column headerValue="NAME">
+                 <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!remAttach.attId}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!remAttach.filename}</a>
+             </apex:column>
+             <apex:column >
+                 <apex:facet name="header">
+                     <apex:outputLabel >CREATED DATE</apex:outputLabel>
+                 </apex:facet>
+                 <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                     <apex:param value="{!remAttach.fileCreatedDate}" /> 
+                 </apex:outputText>
+             </apex:column>
+         </apex:pageBlockTable>
+         </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+        <apex:pageBlock id="searchBlock">
+            <div class="myheader" style="text-align: center;">
+               <apex:outputLabel style="font-weight: bold;padding-right: 45px;">Unallocated Payment: </apex:outputLabel>
+               <apex:inputText onkeypress="return checkforEnterKey(event, this)"  value="{!insolvencyAccNumbers}" style="width: 500px;" html-placeholder="Enter Account Number , Customer name , Estate number separated with ','(comma)"/>
+               <apex:commandButton style="margin-left: 25px;" value="Search" action="{!searchUnallPayments}" status="spinner" reRender="finalDisplayBlock,displayBlock"/>
+            </div>
+        </apex:pageBlock>
+        <apex:pageBlock id="displayBlock">
+        <apex:pagemessages id="msg" escape="false"></apex:pagemessages>
+        <apex:pageBlocksection columns="1">
+            <apex:pageblockSectionItem >
+                    <apex:outputLabel ><b>Unallocated Payments</b></apex:outputLabel>
+            </apex:pageblockSectionItem>
+            <apex:pageBlockSectionItem rendered="!{!searchResultsFound}">
+                <apex:outputLabel >No records to display</apex:outputLabel>
+            </apex:pageBlockSectionItem>
+        
+            <apex:pageBlockTable value="{!showUnallPay}" var="payList" rendered="{! showUnallPay!= null && showUnallPay.size > 0}">
+                <apex:column headerValue="SELECT">
+                    <apex:inputCheckbox styleClass="my-checkbox" html-name="options" id="att"  value="{!payList.selected}" onchange="paymntOptionchanged(this, '{!payList.unallPay.Id}')"></apex:inputCheckbox>
+                </apex:column>
+                <apex:column headerValue="Unallocated Payment Number">
+                    {!payList.unallPay.Name}
+                </apex:column>
+                <apex:column headerValue="Account Number">
+                    {!payList.unallPay.Account_Number__c}
+                </apex:column>
+                <apex:column headerValue="Bank Name">
+                    {!payList.unallPay.Bank_Name__c}
+                </apex:column>
+                <apex:column headerValue="Debtor Name">
+                    {!payList.unallPay.Debtor_Name__c}
+                </apex:column>
+                <apex:column headerValue="Estate Number">
+                    {!payList.unallPay.Estate_Number__c}
+                </apex:column>
+                <apex:column headerValue="Payment Reference Number">
+                    {!payList.unallPay.Payment_Reference_Number__c}
+                </apex:column>
+            </apex:pageBlockTable>
+            <div class="myheader" style="text-align: center;">
+               <apex:commandButton style="margin-left: 600px;" value="Attach Document" action="{!attachDocument}" status="spinner" reRender="displayBlock,finalDisplayBlock" rendered="{! showUnallPay!= null && showUnallPay.size > 0}"/>
+            </div>
+        </apex:pageBlocksection>
+        <apex:pageBlockSection columns="1" id="finalDisplayBlock" rendered="{! displayUnallPay != null && displayUnallPay.size > 0}">
+            <apex:outputLabel ><b>Attachment attached to Unallocated Payments</b></apex:outputLabel>
+            <apex:pageBlockTable value="{!displayUnallPay}" var="unAlloc" >
+                <apex:column headerValue="Name">
+                    {!unAlloc.unallPay.name}
+                </apex:column>
+                <apex:column headerValue="Account Number">
+                    {!unAlloc.unallPay.Account_Number__c}
+                </apex:column>
+                <apex:column headerValue="Bank Name">
+                    {!unAlloc.unallPay.Bank_Name__c}
+                </apex:column>
+                <apex:column headerValue="Debtor Name">
+                    {!unAlloc.unallPay.Debtor_Name__c}
+                </apex:column>
+                <apex:column headerValue="Estate Number">
+                    {!unAlloc.unallPay.Estate_Number__c}
+                </apex:column>
+                <apex:column headerValue="Payment Reference Number">
+                    {!unAlloc.unallPay.Payment_Reference_Number__c}
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

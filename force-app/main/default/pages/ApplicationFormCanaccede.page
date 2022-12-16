@@ -1,0 +1,372 @@
+<apex:page showHeader="false" sidebar="false"
+           controller="ApplicationFormCanaccedeController" docType="html-5.0"
+           lightningStylesheets="true"
+           applyBodyTag="false" applyHtmlTag="false">
+    
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <apex:includeScript value="{!$Resource.jQuery}" />
+        <apex:includeScript value="https://code.jquery.com/jquery-1.9.1.js" />
+        <apex:includeScript value="{!URLFOR($Resource.jQueryUI, 'jquery-ui.min.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/application.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/validation.js')}" />
+        <apex:stylesheet value="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"  />
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+        <apex:stylesheet value="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/ui-lightness/jquery-ui.css"/>
+        
+        <apex:stylesheet value="{!URLFOR($Resource.ApplicationResource, 'css/traction/application.css')}" />
+        
+        <apex:includeScript value="https://ws1.postescanada-canadapost.ca/js/addresscomplete-2.30.min.js?key=pc76-fw62-cx21-tx86" />
+        <apex:stylesheet value="https://ws1.postescanada-canadapost.ca/css/addresscomplete-2.30.min.css?key=pc76-fw62-cx21-tx86" />
+        <apex:stylesheet value="https://fonts.googleapis.com/css?family=Montserrat&display=swap"/>
+        <!-- <link rel="stylesheet" href="form.css"> -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet"/>
+        <title></title>
+        <style media="screen">
+            .close:hover, .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+            }
+            div.settings {
+            display:grid;
+            grid-template-columns: 34% 30%;
+            grid-gap:5px;
+            align-items: center;
+            margin-bottom: 7px;
+            }
+            .inputField {
+            border: 1px solid #bae693;
+            padding: 7px;
+            font-size: 13px;
+            width: 95%;
+            background: #eff9e8;
+            border-radius: 4px;
+            }
+            
+            .invalidField {
+            border: 2px solid #C00;
+            padding: 7px;
+            font-size: 13px;
+            width: 95%;
+            background: #e6ffe6;
+            border-radius: 4px;
+            }
+            
+            .appCodeField {
+              padding: 8px; 
+              font-size: 13px; 
+              border: 1px solid #bae693;
+              width: 92%; 
+              margin-bottom: 15px; 
+              background: #eff9e8; 
+              border-radius: 4px;
+            }
+            
+            .appCodeInvalidField {
+              padding: 8px; 
+              font-size: 13px; 
+              border: 2px solid #C00;
+              width: 92%; 
+              margin-bottom: 4px;
+              background: #eff9e8; 
+              border-radius: 4px;
+            }
+    
+            .hidden {
+            display: none;
+            color: #C00;
+            padding: 5px 0;
+            }
+            
+            
+            
+        </style>
+        <script type="text/javascript">
+        j$ = jQuery.noConflict();
+        
+        jQuery(function(){
+            var $j = jQuery.noConflict();
+            $j("input[id$=myDateField]").datepicker({
+                yearRange: "-100:c",
+                changeMonth: true,
+                changeYear: true,
+                numberOfMonths: 1,
+                dateFormat:"mm-dd-yy",
+                showAnim: "slide",
+            });
+        });
+        
+        function redirectToSite(){
+            var theControllerValue = "{!urlForRedirection}";
+            //alert('redirect URL' + theControllerValue);
+            console.log('redirectURL :',theControllerValue);
+            if(null != theControllerValue){
+                //alert('open in new window');
+                //window.top.location.href = theControllerValue;
+                //for opening in new tab
+                //window.open("{!urlForRedirection}",'_blank');
+                //for opening in same tab
+                window.parent.location = "{!urlForRedirection}";
+            }
+            //alert('null redirect URL');
+        }
+        
+        window.addEventListener("message", function(e) {
+            if(e.data="url?"){
+                window.postMessage({url:window.location.href});
+            }
+        });    
+        
+        function isBlank(str){
+            str = str.trim();
+            if(!str || /^\s*$/.test(str) || str.length === 0 )
+                return true;
+            else
+                return false;
+        }
+        
+        function validateForm() {
+            
+            var invalidValues = false;
+            //alert('In Valid Form');
+            var appForm = document.getElementById("j_id0:j_id15:Uniqueid");
+            if (isBlank(appForm.value)) {
+              appForm.classList.add("appCodeInvalidField");
+              appForm.classList.remove("appCodeField");
+              document.getElementById('appCodeText').style.display = "block";
+              invalidValues = true;
+            } else {
+              appForm.classList.remove("appCodeInvalidField");
+              appForm.classList.add("appCodeField");
+              document.getElementById('appCodeText').style.display = "none";
+            }
+        
+            var element = document.getElementById("j_id0:j_id15:firstname2");
+            if (isBlank(element.value)) {
+              element.classList.add("invalidField");
+              element.classList.remove("inputField");
+              document.getElementById('firstNameText').style.display = "block";
+              invalidValues = true;
+            } else {
+              element.classList.remove("invalidField");
+              element.classList.add("inputField");
+              document.getElementById('firstNameText').style.display = "none";
+            }
+            
+            var element1 = document.getElementById("j_id0:j_id15:lastname2");
+            if (isBlank(element1.value)) {
+              element1.classList.add("invalidField");
+              element1.classList.remove("inputField");
+              document.getElementById('lastNameText').style.display = "block";
+              invalidValues = true;
+            } else {
+              element1.classList.remove("invalidField");
+              element1.classList.add("inputField");
+              document.getElementById('lastNameText').style.display = "none";
+            }
+            
+            var element2 = document.getElementById("j_id0:j_id15:myDateField");
+            if (isBlank(element2.value)) {
+              element2.classList.add("invalidField");
+              element2.classList.remove("inputField");
+              document.getElementById('dateField').style.display = "block";
+              invalidValues = true;
+            } else if (element2.value != "") {
+              element2.classList.remove("invalidField");
+              element2.classList.add("inputField");
+              document.getElementById('dateField').style.display = "none";
+            }
+            
+            var element3 = document.getElementById("j_id0:j_id15:email");
+            var element3Val = (element3.value).trim();
+            element3.value = element3Val;
+            var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (!(element3.value.length > 0)){
+              document.getElementById('emailId').innerText = "Please enter email id";
+              element3.classList.add("invalidField");
+              element3.classList.remove("inputField");
+              document.getElementById('emailId').style.display = "block";
+              invalidValues = true;
+            } else if(element3.value.length > 0 &&  !emailRegex.test(element3.value)) {
+              document.getElementById('emailId').innerText = "Please enter valid email id";
+              element3.classList.add("invalidField");
+              element3.classList.remove("inputField");
+              document.getElementById('emailId').style.display = "block";
+              invalidValues = true;
+            } else {
+              element3.classList.remove("invalidField");
+              element3.classList.add("inputField");
+              document.getElementById('emailId').style.display = "none";
+            }
+    
+            var element4 = document.getElementById("j_id0:j_id15:PrimaryphoneNumber2");
+            var phoneNumberRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+            var element4Val = (element4.value).trim();
+            element4.value = element4Val;
+            if (!(element4.value.length > 0)){
+              document.getElementById('mobileNo').innerText = "Please enter mobile number";
+              element4.classList.add("invalidField");
+              element4.classList.remove("inputField");
+              document.getElementById('mobileNo').style.display = "block";
+              invalidValues = true;
+            } else if(element4.value.length > 0 && !phoneNumberRegex.test(element4.value)) {
+              document.getElementById('mobileNo').innerText = "Please enter valid mobile number";
+              element4.classList.add("invalidField");
+              element4.classList.remove("inputField");
+              document.getElementById('mobileNo').style.display = "block";
+              invalidValues = true;
+            } else {
+              element4.classList.remove("invalidField");
+              element4.classList.add("inputField");
+              document.getElementById('mobileNo').style.display = "none";
+            }
+             
+            //alert(''+invalidValues );
+            if(invalidValues == false){
+                //alert('call apex function');
+                nextProcessingFunction();
+                //checkRedirect();
+            }
+        }
+        
+        </script>
+    </head>
+    <apex:form >
+        
+        <body class="bg-cover">
+            <div>
+                <div class="main-content">
+                   <div style="text-align: left; margin-bottom: 20px;">
+                        <a href="https://www.canaccede.com/" target="_top"><apex:image url="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000002d7bK&oid=00Dj0000001ripe&lastMod=1599235308000" style="top: 14%;left: 390px; width:200px;"/>
+                        </a>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <h1 style="font-weight: bold; margin: 0; color: #000000; font-size: 24px;">A unique opportunity <br/>to improve your credit</h1><br/>
+                        
+                        <h3 style="color: #60b936; margin: 20px 0 10px; font-weight: 700;">Enter your application code:</h3>
+                        <apex:pageMessages id="stepZeroPageMessagespreprocessing" />
+                        <div class="input-code">
+                            <apex:inputText value="{!Uniqueid}" id="Uniqueid" styleClass="appCodeField" title="Application Code"/><br/>
+                            <span class="hidden" id="appCodeText" style="text-align: left;">Please enter the application code.</span>
+                            
+                        </div>
+                        <h2 style="margin: 20px 0; font-size: 15px;">Please complete the form below to be redirected to the Fidem Mastercard® application:</h2>
+                    </div>
+                    
+                    <!--<div>-->
+                        <div class="settings">
+                            <label style="text-align: right; font-size: 13px; padding-right: 12px;">First Name</label>
+                            <apex:inputText styleClass="inputField" value="{!FirstName2}" id="firstname2"/>
+                            <div></div>
+                            <span class="hidden" id="firstNameText">Please provide your first name.</span>
+                        </div>
+                        <div class="settings">
+                            <label style="text-align: right; font-size: 13px; padding-right: 12px;">Last Name</label>   
+                            <apex:inputText styleClass="inputField" value="{!lastname2}" id="lastname2"/>
+                            <div></div>
+                            <span class="hidden" id="lastNameText">Please provide your last name.</span>
+                        </div>
+                        <div class="settings">
+                            <label style="text-align: right; font-size: 13px; padding-right: 12px;">Date of Birth</label>
+                            <apex:inputText styleClass="inputField" html-readonly="true" value="{!dateofbirth}" id="myDateField"/>
+                            <div></div>
+                            <span class="hidden" id="dateField">Please provide your date of birth.</span>
+                        </div>
+                        <div class="settings">
+                            <label style="text-align: right; font-size: 13px; padding-right: 12px;">Email</label>
+                            <apex:inputText styleClass="inputField" value="{!Email}" id="email"/>
+                            <div></div>
+                            <span class="hidden" id="emailId">Please provide your email.</span>
+                        </div>
+                        <div class="settings">
+                            <label style="text-align: right; font-size: 13px; padding-right: 12px;">Mobile Phone</label>
+                            <apex:inputText styleClass="inputField" value="{!CellPhone}"  id="PrimaryphoneNumber2"/>
+                            <div></div>
+                            <span class="hidden" id="mobileNo">Please provide your mobile number.</span>
+                        </div>
+                    <!--</div>-->
+                    
+                    <div class="check-note1" style="font-size: 11px;">
+                        <apex:inputCheckbox value="{!consent}" style="margin-top:0;" label="I consent to the use of this information for marketing purposes and offers from Canaccede*."/>I consent to the use of this information for marketing purposes and offers from Canaccede*.
+                    </div>
+                    
+                    
+                    <div style="text-align: center;"> 
+                        <apex:outputPanel id="dataValidationPanel">
+                            <script>
+                            function checkRedirect(){
+                                var invalidData = '{!InvalidData}';
+                                console.log('invalidData: ',invalidData);
+                                if(invalidData == 'false'){
+                                    console.log('false');
+                                    redirectToSite();
+                                }
+                            }
+                            </script>
+                        </apex:outputPanel>
+                        <input type="Button" value="Submit" onclick="validateForm();"
+                               style="background:#5EB835;color:#FFF;padding: 6px 24px;line-height: 16px;text-align: center;font-weight: bold;border: 1px solid #5EB835; margin-bottom: 15px; cursor: pointer;" class="btnSubmit"
+                               target="_blank"/><br/>
+                        <!--<apex:commandButton id="submitButton" onclick="validateForm();"
+                                            title="Submit" value="Submit"
+                                            style="background:#5EB835;color:#FFF;padding: 6px 24px;line-height: 16px;text-align: center;font-weight: bold;border: 1px solid #5EB835; margin-bottom: 15px;" styleClass="btnSubmit"/>-->
+                        <h2 style="font-size: 11px; width: 77%; margin: 0 auto;"><i>
+                        By clicking this link, you are leaving the Canaccede site and going to the Fidem website. Canaccede 
+                        does not offer credit cards and is not responsible for the privacy or other compliance matters of Fidem.
+                        </i></h2>
+                        <br/>
+                        <!--<h2 style="font-size: 11px; width: 50%; margin: 0 auto;"><
+                            
+                            <strong>As part of the application process and to verify your information, 
+                                please go to your email to click the link we sent you.</strong>
+                        </h2> -->
+                        
+                    </div>
+                    
+                    <apex:actionFunction name="nextProcessingFunction" action="{!nextProcessing}"
+                                         oncomplete="checkRedirect();" rerender="stepZeroPageMessagespreprocessing,submitButton,dataValidationPanel" />
+                    
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px;">
+                        <!--<small style="width: 78%; font-size: 10px;">Mastercard Brand Mark are registered trademarks of 
+                        Mastercard International Incorporated. This card is issued by Peoples Trust Company under licence 
+                        from Mastercard International. Mastercard and Mastercard Brand Mark are registered trademarks of 
+                        Mastercard International Incorporated. If you do not want to receive marketing communications from 
+                        Canaccede or Fidem Finance, please send an email with your name and address to 
+                        <strong>information@canaccede.com</strong></small>-->
+                        <!--<small style="width: 78%; font-size: 10px;">This card is issued by Peoples Trust Company under 
+                        license from Mastercard International Incorporated. Mastercard is a registered trademark, and 
+                        the circles design is a trademark of Mastercard International Incorporated. If you do not want 
+                        to receive marketing communications from Canaccede or Fidem Finance, please send an email with 
+                        your name and address to <strong>information@canaccede.com.</strong></small>-->
+                        <small style="font-size: 10px;">By checking the box you agree to receive marketing communications from Canaccede by email,
+                        phone or text. You can withdraw consent at any time by sending an email to <strong><u>unsubscribe@canaccede.com</u>.</strong>
+                        <br/><br/>
+                        Fidem Mastercard® is issued by Peoples Trust Company under license from Mastercard International Incorporated.
+                        Mastercard is a registered trademark, and the circles design is a trademark of Mastercard International Incorporated. 
+                        This offer is valid only if you meet Fidem's current credit standards and subject to identify verification.
+                        <br/><br/>
+                        Canaccede* means Canaccede Financial Group Ltd. and its subsidiaries
+                        </small>
+                        <!--<apex:image url="https://sb--sb--c.cs42.content.force.com/servlet/servlet.ImageServer?id=01556000000WJeV&oid=00D56000000D0pk&lastMod=1580385516000" style="width: 18%;"/>-->
+                        <!--<apex:image url="https://dev-dev--debtnext--c.cs21.content.force.com/servlet/servlet.ImageServer?id=015q0000000f6LF&oid=00Dq0000000D5Js" style="top: 75%;left: 916px;width:80px;height:60px; text-align: right"/>-->
+                        <!--<apex:image url="https://sb--sb--c.cs42.content.force.com/servlet/servlet.ImageServer?id=01556000000WEDe&oid=00D56000000D0pk" style="top: 88%;left: 996px;width:80px;height:60px;"/>-->
+                    </div>
+                    
+                    <div id="stepZeroLoading" class="loadingSpinner fleft">
+                        <apex:image url="{!$Resource.loadingGif}"
+                                    style="vertical-align:middle;" />
+                    </div>
+                    <div>    
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </body>
+    </apex:form>
+    
+</apex:page>

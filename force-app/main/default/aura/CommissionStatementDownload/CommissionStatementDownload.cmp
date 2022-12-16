@@ -1,0 +1,133 @@
+<aura:component controller="CommissionStatementDownloadController" 
+                implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId,force:hasSObjectName" access="global">
+    <!-- 'parentId' Aura Attribute for store the Id for Parent Record where we are attach our file -->
+   
+<meta http-equiv="Content-Security-Policy" content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"/>
+	 <ltng:require scripts="{!$Resource.ExceltoJSONService}"
+                  />
+    <aura:attribute name="parentId" type="Id" default="" />
+    <!-- 'showLoadingSpinner' attribute for show/hide the uploading image and msg in aura:if-->
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <!-- 'fileName' attribute for display the selected file name -->
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="FileJSON" type="String" />
+    <aura:attribute name="productID" type="String" />
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    <aura:attribute name="switch" type="boolean" default="true" />
+    <aura:attribute name="isMediaRequest" type="boolean" default="false" />
+    <aura:attribute name="files" type="Document_Storage__c[]"/>
+    <aura:attribute name="listDocVisibility" type="String[]"/>
+    <aura:attribute name="acceptFileTypes" type="String" />
+    <aura:attribute name="documentVisibility" type="String[]" />
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="isDocTypeSelected" type="boolean" default="false" />
+    <aura:attribute name="fileURL" type="String"/>
+    <aura:attribute name="pdfContainer" type="Aura.Component[]"/>
+    
+    <aura:attribute name="RELEASE_LETTER" type="String" default="Final Release Letter"/>
+    <aura:attribute name="SETTLEMENT_LETTER" type="String" default="Conditional Release Letter"/>
+    <aura:attribute name="releaseLetter" type="Document_Storage__c"/>
+    <aura:attribute name="settlementLetter" type="Document_Storage__c"/>
+    <aura:attribute name="selectedOffer" type="Document_Storage__c"/>
+    
+    <aura:attribute name="listDocType" type="List"/>
+    
+    <!--<aura:attribute name="Uploadbttn" type="boolean" default="true" />-->
+    <!-- Initialize the lists -->
+    <aura:handler name="init" value="{! this }" action="{! c.doinit }" />
+    <aura:handler event="force:refreshView" action="{! c.doinit }" />
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <aura:attribute name="showModal" type="boolean" default="false"/>
+    <!--<c:AttachmentInlineEdit aura:id="child" />-->
+   <div class="slds-form--compound">
+            <!-- show spinner logo when needed -->
+            <aura:if isTrue="{!v.showLoadingSpinner}">
+                <div class="slds-spinner_container">
+                    <div class="slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </aura:if>
+            <!--</aura:renderIf>-->
+        </div>
+    
+    <div class="exampleHolder">
+        <lightning:spinner aura:id="mySpinner" class="slds-hide"/>
+    </div>  
+    <div>
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-labelledby="element-with-table-label other-element-with-table-label">  
+        <!-- hide the table header if file is empty -->
+        <aura:if isTrue="{!not(empty(v.files))}">
+            <thead>  
+                <tr>  
+                    <th>Title</th> 
+                    <th>Document No.</th>
+                    <th>Document Type</th>
+                    <!--<th>Document Visibility</th>-->
+                    <th>Created Date</th>
+                    <!--<th>Created By</th>-->
+                    <!--<th>Process File</th>-->
+                </tr>  
+            </thead>  
+        </aura:if>
+        <tbody>
+            <aura:iteration items="{!v.files}" var="f" >  
+                
+                <tr>  
+                    <td>
+                        <a href="javascript:void(0)" aura:id="{!f.Document_ID__c}" 
+                           data-doctype="{!f.Document_Type__c}" 
+                           data-filename="{!f.Document_Name__c}" 
+                           data-documentid="{!f.Document_Id__c}" 
+                           data-filetype="{!f.Content_Type__c}" 
+                           onclick="{!c.previewFile}">
+                            {!f.Document_Name__c}	
+                        </a>
+                        <!-- <aura:set attribute="else">
+                                            <td>
+                                            <a download="{!f.Document_Name__c}" href="{!v.fileURL}" onmouseover="{!c.updateFileURL}" >Download</a>
+                                           </td>
+                                      </aura:set> -->
+                        
+                        
+                    </td>
+                    <td>
+                         {!f.Document_Storage_Number__c}
+                    </td>
+                    <td>{!f.Document_Type__c}</td>  
+                    <!--<td>{!f.Visibility__c}</td>--> 
+                    <td data-label="Completed Date"> 
+                    <ui:outputDateTime value="{!f.CreatedDate}"/>
+                	</td>
+                    <!--<td>{!f.Created_By__c}</td>-->
+                    <!--<td>
+                        <aura:if isTrue="{! and(f.Document_Type__c == 'Product Payment Upload  File', f.Staging_Records_Created__c != true) }">    
+                            
+                            <a href=""  aura:id = 'processFile'
+                               data-documentid="{!f.Document_Id__c}" 
+                               onclick="{!c.processFile}" >Process File</a>	
+                        </aura:if>		 
+                        <aura:if isTrue="{!and(f.Document_Type__c == 'Account Status Update File', f.Staging_Records_Created__c != true)}">    
+                            <a href=""  aura:id = 'processFile'
+                               data-documentid="{!f.Document_Id__c}" 
+                               onclick="{!c.processFile}" >Process File</a>	
+                        </aura:if>		
+                        <aura:if isTrue="{!and(f.Document_Type__c == 'Account Status (having Judgment) Update File', f.Staging_Records_Created__c != true)}">    
+                            <a href=""  aura:id = 'processFile'
+                               data-documentid="{!f.Document_Id__c}" 
+                               onclick="{!c.processFile}" >Process File</a>	
+                        </aura:if>   
+                        <aura:if isTrue="{!and(f.Document_Type__c == 'Customer Contact Information Update File', f.Staging_Records_Created__c != true)}">    
+                            <a href=""  aura:id = 'processFile'
+                               data-documentid="{!f.Document_Id__c}" 
+                               onclick="{!c.processFile}" >Process File</a>
+                        </aura:if>
+                    </td>-->
+                </tr>  
+                
+            </aura:iteration>  
+        </tbody>  
+    </table>  
+    </div>
+</aura:component>

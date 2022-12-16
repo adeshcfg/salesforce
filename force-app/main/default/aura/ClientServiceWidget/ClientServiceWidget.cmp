@@ -1,0 +1,166 @@
+<aura:component controller="ClientServiceWidgetController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <!-- attributes -->
+    <aura:attribute name="entityId" type="String" access="public" />
+    <aura:attribute name="draftValues" type="Product__c[]" />
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    
+    <!-- Handler-->
+    <aura:handler name="init" value="{!this }" action="{!c.doinit }" />
+    <table
+           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
+        
+        <thead>
+            <tr >
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Agency Name">
+                    <div>Agency Name</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Agency ID">
+                    <div>Agency ID</div>
+                </th>
+            </tr>
+        </thead>
+       <tbody>
+            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Collection_Agency_Placement__r.Agency_Name__c}"
+                        title="{!draftValue.Collection_Agency_Placement__r.Agency_Name__c}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Agency_Name__c != null , draftValue != null)}">
+                            {!draftValue.Collection_Agency_Placement__r.Agency_Name__c}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                        
+                    </td>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Collection_Agency_Placement__r.Name}"
+                        title="{!draftValue.Collection_Agency_Placement__r.Name}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Name != null , draftValue != null)}">
+                            {!draftValue.Collection_Agency_Placement__r.Name}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                    
+                  </tr>
+            </aura:iteration> 
+        </tbody>
+    </table>
+    <table
+            class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
+      <thead>
+            <tr >
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Agency Phone Number">
+                    <div>Agency Phone Number</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Place Status Description">
+                    <div>Place Status Description</div>
+                </th> 
+            </tr>
+        </thead>
+         <tbody>
+              <aura:iteration items="{!v.draftValues}" var="draftValue">
+                
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Collection_Agency_Placement__r.Agency_Phone_Number__c}"
+                        title="{!draftValue.Collection_Agency_Placement__r.Agency_Phone_Number__c}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Agency_Phone_Number__c != null , draftValue != null)}">
+                            {!draftValue.Collection_Agency_Placement__r.Agency_Phone_Number__c}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                        
+                    </td>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Status__c}"
+                        title="{!draftValue.Status__c}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Status__c != null , draftValue != null)}">
+                            {!draftValue.Status__c}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                  </tr>
+            </aura:iteration> 
+        </tbody>
+    </table>
+    <table
+            class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
+      <thead>
+            <tr >
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Agency Phone Number">
+                    <div>Client Services Details</div>
+                </th> 
+            </tr>
+        </thead>
+         <tbody>
+              <aura:iteration items="{!v.draftValues}" var="draftValue">
+                
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Collection_Agency_Placement__r.Client_Services_Details__c}"
+                        title="{!draftValue.Collection_Agency_Placement__r.Client_Services_Details__c}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Client_Services_Details__c != null , draftValue != null)}">
+                            {!draftValue.Collection_Agency_Placement__r.Client_Services_Details__c}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                  </tr>
+            </aura:iteration> 
+        </tbody>
+    </table>
+    <table
+            class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
+      <thead>
+            <tr >
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Agency Phone Number">
+                    <div>Number of Open Complaints</div>
+                </th> 
+            </tr>
+        </thead>
+         <tbody>
+              <aura:iteration items="{!v.draftValues}" var="draftValue">
+                
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Number_Of_Open_Complaint__c}"
+                        title="{!draftValue.Number_Of_Open_Complaint__c}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Number_Of_Open_Complaint__c != null , draftValue != null)}">
+                            {!draftValue.Number_Of_Open_Complaint__c}
+                            <aura:set attribute="else">
+                                -
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                  </tr>
+            </aura:iteration> 
+        </tbody>
+    </table>
+</aura:component>

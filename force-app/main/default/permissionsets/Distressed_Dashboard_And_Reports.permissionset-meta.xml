@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>The permission set to provide all Dashboard and Report Create/edit related access to user</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Distressed Dashboard And Reports</label>
+</PermissionSet>

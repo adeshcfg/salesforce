@@ -1,0 +1,13 @@
+<!-- 
+<apex:page showHeader="true" tabstyle="Case" > 
+    <apex:ListViews type="Case" /> 
+</apex:page>
+-->
+
+<!-- 
+<apex:page action="{!URLFOR($Action.Case.List, $ObjectType.Case)}"/>
+-->
+
+<apex:page showHeader="true" tabstyle="Case">
+    <apex:enhancedList type="Case" height="500" id="InsolvencyAssignmentList" customizable="true" />
+</apex:page>

@@ -1,0 +1,10 @@
+<apex:page controller="LoanTeleScripting" docType="html-5.0" sidebar="false" showHeader="false" renderAs="pdf">
+    <apex:form >
+        <apex:outputPanel >
+            <apex:outputText value="{!teleScriptString}" escape="false"  ></apex:outputText>
+            <div style="page-break-after:auto;"/>
+            
+            <div style="page-break-before:auto;"/>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

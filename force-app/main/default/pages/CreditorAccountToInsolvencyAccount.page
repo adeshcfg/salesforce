@@ -1,0 +1,43 @@
+<apex:page standardController="Creditor_Account__c" extensions="CreditorAccountToInsolvencyAccountCntrl" id="page">
+    <script>
+        // On page load validate user acceptance to create Insolvency Account
+        window.onload = function(){
+            var r = confirm("Are you sure to create Insolvency Account!");
+            if (r == true) {
+                document.getElementById("page:form").style.display = 'block';
+            } else {
+                window.close();
+                window.history.back();
+            }
+        }
+    </script>
+    <apex:form style="margin:auto; display:none;" id="form">
+        <apex:pageMessages id="pageMessage"/>    
+            <apex:actionStatus id="spinner" >
+                <apex:facet name="start" >
+                    <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.25; z-index: 1000; background-color: black;">
+                        &nbsp;
+                    </div>
+                    <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 15% 50%">
+                        <div style="display: inline-block; padding: 2px; background-color: #fff; width: 125px;">
+                            <img src="/img/loading.gif" style="float: left; margin: 8px;" />
+                            <span style="display: inline-block; padding: 10px 0px;">Please Wait...</span>
+                        </div>
+                    </div>
+                </apex:facet>
+            </apex:actionStatus>
+            
+            <!-- Record Type selection -->
+            <apex:pageBlock title="Choose Record Type" id="pgb">
+                <apex:pageBlockButtons >
+                    <apex:commandButton status="spinner" title="Create Insolvency Account" action="{!createInsolvencyAccount}" reRender="pageMessage" value="Create Insolvency Account"></apex:commandButton>
+                </apex:pageBlockButtons>
+                <apex:pageBlockSection id="pgbs">
+                    <apex:selectList value="{!selectedRecordType}" id="recordTypeSelection" multiselect="false" size="1">
+                        <apex:selectOptions value="{!RecordTypes}" />
+                    </apex:selectList>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+
+    </apex:form>
+</apex:page>

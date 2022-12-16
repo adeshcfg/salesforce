@@ -1,0 +1,103 @@
+<apex:component >
+    <style>
+        .wpTable {
+            margin: 10px auto;
+            color: #333;
+            font-size: .85em;
+        }
+        .wpTable td {
+            background: transparent url('/img/sprites/waiting_page_sprite.png') left top no-repeat;
+            vertical-align: middle;
+        }
+        .wpTable .wpCellTopLeft {
+            padding-left: 20px;
+            height: 15px;
+        }
+        .wpTable .wpCellTopRight {
+            padding-right: 20px;
+            background-position: right top;
+            height: 15px;
+        }
+        .wpTable .wpCellMiddleLeft {
+            padding-left: 20px;
+            background-position: left -10px;
+        }
+        .wpTable .wpCellMiddleRight {
+            padding-right: 20px;
+            background-position: right -10px;
+        }
+        .wpTable .wpCellBottomLeft {
+            padding-left: 20px;
+            background-position: left bottom;
+            height: 25px;
+        }
+        .wpTable .wpCellBottomRight {
+            padding-right: 20px;
+            background-position: right bottom;
+            height: 25px;
+        }
+        .wpText {
+            padding-left: 10px;
+        } 
+        .Mask {
+            background: none repeat scroll 0 0 #282828; 
+            height: 100%; left: 0; 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            z-index: 50100;
+             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)"; 
+            opacity:0.6;
+        }
+        .LoadingWrapOuter {
+            width:285px; 
+            height:158px; 
+            position:absolute; 
+            top:50%; 
+            left:50%; 
+            margin: -79px 0 0 -142px;
+        }
+        .LoadingImage {
+            position:absolute; 
+            top:0; 
+            left:0; 
+            margin:45px 0 0 100px;
+        }
+        .LoaderWrap {
+            width:285px; 
+            height:158px; 
+            top:50%; 
+            left:50%;
+        }
+        .Loader {
+            width:80px; 
+            height:26px; 
+            margin: 45px auto 0;
+        }        
+    </style>
+
+    <div id="Mask" class="Mask">
+        <div class="LoadingWrapOuter">
+
+            <div class="LoaderWrap">
+            <table class="wpTable" cellpadding="0" cellspacing="0"> 
+                <tbody> 
+                    <tr> 
+                        <td class="wpCellTopLeft"></td> 
+                        <td class="wpCellTopRight"></td> 
+                    </tr> 
+                    <tr> 
+                        <td class="wpCellMiddleLeft"><img src="/img/loading32.gif" alt="Processing..." width="32" height="32" title="Processing..." /></td> 
+                        <td class="wpCellMiddleRight"><h1>Processing...</h1></td> 
+                    </tr> 
+                    <tr> 
+                        <td class="wpCellBottomLeft"></td> 
+                        <td class="wpCellBottomRight"></td> 
+                    </tr> 
+                </tbody> 
+            </table>
+            </div>
+        </div>
+    </div>
+  
+</apex:component>

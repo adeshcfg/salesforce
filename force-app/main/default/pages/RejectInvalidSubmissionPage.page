@@ -1,0 +1,55 @@
+<apex:page extensions="RejectInvalidSubmissionController" standardController="Product__c">
+    <apex:slds ></apex:slds>
+    
+    <apex:form >
+        <script>
+        function cnfrmRej(){
+                 
+            confirmRejection();
+            
+        }
+        </script>
+        <apex:actionFunction name="confirmRejection" action="{!confirmRejection}" />
+        <div style = "margin-left: 5%; margin-top: 2%;"> 
+            <apex:outputPanel rendered="{!IF(AND(notMarkedForInvalid == false,alreadyRejectedState == false), TRUE, FALSE)}"
+                              >
+                <label class="slds-form-element__label" for="text-input-id-47">Are you sure you want to reject invalid submission ?</label>
+                <br/>
+                <br/>
+                <apex:commandButton value="Confirm Rejection" 
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    disabled="{!IF(disableConfirmBtn == true,true,false )}"
+                                    id="confirmBtn"
+                                    onclick="this.disabled='disabled';cnfrmRej()"
+                                    />
+                <apex:commandButton action="{!backToProduct}" 
+                                    value="Cancel" 
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    
+                                    />
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!notMarkedForInvalid == True}">
+                <label class="slds-form-element__label" for="text-input-id-47">The product is not in Invalid Submission State</label>
+                <br/>
+                <br/>
+                <apex:commandButton action="{!backToProduct}" 
+                                    value="Back" 
+                                    reRender="panel2"
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    
+                                    />
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!alreadyRejectedState == True}">
+                <label class="slds-form-element__label" for="text-input-id-47">Invalid submission is already rejected</label>
+                <br/>
+                <br/>
+                <apex:commandButton action="{!backToProduct}" 
+                                    value="Back" 
+                                    reRender="panel2"
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    
+                                    />
+            </apex:outputPanel>
+        </div>
+    </apex:form>
+</apex:page>

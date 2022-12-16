@@ -1,0 +1,59 @@
+<apex:page standardController="Work_Assignment__c" extensions="BulkUpdateTaskAndMediaController" recordSetVar="WorkAssignment" action="{!bulkUpdatemethod}">
+    <apex:form >
+       <apex:pageBlock title="Bulk Update">
+           <apex:pageMessages ></apex:pageMessages>
+            <apex:selectList size="1" value="{!selectedname}" rendered="{!selectedCases.size > 0}">
+                New Status :  <apex:selectOptions value="{!checkStatus}">
+                </apex:selectOptions>
+            </apex:selectList>
+        	<br/><br/><br/>
+            <apex:pageBlockButtons rendered="{!selectedCases.size > 0}">
+                <apex:commandButton action="{!updateCases}" value="Confirm"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!selected}" var="WorkAss" rendered="{!showWorkAssRecordType}">
+                	<apex:column value="{!WorkAss.Name}"/>
+                    <apex:column value="{!WorkAss.Title__c}"/>
+                    <apex:column value="{!WorkAss.Priority__c}"/>
+                    <apex:column value="{!WorkAss.Status__c}"/>
+                	<apex:column value="{!WorkAss.Purpose__c}"/>
+                    <apex:column value="{!WorkAss.Requested_Date__c}"/>
+                    <apex:column value="{!WorkAss.Due_Date__c}"/>
+                    <apex:column value="{!WorkAss.Placement_Agency__c}"/>
+            </apex:pageBlockTable> 
+           <apex:pageBlockTable value="{!selected}" var="WorkAss" rendered="{!showComplaintRecordType}">
+               		<apex:column value="{!WorkAss.Name}"/>
+               		<apex:column value="{!WorkAss.Task_Number__c}"/>
+               		<apex:column value="{!WorkAss.Complaint_Type__c}"/>
+                    <apex:column value="{!WorkAss.Status__c}"/>
+                	<apex:column value="{!WorkAss.Priority__c}"/>
+               		<apex:column value="{!WorkAss.Requested_Date__c}"/>
+                    <apex:column value="{!WorkAss.Due_Date__c}"/>
+           </apex:pageBlockTable>
+           <apex:pageBlockTable value="{!selected}" var="WorkAss" rendered="{!showMediaRecordType}">
+           			<apex:column value="{!WorkAss.Name}"/>
+               		<apex:column value="{!WorkAss.Task_Number__c}"/>
+               		<apex:column value="{!WorkAss.Title__c}"/>
+               		<apex:column value="{!WorkAss.Priority__c}"/>
+               		<apex:column value="{!WorkAss.Status__c}"/>
+           			<apex:column value="{!WorkAss.Requested_Date__c}"/>
+                    <apex:column value="{!WorkAss.Due_Date__c}"/>
+                   	<apex:column value="{!WorkAss.Assigned_To_User_Name__c}"/>
+                   	<apex:column value="{!WorkAss.Assign_To__c}"/>
+                   	<apex:column value="{!WorkAss.Purpose__c}"/>
+                   	<apex:column value="{!WorkAss.Sub_Purpose__c}"/>
+                   	<apex:column value="{!WorkAss.Placement_Agency__c}"/>
+           </apex:pageBlockTable>
+           <apex:pageBlockTable value="{!selected}" var="WorkAss" rendered="{!showExcelFileProcssingRecordType}">
+                	<apex:column value="{!WorkAss.Name}"/>
+                    <apex:column value="{!WorkAss.Title__c}"/>
+                    <apex:column value="{!WorkAss.Priority__c}"/>
+                    <apex:column value="{!WorkAss.Status__c}"/>
+                	<apex:column value="{!WorkAss.Purpose__c}"/>
+                    <apex:column value="{!WorkAss.Requested_Date__c}"/>
+                    <apex:column value="{!WorkAss.Due_Date__c}"/>
+                    <apex:column value="{!WorkAss.Placement_Agency__c}"/>
+               		<apex:column value="{!WorkAss.Source__c}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

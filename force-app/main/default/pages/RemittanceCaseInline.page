@@ -1,0 +1,26 @@
+<apex:page standardController="Remittance__c" extensions="RemittanceCaseInlineController" showHeader="false" sidebar="false">
+    
+    <apex:pageBlock >
+         <apex:pageBlockTable value="{!remAttachWrapList}" var="remAttachWrap" columns="3">
+             
+             <apex:column headerValue="NAME">
+                 <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!remAttachWrap.attach.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!remAttachWrap.attach.Name}</a>
+             </apex:column>
+             
+                <apex:column >
+                 <apex:facet name="header">
+                     <apex:outputLabel >CREATED DATE</apex:outputLabel>
+                 </apex:facet>
+                <apex:outputText value="{!remAttachWrap.strCreatedDate}"></apex:outputText>
+             </apex:column>
+             
+             <apex:column >
+                 <apex:facet name="header">
+                     <apex:outputLabel >LAST MODIFIED DATE</apex:outputLabel>
+                 </apex:facet>
+                 <apex:outputText value="{!remAttachWrap.strlastModifiedDate}"></apex:outputText>
+             </apex:column>
+             
+         </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

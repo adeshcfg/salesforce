@@ -1,0 +1,481 @@
+<apex:page standardController="Product__c" extensions="AccountSearchController"
+           showHeader="false" sidebar="false" lightningStylesheets="true"
+           applyBodyTag="false" applyHtmlTag="false" cache="false">
+            <apex:includeScript value="{!$Resource.jQuery}" />
+            <apex:includeScript value="https://code.jquery.com/jquery-1.9.1.js" />
+            <apex:includeScript value="{!URLFOR($Resource.jQueryUI, 'jquery-ui.min.js')}" />
+            <apex:stylesheet value="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"  />
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryUI, 'jquery-ui.min.css')}" />
+            <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+    <apex:slds />
+         
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <style>
+         .loader{
+            border: 6px solid #ccc;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border-top-color: #3e58a8;
+            border-left-color: #3e58a8;
+            animation: spin 1s infinite ease-in;
+            z-index: 10009;
+            position: fixed;
+            margin-left: -60px;
+            -moz-opacity: 0.70;
+            top: 83%;
+            left: 55%;
+        }
+        }
+        /* Safari */
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+    
+        @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+
+            .spinnerBg{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: #000;
+            opacity: 0.1;
+            z-index: 999999;
+            }
+            .spinner{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-image: url("/img/loading32.gif");
+            background-size: 56px;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            z-index: 9999999;
+            opacity: 1;
+            }
+            
+        .input-field {
+            padding: 20px;
+        }
+
+        .text-field {
+            margin-bottom: 20px;
+        }
+
+        input[type=text],
+        input[type=date] {
+            width: 95%;
+            background-color: #3e58a8;
+            color: #ffffff;
+            border: 1px solid #3e58a8;
+            border-radius: 5px;
+            font-size: 17px;
+            padding: 6px 10px;
+            font-family: "Arial", "Lucida Sans Unicode", Tahoma, sans-serif;
+            /* height: 40px; */
+            line-height: 1.3;
+        }
+
+        input[type=text]:focus,
+        input[type=date]:focus,
+        select:focus {
+            background-color: #ffffff;
+            border-color: #3e58a8;
+            box-shadow: none;
+            color: #000000;
+            border-width: 1px;
+        }
+
+        input[type=text]:focus::placeholder,
+        input[type=date]:focus::placeholder,
+        select:focus::placeholder {
+            color: #cccccc;
+        }
+
+        /* input[type="date" i] {color: #ffffff;}
+            input[type=date]::before { 
+                content: attr(data-placeholder);
+            }
+            input[type="date"]:focus::before,
+            input[type="date"]:valid::before { display: none } */
+
+        select {
+            width: 95%;
+            background-color: #3e58a8;
+            color: #ffffff;
+            border: 1px solid #3e58a8;
+            border-radius: 5px;
+            font-size: 17px;
+            padding: 6px 10px;
+            font-family: "Arial", "Lucida Sans Unicode", Tahoma, sans-serif;
+            /* height: 40px; */
+            line-height: 1.3;
+        }
+
+        ::placeholder {
+            color: #ffffff;
+        }
+
+        input[type=button] {
+            width: auto;
+            font-family: "Arial", "Lucida Sans Unicode", Tahoma, sans-serif;
+            font-size: 16px;
+            height: auto;
+            line-height: normal;
+            text-align: center;
+            background: #49DCE4;
+            border-width: 0px;
+            border-style: solid;
+            color: #132a8c;
+            cursor: pointer;
+            font-weight: normal;
+            text-shadow: none;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            /*margin: 10px;*/
+            margin-left: 0;
+            margin-right: 0;
+            vertical-align: middle;
+            border-radius: 20px;
+        }
+
+        input[type=button]:hover {
+            background: #132A8C;
+            /* border-color: #cccccc; */
+            color: #ffffff;
+        }
+
+        .check-field {
+            margin-bottom: 10px;
+            font-family: Arial;
+        }
+
+
+
+        .text-field.error input,
+        .text-field.error select {
+            border: 1px solid red;
+            background: #fff; 
+        }
+
+        .text-field.error ::placeholder,
+        select::placeholder {
+            color: #ccc;
+        }
+     
+        .errorDiv{
+            width: 80%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            font-size: 18px;
+            text-align:center;
+        }
+        @media all and (max-width: 420px) {
+            select {
+                font-size:10px;
+            }
+            input[type=text]{
+                font-size:10px;
+            }
+            
+ 
+        }
+    </style>
+    </head>
+    <body onload="myFunction()">
+        <apex:form id="form" html-autocomplete="off">
+            <apex:outputPanel rendered="{!!showMessage}">
+            <div class="account-search-form">
+            <div class="input-field">
+
+                <div class="text-field" style = "margin-bottom: 10px;">
+                    <input type="text" style="width: 60%" class="js-form-field"  id="secretcode" 
+                           onkeyup="handleChange()" name="secretcode" placeholder="Account Code"/>
+                    <br/>
+                    <div style="margin-top: 3px;font-size: 8pt;">Please retain this code in a secure place if you would like to use it to access your account information in the future.</div>
+                </div>
+
+                <div class="check-field">
+                        <p>-or-</p>
+                    </div>
+
+                <div style="display: flex">
+                    <div class="text-field" style="width: 45%; margin-right: 20px;">
+                        <input type="text" class="form-field js-form-field" id="firstname"
+                               name="firstname" placeholder="First Name" maxlength = "50"/>
+                    </div>
+
+                    <div class="text-field form-field" style="width: 48%;">
+                        <input type="text" id="lastname" class="js-form-field" name="lastname"
+                               placeholder="Last Name" maxlength = "50"/>
+                    </div>
+                </div>
+
+
+                <div class="text-field">
+                    <input placeholder="Date of Birth" name="dob" 
+                           type="text" class="form-field js-form-field" onblur="(this.type='text')"
+                           id="dob"  readonly = "true"/>
+
+                </div>
+
+                <div style="display: flex">
+                    <div class="text-field" style="width: 35%; margin-right: 20px;">
+                        <input type="text" class="form-field js-form-field" id="streetno" 
+                               name="streetno" placeholder="Street Number" maxlength = "150"/>
+                    </div>
+
+                    <div class="text-field" style="width: 65%">
+                        <input type="text" id="streetname" class="form-field js-form-field"
+                        		placeholder="Street Name" style = "width: 92%;"
+                               	maxlength = "150"/>
+                    </div>
+                </div>
+
+                <div style="display: flex">
+                    <div class="text-field" style="width: 40%; margin-right: 20px;">
+                        <input type="text" class="form-field js-form-field" id="city" 
+                               name="city" placeholder="City" maxlength = "100"/>
+                    </div>
+
+                    <div class="text-field" style="width: 30%;">
+                        <div >
+                            <apex:selectList id="province"  label="Fields" value="{!provinceName}" 
+                            			styleClass="province"
+                                        multiselect="false" size="1">
+                                <apex:selectOptions value="{!listProvinces}" id="field"/>
+                            </apex:selectList>   
+                        </div>
+                    </div>
+
+                    <div class="text-field" style="width: 30%">
+                        <input type="text" class="form-field js-form-field" id="postalcode" 
+                               name="postalcode" placeholder="Postal Code" style = "width: 83%;"
+                               maxlength = "50"/>
+                    </div>
+                </div>
+
+                <input type="button" value="Submit" class="submit-btn" id="submitButton"
+                    onclick = "return false;" target="_blank"/>
+
+            </div>
+            <apex:actionStatus id="spinnerStatus">
+                <apex:facet name="start">
+                <div class="loader" width="50" height="50" />
+                </apex:facet>
+             </apex:actionStatus>
+            <apex:actionFunction action="{!searchAccounts}" name="searchFunction" status="spinnerStatus" rerender="blankForm,showstate,form">
+                <apex:param assignTo="{!firstname}" name="firstname" value=""/>
+               <apex:param assignTo="{!lastname}" name="lastname" value=""/>
+               <apex:param assignTo="{!dateOfBirthStr}" name="dob" value=""/>
+               <apex:param assignTo="{!address1}" name="streetno" value=""/>
+               <apex:param assignTo="{!address2}" name="streetname" value=""/>
+               <apex:param assignTo="{!city}" name="city" value=""/>
+               <!--<apex:param assignTo="{!provinceName}" name="province" value=""/>-->
+               <apex:param assignTo="{!postalCode}" name="postalcode" value=""/>
+               <apex:param assignTo="{!authenticationCode}" name="secretcode" value=""/>
+           </apex:actionFunction>
+        </div>
+                
+        
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{!showMessage}">
+            <div class = "errorDiv">
+                <apex:outputText value="{!message}" escape="false"/>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+     <script type="text/javascript">
+		var allFields = document.querySelectorAll('.js-form-field');
+        var fields = ['firstname', 'lastname', 'dob', 'streetno', 'city', 'postalcode'];
+        var validMap = ['dob', 'streetno', 'city','postalcode'];
+        var secret = 'secretcode';
+        var secretValue = "";
+        var counter = 0;
+        var invalidInput = []
+
+        var dataObj = {
+            firstname: '',
+            lastname: '',
+            dob: '',
+            streetno: '',
+            city: '',
+            postalcode: '',
+        }
+        
+        function myFunction(){
+            //document.cookie = "";
+            //document.cookie = "apex__searchPerformed=Yes";
+            //console.log('cookie', document.cookie);
+        }
+        function handleDataChange() {
+            var name = this.getAttribute('id');
+            console.log('name', name)
+            dataObj[name] = this.value;
+            console.log(dataObj);
+        }
+
+        function validateBasicDetails() {
+            console.log('print',document.getElementById("province"));
+            invalidInput = []
+            counter = 0;
+            for (var i = 0; i < fields.length; i++) {
+                var field = document.querySelector('[name=' + fields[i] + ']');
+                //var field = document.querySelector(`[name=${fields[i]}]`);
+                var pro = document.getElementsByTagName("select")[0];
+                var provalue = pro.options[pro.selectedIndex].text;
+                console.log(field);
+                console.log('pro',pro);
+                console.log('pro2',pro.options[pro.selectedIndex].text);
+                var proerror = false;
+                if ((field && field.value.length <= 0)) {
+                    field.closest('.text-field').classList.add('error');
+                    if(pro && provalue == 'Province'){
+                        pro.closest('.text-field').classList.add('error');
+                        proerror = true;
+                    }
+                    else { 
+                        proerror = false;
+                    }
+                }
+                else {
+                    console.log('in else',field);
+                    field.closest('.text-field').classList.remove('error');
+                    if(proerror == true){
+                        pro.closest('.text-field').classList.remove('error');
+                    }
+                    invalidInput.push(fields[i]);
+                    counter++;
+                }
+            }
+        }
+
+        function resetInput() {
+            for (var i = 0; i < fields.length; i++) {
+				var field = document.querySelector('[name=' + fields[i] + ']');
+                //var field = document.querySelector(`[name=${fields[i]}]`);
+                field && field.closest('.text-field').classList.remove('error');
+                var pro = document.getElementsByTagName("select")[0];
+                var provalue = pro.options[pro.selectedIndex].text;
+                pro.closest('.text-field').classList.remove('error');
+            }
+        }
+
+        function handleErrorReset() {
+            for (var i = 0; i < allFields.length; i++) {
+                allFields[i].addEventListener('focus', function () {
+                    this.closest('.text-field').classList.remove('error')
+                    if (this.getAttribute('name') == 'dob') {
+                        this.setAttribute('type', 'date');
+                    }
+                })
+            }
+        }
+
+        function handleChange() {
+            secretValue = document.querySelector('[name=' + secret + ']').value;
+            console.log(secretValue)
+        }
+
+        function valiDateSecret(bool) {
+            var field = document.querySelector('[name=' + secret + ']');
+            if (field && field.value.length <= 0 && bool) {
+                field.closest('.text-field').classList.add('error');
+            }
+            else {
+                console.log(field.closest('.text-field').classList);
+                field.closest('.text-field').classList.remove('error');
+                document.getElementById("submitButton").disabled = true;
+                searchFunction();
+            }
+        }
+        window.addEventListener('load', function () {
+            //document.cookie = "apex__searchPerformed=Yes";
+            console.log('onclick cookie:', document.cookie);
+            var formInputs = document.querySelectorAll('.form-field');
+            if (formInputs) {
+                for (var i = 0; i < formInputs.length; i++) {
+                    formInputs[i].addEventListener('keydown', handleDataChange)
+                }
+            }
+            var selectInput = document.querySelector('.province');
+            console.log('selectInput: ',selectInput);
+            selectInput && selectInput.addEventListener('change', handleDataChange)
+
+            var submitBtn = document.querySelector('.submit-btn');
+            submitBtn && submitBtn.addEventListener('click', function () {
+                var count = 0;
+                if (secretValue.length > 0) {
+                    valiDateSecret(true);
+                }
+                else {
+                    validateBasicDetails();
+                    if (counter != fields.length) {
+                        valiDateSecret(true);
+                    }
+                }
+                if (secretValue.length <= 0) {
+                    if (invalidInput.indexOf('dob') == -1 && invalidInput.length >= fields.length - 1) {
+                        resetInput();
+                        valiDateSecret(false);
+                    }
+                    else if (invalidInput.indexOf('firstname') != -1 && invalidInput.indexOf('lastname') != -1 && invalidInput.indexOf('dob') != -1) {
+                        resetInput();
+                        valiDateSecret(false);
+                    }
+                    else {
+                        validateBasicDetails();
+                    }
+                }
+                console.log('test', invalidInput);
+            })
+        })
+        handleErrorReset();
+    	        // closest polyfill
+        if (!Element.prototype.matches) {
+            Element.prototype.matches = Element.prototype.msMatchesSelector ||
+                Element.prototype.webkitMatchesSelector;
+        }
+
+        if (!Element.prototype.closest) {
+            Element.prototype.closest = function (s) {
+                var el = this;
+
+                do {
+                    if (Element.prototype.matches.call(el, s)) return el;
+                    el = el.parentElement || el.parentNode;
+                } while (el !== null && el.nodeType === 1);
+                return null;
+            };
+        }
+    
+    
+         jQuery(function(){
+                var $j = jQuery.noConflict();
+                $j("#dob").datepicker({
+                     yearRange: "-100:c",
+                     changeMonth: true,
+                     changeYear: true,
+                     numberOfMonths: 1,
+                     dateFormat:"mm-dd-yy",
+                     altField: "#event_start_date_alternate",
+                     //altFormat: "yy-mm-dd",
+                     showAnim: "slide"
+                });
+              });
+    </script>
+    </body>
+</html>
+
+
+</apex:page>

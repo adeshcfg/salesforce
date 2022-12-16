@@ -1,0 +1,86 @@
+<apex:page showHeader="false" sidebar="false" controller="trac_UserVerificationErrorController" action="{!updateApplication}" standardstylesheets="false" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        
+        <apex:stylesheet value="{!URLFOR($Resource.ApplicationResource, 'css/traction/application.css')}"/>
+        <apex:includeScript value="{!$Resource.jQuery}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/application.js')}" />
+        <script>
+            var topOrigin = '{!JSENCODE(AppFormSettings.Parent_Page_Domain__c)}';
+        </script>
+    </head>
+    <body>
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W6F9RX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W6F9RX');</script>
+    <!-- End Google Tag Manager -->
+    <div id="innerContainer" class="inner-container"> 
+        <!--wrapArea Start-->
+        <apex:form id="application-result">
+            <apex:outputPanel layout="block">
+                <script>
+                pushHit('/application-form/authentication_error', 'Authentication Error');
+                </script>
+                <div class="fleft">
+                    <!--  
+                    Error message changes
+                    Commented by A5E Consulting
+                    <h3 class="first">&nbsp;&nbsp;Oops... An Internet Error Occurred At Our End</h3>
+                    <div>
+                        <h2>Hello {!App.First_Name__c} {!App.Last_Name__c},</h2>
+                        <h2>Thank you for your application.</h2>
+                        <h2>Unfortunately, it's hit a technical glitch while being transmitted. This happens very rarely, and it's usually due to an Internet problem at our end.</h2>
+                        <h2>If you want to try submitting it again, <a href="#" onclick="window.history.back();">click here</a>. Or please call our toll-free number at 1-855-220-7531 and one of our customer service representatives will be able to help you right away. </h2>
+                        <h2>Sorry for the inconvenience, and we hope to have your application process moving forward quickly.</h2>
+                        <h2>The Affirm Team</h2>
+                    </div>
+                    -->
+                    
+                    <apex:outputPanel rendered="{!errorMessage == noBureauHit}">
+                        <div>
+                            <h2>Please call us at 1-855-220-7531</h2>
+                            <h2>Additional Information Required – Unfortunately we cannot complete your identity verification process online but can easily help you by phone.</h2>
+                            <h2>Your application is approved but your identity verification is still required.</h2>
+                            <h2>One of our customer service representatives will contact you to complete this process or for faster service, feel free to call  1-855-220-7531.</h2>                            
+                        </div>
+                    </apex:outputPanel>
+                    
+                    <apex:outputPanel rendered="{!errorMessage == thinBureauHit}">
+                        <div>
+                            <h2>Please call us at 1-855-220-7531 </h2>
+                            <h2>Additional Information Required – Unfortunately we cannot complete your identity verification process online but can easily help you by phone. </h2>
+                            <h2>Your application is approved but your identity verification is still required.</h2>
+                            <h2>One of our customer service representatives will contact you to complete this process or for faster service, feel free to call  1-855-220-7531.</h2>                            
+                        </div>
+                    </apex:outputPanel>
+                    
+                    <apex:outputPanel rendered="{!errorMessage == toManyAttempts}">
+                        <div>
+                            <h2>Please call us at 1-855-220-7531</h2>
+                            <h2>Oops, you have already tried to complete the identity verification process the maximum number of times.</h2>
+                            <h2>Please call our office at 1-855-220-7531 so that we can help you.</h2>                          
+                        </div>
+                    </apex:outputPanel>
+                    
+                    <apex:outputPanel rendered="{!errorMessage == technicalIssue}">
+                        <div>
+                            <h2>Please call us at 1-855-220-7531 </h2>
+                            <h2>Our apologies - it seems we are experiencing a technical issue while trying to complete your identity verification process.</h2>
+                            <h2>Your application is approved but your identity verification is still required.</h2>
+                            <h2>One of our customer service representatives will contact you to complete this process or for faster service, feel free to call  1-855-220-7531.</h2>                            
+                        </div>
+                    </apex:outputPanel>
+                    
+                </div>
+            </apex:outputPanel>
+        </apex:form>
+    </div>
+    </body>
+</html>
+</apex:page>

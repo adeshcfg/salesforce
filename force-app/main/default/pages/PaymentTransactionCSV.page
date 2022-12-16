@@ -1,0 +1,60 @@
+<apex:page standardController="Payment_Transaction__c" extensions="PaymentTransactionCSVController">
+	<apex:form >
+		<apex:commandButton value="Generate Payment Transaction CSV"
+                            action="{!generateCSV}" disabled="{!disableButton}"
+                            oncomplete="refreshPage();"
+                            reRender="block1, block2"
+                            styleclass="slds-button slds-button_neutral"/><br/><br/>
+		<apex:messages />
+    <br/>
+	<apex:pageBlock id="block1">
+        <apex:pageBlockSection id="section1" columns="1" collapsible="true" title="Payment Transaction CSV List">
+            <apex:pageBlockTable value="{!PaymentTransactionsCSV}" var="item">
+                <apex:column headervalue="Payment Transaction CSV Name">
+                <apex:outputLink value="/{!item.ID}">
+                     <apex:outputText value="{!item.Name}">
+                        </apex:outputText>
+                    </apex:outputLink></apex:column>
+                <apex:column value="{!item.CreatedDate}"/>
+                <apex:column value="{!item.CreatedBy.Name}"/>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+        <script>
+            twistSection(document.getElementById('{!$Component.block1.section1}').getElementsByTagName('img')[0])
+        </script>
+    </apex:pageBlock>
+    
+    <apex:pageBlock id="block2">
+        <apex:pageBlockSection id="section1" columns="1" collapsible="true" title="Payment Transactions List to Export">
+            <apex:pageBlockTable value="{!PaymentTransactions}" var="item">
+                <apex:column headervalue="Payment Transaction Name">
+                <apex:outputLink value="/{!item.ID}">
+                     <apex:outputText value="{!item.Name}">
+                        </apex:outputText>
+                    </apex:outputLink></apex:column>
+                <apex:column value="{!item.Amount__c}"/>
+                <apex:column value="{!item.Parent__c}"/>
+                <apex:column value="{!item.Payment_Type__c}"/>
+                <apex:column value="{!item.Status__c}"/>
+                <apex:column value="{!item.CreatedDate}"/>
+        </apex:pageBlockTable>
+
+        </apex:pageBlockSection>
+        <script>
+            twistSection(document.getElementById('{!$Component.block2.section1}').getElementsByTagName('img')[0])
+        </script>
+    </apex:pageBlock>
+
+    <style>
+    	body .bPageBlock .pbBody .pbSubheader{
+                background-color:rgba(84,105,141)
+            }
+    </style>
+     <script>
+     	   function refreshPage(){
+                console.log('true');
+           		window.location.reload();
+           }
+     </script>  
+   </apex:form>
+</apex:page>

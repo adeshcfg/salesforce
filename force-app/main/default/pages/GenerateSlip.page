@@ -1,0 +1,637 @@
+<apex:page controller="GenerateDepositSlipController" showHeader="false" renderAs="pdf">
+    <div>
+        <apex:outputPanel rendered="{! type != 'Canaccede_Account_Perticulars' && type != 'Affirm_Account_Perticulars'}">
+            <table style="margin:auto; border-collapse: collapse; width:600px;">
+                <tr>
+                    <td style="border: 1px solid black;"><b>Branch Tr:  {!depositAcc.Transit_Number__c}</b></td>
+                    <td style="border: 1px solid black;"><b>Date:</b></td>
+                    <td style="border: 1px solid black;"><b>
+                        <apex:outputText value="{0,date, YYYY '-' MM '-' dd}">
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText></b></td>
+                </tr>
+                
+                <tr ><td colspan="3"><br/></td></tr>
+                <tr>
+                    <td style="border: 1px solid black;" colspan="3"><b>Account:  {!depositAcc.Account_Number__c}</b></td>
+                </tr>
+                <tr ><td colspan="3"><br/></td></tr>
+                <tr>
+                    <td style="border: 1px solid black;" colspan="3"><b>Account Name: {!depositAcc.Entity_Name__c}</b></td>
+                </tr>
+                <tr ><td colspan="3"><br/></td></tr>
+            </table>
+            <table style="margin:auto; border-collapse: collapse; width:600px;">
+                <tr>
+                    <td style="border: 1px solid black; word-wrap: break-word;" ><b>Cheque Particulars</b></td>
+                    <td style="border: 1px solid black; text-align:right;" ><b>Amount</b></td>
+                    <td style="border: 1px solid black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                </tr>
+                <tr ><td colspan="3"><br/></td></tr>
+                <tr></tr>
+                
+                <apex:repeat value="{!lisDepotWrap}" var="wrp">
+                    <tr>
+                        <td style="border: 1px solid black;">{!wrp.trusteeName}</td>
+                        <td style="border: 1px solid black; text-align:right;">
+                            
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!wrp.paymentAmount}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="border: 1px solid black;"></td>
+                    </tr>
+                </apex:repeat>
+                
+                <tr>
+                    <td style="border: 1px solid black;"><b># Cheques: {!size}</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!total}" />
+                        </apex:outputText>
+                        </b></td>
+                    <td style="border: 1px solid black;"></td>
+                </tr>
+                
+            </table>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{! type == 'Affirm_Account_Perticulars'}"> 
+            <!--Summary-->
+            <table style="margin:auto; border-collapse: collapse; width:600px;">
+                <tr>
+                    <td style="border: 1px solid black;" ><b>Deposit Account</b></td>
+                    <td style="border: 1px solid black;" ><b>Total Amount</b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>CIHI - 877 - 1</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalAAL}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>FIM - 810</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalETC}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>ACQ - 618</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalAFL}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>CIHI - 877</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalCIH}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>AFSI - 631</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalAFSI}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                
+                
+            </table>
+        </apex:outputPanel>       
+        <apex:outputPanel rendered="{! type == 'Canaccede_Account_Perticulars'}"> 
+            <!--Summary-->
+            <table style="margin:auto; border-collapse: collapse; width:600px;">
+                <tr>
+                    <td style="border: 1px solid black;" ><b>Deposit Account</b></td>
+                    <td style="border: 1px solid black;" ><b>Total Amount</b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>CIHI - 877 - 1</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalAAL}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>FIM - 810</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalETC}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>ACQ - 618</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalAFL}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>CAL - 767</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalCAL}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>CIHI - 877</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalCIH}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>CCLP - 130</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalCCL}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>CIHI - 877 - 2</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalCIA}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black;"><b>CIML - 156</b></td>
+                    <td style="border: 1px solid black; text-align:right;"><b>
+                        $<apex:outputText value="{0, number,#,##0.00}">
+                        <apex:param value="{!totalCIML}" />
+                        </apex:outputText>
+                    </b></td>
+                </tr>
+                
+                
+            </table>
+        </apex:outputPanel>
+        <br/><br/>
+        <apex:outputPanel rendered="{! type != 'Canaccede_Account_Perticulars' || type != 'Affirm_Account_Perticulars' }">
+            
+            <!--AAL records -->
+            <apex:outputPanel rendered="{! totalAAL > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listAAL}" var="pay">
+                        <tr>
+                            <td style="border: 1px solid black;">{!pay.accountName}</td>
+                            <td style="border: 1px solid black;">{!pay.trustee}</td>
+                            
+                            <td style="border: 1px solid black; text-align:right;">
+                                
+                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:param value="{!pay.paymentAmount}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="border: 1px solid black;">{!pay.transit}</td>
+                            <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                            <td style="border: 1px solid black;">{!pay.entity}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for Canaccede International Holdings Inc</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalAAL}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <br/>
+            </apex:outputPanel>
+            
+            <!--ETC records -->
+            <apex:outputPanel rendered="{! totalETC > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listETC}" var="pay">
+                        <tr>
+                            <td style="border: 1px solid black;">{!pay.accountName}</td>
+                            <td style="border: 1px solid black;">{!pay.trustee}</td>
+                            
+                            <td style="border: 1px solid black; text-align:right;">
+                                
+                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:param value="{!pay.paymentAmount}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="border: 1px solid black;">{!pay.transit}</td>
+                            <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                            <td style="border: 1px solid black;">{!pay.entity}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for Fidem SPV Ltd.</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalETC}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <br/>
+            </apex:outputPanel>
+
+            <!--AFL records -->
+            <apex:outputPanel rendered="{! totalAFL > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listAFL}" var="pay">
+                        <tr>
+                            <td style="border: 1px solid black;">{!pay.accountName}</td>
+                            <td style="border: 1px solid black;">{!pay.trustee}</td>
+                            
+                            <td style="border: 1px solid black; text-align:right;">
+                                
+                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:param value="{!pay.paymentAmount}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="border: 1px solid black;">{!pay.transit}</td>
+                            <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                            <td style="border: 1px solid black;">{!pay.entity}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for Affirm Acquisitions LP</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalAFL}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <br/>
+            </apex:outputPanel>
+
+            <!--CAL records -->
+            <apex:outputPanel rendered="{! totalCAL > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listCAL}" var="pay">
+                        <tr>
+                            <td style="border: 1px solid black;">{!pay.accountName}</td>
+                            <td style="border: 1px solid black;">{!pay.trustee}</td>
+                            
+                            <td style="border: 1px solid black; text-align:right;">
+                                
+                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:param value="{!pay.paymentAmount}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="border: 1px solid black;">{!pay.transit}</td>
+                            <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                            <td style="border: 1px solid black;">{!pay.entity}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for Canaccede Assets Ltd</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalCAL}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <br/>
+            </apex:outputPanel>
+
+            <!--CIH records -->
+            <apex:outputPanel rendered="{! totalCIH > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listCIH}" var="pay">
+                        <tr>
+                            <td style="border: 1px solid black;">{!pay.accountName}</td>
+                            <td style="border: 1px solid black;">{!pay.trustee}</td>
+                            
+                            <td style="border: 1px solid black; text-align:right;">
+                                
+                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:param value="{!pay.paymentAmount}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="border: 1px solid black;">{!pay.transit}</td>
+                            <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                            <td style="border: 1px solid black;">{!pay.entity}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for Canaccede International Holdings Inc</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalCIH}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <br/>
+            </apex:outputPanel>
+
+            <!--CCL records -->
+            <apex:outputPanel rendered="{! totalCCL > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listCCL}" var="pay">
+                        <tr>
+                            <td style="border: 1px solid black;">{!pay.accountName}</td>
+                            <td style="border: 1px solid black;">{!pay.trustee}</td>
+                            
+                            <td style="border: 1px solid black; text-align:right;">
+                                
+                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:param value="{!pay.paymentAmount}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="border: 1px solid black;">{!pay.transit}</td>
+                            <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                            <td style="border: 1px solid black;">{!pay.entity}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for Canaccede Credit LP</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalCCL}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <br/>
+            </apex:outputPanel>
+            <!--CIA records -->
+            <apex:outputPanel rendered="{! totalCIA > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listCIA}" var="pay">
+                        <tr>
+                            <td style="border: 1px solid black;">{!pay.accountName}</td>
+                            <td style="border: 1px solid black;">{!pay.trustee}</td>
+                            
+                            <td style="border: 1px solid black; text-align:right;">
+                                
+                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:param value="{!pay.paymentAmount}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="border: 1px solid black;">{!pay.transit}</td>
+                            <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                            <td style="border: 1px solid black;">{!pay.entity}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for Canaccede International Holdings Inc</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalCIA}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <br/>
+            </apex:outputPanel>
+            <!--CFL records -->
+            <apex:outputPanel rendered="{! totalCFL > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listCFL}" var="pay">
+                        <tr>
+                            <td style="border: 1px solid black;">{!pay.accountName}</td>
+                            <td style="border: 1px solid black;">{!pay.trustee}</td>
+                            
+                            <td style="border: 1px solid black; text-align:right;">
+                                
+                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:param value="{!pay.paymentAmount}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="border: 1px solid black;">{!pay.transit}</td>
+                            <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                            <td style="border: 1px solid black;">{!pay.entity}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for CFG CANADA FUNDING LLC</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalCFL}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <br/>
+            </apex:outputPanel>
+            <!--CIML records -->
+            <apex:outputPanel rendered="{! totalCIML > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listOfListCIML}" var="payList">
+                        <apex:repeat value="{!payList}" var="pay">
+                            <tr>
+                                <td style="border: 1px solid black;">{!pay.accountName}</td>
+                                <td style="border: 1px solid black;">{!pay.trustee}</td>
+                                
+                                <td style="border: 1px solid black; text-align:right;">
+                                    
+                                    $<apex:outputText value="{0, number,#,##0.00}">
+                                    <apex:param value="{!pay.paymentAmount}" />
+                                    </apex:outputText>
+                                </td>
+                                <td style="border: 1px solid black;">{!pay.transit}</td>
+                                <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                                <td style="border: 1px solid black;">{!pay.entity}</td>
+                            </tr>
+                        </apex:repeat>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for Canaccede International Management Ltd</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalCIML}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <br/>
+            </apex:outputPanel>
+            <!--AFSI records -->
+            <apex:outputPanel rendered="{! totalAFSI > 0.0}">
+                <table style="margin:auto; border-collapse: collapse; width:600px;">
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" ><b>Account Name</b></td>
+                        <td style="border: 1px solid black;"><b>Cheque Particulars</b></td>
+                        
+                        <td style="border: 1px solid black;" ><b>Amount</b></td>
+                        <td style="border: 1px solid black;" ><b>Transit Number</b></td>
+                        <td style="border: 1px solid black;" ><b>Bank Account Number</b></td>
+                        <td style="border: 1px solid black;" > <b>Entity Name</b></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!listAFSI}" var="pay">
+                        <tr>
+                            <td style="border: 1px solid black;">{!pay.accountName}</td>
+                            <td style="border: 1px solid black;">{!pay.trustee}</td>
+                            
+                            <td style="border: 1px solid black; text-align:right;">
+                                
+                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:param value="{!pay.paymentAmount}" />
+                                </apex:outputText>
+                            </td>
+                            <td style="border: 1px solid black;">{!pay.transit}</td>
+                            <td style="border: 1px solid black;">{!pay.bankAccountName}</td>
+                            <td style="border: 1px solid black;">{!pay.entity}</td>
+                        </tr>
+                    </apex:repeat>
+                    
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="2"><b>Total Amount for AFSI Inc</b></td>
+                        <td style="border: 1px solid black; text-align:right;"><b>
+                            $<apex:outputText value="{0, number,#,##0.00}">
+                            <apex:param value="{!totalAFSI}" />
+                            </apex:outputText>
+                            </b>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </apex:outputPanel>
+        </apex:outputPanel>
+    </div>
+</apex:page>

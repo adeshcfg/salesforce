@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Permission set created for &apos;create customize &amp; manage list views&apos;
+1) To give &apos;Manage and public List view&apos; Access to the user
+2)To give &apos;create and custome list view&apos; access to the user.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Distressed Admin</label>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>CreateCustomizeFilters</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>EditPublicFilters</name>
+    </userPermissions>
+</PermissionSet>

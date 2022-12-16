@@ -1,0 +1,77 @@
+/**************************************************************************************************
+ *
+ *  Class:   InsolvencyOwnerShipController
+ *
+ *  @description : Implemented Insolvency, and related Insolvency Accounts Owner Id with either scotia/chase bank user
+ *  @author : A5E Consulting
+ *  @date : 16/04/2018
+ 
+ *************************************************************************************************/
+public class InsolvencyOwnerShipController{
+
+    public Insolvency__c insolv {set;get;}
+    Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
+    
+    // Check varialble for community users
+    @TestVisible
+    public Boolean isScotiaBankCommunityUser {set;get;}
+    
+    @TestVisible
+    public Boolean isChaseBankCommunityUser {set;get;}
+    
+    @TestVisible
+    public Boolean isSDABankCommunityUser {set;get;}
+    
+    public InsolvencyOwnerShipController(ApexPages.StandardController controller) {
+    	
+    	//Initialize the values
+        isScotiaBankCommunityUser = InsolvencyUtil.isScotiaBankCommunityUser(UserInfo.getProfileId());
+        isChaseBankCommunityUser = InsolvencyUtil.isChaseBankCommunityUser(UserInfo.getProfileId());
+    	isSDABankCommunityUser = InsolvencyUtil.isSDABankCommunityUser(UserInfo.getProfileId());
+        
+        //Eligible Insolvency Account Record Type Name 
+        String eligibleInsAcctRecordType = InsolvencyUtil.getInsAccntRecordTypeProfile(Userinfo.getProfileId());
+ 
+        // Run only if record ownership functionality is Enabled at custom settings level
+        if(config.Run_Record_Ownership__c){
+            insolv = [SELECT Scotia_Record_Owner__c,
+                             Chase_Record_Owner__c, 
+                             SDA_Record_Owner__c,
+                             Insolvency_Owner__c,
+                             OwnerId, Owner.Name, Insolvency_Owner_Id__c,
+                             (SELECT OwnerId 
+                                    FROM Insolvency_Accounts__r 
+                                    where RecordType.name =: eligibleInsAcctRecordType
+                             ) 
+                             FROM Insolvency__c 
+                             WHERE Id =: ((Insolvency__c)controller.getRecord()).Id];
+        }
+        
+    }
+    
+    // Default method called to check and assign ownership of an Insolvency & Insolvency Account
+    public void checkInsolvencyAccountOwnerShip(){
+        
+        // Run only if record ownership functionality is Enabled at custom settings level
+        if(config.Run_Record_Ownership__c){
+            if(isScotiaBankCommunityUser){
+                if(insolv.Scotia_Record_Owner__c == null){
+                    insolv.Scotia_Record_Owner__c = UserInfo.getUserId();
+                    InsolvencyUtil.updateOwnerShip(insolv);
+                }
+            }else if(isChaseBankCommunityUser){
+                if(insolv.Chase_Record_Owner__c == null){
+                    insolv.Chase_Record_Owner__c = UserInfo.getUserId();
+                    InsolvencyUtil.updateOwnerShip(insolv);
+                }
+            }
+            
+            else if(isSDABankCommunityUser){
+                if(insolv.SDA_Record_Owner__c == null){
+                    insolv.SDA_Record_Owner__c = UserInfo.getUserId();
+                    InsolvencyUtil.updateOwnerShip(insolv);
+                }
+            }
+        }
+    }
+}

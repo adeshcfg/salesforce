@@ -1,0 +1,373 @@
+<apex:page standardController="Insolvency__c" extensions="TrusteeAssignmentController" showHeader="false" id="page">
+
+    <script>
+    
+        function closeWindow(){
+            window.close();
+        }
+    
+        function checkAndCallSearch(eve){
+            if (eve.keyCode == 13) {
+                searchTrustee();
+            }
+        }
+    
+        window.onload = function(){
+            if('{!companyName}' != ''){
+                searchTrustee();
+            }
+        };
+    
+        var initialCheck = false;
+        function checkRadio(){
+            if(initialCheck == false){
+                document.getElementById('{!selectedAccountId}').checked = true;
+                initialCheck = true;
+            }
+        }
+        
+        function fade(element) {
+              setTimeout(
+                function() {
+                  var op = 1;  // initial opacity
+                var timer = setInterval(function () {
+                    if (op <= 0.1){
+                        clearInterval(timer);
+                        element.style.display = 'none';
+                    }
+                    element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op -= op * 0.1;
+                }, 50);
+                }, 0);
+                
+            }
+            
+        function validateRadioButton(){
+            var radios = document.getElementsByName('accountRadiobutton');
+            for( i = 0; i < radios.length; i++ ) {
+                if( radios[i].checked ) {
+                    updateInsolvency();
+                    return true;
+                }
+            }
+            alert('Please select any 1 trustee company');
+        }
+        
+        var timeout = null;
+        
+        function validateEmail(){
+            
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                var x = document.getElementById('page:form:pb:pbs:secItemEmail:businessemail').value;
+                var atpos = x.indexOf("@");
+                    var dotpos = x.lastIndexOf(".");
+                    if(x == '' || (ValidateEmail(x) == false)){
+                       var element =  document.getElementById('emailError');
+                        if (typeof(element) == 'undefined' || element == null) {
+      
+                            var node = document.createElement("div");
+                            node.setAttribute('style', 'color:red;');
+                            node.setAttribute('id', 'emailError');                 // Create a <li> node
+                            var textnode = document.createTextNode("Please provide valid email number");         // Create a text node
+        
+                            node.appendChild(textnode);
+                            var childTag = document.getElementById("page:form:pb:pbs:secItemEmail:businessemail");
+        
+                            childTag.parentNode.insertBefore(node, childTag.nextSibling);
+                            
+                        }else{
+                            var element = document.getElementById("emailError");
+                            element.outerHTML = "";
+                            delete element;
+                        }
+                    }
+                    
+            }, 200);
+        }
+        
+        // validates email address format entered by user
+            function ValidateEmail(mail)   
+            {  
+             if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))  
+              {  
+                return (true)  
+              }   
+                return (false)  
+            }  
+            
+        function validateFax(){
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                 var x = document.getElementById('page:form:pb:pbs:secItemFax:fax').value;
+                    x = x.trim();
+                    x=x.replace(/[^0-9]/g, "");
+                    if(isNaN(x) || x.length != 10){
+                        var element =  document.getElementById('faxError');
+                        if (typeof(element) == 'undefined' || element == null) {
+      
+                            var node = document.createElement("div");
+                            node.setAttribute('style', 'color:red;');
+                            node.setAttribute('id', 'faxError');                 // Create a <li> node
+                            var textnode = document.createTextNode("Please provide valid fax number");         // Create a text node
+        
+                            node.appendChild(textnode);
+                            var childTag = document.getElementById("page:form:pb:pbs:secItemFax:fax");
+        
+                            childTag.parentNode.insertBefore(node, childTag.nextSibling);
+                            
+                        }
+                        return false;
+                }else{
+                    //var formattedPhone = '('+x.substring(0,3)+')';
+                    var formattedPhone = x.substring(0,3);
+                    formattedPhone = formattedPhone+'-'+x.substring(3, 6);
+                    formattedPhone = formattedPhone+'-'+x.substring(6, 10);
+                    document.getElementById('page:form:pb:pbs:secItemFax:fax').value = formattedPhone;
+                    
+                    var element = document.getElementById("faxError");
+                    element.outerHTML = "";
+                    delete element;
+                }
+            }, 200);
+        }
+        
+        function validatePhone(){
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                 var x = document.getElementById('page:form:pb:pbs:secItem:phoneNumber').value;
+                    x = x.trim();
+                    x=x.replace(/[^0-9]/g, "");
+                    if(isNaN(x) || x.length != 10){
+                        var element =  document.getElementById('phoneError');
+                        if (typeof(element) == 'undefined' || element == null) {
+      
+                            var node = document.createElement("div");
+                            node.setAttribute('style', 'color:red;');
+                            node.setAttribute('id', 'phoneError');                 // Create a <li> node
+                            var textnode = document.createTextNode("Please provide valid phone number");         // Create a text node
+        
+                            node.appendChild(textnode);
+                            var childTag = document.getElementById("page:form:pb:pbs:secItem:phoneNumber");
+        
+                            childTag.parentNode.insertBefore(node, childTag.nextSibling);
+                            
+                        }
+                        return false;
+                }else{
+                    //var formattedPhone = '('+x.substring(0,3)+')';
+                    var formattedPhone = x.substring(0,3);
+                    formattedPhone = formattedPhone+'-'+x.substring(3, 6);
+                    formattedPhone = formattedPhone+'-'+x.substring(6, 10);
+                    document.getElementById('page:form:pb:pbs:secItem:phoneNumber').value = formattedPhone;
+                    
+                    var element = document.getElementById("phoneError");
+                    element.outerHTML = "";
+                    delete element;
+                }
+            }, 200);
+        }
+        
+        function afterupdate(){
+            var element;
+            var checkVal = document.getElementById('page:form:hiddenCheck').value;
+                if(checkVal  == 'true'){
+                element = document.getElementById("target");
+            }else{
+                element = document.getElementById("exception");
+            }
+             
+             unfade(element);
+             setTimeout(function(){
+                  closeWindow();
+                }, 3000);
+        }
+        
+            function unfade(element) {
+                var op = 0.1;  // initial opacity
+                element.style.display = 'block';
+                var timer = setInterval(function () {
+                    if (op >= 1){
+                        clearInterval(timer);
+                    }
+                    element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op += op * 0.1;
+                }, 0);
+            }
+            
+    </script>
+    
+    <apex:form id="form">
+        <apex:inputHidden value="{!TRUSTEEuPDATED}" id="hiddenCheck"/>
+        <div class="slds-notify_container success-notifier slds-hide"  id="target">
+                <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert" style="font-family:Calibri !important;">
+                    <span class="slds-assistive-text-override" >Insolvency updated with Trustee information</span>
+                   
+                </div>
+            </div>
+        <div class="slds-notify_container success-notifier slds-hide"  id="exception">
+                <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Calibri !important;">
+                    <span class="slds-assistive-text-override">There is error while updating Trustee details, please contact Administrator</span>
+                    
+                </div>
+        </div>        
+    
+    <Apex:actionFunction action="{!searchTrustee}" oncomplete="checkRadio();" name="searchTrustee" status="spinner" rerender="trsuteeResultSection, pb, errorMessage"/>
+    <apex:actionFunction name="updateInsolvency" action="{!updateInsolvency}" oncomplete="afterupdate();" status="spinner" reRender="hiddenCheck"/>
+    
+    <apex:actionStatus id="spinner">
+        <apex:slds />
+    
+        <apex:facet name="start">
+            <div class="slds-spinner_container">
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </apex:facet>
+    </apex:ActionStatus>
+ 
+    <apex:pageBlock title="Trustee Search" id="pb">
+        <apex:pageBlockSection id="pbs">
+        
+            <apex:pageBlockSectionItem id="secItemOfficeName">
+                <apex:outputLabel for="officeName">Office Name</apex:outputLabel>
+                <apex:inputText id="officeName" value="{!officeName}" onkeypress="checkAndCallSearch(event);"/>
+            </apex:pageBlockSectionItem>            
+            
+            <apex:pageBlockSectionItem id="secItemEmail">
+                <apex:outputLabel for="businessemail ">Email</apex:outputLabel>
+                <apex:inputText id="businessemail" value="{!businessEmail }" onkeyup="validateEmail();" onkeypress="checkAndCallSearch(event);"/>
+            </apex:pageBlockSectionItem>
+            
+            <apex:pageBlockSectionItem id="secItemCompanyName">
+                <apex:outputLabel for="companyName">Company Name</apex:outputLabel>
+                <apex:inputText id="companyName" value="{!companyName}" onkeypress="checkAndCallSearch(event);"/>
+            </apex:pageBlockSectionItem>
+            
+            <apex:pageBlockSectionItem id="secItem">
+                <apex:outputLabel for="phoneNumber">Phone</apex:outputLabel>
+                <!--<apex:inputText id="phoneNumber" value="{!phoneNumber}" onkeyup="validatePhone();" onkeypress="checkAndCallSearch(event);"/> --> 
+                <apex:inputText id="phoneNumber" value="{!phoneNumber}" onkeypress="checkAndCallSearch(event);"/> 
+            </apex:pageBlockSectionItem>
+           
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="streetAddress">Street Address</apex:outputLabel>
+                <apex:inputText id="streetAddress" value="{!streetAddress}" onkeypress="checkAndCallSearch(event);"/>
+            </apex:pageBlockSectionItem>
+            
+            <apex:pageBlockSectionItem id="secItemFax">
+                <apex:outputLabel for="fax">Fax</apex:outputLabel>
+                <!-- <apex:inputText id="fax" value="{!fax}" onkeyup="validateFax();" onkeypress="checkAndCallSearch(event);"/>  -->
+                <apex:inputText id="fax" value="{!fax}" onkeypress="checkAndCallSearch(event);"/>
+            </apex:pageBlockSectionItem>
+            
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="cityAddress">City</apex:outputLabel>
+                <apex:inputText id="cityAddress" value="{!cityAddress}" onkeypress="checkAndCallSearch(event);"/>
+            </apex:pageBlockSectionItem>
+            
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="stateAddress">Province</apex:outputLabel>
+                <apex:inputText id="stateAddress" value="{!stateAddress}" onkeypress="checkAndCallSearch(event);"/>
+            </apex:pageBlockSectionItem>
+            
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="postalCodeAddress">Postal Code</apex:outputLabel>
+                <apex:inputText id="postalCodeAddress" value="{!postalCodeAddress}" onkeypress="checkAndCallSearch(event);"/>
+            </apex:pageBlockSectionItem>
+            
+            <apex:pageBlockSectionItem dataStyle="vertical-align:middle !important;">
+                <apex:outputLabel for="activeTrusteesOnly">Consider Active Trustees</apex:outputLabel>
+                <apex:inputCheckbox id="activeTrusteesOnly" value="{!activeTrusteesOnly}"/>
+            </apex:pageBlockSectionItem>
+            
+            <!--
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel for="countryAddress">Country</apex:outputLabel>
+                <apex:inputText id="countryAddress" value="{!countryAddress}" onkeypress="checkAndCallSearch(event);"/>
+            </apex:pageBlockSectionItem>
+            --->
+            
+        </apex:pageBlockSection>
+        
+        <div style="text-align:center;">
+            <apex:commandButton id="search" style="margin:auto;" action="{!searchTrustee}" value="Search" status="spinner" rerender="trsuteeResultSection,pb"/>
+        </div>
+
+    <apex:outputPanel id="trsuteeResultSection">
+    <div style="text-align:center; margin-top:2%; {!IF(accList.size > 0 , 'display:block;','display:none;')}">
+        <input type="button" value="Assign Trustee" onclick="validateRadioButton();" class="btn"/>
+    </div>
+        
+    <apex:variable var="accIndex" value="{!0}"/>
+        <apex:outputLabel value="No Trustee details found for the given filter." rendered="{!IF((searchPerformed && accList.size == 0), true, false)}" />
+             <div style="text-align:center; margin-top: 2%;">  
+            <apex:commandButton value="<<" action="{!beginning}" rendered="{!IF(counter == 0, false, true)}" reRender="trsuteeResultSection"/> &nbsp;&nbsp;
+              <apex:commandButton value="<" action="{!previous}" disabled="{!DisablePrevious}" reRender="trsuteeResultSection"/> &nbsp;&nbsp;
+              <apex:commandButton value=">" action="{!next}" disabled="{!DisableNext}" reRender="trsuteeResultSection"/> &nbsp;&nbsp;
+              <apex:commandButton value=">>" action="{!last}" rendered="{!IF(counter+limitSize >= totalsize, false, true)}" reRender="trsuteeResultSection"/>  
+               </div>          
+            <apex:pageBlockTable value="{!accountsToShow}" var="acc" style="margin-top: 2%;" rendered="{!IF(accList.size > 0, true, false)}">
+                
+                <apex:column headerValue="Select" style="text-align: center; width:60px; border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;">
+                    <input type="radio" id= "{!acc.Id}"  name="accountRadiobutton">
+                        <apex:variable var="accIndex" value="{!accIndex+1}"/>
+                        <apex:actionSupport event="onclick" reRender="" action="{!accountSelected}" status="spinner">
+                            <apex:param name="accid" value="{!acc.id}"/>
+                        </apex:actionSupport>
+                    </input>
+                </apex:column>
+                
+                <!-- Account Fields -->
+                <apex:column value="{!acc.Name}" headerValue="Office Name" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;"/>
+                
+                <apex:column value="{!acc.Parent.Name}" headerValue="Company Name" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;"/>
+                
+                <apex:column headerValue="Office Address" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;">
+                 {!acc.BillingStreet} <br/>
+                  {!acc.BillingCity} {!acc.BillingState} {!acc.BillingPostalcode}<br/>
+                  {!acc.BillingCountry}
+                </apex:column>
+                
+                <apex:column value="{!acc.Business_Email__c}" headerValue="Email" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;"/>
+                
+                <apex:column value="{!acc.Phone}" headerValue="Phone" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;"/>
+                
+                <apex:column value="{!acc.Fax}" headerValue="Fax" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;"/>
+        
+        		<apex:column value="{!acc.Is_Active__c}" headerValue="Is Active" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;"/>
+                <!-- COntact Fields -->
+                <!--
+                <apex:column value="{!con.Name}" headerValue="Trustee Contact" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;"/>
+                <apex:column headerValue="Trustee Address" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;"> 
+                {!con.MailingStreet} <br/>
+                 {!con.MailingCity} {!con.MailingState} {!con.MailingPostalcode}<br/>
+                 {!con.MailingCountry}
+                </apex:column>
+                <apex:column value="{!con.Phone}" headerValue="Trustee Phone" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left: 5px;"/>
+                <apex:column value="{!con.MobilePhone}" headerValue="Trustee Mobile Phone" style="border-color: #eae8e6 !important; border: 0.1px solid;padding-left: 5px;"/>
+                <apex:column value="{!con.OtherPhone}" headerValue="Trustee Other Phone" style="border-color: #eae8e6 !important; border: 0.1px solid; padding-left:5px;"/>
+                -->
+                
+            </apex:pageBlockTable>
+            
+            <div style="text-align:center; margin-top: 2%;">  
+              <apex:commandButton value="<<" action="{!beginning}" rendered="{!IF(counter == 0, false, true)}" reRender="trsuteeResultSection"/> &nbsp;&nbsp;
+              <apex:commandButton value="<" action="{!previous}" disabled="{!DisablePrevious}" reRender="trsuteeResultSection"/> &nbsp;&nbsp;
+              <apex:commandButton value=">" action="{!next}" disabled="{!DisableNext}" reRender="trsuteeResultSection"/> &nbsp;&nbsp;
+              <apex:commandButton value=">>" action="{!last}" rendered="{!IF(counter+limitSize >= totalsize, false, true)}" reRender="trsuteeResultSection"/>  
+               
+            </div>
+             
+        <div style="text-align:center; margin-top:2%; {!IF(accList.size > 0 , 'display:block;','display:none;')}">
+        <input type="button" value="Assign Trustee" onclick="validateRadioButton();" class="btn"/>
+        </div>
+    </apex:outputPanel>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

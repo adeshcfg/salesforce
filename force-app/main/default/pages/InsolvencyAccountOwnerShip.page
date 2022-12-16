@@ -1,0 +1,13 @@
+<apex:page standardController="Insolvency_Account__c" extensions="InsolvencyAccountOwnerShipController" action="{!checkInsolvencyAccountOwnerShip}">
+<apex:stylesheet value="{!URLFOR($Resource.LightningDesign, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <body style='background-color: #fff !important; text-align:left;'>
+    <apex:form styleClass="LightningDesignWinter17" id="info" style="padding-top:7px;">
+        <apex:actionFunction name="calltakeOwnerShip" action="{!takeOwnerShip}" reRender="info" />
+         <apex:outputText rendered="{!insolvAcc.OwnerId == $User.Id}"> The record is owned by you</apex:outputText>
+        <apex:outputPanel rendered="{!eligibleForOwnerShip == true}" >
+        <apex:outputText rendered="{!insolvAcc.OwnerId != $User.Id}"> Record is owned by {!insolvAcc.Owner.Name}</apex:outputText>
+            <input type="button"  class="slds-button slds-button--neutral"  value=" Take Ownership " onclick="calltakeOwnerShip();" id="ownershipButton" />
+        </apex:outputPanel>
+    </apex:form>
+    </body>
+</apex:page>

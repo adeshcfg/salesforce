@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>DisplayProductPaymentStagingController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>Giving access of DisplayDirectProductPaymentStaging and it&apos;s controller class</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Directs Payment Process</label>
+    <pageAccesses>
+        <apexPage>DisplayDirectProductPaymentStaging</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+</PermissionSet>

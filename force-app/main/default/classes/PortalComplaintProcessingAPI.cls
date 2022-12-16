@@ -1,0 +1,193 @@
+/**************************************************************************************************
+*
+*  Class:   
+*  @description : This is a webservice class(provide) to create/update Complaint Record from 
+*                 Salesforce to Portal DB
+*  @author : A5E Consulting
+*  @date : 23/02/2022
+
+*************************************************************************************************/
+public class PortalComplaintProcessingAPI {
+    public static API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
+    @future (callout=true)
+    public static void processComplaint(ID workAssignmentId,String triggereve, String oldLatestComment){
+        system.debug('triggereve: '+triggereve); 
+        list<Work_Assignment__c> listWorkAssignment = [SELECT ID, Name, Task_Number__c, Description__c, Priority__c,Status__c, Source__c,
+                                                       Requested_Date__c, Due_Date__c,Latest_Comment__c, Created_By__c, Last_Modified_By__c,
+                                                       Customer_Identifier__c,/* Judgment_Identifier__c, Settlement_identifier__c,*/
+                                                       Placement_Agency_Identifier__c, Product_Identifier__c, Assign_To__c,
+                                                       Assign_To_Agency_User__c, Assigned_To_User_Name__c,Customer_Name__c,
+                                                       Resolution_By__c,Resolution_Date__c, Agency_Investigation_Notes__c,
+                                                       Complaint_Type__c, Root_Cause__c,Root_Cause_Other__c,Complaint_Type_Other__c,
+                                                       Account_Being_CB_Reported_By_Agency__c,Complaint_Related_To_Another_Products__c,Is_The_Complaint_Valid__c,
+                                                       Have_You_Provided_Supporting_Media__c,Reopen_Comments__c,Agency_Currently_Has_Account_On_Hold__c,
+                                                       Date_Complaint_Received_By_Agency__c,CFG_Complaint_Analysis__c , Original_Creditor__c ,Next_follow_up_date__c,
+                                                       Products_List__c,Is_Multiple_Products__c,Canaccede_Entity__c, Canaccede_Entity_ID__c,Assigned_To_Agency_User_Email__c
+                                                       FROM Work_Assignment__c 
+                                                       WHERE ID= :workAssignmentId];
+        system.debug('listWorkAssignment: '+listWorkAssignment);
+        
+        String complaintJSONRequest;
+        Work_Assignment__c complaintInstance;
+        if(!listWorkAssignment.isEmpty()){
+            //Create JSON request for customer update
+            complaintInstance = listWorkAssignment[0];
+            system.debug('complaintInstance '+complaintInstance);
+            //Handles the break for for long text area field.
+            String description = complaintInstance.Description__c;
+            String escapeDescString = description.escapeUnicode();
+            
+            //Product List
+            String productsList = complaintInstance.Products_List__c;
+            String escapeProdlistString = '';
+            if(!String.isBlank(productsList)){
+                escapeProdlistString = productsList.escapeUnicode();
+                system.debug('escapeProdlistString::'+escapeProdlistString);
+            }          
+            
+            complaintJSONRequest = '{'+
+                //'"Identifier":'+workAssignmentInstance.SF_ID__c+','+
+                '"Name": "'+complaintInstance.Name+'",'+
+                '"Task_Number": "'+complaintInstance.Task_Number__c+'",'+
+                //'"Description": "'+complaintInstance.Description__c+'",'+
+                '"Description": "'+escapeDescString+'",'+
+                '"Priority": "'+(String.isNotBlank(complaintInstance.Priority__c) ? complaintInstance.Priority__c: '')+'",'+
+                '"Status": "'+complaintInstance.Status__c+'",'+
+                '"Requested_Date": "'+complaintInstance.Requested_Date__c+'",'+
+                '"Due_Date": "'+complaintInstance.Due_Date__c+'",'+
+                '"Next_follow_up_date": "'+complaintInstance.Next_follow_up_date__c+'",';
+                if(oldLatestComment != complaintInstance.Latest_Comment__c) {
+                    complaintJSONRequest += '"Comment_Reply": "'+(String.isnotBlank(complaintInstance.Latest_Comment__c) ? 
+                    complaintInstance.Latest_Comment__c.escapeUnicode()
+                   : complaintInstance.Latest_Comment__c) +'",';
+                }
+                complaintJSONRequest += '"Reopen_Comments": "'+complaintInstance.Reopen_Comments__c+'",'+
+                '"Complaint_Type": "'+complaintInstance.Complaint_Type__c+'",'+
+                '"Root_Cause": "'+complaintInstance.Root_Cause__c+'",'+
+               '"Original_Creditor": "'+complaintInstance.Original_Creditor__c+'",'+
+                '"Resolution_By": "'+complaintInstance.Resolution_By__c+'",'+
+                '"Resolution_Date": "'+complaintInstance.Resolution_Date__c+'",'+
+               // '"Agency_Investigation_Notes": "'+complaintInstance.Agency_Investigation_Notes__c+'",'+
+                '"Result_of_Investigation": "'+complaintInstance.Agency_Investigation_Notes__c+'",'+
+                '"Source": "'+complaintInstance.Source__c+'",'+
+                '"CFG_Complaint_Analysis": "'+complaintInstance.CFG_Complaint_Analysis__c+'",'+
+                '"Assign_To": "'+UserInfo.getName()+'",'+
+                '"Assign_To_Agency_User": "'+complaintInstance.Assigned_To_Agency_User_Email__c+'",'+
+                '"Assigned_To_User_Name": "'+complaintInstance.Assigned_To_User_Name__c+'",'+
+                '"Last_Modified_By": "'+complaintInstance.Last_Modified_By__c+'",'+
+                '"Customer_Identifier": "'+complaintInstance.Customer_Identifier__c+'",'+
+                '"Customer_Name": "'+complaintInstance.Customer_Name__c+'",'+
+                //'"Judgment_Identifier": "'+complaintInstance.Judgment_Identifier__c+'",'+
+                '"Product_Identifier": "'+complaintInstance.Product_Identifier__c+'",'+
+                //'"Settlement_Identifier": "'+complaintInstance.Settlement_Identifier__c+'",'+
+                '"Complaint_Related_To_Another_Products": "'+complaintInstance.Complaint_Related_To_Another_Products__c+'",'+
+                '"Root_Cause_Other": "'+complaintInstance.Root_Cause_Other__c+'",'+
+                '"Complaint_Type_Other": "'+complaintInstance.Complaint_Type_Other__c+'",'+
+                '"Is_The_Complaint_Valid": "'+complaintInstance.Is_The_Complaint_Valid__c+'",'+
+                '"Have_You_Provided_Supporting_Media": "'+complaintInstance.Have_You_Provided_Supporting_Media__c+'",'+
+               // '"Request_To_Reopen": "'+complaintInstance.Request_To_Reopen__c+'",'+
+                '"Account_Being_CB_Reported_By_Agency": "'+complaintInstance.Account_Being_CB_Reported_By_Agency__c+'",'+
+                '"Agency_Currently_Has_Account_On_Hold": "'+complaintInstance.Agency_Currently_Has_Account_On_Hold__c+'",'+
+                '"Date_Complaint_Received_By_Agency": "'+complaintInstance.Date_Complaint_Received_By_Agency__c +'",'+
+                //New Field Added for agency
+                '"Products_List": "'+escapeProdlistString.escapeUnicode()+'",'+
+                '"Is_Multiple_Products": "'+complaintInstance.Is_Multiple_Products__c+'",'+
+                '"Placement_Agency_Identifier": "'+complaintInstance.Placement_Agency_Identifier__c+'",'+
+               '"Canaccede_Entity": '+complaintInstance.Canaccede_Entity_ID__c +
+                '}';
+        }
+        system.debug('complaintJSONRequest: '+complaintJSONRequest);
+        
+        //Get access token for http request
+        String accToken;
+        accToken = getRequestToken();
+        system.debug('accToken: '+accToken);
+        if (accToken != '') {
+            // Instantiate a new http object
+            Http h = new Http();
+            // Instantiate a new HTTP request
+            HttpRequest req = new HttpRequest();
+            system.debug('complaintJSONRequest: '+complaintJSONRequest);
+            req.setBody(complaintJSONRequest);
+            system.debug('req body'+req.getBody());
+            req.setHeader('Authorization', 'Bearer ' + accToken);
+            req.setHeader('Content-Type', 'application/json;charset=UTF-8');
+            apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFComplain');
+            req.setEndpoint(apiCallDetails.PDF_API_URL__c+complaintInstance.Task_Number__c);
+            req.setMethod('PUT');
+            //req.setEndpoint('https://paschidev-cnccd-cstprt-d.azurewebsites.net/api/'+'Customers/'+workAssignmentInstance.SF_ID__c);
+            system.debug('req endpoint:: '+req.getEndpoint());
+            system.debug('req body:: '+req.getBody());
+            complaintInstance.Outbound_API_Request_Body__c = req.getBody();
+            system.debug('Outbound req body:: '+req.getBody());
+            system.debug('req:: '+req);
+            
+            
+            try{
+                // Send the request, and return a response
+                HttpResponse res = h.send(req);
+                system.debug('res.getBody(): '+res.getBody());
+                Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
+                complaintInstance.Outbound_API_Response_Body__c = res.getBody();
+                system.debug('Outbound res.getBody() :: '+res.getBody());
+                if(res.getStatusCode() == 200
+                   && bodyMap.get('IsSuccess') == String.valueOf('true')){
+                       system.debug(bodyMap.get('ReturnMessage'));
+                   }       
+                else{
+                    system.debug('Error Response');
+                    system.debug(bodyMap.get('ReturnMessage'));
+                }
+            }
+            catch(Exception ex){
+                system.debug('exception ex: '+ex);
+            }
+            
+            if(complaintInstance != NULL){
+                WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
+                update complaintInstance;
+                WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+            }
+        }
+    }   
+    
+    //Get Access Token
+    public static string getRequestToken() {
+        system.debug('apiCallDetails: '+apiCallDetails);
+        String dptenandId = apiCallDetails.Tenand_ID__c;
+        String dpapiProxyClientId = apiCallDetails.Proxy_Client_ID__c;
+        String dpapiClientClientId = apiCallDetails.Client_ID__c;
+        String dpapiClientSecret = apiCallDetails.Client_Secret__c;
+        String authorizationtUrl =  apiCallDetails.AuthorizationtUrl__c;
+        String parsePDFApi =  apiCallDetails.PDF_API_URL__c;
+        
+        authorizationtUrl = authorizationtUrl.replace('{{tenandId}}', dptenandId);
+        system.debug('authorizationtUrl changed: '+authorizationtUrl);
+        String bodyParams =  'client_id='+dpapiClientClientId;
+        bodyParams =  bodyParams+'&client_secret='+dpapiClientSecret;
+        bodyParams =  bodyParams+'&scope='+apiCallDetails.Scope_Prefix__c+dpapiProxyClientId+apiCallDetails.Scope_Suffix__c;
+        bodyParams =  bodyParams+'&grant_type=client_credentials';
+        
+        system.debug('bodyParams: '+bodyParams);        
+        system.debug('authorizationtUrl: '+authorizationtUrl);
+        
+        Http h = new Http();
+        HttpRequest req = new HttpRequest();
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        req.setBody(bodyParams);
+        req.setHeader('Content-Length', String.valueOf(bodyParams.length()));
+        req.setEndpoint(authorizationtUrl);
+        
+        system.debug('req: '+req);
+        HttpResponse hresp = h.send(req);
+        system.debug('hresp: '+hresp);
+        system.debug('hresp.getBody(): '+hresp.getBody());
+        Map<String, Object> wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
+        system.debug('wResp: '+wResp.get('access_token'));
+        //Map<String, Object> resultMap = (Map<String, Object>) wResp.get('access_token');
+        //system.debug('resultMap::'+resultMap);
+        //system.debug('token'+resultMap.get('Token'));
+        return String.valueOf(wResp.get('access_token'));
+    }
+}

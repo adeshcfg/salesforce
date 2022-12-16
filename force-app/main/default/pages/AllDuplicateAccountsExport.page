@@ -1,0 +1,45 @@
+<apex:page controller="AllDuplicateAccountsExportController" sidebar="true" contenttype="application/vnd.ms-excel#Duplicate Accounts.xls" readOnly="true">
+    <apex:form >
+        <apex:dataTable value="{!insolAccList}" var="acct">
+            
+            <apex:column headerValue="Account Number" value="{!acct.Id}"/>
+            
+            <apex:column headerValue="Account Number" value="{!acct.Name}"/>
+            
+            <apex:column headerValue="Estate Number" value="{!acct.Insolvency__r.Name}"/>
+            
+            <apex:column headerValue="Claim Amount" value="{!acct.Claim_Amount__c}"/>
+              
+            <apex:column headerValue="Purchased Status" value="{!acct.Asset_Status__c}"/>
+               
+            <apex:column headerValue="Purchase Price" value="{!acct.Purchase_Price__c}"/>
+           
+            <apex:column headerValue="Claim Type" value="{!acct.Claim_Type__c}"/>
+            
+            <apex:column headerValue="Insolvency Type" value="{!acct.Insolvency__r.Insolvency_Type__c}"/>
+             
+            <apex:column headerValue="Insolvency Date" value="{!acct.Insolvency__r.Insolvency_Date__c}"/>
+            
+            <apex:column headerValue="Product Type" value="{!acct.Account_Type__c}"/>
+            
+            <apex:column headerValue="Product Code" value="{!acct.Product_Code__c}"/>
+            
+            <apex:column headerValue="Debtor" value="{!acct.Debtor__c}"/>
+            
+            <apex:column headerValue="Processing Status" value="{!acct.Insolvency_Status__c}"/>
+            
+            <apex:column headerValue="Original PoC Created Date" value="{!acct.PoC_Created_Date__c}"/>
+           
+            <apex:column headerValue="Purchase Factor" value="{!acct.Purchase_Factor__c}"/>
+            
+            <apex:column headerValue="Bank" value="{!acct.Bank_Name__c}"/>
+            
+           <!-- <apex:column headerValue="Excluded from Purchase" value="{!acct.Excluded_from_Purchase__c}"/> -->
+            
+            <apex:column headerValue="Excluded Account Comments" value="{!acct.Excluded_Account_Comments__c}"/>
+           
+            <apex:column headerValue="Reasons for Duplicate Number" value="{!acct.Reasons_for_Duplicate_Account_Number__c}"/>
+           
+        </apex:dataTable>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,54 @@
+<aura:component implements="lightning:availableForFlowScreens,flexipage:availableForRecordHome,force:hasRecordId" controller="CustomerAccountJudgmentCntrl">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="columnHeaders" type="String[]" default="['Account Number', 'Judgment Number', 'Status']"/>
+    <aura:attribute name="existingAccountJudgments" type="String[]" default="[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="serverRespose" type="Object"/>
+    <c:errorHandling aura:id="errorHandling" serverRespose="{!v.serverRespose}" showSpinner="{!v.showSpinner}"/>
+	
+    
+    <aura:if isTrue="{! not(empty(v.existingAccountJudgments)) }">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <aura:iteration items="{!v.columnHeaders}" var="header" >
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="{!header}">{!header}</div>
+                            </th>
+                        </aura:iteration>
+                    </tr>
+                </thead>
+                 <tbody>
+                    <aura:iteration items="{!v.existingAccountJudgments}" var="accJudg" >
+                        <tr class="slds-hint-parent">
+                            <td data-label="">
+                                <div class="slds-truncate" title="{!accJudg.Product__r.Name}">
+                                    <a href="{! '/'+accJudg.Product__c}" class="slds-text-link_reset" target="_blank">
+											<span class="slds-text-link link">{!accJudg.Product__r.Name}</span>
+                                    </a> 
+                                </div>
+                            </td>
+                            <td data-label="">
+                                <div class="slds-truncate" title="{!accJudg.Judgment__r.Name}">
+                                    <a href="{! '/'+accJudg.Judgment__c}" class="slds-text-link_reset" target="_blank">
+                                        <span class="slds-text-link link">{!accJudg.Judgment__r.Name}</span>
+                                    </a>
+                                </div>
+                            </td>
+                            <td data-label="">
+                                <div class="slds-truncate" title="{!accJudg.Status__c}">{!accJudg.Status__c}</div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        <aura:set attribute="else">
+            
+            <article class="slds-card">
+                <div class="slds-card__body slds-card__body_inner no-record-info">There is no Account Judgments for this customer</div>
+            </article>
+        </aura:set>
+        </aura:if>
+</aura:component>

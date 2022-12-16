@@ -1,0 +1,192 @@
+<aura:component controller="RequestPaymentController" implements="flexipage:availableForAllPageTypes,force:appHostable,force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global" >
+    <aura:attribute name="recordId" type="String" access="public" />
+    <aura:attribute name="productRecord" type="Product__C" />
+    <aura:attribute name="paymentTransaction" type="Payment_Transaction__c" />
+    <aura:attribute name="displayScreen" type="Boolean" />
+    <aura:attribute name="displayMessage" type="String" />
+    <aura:attribute name="successMessage" type="Boolean" />
+    <aura:attribute name="loanAmountText" type="Decimal" />
+    <aura:attribute name="paymentFrequencies" type="List" />
+    <aura:attribute name="selectedPaymentFrequency" type="String" />
+    <aura:attribute name="recurranceTypes" type="List" />
+    <aura:attribute name="selectedRecurranceType" type="String" />
+    <aura:attribute name="dayOfMonths" type="List" />
+    <aura:attribute name="selectedDayOfMonth" type="String" />
+    <aura:attribute name="daysOfWeek" type="List" />
+    <aura:attribute name="selectedDayOfWeek" type="String" />
+    <aura:attribute name="selectedNoOfPay" type="Integer" />
+    <aura:attribute name="endDate" type="Date" />
+    <aura:attribute name="noOfPayments" type="List" />
+    <aura:attribute name="missingDataMsg" type="String" />
+    <aura:attribute name="emailAddress" type="String" />
+    <aura:attribute name="radioOptions" type="List" />
+    
+    <!--Conditions-->
+    <aura:attribute name="fullPaymentType" type="Boolean" />
+    <aura:attribute name="recurringPayment" type="Boolean" />
+    <aura:attribute name="monthlyValue" type="Boolean" />
+    <aura:attribute name="weekDays" type="Boolean" />
+    <aura:attribute name="missingData" type="Boolean"/>
+    
+    <aura:handler name="init" value="{!this }" action="{!c.doinit }" />
+    
+    <c.PicklistComponent sObjectName="Payment_Transaction__C" fieldName="Payment_Type__c" picklistValues="{!v.paymentFrequencies}" />
+    <c.PicklistComponent sObjectName="Payment_Transaction__C" fieldName="Recurrence_Type__c" picklistValues="{!v.recurranceTypes}" />
+    <c.PicklistComponent sObjectName="Payment_Transaction__C" fieldName="Day_Of_Month__c" picklistValues="{!v.dayOfMonths}" />
+    <c.PicklistComponent sObjectName="Payment_Transaction__C" fieldName="Day_Of_Week__c" picklistValues="{!v.daysOfWeek}" />
+    <c.PicklistComponent sObjectName="Payment_Transaction__C" fieldName="Number_of_Payments__c" picklistValues="{!v.noOfPayments}" />
+    
+    <aura:if isTrue="{!v.successMessage}">
+        Transaction request created successfully
+        <aura:set attribute="else">
+            <aura:if isTrue="{!v.displayScreen}">
+                <div class="slds-text-heading_medium" style="padding-left: 38%;">
+                    Request Fund
+                </div><br/>
+                <div>
+                	<p>Select the email address that customer wants to use for email communication</p>
+                    <lightning:radioGroup name="radioGroupRequired"
+                          aura:id="emaillAddressRadio"
+                          options="{! v.radioOptions }"
+                          value="{! v.emailAddress }"
+                          type="radio"
+                          required="true"/>
+                </div>
+                <br/>
+                <div style="width: 100%;">
+                    <div style="width: 40%; float: left;">
+                        <table>
+                            <tr>
+                                <td>Product:</td>
+                                <td>{!v.productRecord.Name}</td>
+                            </tr>
+                            <tr><br/></tr>
+                            <tr>
+                                <td>Current Balance:</td>
+                                <td><lightning:formattedNumber aura:id="currBal" value="{!v.productRecord.Current_Balance__c}" style="currency" currencyCode="CAD"/></td>
+                            </tr>
+                            <tr><br/></tr>
+                            <tr>
+                                <td><span style="color:red;">*</span>Payment Amount:</td>
+                                <aura:if isTrue="{!v.fullPaymentType}">
+                                    <td><lightning:formattedNumber aura:id="fullPayment" value="{!v.productRecord.Effective_Current_Balance__c}" style="currency" currencyCode="CAD"/></td>
+                                </aura:if>
+                                <aura:if isTrue="{!!v.fullPaymentType}">
+                                    <td><lightning:input aura:id="paymentAmountVal" label="Input" type="number"
+                                                         variant="label-hidden" value="{!v.loanAmountText}" step="0.01"
+                                                         onchange="{!c.calculateEndDate}">
+                                        </lightning:input></td>
+                                </aura:if>
+                            </tr>
+                            <tr><br/></tr>
+                            <tr>
+                                <td colspan="2">
+                                    <aura:if isTrue="{!v.missingData}">
+                                        <p style="color:red;">{!v.missingDataMsg}</p>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                    </div>
+                    <div style="margin-left: 50%;">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <span style="color:red;">*</span>Payment Frequency:
+                                </td>
+                                <td>
+                                    <lightning:select name="paymentFrequency" aura:id="paymentFrequency" label=""
+                                                      onchange="{!c.paymentFrequencyChanged}">
+                                        <aura:iteration items="{!v.paymentFrequencies}" var="freq">
+                                            <option text="{!freq}" value="{!freq}" />
+                                        </aura:iteration>
+                                    </lightning:select>
+                                    
+                                </td>
+                            </tr>
+                            <aura:if isTrue="{!v.recurringPayment}">
+                                <tr>
+                                    <td><span style="color:red;">*</span>Recurrance Type:</td>
+                                    <td>
+                                        <lightning:select name="RecurranceType" aura:id="RecurranceType" label=""
+                                                          onchange="{!c.recurranceTypeChange}">
+                                            <aura:iteration items="{!v.recurranceTypes}" var="recType">
+                                                <option text="{!recType}" value="{!recType}"/>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </td>
+                                </tr>
+                            </aura:if>
+                            <aura:if isTrue="{!v.monthlyValue}">
+                                <tr>
+                                    <td><span style="color:red;">*</span>Day of Month:</td>
+                                    <td>
+                                        <lightning:select name="dayOfMonth" aura:id="dayOfMonth" label=""
+                                                          value="{!v.selectedDayOfMonth}" onchange="{!c.calculateEndDate}">
+                                            <aura:iteration items="{!v.dayOfMonths}" var="dMon">
+                                                
+                                                <option text="{!dMon}" value="{!dMon}"/>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </td>
+                                </tr>
+                            </aura:if>
+                            <aura:if isTrue="{!v.weekDays}">
+                                <tr>
+                                    <td><span style="color:red;">*</span>Day of Week:</td>
+                                    <td>
+                                        <lightning:select name="DayOfWeek" aura:id="DayOfWeek" label=""
+                                                          value="{!v.selectedDayOfWeek}" onchange="{!c.calculateEndDate}">
+                                            <aura:iteration items="{!v.daysOfWeek}" var="dWeek">
+                                                <option text="{!dWeek}" value="{!dWeek}"/>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </td>
+                                </tr>
+                            </aura:if>
+                            <aura:if isTrue="{!v.recurringPayment}">
+                                <tr>
+                                    <td><span style="color:red;">*</span>No. of Payments:</td>
+                                    <td>
+                                        <lightning:select name="noOfPay" aura:id="noOfPay" label=""
+                                                          value="{!v.selectedNoOfPay}" onchange="{!c.calculateEndDate}">
+                                            <aura:iteration items="{!v.noOfPayments}" var="noPay">
+                                                <option text="{!noPay}" value="{!noPay}"/>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </td>
+                                </tr>
+                                <tr><br/></tr>
+                                <tr>
+                                    <td>End Date:</td>
+                                    <td><lightning:formattedDateTime name="endDate" aura:id="endDate" value="{!v.endDate}" ></lightning:formattedDateTime></td>
+                                </tr>
+                                <tr><br/></tr>
+                            </aura:if>
+                        </table>
+                    </div>
+                    
+                </div>
+                <div >
+                    <div style="float: left; padding-left: 38%;">
+                    <lightning:button variant="brand" label="Request Payment" title="Request Payment" onclick="{! c.requestPayment }" />
+                    </div>
+                    <br/>
+                    <div style="float: left;">
+                        <p style="color:red;">
+                            <br/>Note: Limits on mode of payment<br/>
+                            Visa Direct: $10,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Interac: $3,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            EFT: $50,000
+                        </p>
+                    </div>
+                </div>
+                <aura:set attribute="else">
+                    <aura:unescapedHtml value="{!v.displayMessage}" />
+                </aura:set>
+            </aura:if>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

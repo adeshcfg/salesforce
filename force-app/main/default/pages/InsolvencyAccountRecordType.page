@@ -1,0 +1,20 @@
+<apex:page showHeader="true" sidebar="true" controller="InsolvencyAccountRecordTypeController">
+    <apex:form id="Form">
+        <apex:pageBlock >
+            <apex:outputPanel >
+                <br/>
+                <apex:outputText value="Choose Insolvency Account Record Type to proceed" />
+                <br/><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:selectList id="recordTypeField" value="{!selectedrecordType}" size="1">
+                    <apex:selectOptions value="{!recordTypeOptions}" />
+                </apex:selectList>
+                &nbsp; &nbsp;
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:commandButton id="insAccntContinue" value="Continue" action="{!redirPage}"/>
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

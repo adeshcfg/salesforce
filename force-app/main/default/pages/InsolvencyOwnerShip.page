@@ -1,0 +1,19 @@
+<apex:page standardController="Insolvency__c" extensions="InsolvencyOwnerShipController" action="{!checkInsolvencyAccountOwnerShip}">
+<style>
+html .brandQuaternaryBgr {
+    background: #FFF !important;
+}
+</style>
+<apex:stylesheet value="{!URLFOR($Resource.LightningDesign, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <body style='background-color: #fff !important; text-align:left;'>
+        <apex:form styleClass="LightningDesignWinter17" id="info" style="padding-top:7px;">
+             
+             <!-- Displaying message -->
+             <apex:outputPanel rendered="{! isScotiaBankCommunityUser || isChaseBankCommunityUser || isSDABankCommunityUser}">
+                <apex:outputText rendered="{!insolv.Insolvency_Owner_Id__c == LEFT($User.Id, 15)}"> The record is owned by you</apex:outputText>
+                <apex:outputText rendered="{!insolv.Insolvency_Owner_Id__c != LEFT($User.Id, 15)}">Record is owned by <b>{!insolv.Insolvency_Owner__c}</b></apex:outputText>
+             </apex:outputPanel>                   
+                  
+        </apex:form>
+    </body>
+</apex:page>

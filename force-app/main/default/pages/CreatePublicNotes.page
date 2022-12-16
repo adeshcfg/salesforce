@@ -1,0 +1,23 @@
+<apex:page standardController="Note" extensions="CreatePublicNotesCntrl" tabStyle="Note" sidebar="true" showHeader="true">
+<!--<apex:detail relatedList="false" title="true"/>-->
+    <apex:form >
+        <apex:pageBlock title="New Public Note">
+            <apex:pageblockButtons >
+                <apex:commandButton id="save" value="Save" action="{!save}"/>
+                <apex:commandButton id="cancel" value="Cancel" action="{!Cancel}"/>
+            </apex:pageblockButtons>
+            
+            <apex:pageBlockSection columns="1" title="Public Note Information" collapsible="false">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Title</apex:outputLabel>
+                    <apex:inputField value="{!createNote.title}" required="true"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Body</apex:outputLabel>
+                    <apex:inputtextarea value="{!createNote.body}" rows="10" cols="50"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+
+        </apex:pageBlock>   
+    </apex:form>
+</apex:page>

@@ -1,0 +1,88 @@
+<apex:page tabStyle="Account" sidebar="false" showHeader="false" Controller="SendProductEmailCntrl" id="page">
+    <apex:pageMessages id="errorMessage"/>
+    <style>
+        html, body
+        {
+            overflow-y: scroll;
+            overflow: auto;
+
+        }
+        .imageClass{
+            width : 3%;
+            float:left;
+            padding-top:0.5%;
+        }
+        .title{
+            padding-top: 1% !important;
+            padding-left: 4% !important; 
+        }
+        .pbBody{
+            text-align:center;
+        }
+        
+        .customLabel{
+            color: #4a4a56;
+            font-size: 91%;
+            font-weight: bold;
+        }
+        .previewSection{
+            width:70%;
+            margin:auto;
+            box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
+            margin-top: 2%;
+            overflow:auto;
+        }
+        @media print
+        {
+            #non-printable { display: none; }
+            #printable { display: block; }
+        }
+    </style>
+    <script>
+        function printEmail(){
+            var emailTemplate = document.getElementById('page:form:pb:emailTemplate').value;
+            if(emailTemplate == ''){
+                alert('Please select an email Template');
+            }else{
+                var url = '/apex/PreviewProductEmail?Id='+'{!prodId}'+'&TemplateName='+emailTemplate;
+                window.open(url,'popUpWindow','height=600,width=700,left=300,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+            }
+        }
+    </script>
+    <apex:form style="padding-top: 1px;" id="form">
+        <apex:pageBlock id="pb">
+            <apex:facet name="header">
+                <div class="content">
+                    <img src="{!$Resource.EmailIcon}" class="imageClass"/>
+                </div>
+                <div class="pbTitle title">
+                    <h3>Send Email</h3>
+                </div>
+            </apex:facet>
+                    
+            <apex:outputPanel style="text-align: center;" id="pannel">
+                <apex:outputLabel styleClass="customLabel" for="emailTemplate">Email Template : </apex:outputLabel>
+                <apex:selectList id="emailTemplate" value="{!selectedTemplate}" size="1" multiselect="false">
+                    <apex:selectOptions value="{!emailTemplates}"/>
+                    <apex:actionSupport event="onchange" action="{!previewEmail}" reRender="previewBlock, errorMessage, buttonsBlock"/>
+                </apex:selectList>
+            </apex:outputPanel>
+            
+            <apex:outputPanel id="buttonsBlock">
+                <div style="text-align: center; padding-top:12px;">
+                    <apex:commandButton value="Send Email" action="{!send}" rendered="{!!invalidEmail && NOT(printEmail)}" reRender="errorMessage"/>
+                    <apex:commandButton value="Send Email" action="{!send}" rendered="{!!invalidEmail && printEmail}" oncomplete="printEmail()" reRender="errorMessage"/>
+                    <input type="button" class="btn" value="Print" onclick="printEmail()"/>
+                    <input type="button" class="btn" value="Close" onclick="window.close()"/>&nbsp;
+                    
+                </div>
+            </apex:outputPanel>
+            
+            <apex:outputPanel id="previewBlock" >
+                <div class="previewSection" style="display: {!IF(displayPreviewEmail, 'block', 'none')}">
+                <apex:iframe scrolling="true" height="850" src="/apex/PreviewProductEmail?Id={!prodId}&TemplateName={!SelectedTemplate}&renderedAs=pdf&productType={!productType}" rendered="{!displayPreviewEmail}"/>
+                </div>
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

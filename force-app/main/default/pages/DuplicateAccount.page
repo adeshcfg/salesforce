@@ -1,0 +1,56 @@
+<apex:page standardController="Insolvency_Account__c" extensions="DuplicateAccountController" showHeader="False" sidebar="false">
+    <apex:form id="form">
+    
+        <apex:pageBlock id="pgBlock">
+        <apex:Messages />
+            <apex:pageBlockButtons >
+                <apex:commandButton id="save" value="Save" action="{!save}" style="display: none;"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageblocktable value="{!InslAcctWrappers}" var="acct">
+            
+                <apex:column headerValue="Account Number">
+                    <a href="{!acct.accLink}" target="_blank">
+                        <apex:outputfield value="{!acct.acc.Name}"/>
+                    </a>
+                </apex:column>
+                
+                <apex:column headerValue="Bank Name">
+                    <apex:outputField value="{!acct.acc.Bank_Name__c}"/>
+                </apex:column>
+                
+                <apex:column headerValue="Estate Number">
+                    <a href="{!acct.insolLink}" target="_blank">
+                        <apex:outputfield value="{!acct.acc.Insolvency__r.Name}"/>
+                    </a>
+                </apex:column>
+                
+                <apex:column headerValue="Duplicate Reason">
+                    <apex:outputField value="{!acct.acc.Duplicate_Reasons_Picklist__c}">
+                        <apex:inlineEditSupport showOnEdit="save" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headerValue="Exclude From Purchase">
+                    <apex:outputField value="{!acct.acc.Excluded_from_Purchase__c}">
+                        <apex:inlineEditSupport showOnEdit="save" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headerValue="Excluded Account Comments">
+                    <apex:outputField value="{!acct.acc.Excluded_Account_Comments__c}">
+                        <apex:inlineEditSupport showOnEdit="save" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headerValue="Asset Status">
+                    <apex:outputField value="{!acct.acc.Asset_Status__c}">
+                        <apex:inlineEditSupport showOnEdit="save" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+            </apex:pageblocktable>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

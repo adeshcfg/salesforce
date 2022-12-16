@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Access for product payment  record types</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Unallocated_Payment__c.Reviewed_status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Payment Posting team</label>
+    <license>Salesforce</license>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Product_Payments__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Product__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>Product_Payments__c.Balance_Adjustments</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Product_Payments__c.CCS_Product_Payment</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <tabSettings>
+        <tab>Product_Payments__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

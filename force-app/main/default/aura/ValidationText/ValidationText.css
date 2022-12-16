@@ -1,0 +1,21 @@
+/**
+ */
+
+.THIS.success {
+    color: rgb(2, 126, 70);
+}
+.THIS lightning-icon.success > lightning-primitive-icon > svg > use{
+    fill: rgb(2, 126, 70);
+}
+.THIS.success a{
+    color: rgb(2, 126, 70);
+}
+.THIS.warning {
+    color: #F39200;
+}
+.THIS.warning svg{
+    color: #F39200;
+}
+.THIS.warning a{
+    color: #F39200;
+}

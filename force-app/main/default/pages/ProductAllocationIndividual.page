@@ -1,0 +1,44 @@
+<apex:page standardController="Product__c" extensions="ProductAllocationIndividualController">
+    <apex:slds ></apex:slds>
+    <apex:form >
+        <apex:outputPanel id="panel">
+            <div style = "margin-left: 5%; margin-top: 2%;"> 
+                <apex:outputPanel >
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-47">Enter Agency Number/Name to Allocate :</label>
+                        <div class="slds-form-element__control">
+                            <apex:inputField value="{!product.Collection_Agency_Placement__c}" style="width: 25%;
+                                                                                                      border-radius: 4px;
+                                                                                                      border: 1px solid rgb(179 188 196);
+                                                                                                      height: 30px;"/>
+                        </div><br/>
+                    </div>
+                    <div>
+                        <apex:commandButton action="{!allocateProduct}"
+                                            value="Allocate Agency" 
+                                            reRender="panel"
+                                            styleClass="slds-button slds-button_outline-brand"
+                                            disabled="{!IF(ERROR_MSG!='' ,true,false)}"/>
+                        <apex:commandButton action="{!allocateWithWarning}"
+                                            value="Proceed With Warning" 
+                                            reRender="panel"
+                                            styleClass="slds-button slds-button_outline-brand"
+                                            disabled="{!IF(AND(CONTAINS(ERROR_MSG, 'WARNING'),NOT(CONTAINS(ERROR_MSG, 'ERROR'))) ,false,true)}"/>
+                        <apex:commandButton action="{!redirectToProduct}" 
+                                            value="Back" 
+                                            reRender="panel"
+                                            styleClass="slds-button slds-button_outline-brand"
+                                            /><br/>
+                        <br/> 
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(ERROR_MSG!='' ,true,false)}">   
+                    <apex:outputText value="{!ERROR_MSG}" escape="false"></apex:outputText>
+                </apex:outputPanel>
+                {!Blank_Agency}
+            </div>
+            
+        </apex:outputPanel>
+        
+    </apex:form>
+</apex:page>

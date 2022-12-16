@@ -1,0 +1,47 @@
+<!-- 
+/**************************************************************************************************
+ *
+ *  Visualforce Page:   
+ *
+ *  @description : This Visualforce Page is fetch records from Application object based on conditions. 
+ *  @author : A5E Consulting
+ *  @date : 08/02/2016
+ *
+ *  Change History:
+ *
+ *  Developer       Date          Description
+ *  ------------------------------------------------------------------------------------------------
+ *
+ *  A5E Consulting 02/24/2016     Development
+ 
+ *************************************************************************************************/
+ -->
+<apex:page controller="TCIJobProcessorController" sidebar="true">
+   <apex:form id="tcijob">
+        <apex:pageBlock title="TCI CSV Job">
+            
+            
+            <br/>
+                <b>Manual Job: </b><br/>
+                <b>Last Job Run Date: </b>{!lastManualJobRunDate} <br/>
+                <b>Last Job Run By: </b>{!lastManualJobRunBy} <br/>
+            <br/>
+            
+            <br/>
+                <b>Scheduled Job: </b><br/>
+                <b>Last Job Run Date: </b>{!lastScheduledJobRunDate} <br/>
+            <br/>
+            
+            <apex:outputPanel rendered="{!!messageFlag}">
+            <br/>
+            <apex:outputText value="Click to Generate TCI." />
+            <br/>
+            <apex:commandButton id="call" value="Generate TCI" action="{!callTCIJob}" />  <br></br>
+            <br/>
+            </apex:outputPanel>
+            <apex:outputText id="message" value="{!message}" rendered="{!messageFlag}"></apex:outputText>
+            <br/>            
+            
+        </apex:pageBlock>     
+    </apex:form>
+</apex:page>

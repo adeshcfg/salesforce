@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Fidem_Finance</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <description>For Giving access of Fidem Site App to User</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Fidem Site App Permission</label>
+</PermissionSet>

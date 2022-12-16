@@ -1,0 +1,125 @@
+<!-- This page is used for Application record Verification -->
+
+<apex:page showHeader="false" sidebar="false"
+           controller="AccountVerificationController" 
+           action="{!checkVerifyRequest}"
+           lightningStylesheets="true" applyBodyTag="false" applyHtmlTag="false"
+           >    
+
+   <html>
+   <head>
+   <meta name="viewport" content="width=device-width, initial-scale=1"/>    
+      
+       <style>
+           
+           .account-message-form {
+                width: 90%;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                font-size: 30px;
+                left: 50%;
+           		text-align: center;
+            }
+           
+       .button{
+			background-color: #132A8C;
+			border: none;
+            color: White;
+            text-decoration: none;
+            font-family: Arial, Helvetica, Verdana, sans-serif;
+            font-weight: 400;
+            font-size: 20px;
+           	line-height: 18px;
+    		padding: 12px 24px;
+            background-image:none !important;
+            border-radius: 25px;
+		}
+        .button:hover{
+        	color: #132A8C;
+            background-color: #49DCE4;
+			text-decoration: none;
+        }
+         
+        @media screen and (max-width: 800px) {
+            iframe {
+				height : 385px !important;
+           				
+           }
+           .cEmail {
+           		word-break : break-word !important;
+           }
+            
+        }
+           
+       </style>
+       <script>
+       		function redirectToResults(){
+                console.log('print');
+            	window.parent.location = "{!$Setup.Customer_Portal_Setting__c.Account_Results_page__c}?uniqueID={!account.Id}&_iframeDomain={!$Setup.Customer_Portal_Setting__c.iFrameDomain__c}";
+            }
+       </script>
+       </head> 
+        <body> 
+        
+            <!--Loading Page -->
+            <apex:outputPanel layout="block" rendered="{!nullVerificationID == true}">
+                <div class = "account-message-form">
+                    <span>
+                        Sorry, we are unable to verify your email address at this time.
+                        <br/>
+                        Our client services team would be happy to help you with this.  You can reach them toll-free at &nbsp;
+                        <a href="tel:1-888-316-2369" style="color: #0078d4;">1-888-316-2369</a>, or &nbsp;
+                        <a href = "mailto: client.services@canaccede.com." style="color: #0078d4;">client.services@canaccede.com.</a>
+                    </span>
+                 </div> 
+            </apex:outputPanel>
+            
+            <!--No Verification Token on Application-->
+            <apex:outputPanel rendered="{!emailVerificationError == true && nullVerificationID == false}">
+                <div class = "account-message-form">
+                    <div>
+                        Sorry, we are unable to verify your email address at this time.
+                        <br/>
+                        Our client services team would be happy to help you with this.  
+                        You can reach them toll-free at &nbsp;
+                        <a href="tel:1-888-316-2369" style="color: #0078d4;">1-888-316-2369</a>, or&nbsp;
+                        <a href = "mailto: client.services@canaccede.com." style="color: #0078d4;">client.services@canaccede.com.</a>
+                    </div>
+                 </div>   
+            </apex:outputPanel>
+            
+            <!--Already Verified-->
+            <apex:outputPanel rendered="{!alreadyVerified == true && nullVerificationID == false}">
+                <div class = "account-message-form">
+                    <div>
+                        Thank you, Your email has been verified.
+                        <br/>
+                        Please click the link below to be redirected to the MyCanaccede page.                        
+                    </div><br/><br/>
+                    <div>
+                        <a onclick = "redirectToResults();" 
+                            target="_parent" class="button">MyCanaccede Account</a>
+                        <!--<a href="{!$Setup.Customer_Portal_Setting__c.Account_Results_page__c}?uniqueID={!account.Id}" class="button" target="_PARENT">MyCanaccede Account</a>-->
+                    </div>
+                </div>
+            </apex:outputPanel>
+            
+            <!--Verification is now completed-->
+            <apex:outputPanel rendered="{!alreadyVerified == false && emailVerificationError == false && nullVerificationID == false}">
+                <div class = "account-message-form">
+                    <div>
+                        Thank you, Your email has been verified.
+                        <br/>
+                        Please click the link below to be redirected to the MyCanaccede Account page.
+                        <br/>
+                    </div><br/><br/>
+                    <div><a onclick = "redirectToResults();" 
+                            target="_parent" class="button">MyCanaccede Account</a>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,85 @@
+<apex:page extensions="AgencyPoolRecallController" standardController="Pool__c">
+    <apex:slds ></apex:slds>
+    <apex:form >
+        <apex:outputPanel id="panel">
+            <div style = "margin-left: 5%; margin-top: 2%;"> 
+                <apex:outputPanel >
+                    <b>{!poolRecord.Name} &nbsp;Recall</b><br/>
+                    <apex:outputPanel rendered="{!poolRecord.Placement_Agency__c != NUll}">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="text-input-id-47">Products will be recalled from Agency: </label>
+                            {!poolRecord.Placement_Agency__c} - {!poolRecord.Placement_agency_lookup__r.Agency_name__c}
+                            <br/>
+                        </div>
+                        <div>
+                            <br/> 
+                            <div class="slds-form-element" style = "width: 25%;">
+                                <label class="slds-form-element__label" for="text-input-id-47">Select Reason: </label>
+                                <br/>
+                                <apex:selectList multiselect="false"  value="{!selectedValue}" size="1" styleclass="slds-select">
+                                    <apex:selectOptions value="{!Items}"/>
+                                </apex:selectList>
+                                <br/>
+                            </div>
+                            
+                        </div>
+                        <div>
+                            <br/>
+                            <div class="slds-form-element" style = "width: 25%;">
+                                <label class="slds-form-element__label" for="text-input-id-47">Select Action: </label>
+                                <br/>
+                                <apex:selectList multiselect="false"  value="{!selectedValueAction}" size="1"  styleclass="slds-select">
+                                    <apex:selectOptions value="{!actionItems}"/>
+                                </apex:selectList>
+                              <br/><br/>
+                            </div>
+                              <label class="slds-form-element__label" for="text-input-id-47">On clicking Recall Agency or Proceed with warning, Agency will be Recalled from Products</label>
+                        <br/>
+                        <br/>
+                        </div>
+                    </apex:outputPanel>
+                    <div>
+                        <apex:commandButton action="{!recallProduct}"
+                                            value="Recall Agency" 
+                                            reRender="panel"
+                                            styleClass="slds-button slds-button_outline-brand"
+                                            disabled="{!IF(Alert_msg == true ,true,false)}"/>
+                        <apex:commandButton action="{!recallWithWarning}"
+                                            value="Proceed With Warning" 
+                                            reRender="panel"
+                                            styleClass="slds-button slds-button_outline-brand"
+                                            disabled="{!IF(Disable == true,true,false )}"/>
+                        <apex:commandButton action="{!redirectToPool}"
+                                            value="Back" 
+                                            reRender="panel2"
+                                            styleClass="slds-button slds-button_outline-brand"
+                                            />
+                        <br/>
+                    </div>
+                    
+                    <br/>
+                    <apex:outputPanel rendered="{!IF(countrefresh == true,true,false )}" > 
+                        <apex:outputText value="{!recordCount}" escape="false"></apex:outputText><br/>
+                    </apex:outputPanel>  
+                    <apex:outputText >{!Alert}</apex:outputText>
+                </apex:outputPanel>
+                
+                <apex:outputPanel rendered="{!!listProdWrapper.Empty}" id="panel2"> 
+                    
+                    <apex:outputPanel >               
+                        <apex:datatable value="{!listProdWrapper}" var="product" >
+                            <apex:column >
+                                <apex:facet name="header"> Product</apex:facet>
+                                <apex:outputText value="{!product.product.Name}"></apex:outputText>
+                            </apex:column><br/>
+                            <apex:column >
+                                <apex:facet name="header"> Comments</apex:facet>
+                                <apex:outputText value="{!product.comments}" escape="false"></apex:outputText>
+                            </apex:column>
+                        </apex:datatable>
+                    </apex:outputPanel>
+                </apex:outputPanel>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,13 @@
+<!-- 
+<apex:page showHeader="true" tabstyle="Insolvency_Payment__c"> 
+    <apex:ListViews type="Insolvency_Payment__c" /> 
+</apex:page>
+-->
+
+<!-- 
+<apex:page action="{!URLFOR($Action.Insolvency_Payment__c.List, $ObjectType.Insolvency_Payment__c)}"/>
+-->
+
+<apex:page showHeader="true" tabstyle="Insolvency_Payment__c">
+    <apex:enhancedList type="Insolvency_Payment__c" height="500" id="InsolvencyPaymentList" customizable="true" />
+</apex:page>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Description to = This permission set is created to give additional access to the users.
+1] Edit access for Putback / Buyback amount on insolvency Account
+2] Edit access for Payment Reversed Picklist field on insolvency Payment</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Putback_Buyback_amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Payment__c.Payment_Reversal_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Payment__c.Payment_Reversed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>CFG Insolvency Account Super User</label>
+</PermissionSet>

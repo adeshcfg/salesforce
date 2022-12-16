@@ -1,0 +1,16 @@
+<apex:page standardController="Insolvency__c" extensions="TrusteeAssignPopUpController">
+
+    <script>
+        if('{!isNewInsolvency}' == 'true'){
+            popitup('/apex/TrusteeAssignment?Id={!Insolvency__c.Id}', 'Assign Trustee') 
+        }
+        
+    
+        function popitup(url,windowName) { 
+            newwindow=window.open(url,windowName,'height=500,width=1100,top=200,left=100,scrollbars=yes, resizable=yes'); 
+            if (window.focus) {newwindow.focus()} 
+            return false; 
+        }
+    </script>
+
+</apex:page>

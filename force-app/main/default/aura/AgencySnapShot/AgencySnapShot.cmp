@@ -1,0 +1,42 @@
+<aura:component controller="SnapshotProcessor"
+                implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId,force:hasSObjectName" access="global">
+     <aura:attribute name="files" type="Document_Storage__c[]"/>
+    <aura:handler name="init" value="{!this }" action="{!c.doinit }" />
+    
+    <div class="slds-form--compound">
+
+    <table class=" slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout slds-max-medium-table_stacked-horizontal " aria-labelledby="element-with-table-label other-element-with-table-label">  
+        <tbody>
+                <aura:iteration items="{!v.files}" var="f" >  
+                   <aura:if isTrue="{!f.Document_Type__c == 'Product Snapshot'}">   
+                    <tr>  
+                        <td class= "slds-truncate">
+                            <a href="javascript:void(0)" aura:id="{!f.Document_ID__c}" 
+                                data-doctype="{!f.Document_Type__c}" 
+                                data-filename="{!f.Document_Name__c}" 
+                                data-documentid="{!f.Document_Id__c}" 
+                                data-filetype="{!f.Content_Type__c}" 
+                                onclick="{!c.previewFile}">
+                                {!f.Document_Name__c}	
+                            </a>
+                        </td>
+                        <td class= "slds-truncate">
+                            <a href="javascript:void(0)" aura:id="{!f.Id}" 
+                                data-documentno="{!f.Id}" 
+                                onclick="{!c.openDocumentRecordNow}">
+                                {!f.Document_Storage_Number__c}	
+                            </a>                        
+                        </td>
+                        <td class= "slds-truncate">{!f.Document_Type__c}</td>  
+                        <td class= "slds-truncate">{!f.Visibility__c}</td> 
+                        <td class= "slds-truncate" data-label="Completed Date"> 
+                        <ui:outputDateTime value="{!f.CreatedDate}"/>
+                        </td>
+                        <td class= "slds-truncate">{!f.Created_By__c}</td>
+                    </tr>  
+                    </aura:if>	
+                </aura:iteration>  
+        </tbody>  
+        </table>
+    </div>
+</aura:component>

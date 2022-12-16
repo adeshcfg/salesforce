@@ -1,0 +1,90 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId"
+                access="global" controller="MultipleFileUploadClass">
+    <!-- attributes -->
+    <aura:attribute name="entityId" type="String" access="public" />
+    <aura:attribute name="draftValues" type="AttachmentClass.AttachWrapper[]" />
+    <aura:attribute name="options" type="String[]" />
+    <aura:attribute name="docVisibility" type="String[]" />
+    <aura:attribute name="listvalues" type="List" />
+    <aura:attribute name="isButtonActive" type="Boolean" default="true" />
+    <aura:attribute name="selectedValue" type="String" />
+    <aura:method name="callChild" action="{!c.doinit}" />
+    <!-- handlers-->
+    <aura:handler name="init" value="{!this }" action="{!c.doinit }" />
+    <aura:handler event="force:refreshView" action="{!c.doinit }"/>
+    <div class="slds slds-border_top slds-border_left slds-border_right slds-border_bottom" style="overflow-x:auto;">
+        <table
+               class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-horizontal"
+               >
+            <thead>
+                <tr class="slds-text-heading--label">
+                    <th scope="col" class="nobordertop" title="Name">
+                        <div>Name</div>
+                    </th>
+                    <th scope="col" class="nobordertop" title="Type">
+                        <div>Document Type</div>
+                    </th>
+                    <th scope="col" class="nobordertop" title="Type">
+                        <div>Document Visibility</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.draftValues}" var="draftValue">
+                    <tr>
+                        <td	
+                            class="slds-truncate"
+                            style="word-wrap: break-word;"
+                            data-label="{!draftValue.attachmentName}"
+                            title="{!draftValue.attachmentName}"
+                            >
+                            <a href="{!'/sfc/servlet.shepherd/document/download/'+draftValue.attachID}" target="_blank" tabindex="0">
+                                {!draftValue.attachmentName}</a>
+                        </td>
+                        <td
+                            class="slds-truncate"
+                            data-label="{!draftValue.docType}"
+                            title="{!draftValue.docType}"
+                            style="min-width: 280px;"
+                            >
+                            <div>
+                                <lightning:Select class="slds-show_inline-block" 
+                                                  aura:id="acc"
+                                                  disabled="false"
+                                                  value="{!draftValue.docType}"
+                                                   variant="label-hidden" 
+                                                  required="true"
+                                                  >
+                                    <aura:iteration items="{!v.options}" var="ac">
+                                        <ui:inputSelectOption text="{!ac}" value="{!ac}" />
+                                    </aura:iteration>
+                                </lightning:Select>
+                            </div>
+                        </td>
+                        <td
+                            class="slds-truncate"
+                            data-label="{!draftValue.month}"
+                            title="{!draftValue.month}"
+                            style="min-width: 80px;"
+                            >
+                            <div>
+                                <lightning:select class="slds-show_inline-block"  aura:id="month" name="month" variant="label-hidden" value="{!draftValue.month}" disabled="false">
+                                    <aura:iteration items="{!v.docVisibility}" var="mnth">
+                                        <Option text="{!mnth}" value="{!mnth}"/>
+                                    </aura:iteration>
+                                </lightning:select>   
+                            </div>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+        
+       <lightning:button  
+                          class="slds-align_absolute-center slds-button slds-button_brand slds-m-top_small"
+                          onclick="{!c.updateAttachmentsJS}" 
+                          label="Save" aura:id="disablebuttonid"
+                         />
+        <br/>
+    </div>
+</aura:component>

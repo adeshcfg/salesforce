@@ -1,0 +1,6 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+	 <div class="slds-box slds-theme_shade slds-theme_default">
+          <p><lightning:formattedText value="Interest calculator" /></p>
+         <p><lightning:formattedUrl value="http://www.csgnetwork.com/interestsavcalc.html" /></p>
+         </div>
+</aura:component>

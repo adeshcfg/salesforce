@@ -1,0 +1,25 @@
+<apex:page standardController="Unallocated_Payment__c" extensions="ProcessingUnallocatedPaymentCntrl" sidebar="false" showHeader="false" id="page">
+    <Script>
+    function closeWindow(){
+                setTimeout(function(){
+                  window.close();
+                }, 3000);
+            }
+            function disablethis(){
+                document.getElementById('page:fm:pb:pbtn:savebtn').disabled = true;
+            }
+    </script>
+      <apex:form id="fm">
+      <apex:pageMessages id="msg"></apex:pageMessages>
+      <apex:pageBlock title="Choose Insolvency Account" rendered="{!!unAloccPay.Allocated__c && !unAloccPay.Is_Payment_Remitted__c}" id="pb">
+          <apex:pageBlockButtons location="top" id="pbtn">
+              <apex:commandButton id="savebtn" Value="Save" action="{!save}" onclick="disablethis();" oncomplete="closeWindow();" reRender="msg"/>
+          </apex:pageBlockButtons>
+          
+          <apex:pageblockSection >
+              <apex:inputField label="Insolvency Account" value="{!insolvPay.Insolvency_Account__c}"/>
+          </apex:pageblockSection>
+        </apex:pageBlock>
+      </apex:form>
+  
+</apex:page>

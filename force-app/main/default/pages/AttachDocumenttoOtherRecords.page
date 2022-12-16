@@ -1,0 +1,72 @@
+<apex:page standardController="Case" extensions="AttachDocumenttoOtherRecords" showHeader="false" sidebar="false">
+    <script>
+    function attachDocument(){
+        
+        attDoc();
+    }
+    function sendtoParser(diffParse){
+        
+        createNewAssignmentAF(diffParse);
+    }
+    </script>
+    <apex:form id="formAtt">
+    <apex:actionFunction action="{!attachDocument}" name="attDoc" rerender="formAtt"/>
+    
+    <apex:actionFunction action="{!createNewAssignment}" name="createNewAssignmentAF" rerender="formAtt">
+        <apex:param name="differentPareser" assignTo="{!differentPareser}" value=""/>
+    </apex:actionFunction>
+    
+    <apex:pagemessages ></apex:pagemessages>
+    <apex:pageBlock rendered="{!(showMessage && !communityUser)}">
+        <apex:outputText >Link Insolevncy or Insolvency Account record to case</apex:outputText>
+    </apex:pageBlock>
+    <apex:pageBlock >
+        <apex:pageblockSection rendered="{!!communityUser}">
+            <apex:commandButton onclick="attachDocument();" value="Attach Document" title="Attach Document" rendered="{! (!showMessage && showParser)}" reRender="FormAtt"/>
+            <apex:pageBlockSectionItem rendered="{! (!showMessage && showParser)}">
+                <apex:outputText value="{!linkRecord}"/>
+            </apex:pageBlockSectionItem>
+            <apex:commandButton onclick="sendtoParser('English');" value="Send to English Parser" Title="Send to English Parser" rendered="{!showParser && ( $User.Id == '005f100000HdDGJAA3' || $User.Id = '005f100000IUcRpAAL' || $User.Id = '005f100000Ijh04AAB'|| $User.Id = '005f100000HdDGYAA3' || $User.Id = '005f100000Ij7qOAAR' || $User.Id = '0053a00000KB8FnAAL' || $User.Id = '0053a00000KB8FiAAL' || $User.Id = '0053a00000KB9h0AAD' || $Profile.Name == 'System Administrator')}" reRender="FormAtt"/>
+            <apex:commandButton onclick="sendtoParser('French');" value="Send to French Parser" Title="Send to French Parser" rendered="{!showParser && ( $User.Id == '005f100000HdDGJAA3' || $User.Id = '005f100000IUcRpAAL' || $User.Id = '005f100000Ijh04AAB'|| $User.Id = '005f100000HdDGYAA3' || $User.Id = '005f100000Ij7qOAAR' || $User.Id = '0053a00000KB8FnAAL' || $User.Id = '0053a00000KB8FiAAL' || $User.Id = '0053a00000KB9h0AAD' || $Profile.Name == 'System Administrator')}" reRender="FormAtt"/>
+        </apex:pageblockSection>
+        
+        <apex:pageBlockSection columns="1" rendered="{! ((showOnBIorSD && communityUser) || !communityUser)}">
+            <apex:pageBlockTable value="{!listAttachWrap}" var="att" columns="5">
+                <apex:column headerValue="SELECT" rendered="{!!communityUser}">
+                    <apex:inputCheckbox value="{!att.check}"/>
+                </apex:column>
+                
+                <apex:column headerValue="NAME">
+                    <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!att.strID}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!att.attach.Name}</a>
+                </apex:column>
+                
+                <apex:column headerValue="TYPE" rendered="{!!communityUser}">
+                    <!--<apex:outputText value="{!att.description}"/>-->
+                    <apex:selectList value="{!att.attach.description}" size="1" id="documentType" onchange="checkDocType()">
+                        <apex:selectOptions value="{!AllDocumentOptions}"   />
+                    </apex:selectList>
+                </apex:column>
+                
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:outputLabel >CREATED DATE</apex:outputLabel>
+                    </apex:facet>
+                    <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                        <apex:param value="{!att.strCreatedDate}" /> 
+                    </apex:outputText>
+                </apex:column>
+                
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:outputLabel >LAST MODIFIED DATE</apex:outputLabel>
+                    </apex:facet>
+                    <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                        <apex:param value="{!att.strlastModifiedDate}" /> 
+                    </apex:outputText>
+                </apex:column>
+                
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

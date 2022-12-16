@@ -1,0 +1,5 @@
+<apex:page standardController="Insolvency__c" extensions="InsolvencyEditController" tabstyle="Insolvency__c" action="{!redirPage}">	
+	<apex:form >
+		<apex:detail />		
+	</apex:form>
+</apex:page>

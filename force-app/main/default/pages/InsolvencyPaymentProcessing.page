@@ -1,0 +1,373 @@
+<apex:page standardController="Remittance__c" extensions="InsolvencyPaymentProcessingController" id="page" showHeader="false">
+    <style>
+        .myheader1{
+        z-index: 0;
+        position: fixed;
+        margin-top: 5px;
+        background-color: #f8f8f8;
+        width: 95.7%;
+        text-align: center;
+        margin-left: 0.1%;
+        height: 28px;
+        margin-top:0px;
+        padding-top: 12px;    border-top: 3px solid #fc4f59;border-bottom: 1px solid #eaeaea;
+        }
+        
+        input::-webkit-input-placeholder {
+        font-size: 10px;
+        }
+        
+    </style>
+    <script> 
+    var _timer, _timeOut = 1000; 
+    var statusValue = "";
+    window.onbeforeunload = function(){        
+        if(statusValue == 'Processed' || statusValue == 'Duplicate'){
+            
+        }else{
+            return "Are you sure about closing window? You  will lose all entered data";
+        }
+    }
+    function copyOverToTop(val){
+        alert(val);
+    }
+    function callTotal(e) {
+        
+        
+        if(e.keyCode == 189){
+            return false;
+        }
+        
+        clearTimeout(_timer);
+        // send xhr requests
+        
+        _timer = window.setTimeout(function() {
+            calculateTotal();
+        }, _timeOut)
+    }
+
+    //setTimeout(function(){ calculateTotal(); }, 2000);
+
+    function resetData(){
+        document.getElementById('page:fms:topsave').disabled = false;
+        document.getElementById('page:fms:btnbottom').disabled = false;
+    }
+    function checkforEnterKey(e, searchEle, val){
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code == 13) { //Enter keycode
+            searchInsolvencyAccounts();
+            return false;
+        }else{
+            document.getElementById('page:fms:search-top').value = val;
+            document.getElementById('page:fms:search-bottom').value = val;
+        }
+    }
+    
+    function scrolltoTop(valueUpdate){
+        calculateTotal();
+        statusValue = valueUpdate;
+        if(valueUpdate == 'Processed'){
+            
+            alert('Payments created successfully');
+            window.opener.location='/{!remit.Id }';
+            window.close();
+        }
+        window.scrollTo(0, 0);
+        var checkVal = document.getElementById('page:fms:pb:hiddenCheck').value;
+        alert(checkVal);
+        if(checkVal  == 'false'){
+            var element = document.getElementById("page:fms:searchdiv");
+            element.style.display = 'none';
+        } 
+        //document.getElementById('page:fms:topsave').disabled = false;
+        //document.getElementById('page:fms:btnbottom').disabled = false;
+        window.location.reload();
+        
+    }
+    function scrolldown(){
+        var body = document.body,
+            html = document.documentElement;
+        
+        var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                               html.clientHeight, html.scrollHeight, html.offsetHeight );
+        window.scrollTo(0, height);
+        var element = document.getElementById("page:fms:inputTextID");
+        element.onclick = element.select();
+    }
+    function save(ele){
+        
+        document.getElementById('page:fms:topsave').disabled = true;
+        document.getElementById('page:fms:btnbottom').disabled = true;
+        
+        callSave();
+        
+    }
+    
+    
+    </script>
+    <apex:form >    
+        
+    <apex:pageBlock title="Dividend Details" >  
+         <apex:pageBlockSection columns="2"  collapsible="false" >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Dividend Name</apex:outputLabel>
+                    <apex:outputField value="{!remit.Name}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Cheque / Payment Reference Number</apex:outputLabel>
+                    <apex:outputField value="{!remit.Cheque_Payment_Reference_Number__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Payment Amount</apex:outputLabel>
+                    <apex:outputField value="{!remit.Cheque_Amount__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Payment Posting Date</apex:outputLabel>
+                    <apex:outputField value="{!remit.Payment_Posting_Date__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Trustee Name</apex:outputLabel>
+                    <apex:outputLabel >{!remit.Trustee_Name__r.name}</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+     <!--<apex:outputPanel rendered="{!IF((AttachIsNotEmpty!=False),True,'There are ATTachments to display')}">-->
+           <apex:pageBlock title="Attachment Details"> 
+        <apex:pageBlockSection columns="1"  collapsible="false" rendered="{!AttachIsNotEmpty!=False}">
+                <apex:pageBlockTable value="{!listAttachWrap}" var="remAttachWrap" columns="3">
+                    
+                    <apex:column headerValue="NAME">
+                        <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!remAttachWrap.strID}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!remAttachWrap.attachmentName}</a>
+                    </apex:column>
+                    <apex:column >
+                          <apex:facet name="header">
+                             <apex:outputLabel >CREATED DATE</apex:outputLabel>
+                          </apex:facet>
+                         <apex:outputText value="{!remAttachWrap.strCreatedDate}"></apex:outputText>
+                  </apex:column>
+                 
+                  <apex:column >
+                         <apex:facet name="header">
+                             <apex:outputLabel >LAST MODIFIED DATE</apex:outputLabel>
+                         </apex:facet>
+                         <apex:outputText value="{!remAttachWrap.strlastModifiedDate}"></apex:outputText>
+                  </apex:column>
+                    
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+        <!--<apex:pageBlockSection >-->
+            <div class="myheader" style="text-align: center;">
+        <apex:outputText rendered="{!!AttachIsNotEmpty}">There are no Attachments to display</apex:outputText>     
+                </div>   
+        <!--</apex:pageBlockSection>-->
+        <!--</apex:outputPanel> -->
+        
+        </apex:pageBlock>
+        
+    </apex:form>
+    <apex:form id="fms">
+  <apex:pageMessage rendered="{!errorMsgTrustee!=Null}" summary="{!SUBSTITUTE(JSENCODE(errorMsgTrustee ), '\\n', '<br/>')}" severity="Error"  escape="false" />    
+        <apex:actionStatus id="spinner">
+            <apex:facet name="start">
+                <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.25; z-index: 1000; background-color: black;">
+                    &nbsp;
+                </div>
+                <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 12% 40%">
+                    <div style="display: inline-block; padding: 2px; background-color: #fff; width: 125px;">
+                        <img src="/img/loading.gif" style="float: left; margin: 8px;" />
+                        <span style="display: inline-block; padding: 10px 0px;">Please Wait...</span>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+        <apex:ActionFunction name="calculateTotal"  action="{!calculateTotal}" reRender="total-bottom, total, total-top, pb, search-section-bottom" status="spinner">
+        </apex:ActionFunction>
+        <apex:ActionFunction name="searchInsolvencyAccounts"  action="{!searchInsolvencyAccounts}" reRender="pb, total, msg, total-top, total-bottom, savebtnbottom, savebtntop, search-section-bottom, non-selected-section-title, selected-section-title" status="spinner">
+        </apex:ActionFunction>
+        
+        <apex:actionFunction name="callSave" Action="{!saveUnAllocatedAmount}" oncomplete="scrolltoTop('{!FetchUpdatedRecord}');" status="spinner" reRender="msg, searchdiv, total-top, pb, total, unAllocated, total-bottom, non-selected-section-title, selected-section-title"/>
+        <apex:pagemessages id="msg" escape="false"></apex:pagemessages>
+        <apex:outputPanel id="searchdiv" rendered="{!showSearch}">
+            
+            <div class="myheader" style="text-align: center;">
+                <apex:outputLabel style="font-weight: bold;padding-right: 45px;" rendered="{! !(remit.status__c == 'Processed') }">Insolvency Account: </apex:outputLabel>
+                <apex:inputText id="search-top" onkeyup="return checkforEnterKey(event, this, this.value);" value="{!insolvencyAccNumbers}" style="width: 500px;" rendered="{! !(remit.status__c == 'Processed') }" html-placeholder="Enter Insolvency Account, Estate Number, Primary Borrower or Debtor separated with ','(comma)"/>
+                <apex:commandButton style="margin-left: 25px;" value="Search" action="{!searchInsolvencyAccounts}" reRender="pb, total, msg, total-top, total-bottom, savebtntop, savebtnbottom, search-section-bottom" status="spinner" rendered="{! !(remit.status__c == 'Processed') }"/>
+                
+                <!--<apex:outputLink rendered="{!showViewButton}" style="text-decoration: none;padding: 4px;" styleclass="btn" target="_blank" value="../apex/InsolvencyPaymentProcessing?id={!remit.Id}&showViewButton=false">View
+</apex:outputLink>-->
+            </div>
+            <apex:outputpanel id="savebtntop" >
+                <div style="text-align:center;    margin: 10px;">
+                    <!--<apex:commandButton rendered="{!ShowSaveButton}" value="Save" Action="{!saveUnAllocatedAmount}" oncomplete="scrolltoTop();" status="spinner" reRender="err, msg, searchdiv, unallocMsg"/>-->
+                    <apex:commandButton id="topsave" rendered="{!ShowSaveButton}" value="Save" onclick="save(this);" oncomplete="resetData();" reRender="total-top, total, total-bottom, unAllocated"/>
+                </div>
+            </apex:outputpanel>
+
+            <apex:pageBlock id="pb" title="Allocated Payment Accounts" >
+               
+                
+                <apex:outputPanel rendered="{! OR(wrapListWithAmountNotEmpty, wrapListWithZeroAmountNotEmpty)}" id="total-top" style="float: right; margin: 5px;">
+                    <apex:outputLabel >Total Amount: $</apex:outputLabel>
+                    <apex:outputText value="{0, number,###,##0.00}">
+                        <apex:param value="{!TotalAmount}"/>
+                    </apex:outputText>
+                    <apex:outputText value="{!calAmountDiffMsg}" />
+                </apex:outputPanel>
+            <apex:outputPanel rendered="{!wrapListWithAmountNotEmpty}" id="selected-section-title">
+                <div style="font-weight: bold;font-size: 12px; padding-top: 20px;  padding-bottom:5px;">Selected records</div>
+            </apex:outputPanel>
+                
+
+                <apex:pageBlockTable value="{!wrapListWithAmount}" var="wrap" rendered="{!wrapListWithAmountNotEmpty}" title="Allocated Payment Accounts">
+                    
+
+                    <apex:column headerValue="Account Number">
+                        {!wrap.productAcc.Name} 
+                    </apex:column>
+                    <apex:column headerValue="Alternate Account Reference">
+                        {!wrap.productAcc.Previous_Account_Reference__c} 
+                    </apex:column>
+                    <apex:column headerValue="Trustee Name" >
+                        {!wrap.productAcc.Trustee_Company__c} 
+                    </apex:column>
+                    <apex:column headerValue="Portfolio Group Name" >
+                        {!wrap.productAcc.Portfolio_Group_Name__c} 
+                    </apex:column>
+                    <apex:column headerValue="Asset Status">
+                        {!wrap.productAcc.Asset_Status__c}
+                    </apex:column>
+                    <apex:column headerValue="Bank Name">
+                        {!wrap.productAcc.Bank_Name__c}
+                    </apex:column>
+                    <apex:column headerValue="Estate Number">
+                        {!wrap.productAcc.Debtor_1_Estate_Number__c}
+                    </apex:column>
+                    <apex:column headerValue="Primary Borrower">
+                        {!wrap.productAcc.Borrower_Primary__c}
+                    </apex:column>
+                    <apex:column headerValue="Debtor">
+                        {!wrap.productAcc.Debtor__c}
+                    </apex:column>
+                    <apex:column headerValue="Net Amount">
+                        <apex:actionRegion >
+                            <apex:inputField value="{!wrap.productPay.Payment_Amount__c}" />
+                            
+                        </apex:actionRegion>
+                    </apex:column>
+                </apex:pageBlockTable>
+                <br/>
+                <apex:pageBlockButtons location="top" id="pgbuttons">
+                    
+                    <apex:outputText rendered="{!! wrapListWithZeroAmountNotEmpty}">No records to display</apex:outputText>
+                </apex:pageBlockButtons>
+                
+                <apex:outputPanel rendered="{!wrapListWithZeroAmountNotEmpty}" id="non-selected-section-title">
+                <div style="font-weight: bold;font-size: 12px; padding-top: 20px; padding-bottom:5px;">Search section</div>
+            </apex:outputPanel>
+
+                 <apex:pageBlockTable value="{!wrapListWithZeroAmount}" var="wrap" rendered="{!wrapListWithZeroAmountNotEmpty}" title="Allocated Payment Accounts">
+                    <apex:column headerValue="Account Number" >
+                        {!wrap.productAcc.Name} 
+                    </apex:column>
+                    <apex:column headerValue="Alternate Account Reference">
+                        {!wrap.productAcc.Previous_Account_Reference__c} 
+                    </apex:column>
+                    <apex:column headerValue="Trustee Name" >
+                        {!wrap.productAcc.Trustee_Company__c} 
+                    </apex:column>
+                    <apex:column headerValue="Portfolio Group Name" >
+                        {!wrap.productAcc.Portfolio_Group_Name__c} 
+                    </apex:column>
+                    <apex:column headerValue="Asset Status">
+                        {!wrap.productAcc.Asset_Status__c}
+                    </apex:column>
+                    <apex:column headerValue="Bank Name">
+                        {!wrap.productAcc.Bank_Name__c}
+                    </apex:column>
+                    <apex:column headerValue="Estate Number">
+                        {!wrap.productAcc.Debtor_1_Estate_Number__c}
+                    </apex:column>
+                    <apex:column headerValue="Primary Borrower">
+                        {!wrap.productAcc.Borrower_Primary__c}
+                    </apex:column>
+                    <apex:column headerValue="Debtor">
+                        {!wrap.productAcc.Debtor__c}
+                    </apex:column>
+                    <apex:column headerValue="Amount to Allocate to" >
+                        <apex:actionRegion >
+                            <apex:inputField value="{!wrap.productPay.Payment_Amount__c}" />
+                            
+                        </apex:actionRegion>
+                    </apex:column>
+                </apex:pageBlockTable> 
+
+                
+
+                <div style="height: 10px;">
+                    <apex:outputPanel rendered="{!OR(wrapListWithAmountNotEmpty, wrapListWithZeroAmountNotEmpty)}" id="total" style="float: right; margin: 5px;">
+                        <apex:outputLabel >Total Amount: $</apex:outputLabel>
+                        <apex:outputText value="{0, number,###,##0.00}">
+                            <apex:param value="{!TotalAmount}"/>
+                        </apex:outputText>
+                        <apex:outputText value="{!calAmountDiffMsg}" />
+                    </apex:outputPanel>
+                </div>
+                
+            </apex:pageBlock>
+        </apex:outputPanel>
+        
+        <!-- SEARCH BOTTOM-->
+        <apex:outputPanel id="search-section-bottom" >
+
+        <div class="myheader" style="text-align: center;     margin-left: 270px; display:{! IF(wrapListWithZeroAmountNotEmpty == true , 'block' , 'none') }">
+            <apex:outputLabel style="font-weight: bold;padding-right: 45px;" rendered="{! !(remit.status__c == 'Processed') }">Insolvency Account: </apex:outputLabel>
+            <apex:inputText id="search-bottom" onkeyup="return checkforEnterKey(event, this, this.value);" value="{!insolvencyAccNumbers}" style="width: 500px;" rendered="{! !(remit.status__c == 'Processed') }" html-placeholder="Enter Insolvency Account, Estate Number, Primary Borrower or Debtor separated with ','(comma)"/>
+            <apex:commandButton style="margin-left: 25px;" value="Search" action="{!searchInsolvencyAccounts}" reRender="pb, total, msg, total-top, total-bottom, savebtntop, savebtnbottom, search-section-bottom" status="spinner" rendered="{! !(remit.status__c == 'Processed') }"/>
+        </div>
+    </apex:outputPanel>
+
+        <apex:outputPanel id="unAllocated" rendered="{!showSearch}">
+            <apex:commandButton id="unallocatedButton" style="margin: 10px 0px;" value="Add Unallocated Payment"  Action="{!addUnallocatedPayment}" oncomplete="scrolldown();" status="spinner" rendered="{! !(remit.status__c == 'Processed') }" reRender="unAllocated, savebtntop, pb"/>
+            <apex:pageBlock rendered="{!unAllocAmountIsNotEmpty}" title="Unallocated Payment Accounts   ">
+                <!--<apex:pageMessages id="unallocMsg"></apex:pageMessages>-->
+                <apex:pageBlockButtons location="bottom" id="saveUnallocbtn">
+                    
+                </apex:pageBlockButtons>
+                
+                <apex:outputPanel rendered="{!unAllocAmountIsNotEmpty}" id="total-bottom" style="float: right; margin: 5px;">
+                    <apex:outputLabel >Total Amount: $</apex:outputLabel>
+                    <apex:outputText value="{0, number,###,##0.00}" id="inputTextID">
+                        <apex:param value="{!TotalAmount}"/>
+                    </apex:outputText>
+                    <apex:outputText value="{!calAmountDiffMsg}" />     
+                </apex:outputPanel>
+                <apex:actionRegion >    
+                    <apex:pageBlockTable value="{!unAllocPaymentList}" var="unAllocPay" title="Unallocated Payment Accounts" >
+                        
+                        <apex:column headerValue="Account Number" >
+                            <apex:inputtext value="{!unAllocPay.Account_Number__c}"  />
+                        </apex:column>
+                        <apex:column headerValue="Bank Name">
+                            <apex:inputField value="{!unAllocPay.Bank_Name__c}"  />
+                        </apex:column>
+                        <apex:column headerValue="Estate Number">
+                            <apex:inputField value="{!unAllocPay.Estate_Number__c}"  />
+                        </apex:column>
+                        <apex:column headerValue="Debtor Name">
+                            <apex:inputField value="{!unAllocPay.Debtor_Name__c}"  />
+                        </apex:column>
+                        <apex:column headerValue="Unallocated Amount">
+                            <apex:inputField value="{!unAllocPay.Unallocated_Amount__c}"   />
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:actionRegion>
+            </apex:pageBlock>
+            <apex:outputpanel id="savebtnbottom" >
+                <div style="text-align:center;">
+                    <!--<apex:commandButton value="Save" rendered="{!ShowSaveButton}" Action="{!saveUnAllocatedAmount}" oncomplete="scrolltoTop();" status="spinner" reRender="unallocMsg, msg"/>-->
+                    <apex:commandButton id="btnbottom" rendered="{!ShowSaveButton}" value="Save" onclick="save(this);" oncomplete="resetData();" reRender="total-top, total-bottom, total, unAllocated" />
+                </div></apex:outputpanel>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

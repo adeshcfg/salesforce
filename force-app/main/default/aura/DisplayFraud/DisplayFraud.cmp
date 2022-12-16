@@ -1,0 +1,14 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <div class="slds-box slds-theme_shade slds-theme_default">
+	  <p><lightning:formattedText value="BNS Fraud:" /><lightning:formattedPhone value="  1-800-813-6602 "></lightning:formattedPhone> </p>
+    <p><lightning:formattedText value=" Wells Fargo Identity Theft:" />
+    <lightning:formattedPhone value="  1-800-869-3557  "></lightning:formattedPhone></p>
+     <p><lightning:formattedText value="MBNA/CUETS FRAUD:" /><lightning:formattedPhone value="  1-800-667-6577 "></lightning:formattedPhone> </p>
+     <p><lightning:formattedText value="TDCT Fraud:"/>
+    <lightning:formattedUrl value="https://www.td.com/us/en/personal-banking/security-center/reporting-identity-theft-tips" /></p>
+        <p> <lightning:formattedText value="TDCT Fraud:"/> <lightning:formattedPhone value="  1-866-808-7090  "></lightning:formattedPhone> </p>
+     <p><lightning:formattedText value=" Add a section for access to Credit Bureau Sites – " /></p>
+    <p><lightning:formattedText value="Equifax:" /> <lightning:formattedUrl value="http://www.consumer.equifax.ca/dispute-ca/dispute_process/en_ca " /></p>
+    <p><lightning:formattedText value="Trans Union:" /><lightning:formattedUrl value="https://www.transunion.ca/assistance/credit-report-disputes  " /></p>
+</div>
+</aura:component>

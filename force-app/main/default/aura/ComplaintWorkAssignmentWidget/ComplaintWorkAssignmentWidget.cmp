@@ -1,0 +1,763 @@
+<!--<aura:component controller="ComplaintWorkAssignmentWidgetController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" > -->
+<aura:component controller="ComplaintWorkAssignmentWidgetController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <!-- attributes -->
+     <aura:attribute name="entityId" type="String" access="public" />
+     <aura:attribute name="draftValues" type="Product__C[]" />
+     <aura:attribute name="custs" type="Account[]" /> 
+     <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    
+    <!-- Handler-->
+    <aura:handler name="init" value="{!this }" action="{!c.doinit }" />
+    <table
+           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
+        
+        <thead>
+            <tr >
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                    <div>Account Number</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Primary Borrower Name">
+                    <div>Primary Borrower</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                    <div>Co-Borrower</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center "
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Name}"
+                        title="{!draftValue.Name}">
+                        
+                        <aura:if isTrue="{!or(draftValue.Name != null , draftValue != null)}">
+                         {!draftValue.Name}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                        
+                    </td>
+                        
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Primary Borrower Name"
+                        title="Primary Borrower Name"
+                        >
+                        
+                        <aura:if isTrue="{!or(draftValue.First_Name__c != null ,draftValue.Last_Name__c != null , draftValue != null) }">
+                        {!draftValue.First_Name__c}&nbsp;{!draftValue.Last_Name__c}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                    </td>
+                    <td   
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;" 
+                        data-label="Co-Borrower Name"
+                        title="Co-Borrower Name" 
+                        >
+                        
+                        <aura:if isTrue="{!or(draftValue.Codebtor_First_Name__c != null ,draftValue.Codebtor_Last_Name__c != null , draftValue != null)}">
+                        {!draftValue.Codebtor_First_Name__c}&nbsp;{!draftValue.Codebtor_Last_Name__c}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                    </td>
+                                         
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+        
+    <table
+           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">
+        
+        <thead>
+            <tr >
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                    <div>Principle Bal.</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Primary Borrower Name">
+                    <div>Interest Rate</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                    <div>Interest Amount</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                    <div>Current Total Bal.</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; Currency; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Current_Principal_Balance__c}"
+                        title="{!draftValue.Current_Principal_Balance__c}"
+                        >
+                        
+                        <aura:if isTrue="{!draftValue.Current_Principal_Balance__c != null}">
+                       ${!draftValue.Current_Principal_Balance__c}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                        
+                    </td>
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Interest Rate"
+                        title="Interest Rate"
+                        >
+                        <aura:if isTrue="{!draftValue.Interest_Rate__c != null}">
+                        {!draftValue.Interest_Rate__c}%
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                       
+                    </td>
+                    <td 
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; currency; padding: 1% 1% 1%;"
+                        currencyDisplayAs="symbol"
+                        data-label="Intereset Ammount"
+                        title="Intereset Ammount" 
+                        >
+                        <aura:if isTrue="{!draftValue.Current_Interest_Amount__c != null}">
+                        $
+                        <lightning:formattedNumber value='{!draftValue.Current_Interest_Amount__c}' maximumFractionDigits="2"/> 
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                        
+                    </td>
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Current Total Bal."
+                        title="Current Total Bal." 
+                        >
+                         <aura:if isTrue="{!draftValue.Current_Balance__c != null}">
+                        $
+                        <lightning:formattedNumber value='{!draftValue.Current_Balance__c}' maximumFractionDigits="2"/>      
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                        
+                    </td>
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+    
+    <table
+           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">    
+        <thead>
+            <tr>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                    <div>Customer Name</div>
+                </th>
+                
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                    <div>City</div>
+                </th>
+                
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Primary Borrower Name">
+                    <div>State</div>
+                </th>
+                
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                    <div>Country</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.custs}" var="cust">
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!cust.Name}"
+                        title="{!cust.Name}"
+                        
+                        >
+                         <aura:if isTrue="{!cust.Name != null}">
+                          {!cust.Name}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                       </td>
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label=" City"
+                        title=" City" 
+                        >
+                        <aura:if isTrue="{!cust.PersonMailingCity != null}">
+                         {!cust.PersonMailingCity}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                        
+                    </td>
+                        
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="State"
+                        title="State"
+                        >
+                        
+                        <aura:if isTrue="{!cust.PersonMailingState != null}">
+                         {!cust.PersonMailingState}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                       
+                    </td>
+                    
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Email"
+                        title="Country" 
+                        >
+                         <aura:if isTrue="{!cust.PersonMailingCountry != null}">
+                         {!cust.PersonMailingCountry}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                       
+                    </td>
+                    
+                </tr>
+            </aura:iteration>
+        </tbody>
+     </table> 
+    <table
+           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">
+        
+        <thead>
+            <tr>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                    <div>Home Phone</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Primary Borrower Name">
+                    <div>Mobile Phone</div>
+                </th>
+                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                    <div>Address Type</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.custs}" var="cust">
+                <tr>
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!cust.PersonHomePhone}"
+                        title="{!cust.PersonHomePhone}"
+                        >
+                         <aura:if isTrue="{!cust.PersonHomePhone != null}">
+                         {!cust.PersonHomePhone}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                        
+                    </td>
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Mobile Phone"
+                        title="Mobile Phone" 
+                        >
+                        <aura:if isTrue="{!cust.PersonMobilePhone != null}">
+                         {!cust.PersonMobilePhone}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                        
+                    </td>
+                    <td
+                        class="slds-truncate slds-text-align_center"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Address Type"
+                        title="Address Type" 
+                        >
+                        <aura:if isTrue="{!cust.Address_Type__pc != null}">
+                          {!cust.Address_Type__pc}
+                        <aura:set attribute="else">
+      								-
+                        </aura:set>
+  						</aura:if>
+                        
+                       
+                    </td>
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table> 
+	 
+    
+    	<aura:if isTrue="{!v.isModalOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"> Information </h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                                    <div>Account Number</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Primary Borrower Name">
+                                    <div>Primary Borrower</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>Co-Borrower</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>Collection Sub Status</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!draftValue.Name}"
+                                        title="{!draftValue.Name}"
+                                        
+                                        >
+                                        {!draftValue.Name}
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Primary Borrower Name"
+                                        title="Primary Borrower Name"
+                                        >
+                                        <aura:if isTrue="{!or(draftValue.First_Name__c != null ,draftValue.Last_Name__c != null) }">
+                                            {!draftValue.First_Name__c}&nbsp;{!draftValue.Last_Name__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Co-Borrower Name"
+                                        title="Co-Borrower Name" 
+                                        >
+                                        <aura:if isTrue="{!or(draftValue.Codebtor_First_Name__c != null ,draftValue.Codebtor_Last_Name__c != null)}">
+                                            {!draftValue.Codebtor_First_Name__c}&nbsp;{!draftValue.Codebtor_Last_Name__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Collection Sub Status"
+                                        title="Collection Sub Status" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.Collection_Sub_Status__c != null}">
+                                            {!draftValue.Collection_Sub_Status__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">
+                        
+                        <thead>
+                            <tr >
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                                    <div>Principle Balance</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Primary Borrower Name">
+                                    <div>Interest Rate</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>Interest Amount</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>Current Total Balance</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!draftValue.Current_Principal_Balance__c}"
+                                        title="{!draftValue.Current_Principal_Balance__c}"
+                                        >
+                                        <aura:if isTrue="{!draftValue.Current_Principal_Balance__c != null}">
+                                        ${!draftValue.Current_Principal_Balance__c}
+                                        <aura:set attribute="else">
+                                            -
+                                        </aura:set>
+                                        </aura:if>
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Interest Rate"
+                                        title="Interest Rate"
+                                        >
+                                        <aura:if isTrue="{!draftValue.Interest_Rate__c != null}">
+                                            {!draftValue.Interest_Rate__c}%
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Intereset Ammount"
+                                        title="Intereset Ammount" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.Current_Interest_Amount__c != null}">
+                                            $
+                                            <lightning:formattedNumber value='{!draftValue.Current_Interest_Amount__c}' maximumFractionDigits="2"/>
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                       
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Current Total Balance"
+                                        title="Current Total Balance" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.Current_Balance__c != null}">
+                                            $
+                                            <lightning:formattedNumber value='{!draftValue.Current_Balance__c}' maximumFractionDigits="2"/>
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                       
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table> 
+                    
+                    
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr >
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                                    <div>Product Type</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Primary Borrower Name">
+                                    <div>Collection Agency</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>Collection Agency Name</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>Refer to Legal</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Product Type"
+                                        title="Product Type"
+                                        
+                                        >
+                                        <aura:if isTrue="{!draftValue.Product_Type__c != null}">
+                                            {!draftValue.Product_Type__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                    
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Collection Agency"
+                                        title="Collection Agency"
+                                        >
+                                        <aura:if isTrue="{!draftValue.Collection_Agency__c != null}">
+                                             {!draftValue.Collection_Agency__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                       
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Collection Agency Name"
+                                        title="Collection Agency Name" 
+                                        >
+                                        <aura:if isTrue="{!draftValue.Collection_Agency_Formula__c != null}">
+                                            {!draftValue.Collection_Agency_Formula__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Refer to Legal"
+                                        title="Refer to Legal" 
+                                        >
+                                         <aura:if isTrue="{!draftValue.Refer_to_Legal__c != null}">
+                                            {!draftValue.Refer_to_Legal__c}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                       
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+               
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr >
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                                    <div>Customer Name</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Primary Borrower Name">
+                                    <div>City</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>State</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>Country</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.custs}" var="cust">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!cust.Name}"
+                                        title="{!cust.Name}"
+                                        
+                                        >
+                                        {!cust.Name}</td
+                                        >
+                                  <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="City"
+                                        title="City"
+                                        >
+                                       
+                                        <aura:if isTrue="{!cust. PersonMailingCity != null}">
+                                             {!cust. PersonMailingCity}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td > 
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="State"
+                                        title="State" 
+                                        >
+                                         <aura:if isTrue="{!cust.PersonMailingState != null}">
+                                             {!cust.PersonMailingState}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                       
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Email"
+                                        title="Email" 
+                                        >
+                                        <aura:if isTrue="{!cust.PersonMailingCountry != null}">
+                                            {!cust.PersonMailingCountry}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">
+                        
+                        <thead>
+                            <tr >
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                                    <div>Home Phone</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Primary Borrower Name">
+                                    <div>Mobile Phone</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>Address Type</div>
+                                </th>
+                                <th scope="col" class="nobordertop slds-text-align_center" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Co-Borrower Name">
+                                    <div>Work Phone</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.custs}" var="cust">
+                                <tr>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!cust.PersonHomePhone}"
+                                        title="{!cust.PersonHomePhone}"
+                                        >
+                                        <aura:if isTrue="{!cust.PersonHomePhone != null}">
+                                            {!cust.PersonHomePhone}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                       </td>
+                                        
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Mobile Phone"
+                                        title="Mobile Phone"
+                                        >
+                                         <aura:if isTrue="{!cust.PersonMobilePhone != null}">
+                                             {!cust.PersonMobilePhone}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Address Type"
+                                        title="Address Type" 
+                                        >
+                                        <aura:if isTrue="{!cust.Address_Type__pc != null}">
+                                              {!cust.Address_Type__pc}
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                       
+                                    </td>
+                                    <td
+                                        class="slds-truncate slds-text-align_center"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Work Phone"
+                                        title="Work Phone" 
+                                        >
+                                        <aura:if isTrue="{!cust.Work_Phone__pc != null}">
+                                               {!cust.Work_Phone__pc }
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                       
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table> 
+                    
+               </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer">                       
+                    <lightning:button variant="neutral"
+                                      label="OK"
+                                      title="OK"
+                                      onclick="{! c.closeModel }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

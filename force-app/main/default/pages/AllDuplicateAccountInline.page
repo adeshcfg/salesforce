@@ -1,0 +1,29 @@
+<apex:page StandardController="Insolvency_Account__c" extensions="AllDuplicateAccountInlineContrl" showHeader="False" sidebar="false">
+    <apex:form >
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!InslAcctWrappers}" var="acct">
+            <apex:column headerValue="Action">
+                <a href="{!acct.accLink}" target="_blank" value="Open">Open </a>
+            </apex:column>
+            <apex:column headerValue="Account Number">
+                <apex:outputField value="{!acct.acc.Name}"/>
+            </apex:column>
+            <apex:column headerValue="Estate Number">
+                <apex:outputField value="{!acct.acc.Insolvency__r.Name}"/>
+            </apex:column>
+            <apex:column headerValue="Bank">
+                <apex:outputField value="{!acct.acc.Bank_Name__c}"/>
+            </apex:column>
+            <apex:column headerValue="Reasons For Duplicate Account Number">
+                <apex:outputField value="{!acct.acc.Duplicate_Reasons_Picklist__c}"/>
+            </apex:column>
+            <apex:column headerValue="Vendor/Originator">
+                <apex:outputField value="{!acct.acc.Vendor_Orginator__c}"/>
+            </apex:column>
+            <apex:column headerValue="Asset Status">
+                <apex:outputField value="{!acct.acc.Asset_Status__c}"/>
+            </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

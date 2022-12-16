@@ -1,0 +1,23 @@
+<apex:page showheader="false" sidebar="false" standardStylesheets="false" docType="html-5.0" controller="ClsImage">
+<apex:includescript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"/>
+
+<html>
+<head>
+<Style>
+#anc {
+    -webkit-user-select: none;
+    height: 450;
+    width: 450;
+}
+</Style>
+</head>
+<body>
+<a id="anc" href="data:{!mimeType};content-disposition:attachment;base64,{!base64Value}" target="_self" style="height: 450;width: 450;" >{!Filename}</a>
+</body>
+</html> 
+<script type="text/javascript">
+(function ($) {
+$('#anc')[0].click();
+})(jQuery);
+</script> 
+</apex:page>

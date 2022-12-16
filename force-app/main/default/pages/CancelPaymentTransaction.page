@@ -1,0 +1,13 @@
+<apex:page standardController="Payment_Transaction__c" extensions="CancelPaymentTransactionController"
+           action="{!cancelTransaction}" lightningStyleSheets="true">
+    <apex:slds />
+    <apex:form >
+        <div>
+            <apex:pageMessages ></apex:pageMessages> <br/>
+            <div class = "slds-align_absolute-center">
+            	<apex:commandButton action="{!redirect}" value="OK" style="margin-left: 21px;" styleclass="slds-button slds-button_neutral"/>        
+            </div>
+    		
+        </div>
+    </apex:form>
+</apex:page>

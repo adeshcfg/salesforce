@@ -1,0 +1,13 @@
+<apex:page controller="CSVPreferredPartnerController" sidebar="false">
+    <apex:form >
+        
+        <apex:pagemessages />
+        <apex:pageBlock title="Import Preferred Partners Referral Codes">
+            <apex:pageBlockSection columns="4"> 
+                      <apex:inputFile value="{!csvBody}"  filename="{!csvName}" fileSize="{!fileSize}" />
+                      <apex:commandButton value="Import Preferred Partners" action="{!importCSVFile}" style="background:#216BB5;color:white;width:50%;" />
+            </apex:pageBlockSection>
+        </apex:pageBlock> 
+        
+   </apex:form>
+</apex:page>

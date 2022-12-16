@@ -1,0 +1,49 @@
+<!--
+ -->
+
+<aura:component description="ValidationText component are used to display a message to the user. E.g. when a user is getting a validation error or warning">
+    <aura:attribute name="text" type="String" access="public"
+                    description="The validation message to the user"/>
+    <aura:attribute name="type" type="String" access="public"
+                    default="error" 
+                    description="Use one of the types error, success or warning"/>
+    <aura:attribute name="isTrue" type="Boolean" access="public"
+                    default="true"
+                    description="Conditionally show the validation message"/>
+
+
+    <aura:if isTrue="{! v.isTrue }">
+
+        <aura:if isTrue="{! v.type == 'success' }">
+            <div class="slds-text-color_success slds-p-vertical_xx-small success">
+                <lightning:icon iconName="utility:success"
+                                alternativeText="Success"
+                                size="xx-small"
+                                class="slds-p-right_xx-small success"/>
+                    {! v.text }
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{! v.type == 'error' }">
+            <div class="slds-text-align_center slds-has-error slds-p-vertical_xx-small slds-text-color_error slds-p-left_medium">
+                <lightning:icon iconName="utility:ban"
+                                alternativeText="Error"
+                                size="xx-small"
+                                variant="error"
+                                class="slds-p-right_xx-small"/>
+                    {! v.text }
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{! v.type == 'warning' }">
+            <div class="slds-p-vertical_xx-small warning slds-text-align_center">
+                <lightning:icon iconName="utility:warning"
+                                alternativeText="Warning"
+                                size="xx-small"
+                                variant="warning"
+                                class="slds-p-right_xx-small"/>
+                    {! v.text }
+            </div>
+        </aura:if>
+    </aura:if>
+</aura:component>

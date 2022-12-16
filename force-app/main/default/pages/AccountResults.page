@@ -1,0 +1,476 @@
+<apex:page controller="AccountResultsController" showHeader="false" sidebar="false"
+           lightningStylesheets="true" applyBodyTag="false" applyHtmlTag="false" action="{!check}"
+           cache="false">
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <style>
+        body {
+            font-family: Arial, Helvetica, Verdana, sans-serif;
+            font-size: 17px;
+            color: #636363;
+        }
+        * {
+  box-sizing: border-box;
+}
+        .account-search-form {
+            /* width: 50%;
+            color: #888484;
+            border: 1px solid;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%; */
+        }
+
+        .input-field {
+            padding: 10px 15px 30px;
+        }
+
+        .row, .row-sm {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .col-md-6, .col-sm-6 {
+            width: 50%;
+        }
+        .section-grey-class {
+            padding: 10px;
+            margin: 5px;
+            margin-bottom: 11px;
+        }
+
+        .section-grey-font {
+            font-weight: 700;
+        }
+
+        .right-amount {
+            float: right;
+        }
+        .section-icon {
+            width: 90%;
+            height: 100%;
+         
+            display: flex;
+        }
+        .section-icon-text {
+            align-items: center;
+            display: flex;
+        }
+        .section-icon-full {
+            background: white;
+        /*padding: 15px 50px;*/
+            font-size: 14px;
+        }
+        
+        .findAccount {
+            background: none;
+            background-color:#132A8C;
+            border: none;
+            border-radius: 25px;
+            line-height: 18px;
+            padding: 12px 24px;
+            font-family: Arial, Helvetica, Verdana, sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+            text-decoration: none;
+            font-style: normal;
+        }
+
+        .findAccount:hover {
+            background-color: #49DCE4;
+            color: #132A8C;
+            text-decoration: none;
+        }
+        
+        .details {
+            font-size : 14px;
+        }
+        .welcome{
+            font-size : 25px;
+            text-transform: capitalize;
+            color: #636363;
+            margin-bottom:5px;
+        }
+        
+        .blueKeyLine {
+            border: 1px solid #132A8C;
+        }
+        
+        .detailsDate {
+            text-align: right;
+            margin-bottom:5px;
+        }
+        .makepayment {
+            text-align : center;
+            margin-top: 45px;
+        }
+        .legalnote {
+            font-size:8pt;
+            /*margin-top: 10px;*/
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        
+        .agencymessage {
+            display: block;
+            margin: 5px;
+            padding: 12px;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+        
+        .footnote {
+            font-size:12px;
+            position: absolute;
+            bottom: 5px;    
+            margin-left:20px;
+            margin-right: 20px;
+        }
+        .errorDiv{
+            width: 80%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            font-size: 18px;
+            text-align:center;
+        }
+        .agencyDetails {
+            height : 197.67px;
+        }
+        
+        @media screen and (max-width: 599px) and (min-width: 200px) {
+            .detailsDate {
+                text-align: left;
+                margin-bottom: 5px;
+            }
+            .details {
+                font-size : 10px;
+            }
+            .findAccount {
+                font-size : 10px;
+                line-height: 25px;
+                padding: 10px 20px;
+            }
+            .section-icon-full{
+                font-size: 10px;
+                padding: 9px 3px;
+                padding: 0px 3px;
+            }
+            .row {
+                flex-direction: column;
+            }
+            .col-md-6 {
+                width: 100%;
+            }
+            .section-grey-font{ 
+                font-weight: bold;
+            }
+            body {
+                font-size : 9px;
+            }
+            .welcome{
+                font-size : 14px;
+                margin-bottom: 5px;
+            }
+            .section-grey-class {
+                padding: 5px;
+                margin: 5px;
+            }
+            .legalnote {
+                font-size: 5pt;
+                /*margin-top: 10px;*/
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+            .agencymessage {
+                display: block;
+                margin: 5px;
+                padding: 7px;
+                font-size: 8px;
+                margin-top: 35px;
+            }
+            .footnote {
+                font-size: 5pt;
+                position: absolute;
+                bottom: 0px;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            .agencyDetails {
+                height : auto;
+            }
+            .makepayment {
+                text-align: center;
+                margin-top: 30px;
+            }
+        }
+        @media screen and (max-width: 768px) and (min-width: 600px) {
+            .detailsDate {
+                text-align: left;
+                margin-bottom: 5px;
+            }
+            .details {
+                font-size : 10px;
+            }
+            .findAccount {
+                font-size : 11px;
+                line-height: 35px;
+            }
+            .section-icon-full{
+                font-size: 10px;
+                padding: 9px 3px;
+                padding: 0px 3px;
+            }
+            .row {
+                flex-direction: column;
+            }
+            .col-md-6 {
+                width: 100%;
+            }
+            .section-grey-font{ 
+                font-weight: bold;
+            }
+            body {
+                font-size : 11px;
+            }
+            .welcome{
+                font-size : 16px;
+                margin-bottom: 5px;
+            }
+            .section-grey-class {
+                padding: 5px;
+                margin: 5px;
+            }
+            .legalnote {
+                font-size: 6pt;
+                /*margin-top: 10px;*/
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            .agencymessage {
+                display: block;
+                margin: 5px;
+                padding: 7px;
+                font-size: 10px;
+                margin-top: 30px;
+            }
+            .footnote {
+                font-size: 6pt;
+                position: absolute;
+                bottom: 0px;
+                margin-left: 20px;
+                margin-right: 20px;
+            }   
+            .section-grey-class {
+                margin: 8px;
+             }
+            .agencyDetails {
+                height : auto;
+            }
+            .makepayment {
+                text-align: center;
+                margin-top: 26px;
+            }
+        }
+    </style>
+    <script>
+        var details;
+        function accessCookie(cookieName){
+            console.log('--',cookieName);
+            var name = cookieName;
+            console.log('name:',name);
+            var allCookieArray = document.cookie.split(';');
+            console.log('---',allCookieArray);
+            for(var i=0; i<allCookieArray.length; i++){
+                var temp = allCookieArray[i];
+                console.log('temp.indexOf(name)',temp.length);
+                console.log('name.length)',name.length);
+                if (temp.includes(name)){
+                    console.log('name=',temp);
+                    return "Yes";
+                }
+            }
+            return "";
+        }
+    
+        function checkCookie(){
+            var searchCookie = accessCookie("apex__searchPerformed=Yes");
+            console.log('searchCookie', searchCookie);
+            if (searchCookie!="Yes"){
+                console.log('cookie not found');
+                document.cookie = "apex__searchPerformed=No";
+                //document.cookie = "apex__searchPerformed=; expires=2020-10-26T07:13:52.562Z; path=/;";
+                /*document.cookie = "searchPerformed=No";*/
+                //document.cookie = "apex__searchPerformed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                console.log('cookie', document.cookie);
+                console.log('call redirect');
+                console.log("{!setting.Error_page_URL__c}");
+                window.parent.location = "{!setting.Error_page_URL__c}";
+            }
+            else {
+                console.log('cookie found');
+                details.style.display = "block";
+                document.cookie = "apex__searchPerformed=No";
+                //document.cookie = "apex__searchPerformed= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+                /*document.cookie = "searchPerformed=No";*/
+                //document.cookie = "apex__searchPerformed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                console.log('cookie value', document.cookie);
+            }
+         }    
+    
+        function myFunction() {
+            //location.reload();
+          var bodyblock = document.getElementById("body");
+            //bodyblock.style.display = "none";
+            //checkCookie();
+          var x = document.getElementById("payment");
+          var y = document.getElementById("message");
+          //var errorDiv = document.getElementById("errorDiv");
+          console.log('show:', '{!showPayment}');
+          if('{!showPayment}' === 'false'){
+              //bodyblock.style.display = "none"
+            //errorDiv.style.display = "block";
+          }
+          else{
+              //bodyblock.style.display = "block"
+              //errorDiv.style.display = "none";
+          }
+          /*var imageblock = document.getElementById("imageblock");
+          console.log(imageblock);
+          /*if('{!collectionAgencyURL}' === ''){
+              imageblock.style.display = "none";
+          }*/
+          console.log('{!collectionAgencyName}');
+          if ('{!collectionAgencyName}' === "Canaccede International Management Ltd.") {
+            x.style.display = "block";
+            y.style.display = "none";
+          } else {
+            x.style.display = "none";
+            y.style.display = "block";
+          }
+        }
+        
+        function redirectToError(){
+            var theControllerValue = "{!urlForRedirection}";
+            //alert('redirect URL' + theControllerValue);
+            debugger
+            console.log('redirectURL :',theControllerValue);
+            if(null != theControllerValue){
+                window.parent.location = "{!urlForRedirection}";
+            }
+        }
+    </script>
+</head>
+
+<body onload="myFunction()" id = "body">
+    <apex:form >
+        <apex:outputPanel rendered="{!showPayment}">
+        <div class="account-search-form" id = "details">
+            <div class="input-field">
+                <div class = "welcome">Welcome,
+                     {!customerName}
+                </div>
+                <div class = "row">
+                    <div class = "col-md-6"><h3>Canaccede Account Number: {!productRecord.Name}</h3></div>
+                    <div class = "col-md-6 detailsDate"><h3>As of:&nbsp; <apex:outputText value="{0,date,dd' 'MMM' 'yyyy}"> 
+                                <apex:param value="{!TODAY()}" /> 
+                            </apex:outputText></h3></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="section-grey-class section-grey-font blueKeyLine">
+                            <label>Account Balance:</label>
+                            <span class="right-amount">
+                                <apex:outputfield value="{!productRecord.Current_Balance__c}"/></span>
+                        </div>
+                        <!--<div class="section-grey-class section-grey-font blueKeyLine">
+                                    <label>Interest:</label>
+                                    <span class="right-amount">
+                                        <apex:outputfield value="{!productRecord.Current_Interest_Amount__c}"/>
+                                    </span>
+                        </div>-->
+                        <div class="section-grey-class section-grey-font blueKeyLine">
+                            <label>Current Interest Rate:</label>
+                            <span class="right-amount">
+                                <apex:outputField value="{!productRecord.Interest_Rate_Display__c}"/></span>
+                        </div>
+                        <div class="section-grey-class section-grey-font blueKeyLine">
+                            <label>Last Payment Date (dd/mm/yyyy):</label>
+                            <span class="right-amount">
+                                <apex:outputText value="{0,date,dd/MM/yyyy}"> 
+                                     <apex:param value="{!productRecord.Last_Payment_Date__c}" /> 
+                                </apex:outputText> </span>
+                        </div>
+                        <!--<div class="section-grey-class">
+                                <label>Principal:</label>
+                                <span class="right-amount">
+                                    <apex:outputfield value="{!productRecord.Current_Principal_Balance__c}"/>
+                                </span>
+                            </div>-->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="section-grey-class blueKeyLine agencyDetails">
+                            <label class = "section-grey-font">Your Account is administered by:</label>
+                            <br/><br/>
+                            <div class="">
+                                <div class="">
+                                    <div class="details">{!collectionAgencyName}</div><br/>
+                                    <div class="details">
+                                        <apex:outputText value="{!collectionAgencyAddress}" escape="false"></apex:outputText>
+                                        </div><br/>
+                                    <div class="details">Telephone: 
+                                        <a href="tel:{!collectionAgencyPhone}" style="color: #0078d4;">{!collectionAgencyPhone}</a></div>
+                                    <div class="details">
+                                        <apex:outputText value="{!IF(ISBLANK(collectionAgencyEmail),'','Email:')}"/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href = "mailto: {!collectionAgencyEmail}" style="color: #0078d4;">
+                                        {!collectionAgencyEmail}</a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "legalnote">
+                        Please note that the Account Balance detailed above may not reflect payments made in the last 48 hours. 
+                        If you have multiple accounts with Canaccede, please contact us directly to confirm the details of those accounts.
+                    </div>
+                </div>
+                <!--<h2>Make a Payment</h2>-->
+                <div class="section-icon-full">
+                    <div id = "payment" class = "makepayment">
+                        <a href="https://www.mycanaccede.com/contact-us/" target="_PARENT"
+                            class = "button findAccount">Make A Payment</a>
+                    </div>
+                    <div id = "message" class = "agencymessage blueKeyLine">
+                        Your account is currently being serviced by the organization noted above. Please contact them directly to make any payment arrangements.
+                    </div>
+                </div>
+                
+                </div>
+                <br/>
+                <div class = "footnote">
+                    If you require assistance please contact Canaccede Client Services toll-free at 1-888-316-2369, or client.services@canaccede.com.
+                </div>                    
+        </div>
+        <!--<div class = "errorDiv" id="errorDiv">
+                <apex:outputText value="We are unable to display your information at this time.Please perform Account Search." escape="false"/>
+        </div>-->
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!showError}">
+            <div style = "width: 80%; position: absolute; transform: translate(-50%, -50%); top: 50%;
+                          left: 50%; font-size: 18px; text-align: center;">
+                We are unable to retrieve your information at this time.  Please contact Canaccede client services for assistance toll-free at 1-888-316-2369, or client.services@canaccede.com.                
+            </div>
+        </apex:outputPanel>
+        <apex:outputText value="{!callfunc}" escape="false"/>
+    </apex:form>
+</body>
+
+</html></apex:page>

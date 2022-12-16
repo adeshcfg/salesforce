@@ -1,0 +1,17 @@
+<apex:page controller="PreviewProductEmailCntrl" renderAs="{!renderedAs}"  action="{!createActivity}"  cache="false" showHeader="false" sidebar="false" showChat="false">
+<apex:form id="form">
+<script>
+    /* Check whether need to print the email page, on page load */
+    window.onload = function () { 
+    
+    if('{!renderedAs}' != 'pdf'){
+        window.print();
+        window.close();
+    }
+    }
+</script>
+<body style="width:92%;">
+<apex:outputText value="{!htmlBody}" escape="false"/>
+</body>
+</apex:form>
+</apex:page>

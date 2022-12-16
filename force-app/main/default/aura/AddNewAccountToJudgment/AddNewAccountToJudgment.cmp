@@ -1,0 +1,119 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="AddNewAccountToJudgmentController" >
+    <aura:attribute name="searchFields" type="String[]" default="['Name', 'Customer__r.Name', 'DebtNext_Data_ID__c']"/>
+    <aura:attribute name="returnFields" type="String[]" default="['Name', 'Customer__r.Name', 'DebtNext_Data_ID__c']"/>
+    <aura:attribute name="columnHeaders" type="String[]" default="['Account Number', 'Customer Name', 'DebtNext Data ID']"/>
+    <aura:attribute name="searchRecordTypes" type="String[]" default="['Distressed_Account']"/>
+    
+    <aura:attribute name="searchResults" type="String[]" default="[]"/>
+    <aura:attribute name="existingLinkedAccounts" type="String[]" default="[]"/>
+    <aura:attribute name="judgmentRecord" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:attribute name="placeHolder" type="String" default="Account Number or Customer Name or Debtnext Data Id (,)"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isDisabled" type="Boolean" default="true" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="serverRespose" type="Object"/>
+    <c:errorHandling aura:id="errorHandling" serverRespose="{!v.serverRespose}" showSpinner="{!v.showSpinner}"/>
+    
+    <force:recordData aura:id="forceRecord"
+                      recordId="{!v.recordId}"
+                      fields="Id,Legal_Sub_Status__c"
+                      targetFields="{!v.judgmentRecord}"
+                      />
+    <aura:if isTrue="{!v.judgmentRecord.Legal_Sub_Status__c != 'Vacated'}">
+        <aura:set attribute="else">
+            
+            <c:ValidationText type="error"
+                              text="You cannot add Account when status is Vacated"/>
+        </aura:set>
+   
+    
+    <c:QuickAction header="Add Account" showSpinner="{!v.showSpinner}">
+        <c:customSearch searchObject="Product__c"
+                        searchFields="{!v.searchFields}" 
+                        returnFields="{!v.returnFields}" 
+                        searchResults="{!v.searchResults}"
+                        placeholder="{!v.placeHolder}"
+                        excludeRecords ="{!v.existingLinkedAccounts}"
+                        searchRecordTypes = "{!v.searchRecordTypes}"/>
+        
+        
+        <aura:if isTrue="{! not(empty(v.existingLinkedAccounts)) }">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_small  ">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <aura:iteration items="{!v.columnHeaders}" var="header" >
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="{!header}">{!header}</div>
+                            </th>
+                        </aura:iteration>
+                    </tr>
+                </thead>
+                 <tbody>
+                    <aura:iteration items="{!v.existingLinkedAccounts}" var="prod" >
+                        <tr class="slds-hint-parent">
+                            <td data-label="">
+                                <div class="slds-truncate" title="{!prod.Name}">{!prod.Name}</div>
+                            </td>
+                            <td data-label="">
+                                <div class="slds-truncate" title="{!prod.Name}">{!prod.Customer__r.Name}</div>
+                            </td>
+                            <td data-label="">
+                                <div class="slds-truncate" title="{!prod.Name}">{!prod.DebtNext_Data_ID__c}</div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </aura:if>
+        
+        <aura:if isTrue="{! not(empty(v.searchResults)) }">
+            <div class="slds-text-title_caps slds-m-top_small">Search results:</div>
+           <div class="slds-table--header-fixed_container" style="height:450px;">
+    		<div class="slds-scrollable_y" style="height:100%;">
+            <table class="slds-table slds-table_bordered slds-table--header-fixed" style="margin-bottom: 0.1rem;">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <td style="background-color: rgb(250, 250, 249);">
+                            <ui:inputCheckbox aura:id="all-checkbox"  change="{!c.selectAll}" value="{!not(v.isDisabled)}"/>
+                        </td>
+                        <aura:iteration items="{!v.columnHeaders}" var="header" >
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="{!header}">{!header}</div>
+                            </th>
+                        </aura:iteration>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.searchResults}" var="prod" >
+                        <tr class="slds-hint-parent">
+                            <td>
+                                <ui:inputCheckbox aura:id="prod-checkbox" value ="{!prod.isSelected}" change="{!c.selected}"/>
+                            </td>
+                            
+                            <td data-label="">
+                                <div class="slds-truncate" title="{!prod.Name}">{!prod.Name}</div>
+                            </td>
+                            <td data-label="">
+                                <div class="slds-truncate" title="{!prod.Name}">{!prod.Customer__r.Name}</div>
+                            </td>
+                            <td data-label="">
+                                <div class="slds-truncate" title="{!prod.Name}">{!prod.DebtNext_Data_ID__c}</div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+               </div>
+            </div>
+        </aura:if>
+        <aura:set attribute="save">
+            <lightning:button name="save" label="Add Accounts" variant="brand"
+                              onclick="{! c.addAccounts}"
+                              aura:Id="AddAccountButton" 
+                              disabled="{!v.isDisabled}"/>
+        </aura:set>
+    </c:QuickAction>
+         </aura:if>
+</aura:component>

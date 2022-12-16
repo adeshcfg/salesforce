@@ -1,0 +1,41 @@
+<aura:component controller="FileUploadLWC" 
+                implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId,force:hasSObjectName" access="global">
+     <ltng:require scripts="{!$Resource.ExceltoJSONService}"
+                  />
+    <aura:attribute name="documents" type="object[]"/>
+    <aura:attribute name="parentId" type="Id" default="" />
+    <aura:attribute name="errorFileName" type="String" default="" />
+    <aura:attribute name="showModal" type="boolean" default="false"/>
+    <aura:attribute name="documentid" type="Id" default="" />
+    <!-- 'showLoadingSpinner' attribute for show/hide the uploading image and msg in aura:if-->
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <!-- 'fileName' attribute for display the selected file name -->
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="FileJSON" type="String" />
+    <aura:attribute name="productID" type="String" />
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    <aura:attribute name="switch" type="boolean" default="true" />
+    <aura:attribute name="files" type="Document_Storage__c[]"/>
+    <aura:attribute name="acceptFileTypes" type="String" />
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="isDocTypeSelected" type="boolean" default="false" />
+    <aura:attribute name="fileURL" type="String"/>
+    <aura:attribute name="pdfContainer" type="Aura.Component[]"/>
+    <aura:attribute name="RELEASE_LETTER" type="String" default="Final Release Letter"/>
+    <aura:attribute name="SETTLEMENT_LETTER" type="String" default="Conditional Release Letter"/>
+    <aura:attribute name="releaseLetter" type="Document_Storage__c"/>
+    <aura:attribute name="settlementLetter" type="Document_Storage__c"/>
+    <aura:attribute name="selectedOffer" type="Document_Storage__c"/>
+    <aura:attribute name="recordId" type="String" />
+<lightning:fileUpload aura:id="fileId1" label="Upload Attachment"
+        name="file"  multiple="true" accept="{!v.acceptFileTypes}"
+        recordId="{!v.recordId}" onuploadfinished="{!c.handleUploadFinished}" />
+          <span>Maximum size of a file: 5.5 MB</span>
+           <div class="slds-text-body_small slds-text-color_error" aura:id="changeIt">{!v.fileName} </div>
+             <br />
+   
+        <aura:if isTrue="{!v.showModal}">
+        Error File Names: <ui:outputtext aura:Id="outputTextId"  value="{!v.errorFileName}"/>
+      </aura:if>
+    
+    </aura:component>

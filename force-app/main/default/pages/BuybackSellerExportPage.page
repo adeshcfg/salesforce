@@ -1,0 +1,91 @@
+<apex:page extensions="BuybackSellerExportController" standardController="Product__c">
+<apex:slds ></apex:slds>
+<apex:form id="form1">      
+<apex:actionFunction name="getDocument" action="{!getDocumentInfo}"  oncomplete="downloadfilecontents();" rerender="scriptPanel,form1" >
+    <apex:param name="documentid" assignto="{!documentID}" value="" />
+</apex:actionFunction>
+<apex:actionFunction name="downloadfilecontents" oncomplete="downloadDocument('{!blobContents}');return false;" />
+<br/>
+
+<div>
+    <apex:outputText escape="false" value="&nbsp;&nbsp;Click below button to export all the Product Records which are in Buyback/Putback Status.">
+    </apex:outputText>
+    <apex:pageBlock rendered="{!IF(AND(
+                                listProducts != null,
+                                listProducts.size > 0
+                        ),true,false)}">
+        <apex:pageBlockTable value="{!listProducts}" var="prodRecord" id="prodtableRerender">
+            <apex:column >
+                    <apex:facet name="header">Account Name</apex:facet>
+                    <apex:outputLink value="/{!prodRecord.Id}" target="_blank">
+                        {!prodRecord.Name}
+                    </apex:outputLink>                    
+            </apex:column>                 
+            <apex:column >
+            	<apex:facet name="header">Buyback/Putback Status</apex:facet>
+                <apex:outputField value="{!prodRecord.Purchase_Status__c}"/>
+            </apex:column>
+            <apex:column >
+            	<apex:facet name="header">Buyback/Putback Reason</apex:facet>
+                <apex:outputField value="{!prodRecord.Putback_Reason__c}"/>
+            </apex:column>  
+            
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</div>
+<br/>
+<div >
+<apex:outputPanel id="scriptPanel">
+<script>
+function downloadDocument( blobcontents1){
+    var byteCharacters = atob('{!blobContents}');
+    let buf = new Array(byteCharacters.length);
+    for (var i = 0; i != byteCharacters.length; ++i) buf[i] = byteCharacters.charCodeAt(i);
+    let view = new Uint8Array(buf);
+    let blob = new Blob([view], {
+            type: '{!contentType}'
+        });
+
+    var downloadLink = document.createElement('a');
+    var url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.download = "Download.csv";
+    window.open(downloadLink);
+}
+</script>
+</apex:outputPanel>
+</div>
+<apex:outputPanel id="panel"> 
+    <div>
+        <apex:commandButton action="{!createCSV}"
+                            value="Export Records" 
+                            reRender="panel"
+                            styleClass="slds-button slds-button_outline-brand"
+                            disabled="{!IF(DisableExportBtn == true ,true,false)}"/> 
+    </div>  
+    <br/>
+    <div>
+        <apex:outputText escape="false" value="{!ERROR_MSG}"></apex:outputText>
+    </div>
+    <br/>
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!listDocStorage}" var="DocStorage" id="tableRerender">
+            <apex:column value="{!DocStorage.Name}">
+              <!--  <apex:facet name="header"><apex:outputText value="Document" /></apex:facet>
+                <apex:outputLink value="/{!DocStorage.id}" target="_blank">
+                    {!DocStorage.Name}
+                </apex:outputLink> -->
+            </apex:column>                 
+            <apex:column value="{!DocStorage.File_Processing_Date__c}"/>
+            <apex:column value="{!DocStorage.Creator__c}"/>  
+            <apex:column >
+                <apex:facet name="header"><apex:outputText value="Download" /></apex:facet>                        
+                <apex:inputHidden value="{!DocStorage.Document_Id__c}"/>
+                <apex:CommandButton value="Export File" onclick="getDocument('{!DocStorage.Document_Id__c}');return false;">
+                </apex:CommandButton>
+            </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:outputPanel>         
+</apex:form> 
+</apex:page>

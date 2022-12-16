@@ -1,0 +1,37 @@
+<apex:page controller="ShowLoanTeleScriptController" docType="html-5.0" showHeader="false" sidebar="false" id="scriptPage">
+    <script>
+    window.onload=function(){
+        document.getElementById('{!$Component.buttonForm.unClickableButton}').style.display = 'block';
+        document.getElementById('{!$Component.buttonForm.clikableButton}').style.display = 'none';
+    }
+    function chekboxValue(){
+        
+        if(document.getElementById('{!$Component.buttonForm.checkVal}').checked){
+            document.getElementById('{!$Component.buttonForm.unClickableButton}').style.display = 'none';
+            document.getElementById('{!$Component.buttonForm.clikableButton}').style.display = 'block';
+        }else{
+            document.getElementById('{!$Component.buttonForm.unClickableButton}').style.display = 'block';
+            document.getElementById('{!$Component.buttonForm.clikableButton}').style.display = 'none';
+        }
+    }
+    function reloadPrevious(){
+        window.opener.location='/{!appId}';
+        window.close();
+    }
+    </script>
+
+    <apex:form rendered="{! !showError}">
+        <apex:iframe src="/apex/LoanTeleScript?id={!appId}" scrolling="true" frameborder="false"/>
+    </apex:form>
+    <apex:form rendered="{!showError }">
+        <apex:pageBlock id="errorPanel" >
+            <h2>{!errorMessage}</h2>
+        </apex:pageBlock>
+    </apex:form>
+    <apex:form id="buttonForm" rendered="{! !showError}">
+        <apex:inputCheckbox id="checkVal" value="{!showAccept}" onchange="chekboxValue();"/>
+        <apex:outputLabel >I Accept</apex:outputLabel>
+        <apex:commandButton id="unClickableButton" action="{!saveScript}" disabled="true" value="Accept Document"/>
+        <apex:commandButton id="clikableButton" action="{!saveScript}" oncomplete="reloadPrevious();" value="Accept Document"/>
+    </apex:form>
+</apex:page>

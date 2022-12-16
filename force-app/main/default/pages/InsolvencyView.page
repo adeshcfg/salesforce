@@ -1,0 +1,4 @@
+<apex:page standardController="Insolvency__c" extensions="InsolvencyViewController" tabstyle="Insolvency__c">
+        <apex:detail subject="{!Insolvency__c.Id}" inlineEdit="{!inlineEdit}"/> 
+
+</apex:page>

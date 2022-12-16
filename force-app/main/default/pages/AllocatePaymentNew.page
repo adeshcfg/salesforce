@@ -1,0 +1,108 @@
+<apex:page standardController="Unallocated_Payment__c" extensions="UnallocatedPaymentControllerNew" sidebar="false" showHeader="false" id="page">
+<!--<apex:page Controller="UnallocatedPaymentControllerNew" sidebar="false" showHeader="false" id="page">-->
+    
+    <Script>
+        
+        function closeWindow(){
+            setTimeout(function(){
+              window.close();
+            }, 3000);
+        }
+        
+        function validate(){
+            
+            var select = document.querySelector('[id$="select"]');
+            
+            var ins = document.querySelector('[id$="ins"]');
+            var ccs = document.querySelector('[id$="ccs"]');
+            var PayRef = document.querySelector('[id$="PayRef"]');
+            var PayDate = document.querySelector('[id$="PayDate"]');
+    
+            if(select.value == "Inslovency"){
+                if(ins.value == ""){
+                    window.alert("Please select Inslovency Account Id");
+                    ins.focus();
+                    return false;
+                }
+            }
+            else if(select.value == "CCS"){
+                if(ccs.value == ""){
+                    window.alert("Please select CCS Account Id");
+                    ccs.focus();
+                    return false;
+                }
+            }
+            else if(select.value == "FDR" || select.value == "Megasys" || select.value == "Distressed"){
+                if(PayRef.value == ""){
+                    window.alert("Please provide Payment Reference Number");
+                    PayRef.focus();
+                    return false;
+                }
+                if(PayDate.value == ""){
+                    window.alert("Please provide Payment Date");
+                    PayDate.focus();
+                    return false;
+                }
+            }
+            if(select.value != ""){
+                //checkData();
+                return true;
+                
+            }
+            
+        }
+    </script>
+      <apex:form id="fm">
+      <apex:actionStatus id="spinner">
+         <apex:facet name="start">
+            <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.25; z-index: 1000; background-color: black;">
+               &nbsp;
+            </div>
+            <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 12% 40%">
+               <div style="display: inline-block; padding: 2px; background-color: #fff; width: 125px;">
+                  <img src="/img/loading.gif" style="float: left; margin: 8px;" />
+                  <span style="display: inline-block; padding: 10px 0px;">Please Wait...</span>
+               </div>
+            </div>
+         </apex:facet>
+      </apex:actionStatus>
+      <apex:pageMessages id="msg"></apex:pageMessages>
+      <!--<apex:actionFunction action="{!check}" name="checkData" reRender="pb,pb1,page" status="spinner"/>-->
+      <apex:pageBlock title="Choose Account" rendered="{!(!unAloccPay.Allocated__c && !unAloccPay.Is_Payment_Remitted__c && unAloccPay.Is_Payments_Reversed__c == null)}" id="pb">
+          
+          <apex:pageBlockSection id="pbs1" collapsible="false" columns="2">
+              <apex:pageBlockSectionItem >
+                  <apex:outputText >Choose Account Type</apex:outputText>
+                  <apex:selectList multiselect="false" size="1" value="{!Selected}" id="select">
+                      <!--<apex:selectOption itemLabel="-None-" itemValue=""></apex:selectOption>-->
+                      <apex:selectOptions value="{!accList}"></apex:selectOptions>
+                      <apex:actionSupport event="onchange" rerender="pb1" />
+                  </apex:selectList>
+              </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+      </apex:pageBlock>
+      <apex:pageblock rendered="{!(!unAloccPay.Allocated__c && !unAloccPay.Is_Payment_Remitted__c && unAloccPay.Is_Payments_Reversed__c == null)}" id="pb1">
+          
+          <apex:pageblockSection id="pbsi" rendered="{!IF(Selected == 'Insolvency',true,false)}">
+              <apex:inputField label="Insolvency Account" value="{!insolvPay.Insolvency_Account__c}" required="false" id="ins"/>
+              
+          </apex:pageblockSection>
+          <apex:pageBlockSection id="pbsc" rendered="{!IF(Selected == 'CCS',true,false)}">
+            <apex:inputField label="CCS Account" value="{!prodPay.CCS_Account__c}" required="false" id="ccs"/>    
+          </apex:pageBlockSection>
+              
+          <apex:pageBlockSection id="pbsor" rendered="{!IF((Selected == 'FDR' || Selected == 'Megasys' || Selected == 'Distressed'),true,false)}">
+            <apex:inputField id="PayRef" label="Payment Reference Number" value="{!unAloccPay.SOR_Cheque_Reference_Number__c}" required="false"/>    
+            <apex:inputField id="PayDate" label="Payment Date" value="{!unAloccPay.SOR_Allocated_Date__c}" required="false"/>    
+          </apex:pageBlockSection>
+          <apex:pageBlockSection >
+          
+          <div class="myheader" style="text-align: center;">
+              <apex:commandButton style="margin-left: 100px;" value="Save" action="{!check}" status="spinner" oncomplete="showMessage();" reRender="pb,pb1,fm"/>
+          </div>
+              <!--<apex:commandButton id="savebtn" value="save" action="{!check}" status="spinner" reRender="pb,pb1"/>-->
+          </apex:pageBlockSection>
+        </apex:pageBlock>
+      </apex:form>
+  
+</apex:page>

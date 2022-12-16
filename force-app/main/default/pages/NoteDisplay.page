@@ -1,0 +1,44 @@
+<apex:page standardController="Note" extensions="NoteCrtl" sidebar="true" showHeader="true">
+
+    <apex:form >
+        <apex:pageBlock title="New Public Note">
+            <apex:pageblockButtons >
+                 <apex:commandButton id="Edit" value="Edit" action="{!edit}"/>
+                <apex:commandButton id="cancel" value="Cancel" action="{!Cancel}"/>
+            </apex:pageblockButtons>
+            
+            <apex:pageBlockSection columns="1" title="Public Note Information" collapsible="false">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Note Owner</apex:outputLabel>
+                    <apex:outputLabel >{!noteRecord.Owner.name}</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Related To</apex:outputLabel>
+                    <apex:outputField value="{!noteRecord.parentID}"/>
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Title</apex:outputLabel>
+                    <apex:outputField value="{!noteRecord.Title}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Body</apex:outputLabel>
+                    <apex:outputField value="{!noteRecord.Body}"/>
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Created By</apex:outputLabel>
+                    <!--<apex:inputText value="{!created by}"/>-->
+                    <apex:outputField value="{!noteRecord.CreatedBy.name}"/>
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Modified By</apex:outputLabel>
+                    <!--<apex:inputText value="{!modified by}"/>-->
+                    <apex:outputField value="{!noteRecord.LastModifiedBy.name}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+
+        </apex:pageBlock>   
+    </apex:form>
+</apex:page>

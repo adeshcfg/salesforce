@@ -1,0 +1,95 @@
+<!--This page displays all attachments related to Assignment for all users-->
+<apex:page standardController="Case" extensions="AssignmentDocCntrl" sidebar="false" showHeader="false">
+    
+    <script type="text/javascript">  
+    
+    var uploadedFilename;
+    var uploadFileDescription;
+    
+    function checkAndUpload() {
+        uploadDocument();           
+    } 
+    
+    function deletAtt(attid, ele){
+        var retVal = confirm("Do you want to continue ?");
+        if( retVal == true ){
+            ele.disabled = true;
+            deletAttHelper(attid);
+        }
+        else{
+            return false;
+        }
+    }   
+    
+    </script>
+    
+    <apex:form id="docForm" >
+        <apex:actionFunction name="deletAttHelper" action="{!deleteAttachment}" oncomplete="uploadCompleteAction();">
+            <apex:param name="attId" value="" assignTo="{!selectedAttId}"/>
+        </apex:actionFunction>
+        <apex:pageBlock >
+            <apex:outputPanel >
+                <apex:pageMessages id="errorMessage"/>
+                <div align="center" draggable="false" >
+                    <apex:actionFunction action="{!upload}" name="uploadDocument" />
+                    <apex:inputFile id="theDocFile" value="{!attach.body}"
+                                    filename="{!attach.name}" 
+                                    accept=".txt,.doc,.docx,.xls,.xslx,.pdf;"/>
+                    <input type="button" id="btnUploadNewDoc" value="Upload Document" onclick="checkAndUpload();"/>
+                </div>  
+            </apex:outputPanel>
+            
+            <br/>
+            
+            <apex:outputPanel rendered="{!!initialLoad}">
+                <apex:outputText style="color: green" value="File uploaded successfully"  rendered="{!fileUploadSuccess}"/>
+                <apex:outputText style="color: red" value="There was error uploading a file, please contact System Administrator"  rendered="{!!fileUploadSuccess}"/>
+            </apex:outputPanel>
+        
+            <apex:outputPanel id="attListShow">
+            <div style="overflow: scroll; height: 150px;">
+                <apex:pageBlockTable value="{!inslAttachmentWrappers}"  var="inslAttachmentWrapper" columns="4">
+                    <!--
+                    <apex:column>
+                        <input type="button" Class="slds-button slds-button--neutral" value="Delete" onclick="deletAtt('{!inslAttachmentWrapper.attch.Id}', this)"/>
+                    </apex:column>
+                    -->
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:outputLabel >NAME</apex:outputLabel>
+                        </apex:facet>
+                        
+                        <span class="slds-m-left_xx-small slds-truncate" title="{!inslAttachmentWrapper.attch.Name}">
+                            <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!inslAttachmentWrapper.attch.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!inslAttachmentWrapper.attch.Name}</a>
+                        </span>
+                                                
+                    </apex:column> 
+                    
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:outputLabel >CREATED DATE</apex:outputLabel>
+                        </apex:facet>
+                        <!--Commented on 02.03.21 STRM#659296 - Ticket#150 - Assignment Attachment time stamp incorrect-->
+                        <!--<apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                            <apex:param value="{!inslAttachmentWrapper.dateCreated}" /> 
+                        </apex:outputText>-->
+						<apex:outputText value="{!inslAttachmentWrapper.strCreatedDate}"></apex:outputText>
+                    </apex:column>
+                    
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:outputLabel >LAST MODIFIED DATE</apex:outputLabel>
+                        </apex:facet>
+                        <!--Commented on 02.03.21 STRM#659296 - Ticket#150 - Assignment Attachment time stamp incorrect-->
+                        <!--<apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                            <apex:param value="{!inslAttachmentWrapper.dateModified}" /> 
+                        </apex:outputText>-->
+                        <apex:outputText value="{!inslAttachmentWrapper.strModifiedDate}"></apex:outputText>
+                    </apex:column>
+                </apex:pageBlockTable> 
+            </div>  
+            </apex:outputPanel>   
+        </apex:pageBlock>
+    </apex:form> 
+    
+</apex:page>

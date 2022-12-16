@@ -1,0 +1,313 @@
+<aura:component controller="portfolioWidgetOnProductController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <!-- attributes -->
+    <aura:attribute name="entityId" type="String" access="public" />
+    <aura:attribute name="draftValues" type="Portfolio_Name__c[]" />
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    
+    <!-- Handler-->
+    <aura:handler name="init" value="{!this }" action="{!c.doinit }" />
+    <table
+           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
+        
+        <thead>
+            <tr >
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Portfolio Name">
+                    <div>Portfolio Name</div>
+                </th>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Type">
+                    <div>Account Type</div>
+                </th>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Group">
+                    <div>Purchase Group</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                <tr>
+                    <td
+                        class="slds-truncate"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="{!draftValue.Name}"
+                        title="{!draftValue.Name}"
+                        
+                        >
+                        {!draftValue.Name}</td
+                        >
+                    <td
+                        class="slds-truncate"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Account Type"
+                        title="Account Type"
+                        >
+                        {!draftValue.Account_Type__c}
+                    </td>
+                    <td
+                        class="slds-truncate"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Purchase Group"
+                        title="Purchase Group" 
+                        >
+                        {!draftValue.Purchase_Group__c}
+                    </td>
+                    
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+  <table
+           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">
+        
+        <thead>
+            <tr >
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Portfolio Group Name">
+                    <div>Portfolio Group Name</div>
+                </th>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Code">
+                    <div>Purchase Code</div>
+                </th>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase ID">
+                    <div>Purchase ID</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                <tr>
+                    <td
+                        class="slds-truncate"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Portfolio Group Name"
+                        title="Portfolio Group Name"
+                        >
+                        {!draftValue.Portfolio_Group_Name__c}' 
+                    </td
+                        >
+                    <td
+                        class="slds-truncate"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Purchase Code"
+                        title="Purchase Code"
+                        >
+                        {!draftValue.Purchase_Code__c}
+                    </td>
+                    <td
+                        class="slds-truncate"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Purchase ID"
+                        title="Purchase ID" 
+                        >
+                        {!draftValue.Purchase_ID__c}
+                    </td>
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+      
+    
+    <aura:if isTrue="{!v.isModalOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Portfolio Information</h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr >
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Portfolio Name">
+                                    <div>Portfolio Name</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Type">
+                                    <div>Account Type</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Group">
+                                    <div>Purchase Group</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Portfolio Group Name">
+                                    <div>Portfolio Group Name</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Portfolio Name"
+                                        title="Portfolio Name"
+                                        
+                                        >
+                                        {!draftValue.Name}</td
+                                        >
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Account Type"
+                                        title="Account Type"
+                                        >
+                                        {!draftValue.Account_Type__c}
+                                    </td>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Purchase Group"
+                                        title="Purchase Group" 
+                                        >
+                                        {!draftValue.Purchase_Group__c}
+                                    </td>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Portfolio Group Name"
+                                        title="Portfolio Group Name" 
+                                        >
+                                        {!draftValue.Portfolio_Group_Name__c}
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">
+                        
+                        <thead>
+                            <tr >
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Code">
+                                    <div>Purchase Code</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase ID">
+                                    <div>Purchase ID</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase date">
+                                    <div>Purchase date</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchasing Entity">
+                                    <div>Purchasing Entity</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Purchase Code"
+                                        title="Purchase Code"
+                                        >
+                                        {!draftValue.Purchase_Code__c}
+                                    </td
+                                        >
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Purchase ID"
+                                        title="Purchase ID"
+                                        >
+                                        {!draftValue.Purchase_ID__c}
+                                    </td>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Purchase date"
+                                        title="Purchase date" 
+                                        >
+                                        {!draftValue.Purchase_date__c}
+                                    </td>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Purchasing Entity"
+                                        title="Purchasing Entity" 
+                                        >
+                                        {!draftValue.Purchasing_Entity__c}
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table> 
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">
+                        
+                        <thead>
+                            <tr >
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Ammount">
+                                    <div>Purchase Amount</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Interest Purchase">
+                                    <div>Interest Purchase</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Account">
+                                    <div>Purchase Account</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Factor">
+                                    <div>Purchase Factor</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Purchase Ammount"
+                                        title="Purchase Ammount"
+                                        >
+                                        {!draftValue.Purchase_Amount__c}
+                                    </td
+                                        >
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Interest Purchase"
+                                        title="Interest Purchase"
+                                        >
+                                        {!draftValue.Interest_Purchase__c}
+                                    </td>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Purchase Account"
+                                        title="Purchase Account" 
+                                        >
+                                        {!draftValue.Purchase_Accounts__c}
+                                    </td>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Purchase Factor"
+                                        title="Purchase Factor" 
+                                        >
+                                        {!draftValue.Purchase_Factor__c}
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table> 
+                </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer">                       
+                    <lightning:button variant="neutral"
+                                      label="OK"
+                                      title="OK"
+                                      onclick="{! c.closeModel }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

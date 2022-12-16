@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Enable User to Create, Edit, Delete, View Internal Notes</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>CFG Internal Notes Super User</label>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Internal_Note__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+</PermissionSet>

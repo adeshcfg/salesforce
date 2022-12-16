@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Community Report and Dashboard Access</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Community Report and Dashboard Access - not needed?</label>
+</PermissionSet>

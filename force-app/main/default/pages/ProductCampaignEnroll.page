@@ -1,0 +1,101 @@
+<!-- This page is used for Product record Campaign Enroll Verification -->
+
+<apex:page showHeader="false" sidebar="false"
+           controller="ProductCampaignEnrollController" 
+           action="{!checkVerifyRequest}"
+           >    
+    
+    <html>
+        <head>
+            
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+            <script>
+                
+               $( document ).ready(function (){
+                   parent.postMessage(($('body').height())+50,"*");
+                });
+               
+            </script>
+            <link rel='stylesheet' id='generate-fonts-css'  href='//fonts.googleapis.com/css?family=Montserrat:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' media='all' />
+        </head>
+        <body style="font-family: Montserrat;"> 
+            
+            <!--Loading Page -->
+            <apex:outputPanel layout="block" rendered="{!nullEnrollID == true && campaignEnrollError == false}">
+                <div style="text-align: left; font-size: 14px; line-height: 22px;">
+                    <span>
+                        Loading page...
+                    </span>
+                </div>
+            </apex:outputPanel>
+            
+            <!--No Campaign code-->
+            <apex:outputPanel layout="block" rendered="{!campaignEnrollError == true && nullEnrollID == true}">
+                <div style="text-align: left; padding: 20px">
+                    <h2 style="font-size: 35px; line-height: 42px;">Unfortunately, we were unable to register you for the Fidem Cash Back Campaign.</h2>
+                    <p style="text-align: left; font-size: 18px; line-height: 30px;">
+                        We apologize for the inconvenience. Please call us at 1-855-266-3131 or send us an email to <a href="mailto:accountmanagement@fidemfinance.ca">accountmanagement@fidemfinance.ca</a> and we will find out what went wrong. 
+                    </p>
+                </div>   
+            </apex:outputPanel>
+            
+            <!--Wrong Campaign code-->
+            <apex:outputPanel layout="block" rendered="{!campaignEnrollError == true && nullEnrollID == false}">
+                <div style="text-align: left; padding: 20px">
+                    
+                    <h2 style="font-size: 35px; line-height: 42px;">Unfortunately, we were unable to register you for the Fidem Cash Back Campaign. </h2>
+                    <p style="text-align: left; font-size: 18px; line-height: 30px;">
+                        We apologize for the inconvenience. Please call us at 1-855-266-3131 or send us an email to <a href="mailto:accountmanagement@fidemfinance.ca">accountmanagement@fidemfinance.ca</a> and we will find out what went wrong. 
+                    </p>
+                </div>   
+            </apex:outputPanel>
+            
+            <!--Campaign code Expired-->
+            <apex:outputPanel layout="block" rendered="{!campaignCodeExpired == true && nullEnrollID == false}">
+                <div style="text-align: left; padding: 20px">
+                    
+                    <h2 style="font-size: 35px; line-height: 42px;">Fidem Cash Back Campaign Link has expired.</h2>
+                    <p style="text-align: left; font-size: 18px; line-height: 30px;">
+                        Unfortunately, the link for the Fidem Cash Back Campaign has expired. Thank you for your interest. For more information, please email us at <a href="mailto:accountmanagement@fidemfinance.ca">accountmanagement@fidemfinance.ca</a> or call 1-855-266-3131.
+                    </p>
+                </div>   
+            </apex:outputPanel>
+            
+            <!--Already Enrolled-->
+            <apex:outputPanel layout="block" rendered="{!alreadyEnrolled == true && nullEnrollID == false}">
+                <div style="text-align: left; padding: 20px">
+                    <h2 style="font-size: 35px; line-height: 42px;"><span style="color: #56B74D;">Success!</span> You have successfully registered for the Cash Back Campaign.</h2>
+                    <p style="text-align: left; font-size: 18px; line-height: 30px;">
+                        Rewards aren't just for the good times. They are even more important during these times. Now you'll earn a 1% cash back statement credit every time you use the card (up to a total spend of $500) during the offer period. This offer has now been applied to your card, so next time you use your card - you'll reap the rewards. Conditions apply.
+                    </p>                    
+                    <p style="text-align: left; font-size: 18px; line-height: 30px;">                    
+                        For complete details, please refer to the <strong><a style="color: #56b74d; text-decoration: none;" href="https://fidemfinance.ca/fidem-cash-back-program-terms-and-conditions/" target="_PARENT">Fidem Cash Back Program Terms and Conditions</a></strong>. 
+                    
+                    </p>
+                    <p style="text-align: left; font-size: 18px; line-height: 30px;">                    
+                        If you wish to opt-out of the program, please call 1-855-266-3131
+                    </p>
+                </div>
+            </apex:outputPanel>
+            
+            <!--Enroll is now completed-->
+            <apex:outputPanel layout="block" rendered="{!alreadyEnrolled == false && campaignEnrollError == false && campaignCodeExpired == false && nullEnrollID == false}">
+                <div style="text-align: left; padding: 20px">
+                    <h2 style="font-size: 35px; line-height: 42px;"><span style="color: #56B74D;">Success!</span> You have successfully registered for the Cash Back Campaign.</h2>
+                    <p style="text-align: left; font-size: 18px; line-height: 30px;">
+                        Rewards aren't just for the good times. They are even more important during these times. Now you'll earn a 1% cash back statement credit every time you use the card (up to a total spend of $500) during the offer period. This offer has now been applied to your card, so next time you use your card - you'll reap the rewards. Conditions apply.
+                    </p>                    
+                    <p style="text-align: left; font-size: 18px; line-height: 30px;">                    
+                        For complete details, please refer to the <strong><a style="color: #56b74d; text-decoration: none;" href="https://fidemfinance.ca/fidem-cash-back-program-terms-and-conditions/" target="_PARENT">Fidem Cash Back Program Terms and Conditions</a></strong>. 
+                    
+                    </p>
+                    <p style="text-align: left; font-size: 18px; line-height: 30px;">                    
+                        If you wish to opt-out of the program, please call 1-855-266-3131
+                    </p>
+                </div>
+            </apex:outputPanel>
+            
+        </body>
+    </html>
+</apex:page>

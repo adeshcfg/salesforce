@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>AllDuplicateAccountsExportController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Duplicate Account</label>
+    <license>Salesforce</license>
+    <pageAccesses>
+        <apexPage>AllDuplicateAccount</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>AllDuplicateAccountExport</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>AllDuplicateAccountInline</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>AllDuplicateAccountsExport</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <tabSettings>
+        <tab>Duplicate_Accounts</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

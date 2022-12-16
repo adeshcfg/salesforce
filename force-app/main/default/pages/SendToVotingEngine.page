@@ -1,0 +1,9 @@
+<apex:page showHeader="false" sidebar="false" standardController="Insolvency__c" extensions="SendToVotingEngineController" action="{!mypageloadingmethod}">
+    <apex:form >
+        <apex:outputPanel >
+            <apex:outputText escape="false" value="{!message}"></apex:outputText>
+            <br/>
+        </apex:outputPanel>
+        
+    </apex:form>
+</apex:page>

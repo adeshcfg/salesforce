@@ -1,0 +1,2583 @@
+<apex:page showHeader="false" sidebar="false"
+           controller="TPFidemApplicationFormController" docType="html-5.0"
+           lightningStylesheets="true"
+           applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <apex:includeScript value="{!$Resource.jQuery}" />
+            <apex:includeScript value="https://code.jquery.com/jquery-1.9.1.js" />
+            <apex:includeScript value="{!URLFOR($Resource.jQueryUI, 'jquery-ui.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/application.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/validation.js')}" />
+            <!--<apex:includeScript id="iframe_child_script" value="{!URLFOR($Resource.ApplicationResource, 'js/traction/reactive.iframes.child.js')}" />-->
+            <script src="/ApplicationForm/resource/1581078398000/ApplicationResource/js/traction/reactive.iframes.child-v4.js" type="text/javascript" id="iframe_child_script" data-frameid="iframe-parent"></script>
+            <apex:stylesheet value="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"  />
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryUI, 'jquery-ui.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.ApplicationResource, 'css/traction/application.css')}" />
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script> 
+            <apex:stylesheet value="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/ui-lightness/jquery-ui.css"/>
+            
+            <!--<apex:includeScript value="https://ws1.postescanada-canadapost.ca/js/addresscomplete-2.30.min.js?key=pc76-fw62-cx21-tx86" />
+            <apex:stylesheet value="https://ws1.postescanada-canadapost.ca/css/addresscomplete-2.30.min.css?key=pc76-fw62-cx21-tx86" />-->
+            <apex:stylesheet value="https://fonts.googleapis.com/css?family=Montserrat&display=swap"/>
+            <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet"/>
+            
+            <Style>
+                //new font//
+                @font-face{
+                    font-family: samplefont;        
+                    src:url("{!URLFOR($Resource.Avenirfont, 'Avenirfont.woff')}") format('woff');  /* Modern browsers*/
+                    font-weight: 40;
+                    font-style: normal;
+                }
+                           
+                
+                .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                }
+                
+                /* Modal Content/Box */
+                .modal-content {
+                background-color: #fefefe;
+                margin: 15% auto; /* 15% from the top and centered */
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%; /* Could be more or less, depending on screen size */
+                }
+                
+                /* The Close Button */
+                .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                }
+                
+                .close:hover,
+                .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+                }
+                
+                
+                ul li::before {
+                content: "\2022";
+                color: #5eb835;
+                font-weight: bold;
+                display: inline-block;
+                width: 1em;
+                margin-left: -1em;
+                }
+                
+                .blackBullet:before {
+                   color: black;
+                 }
+                .warningBox{
+                text-align: center; 
+                border-style: solid; 
+                border-width: 4px; 
+                border-radius: 10px; 
+                border-color: purple; 
+                margin:10px 12.5% 20px 12.5%; 
+                padding: 10px 0 10px 0px; 
+                font-weight:700; 
+                font-size:16px; 
+                font-family: samplefont;   
+                }
+            
+                .row, .row-sm {
+                    display: flex;
+                    flex-direction: column;
+                }
+        
+                .col-md-6, .col-sm-6 {
+                    width: 100%;
+                }
+            
+                .monthlyFeeNote{
+                    position: absolute;
+                    right: 22%;
+                    font-size: 12px;
+                    font-weight: bold;
+                    margin-top: 20px;
+                 }
+                
+                @media screen and (max-width: 640px) and (min-width: 200px) {
+                    .monthlyFeeNote{
+                        font-size: 7px;
+                        font-weight: bold;
+                        right: 4%;
+                        margin-top: 0;
+                    }
+                }
+                @media screen and (max-width: 415px) and (min-width: 375px) {
+                    .monthlyFeeNote{
+                        font-size: 8px;
+                        margin-top: 0;
+                    }
+                }
+                @media screen and (max-width: 770px) and (min-width: 645px) {
+                    .monthlyFeeNote{
+                        font-size: 8px;
+                        margin-top: 0;
+                    }
+                }
+                @media screen(orientation: landscape) {
+                  .monthlyFeeNote {
+                            font-size: 11px;
+                            font-weight: bold;
+                            right: 5%;
+                            top: 14%;
+                            margin-top: 32px;
+                        }
+                }
+                @media screen and (max-width: 640px) and (min-height: 200px) and (orientation:landscape) {
+                    /* Your CSS Here*/
+                       .monthlyFeeNote {
+                            font-size: 11px;
+                            font-weight: bold;
+                            right: 5%;
+                            top: 14%;
+                            margin-top: 32px;
+                        }
+                }
+            
+                submitBtn input[type="submit"] {
+                background-color: #5EB835;
+                }
+                .footerimg {
+                margin-left: 33%;
+                float: left;
+                margin-top: 5px;
+                margin-right: 3%;
+                
+                @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
+                /* IE10+ specific styles go here */  
+                .warningBox {
+                margin:10px 10% 20px 15%;
+                }
+                }
+                
+                
+                
+            </Style>
+            <script type="text/javascript">
+            
+            jQuery(function(){
+                var $j = jQuery.noConflict();
+                $j("input[id$=birthdateField]").datepicker({
+                     yearRange: "-100:c",
+                     changeMonth: true,
+                     changeYear: true,
+                     numberOfMonths: 1,
+                     dateFormat:"mm-dd-yy",
+                     altField: "#event_start_date_alternate",
+                     //altFormat: "yy-mm-dd",
+                     showAnim: "slide"
+                });
+              });
+              
+              jQuery(function(){
+                var $j = jQuery.noConflict();
+                $j("input[id$=insolvdateField]").datepicker({
+                     yearRange: "-100:c",
+                     changeMonth: true,
+                     changeYear: true,
+                     numberOfMonths: 1,
+                     dateFormat:"mm-dd-yy",
+                     altField: "#event_start_date_alternate",
+                     //altFormat: "yy-mm-dd",
+                     showAnim: "slide"
+                });
+              });
+              
+              
+            function show(obj)
+            {
+                if(document.getElementById(obj).style.display == 'none')
+                {
+                    document.getElementById(obj).style.display = 'block';
+                }
+                else
+                    document.getElementById(obj).style.display = 'none';
+            }
+            
+            
+            function checkSteppreprocessingAndTransition() {
+                $("#stepZeroLoading").hide();
+                scrollToTop();
+                // Check Server response
+                //var errorReturned = $("[id*='stepOnePageMessages']").is(":visible");
+                var errorReturned = $("[id*='stepZeroPageMessagespreprocessing']").children().length > 0;
+                if (errorReturned == false) {
+                    // Transition to Step Two
+                    $("#steppreprocessing").addClass("hidden");
+                    $("#stepZero").removeClass("hidden");
+                    
+                    //pushHit('/application-form/step0', 'Application Form Step 0');
+                }
+                if (errorReturned == true) {
+                    return false;
+                }
+                // Re-enable submit button -- whether errors or not
+                $("[id*='stepPreprocessingContinue']").removeAttr("disabled");
+                // $("#myModal").addClass("hidden");
+                // if (event.target == modal) {
+                modal.style.display = "none";
+                // }
+                myBtn.style.display = "none";
+                adjustHeight();
+            }
+            
+            
+            
+            var previousAddressSectionIsRequired = false;
+            var previousEmployerSectionIsRequired = false;
+            var topOrigin = '{!JSENCODE(AppFormSettings.Parent_Page_Domain__c)}';
+            
+            /* $(document).ready( function () {
+                // Toggle code entry fields if "offer code avail" answer changes                   
+                $("input[id*='offerCodeAvailRadio']").change( function() {
+                    $("#offerCodeEntry").toggle();
+                    adjustHeight();
+                });*/
+
+     //Get parent page URL inside iframe
+     function getParentUrl() {
+         console.log('get parent url');
+         //parentUrl = window.location.href;
+        var isInIframe = (parent !== window),
+            parentUrl = window.location.href;
+    
+        if (isInIframe) {
+            parentUrl = document.referrer;            
+        }
+         console.log('parentURL: ',parentUrl);
+         console.log('parentURL2: ',window.location.toString());
+         console.log('parentURL3: ',window.location.href);
+         document.getElementById('{!$Component.theform.inptHdn}').value = parentUrl;
+         console.log('URL: ',document.getElementById('{!$Component.theform.inptHdn}').value);
+         myFun(parentUrl);
+     }
+                    
+    //Updated by A5E Consulting 
+    // Toggle Offer Code field if "Yes" answer changes 
+    $(document).ready( function () {
+        console.log('doc ready');
+        
+        // Toggle code entry fields if "offer code avail" answer changes                   
+        $("input[id*='offerCodeAvailRadio']").change( function() {
+            var offerCodeValue= $("[id*='offerCodeAvailRadio']:checked");
+            if (offerCodeValue.val() == "Yes") {
+                $("#offerCodeEntry").show();
+            }else{
+                $("#offerCodeEntry").hide();
+            }
+            adjustHeight();
+        }); 
+        getParentUrl();
+        // Toggle Home Owner Question
+        $("input[id*='loanTypeField']").change( function() {
+            
+            var loanTypeFieldObj = $("[id*='loanTypeField']:checked");
+            
+            if ( loanTypeFieldObj.val() == "Fidem Finance MasterCard") {
+                
+                $("#homeOwnerQuestion").show();
+                
+                var homeOwnerFieldObj = $("[id*='homeOwnerField']:checked");   
+                if (homeOwnerFieldObj != undefined && homeOwnerFieldObj.val() == "Yes") {
+                    $("#rentQuestion").hide();
+                    $("#mortgageQuestion").show();
+                    $("#mortgageWithQuestion").show();
+                    $("#pRentOrOwnFieldDiv").hide();   
+                    $("#homeDisclosure").show();
+                    $("#nonHomeDisclosure").hide();                        
+                    $("#permanentRentOrOwnField").val("Own Property");
+                } else if (homeOwnerFieldObj != undefined && homeOwnerFieldObj.val() == "No"){
+                    $("#mortgageQuestion").hide();
+                    $("#mortgageWithQuestion").hide();
+                    $("#rentQuestion").show();   
+                    $("#pRentOrOwnFieldDiv").hide();
+                    $("#nonHomeDisclosure").show();
+                    $("#homeDisclosure").hide();
+                    $("permanentRentOrOwnField").val("Rent");
+
+                } else{
+                    $("#rentQuestion").show();
+                    $("#mortgageQuestion").hide();
+                    $("#mortgageWithQuestion").hide();
+                    $("#pRentOrOwnFieldDiv").show();
+                    $("#homeDisclosure").hide();
+                    $("#nonHomeDisclosure").hide(); 
+                    $("permanentRentOrOwnField").val("Rent");
+                }
+                
+            } else {
+                $("#homeOwnerQuestion").hide(); 
+                $("#pRentOrOwnFieldDiv").show()
+                var permanentRentOrOwnObj = $("[id*='permanentRentOrOwnField']:checked"); 
+                
+                if (permanentRentOrOwnObj != undefined && permanentRentOrOwnObj.val() == "Own Property") {
+                    $("#rentQuestion").hide();
+                    $("#mortgageQuestion").show();
+                    $("#mortgageWithQuestion").show();
+                } 
+                else if (permanentRentOrOwnObj != undefined && permanentRentOrOwnObj.val() == "Rent") {
+                    $("#mortgageQuestion").hide();
+                    $("#mortgageWithQuestion").hide();
+                    $("#rentQuestion").show();
+                }    
+                    else{
+                        $("#mortgageQuestion").hide();
+                        $("#mortgageWithQuestion").hide();
+                        $("#rentQuestion").show();                      
+                    }                            
+            }
+            adjustHeight();
+        }); 
+        // Toggle Unique id  Question
+        $("input[id*='seluniqueid']").change( function() {
+            
+            var loanTypeFieldObj = $("[id*='seluniqueid']:checked");   
+            //alert(loanTypeFieldObj);
+            if (loanTypeFieldObj != undefined && loanTypeFieldObj.val() == "Yes") {
+                $("#Uniqueidsec").show();
+                $("#Uniqueidsec2").hide();                        
+                
+            }else if (loanTypeFieldObj != undefined && loanTypeFieldObj.val() == "No") {
+                //alert(loanTypeFieldObj);
+                $("#Uniqueidsec").hide();
+                $("#Uniqueidsec2").show();
+                
+                
+            } 
+            
+        });
+        
+        // Initialize correct state for Home Owner Question
+        var homeOwnerFieldObj = $("[id*='homeOwnerField']:checked");   
+        $("input[id*='homeOwnerField']").trigger("change");             
+        
+        // Toggle Home Owner Question
+        $("input[id*='homeOwnerField']").change( function() {
+            
+            /*alert("Hi");*/
+            var homeOwnerFieldObj = $("[id*='homeOwnerField']:checked");   
+            if (homeOwnerFieldObj != undefined && homeOwnerFieldObj.val() == "Yes") {
+                $("#rentQuestion").hide();
+                $("#mortgageQuestion").show();
+                $("#mortgageWithQuestion").show();
+                $("#pRentOrOwnFieldDiv").hide();  
+                $("#homeDisclosure").show();
+                $("#nonHomeDisclosure").hide();                       
+                $("input[id*='permanentRentOrOwnField'][value='Own Property']").prop('checked', true);
+ 
+            } else if (homeOwnerFieldObj != undefined && homeOwnerFieldObj.val() == "No"){
+                $("#mortgageQuestion").hide();
+                $("#mortgageWithQuestion").hide();
+                $("#rentQuestion").show();   
+                $("#pRentOrOwnFieldDiv").hide();
+                $("#nonHomeDisclosure").show();
+                $("#homeDisclosure").hide(); 
+                $("input[id*='permanentRentOrOwnField'][value='Rent']").prop('checked', true);
+                
+            } else{
+                $("#rentQuestion").show();
+                $("#mortgageQuestion").hide();
+                $("#mortgageWithQuestion").hide();
+                $("#pRentOrOwnFieldDiv").show();
+                $("#nonHomeDisclosure").show();
+                $("#homeDisclosure").hide(); 
+                $("input[id*='permanentRentOrOwnField'][value='Rent']").prop('checked', true);
+                
+            }
+            adjustHeight();
+        }); 
+        
+        // Initialize correct state for "how much is monthly rent/mortgage" question
+        var permanentRentOrOwnObj = $("[id*='permanentRentOrOwnField']:checked");   
+        $("input[id*='permanentRentOrOwnField']").trigger("change");
+        
+        // Toggle rent and mortgage fields if "rent or own" answer changes                
+        $("input[id*='permanentRentOrOwnField']").change( function() {
+            var permanentRentOrOwnObj = $("[id*='permanentRentOrOwnField']:checked");   
+            if (permanentRentOrOwnObj != undefined && permanentRentOrOwnObj.val() == "Own Property") {
+                $("#rentQuestion").hide();
+                $("#mortgageQuestion").show();
+                $("#mortgageWithQuestion").show();
+            } 
+            else if (permanentRentOrOwnObj != undefined && permanentRentOrOwnObj.val() == "Rent") {
+                $("#mortgageQuestion").hide();
+                $("#mortgageWithQuestion").hide();
+                $("#rentQuestion").show();
+            }
+            adjustHeight();
+        });
+        
+        /*
+                $("input[id*='permanentRentOrOwnField']").each( function() {
+                    var permanentRentOrOwnObj = $("[id*='permanentRentOrOwnField']:checked");   
+                    if (permanentRentOrOwnObj != undefined && permanentRentOrOwnObj.val() == "Own Property") {
+                        $("#rentQuestion").hide();
+                        $("#mortgageQuestion").show();
+                        $("#mortgageWithQuestion").show();
+                    } else if (permanentRentOrOwnObj != undefined && permanentRentOrOwnObj.val() == "Rent") {
+                        $("#mortgageQuestion").hide();
+                        $("#mortgageWithQuestion").hide();
+                        $("#rentQuestion").show();
+                    }
+                    adjustHeight();
+                });
+                */
+                  
+                  
+                  
+                  //Updated by A5E Consulting
+                  // Initialize correct state for "Do you have Offer Code" question
+                  var offerCodeValue= $("[id*='offerCodeAvailRadio']:checked");   
+                  $("input[id*='offerCodeAvailRadio']").trigger("change");
+                  
+                  // Toggle political related fields if "politically exposed" answer changes
+                  $("input[id*='politicallyExposedForeignPersonField']").change( function() {
+                      $("#whoHeld").toggle();
+                      $("#whenHeld").toggle();
+                      $("#whereHeld").toggle();
+                      adjustHeight();
+                  });
+                  
+                  // Toggle third party fields if "third party direction" answer changes
+                  $("input[id*='thirdPartyDirectionField']").change( function() {
+                      $("#whoWillDirect").toggle();
+                      $("#relationshipToApp").toggle();
+                      adjustHeight();
+                  });
+                  
+                  // Toggle FATCA related fields if "FATCA" answer changes
+                  $("input[id*='fatcaQuestionField']").change( function() {
+                      $("#fatcaQuestion1").toggle();
+                      $("#fatcaQuestion2").toggle();
+                      $("#fatcaQuestion3").toggle();
+                      adjustHeight();
+                  });
+                  // Bind field's onchange event to previous address check
+                  // Toggle Previous Employer section based on years worked at current employer
+                  $("input[id*='yearsAtPermanentAddressField']").change( function() {
+                      var yearsAtPermanentAddress= $("input[id*='yearsAtPermanentAddressField']").val();
+                      if (isInt(yearsAtPermanentAddress) && yearsAtPermanentAddress < 2) {
+                          $("#previousAddressSection").show();
+                          previousAddressSectionIsRequired = true;
+                      } else {
+                          $("#previousAddressSection").hide();
+                          previousAddressSectionIsRequired = false;
+                      }
+                      adjustHeight();
+                  });
+                  
+                  // Initialize correct state
+                  $("input[id*='yearsAtPermanentAddressField']").trigger("change");
+                  
+                  // Bind field's onchange event to previous employer check
+                  // Toggle Previous Address section based on years lived at current address
+                  $("input[id*='yearsAtEmployerField']").change( function() {
+                      var yearsAtEmployer = $("input[id*='yearsAtEmployerField']").val();
+                      if (isInt(yearsAtEmployer) && yearsAtEmployer < 2) {
+                          $("#previousEmployerSection").show();
+                          previousEmployerSectionIsRequired = true;
+                      } else {
+                          $("#previousEmployerSection").hide();
+                          previousEmployerSectionIsRequired = false;
+                      }
+                      adjustHeight();
+                  });
+                  
+                  $("input[id*='currentBKCPField']").change( function() {
+                      var currentBKCPField= $("input[id*='currentBKCPField']:checked");
+                      //alert(currentBKCPField.val());
+                      if (currentBKCPField.val() == 'Bankruptcy' || currentBKCPField.val() == 'Consumer Proposal') {
+                          $("#insolvencySection").show();
+                      } else {
+                          $("#insolvencySection").hide();
+                      }
+                      adjustHeight();
+                  });
+                                    
+                  // Call at beginning to initialize correct state
+                  $("input[id*='yearsAtEmployerField']").trigger("change");
+                  
+                  // Set initial height
+                  adjustHeight();
+                  
+                  // Google Analytics initial page hit
+                  //pushHit('/application-form/step0', 'Application Form Step 0');
+              });
+              
+              
+              
+    </script>
+        </head>
+        <body>
+            
+            <!-- Google Tag Manager -->
+            <noscript>
+            <iframe src="//www.googletagmanager.com/ns.html?id=GTM-W6F9RX"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+            </noscript>
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                                                                  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                                        })(window,document,'script','dataLayer','GTM-W6F9RX');</script>
+            <!-- End Google Tag Manager -->
+            
+            <apex:form id="theform">
+                <apex:inputHidden value="{!URLReferral}" id="inptHdn"/>   
+                <apex:actionFunction name="myFun" reRender="none">
+                    <apex:param name="a" value="" assignTo="{!URLReferral}"/>
+                </apex:actionFunction>
+            
+                <div id="topOfSteps" class="" style="overflow-x: hidden;">
+                    
+                    <apex:actionRegion >
+                        
+                        <style>
+                            .test
+                            {
+                            font-family: samplefont;
+                            font-size: 40px;
+                            font-weight: bold;
+                            }
+                            
+                        </style>
+                        
+                        <div id="stepZero">
+                                <div class="header-zero" style="font-family:">
+                                    <h2 class="header-main">Fidem Finance <br/> Mastercard Card<span style = "font-size:10px;font-size: 18px;vertical-align: super;">®</span> <br/> Application</h2>
+                                </div>    
+                            <div class="section-main">
+                                <div class = "row">
+                                    <div class = "col-md-6">
+                                        <apex:image url="{!AppFormSettings.Welcome_page_Card_image_URL__c}" styleClass="section-img"/>
+                                        <br/><br/><br/><br/>
+                                    </div>
+                                    <div class = "col-md-6">
+                                        <div class = "monthlyFeeNote" style = "color: #5eb835;">
+                                            Monthly fee as low as $10/month    
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                                <!--<apex:image url="{!AppFormSettings.Welcome_page_Card_image_URL__c}" styleClass="section-img"/><br/><br/><br/><br/><br/>
+                                <div class = "monthlyFeeNote" style = "color: #5eb835;">
+                                    Monthly fee as low as $10/month</div>-->
+                                <!--<img url="https://dev-dev--debtnext--c.cs21.content.force.com/servlet/servlet.ImageServer?id=015q0000000f6LF&oid=00Dq0000000D5Js" class="section-img"/><br/><br/><br/><br/><br/>-->
+                                <br/><br/><br/>
+                                <div>
+                                    <p>
+                                    Apply now for a Fidem Mastercard Card as a next step on your road to financial improvement.     
+                                    Once your application is approved, the Fidem Mastercard card provides you with:
+                                        <ul style="margin: 0; list-style-type: none;">
+                                            <li class = "blackBullet">True credit – no security deposit required</li>
+                                            <li class = "blackBullet">A Credit limit up to $3,000</li>
+                                            <li class = "blackBullet">Use it anywhere Mastercard Cards are accepted</li>
+                                            <li class = "blackBullet">Online access to your Card account</li>
+                                            <li class = "blackBullet">Minimum monthly amount – the greater of $30 or 4%</li>
+                                            <li class = "blackBullet">Reports to credit bureaus every month under Fidem Card/BC</li>
+                                        </ul></p>
+                               </div>
+                                <p>The application should take only <b> 5-10 minutes to complete,</b> and you'll receive a response in as little as 30 seconds.</p>
+                                
+                                
+                                <section style="margin: 3% 0;">
+                                    <div>
+                                        <div style="padding: 2% 8%; border: 1px solid #5eb835;">
+                                            <h3 style="margin: 0 0 2% 5%; color: #5eb835;">To complete this application you will need:</h3>
+                                            <ul style="margin: 0; list-style-type: none;">
+                                                <li>Employment and Income Information</li>
+                                                <li>Monthly expenses such as mortgage payments or rental
+                                                    payments</li>
+                                                <li>Any other expense obligation you may have such as
+                                                    loan and credit card payments</li>
+                                                <li>A SIN is optional but it can help in the application
+                                                    process</li>
+                                            </ul>
+                                        </div>
+                                        
+                                    </div>
+                                </section>
+                                
+                                <p>
+                                    The information you provide to us will be compared to your credit bureau file and will be used to authenticate your identity. We require your authorization to check your credit bureau to complete this process and review your credit application. 
+                                </p>
+                                <div class="unique-div">
+                                <div style="background-color: #e6ffe6; margin: 0 0 10px; width: 95%" id="infoblock" class="appForm stepone-div">
+                                    <apex:pageMessages id="stepZeroPageMessages" />
+                                    <div style="margin-bottom: 10px;" id="Loantypequestion" class="pre-class">
+                                        <div class="appFormBlockLeft" style="margin-top: 4px;">
+                                          <label>Would you like to apply?<span style="color: green">*</span></label>
+                                      </div>
+                                      <div class="appFormBlockRight">
+                                        <div>
+                                          <apex:selectRadio id="wouldYouLikeToApplyField" value="{!wouldYouLikeToApply}">
+                                               <apex:selectOptions value="{!wouldYouLikeToApplyOptions}"/>
+                                          </apex:selectRadio>
+                                        </div>
+                                        <div id="wouldYouLikeToApplyErrMsg" class="invalidFieldMsg hidden">Please
+                                                  select Yes to proceed.
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <div style="margin-bottom: 10px;" id="homeOwnerQuestion" class="pre-class">
+                                        <div class="appFormBlockLeft" style="margin-top: 4px;">
+                                            <label style="width: 32%; margin-top: 6px;"> Are you a homeowner?<span style="color: green">*</span> </label>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <div> 
+                                                <apex:selectRadio id="homeOwnerField" value="{!selHomeOwnerOptions}" style="top: -2px;"> 
+                                                 <apex:selectOptions value="{!homeOwnerOptions}" />
+                                                </apex:selectRadio>
+                                            </div>
+                                            <div id="homeOwnerErrMsg" class="invalidFieldMsg hidden">
+                                                Please specify if you are a homeowner.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="pre-class">
+                                        <div class="appFormBlockLeft" style="margin-top: 4px;">
+                                            <label style="width: 34%; margin-top: 6px;">Province:<span style="color: green">*</span></label>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <div> 
+                                                <apex:selectList id="provinceField" style="padding: 7px; width: 200px;" styleClass="province-div" value="{!SelProvince}" size="1">
+                                                     <apex:selectOptions value="{!ProvinceOptions}" />
+                                                </apex:selectList>
+                                            </div>
+                                            <div id="provinceErrMsg" class="invalidFieldMsg hidden">
+                                                 Please select a Province.
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            
+                            <div class="clearboth"> </div>
+                            <div class="submitBtn" style="text-align: center">
+                                <input type="submit" id="stepZeroContinue" style=" background-color: #5EB835;" value="Let's get started!"
+                                       onclick="validateStepZero(); return false;" />
+                                <apex:actionFunction action="{!saveStepZero}" name="saveStepZero"
+                                                     oncomplete="checkStepZeroResponseAndTransition()"
+                                                     rerender="stepZeroPageMessages,discl,prelimInfo" />
+                            </div>
+                            <div id="stepZeroLoading" class="loadingSpinner fleft" style="width: 850px;padding-left: 250px;">
+                                <apex:image url="{!$Resource.loadingGif}"
+                                            style="vertical-align:middle;" />
+                            </div>
+                            <div class="clearboth"> </div>
+                        </div>
+                    </apex:actionRegion>
+                   
+                    <apex:actionRegion >
+                        
+                        <div id="stepOne" class="hidden">
+                            <div class="bg-cover" style="margin-bottom: 50px;">
+                                <section>
+                                    <div style="background: #5EB835; color: #ffffff; padding: 2% 18%;" class="main-text">
+                                        <h2 class="header-main">Pre-Qualification</h2>
+                                    </div>
+                                    <div style="display: flex; border-bottom: 2px solid #5EB835;">
+                                        <div style="margin: 0 auto; list-style-type: none; padding: 0;" class="header-content">
+                                            
+                                            <li class="header-step-main"> Eligibility
+                                                <div class="header-step-area">
+                                                    <span class="header-step-green">1</span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-two"> About You
+                                                <div class="header-step-next">
+                                                    <span class="header-step-white">2</span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-two"> Your Employment
+                                                <div class="header-step-next">
+                                                    <span class="header-step-white">3</span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-two"> Your Consent
+                                                <div class="header-step-next">
+                                                    <span class="header-step-white">4</span>
+                                                </div>
+                                            </li>
+                                            
+                                        </div>
+                                    </div>
+                                </section>
+                                
+                            </div>
+                            
+                            
+                            <apex:outputPanel layout="block" id="discl" styleClass="infoBlock main-contain">
+                                <p>Pre-Qualification involves providing some basic information to confirm you are eligible to 
+                                    apply for credit, as well as reading and accepting the terms listed.</p>
+                                    <div class="pre-class">
+                                    <div class="pre-text">
+                                        <apex:outputPanel layout="block">
+                                            <div>To be eligible for an Fidem Mastercard®, you
+                                                need to be:</div>
+                                            <ul style="list-style-type: none;">
+                                                <li>A Canadian citizen or Canadian permanent resident</li>
+                                                <li>The age of majority in your province or territory</li>
+                                                <li>Employed or have regular source of income</li>
+                                            </ul>
+                                        </apex:outputPanel>
+                                        <!--<apex:outputPanel layout="block">
+                                            <div>To be eligible for an Fidem Term Loan, you need to
+                                                be:</div>
+                                            <ul style="list-style-type: none;    ">
+                                                <li>Canadian Citizen or Canadian Permanent Resident</li>
+                                                <li>Be the age of the majority in your province or
+                                                    territory</li>
+                                                <li>Not currently in bankruptcy or consumer proposal
+                                                    process</li>
+                                                <li>Employed or have regular source of income</li>
+                                            </ul>
+                                        </apex:outputPanel>-->
+                                        <div style="margin-bottom: 15px;">This product is not
+                                            available in the province of Quebec.
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="width:30%;">
+                                        <apex:image url="{!AppFormSettings.Pre_Qualification_Card_Image_URL__c}" style="Float: center; width: 100%; "/><br/><br/>
+                                    </div>
+                                
+                                </div>
+                                
+                                <apex:outputPanel layout="block" rendered="{!selHomeOwnerOptions = 'Yes'}">
+                                    <div >
+                                        
+                                        <div class="bg-cover" style="width:100%">
+                                            <section style="overflow: auto" id="cc_disclosure">
+                                                <h3 style="color: #5eb835">Fidem Mastercard Disclosure Statement</h3>
+                                                <br/>
+                                                <div id="homeDisclosure">
+                                                    <a style = "color:#5eb835" href="https://fidemfinance.ca/trustee-card-homeowner-disclosure/" 
+                                                       target="_blank">Homeowner Disclosure Statement
+                                                    </a>                                                    
+                                                </div>
+                                                
+                                                <div style="border: 1px solid #5EB835; margin: 15px 0"></div>
+                                                
+                                                <div style="display: flex">
+                                                    <div style="float:left">
+                                                        <p><strong>Annual fee of $120.00 ($10.00/month)</strong></p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div style="border: 1px solid #5EB835; margin: 15px 0"></div>
+                                                
+                                                <div style="display: flex">
+                                                    <div class="pre-area-1">
+                                                        <p><strong>Annual Interest Rate</strong></p>
+                                                    </div>
+                                                    <div style="float:left">
+                                                        <div style="line-height: 20px;">
+                                                            This rate is in effect the day your account is activated.
+                                                            <br/> <strong>Fidem Mastercard annual rate: 29.99%
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div style="border: 1px solid #5EB835; margin: 15px 0"></div>
+                                                
+                                                <div style="display: flex">
+                                                    <div class="pre-area-2">
+                                                        <p><strong>Interest-free grace period</strong></p>
+                                                    </div>
+                                                    <div style="float:left">
+                                                        <div style="line-height: 17px;">
+                                                            You will benefit from an interest-free grace period of at
+                                                            <br/> least <strong>25 </strong>days if you pay off your balance in full by the due
+                                                            <br/> date. There is no interest-free period on balance transfers.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style="border: 1px solid #5EB835; margin: 15px 0"></div>
+                                            </section>
+                                            
+                                        </div>
+                                        
+                                        <div id="hasAcceptedDisclosureTermsContainer" style="background-color: #e6ffe6; padding: 15px 5px;">
+                                            <apex:inputCheckbox id="hohasAcceptedDisclosureTermsFieldPreferred"
+                                                                value="{!HasAcceptedDisclosureTerms}" />
+                                            <label id="hasAcceptedDisclosureTermsLabel" style="font-weight: 700;">I accept the
+                                                terms listed above </label>
+                                        </div>
+                                        
+                                        <div id="hasAcceptedDisclosureTermsErrMsg"
+                                             class="invalidFieldMsg hidden">Please accept the terms to
+                                            proceed.</div>
+                                        <div style="float: right;">
+                                            <a href="https://fidemfinance.ca/trustee-card-homeowner-disclosure/" class="printBtn" target="_blank">PRINT</a>
+                                        </div>
+                                        <div style="clear: both"> </div>
+                                        
+                                        </div>
+                                </apex:outputPanel>
+                                
+                                <apex:outputPanel layout="block" rendered="{!selHomeOwnerOptions = 'No'}">
+                                    <div >
+                                        
+                                        <div class="bg-cover" style="width:100%">
+                                            <section style="overflow: auto" id="cc_disclosure">
+                                                <h3 style="color: #5eb835">Fidem Mastercard Disclosure Statement</h3>
+                                                <br/>
+                                                <div id="homeDisclosure">
+                                                    <a style = "color: #5eb835" href="https://fidemfinance.ca/trustee-card-nonhomeowner-disclosure/" target="_blank">Non-Homeowner Disclosure Statement
+                                                    </a>                                                    
+                                                </div>
+                                                
+                                                <div style="border: 1px solid #5EB835; margin: 15px 0"></div>
+                                                
+                                                <div style="display: flex">
+                                                    <div style="float:left">
+                                                        <p><strong>Annual fee of $120.00 ($10.00/month)</strong></p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div style="border: 1px solid #5EB835; margin: 15px 0"></div>
+                                                
+                                                <div style="display: flex">
+                                                    <div style="width: 35%; float:left">
+                                                        <p><strong>Annual Interest Rate</strong></p>
+                                                    </div>
+                                                    <div style="float:left">
+                                                        <div style="line-height: 20px;">
+                                                            This rate is in effect the day your account is activated.
+                                                            <br/> <strong>Fidem Mastercard annual rate: 34.99%
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div style="border: 1px solid #5EB835; margin: 15px 0"></div>
+                                                
+                                                <div style="display: flex">
+                                                    <div style="width: 35%; float:left">
+                                                        <p><strong>Interest-free grace period</strong></p>
+                                                    </div>
+                                                    <div style="float:left">
+                                                        <div style="line-height: 17px;">
+                                                            You will benefit from an interest-free grace period of at
+                                                            <br/> least <strong>25 </strong>days if you pay off your balance in full by the due
+                                                            <br/> date. There is no interest-free period on balance transfers.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style="border: 1px solid #5EB835; margin: 15px 0"></div>
+                                            </section>
+                                            
+                                        </div>
+                                        
+                                        <div id="hasAcceptedDisclosureTermsContainer" style="background-color: #e6ffe6; padding: 15px 5px;">
+                                            <apex:inputCheckbox id="nhohasAcceptedDisclosureTermsFieldPreferred"
+                                                                value="{!HasAcceptedDisclosureTerms}" />
+                                            <label id="hasAcceptedDisclosureTermsLabel" style="font-weight: 700;">I accept the
+                                                terms listed above </label>
+                                        </div>
+                                        
+                                        <div id="hasAcceptedDisclosureTermsErrMsg"
+                                             class="invalidFieldMsg hidden">Please accept the terms to
+                                            proceed.</div>
+                                        <div style="float: right;">
+                                            <a href="https://fidemfinance.ca/trustee-card-nonhomeowner-disclosure/" class="printBtn" target="_blank">PRINT</a>
+                                        </div>
+                                        <div style="clear: both"> </div>
+                                        <div class="microLegalText">
+                                            Fidem Mastercard®. This card is issued by Peoples Trust 
+                                            Company under licence from Mastercard International. 
+                                            ®/™Mastercard is a registered trademark, and the circles design
+                                            is a trademark of Mastercard International Incorporated.</div></div>
+                                </apex:outputPanel>
+                                
+                            </apex:outputPanel>
+                            
+                            <div class="main-contain">
+                                <apex:outputPanel id="prelimInfo"
+                                                  styleClass="appFormBlock infoBlock">
+                                                                        
+                                    <apex:outputPanel layout="block">
+                                        <h3 style="margin-top: 17px;">Tell us who you are</h3>
+                                        <div style="margin-top: 10px;">
+                                            Please provide some basic information about yourself so we can confirm you are of legal age and employed. This shouldn't take more than a few minutes. After you've answered the questions below, click <b>continue</b> and you will know instantly if you qualify to move forward with the credit application.
+                                        </div>
+                                    </apex:outputPanel>
+                                    
+                                    <div style="margin-top: 10px;">
+                                        <div><span style="color: green">*</span>Required information</div>
+                                    </div>
+                                    
+                                    
+                                    <br />
+                                </apex:outputPanel>
+                            </div>
+                            <apex:pageMessages id="stepOnePageMessages" />
+                            <div class="main-contain" style="margin-bottom: 20px;">
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            
+                                            <label>What is your name?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:selectList id="salutationField" 
+                                                             value="{!SelSalutation}" size="1">
+                                                <apex:selectOptions value="{!SalutationOptions}" />
+                                            </apex:selectList>
+                                        </div>
+                                        <div id="salutationErrMsg" class="invalidFieldMsg hidden">Please
+                                            select a salutation.</div>
+                                        
+                                        <div>
+                                            <apex:inputText id="firstNameField" value="{!FirstName}"
+                                                            html-placeholder="{!PlaceholderFirstName}" />
+                                        </div>
+                                       
+                                        <div id="firstNameErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide your first name.</div>
+                                         
+                                        <div>
+                                            <apex:inputText id="middleNameField" value="{!MiddleName}"
+                                                            html-placeholder="{!PlaceholderMiddleName}" />
+                                        </div>
+                                         
+                                        <div>
+                                            <apex:inputText id="lastNameField" value="{!LastName}"
+                                                            html-placeholder="{!PlaceholderLastName}" />
+                                        </div>
+                                        <div id="lastNameErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide your last name.</div>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6">
+                                    <div class="appFormBlockLeft" >
+                                        <div>
+                                            <label style="padding-left: 4%;">Date of Birth<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                        <apex:inputText id="birthdateField" html-readonly="true" value="{!birthDateApplication}"/>
+                                        </div>
+                                        
+                                        <div id="birthdateErrMsg"
+                                             class="clearboth invalidFieldMsg hidden">Please provide a
+                                            valid date of birth.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft" >
+                                        <div>
+                                            <label style="padding-left: 4%;">Social Insurance Number (optional)</label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:inputText id="sinField" value="{!SIN}" />
+                                        </div>
+                                        <div id="sinErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide a valid SIN number.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>What is your email address?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:inputText id="emailAddressField"
+                                                             value="{!EmailAddress}" />
+                                        </div>
+                                        <div id="emailAddressErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide a valid email address.</div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>What is your employment status?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:selectList id="employmentStatusField" value="{!SelEmploymentStatus}" size="1" Style="width:300px" >
+                                                <apex:selectOptions value="{!EmploymentStatusOptions}" />
+                                            </apex:selectList>
+                                        </div>
+                                        <div id="employmentStatusErrMsg" class="invalidFieldMsg hidden">Please
+                                            select your employment status.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Have you filed for a consumer proposal or a bankruptcy?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight element-radio element-table">
+                                        <div>
+                                            <apex:selectRadio id="currentBKCPField"
+                                                              value="{!SelCurrentBKCP}" styleClass="radio-list-items">
+                                                <apex:selectOptions value="{!CurrentBKCPOptions}" />
+                                            </apex:selectRadio>
+                                        </div>
+                                        <div id="currentBKCPErrMsg" class="invalidFieldMsg hidden">Please
+                                            select 'Bankruptcy' or 'Consumer Proposal' or 'None'.</div>
+                                    </div>
+                                </div>
+                                
+                                <div id="insolvencySection" class="hidden">
+                                 <div class="appFormBlock appForm" style="background-color: #e6ffe6">
+                                    <div class="appFormBlockLeft" >
+                                        <div>
+                                            <label style="padding-left: 4%;">What was your Insolvency Date?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                        <apex:inputText id="insolvdateField" html-readonly="true" value="{!insolvencyDateApplication}"/>
+                                        </div>
+                                        
+                                        <div id="insolvdateErrMsg"
+                                             class="clearboth invalidFieldMsg hidden">Please provide a
+                                            valid Insolvency Date</div>
+                                    </div>
+                                </div>
+                                
+                                <!--
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>What was your Trustee’s Company name?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:selectList id="trusteeSelect" value="{!SelTrusteeName}" size="1">
+                                                <apex:selectOptions value="{!TrusteeNameOptions}" />
+                                            </apex:selectList>
+                                        </div>
+                                    </div>  
+                                </div>
+                                --> 
+                                <!-- 
+                                 <div id="otherTrusteeText" class= "hidden">
+                                     <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>If Other, Please Specify<span style="color: green">*</span></label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <div>
+                                                <apex:inputText value="{!otherTrusteeName}"/>
+                                            </div>
+                                            <div id="OtherErrMsg"
+                                             class="clearboth invalidFieldMsg hidden">Please provide a
+                                            value in Other field</div>
+                                        </div>   
+                                     </div>
+                                 </div>
+                                 -->
+                                 
+                                </div>
+                                                              
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Do you authorize Fidem Finance to run a credit
+                                                check on you?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight element-radio">
+                                        <apex:selectRadio id="authorizedCreditCheckField"
+                                                          value="{!SelAuthorizedCreditCheck}">
+                                            <apex:selectOptions value="{!AuthorizedCreditCheckOptions}" />
+                                        </apex:selectRadio>
+                                        <div id="authorizedCreditCheckErrMsg"
+                                             class="invalidFieldMsg hidden">To proceed, Fidem must be
+                                            authorized to run a credit check.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="main-contain">
+                                <apex:outputPanel id="paperInfo" styleClass="appFormBlock infoBlock">
+                                    <apex:outputPanel layout="block">
+                                        <h3 style="margin-top: 17px;">
+                                            Check the box below to receive electronic statements – Get fast easy access to your account activity and payment information
+                                        </h3>
+                                        
+                                        <div style="background-color: #e6ffe6; padding: 15px 5px; margin-bottom: 20px;">
+                                            <apex:inputCheckbox value="{!PaperlessStatement}" style="margin-top: 0;" />
+                                            <span>By clicking the box, you elect to receive your billing statements electronically. We will send notifications to the email address listed on the account when your monthly billing statements are available for viewing. You may then access <b><a href="https://mycard.fidemfinance.ca/" target="_blank">https://mycard.fidemfinance.ca/</a></b> to view your statement online. There is no additional fee for this service.  Should you later wish to receive paper billing statements, you can adjust your preferences in your account center at <b><a href="https://mycard.fidemfinance.ca/" target="_blank">https://mycard.fidemfinance.ca/</a></b>.</span>
+                                        </div>
+                                    </apex:outputPanel>
+                                    <br /><br />
+                                </apex:outputPanel>
+                            </div>
+                            
+                            <div align="center">
+                                <div class="submitBtn">
+                                    <input type="submit" id="stepOneBack" class="backBtn" value="Back"
+                                           onclick="afStepOneBack(); return false;" style=" background-color: #5EB835;" />
+                                
+                                    <input type="submit" id="stepOneContinue" value="Continue"
+                                           onclick="validateStepOne(); return false;" style=" background-color: #5EB835;" />
+                                    <apex:actionFunction action="{!saveStepOne}" name="saveStepOne"
+                                                         oncomplete="checkStepOneResponseAndTransition()"
+                                                         rerender="stepOnePageMessages" />
+                                    
+                                    
+                                    <div id="stepOneLoading" class="loadingSpinner">
+                                        <apex:image url="{!$Resource.loadingGif}"
+                                                    style="vertical-align:middle;" />
+                                        
+                                    </div>       
+                                    
+                                 <div>
+                                        
+                             </div>
+                                </div>
+                                
+                            </div>
+                            <div class="clearboth"> </div>
+                        </div>
+                    </apex:actionRegion>
+                    
+                    
+                    <apex:actionRegion >
+                        
+                        
+                        <div id="stepTwo" class="hidden">
+                            
+                            
+                            <!-- <apex:image url="https://dev-dev--debtnext--c.cs21.content.force.com/servlet/servlet.ImageServer?id=015q0000000f6Cw&oid=00Dq0000000D5Js" style="Float: center"/>-->
+                            <div class="bg-cover" style="margin-bottom: 50px;">
+                                <section style="overflow: auto">
+                                    <div style="background: #5EB835; color: #ffffff; padding: 2% 18%;" class="main-text">
+                                        <h2 class="header-main">Credit Application</h2>
+                                    </div>
+                                    <div style="display: flex; border-bottom: 2px solid #5EB835;">
+                                        <div style="margin: 0 auto; list-style-type: none; padding: 0;" class="header-content">
+                                            
+                                            <li class="header-step-two"> Eligibility
+                                                <div class="header-step-next">
+                                                    <span class="header-step-green"><img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000002d7av&oid=00Dj0000001ripe&lastMod=1599232557000" style="width: 20px;"></img></span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-main"> About You
+                                                <div class="header-step-area">
+                                                    <span class="header-step-green">2</span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-two"> Your Employment
+                                                <div class="header-step-next">
+                                                    <span class="header-step-white">3</span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-two"> Your Consent
+                                                <div class="header-step-next">
+                                                    <span class="header-step-white">4</span>
+                                                </div>
+                                            </li>
+                                            
+                                        </div>
+                                    </div>
+                                </section>
+                                
+                                
+                            </div>
+                            
+                            <div class="main-contain" style="margin-bottom: 20px;">
+                            <!--<div class="appForm">-->
+                                <apex:pageMessages id="stepTwoPageMessages" />
+                                
+                               
+                               <a href="javascript:;" onclick="show(this.nextSibling.nextSibling.id);" style="font-size: 16px; text-decoration: none; font-weight: bold; display: block; margin-bottom: 10px;">Your contact info</a>
+                                 <div id="expand">
+                                <!--<hr align="center" color="#5EB835" size="2" width="100%"/>-->
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    
+                                    <div class="appFormBlockLeft">
+                                        
+                                    <div style="padding-left: 4%;">
+                                            <label>Gender<span style="color: #5EB835">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight" >
+                                        
+                                    <div >
+                                            <apex:selectList id="genderField" value="{!SelGender}" size="1" Style="width:300px" >
+                                                <apex:selectOptions value="{!GenderOptions}" />
+                                            </apex:selectList>
+                                        </div>
+                                        <div id="genderErrMsg" class="invalidFieldMsg hidden">
+                                            Please provide your gender.</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Primary phone number<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight element-radio element-table">
+                                        <div>
+                                            <apex:selectRadio id="primaryPhoneNumberField" value="{!selPrimaryPhoneNumber}" styleClass="radio-list-items">
+                                                <apex:selectOptions value="{!primaryPhoneNumber}" />
+                                            </apex:selectRadio>
+                                            
+                                        </div>
+                                        <div id="primaryPhoneNumberErrMsg" class="invalidFieldMsg hidden">Please
+                                            select primary phone number.</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Home Phone</label>
+                                            <!--<span style="color: red">*</span>-->
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div >
+                                            
+                                            <apex:inputText id="homePhoneField"
+                                                             value="{!HomePhone}" onChange="phoneNumberFormat()" />
+                                        </div>
+                                        <div id="homePhoneErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide a valid phone number.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Mobile</label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div >
+                                            <apex:inputText id="cellPhoneField"
+                                                             value="{!CellPhone}" onChange="phoneNumberFormat()" />
+                                        </div>
+                                        <div id="cellPhoneErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide a valid phone number.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Work Phone</label>
+                                            <!--<span style="color: red">*</span>-->
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:inputText id="workPhoneField"
+                                                             value="{!WorkPhone}" onChange="phoneNumberFormat()" />
+                                        </div>
+                                        <div id="workPhoneErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide a valid phone number.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Communications Preference</label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:selectList value="{!SelCommunicationsPreference}"
+                                                             size="1" Style="width:300px">
+                                                <apex:selectOptions value="{!CommunicationsPreferenceOptions}" />
+                                            </apex:selectList>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Number of Dependants<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:selectList id="numberOfDependantsField"
+                                                             value="{!SelNumberOfDependants}" size="1" Style="width:300px">
+                                                <apex:selectOptions value="{!NumberOfDependantsOptions}" />
+                                            </apex:selectList>
+                                        </div>
+                                        <div id="numberOfDependantsErrMsg"
+                                             class="invalidFieldMsg hidden">Please select your number
+                                            of dependants.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Marital Status<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:selectList id="maritalStatusField"
+                                                             value="{!SelMaritalStatus}" size="1" Style="width:300px">
+                                                <apex:selectOptions value="{!MaritalStatusOptions}" />
+                                            </apex:selectList>
+                                        </div>
+                                        <div id="maritalStatusErrMsg" class="invalidFieldMsg hidden">Please
+                                            select your marital status.
+                                        </div>
+                                    </div>
+                                  </div>
+                                 </div>
+                                <!--<hr align="center" color="#5EB835" size="2" width="100%"/>-->
+                                
+                                <a href="javascript:;" onclick="show(this.nextSibling.nextSibling.id);" style="font-size: 16px; text-decoration: none; font-weight: bold; display: block; margin: 15px 0 10px;">Where you live</a>
+                                <div id="expand1" style="margin-top: 10px;">
+                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Street Number <br></br> (Max. 20 characters)<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                        <!--<p style="margin-top: 4px;padding-left: 4%;"></p>-->
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="permanentAddressStreetNumberField"
+                                                         value="{!PermanentAddressStreetNumber}" maxlength="20" />
+                                        <div id="permanentAddressStreetNumberErrMsg"
+                                             class="invalidFieldMsg hidden">Please provide your street number.
+                                           </div>
+                                    </div>
+                                </div>                      
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Street Name<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="permanentAddressStreetNameField"
+                                                         value="{!PermanentAddressStreetName}" maxlength="255" />
+                                        <div id="permanentAddressStreetNameErrMsg"
+                                             class="invalidFieldMsg hidden">Please provide your street
+                                            name.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>PO Box (GD if applicable) for mail delivery only</label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="permanentAddressPOBox" value="{!PermanentAddressPOBox}" maxlength="10" />                                
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Unit Number</label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{!PermanentAddressUnitNumber}" maxlength="10" />
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>City<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="permanentAddressCityField"
+                                                         value="{!PermanentAddressCity}" maxlength="225" />
+                                        <div id="permanentAddressCityErrMsg"
+                                             class="invalidFieldMsg hidden">Please provide your city.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                   <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                        <label>Province<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                     <div>
+                                        <apex:selectList id="permanentProvinceField"
+                                                         value="{!SelPermanentProvince}" style="width:300px" size="1">
+                                            <apex:selectOptions value="{!PermanentProvinceOptions}" />
+                                        </apex:selectList>
+                                      </div>
+                                        <div id="permanentProvinceErrMsg" class="invalidFieldMsg hidden">Please
+                                            select your province.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft" >
+                                        <div style="padding-left: 4%;">
+                                            <label>Postal Code<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="permanentAddressPostalCodeField"
+                                                         value="{!PermanentAddressPostalCode}" maxlength="10" />
+                                        <div id="permanentAddressPostalCodeErrMsg"
+                                             class="invalidFieldMsg hidden">Please provide a valid
+                                            postal code.</div>
+                                        <div id="permanentAddressPostalCodeProvinceErrMsg"      
+                                             class="invalidFieldMsg hidden">Postal Code does not match selected Province.</div> 
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft" >
+                                        <div style="padding-left: 4%;">
+                                            <label>How long have you lived at this address?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight address-div">
+                                        <div class="fleft">
+                                            <p>Years</p>
+                                            <apex:inputText id="yearsAtPermanentAddressField"
+                                                            style="width:100px; margin-right:2px;"
+                                                            value="{!YearsAtPermanentAddress}" maxlength="2" onChange="trimSpace()"/>
+                                        </div>
+                                        <div class="fleft">
+                                            <p>Months</p>
+                                            <apex:inputText id="monthsAtPermanentAddressField"
+                                                            style="width:100px;"
+                                                            value="{!MonthsAtPermanentAddress}" maxlength="2" onChange="trimSpace()"/>
+                                        </div>
+                                        <div id="howLongAtPermanentAddressErrMsg" class="clearboth invalidFieldMsg hidden">
+                                            Please specify how long you have lived at this address (month must be between 0 and 11).
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="appFormBlock appForm" id="pRentOrOwnFieldDiv01" style="background-color: #e6ffe6;">
+                                     <div class="appFormBlockLeft" >
+                                        <div style="padding-left: 4%;">
+                                        <label>Do you rent or own your home?<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="appFormBlockRight">
+                                        <apex:selectRadio id="permanentRentOrOwnField" 
+                                                          value="{!SelPermanentRentOrOwn}" disabled="true">
+                                            <apex:SelectOptions value="{!PermanentRentOrOwnOptions}" />
+                                        </apex:selectRadio>
+                                        
+                                        <div id="permanentRentOrOwnErrMsg" class="invalidFieldMsg hidden">
+                                            Please specify if you rent or own.
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div id="rentQuestion" class="appFormBlockLeft"> 
+                                       <div style="padding-left: 4%;">
+                                        <label>How much is your monthly rent payment?<span style="color: green">*</span></label>
+                                       </div> 
+                                    </div>
+                                    <div id="mortgageQuestion" class="appFormBlockLeft hidden">
+                                    <div style="padding-left: 4%;">
+                                        <label>How much is your monthly mortgage payment?<span style="color: green">*</span></label>
+                                         </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="housingCostsField"
+                                                         value="{!HousingCosts}" maxlength="10" />
+                                        <div id="housingCostsErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide your monthly payment amount.</div>
+                                    </div>
+                                </div>
+                                
+                                <div id="mortgageWithQuestion" class="appFormBlock appForm hidden" style="background-color: #e6ffe6;">
+                                    <div id="homeMortgageQuestion" class="appFormBlockLeft">
+                                    <div style="padding-left: 4%;">
+                                        <label>If you have a mortgage, who is it with?<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="homeMortgageWithField"
+                                                         value="{!MortgageWith}" maxlength="50" />
+                                        <div id="homeMortgageWithErrMsg" class="invalidFieldMsg hidden">
+                                            Please specify who is your mortgage with.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                    <div style="padding-left: 4%;">
+                                        <label>What is the total of your other monthly expenses?
+                                            (excluding your rent or mortgage payment)<span style="color: green">*</span></label>
+                                       </div> 
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="monthlyExpensesField"
+                                                         value="{!MonthlyExpenses}" maxlength="10" />
+                                        <div id="monthlyExpensesErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide your total monthly expenses.</div>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div id="previousAddressSection" class="hidden" style="background-color: #e6ffe6;">
+                                    <div class="info"><h2>Previous Address</h2></div>
+                                    
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <h2>Street Number (Max. 20 characters)<span style="color: green">*</span></h2>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousAddressStreetNumberField"
+                                                             value="{!PreviousAddressStreetNumber}" maxlength="20"/>
+                                            <div id="previousAddressStreetNumberErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the street
+                                                number.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <h2>Street Name<span style="color: green">*</span></h2>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousAddressStreetNameField"
+                                                             value="{!PreviousAddressStreetName}" maxlength="255" />
+                                            <div id="previousAddressStreetNameErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the street
+                                                name.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <h2>PO Box (GD if applicable) for mail delivery only</h2>                                        
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousAddressPOBox" value="{!PreviousAddressPoBox}" maxlength="10"/>                                    
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <h2>Unit Number</h2>
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText value="{!PreviousAddressUnitNumber}" maxlength="10" />
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <h2>City<span style="color: green">*</span></h2>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousAddressCityField"
+                                                             value="{!PreviousAddressCity}" maxlength="255" />
+                                            <div id="previousAddressCityErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the city.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <h2>Province<span style="color: green">*</span></h2>
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:selectList id="previousProvinceField"
+                                                             value="{!SelPreviousProvince}" style="width:300px" size="1">
+                                                <apex:selectOptions value="{!PreviousProvinceOptions}" />
+                                            </apex:selectList>
+                                            <div id="previousProvinceErrMsg" class="invalidFieldMsg hidden">Please
+                                                select the province.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <h2>Postal Code<span style="color: green">*</span></h2>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousAddressPostalCodeField"
+                                                             value="{!PreviousAddressPostalCode}" maxlength="255" />
+                                            <div id="previousAddressPostalCodeErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the postal
+                                                code.</div>
+                                            <div id="previousAddressPostalCodeProvinceErrMsg"       
+                                                 class="invalidFieldMsg hidden">Postal Code does not match selected Province.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <h2>How long have you lived at this address?<span style="color: green">*</span></h2>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight" style="width: 50%;">
+                                            <div class="fleft">
+                                                <p>Years</p>
+                                                <apex:inputText id="yearsAtPreviousAddressField"
+                                                                style="width:100px; margin-right:2px;"
+                                                                value="{!YearsAtPreviousAddress}" maxlength="2" onChange="trimSpace()"/>
+                                            </div>
+                                            <div class="fleft">
+                                                <p>Months</p>
+                                                <apex:inputText id="monthsAtPreviousAddressField"
+                                                                style="width:100px;"
+                                                                value="{!MonthsAtPreviousAddress}" maxlength="2" onChange="trimSpace()"/>
+                                            </div>
+                                            <div id="howLongAtPreviousAddressErrMsg" class="clearboth invalidFieldMsg hidden">
+                                                Please specify how long you lived at this address (month must be between 0 and 11).
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            <!--</div>-->
+                            </div>
+                            
+                            
+                            <div class="submitBtn" style="text-align: center;">
+                                <input type="submit" id="stepTwoBack" style="float:letf;left=-290px; background-color: #5EB835;" value="Back"
+                                       onclick="afStepTwoBack(); return false;" />
+                                
+                                <input type="submit" id="stepTwoContinue" value="Continue"
+                                       onclick="validateStepTwo(); return false;" style="background-color: #5EB835;" />
+                                <apex:actionFunction action="{!saveStepTwo}" name="saveStepTwo"
+                                                     oncomplete="checkStepTwoResponseAndTransition()"
+                                                     rerender="stepTwoPageMessages" />
+                                
+                                
+                            </div>
+                            <div class="backBtn">
+                                
+                            </div>
+                            <div id="stepTwoLoading" class="loadingSpinner fleft" style="padding-left: 500px;">
+                                <apex:image url="{!$Resource.loadingGif}"
+                                            style="vertical-align:middle;" />
+                            </div>
+                            <div class="clearboth"> </div>
+                        </div>
+                    </apex:actionRegion>
+                    <!-- <div class="sectionHeader">
+<h3>   4. Employment Information</h3>
+</div>-->
+                    <apex:actionRegion >
+                        <div id="stepThree" class="hidden">
+                            <!-- <apex:image url="https://dev-dev--debtnext--c.cs21.content.force.com/servlet/servlet.ImageServer?id=015q0000000f6D1&oid=00Dq0000000D5Js" style="Float: left"/>-->
+                            <div class="bg-cover" style="margin-bottom: 50px;">
+                                <section>
+                                    <div style="background: #5EB835; color: #ffffff; padding: 2% 18%;" class="main-text">
+                                        <h2 class="header-main">Credit Application</h2>
+                                    </div>
+                                    <div style="display: flex; border-bottom: 2px solid #5EB835;">
+                                        <div style="margin: 0 auto; list-style-type: none; padding: 0;" class="header-content">
+                                            
+                                            <li class="header-step-two"> Eligibility
+                                                <div class="header-step-next">
+                                                    <span class="header-step-green"><img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000002d7av&oid=00Dj0000001ripe&lastMod=1599232557000" style="width: 20px;"></img></span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-two"> About You
+                                                <div class="header-step-next">
+                                                    <span class="header-step-green"><img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000002d7av&oid=00Dj0000001ripe&lastMod=1599232557000" style="width: 20px;"></img></span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-main"> Your Employment
+                                                <div class="header-step-area">
+                                                    <span class="header-step-green">3</span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-two"> Your Consent
+                                                <div class="header-step-next">
+                                                    <span class="header-step-white">4</span>
+                                                </div>
+                                            </li>
+                                            
+                                        </div>
+                                    </div>
+                                </section>
+                                
+                                
+                            </div>
+                            
+                            
+                            <div class="main-contain" style="margin-bottom: 20px;">
+                            <!--<div class="appForm">-->
+                                <apex:pageMessages id="stepThreePageMessages" />
+                                <div><h2 style="font-size: 16px; font-weight: bold;"> Where you work </h2></div><br/>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Name of your employer<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="employerNameField"
+                                                         value="{!EmployerName}" maxlength="150" />
+                                        <div id="employerNameErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide the name of your employer.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Employer phone number<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="employerPhoneField"
+                                                         value="{!EmployerPhone}" onChange="phoneNumberFormat()" />
+                                        <div id="employerPhoneErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide your employer's phone number.</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Street Number (Max. 20 characters)<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="employerStreetNumberField"
+                                                         value="{!EmployerStreetNumber}" maxlength="20" />
+                                        <div id="employerStreetNumberErrMsg"
+                                             class="invalidFieldMsg hidden">Please provide the street
+                                            number.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;" >
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Street Name<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="employerStreetNameField"
+                                                         value="{!EmployerStreetName}" maxlength="255" />
+                                        <div id="employerStreetNameErrMsg"
+                                             class="invalidFieldMsg hidden">Please provide the street
+                                            name.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>PO Box (GD if applicable) for mail delivery only</label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="employerPOBox" value="{!EmployerPoBox}" maxlength="10" />                                
+                                    </div>
+                                </div>
+                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Unit Number</label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{!EmployerUnitNumber}" maxlength="10" />
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>City<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="employerCityField"
+                                                         value="{!EmployerCity}" maxlength="255" />
+                                        <div id="employerCityErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide the city.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                        <label>Province<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                      <div>
+                                        <apex:selectList id="employerProvinceField"
+                                                         value="{!SelEmployerProvince}" style="width:300px" size="1">
+                                            <apex:selectOptions value="{!EmployerProvinceOptions}" />
+                                        </apex:selectList>
+                                        </div>
+                                        <div id="employerProvinceErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide the province.</div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Postal Code<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="employerPostalCodeField"
+                                                         value="{!EmployerPostalCode}" maxlength="255" />
+                                        <div id="employerPostalCodeErrMsg"
+                                             class="invalidFieldMsg hidden">Please provide the postal
+                                            code.</div>
+                                        <div id="employerPostalCodeProvinceErrMsg"      
+                                             class="invalidFieldMsg hidden">Postal Code does not match selected Province.</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>What is your current Industry?<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:selectList id="industryField" value="{!industryValue}" style="width:300px" size="1">
+                                            <apex:selectOptions value="{!IndustryList}" />
+                                            <apex:actionSupport event="onchange" action="{!populateJobList}" rerender="jobDescriptionField" status="counterStatus"/>
+                                        </apex:selectList>
+                                        <apex:actionStatus id="counterStatus" startText="" stopText=""/>
+                                        <div id="industryErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide your current Industry.</div>
+                                    </div>
+                                </div>
+                                <apex:outputPanel >                                
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>What is your current job description?<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:selectList id="jobDescriptionField"
+                                                         value="{!jobDescriptionValue}" style="width:300px" size="1">
+                                            <apex:selectOptions value="{!JobDescriptionList}" />
+                                        </apex:selectList>
+                                        
+                                        <div id="jobDescriptionErrMsg" class="invalidFieldMsg hidden">Please
+                                            provide your job description.</div>
+                                    </div>
+                                </div>
+                                </apex:outputPanel>
+                               
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>How long have you worked there?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight address-div">
+                                        <div class="fleft">
+                                            <p>Years</p>
+                                            <apex:inputText id="yearsAtEmployerField"
+                                                            style="width:100px; margin-right:2px;"
+                                                            value="{!EmploymentYears}" maxlength="2" onChange="trimSpace()" />
+                                        </div>
+                                        <div class="fleft">
+                                            <p>Months</p>
+                                            <apex:inputText id="monthsAtEmployerField"
+                                                            style="width:100px;"
+                                                            value="{!EmploymentMonths}" maxlength="2" onChange="trimSpace()"/>
+                                        </div>
+                                        <div id="howLongAtEmployerErrMsg" class="clearboth invalidFieldMsg hidden">
+                                            Please specify how long you worked for this employer (month must be between 0 and 11).
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>What is your gross annual income?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText id="grossAnnualIncomeField"
+                                                         value="{!GrossAnnualIncome}" maxlength="10" />
+                                        <div id="grossAnnualIncomeErrMsg"
+                                             class="invalidFieldMsg hidden">Please provide your gross
+                                            annual income.</div>
+                                    </div>
+                                </div>
+                                <div id="previousEmployerSection" class="hidden">
+                                    <div class="info">Previous Employer Address</div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>What is the name of your employer?<span style="color: green">*</span></label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousEmployerNameField"
+                                                             value="{!PreviousEmployerName}" maxlength="150" />
+                                            <div id="previousEmployerNameErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the name
+                                                of your employer.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>Street Number (Max. 20 characters)<span style="color: green">*</span></label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousEmployerStreetNumberField"
+                                                             value="{!PreviousEmployerStreetNumber}" maxlength="20" />
+                                            <div id="previousEmployerStreetNumberErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the street
+                                                number.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>Street Name<span style="color: red">*</span></label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousEmployerStreetNameField"
+                                                             value="{!PreviousEmployerStreetName}" maxlength="255" />
+                                            <div id="previousEmployerStreetErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the street
+                                                name.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>PO Box (GD if applicable) for mail delivery only</label>
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousEmployerPOBox" value="{!PreviousEmployerPoBox}" maxlength="10"/>                                    
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>Unit Number</label>
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText value="{!PreviousEmployerUnitNumber}" maxlength="10" />
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>City<span style="color: red">*</span></label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousEmployerCityField"
+                                                             value="{!PreviousEmployerCity}" maxlength="255" />
+                                            <div id="previousEmployerCityErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the city.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Province<span style="color: red">*</span></label>
+                                         </div>   
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:selectList id="previousEmployerProvinceField"
+                                                             value="{!SelPreviousEmployerProvince}" size="1">
+                                                <apex:selectOptions value="{!PreviousEmployerProvinceOptions}" />
+                                            </apex:selectList>
+                                            <div id="previousEmployerProvinceErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the
+                                                province.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>Postal Code<span style="color: green">*</span></label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousEmployerPostalCodeField"
+                                                             value="{!PreviousEmployerPostalCode}" maxlength="255" />
+                                            <div id="previousEmployerPostalCodeErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide the postal
+                                                code.</div>
+                                            <div id="previousEmployerPostalCodeProvinceErrMsg"      
+                                                 class="invalidFieldMsg hidden">Postal Code does not match selected Province.</div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>How long did you work there?<span style="color: green">*</span></label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight" style="width: 50%;">
+                                            <div class="fleft">
+                                                <p>Years</p>
+                                                <apex:inputText id="yearsAtPreviousEmployerField"
+                                                                style="width:100px; margin-right:2px;"
+                                                                value="{!PreviousEmploymentYears}" maxlength="2" onChange="trimSpace()"/>
+                                            </div>
+                                            <div class="fleft">
+                                                <p>Months</p>
+                                                <apex:inputText id="monthsAtPreviousEmployerField"
+                                                                style="width:100px;"
+                                                                value="{!PreviousEmploymentMonths}" maxlength="2" onChange="trimSpace()"/>
+                                            </div>
+                                            <div id="howLongAtPreviousEmployerErrMsg" class="clearboth invalidFieldMsg hidden">
+                                                Please specify how long you worked for your previous employer (month must be between 0 and 11).
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                        <div class="appFormBlockLeft">
+                                            <div style="padding-left: 4%;">
+                                                <label>What was your gross annual income?<span style="color: green">*</span></label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="appFormBlockRight">
+                                            <apex:inputText id="previousGrossAnnualIncomeField"
+                                                             value="{!PreviousGrossAnnualIncome}" maxlength="10" />
+                                            <div id="previousGrossAnnualIncomeErrMsg"
+                                                 class="invalidFieldMsg hidden">Please provide your
+                                                previous gross annual income.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!--</div>-->
+                            </div>
+                            
+                                        <div class="submitBtn" style="text-align: center;">
+                                            <input type="submit" style="background: #5eb835;" id="stepThreeBack" value="Back"
+                                                   onclick="afStepThreeBack(); return false;" />
+                                        
+                                            <input type="submit" id="stepThreeContinue" value="Continue"
+                                                   onclick="validateStepThree(); return false;" style="background: #5eb835;" />
+                                            <apex:actionFunction action="{!saveStepThree}"
+                                                                 name="saveStepThree"
+                                                                 oncomplete="checkStepThreeResponseAndTransition()"
+                                                                 rerender="stepThreePageMessages" />
+                                            
+                                            
+                                        </div>
+                                   
+                                        <div class="backBtn">
+                                            
+                                        </div>
+                                    
+                            <div id="stepThreeLoading" class="loadingSpinner fleft">
+                                <apex:image url="{!$Resource.loadingGif}"
+                                            style="vertical-align:middle;" />
+                            </div>
+                            <div class="clearboth"> </div>
+                        </div>
+                    </apex:actionRegion>
+                    
+                    <apex:actionRegion >
+                        
+                        
+                        <div id="stepFour" class="hidden">
+                            <!--<apex:image url="https://dev-dev--debtnext--c.cs21.content.force.com/servlet/servlet.ImageServer?id=015q0000000f6D6&oid=00Dq0000000D5Js" style="Float: left"/>-->
+                            <div class="bg-cover" style="margin-bottom: 50px;">
+                                <section>
+                                    <div style="background: #5EB835; color: #ffffff; padding: 2% 18%;" class="main-text">
+                                        <h2 class="header-main">Credit Application</h2>
+                                    </div>
+                                    <div style="display: flex; border-bottom: 2px solid #5EB835;">
+                                        <div style="margin: 0 auto; list-style-type: none; padding: 0;" class="header-content">
+                                            
+                                            <li class="header-step-two"> Eligibility
+                                                <div class="header-step-next">
+                                                    <span class="header-step-green"><img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000002d7av&oid=00Dj0000001ripe&lastMod=1599232557000" style="width: 20px;"></img></span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-two"> About You
+                                                <div class="header-step-next">
+                                                    <span class="header-step-green"><img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000002d7av&oid=00Dj0000001ripe&lastMod=1599232557000" style="width: 20px;"></img></span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-two"> Your Employment
+                                                <div class="header-step-next">
+                                                    <span class="header-step-green"><img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000002d7av&oid=00Dj0000001ripe&lastMod=1599232557000" style="width: 20px;"></img></span>
+                                                </div>
+                                            </li>
+                                            
+                                            <li class="header-step-main"> Your Consent
+                                                <div class="header-step-area">
+                                                    <span class="header-step-green">4</span>
+                                                </div>
+                                            </li>
+                                            
+                                        </div>
+                                    </div>
+                                </section>
+                                
+                                
+                            </div>
+                            
+                            
+                            <div class="consent-div">
+                            <div class="appForm">
+                                <apex:pageMessages id="stepFourPageMessages" />
+                                <div style="margin-bottom: 20px;">
+                                    <h1 style="font-size: 25px;"> Fantastic, you're almost done! </h1> 
+                                </div>
+                                <div style="background-color: #e6ffe6; padding: 20px; margin-bottom: 20px;">
+                                    <strong>Reminder:</strong> As a part of the application process, please go to your email or mobile to click on the link we sent you. This verifies your information. Note that without this step we cannot complete the process.
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <h1>Please review the Customer Consent below and confirm
+                                    that you have read and agree to its content by checking the
+                                    boxes provided:</h1>
+                                </div>
+                                <div class="appFormBlock" >
+                                    <!--<div class="info">Customer Consent</div>-->
+                                    <div>
+                                        
+                                        
+                                        <div style="margin-bottom: 20px; padding: 10px;">I certify that the information
+                                            given on the application form is true and correct and by
+                                            clicking the box below and submitting this application, I
+                                            accept as notice in writing of, and consent to, collection,
+                                            use, disclosure and verification of any credit, personal or
+                                            other information about me at any time from, to or with credit
+                                            reporting agency, credit grantor, or any person, and I
+                                            authorize those parties to give information to you. I
+                                            understand that all such information shall be collected, used
+                                            and disclosed by you, and any of your affiliates, agents,
+                                            service providers, successors and assigns to assess my
+                                            creditworthiness for this application and my on-going
+                                            creditworthiness, for determining my eligibility for any other
+                                            products or services to be offered to me and for such other
+                                            uses not prohibited by law. Fidem may request additional
+                                            documentation for verification purposes in order to protect my
+                                            identity and to ensure accurate credit bureau reporting.</div>
+                                    </div>
+                                    <div style="background-color: #e6ffe6; padding: 15px 5px; margin-bottom: 20px;">
+                                        <div style="display: flex;">
+                                            <apex:inputCheckbox id="isConsumerLegalConsentField"
+                                                            value="{!isConsumerLegalConsent}" style="margin-top: 0;"/>
+                                            <span>By checking this box you confirm the following: I have
+                                            read and agree to the Customer Consent information
+                                            above.<span style="color: green">*</span></span>
+                                        </div>
+                                        <div>
+                                            <label id="isConsumerLegalConsentErrMsg"
+                                                   class="invalidFieldMsg hidden" style="padding-left: 3%;"><b>Fidem cannot proceed
+                                                without your consent.</b></label>
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom: 20px; padding: 10px;">I also consent to the use of this
+                                        information for marketing purposes. Marketing includes the
+                                        marketing and promotion of products, goods and services which
+                                        you believe may be of interest to me. You may contact me by
+                                        e-mail using the e-mail address I have provided for special
+                                        offers or standard service messages, including collections. To
+                                        ensure your security, we will not include sensitive information
+                                        in an e-mail. If at any time you would like to withdraw your
+                                        consent or update your profile and preferences, you can do so by
+                                        clicking here (or clicking the unsubscribe link on our 'About
+                                        Us' page) or by contacting us directly.</div>
+                                        
+                                    
+                                </div>
+                                
+                                <div style="background-color: #e6ffe6; padding: 15px 5px; margin-bottom: 20px;">
+                                    <div style="display: flex;">
+                                        <apex:inputCheckbox value="{!MarketingConsent}" style="margin-top: 0;" />
+                                        <span>By checking this box you confirm the following: I agree
+                                        to be contacted by email to receive special offers and product
+                                        updates from Fidem</span>
+                                    </div>
+                                    <div>
+                                        <label id="isConsumerMarketingErrMsg"
+                                               class="clearboth invalidFieldMsg hidden" style="padding: 3%;"><b>Fidem cannot proceed
+                                            without your consent.</b></label>
+                                    </div>
+                                </div>
+                                    
+                                <div style="background-color: #e6ffe6; padding: 15px 5px; margin-bottom: 20px;">
+                                    <div style="display: flex; z-index: 1;position: relative;">
+                                        <apex:inputCheckbox id="privacypolicyField" value="{!PrivacyStatementAccepted}" style="margin-top: 0;" />
+                                        <span>I Agree to <a href="https://fidemfinance.ca/privacy-policy/" target="_blank">Privacy Policy</a>
+                                        <span style="color: green">*</span></span>
+                                    </div>
+                                    <div>
+                                        <label id="privacypolicyErrMsg"
+                                               class="invalidFieldMsg hidden" style="padding: 3%;"><b>Please accept the privacy policy.</b></label>
+                                    </div>
+                                </div>
+                                    
+                                <!--Section for FATCA related questions-->
+                                <div style="margin-bottom: 20px;" class="form-wrapper-validate">
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Do you have tax obligations in any country other than Canada?
+                                                <span style="color: green">*</span>
+                                            </label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight" style="background-color: #e6ffe6;">
+                                        <div>
+                                            <apex:selectRadio id="fatcaQuestionField"
+                                                              value="{!SelFATCATsxObligation}">
+                                                <apex:selectOptions value="{!FATCATsxObligationOptions}" />
+                                            </apex:selectRadio>
+                                            <div id="fatcaQuestionErrMsg"
+                                                 class="invalidFieldMsg hidden">Please answer the
+                                                question.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="fatcaQuestion1" class="hidden">
+                                  <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Please list which other jurisdictions you have tax obligations in<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{!NameofJurisdictions}" id="taxObligationsField"/>
+                                        <div id="taxObligationsErrMsg" class="invalidFieldMsg hidden">Please answer the question</div>
+                                    </div>
+                                   </div>
+                                </div>
+                                <div id="fatcaQuestion2" class="hidden">
+                                   <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Please provide your tax identification number(s) for such other jurisdiction(s).<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{!TaxIdentificationNumber}" id="taxIdentificationField"/>
+                                        <div id="taxIdentificationErrMsg" class="invalidFieldMsg hidden">Please answer the question</div>
+                                    </div>
+                                   </div>
+                                </div>
+                                <div id="fatcaQuestion3" class="hidden">
+                                  <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Please provide your Canadian SIN for tax reporting purposes.<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{!CanadianSIN}" id="taxReportingField" styleClass="sinField"/>
+                                        <div id="taxReportingErrMsg" class="invalidFieldMsg hidden">Please enter valid SIN</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;" class="form-wrapper-validate">
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Have you or any close relative of yours ever held a
+                                                senior position in government, political party, military,
+                                                tribunal or government-owned corporation of a foreign country?
+                                                <span style="color: green">*</span>
+                                            </label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight" style="background-color: #e6ffe6;">
+                                        <div>
+                                            <apex:selectRadio id="politicallyExposedForeignPersonField"
+                                                              value="{!SelPoliticallyExposedForeignPerson}">
+                                                <apex:selectOptions value="{!PoliticallyExposedForeignPersonOptions}" />
+                                            </apex:selectRadio>
+                                            <div id="politicallyExposedForeignPersonErrMsg"
+                                                 class="invalidFieldMsg hidden">Please answer the
+                                                question.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="whoHeld" class="hidden">
+                                  <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Who held the position?<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{!PEFPWhoHeldPosition}" id="whoHeldPositionField"/>
+                                        <div id="whoHeldPositionErrMsg" class="invalidFieldMsg hidden">Please enter the name of the person</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div id="whenHeld" class="hidden">
+                                  <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>When was the position held?<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{!PEFPWhenHeld}" id="whenWasPositionHeldField"/>
+                                        <div id="whenWasPositionHeldErrMsg" class="invalidFieldMsg hidden">Please enter when was the position held</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div id="whereHeld" class="hidden">
+                                  <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Where was the position held?<span style="color: green">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{!PEFPWhereHeld}" id="whereWasPositionHeldField"/>
+                                        <div id="whereWasPositionHeldErrMsg" class="invalidFieldMsg hidden">Please enter where was the position held</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                </div>
+                        <!--
+                                <div style="margin-bottom: 20px;">
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>Excluding the persons named on the application, will a
+                                                third party or any other person benefit from, or give
+                                                direction on, this account?<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:selectRadio id="thirdPartyDirectionField"
+                                                              value="{!SelThirdPartyDirection}">
+                                                <apex:selectOptions value="{!ThirdPartyDirectionOptions}" />
+                                            </apex:selectRadio>
+                                            <div id="thirdPartyDirectionErrMsg"
+                                                 class="invalidFieldMsg hidden">Please answer the
+                                                question.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="whoWillDirect" class="hidden">
+                                  <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>What is the name of the person who will give direction
+                                                on this account?</label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{TPDWhoWillDirect}" id="TPDWhoField"/>
+                                        <div id="TPDWhoErrMsg" class="invalidFieldMsg hidden">Please answer the question</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div id="relationshipToApp" class="hidden">
+                                  <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>What is the relationship to the person named on the
+                                                application?</label>
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <apex:inputText value="{!TPDRelationshipToApplicant}" id="TPDRelationField"/>
+                                        <div id="TPDRelationErrMsg" class="invalidFieldMsg hidden">Please answer the question</div>
+                                    </div>
+                                   </div>
+                                </div>
+                            </div>
+                       -->
+                            <div style="margin-bottom: 20px;">
+                                <div class="appFormBlock appForm" style="background-color: #e6ffe6;">
+                                    <div class="appFormBlockLeft">
+                                        <div style="padding-left: 4%;">
+                                            <label>I confirm that I am the sole applicant for this card and there is no person or 
+                                            entity that will give direction on this account.<span style="color: green">*</span></label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="appFormBlockRight">
+                                        <div>
+                                            <apex:selectRadio id="soleApplicantField"
+                                                              value="{!SelSoleApplicant}">
+                                                <apex:selectOptions value="{!SoleApplicantOptions}" />
+                                            </apex:selectRadio>
+                                            <div id="soleApplicantErrMsg"
+                                                 class="invalidFieldMsg hidden">To proceed, you must confirm you are the sole applicant.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div> 
+                            
+                            <div class="submitBtn" style="text-align: center;">
+                                <input type="submit" value="Back" style="background: #5eb835;"
+                                       onclick="afStepFourBack();return false;" />
+                                
+                                <input type="submit" id="stepFourSubmit"  style="background: #5eb835;" value="Submit" 
+                                       onclick="validateStepFour(); return false;" />
+                                <apex:actionFunction action="{!saveStepFour}" name="saveStepFour"
+                                                     oncomplete="checkStepFourResponseAndTransition()"
+                                                     rerender="stepFourPageMessages" />
+                                
+                                
+                            </div>
+                            
+                            <div class="clearboth"> </div>
+                        </div>
+                    </apex:actionRegion>
+                </div>
+                <div id="processingDialog">
+                    <div style="display: inline-block;">
+                        <apex:image url="{!$Resource.loadingGif}"
+                                    style="vertical-align:middle;" />
+                          <span id="statusText">Processing application...</span>
+                    </div>
+                </div>
+            </apex:form>
+            
+            <script>
+            // Get the modal
+            
+            var modal = document.getElementById("myModal");
+            
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+            
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            
+            // When the user clicks the button, open the modal 
+            /*btn.onclick = function() {
+                modal.style.display = "block";
+            }*/
+            
+            // When the user clicks on <span> (x), close the modal
+            //span.onclick = function() {
+                //modal.style.display = "none";
+            //}
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            
+            </script>
+            
+        </body>
+    </html>
+</apex:page>

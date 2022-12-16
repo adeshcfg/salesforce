@@ -1,0 +1,258 @@
+<!--  
+/**************************************************************************************************
+ *
+ *  Visualforce Page:   
+ *
+ *  @description : This Visualforce Page is display all duplicate accounts 
+ *  @author : A5E Consulting
+ 
+ *************************************************************************************************/
+ -->
+<apex:page controller="AllDuplicateAccountController" sidebar="false" docType="html-5.0">
+    <script type="text/javascript">
+        function selectAllCheckboxes(obj, receivedInputID) {
+            console.log(document.getElementById(receivedInputID));
+            var inputCheckBox = document.getElementById(receivedInputID).getElementsByTagName("input");
+            for (var i = 0; i < inputCheckBox.length; i++) {
+                if (inputCheckBox[i].id.indexOf(receivedInputID) != -1) {
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        }
+    </script>
+    <apex:actionStatus id="loading">
+        <apex:facet name="start">
+            <c:LoadingStatus />
+        </apex:facet>
+    </apex:actionStatus>
+    
+    <apex:form id="form">
+            <div style="width:100%">
+            <apex:pageBlock id="pgBlock" title="Filter Accounts"> 
+                <apex:pageBlockButtons location="bottom" >
+                    <apex:commandButton value="Search" action="{!initiateSearch}" rerender="pageBlockID" status="loading"/>
+                </apex:pageBlockButtons>
+            
+                <apex:pageBlockSection columns="2" >
+                    <apex:pageBlockSectionItem >
+                        
+                        <!--<apex:pageBlock>-->
+                            <apex:pageBlockSection >
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel value="Bank Name:" />
+                                    <apex:selectList value="{!selectedBankName}" id="accountnameselect" multiselect="false" size="1">
+                                        <apex:selectOptions value="{!BankNames}" />
+                                        <!--<apex:actionSupport event="onchange" status="loading" action="{!refreshBankList}" rerender="pageBlockID" />-->
+                                    </apex:selectList>
+                                </apex:pageBlockSectionItem>
+                                
+                                <apex:pageBlockSectionItem >
+                                    <apex:outputLabel value="Claim Type:" />
+                                    <apex:selectList value="{!selectedClaimType}" id="claimselect" multiselect="false" size="1">
+                                        <apex:selectOptions value="{!ClaimTypes}" />
+                                        <!--<apex:actionSupport event="onchange" status="loading" action="{!refreshBankList}" rerender="pageBlockID" />-->
+                                    </apex:selectList>
+                                </apex:pageBlockSectionItem>
+                            </apex:pageBlockSection>
+                        <!--</apex:pageBlock>-->
+                        <!---->
+                    </apex:pageBlockSectionItem>
+                    
+                    
+                    
+                    <apex:pageblockSectionItem >
+                        <apex:outputLabel ></apex:outputLabel>
+                        <apex:outputLabel ></apex:outputLabel>
+                    </apex:pageblockSectionItem>
+                    
+                    <apex:pageBlockSectionItem >
+                    
+                        <apex:pageBlockSection >
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel value="Insolvency Type:" />
+                                <apex:selectList value="{!selectedInsolvencyType}" id="insolveTypeselect" multiselect="true" size="4">
+                                    <apex:selectOptions value="{!InsolvencyType}" />
+                                    <!--<apex:actionSupport event="onchange" status="loading" action="{!refreshBankList}" rerender="pageBlockID" />-->
+                                </apex:selectList>
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Processing Status:" />
+                            <apex:selectList value="{!selectedProcessingStatus}" id="insolveprocessselect" multiselect="true" size="4">
+                                <apex:selectOptions value="{!InsolvencyStatus}" />
+                                <!--<apex:actionSupport event="onchange" status="loading" action="{!refreshBankList}" rerender="pageBlockID" />-->
+                            </apex:selectList>
+                        </apex:pageBlockSectionItem>
+                        </apex:pageBlockSection>
+                        
+                    </apex:pageBlockSectionItem>
+                    
+                    <apex:pageblockSectionItem >
+                        <apex:outputLabel ></apex:outputLabel>
+                        <apex:outputLabel ></apex:outputLabel>
+                    </apex:pageblockSectionItem>
+
+                    
+                    <apex:pageBlockSectionItem >
+                        <apex:pageBlockSection >
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel value="PoC Start Date:" />
+                                <apex:inputField value="{!insolAcc.Insolvency_Date__c}"/>
+                            </apex:pageBlockSectionItem>
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel value="PoC End Date:" />
+                                <apex:inputField value="{!insolAcc.Purchase_Date__c}" />
+                            </apex:pageBlockSectionItem>
+                        </apex:pageBlockSection>
+                        
+                    </apex:pageBlockSectionItem>
+                    
+                    <apex:pageblockSectionItem >
+                        <apex:outputLabel ></apex:outputLabel>
+                        <apex:outputLabel ></apex:outputLabel>
+                    </apex:pageblockSectionItem>
+                    
+                </apex:pageBlockSection>           
+            
+            </apex:pageBlock>
+            </div>
+            
+            <apex:pageBlock id="pageBlockID" title="Duplicate Accounts"  >
+                <apex:pageMessages />
+                <apex:pageBlockButtons >
+                    <apex:commandButton id="save" value="Save" action="{!doSave}"/>
+                    <apex:commandButton value="Export" action="{!exportDupAcct}" reRender="pageBlockID"/>                    
+                </apex:pageBlockButtons>
+                
+                <apex:pageBlockSection >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Bulk Update Asset Status To:" title="Bulk update Account Status"/>
+                        <apex:selectList value="{!selectedBulkAssetStatus}" id="assetSelect" multiselect="false" size="1">
+                            <apex:selectOptions value="{!AssetStatus}" />
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>   
+                 
+                <apex:pageBlockSection >
+                        
+                     <apex:outputPanel id="trackLabel"><!--<b>{!TotalStartCount}-{!TotalEndCount} of {!total_size}</b>--></apex:outputPanel>
+                     <apex:outputPanel id="myButtons" rendered="{!if(AND(accWrappers!=null,accWrappers.size > 0),True,False)}">
+                         <apex:commandButton action="{!Beginning}" title="Beginning" value="<<" disabled="{!disablePrevious}" reRender="pageBlkSecAcc,myButtons,trackLabel,confirmTable" status="loading" />
+                         <apex:commandButton action="{!Previous}" title="Previous" value="<" disabled="{!disablePrevious}" reRender="pageBlkSecAcc,myButtons,trackLabel,confirmTable" status="loading" />        
+                         <apex:commandButton action="{!Next}" title="Next" value=">" disabled="{!disableNext}" reRender="pageBlkSecAcc,myButtons,trackLabel,confirmTable" status="loading" />
+                         <apex:commandButton action="{!End}" title="End" value=">>" disabled="{!disableNext}" reRender="pageBlkSecAcc,myButtons,trackLabel,confirmTable" status="loading" /> 
+                    </apex:outputPanel>
+                       
+                </apex:pageBlockSection> 
+                
+                <div style="overflow: scroll; width: 100%; height: 1000px;">
+                <apex:pageBlockSection id="pageBlkSecAcc" >
+                    <apex:pageBlockSectionItem id="pageBlkSecItmAcc" >
+                    
+                    <apex:pageblocktable value="{!accWrappers}" var="acct" id="confirmTable">
+                    
+                    <apex:column >
+                        
+                        <apex:facet name="header">
+                              <apex:inputCheckbox id="allRouteCheckbox" onclick="selectAllCheckboxes(this,'{!$Component.form.pageBlockID.pageBlkSecAcc.pageBlkSecItmAcc.confirmTable}')"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!acct.isSelected}" id="Selected_Account" />
+                    </apex:column>
+                        <apex:column headerValue="Salesforce Id">
+                            <apex:outputLabel value="{!acct.acc.Id}" />
+                        </apex:column>    
+                    <apex:column headerValue="Account Number">
+                        <a href="{!acct.accLink}" target="_blank">
+                            <apex:outputfield value="{!acct.acc.Name}"/>
+                        </a>
+                    </apex:column>                  
+                    
+                    
+                    <apex:column headerValue="Estate Number">
+                        <a href="{!acct.insolLink}" target="_blank">
+                            <apex:outputfield value="{!acct.acc.Insolvency__r.Name}"/>
+                        </a>
+                    </apex:column>
+                        
+                    <apex:column headerValue="Claim Amount">
+                        <apex:outputField value="{!acct.acc.Claim_Amount__c}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Asset Status">
+                        <apex:outputField value="{!acct.acc.Asset_Status__c}">
+                            <apex:inlineEditSupport showOnEdit="save" event="ondblclick"/>
+                        </apex:outputfield>
+                    </apex:column>
+                        
+					<apex:column headerValue="Excluded from Purchase">
+                        <apex:outputField value="{!acct.acc.Excluded_from_Purchase__c}">
+                            <apex:inlineEditSupport showOnEdit="save" event="ondblclick"/>
+                        </apex:outputfield>
+                    </apex:column>
+                        
+                    <apex:column headerValue="Purchase Price">
+                        <apex:outputField value="{!acct.acc.Purchase_Price__c}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Claim Type">
+                        <apex:outputField value="{!acct.acc.Claim_Type__c}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Insolvency Type">
+                        <apex:outputField value="{!acct.acc.Insolvency__r.Insolvency_Type__c}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Insolvency Date">
+                        <apex:outputField value="{!acct.acc.Insolvency__r.Insolvency_Date__c}"/>
+                    </apex:column>
+                        
+                    <apex:column headerValue="Product Type">
+                        <apex:outputField value="{!acct.acc.Account_Type__c}"/>
+                    </apex:column>
+                        
+                   <apex:column headerValue="Product Code">
+                        <apex:outputField value="{!acct.acc.Product_Code__c}"/>
+                    </apex:column>     
+                    
+                    <apex:column headerValue="Debtor">
+                        <apex:outputField value="{!acct.acc.Debtor__c}"/>
+                    </apex:column>
+                        
+                    <apex:column headerValue="Processing Status">
+                        <apex:outputField value="{!acct.acc.Insolvency_Status__c}"/>
+                    </apex:column>
+                     
+                    <apex:column headerValue="Original PoC Created Date">
+                        <apex:outputField value="{!acct.acc.PoC_Created_Date__c}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Purchase Factor">
+                        <apex:outputField value="{!acct.acc.Purchase_Factor__c}"/>
+                    </apex:column>  
+                        
+                    <apex:column headerValue="Bank">                    
+                            <apex:outputfield value="{!acct.acc.Client_Identifier__c}"/>                    
+                    </apex:column>
+                        
+                     <apex:column headerValue="Excluded Account Comments">
+                        <apex:outputField value="{!acct.acc.Excluded_Account_Comments__c}">
+                            <apex:inlineEditSupport showOnEdit="save" event="ondblclick"/>
+                        </apex:outputfield>
+                    </apex:column>
+                        
+                    <apex:column headerValue="Reasons for Duplicate Number">
+                        <apex:outputField value="{!acct.acc.Reasons_for_Duplicate_Account_Number__c}">
+                            <apex:inlineEditSupport showOnEdit="save" event="ondblclick"/>
+                        </apex:outputfield>
+                    </apex:column>
+                        
+                </apex:pageblocktable>
+                        
+                </apex:pageBlockSectionItem>
+                </apex:pageBlockSection> 
+                </div>       
+                <apex:outputLabel value="No records to display" rendered="{!if(accWrappers.size>0,false,true)}"></apex:outputLabel>
+            
+                
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

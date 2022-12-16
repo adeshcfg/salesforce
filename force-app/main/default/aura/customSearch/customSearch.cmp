@@ -1,0 +1,33 @@
+<aura:component controller="CustomSearchController">
+	<aura:attribute name="searchText" type="String" />
+    <aura:attribute name="searchObject" type="String" default=""/>
+    <aura:attribute name="searchFields" type="String[]" default="[]"/>
+    <aura:attribute name="returnFields" type="String[]" default="[]"/>
+    <aura:attribute name="searchResults" type="Object" default=""/>
+    <aura:attribute name="excludeRecords" type="Object" default=""/>
+    <aura:attribute name="placeholder" type="String" default="Name"/>
+    <aura:attribute name="searchRecordTypes" type="String[]" default=""/>
+    
+    <aura:attribute name="serverRespose" type="Object"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <c:errorHandling aura:id="errorHandling" serverRespose="{!v.serverRespose}" showSpinner="{!v.showSpinner}"/>
+    
+    <aura:html tag="style">
+    	.slds-modal__container{
+        	max-width:unset !important;
+        	width: 70%;
+        }
+    </aura:html>
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand"/>
+    </aura:if>
+    
+    <div class="slds-form-element slds-lookup" data-select="single">
+        <div class="slds-form-element__control">
+            <div class="slds-input-has-icon slds-input-has-icon--right">
+                <lightning:buttonIcon iconName="utility:search" variant="bare"  onclick="{! c.handleClick }" alternativeText="Search" class="slds-input__icon" />
+                <ui:inputText value="{!v.searchText}" class="slds-lookup__search-input slds-input" placeholder="{!v.placeholder}" keyup ="{!c.searchEvents}" />
+            </div>
+        </div>
+    </div>
+</aura:component>

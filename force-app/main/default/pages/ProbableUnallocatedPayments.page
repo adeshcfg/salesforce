@@ -1,0 +1,23 @@
+<apex:page standardController="Insolvency_Account__c" extensions="ProbableUnallocatedPaymentsCntrl">
+    <apex:form >
+   
+    <apex:pageBlock >
+         <apex:outputLabel rendered="{!unAllocPayList.size == 0}">No records to display</apex:outputLabel>
+        <apex:pageBlockTable rendered="{!unAllocPayList.size>0}" value="{!unAllocPayList}" var="unAllocPay">
+            
+            <apex:column headerValue="">
+                <apex:commandLink style="    text-decoration: none;" styleClass="btn"   onclick="window.open('/apex/ProcessingUnallocatedPayment?id={!unAllocPay.Id}&insolvAcc={!insolvAcc.Id}', '_blank')">
+                Allocate
+                </apex:commandLink>
+            </apex:column>
+            <apex:column value="{!unAllocPay.Name}" headerValue="Name"/>
+            <apex:column value="{!unAllocPay.Account_Number__c}" headerValue="Account Number"/>
+            <apex:column value="{!unAllocPay.Bank_Name__c}" headerValue="Bank Name"/>
+            <apex:column value="{!unAllocPay.Remittance__c}" headerValue="Remittance"/>
+            <apex:column value="{!unAllocPay.Unallocated_Amount__c}" headerValue="Unallocated Amount"/>
+            <apex:column value="{!unAllocPay.Estate_Number__c}" headerValue="Estate Number"/>
+            
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

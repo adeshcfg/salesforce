@@ -1,0 +1,73 @@
+<apex:page extensions="AgencyPoolAllocationController" standardController="Pool__c"  >
+    <apex:slds ></apex:slds>
+    <apex:form > 
+        <style type="text/css">
+            <!-- th{
+padding: 0 15px 0 15px!important;            
+}-->
+        </style>
+        <apex:outputPanel id="panel">
+            <div style = "margin-left: 5%; margin-top: 2%;"> 
+                <b>{!poolRecord.Name} &nbsp;Allocation</b><br/><br/>
+                <apex:outputPanel >
+                    <div class="slds-form-element">
+                        <apex:outputPanel rendered="{!Alert_msg == ' '}">
+                            <label class="slds-form-element__label" for="text-input-id-47">Enter Agency Number/Name to Allocate :</label>
+                            <div class="slds-form-element__control">
+                                
+                                <apex:inputField value="{!poolRecord.Placement_agency_lookup__c}"  style="width: 25%;
+                                                                                                          border-radius: 4px;
+                                                                                                          border: 1px solid rgb(179 188 196);
+                                                                                                          height: 30px;"   />
+                                
+                                
+                            </div><br/>
+                        </apex:outputPanel>
+                        
+                    </div>
+                    <div>
+                        <apex:commandButton action="{!allocateAgencyToProduct}"
+                                            value="Allocate Agency" 
+                                            reRender="panel"
+                                            styleClass="slds-button slds-button_outline-brand"
+                                            disabled="{!IF(allocatebtndisable == true ,true,false)}"/> 
+                        <apex:commandButton action="{!allocateWithWarning}"
+                                            value="Proceed With Warning" 
+                                            reRender="panel"
+                                            styleClass="slds-button slds-button_outline-brand"
+                                            disabled="{!IF(warningbtndisable == true,true,false )}"/>
+                        <apex:commandButton action="{!redirectToPool}" 
+                                            value="Back" 
+                                            reRender="panel2"
+                                            styleClass="slds-button slds-button_outline-brand"
+                                            
+                                            /><br/>
+                        <br/> 
+                        <label class="slds-form-element__label" for="text-input-id-47">On clicking Allocate Agency or Proceed with warning, Agency will be allocated to Products</label>
+                        <br/>
+                        <br/>
+                    </div>
+                </apex:outputPanel>
+                
+                <apex:outputPanel rendered="{!IF(countrefresh == true,true,false )}" > 
+                    <apex:outputText value="{!recordCount}" escape="false"></apex:outputText><br/>
+                </apex:outputPanel>                
+                <apex:outputText escape="false" value="{!Alert}"></apex:outputText>
+                <apex:outputPanel rendered="{!!listProdWrapper.Empty}" id="panel2"> 
+                    <apex:outputPanel >               
+                        <apex:datatable value="{!listProdWrapper}" var="product" >
+                            <apex:column >
+                                <apex:facet name="header"> Product</apex:facet>
+                                <apex:outputText value="{!product.product.Name}"></apex:outputText>
+                            </apex:column><br/>
+                            <apex:column >
+                                <apex:facet name="header"> Comments</apex:facet>
+                                <apex:outputText value="{!product.comments}" escape="false"></apex:outputText>
+                            </apex:column>
+                        </apex:datatable>
+                    </apex:outputPanel>
+                </apex:outputPanel>
+            </div>
+        </apex:outputPanel>
+    </apex:form>   
+</apex:page>

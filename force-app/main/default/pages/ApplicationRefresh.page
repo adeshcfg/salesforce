@@ -1,0 +1,9 @@
+<apex:page standardController="Application__c" extensions="ApplicationRefreshController" action="{!checkRefreshFlag}">    
+    <apex:form id="refreshForm">   
+        <apex:outputPanel rendered="{!refreshPage}">          
+            <script>
+                setTimeout(function(){window.top.location='/{!Application__c.id}';}, 3000);
+            </script>
+        </apex:outputPanel>        
+    </apex:form>
+</apex:page>

@@ -1,0 +1,132 @@
+<aura:component
+                controller="PayoffCalculatorController"
+                implements="flexipage:availableForAllPageTypes,force:appHostable,force:lightningQuickActionWithoutHeader,force:hasRecordId"
+                >
+    <aura:attribute name="recordId" type="String" access="public" />
+    
+    <!-- input values -->
+    <aura:attribute name="productRecord" type="Product__C" />
+    <aura:attribute name="paymentDueDate" type="Date" />
+    <aura:attribute name="NoOfDaysInYear" type="Integer" />
+    <aura:attribute name="PayoffCalculatorWrapper" type="Object"/>
+    
+    <!-- output attribute -->
+    <aura:attribute name="interestDue" type="Decimal" />
+    <aura:attribute name="totalAmountDue" type="Decimal" />
+    <aura:attribute name="perDiemInterest" type="Decimal" />
+    
+    <!--Error values -->
+    <aura:attribute name="dateValidationError" type="boolean" />
+    <aura:attribute name="balanceDateValidationError" type="boolean" />
+    <aura:attribute name="interestRateValidationError" type="boolean" />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.doinit }" />
+    <aura:handler event="force:refreshView" action="{! c.doinit }" />
+    <div style="width: 100%;">
+        <div style="width: 40%; height: 100px; float: left;">
+            <ui:inputCurrency
+                              aura:id="principalBalance"
+                              label="Principal Balance"
+                              class="field"
+                              value="{!v.PayoffCalculatorWrapper.principalBalance}"
+                              change="{!c.calculate}"
+                              />
+            <ui:inputDate
+                          aura:id="principalBalanceDate"
+                          label="Principal Balance Date (mm/dd/yyyy)"
+                          class="field"
+                          value="{!v.PayoffCalculatorWrapper.principalBalanceDate}"
+                          displayDatePicker="true"
+                          format="MM/dd/yyyy"
+                          change="{!c.calculate}"
+                          />
+            <aura:if isTrue="{!v.balanceDateValidationError}">
+                <div class="slds-text-color_error slds-p-left_x-small">
+                    Principal balance date cannot be greater than payment due date.
+                </div>
+            </aura:if>
+            <ui:inputNumber
+                            aura:id="interestRate"
+                            label="Interest Rate (%)"
+                            class="field"
+                            format="00.00"
+                            value="{!v.PayoffCalculatorWrapper.interestRate}"
+                            change="{!c.calculate}"
+                            />
+            <aura:if isTrue="{!v.interestRateValidationError}">
+                <div class="slds-text-color_error slds-p-left_x-small">
+                    Kindly select correct values (between 0 to 100)
+                </div>
+            </aura:if>
+            <ui:inputDate
+                          aura:id="paymentDueDate"
+                          label="Payment Due Date (mm/dd/yyyy)"
+                          class="field"
+                          value="{!v.paymentDueDate}"
+                          displayDatePicker="true"
+                          format="MM/dd/yyyy"
+                          change="{!c.calculate}"
+                          />
+            <aura:if isTrue="{!v.dateValidationError}">
+                <div class="slds-text-color_error slds-p-left_x-small">
+                    Kindly select the payment due date as today or in future.
+                </div>
+            </aura:if>   
+            <ui:inputSelect label="Number of Days in Year" aura:id="noOfDaysInYear">
+                <ui:inputSelectOption text="360" disabled="true" />
+                <ui:inputSelectOption text="365" value="true" />
+            </ui:inputSelect>
+            <br />
+            
+            <ui:button
+                       aura:id="button"
+                       buttonTitle="Calculate"
+                       buttonType="submit"
+                       class="button"
+                       label="Calculate"
+                       press="{!c.calculate}"
+                       />
+            <!--<ui:button
+                       aura:id="cancelButton"
+                       buttonTitle="Cancel"
+                       buttonType="submit"
+                       class="button"
+                       label="Cancel"
+                       press="{!c.cancelBtn}"
+                       />-->
+        </div>
+        <div style="margin-left: 40%;"> </div>
+        <div style="margin-left: 50%;">
+            <table style="width:100%">
+                <tr> 
+                    <td>Account Number :</td> 
+                    <td><ui:outputText value="{!v.PayoffCalculatorWrapper.accountNumber}"/></td> 
+                </tr>
+                <tr> 
+                    <td>Name :</td> 
+                    <td><ui:outputText value="{!v.PayoffCalculatorWrapper.name}" /></td>
+                </tr>
+                <tr> 
+                    <td>Date of Payout :<br /> (mm/dd/yyyy)</td> 
+                    <td><ui:outputDate value="{!v.paymentDueDate}" format="MM/dd/yyyy"/></td>
+                </tr>
+                <tr> 
+                    <td>Principal Balance Due :</td> 
+                    <td><ui:outputCurrency aura:id="payDueBal" value="{!v.PayoffCalculatorWrapper.principalBalance}"/></td>
+                </tr>
+                <tr> 
+                    <td>Interest Due :</td> 
+                    <td><ui:outputCurrency aura:id="interestDueAmount" value="{!v.interestDue}"/></td>
+                </tr>
+                <tr> 
+                    <td>Total Amount Due :</td> 
+                    <td><ui:outputCurrency aura:id="totalAmount" value="{!v.totalAmountDue}"/></td>
+                </tr>
+                <tr> 
+                    <td>Per Diem Interest Accuring :</td> 
+                    <td><ui:outputCurrency aura:id="perDiemInt" value="{!v.perDiemInterest}"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</aura:component>

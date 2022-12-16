@@ -1,0 +1,4 @@
+<apex:page showHeader="false" standardController="Insolvency_Account__c" docType="html-5.0">
+    <OB_Archiver:SearchResultWidget recordId="{!Insolvency_Account__c.Id}" object="Insolvency_Account__c">
+    </OB_Archiver:SearchResultWidget>
+</apex:page>

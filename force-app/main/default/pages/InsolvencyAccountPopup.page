@@ -1,0 +1,19 @@
+<apex:page standardController="Insolvency_Account__c" extensions="InsolvencyPopupMessage" action="{!displayPopUp}">
+    <script>
+    if('{!sentToCollections}' == 'true'){
+        popitup('/apex/InsolvencyAccntPopup?Id={!Insolvency_Account__c.Id}', 'Warning Message');
+    }
+    
+    
+    function popitup(url,windowName) { 
+        newwindow=window.open(url,windowName,'height=50,width=500,top=400,left=500,scrollbars=no,resizable=no'); 
+        if (window.focus) {newwindow.focus()} 
+        return false; 
+    }
+    
+    window.onunload = refreshParent;
+    function refreshParent() {
+        window.opener.location.reload();
+    }
+    </script>
+</apex:page>

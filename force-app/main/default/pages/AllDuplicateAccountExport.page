@@ -1,0 +1,41 @@
+<apex:page controller="AllDuplicateAccountController" contentType="application/vnd.ms-excel#DuplicateAccounts.xls" showHeader="false" standardStylesheets="false" readonly="true">
+    <apex:pageBlock id="pageBlockID" title="Duplicate Accounts">
+                    
+                    <apex:pageblocktable value="{!InslAcctWrappers}" var="acct">
+                     
+                    <apex:column headerValue="Account Number">
+                        <apex:outputfield value="{!acct.acc.Id}"/>
+                    </apex:column>
+                        
+                    <apex:column headerValue="Account Number">
+                        <apex:outputfield value="{!acct.acc.Name}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Bank Name">                    
+                            <apex:outputfield value="{!acct.acc.Bank_Name__c}"/>                    
+                    </apex:column>
+                    
+                    <apex:column headerValue="Estate Number">
+                        <apex:outputfield value="{!acct.acc.Insolvency__r.Name}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Reasons for Duplicate Number">
+                        <apex:outputField value="{!acct.acc.Reasons_for_Duplicate_Account_Number__c}"/>
+                    </apex:column>
+                    <!--
+                    <apex:column headerValue="Excluded from Purchase">
+                        <apex:outputField value="{!acct.acc.Excluded_from_Purchase__c}"/>
+                    </apex:column>
+                    -->
+                    <apex:column headerValue="Excluded Account Comments">
+                        <apex:outputField value="{!acct.acc.Excluded_Account_Comments__c}"/>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Purchased Status">
+                        <apex:outputField value="{!acct.acc.Asset_Status__c}"/>
+                    </apex:column>
+                        
+                </apex:pageblocktable>
+           
+        </apex:pageBlock>
+</apex:page>

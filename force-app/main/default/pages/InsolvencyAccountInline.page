@@ -1,0 +1,129 @@
+<apex:page standardController="Insolvency__c" extensions="InsolvencyAccountInlineController" showHeader="False" sidebar="false">
+    
+    <script>
+        function newPage(){            
+            window.open('{!urlForPage}');
+        }
+        
+        
+    </script>
+    
+    <apex:form id="form" style=" width: fit-content;">
+    
+        <apex:pageBlock id="pgBlock" >
+        <apex:messages />
+            <apex:pageBlockButtons rendered="{!!isCommunityReadOnly}">
+                <apex:commandButton style="margin-left:0%;" value="New Insolvency Account" id="NewInsolAcc" onclick="window.top.location='{!newInsolAccLink}'; return false" reRender="form"/> 
+                <apex:commandButton id="saveButton" value="Save" action="{!save}" style="display: none;" onclick="validate();">
+                <apex:commandButton value="View" onclick="newPage();" rendered="{!!isViewPage}" reRender="form"/>
+                </apex:commandButton>   
+            </apex:pageBlockButtons>    
+            
+            
+            
+            <apex:pageblocktable value="{!InslAcctWrappers}" var="ial">
+            
+                <apex:column headerValue="Action">
+                <a href="{!ial.accLink}" target="_top" value="Open">Open </a>
+                </apex:column>
+                
+                <apex:column headervalue="Primary Borrower">
+                    <apex:outputField value="{!ial.acc.Borrower_Primary__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headerValue="Account Number">
+                    <apex:outputField value="{!ial.acc.Name}">   
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headervalue="Bank Name" rendered="{!!isCommunityUser}">
+                    <apex:outputField value="{!ial.acc.Bank_Name__c}">
+                     <!--   <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>  -->
+                    </apex:outputfield>
+                </apex:column>
+              
+                <apex:column headervalue="Claim Type">
+                    <apex:outputField value="{!ial.acc.Claim_Type__c}" id="claimType">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headervalue="Product Type">
+                    <apex:outputField value="{!ial.acc.Account_Type__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headerValue="Product Code">
+                    <apex:outputField value="{!ial.acc.Product_Code__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headervalue="Claim Amount">
+                    <apex:outputField value="{!ial.acc.Claim_Amount__c }">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headervalue="Insolvency Processing Status">
+                    <apex:outputField value="{!ial.acc.Insolvency_Status__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headervalue="Expected Account Recovery Ratio">
+                    <apex:outputField value="{!ial.acc.Expected_Account_Recovery_Ratio__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                
+                <apex:column headervalue="Last Payment Date">
+                    <apex:outputField value="{!ial.acc.Last_Payment_Date__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headervalue="Last Payment Amount">
+                    <apex:outputField value="{!ial.acc.Last_Payment_Amount__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <apex:column headervalue="Latest Payment Date">
+                    <apex:outputField value="{!ial.acc.Latest_Payment_Date__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+                
+                <!-- <apex:column headervalue="Total Remittance Count">
+                    <apex:outputField value="{!ial.acc.Total_Remittance_count__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column> -->
+               
+                
+                    
+                <!--
+                <apex:column headerValue="Insolvency">
+                    <apex:outputLabel value="{!ial.Insolvency__r.Name}"/>
+                </apex:column>
+                 
+                <apex:column headervalue="Type of Services">
+                    <apex:outputField value="{!ial.Type_of_Service__c}">
+                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputfield>
+                </apex:column>
+               -->
+                    
+            </apex:pageblocktable>  
+  
+        </apex:pageBlock>
+        
+    </apex:form>
+    
+</apex:page>

@@ -1,0 +1,82 @@
+<apex:page controller="ClsLoanPdfController"  sidebar="false" showHeader="false" renderAs="pdf">
+    <apex:form >
+        <apex:outputPanel rendered="{!showNsPdf  }">
+            <apex:outputText value="{!htmlstring2 }" escape="false"  ></apex:outputText>
+            <div style="page-break-after:always;"/>
+            
+            <div style="page-break-before:always;"/>
+        </apex:outputPanel> 
+        
+        <apex:outputPanel rendered="{!showNonNsPdf}">
+            <apex:outputText value="{!htmlstring1 }" escape="false"  ></apex:outputText>
+            <div style="page-break-after:always;"/>
+            
+            <div style="page-break-before:always;"/>
+            
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{!showManitoba}">
+            <apex:outputText value="{!htmlstring8 }" escape="false"  ></apex:outputText>
+            <div style="page-break-after:always;"/>
+            
+            <div style="page-break-before:always;"/>
+            
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{! showNonNBPdf}">
+            <apex:outputText value="{!htmlstring3 }" escape="false"  ></apex:outputText>
+            <div style="page-break-after:always;"/>
+            
+            <div style="page-break-before:always;"/>
+            
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{! showNBPdf}">
+            <apex:outputText value="{!htmlstring4 }" escape="false"  rendered="{! showNBPdf}"></apex:outputText>
+            
+            <div style="page-break-after:always;"/>
+            
+            <div style="page-break-before:always;"/>
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{! showManitoba}">
+            <apex:outputText value="{!htmlstring7 }" escape="false"></apex:outputText>
+            <div style="page-break-after:always;"/>
+            
+            <div style="page-break-before:always;"/>
+            
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{! showManitoba}">
+            <apex:outputText value="{!htmlstring9 }" escape="false"></apex:outputText>
+            <div style="page-break-after:always;"/>
+            
+            <div style="page-break-before:always;"/>
+            
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{! showManitoba}">
+            <apex:outputText value="{!htmlstring10 }" escape="false"></apex:outputText>
+            <div style="page-break-after:always;"/>
+            
+            <div style="page-break-before:always;"/>
+            
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{! !showManitoba}">
+            <apex:outputText value="{!htmlstring5 }" escape="false"></apex:outputText>
+            <div style="page-break-after:auto;"/>
+            
+            <div style="page-break-before:auto;"/>
+            
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{! showManitoba}">
+            <apex:outputText value="{!htmlstring6 }" escape="false"></apex:outputText>
+            <div style="page-break-after:always;"/>
+            
+            <!--<div style="page-break-before:always;"/>-->
+            
+        </apex:outputPanel>
+        
+    </apex:form>
+</apex:page>

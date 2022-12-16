@@ -1,0 +1,6 @@
+<apex:page standardController="Insolvency_Account__c" extensions="InsolvencyAccountDataValidationCntrl">
+    
+    <apex:outputPanel rendered="{!showErrorDiv}">
+        <span style="color:#c00 ;font-size: .8125rem;font-weight: 300;;">{!errorMessage}</span>
+    </apex:outputPanel>
+</apex:page>

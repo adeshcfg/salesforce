@@ -1,0 +1,37 @@
+<apex:page standardController="Insolvency__c" extensions="InsolvencyNoteCntrl,NoteCrtl">
+    
+    <apex:form id="noteList">
+        <apex:pageBlock >
+            <apex:commandButton value="New Note" id="newNote" onclick="window.open('{!newNoteLink}', '_parent');" rendered="{!!communityUser}"/> 
+            <apex:pageBlockTable value="{!inslNoteWrappers}"  var="inslNoteWrapper" columns="4">
+                <apex:column >
+                   <apex:facet name="header">
+                       <apex:outputLabel >Title</apex:outputLabel>
+                   </apex:facet>
+                   <apex:outputLink value="{!inslNoteWrapper.nteLink}" target="_parent">
+                        <apex:outputText value="{!inslNoteWrapper.nte.Title}" /> 
+                    </apex:outputLink>
+                </apex:column> 
+                <apex:column >
+                   <apex:facet name="header">
+                       <apex:outputLabel >Body</apex:outputLabel>
+                   </apex:facet>
+                   <apex:outputText value="{!inslNoteWrapper.body}" /> 
+                </apex:column>
+                <apex:column >
+                   <apex:facet name="header">
+                       <apex:outputLabel >Created Date</apex:outputLabel>
+                   </apex:facet>
+                   <apex:outputText value="{!inslNoteWrapper.dateCreated}" /> 
+                </apex:column>
+            <apex:column >
+                   <apex:facet name="header">
+                       <apex:outputLabel >Last Modified Date</apex:outputLabel>
+                   </apex:facet>
+                   <apex:outputText value="{!inslNoteWrapper.LastModifiedDate}" /> 
+                </apex:column>
+            </apex:pageBlockTable>  
+        </apex:pageBlock>    
+    </apex:form>  
+        
+</apex:page>

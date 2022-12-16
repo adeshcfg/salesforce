@@ -1,0 +1,241 @@
+<apex:page controller="InsolvencyPaymentUploadController" sidebar="false" docType="html-5.0">
+<apex:slds />
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<style>
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+
+<body>
+
+<div style = "border: 1px solid;padding: 1%;">
+	<div style = "font-weight:bold;font-size:large">
+		Insolvency File Upload
+    </div>
+    <table style = "width:80%">
+        <tr>
+            <td>Posting Date :<input type = "date" value="{!eftInstance.Posting_Date__c}" id = "postingDateVal"/></td>
+            <td>URL for Source file :<input type = "text" value="{!eftInstance.Text_URL__c}" id = "shortUrlVal"/></td>
+        </tr>
+        <tr>
+        	<td style = "padding-top: 25px;"> <input type="file" class="upload" id="f_UploadExcel"/><br />
+                <pre> Upload EFT Excel </pre>
+                <div id="statustxt"></div>
+            </td>
+        </tr>
+    </table>
+    <br/><br/>
+    Note : File should have below header format <br/>
+  <table>
+    <tr>
+        <th style = "text-align: center;">AccountNumber</th>  
+        <th style = "text-align: center;">DataID</th>
+        <th style = "text-align: center;">DebtorName</th>
+        <th style = "text-align: center;">EstateNumber</th>
+        <th style = "text-align: center;">PaymentSource</th>  
+        <th style = "text-align: center;">PaymentType</th>  
+        <th style = "text-align: center;">NetPayment</th>
+    </tr>    
+  </table>
+</div>
+</body>
+<script>
+
+        var excelToJSONServiceResponse = null;
+		var uploadstatus = '';
+        var fileName;
+        var postingDate;
+        var shortUrl;
+                
+	$( document ).ready(function() {
+    	console.log( "ready!" );
+        console.log('--', {!showButtons});
+        if({!showButtons} == true){
+        	console.log('--', {!showButtons});
+            disableInput();
+        }
+        
+	});
+      
+    function disableInput(){
+        console.log('called');
+        document.getElementById("postingDateVal").value ='{!postingDate}';
+        console.log('--',document.getElementById("postingDateVal").innerHTML);
+        document.getElementById("shortUrlVal").value ="{!eftInstance.Text_URL__c}";
+        document.getElementById("f_UploadExcel").disabled =true;
+        document.getElementById("postingDateVal").disabled =true;
+        document.getElementById("shortUrlVal").disabled =true;
+        
+    }  
+    function sendFile(file) {
+        console.log('file value: ',file);
+        console.log("enter send file");
+        fileName = file.name;
+        //alert("enter send file");
+        var formData = new FormData();
+        console.log('files of 0',$('#f_UploadExcel')[0].files[0]);
+        formData.append('file', $('#f_UploadExcel')[0].files[0]);
+        $.ajax({
+            type: 'POST',
+            //url: 'https://cfg-prd-etl.canadaeast.cloudapp.azure.com/FileProcessor.ashx',
+            url: 'https://cfg-prd-etl.canaccede.com/FileProcessor.ashx',
+            data: formData,
+            xhr: function () {  // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if (myXhr.upload) { // Check if upload property exists
+                    //update progressbar percent complete
+                    $('#statustxt').html('0%');
+                    // For handling the progress of the upload
+                    myXhr.upload.addEventListener('progress', progressHandlingFunction, false);
+
+                }
+                return myXhr;
+            },
+
+            success: function (req) {
+                if (status != 'error') {
+                    uploadstatus = status;
+                    console.log(status);
+                    excelToJSONServiceResponse = req.responseText;
+                	console.log('repsonse : ',req.responseText);
+	                postingDate = document.getElementById('postingDateVal').value;
+    	            console.log('postingDate',postingDate);
+        	        shortUrl = document.getElementById('shortUrlVal').value;
+                    disableInput();
+                    document.getElementById("f_UploadExcel").value = null;
+                    //var my_path = "ExcelRepo/" + status;
+                    //$("#myUploadedImg").attr("src", my_path);
+                }
+            },
+            processData: false,
+            contentType: false,
+            error: function (req, status, error) {
+                uploadstatus = 'error';
+                //alert("Err: something went wrong! " + error);
+                console.log("Err: something went wrong! " + req.responseText);
+                console.log("Err: something went wrong! " + status);
+                console.log("Err: something went wrong! " + error);
+            },
+
+            complete: function (req) {
+                excelToJSONServiceResponse = req.responseText;
+                console.log(req.responseText);
+                console.log('status in complete :',uploadstatus);
+                fileName = fileName.replace('.xlsx','');
+                fileName = fileName.replaceAll(',','');
+                passStringToController(excelToJSONServiceResponse,postingDate,shortUrl,uploadstatus,fileName);
+                
+                //alert(req.responseText);
+            }
+        });
+
+        console.log("exit send file");
+        //alert("exit send file");
+    }
+
+
+
+    function progressHandlingFunction(e) {
+        if (e.lengthComputable) {
+            var percentage = Math.floor((e.loaded / e.total) * 100);
+            //update progressbar percent complete
+            $('#statustxt').html(percentage + '%');
+            console.log("Value = " + e.loaded + " :: Max =" + e.total);
+            //alert("Value = " + e.loaded + " :: Max =" + e.total);
+        }
+    }
+
+
+    //var _URL = window.URL || window.webkitURL;
+    $("#f_UploadExcel").on('change', function () {
+        //alert("onchange");
+        var file;
+        console.log('---length' ,this.value);
+        if ((file = this.files[0])) {
+            console.log("sending file");
+            //alert("sending file");
+            sendFile(file);
+            console.log("end sending file");
+            //alert("end sending file");
+        }
+    });
+</script>
+</html>
+    
+<apex:form >
+    
+   <apex:outputPanel id="page1">
+   <apex:pageMessages />
+   <apex:outputPanel rendered="{!showButtons}" id="paymentBtns">
+       <apex:actionStatus id="pageStatus">
+    <apex:facet name="start">
+        <apex:outputPanel >
+            <img src="/img/loading32.gif" width="25" height="25" />
+            <apex:outputLabel value="Loading..."/>
+        </apex:outputPanel>            
+    </apex:facet>
+</apex:actionStatus>
+  <div style = "Margin-left:35%;padding-top: 1%;">
+      <apex:commandButton value="Allocated Payments" action="{!showAllocatedProductPayments}"
+                          styleclass="slds-button slds-button_neutral" />
+      <apex:commandButton value="Unallocated Payments" action="{!ShowUnallocatedProductPayments}" 
+                          styleclass="slds-button slds-button_neutral"/>  
+      <br/>      
+  </div>
+  	<div class="row" style = "padding-top: 25px;">
+  		<div style = "font-weight:bold;text-align:left;padding-left: 25%;"  class="column">
+      		<div>
+            	Total Records Count : {!eftInstance.Total_Record_Count__c}
+        	</div>	
+      		<div>
+        	    Allocated Records Count : {!eftInstance.Allocated_Payments_Count__c}
+        	</div>
+        	<div>
+        		Unallocated Records Count : {!eftInstance.Unallocated_Payments_count__c}        
+        	</div>
+      	</div>
+        <div style = "font-weight:bold;text-align:left"  class="column">
+      		<div>
+                Total Payments Amount : <apex:outputField value="{!eftInstance.Total_Payments_Amount__c}"/>
+        	</div>
+      		<div>
+                Allocated Payments Amount : <apex:outputField value="{!eftInstance.Allocated_Payments_Amount__c}"/>
+        	</div>
+        	<div>
+                Unallocated Payments Amount : <apex:outputField value="{!eftInstance.Unallocated_Payments_Amount__c}"/>       
+        	</div>
+      	</div>
+   </div>
+   <div class="row">
+  		
+   </div>
+  </apex:outputPanel>
+        <apex:actionFunction action="{!importDatatoApex}" name="passStringToController"
+                             rerender="outputData,form, paymentBtns,page1,pageStatus"
+                             oncomplete="disableInput();">
+            <apex:param assignTo="{!outputJSON}" name="excelToJSONServiceResponse" value=""/>
+            <apex:param assignTo="{!postingDate}" name="postingDate" value=""/>
+            <apex:param assignTo="{!eftInstance.Text_URL__c}" name="shortUrl" value=""/>
+            <apex:param assignTo="{!fileUploadStatus}" name="uploadstatus" value=""/>
+            <apex:param assignTo="{!eftInstance.Cheque_Number__c}" name="fileName" value=""/>
+        </apex:actionFunction>
+    </apex:outputPanel>
+</apex:form>
+</apex:page>

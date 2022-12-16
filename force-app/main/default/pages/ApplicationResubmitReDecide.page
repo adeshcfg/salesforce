@@ -1,0 +1,17 @@
+<apex:page standardController="Application__c" extensions="ApplicationResubmitReDecideController" action="{!reDecideResubmit}" 
+            showHeader="false" sidebar="false">
+     
+    <apex:form >
+        <apex:outputPanel >
+            <apex:outputText escape="false" value="{!message}"></apex:outputText>
+            <br/>
+            <script>
+                
+                window.opener.location='/{!application.Id }';
+                
+            </script>
+        </apex:outputPanel>
+        
+    </apex:form>
+
+</apex:page>

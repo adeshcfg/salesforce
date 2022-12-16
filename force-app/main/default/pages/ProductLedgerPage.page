@@ -1,0 +1,419 @@
+<apex:page extensions="ProductLedgerController" standardController="Product__c"  showheader="false" standardStyleSheets="false" 
+           sidebar="false" cache="false" docType="html-5.0"  >
+       <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+            <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+            <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+            
+            
+    <apex:form >    
+        <html>
+            <head>
+                <title>CFG Management LTD payable</title>
+                
+                <apex:image url="" styleClass="imageStyle" width="50"/>
+                
+                <link
+                      rel="stylesheet"
+                      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+                      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+                      crossorigin="anonymous"
+                      />
+                <link rel="stylesheet" href="./payable.css" />
+                
+                <style>
+                    table,
+                    th,
+                    td,
+                    tr {
+                    border: 1px double #4c8ed8;
+                    border-collapse: collapse;
+                    font-weight: 500;
+                    vertical-align: top;
+                    }
+                    
+                    #firstTable table,
+                    #firstTable th,
+                    #firstTable tr,
+                    #firstTable td {
+                    border: 1px double #4c8ed8;
+                    border-collapse: collapse;
+                    font-weight: 500;
+                    vertical-align: top;
+                    }
+                    
+                    #secondTable table,
+                    #secondTable td {
+                    border: 1px double black;
+                    border-collapse: collapse;
+                    font-weight: 500;
+                    font-size: x-small;
+                    vertical-align: top;
+                    text-align: center;
+                    }
+                    
+                    #secondTable th {
+                    border: 1px double black;
+                    border-collapse: collapse;
+                    font-weight: 500;
+                    font-size: x-small;
+                    vertical-align: top;
+                    text-align: center;
+                    background-color: #909397;
+                    }
+                    
+                    #thirdTable table,
+                    tr,
+                    td,
+                    th {
+                    border: 1px double black;
+                    }
+                    
+                    #thirdTable2 table,
+                    tr,
+                    td,
+                    th {
+                    border: 1px double black;
+                    }
+                    
+                    #fourthTable th {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                    font-weight: 500;
+                    vertical-align: top;
+                    text-align: center;
+                    background-color: #4c8ed8;
+                    }
+                    
+                    #fourthTable table,
+                    tr,
+                    td {
+                    border: 1px solid black;
+                    text-align: center;
+                    }
+                    
+                    pre {
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+                    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                    font-size: 1rem;
+                    font-weight: 500;
+                    }
+                    
+                </style>
+                
+            </head>
+			<!--<apex:actionFunction name="getDocument" action="{!download}"  oncomplete="downloadfilecontents();" > 
+            </apex:actionFunction>-->
+            <apex:actionFunction name="downloadfilecontents" oncomplete="downloadDocument('{!blobcontents}');return false;" />
+            <script type="text/javascript"> 
+            /*
+            function download(){
+               
+                window.print();
+            }
+            function downloadDocument(blobcontents1){
+                console.log('download doc called');
+                console.log('blobcontents from class---', '{!blobcontents}');
+                var byteCharacters = atob('{!blobcontents}');
+                console.log('byte length::'+byteCharacters.length);
+                let buf = new Array(byteCharacters.length);
+                for (var i = 0; i != byteCharacters.length; ++i) buf[i] = byteCharacters.charCodeAt(i);// & 0xFF;
+                let view = new Uint8Array(buf);
+                 let blob = new Blob([view], {
+                    type: 'pdf'
+                });
+                console.log('view-',view);
+                console.log('blob-',blob);
+                var downloadLink = document.createElement('a');
+                var url = URL.createObjectURL(blob);
+                downloadLink.href = url;
+                downloadLink.download = "Download.pdf";  //Name the file here
+                window.open(downloadLink);
+            }
+            
+             window.onload=function(){
+                 //alert("Page is loaded");
+                var now = new Date();
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                var today = (day) +  "/" + (month) + "/" + now.getFullYear() ;
+                 
+                 // alert(today);
+                 $('#FromDate').val(today);
+                 
+                
+            }
+             
+             $(document).ready(function() {
+                 $('#FromDate').datepicker().datepicker('setDate', 'today');
+                 console.log('inside onload');
+                
+                 console.log('--', $('#FromDate').val());
+             });*/
+
+            
+            
+            var userlang = window.navigator.language;
+            console.log(userlang);
+            $(function(){
+            
+                var date = new Date();
+                var currentMonth = date.getMonth();
+                var currentDate = date.getDate();
+                var currentYear = date.getFullYear();
+            
+                /*$('#datepicker').datepicker({
+                    minDate: new Date(currentYear, currentMonth, currentDate),
+                    dateFormat: 'mm-dd-yy'
+                });*/
+            
+            });
+                        
+            </script>
+          
+            <body>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-1">
+                        <apex:image url="{!$Resource.CFGLOGO}"/>
+                        <!--<img src="https://cfgroup--devsandbox--c.visualforce.com/resource/1655396870000/CFGLOGO" alt="Canaccede Management LTD" />-->
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <h1 style="margin-top: 30px">Account Statement</h1>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+                <div class="row" style="height: 50px">
+                    <hr style="width: 50%; border-width: 3px; margin-top: 0px" />
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        
+                    </div>
+                    <div id="thirdTable" class="col-md-4">
+                        <table style="width: 100%; border: 1px solid black">
+                            <tr>
+                                <td>Account Number</td>
+                                <td ><apex:outputText value="{!productInstance.Name}"/></td>
+                            </tr>
+                            <tr>
+                                <td>Customer Name</td>
+                                <td ><apex:outputText value="{!productInstance.Customer__r.Name}"/></td>
+                            </tr>
+                            <tr>
+                                <td>Address</td>
+                                <td rowspan="2" ><apex:outputText value="{!customerAddress}"/></td>
+                            </tr>
+                            <tr style="height: 27px">
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div id="thirdTable2" class="col-md-4">
+                        <table style="width: 100%">
+                            <tr>
+                                <td>Current Principal Due</td>
+                                <td style="text-align: center">
+                                    <apex:outputText value="{0, number, 00.00}">
+                                           <apex:param value="{!productInstance.Current_Principal_Balance__c}"/>
+                                    </apex:outputText></td>
+                            </tr>
+                            <tr>
+                                <td>Current Interest Due</td>
+                                <td style="text-align: center">
+                                    <apex:outputText value="{0, number, 00.00}">
+                                           <apex:param value="{!productInstance.Current_Interest_Amount__c}" />
+                                     </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Current Fees Due</td>
+                                <td style="text-align: center"><apex:outputText value="{!currentFeesDue}"/>
+                                <apex:outputText value="{0, number, 00.00}">
+                                           <apex:param value="{!productInstance.Fee_Recovery__c+productInstance.Current_Bal_NSF_Fees__c}" />
+                                     </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Net Due</td>
+                                <td><apex:outputText value="{0, number, 00.00}">
+                                           <apex:param value="{!productInstance.Current_Balance__c}" />
+                                    </apex:outputText></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-1"> 
+                    </div>
+                </div>
+                <div class="row" style="height: 50px">
+                    <div style="padding:1% ; margin: auto;">
+                       
+                        From:&nbsp; 
+                        <!--<apex:inputField value="{!productPay.Payment_Posting_Date__c}" showDatePicker="true"/>-->
+                        <apex:input type="auto" value="{!startDate}" id="datepicker"/>
+                       <!-- <input type="auto" value="{!startDate}" id="datepicker"/>-->
+                        &nbsp; To:&nbsp; <apex:input type="auto" value="{!endDate}" /> 
+                        &nbsp; <apex:CommandButton value="Search" action="{!getData}"/>
+                        <!-- &nbsp; <apex:CommandButton value="Download"  onclick="download();return false;"/> -->
+                    </div>    
+                </div>
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div id="fourthTable" class="col-md-10">
+                        <!--<apex:datatable value="{!listProductLedgerToPassWrapper}" var="payments" style="width: 100%; border: 1px solid black">
+                            <apex:column >
+                                <apex:facet name="header"> Dates</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].createdDates}"></apex:outputText> 
+                            </apex:column>  
+                            <apex:column >
+                                <apex:facet name="header"> Transaction Type</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].transactionType}"></apex:outputText> 
+                            </apex:column>
+                            <apex:column >
+                                <apex:facet name="header"> Transaction Code</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].transactionCode}"></apex:outputText> 
+                            </apex:column>
+                            <apex:column >
+                                <apex:facet name="header">Total Payment Amount</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].paymentAmount}"></apex:outputText> 
+                            </apex:column> 
+                            <apex:column >
+                                <apex:facet name="header"> Opening Principal Amount</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].openingPrincpalAmt}"></apex:outputText> 
+                            </apex:column> 
+                            <apex:column >
+                                <apex:facet name="header"> Opening Interest Amount</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].openingInterestAmt}"></apex:outputText> 
+                            </apex:column> 
+                            <apex:column >
+                                <apex:facet name="header"> Fees Credit</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].feesCredit}"></apex:outputText> 
+                            </apex:column> 
+                            <apex:column >
+                                <apex:facet name="header"> Fees Debit</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].feesDebit}"></apex:outputText> 
+                            </apex:column> 
+                            <apex:column >
+                                <apex:facet name="header"> Principal Credit</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].principalCredit}"></apex:outputText> 
+                            </apex:column>
+                            <apex:column >
+                                <apex:facet name="header"> Principal Debit</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].principalDebit}" ></apex:outputText> 
+                            </apex:column>
+                            <apex:column >
+                                <apex:facet name="header"> Interest Credit</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].interestCredit}"></apex:outputText> 
+                            </apex:column>
+                            <apex:column >
+                                <apex:facet name="header"> Interest Debit</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].interestDebit}"></apex:outputText> 
+                            </apex:column>
+                            <apex:column >
+                                <apex:facet name="header"> Balance Principal</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].balPrincipal}"></apex:outputText> 
+                            </apex:column>
+                            <apex:column >
+                                <apex:facet name="header"> Balance Interest</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].balInterest}"></apex:outputText> 
+                            </apex:column>
+                            <apex:column >
+                                <apex:facet name="header"> Balance Total</apex:facet>
+                                <apex:outputText value="{!mapProductPaymentLedger[payments].balTotal}"></apex:outputText> 
+                            </apex:column>
+                        </apex:datatable>
+                    	-->
+                        <br/><br/><br/>
+                        
+                        <table>
+                          <tr>
+							<th>Date</th>
+                            <th>Transaction Type</th>
+                            <th>Transaction Code</th>
+                            <th>Total Payment Amount</th>
+                            <th>Opening Principal Amount</th>
+                            <th>Opening Interest Amount</th>
+                            <th>Fees Credit</th>
+                            <th>Fees Debit</th>
+                            <th>Principal Credit</th>
+                            <th>Principal Debit</th>
+                            <th>Interest Credit</th>
+                            <th>Interest Debit</th>
+                            <th>Balance Principal</th>
+                            <th>Balance Interest</th>
+                            <th>Balance Total</th>
+						</tr>
+                        <apex:repeat value="{!listStringDates}" var="payments"  id="reFreshTable">
+                            <apex:outputPanel rendered="{!IF(CONTAINS(paymentKeys, payments),true,false)}">
+                            <apex:repeat value="{!mapProductPaymentLedgerList[payments]}" var="paymentDetails">
+                            	<tr>  
+                                    <td><apex:outputText value="{!paymentDetails.createdDates}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.transactionType}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.transactionCode}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.paymentAmount}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.openingPrincpalAmt}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.openingInterestAmt}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.feesCredit}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.feesDebit}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.principalCredit}"/></td>
+                                    <td> <apex:outputText value="{!paymentDetails.principalDebit}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.interestCredit}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.interestDebit}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.balPrincipal}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.balInterest}"/></td>
+                                    <td><apex:outputText value="{!paymentDetails.balTotal}"/></td>
+                                </tr>    
+                            </apex:repeat>
+                            
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(CONTAINS(judgmentKey, payments),true,false)}">
+                            <tr>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].createdDates}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].transactionType}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].transactionCode}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].paymentAmount}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].openingPrincpalAmt}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].openingInterestAmt}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].feesCredit}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].feesDebit}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].principalCredit}"/></td>
+                                <td> <apex:outputText value="{!mapJudgmentAdjust[payments].principalDebit}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].interestCredit}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].interestDebit}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].balPrincipal}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].balInterest}"/></td>
+                                <td><apex:outputText value="{!mapJudgmentAdjust[payments].balTotal}"/></td>
+                            </tr>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(CONTAINS(ledgerKeys, payments),true,false)}">
+                            <tr>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].createdDates}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].transactionType}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].transactionCode}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].paymentAmount}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].openingPrincpalAmt}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].openingInterestAmt}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].feesCredit}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].feesDebit}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].principalCredit}"/></td>
+                                <td> <apex:outputText value="{!mapDateLedger2[payments].principalDebit}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].interestCredit}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].interestDebit}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].balPrincipal}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].balInterest}"/></td>
+                                <td><apex:outputText value="{!mapDateLedger2[payments].balTotal}"/></td>
+                            </tr>
+                            </apex:outputPanel>
+                        </apex:repeat>
+                        </table >
+                    
+                    </div>
+                    <div class="col-md-1">    
+                    </div>
+                </div> 
+            </body>
+        </html>
+    </apex:form>
+</apex:page>

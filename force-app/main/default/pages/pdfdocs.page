@@ -1,0 +1,72 @@
+<apex:page controller="ClsLoanDocument" docType="html-5.0" sidebar="false" showHeader="false">
+    
+    <script>
+    window.onload=function(){
+        document.getElementById('{!$Component.loanForm.checkboxForm.unClickableButton}').style.display = 'block';
+        document.getElementById('{!$Component.loanForm.checkboxForm.clikableButton}').style.display = 'none';
+    }
+    
+    function chekboxValue(){
+    
+        if(document.getElementById('{!$Component.loanForm.checkboxForm.checkVal}').checked){
+            document.getElementById('{!$Component.loanForm.checkboxForm.unClickableButton}').style.display = 'none';
+            document.getElementById('{!$Component.loanForm.checkboxForm.clikableButton}').style.display = 'block';
+        }else{
+            document.getElementById('{!$Component.loanForm.checkboxForm.unClickableButton}').style.display = 'block';
+            document.getElementById('{!$Component.loanForm.checkboxForm.clikableButton}').style.display = 'none';
+        }
+    }
+    
+    function uploadJS(){
+        actionUpload();
+    }
+    </script>
+    
+    <apex:form id="loanForm">
+        <apex:pagemessages ></apex:pagemessages>
+        
+        <apex:pageBlock id="errorPanel" rendered="{!showError}">
+            <h2>{!errorMessage}</h2>
+        </apex:pageBlock>
+        
+        <apex:outputPanel rendered="{! !showError}">
+            <apex:iframe src="/apex/LoanPdf?id={!applicationid}"   scrolling="false" frameborder="false" height="500px" width="98%"/>
+        </apex:outputPanel>
+        
+        <apex:pageBlock rendered="{! !showError}" id="checkboxForm">
+            <apex:inputCheckbox id="checkVal" value="{!checkValue}" onchange="chekboxValue();"/>
+            <apex:outputLabel style="padding-right : 80%">I accept</apex:outputLabel>
+            <apex:commandButton id="unClickableButton" action="{!saveData}" disabled="true" value="Accept Document"/>
+            <apex:commandButton id="clikableButton" action="{!saveData}" value="Accept Document"/>
+        </apex:pageBlock>
+        
+        <apex:pageBlock rendered="{! !showError}">
+            <apex:pageBlockSection >
+                
+                <apex:pageBlockSectionItem id="pbsifile">
+                    <apex:outputLabel >Browse for your document</apex:outputLabel>
+                    <apex:inputFile id="filUpload" value="{!loanDocument.Body}" accept="{!loanSettings.File_Formats__c}" fileSize="{!fileSize}"  fileName="{!loanDocument.name}" onblur="showUpdateButtonJS();"></apex:inputFile>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel ></apex:outputLabel>
+                    <apex:commandButton id="uploadfile" value="Upload" onclick="uploadJS();return false;" />
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:actionFunction action="{!upload}" name="actionUpload"/>
+        
+        <apex:outputPanel rendered="{! showSucessLoan}">
+            <script>
+                //alert('Loan Document Process Completed');
+                var r = confirm("Click OK to Proceed");
+                if (r == true) {
+                    window.opener.location='/{!applicationid}';
+                    window.close();
+                }
+                
+            </script>
+        </apex:outputPanel>
+    </apex:form>
+    
+</apex:page>

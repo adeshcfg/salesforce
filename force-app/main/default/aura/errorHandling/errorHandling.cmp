@@ -1,0 +1,5 @@
+<aura:component >
+     <aura:attribute name="serverRespose" type="Object"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:method name="handleError" action="{!c.handleError}" access="public"/>
+</aura:component>

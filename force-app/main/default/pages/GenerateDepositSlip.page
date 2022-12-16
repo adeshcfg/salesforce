@@ -1,0 +1,24 @@
+<apex:page controller="GenerateDepositSlipRecordsController" id="page">
+    
+    <apex:form id="pageForm">
+        <apex:pageMessages escape="false" id="pageMessage" />
+        
+        <div style="padding-left: 10%;" draggable="false" >
+        <apex:actionStatus id="saveStatus">
+            <apex:facet name="stop">
+                <apex:commandButton value="Generate Deposit Slip" action="{!generateDepositSlip}" status="saveStatus" rerender="pageForm" disabled="{!showFinalDepositSlipButton}" rendered="{!($User.Id = '005f100000Iuc4IAAR' || $User.Id = '005j000000F53ZqAAJ' || $User.Id = '005f100000H80YZAAZ' || $User.Id = '005f100000H4zj6AAB' || $User.Id = '005j000000F53YnAAJ' || $User.Id = '005f100000HTarNAAT' || $User.Id = '0053a00000IVGxmAAH' || $Profile.Name == 'System Administrator')}" />
+            </apex:facet>
+            <apex:facet name="start">
+                <apex:commandButton value="Generating Deposit Slip..." disabled="true" status="saveStatus"/>
+            </apex:facet>
+        </apex:actionStatus>
+        <apex:commandButton value="Final Deposit Slip" action="{!finalDepositSlip}" rendered="{! !showFinalDepositSlipButton  && ($User.Id = '005f100000Iuc4IAAR' || $User.Id = '005f100000H4zj6AAB' || $User.Id = '005f100000Iw6jjAAB'  || $User.Id = '005j000000CO4xMAAT'  || $Profile.Name == 'System Administrator')}" rerender="pageForm"/>
+        </div>
+        <!--<div style="padding-left: 10%;" draggable="false" >
+            <apex:commandButton id="cmdSave" value="Generate Deposit Slip" action="{!generateDepositSlip}" oncomplete="reviveSave();"  rerender="pageMessage"/>
+            <apex:commandButton id="cmdSave2" value="Generate Deposit Slip" action="{!generateDepositSlip}" disabled="true"/>
+        </div>-->
+    </apex:form>
+    <br/><br/><br/>
+    <apex:ListViews type="Deposit_Slip__c" /> 
+</apex:page>

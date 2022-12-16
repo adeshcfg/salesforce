@@ -1,0 +1,21 @@
+<apex:page controller="ApplicationRedecideController" action="{!redecideApp}">    
+        
+    <apex:pageBlock rendered="{!!accessAllowed}">
+        <h2>Insufficient Privileges Access.</h2>
+    </apex:pageBlock>                
+    
+    <apex:pageBlock rendered="{!accessAllowed == true && isSuccess == true}">
+        <h2>Application sent to REDECIDE.</h2>
+    </apex:pageBlock>
+    
+    <apex:pageBlock rendered="{!accessAllowed == true && isSuccess == false}">
+        <h2>Exception while REDECIDE, contact your System Administrator.</h2>
+    </apex:pageBlock>
+    
+    <apex:outputPanel id="refreshPage" rendered="{!accessAllowed}">
+      <script>
+       window.opener.location='/{!application.Id }';
+      </script>
+    </apex:outputPanel>
+        
+</apex:page>

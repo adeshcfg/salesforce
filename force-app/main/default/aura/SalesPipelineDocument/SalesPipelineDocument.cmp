@@ -1,0 +1,8 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes" access="global">
+    
+    <div class="slds-box slds-theme_shade slds-theme_default">
+        <!--<p><lightning:formattedText value="SalesPipeline Guide" /></p>-->
+        <p><lightning:formattedUrl label="SalesPipeline Guide" value="https://canaccede.sharepoint.com/:b:/r/projects/Project%20Archives/B2B%20Marketing%20%26%20Business%20Development%20(Sales%20Pipeline)/Phase%202%20-%20Execution/Training/Training%20content/User%20Manual_v2.2.pdf" />
+        </p>
+    </div>
+</aura:component>

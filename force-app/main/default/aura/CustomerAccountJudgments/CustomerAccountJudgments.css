@@ -1,0 +1,10 @@
+.THIS .link{
+    text-decoration:none !important;
+}
+.THIS .no-record-info{
+    text-shadow: none;
+    color: #5876a3;
+    font-size: 1rem;
+    font-weight: 300;
+    font-family: Salesforce Sans,Arial,sans-serif;
+}

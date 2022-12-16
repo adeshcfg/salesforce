@@ -1,0 +1,195 @@
+<apex:page controller="DisplayStriplistInsolAllocatedController" showheader="true" standardStyleSheets="false" sidebar="false" cache="false"
+           docType="html-5.0" >
+    <apex:slds />
+    <style type="text/css">
+        table{
+            width: 100%;
+            background-color: white;
+            border:1px solid black;
+            padding: 5px;
+        }
+        
+        tr{
+            text-align: left;
+            padding: 5px;
+        }
+        
+        td{
+            padding: 5px!important;
+        
+        }
+        .first h3{
+            background-color: #0CA1CF;
+            padding: 5px 3px;
+        }
+        
+        .page_navigation{
+            font-family: tahoma;
+            font-size: 11px;
+            float: right;
+            
+        }
+        
+        .page_navigation a{
+            text-decoration: none;
+            padding: 3px 5px;
+            margin: 0 2px;
+            background-color: white;
+            color: #28ADD9;
+            display: block;
+            float: left;
+            text-align: center;
+            border-color:#28ADD9;
+        }
+        
+        .page_navigation .active_page{
+            background-color: white;
+            color: black;
+        }
+        
+        .demo2{
+            margin: 10px 5px;
+            background-color: #00064F;
+            overflow:auto;
+            text-align: center
+        }
+        
+        .title{
+            font-family: Georgia;
+            font-size: 36px;
+            font-style: italic;
+            color: white;
+            padding: 10px;
+        }
+        
+        .head{
+            font-family: Tahoma;
+            font-size:20px;
+            color: orange;
+            padding: 5px;
+            overflow: auto;
+            
+        }
+        thead{
+            border: 1px solid;
+        }
+        
+        .body {
+            
+            
+        }
+        
+        .content {
+            width: 90%;
+            margin: 0px auto;
+            overflow: auto;
+        }
+        
+        .item{
+            color: black;
+            font-family: Georgia;
+            font-size: 16px;
+            padding: 10px;
+            display: block;
+            
+        }
+        
+        .block{
+            display:block;
+        }
+        
+        .panel {
+            width: 40%;
+            float: left;
+            padding: 0 30px;
+            
+        }
+        
+        .demo2 .page_navigation a{
+            background-color: orange;
+            color: black;
+        }
+        
+        .demo2 .page_navigation .active_page{
+            background-color: transparent;
+            color: white;
+        }
+        
+        #theid{
+            align-content: center;
+            text-align: center;
+            margin-left: 32%;
+            margin-top: 3%;
+        }       
+        
+    </style>
+    <apex:includeScript value="{!$Resource.EFTJQuery}"/>     
+    <apex:includeScript value="{!$Resource.Paginate}"/>       
+    <script type="text/javascript">
+        $.noConflict();
+        
+        jQuery(document).ready(function($){
+            $(esc(pbsId)).pajinate({
+                item_container_id : esc(accountTableBodyId),
+                items_per_page : 10
+            });
+            
+            $('.demo2').pajinate();
+        }); 
+        
+        function esc(myid) {
+           return '#' + myid.replace(/(:|\.)/g,'\\\\$1');
+        }
+    
+     </script>
+        <apex:form >
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:define name="content"> 
+        <apex:outputPanel rendered="{!ShowOk}">
+            	<div style = "Margin-left:35%;padding-top: 1%;">
+                <apex:commandButton action="{!save}" value="OK" id="theButton" styleclass="slds-button slds-button_neutral"/>
+                </div>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!!listInsolvencyPayment.Empty}">
+            <div style = "font-weight:bold;font-size:large">
+                Allocated Payments
+            </div>
+            <apex:outputPanel title="" id="pbs" >
+                 <div class="page_navigation"></div>
+                    <script> 
+                        var accountTableId = '{!$Component.accountTable}'; 
+                        var accountTableBodyId = accountTableId + ':tb';
+                        var pbsId = '{!$Component.pbs}';
+                    </script>
+     
+            <apex:datatable value="{!listInsolvencyPayment}" var="payment" id="accountTable">
+                <apex:column >
+                    <apex:facet name="header"><apex:outputText value="Insolvency Account"/></apex:facet>
+                    <apex:outputField value="{!payment.Insolvency_Account__c}"/>
+                </apex:column>
+                <apex:column >
+                    
+                    <apex:facet name="header"><apex:outputText value="Debtor Name"/></apex:facet>
+                    <apex:outputText value="{!payment.Insolvency_Account__r.Debtor_Name_Formula__c}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Estate Number</apex:facet>
+                    <apex:outputfield value="{!payment.Estate_Number__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">Amount</apex:facet>
+                    <apex:outputfield value="{!payment.Payment_Amount__c}"></apex:outputfield>
+                </apex:column>
+         
+            </apex:datatable>
+ 
+            <div class="page_navigation"></div>
+                <div style = "Margin-left:35%;padding-top: 1%;">
+                <apex:commandButton action="{!Redirect}" value="OK" id="theButtonn" styleclass="slds-button slds-button_neutral" style="margin-left: 20%;"/>
+                </div>
+                
+            </apex:outputPanel>
+    </apex:outputPanel> 
+        </apex:define>
+            </apex:form>
+</apex:page>

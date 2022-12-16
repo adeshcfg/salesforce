@@ -1,0 +1,27 @@
+<!-- 
+/**************************************************************************************************
+ *
+ *  Visualforce Page:   
+ *
+ *  @description : This Visualforce Page is responsible for initiating cleaning of Customer records 
+ *  @author : A5E Consulting
+ *  @date : 02/24/2016
+ *
+ *  Change History:
+ *
+ *  Developer       Date          Description
+ *  ------------------------------------------------------------------------------------------------
+ *
+ *  A5E Consulting 02/24/2016     Initial Development
+ 
+ *************************************************************************************************/
+ -->
+<apex:page controller="DeleteCustomersController" sidebar="true">
+   <apex:form id="cleanupManager">
+        <apex:pageBlock title="Data Cleanup">
+            <apex:outputText value="Click to delete Customers who dont have Applications or Products" /><br></br>
+            <apex:commandButton id="delete" value="Cleanup Customers" action="{!deleteCustomers}" />    <br></br>
+           <apex:outputText id="message" value="Cleanup Operation Successfully Performed" rendered="{!messageFlag}"></apex:outputText>
+        </apex:pageBlock>     
+	</apex:form>
+</apex:page>

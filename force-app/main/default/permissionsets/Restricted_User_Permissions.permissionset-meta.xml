@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This permission set is referenced in the send email functionality.
+The code checks whether the user is assigned to this permission sets or not, and then accordingly show restricted email templates along with common email templates.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Restricted User Permissions</label>
+</PermissionSet>

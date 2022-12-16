@@ -1,0 +1,62 @@
+<apex:page standardController="Product__c" extensions="ProductRecallIndividualController">
+    <apex:slds ></apex:slds>
+    <apex:form >
+        <apex:outputPanel id="panel">
+            <div style = "margin-left: 5%; margin-top: 2%;"> 
+                <apex:outputPanel >
+                    
+					<apex:outputPanel >
+                        
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-47">Product will be recalled from Agency: </label>
+                        {!product.Collection_Agency__c} - {!product.Collection_Agency_Placement__r.Agency_Name__c}
+                        <br/>
+                    </div>
+                        
+                    <div class="slds-form-element" style = "width: 25%;">
+                        <label class="slds-form-element__label" for="text-input-id-47">Select Reason for Agency Recall: </label>
+                        <br/>
+                         <apex:selectList multiselect="false"  value="{!selectedRecallReason}" size="1" styleclass="slds-select" >
+                            <apex:selectOptions value="{!listRecallReasonOptions}"/>
+                        </apex:selectList>
+                        <br/>
+                    </div>
+                     
+                    <div class="slds-form-element" style = "width: 25%;">
+                        <label class="slds-form-element__label" for="text-input-id-47">Select Action: </label>
+                        <br/>
+                         <apex:selectList multiselect="false"  value="{!selectedValueAction}" size="1" styleclass="slds-select" >
+                            <apex:selectOptions value="{!actionItems}"/>
+                        </apex:selectList>
+                       <!-- <br/><br/>-->
+                    </div>
+                    </apex:outputPanel>
+                </apex:outputPanel>
+                
+            </div>
+        
+			<div style = "margin-left: 5%; margin-top: 2%;"> 
+                <apex:commandButton action="{!recallProduct}"
+                                    value="Recall Product" 
+                                    reRender="panel"
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    disabled="{!IF(ERROR_MSG!='' ,true,false)}"/>
+                <apex:commandButton action="{!recallWithWarning}"
+                                    value="Proceed With Warning" 
+                                    reRender="panel"
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    disabled="{!IF(AND(CONTAINS(ERROR_MSG, 'WARNING'),NOT(CONTAINS(ERROR_MSG, 'ERROR'))) ,false,true)}"/>
+                <apex:commandButton action="{!redirectToProduct}" 
+                                    value="Back" 
+                                    reRender="panel"
+                                    styleClass="slds-button slds-button_outline-brand"
+                                    />
+                <br/>
+			
+            <apex:outputPanel rendered="{!IF(ERROR_MSG!='' ,true,false)}">   
+            	<apex:outputText escape="false" value="{!ERROR_MSG}"></apex:outputText>
+			</apex:outputPanel>
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

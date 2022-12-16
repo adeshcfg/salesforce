@@ -1,0 +1,298 @@
+<apex:page controller="UnsubscribeEmailsController" showHeader="false" standardStylesheets="false" id="pg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="https://www.lightningdesignsystem.com/assets/styles/slds.css" />
+    <style>     
+        .required:after {
+    		content:" *";
+    		color: red;
+        }
+        input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        box-sizing: border-box;
+        }
+        
+        input[type=submit] {
+        width: 70%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        }
+        
+        input[type=submit]:hover {
+        background-color: #45a049;
+        }
+        
+        div {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 10px;
+        line-spacing:5px;
+        }
+        p {
+        font-family: Arial, Helvetica, sans-serif;
+        }
+        .button {
+        position: relative;
+        background-color: #132a8c;
+        border: none;
+        font-size: 28px;
+        color: #FFFFFF;
+        height:60px;
+        padding: 0px;
+        width: 100%;
+        text-align: center;
+        transition-duration: 0.8s;
+        text-decoration: none;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 8px;
+        }
+        
+        .button:after {
+        content: "";
+        background: #f1f1f1;
+        display: block;
+        position: absolute;
+        padding-top: 300%;
+        padding-left: 350%;
+        margin-left: -20px !important;
+        margin-top: -120%;
+        opacity: 0;
+        transition: all 0.8s
+        }
+        
+        .button:active:after {
+        padding: 0;
+        margin: 0;
+        opacity: 1;
+        transition: 0s
+        }
+
+        /* This is for the full screen DIV */
+    .popupBackground {
+        /* Background color */
+        background-color:black;
+        opacity: 0.20;
+        filter: alpha(opacity = 20);
+   
+        /* Dimensions */
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 998;
+        position: absolute;
+       
+        /* Mouse */
+        cursor:wait;
+    }
+
+    /* This is for the message DIV */
+    .PopupPanel {
+        /* Background color */
+        border: solid 2px blue;
+        background-color: white;
+
+        /* Dimensions */
+        left: 50%;
+        width: 300px;
+        margin-left: -100px;
+        top: 50%;
+        height: 50px;
+        margin-top: -25px;
+        z-index: 999;
+        position: fixed;
+       
+        /* Mouse */
+        cursor:pointer;
+    }
+        
+        #messageDiv{
+        	display : none;
+        	padding: 0;
+        }
+        
+        body{
+        	font-family: Arial;
+        }
+    </style>
+    <script>
+    	
+    	function optout(){  
+            var ele = document.getElementsByTagName('input');
+                console.log(ele);
+            	var optout = document.getElementById("optOutCheck");
+            	console.log('optout-',optout);
+                for(var i=0; i<ele.length; i++){ 
+                    console.log(ele[i].name);
+                    if(optout.checked == true){
+                    	if(ele[i].type=='checkbox' && ele[i].name != 'OptOut')  
+                        ele[i].checked=false;  
+                    }
+                    if(optout.checked == false){
+                    	if(ele[i].type=='checkbox' && ele[i].name != 'OptOut')  
+                        ele[i].checked=true;  
+                    }
+                }
+        }
+    
+    	function deselects(){  
+                var ele = document.getElementsByTagName('input');
+                console.log(ele);
+                for(var i=0; i<ele.length; i++){ 
+                    console.log(i);
+                    if(ele[i].type=='checkbox')  
+                        ele[i].checked=false;  
+                }  
+        }
+    	function selects(){  
+                var ele = document.getElementsByTagName('input');
+                console.log(ele);
+                for(var i=0; i<ele.length; i++){ 
+                    console.log(i);
+                    if(ele[i].type=='checkbox')  
+                        ele[i].checked=true;  
+                }  
+        }
+        function showWarning(ele){
+            //alert(ele.checked);
+            //var marked = document.getElementById("pg:fm:pgb:CheckGroup:app").checked;  
+            if(ele.checked){
+                alert('Warning - By unsubscribing, Revardo will not be able to update me on the status of my loan application which may impact my ability to get a loan.');
+            }   
+            //CheckstatussetupMethod();
+        }
+    	
+    	function scrollToTop() {
+          // Scroll to top logic
+          rootElement.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          })
+        }
+    
+    </script>
+    
+    <apex:form id="fm" style="padding-left: 20px;padding-right: 20px;">
+        <apex:actionStatus id="statusSaveTrip" stopText="">
+        <apex:facet name="start">
+            <div>
+                <div class="popupBackground" />
+                <div class="PopupPanel">
+                    <table border="0" width="100%" height="100%">
+                        <tr>
+                            <td align="center"><b>Please Wait</b></td>
+                        </tr>
+                        <tr>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </apex:facet>
+    </apex:actionStatus>
+        <apex:pageBlock id="pgb" >
+            <!--<apex:pageMessages escape="true" />-->
+            <div>
+                <apex:outputpanel id="panelToRefresh" >
+                    <Script> 
+                        var error='{!errorMessage}';
+                        console.log(error);
+                        function alertError(){
+                            if(error!=''){
+                        		var messageDivBlock = document.getElementById('messageDiv');
+                        		messageDivBlock.style.display = "block";
+                        		if(error === 'Success'){
+                        			messageDivBlock.innerHTML = 'You have successfully updated email preferences';
+                        			messageDivBlock.style.color = '#00CC22';
+                        		}
+                        		else{
+                        			messageDivBlock.innerHTML = error;
+                        			messageDivBlock.style.color = '#FF0000';
+                        		}
+                        		scrollToTop();
+                            }
+                        }
+                    </Script>
+                </apex:outputpanel>
+                <div>
+                </div>
+                <hr width="100%"/>
+                <div id = "messageDiv">
+                    hi
+                </div>
+                <div style = "padding:0">
+                    <p><font><b>Please uncheck each list you would like to be removed from and click Save Preferences</b></font></p>
+                </div>
+                First Name*:<apex:inputText style="cursor: auto;" value="{!strFirstName}" disabled="{!identiferpresent}" />
+                Last Name*:<apex:inputText style="cursor: auto;" value="{!strLastName}" disabled="{!identiferpresent}"/>
+                Email Address*:<apex:inputText style="cursor: auto;" value="{!strEmail}" disabled="{!identiferpresent}"/>
+                <br />
+                <table width="70%" cellpadding="0" cellspacing="0" padding="0">
+                    <tr><td colspan="2"></td></tr>
+                    <tr>
+                        <td width ="10%">
+                            <apex:inputCheckbox id="email-check1" value="{!marketingEmailNotification}" />
+                        </td><td>
+                        <p>Marketing emails</p>
+                        </td></tr>
+                    <tr><td colspan="2"></td></tr>
+                    <tr><td width ="10%">
+                            <apex:inputCheckbox value="{!paymentStatusNotification}"></apex:inputCheckbox>
+                        </td>
+                        <td>
+                            <p>Payment success and failure emails</p>
+                        </td>
+                    </tr>
+                    <tr><td width ="10%">
+                            <apex:inputCheckbox value="{!futurePaymentReminder}"></apex:inputCheckbox>
+                        </td>
+                        <td>
+                            <p>Payment reminder emails </p>
+                        </td>
+                    </tr>
+                    <tr><td width ="10%">
+                        <input type="checkbox" id="optOutCheck" name="OptOut" onclick = "optout()"/>
+                           <!-- <apex:inputCheckbox onchange="optout()"></apex:inputCheckbox>-->
+                        </td>
+                        <td>
+                            <p>Opt out of all </p>
+                        </td>
+                    </tr>
+                </table>
+                <table width="70%" cellpadding="0" cellspacing="0" padding="0">
+                <tr>
+                    <!--<td width = "10%">
+                        --<a onclick="selects()" href="javascript:void(0);">
+                            Opt in for All Emails   
+                        </a>-->
+                            <!--<apex:inputCheckbox value="{!optOutOfAllNotification}"></apex:inputCheckbox>
+                    </td>-->
+                    <!--<td width = "30%" style = "padding-left:10%;">
+                        <a onclick="selects()" href="javascript:void(0);">
+                            Opt in for All Emails   
+                        </a>
+                            <!--<apex:inputCheckbox value="{!optOutOfAllNotification}"></apex:inputCheckbox>-->
+                    <!--</td>
+                    <td style = "padding-left:10%;">
+                        <a onclick="deselects()" href="javascript:void(0);">
+                            Opt out for All Emails   
+                        </a>
+                    </td>-->
+                </tr></table>
+                <br/><br/>
+                <apex:commandButton action="{!updateConsent}" styleClass="button" value="Save Preferences"
+                                    rerender="panelToRefresh" onComplete="alertError();" status="statusSaveTrip" />
+            </div>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

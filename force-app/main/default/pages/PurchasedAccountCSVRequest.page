@@ -1,0 +1,57 @@
+<apex:page controller="PurchasedAccountCntrl" sidebar="true">
+  <apex:form id="Form">
+        <apex:pageBlock >
+            <apex:outputPanel rendered="{!showJobButton}">
+            <br/>
+            <apex:outputText value="Click to export purchasable accounts" />
+            <br/>
+            </apex:outputPanel>            
+            
+            <apex:actionStatus id="disablebtn" rendered="{!showJobButton}">
+                <br/>
+                <apex:facet name="stop">
+                    <apex:commandButton value="Export To DebtNext" action="{!runJob}" reRender="Form" status="disablebtn" disabled="false"/>
+                </apex:facet>    
+                <apex:facet name="start">
+                    <apex:commandButton status="disablebtn" value="Creating DebtNextCsv" disabled="true"/>
+                </apex:facet>
+                <br/>
+            </apex:actionStatus>            
+            
+            <apex:outputPanel rendered="{!showResultMessage}">
+                <br/>
+                <apex:outputText value="Purchased account export initiated successfully" />
+                <br/>
+            </apex:outputPanel>
+            
+            <apex:outputPanel rendered="{!(!showJobButton && !showResultMessage)}">
+                <br/>
+                <apex:outputText value="No eligible Insolvency Account records pending for purchase" />
+                <br/>
+            </apex:outputPanel>
+        </apex:pageBlock> 
+        
+        <apex:pageBlock title="Purchased Account List Records" rendered = "{!palWrapperList.size>0}">
+            <apex:pageBlockTable value="{!palWrapperList}"  var="palWrapper" columns="2" title="Purchased Account List Records">
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:outputLabel >Name</apex:outputLabel>
+                    </apex:facet>
+                    <apex:outputLink value="{!palWrapper.recordLink}" target="_blank">
+                        <apex:outputText value="{!palWrapper.pal.Name}" /> 
+                    </apex:outputLink>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:outputLabel >Number of Records Processed</apex:outputLabel>
+                    </apex:facet>
+                        <apex:outputText value="{!palWrapper.pal.Number_of_Records_Processed__c}" /> 
+                </apex:column>          
+            </apex:pageBlockTable>      
+        </apex:pageBlock>       
+        
+    </apex:form>
+    <!--  
+        <apex:enhancedList customizable="true" type="Purchased_Account_List__c" height="500"/>
+    -->
+</apex:page>

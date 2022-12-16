@@ -1,0 +1,35 @@
+<apex:page standardController="Insolvency_Account__c" extensions="InsolvencyAccountLockUnlockController" id="pg" standardStylesheets="false" showHeader="false">
+   <html class=" ext-strict" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <head>
+         <apex:stylesheet value="{!URLFOR($Resource.LightningDesign, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+         <style>
+            .LightningDesignWinter17 h2 {
+            font-weight: inherit;
+            font-size: 1em;
+            }
+            .LightningDesignWinter17 .slds-button{
+            font-size: 0.75rem;
+            line-height: 1.475rem;
+            }
+         </style>
+      </head>
+      <body style='background-color: #fff; text-align:left;'>
+         <apex:form styleClass="LightningDesignWinter17" id="fm" style="padding-top:{!IF(showLockButton == false, '0.1rem;', 'none;')} ">
+            <apex:actionFunction name="lockFunction" action="{!lockInsolvency}" reRender="LockUnlockForm" />
+            <apex:actionFunction name="unLockFunction" action="{!unlockInsolvency}" reRender="LockUnlockForm"/>
+            <apex:outputPanel id="LockUnlockForm">
+               <div style="padding: 2px;">
+                  <input type="button"  class="slds-button slds-button--neutral"  value=" Lock Insolvency" onclick="lockFunction();" style="float:left; display: {!IF(showLockButton == true, 'initial;', 'none;')}" id="lockButton" />
+                  <input type="button" class="slds-button slds-button--neutral"  value=" Unlock Insolvency" onclick="unLockFunction();" style="float:left; display: {!IF(showLockButton== false, 'initial;', 'none;')}" id="unLockButton"/>
+               </div>
+               <div  style="padding-left: 15px;float: left;display: {!IF(showLockButton == false, 'block;', 'none;')}" id="warningSection">
+                  <h2>
+                     <span style="display: {!IF(isRecordLockedByCurrentUser == false, 'initial;', 'none;')}"><b>{!recordLockedBy}</b>  has locked this Insolvency.</span>
+                     <span style="display: {!IF(isRecordLockedByCurrentUser == true, 'initial;', 'none;')}" >You have locked this Insolvency.</span>
+                  </h2>
+               </div>
+            </apex:outputPanel>
+         </apex:form>
+      </body>
+   </html>
+</apex:page>

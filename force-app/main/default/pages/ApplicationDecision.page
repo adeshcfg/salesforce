@@ -1,0 +1,115 @@
+<apex:page showHeader="false" sidebar="false" controller="ApplicationDecisionController" standardstylesheets="false" docType="html-5.0"
+    applyBodyTag="false" applyHtmlTag="false">
+    <html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+        <apex:stylesheet value="{!URLFOR($Resource.ApplicationResource, 'css/traction/application.css')}" />
+        <apex:includeScript value="{!$Resource.jQuery}" />
+        <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/application.js')}" />
+        <script type="text/javascript">
+            var topOrigin = '{!JSENCODE(AppFormSettings.Parent_Page_Domain__c)}';
+
+            $(document).ready(function () {
+                scrollToTop();
+            });
+
+            function loading(id) {
+                // Disable continue and do not continue buttons
+                $("[id*=id]").attr("disabled", "true");
+                // Show spinner
+                $("#loading").show();
+            }
+        </script>
+    </head>
+
+    <body>
+        <!-- Google Tag Manager -->
+        <noscript>
+            <!--<iframe src="//www.googletagmanager.com/ns.html?id=GTM-W6F9RX" height="0" width="0" style="display:none;visibility:hidden"></iframe>-->
+        </noscript>
+        <!--<script>(function (w, d, s, l, i) {            
+w[l] = w[l] || []; w[l].push({                
+'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'            
+}); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-W6F9RX');</script>-->
+        <!-- End Google Tag Manager -->
+        <div id="innerContainer" class="inner-container">
+            <!--wrapArea Start-->
+            <!--Application Needs Review-->
+            <apex:outputPanel layout="block" rendered="{!applicationStatus == DECISION_ERROR }">
+                <script>
+                    <!--pushHit('/application-form/application_error', 'Application Error');-->
+                </script>
+                <div class="fleft">
+                    <h2>Thank you for your application.</h2>
+                    <h2>At this time, we are not able to make a credit approval decision without further
+                     review.  One of our customer service representatives will follow up with you to notify you via 
+                     telephone call of the application result.  If you have any questions, please feel free to call 
+                     us at 1-855-220-7531.</h2>
+                </div>
+            </apex:outputPanel>
+            <!-- Application System approved-->
+            <apex:outputPanel layout="block" rendered="{!applicationStatus == DECISION_ACCEPTED }">
+                <script>
+                    <!--pushHit('/application-form/application_error', 'Application Error');-->
+                </script>
+                <div class="fleft">
+                    <div>
+                        <h2>
+                            Congratulations! Your application has been conditionally approved. 
+                            You will have received an email from us to to verify your information.  
+                            If you have not already done so, please click on the link provided to 
+                            complete the application.</h2>
+                        <h2>Please note that all approvals are subject to internal review and Fidem 
+                            Finance reserves the right to cancel an approval for any reason it 
+                            deems appropriate.</h2>
+                        <h2>Subject to Internal review, your Fidem MasterCard® takes about 1-5 days 
+                            to be created. Once complete, it will go out for mailing via regular mail
+                             along with your Welcome Package and should arrive to you within 14 business
+                              days. If you have any questions, please call Fidem Finance at 1-855-220-7531.
+                              </h2>
+                        <h2>
+                            Thank you for choosing Fidem Finance, and we look forward to welcoming you as a client.
+                        </h2>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            <!-- Application System Declined-->
+            <apex:outputPanel layout="block" rendered="{!applicationStatus == DECISION_DECLINED }">
+                <script>
+                    <!--pushHit('/application-form/application_error', 'Application Error');-->
+                </script>
+                <div class="fleft">
+                    <div>
+                        <h2>Thank you for your interest in becoming a Fidem Finance customer.</h2>
+                        <h2>We have carefully considered your application and regret to inform you we were unable
+                         to issue you credit at this time.</h2>
+                         <h2>For the purpose of reviewing your application, we obtained your credit bureau status 
+                        from Trans Union. It is recommended that individuals ensure all bureau information is 
+                        updated on an annual basis. This information can be obtained by calling TransUnion at 
+                        1-800-663-9980 or by visiting www.transunion.ca.</h2>
+                        <h2>Should the information you supplied us change, we would be happy to review
+                         your new application.</h2>
+                         <h2>We thank you again for your application and your interest in Fidem Finance.
+                                
+                        </h2>    
+                    </div>
+
+                </div>
+            </apex:outputPanel>
+            
+            <!--wrapArea End-->
+
+            <!-- Commission Soup Pixel-->
+            <!--<iframe src="https://www.commissionsoup.com/optt.aspx?p=4437&s=2&iframe=1" width="1" height="1" frameborder="0"></iframe>-->
+            <!-- End Commission Soup Pixel -->
+        </div>
+    </body>
+
+    </html>
+</apex:page>

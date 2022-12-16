@@ -1,0 +1,311 @@
+<apex:page controller="AccountRegistrationController" showHeader="false" sidebar="false"
+           lightningStylesheets="true" applyBodyTag="false" applyHtmlTag="false">
+    <apex:slds />
+<html>
+    <head>
+        <style>
+            .account-search-form {
+                width: 100%;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+            }
+            .account-message-form {
+            	font-size: 14px;
+                width: 90%;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+            }
+            .input-field {
+                padding: 20px;
+            }
+            .text-field{
+                margin-bottom: 20px;
+            }
+            input[type=text], input[type=date] {
+                width: 95%;
+                background-color: #3e58a8;
+                color: #ffffff;
+                border: 1px solid #3e58a8;
+                border-radius: 5px;
+                font-size: 17px;
+                padding: 6px 10px;
+                font-family: "Arial","Lucida Sans Unicode",Tahoma,sans-serif;
+                line-height: 1.3;
+            }
+            input[type=text]:focus, input[type=date]:focus, select:focus {
+                background-color: #ffffff;
+                border-color: #3e58a8;
+                box-shadow: none;
+                color: #000000;
+                border-width: 1px;
+            }
+            input[type=text]:focus::placeholder, input[type=date]:focus::placeholder, select:focus::placeholder {
+                color: #cccccc;
+            }
+
+            ::placeholder {
+                color: #ffffff;
+            }
+            
+            input[type=checkbox] {
+                border: 1px solid #3e58a8;
+            }
+            
+            .submit-btn {
+                background-color: #132A8C;
+                border: none;
+                color: White;
+                text-decoration: none;
+                font-family: Arial, Helvetica, Verdana, sans-serif;
+                font-weight: 400;
+                font-size: 20px;
+                line-height: 18px;
+                padding: 12px 24px;
+                background-image:none !important;
+                border-radius: 25px;
+            }
+            
+            .submit-btn:hover {
+                color: #132A8C;
+                background-color: #49DCE4;
+                text-decoration: none;
+            }
+            .check-field {
+                margin-bottom: 10px;
+                font-family: Arial, Helvetica, Verdana, sans-serif;
+            }
+            .text-field.error input,
+            .text-field.error select {
+                border: 1px solid red;
+                background: #fff; 
+            	color: black;
+            }
+    
+            .text-field.error ::placeholder,
+            select::placeholder {
+                color: #ccc;
+            }
+
+            .check-field.error input {
+                outline: 1px solid red;
+            }
+            
+            @media screen and (max-width: 400px) and (min-width: 200px) {
+            	.submit-btn {
+                    font-size: 17px;
+                    line-height: 18px;
+                    padding: 10px 24px;
+                }
+            	body {
+                    font-size: 9px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <apex:form id="form" >
+            <div class = "account-search-form">
+            <apex:outputPanel rendered="{!showRegistration}">
+            <div class="">
+                <div class="input-field">
+            <div class="text-field" id = "emailDiv">
+                <input type="text" id="email" class="js-form-field" name="email" placeholder="Email address" autocomplete="off"/>
+                <div>
+                    <div>
+                        <b>Why am I being asked to verify my email address?</b>  
+                    </div>
+                    <div>
+                        We use your email address to send you information related to your account 
+                        (e.g. confirmation of payments made, current balance, payment arrangements)
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-field" id = "phoneDiv">
+                <input type="text" id="phone" name="phone" placeholder="Phone Number"
+                       class="js-form-field" pattern="[+]{1}[0-9]{11,14}"/>
+            </div>
+
+            <div class="check-field">
+                <input type="checkbox" name="terms" class="js-form-field"/>
+                By providing this information, you agree to Canaccede Financial 
+                Group Ltd., including its subsidiaries, storing and using your information in accordance with our 
+                <a href = "https://www.mycanaccede.com/privacy-policy/"
+                                                      target="_blank" >
+                									Privacy Policy</a>
+                and <a href = "https://www.mycanaccede.com/terms-of-service/"
+                                                      target="_blank" >
+                									Terms of Service</a>
+            </div>
+
+            <div class="check-field">
+                <apex:inputHidden id="myHiddenElement" value="{!userMarketingConsent}"/>
+                <input type="checkbox" class="js-form-field" id = "marketing" name="marketing" />
+                Yes, I would like to receive marketing communications from Canaccede regarding products, 
+                services or events of Canaccede or its business partners. 
+                You can unsubscribe by sending an email to unsubscribe@canaccede.com requesting that 
+                we remove you from our email marketing communications list.
+            </div>
+			<input type="button" value="Submit" class="submit-btn" id="submitButton"
+                    onclick = "return false;" target="_blank"/>
+
+            <apex:actionFunction action="{!registerAccount}" name="registerFunction" reRender="showstate,message,form">
+				<apex:param assignTo="{!userEmail}" name="email" value=""/>
+               <apex:param assignTo="{!userPhone}" name="phone" value=""/>
+               <apex:param assignTo="{!terms}" name="terms" value=""/>
+             </apex:actionFunction>
+            </div>
+        </div>
+          </apex:outputPanel>
+            <apex:outputPanel rendered="{!!showRegistration}">
+                <div class="account-message-form">
+            		<div>
+						An email verification has been sent to the email provided.  
+                        Please click on the link provided to complete the verification process.                      
+                    </div>
+                    <br/>
+					<div>
+						If you did not receive a verification email, check your junk mail folder as it may have been 
+                        filtered there. You can whitelist <a href = "mailto: client.services@canaccede.com" style="color: #0078d4;">
+                        client.services@canaccede.com</a> to ensure that our 
+                        communications to you don’t get filtered in the future. To whitelist an email address just 
+                        means you add them to your approved senders list.
+                    </div> 
+                    <br/>
+					<div>
+						If you are having any issues with this process, please contact our Client Services Team 
+                        toll-free at <a href="tel:1-888-316-2369" style="color: #0078d4;">1-888-316-2369</a>, or <a href = "mailto: client.services@canaccede.com" style="color: #0078d4;">
+                        client.services@canaccede.com</a>.
+                    </div>
+					<br/><br/>
+                </div>
+            </apex:outputPanel>
+            </div>
+          </apex:form>
+        
+		<script>
+			var allFields = document.querySelectorAll('.js-form-field');
+        	var fields = ['email'];
+            var checkFields = ['terms']
+            var counter = 0;
+    		var consentChecked;
+        
+        /*function handleErrorReset() {
+				for (var i = 0; i < allFields.length; i++) {
+					allFields[i].addEventListener('focus', function () {
+						this.closest('.text-field').classList.remove('error')
+						if (this.getAttribute('name') == 'dob') {
+							this.setAttribute('type', 'date');
+						}
+					})
+				}
+        	}*/
+        
+            function validateBasicDetails() {
+                for(var i =0; i < fields.length; i++ ) {
+					var field = document.querySelector('[name='+fields[i]+']');
+                    if(field && field.value.length <= 0 || field.checked) {
+                        field.closest('.text-field').classList.add('error');
+                    }
+                    else{
+                        field.closest('.text-field').classList.remove('error');
+                        counter++;
+                    }
+                }
+            }
+    
+            function validateCheckBox() {
+                for(var i =0; i < checkFields.length; i++ ) {
+                    var field = document.querySelector('[name='+checkFields[i]+']');
+                    if(field && !field.checked) {
+                        field.closest('.check-field').classList.add('error');
+                        consentChecked = false;
+                    }
+                    else{
+                        field.closest('.check-field').classList.remove('error');
+                        consentChecked = true;
+                        counter++;
+                    }
+                }
+            }
+    
+            window.addEventListener('load', function() {
+                var submitBtn = document.querySelector('.submit-btn');
+                submitBtn && submitBtn.addEventListener('click', function() {
+                    console.log('submit clicked');
+                    validateBasicDetails();
+                    validateCheckBox();
+                    var emailvalue = document.getElementById("email").value ;
+                    var phone = document.getElementById("phone").value ;
+                    console.log(phone.length);
+                    var atposition=emailvalue.indexOf("@");  
+                    var dotposition=emailvalue.lastIndexOf(".");  
+                    if (atposition<1 || dotposition<atposition+2 || dotposition+2>=emailvalue.length){  
+                      	document.getElementById("emailDiv").classList.add('error');
+                        //alert("Please enter a valid e-mail address \n atpostion:"+atposition+"\n dotposition:"+dotposition);  
+                      return false;  
+                    }
+                    else if (phone.length > 40){
+                        document.getElementById("emailDiv").classList.remove('error');
+                    	document.getElementById("phoneDiv").classList.add('error');
+                    }
+                    else{
+						if(consentChecked === true){
+                        	this.disabled = true;
+                            document.getElementById("phoneDiv").classList.remove('error');
+                            console.log('register function call');
+                            v = document.getElementById('{!$Component.form.myHiddenElement}');
+                            console.log('v',v);
+                            v.value = document.getElementById('marketing').checked;
+                            console.log(document.getElementById('marketing').checked);
+                            registerFunction();
+                        }
+                        
+                    }
+                })
+    
+            })
+            //handleErrorReset();
+
+			// closest polyfill
+			if (!Element.prototype.matches) {
+				Element.prototype.matches = Element.prototype.msMatchesSelector ||
+					Element.prototype.webkitMatchesSelector;
+			}
+
+			if (!Element.prototype.closest) {
+				Element.prototype.closest = function (s) {
+					var el = this;
+
+					do {
+						if (Element.prototype.matches.call(el, s)) return el;
+						el = el.parentElement || el.parentNode;
+					} while (el !== null && el.nodeType === 1);
+					return null;
+				};
+			}
+			
+        /*function calc(){
+               v = document.getElementById('{!$Component.form.myHiddenElement}');
+               console.log('v',v);
+  			   v.value = document.getElementById('marketing').checked;
+              console.log(document.getElementById('marketing').checked);
+            }*/
+        
+        	function phoneNumberFormat(){
+				var text1 = document.getElementById("phone").value.trim();
+                if(text1 != ""){
+                    var str1 = text1.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+                    document.getElementById("phone").value(str1);
+                }
+            }
+        </script>
+
+    </body>
+</html>
+
+</apex:page>

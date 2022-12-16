@@ -1,0 +1,104 @@
+<apex:page extensions="InsolvencyCopyDataController" standardController="Insolvency__c" showHeader="false" id="pg">
+
+    <apex:form id="insCopyForm">
+        <apex:pageBlock id="pb">
+            <apex:pageBlockButtons style="margin:auto; padding-left:10%;" id="pbuttons" location="top">
+                <apex:commandbutton id="copybutton" rerender="fm" onClick="callcopy(this);" value="Copy to Clipboard"></apex:commandbutton>
+            </apex:pageBlockButtons>
+            
+            <apex:inputtextarea ID="holdtext" STYLE="display:none;"></apex:inputtextarea>
+            
+            <apex:outputpanel id="copytext">
+                <table style="margin:auto;">
+                    <tr>
+                        <td style="padding: 0.5rem;text-align:right;">
+                            <apex:outputLabel value="Insolvency Type: " />
+                        </td>
+                        <td>{!insolv.Insolvency_Type__c}</td>
+                    </tr> 
+                    <tr>
+                        <td style="padding: 0.5rem;text-align:right;">
+                            <apex:outputLabel value="Insolvency Date:" />
+                        </td>
+                        <td> 
+                            <apex:outputText value="{0,date, MM'/'dd'/'yyyy}">
+                               <apex:param value="{!insolv.Insolvency_Date__c}" />
+                           </apex:outputText>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td style="padding: 0.5rem;text-align:right;">
+                            <apex:outputLabel value="Estate Number:" />
+                        </td>
+                        <td>{!insolv.Name}{!IF(insolv.Debtor_2_Estate_Number__c != null,';','')}&nbsp;{!insolv.Debtor_2_Estate_Number__c}
+                        </td>
+                    </tr>
+                    
+                    <!--  
+                    <tr>
+                        <td style="padding: 0.5rem;text-align:right;">
+                            <apex:outputLabel value="Co-Debtor Estate Number:" />
+                        </td>
+                        <td>{!insolv.Debtor_2_Estate_Number__c}</td>
+                    </tr>
+                     -->
+                     
+                    <tr>
+                        <td style="padding: 0.5rem;text-align:right;">
+                            <apex:outputLabel value="Debtor:" />
+                        </td>
+                        <td>{!insolv.Debtor__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;text-align:right;">
+                            <apex:outputLabel value="Debtor's Date of Birth:" />
+                        </td>
+                        <td> 
+                            <apex:outputText value="{0,date, MM'/'dd'/'yyyy}">
+                               <apex:param value="{!insolv.Debtor_1_Date_of_Birth__c}" />
+                           </apex:outputText>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td style="padding: 0.5rem;text-align:right;">
+                            <apex:outputLabel value="Co-Debtor:" />
+                        </td>
+                        <td>{!insolv.Co_Debtor__c}</td>
+                    </tr>
+                    <!--  
+                    <tr>
+                        <td style="padding: 0.5rem;text-align:right;">
+                            <apex:outputLabel value="Debtor Date of Birth:" />
+                        </td>
+                        <td> 
+                            <apex:outputText value="{0,date, MM'/'dd'/'yyyy}">
+                               <apex:param value="{!insolv.Debtor_1_Date_of_Birth__c}" />
+                           </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;text-align:right;">
+                            <apex:outputLabel value="Co-Debtor Date of Birth:" />
+                        </td>
+                        <td> 
+                            <apex:outputText value="{0,date, MM'/'dd'/'yyyy}">
+                               <apex:param value="{!insolv.Debtor_2_Date_of_Birth__c}" />
+                           </apex:outputText>
+                        </td>
+                    </tr>
+                    -->
+                </table>
+            </apex:outputpanel>
+       </apex:pageBlock>
+    </apex:form>
+  
+    <script language="JavaScript">
+        function callcopy(ele){
+            ele.style.display = 'none';
+            document.execCommand('selectall');
+            document.execCommand("copy");
+            ele.style.display = 'block';
+        }
+    </script>
+      
+</apex:page>

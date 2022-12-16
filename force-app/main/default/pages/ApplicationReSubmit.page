@@ -1,0 +1,31 @@
+<apex:page standardController="Application__c" extensions="ApplicationReSubmitController" action="{!reSubmit}" 
+            showHeader="false" sidebar="false">
+     
+    <apex:form >
+        <apex:outputPanel rendered="{!progressBar}">
+            <apex:outputText >In Progress...</apex:outputText>
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{! !progressBar && null = errorMessage}">
+            <apex:outputText >Completed with application status : {!application.Application_Status__c }</apex:outputText>
+            <br/>
+            <script>
+                
+                window.opener.location='/{!application.Id }';
+                
+            </script>
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{! null != errorMessage}">
+            <apex:outputText >Due to below exception, process could not be completed.<br/>{!errorMessage}</apex:outputText>
+            <br/>
+            <script>
+                
+                window.opener.location='/{!application.Id }';
+                
+            </script>
+        </apex:outputPanel>
+        
+    </apex:form>
+
+</apex:page>

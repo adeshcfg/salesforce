@@ -1,0 +1,31 @@
+<apex:page controller="SendAuthEmailController" action="{!invokeEmail}">
+<html>
+    <head>
+        <apex:stylesheet value="{!URLFOR($Resource.ApplicationResource, 'css/traction/application.css')}"/>
+    </head>
+    <body>  
+        <div>
+            <apex:pageBlock rendered="{!elgibleForEmail == true}">
+                <h2>An email will be triggered and sent to the applicant.</h2>
+            </apex:pageBlock>
+            <apex:pageBlock rendered="{!elgibleForEmail == false && inelgibleReason == NO_EMAIL}">
+                <h2>Email cannot be sent. Applicant has no email on record.</h2>
+            </apex:pageBlock>
+            
+            <!--Customer Matching Updates  -->
+            <!--  
+            <apex:pageBlock rendered="{!elgibleForEmail == false && inelgibleReason == MARKED_MANUAL_REVIEW}">
+                <h2>Email cannot be sent. Application is marked for manual review.</h2>
+            </apex:pageBlock>
+            -->
+            
+            <apex:pageBlock rendered="{!elgibleForEmail == false && inelgibleReason == MISSING_LENDER_APPROVED_AMOUNT}">
+                <h2>Email cannot be sent. Lender Approved Amount is not Available on the Application.</h2>
+            </apex:pageBlock>
+            <apex:pageBlock rendered="{!elgibleForEmail == false && inelgibleReason == AUTH_ALREADY_COMPLETED}">
+                <h2>Email cannot be sent. Applicant has already completed authentication process.</h2>
+            </apex:pageBlock>
+        </div>    
+    </body>
+</html>
+</apex:page>

@@ -1,0 +1,144 @@
+<aura:component implements ="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes" controller="AddNewJudgmentController">
+    <aura:attribute name="selectedRecord" type="Object" default="" description="selected Record Details" />
+    <aura:attribute name="recordId" type="String" default=""/>
+    <aura:attribute name="serverRespose" type="Object"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="createNewJudgment" type="Boolean" default="false" />
+    <aura:attribute name="excludeIds" type="String[]" default="[]"/>
+    <aura:attribute name="whereClauseField" type="String" default="Legal_Sub_Status__c"/>
+    <aura:attribute name="whereClauseValue" type="String" default="Vacated"/>
+    <aura:attribute name="recordTypeId" type="Id" default="0123a0000000NDtAAM"/> 
+    <aura:attribute name="diableButton" type="Boolean" default="false" />
+    <aura:attribute name="ObjectMap" type="Map" default="{}" />
+
+    
+    <lightning:notificationsLibrary aura:id="notificationsLibrary"/>
+    
+    <aura:attribute name="legalDetailSection" type="String[]" default="[
+                                                                       'Legal_Status__c',
+                                                                       'Judgment_Date__c',
+                                                                       'Legal_Sub_Status__c',
+                                                                       'Filing_Date__c',
+                                                                       'Product_1__c',
+                                                                       'Judgment_Amount__c',
+                                                                       'Suit_Amount_1__c',
+                                                                       'Suit_Amount__c',
+                                                                       'Balance_one__c',
+                                                                       'Date_Debtor_Served__c',
+                                                                       'Interest_Rate_one__c',
+                                                                       'Case_Number__c',
+                                                                       'Suit_Amount_2__c',
+                                                                       'Writ_Number__c',
+                                                                       'Balance_two__c',
+                                                                       'Writ_Amount__c',
+                                                                       'Interest_Rate_two__c',
+                                                                       'Date_Writ_Issued__c',
+                                                                       'Suit_Amount_3__c',
+                                                                       'County__c',
+                                                                       'Balance_three__c',
+                                                                       'Writ_Renewal_Date__c',
+                                                                       'Interest_Rate_three__c',
+                                                                       'Garnishment_Number__c',
+                                                                       'Suit_Amount_4__c',
+                                                                       'Garnishment_Amount__c',
+                                                                       'Balance_four__c',
+                                                                       'Garnishment_Date__c',
+                                                                       'Interest_Rate_four__c',
+                                                                       'Garnishment_Renewal_Date__c',
+                                                                       'Suit_Amount_5__c',
+                                                                       'Legal_Agency__c',
+                                                                       'Balance_five__c',
+                                                                       'Court__c',
+                                                                       'Small_Claims_Court__c',
+                                                                       'Superior_Court__c',
+                                                                       'Interest_Rate_five__c',        
+                                                                       'Product_2__c',
+                                                                       'Court_Comments__c',
+                                                                       'Product_3__c',                            
+                                                                       'Plaintiff__c',
+                                                                       'Product_4__c',
+                                                                       'Company_Name__c',
+                                                                       'Product_5__c',
+                                                                       'Legal_Firm__c',
+                                                                       '',
+                                                                       'Attorney__c',
+                                                                       '',
+                                                                       'Agency_Initiated_Legal_Action__c',
+                                                                    ]" />
+   
+
+    <aura:attribute name="productRecord" type="Object"/>
+    <force:recordData aura:id="forceRecord"
+                      recordId="{!v.recordId}"
+                      fields="Id,Name"
+                      targetFields="{!v.productRecord}"
+                      />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <c:errorHandling aura:id="errorHandling" serverRespose="{!v.serverRespose}" showSpinner="{!v.showSpinner}"/>
+    <c:QuickAction header="Add Judgment" showSpinner="{!v.showSpinner}">
+        
+        <div class="slds-clearfix">
+            <div class="slds-float_right">
+                <tr>
+                    <td><ui:inputCheckbox class="slds-float_right" labelClass="slds-m-right_xx-small" aura:id="create-new" label="Create new Judgment" change="{!c.isNewJudgment}" value="{!v.createNewJudgment}"/></td>
+                </tr>
+            </div>
+        </div> 
+        <aura:if isTrue="{! not(v.createNewJudgment) }">
+            <c:CustomLookup objectName="Judgment__c" 
+                            fieldName="Name" 
+                            recordCount="5" 
+                            label="Judgment" 
+                            selectedRecord="{!v.selectedRecord}" 
+                            excludeIds="{!v.excludeIds}"
+                            whereClauseField="{!v.whereClauseField}"
+                            whereClauseValue = "{!v.whereClauseValue}"/>
+        </aura:if>
+        
+        <lightning:recordEditForm aura:id="recordViewForm"
+                                  recordId="{!v.selectedRecord.value}"
+                                  objectApiName="Judgment__c"
+                                  recordTypeId ="{!v.recordTypeId}"
+                                  onsuccess="{!c.handleOnSuccess}"
+                                  onerror="{!c.handleOnError}">
+            <lightning:messages/>
+            
+            <h3 class="slds-section__title slds-theme--shade primaryPaletteBorder slds-m-top_x-small" >
+                <span class="section-header-title slds-p-horizontal--small slds-truncate">Legal Details</span>
+            </h3>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:outputField fieldName="Name" disabled ="true"/>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                </div>
+                <aura:iteration items="{!v.legalDetailSection}" var="item">
+                    <div class="slds-col slds-size_1-of-2 slds-p-right_small">
+                        <aura:if isTrue="{! not(v.createNewJudgment) }">
+                            <lightning:outputField onchange="{!c.textChange}" fieldName="{!item}" />
+                           
+                            <aura:set attribute="else">
+                                <!--<lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c'}"/>-->
+                            	<lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c'
+                                                                                                                                                   || item=='Product_1__c' || item=='Product_2__c' || item=='Product_3__c'
+                                                                                                                                                   || item=='Product_4__c' || item=='Product_5__c'}" />
+                            </aura:set>
+                            
+                        </aura:if>
+                    </div>
+                </aura:iteration>
+            </div>
+           
+           
+        </lightning:recordEditForm> 
+        <aura:set attribute="save">
+            <lightning:button aura:id="submit" 
+                              type="submit" 
+                              label="Save" 
+                              class="slds-button_brand" 
+                              disabled="{! or((not(v.selectedRecord) &amp;&amp; not(v.createNewJudgment)), diableButton)}"
+                              onclick="{!c.saveJudgment}"/>
+        </aura:set>
+    </c:QuickAction>
+</aura:component>

@@ -1,0 +1,299 @@
+<apex:page standardController="Product__c" extensions="BulkBuybackPutbackEligibleController" recordSetVar="Product"  showheader="true" standardStyleSheets="false" 
+           sidebar="false" cache="false" docType="html-5.0" >
+    <apex:form id="fms">
+    <apex:slds />
+    <style type="text/css">
+       
+        table{
+            width: 100%;
+            background-color: white;
+            border:1px solid black;
+            padding: 5px;
+        }
+        
+        tr{
+            text-align: left;
+            padding: 5px;
+            
+        }
+        
+        td{
+        padding: 5px!important;
+        padding-left: 14px!important;
+        //padding: 0 15px 0 15px!important;
+        
+        }
+        th{
+            padding: 0 15px 0 15px !important;
+            text-align:center;
+            vertical-align:top;
+          }
+        .first h3{
+            background-color: #0CA1CF;
+            padding: 5px 3px;
+        }
+        
+        .page_navigation{
+            font-family: tahoma;
+            font-size: 11px;
+            float: right;
+            
+        }
+        
+        .page_navigation a{
+            text-decoration: none;
+            padding: 3px 5px;
+            margin: 0 2px;
+            background-color: white;
+            color: #28ADD9;
+            display: block;
+            float: left;
+            text-align: center;
+            border-color:#28ADD9;
+        }
+        
+        .page_navigation .active_page{
+            background-color: white;
+            color: black;
+        }
+        
+        .demo2{
+            margin: 10px 5px;
+            background-color: #00064F;
+            overflow:auto;
+            text-align: center
+        }
+        
+        .title{
+            font-family: Georgia;
+            font-size: 36px;
+            font-style: italic;
+            color: white;
+            padding: 10px;
+        }
+        
+        .head{
+            font-family: Tahoma;
+            font-size:20px;
+            color: orange;
+            padding: 5px;
+            overflow: auto;
+            
+        }
+        thead{
+            border: 1px solid;
+            text-align:center;
+        }
+        .th{
+        text-align:center;
+        }
+        .body {
+            
+            
+        }
+        
+        .content {
+            width: 90%;
+            margin: 0px auto;
+            overflow: auto;
+        }
+        
+        .item{
+            color: black;
+            font-family: Georgia;
+            font-size: 16px;
+            padding: 10px;
+            display: block;
+            
+        }
+        
+        .block{
+            display:block;
+        }
+        
+        .panel {
+            width: 40%;
+            float: left;
+            padding: 0 30px;
+            
+        }
+        
+        .demo2 .page_navigation a{
+            background-color: orange;
+            color: black;
+        }
+        
+        .demo2 .page_navigation .active_page{
+            background-color: transparent;
+            color: white;
+        }
+        
+        #theid{
+            align-content: center;
+            text-align: center;
+            margin-left: 32%;
+            margin-top: 3%;
+        }       
+       
+        
+    </style>
+    <script> 
+    var _timer, _timeOut = 1000; 
+    var statusValue = "";
+    
+    function copyOverToTop(val){
+        alert(val);
+    }
+    function callTotal(e) {
+        
+        
+        if(e.keyCode == 189){
+            return false;
+        }
+        
+        clearTimeout(_timer);
+        // send xhr requests
+        
+        _timer = window.setTimeout(function() {
+            calculateTotal();
+        }, _timeOut)
+    }
+
+    //setTimeout(function(){ calculateTotal(); }, 2000);
+
+    function resetData(){
+        document.getElementById('page:fms:topsave').disabled = false;
+        document.getElementById('page:fms:btnbottom').disabled = false;
+    }
+    function checkforEnterKey(e, searchEle, val){
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code == 13) { //Enter keycode
+            searchInsolvencyAccounts();
+            return false;
+        }else{
+            document.getElementById('page:fms:search-top').value = val;
+            document.getElementById('page:fms:search-bottom').value = val;
+        }
+    }
+    
+    function scrolltoTop(valueUpdate){
+        calculateTotal();
+        statusValue = valueUpdate;
+       
+        window.scrollTo(0, 0);
+        var checkVal = document.getElementById('page:fms:pb:hiddenCheck').value;
+        alert(checkVal);
+        if(checkVal  == 'false'){
+            var element = document.getElementById("page:fms:searchdiv");
+            element.style.display = 'none';
+        } 
+        //document.getElementById('page:fms:topsave').disabled = false;
+        //document.getElementById('page:fms:btnbottom').disabled = false;
+        window.location.reload();
+        
+    }
+    function scrolldown(){
+        var body = document.body,
+            html = document.documentElement;
+        
+        var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                               html.clientHeight, html.scrollHeight, html.offsetHeight );
+        window.scrollTo(0, height);
+        var element = document.getElementById("page:fms:inputTextID");
+        element.onclick = element.select();
+    }
+    function save(ele){
+        
+        document.getElementById('page:fms:topsave').disabled = true;
+        document.getElementById('page:fms:btnbottom').disabled = true;
+        
+        callSave();
+        
+    }
+    function selectAllCheckboxes(obj,receivedInputID){
+            var inputCheckBox = document.getElementsByTagName("input");                
+            for(var i=0; i<inputCheckBox.length; i++){ 
+                console.log(inputCheckBox[i].disabled);
+                if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1 && inputCheckBox[i].disabled == false) {                                    
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        }
+    
+    </script>
+    
+      
+        <apex:actionStatus id="spinner">
+            <apex:facet name="start">
+                <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.25; z-index: 1000; background-color: black;">
+                    &nbsp;
+                </div>
+                <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; margin: 12% 40%">
+                    <div style="display: inline-block; padding: 2px; background-color: #fff; width: 125px;">
+                        <img src="/img/loading.gif" style="float: left; margin: 8px;" />
+                        <span style="display: inline-block; padding: 10px 0px;">Please Wait...</span>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+        
+        <apex:ActionFunction name="searchInsolvencyAccounts"  action="{!searchInsolvencyAccounts}" reRender="pb, total, msg, total-top, total-bottom, savebtnbottom, savebtntop, search-section-bottom, non-selected-section-title, selected-section-title" status="spinner">
+        </apex:ActionFunction>
+        
+        
+        <apex:pagemessages id="msg" escape="false"></apex:pagemessages>
+        <apex:outputPanel id="searchdiv" rendered="{!showSearch}">
+            
+            <div class="myheader" style="text-align: center; margin-top:15px;">
+                <apex:outputLabel style="font-weight: bold;padding-right: 5px;" >Product Records Account: </apex:outputLabel>
+                <apex:inputText id="search-top" onkeyup="return checkforEnterKey(event, this, this.value);" value="{!insolvencyAccNumbers}" style="width: 500px;"  html-placeholder="Enter Insolvency Account, Estate Number, Primary Borrower or Debtor separated with ','(comma)"/>
+                &nbsp;&nbsp;&nbsp;
+                <apex:commandButton styleclass="slds-button slds-button_neutral" style="padding-left: 5px;" value="Search" action="{!searchInsolvencyAccounts}" reRender="pb, total, msg, total-top, total-bottom, savebtntop, savebtnbottom, search-section-bottom" status="spinner" />
+                
+                <!--<apex:outputLink rendered="{!showViewButton}" style="text-decoration: none;padding: 4px;" styleclass="btn" target="_blank" value="../apex/InsolvencyPaymentProcessing?id={!remit.Id}&showViewButton=false">View
+</apex:outputLink>-->
+            </div>
+            
+
+            <apex:pageBlock id="pb" >
+                <apex:outputPanel id="non-selected-section-title">
+                <div style="font-weight: bold;font-size: 12px; padding-top: 20px; padding-bottom:5px; padding-left: 18px">Search section</div>
+            </apex:outputPanel>
+                <apex:outputLabel rendered="{!wrapListWithAmountNotEmpty}" style="font-weight: bold;font-size: 12px; padding-top: 20px; padding-bottom:5px; padding-left: 18px"> Update Buyback/Putback record status to : </apex:outputLabel>
+                &nbsp;&nbsp;
+                <apex:selectList size="1" value="{!selectedCountry}" rendered="{!wrapListWithAmountNotEmpty}">
+                  <apex:selectOptions value="{!countrieLst }"/>
+                    
+                </apex:selectList>
+                        <div style="padding-top:20px"></div>
+                <apex:pageBlockTable value="{!wrapListWithAmount}" var="wrap" rendered="{!wrapListWithAmountNotEmpty}">
+                  
+                	<apex:column headerValue="Action" >
+                    <apex:facet name="header">
+                        <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')">
+                        </apex:inputCheckbox>
+                    </apex:facet>
+                    <apex:inputCheckbox id="inputId" value="{!wrap.selected}" disabled="{!wrap.disabled}">
+                    </apex:inputCheckbox>
+                </apex:column>
+                    <apex:column headerValue="Account Number">
+                        <apex:outputLink value="/{!wrap.productAcc.Id}" target="_blank">
+                        	{!wrap.productAcc.Name} 
+                    	</apex:outputLink>
+                    </apex:column>
+                </apex:pageBlockTable> 
+                <div style="padding-top:20px"></div>
+                <apex:commandButton styleclass="slds-button slds-button_neutral"
+                                   style="margin-left: 45%;"
+                                   
+                                   action="{!save}" value="Confirm"
+                                disabled="{!!showButton}"/>
+            </apex:pageBlock>
+            
+        </apex:outputPanel>
+        <div style="padding-top:20px"></div>
+            <apex:commandButton styleclass="slds-button slds-button_neutral"
+                                style="margin-left: 20px;"
+                                action="{!back}" value="Back"/>
+    </apex:form>
+</apex:page>

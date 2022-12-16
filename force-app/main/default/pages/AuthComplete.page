@@ -1,0 +1,118 @@
+<apex:page showHeader="false" sidebar="false" controller="AuthCompleteController" action="{!updateApplication}" standardstylesheets="false" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+ <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <apex:includeScript value="{!$Resource.jQuery}"/>
+        <apex:includeScript value="{!URLFOR($Resource.jQueryUI, 'jquery-ui.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ApplicationResource, 'js/traction/application.js')}" />
+        <apex:stylesheet value="{!URLFOR($Resource.ApplicationResource, 'css/traction/application.css')}"/>
+        <script type="text/javascript">
+            var topOrigin = '{!JSENCODE(AppFormSettings.Parent_Page_Domain__c)}';
+            
+            $(document).ready( function () {
+                scrollToTop();
+            });
+        </script>
+    </head>
+    <body>
+    <!-- Google Tag Manager -->
+    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-W6F9RX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W6F9RX');</script>
+    <!-- End Google Tag Manager -->
+        <apex:pageBlock >
+            <div>
+                <apex:pageBlock rendered="{!decision == FAILED}">
+                    <script>
+                    pushHit('/application-form/authentication_completed_failed', 'Authentication Failed');
+                    </script>
+                    <!-- 
+                    Error message changes
+                    Commented by A5E Consulting
+                    <h2>Our apologies – We are unable to complete your identity verification process at this time.</h2>
+                    <h2>Your application is still in progress. To complete your application process, we just need a copy of your passport or driver’s license. There are two ways you can provide this information:</h2>
+                    <ul>
+                        <h2>
+                            <li>Scan or take a picture of your documents and e-mail it to us at: lending@affirmfinancial.ca.  Please note: by sending your documents through email you acknowledge that this method of communication is unsecured.</li>
+                            <li>Fax us the documents to 1-866-807-6699</li>
+                        </h2>
+                    </ul>
+                    <h2>If none of these options are available to you, please call us at 1-855-220-7531 and we will be happy to assist you further.</h2>
+                    -->
+                    <h2>ID REQUIRED</h2>
+                    <h2>Our apologies – We are unable to complete your identity verification process at this time.</h2>
+                    <h2>Your application is still in progress, we just need a piece of ID to verify your identification. Could you please send us an image of either your Driver’s License or Passport.</h2>
+                    <ul>
+                        <h2>
+                            <li>Simply, scan or take a picture of your documents with your phone and e-mail it to us at: lending@affirmfinancial.ca.  Please note: by sending your documents through email you acknowledge that this method of communication is unsecured.</li>
+                            <li>OR Fax us the documents to 1-866-807-6699</li>
+                        </h2>
+                    </ul>
+                    <h2>If none of these options are available to you, please call us at 1-855-220-7531 and we will be happy to assist you further.</h2>
+                </apex:pageBlock>
+        
+                <apex:pageBlock rendered="{!(decision == PASSED || decision == PASSED_NO_FRAUD) && loanType == LOAN && !fraud }">
+                    <script>
+                    pushHit('/application-form/authentication_completed_passed_loan', 'Authentication Passed - Loan');
+                    </script>
+                    <!--
+                    <h2>Congratulations! Your application has been approved and you have successfully completed the identity verification process.</h2>
+                    <h2>There are just a few administrative steps required to complete the loan funding process.  One of our Customer Service Representative will contact you shortly to complete this process, or you can call us at 1-855-220-7531.</h2>
+                    <h2>Thank you for choosing Affirm Financial, and we look forward to welcoming you as a customer.</h2>
+                    -->
+                    <h2>Congratulations! Your application has been conditionally approved and you have successfully completed the identity verification process.</h2>
+                    <h2>Please note that all approvals are subject to an internal review and Affirm reserves the right to cancel approval for any reason it deems appropriate.  Subject to internal review there are just a few administrative steps require to complete the loan funding process. One of our customer service representatives will contact you shortly to complete the process, or you can call us at 1-855-220-7531.</h2>
+                    <h2>Thank you for choosing Affirm Financial and we look forward to welcoming you as a client.</h2>
+                </apex:pageBlock>
+                <apex:pageBlock rendered="{!(decision == PASSED || decision == PASSED_NO_FRAUD) && loanType == CREDIT && !fraud }">
+                    <script>
+                    pushHit('/application-form/authentication_completed_passed_credit', 'Authentication Passed - Credit Card');
+                    </script>
+                    <!--
+                    <h2>Congratulations! Your application has been approved and you have successfully completed the identity verification process.</h2>
+                    <h2>Your Affirm Mastercard® takes about 1-5 days to be created. Once complete, it will go out for mailing via regular mail along with your Welcome Package and should arrive to you within 14 business days.  If you have any questions, please call Affirm Card Services at 1-855-220-7531.</h2>
+                    <h2>Thank you for choosing Affirm Financial, and we look forward to welcoming you as a customer.</h2>
+                    -->
+                    <h2>Congratulations! Your application has been conditionally approved and you have successfully completed the identity verification process.</h2>
+                    <h2>Please note that all approvals are subject to an internal review and Affirm reserves the right to cancel approval for any reason it deems appropriate.  Subject to internal review your Affirm Mastercard&#174; takes about 1-5 days to be created.  Once complete, it will go out for mailing via regular mail along with your Welcome Package and should arrive in 14 business days. If you have any questions Please call Affirm Card Services at 1-855-220-7531.</h2>
+                    <h2>Thank you for choosing Affirm Financial and we look forward to welcoming you as a client.</h2>
+                    <div class="legalText">
+                        <!--Affirm Mastercard&#174;. This card is issued by Peoples Trust Company under license from Mastercard International Incorporated or its Affiliates. “Mastercard” and the Mastercard Brand Mark are registered trademarks of Mastercard International Incorporated.-->
+                        Affirm Mastercard®. This card is issued by Peoples Trust Company under licence from Mastercard International. ®/™Mastercard is a registered trademark, and the circles design is a trademark of Mastercard International Incorporated.
+                    </div>
+                </apex:pageBlock>
+                <apex:pageBlock rendered="{!(decision == PASSED || decision == PASSED_NO_FRAUD)&& (fraud)}">
+                    <script>
+                    pushHit('/application-form/authentication_completed_passed_fraud', 'Authentication Passed - Fraud');
+                    </script>
+                    <!-- 
+                    Error message changes
+                    Commented by A5E Consulting
+                    <h2>Our apologies – It seems that we are unable to complete your identity verification process at this time.</h2>
+                    <h2>Your application is still in progress. To complete your application process, one of our Customer Service Representative will contact you shortly to complete this process, or you can call us at 1-855-220-7531.</h2>
+                    -->
+                    <!--
+                    For Error Message Changes commented by A5E Consulting
+                    <h2>Please call us at 1-855-220-7531 </h2>
+                    <h2>Our apologies - it seems we are experiencing a technical issue while trying to complete your identity verification process.</h2>
+                    <h2>Your application is approved but your identity verification is still required.</h2>
+                    <h2>One of our customer service representatives will contact you to complete this process or for faster service, feel free to call  1-855-220-7531.</h2>
+                    -->
+                    <h2>Please call us at 1-855-220-7531</h2>
+                    <h2>Thank you for your application.</h2>
+                    <h2>We have a few additional questions for you and will need to speak with you to complete your application process.</h2>
+                    <h2>One of our customer service representatives will contact you shortly or for faster service, feel free to call us at 1-855-220-7531.</h2>
+                </apex:pageBlock>
+            </div>
+        </apex:pageBlock>
+        
+        <!-- Commission Soup Pixel -->
+        <iframe src="https://www.commissionsoup.com/optt.aspx?p=4437&s=2&iframe=1" width="1" height="1" frameborder="0"></iframe>
+        <!-- End Commission Soup Pixel -->
+    </body>
+ </html>               
+</apex:page>

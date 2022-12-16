@@ -1,0 +1,22 @@
+<!-- 
+/**************************************************************************************************
+ *
+ *  Visualforce Page:   
+ *
+ *  @description : This Visualforce Page is responsible for cleaning of Contact Centre records
+ *  @author : A5E Consulting
+ *  @date : 02/01/2022
+ * 
+ *************************************************************************************************/
+ -->
+<apex:page standardController="Campaign" extensions="CCController" sidebar="true">
+   <apex:form id="cleanupManager">
+        <apex:pageBlock title="Contact Centre records">
+            <apex:outputText value="Click to delete Contact Centre records" />
+            <br></br>
+            <apex:commandButton id="delete" value="Delete Contact Centre records" action="{!deleteCCRecords}" />    
+            <br></br>
+           <apex:outputText id="message" value="Delete Operation initiated" rendered="{!messageFlag}"></apex:outputText>
+        </apex:pageBlock>     
+    </apex:form>
+</apex:page>
