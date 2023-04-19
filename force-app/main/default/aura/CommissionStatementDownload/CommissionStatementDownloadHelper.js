@@ -4,11 +4,11 @@
         var documentId = event.currentTarget.dataset.documentid;
         var fileType = event.currentTarget.dataset.filetype;
         var docType = event.currentTarget.dataset.doctype;
-        console.log('dcoumentId::'+event.currentTarget.dataset.documentid);
-        console.log('filename::'+event.currentTarget.dataset.filename);
+     //   console.log('dcoumentId::'+event.currentTarget.dataset.documentid);
+       // console.log('filename::'+event.currentTarget.dataset.filename);
         var fileName = event.currentTarget.dataset.filename;
-        console.log('fileType::'+event.currentTarget.dataset.filetype);
-        console.log('docType::'+event.currentTarget.dataset.doctype);
+        //console.log('fileType::'+event.currentTarget.dataset.filetype);
+        //console.log('docType::'+event.currentTarget.dataset.doctype);
         
         var urlString = window.location.href;
         var isCommunity = false;
@@ -21,11 +21,11 @@
         
         var urlEvent = $A.get("e.force:navigateToURL");
         var url = "/apex/PreviewPdf?documentId=d39e290e-7db7-481e-87e3-4b5ddf38305a";
-        console.log('url: ',url);
+     //   console.log('url: ',url);
         if('Drivers License' == "Bank Scrape") {
             //url = "/apex/PreviewBankScrapeDocument?dcoumentId="+event.currentTarget.dataset.documentid;
         } 
-        console.log('url '+url);
+       // console.log('url '+url);
         if(isCommunity){
             url = baseURL+'..'+url;
         }
@@ -46,12 +46,12 @@
         
         action1.setCallback(this,function(response){  
             var state = response.getState(); 
-            console.log('state::'+state);
+        //    console.log('state::'+state);
             if(state=='SUCCESS'){  
                 
                 var doucmentInfo = response.getReturnValue();
                 var byteCharacters = atob(doucmentInfo.fileString);
-                console.log('byte length::'+byteCharacters.length);
+             //   console.log('byte length::'+byteCharacters.length);
                 const buf = new Array(byteCharacters.length);
                 for (var i = 0; i != byteCharacters.length; ++i) buf[i] = byteCharacters.charCodeAt(i);// & 0xFF;
                 
@@ -61,7 +61,7 @@
                 const blob = new Blob([view], {
                     type: doucmentInfo.contentType
                 }); 
-                console.log('content type::'+doucmentInfo.contentType);
+               // console.log('content type::'+doucmentInfo.contentType);
                 /* const blob = new Blob([view], {
                     type: event.currentTarget.dataset.filetype
                 });*/
@@ -82,9 +82,9 @@
                     a.href = window.URL.createObjectURL(blob);
                 } 
                 
-                console.log('href:::'+a.href);
+              //  console.log('href:::'+a.href);
                 //fileName = fileName.split(" ").join("");
-                console.log('fileName::'+fileName);
+                //console.log('fileName::'+fileName);
                 a.download =fileName+'.pdf'; //event.currentTarget.dataset.filename;
                 /*if(doucmentInfo.contentType =='application/pdf' || doucmentInfo.contentType == 'application/json' ){
                     // a.download =fileName+'.pdf';
@@ -94,14 +94,14 @@
                 }else if(doucmentInfo.contentType =='application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
                     a.download =fileName+'.docx';
                 }*/
-                console.log('a.download---',a.download);
+               // console.log('a.download---',a.download);
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a); 
-                console.log('fileName::'+fileName);
+               // console.log('fileName::'+fileName);
             } else {
                 let errors = response.getError();
-                console.log('error::'+JSON.stringify(errors));
+               // console.log('error::'+JSON.stringify(errors));
                 let message = 'Unknown error'; // Default error message
                 // Retrieve the error message sent by the server
                 if (errors && Array.isArray(errors) && errors.length > 0) {
@@ -121,7 +121,7 @@
         
     },
      getUploadedFiles : function(component, event){
-        console.log('getUploadedFiles:::');
+       // console.log('getUploadedFiles:::');
         var action = component.get("c.getFiles");  
         action.setParams({  
             "recordId": component.get("v.recordId") 
@@ -136,7 +136,7 @@
                     var result = response.getReturnValue(); 
                     
                     component.set("v.files",result); 
-                    console.log('result::',result);
+                  //  console.log('result::',result);
                     for(var i = 0; i < result.length; i++){
                         //console.log('@@att=='+JSON.stringify(result[i]));
                         //console.log('type=='+JSON.stringify(result[i]));

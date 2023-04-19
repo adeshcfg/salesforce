@@ -4,12 +4,12 @@
         var record = event.getParam("response");
         var prodId = component.get("v.recordId");
         var action = component.get("c.linkRecords");
-        console.log(prodId +'=ddd='+record.id);
+       // console.log(prodId +'=ddd='+record.id);
         action.setParams({ prodId : prodId, judgId: record.id});
         
            action.setCallback(this, function(response) {
             var state = response.getState();
-            console.log('state'+state);
+         //   console.log('state'+state);
             if (state === "SUCCESS") {
                 var productRecord = component.get("v.productRecord");
                 component.find("notificationsLibrary").showToast({
@@ -56,7 +56,7 @@
     	$A.enqueueAction(action);
     },
     saveJudgment:function(component, event, helper){
-        console.log('inside save');
+      //  console.log('inside save');
         var btn = event.getSource();
         btn.set("v.disabled",true);
         //alert('Hi&&' + component.get("v.createNewJudgment"));
@@ -96,9 +96,11 @@
                             component.set("v.showSpinner", true);       					    
                             component.find("recordViewForm").submit();
                         }
-                    }
+                       
+              }
             });
-        	$A.enqueueAction(action);
+            $A.enqueueAction(action);
+           
         }
         else{
             //alert('Inside Existing Judgement' +JSON.stringify(component.get("v.selectedRecord").value));
@@ -113,7 +115,7 @@
                     if (state === "SUCCESS") {
                         //alert(response.getReturnValue());
                         var result = response.getReturnValue();
-                        console.log('successful');
+                        //console.log('successful');
                         if(response.getReturnValue().length >0){
                             var message =' ';
                             for(var i =0; i< result.length; i++){
@@ -136,10 +138,12 @@
                             component.set("v.showSpinner", true); 
                             component.find("recordViewForm").submit();
                         }
+                       
                    }
                 	
             });
         	$A.enqueueAction(action);
+            
         }
 		//component.find("recordViewForm").submit();
         component.set("v.showSpinner", false); 
@@ -153,20 +157,54 @@
     doInit: function(component, event, helper){
         var prodId = component.get("v.recordId");
         component.set("v.prodId", prodId);
-        console.log('ppp'+prodId);
+       // console.log('ppp'+prodId);
 		var action = component.get("c.getlinkedJudgments");
-        console.log('init');
         action.setParams({
             'prodId' : prodId
         });
+        /*var action1 = component.get("c.productData");
+        var action2 = component.get("c.activeJudgmentCheck");
+        console.log('init');
+        action1.setParams({
+            'prodId' : prodId
+        });
+        action2.setParams({
+            'prodId' : prodId
+        });
+        
+        action1.setCallback(this, function(response) {
+            var state = response.getState();
+            console.log('response::',response.getReturnValue());
+            if (state === "SUCCESS") { 
+                var responseVal = JSON.stringify(response.getReturnValue());
+                console.log('responseVal::',responseVal);
+               if(responseVal == "true"){
+                    component.set("v.truthy", true); 
+                }
+            }
+        });
+         action2.setCallback(this, function(response) {
+            var state = response.getState();
+            console.log('response::',response.getReturnValue());
+            if (state === "SUCCESS") { 
+                var responseVal = JSON.stringify(response.getReturnValue());
+                console.log('responseVal::',responseVal);
+               if(responseVal == "true"){
+                    component.set("v.accJudgment", true); 
+                }
+            }
+        });*/
         action.setCallback(this, function(response) {
             var state = response.getState();
+            //console.log('response::',response.getReturnValue());
             if (state === "SUCCESS") {
                 component.set("v.excludeIds", response.getReturnValue());
                 console.log();
             }
         });
         $A.enqueueAction(action);
+        //$A.enqueueAction(action1);
+        //$A.enqueueAction(action2);
     },
     handleOnError : function(component, event, helper) {
         var btn = event.getSource();

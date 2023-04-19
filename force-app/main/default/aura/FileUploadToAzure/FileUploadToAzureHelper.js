@@ -28,7 +28,7 @@
         var self = this;
         var fileName = file.name;
         var filetype = file.type;   
-        console.log('filetype : ',filetype);
+      //  console.log('filetype : ',filetype);
         // check the selected file size, if select file size greter then MAX_FILE_SIZE,
         // then show a alert msg to user,hide the loading spinner and return from function 
         if(component.find("documentType").get("v.value") == '--None--'){
@@ -90,23 +90,23 @@
                 isMediaRequest: component.get("v.isMediaRequest"),
                 productId: component.get("v.productID") 
             });
-            console.log('here.....');
+           // console.log('here.....');
             action.setCallback(this, function(response) {
 				console.timeEnd('TimeTaken**');
                 // store the response / Attachment Id   
                 //console.log('here..1...'+JSON.stringify(response) );
                 //console.log('response file upload::',response);
                 var attachId = response.getReturnValue();
-                console.log('attachId: ',attachId);
+               // console.log('attachId: ',attachId);
                 var state = response.getState();
-                console.log('state::',state);
+              //  console.log('state::',state);
                 //console.log('here..1...'+JSON. stringify(state));
                 if(attachId == null){
-                    console.log('file upload failed');
+                   // console.log('file upload failed');
                 }
                  //alert('your File is uploaded error'+attachId);
                 if(attachId != null){
-                    console.log('file upload success');
+                  //  console.log('file upload success');
                 }
                 if (attachId != null) {
                     //alert('your File is uploaded successfully');
@@ -229,13 +229,13 @@
             // store the response / Attachment Id   
             attachId = response.getReturnValue();
             var state = response.getState();
-            console.log('state:',state);
+           // console.log('state:',state);
             if (state === "SUCCESS") {
                 // update the start position with end postion
                 startPosition = endPosition;
-                console.log('startPosition:',startPosition);
+               // console.log('startPosition:',startPosition);
                 endPosition = Math.min(fileContents.length, startPosition + this.CHUNK_SIZE);
-                console.log('endPosition:',endPosition);
+               // console.log('endPosition:',endPosition);
                 // check if the start postion is still less then end postion 
                 // then call again 'uploadInChunk' method , 
                 // else, diaply alert msg and hide the loading spinner
@@ -256,7 +256,7 @@
                     let  message = errors[0].pageErrors[0].message;
                     this.showToast(component,event,message,"error");
                 } else {
-                    console.log("Unknown error");
+//                    console.log("Unknown error");
                 }
             }
         });
@@ -265,13 +265,13 @@
     },
     
     getPurposeMedia :function(component, event){
-        console.log('getUploadedFiles:::');
+       // console.log('getUploadedFiles:::');
         var action = component.get("c.getPurpose");  
         action.setParams({  
             "recordId": component.get("v.recordId") 
         }); 
         action.setCallback(this,function(response){  
-            console.log('run Block');
+            //console.log('run Block');
             var state = response.getState();
             if(state=='SUCCESS'){
                 //console.log('ResponseForPurpose',response.getReturnValue());
@@ -283,7 +283,7 @@
                 
                 if(response.getReturnValue() == 'True'){
                     component.set("v.isMediaRequest",true); 
-                    console.log(component.get("v.isMediaRequest"));
+                   // console.log(component.get("v.isMediaRequest"));
                 }
                 
             }
@@ -292,10 +292,10 @@
     },
     
     getDocumentVisibility :function(component, event){
-        console.log('get picklist values:::');
+       // console.log('get picklist values:::');
         var action = component.get("c.getPickListValuesIntoList");  
         action.setCallback(this,function(response){  
-            console.log('run Block');
+         //   console.log('run Block');
             var state = response.getState();
             if(state=='SUCCESS'){
                 if(response.getReturnValue().length > 0){
@@ -311,7 +311,7 @@
     
     
     getUploadedFiles : function(component, event){
-        console.log('getUploadedFiles:::');
+        //console.log('getUploadedFiles:::');
         var action = component.get("c.getFiles");  
         action.setParams({  
             "recordId": component.get("v.recordId") 
@@ -326,7 +326,7 @@
                     var result = response.getReturnValue(); 
                     
                     component.set("v.files",result); 
-                    console.log('result::',result);
+                   // console.log('result::',result);
                     for(var i = 0; i < result.length; i++){
                         //console.log('@@att=='+JSON.stringify(result[i]));
                         //console.log('type=='+JSON.stringify(result[i]));
@@ -338,7 +338,7 @@
                            //&& result[i].Parent_WorkAssignment_Product__c != ''
                           ){
                             component.set("v.isMediaRequest",true); 
-                            console.log(component.get("v.isMediaRequest"));
+                          //  console.log(component.get("v.isMediaRequest"));
                         }    
                         /*if(result[i].Document_Type__c == component.get("v.SETTLEMENT_LETTER")){
                             component.set("v.settlementLetter",result[i]); 
@@ -418,7 +418,7 @@
     },
     
     handleinfoToast : function(component, event) {
-        console.log('Inside Handle Toast');
+      //  console.log('Inside Handle Toast');
         
     },
     /*uploadAppRecHelper:function(component, event){
@@ -477,10 +477,10 @@
         var fileType = event.currentTarget.dataset.filetype;
         var docType = event.currentTarget.dataset.doctype;
         console.log('dcoumentId::'+event.currentTarget.dataset.documentid);
-        console.log('filename::'+event.currentTarget.dataset.filename);
+      //  console.log('filename::'+event.currentTarget.dataset.filename);
         var fileName = event.currentTarget.dataset.filename;
-        console.log('fileType::'+event.currentTarget.dataset.filetype);
-        console.log('docType::'+event.currentTarget.dataset.doctype);
+     //   console.log('fileType::'+event.currentTarget.dataset.filetype);
+       // console.log('docType::'+event.currentTarget.dataset.doctype);
         
         var urlString = window.location.href;
         var isCommunity = false;
@@ -491,11 +491,11 @@
         var baseURL = urlString.substring(0, urlString.indexOf("/s"));
         var urlEvent = $A.get("e.force:navigateToURL");
         var url = "/apex/PreviewPdf?documentId="+event.currentTarget.dataset.documentid;
-        console.log('url: ',url);
+       // console.log('url: ',url);
         if(event.currentTarget.dataset.doctype == "Bank Scrape") {
             //url = "/apex/PreviewBankScrapeDocument?dcoumentId="+event.currentTarget.dataset.documentid;
         } 
-        console.log('url '+url);
+       // console.log('url '+url);
         if(isCommunity){
             url = baseURL+'..'+url;
         }
@@ -510,20 +510,20 @@
         }
         this.toggle(component,event);
         var action1 = component.get("c.previewDocument"); 
-        console.log(event.currentTarget.dataset.documentid);
+     //   console.log(event.currentTarget.dataset.documentid);
         action1.setParams({              
             "documentId":event.currentTarget.dataset.documentid
         });    
         
         action1.setCallback(this,function(response){  
             var state = response.getState(); 
-            console.log('state::'+state);
+           // console.log('state::'+state);
             if(state=='SUCCESS'){  
                 
                 var doucmentInfo = response.getReturnValue();
                 var byteCharacters = atob(doucmentInfo.fileString);
                 //var byteCharacters = atob(doucmentInfo.document);//added by shiv
-                console.log('byte length::'+byteCharacters.length);
+               // console.log('byte length::'+byteCharacters.length);
                 const buf = new Array(byteCharacters.length);
                 for (var i = 0; i != byteCharacters.length; ++i) buf[i] = byteCharacters.charCodeAt(i);// & 0xFF;
                 
@@ -544,7 +544,7 @@
                     }); 
                     a.href = window.URL.createObjectURL(blob);
                 }               
-                console.log('fileName::'+fileName);
+              //  console.log('fileName::'+fileName);
                 a.download =fileName;
                if(doucmentInfo.contentType =='application/pdf' || doucmentInfo.contentType == 'application/json' ){
                     a.download =fileName;
@@ -561,7 +561,7 @@
                 document.body.removeChild(a);               
             } else {
                 let errors = response.getError();
-                console.log('error::'+JSON.stringify(errors));
+              //  console.log('error::'+JSON.stringify(errors));
                 let message = 'Unknown error'; // Default error message
                 // Retrieve the error message sent by the server
                 if (errors && Array.isArray(errors) && errors.length > 0) {
@@ -613,10 +613,10 @@
     },*/
     
     toggle: function (cmp, event) {
-        console.log('toggle start');
+       // console.log('toggle start');
         var spinner = cmp.find("mySpinner");
         $A.util.toggleClass(spinner, "slds-hide");
-        console.log('toggle end');
+     //   console.log('toggle end');
     },
     showToast : function (cmp,event,message, result) {                
         var toastEvent = $A.get("e.force:showToast");
@@ -725,7 +725,7 @@
         
         var params = event.getParam('arguments');
         if (params) {
-            console.log('params:', params);
+           // console.log('params:', params);
             //Set parameters for the request
             xmlhttp.open(params.method, params.url, params.async);
             //Send the request
@@ -736,21 +736,21 @@
     
     processFileHelper : function(component, event, helper){
         
-        console.log('in process file');
+        //console.log('in process file');
         var documentId = event.currentTarget.dataset.documentid;
 		var byteCharacters
-        console.log('documentId ',documentId)
+        //console.log('documentId ',documentId)
         var action1 = component.get("c.processProductPaymentFile");  
         action1.setParams({             
             "documentId":documentId
         });    
         action1.setCallback(this,function(response){ 
             var state = response.getState(); 
-            console.log('state::'+state);
+            //console.log('state::'+state);
             if(state=='SUCCESS'){  
               
                 var documentInfo = response.getReturnValue();
-                console.log('documentInfo::'+documentInfo);
+          //      console.log('documentInfo::'+documentInfo);
                 component.find('notifLib').showToast({
                     "variant":"success",
                     "title": "File Processing!",
@@ -767,7 +767,7 @@
                 
             } else {
                 let errors = response.getError();
-                console.log('error::'+JSON.stringify(errors));
+              //  console.log('error::'+JSON.stringify(errors));
                 let message = 'Unknown error'; // Default error message
                 // Retrieve the error message sent by the server
                 if (errors && Array.isArray(errors) && errors.length > 0) {
@@ -784,7 +784,7 @@
     
     openDocumentRecord: function(component, event, helper){
         var documentno = event.currentTarget.dataset.documentno;
-        console.log('documentno::',documentno);
+     //   console.log('documentno::',documentno);
         var url = '/'+documentno;
         window.open(url, '_blank');
     },
@@ -794,7 +794,7 @@
         var documentId = event.currentTarget.dataset.documentid;
         alert(documentId);
     	var action1 = component.get("c.getPreviewOfDoc"); 
-        console.log(event.currentTarget.dataset.documentid);
+       // console.log(event.currentTarget.dataset.documentid);
         action1.setParams({              
             "documentId":documentId
         });  
@@ -806,7 +806,7 @@
       		"url": response.getReturnValue()
     		});
                    let filepath = response.getReturnValue();
-                console.log(filepath);
+           //     console.log(filepath);
               alert(filepath +"\n" + filepath.indexOf("null"));
                 
                 if ( filepath.indexOf("null") > 0 )
@@ -861,7 +861,7 @@
         var documentId = event.currentTarget.dataset.documentid;
       //  alert(documentId);
     	var action1 = component.get("c.uploadDocumentProxy"); 
-        console.log(event.currentTarget.dataset.documentid);
+    //    console.log(event.currentTarget.dataset.documentid);
         action1.setParams({              
             "documentId":documentId
         });  

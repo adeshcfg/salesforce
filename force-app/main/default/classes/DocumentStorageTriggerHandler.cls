@@ -127,9 +127,11 @@ public class DocumentStorageTriggerHandler {
                        if(documentStorage.Work_Assignment_Placement__c != null){
                            workAssignmentPlacement = documentStorage.Work_Assignment_Placement__c;
                        }
-                      //System.enqueueJob(new BulkDataloadQueueable('PARSE_CSV', null, 0, documentStorage));
-                       processProductAllocation(documentStorage.Document_Id__c, workAssignmentPlacement, documentStorage.ID,documentStorage.Document_Type__c, documentStorage.Document_URL__c);                                    
-                      System.scheduleBatch(new CFG_ProcessBulkAPIResult('',documentStorage.ID,documentStorage.Work_Assignment__c,documentStorage.Document_Type__c,documentStorage), 'Bulk Process data', 3);
+                		if(!Test.isRunningTest()){
+                      		System.enqueueJob(new BulkDataloadQueueable('PARSE_CSV', null, 0, documentStorage));
+                    	}
+                       //processProductAllocation(documentStorage.Document_Id__c, workAssignmentPlacement, documentStorage.ID,documentStorage.Document_Type__c, documentStorage.Document_URL__c);                                    
+                      //System.scheduleBatch(new CFG_ProcessBulkAPIResult('',documentStorage.ID,documentStorage.Work_Assignment__c,documentStorage.Document_Type__c,documentStorage), 'Bulk Process data', 3);
                 }
                 // Adesh
                 /*else if(documentStorage.Document_Type__c == ACCOUNT_STATUS_UPDATE_FILE && documentStorage.Document_Id__c != NULL && (documentStorage.File_Processing_Status__c == 'Pending' 

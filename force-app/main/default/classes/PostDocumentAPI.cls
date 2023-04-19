@@ -27,7 +27,7 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
         System.debug('@@base64Data '+failed);
         Blob fileBlob = Blob.valueOf(failed);
-        
+        system.debug('fileBlob::'+fileBlob);
         if(failedRecords > 0){
                 if(String.isNotBlank(DocType)){
                     if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
@@ -35,6 +35,8 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
                         parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Payment Failed.csv', 'Task');
                     }else if(DocType == 'Customer Contact Information Update File'){
                         parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Customer Contact Information Failed.csv', 'Task');
+                    }else if(DocType == 'Account Status (having Judgment) Update File'){
+                        parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Account Judgment Failed.csv', 'Task');
                     }
                 }
                 
@@ -44,6 +46,7 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         //Success CSV API Call
         DocumentAPIClientUtil.ParsedResponse parsedResponse1 = new DocumentAPIClientUtil.ParsedResponse();
         Blob fileBlobSuccess = Blob.valueOf(success);
+        system.debug('fileBlobSuccess::'+fileBlobSuccess.size());
         if(successRecords > 0){
                 if(String.isNotBlank(DocType)){
                     if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File'||
@@ -51,6 +54,8 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
                         parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Payment Success.csv', 'Task');
                     }else if(DocType == 'Customer Contact Information Update File'){
                         parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Customer Contact Information Success.csv', 'Task');
+                    }else if(DocType == 'Account Status (having Judgment) Update File'){
+                        parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Account Judgment Success.csv', 'Task');
                     }
                 }
                 rawObj1 = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse1.response); 
@@ -64,12 +69,16 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
                DocType == 'Balance Adjustment Upload File'){
                 failedDocStorage.Document_Name__c = 'Product Payment Failed.xls';
+                failedDocStorage.Document_Type__C = 'Payment Processing File';
             }else if(DocType == 'Customer Contact Information Update File'){
                 failedDocStorage.Document_Name__c = 'Customer Contact Information Failed.xls';
+                failedDocStorage.Document_Type__C = 'Payment Processing File';
+            }else if(DocType == 'Account Status (having Judgment) Update File'){
+                failedDocStorage.Document_Name__c = 'Account Judgment Failed.xls';
+                failedDocStorage.Document_Type__C = 'Account Judgment Processing File';
             }
             failedDocStorage.Document_Extension__c = 'xls';
             failedDocStorage.Document_ID__c = parsedResponse.docId;
-            failedDocStorage.Document_Type__C = 'Payment Processing File';
             failedDocStorage.Visibility__c = visiblity;
             failedDocStorage.Document_URL__c = parsedResponse.DocUrl;
             failedDocStorage.Uploaded_By__c = 'Internal User';
@@ -89,12 +98,16 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
                DocType == 'Balance Adjustment Upload File'){
             	SuccessDocStorage.Document_Name__c = 'Product Payment Success.xls';
+                SuccessDocStorage.Document_Type__C = 'Payment Processing File';
             }else if(DocType == 'Customer Contact Information Update File'){
                 SuccessDocStorage.Document_Name__c = 'Customer Contact Information Success.xls';
+                SuccessDocStorage.Document_Type__C = 'Payment Processing File';
+            }else if(DocType == 'Account Status (having Judgment) Update File'){
+                SuccessDocStorage.Document_Name__c = 'Account Judgment Success.xls';
+                SuccessDocStorage.Document_Type__C = 'Account Judgment Processing File';
             }
             SuccessDocStorage.Document_Extension__c = 'xls';
             SuccessDocStorage.Document_ID__c = parsedResponse1.docId;
-            SuccessDocStorage.Document_Type__C = 'Payment Processing File';
             SuccessDocStorage.Visibility__c = visiblity;
             SuccessDocStorage.Document_URL__c = parsedResponse1.DocUrl;
             SuccessDocStorage.Uploaded_By__c = 'Internal User';

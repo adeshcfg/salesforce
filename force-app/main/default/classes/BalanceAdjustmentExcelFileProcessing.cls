@@ -282,7 +282,7 @@ public class BalanceAdjustmentExcelFileProcessing {
                                                          File_Processing_Error__c = exceptionMessage,
                                                          File_Processing_Date__c = Date.today(),
                                                          File_Processing_Status__c = processingStatus,
-                                                         Direct_Payment__c = true,
+                                                         Balance_Adjustment__c = true,
                                                          Staging_Records_Created__c = stagingCreated);
         system.debug('doc:: '+doc);
         update doc;
@@ -359,16 +359,17 @@ public class BalanceAdjustmentExcelFileProcessing {
                                           WHERE CCS_Account__c IN :mapProduct.keySet()]){
             String payAmount = '';
             if(oldPay.Payment_Amount__c!= NULL){
+                oldPay.Payment_Amount__c = oldPay.Payment_Amount__c.setScale(2, RoundingMode.HALF_UP);
                 payAmount = String.valueOf(oldPay.Payment_Amount__c);
                 system.debug('oldPay.Payment_Amount__c:'+oldPay.Payment_Amount__c);
-                if(payAmount.contains('.')
+                /*if(payAmount.contains('.')
                 && (payAmount.substringAfter('.') == '0'
                 || payAmount.substringAfter('.') == '00')){
                     payAmount = String.valueOf(oldPay.Payment_Amount__c).subStringBefore('.');    
                 }
                 else{
                     payAmount = String.valueOf(oldPay.Payment_Amount__c);
-                }
+                }*/
             }  
             
             setOldTransaction.put(payAmount + ''+oldPay.Payment_Type__c + oldPay.Payment_Posting_Date_Text__c +
@@ -523,6 +524,9 @@ public class BalanceAdjustmentExcelFileProcessing {
             
             //------------------------Common Validation Starts--------------------------//
 
+            if(prodPayment.Payment_Amount__C != NULL){
+                prodPayment.Payment_Amount__C = prodPayment.Payment_Amount__C.setScale(2, RoundingMode.HALF_UP);
+            }
             system.debug('newtransac'+prodPayment.Payment_Amount__c + ''+prodPayment.Payment_Type__c + 
                                           prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c);
             
@@ -550,6 +554,11 @@ public class BalanceAdjustmentExcelFileProcessing {
                 ERROR_MSG += '<b>ERROR</b> - Invalid Agency Allocation.\n';
                 //EXPECTED += 'Payment Date cannot be in future.<br/>';
             }
+            
+            if(String.isBlank(prodPayment.Payment_Type__c)){
+                ERROR_MSG += '<b>ERROR</b> - Payment Type cannot Blank.<br/>';
+            }
+            
             //Invalid Payment Date
             if(prodPayment.Payment_Posting_Date__c != NULL){
                 if(prodPayment.Payment_Posting_Date__c > Date.today()){
@@ -707,7 +716,19 @@ public class BalanceAdjustmentExcelFileProcessing {
                                 +'<br/>';
                 }
             }
-            
+            //Payment does not meet paid in full parameters Amount cannot be negative
+             if(prodPayment.Payment_Type__c == PAYTYPE_PAID_IN_FULL){
+                if(prodPayment.Payment_Amount__c<0){
+                    ERROR_MSG += '<b>ERROR</b> - Amount can not be negative for Payment Type Paid in Full ';
+                }
+            }
+           // PAYTYPE_SETTLED_IN_FULL
+            //Payment does not meet paid in full parameters Amount cannot be negative
+             if(prodPayment.Payment_Type__c == PAYTYPE_SETTLED_IN_FULL){
+                if(prodPayment.Payment_Amount__c<0){
+                    ERROR_MSG += '<b>ERROR</b> - Amount can not be negative for Payment Type Settled in Full ';
+                }
+            }
             //Payment does not meet paid in full parameters 
             if(prodPayment.Payment_Type__c == PAYTYPE_PAID_IN_FULL  
             && mapProduct.containsKey(prodPayment.CCS_Account__c)
@@ -856,6 +877,13 @@ public class BalanceAdjustmentExcelFileProcessing {
                 prodPayment.Pool_Commission_Rate__c = mapProduct.get(prodPayment.CCS_Account__c).Pool_Name__r.Commission_Rate__c;       
             }
             
+            if(docStorage.Document_Type__c == 'Balance Adjustment Upload File'
+            && String.isNotBlank(prodPayment.Payment_Source__c) && prodPayment.Payment_Source__c != '3' &&
+              prodPayment.Payment_Source__c != '2'){
+                ERROR_MSG += '<b>ERROR</b> - Invalid Payment Source for Balance Adjustment Upload File<br/>';
+                EXPECTED += 'Payment Source Should be 2 OR 3.<br/>'; 
+            }
+            
             //DIRECT PAYMENT USECASES for commission
             system.debug('prodPayment.Commission_Rate_for_Payment__c ::'+prodPayment.Commission_Rate_for_Payment__c );
             if(prodPayment.Commission_Rate_for_Payment__c != NULL 
@@ -960,7 +988,7 @@ public class BalanceAdjustmentExcelFileProcessing {
                         }
                         //This account is recalled within 15 days and 
                         else if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) 
-                        && mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) < 15){
+                        && mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) <= 15){
               if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)){
                                 //CommissionRate = prodPayment.Commission_Rate_for_Payment__c;
                                 if(CommissionRate == NULL){

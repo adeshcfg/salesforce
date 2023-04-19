@@ -10,6 +10,8 @@
     <aura:attribute name="recordTypeId" type="Id" default="0123a0000000NDtAAM"/> 
     <aura:attribute name="diableButton" type="Boolean" default="false" />
     <aura:attribute name="ObjectMap" type="Map" default="{}" />
+    <!--<aura:attribute name="truthy" type="Boolean" default="false" />
+    <aura:attribute name="accJudgment" type="Boolean" default="false" />-->
 
     
     <lightning:notificationsLibrary aura:id="notificationsLibrary"/>
@@ -84,7 +86,13 @@
                     <td><ui:inputCheckbox class="slds-float_right" labelClass="slds-m-right_xx-small" aura:id="create-new" label="Create new Judgment" change="{!c.isNewJudgment}" value="{!v.createNewJudgment}"/></td>
                 </tr>
             </div>
-        </div> 
+            <!--<aura:if isTrue="{!v.truthy}">
+                <p class="slds-text-color_success">Note: Product refer to legal status will be updated from <b>For review to Approved</b>.</p>
+        	</aura:if>
+            <aura:if isTrue="{!v.accJudgment}">
+            	<p class="slds-text-color_success">Note: Active judgment is present on this account</p>
+        	</aura:if>-->
+            </div> 
         <aura:if isTrue="{! not(v.createNewJudgment) }">
             <c:CustomLookup objectName="Judgment__c" 
                             fieldName="Name" 

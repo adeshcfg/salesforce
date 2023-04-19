@@ -274,8 +274,8 @@
                                  status="status" oncomplete="CallWebService_JS();">
                 <apex:param id="param1" name="tempLineId2" value="true" assignTo="{!executeWarning}" /> 
             </apex:actionFunction>
-            <apex:actionFunction action="{!postDocumentAPI}" name="CallWebService_JS" status="status"
-                                 reRender="panel1, panel2, status, form"/>
+            <!-- <apex:actionFunction action="{!postDocumentAPI}" name="CallWebService_JS" status="status"
+                                 reRender="panel1, panel2, status, form"/> -->
             <div class="page_navigation"></div>
                 <div style = "padding-top: 1%;">
                 <!--<apex:commandButton onclick="InsertRecord_JS();return false;"

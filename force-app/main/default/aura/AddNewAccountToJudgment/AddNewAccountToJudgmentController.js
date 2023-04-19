@@ -7,7 +7,7 @@
 		let checkBoxState = component.get('v.isDisabled');
         var searchResults = component.get('v.searchResults');
         for(var obj in searchResults){
-            console.log(obj);
+          //  console.log(obj);
             searchResults[obj].isSelected = checkBoxState;
         }
         component.set('v.searchResults', searchResults);
@@ -17,7 +17,7 @@
     selected : function(component, event, helper) {
         var isDisabled = true;
         var getAllCheckboxes = component.find("prod-checkbox");
-        console.log(getAllCheckboxes);
+      //  console.log(getAllCheckboxes);
         if(getAllCheckboxes.length == undefined && getAllCheckboxes.get("v.value") == true){
             isDisabled = false;
         }

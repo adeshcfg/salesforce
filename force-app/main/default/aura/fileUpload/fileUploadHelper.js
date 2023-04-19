@@ -69,7 +69,7 @@
             var fileContents = objFileReader.result;
             var base64 = 'base64,';
             var dataStart = fileContents.indexOf(base64) + base64.length;
- 
+ 			//console.log('datastart',datastart);
             fileContents = fileContents.substring(dataStart);
             // call the uploadProcess method 
             self.uploadProcess(component, file, fileContents);
@@ -139,12 +139,13 @@
                 alert("From server: " + response.getReturnValue());
             } else if (state === "ERROR") {
                 var errors = response.getError();
+               // console.log('errors--',errors);
                 if (errors) {
                     if (errors[0] && errors[0].message) {
-                        console.log("Error message: " + errors[0].message);
+                       // console.log("Error message: " + errors[0].message);
                     }
                 } else {
-                    console.log("Unknown error");
+                   // console.log("Unknown error");
                 }
             }
         });

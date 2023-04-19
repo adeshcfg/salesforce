@@ -32,7 +32,7 @@
                 }
             }*/
 
-            console.log('@@current_selected_offer '+JSON.stringify(current_selected_offer));
+         //   console.log('@@current_selected_offer '+JSON.stringify(current_selected_offer));
             var existingLetters = component.get("v.files");
             var allowUploadLetter = true;
             

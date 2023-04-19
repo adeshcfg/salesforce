@@ -42,12 +42,12 @@ public class DisplayProductPaymentStagingController {
     String failed;
     Id documentID;
     boolean directPayment = false;
+    boolean balanceAdjustment = false;
     //Constructor
     public DisplayProductPaymentStagingController(){
         showButton = false;
         displayPanel = false;
         showTypeColumn = false;
-        system.debug('Block run1');
         String recordIdentfier = ApexPages.currentPage().getParameters().get('id');
         listProductPayStaging = [SELECT ID,CCS_Account__c, Cheque_Number__c, Comment__c, Document_Storage__c, Document_Storage__r.File_Processing_Status__c,
                                         Document_Storage__r.Work_Assignment_Identifier__c, Commission_Rate_for_Payment__c,
@@ -59,7 +59,7 @@ public class DisplayProductPaymentStagingController {
                                         Product_Commission_Rate__c, Agency_Commission_Rate__c, Pool_Commission_Rate__c,Pay_Posting_Date__c,
                                         Payment_Type_Description__c, Fee_Type__c, Billing_Entity__c, Primary_Account_Number__c,Product_Payment_Agency__c,
                                         Tax_Type__c,Tax_Province__c,Tax_Province_Rate__c,Legal_Product_Identifier__c, Document_Storage__r.Direct_Payment__c,
-                                        Direct_Payment_Type__c,Portfolio_Group_Name__c,Legal_Entity__c
+                                        Direct_Payment_Type__c,Portfolio_Group_Name__c,Legal_Entity__c,Document_Storage__r.Balance_Adjustment__c
                                  FROM Product_Payment_Staging__c
                                 WHERE Identifier__c = :recordIdentfier
                                 order by Pay_Posting_Date__c ASC
@@ -70,10 +70,12 @@ public class DisplayProductPaymentStagingController {
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO,'There are no Payments to display'));
         }
         else{
+            workAssignmentId = listProductPayStaging[0].Document_Storage__r.Work_Assignment__c;
             listProductPayStagingWrapper = new list<productPaymentStagingWrapper>();
             for(Product_Payment_Staging__c payStaging : listProductPayStaging){
                 Boolean disabled = false;
                 directPayment = payStaging.Document_Storage__r.Direct_Payment__c;
+                balanceAdjustment = payStaging.Document_Storage__r.Balance_Adjustment__c;
                 if(String.isnotblank(payStaging.Direct_Payment_Type__c)){
                     showTypeColumn = true;
                 }
@@ -98,24 +100,15 @@ public class DisplayProductPaymentStagingController {
             }
         }
     }
-    
+    //made by tejal for success and error file
     public pageReference Save(){
         list<Product_Payments__c> listProdPayment = new list<Product_Payments__c>();
         list<Product_Payments__c> listProductPayToUpdate = new list<Product_Payments__c>();
-        
-        if(directPayment == true){
-            //Create Success and Failure file headers
-            success = 'data_id' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'pay_source' + '\t' + 'pri_acctno';
-            failed = 'data_id' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'pay_source' + '\t' + 'pri_acctno' + '\t' + 'error';    
-        }
-        else{
-            //Create Success and Failure file headers
-            success = 'data_id' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'tran_principal' + '\t' + 'tran_interest' + '\t' + 'tran_court' + '\t' + 'tran_attorney' + '\t' + 'tran_nsf' + '\t' + 'tran_general' + '\t' + 'tran_other' + '\t' + 'tran_retained';
-            failed = 'data_id' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'tran_principal' + '\t' + 'tran_interest' + '\t' + 'tran_court' + '\t' + 'tran_attorney' + '\t' + 'tran_nsf' + '\t' + 'tran_general' + '\t' + 'tran_other' + '\t' + 'tran_retained' + '\t' + 'error';    
-        }    
-        
-        
-        system.debug('debug 2');
+        map<ID, Product_Payments__c> mapProductPayments = new map<ID, product_Payments__c>();
+        map<ID, Product_Payments__c> mapBalanceAdjustments = new map<ID, product_Payments__c>();
+        List<Product_Payment_Staging__c> listProductPaymentStaging = new List<Product_Payment_Staging__c>();    
+        String monthInt = '';
+        Integer monthSize = null;
         
         //Get Placement ID
         list<Placement__c> listPlacements = [SELECT ID 
@@ -125,41 +118,28 @@ public class DisplayProductPaymentStagingController {
         if(!listPlacements.isEmpty()){
             placementID = listPlacements[0].ID;
         }
-        system.debug('executeWarning save: '+executeWarning);
-        
-        successRecords = 0;
-        failedRecords = 0;
-        
-        String monthInt = '';
-        Integer monthSize = null;
-        
+                
         for(productPaymentStagingWrapper payStagingWrapper : listProductPayStagingWrapper){
             Product_Payment_Staging__c payStaging = payStagingWrapper.payStaging;
-            system.debug('executeWarning:: '+executeWarning);
             
             String comment = '';
             String currentMonth;
             if(String.isNotBlank(payStaging.Comment__c)){
                 comment = payStaging.Comment__c;
             }
-            system.debug('comment:: '+comment);
             
             if(Test.isRunningTest()){
                 payStagingWrapper.selected = true;
             }
             //If No error found, create payment record from staging
             if(payStaging.Status__c != PROCESSED
-            && payStagingWrapper.selected == true
-            //&& !comment.contains(ERROR)
-            //&& ((executeWarning == false && !comment.contains('WARNING') ) || executeWarning == true)
-              ){
-                payStaging.Status__c = PROCESSED;
+            && payStagingWrapper.selected == true){
+               
                 Product_Payments__c prodPayment = new Product_Payments__c();
                  
                 prodPayment.CCS_Account__c = payStaging.Product_ID__c;
                 prodPayment.Payment_Amount__c = payStaging.Payment_Amount__c;
                 prodPayment.Payment_Posting_Date__c = payStaging.Pay_Posting_Date__c;
-                
                 prodPayment.Payment_Created__c = Date.today();
                 //updating code to populate Payment Created Date instead of Payment Posting Date
                 monthInt = String.valueOf(prodPayment.Payment_Created__c.month());
@@ -171,7 +151,6 @@ public class DisplayProductPaymentStagingController {
                 }
                 
                 prodPayment.Payment_Posting_Month__c =  String.valueOf(prodPayment.Payment_Created__c.year() +''+ currentMonth);
-                
                 prodPayment.Payment_Posting_Date_Text__c = payStaging.Payment_Posting_Date__c;
                 prodPayment.Payment_Type__c = payStaging.Payment_Type__c;
                 prodPayment.Payment_Source__c = payStaging.Payment_Source__c;
@@ -181,10 +160,7 @@ public class DisplayProductPaymentStagingController {
                     prodPayment.Agency_Calculated_Comm__c = Decimal.valueOF(payStaging.Agency_Calculated_Comm__c);
                 }
                 prodPayment.Payment_Provided_Agency__c = placementID;
-                if(prodPayment.Payment_Source__c == '2' || prodPayment.Payment_Source__c == '3' || prodPayment.Payment_Source__c == '1'){
-                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;
-                    
-                }
+                prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;
                 prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
                 prodPayment.Pay_Due__c = payStaging.Commission_Amount__c;
                 prodPayment.Tax_Amount__c = payStaging.Tax_Amount__c;
@@ -193,22 +169,16 @@ public class DisplayProductPaymentStagingController {
                 prodPayment.Tax_Province_Rate__c = payStaging.Tax_Province_Rate__c;
                 prodPayment.Legal_Product_Identifier__c = payStaging.Legal_Product_Identifier__c;
                 prodPayment.Commission_Rate_for_Payment__c = payStaging.Commission_Rate_for_Payment__c;
-                system.debug('payStaging.Pool_Lookup__c::'+payStaging.Pool_Lookup__c);
                 prodPayment.Pool_Lookup__c = payStaging.Pool_Lookup__c;
-                  system.debug('prodPayment.Pool_Lookup__c::'+prodPayment.Pool_Lookup__c);
-                  
                 prodPayment.Product_Commission_Rate__c = payStaging.Product_Commission_Rate__c;
                 prodPayment.Agency_Commission_Rate__c = payStaging.Agency_Commission_Rate__c;
                 prodPayment.Pool_Commission_Rate__c = payStaging.Pool_Commission_Rate__c;
                 prodPayment.Legal_Entity__c = payStaging.Legal_Entity__c;
                 prodPayment.Portfolio_Group_Name__c = payStaging.Portfolio_Group_Name__c;
                 prodPayment.Original_Of_Payment_Reversal__c = payStaging.Original_Of_Payment_Reversal__c;
-                
-                
                 prodPayment.Fee_Type__c = payStaging.Fee_Type__c;
                 prodPayment.Billing_Entity__c = payStaging.Billing_Entity__c;
                 if(prodPayment.Payment_Type__c != null){
-                   
                     if(FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)){
                         prodPayment.Interest_Payment_Amount__c = payStaging.Interest_Payment_Amount__c;
                         prodPayment.Principal_Payment_Amount__c = payStaging.Principal_Payment_Amount__c;
@@ -218,7 +188,7 @@ public class DisplayProductPaymentStagingController {
                         prodPayment.Pay_Other__c = payStaging.Pay_Other__c;
                         prodPayment.Pay_Fees__c = payStaging.Pay_Fees__c;      
                     }
-                }
+                } 
                 if(portalSettings.Distressed_Payment_RecordType_ID__c != NULL){
                     prodPayment.RecordTypeID = portalSettings.Distressed_Payment_RecordType_ID__c;
                 }
@@ -230,145 +200,68 @@ public class DisplayProductPaymentStagingController {
                     prodPayToUpdate.Is_Payment_Reversed__c = true;
                     listProductPayToUpdate.add(prodPayToUpdate);
                 }
-                
-                if(prodPayment.Payment_Source__c == '2' || prodPayment.Payment_Source__c == '3'){
-                    success += '\n';
-                            success +=  payStaging.CCS_Account__c+'\t'+payStaging.Payment_Type__c
-                                          +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
-                                          +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Payment_Source__c!= null ? payStaging.Payment_Source__c : '')
-                                          +'\t'+'\''+(payStaging.Primary_Account_Number__c!= null ? payStaging.Primary_Account_Number__c :'');
-                }
-                else{
-                    success += '\n';
-                            success += payStaging.CCS_Account__c+'\t'+payStaging.Payment_Type__c
-                                          +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
-                                          +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Principal_Payment_Amount__c!= null ? payStaging.Principal_Payment_Amount__c : 0)
-                                          +'\t'+(payStaging.Interest_Payment_Amount__c!= null ? payStaging.Interest_Payment_Amount__c :0)
-                                          +'\t'+(payStaging.Pay_Court__c!= null ? payStaging.Pay_Court__c : '0')
-                                          +'\t'+(payStaging.Pay_Attorney__c!= null ? payStaging.Pay_Attorney__c : '0')
-                                          +'\t'+(payStaging.Pay_NSF__c!= null ? payStaging.Pay_NSF__c : '0')
-                                          +'\t'+(payStaging.Pay_Fees__c!= null ? payStaging.Pay_Fees__c : 0)
-                                          +'\t'+(payStaging.Pay_Other__c!= null ? payStaging.Pay_Other__c : 0)
-                                          +'\t'+(payStaging.Agency_Calculated_Comm__c!= null ? payStaging.Agency_Calculated_Comm__c : '0');    
-                }
-               //SuccessHasRecord = true;
-               successRecords = successRecords + 1;
-            }
-            else{
-                if(payStaging.Payment_Source__c == '2' || payStaging.Payment_Source__c == '3'){
-                    failed += '\n';
-                            failed += payStaging.CCS_Account__c+'\t'+payStaging.Payment_Type__c
-                                          +'\t'+(payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
-                                          +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Payment_Source__c!= null ? payStaging.Payment_Source__c : '')
-                                          +'\t'+'\''+(payStaging.Primary_Account_Number__c!= null ? payStaging.Primary_Account_Number__c :'')
-                                          +'\t'+ '"' + (payStaging.Comment__c!= null ? payStaging.Comment__c.stripHtmlTags() : '') + '"';
-                
-                }
-                else{
-                    failed += '\n';
-                            failed += payStaging.CCS_Account__c+'\t'+payStaging.Payment_Type__c
-                                          +'\t'+(payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
-                                          +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Principal_Payment_Amount__c!= null ? payStaging.Principal_Payment_Amount__c : 0)
-                                          +'\t'+(payStaging.Interest_Payment_Amount__c!= null ? payStaging.Interest_Payment_Amount__c :0)
-                                          +'\t'+(payStaging.Pay_Court__c!= null ? payStaging.Pay_Court__c : '0')
-                                          +'\t'+(payStaging.Pay_Attorney__c!= null ? payStaging.Pay_Attorney__c : '0')
-                                          +'\t'+(payStaging.Pay_NSF__c!= null ? payStaging.Pay_NSF__c : '0')
-                                          +'\t'+(payStaging.Pay_Fees__c!= null ? payStaging.Pay_Fees__c : 0)
-                                          +'\t'+(payStaging.Pay_Other__c!= null ? payStaging.Pay_Other__c : 0)
-                                          +'\t'+(payStaging.Agency_Calculated_Comm__c!= '' ? payStaging.Agency_Calculated_Comm__c : '0')
-                                          +'\t'+(payStaging.Comment__c!= null ? payStaging.Comment__c.stripHtmlTags() : '');
-                    
-                }
-                //FailedHasRecord = true;
-                failedRecords = failedRecords + 1;
+                listProductPaymentStaging.add(payStaging);
             }
         }
-        
-        system.debug('listProdPayment: '+listProdPayment);
-        //insert product payments
         ProductTriggerHandler.runProductTrigger = false;
-        //insert listProdPayment;
-        
-        //Switch off payment trigger while updating reversed payments
         ProductPaymentsTriggerHandler.runProductTrigger = false;
-        update listProductPayToUpdate;
-        system.debug('listProductPayToUpdate::'+listProductPayToUpdate);
-        //insert new product payments
-        system.debug('listProdPacalculateBalanceBackdatedPaymentsyment::'+listProdPayment);
-        insert listProdPayment;
-        map<ID, Product_Payments__c> mapProductPayments = new map<ID, product_Payments__c>();
-        map<ID, Product_Payments__c> mapBalanceAdjustments = new map<ID, product_Payments__c>();
         
-        for(Product_payments__c prodPay : listProdPayment){
-            system.debug('prodPay:::'+prodPay);
-            if(prodPay.Payment_Type__c != null){
-                if(!FEE_TRANSACION_CODES.contains(prodPay.Payment_Type__c)){
-                    mapProductPayments.put(prodPay.ID, prodPay);    
-                }
-                else{
-                    mapBalanceAdjustments.put(prodPay.ID, prodPay);
+        try{
+            
+            
+            if(listProductPayToUpdate.size()>0){
+                update listProductPayToUpdate;
+            }
+            if(listProdPayment.size()>0){
+                insert listProdPayment;
+            }
+            for(Product_payments__c prodPay : listProdPayment){
+                if(prodPay.Payment_Type__c != null){
+                    if(!FEE_TRANSACION_CODES.contains(prodPay.Payment_Type__c)){
+                        mapProductPayments.put(prodPay.ID, prodPay);    
+                    }
+                    else{
+                        mapBalanceAdjustments.put(prodPay.ID, prodPay);
+                    }
                 }
             }
+            //call to calculateBalanceBackdatedPayments method, to update balances
+            ProductPaymentsTriggerHandler.calculateBalanceBackdatedPayments(mapProductPayments,NULL);
+            
+            //call to calculateBalanceFeeAdjustments method, to update balances
+            ProductPaymentsTriggerHandler.calculateBalanceFeeAdjustments(mapBalanceAdjustments);
+            
+            //Create Success and Error file
+            GenerateSuccessAndErrorFile(listProductPayStagingWrapper,listProductPayStaging[0].Document_Storage__r.Work_Assignment__c,portalSettings.Document_Storage_Default_Visibility__c,documentID,directPayment,NULL);
+            
+        }catch(Exception ex){
+            system.debug('exception Product payment file catch--+--'+ex.getLineNumber());
+            system.debug('exception Product payment file catch--+--'+ex.getMessage());
+            for(Product_Payment_Staging__c ProductPaymentStaging: listProductPaymentStaging){
+                String msg = '<b>ERROR</b>-'+ex.getMessage();
+                if(msg.length() > 254){
+                    msg = msg.substring(0,254);
+                }
+                ProductPaymentStaging.Comment__c= msg;
+                ProductPaymentStaging.status__c= 'Pending';
+            }
         }
-        
-        //call to calculateBalanceBackdatedPayments method, to update balances
-        ProductPaymentsTriggerHandler.calculateBalanceBackdatedPayments(mapProductPayments,NULL);
-        
-        //call to calculateBalanceBackdatedPayments method, to update balances
-        ProductPaymentsTriggerHandler.calculateBalanceFeeAdjustments(mapBalanceAdjustments);
-        
+        if(listProductPaymentStaging.size()>0){
+            update listProductPaymentStaging;
+        }
         ProductPaymentsTriggerHandler.runProductTrigger = true;
+        ProductTriggerHandler.runProductTrigger = true;
         
-        ProductTriggerHandler.runProductTrigger = true;      
-        
-        list<Work_Assignment__c> listWorkAssignmentToUpsert = new list<Work_Assignment__c>();
-        
-        //Create Task record and assign it to Agency
-        //Update the existing Task record (as per new req) 
-        Work_Assignment__c workAssignment = new Work_Assignment__c();
-        workAssignment.ID = listProductPayStaging[0].Document_Storage__r.Work_Assignment__c;
-        workAssignmentId = workAssignment.ID;
-        /*workAssignment.Requested_Date__c = Date.today();
-        workAssignment.Title__c = 'Payment Processing Status ' + '[' + listProductPayStaging[0].Document_Storage__r.Work_Assignment_Identifier__c + ']';
-        workAssignment.Description__c = 'Product Payment Upload Status';
-        workAssignment.Assign_To__c = 'Agency';
-        workAssignment.Priority__c = 'High';
-        workAssignment.Purpose__c = 'Excel File processing';
-        workAssignment.Sub_Purpose__c = 'Product Payment File';
-        workAssignment.Comment_Reply__c = '';
-        workAssignment.Placement_Agency__c = placementID;
-        workAssignment.RecordTypeID = portalSettings.AgencyExcelProcessingRecordTypeID__c;*/
-        workAssignment.Comment_Reply__c = '';
-        workAssignment.Status__c = 'Completed';
-        if(failedRecords > 0){
-            workAssignment.Comment_Reply__c = 'No. of Records Failed: '+ failedRecords +'\n';
-        }
-        if(successRecords > 0){
-            workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
-        }        
-        update workAssignment;
-        system.debug('workAssignment: '+workAssignment);
-        //upsert listWorkAssignmentToUpsert;
         showButton = true;
-        displayPanel = false;
+        displayPanel = true;
         return null;
-    }
-    
+    } 
+    //Changes made by tejal for success and error file
     public pageReference SaveBalanceAdjustment(){
+        system.debug('inside SaveBalanceAdjustment method');
         list<Product_Payments__c> listProdPayment = new list<Product_Payments__c>();
         list<Product_Payments__c> listProductPayToUpdate = new list<Product_Payments__c>();
-
-        if(directPayment == true){
-            //Create Success and Failure file headers
-            success = 'data_id' + '\t' + 'Direct_Payment_Type' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'pay_principal' + '\t' + 'pay_interest' + '\t' + 'pay_source' + '\t' + 'Agency_Allocation' + '\t' + 'Commsion_Rate_Override';
-            failed = 'data_id' + '\t' + 'Direct_Payment_Type' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amoun' + '\t' + 'pay_principal' + '\t' + 'pay_interest' + '\t' + 'pay_source' + '\t' + 'Agency_Allocation' + '\t' + 'Commsion_Rate_Override' + '\t' + 'Error';    
-        }
-        
-        system.debug('debug 2');
+        List<Product_Payment_Staging__c> listProductPaymentStaging = new List<Product_Payment_Staging__c>();  
         
         //Get Placement ID
         list<Placement__c> listPlacements = [SELECT ID 
@@ -378,17 +271,12 @@ public class DisplayProductPaymentStagingController {
         if(!listPlacements.isEmpty()){
             placementID = listPlacements[0].ID;
         }
-        system.debug('executeWarning save: '+executeWarning);
-        
-        successRecords = 0;
-        failedRecords = 0;
-        
+
         String monthInt = '';
         Integer monthSize = null;
         
         for(productPaymentStagingWrapper payStagingWrapper : listProductPayStagingWrapper){
             Product_Payment_Staging__c payStaging = payStagingWrapper.payStaging;
-            system.debug('executeWarning:: '+executeWarning);
             if(String.isnotblank(payStaging.Direct_Payment_Type__c)){
                 showTypeColumn = true;
             }
@@ -397,19 +285,15 @@ public class DisplayProductPaymentStagingController {
             if(String.isNotBlank(payStaging.Comment__c)){
                 comment = payStaging.Comment__c;
             }
-            system.debug('comment:: '+comment);
             
             if(Test.isRunningTest()){
                 payStagingWrapper.selected = true;
             }
 
-            system.debug('payStaging.Status__c::'+payStaging.Status__c);
-            system.debug('payStagingWrapper.selected::'+payStagingWrapper.selected);
-
             //If No error found, create payment record from staging
             if(payStaging.Status__c != PROCESSED
             && payStagingWrapper.selected == true){
-                payStaging.Status__c = PROCESSED;
+                //payStaging.Status__c = PROCESSED;
                 Product_Payments__c prodPayment = new Product_Payments__c();
                  
                 prodPayment.CCS_Account__c = payStaging.Product_ID__c;
@@ -433,9 +317,7 @@ public class DisplayProductPaymentStagingController {
                 prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;    
                 
                 prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
-                system.debug('payStaging.Pool_Lookup__c::'+payStaging.Pool_Lookup__c);
                 prodPayment.Pool_Lookup__c = payStaging.Pool_Lookup__c;
-                system.debug('prodPayment.Pool_Lookup__c::'+prodPayment.Pool_Lookup__c);
                 prodPayment.Direct_Payment_Type__c = payStaging.Direct_Payment_Type__c;
                 if(prodPayment.Direct_Payment_Type__c == 'Direct Payment' || String.isBlank(prodPayment.Direct_Payment_Type__c)){
                     prodPayment.Product_Commission_Rate__c = payStaging.Product_Commission_Rate__c;
@@ -449,7 +331,7 @@ public class DisplayProductPaymentStagingController {
                     prodPayment.Legal_Product_Identifier__c = payStaging.Legal_Product_Identifier__c;
                     prodPayment.Commission_Rate_for_Payment__c = payStaging.Commission_Rate_for_Payment__c;        
                 }
-                  
+                 
                 prodPayment.Original_Of_Payment_Reversal__c = payStaging.Original_Of_Payment_Reversal__c;
                 
                 prodPayment.Interest_Payment_Amount__c = payStaging.Interest_Payment_Amount__c;
@@ -460,100 +342,189 @@ public class DisplayProductPaymentStagingController {
                     prodPayment.RecordTypeID = portalSettings.Distressed_Payment_RecordType_ID__c;
                 }
                 listProdPayment.add(prodPayment);
-                system.debug('listProdPayment.:::'+listProdPayment);
                 if(String.isNotBlank(payStaging.Original_Of_Payment_Reversal__c)){
                     Product_payments__c prodPayToUpdate = new Product_payments__c();
                     prodPayToUpdate.Id = payStaging.Original_Of_Payment_Reversal__c;
                     prodPayToUpdate.Is_Payment_Reversed__c = true;
                     listProductPayToUpdate.add(prodPayToUpdate);
                 }
-                
-                if(prodPayment.Payment_Source__c == '2' || prodPayment.Payment_Source__c == '3'){
-                    success += '\n';
-                            success += payStaging.CCS_Account__c
-                                          +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '')
-                                          +'\t'+payStaging.Payment_Type__c
-                                          +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
-                                          +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Principal_Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Interest_Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Payment_Source__c!= null ? payStaging.Payment_Source__c : '')
-                                          +'\t'+(payStaging.Placement_Agency__c!= null ? payStaging.Placement_Agency__c : '')
-                                          +'\t'+(payStaging.Commission_Rate_for_Payment__c != null ? payStaging.Commission_Rate_for_Payment__c :0);
+                listProductPaymentStaging.add(payStaging);
+            }
+        }
+        
+        ProductTriggerHandler.runProductTrigger = false;
+        ProductPaymentsTriggerHandler.runProductTrigger = false;
+        
+        try{
+            if(listProductPayToUpdate.size()>0){
+                update listProductPayToUpdate;
+            }
+            if(listProdPayment.size()>0){
+                insert listProdPayment;
+            }
+            
+            map<ID, Product_Payments__c> mapProductPayments = new map<ID, product_Payments__c>();
+            
+            for(Product_payments__c prodPay : listProdPayment){
+                mapProductPayments.put(prodPay.ID, prodPay);    
+            }
+            
+            //call to calculateBalanceBackdatedPayments method, to update balances
+        	calculateBalanceBackdatedPayments(mapProductPayments);
+            
+            //Create Success and Error file
+            GenerateSuccessAndErrorFile(listProductPayStagingWrapper,listProductPayStaging[0].Document_Storage__r.Work_Assignment__c,portalSettings.Document_Storage_Default_Visibility__c,documentID,NULL,true);
+            
+        }catch(Exception ex){
+            system.debug('exception Balance Adj file catch--+--'+ex.getLineNumber());
+            system.debug('exception Balance Adj file catch--+--'+ex.getMessage());
+            for(Product_Payment_Staging__c ProductPaymentStaging: listProductPaymentStaging){
+                String msg = '<b>ERROR</b>-'+ex.getMessage();
+                if(msg.length() > 254){
+                    msg = msg.substring(0,254);
                 }
+                ProductPaymentStaging.Comment__c= msg;
+                ProductPaymentStaging.status__c= 'Pending';
+            }
+        }
+        if(listProductPaymentStaging.size()>0){
+            update listProductPaymentStaging;
+        }
+        
+        ProductPaymentsTriggerHandler.runProductTrigger = true;
+        ProductTriggerHandler.runProductTrigger = true;      
+
+        showButton = true;
+        displayPanel = true;
+        return null;
+    }
+    //Created by tejal for success and error file
+    public Static void GenerateSuccessAndErrorFile(list<productPaymentStagingWrapper> listProductPayStagingWrapper,Id workAssignmentId,String visiblity,
+                                            Id documentID,boolean directPayment,boolean balanceAdjustment){
+        String success;
+    	String failed;
+		Integer successRecords = 0;
+        Integer failedRecords = 0;
+		String DocumentType;                                                      
+        if(directPayment == true){
+            //Create Success and Failure file headers for Direct Payement
+            success = 'data_id' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'pay_source' + '\t' + 'pri_acctno';
+            failed = 'data_id' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'pay_source' + '\t' + 'pri_acctno' + '\t' + 'error';    
+        }
+        else if(balanceAdjustment == true){
+            //Create Success and Failure file headers for Balance Adjustment
+            success = 'data_id' + '\t' + 'Direct_Payment_Type' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'pay_principal' + '\t' + 'pay_interest' + '\t' + 'pay_source' + '\t' + 'Agency_Allocation' + '\t' + 'Commsion_Rate_Override';
+            failed = 'data_id' + '\t' + 'Direct_Payment_Type' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amoun' + '\t' + 'pay_principal' + '\t' + 'pay_interest' + '\t' + 'pay_source' + '\t' + 'Agency_Allocation' + '\t' + 'Commsion_Rate_Override' + '\t' + 'Error';                                          
+        }                                   
+        else{
+            //Create Success and Failure file headers for Product Payment
+            success = 'data_id' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'tran_principal' + '\t' + 'tran_interest' + '\t' + 'tran_court' + '\t' + 'tran_attorney' + '\t' + 'tran_nsf' + '\t' + 'tran_general' + '\t' + 'tran_other' + '\t' + 'tran_retained';
+            failed = 'data_id' + '\t' + 'tran_type' + '\t' + 'tran_date' + '\t' + 'tran_amount' + '\t' + 'tran_principal' + '\t' + 'tran_interest' + '\t' + 'tran_court' + '\t' + 'tran_attorney' + '\t' + 'tran_nsf' + '\t' + 'tran_general' + '\t' + 'tran_other' + '\t' + 'tran_retained' + '\t' + 'error';    
+        }
+        
+        for(productPaymentStagingWrapper payStagingWrapper : listProductPayStagingWrapper){
+            Product_Payment_Staging__c payStaging = payStagingWrapper.payStaging;
+            if(payStaging.Status__c != PROCESSED && payStagingWrapper.selected == true){
+                payStaging.Status__c = PROCESSED;
+                if(balanceAdjustment == true){
+                    DocumentType = 'Balance Adjustment Upload File';
+                    success += '\n';
+                    success += payStaging.CCS_Account__c
+                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '')
+                        +'\t'+payStaging.Payment_Type__c
+                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
+                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Principal_Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Interest_Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Payment_Source__c!= null ? payStaging.Payment_Source__c : '')
+                        +'\t'+(payStaging.Placement_Agency__c!= null ? payStaging.Placement_Agency__c : '')
+                        +'\t'+(payStaging.Commission_Rate_for_Payment__c != null ? payStaging.Commission_Rate_for_Payment__c :0);
+                }
+                else if(directPayment == true){
+                    DocumentType = 'Direct Payment Upload File';
+                    success += '\n';
+                    success +=  payStaging.CCS_Account__c+'\t'+payStaging.Payment_Type__c
+                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
+                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Payment_Source__c!= null ? payStaging.Payment_Source__c : '')
+                        +'\t'+'\''+(payStaging.Primary_Account_Number__c!= null ? payStaging.Primary_Account_Number__c :'');
+                }
+                else{
+                    DocumentType = 'Product Payment Upload File';
+                    success += '\n';
+                    success += payStaging.CCS_Account__c+'\t'+payStaging.Payment_Type__c
+                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
+                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Principal_Payment_Amount__c!= null ? payStaging.Principal_Payment_Amount__c : 0)
+                        +'\t'+(payStaging.Interest_Payment_Amount__c!= null ? payStaging.Interest_Payment_Amount__c :0)
+                        +'\t'+(payStaging.Pay_Court__c!= null ? payStaging.Pay_Court__c : '0')
+                        +'\t'+(payStaging.Pay_Attorney__c!= null ? payStaging.Pay_Attorney__c : '0')
+                        +'\t'+(payStaging.Pay_NSF__c!= null ? payStaging.Pay_NSF__c : '0')
+                        +'\t'+(payStaging.Pay_Fees__c!= null ? payStaging.Pay_Fees__c : 0)
+                        +'\t'+(payStaging.Pay_Other__c!= null ? payStaging.Pay_Other__c : 0)
+                        +'\t'+(payStaging.Agency_Calculated_Comm__c!= null ? payStaging.Agency_Calculated_Comm__c : '0');    
+                }
+               
                 successRecords = successRecords + 1;
             }
             else{
-                if(payStaging.Payment_Source__c == '2' || payStaging.Payment_Source__c == '3'){
+                String CommentError;  
+                if(payStaging.Comment__c!= null){
+                    CommentError = payStaging.Comment__c;
+                    CommentError = CommentError.replaceAll('<br/>','');
+                    CommentError = CommentError.replaceAll('</b>','');
+                    CommentError = CommentError.replaceAll('<b>','');
+                }
+                if(balanceAdjustment == true){
+                    DocumentType = 'Balance Adjustment Upload File';
                     failed += '\n';
-                            failed += payStaging.CCS_Account__c
-                                          +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '')
-                                          +'\t'+payStaging.Payment_Type__c
-                                          +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
-                                          +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Principal_Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Interest_Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
-                                          +'\t'+(payStaging.Payment_Source__c!= null ? payStaging.Payment_Source__c : '')
-                                          +'\t'+(payStaging.Placement_Agency__c!= null ? payStaging.Placement_Agency__c : '')
-                                          +'\t'+(payStaging.Commission_Rate_for_Payment__c != null ? payStaging.Commission_Rate_for_Payment__c :0)
-                                          +'\t'+ '"' + (payStaging.Comment__c!= null ? payStaging.Comment__c.stripHtmlTags() : '') + '"';
-                
+                    failed += payStaging.CCS_Account__c
+                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '')
+                        +'\t'+payStaging.Payment_Type__c
+                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
+                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Principal_Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Interest_Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Payment_Source__c!= null ? payStaging.Payment_Source__c : '')
+                        +'\t'+(payStaging.Placement_Agency__c!= null ? payStaging.Placement_Agency__c : '')
+                        +'\t'+(payStaging.Commission_Rate_for_Payment__c != null ? payStaging.Commission_Rate_for_Payment__c :0)
+                        +'\t'+ '"' + (payStaging.Comment__c!= null ? CommentError : '') + '"';
+                }
+                else if(directPayment == true){
+                    DocumentType = 'Direct Payment Upload File';
+                    failed += '\n';
+                    failed += payStaging.CCS_Account__c+'\t'+payStaging.Payment_Type__c
+                        +'\t'+(payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
+                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Payment_Source__c!= null ? payStaging.Payment_Source__c : '')
+                        +'\t'+'\''+(payStaging.Primary_Account_Number__c!= null ? payStaging.Primary_Account_Number__c :'')
+                        +'\t'+ '"' + (payStaging.Comment__c!= null ? CommentError : '') + '"';
+                    
+                }
+                else{
+                    DocumentType = 'Product Payment Upload File';
+                    failed += '\n';
+                    failed += payStaging.CCS_Account__c+'\t'+payStaging.Payment_Type__c
+                        +'\t'+(payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
+                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
+                        +'\t'+(payStaging.Principal_Payment_Amount__c!= null ? payStaging.Principal_Payment_Amount__c : 0)
+                        +'\t'+(payStaging.Interest_Payment_Amount__c!= null ? payStaging.Interest_Payment_Amount__c :0)
+                        +'\t'+(payStaging.Pay_Court__c!= null ? payStaging.Pay_Court__c : '0')
+                        +'\t'+(payStaging.Pay_Attorney__c!= null ? payStaging.Pay_Attorney__c : '0')
+                        +'\t'+(payStaging.Pay_NSF__c!= null ? payStaging.Pay_NSF__c : '0')
+                        +'\t'+(payStaging.Pay_Fees__c!= null ? payStaging.Pay_Fees__c : 0)
+                        +'\t'+(payStaging.Pay_Other__c!= null ? payStaging.Pay_Other__c : 0)
+                        +'\t'+(payStaging.Agency_Calculated_Comm__c!= '' ? payStaging.Agency_Calculated_Comm__c : '0')
+                        +'\t'+(payStaging.Comment__c!= null ? CommentError : '');
                 }
                 failedRecords = failedRecords + 1;
             }
-        }
-        
-        system.debug('listProdPayment: '+listProdPayment);
-        //insert product payments
-        ProductTriggerHandler.runProductTrigger = false;
-        //insert listProdPayment;
-        
-        //Switch off payment trigger while updating reversed payments
-        ProductPaymentsTriggerHandler.runProductTrigger = false;
-        update listProductPayToUpdate;
-        system.debug('listProductPayToUpdate::'+listProductPayToUpdate);
-        //insert new product payments
-        system.debug('listProdPayment::'+listProdPayment);
-        insert listProdPayment;
-        map<ID, Product_Payments__c> mapProductPayments = new map<ID, product_Payments__c>();
-       
-        for(Product_payments__c prodPay : listProdPayment){
-           mapProductPayments.put(prodPay.ID, prodPay);    
-        }
-        
-        //call to calculateBalanceBackdatedPayments method, to update balances
-        calculateBalanceBackdatedPayments(mapProductPayments);
-        
-        ProductPaymentsTriggerHandler.runProductTrigger = true;
-        
-        ProductTriggerHandler.runProductTrigger = true;      
-        
-        list<Work_Assignment__c> listWorkAssignmentToUpsert = new list<Work_Assignment__c>();
-        
-        //Create Task record and assign it to Agency
-        //Update the existing Task record (as per new req) 
-        Work_Assignment__c workAssignment = new Work_Assignment__c();
-        workAssignment.ID = listProductPayStaging[0].Document_Storage__r.Work_Assignment__c;
-        workAssignmentId = workAssignment.ID;
-        workAssignment.Comment_Reply__c = '';
-        workAssignment.Status__c = 'Completed';
-        if(failedRecords > 0){
-            workAssignment.Comment_Reply__c = 'No. of Records Failed: '+ failedRecords +'\n';
-        }
-        if(successRecords > 0){
-            workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
-        }        
-        update workAssignment;
-        system.debug('workAssignment: '+workAssignment);
-        //upsert listWorkAssignmentToUpsert;
-        showButton = true;
-        displayPanel = false;
-        return null;
+        }                                        
+       system.enqueueJob(new PostDocumentAPI(DocumentType,failed,success,failedRecords,successRecords,workAssignmentId,visiblity,documentID));                                              
     }
-    
+
     //Recalculate Interest Amount and Principal balance payments are added
     public static void calculateBalanceBackdatedPayments(map<Id, Product_Payments__c> mapNewProductPayment){
-        system.debug('mapNewProductPayment: '+mapNewProductPayment);
         map<Id, Product__c> mapProductToAdjustInterestFinal = new map<Id, Product__c>();
         list<Product_Payments__c> listProdPaymentToUpdate = new list<Product_Payments__c>();
         set<ID> setProductID = new set<ID>();
@@ -561,16 +532,14 @@ public class DisplayProductPaymentStagingController {
         set<ID> setSettledInFullPayments = new Set<ID>();
         map<String, productWrapper> mapStatusProductWrapper = new map<String, productWrapper>();
         set<String> setReversalPayments = new set<String>();
-        system.debug('mapNewProductPayment::'+mapNewProductPayment);
+
         for(Product_Payments__c productPay : mapNewProductPayment.values()){
             setProductID.add(productPay.CCS_Account__c);
             if(productPay.Payment_Amount__c < 0){
-                system.debug('pay amount negative');
                 //get ID of the payments which are being reversed
                 setReversalPayments.add(productPay.Original_Of_Payment_Reversal__c);
             }
         }
-        system.debug('setReversalPayments::'+setReversalPayments);
         map<ID, Product_Payments__c> mapReversedPayments = new map<ID, Product_Payments__c>();
         list<ID> listProductsIds = new list<ID>();
         for(Product_Payments__c prodPayment : [SELECT ID, Pay_Attorney__c, Pay_Court__c, Pay_Fees__c, Pay_NSF__c, Pay_Other__c, 
@@ -598,8 +567,6 @@ public class DisplayProductPaymentStagingController {
                                                AND Judgment__r.Judgment_Date__c != NULL
                                                ORDER BY CreatedDate DESC]){
             mapProductNameIds.put(accJudgment.Product__c, accJudgment.Judgment__r.Judgment_Date__c);
-            //prodName.add(accJudgment.Product__r.Name);
-            system.debug('accJudgment:: '+accJudgment);
         } 
          set<ID> prodPaymentId = new set<ID>();
         List<Product_Payments__C> latestPayment = [select Id,name,Payment_Posting_Date__c,Original_Of_Payment_Reversal__c 
@@ -607,13 +574,10 @@ public class DisplayProductPaymentStagingController {
                                                    where CCS_Account__c IN: listProductsIds 
                                                    AND Original_Of_Payment_Reversal__c != null];
         
-        system.debug('latestPayment::'+latestPayment );
         for(Product_Payments__C prodpaylist : latestPayment){
             prodPaymentId.add(prodpaylist.Original_Of_Payment_Reversal__c);
-            //system.debug('prodpaylist.Original_Of_Payment_Reversal__c::'+prodpaylist.Original_Of_Payment_Reversal__c);
         }
-        system.debug('mapReversedPayments:::'+mapReversedPayments);
-        system.debug('setProductID::'+setProductID);
+
         for(Product__c productInstance : [SELECT ID, Name, Current_Interest_Amount__c,Collection_Agency__c,Last_Payment_Date__c,Last_Payment_Amount__c,
                                                       Current_Principal_Balance__c, Collection_Sub_Status__c,
                                                       Collection_Agency_Placement__c,
@@ -637,8 +601,6 @@ public class DisplayProductPaymentStagingController {
                                                       ORDER BY Payment_Posting_Date__c ASC)
                                             FROM Product__c
                                             WHERE ID IN :setProductID]){
-            system.debug('Payment_Apportionment__c: '+productInstance.Payment_Apportionment__c);
-            system.debug('productInstance: '+productInstance);
             for(Product_Payments__c payProductInstance : productInstance.Product_Payments__r){
                     
                 Product_Payments__c prodPayToUpdate = new Product_Payments__c();
@@ -661,8 +623,6 @@ public class DisplayProductPaymentStagingController {
                 /*--------------Positive Amount Payment Calculation STARTS------------------------------*/
                 if(payProductInstance.Payment_Amount__c > = 0){
                     Decimal totalProductPayment = payProductInstance.Payment_Amount__c;
-                    system.debug('totalProductPayment:: '+totalProductPayment);
-                    system.debug('payProductInstance.Payment_Type__c::'+payProductInstance.Payment_Type__c);
                     
                     //Set Product to Pending recall if paid In Full type Payment is made
                     if(payProductInstance.Payment_Type__c == PAYTYPE_PAID_IN_FULL){
@@ -682,27 +642,19 @@ public class DisplayProductPaymentStagingController {
                         }
                         
                         if(mapStatusProductWrapper.containsKey(PENDING_RECALL_PIF_CODE)){
-                            system.debug('mapStatusProductWrapper containskey::'+mapStatusProductWrapper);
                             productWrapper prodWrap = mapStatusProductWrapper.get(PENDING_RECALL_PIF_CODE);
                             prodWrap.productName += ',' + productInstance.Name;
                             mapStatusProductWrapper.put( PENDING_RECALL_PIF_CODE, prodWrap);
                         }
                         else{
-                            system.debug('put in map');
                             String productname = productInstance.Name;
-                            system.debug('productname::::'+productname);
                             productWrapper prodWrap = new productWrapper(productname, 
                                                                          PENDING_RECALL_PIF_CODE, 
                                                                          PENDING_RECALL_PRODUCT_STATUS_CODE, 
                                                                          placementIdentifier);
-                            system.debug('productWrapper instance'+prodWrap);
-                            system.debug('productname::'+productname);
                             mapStatusProductWrapper.put(PENDING_RECALL_PIF_CODE, 
                                                         prodWrap);
-                            
-                            system.debug('mapStatusProductWrapper::'+mapStatusProductWrapper);
                         }
-                        
                     }
                     
                     //Set Product to Pending recall if Settled In Full type Payment is made
@@ -734,13 +686,8 @@ public class DisplayProductPaymentStagingController {
                                                                            PENDING_RECALL_PRODUCT_STATUS_CODE, 
                                                                            placementIdentifier));
                         }
-                        system.debug('mapStatusProductWrapper::'+mapStatusProductWrapper);
-                        
                     }
-                    
-                    system.debug('productInstance.Current_Interest_Amount__c after fees'+productInstance.Current_Interest_Amount__c);
-                    system.debug('prodPayToUpdate.Interest_Payment_Amount__c::'+prodPayToUpdate.Interest_Payment_Amount__c);
-                    system.debug('Current_Principal_Balance__c::'+prodPayToUpdate.Principal_Payment_Amount__c);
+                   
                     //DEDUCT INTEREST and PRINCIPAL
                     if(prodPayToUpdate.Interest_Payment_Amount__c != NULL){
                         productInstance.Current_Interest_Amount__c = productInstance.Current_Interest_Amount__c - prodPayToUpdate.Interest_Payment_Amount__c;   
@@ -770,7 +717,6 @@ public class DisplayProductPaymentStagingController {
                                
                                prodPayToUpdate.Interest_Adjustment__c = InterestAdjustment;
                                prodPayToUpdate.No_of_Days_to_Adjust_Interest__c = DaystoAdjust;
-                               system.debug('InterestAdjustment::'+InterestAdjustment);
                                prodPayToUpdate.Interest_Rate_to_For_Interest_Adjustment__c = productInstance.Interest_Rate__c;
                                if(InterestAdjustment != null){
                                    //deduct interest paid amount on Product pay record
@@ -786,38 +732,28 @@ public class DisplayProductPaymentStagingController {
                     //Payment after balances    
                     prodPayToUpdate.Post_Pay_Interest__c = productInstance.Current_Interest_Amount__c;
                     prodPayToUpdate.Post_Pay_Principal__c = productInstance.Current_Principal_Balance__c;
-               
+                    
                     /*if(payProductInstance.Payment_Type__c != '3000'){
                         productInstance.Last_Payment_Date__c = payProductInstance.Payment_Posting_Date__c;
                         productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                     }*/
                         
                     //Update total balance on Product
-                    system.debug('productInstance.Current_Balance__c before::'+productInstance.Current_Balance__c);
                     productInstance.Current_Balance__c = productInstance.Current_Balance__c - payProductInstance.Payment_Amount__c;
                     if(InterestAdjustment > 0){
                         productInstance.Current_Balance__c = productInstance.Current_Balance__c - InterestAdjustment;
                     }
-                    system.debug('productInstance.Current_Balance__c after'+productInstance.Current_Balance__c);
                     prodPayToUpdate.Balance_After_Payment__c = productInstance.Current_Balance__c;
-                    system.debug('prodPayToUpdate:::'+prodPayToUpdate.Interest_Payment_Amount__c);
-                    system.debug('prodPayToUpdate:::'+prodPayToUpdate.Interest_Adjustment__c);
-                    system.debug('prodPayToUpdate:::'+prodPayToUpdate.Interest_Rate_to_For_Interest_Adjustment__c);
-                    //mapProductToAdjustInterestFinal.put(productInstance.ID, productInstance);
                     }
                     /*--------------Positive Amount Payment Calculation ENDS------------------------------*/
                     
                     /*--------------Reversed Payment Calculation STARTS------------------------------*/
                     //If reversed payment is added, it is added to Balances on Product as per original Payment
-                    system.debug('payProductInstance.Payment_Amount__c::'+payProductInstance.Payment_Amount__c);
                     if(payProductInstance.Payment_Amount__c < 0){
-                        Boolean calflag = false;
-                        system.debug('payProductInstance.Payment_Amount__c reverse: '+payProductInstance.Payment_Amount__c);
-                        system.debug('payProductInstance.Original_Of_Payment_Reversal__c::'+payProductInstance.Original_Of_Payment_Reversal__c);
+                        Boolean calflag = false;                        
                         if(mapReversedPayments.containsKey(payProductInstance.Original_Of_Payment_Reversal__c)
                         && payProductInstance.Payment_Type__c != '3000'){
                             Product_Payments__c reversedPay = mapReversedPayments.get(payProductInstance.Original_Of_Payment_Reversal__c);
-                            system.debug('reversedPay:::'+reversedPay);
                             if(reversedPay.Payment_Type__c != PAYTYPE_REGULAR){
                                 //revert the statuses
                                 productInstance.Placement_Status__c = reversedPay.Pay_Placedetail_Status__c;
@@ -873,11 +809,8 @@ public class DisplayProductPaymentStagingController {
                                     ? (productInstance.Current_Bal_NSF_Fees__c + Decimal.valueOf(reversedPay.Pay_NSF__c)) 
                                     : Decimal.valueOf(reversedPay.Pay_NSF__c));
                                 Decimal payNSF = Decimal.valueOf(reversedPay.Pay_NSF__c);
-                                system.debug('payNSF::'+payNSF);
                                 Decimal newpayNSF = payNSF * -1;
-                                system.debug('newpayNSF::'+newpayNSF);
                                 prodPayToUpdate.Pay_NSF__c = String.valueOf(newpayNSF);
-                                system.debug('productInstance NSF::'+productInstance.Current_Bal_NSF_Fees__c);
                             }
                             if(reversedPay.Pay_Recoverable_Fee__c != NULL && reversedPay.Pay_Recoverable_Fee__c <> 0){
                                 productInstance.Recoverable_Fee__c = 
@@ -980,7 +913,6 @@ public class DisplayProductPaymentStagingController {
                                 if(reversedPay.Interest_Adjustment__c != NULL
                                    && reversedPay.Interest_Adjustment__c <> 0){
                                        prodPayToUpdate.Interest_Adjustment__c = reversedPay.Interest_Adjustment__c;
-                                       system.debug('prodPayToUpdate check***'+prodPayToUpdate.Interest_Adjustment__c);
                                        prodPayToUpdate.No_of_Days_to_Adjust_Interest__c = reversedPay.No_of_Days_to_Adjust_Interest__c;
                                        prodPayToUpdate.Interest_Rate_to_For_Interest_Adjustment__c = reversedPay.Interest_Rate_to_For_Interest_Adjustment__c;
                                        //adding adjustment to payment amount, so that it would deduct from inetrest
@@ -1021,22 +953,19 @@ public class DisplayProductPaymentStagingController {
                         prodPayToUpdate.Post_Pay_Principal__c = productInstance.Current_Principal_Balance__c;
                         
                         //Update total balance on Product
-                        system.debug('payProductInstance.Payment_Amount__c::'+payProductInstance.Payment_Amount__c);
-                        system.debug('productInstance.Current_Balance__c before'+productInstance.Current_Balance__c);
                         //add reverse pay amount to current balance, pay amount is negative (- - = +)
                         if(calflag == True){
                             //productInstance.Current_Balance__c = productInstance.Current_Balance__c - (payProductInstance.Payment_Amount__c);
                                //productInstance.Current_Balance__c= productInstance.Recoverable_Fee__c+productInstance.Current_Principal_Balance__c+productInstance.Current_Interest_Amount__c+productInstance.Current_Bal_NSF_Fees__c;  
                              productInstance.Current_Balance__c = DistressedUtilites_Total.UpdateTotalCurrentBalance(productInstance);
                         }
-                        system.debug('productInstance.Current_Balance__c::'+productInstance.Current_Balance__c);
+                        
                         prodPayToUpdate.Balance_After_Payment__c = productInstance.Current_Balance__c;
                            
                         /*if(payProductInstance.Payment_Type__c != '3000'){
                             productInstance.Last_Payment_Date__c = payProductInstance.Payment_Posting_Date__c;
                             productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                         }*/
-                        system.debug('productInstance update '+productInstance.Current_Balance__c);
                         //mapProductToAdjustInterestFinal.put(productInstance.ID, productInstance);
                     }
                     /*--------------Reversed Payment Calculation ENDS------------------------------*/
@@ -1054,21 +983,19 @@ public class DisplayProductPaymentStagingController {
                             //set new latest date and amount on product
                             productInstance.Last_Payment_Date__c = payProductInstance.Payment_Posting_Date__c;
                             productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
+                            
                     }
                     
                   
                    if(payProductInstance.payment_type__c == '1003' && productInstance.Last_Payment_Date__c == payProductInstance.Payment_Posting_Date__c && productInstance.Last_Payment_Amount__c == (payProductInstance.Payment_Amount__c*-1)){
-                      if(prodPaymentId !=null){
-                      system.debug('inside block');
+                      if(prodPaymentId !=null ){
                           List<Product_Payments__C> latestPayment1 = [select Id,name,Payment_Posting_Date__c,Payment_Amount__c
                                                             from Product_Payments__C where CCS_Account__c =: payProductInstance.CCS_Account__c
                                                             AND Payment_Amount__c > 0
                                                             AND Payment_Posting_Date__c <=: productInstance.Last_Payment_Date__c
                                                             AND (Payment_Type__c = '1000' OR Payment_Type__c = '1001' OR Payment_Type__c = '1002'OR Payment_Type__c = '8000') 
                                                             AND Id NOT IN: prodPaymentId order by Payment_Posting_Date__c desc limit 1];
-                        system.debug('latestPayment1::'+latestPayment1 ); 
                         if(!latestPayment1.isEmpty()){
-                        system.debug('inside 2nd block');
                          for(Product_Payments__C prodPay : latestPayment1){
                              productInstance.Last_Payment_Date__c = prodPay.Payment_Posting_Date__c;
                              productInstance.Last_Payment_Amount__c = prodPay.Payment_Amount__c;
@@ -1083,12 +1010,12 @@ public class DisplayProductPaymentStagingController {
                        
                       }
                    }
+                	//productInstance.Current_Balance__c = DistressedUtilites_Total.UpdateTotalCurrentBalance(productInstance);
                     mapProductToAdjustInterestFinal.put(productInstance.ID, productInstance);
                     listProdPaymentToUpdate.add(prodPayToUpdate);
                 }
         }
         
-        system.debug('mapProductToAdjustInterestFinal: '+mapProductToAdjustInterestFinal);
         ProductTriggerHandler.runProductTrigger = false;
         ProductPaymentstriggerHandler.runProductTrigger = false;
         
@@ -1096,8 +1023,6 @@ public class DisplayProductPaymentStagingController {
         
         update listProdPaymentToUpdate;
         
-        
-        system.debug('productNames ::'+productNames);
         //Send the Pending recall accounts to Portal
         /*for(String placementStatusCode1 : mapStatusProductWrapper.keySet()){
             productWrapper productWrap = mapStatusProductWrapper.get(placementStatusCode1);
@@ -1109,7 +1034,6 @@ public class DisplayProductPaymentStagingController {
                                                                'Recall', productWrap.placementIdentifier, null);
             }    
         }*/
-        system.debug('setProductToUpdateStatus Check'+setProductToUpdateStatus);
         if(!setProductToUpdateStatus.isEmpty()){
             PortalProductProcessingAPI.processProductBulk(setProductToUpdateStatus);
         }
@@ -1118,108 +1042,7 @@ public class DisplayProductPaymentStagingController {
         ProductPaymentstriggerHandler.runProductTrigger = true;
     }
     
-    public PageReference postDocumentAPI(){
-        Map<String,Object> rawObj;
-        Map<String,Object> rawObj1;
-        
-        //Failed CSV API Call
-        system.debug('failed: '+failed);
-        DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
-        System.debug('@@base64Data '+failed);
-        Blob fileBlob = Blob.valueOf(failed);
-
-        if(failedRecords > 0){
-            if(!Test.isRunningTest()){
-                parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Payment Failed.csv', 'Task');
-                system.debug('parsedResponse in controller: '+parsedResponse);
-                rawObj = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse.response); 
-            }else{
-                parsedResponse.DocUrl = 'Test';
-                parsedResponse.docId = 'Test';
-            }
-        }
-        
-        //Success CSV API Call
-        DocumentAPIClientUtil.ParsedResponse parsedResponse1 = new DocumentAPIClientUtil.ParsedResponse();
-        System.debug('@@base64Data '+success);
-        Blob fileBlobSuccess = Blob.valueOf(success);
-        if(successRecords > 0){
-            if(!Test.isRunningTest()){
-                parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Payment Success.csv', 'Task');
-                system.debug('parsedResponse in controller: '+parsedResponse1);
-                rawObj1 = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse1.response); 
-            }else{
-                parsedResponse1.DocUrl = 'Test';
-                parsedResponse1.docId = 'Test';
-            }
-        }
-        
-        
-        //Create Failed CSV Document Storage
-        Document_Storage__c  failedDocStorage = new Document_Storage__c();
-        
-        if(null != parsedResponse && failedRecords > 0){
-            
-            system.debug('task creation');
-            failedDocStorage.Work_Assignment__c = workAssignmentID;    
-            failedDocStorage.Document_Name__c = 'Product Payment Failed.xls';
-            failedDocStorage.Document_Extension__c = 'xls';
-            failedDocStorage.Document_ID__c = parsedResponse.docId;
-            failedDocStorage.Document_Type__C = 'Payment Processing File';
-            //failedDocStorage.Content_Type__c = contentType;
-            failedDocStorage.Visibility__c = portalSettings.Document_Storage_Default_Visibility__c;
-            failedDocStorage.Document_URL__c = parsedResponse.DocUrl;
-            failedDocStorage.Uploaded_By__c = 'Internal User';
-            failedDocStorage.Creator__c = UserInfo.getName();
-            system.debug('failedDocStorage.Document_Related_To__c: '+failedDocStorage.Document_Related_To__c);
-            failedDocStorage.Document_Related_To__c = 'Task';
-            failedDocStorage.File_Processed_By__c = UserInfo.getName();
-            failedDocStorage.File_Processing_Date__c = Date.today();
-            failedDocStorage.File_Processing_Status__c = 'Processed';
-            insert failedDocStorage;
-            system.debug('failedDocStorage: '+failedDocStorage);
-            //delete listProductPayStaging;
-        }
-        
-        //Create Success CSV Document Storage
-        Document_Storage__c  SuccessDocStorage = new Document_Storage__c();
-        
-        if(null != parsedResponse1 && successRecords > 0){
-            
-            system.debug('task creation');
-            SuccessDocStorage.Work_Assignment__c = workAssignmentID;                        
-            SuccessDocStorage.Document_Name__c = 'Product Payment Success.xls';
-            SuccessDocStorage.Document_Extension__c = 'xls';
-            SuccessDocStorage.Document_ID__c = parsedResponse1.docId;
-            SuccessDocStorage.Document_Type__C = 'Payment Processing File';
-            SuccessDocStorage.Visibility__c = portalSettings.Document_Storage_Default_Visibility__c;
-            SuccessDocStorage.Document_URL__c = parsedResponse1.DocUrl;
-            SuccessDocStorage.Uploaded_By__c = 'Internal User';
-            SuccessDocStorage.Creator__c = UserInfo.getName();
-            system.debug('SuccessDocStorage.Document_Related_To__c: '+SuccessDocStorage.Document_Related_To__c);
-            SuccessDocStorage.Document_Related_To__c = 'Task';
-            SuccessDocStorage.File_Processed_By__c = UserInfo.getName();
-            SuccessDocStorage.File_Processing_Date__c = Date.today();
-            SuccessDocStorage.File_Processing_Status__c = 'Processed';
-            insert SuccessDocStorage;
-            system.debug('SuccessDocStorage: '+SuccessDocStorage);
-        }
-        
-        //update Staging records
-        //ProductPaymentsTriggerHandler.runProductTrigger = false;
-        ProductTriggerHandler.runProductAPI = false;
-        update listProductPayStaging;
-        ProductTriggerHandler.runProductAPI = true;
-        Document_Storage__c docStorageToUpdate = new Document_Storage__c(ID= documentID, File_Processing_Status__c = 'Processed');
-        update docStorageToUpdate;
-
-        //disable buttoms
-        showButton = false;
-        displayPanel = true;
-        system.debug('showButton: '+showButton);
-        system.debug('displayPanel: '+displayPanel);
-        return null;
-    } 
+     
     
     public class productPaymentStagingWrapper{
         public Product_Payment_Staging__c payStaging {get;set;}

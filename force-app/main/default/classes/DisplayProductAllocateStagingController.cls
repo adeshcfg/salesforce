@@ -51,13 +51,19 @@ public class DisplayProductAllocateStagingController{
         get {
             String rcdIdentifier = recordIdentfier;
             Document_Storage__c docData= [select id,name,File_Processing_Status__c from Document_Storage__c where id = : recordIdentfier]; 
-            if(docData.File_Processing_Status__c == INPROGRESS || docData.File_Processing_Status__c == PROCESSED){
+            system.debug('docData::'+docData);
+            if(docData.File_Processing_Status__c == INPROGRESS){
                 rcdIdentifier = 'Do not bring record';
                 Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO,'Processing is in progress'));
                 showButton = true;
                 
             }
-            
+            if(docData.File_Processing_Status__c == PROCESSED){
+                rcdIdentifier = 'Do not bring record';
+                Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO,'Processing is completed'));
+                showButton = true;
+                
+            }  
             if(setCon == null) {
                 setCon = new ApexPages.StandardSetController(Database.getQueryLocator([SELECT Status_Changed_Date_Text__c,Placement_Status_Code__c,ID, Name__c, Comment__c, Placement_Agency__c, Status__c, Expected_Value__c,Document_Storage__c,Current_Principal_Balance__c,
                                                                                        Current_Interest_Balance__c,Fees__c,Document_Storage__r.File_Processing_Status__c, Product_ID__c, Identifier__c,Placement_Agency_ID__c,
@@ -451,5 +457,4 @@ public class DisplayProductAllocateStagingController{
             disabled = disable;
         }
     }
-  
 }

@@ -770,7 +770,7 @@ public class JudgmentTriggerHandler {
         Decimal InterestAmount = 0;
         Decimal InterestRate;
         Decimal Principal_Balance = 0;
-        Decimal NoOfDays;
+        Decimal NoOfDays = 0;
         //set current Date to judgment Date
         CurrentDate = judgmentDate;
         
@@ -952,8 +952,13 @@ public class JudgmentTriggerHandler {
                         CurrentDate = prodPayment.Payment_Posting_Date__c;
                         
                     }//payment amount greater than zero
-                    LastPaymentPostingDate = prodPayment.Payment_Posting_Date__c;
-                    Decimal DaysDiff = (Date.valueOf(LastPaymentPostingDate).daysBetween(Date.today()));
+                    if(prodPayment.Payment_Posting_Date__c != NULL){
+                        LastPaymentPostingDate = prodPayment.Payment_Posting_Date__c;
+                    }
+                    Decimal DaysDiff;
+                    if(LastPaymentPostingDate != NULL){
+                       DaysDiff = (Date.valueOf(LastPaymentPostingDate).daysBetween(Date.today()));
+                    }
                     if(DaysDiff == 0){
                         Decimal Last_Principal_Balance = 0;
                         Last_Principal_Balance = ProductNewInstance.Current_Principal_Balance__c.setScale(2,RoundingMode.HALF_UP);
@@ -989,7 +994,9 @@ public class JudgmentTriggerHandler {
                 system.debug('LastPaymentPostingDate'+LastPaymentPostingDate);
                 system.debug('prodData current principal bal'+prodData.Current_Principal_Balance__c);
                 Principal_Balance = prodData.Current_Principal_Balance__c.setScale(2,RoundingMode.HALF_UP);
-                NoOfDays = (Date.valueOf(LastPaymentPostingDate).daysBetween(Date.today()));
+                if(LastPaymentPostingDate != NULL){
+                    NoOfDays = (Date.valueOf(LastPaymentPostingDate).daysBetween(Date.today()));
+                }
                 //for include current date in interest calculation.
                 //as NoOfDays is one day less 
                 //NoOfDays += 1;

@@ -10,13 +10,13 @@
                 var data = response.getReturnValue();
                 component.set("v.draftValues", data);
                 //component.set("v.isButtonActive",true);
-                console.log(data);
+              //  console.log(data);
                   let button = component.find('disablebuttonid');
                 if(data.length != 0){
-                   console.log('RUn Block');
+                //   console.log('RUn Block');
     			   button.set('v.disabled',false);
                 }else{
-                    console.log('RUn Block else');
+                 //   console.log('RUn Block else');
                     button.set('v.disabled',true);
                 }
             }
@@ -49,7 +49,7 @@
             var state = response.getState();
             if (state === "SUCCESS") {
                 var data = response.getReturnValue();
-                console.log(data);
+                //console.log(data);
                 component.set("v.docVisibility", data);
                 //component.find("month").set("v.value",'--None--')
             }
@@ -81,10 +81,11 @@
                         showToast.fire();
         }
        else{
+
        var action = component.get("c.updateAttachmentrecord");
         var parentid = component.get("v.recordId");
        var draftValues = component.get("v.draftValues");
-       console.log(jvar);
+     //  console.log(jvar);
        // console.log(draftValues);
         action.setParams({"jvar" : jvar,
                           "parentid" : parentid

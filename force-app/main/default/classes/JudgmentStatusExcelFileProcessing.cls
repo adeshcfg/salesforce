@@ -313,16 +313,19 @@ public class JudgmentStatusExcelFileProcessing {
         message.optOutPolicy = 'FILTER';
         message.subject = 'Account Judgment Upload Status';
         String processingLink = '';
+        String processingStatus = '';
         
         if(String.isBlank(exceptionMessage)){
             message.plainTextBody = 
             'Please click the link below to review Account Judgment records: \n'+URL.getSalesforceBaseUrl().toExternalForm()+'/apex/DisplayJudgmentStaging?id='+documentId;            
             processingLink = URL.getSalesforceBaseUrl().toExternalForm()+'/apex/DisplayJudgmentStaging?id='+documentId;
+            processingStatus = 'Staging Table Created';
         }
         else{
             message.plainTextBody = 'Payment Processing failed! \nReason: ' +exceptionMessage + '\n\n'+
             'Please click the link below to view page :\n'+
             URL.getSalesforceBaseUrl().toExternalForm()+'/apex/DisplayJudgmentStaging?id='+documentId;
+            processingStatus = 'Staging Table Creation Failed';
         }
         /*if(!Test.isRunningTest()){
             Messaging.SingleEmailMessage[] messages = 
@@ -341,6 +344,7 @@ public class JudgmentStatusExcelFileProcessing {
         Document_Storage__c doc = new Document_Storage__c(ID = listDocuments[0].ID,
                                                           File_Processing_Link__c = processingLink,
                                                           File_Processing_Date__c = Date.today(),
+                                                          File_Processing_Status__c = processingStatus,
                                                           File_processing_Error__c = exceptionMessage
                                                          );
         update doc;
@@ -986,7 +990,7 @@ public class JudgmentStatusExcelFileProcessing {
             if(mapProductNameAmount.containsKey(prodRecord.Name)
             && mapProductNameAmount.get(prodRecord.Name) > 1){
                 system.debug('inside warning');
-                ERROR_MSG += '<b>WARNING</b> - A duplicate transaction was found in this File Update.<br/>';    
+                ERROR_MSG += '<b>ERROR</b> - A duplicate transaction was found in this File Update.<br/>';    
             }else{
                 system.debug('outside warning');
             }

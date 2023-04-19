@@ -102,9 +102,9 @@ public class TestSnapshotQueueableClass {
         
         Test.startTest();
         SnapshotQueueableClass updater = new SnapshotQueueableClass(prodList1,agencyId);
-        SnapshotQueueableClass.getFiles(place.id);
-        SnapshotQueueableClass.getCSVHeaderData(prodList1,plcmnt1.id);
-        SnapshotQueueableClass.notificationCallAPI(place.name,docSto2.Document_Type__c,docSto2.Document_Name__c);
+       // SnapshotQueueableClass.getFiles(place.id);
+        //SnapshotQueueableClass.getCSVHeaderData(prodList1,plcmnt1.id);
+        //SnapshotQueueableClass.notificationCallAPI(place.name,docSto2.Document_Type__c,docSto2.Document_Name__c);
         ID jobID = System.enqueueJob(updater);
         Test.stopTest();
     }

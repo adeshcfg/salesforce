@@ -7,6 +7,7 @@
         helper.openDocumentRecord(component, event);
     },
     previewFile : function(component, event, helper) {
-        helper.previewDocument(component, event);	
+        //helper.previewDocument(component, event);	
+        helper.previewDocumentProxy(component, event);	//Added by satyajit
     }
 })

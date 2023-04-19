@@ -8,6 +8,7 @@
     <aura:attribute name="listvalues" type="List" />
     <aura:attribute name="isButtonActive" type="Boolean" default="true" />
     <aura:attribute name="selectedValue" type="String" />
+    <!-- <aura:registerEvent name="vfEvent" type="c:SendDataToVFPage"/> -->
     <aura:method name="callChild" action="{!c.doinit}" />
     <!-- handlers-->
     <aura:handler name="init" value="{!this }" action="{!c.doinit }" />

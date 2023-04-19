@@ -90,7 +90,7 @@
             return;
         }
         else if(paymentAmount >= component.get("v.productRecord").Effective_Current_Balance__c){
-            console.log('effective balance:',component.get("v.productRecord").Effective_Current_Balance__c);
+           // console.log('effective balance:',component.get("v.productRecord").Effective_Current_Balance__c);
             component.set("v.missingData" , true);
             component.set("v.missingDataMsg" , 'Payment Amount is greater than effective balance');
             return;
@@ -196,7 +196,7 @@
         }
         
         //endDateValue = component.find("endDate").get("v.value");
-        console.log('endDateValue in helper:',endDateValue);
+        //console.log('endDateValue in helper:',endDateValue);
         var action = component.get("c.saveTransaction");
         
         action.setParams({

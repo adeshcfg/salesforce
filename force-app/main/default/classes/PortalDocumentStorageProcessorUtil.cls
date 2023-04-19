@@ -177,12 +177,14 @@ public class PortalDocumentStorageProcessorUtil {
             mapSettlementNames.put(Settlement.Settlement_Number__c, Settlement.ID);
             
         }
-        for(Judgment__c Judgment : [SELECT ID, Judgment_Number__c
+        
+		for(Judgment__c Judgment : [SELECT ID, Judgment_Number__c
                                      FROM Judgment__c
                                      WHERE Judgment_Number__c IN :setJudgmentID]){
             mapJudgmentNames.put(Judgment.Judgment_Number__c, Judgment.ID);
             
         }
+        
         for(Placement__c Placement : [SELECT ID, Name
                                      FROM Placement__c
                                      WHERE Name IN :setPlacementID]){
@@ -192,15 +194,24 @@ public class PortalDocumentStorageProcessorUtil {
         
         for(Document_Storage__c docStorageObj : listDocStorages){
         
-       
-            docStorageObj.Work_Assignment__c = mapWorkAssignmentNames.get(docStorageObj.Work_Assignment_Identifier__c);
-            if(mapProductNames.containsKey(docStorageObj.Product_Identifier__c)){
+            if(docStorageObj.Work_Assignment_Identifier__c != NULL && mapWorkAssignmentNames.containsKey(docStorageObj.Work_Assignment_Identifier__c)){
+                docStorageObj.Work_Assignment__c = mapWorkAssignmentNames.get(docStorageObj.Work_Assignment_Identifier__c);
+            }
+            if(docStorageObj.Product_Identifier__c != NULL && mapProductNames.containsKey(docStorageObj.Product_Identifier__c)){
                docStorageObj.Product__c = mapProductNames.get(docStorageObj.Product_Identifier__c);
             }
-            docStorageObj.Customer__c = mapCustomerNames.get(docStorageObj.Customer_Identifier__c);
-            docStorageObj.Settlement__c = mapSettlementNames.get(docStorageObj.Settlement_Identifier__c);
-            docStorageObj.Judgment__c = mapJudgmentNames.get(docStorageObj.Judgment_Identifier__c);
-            docStorageObj.Placement_Agency__c = mapPlacementNames.get(docStorageObj.Placement_Identifier__c);
+            if(docStorageObj.Customer_Identifier__c != NULL && mapCustomerNames.containsKey(docStorageObj.Customer_Identifier__c)){
+               docStorageObj.Customer__c = mapCustomerNames.get(docStorageObj.Customer_Identifier__c);
+            }
+            if(docStorageObj.Settlement_Identifier__c != NULL && mapSettlementNames.containsKey(docStorageObj.Settlement_Identifier__c)){
+            	docStorageObj.Settlement__c = mapSettlementNames.get(docStorageObj.Settlement_Identifier__c);
+            }
+            if(docStorageObj.Judgment_Identifier__c != NULL && mapJudgmentNames.ContainsKey(docStorageObj.Judgment_Identifier__c)){
+                docStorageObj.Judgment__c = mapJudgmentNames.get(docStorageObj.Judgment_Identifier__c);
+            }
+            if(docStorageObj.Placement_Identifier__c != NULL && mapPlacementNames.ContainsKey(docStorageObj.Placement_Identifier__c)){
+            	docStorageObj.Placement_Agency__c = mapPlacementNames.get(docStorageObj.Placement_Identifier__c);
+            }
 
         }
     }

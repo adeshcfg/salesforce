@@ -50,9 +50,17 @@
         <connector>
             <targetReference>BNS_Report</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Insolvency_Status__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
         <object>Insolvency_Account__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
 </Flow>

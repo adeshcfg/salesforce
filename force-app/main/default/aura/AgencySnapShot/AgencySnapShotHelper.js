@@ -1,6 +1,6 @@
 ({
 	getUploadedFiles : function(component, event){
-        console.log('getUploadedFiles:::');
+       // console.log('getUploadedFiles:::');
         var action = component.get("c.getFiles");  
         action.setParams({  
             "recordId": component.get("v.recordId") 
@@ -15,8 +15,8 @@
                     var result = response.getReturnValue(); 
                     
                     component.set("v.files",result); 
-                    console.log('result::',result);
-                    console.log('files:::'+JSON.stringify(result));
+                   // console.log('result::',result);
+                  //  console.log('files:::'+JSON.stringify(result));// commented this line as part of bug #4442
                 }
             }  
         });  
@@ -26,11 +26,43 @@
     },
     openDocumentRecord: function(component, event, helper){
         var documentno = event.currentTarget.dataset.documentno;
-        console.log('documentno::',documentno);
+      //  console.log('documentno::',documentno);
         var url = '/'+documentno;
         window.open(url, '_blank');
     },
-    previewDocument : function(component, event){
+     //Added by Satyajit 
+   previewDocumentProxy:function(component, event){
+        // console.log('uploadAppRecHelper::'+component.find("appAprvStatus").get("v.value") );
+        var documentId = event.currentTarget.dataset.documentid;
+      //  alert(documentId);
+    	var action1 = component.get("c.uploadDocumentProxy"); 
+       // console.log(event.currentTarget.dataset.documentid);
+        action1.setParams({              
+            "documentId":documentId
+        });  
+    	action1.setCallback(this,function(response){  
+            var state = response.getState(); 
+            if(state=='SUCCESS'){ 
+                let filepath = response.getReturnValue();
+               // alert(filepath);
+                if(filepath != null){
+                window.location.href = filepath;
+                }
+             }else{
+                  var toastEvent = $A.get("e.force:showToast");
+                        toastEvent.setParams({
+                            title : 'Error',
+                            message:'File is not available',
+                            type: 'error',
+                        });
+                        toastEvent.fire();
+           }
+        });
+        $A.enqueueAction(action1);
+
+} ,  
+ 
+    /*previewDocument : function(component, event){
         // console.log('uploadAppRecHelper::'+component.find("appAprvStatus").get("v.value") );
         var documentId = event.currentTarget.dataset.documentid;
         var fileType = event.currentTarget.dataset.filetype;
@@ -114,5 +146,5 @@
         });
         
         $A.enqueueAction(action1);    
-    }
+    }*/
 })

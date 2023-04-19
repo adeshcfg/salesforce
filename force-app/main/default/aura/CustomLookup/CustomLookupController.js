@@ -27,7 +27,7 @@
             if(index != -1) {
                 var selectedRecord = recordsList[index];
             }
-            console.log(JSON.stringify(selectedRecord));
+            //console.log(JSON.stringify(selectedRecord));
             component.set('v.selectedRecord',selectedRecord);
             component.set('v.value',selectedRecord.value);
             $A.util.removeClass(component.find('resultsDiv'),'slds-is-open');

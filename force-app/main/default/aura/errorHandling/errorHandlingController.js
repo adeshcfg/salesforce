@@ -1,7 +1,7 @@
 ({
 	handleError : function(component, event, helper) {
 		var response = component.get("v.serverRespose");
-        console.log(response);
+      //  console.log(response);
         var state = response.getState();
         if (state === "INCOMPLETE") {
             // do something

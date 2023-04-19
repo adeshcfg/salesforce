@@ -7,9 +7,8 @@ public class SnapShotAPIToPortal {
     public static void parse(String documentStorageId,List<Id> prodIdList){
         List<Agencies> awList  = new List<Agencies>();
         Set<String> placeId = new Set<String>();
-        system.debug('snapShot run');
-        system.debug('documentStorageId::'+documentStorageId);
-         system.debug('prodIdList::'+prodIdList);
+       
+        //for product and pool screen allocation
         if(documentStorageId.contains('DS_ACC') ){
             List<Product__c> listProd = [Select collection_agency__c,Name from Product__c where id IN: prodIdList]; 
             
@@ -110,14 +109,20 @@ public class SnapShotAPIToPortal {
 accountList = listAccountRecordWrapper.documents;
 List<documentsList> docList = new List<documentsList>();
 docList = accountList.documents;*/
-                    document_storage__c docData = [select id,Work_Assignment__c from document_storage__c where id = :documentStorageId];
+                    document_storage__c docData;
+                    if(!documentStorageId.contains('DS_ACC') ){
+                        docData = [select id,Work_Assignment__c from document_storage__c where id = :documentStorageId];
+                        
+                    }
+                    if(docData != null){
+                        Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
+                        updateWorkAssign.id = docData.Work_Assignment__c;
+                        updateWorkAssign.Comment_Reply__c = 'SnapShot requested successfully';
+                        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
+                        update updateWorkAssign;
+                        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+                    }
                     
-                    Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
-                    updateWorkAssign.id = docData.Work_Assignment__c;
-                    updateWorkAssign.Comment_Reply__c = 'SnapShot requested successfully';
-                    WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
-                    update updateWorkAssign;
-                    WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
                     //system.debug(bodyMap.get('ReturnMessage'));
                 }       
                 else{
@@ -126,25 +131,38 @@ docList = accountList.documents;*/
                     dataOfErrorJSON = deSerializeErrorJSON(res.getBody());
                     system.debug('inside else after 202');
                     system.debug('docData::'+documentStorageId);
-                    document_storage__c docData = [select id,Work_Assignment__c,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
                     
-                    Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
-                    updateWorkAssign.id = docData.Work_Assignment__c;
-                    
-                    if(dataOfErrorJSON.returnMessage != null && dataOfErrorJSON.returnMessage.length() > 1200){
-                        updateWorkAssign.Comment_Reply__c = dataOfErrorJSON.returnMessage.subString(0,1199);
-                    }else{
-                        updateWorkAssign.Comment_Reply__c = dataOfErrorJSON.returnMessage;
+                    document_storage__c docData;
+                    if(!documentStorageId.contains('DS_ACC') ){
+                        docData = [select id,Work_Assignment__c,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
                     }
-                    updateWorkAssign.Status__c = 'Completed';
-                    WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
-                    update updateWorkAssign;
-                    WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+                    if(docData != null){
+                        Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
+                        updateWorkAssign.id = docData.Work_Assignment__c;
+                        
+                        if(dataOfErrorJSON.returnMessage != null && dataOfErrorJSON.returnMessage.length() > 1200){
+                            updateWorkAssign.Comment_Reply__c = dataOfErrorJSON.returnMessage.subString(0,1199);
+                        }else{
+                            updateWorkAssign.Comment_Reply__c = dataOfErrorJSON.returnMessage;
+                        }
+                        updateWorkAssign.Status__c = 'Completed';
+                        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
+                        update updateWorkAssign;
+                        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+                        
+                        docData.File_Processing_Status__c = 'Processed';
+                        DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
+                        update docData;
+                        DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+                    }
                     
-                    docData.File_Processing_Status__c = 'Processed';
-                    DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
-                    update docData;
-                    DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+                    //When snapshot failed from product and from pool screen.
+                    if(documentStorageId.contains('DS_ACC') ){
+                        String userName = UserInfo.getName();
+                        system.debug('inside email');
+                        CFG_EmailNotification.snapshotFailedEmailNotification(userName,dataOfErrorJSON.returnMessage,documentStorageId);
+                        
+                    }
                     
                     system.debug('dataOfErrorJSON::'+dataOfErrorJSON);
                     system.debug('Error Response');

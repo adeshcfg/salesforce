@@ -11,6 +11,12 @@ public class TestSettlementTriggerHandler {
     
     public static testMethod void testHandler(){
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        
+        Loan_ReEngineering__c loanSettings = new Loan_ReEngineering__c();
+        loanSettings.Run_Settlement_Trigger__c = true;
+        insert loanSettings;
+        
+        
         List<Placement__c> placeList = new List<Placement__c>();
         Placement__c place = new Placement__c();
         

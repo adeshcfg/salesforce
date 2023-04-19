@@ -4,9 +4,9 @@
         var selectedProducts = [];
         var nonSelectedProducts = [];
         var searchResults = component.get('v.searchResults');
-         console.log('searchResults'+searchResults.length);
+       //  console.log('searchResults'+searchResults.length);
         for(var obj in searchResults){
-            console.log('adding'+obj);
+         //   console.log('adding'+obj);
             if(searchResults[obj].isSelected == true){
                 delete searchResults[obj]['isSelected'];
                 selectedProducts.push(searchResults[obj]);
@@ -91,10 +91,10 @@
         });
         action.setCallback(this, function(response) {
             var state = response.getState();
-             console.log(state);
+          //   console.log(state);
 //            console.log(response.g);
             if(state == 'SUCCESS'){
-                console.log('updated');
+               // console.log('updated');
             }else{
                  var errorHandling = component.find("errorHandling");
                  component.set("v.serverRespose",response);

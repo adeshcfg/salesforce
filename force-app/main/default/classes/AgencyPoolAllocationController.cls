@@ -113,8 +113,10 @@ public class AgencyPoolAllocationController {
             }
             if(!agencyTo_ProductIdsMap.isEmpty()){
                 for(Id agencyId : agencyTo_ProductIdsMap.keySet()){
-                    System.enqueueJob(new SnapshotQueueableClass(agencyTo_ProductIdsMap.get(agencyId), agencyId));
-                    System.enqueueJob(new SnapshotQueueableClassForExcel(agencyTo_ProductIdsMap.get(agencyId), agencyId));
+                    System.enqueueJob(new SnapshotQueueableClass(productIds, agencyId));
+                    
+                    //As Discussed with ankur satyajit commented this class
+                    //System.enqueueJob(new SnapshotQueueableClassForExcel(agencyTo_ProductIdsMap.get(agencyId), agencyId));
                 }
             }
     }
@@ -127,7 +129,8 @@ public class AgencyPoolAllocationController {
         listProdWrapper = new list<productWrapper>();
         system.debug('NewPlacementAgency  '+NewPlacementAgency);
         list<Product__c> productList = new list<Product__c>();
-        
+        list<Id> prodIdList = new list<Id>();
+        Map<Id,String> placeStatusMap = new Map<Id,String>();
         pool = [Select id,Name,Placement_agency_lookup__c,Placement_Agency__c from Pool__c Where id=:poolId];
         system.debug('Pool ID   '+poolId);
         system.debug('Product List  '+listProd);
@@ -180,6 +183,9 @@ public class AgencyPoolAllocationController {
                 product.Collection_Sub_Status__c = null;
                 
                 productList.add(product);
+                prodIdList.add(product.id);
+                
+                placeStatusMap.put(product.id,product.Placement_Status__c);
                 productNames += product.Name + ',';
                 if(!mapRecallCodeStatus.isEmpty()){
                     product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
@@ -244,8 +250,14 @@ public class AgencyPoolAllocationController {
               DistressedUtilities.createPlacementHistory(productList, newPlacementAgency,placement.Commission_Rate__c);
               //insert placementHistoryList;
               system.debug('API 1 ');
-              PortalProductStatusBulkAPI.processBulkProducts(productNames, NEW_ALLOCATION_READY, ALLOCATED, String.valueOf(Date.today()), 
-                                           'Allocation',placement.Name, poolRecord.Name);
+              
+              //Commented by satyajit
+              //PortalProductStatusBulkAPI.processBulkProducts(productNames, NEW_ALLOCATION_READY, ALLOCATED, String.valueOf(Date.today()), 
+                                           //'Allocation',placement.Name, poolRecord.Name);
+                                           
+            //Added by satyajit for ticket 4307
+            Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update File'), 200);  
+            
               system.debug('API 2 ');
               update pool;
               getSnapshortRecords(productList);
@@ -273,7 +285,8 @@ public class AgencyPoolAllocationController {
         system.debug('NewPlacementAgency  '+NewPlacementAgency);
         
         list<Product__c> productList = new list<Product__c>(); 
-        
+        list<Id> prodIdList = new list<Id>();
+        Map<Id,String> placeStatusMap = new Map<Id,String>();
         pool = [Select id,Name,Placement_agency_lookup__c,Placement_Agency__c from Pool__c Where id=:poolId];
         
         system.debug('Pool ID   '+poolId);
@@ -323,6 +336,8 @@ public class AgencyPoolAllocationController {
                 product.Collection_Sub_Status__c = null;
                 
                 productList.add(product);
+                prodIdList.add(product.id);
+                placeStatusMap.put(product.id,product.Placement_Status__c);
                 productNames += product.Name + ',';
                 if(!mapRecallCodeStatus.isEmpty()){
                     product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
@@ -385,8 +400,13 @@ public class AgencyPoolAllocationController {
               DistressedUtilities.createPlacementHistory(productList, newPlacementAgency,placement.Commission_Rate__c);
               
              // insert placementHistoryList;
-              PortalProductStatusBulkAPI.processBulkProducts(productNames, NEW_ALLOCATION_READY, ALLOCATED, String.valueOf(Date.today()), 
-                                           'Allocation',placement.Name, poolRecord.Name);
+             
+               //Commented by satyajit
+             // PortalProductStatusBulkAPI.processBulkProducts(productNames, NEW_ALLOCATION_READY, ALLOCATED, String.valueOf(Date.today()), 
+                                          // 'Allocation',placement.Name, poolRecord.Name);
+              //Added by satyajit
+            Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update File'), 200);  
+            
               update pool;
               getSnapshortRecords(productList);
               ProductTriggerHandler.runProductTrigger = true;

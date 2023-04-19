@@ -87,25 +87,25 @@
                 var nextDate = new Date();
                 var dateVal = nextDate.getDate();
                 var yearVal;
-                console.log('year:',today.getFullYear());
-                console.log('Month:',today.getMonth());
-                console.log('date--',today.getDate());
+               // console.log('year:',today.getFullYear());
+                //console.log('Month:',today.getMonth());
+                //console.log('date--',today.getDate());
                 if(today.getMonth() === 12){
                     yearVal = today.getFullYear() + 1;
                 }else{
                     yearVal = today.getFullYear();
                 }
-                console.log('check date');
-                console.log('dayOfMonthValue: '+dayOfMonthValue);
+                //console.log('check date');
+                //console.log('dayOfMonthValue: '+dayOfMonthValue);
                 if(dayOfMonthValue <= today.getDate()){
-                    console.log('lesser than today');
+                  //  console.log('lesser than today');
                     nextDate = new Date(yearVal, today.getMonth() + 1, dayOfMonthValue);
                     if(dayOfMonthValue == 'Last Day of the Month'){
                         var date = new Date(), y = date.getFullYear(), m = date.getMonth();
                         var lastDay2 = new Date(y, m + 1, 0);
-                        console.log('lastDay2:',lastDay2);
+                     //   console.log('lastDay2:',lastDay2);
                         var lastDay = new Date(yearVal, today.getMonth() + 1, 0);
-                        console.log('lastDay1:',lastDay);
+                       // console.log('lastDay1:',lastDay);
                         endDate = new Date(yearVal, today.getMonth() + 1, 0);
                         endDate.setMonth(endDate.getMonth()+parseInt(noOfPay-1));
                         endDate.setDate(endDate.getDate() + 1); 
@@ -117,28 +117,28 @@
                     }
                     
                 }else{
-                    console.log('greater than today');
-                    console.log('dayOfMonthValue: ',dayOfMonthValue);
+                   // console.log('greater than today');
+                    //console.log('dayOfMonthValue: ',dayOfMonthValue);
                     if(dayOfMonthValue == 'Last Day of the Month'){
                         var month = today.getMonth(); // January
                         var d = new Date(today.getFullYear(), month +1+parseInt(noOfPay-1), 0);
-                        console.log(d.toString());
+                       // console.log(d.toString());
                         endDate = d;
                         endDate.setDate(endDate.getDate() + 1);
                     }
                     else{
                     	nextDate = new Date(yearVal, today.getMonth(), dayOfMonthValue);
                         endDate = new Date(yearVal, today.getMonth(), dayOfMonthValue);
-                        console.log('endDate number: ',endDate);
+                   //     console.log('endDate number: ',endDate);
                         endDate.setMonth(endDate.getMonth()+parseInt(noOfPay-1));
-                        console.log('endDate number month set: ',endDate);
+                     //   console.log('endDate number month set: ',endDate);
                         endDate.setDate(endDate.getDate() + 1);    
-                        console.log('endDate number Date set: ',endDate);
+                       // console.log('endDate number Date set: ',endDate);
                     }
                     
                 }
-                console.log('nextDate final:',nextDate);
-                console.log('endDate final:',endDate);
+           //     console.log('nextDate final:',nextDate);
+             //   console.log('endDate final:',endDate);
 				//alert('End Date 1' + endDate);
                 
             }else{

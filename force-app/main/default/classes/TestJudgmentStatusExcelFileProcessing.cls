@@ -42,6 +42,8 @@ public class TestJudgmentStatusExcelFileProcessing {
         prod2.Current_Principal_Balance__c=101;
         prod2.Current_Interest_Amount__c=1000;
         prod2.Collection_Agency__c = Decimal.valueOf(place.Name);
+        prod2.state__c = 'AB';
+        prod2.Data_Status_Description__c = 'Closed - Settled in full';
         ProductTriggerHandler.runProductTrigger = False;
         INSERT prod2;
         ProductTriggerHandler.runProductTrigger = True;
@@ -197,6 +199,8 @@ public class TestJudgmentStatusExcelFileProcessing {
         judg.Legal_Status__c='Post-Judgment';
         judg.Legal_Sub_Status__c='Dormant';
         judg.Legal_Agency__c = 'Test Agency';
+        judg.Filing_Date_Text__c = '2023-05-10';
+        judg.Product_1__c = prod2.name;
         insert judg;
         
         //Account-Judgment Record Creation
@@ -213,6 +217,7 @@ public class TestJudgmentStatusExcelFileProcessing {
         judg1.Legal_Status__c='Post-Judgment';
         judg1.Legal_Sub_Status__c='Dormant';
         judg1.Legal_Agency__c = 'Test Agency';
+        judg1.Filing_Date_Text__c = '2023-05-10';
         insert judg1;
         
         //Account-Judgment Record Creation
@@ -229,6 +234,7 @@ public class TestJudgmentStatusExcelFileProcessing {
         judg2.Legal_Status__c='Post-Judgment';
         judg2.Legal_Sub_Status__c='Dormant';
         judg2.Legal_Agency__c = 'Test Agency';
+        judg2.Filing_Date_Text__c = '2023-05-10';
         insert judg2;
         
         //Account-Judgment Record Creation
@@ -245,6 +251,7 @@ public class TestJudgmentStatusExcelFileProcessing {
         judg3.Legal_Status__c='Post-Judgment';
         judg3.Legal_Sub_Status__c='Dormant';
         judg3.Legal_Agency__c = 'Test Agency';
+        judg3.Filing_Date_Text__c = '2023-05-10';
         insert judg3;
         
         //Account-Judgment Record Creation
@@ -258,7 +265,7 @@ public class TestJudgmentStatusExcelFileProcessing {
         Account_Judgment__c accjudg4=new Account_Judgment__c();
         accjudg4.Product__c=prod5.id;
         accjudg4.Judgment__c=judg3.id;
-        accjudg4.Status__c='Active';
+        accjudg4.Status__c='Active'; 
         INSERT accjudg4;
         
         //Account-Judgment Record Creation
@@ -289,14 +296,14 @@ public class TestJudgmentStatusExcelFileProcessing {
         
         String workID = String.valueOf(workAssgn.ID);
         String string1 = 
-            '[{"data_id":"880P378","judgment_state":"ON", "judgment_county": "Milton", "judgment_court": "Superior Court of Justice", "judgment_firm":"Goodman & Griffin", "judgment_amount":7168.7,"judgment_writ":"2017-02-28","judgment_writ_amount":7168.7,"judgment_garnishment":"2017-02-28","judgment_garnishment_amount":7168.7,"place_id":82,"judgment_place_id":82, "judgment_date":"2017-02-28","pri_last":"John","pri_first":"Smith","placedetail_status":220000,"data_status":301000,"judgment_suit_amount":6500,"judgment_case":"131/17","judgment_filed":"2017-08-01","judgment_intrate":12.5},'+
-            '{"data_id":"1006P361","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"2017-02-28","judgment_writ_amount":7168.7,"judgment_garnishment":"2017-02-28","judgment_garnishment_amount":7168.7,"place_id":82,"judgment_place_id":82, "judgment_date":"","pri_last":"John","pri_first":"Smith","placedetail_status":290005,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":null,"judgment_intrate":null},'+
-            '{"data_id":"5100P52","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":500,"judgment_writ":"2017-02-28","judgment_writ_amount":7168.7,"judgment_garnishment":"2017-02-28","judgment_garnishment_amount":7168.7,"place_id":82,"judgment_place_id":null, "judgment_date":"","pri_last":"John","pri_first":"Smith","placedetail_status":220000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":null,"judgment_intrate":null},'+
-            '{"data_id":"451P458","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"2017-02-28","judgment_writ_amount":7168.7,"judgment_garnishment":"2017-02-28","judgment_garnishment_amount":7168.7,"place_id":82,"judgment_place_id":null, "judgment_date":"","pri_last":"John","pri_first":"Smith","placedetail_status":290000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":null,"judgment_intrate":null},'+
-            '{"data_id":"1452P78852","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"2017-02-28","judgment_writ_amount":7168.7,"judgment_garnishment":"","judgment_garnishment_amount":null,"place_id":82,"judgment_place_id":null, "judgment_date":"","pri_last":"John","pri_first":"Smith","placedetail_status":293000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":null,"judgment_intrate":null},'+
-            '{"data_id":"782536P45","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"","judgment_writ_amount":null,"judgment_garnishment":"","judgment_garnishment_amount":null,"place_id":82,"judgment_place_id":null, "judgment_date":"","pri_last":"John","pri_first":"Smith","placedetail_status":295000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":null,"judgment_intrate":null},'+
-            '{"data_id":"4587P125","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"","judgment_writ_amount":null,"judgment_garnishment":"","judgment_garnishment_amount":null,"place_id":82,"judgment_place_id":null, "judgment_date":"","pri_last":"John","pri_first":"Smith","placedetail_status":295000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":null,"judgment_intrate":null},'+
-            '{"data_id":"7856P785","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"","judgment_writ_amount":null,"judgment_garnishment":"","judgment_garnishment_amount":null,"place_id":82,"judgment_place_id":null, "judgment_date":"","pri_last":"John","pri_first":"Smith","placedetail_status":295020,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":null,"judgment_intrate":null}'+
+            '[{"data_id":"880P378","judgment_state":"ON", "judgment_county": "Milton", "judgment_court": "Superior Court of Justice", "judgment_firm":"Goodman & Griffin", "judgment_amount":7168.7,"judgment_writ":"2017-02-28","judgment_writ_amount":7168.7,"judgment_garnishment":"2017-02-28","judgment_garnishment_amount":7168.7,"place_id":82,"judgment_place_id":82, "judgment_date":"2017-02-28","pri_last":"John","pri_first":"Smith","placedetail_status":220000,"data_status":301000,"judgment_suit_amount":6500,"judgment_case":"131/17","judgment_filed":"2017-02-28","judgment_intrate":12.5,"pds_desc_full":null},'+
+            '{"data_id":"1006P361","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"2017-02-28","judgment_writ_amount":7168.7,"judgment_garnishment":"2017-02-28","judgment_garnishment_amount":7168.7,"place_id":82,"judgment_place_id":82, "judgment_date":"2023-12-28","pri_last":"John","pri_first":"Smith","placedetail_status":290005,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":"2017-02-28","judgment_intrate":null,"pds_desc_full":null},'+
+            '{"data_id":"5100P52","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":500,"judgment_writ":null,"judgment_writ_amount":7168.7,"judgment_garnishment":null,"judgment_garnishment_amount":7168.7,"place_id":82,"judgment_place_id":null, "judgment_date":null,"pri_last":"John","pri_first":"Smith","placedetail_status":220000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":"2023-02-01T00:00:03Z1","judgment_intrate":null,"pds_desc_full":null},'+
+            '{"data_id":"451P458","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"02/14/202","judgment_writ_amount":7168.7,"judgment_garnishment":"02/14/202","judgment_garnishment_amount":7168.7,"place_id":82,"judgment_place_id":null, "judgment_date":"02/14/202","pri_last":"John","pri_first":"Smith","placedetail_status":290000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":null,"judgment_intrate":null,"pds_desc_full":null},'+
+            '{"data_id":"1452P78852","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"2024-02-28","judgment_writ_amount":7168.7,"judgment_garnishment":"2024-02-28","judgment_garnishment_amount":null,"place_id":82,"judgment_place_id":null, "judgment_date":"2024-02-28","pri_last":"John","pri_first":"Smith","placedetail_status":293000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":"02/14/202","judgment_intrate":null,"pds_desc_full":null},'+
+            '{"data_id":"782536P45","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"2023-02-01T00:00:03Z","judgment_writ_amount":null,"judgment_garnishment":"2023-02-01T00:00:03Z","judgment_garnishment_amount":null,"place_id":82,"judgment_place_id":null, "judgment_date":"2023-02-01T00:00:03Z","pri_last":"John","pri_first":"Smith","placedetail_status":295000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":"2024-02-28","judgment_intrate":null,"pds_desc_full":null},'+
+            '{"data_id":"4587P125","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"02/14/2023","judgment_writ_amount":null,"judgment_garnishment":"02/14/2023","judgment_garnishment_amount":null,"place_id":82,"judgment_place_id":null, "judgment_date":"02/14/2023","pri_last":"John","pri_first":"Smith","placedetail_status":295000,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":"02/14/2023","judgment_intrate":null,"pds_desc_full":null},'+
+            '{"data_id":"7856P785","judgment_state":null, "judgment_county": null, "judgment_court": null, "judgment_firm": null, "judgment_amount":null,"judgment_writ":"23/05/01","judgment_writ_amount":null,"judgment_garnishment":"23/05/01","judgment_garnishment_amount":null,"place_id":82,"judgment_place_id":null, "judgment_date":"23/05/01","pri_last":"John","pri_first":"Smith","placedetail_status":295020,"data_status":"220-000","judgment_suit_amount":null,"judgment_case":null,"judgment_filed":"23/05/01","judgment_intrate":null,"pds_desc_full":"Test"}'+
             
             ']';
         

@@ -24,5 +24,7 @@ public class TestCFG_EmailNotification {
         
         CFG_EmailNotification.sendEmailNotificationOnErrorFile('xyz@gmail.com', 'Success records', workAssignment.Name, workAssignment.Title__c, workAssignment.id,'Product Allocation File');
         CFG_EmailNotification.sendEmailNotificationOnProcessLinkFail('xyz@gmail.com', 'fail records', workAssignment.Name, workAssignment.Title__c, workAssignment.id,'Product Allocation File');
+        CFG_EmailNotification.snapshotFailedEmailNotification('xyz@gmail.com', 'fail records', docStorage.id);
+
     }
 }

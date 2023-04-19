@@ -25,6 +25,7 @@ public class AgencyPoolRecallController {
    // string placementID;
     public String oldPlacementID;
     list<Product__c> productList = new list<Product__c>();
+    list<Id> ProdIdList = new list<Id>();
     list<Placement_History__c> placementHistoryList = new list<Placement_History__c>();
     List <Pool__c> pool = new List<Pool__c>();
     
@@ -118,6 +119,8 @@ public class AgencyPoolRecallController {
         String mainStatus = mapRecallCodeStatus.get(selectedValue).Parent_Status__C + ' - ' +mapRecallCodeStatus.get(selectedValue).Status__c;
         String subStatus = mapRecallCodeStatus.get(selectedValue).Sub_Status__c;
         String productNames = '';
+         Map<Id,String> placeStatusMap = new Map<Id,String>();
+         
         countrefresh = false;
         pool = [Select id,Name,Placement_agency_lookup__c,Placement_Agency__c from Pool__c Where id=:poolId];
         
@@ -166,6 +169,8 @@ public class AgencyPoolRecallController {
                 system.debug('product.Status__c:: '+product.Status__c);
                 system.debug('product.Sub_Status__c: '+product.Sub_Status__c);
                 productList.add(product);
+                prodIdList.add(product.id);
+                placeStatusMap.put(product.id,product.Placement_Status__c);
                 //productNames += product.Name + ',';
             }
             else if(selectedValueAction == 'Send to Warehouse'){
@@ -227,6 +232,8 @@ public class AgencyPoolRecallController {
 
                 Product_Placement_Status = product.Placement_Status__c;
                 productList.add(product);
+                 prodIdList.add(product.id);
+                placeStatusMap.put(product.id,product.Placement_Status__c);
                 system.debug('productList++' +productList);
             }
             else if(selectedValueAction == 'Pending Allocation'){
@@ -243,6 +250,8 @@ public class AgencyPoolRecallController {
                     product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
                 }
                 productList.add(product);
+                 prodIdList.add(product.id);
+                placeStatusMap.put(product.id,product.Placement_Status__c);
             }
             if(selectedValueAction == 'Pending Recall' || selectedValueAction == 'Send to Warehouse'){
                 /*Placement_History__c placementHistory = new Placement_History__c();                
@@ -324,12 +333,20 @@ public class AgencyPoolRecallController {
             
             system.debug('productList '+productList);
             
+            
             ProductTriggerHandler.runProductTrigger = false;
+             DistressedUtilities.UpdateSettlement(prodIdList);
             update productList;
            // insert placementHistoryList;
      
-            PortalProductStatusBulkAPI.processBulkProducts(productNames, Product_Placement_Status, ALLOCATED, String.valueOf(Date.today()), 
-                                                           'Recall',poolAgency, poolRecord.Name);
+             //Commented by satyajit
+            //PortalProductStatusBulkAPI.processBulkProducts(productNames, Product_Placement_Status, ALLOCATED, String.valueOf(Date.today()), 
+                                                           //'Recall',poolAgency, poolRecord.Name);
+                                                           //
+                                                           //
+             //Added by satyajit
+              Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update File'), 200);
+                                                           
             ProductTriggerHandler.runProductTrigger = true;
             //update pool;
             listProdWrapper = new list<productWrapper>();
@@ -356,6 +373,8 @@ public class AgencyPoolRecallController {
     
     public PageReference recallProduct(){
         String productNames = '';
+        Map<Id,String> placeStatusMap = new Map<Id,String>();
+
         countrefresh = false;
         pool = [Select id,Name,Placement_agency_lookup__c,Placement_Agency__c from Pool__c Where id=:poolId];
         Placement__c placement = [SELECT ID, Name
@@ -414,6 +433,8 @@ public class AgencyPoolRecallController {
                     system.debug('product.Status__c:: '+product.Status__c);
                     system.debug('product.Sub_Status__c:: '+product.Sub_Status__c);
                     productList.add(product);
+                    prodIdList.add(product.id);
+                    placeStatusMap.put(product.id,product.Placement_Status__c);
                     //productNames += product.Name + ',';
                 }
                 else if(selectedValueAction == 'Send to Warehouse'){
@@ -462,6 +483,8 @@ public class AgencyPoolRecallController {
                     system.debug('selectedValue' +selectedValue);
                     Product_Placement_Status = product.Placement_Status__c;
                     productList.add(product);
+                     prodIdList.add(product.id);
+                    placeStatusMap.put(product.id,product.Placement_Status__c);
                     system.debug('productList++' +productList);
                 } 
                 else if(selectedValueAction == 'Pending Allocation'){
@@ -480,6 +503,8 @@ public class AgencyPoolRecallController {
                     // ERROR_MSG = 'Product set to Pending Allocation Status';
                     // placementIdentifier = '';
                     productList.add(product);
+                     prodIdList.add(product.id);
+                    placeStatusMap.put(product.id,product.Placement_Status__c);
                 }
                  if(selectedValueAction == 'Pending Recall' || selectedValueAction == 'Send to Warehouse'){
                /* Placement_History__c placementHistory = new Placement_History__c();                
@@ -557,13 +582,18 @@ public class AgencyPoolRecallController {
                 
                 system.debug('productList '+productList);
                 
-                
+                DistressedUtilities.UpdateSettlement(prodIdList);
                 ProductTriggerHandler.runProductTrigger = false;
                 update productList;               
                 //insert placementHistoryList; 
                 
-                PortalProductStatusBulkAPI.processBulkProducts(productNames, Product_Placement_Status, ALLOCATED, String.valueOf(Date.today()), 
-                                                               'Recall',poolAgency, poolRecord.Name);
+               //Commented by satyajit
+                //PortalProductStatusBulkAPI.processBulkProducts(productNames, Product_Placement_Status, ALLOCATED, String.valueOf(Date.today()), 
+                                                              // 'Recall',poolAgency, poolRecord.Name);
+               
+                //Added by satyajit
+                Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update File'), 200);
+                
                 ProductTriggerHandler.runProductTrigger = true;
                 //update pool;
                 listProdWrapper = new list<productWrapper>();
