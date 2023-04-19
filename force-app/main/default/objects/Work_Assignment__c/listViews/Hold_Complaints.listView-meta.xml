@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hold_Complaints</fullName>
+    <booleanFilter>1 AND 2</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Task_Number__c</columns>
+    <columns>Product__c</columns>
+    <columns>Complaint_Type__c</columns>
+    <columns>Status__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Requested_Date__c</columns>
+    <columns>Due_Date__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Work_Assignment__c.CFG_Complaint,Work_Assignment__c.Agency_Complaint</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>On Hold</value>
+    </filters>
+    <label>Hold Complaints</label>
+    <sharedTo>
+        <group>Compliance_Team</group>
+    </sharedTo>
+</ListView>

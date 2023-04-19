@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_Card_Products_Today</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>Credit_Limit__c</columns>
+    <columns>Source_System__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product__c.Credit_Card_Account</value>
+    </filters>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>LAST_MONTH</value>
+    </filters>
+    <label>Credit Card Products Today</label>
+    <sharedTo>
+        <group>Affirm_CFG_Users</group>
+        <group>Fidem_BS</group>
+    </sharedTo>
+</ListView>

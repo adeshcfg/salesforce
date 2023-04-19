@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Merchant_Account_Payments</fullName>
+    <columns>NAME</columns>
+    <columns>LeadId__c</columns>
+    <columns>Amount__c</columns>
+    <columns>Processor__c</columns>
+    <columns>TranDate__c</columns>
+    <columns>TranType__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Merchant Account Payments</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Merchant_Access</group>
+    </sharedTo>
+</ListView>

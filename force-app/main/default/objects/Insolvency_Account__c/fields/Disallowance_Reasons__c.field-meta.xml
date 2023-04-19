@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disallowance_Reasons__c</fullName>
+    <description>Disallowance Reasons</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Disallowance Reasons</inlineHelpText>
+    <label>Disallowance Reasons</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Incorrect VIN#</fullName>
+                <default>false</default>
+                <label>Incorrect VIN#</label>
+            </value>
+            <value>
+                <fullName>Incorrect Name Registered on PPSA</fullName>
+                <default>false</default>
+                <label>Incorrect Name Registered on PPSA</label>
+            </value>
+            <value>
+                <fullName>No Lien Registered/Lien Expired</fullName>
+                <default>false</default>
+                <label>No Lien Registered/Lien Expired</label>
+            </value>
+            <value>
+                <fullName>Missing QC Retention Clause</fullName>
+                <default>false</default>
+                <label>Missing QC Retention Clause</label>
+            </value>
+            <value>
+                <fullName>Incorrect Vehicle Registered</fullName>
+                <default>false</default>
+                <label>Incorrect Vehicle Registered</label>
+            </value>
+            <value>
+                <fullName>Incorrect Province Registration</fullName>
+                <default>false</default>
+                <label>Incorrect Province Registration</label>
+            </value>
+            <value>
+                <fullName>PPSA Search Resulted in No Lien Found.</fullName>
+                <default>false</default>
+                <label>PPSA Search Resulted in No Lien Found.</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Lien Discharged</fullName>
+                <default>false</default>
+                <label>Lien Discharged</label>
+            </value>
+            <value>
+                <fullName>Account stat barred</fullName>
+                <default>false</default>
+                <label>Account stat barred</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

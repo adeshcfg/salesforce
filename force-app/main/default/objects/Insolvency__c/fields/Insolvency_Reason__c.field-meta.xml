@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Reason__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Insolvency Reason</inlineHelpText>
+    <label>Insolvency Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Covid- 19</fullName>
+                <default>false</default>
+                <label>Covid- 19</label>
+            </value>
+            <value>
+                <fullName>Separation / Divorce</fullName>
+                <default>false</default>
+                <label>Separation / Divorce</label>
+            </value>
+            <value>
+                <fullName>Job Loss</fullName>
+                <default>false</default>
+                <label>Job Loss</label>
+            </value>
+            <value>
+                <fullName>Poor Financial Management</fullName>
+                <default>false</default>
+                <label>Poor Financial Management</label>
+            </value>
+            <value>
+                <fullName>Sickness / Health Reasons</fullName>
+                <default>false</default>
+                <label>Sickness / Health Reasons</label>
+            </value>
+            <value>
+                <fullName>Large CRA bill</fullName>
+                <default>false</default>
+                <label>Large CRA bill</label>
+            </value>
+            <value>
+                <fullName>Gambling</fullName>
+                <default>false</default>
+                <label>Gambling</label>
+            </value>
+            <value>
+                <fullName>Supporting Family</fullName>
+                <default>false</default>
+                <label>Supporting Family</label>
+            </value>
+            <value>
+                <fullName>lay off / Business failure</fullName>
+                <default>false</default>
+                <label>lay off / Business failure</label>
+            </value>
+            <value>
+                <fullName>Maternity leave</fullName>
+                <default>false</default>
+                <label>Maternity leave</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

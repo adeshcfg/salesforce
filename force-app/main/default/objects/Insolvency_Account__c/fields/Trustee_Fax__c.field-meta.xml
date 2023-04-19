@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trustee_Fax__c</fullName>
+    <description>The trustee&apos;s FAX number</description>
+    <externalId>false</externalId>
+    <formula>Insolvency__r.Trustee_Fax_Formula__c</formula>
+    <inlineHelpText>The trustee&apos;s FAX number</inlineHelpText>
+    <label>Trustee Fax</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

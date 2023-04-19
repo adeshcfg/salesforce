@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Change_not_allowed_CSR_Reviewed</fullName>
+    <active>true</active>
+    <description>CSR reviewed check box can be checked only once. Once checked, it can not be unchecked</description>
+    <errorConditionFormula>ISCHANGED( CSR_Reviewed__c ) &amp;&amp; PRIORVALUE(CSR_Reviewed__c) = True</errorConditionFormula>
+    <errorMessage>Once CSR reviewed is checked, it cannot be unchecked</errorMessage>
+</ValidationRule>

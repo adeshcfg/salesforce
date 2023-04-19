@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manadatory_Field_For_Manually_Rejected</fullName>
+    <active>true</active>
+    <description>Manual reason is mandatory if voting decision is manually rejected</description>
+    <errorConditionFormula>AND( ISPICKVAL(Voting_Decision__c, &quot;Manually Rejected&quot;) ,
+  ISBLANK(Manual_Reject_Reason__c)
+)</errorConditionFormula>
+    <errorMessage>Manual reject reason is mandatory if voting status is manually rejected</errorMessage>
+</ValidationRule>

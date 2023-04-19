@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distressed_Moved_out_of_Collection</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>NAME</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Active_Distressed_Days__c</columns>
+    <columns>Current_Balance__c</columns>
+    <columns>Charged_Off_Date__c</columns>
+    <columns>Current_Balance_Effective_Date__c</columns>
+    <columns>Account_Purchasing_Entity__c</columns>
+    <columns>Account_Purchasing_Entity_Value__c</columns>
+    <columns>Purchase_Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product__c.Distressed_Account</value>
+    </filters>
+    <filters>
+        <field>Collection_Movement_Status__c</field>
+        <operation>equals</operation>
+        <value>Moved out of Collection</value>
+    </filters>
+    <label>Distressed - Moved out of Collection</label>
+    <sharedTo>
+        <group>Agency_Group</group>
+        <group>ICT_Group</group>
+        <group>ICT_User_Visibility_Group</group>
+        <group>LRT_Group</group>
+        <group>LRT_User_Visibility_Group</group>
+        <group>Unplaced_Group</group>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency</fullName>
+    <active>true</active>
+    <label>Insolvency</label>
+    <picklistValues>
+        <picklist>File_Processing_Status__c</picklist>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Processed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Staging Table Created</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Type__c</picklist>
+        <values>
+            <fullName>Agency Payment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Uploaded_By__c</picklist>
+        <values>
+            <fullName>External User</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal User</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Visibility__c</picklist>
+        <values>
+            <fullName>CFG only</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

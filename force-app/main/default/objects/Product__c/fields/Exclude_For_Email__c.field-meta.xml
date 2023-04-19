@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exclude_For_Email__c</fullName>
+    <description>Do not send Email if conditions are matching</description>
+    <externalId>false</externalId>
+    <formula>External_Status_Current__c = &apos;Z&apos; || 
+External_Status_Current__c = &apos;U&apos; || 
+External_Status_Current__c = &apos;L&apos; || 
+External_Status_Current__c = &apos;B&apos; || 
+ISPICKVAL(Collection_Sub_Status__c, &apos;Consumer Proposal&apos;) || 
+ISPICKVAL(Collection_Sub_Status__c, &apos;Bankrupt Account&apos;) || 
+ISPICKVAL(Collection_Sub_Status__c, &apos;Credit Counselling&apos;) || 
+ISPICKVAL(Collection_Sub_Status__c, &apos;Previously Paid with Agency&apos;) || 
+ISPICKVAL(Collection_Sub_Status__c, &apos;Deceased&apos;) || 
+ISPICKVAL(Reason_for_Legal__c, &apos;Settlement&apos;) || 
+ISPICKVAL(Reason_for_Legal__c, &apos;All Actions complete&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Do not send Email if conditions are matching</inlineHelpText>
+    <label>Exclude For Email</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DistressedTitle__c</fullName>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(
+  IF(
+      CONTAINS($Api.Partner_Server_URL_260, &apos;visual&apos;), 
+      &apos;https://&apos;+
+      MID($Api.Partner_Server_URL_260, FIND( &apos;visual&apos;, $Api.Partner_Server_URL_260)-4,4)
+      +&apos;salesforce.com/&apos;,
+      LEFT($Api.Partner_Server_URL_260, FIND( &apos;/services&apos;, $Api.Partner_Server_URL_260))
+  ) + Id , 
+  Title__c
+
+)</formula>
+    <label>Title</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

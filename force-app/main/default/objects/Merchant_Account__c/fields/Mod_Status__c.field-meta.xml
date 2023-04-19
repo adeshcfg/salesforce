@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mod_Status__c</fullName>
+    <description>No Mod, Ended, Current</description>
+    <externalId>false</externalId>
+    <inlineHelpText>No Mod, Ended, Current</inlineHelpText>
+    <label>Mod Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No Mod</fullName>
+                <default>false</default>
+                <label>No Mod</label>
+            </value>
+            <value>
+                <fullName>Ended</fullName>
+                <default>false</default>
+                <label>Ended</label>
+            </value>
+            <value>
+                <fullName>Current</fullName>
+                <default>false</default>
+                <label>Current</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

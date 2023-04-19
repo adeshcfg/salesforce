@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Having_Active_Complaint</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>Credit_Limit__c</columns>
+    <columns>Source_System__c</columns>
+    <columns>Number_Of_Open_Complaint__c</columns>
+    <columns>Collection_Sub_Status__c</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>Collection_Agency__c</columns>
+    <columns>Collection_Agency_Formula__c</columns>
+    <columns>Current_Balance__c</columns>
+    <columns>State__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Number_Of_Open_Complaint__c</field>
+        <operation>greaterThan</operation>
+        <value>0</value>
+    </filters>
+    <label>Product Having Active Complaint</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Compliance_Team</group>
+        <group>Distressed_ICT_group</group>
+        <group>Distressed_LRT_group</group>
+        <group>ICT_Dialer_Campaign</group>
+        <group>ICT_Group</group>
+        <group>ICT_User_Visibility_Group</group>
+        <group>LRT_Dialer_Campaign</group>
+        <group>LRT_Group</group>
+        <group>LRT_User_Visibility_Group</group>
+    </sharedTo>
+</ListView>

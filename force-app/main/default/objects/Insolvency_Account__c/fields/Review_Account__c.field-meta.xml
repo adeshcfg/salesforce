@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Review_Account__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Flag accounts to show that Withdrawn, Refused, Annulled and LOR&apos;s not being provided by trustees have been reviewed / worked</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Flag accounts to show that Withdrawn, Refused, Annulled and LOR&apos;s not being provided by trustees have been reviewed / worked</inlineHelpText>
+    <label>Account Reviewed</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

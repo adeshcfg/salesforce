@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Credit_Worthiness_Greater_than_Cre__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Max_Credit_Card_Allowed_Amount__c &lt; Total_Credit_Worthiness__c, True, False)</formula>
+    <inlineHelpText>Checked if Total Credit Worthiness is greater than the Max Credit Card Allowed Amount.</inlineHelpText>
+    <label>Credit Worthiness Greater than Card</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

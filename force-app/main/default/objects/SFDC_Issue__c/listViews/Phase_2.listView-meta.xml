@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Phase_2</fullName>
+    <columns>NAME</columns>
+    <columns>Subject__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Status__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Issue_Category__c</columns>
+    <columns>Application_Area__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Issue_Category__c</field>
+        <operation>equals</operation>
+        <value>Phase 2</value>
+    </filters>
+    <label>Phase 2</label>
+</ListView>

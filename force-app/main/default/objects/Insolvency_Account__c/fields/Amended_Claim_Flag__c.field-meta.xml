@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amended_Claim_Flag__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Used to drive a change on the PoC Form 31 letter when checked, indicating the PoC has been amended from a previous submission.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Used to drive a change on the PoC Form 31 letter when checked, indicating the PoC has been amended from a previous submission.</inlineHelpText>
+    <label>Amended Claim</label>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

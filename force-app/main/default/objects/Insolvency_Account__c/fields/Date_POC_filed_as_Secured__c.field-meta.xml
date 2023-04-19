@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_POC_filed_as_Secured__c</fullName>
+    <description>The date on which this account was previously filed with the trustee as a Secured account, is applicable.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which this account was previously filed with the trustee as a Secured account, is applicable.</inlineHelpText>
+    <label>Date PoC Filed as a Secured Account</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remitted_Bank_Name__c</fullName>
+    <description>Bank name to track unallocated payment that has been remitted back</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Bank name to track unallocated payment that has been remitted back</inlineHelpText>
+    <label>Remitted Bank Name</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>MBNA</fullName>
+                <default>false</default>
+                <label>MBNA</label>
+            </value>
+            <value>
+                <fullName>Scotia</fullName>
+                <default>false</default>
+                <label>Scotia</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

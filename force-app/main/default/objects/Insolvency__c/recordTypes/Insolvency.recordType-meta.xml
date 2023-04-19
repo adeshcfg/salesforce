@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency</fullName>
+    <active>true</active>
+    <description>Default Insolvency Record Type</description>
+    <label>Insolvency</label>
+    <picklistValues>
+        <picklist>Court_Province__c</picklist>
+        <values>
+            <fullName>Alberta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>British Columbia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manitoba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Brunswick</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newfoundland and Labrador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Northwest Territories</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nova Scotia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nunavut</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ontario</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prince Edward Island</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quebec</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Saskatchewan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yukon</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Debtor_1_Employer_State_Province__c</picklist>
+        <values>
+            <fullName>Alberta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>British Columbia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manitoba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Brunswick</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newfoundland and Labrador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Northwest Territories</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nova Scotia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nunavut</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ontario</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prince Edward Island</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quebec</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Saskatchewan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yukon</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Debtor_1_Gender__c</picklist>
+        <values>
+            <fullName>Female</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Male</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Debtor_1_Mailing_State_Province__c</picklist>
+        <values>
+            <fullName>Alberta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>British Columbia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manitoba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Brunswick</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newfoundland and Labrador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Northwest Territories</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nova Scotia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nunavut</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ontario</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prince Edward Island</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quebec</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Saskatchewan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yukon</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Debtor_1_Marital_Status__c</picklist>
+        <values>
+            <fullName>Common law</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Divorced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Married</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Separated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Debtor_2_Employer_State_Province__c</picklist>
+        <values>
+            <fullName>Alberta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>British Columbia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manitoba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Brunswick</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newfoundland and Labrador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Northwest Territories</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nova Scotia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nunavut</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ontario</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prince Edward Island</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quebec</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Saskatchewan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yukon</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Debtor_2_Gender__c</picklist>
+        <values>
+            <fullName>Female</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Male</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Debtor_2_Mailing_State_Province__c</picklist>
+        <values>
+            <fullName>Alberta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>British Columbia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manitoba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Brunswick</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newfoundland and Labrador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Northwest Territories</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nova Scotia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nunavut</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ontario</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prince Edward Island</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quebec</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Saskatchewan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yukon</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Debtor_2_Marital_Status__c</picklist>
+        <values>
+            <fullName>Common law</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Divorced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Married</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Separated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Ever_Made_Proposal__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Ever_been_Bankrupt_Before__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Expected_Discharge_Month__c</picklist>
+        <values>
+            <fullName>21</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>24</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>36</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>9</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Insolvency_Document_Type__c</picklist>
+        <values>
+            <fullName>Creditors Package</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demand Notice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finals</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interims</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter of Release</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PoC Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proof of Security</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trustee dividend follow-up correspondence</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Insolvency_Reason__c</picklist>
+        <values>
+            <fullName>Covid- 19</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gambling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Job Loss</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Large CRA bill</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maternity leave</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Poor Financial Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Separation %2F Divorce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sickness %2F Health Reasons</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supporting Family</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>lay off %2F Business failure</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Insolvency_Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Annulled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Annulled - Filed New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conditional Discharge</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Discharged</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>For Owner Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refused</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refused %E2%80%93 Filed New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Staging</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Withdrawn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Withdrawn %E2%80%93 Filed New</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Insolvency_Type__c</picklist>
+        <values>
+            <fullName>Bankruptcy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consumer Proposal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Division 1 Proposal</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Frequency__c</picklist>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>One time payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Semiannually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yearly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Voting_Decision__c</picklist>
+        <values>
+            <fullName>Manually Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manually Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manually Rejected - Majority Approved</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

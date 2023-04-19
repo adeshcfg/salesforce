@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HST_Tax_Rate__c</fullName>
+    <defaultValue>13</defaultValue>
+    <description>HST Tax Rate</description>
+    <externalId>false</externalId>
+    <inlineHelpText>HST Tax Rate</inlineHelpText>
+    <label>HST Tax Rate</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>4</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

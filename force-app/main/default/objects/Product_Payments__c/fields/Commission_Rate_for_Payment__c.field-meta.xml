@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Commission_Rate_for_Payment__c</fullName>
+    <description>Actual Commission rate used for Commission Calculation</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Actual Commission rate used for Commission Calculation</inlineHelpText>
+    <label>Commission Rate for Payment</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

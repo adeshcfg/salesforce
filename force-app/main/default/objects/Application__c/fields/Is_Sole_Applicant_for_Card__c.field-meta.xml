@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Sole_Applicant_for_Card__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>I confirm that I am the sole applicant for this card and there is no person or entity that will give direction on this account.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>I confirm that I am the sole applicant for this card and there is no person or entity that will give direction on this account.</inlineHelpText>
+    <label>Is Sole Applicant for Card</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

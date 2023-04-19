@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_completed_status_change</fullName>
+    <active>true</active>
+    <description>Application status cannot be changed manually if it is Completed - Credit Card</description>
+    <errorConditionFormula>AND( ISCHANGED(Application_Status__c ) ,
+ISPICKVAL( PRIORVALUE( Application_Status__c ) , &quot;Completed - Credit Card&quot;),
+NOT(ISPICKVAL( Application_Status__c, &quot;Archived&quot;))
+)</errorConditionFormula>
+    <errorMessage>Application Status cannot be changed manually from Completed - Credit Card</errorMessage>
+</ValidationRule>

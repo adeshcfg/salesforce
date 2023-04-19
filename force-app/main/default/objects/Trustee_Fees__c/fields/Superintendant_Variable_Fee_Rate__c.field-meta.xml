@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Superintendant_Variable_Fee_Rate__c</fullName>
+    <defaultValue>5</defaultValue>
+    <description>Superintendant Variable Fee Rate</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Superintendant Variable Fee Rate</inlineHelpText>
+    <label>Superintendant Variable Fee Rate</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>4</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

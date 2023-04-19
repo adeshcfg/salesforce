@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Serviceable_Province__c</fullName>
+    <externalId>false</externalId>
+    <label>Serviceable Province</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Alberta</fullName>
+                <default>false</default>
+                <label>AB</label>
+            </value>
+            <value>
+                <fullName>British Columbia</fullName>
+                <default>false</default>
+                <label>BC</label>
+            </value>
+            <value>
+                <fullName>Manitoba</fullName>
+                <default>false</default>
+                <label>MB</label>
+            </value>
+            <value>
+                <fullName>New Brunswick</fullName>
+                <default>false</default>
+                <label>NB</label>
+            </value>
+            <value>
+                <fullName>Newfoundland and Labrador</fullName>
+                <default>false</default>
+                <label>NL</label>
+            </value>
+            <value>
+                <fullName>Northwest Territories</fullName>
+                <default>false</default>
+                <label>NT</label>
+            </value>
+            <value>
+                <fullName>Nova Scotia</fullName>
+                <default>false</default>
+                <label>NS</label>
+            </value>
+            <value>
+                <fullName>Nunavut</fullName>
+                <default>false</default>
+                <label>NU</label>
+            </value>
+            <value>
+                <fullName>Prince Edward Island</fullName>
+                <default>false</default>
+                <label>PE</label>
+            </value>
+            <value>
+                <fullName>Ontario</fullName>
+                <default>false</default>
+                <label>ON</label>
+            </value>
+            <value>
+                <fullName>Quebec</fullName>
+                <default>false</default>
+                <label>QC</label>
+            </value>
+            <value>
+                <fullName>Saskatchewan</fullName>
+                <default>false</default>
+                <label>SK</label>
+            </value>
+            <value>
+                <fullName>Yukon</fullName>
+                <default>false</default>
+                <label>YT</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>OO</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

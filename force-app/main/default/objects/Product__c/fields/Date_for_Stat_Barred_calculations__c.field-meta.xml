@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_for_Stat_Barred_calculations__c</fullName>
+    <description>To calculate the date for stat barred date calculations</description>
+    <externalId>false</externalId>
+    <formula>if( ISNULL(Last_Payment_Date__c ),  Open_Date__c  ,Last_Payment_Date__c )</formula>
+    <inlineHelpText>To calculate the date for stat barred date calculations</inlineHelpText>
+    <label>Date for Stat Barred calculations</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

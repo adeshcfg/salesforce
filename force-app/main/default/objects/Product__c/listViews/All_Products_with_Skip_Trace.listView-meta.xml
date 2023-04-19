@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Products_with_Skip_Trace</fullName>
+    <columns>NAME</columns>
+    <columns>Source_System__c</columns>
+    <columns>Customer__c</columns>
+    <columns>Customer_Skip_Trace__c</columns>
+    <columns>Delinquency_Days__c</columns>
+    <columns>Current_Balance__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Customer_Skip_Trace__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Delinquency_Days__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>31</value>
+    </filters>
+    <filters>
+        <field>External_Status_Current__c</field>
+        <operation>notEqual</operation>
+        <value>Z</value>
+    </filters>
+    <label>Skip Trace</label>
+    <sharedTo>
+        <group>Affirm_CFG_Users</group>
+        <group>Fidem_BS</group>
+    </sharedTo>
+</ListView>

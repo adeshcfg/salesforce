@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Restrict_record_creation</fullName>
+    <active>false</active>
+    <description>Restricting record creation for all users associated with distressed profiles</description>
+    <errorConditionFormula>AND( OR( $Profile.Name  = &apos;CFG - Distressed Collection&apos;,$Profile.Name  = &apos;CFG -Distressed Team Lead&apos;,
+$Profile.Name  = &apos;CFG-Distressed ParaLegal Only&apos;) 
+,ISNEW() )</errorConditionFormula>
+    <errorMessage>You cannot create a settlement record</errorMessage>
+</ValidationRule>

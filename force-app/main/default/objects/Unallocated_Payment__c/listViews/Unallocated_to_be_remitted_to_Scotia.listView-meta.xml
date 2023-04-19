@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unallocated_to_be_remitted_to_Scotia</fullName>
+    <columns>CREATED_DATE</columns>
+    <columns>NAME</columns>
+    <columns>Account_Number__c</columns>
+    <columns>Cheque_Number__c</columns>
+    <columns>Bank_Name__c</columns>
+    <columns>Debtor_Name__c</columns>
+    <columns>Payment_Posting_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Reviewed_status__c</field>
+        <operation>equals</operation>
+        <value>Need to be remitted</value>
+    </filters>
+    <filters>
+        <field>Is_Payment_Remitted__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Is_Payments_Reversed__c</field>
+        <operation>notEqual</operation>
+        <value>NSF,Stopped,Unauthorised,Stale Dated</value>
+    </filters>
+    <filters>
+        <field>Allocated__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Bank_Name__c</field>
+        <operation>equals</operation>
+        <value>Scotia Bank,SPL,SDA</value>
+    </filters>
+    <label>Unallocated to be remitted to Scotia</label>
+    <sharedTo>
+        <group>Insolvency_CFG_BS</group>
+        <group>Insolvency_CFG_Users</group>
+        <group>Insolvency_Canaccede_Users</group>
+    </sharedTo>
+</ListView>

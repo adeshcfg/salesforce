@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CFG_Trustee_Email_Default_Content__c</fullName>
+    <description>Contains the (HTML optional) default content to be pre-populated when the Email Trustee page is opened from an Insolvency Account record.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Contains the (HTML optional) default content to be pre-populated when the Email Trustee page is opened from an Insolvency Account record.</inlineHelpText>
+    <label>CFG Trustee Email Default Content</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

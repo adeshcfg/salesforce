@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CCS_Deposit_Slip</fullName>
+    <active>true</active>
+    <description>Deposit slip for CCS</description>
+    <label>CCS Deposit Slip</label>
+</RecordType>

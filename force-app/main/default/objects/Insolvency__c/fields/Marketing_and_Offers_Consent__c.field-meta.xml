@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Marketing_and_Offers_Consent__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Consent to the use of information for marketing purposes and offers from Canaccede</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Consent to the use of information for marketing purposes and offers from Canaccede</inlineHelpText>
+    <label>Marketing and Offers Consent</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

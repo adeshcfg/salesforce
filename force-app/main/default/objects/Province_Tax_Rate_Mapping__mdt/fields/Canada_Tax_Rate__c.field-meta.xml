@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canada_Tax_Rate__c</fullName>
+    <description>Canada Tax Rate</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Canada Tax Rate</inlineHelpText>
+    <label>Canada Tax Rate</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>4</scale>
+    <type>Percent</type>
+</CustomField>

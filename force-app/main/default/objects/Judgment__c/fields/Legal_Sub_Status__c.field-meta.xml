@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Sub_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Legal Sub Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Legal_Status__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Recommended for legal action</fullName>
+                <default>false</default>
+                <label>Recommended for legal action</label>
+            </value>
+            <value>
+                <fullName>Approved for legal action</fullName>
+                <default>false</default>
+                <label>Approved for legal action</label>
+            </value>
+            <value>
+                <fullName>Demand Letter Sent</fullName>
+                <default>false</default>
+                <label>Demand Letter Sent</label>
+            </value>
+            <value>
+                <fullName>Media Requested awaiting</fullName>
+                <default>false</default>
+                <label>Media Requested awaiting</label>
+            </value>
+            <value>
+                <fullName>Settlement Proposal Accepted</fullName>
+                <default>false</default>
+                <label>Settlement Proposal Accepted</label>
+            </value>
+            <value>
+                <fullName>Action Rejected</fullName>
+                <default>false</default>
+                <label>Action Rejected</label>
+            </value>
+            <value>
+                <fullName>Claim Issued</fullName>
+                <default>false</default>
+                <label>Claim Issued</label>
+            </value>
+            <value>
+                <fullName>Claim Served</fullName>
+                <default>false</default>
+                <label>Claim Served</label>
+            </value>
+            <value>
+                <fullName>Payment Arrangement</fullName>
+                <default>false</default>
+                <label>Payment Arrangement</label>
+            </value>
+            <value>
+                <fullName>Defended Action</fullName>
+                <default>false</default>
+                <label>Defended Action</label>
+            </value>
+            <value>
+                <fullName>Entered Credit Counselling</fullName>
+                <default>false</default>
+                <label>Entered Credit Counselling</label>
+            </value>
+            <value>
+                <fullName>Entered Insolvency</fullName>
+                <default>false</default>
+                <label>Entered Insolvency</label>
+            </value>
+            <value>
+                <fullName>Locating Debtor</fullName>
+                <default>false</default>
+                <label>Locating Debtor</label>
+            </value>
+            <value>
+                <fullName>Counter Claim</fullName>
+                <default>false</default>
+                <label>Counter Claim</label>
+            </value>
+            <value>
+                <fullName>Granted</fullName>
+                <default>false</default>
+                <label>Granted</label>
+            </value>
+            <value>
+                <fullName>Granted; Assessment</fullName>
+                <default>false</default>
+                <label>Granted; Assessment</label>
+            </value>
+            <value>
+                <fullName>Denied</fullName>
+                <default>false</default>
+                <label>Denied</label>
+            </value>
+            <value>
+                <fullName>Locating Enforcement</fullName>
+                <default>false</default>
+                <label>Locating Enforcement</label>
+            </value>
+            <value>
+                <fullName>Wage Garnishment</fullName>
+                <default>false</default>
+                <label>Wage Garnishment</label>
+            </value>
+            <value>
+                <fullName>Bank Garnishment</fullName>
+                <default>false</default>
+                <label>Bank Garnishment</label>
+            </value>
+            <value>
+                <fullName>Writ Filed</fullName>
+                <default>false</default>
+                <label>Writ Filed</label>
+            </value>
+            <value>
+                <fullName>Writ &amp; Garnishment</fullName>
+                <default>false</default>
+                <label>Writ &amp; Garnishment</label>
+            </value>
+            <value>
+                <fullName>Writ and Payment Arrangement</fullName>
+                <default>false</default>
+                <label>Writ and Payment Arrangement</label>
+            </value>
+            <value>
+                <fullName>Enforcement Lost</fullName>
+                <default>false</default>
+                <label>Enforcement Lost</label>
+            </value>
+            <value>
+                <fullName>Judicial Sale</fullName>
+                <default>false</default>
+                <label>Judicial Sale</label>
+            </value>
+            <value>
+                <fullName>Dormant</fullName>
+                <default>false</default>
+                <label>Dormant</label>
+            </value>
+            <value>
+                <fullName>Vacated</fullName>
+                <default>false</default>
+                <label>Vacated</label>
+            </value>
+            <value>
+                <fullName>Reviewing for Legal action</fullName>
+                <default>false</default>
+                <label>Reviewing for Legal action</label>
+            </value>
+            <value>
+                <fullName>Settlement Letter Sent</fullName>
+                <default>false</default>
+                <label>Settlement Letter Sent</label>
+            </value>
+            <value>
+                <fullName>Legal Action Rejected</fullName>
+                <default>false</default>
+                <label>Legal Action Rejected</label>
+            </value>
+            <value>
+                <fullName>Abandonned Claim</fullName>
+                <default>false</default>
+                <label>Abandonned Claim</label>
+            </value>
+            <value>
+                <fullName>Default Judgment</fullName>
+                <default>false</default>
+                <label>Default Judgment</label>
+            </value>
+            <value>
+                <fullName>Consent Judgment</fullName>
+                <default>false</default>
+                <label>Consent Judgment</label>
+            </value>
+            <value>
+                <fullName>Assessment</fullName>
+                <default>false</default>
+                <label>Assessment</label>
+            </value>
+            <value>
+                <fullName>Granted but subsequently refused</fullName>
+                <default>false</default>
+                <label>Granted but subsequently refused</label>
+            </value>
+            <value>
+                <fullName>Voluntary assignment of wages</fullName>
+                <default>false</default>
+                <label>Voluntary assignment of wages</label>
+            </value>
+            <value>
+                <fullName>Certificate of Execution</fullName>
+                <default>false</default>
+                <label>Certificate of Execution</label>
+            </value>
+            <value>
+                <fullName>Writ - Payment Arrangements</fullName>
+                <default>false</default>
+                <label>Writ - Payment Arrangements</label>
+            </value>
+            <value>
+                <fullName>Writ &amp; Enforcement by Sheriff off</fullName>
+                <default>false</default>
+                <label>Writ &amp; Enforcement by Sheriff off</label>
+            </value>
+            <value>
+                <fullName>Writ &amp; Locating Enforcement</fullName>
+                <default>false</default>
+                <label>Writ &amp; Locating Enforcement</label>
+            </value>
+            <value>
+                <fullName>Writ &amp; Judicial Sale</fullName>
+                <default>false</default>
+                <label>Writ &amp; Judicial Sale</label>
+            </value>
+            <value>
+                <fullName>No Writ &amp; Locating Enforcement</fullName>
+                <default>false</default>
+                <label>No Writ &amp; Locating Enforcement</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Pre-legal</controllingFieldValue>
+            <valueName>Recommended for legal action</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-legal</controllingFieldValue>
+            <valueName>Approved for legal action</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-legal</controllingFieldValue>
+            <valueName>Demand Letter Sent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-legal</controllingFieldValue>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <controllingFieldValue>Judgment</controllingFieldValue>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Settlement Proposal Accepted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-legal</controllingFieldValue>
+            <valueName>Reviewing for Legal action</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-legal</controllingFieldValue>
+            <valueName>Legal Action Rejected</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <valueName>Media Requested awaiting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <valueName>Claim Issued</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <valueName>Claim Served</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Payment Arrangement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <controllingFieldValue>Judgment</controllingFieldValue>
+            <valueName>Defended Action</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <controllingFieldValue>Judgment</controllingFieldValue>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Entered Credit Counselling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <controllingFieldValue>Judgment</controllingFieldValue>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Entered Insolvency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <valueName>Locating Debtor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <valueName>Counter Claim</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <valueName>Abandonned Claim</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Judgment</controllingFieldValue>
+            <valueName>Locating Enforcement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Judgment</controllingFieldValue>
+            <valueName>Default Judgment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Judgment</controllingFieldValue>
+            <valueName>Consent Judgment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Judgment</controllingFieldValue>
+            <valueName>Assessment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Judgment</controllingFieldValue>
+            <valueName>Granted but subsequently refused</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Wage Garnishment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Bank Garnishment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Writ Filed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Writ &amp; Garnishment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Enforcement Lost</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Vacated</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Voluntary assignment of wages</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Certificate of Execution</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Writ - Payment Arrangements</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Writ &amp; Enforcement by Sheriff off</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Writ &amp; Locating Enforcement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Writ &amp; Judicial Sale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>No Writ &amp; Locating Enforcement</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

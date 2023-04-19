@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Status__c</fullName>
+    <description>This status represents the current point in the processing workflow for this account.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This status represents the current point in the processing workflow for this account.</inlineHelpText>
+    <label>Processing Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Account Recall Requested</fullName>
+                <default>false</default>
+                <label>Account Recall Requested</label>
+            </value>
+            <value>
+                <fullName>Annulled</fullName>
+                <default>false</default>
+                <label>Annulled</label>
+            </value>
+            <value>
+                <fullName>Annulled - Filed New</fullName>
+                <default>false</default>
+                <label>Annulled - Filed New</label>
+            </value>
+            <value>
+                <fullName>BOT Mismatch</fullName>
+                <default>false</default>
+                <label>BOT Mismatch</label>
+            </value>
+            <value>
+                <fullName>BOT Review</fullName>
+                <default>false</default>
+                <label>BOT Review</label>
+            </value>
+            <value>
+                <fullName>BOT Review completed</fullName>
+                <default>false</default>
+                <label>BOT Review completed</label>
+            </value>
+            <value>
+                <fullName>Claim Filed</fullName>
+                <default>false</default>
+                <label>Claim Filed</label>
+            </value>
+            <value>
+                <fullName>Claim Omitted</fullName>
+                <default>false</default>
+                <label>Claim Omitted</label>
+            </value>
+            <value>
+                <fullName>Claim Withdrawn</fullName>
+                <default>false</default>
+                <label>Claim Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Debtor Paying Direct</fullName>
+                <default>false</default>
+                <label>Debtor Paying Direct</label>
+            </value>
+            <value>
+                <fullName>Discharged</fullName>
+                <default>false</default>
+                <label>Discharged</label>
+            </value>
+            <value>
+                <fullName>Extinguished</fullName>
+                <default>false</default>
+                <label>Extinguished</label>
+            </value>
+            <value>
+                <fullName>For Owner Review</fullName>
+                <default>false</default>
+                <label>For Owner Review</label>
+            </value>
+            <value>
+                <fullName>New</fullName>
+                <default>true</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>No PoC Required</fullName>
+                <default>false</default>
+                <label>No PoC Required</label>
+            </value>
+            <value>
+                <fullName>Pending Assignment to Collection Agency</fullName>
+                <default>false</default>
+                <label>Pending Assignment to Collection Agency</label>
+            </value>
+            <value>
+                <fullName>PoC Details Provided</fullName>
+                <default>false</default>
+                <label>PoC Details Provided</label>
+            </value>
+            <value>
+                <fullName>PoC Package Generated</fullName>
+                <default>false</default>
+                <label>PoC Package Generated</label>
+            </value>
+            <value>
+                <fullName>Refused</fullName>
+                <default>false</default>
+                <label>Refused</label>
+            </value>
+            <value>
+                <fullName>Refused – Filed New</fullName>
+                <default>false</default>
+                <label>Refused – Filed New</label>
+            </value>
+            <value>
+                <fullName>Sent to Collections</fullName>
+                <default>false</default>
+                <label>Sent to Collections</label>
+            </value>
+            <value>
+                <fullName>Trustee Followup</fullName>
+                <default>false</default>
+                <label>Trustee Followup</label>
+            </value>
+            <value>
+                <fullName>Wait / Hold</fullName>
+                <default>false</default>
+                <label>Wait / Hold</label>
+            </value>
+            <value>
+                <fullName>Withdrawn</fullName>
+                <default>false</default>
+                <label>Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Withdrawn – Filed New</fullName>
+                <default>false</default>
+                <label>Withdrawn – Filed New</label>
+            </value>
+            <value>
+                <fullName>Withdraw PoC</fullName>
+                <default>false</default>
+                <label>Withdraw PoC</label>
+            </value>
+            <value>
+                <fullName>Claim Established</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Claim Established</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_Assignments_Scotia__c</fullName>
+    <description>Open Assignments Scotia</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Open Assignments Scotia</inlineHelpText>
+    <label>RL Number of Open Assignments Scotia</label>
+    <summarizedField>Open_Assignment_Insolvency__c.Number_of_Open_Assignments__c</summarizedField>
+    <summaryFilterItems>
+        <field>Open_Assignment_Insolvency__c.Assign_To_Name__c</field>
+        <operation>equals</operation>
+        <value>Scotia Bank</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Open_Assignment_Insolvency__c.Insolvency__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

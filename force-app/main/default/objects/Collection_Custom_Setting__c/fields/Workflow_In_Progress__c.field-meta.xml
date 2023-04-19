@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Workflow_In_Progress__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>To Decide Workflows should run or not</description>
+    <externalId>false</externalId>
+    <inlineHelpText>To Decide Workflows should run or not</inlineHelpText>
+    <label>Workflow In Progress</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

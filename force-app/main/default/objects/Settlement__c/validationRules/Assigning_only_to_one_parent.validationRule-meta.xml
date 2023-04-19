@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assigning_only_to_one_parent</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( NOT( ISBLANK( Product__c ) ) ,NOT(ISBLANK(  Judgment__c )))</errorConditionFormula>
+    <errorMessage>One Settlement record cannot be linked to both Product and Judgment</errorMessage>
+</ValidationRule>

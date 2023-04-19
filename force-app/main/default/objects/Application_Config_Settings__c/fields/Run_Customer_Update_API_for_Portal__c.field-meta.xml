@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Customer_Update_API_for_Portal__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checkbox to execute the API call to portal from Account trigger for Customer update to portal</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checkbox to execute the API call to portal from Account trigger for Customer update to portal</inlineHelpText>
+    <label>Run Customer Update API for Portal</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

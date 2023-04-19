@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Processing_Status__c</fullName>
+    <description>Processing Status</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Processing Status</inlineHelpText>
+    <label>Processing Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>For Owner Review</fullName>
+                <default>false</default>
+                <label>For Owner Review</label>
+            </value>
+            <value>
+                <fullName>Wait / Hold</fullName>
+                <default>false</default>
+                <label>Wait / Hold</label>
+            </value>
+            <value>
+                <fullName>PoC Details Provided</fullName>
+                <default>false</default>
+                <label>PoC Details Provided</label>
+            </value>
+            <value>
+                <fullName>PoC Package Generated</fullName>
+                <default>false</default>
+                <label>PoC Package Generated</label>
+            </value>
+            <value>
+                <fullName>Claim Filed</fullName>
+                <default>false</default>
+                <label>Claim Filed</label>
+            </value>
+            <value>
+                <fullName>Annulled</fullName>
+                <default>false</default>
+                <label>Annulled</label>
+            </value>
+            <value>
+                <fullName>Discharged</fullName>
+                <default>false</default>
+                <label>Discharged</label>
+            </value>
+            <value>
+                <fullName>No PoC Required</fullName>
+                <default>false</default>
+                <label>No PoC Required</label>
+            </value>
+            <value>
+                <fullName>Withdraw PoC</fullName>
+                <default>false</default>
+                <label>Withdraw PoC</label>
+            </value>
+            <value>
+                <fullName>Claim Withdrawn</fullName>
+                <default>false</default>
+                <label>Claim Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Trustee Followup</fullName>
+                <default>false</default>
+                <label>Trustee Followup</label>
+            </value>
+            <value>
+                <fullName>Refused</fullName>
+                <default>false</default>
+                <label>Refused</label>
+            </value>
+            <value>
+                <fullName>Withdrawn</fullName>
+                <default>false</default>
+                <label>Withdrawn</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

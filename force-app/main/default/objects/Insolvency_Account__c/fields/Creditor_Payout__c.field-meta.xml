@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Creditor_Payout__c</fullName>
+    <description>The calculated payout for all creditors for this insolvency, net superintendant and trustee fees</description>
+    <externalId>false</externalId>
+    <formula>CASE(Insolvency__r.Insolvency_Type__c,
+&quot;Bankruptcy&quot;,((Claim_Amount__c*Purchase_Factor__c) * (((22 * Value(TEXT(Insolvency__r.Expected_Discharge_Month__c))) / 12) / 100)),
+((
+(
+Insolvency__r.Payment_Amount__c * Insolvency__r.Number_of_Payments__c
+)
++ Insolvency__r.Bulk_Payment_Amount__c -Insolvency__r.Trustee_Fees__c
+)
+*
+(
+1 - $Setup.Trustee_Fees__c.Superintendant_Variable_Fee_Rate__c
+))
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The calculated payout for all creditors for this insolvency, net superintendant and trustee fees</inlineHelpText>
+    <label>Creditor Payout</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

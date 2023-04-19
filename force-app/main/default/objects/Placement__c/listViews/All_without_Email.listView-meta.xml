@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_without_Email</fullName>
+    <columns>NAME</columns>
+    <columns>Agency_Name__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Agency_Email__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>All without Email</label>
+</ListView>

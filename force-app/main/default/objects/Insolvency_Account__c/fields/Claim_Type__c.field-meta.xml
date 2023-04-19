@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Claim_Type__c</fullName>
+    <description>Indicate whether this is a secured or unsecured account.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicate whether this is a secured or unsecured account.</inlineHelpText>
+    <label>Claim Type</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Secured</fullName>
+                <default>false</default>
+                <label>Secured</label>
+            </value>
+            <value>
+                <fullName>Unsecured</fullName>
+                <default>false</default>
+                <label>Unsecured</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

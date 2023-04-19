@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unsecured_Claim_Amount_Scotia__c</fullName>
+    <description>Unsecured Claim Amount Scotia</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Unsecured Claim Amount Scotia</inlineHelpText>
+    <label>RL Unsecured Claim Amount Scotia</label>
+    <summarizedField>Insolvency_Detail__c.Unsecured_Claim_Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>Insolvency_Detail__c.Bank_Name__c</field>
+        <operation>equals</operation>
+        <value>Scotia Bank</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Insolvency_Detail__c.Insolvency__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

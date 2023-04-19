@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_Insolvency_Status_Internal_User</fullName>
+    <active>false</active>
+    <errorConditionFormula>(  NOT(ISPICKVAL(Client_Identifier__c , &apos;Canaccede&apos;)))&amp;&amp;($Setup.Application_Config_Settings__c.Run_Insolvency_Status_Validations__c == True) &amp;&amp; ($Profile.Name == &quot;System Administrator&quot; || (CONTAINS($Profile.Name,&quot;CFG&quot;))) &amp;&amp; 
+(ISNEW() || ISCHANGED(Insolvency_Status__c)) &amp;&amp; 
+(Not( 
+(ISPICKVAL(Insolvency_Status__c, &quot;New&quot;) &amp;&amp; ISNEW()) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;For Owner Review&quot;) &amp;&amp; (ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;New&quot;) 
+|| 
+ ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;PoC Details Provided&quot;) 
+|| 
+ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;PoC Package Generated&quot;) 
+|| 
+ ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;No PoC Required&quot;) 
+|| 
+ ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Wait / Hold&quot;))
+|| 
+ ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Trustee Followup&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;PoC Details Provided&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;For Owner Review&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;Wait / Hold&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;For Owner Review&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;No PoC Required&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;For Owner Review&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;Trustee Followup&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;For Owner Review&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;Trustee Followup&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Wait / Hold&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;Claim Filed&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;PoC Package Generated&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;Claim Withdrawn&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Withdraw PoC&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;PoC Details Provided&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Claim Filed&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;New&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;For Owner Review&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;New&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;No PoC Required&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;Trustee Followup&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;No PoC Required&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;No PoC Required&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;PoC Details Provided&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;PoC Details Provided&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;PoC Package Generated&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;For Owner Review&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Claim Filed&quot;))
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;PoC Details Provided&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;No PoC Required&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;PoC Package Generated&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;For Owner Review&quot;)) 
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;Trustee Followup&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;PoC Details Provided&quot;)) 
+||
+((ISPICKVAL(Insolvency_Status__c, &quot;Sent to collections&quot;) &amp;&amp;
+((ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Annulled&quot;)) || (ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Refused&quot;)) ||
+(ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Withdrawn&quot;)) || (ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Claim Withdrawn&quot;)))))
+|| 
+(ISPICKVAL(Insolvency_Status__c, &quot;Withdraw PoC&quot;) &amp;&amp; NOT( ISNEW()))
+||
+(ISPICKVAL(Insolvency_Status__c, &quot;BOT Review&quot;) &amp;&amp; NOT( ISNEW()))
+) 
+)</errorConditionFormula>
+    <errorDisplayField>Insolvency_Status__c</errorDisplayField>
+    <errorMessage>Invalid Insolvency Account Processing Status change</errorMessage>
+</ValidationRule>

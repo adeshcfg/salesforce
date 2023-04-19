@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Writ_Renewal_Date_Formula__c</fullName>
+    <description>Writ Renewal Date calculated</description>
+    <externalId>false</externalId>
+    <formula>IF(ISNULL(Writ_Renewal_Date__c),CASE(Judgment_Province__c,
+&apos;British Columbia&apos;,ADDMONTHS(Date_Writ_Issued__c, 24),
+&apos;Alberta&apos;,ADDMONTHS(Date_Writ_Issued__c, 120),
+&apos;Saskatchewan&apos;,ADDMONTHS(Date_Writ_Issued__c, 120),
+&apos;Manitoba&apos;,ADDMONTHS(Date_Writ_Issued__c, 72),
+&apos;New Brunswick&apos;,ADDMONTHS(Date_Writ_Issued__c, 180),
+&apos;Nova Scotia&apos;,ADDMONTHS(Date_Writ_Issued__c, 60),
+&apos;Newfoundland and Labrador&apos;,ADDMONTHS(Date_Writ_Issued__c, 120),
+&apos;Prince Edward Island&apos;,ADDMONTHS(Date_Writ_Issued__c, 120),
+&apos;Ontario&apos;,ADDMONTHS(Date_Writ_Issued__c, 72),
+&apos;Quebec&apos;,ADDMONTHS(Date_Writ_Issued__c, 120),
+&apos;Yukon&apos;,ADDMONTHS(Date_Writ_Issued__c, 24),
+&apos;Northwest Territories&apos;,ADDMONTHS(Date_Writ_Issued__c, 24),
+&apos;Nunavut&apos;,ADDMONTHS(Date_Writ_Issued__c, 24),
+null),Writ_Renewal_Date__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Writ Renewal Date calculated</inlineHelpText>
+    <label>Writ Renewal Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

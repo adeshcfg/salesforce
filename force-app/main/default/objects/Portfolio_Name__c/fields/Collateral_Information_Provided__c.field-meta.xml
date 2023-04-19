@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Collateral_Information_Provided__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If this is a secured debt will Collateral information be provided</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If this is a secured debt will Collateral information be provided</inlineHelpText>
+    <label>Collateral Information Provided ?</label>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

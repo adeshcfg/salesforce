@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Settlements_Created_Yesterday</fullName>
+    <columns>NAME</columns>
+    <columns>Settlement_Number__c</columns>
+    <columns>Product__c</columns>
+    <columns>Judgment__c</columns>
+    <columns>Status__c</columns>
+    <columns>Settlement_complete_date__c</columns>
+    <columns>Proposal_Amount__c</columns>
+    <columns>Payment_Frequency__c</columns>
+    <columns>Product_Identifier__c</columns>
+    <columns>Judgment_Identifier__c</columns>
+    <columns>Placement_Identifier__c</columns>
+    <columns>Placement_Formula__c</columns>
+    <columns>Employment__c</columns>
+    <columns>Homeowner_Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>YESTERDAY</value>
+    </filters>
+    <label>All Settlements Created Yesterday</label>
+    <sharedTo>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

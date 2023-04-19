@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Direct_Payments__c</fullName>
+    <description>This field is used for commission statement functionality.</description>
+    <externalId>false</externalId>
+    <formula>IF( Payment_Source__c == &apos;2&apos; || Payment_Source__c == &apos;3&apos;,Pay_Due__c,null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This field is used for commission statement functionality.</inlineHelpText>
+    <label>Direct Payments</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

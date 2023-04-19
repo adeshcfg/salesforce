@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Adjusted_Unsecured_Amount_Frml__c</fullName>
+    <description>Adjusted Unsecured Amount</description>
+    <externalId>false</externalId>
+    <formula>Total_Unsecured_Liabilities_Clc__c - Secured_Debts_Unsecured_Portion__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Adjusted Unsecured Amount</inlineHelpText>
+    <label>Adjusted Unsecured Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

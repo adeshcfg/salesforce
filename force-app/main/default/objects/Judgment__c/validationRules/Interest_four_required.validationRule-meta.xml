@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_four_required</fullName>
+    <active>false</active>
+    <description>If Balance-4 is filled then Interest Rate-4 must be filled</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Balance_four__c)), 
+    ISBLANK(Interest_Rate_four__c)
+)</errorConditionFormula>
+    <errorDisplayField>Interest_Rate_four__c</errorDisplayField>
+    <errorMessage>Please provide Interest-4</errorMessage>
+</ValidationRule>

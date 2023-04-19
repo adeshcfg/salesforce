@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_not_editable</fullName>
+    <active>false</active>
+    <description>Payment not editable if Deposit Slip is already generated</description>
+    <errorConditionFormula>AND( $Setup.Application_Config_Settings__c.Do_Not_Run_Payment_Validation__c = False, 
+OR(
+AND(Deposit_Slip__c != null,
+NOT(ISCHANGED( Is_Payment_Remitted__c  )),
+ NOT(ISCHANGED( Remitted_Date__c )),
+ NOT(ISCHANGED( Remitted_Cheque_Number__c )),
+ NOT(ISCHANGED( Remitted_Date__c )),
+ NOT(ISCHANGED(  Payment_Reversed__c )) 
+)
+)
+)</errorConditionFormula>
+    <errorDisplayField>Cheque_Payment_Reference_Number__c</errorDisplayField>
+    <errorMessage>Payment not editable as Deposit Slip is already generated</errorMessage>
+</ValidationRule>

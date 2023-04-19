@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FidemApp_Incomplete_w_o_Employer_Info</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Application_Date__c</columns>
+    <columns>AML_Decision__c</columns>
+    <columns>AML_Decision_Timestamp__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Employer_Name__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>equals</operation>
+        <value>Incomplete</value>
+    </filters>
+    <label>FidemApp Incomplete-w/o Employer Info</label>
+    <sharedTo>
+        <group>Fidem_BS</group>
+    </sharedTo>
+</ListView>

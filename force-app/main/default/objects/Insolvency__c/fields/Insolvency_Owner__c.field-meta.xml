@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Owner__c</fullName>
+    <description>Insolvency Owner</description>
+    <externalId>false</externalId>
+    <formula>CASE( 
+$Profile.Name, 
+&apos;SDA Community User&apos;, ( SDA_Record_Owner__r.FirstName + &apos; &apos; +  SDA_Record_Owner__r.LastName),
+&apos;SDA Community User Readonly&apos;, (SDA_Record_Owner__r.FirstName + &apos; &apos; +  SDA_Record_Owner__r.LastName), 
+&apos;SDA Login Community User&apos;, (SDA_Record_Owner__r.FirstName + &apos; &apos; + SDA_Record_Owner__r.LastName), 
+&apos;SDA Login Community User Readonly&apos;, (SDA_Record_Owner__r.FirstName + &apos; &apos; + SDA_Record_Owner__r.LastName), 
+&apos;SPL Community User&apos;, (Chase_Record_Owner__r.FirstName + &apos; &apos; +  Chase_Record_Owner__r.LastName),
+&apos;SPL Community User Readonly&apos;, (Chase_Record_Owner__r.FirstName + &apos; &apos; +  Chase_Record_Owner__r.LastName), 
+&apos;SPL Login Community User&apos;, (Chase_Record_Owner__r.FirstName + &apos; &apos; + Chase_Record_Owner__r.LastName), 
+&apos;SPL Login Community User Readonly&apos;, (Chase_Record_Owner__r.FirstName + &apos; &apos; + Chase_Record_Owner__r.LastName), 
+&apos;Scotia Bank Community User&apos;, (Scotia_Record_Owner__r.FirstName + &apos; &apos; +  Scotia_Record_Owner__r.LastName) , 
+&apos;Scotia Bank Community User Readonly&apos;, (Scotia_Record_Owner__r.FirstName + &apos; &apos; +  Scotia_Record_Owner__r.LastName), 
+&apos;Scotia Bank Login Community User&apos;, (Scotia_Record_Owner__r.FirstName + &apos; &apos; + Scotia_Record_Owner__r.LastName), 
+&apos;Scotia Bank Login Community User Readonly&apos;, (Scotia_Record_Owner__r.FirstName + &apos; &apos; + Scotia_Record_Owner__r.LastName), 
+(Owner:User.FirstName + &apos; &apos; + Owner:User.LastName))</formula>
+    <inlineHelpText>Insolvency Owner</inlineHelpText>
+    <label>Insolvency Owner</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Calculated_Delinquent_Days__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE($RecordType.Name, 
+&quot;Credit Card Account&quot;, Delinquency_Days__c - 30, 
+&quot;Loan Account&quot;, Delinquency_Days__c, 
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Calculated Delinquent Days</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

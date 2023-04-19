@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Maint_Payments_Or_Relinquishing__c</fullName>
+    <description>Customer Is Maintaining Payments Or Relinquishing</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Customer Is Maintaining Payments Or Relinquishing</inlineHelpText>
+    <label>Maint Payments Or Relinquishing</label>
+    <length>15000</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

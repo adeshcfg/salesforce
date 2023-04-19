@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remittance</fullName>
+    <active>true</active>
+    <description>Remittance Insolvency Payments</description>
+    <label>Remittance</label>
+    <picklistValues>
+        <picklist>Client_Identifier__c</picklist>
+        <values>
+            <fullName>Scotia Bank</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Reversed__c</picklist>
+        <values>
+            <fullName>NSF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payment Refunded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payment posted to Incorrect account</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stale Dated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stopped</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unauthorised</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Type__c</picklist>
+        <values>
+            <fullName>TBD</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

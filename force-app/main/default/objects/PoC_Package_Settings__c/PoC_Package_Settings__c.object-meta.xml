@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>These setting are used by the Insolvency Stream solution, as input into the Proof of Claims form generation.</description>
+    <enableFeeds>false</enableFeeds>
+    <label>PoC Package Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

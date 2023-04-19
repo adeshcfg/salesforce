@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Purchase_Group__c</fullName>
+    <description>The purchase group for this account, if applicable</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The purchase group for this account, if applicable</inlineHelpText>
+    <label>Account Purchase Group</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

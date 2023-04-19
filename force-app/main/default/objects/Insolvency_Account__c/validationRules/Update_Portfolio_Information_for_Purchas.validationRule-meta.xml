@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Update_Portfolio_Information_for_Purchas</fullName>
+    <active>false</active>
+    <description>This validation rule will enable the users to add Portfolio Information on the purchased Scotia Insolvency accounts</description>
+    <errorConditionFormula>If(
+TEXT(Client_Identifier__c) &lt;&gt; &quot;Canaccede&quot; 
+&amp;&amp; TEXT(Client_Identifier__c) &lt;&gt; &quot;Fidem&quot;,
+IF(( (ISNEW() &amp;&amp; ( NOT(ISBLANK(Portfolio_Name_Lookup__c)) || NOT(ISBLANK(TEXT(Portfolio_Group_Name__c))) || NOT(ISBLANK(TEXT(Investment_Group__c))) ))
+|| ((NOT(ISNEW()) &amp;&amp; (ISCHANGED(Portfolio_Name_Lookup__c ) || ISCHANGED(Portfolio_Group_Name__c) || ISCHANGED(Investment_Group__c))))) ,
+IF(ISPICKVAL(Asset_Status__c, &quot;Purchased&quot;) 
+|| ISPICKVAL(Asset_Status__c, &quot;Duplicate Purchased&quot;) 
+|| ISPICKVAL(Asset_Status__c, &quot;Bulk Purchased&quot;) 
+|| ISPICKVAL(Asset_Status__c, &quot;Duplicate&quot;)
+|| ISPICKVAL(Asset_Status__c, &quot;Debt Purchase&quot;) , False, True)
+, False)
+, False)</errorConditionFormula>
+    <errorDisplayField>Second_Review__c</errorDisplayField>
+    <errorMessage>Portfolio Information cannot be set for non-purchased accounts</errorMessage>
+</ValidationRule>

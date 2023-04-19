@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product__c</fullName>
+    <externalId>false</externalId>
+    <label>Product</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>AMEX</fullName>
+                <default>false</default>
+                <label>AMEX</label>
+            </value>
+            <value>
+                <fullName>AMEX - GOLD</fullName>
+                <default>false</default>
+                <label>AMEX - GOLD</label>
+            </value>
+            <value>
+                <fullName>AMEX - PLATINUM</fullName>
+                <default>false</default>
+                <label>AMEX - PLATINUM</label>
+            </value>
+            <value>
+                <fullName>BUSINESS VISA</fullName>
+                <default>false</default>
+                <label>BUSINESS VISA</label>
+            </value>
+            <value>
+                <fullName>SCOTIA GOLD PASSPORT FOR BUSINESS VISA</fullName>
+                <default>false</default>
+                <label>SCOTIA GOLD PASSPORT FOR BUSINESS VISA</label>
+            </value>
+            <value>
+                <fullName>SCOTIA PLAN LOAN</fullName>
+                <default>false</default>
+                <label>SCOTIA PLAN LOAN</label>
+            </value>
+            <value>
+                <fullName>SCOTIA PROFESSIONAL STUDENT PLAN</fullName>
+                <default>false</default>
+                <label>SCOTIA PROFESSIONAL STUDENT PLAN</label>
+            </value>
+            <value>
+                <fullName>SCOTIABANK MOMENTUM FOR BUSINESS VISA</fullName>
+                <default>false</default>
+                <label>SCOTIABANK MOMENTUM FOR BUSINESS VISA</label>
+            </value>
+            <value>
+                <fullName>SCOTIABANK PASSPORT VISA INFINITE CARD</fullName>
+                <default>false</default>
+                <label>SCOTIABANK PASSPORT VISA INFINITE CARD</label>
+            </value>
+            <value>
+                <fullName>SCOTIALINE- STUDENT</fullName>
+                <default>false</default>
+                <label>SCOTIALINE- STUDENT</label>
+            </value>
+            <value>
+                <fullName>SCOTIALINE - UNSECURED</fullName>
+                <default>false</default>
+                <label>SCOTIALINE - UNSECURED</label>
+            </value>
+            <value>
+                <fullName>SCOTIALINE FOR BUSINESS VISA</fullName>
+                <default>false</default>
+                <label>SCOTIALINE FOR BUSINESS VISA</label>
+            </value>
+            <value>
+                <fullName>SCOTIALINE WITH ACCESS CARD</fullName>
+                <default>false</default>
+                <label>SCOTIALINE WITH ACCESS CARD</label>
+            </value>
+            <value>
+                <fullName>SPL - AUTO DIRECT</fullName>
+                <default>false</default>
+                <label>SPL - AUTO DIRECT</label>
+            </value>
+            <value>
+                <fullName>SPL - AUTO INDIRECT</fullName>
+                <default>false</default>
+                <label>SPL - AUTO INDIRECT</label>
+            </value>
+            <value>
+                <fullName>SPL -  DIRECT</fullName>
+                <default>false</default>
+                <label>SPL -  DIRECT</label>
+            </value>
+            <value>
+                <fullName>SPL - NOTE LOAN</fullName>
+                <default>false</default>
+                <label>SPL - NOTE LOAN</label>
+            </value>
+            <value>
+                <fullName>SPL - OVERDRAFT</fullName>
+                <default>false</default>
+                <label>SPL - OVERDRAFT</label>
+            </value>
+            <value>
+                <fullName>VISA</fullName>
+                <default>false</default>
+                <label>VISA</label>
+            </value>
+            <value>
+                <fullName>VISA - CLASSIC</fullName>
+                <default>false</default>
+                <label>VISA - CLASSIC</label>
+            </value>
+            <value>
+                <fullName>VISA -  GOLD</fullName>
+                <default>false</default>
+                <label>VISA -  GOLD</label>
+            </value>
+            <value>
+                <fullName>VISA - SCOTIA U.S. DOLLAR VISA CARD</fullName>
+                <default>false</default>
+                <label>VISA - SCOTIA U.S. DOLLAR VISA CARD</label>
+            </value>
+            <value>
+                <fullName>VISA - STEEL CLASSIC</fullName>
+                <default>false</default>
+                <label>VISA - STEEL CLASSIC</label>
+            </value>
+            <value>
+                <fullName>VISA - STEEL INFINITE</fullName>
+                <default>false</default>
+                <label>VISA - STEEL INFINITE</label>
+            </value>
+            <value>
+                <fullName>VISA - VALUE</fullName>
+                <default>false</default>
+                <label>VISA - VALUE</label>
+            </value>
+            <value>
+                <fullName>BEST BUY CANADA LTD</fullName>
+                <default>false</default>
+                <label>BEST BUY CANADA LTD</label>
+            </value>
+            <value>
+                <fullName>CREDIT CARD: MOMENTUM MASTERCARD</fullName>
+                <default>false</default>
+                <label>CREDIT CARD: MOMENTUM MASTERCARD</label>
+            </value>
+            <value>
+                <fullName>CUETS</fullName>
+                <default>false</default>
+                <label>CUETS</label>
+            </value>
+            <value>
+                <fullName>GS Loan</fullName>
+                <default>false</default>
+                <label>GS Loan</label>
+            </value>
+            <value>
+                <fullName>HOME PROJECTS</fullName>
+                <default>false</default>
+                <label>HOME PROJECTS</label>
+            </value>
+            <value>
+                <fullName>HOMECARD</fullName>
+                <default>false</default>
+                <label>HOMECARD</label>
+            </value>
+            <value>
+                <fullName>Loan</fullName>
+                <default>false</default>
+                <label>Loan</label>
+            </value>
+            <value>
+                <fullName>Mastercard</fullName>
+                <default>false</default>
+                <label>Mastercard</label>
+            </value>
+            <value>
+                <fullName>PDA-A</fullName>
+                <default>false</default>
+                <label>PDA-A</label>
+            </value>
+            <value>
+                <fullName>PDA-C</fullName>
+                <default>false</default>
+                <label>PDA-C</label>
+            </value>
+            <value>
+                <fullName>PDA-O</fullName>
+                <default>false</default>
+                <label>PDA-O</label>
+            </value>
+            <value>
+                <fullName>UNAUTHORIZED OVERDRAFT</fullName>
+                <default>false</default>
+                <label>UNAUTHORIZED OVERDRAFT</label>
+            </value>
+            <value>
+                <fullName>VSA EMERALD</fullName>
+                <default>false</default>
+                <label>VSA EMERALD</label>
+            </value>
+            <value>
+                <fullName>VSA TD GREEN</fullName>
+                <default>false</default>
+                <label>VSA TD GREEN</label>
+            </value>
+            <value>
+                <fullName>VSA-AERO INFIN</fullName>
+                <default>false</default>
+                <label>VSA-AERO INFIN</label>
+            </value>
+            <value>
+                <fullName>VSA-AERO PLATM</fullName>
+                <default>false</default>
+                <label>VSA-AERO PLATM</label>
+            </value>
+            <value>
+                <fullName>VSA-AERO PLATM CIBC</fullName>
+                <default>false</default>
+                <label>VSA-AERO PLATM CIBC</label>
+            </value>
+            <value>
+                <fullName>VSA-CL TRAVEL</fullName>
+                <default>false</default>
+                <label>VSA-CL TRAVEL</label>
+            </value>
+            <value>
+                <fullName>VSA-DRIVERS</fullName>
+                <default>false</default>
+                <label>VSA-DRIVERS</label>
+            </value>
+            <value>
+                <fullName>VSA-EMERALD</fullName>
+                <default>false</default>
+                <label>VSA-EMERALD</label>
+            </value>
+            <value>
+                <fullName>VSA-PL TRAVEL</fullName>
+                <default>false</default>
+                <label>VSA-PL TRAVEL</label>
+            </value>
+            <value>
+                <fullName>VSA-REBATE</fullName>
+                <default>false</default>
+                <label>VSA-REBATE</label>
+            </value>
+            <value>
+                <fullName>VSA-TD GREEN</fullName>
+                <default>false</default>
+                <label>VSA-TD GREEN</label>
+            </value>
+            <value>
+                <fullName>Credit Card AUTO PROGRAM</fullName>
+                <default>false</default>
+                <label>Credit Card AUTO PROGRAM</label>
+            </value>
+            <value>
+                <fullName>Credit Card BEST BUY CANADA LTD</fullName>
+                <default>false</default>
+                <label>Credit Card BEST BUY CANADA LTD</label>
+            </value>
+            <value>
+                <fullName>Credit Card Distressed</fullName>
+                <default>false</default>
+                <label>Credit Card Distressed</label>
+            </value>
+            <value>
+                <fullName>Credit Card FUTURE SHOP</fullName>
+                <default>false</default>
+                <label>Credit Card FUTURE SHOP</label>
+            </value>
+            <value>
+                <fullName>Credit Card HOMECARD</fullName>
+                <default>false</default>
+                <label>Credit Card HOMECARD</label>
+            </value>
+            <value>
+                <fullName>Credit Card MBNA MasterCard</fullName>
+                <default>false</default>
+                <label>Credit Card MBNA MasterCard</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Other CONDITIONAL SALES CONTRACT</fullName>
+                <default>false</default>
+                <label>Other CONDITIONAL SALES CONTRACT</label>
+            </value>
+            <value>
+                <fullName>Other Loan</fullName>
+                <default>false</default>
+                <label>Other Loan</label>
+            </value>
+            <value>
+                <fullName>Fidem Mastercard</fullName>
+                <default>false</default>
+                <label>Fidem Mastercard</label>
+            </value>
+            <value>
+                <fullName>Fidem Loan</fullName>
+                <default>false</default>
+                <label>Fidem Loan</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

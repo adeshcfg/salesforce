@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Display_Product_Type__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(Product_Type__c,
+&quot;CREDIT CARD: VISA - VALUE&quot;, &quot;Value Visa&quot;,
+&quot;CREDIT CARD: AMEX-GOLD&quot;, &quot;Amex-Gold&quot;,
+&quot;VSA-AERO INFIN&quot;, &quot;Aeroplan Infinite Visa&quot;,
+&quot;VSA-DRIVERS&quot;, &quot;Drivers Visa&quot;,
+&quot;VSA-FC TRAVEL&quot;, &quot;First Class Travel Visa&quot;,
+&quot;VSA-EMERALD&quot;, &quot;Emerald Visa&quot;,
+&quot;VSA-GOLD ELITE&quot;, &quot;Gold Elite Visa&quot;,
+&quot;VSA TD GREEN&quot;, &quot;TD Green Visa&quot;,
+&quot;MASTERCARD&quot;, &quot;MASTERCARD&quot;,
+&quot;VSA CASH BACK&quot;, &quot;Cash Back Visa&quot;,
+&quot;VSA AERO INFIN CIBC&quot;, &quot;Aeroplan Infinite Visa&quot;,
+&quot;VSA CL TRAVEL&quot;, &quot;Classic Travel Visa&quot;,
+&quot;VSA FC TRAVEL&quot;, &quot;First Class Travel Visa&quot;,
+&quot;VSA PL TRAVEL&quot;, &quot;Platinum Travel Visa&quot;,
+&quot;CREDIT CARD: VISA - CLASSIC&quot;, &quot;Classic Visa&quot;,
+&quot;VISA - CLASSIC&quot;, &quot;Classic Visa&quot;,
+&quot;CREDIT CARD: MOMENTUM MASTERCARD&quot;, &quot;Momentum Mastercard&quot;,
+&quot;SPL - Auto Indirect&quot;, &quot;Personal Loan whereby automotive financing was extended&quot;,
+&quot;SCOTIALINE - STUDENT&quot;, &quot;Scotiabank student line of credit, known as a Scotialine account&quot;,
+&quot;VSA-AERO PLATM&quot;, &quot;Aeroplan Platinum Visa&quot;,
+&quot;CUETS-Mastercard&quot;, &quot;MasterCard&quot;,
+&quot;Loan&quot;, &quot;Loan&quot;,
+&quot;PDA-A&quot;, &quot;PDA-A&quot;,
+&quot;AMEX-GOLD&quot;, &quot;AMEX-GOLD&quot;,
+&quot;VISA - Value&quot;, &quot;Value Visa&quot;,
+&quot;SCOTIALINE - Unsecured&quot;, &quot;Line of Credit, known as a Scotialine Account&quot;,
+&quot;VISA - Value&quot;, &quot;Value Visa&quot;,
+&quot;SCOTIA VISA BUSINESS CARD&quot;, &quot;Scotia Visa Business Card&quot;,
+&quot;SCOTIALINE WITH ACCESS CARD&quot;, &quot;Line of Credit, known as a Scotialine Account&quot;,
+&quot;CREDIT LINES: SCOTIALINE - STUDENT&quot;, &quot;Scotiabank student line of credit, known as a Scotialine account&quot;,
+&quot;AUTO: SPL - AUTO INDIRECTD&quot;, &quot;Line of Credit, known as a Scotialine Account&quot;,
+&quot;TERM LOANS: SPL - NOTE LOAN&quot;, &quot;Scotiabank loan&quot;,
+&quot;SMALL BUSINESS: SCOTIA VISA BUSINESS CARD&quot;, &quot;Scotia Visa Business Card&quot;,
+&quot;CREDIT CARD: VISA - SCOTIA U.S. DOLLAR VISA CARD&quot;, &quot;Scoitabank U.S Dollar Visa&quot;,
+&quot;VISA - SCOTIA U.S. DOLLAR VISA CARD&quot;, &quot;Scoitabank U.S Dollar Visa&quot;,
+&quot;SPL - AUTO DIRECT&quot;, &quot;Personal Loan whereby automotive finanacing was extended&quot;,
+&quot;VSA-TD GREEN&quot;, &quot;TD Green Visa&quot;,
+&quot;PDA T&quot;, &quot;Line of Credit&quot;,
+&quot;PDA-O&quot;, &quot;Line of Credit&quot;,
+&quot;VSA-PL TRAVEL&quot;, &quot;Plaintum Travel Visa&quot;,
+&quot;STUDENT LOAN - Scotia Student Loan&quot;, &quot;Scotiabank student line of credit, known as a Scotialine account&quot;,
+Product_Type__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Display Product Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

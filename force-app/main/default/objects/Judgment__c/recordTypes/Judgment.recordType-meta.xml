@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Judgment</fullName>
+    <active>true</active>
+    <label>Judgment</label>
+    <picklistValues>
+        <picklist>Country__c</picklist>
+        <values>
+            <fullName>CANADA</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Court__c</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Small Claims Court%E2%80%8B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Superior Court of Justice</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Judgment_Province__c</picklist>
+        <values>
+            <fullName>Alberta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>British Columbia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manitoba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Brunswick</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newfoundland and Labrador</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Northwest Territories</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nova Scotia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nunavut</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ontario</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prince Edward Island</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quebec</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Saskatchewan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yukon</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Legal_Status__c</picklist>
+        <values>
+            <fullName>Judgment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post-Judgment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pre-Judgment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pre-legal</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Legal_Sub_Status__c</picklist>
+        <values>
+            <fullName>Abandonned Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Action Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Approved for legal action</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assessment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bank Garnishment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificate of Execution</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim Issued</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim Served</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consent Judgment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Counter Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Default Judgment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Defended Action</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demand Letter Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Denied</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dormant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enforcement Lost</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entered Credit Counselling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Entered Insolvency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Granted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Granted but subsequently refused</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Granted%3B Assessment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Judicial Sale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal Action Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Locating Debtor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Locating Enforcement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Media Requested awaiting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Writ %26 Locating Enforcement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payment Arrangement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recommended for legal action</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reviewing for Legal action</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Letter Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Proposal Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vacated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Voluntary assignment of wages</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wage Garnishment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Writ %26 Enforcement by Sheriff off</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Writ %26 Garnishment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Writ %26 Judicial Sale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Writ %26 Locating Enforcement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Writ - Payment Arrangements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Writ Filed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Writ and Payment Arrangement</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_frequency__c</picklist>
+        <values>
+            <fullName>Bi-Weekly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Semi-Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Variable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Weekly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Template_for_Customer_Type__c</picklist>
+        <values>
+            <fullName>Co-Borrower</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Primary Borrower</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

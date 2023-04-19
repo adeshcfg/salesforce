@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Uploaded_By_Internal_User</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>NAME</columns>
+    <columns>Document_Type__c</columns>
+    <columns>Customer__c</columns>
+    <columns>Judgment__c</columns>
+    <columns>Settlement__c</columns>
+    <columns>Work_Assignment__c</columns>
+    <columns>Placement_Agency__c</columns>
+    <columns>Agency_Name__c</columns>
+    <columns>Uploaded_By__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Uploaded_By__c</field>
+        <operation>equals</operation>
+        <value>Internal User</value>
+    </filters>
+    <label>Uploaded By Internal User</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+        <group>Distressed_ICT_group</group>
+        <group>Distressed_LRT_group</group>
+        <group>ICT_Dialer_Campaign</group>
+        <group>ICT_Group</group>
+        <group>ICT_User_Visibility_Group</group>
+        <group>LRT_Dialer_Campaign</group>
+        <group>LRT_Group</group>
+        <group>LRT_User_Visibility_Group</group>
+    </sharedTo>
+</ListView>

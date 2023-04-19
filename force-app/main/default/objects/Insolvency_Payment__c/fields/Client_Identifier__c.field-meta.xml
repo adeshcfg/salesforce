@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_Identifier__c</fullName>
+    <description>Used to segregate data across clients.  Only the external client noted in this field can see this record.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Used to segregate data across clients.  Only the external client noted in this field can see this record.</inlineHelpText>
+    <label>Client Identifier</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Scotia Bank</fullName>
+                <default>false</default>
+                <label>Scotia Bank</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

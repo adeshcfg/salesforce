@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_Workflow__c</fullName>
+    <externalId>false</externalId>
+    <label>Current Workflow</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Collection Process</fullName>
+                <default>false</default>
+                <label>Collection Process</label>
+            </value>
+            <value>
+                <fullName>Promise to Pay Flow</fullName>
+                <default>false</default>
+                <label>Promise to Pay Flow</label>
+            </value>
+            <value>
+                <fullName>Low Balance Flow</fullName>
+                <default>false</default>
+                <label>Low Balance Flow</label>
+            </value>
+            <value>
+                <fullName>Pre-Legal Flow</fullName>
+                <default>false</default>
+                <label>Pre-Legal Flow</label>
+            </value>
+            <value>
+                <fullName>Trace Flow</fullName>
+                <default>false</default>
+                <label>Trace Flow</label>
+            </value>
+            <value>
+                <fullName>Internal Collection</fullName>
+                <default>false</default>
+                <label>Internal Collection</label>
+            </value>
+            <value>
+                <fullName>ICT Promise to Pay</fullName>
+                <default>false</default>
+                <label>ICT Promise to Pay</label>
+            </value>
+            <value>
+                <fullName>ICT Pre Legal Flow</fullName>
+                <default>false</default>
+                <label>ICT Pre Legal Flow</label>
+            </value>
+            <value>
+                <fullName>ICT Trace Flow</fullName>
+                <default>false</default>
+                <label>ICT Trace Flow</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

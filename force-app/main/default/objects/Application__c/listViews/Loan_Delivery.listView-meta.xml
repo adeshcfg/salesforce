@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Delivery</fullName>
+    <booleanFilter>(1 AND 2 and 3)</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>Application_Date__c</columns>
+    <columns>disbursement__c</columns>
+    <columns>Decision__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Decision_Timestamp__c</columns>
+    <columns>Loan_Process_Type__c</columns>
+    <columns>Application_Fullfillment_Status__c</columns>
+    <columns>Province__c</columns>
+    <columns>Lender_Approved_Amount__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Decision__c</field>
+        <operation>equals</operation>
+        <value>Approved</value>
+    </filters>
+    <filters>
+        <field>Application_Status__c</field>
+        <operation>equals</operation>
+        <value>Loan Delivery</value>
+    </filters>
+    <filters>
+        <field>Loan_Type__c</field>
+        <operation>contains</operation>
+        <value>Affirm Financial Term Loan</value>
+    </filters>
+    <label>Loan Delivery</label>
+</ListView>

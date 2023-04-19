@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Issue_Category__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>To be used by troubleshooting team</inlineHelpText>
+    <label>Issue Category</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bug Fix</fullName>
+                <default>false</default>
+                <label>Bug Fix</label>
+            </value>
+            <value>
+                <fullName>Workflow</fullName>
+                <default>false</default>
+                <label>Workflow</label>
+            </value>
+            <value>
+                <fullName>Notification</fullName>
+                <default>false</default>
+                <label>Notification</label>
+            </value>
+            <value>
+                <fullName>Page Layout</fullName>
+                <default>false</default>
+                <label>Page Layout</label>
+            </value>
+            <value>
+                <fullName>Functionality</fullName>
+                <default>false</default>
+                <label>Functionality</label>
+            </value>
+            <value>
+                <fullName>Phase 2</fullName>
+                <default>false</default>
+                <label>Phase 2</label>
+            </value>
+            <value>
+                <fullName>Enhancement Request</fullName>
+                <default>false</default>
+                <label>Enhancement Request</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

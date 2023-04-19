@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_Identifiers__c</fullName>
+    <description>Populated when a new Insolvency Account record is created for the Insolvency record. 
+Clients can only see records in this Object if their client identifier value is present in this field.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Populated when a new Insolvency Account record is created for the Insolvency record. 
+Clients can only see records in this Object if their client identifier value is present in this field.</inlineHelpText>
+    <label>Client Identifiers</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

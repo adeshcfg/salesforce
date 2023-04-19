@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Completed_loan_apps_MTD</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>Application_Number__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Decision_Status__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Decision_Timestamp__c</field>
+        <operation>lessThan</operation>
+        <value>THIS_MONTH</value>
+    </filters>
+    <filters>
+        <field>Loan_Type__c</field>
+        <operation>equals</operation>
+        <value>Affirm Financial Term Loan</value>
+    </filters>
+    <filters>
+        <field>Application_Status__c</field>
+        <operation>equals</operation>
+        <value>Completed - Loan</value>
+    </filters>
+    <label>Completed loan apps MTD</label>
+</ListView>

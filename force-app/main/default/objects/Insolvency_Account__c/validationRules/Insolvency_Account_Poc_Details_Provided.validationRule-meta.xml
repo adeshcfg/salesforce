@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Account_Poc_Details_Provided</fullName>
+    <active>true</active>
+    <description>Record cannot be set to PoC Details Provided if claim amount is missing.</description>
+    <errorConditionFormula>AND(
+OR(ISNEW(), ISCHANGED(Insolvency_Status__c), ISCHANGED(Claim_Amount__c )),
+ISPICKVAL(Insolvency_Status__c,&apos;PoC Details Provided&apos;),( Claim_Amount__c  &lt;= 0) || ISNULL(Claim_Amount__c)
+)</errorConditionFormula>
+    <errorDisplayField>Second_Review__c</errorDisplayField>
+    <errorMessage>Record cannot be set to PoC Details Provided if claim amount is missing.</errorMessage>
+</ValidationRule>

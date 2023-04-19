@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Guarantor_Home_Phone_Format__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK( Guarantor_Home_Phone__c ), &quot;&quot;, IF(LEN(Guarantor_Home_Phone__c ) = 10, &quot;(&quot; + LEFT( Guarantor_Home_Phone__c , 3) + &quot;) &quot; + MID(Guarantor_Home_Phone__c , 4, 3) + &quot;-&quot; + MID(Guarantor_Home_Phone__c , 7, 4), Guarantor_Home_Phone__c ) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Guarantor Home Phone Format</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payback_Calculated__c</fullName>
+    <description>Total of Current Balance and Collective Cash Collections CAD</description>
+    <externalId>false</externalId>
+    <formula>Current_Balance__c + Collective_Cash_Collections_CAD__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Total of Current Balance and Collective Cash Collections CAD</inlineHelpText>
+    <label>Payback Calculated</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

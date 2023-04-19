@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Active_Agencies_Law_Offices</fullName>
+    <columns>NAME</columns>
+    <columns>Agency_Name__c</columns>
+    <columns>Agency_Phone_Number__c</columns>
+    <columns>Agency_Email__c</columns>
+    <columns>Agency_City__c</columns>
+    <columns>Agency_State__c</columns>
+    <columns>Serviceable_Province__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Active__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>All Active Agencies/Law Offices</label>
+    <sharedTo>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

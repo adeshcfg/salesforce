@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Area__c</fullName>
+    <externalId>false</externalId>
+    <label>Application Area</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Interface</fullName>
+                <default>false</default>
+                <label>Interface</label>
+            </value>
+            <value>
+                <fullName>Customers</fullName>
+                <default>false</default>
+                <label>Customers</label>
+            </value>
+            <value>
+                <fullName>Applications/Form</fullName>
+                <default>false</default>
+                <label>Applications/Form</label>
+            </value>
+            <value>
+                <fullName>Products</fullName>
+                <default>false</default>
+                <label>Products</label>
+            </value>
+            <value>
+                <fullName>Campaigns</fullName>
+                <default>false</default>
+                <label>Campaigns</label>
+            </value>
+            <value>
+                <fullName>Tasks/Activities</fullName>
+                <default>false</default>
+                <label>Tasks/Activities</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

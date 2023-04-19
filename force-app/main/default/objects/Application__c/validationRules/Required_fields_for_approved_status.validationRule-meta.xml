@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Required_fields_for_approved_status</fullName>
+    <active>true</active>
+    <description>Lender approved amount and Interest rate are required fields if application is approved</description>
+    <errorConditionFormula>AND( ISPICKVAL( Application_Status__c , &quot;Analyst Approved&quot;),
+ OR(ISBLANK( Lender_Approved_Amount__c ) ,
+  ISBLANK( Interest_Rate__c ) ,
+  ISBLANK( Interest_Rate_Code__c ) 
+ )
+)</errorConditionFormula>
+    <errorMessage>When application status is analyst approved, then lender approved amount, interest rate and interest rate code cannot be blank</errorMessage>
+</ValidationRule>

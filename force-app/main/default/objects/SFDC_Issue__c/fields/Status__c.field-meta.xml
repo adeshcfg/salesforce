@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New/Open</fullName>
+                <default>true</default>
+                <label>New/Open</label>
+            </value>
+            <value>
+                <fullName>Under Review/Evaluating Effort</fullName>
+                <default>false</default>
+                <label>Under Review/Evaluating Effort</label>
+            </value>
+            <value>
+                <fullName>Fix In Progress</fullName>
+                <default>false</default>
+                <label>Fix In Progress</label>
+            </value>
+            <value>
+                <fullName>Ready for Testing</fullName>
+                <default>false</default>
+                <label>Ready for Testing</label>
+            </value>
+            <value>
+                <fullName>Tested and Approved</fullName>
+                <default>false</default>
+                <label>Tested and Approved</label>
+            </value>
+            <value>
+                <fullName>Tested and Rejected</fullName>
+                <default>false</default>
+                <label>Tested and Rejected</label>
+            </value>
+            <value>
+                <fullName>Closed - Duplicate</fullName>
+                <default>false</default>
+                <label>Closed - Duplicate</label>
+            </value>
+            <value>
+                <fullName>Deferred - Subsequent Phase</fullName>
+                <default>false</default>
+                <label>Deferred - Subsequent Phase</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

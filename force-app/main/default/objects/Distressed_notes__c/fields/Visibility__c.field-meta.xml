@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Visibility__c</fullName>
+    <externalId>false</externalId>
+    <label>Visibility</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CFG + All Agencies</fullName>
+                <default>false</default>
+                <label>CFG + All Agencies</label>
+            </value>
+            <value>
+                <fullName>CFG only</fullName>
+                <default>true</default>
+                <label>CFG only</label>
+            </value>
+            <value>
+                <fullName>CFG + Requesting Agency</fullName>
+                <default>false</default>
+                <label>CFG + Requesting Agency</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

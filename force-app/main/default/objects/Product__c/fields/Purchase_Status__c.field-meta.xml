@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purchase_Status__c</fullName>
+    <description>Purchase Status</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Purchase Status</inlineHelpText>
+    <label>Buyback/Putback Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Putback Pending</fullName>
+                <default>false</default>
+                <label>Putback Pending</label>
+            </value>
+            <value>
+                <fullName>Eligible for Buyback</fullName>
+                <default>false</default>
+                <label>Eligible for Buyback</label>
+            </value>
+            <value>
+                <fullName>Buyback Initiated</fullName>
+                <default>false</default>
+                <label>Buyback Initiated</label>
+            </value>
+            <value>
+                <fullName>Buyback Requested</fullName>
+                <default>false</default>
+                <label>Buyback Requested</label>
+            </value>
+            <value>
+                <fullName>Buyback Rejected</fullName>
+                <default>false</default>
+                <label>Buyback Rejected</label>
+            </value>
+            <value>
+                <fullName>Buyback Approved</fullName>
+                <default>false</default>
+                <label>Buyback Approved</label>
+            </value>
+            <value>
+                <fullName>Eligible for Putback</fullName>
+                <default>false</default>
+                <label>Eligible for Putback</label>
+            </value>
+            <value>
+                <fullName>Putback Initiated</fullName>
+                <default>false</default>
+                <label>Putback Initiated</label>
+            </value>
+            <value>
+                <fullName>Putback Requested</fullName>
+                <default>false</default>
+                <label>Putback Requested</label>
+            </value>
+            <value>
+                <fullName>Putback Rejected</fullName>
+                <default>false</default>
+                <label>Putback Rejected</label>
+            </value>
+            <value>
+                <fullName>Putback Approved</fullName>
+                <default>false</default>
+                <label>Putback Approved</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

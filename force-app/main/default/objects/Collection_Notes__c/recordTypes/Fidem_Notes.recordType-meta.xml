@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fidem_Notes</fullName>
+    <active>true</active>
+    <label>Fidem Notes</label>
+    <picklistValues>
+        <picklist>Type_of_Notes__c</picklist>
+        <values>
+            <fullName>Collections</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

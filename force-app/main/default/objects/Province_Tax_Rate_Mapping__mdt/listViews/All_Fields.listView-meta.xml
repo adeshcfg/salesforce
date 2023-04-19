@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Fields</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Province_Name__c</columns>
+    <columns>Province_Acronym__c</columns>
+    <columns>Canada_Tax_Rate__c</columns>
+    <columns>Province_Tax_Rate__c</columns>
+    <columns>Total_Tax_Rate__c</columns>
+    <columns>Tax_Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Fields</label>
+</ListView>

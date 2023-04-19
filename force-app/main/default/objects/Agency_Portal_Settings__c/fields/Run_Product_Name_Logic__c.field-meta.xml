@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Product_Name_Logic__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Run Product Name setting logic from Account Purchase group</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Run Product Name setting logic from Account Purchase group</inlineHelpText>
+    <label>Run Product Name Logic</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

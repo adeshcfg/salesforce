@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Default_Company_Name__c</fullName>
+    <defaultValue>&apos;Fidem&apos;</defaultValue>
+    <description>Default Company Name (Affirm, Fidem)</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Default Company Name (Affirm, Fidem)</inlineHelpText>
+    <label>Default Company Name</label>
+    <length>20</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

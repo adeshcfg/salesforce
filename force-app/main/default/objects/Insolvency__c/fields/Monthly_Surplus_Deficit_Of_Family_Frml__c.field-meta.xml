@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Monthly_Surplus_Deficit_Of_Family_Frml__c</fullName>
+    <description>Monthly Surplus / Deficit Of Family Formula</description>
+    <externalId>false</externalId>
+    <formula>Available_Monthly_Income_Of_Family_Frml__c - Monthly_Discretinary_Exp_Of_Family_Frml__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Monthly Surplus / Deficit Of Family Formula</inlineHelpText>
+    <label>Monthly Surplus/Deficit Of Family Frml</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

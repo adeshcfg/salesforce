@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canaccede_PTP</fullName>
+    <active>true</active>
+    <description>PTP record type for Canaccede Users</description>
+    <label>Canaccede PTP</label>
+    <picklistValues>
+        <picklist>Arrangement_type__c</picklist>
+        <values>
+            <fullName>Full Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regular Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PTP_Method__c</picklist>
+        <values>
+            <fullName>PAP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>cheque</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>online</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>telepay</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>western union</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Frequency__c</picklist>
+        <values>
+            <fullName>Bi-Weekly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Semi-Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Variable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Weekly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Source_of_Arrangement__c</picklist>
+        <values>
+            <fullName>Demand Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound Call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outbound Call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

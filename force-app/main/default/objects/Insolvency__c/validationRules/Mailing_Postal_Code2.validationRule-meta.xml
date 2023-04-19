@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mailing_Postal_Code2</fullName>
+    <active>true</active>
+    <description>Validates that the Mailing Postal Code is in the correct format</description>
+    <errorConditionFormula>IF( ISBLANK(Debtor_2_Mailing_Postal_Code__c), false,
+AND(Created_By_Doc_Parser__c = false,
+NOT(REGEX(Debtor_2_Mailing_Postal_Code__c, &quot;((?i)[ABCEGHJKLMNPRSTVXY]\\d[A-Z]?\\s?\\d[A-Z]\\d)?&quot;)))
+)</errorConditionFormula>
+    <errorDisplayField>Debtor_2_Mailing_Postal_Code__c</errorDisplayField>
+    <errorMessage>Please provide a valid postal code</errorMessage>
+</ValidationRule>

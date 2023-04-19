@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CCS_In_Progress</fullName>
+    <columns>NAME</columns>
+    <columns>Bank_Account_Number__c</columns>
+    <columns>Cheque_Amount__c</columns>
+    <columns>RECORDTYPE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Remittance__c.CCS_Dividend</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>In Progress</value>
+    </filters>
+    <label>CCS - In Progress</label>
+    <sharedTo>
+        <group>CCS_CFG_BS</group>
+        <group>CCS_CFG_User</group>
+    </sharedTo>
+</ListView>

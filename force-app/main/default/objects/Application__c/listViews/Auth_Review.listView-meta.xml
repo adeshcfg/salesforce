@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Auth_Review</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>Application_Date__c</columns>
+    <columns>PcoD_Bankruptcy_State__c</columns>
+    <columns>Authentication_Result__c</columns>
+    <columns>Requested_Credit_Limit__c</columns>
+    <columns>Referral_ID__c</columns>
+    <columns>Decision__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Application_Date__c</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>Auth Review (today)</label>
+</ListView>

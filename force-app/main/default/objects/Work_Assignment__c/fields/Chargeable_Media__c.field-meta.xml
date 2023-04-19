@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Chargeable_Media__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Chargeable Media</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Chargeable Media</inlineHelpText>
+    <label>Chargeable Media</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

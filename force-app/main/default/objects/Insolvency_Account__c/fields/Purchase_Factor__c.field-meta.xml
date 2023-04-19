@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purchase_Factor__c</fullName>
+    <description>Purchase Factor</description>
+    <externalId>false</externalId>
+    <formula>CASE(RecordType.Name, 
+	&apos;Scotia Bank Insolvency Account&apos;,  
+		 CASE(Insolvency__r.Insolvency_Type__c, 
+			&apos;Consumer Proposal&apos;, 
+				CASE(Account_Type__c,
+				 &apos;Bank Card Product&apos;, 0.1395,
+				 &apos;Scotia Plan Loan&apos;, 0.1421,
+				 &apos;Line of Credit&apos;, 0.1431,
+				 &apos;Overdraft - Retail&apos;, 0.0896,
+				 &apos;Overdraft - Small Business&apos;, 0.0896,
+				 &apos;Mortgage&apos;, 0.0896,
+				 &apos;STEP Mortgage&apos;, 0.0896,
+				 &apos;Auto Loan&apos;, 0.1184,
+				 &apos;Online Loans&apos;, 0.1421,
+				 &apos;Term Loan&apos;, 0.1421,
+				 &apos;Unknown&apos;, 0.0896,
+				0), 
+			&apos;Bankruptcy&apos;, 
+				CASE(Account_Type__c,
+				 &apos;Bank Card Product&apos;, 0.0177,
+				 &apos;Scotia Plan Loan&apos;, 0.0215,
+				 &apos;Line of Credit&apos;, 0.0250,
+				 &apos;Overdraft - Retail&apos;, 0.007,
+				 &apos;Overdraft - Small Business&apos;, 0.007,
+				 &apos;Mortgage&apos;, 0.007,
+				 &apos;STEP Mortgage&apos;, 0.007,
+				 &apos;Auto Loan&apos;, 0.0215,
+				 &apos;Online Loans&apos;, 0.0215,
+				 &apos;Term Loan&apos;, 0.0215,
+				 &apos;Unknown&apos;, 0.007,
+				0),
+			0), 
+	&apos;SPL Insolvency Account&apos;, 
+		CASE(Insolvency__r.Insolvency_Type__c, 
+			&apos;Consumer Proposal&apos;, 
+				CASE(Account_Type__c,
+				&apos;Bank Card Product&apos;, 0.11,
+				0),
+            &apos;Bankruptcy&apos;, 
+				CASE(Account_Type__c,
+				&apos;Bank Card Product&apos;, 0.0115,
+				0),
+            0), 
+	&apos;SDA Insolvency Account&apos;, 
+		CASE(Insolvency__r.Insolvency_Type__c, 
+			&apos;Consumer Proposal&apos;, 
+                CASE(Account_Type__c,
+				&apos;Auto Loan&apos;, 0.053,
+				0), 
+			&apos;Bankruptcy&apos;, 
+				CASE(Account_Type__c,
+				&apos;Auto Loan&apos;, 0.0095,
+				0),
+            0),
+	Portfolio_Name_Lookup__r.Purchase_Price_Percent__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Purchase Factor</inlineHelpText>
+    <label>Purchase Factor</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

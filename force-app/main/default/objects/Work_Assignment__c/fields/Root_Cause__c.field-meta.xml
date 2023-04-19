@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Root_Cause__c</fullName>
+    <externalId>false</externalId>
+    <label>Root Cause</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Alleging Fraudulent Account</fullName>
+                <default>false</default>
+                <label>Alleging Fraudulent Account</label>
+            </value>
+            <value>
+                <fullName>Alleging Contacting Wrong Consumer</fullName>
+                <default>false</default>
+                <label>Alleging Contacting Wrong Consumer</label>
+            </value>
+            <value>
+                <fullName>Alleging Incorrect Credit Bureau Reporting</fullName>
+                <default>false</default>
+                <label>Alleging Incorrect Credit Bureau Reporting</label>
+            </value>
+            <value>
+                <fullName>Alleging Account Settled Prior / Paid Prior</fullName>
+                <default>false</default>
+                <label>Alleging Account Settled Prior / Paid Prior</label>
+            </value>
+            <value>
+                <fullName>Alleging Debt Invalid / Incorrect Balance / Requesting Proof of Debt</fullName>
+                <default>false</default>
+                <label>Alleging Debt Invalid / Incorrect Balance / Requesting Proof of Debt</label>
+            </value>
+            <value>
+                <fullName>Alleging Breach of Collection Laws / Improper Collector Actions</fullName>
+                <default>false</default>
+                <label>Alleging Breach of Collection Laws / Improper Collector Actions</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Better Business Bureau</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Better Business Bureau</label>
+            </value>
+            <value>
+                <fullName>Credit Bureau</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Credit Bureau</label>
+            </value>
+            <value>
+                <fullName>Letter from lawyer / law firm / paralegal</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Letter from lawyer / law firm / paralegal</label>
+            </value>
+            <value>
+                <fullName>Ministry</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Ministry</label>
+            </value>
+            <value>
+                <fullName>Verbal</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Verbal</label>
+            </value>
+            <value>
+                <fullName>Written</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Written</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

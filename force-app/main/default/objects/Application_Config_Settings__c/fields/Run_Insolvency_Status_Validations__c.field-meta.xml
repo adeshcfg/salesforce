@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Insolvency_Status_Validations__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Checks whether to run Insolvency Status Validation Rules or not</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checks whether to run Insolvency Status Validation Rules or not</inlineHelpText>
+    <label>Run Insolvency Status Validations</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

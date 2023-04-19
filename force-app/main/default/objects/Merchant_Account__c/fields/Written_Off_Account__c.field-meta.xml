@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Written_Off_Account__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Written Off Account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Written Off Account</inlineHelpText>
+    <label>Written Off Account</label>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

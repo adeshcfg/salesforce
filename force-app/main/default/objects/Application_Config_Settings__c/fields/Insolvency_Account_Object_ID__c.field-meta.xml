@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Account_Object_ID__c</fullName>
+    <defaultValue>&apos;01I170000001MGO&apos;</defaultValue>
+    <description>Holds Insolvency Account Object Id</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Holds Insolvency Account Object Id</inlineHelpText>
+    <label>Insolvency Account Object ID</label>
+    <length>20</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

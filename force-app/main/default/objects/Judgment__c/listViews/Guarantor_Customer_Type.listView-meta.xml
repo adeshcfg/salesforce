@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Guarantor_Customer_Type</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>NAME</columns>
+    <columns>Legal_Status__c</columns>
+    <columns>Legal_Sub_Status__c</columns>
+    <columns>Legal_Agency__c</columns>
+    <columns>Suit_Amount__c</columns>
+    <columns>Agency_Initiated_Legal_Action__c</columns>
+    <columns>Current_Principal_Balance__c</columns>
+    <columns>Payment_frequency__c</columns>
+    <columns>Template_for_Customer_Type__c</columns>
+    <columns>Template_Court_Name__c</columns>
+    <columns>Template_Court_Address__c</columns>
+    <columns>Template_Court_Phone_Number__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Template_for_Customer_Type__c</field>
+        <operation>equals</operation>
+        <value>Guarantor</value>
+    </filters>
+    <label>Guarantor Customer Type</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Distressed_ICT_group</group>
+        <group>Distressed_LRT_group</group>
+        <group>ICT_Dialer_Campaign</group>
+        <group>ICT_Group</group>
+        <group>ICT_User_Visibility_Group</group>
+        <group>LRT_Dialer_Campaign</group>
+        <group>LRT_Group</group>
+        <group>LRT_User_Visibility_Group</group>
+    </sharedTo>
+</ListView>

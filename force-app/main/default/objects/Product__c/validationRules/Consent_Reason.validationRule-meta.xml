@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Consent_Reason</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISPICKVAL(Consent_To_Repayment_Offer__c , &quot;No&quot;)  &amp;&amp; ISBLANK( Reason_For_Not_Accepting__c )</errorConditionFormula>
+    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+    <errorMessage>Please Enter Reason For Not Accepting</errorMessage>
+</ValidationRule>

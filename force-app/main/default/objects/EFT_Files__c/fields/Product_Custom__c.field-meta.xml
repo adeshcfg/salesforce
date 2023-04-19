@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Custom__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This field is created for the development purpose to have in the EFTUtil Wrapper</description>
+    <externalId>false</externalId>
+    <label>Product_Custom</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Product__c.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>CCS_Account</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Product__c</referenceTo>
+    <relationshipLabel>EFT Files</relationshipLabel>
+    <relationshipName>EFT_Files</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

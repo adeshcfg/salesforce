@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CCS_Final_Deposit_Slip__c</fullName>
+    <description>To Determine Final deposit slip is generated for particular day</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>To Determine Final deposit slip is generated for particular day</inlineHelpText>
+    <label>CCS Final Deposit Slip</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

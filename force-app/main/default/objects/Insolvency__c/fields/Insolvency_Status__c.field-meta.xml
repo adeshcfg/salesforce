@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Status__c</fullName>
+    <description>The status of this debtor’s current / most recent insolvency filing.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The status of this debtor’s current / most recent insolvency filing.</inlineHelpText>
+    <label>Insolvency Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Staging</fullName>
+                <default>true</default>
+                <label>Staging</label>
+            </value>
+            <value>
+                <fullName>For Owner Review</fullName>
+                <default>false</default>
+                <label>For Owner Review</label>
+            </value>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <label>Active</label>
+            </value>
+            <value>
+                <fullName>Annulled</fullName>
+                <default>false</default>
+                <label>Annulled</label>
+            </value>
+            <value>
+                <fullName>Discharged</fullName>
+                <default>false</default>
+                <label>Discharged</label>
+            </value>
+            <value>
+                <fullName>Conditional Discharge</fullName>
+                <default>false</default>
+                <label>Conditional Discharge</label>
+            </value>
+            <value>
+                <fullName>Refused</fullName>
+                <default>false</default>
+                <label>Refused</label>
+            </value>
+            <value>
+                <fullName>Withdrawn</fullName>
+                <default>false</default>
+                <label>Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Annulled - Filed New</fullName>
+                <default>false</default>
+                <label>Annulled - Filed New</label>
+            </value>
+            <value>
+                <fullName>Refused – Filed New</fullName>
+                <default>false</default>
+                <label>Refused – Filed New</label>
+            </value>
+            <value>
+                <fullName>Withdrawn – Filed New</fullName>
+                <default>false</default>
+                <label>Withdrawn – Filed New</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

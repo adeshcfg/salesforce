@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TranType__c</fullName>
+    <description>The type of transaction</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The type of transaction</inlineHelpText>
+    <label>trantype</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ACH Rejection Fees</fullName>
+                <default>false</default>
+                <label>ACH Rejection Fees</label>
+            </value>
+            <value>
+                <fullName>ACH Rejections</fullName>
+                <default>false</default>
+                <label>ACH Rejections</label>
+            </value>
+            <value>
+                <fullName>Check</fullName>
+                <default>false</default>
+                <label>Check</label>
+            </value>
+            <value>
+                <fullName>Competitor Payoff</fullName>
+                <default>false</default>
+                <label>Competitor Payoff</label>
+            </value>
+            <value>
+                <fullName>Credit Memo</fullName>
+                <default>false</default>
+                <label>Credit Memo</label>
+            </value>
+            <value>
+                <fullName>Daily/Weekly ACH - US Bank</fullName>
+                <default>false</default>
+                <label>Daily/Weekly ACH - US Bank</label>
+            </value>
+            <value>
+                <fullName>Daily ACH</fullName>
+                <default>false</default>
+                <label>Daily ACH</label>
+            </value>
+            <value>
+                <fullName>Debit Memo</fullName>
+                <default>false</default>
+                <label>Debit Memo</label>
+            </value>
+            <value>
+                <fullName>Deferred Interest</fullName>
+                <default>false</default>
+                <label>Deferred Interest</label>
+            </value>
+            <value>
+                <fullName>Deferred Premium</fullName>
+                <default>false</default>
+                <label>Deferred Premium</label>
+            </value>
+            <value>
+                <fullName>Merchant Refund</fullName>
+                <default>false</default>
+                <label>Merchant Refund</label>
+            </value>
+            <value>
+                <fullName>NULL</fullName>
+                <default>false</default>
+                <label>NULL</label>
+            </value>
+            <value>
+                <fullName>Processing</fullName>
+                <default>false</default>
+                <label>Processing</label>
+            </value>
+            <value>
+                <fullName>Recovery Payment</fullName>
+                <default>false</default>
+                <label>Recovery Payment</label>
+            </value>
+            <value>
+                <fullName>Recovery Settlement</fullName>
+                <default>false</default>
+                <label>Recovery Settlement</label>
+            </value>
+            <value>
+                <fullName>US Bank ACH</fullName>
+                <default>false</default>
+                <label>US Bank ACH</label>
+            </value>
+            <value>
+                <fullName>US Bank Daily ACH</fullName>
+                <default>false</default>
+                <label>US Bank Daily ACH</label>
+            </value>
+            <value>
+                <fullName>US Bank Rejection Fees</fullName>
+                <default>false</default>
+                <label>US Bank Rejection Fees</label>
+            </value>
+            <value>
+                <fullName>US Bank Rejections</fullName>
+                <default>false</default>
+                <label>US Bank Rejections</label>
+            </value>
+            <value>
+                <fullName>Wells Daily ACH</fullName>
+                <default>false</default>
+                <label>Wells Daily ACH</label>
+            </value>
+            <value>
+                <fullName>Wire Transfer</fullName>
+                <default>false</default>
+                <label>Wire Transfer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Balance_Adjustments</fullName>
+    <columns>NAME</columns>
+    <columns>CCS_Account__c</columns>
+    <columns>Cheque_Number__c</columns>
+    <columns>Payment_Amount__c</columns>
+    <columns>RECORDTYPE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product_Payments__c.Balance_Adjustments</value>
+    </filters>
+    <label>Balance Adjustments</label>
+</ListView>

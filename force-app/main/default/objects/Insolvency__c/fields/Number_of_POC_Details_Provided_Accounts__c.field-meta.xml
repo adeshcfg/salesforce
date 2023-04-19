@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_POC_Details_Provided_Accounts__c</fullName>
+    <description>Number of POC Details Provided Insolvency Accounts</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number of POC Details Provided Insolvency Accounts</inlineHelpText>
+    <label>Number of POC Details Provided Accounts</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

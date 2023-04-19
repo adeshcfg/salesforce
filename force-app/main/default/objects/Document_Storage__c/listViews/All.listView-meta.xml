@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>CREATED_DATE</columns>
+    <columns>NAME</columns>
+    <columns>Work_Assignment_Identifier__c</columns>
+    <columns>Work_Assignment_Placement__c</columns>
+    <columns>Document_Type__c</columns>
+    <columns>Document_Name__c</columns>
+    <columns>Work_Assignment__c</columns>
+    <columns>Agency_Name__c</columns>
+    <columns>Customer__c</columns>
+    <columns>Product_Identifier__c</columns>
+    <columns>Visibility__c</columns>
+    <columns>Uploaded_By__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Work_Assignment_Purpose__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+    <sharedTo>
+        <group>ICT_User_Visibility_Group</group>
+        <group>LRT_User_Visibility_Group</group>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>main Status- + Description 1 in placement Status</description>
+    <externalId>false</externalId>
+    <label>Placement Main Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New Allocation - New Allocation</fullName>
+                <default>true</default>
+                <label>New Allocation - New Allocation</label>
+            </value>
+            <value>
+                <fullName>Demand Letters - In Process</fullName>
+                <default>false</default>
+                <label>Demand Letters - In Process</label>
+            </value>
+            <value>
+                <fullName>Demand Letters - Media Requested</fullName>
+                <default>false</default>
+                <label>Demand Letters - Media Requested</label>
+            </value>
+            <value>
+                <fullName>Demand Letters - Locating Address</fullName>
+                <default>false</default>
+                <label>Demand Letters - Locating Address</label>
+            </value>
+            <value>
+                <fullName>Demand Letters - Inactive</fullName>
+                <default>false</default>
+                <label>Demand Letters - Inactive</label>
+            </value>
+            <value>
+                <fullName>Establish Debtor Contact - In Process</fullName>
+                <default>false</default>
+                <label>Establish Debtor Contact - In Process</label>
+            </value>
+            <value>
+                <fullName>Establish Debtor Contact - Media Requested</fullName>
+                <default>false</default>
+                <label>Establish Debtor Contact - Media Requested</label>
+            </value>
+            <value>
+                <fullName>Establish Debtor Contact - Locating Phone</fullName>
+                <default>false</default>
+                <label>Establish Debtor Contact - Locating Phone</label>
+            </value>
+            <value>
+                <fullName>Establish Debtor Contact - Inactive</fullName>
+                <default>false</default>
+                <label>Establish Debtor Contact - Inactive</label>
+            </value>
+            <value>
+                <fullName>Pre - Judgment - In Process</fullName>
+                <default>false</default>
+                <label>Pre - Judgment - In Process</label>
+            </value>
+            <value>
+                <fullName>Pre - Judgment - On Hold</fullName>
+                <default>false</default>
+                <label>Pre - Judgment - On Hold</label>
+            </value>
+            <value>
+                <fullName>Pre - Judgment - Locating Debtor</fullName>
+                <default>false</default>
+                <label>Pre - Judgment - Locating Debtor</label>
+            </value>
+            <value>
+                <fullName>Pre - Judgment - Inactive</fullName>
+                <default>false</default>
+                <label>Pre - Judgment - Inactive</label>
+            </value>
+            <value>
+                <fullName>Pre - Legal - In Process</fullName>
+                <default>false</default>
+                <label>Pre - Legal - In Process</label>
+            </value>
+            <value>
+                <fullName>Pre - Legal - On Hold</fullName>
+                <default>false</default>
+                <label>Pre - Legal - On Hold</label>
+            </value>
+            <value>
+                <fullName>Pre - Legal - Inactive</fullName>
+                <default>false</default>
+                <label>Pre - Legal - Inactive</label>
+            </value>
+            <value>
+                <fullName>Payment Plan -  No Judgment - In Process</fullName>
+                <default>false</default>
+                <label>Payment Plan -  No Judgment - In Process</label>
+            </value>
+            <value>
+                <fullName>Payment Plan -  No Judgment - Delinquent</fullName>
+                <default>false</default>
+                <label>Payment Plan -  No Judgment - Delinquent</label>
+            </value>
+            <value>
+                <fullName>Payment Plan -  No Judgment - In Default</fullName>
+                <default>false</default>
+                <label>Payment Plan -  No Judgment - In Default</label>
+            </value>
+            <value>
+                <fullName>Payment Plan -  No Judgment - Media Requested</fullName>
+                <default>false</default>
+                <label>Payment Plan -  No Judgment - Media Requested</label>
+            </value>
+            <value>
+                <fullName>Payment Plan -  No Judgment - Locating Debtor</fullName>
+                <default>false</default>
+                <label>Payment Plan -  No Judgment - Locating Debtor</label>
+            </value>
+            <value>
+                <fullName>Payment Plan -  No Judgment - Inactive</fullName>
+                <default>false</default>
+                <label>Payment Plan -  No Judgment - Inactive</label>
+            </value>
+            <value>
+                <fullName>Judgment Verdict - Granted</fullName>
+                <default>false</default>
+                <label>Judgment Verdict - Granted</label>
+            </value>
+            <value>
+                <fullName>Judgment Verdict - In Process</fullName>
+                <default>false</default>
+                <label>Judgment Verdict - In Process</label>
+            </value>
+            <value>
+                <fullName>Judgment Verdict - Denied (update to refused)</fullName>
+                <default>false</default>
+                <label>Judgment Verdict - Denied (update to refused)</label>
+            </value>
+            <value>
+                <fullName>Judgment Verdict - Locating Enforcement</fullName>
+                <default>false</default>
+                <label>Judgment Verdict - Locating Enforcement</label>
+            </value>
+            <value>
+                <fullName>Post - Judgment Closing - Dormant</fullName>
+                <default>false</default>
+                <label>Post - Judgment Closing - Dormant</label>
+            </value>
+            <value>
+                <fullName>Post - Judgment Closing - Vacated</fullName>
+                <default>false</default>
+                <label>Post - Judgment Closing - Vacated</label>
+            </value>
+            <value>
+                <fullName>Post - Judgment - In Process</fullName>
+                <default>false</default>
+                <label>Post - Judgment - In Process</label>
+            </value>
+            <value>
+                <fullName>Post - Judgment - Inactive</fullName>
+                <default>false</default>
+                <label>Post - Judgment - Inactive</label>
+            </value>
+            <value>
+                <fullName>On Hold - Disputed</fullName>
+                <default>false</default>
+                <label>On Hold - Disputed</label>
+            </value>
+            <value>
+                <fullName>On Hold - Counterclaim</fullName>
+                <default>false</default>
+                <label>On Hold - Counterclaim</label>
+            </value>
+            <value>
+                <fullName>On Hold - Bankruptcy Investigation</fullName>
+                <default>false</default>
+                <label>On Hold - Bankruptcy Investigation</label>
+            </value>
+            <value>
+                <fullName>On Hold - Buy Back Pending Research</fullName>
+                <default>false</default>
+                <label>On Hold - Buy Back Pending Research</label>
+            </value>
+            <value>
+                <fullName>Bankruptcy Process - Active</fullName>
+                <default>false</default>
+                <label>Bankruptcy Process - Active</label>
+            </value>
+            <value>
+                <fullName>Pending Sale - Ready To Sell</fullName>
+                <default>false</default>
+                <label>Pending Sale - Ready To Sell</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Client Request</fullName>
+                <default>false</default>
+                <label>Pending Recall - Client Request</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Client Request Sale</fullName>
+                <default>false</default>
+                <label>Pending Recall - Client Request Sale</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Consumer Proposal</fullName>
+                <default>false</default>
+                <label>Pending Recall - Consumer Proposal</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Credit Counselling</fullName>
+                <default>false</default>
+                <label>Pending Recall - Credit Counselling</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Bankruptcy</fullName>
+                <default>false</default>
+                <label>Pending Recall - Bankruptcy</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Deceased</fullName>
+                <default>false</default>
+                <label>Pending Recall - Deceased</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Fraud</fullName>
+                <default>false</default>
+                <label>Pending Recall - Fraud</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Insurance</fullName>
+                <default>false</default>
+                <label>Pending Recall - Insurance</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Legal</fullName>
+                <default>false</default>
+                <label>Pending Recall - Legal</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - PIF</fullName>
+                <default>false</default>
+                <label>Pending Recall - PIF</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - SIF</fullName>
+                <default>false</default>
+                <label>Pending Recall - SIF</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Paid Prior</fullName>
+                <default>false</default>
+                <label>Pending Recall - Paid Prior</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Paid Prior To Previous Agency</fullName>
+                <default>false</default>
+                <label>Pending Recall - Paid Prior To Previous Agency</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Uncollectible</fullName>
+                <default>false</default>
+                <label>Pending Recall - Uncollectible</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - On Hold -  Disputed</fullName>
+                <default>false</default>
+                <label>Pending Recall - On Hold -  Disputed</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Warehouse -  Disputed</fullName>
+                <default>false</default>
+                <label>Pending Recall - Warehouse -  Disputed</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Close -  Disputed</fullName>
+                <default>false</default>
+                <label>Pending Recall - Close -  Disputed</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - On Hold -  Counterclaim</fullName>
+                <default>false</default>
+                <label>Pending Recall - On Hold -  Counterclaim</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Warehouse -  Counterclaim</fullName>
+                <default>false</default>
+                <label>Pending Recall - Warehouse -  Counterclaim</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Close -  Counterclaim</fullName>
+                <default>false</default>
+                <label>Pending Recall - Close -  Counterclaim</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Ready to Close</fullName>
+                <default>false</default>
+                <label>Pending Recall - Ready to Close</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Dormant Judgment</fullName>
+                <default>false</default>
+                <label>Pending Recall - Dormant Judgment</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - On Hold -  Buy Back Pending Research</fullName>
+                <default>false</default>
+                <label>Pending Recall - On Hold -  Buy Back Pending Research</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Buy Back To Seller</fullName>
+                <default>false</default>
+                <label>Pending Recall - Buy Back To Seller</label>
+            </value>
+            <value>
+                <fullName>Pending Recall - Other</fullName>
+                <default>false</default>
+                <label>Pending Recall - Other</label>
+            </value>
+            <value>
+                <fullName>Recall - Client Request</fullName>
+                <default>false</default>
+                <label>Recall - Client Request</label>
+            </value>
+            <value>
+                <fullName>Recall - Client Request Sale</fullName>
+                <default>false</default>
+                <label>Recall - Client Request Sale</label>
+            </value>
+            <value>
+                <fullName>Recall - Bankruptcy</fullName>
+                <default>false</default>
+                <label>Recall - Bankruptcy</label>
+            </value>
+            <value>
+                <fullName>Recall - Consumer Proposal</fullName>
+                <default>false</default>
+                <label>Recall - Consumer Proposal</label>
+            </value>
+            <value>
+                <fullName>Recall - Credit Counselling</fullName>
+                <default>false</default>
+                <label>Recall - Credit Counselling</label>
+            </value>
+            <value>
+                <fullName>Recall - Deceased</fullName>
+                <default>false</default>
+                <label>Recall - Deceased</label>
+            </value>
+            <value>
+                <fullName>Recall - Fraud</fullName>
+                <default>false</default>
+                <label>Recall - Fraud</label>
+            </value>
+            <value>
+                <fullName>Recall - Insurance</fullName>
+                <default>false</default>
+                <label>Recall - Insurance</label>
+            </value>
+            <value>
+                <fullName>Recall - Legal</fullName>
+                <default>false</default>
+                <label>Recall - Legal</label>
+            </value>
+            <value>
+                <fullName>Recall - PIF</fullName>
+                <default>false</default>
+                <label>Recall - PIF</label>
+            </value>
+            <value>
+                <fullName>Recall - SIF</fullName>
+                <default>false</default>
+                <label>Recall - SIF</label>
+            </value>
+            <value>
+                <fullName>Recall - Paid Prior</fullName>
+                <default>false</default>
+                <label>Recall - Paid Prior</label>
+            </value>
+            <value>
+                <fullName>Recall - Paid Prior To Previous Agency</fullName>
+                <default>false</default>
+                <label>Recall - Paid Prior To Previous Agency</label>
+            </value>
+            <value>
+                <fullName>Recall - Uncollectible</fullName>
+                <default>false</default>
+                <label>Recall - Uncollectible</label>
+            </value>
+            <value>
+                <fullName>Recall - Legal Referral</fullName>
+                <default>false</default>
+                <label>Recall - Legal Referral</label>
+            </value>
+            <value>
+                <fullName>Recall - On Hold -  Disputed</fullName>
+                <default>false</default>
+                <label>Recall - On Hold -  Disputed</label>
+            </value>
+            <value>
+                <fullName>Recall - Warehouse -  Disputed</fullName>
+                <default>false</default>
+                <label>Recall - Warehouse -  Disputed</label>
+            </value>
+            <value>
+                <fullName>Recall - Close -  Disputed</fullName>
+                <default>false</default>
+                <label>Recall - Close -  Disputed</label>
+            </value>
+            <value>
+                <fullName>Recall - On Hold -  Counterclaim</fullName>
+                <default>false</default>
+                <label>Recall - On Hold -  Counterclaim</label>
+            </value>
+            <value>
+                <fullName>Recall - Warehouse -  Counterclaim</fullName>
+                <default>false</default>
+                <label>Recall - Warehouse -  Counterclaim</label>
+            </value>
+            <value>
+                <fullName>Recall - Close -  Counterclaim</fullName>
+                <default>false</default>
+                <label>Recall - Close -  Counterclaim</label>
+            </value>
+            <value>
+                <fullName>Recall - Ready to Close</fullName>
+                <default>false</default>
+                <label>Recall - Ready to Close</label>
+            </value>
+            <value>
+                <fullName>Recall - Dormant Judgment</fullName>
+                <default>false</default>
+                <label>Recall - Dormant Judgment</label>
+            </value>
+            <value>
+                <fullName>Recall - On Hold -  Buy Back Pending Research</fullName>
+                <default>false</default>
+                <label>Recall - On Hold -  Buy Back Pending Research</label>
+            </value>
+            <value>
+                <fullName>Recall - Buy Back To Seller</fullName>
+                <default>false</default>
+                <label>Recall - Buy Back To Seller</label>
+            </value>
+            <value>
+                <fullName>Recall - Other</fullName>
+                <default>false</default>
+                <label>Recall - Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

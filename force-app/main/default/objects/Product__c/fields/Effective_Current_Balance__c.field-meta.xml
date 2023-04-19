@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Effective_Current_Balance__c</fullName>
+    <description>Effective current balance is used for backend purpose only to populate effective balance after payment transactions on Product</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Effective current balance is used for backend purpose only to populate effective balance after payment transactions on Product</inlineHelpText>
+    <label>Effective Current Balance</label>
+    <precision>11</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Monthly_Net_Empl_Ins_Benefits_Spouse__c</fullName>
+    <description>Monthly Net Employment Insurance Benefits Spouse</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Monthly Net Employment Insurance Benefits Spouse</inlineHelpText>
+    <label>Monthly Net Empl Ins Benefits Spouse</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

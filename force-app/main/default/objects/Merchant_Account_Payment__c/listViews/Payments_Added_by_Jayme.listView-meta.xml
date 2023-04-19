@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payments_Added_by_Jayme</fullName>
+    <columns>NAME</columns>
+    <columns>LeadId__c</columns>
+    <columns>Amount__c</columns>
+    <columns>Processor__c</columns>
+    <columns>TranDate__c</columns>
+    <columns>TranType__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATEDBY_USER</field>
+        <operation>startsWith</operation>
+        <value>Jayme</value>
+    </filters>
+    <label>Payments Added by Jayme</label>
+    <sharedTo>
+        <group>Merchant_Access</group>
+    </sharedTo>
+</ListView>

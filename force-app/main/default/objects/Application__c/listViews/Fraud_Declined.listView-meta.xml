@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fraud_Declined</fullName>
+    <booleanFilter>(1 AND 2)</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Application_Date__c</columns>
+    <columns>Requested_Credit_Limit__c</columns>
+    <columns>Decision__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Decision_Timestamp__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>Loan_Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Decision__c</field>
+        <operation>equals</operation>
+        <value>Declined</value>
+    </filters>
+    <filters>
+        <field>Application_Status__c</field>
+        <operation>equals</operation>
+        <value>Fraud</value>
+    </filters>
+    <label>Fraud Declined</label>
+</ListView>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Count</fullName>
+    <columns>Application_Date__c</columns>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>Province__c</columns>
+    <columns>SIN__c</columns>
+    <columns>Gross_Monthly_Income__c</columns>
+    <columns>Requested_Credit_Limit__c</columns>
+    <columns>Referral_ID__c</columns>
+    <columns>Referral_Name__c</columns>
+    <columns>Offer_Code__c</columns>
+    <columns>Payday_Loan_Amount__c</columns>
+    <columns>Payday_Loans__c</columns>
+    <columns>Decision__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Application_Completed_Submitted__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Application_Date__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>YESTERDAY</value>
+    </filters>
+    <label>Application Count</label>
+</ListView>

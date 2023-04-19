@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canaccede_Marketing_Consent__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Data stored from Canaccede landing page Marketing Consent cehckbox</description>
+    <externalId>false</externalId>
+    <label>Canaccede Marketing Consent</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

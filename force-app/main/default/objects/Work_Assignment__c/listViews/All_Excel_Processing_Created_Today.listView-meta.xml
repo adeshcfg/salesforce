@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Excel_Processing_Created_Today</fullName>
+    <columns>NAME</columns>
+    <columns>Task_Number__c</columns>
+    <columns>Title__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Status__c</columns>
+    <columns>Purpose__c</columns>
+    <columns>Requested_Date__c</columns>
+    <columns>Due_Date__c</columns>
+    <columns>Product__c</columns>
+    <columns>Placement_Agency__c</columns>
+    <columns>Placement_Agency_Name__c</columns>
+    <columns>Source__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Purpose__c</field>
+        <operation>equals</operation>
+        <value>Excel File Processing</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Work_Assignment__c.Agency_Excel_Processing,Work_Assignment__c.CFG_Excel_Processing</value>
+    </filters>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>All Excel Processing - Created Today</label>
+    <sharedTo>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

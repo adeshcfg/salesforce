@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Referral_Partners</fullName>
+    <columns>NAME</columns>
+    <columns>Decision__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Referral_Name__c</columns>
+    <columns>Acquisition_Code__c</columns>
+    <columns>Referral_ID__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>Application_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Loan_Type__c</field>
+        <operation>equals</operation>
+        <value>Affirm Financial Term Loan</value>
+    </filters>
+    <filters>
+        <field>Referral_Name__c</field>
+        <operation>startsWith</operation>
+        <value>a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z</value>
+    </filters>
+    <filters>
+        <field>Application_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Completed - Loan</value>
+    </filters>
+    <filters>
+        <field>Application_Date__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>11/1/2016 12:00 AM</value>
+    </filters>
+    <label>Loan Referral Partners</label>
+</ListView>

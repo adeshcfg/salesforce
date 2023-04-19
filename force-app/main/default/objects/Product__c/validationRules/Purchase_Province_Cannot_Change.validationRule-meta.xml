@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purchase_Province_Cannot_Change</fullName>
+    <active>true</active>
+    <errorConditionFormula>RecordType.DeveloperName =&apos;Distressed_Account&apos; &amp;&amp; NOT(ISBLANK( Purchase_Province__c )) &amp;&amp; ISCHANGED(Purchase_Province__c )</errorConditionFormula>
+    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+    <errorMessage>We cannot update Purchase Province field</errorMessage>
+</ValidationRule>

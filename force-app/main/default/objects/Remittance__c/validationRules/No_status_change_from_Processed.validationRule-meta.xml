@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_status_change_from_Processed</fullName>
+    <active>false</active>
+    <description>Status should not change from Processed to any other status</description>
+    <errorConditionFormula>AND(OR(AND(ISPICKVAL(PRIORVALUE(Status__c), &apos;Processed&apos;), NOT(ISPICKVAL(Status__c, &quot;Payment reversed&quot;))),
+ISPICKVAL(PRIORVALUE(Status__c), &apos;Payment reversed&apos;)), $Setup.Application_Config_Settings__c.Run_Remittance_Validation__c = True)</errorConditionFormula>
+    <errorDisplayField>Allocated_Payment_Processing_Status__c</errorDisplayField>
+    <errorMessage>Record can not be updated once status is changed to Processed or Payment Reversed</errorMessage>
+</ValidationRule>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposal_Status__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Proposal Status</inlineHelpText>
+    <label>Proposal Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Approve</fullName>
+                <default>false</default>
+                <label>Approve</label>
+            </value>
+            <value>
+                <fullName>Counter</fullName>
+                <default>false</default>
+                <label>Counter</label>
+            </value>
+            <value>
+                <fullName>Reject</fullName>
+                <default>false</default>
+                <label>Reject</label>
+            </value>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Reverse</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Reverse</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

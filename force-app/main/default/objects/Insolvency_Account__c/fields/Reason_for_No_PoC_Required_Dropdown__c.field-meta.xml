@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_No_PoC_Required_Dropdown__c</fullName>
+    <description>Reason for No PoC Required</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Reason for No PoC Required</inlineHelpText>
+    <label>Reason for No PoC Required</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No Open Accounts</fullName>
+                <default>false</default>
+                <label>No Open Accounts</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Unable to Locate Account</fullName>
+                <default>false</default>
+                <label>Unable to Locate Account</label>
+            </value>
+            <value>
+                <fullName>Account Sold</fullName>
+                <default>false</default>
+                <label>Account Sold</label>
+            </value>
+            <value>
+                <fullName>Proposal: Secured file</fullName>
+                <default>false</default>
+                <label>Proposal: Secured file</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>SDA Account</fullName>
+                <default>false</default>
+                <label>SDA Account</label>
+            </value>
+            <value>
+                <fullName>Scotia Private Label Account</fullName>
+                <default>false</default>
+                <label>Scotia Private Label Account</label>
+            </value>
+            <value>
+                <fullName>Not SDA Account</fullName>
+                <default>false</default>
+                <label>Not SDA Account</label>
+            </value>
+            <value>
+                <fullName>Small Business</fullName>
+                <default>false</default>
+                <label>Small Business</label>
+            </value>
+            <value>
+                <fullName>Repo’d – Seize or Sue</fullName>
+                <default>false</default>
+                <label>Repo’d – Seize or Sue</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>File_Being_Credit_Bureau_Reported__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>File Being Credit Bureau Reported by Agency</description>
+    <externalId>false</externalId>
+    <inlineHelpText>File Being Credit Bureau Reported by Agency</inlineHelpText>
+    <label>File Being CB Reported by Agency</label>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

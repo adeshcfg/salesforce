@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remitted_Payment_Required_Fields_Approve</fullName>
+    <active>true</active>
+    <description>Make Manual Approved Reasons mandatory when user changes Voting Decision to Manually Approved.</description>
+    <errorConditionFormula>AND( ISPICKVAL(Voting_Decision__c, &quot;Manually Approved&quot;) ,
+ISBLANK(Manual_Approved_Reason__c)
+)</errorConditionFormula>
+    <errorMessage>Manual approved reason is mandatory if voting status is Manually Approved</errorMessage>
+</ValidationRule>

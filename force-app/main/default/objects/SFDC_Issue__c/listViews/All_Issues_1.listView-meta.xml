@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Issues_1</fullName>
+    <columns>NAME</columns>
+    <columns>Subject__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Status__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Issue_Category__c</columns>
+    <columns>Application_Area__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Tested and Approved,Closed - Duplicate</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Deferred - Subsequent Phase,Ready for Testing</value>
+    </filters>
+    <filters>
+        <field>Issue_Category__c</field>
+        <operation>notEqual</operation>
+        <value>Phase 2</value>
+    </filters>
+    <label>All Open Issues Phase 1</label>
+</ListView>

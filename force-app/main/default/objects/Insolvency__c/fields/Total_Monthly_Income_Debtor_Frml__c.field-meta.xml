@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Monthly_Income_Debtor_Frml__c</fullName>
+    <description>Total Monthly Income Debtor Formula</description>
+    <externalId>false</externalId>
+    <formula>Monthly_Net_Employment_Income_Debtor__c+ Monthly_Net_Pension_Annuities_Debtor__c +Monthly_Net_Child_Support_Debtor__c+
+Monthly_Net_Spoucal_Support_Debtor__c+Monthly_Net_Social_Assistance_Debtor__c+Child_Tax_Benefit_Debtor__c+
+Other_Net_Income_Debtor__c+Net_Self_Employment_Income_Debtor__c+Monthly_Net_Empl_Ins_Benefits_Debtor__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Total Monthly Income Debtor Formula</inlineHelpText>
+    <label>Total Monthly Income Debtor Frml</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

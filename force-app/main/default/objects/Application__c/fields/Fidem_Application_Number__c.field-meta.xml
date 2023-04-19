@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fidem_Application_Number__c</fullName>
+    <description>Auto number for Fidem applications</description>
+    <displayFormat>FDM{00000}</displayFormat>
+    <externalId>false</externalId>
+    <inlineHelpText>Auto number for Fidem applications</inlineHelpText>
+    <label>Fidem Application Number</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>AutoNumber</type>
+</CustomField>

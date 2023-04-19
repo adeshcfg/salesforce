@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enforcement_County__c</fullName>
+    <externalId>false</externalId>
+    <label>Enforcement/County</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Enforcement/County</fullName>
+                <default>false</default>
+                <label>Enforcement/County</label>
+            </value>
+            <value>
+                <fullName>Haldiman County</fullName>
+                <default>false</default>
+                <label>Haldiman County</label>
+            </value>
+            <value>
+                <fullName>Regional Municipality of Peel</fullName>
+                <default>false</default>
+                <label>Regional Municipality of Peel</label>
+            </value>
+            <value>
+                <fullName>The City of Greater Sudbury</fullName>
+                <default>false</default>
+                <label>The City of Greater Sudbury</label>
+            </value>
+            <value>
+                <fullName>The City of Hamilton</fullName>
+                <default>false</default>
+                <label>The City of Hamilton</label>
+            </value>
+            <value>
+                <fullName>The City of Kawartha Lakes/Haliburton County</fullName>
+                <default>false</default>
+                <label>The City of Kawartha Lakes/Haliburton County</label>
+            </value>
+            <value>
+                <fullName>The City of Ottawa</fullName>
+                <default>false</default>
+                <label>The City of Ottawa</label>
+            </value>
+            <value>
+                <fullName>The City of Toronto</fullName>
+                <default>false</default>
+                <label>The City of Toronto</label>
+            </value>
+            <value>
+                <fullName>The County of Brant</fullName>
+                <default>false</default>
+                <label>The County of Brant</label>
+            </value>
+            <value>
+                <fullName>The County of Bruce</fullName>
+                <default>false</default>
+                <label>The County of Bruce</label>
+            </value>
+            <value>
+                <fullName>The County of Dufferin</fullName>
+                <default>false</default>
+                <label>The County of Dufferin</label>
+            </value>
+            <value>
+                <fullName>The County of Elgin</fullName>
+                <default>false</default>
+                <label>The County of Elgin</label>
+            </value>
+            <value>
+                <fullName>The County of Essex</fullName>
+                <default>false</default>
+                <label>The County of Essex</label>
+            </value>
+            <value>
+                <fullName>The County of Frontenac</fullName>
+                <default>false</default>
+                <label>The County of Frontenac</label>
+            </value>
+            <value>
+                <fullName>The County of Grey</fullName>
+                <default>false</default>
+                <label>The County of Grey</label>
+            </value>
+            <value>
+                <fullName>The County of Hastings</fullName>
+                <default>false</default>
+                <label>The County of Hastings</label>
+            </value>
+            <value>
+                <fullName>The County of Huron</fullName>
+                <default>false</default>
+                <label>The County of Huron</label>
+            </value>
+            <value>
+                <fullName>The County of Lambton</fullName>
+                <default>false</default>
+                <label>The County of Lambton</label>
+            </value>
+            <value>
+                <fullName>The County of Lanark</fullName>
+                <default>false</default>
+                <label>The County of Lanark</label>
+            </value>
+            <value>
+                <fullName>The County of Lennox &amp; Addington</fullName>
+                <default>false</default>
+                <label>The County of Lennox &amp; Addington</label>
+            </value>
+            <value>
+                <fullName>The County of Middlesex</fullName>
+                <default>false</default>
+                <label>The County of Middlesex</label>
+            </value>
+            <value>
+                <fullName>The County of Norfolk</fullName>
+                <default>false</default>
+                <label>The County of Norfolk</label>
+            </value>
+            <value>
+                <fullName>The County of Northumberland</fullName>
+                <default>false</default>
+                <label>The County of Northumberland</label>
+            </value>
+            <value>
+                <fullName>The County of Oxford</fullName>
+                <default>false</default>
+                <label>The County of Oxford</label>
+            </value>
+            <value>
+                <fullName>The County of Peterborogh</fullName>
+                <default>false</default>
+                <label>The County of Peterborogh</label>
+            </value>
+            <value>
+                <fullName>The County of Prince Edward</fullName>
+                <default>false</default>
+                <label>The County of Prince Edward</label>
+            </value>
+            <value>
+                <fullName>The County of Renfrew</fullName>
+                <default>false</default>
+                <label>The County of Renfrew</label>
+            </value>
+            <value>
+                <fullName>The County of Simcoe</fullName>
+                <default>false</default>
+                <label>The County of Simcoe</label>
+            </value>
+            <value>
+                <fullName>The County of Wellington</fullName>
+                <default>false</default>
+                <label>The County of Wellington</label>
+            </value>
+            <value>
+                <fullName>The County or Perth</fullName>
+                <default>false</default>
+                <label>The County or Perth</label>
+            </value>
+            <value>
+                <fullName>The District Municipality of Muskoka</fullName>
+                <default>false</default>
+                <label>The District Municipality of Muskoka</label>
+            </value>
+            <value>
+                <fullName>The Municipality of Chatham-Kent</fullName>
+                <default>false</default>
+                <label>The Municipality of Chatham-Kent</label>
+            </value>
+            <value>
+                <fullName>The Regional Muincipality of Niagara at Welland</fullName>
+                <default>false</default>
+                <label>The Regional Muincipality of Niagara at Welland</label>
+            </value>
+            <value>
+                <fullName>The Regional Municipality of Durham</fullName>
+                <default>false</default>
+                <label>The Regional Municipality of Durham</label>
+            </value>
+            <value>
+                <fullName>The Regional Municipality of Halton</fullName>
+                <default>false</default>
+                <label>The Regional Municipality of Halton</label>
+            </value>
+            <value>
+                <fullName>The Regional Municipality of Waterloo</fullName>
+                <default>false</default>
+                <label>The Regional Municipality of Waterloo</label>
+            </value>
+            <value>
+                <fullName>The Regional Municipality of York</fullName>
+                <default>false</default>
+                <label>The Regional Municipality of York</label>
+            </value>
+            <value>
+                <fullName>The Territorial Distict of Rainy River</fullName>
+                <default>false</default>
+                <label>The Territorial Distict of Rainy River</label>
+            </value>
+            <value>
+                <fullName>The Territorial District of Algoma</fullName>
+                <default>false</default>
+                <label>The Territorial District of Algoma</label>
+            </value>
+            <value>
+                <fullName>The Territorial District of Cochrane</fullName>
+                <default>false</default>
+                <label>The Territorial District of Cochrane</label>
+            </value>
+            <value>
+                <fullName>The Territorial District of Kenora</fullName>
+                <default>false</default>
+                <label>The Territorial District of Kenora</label>
+            </value>
+            <value>
+                <fullName>The Territorial District of Manitoulin</fullName>
+                <default>false</default>
+                <label>The Territorial District of Manitoulin</label>
+            </value>
+            <value>
+                <fullName>The Territorial District of Nipissing</fullName>
+                <default>false</default>
+                <label>The Territorial District of Nipissing</label>
+            </value>
+            <value>
+                <fullName>The Territorial District of Parry Sound</fullName>
+                <default>false</default>
+                <label>The Territorial District of Parry Sound</label>
+            </value>
+            <value>
+                <fullName>The Territorial District of Thunder Bay</fullName>
+                <default>false</default>
+                <label>The Territorial District of Thunder Bay</label>
+            </value>
+            <value>
+                <fullName>The Territorial District of Timiskaming</fullName>
+                <default>false</default>
+                <label>The Territorial District of Timiskaming</label>
+            </value>
+            <value>
+                <fullName>The United Counties of Prescott Russell</fullName>
+                <default>false</default>
+                <label>The United Counties of Prescott Russell</label>
+            </value>
+            <value>
+                <fullName>The United Counties of Stormont, Dundas &amp; Glengarry</fullName>
+                <default>false</default>
+                <label>The United Counties of Stormont, Dundas &amp; Glengarry</label>
+            </value>
+            <value>
+                <fullName>The United County of Leeds and Grenville</fullName>
+                <default>false</default>
+                <label>The United County of Leeds and Grenville</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

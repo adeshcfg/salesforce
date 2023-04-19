@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trustee_Followup_Sent_By__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Trustee Followup Sent By</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Trustee Followup Sent By</inlineHelpText>
+    <label>Trustee Followup Sent By</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Insolvency_Accounts6</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

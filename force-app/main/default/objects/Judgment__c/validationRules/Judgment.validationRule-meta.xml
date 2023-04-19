@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Judgment</fullName>
+    <active>false</active>
+    <description>For All Judgment Statuses (except for Denied) Following fields become mandatory
+Filing date,
+
+Non Editable:
+Judgment Date,
+Judgment Amount,
+Judgment Province,</description>
+    <errorConditionFormula>AND(
+     ISPICKVAL( Legal_Status__c ,&apos;Judgment&apos;),
+     NOT(ISPICKVAL( Legal_Sub_Status__c ,&apos;Denied&apos;)),
+     OR(
+         ISBLANK( Filing_Date__c ),
+         ISBLANK( Judgment_Date__c ),
+         ISBLANK( Judgment_Amount__c ),
+         ISPICKVAL(Judgment_Province__c, &apos;&apos;),
+         ISBLANK( Balance_one__c ),
+         ISBLANK( Interest_Rate_one__c),
+         
+         AND(
+             NOT(ISBLANK(PRIORVALUE(Judgment_Date__c))),
+             ISCHANGED(Judgment_Date__c)
+         ),
+         AND(
+             NOT(ISBLANK(PRIORVALUE(Judgment_Amount__c))),
+             ISCHANGED(Judgment_Amount__c)
+         ),
+         AND(
+             NOT(ISBLANK(PRIORVALUE(Judgment_Province__c))),
+             ISCHANGED(Judgment_Province__c)
+         )
+     )
+)</errorConditionFormula>
+    <errorMessage>The following fields become mandatory
+Filing date,
+Balance-1,
+Interest Rate-1
+
+Not Editable:
+Judgment Date,
+Judgment Amount,
+Judgment Province</errorMessage>
+</ValidationRule>

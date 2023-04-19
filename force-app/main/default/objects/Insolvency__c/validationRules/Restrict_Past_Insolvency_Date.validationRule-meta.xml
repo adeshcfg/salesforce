@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Restrict_Past_Insolvency_Date</fullName>
+    <active>true</active>
+    <description>Restrict Past Insolvency Date</description>
+    <errorConditionFormula>IF((
+((ISNEW()) || (!ISNEW() &amp;&amp; ISCHANGED(Insolvency_Date__c)))
+&amp;&amp;
+(!ISNULL(Insolvency_Date__c ))
+&amp;&amp;
+(TODAY() - Insolvency_Date__c &gt; 60)
+&amp;&amp;
+(Allow_Insolvency_Date_In_Past__c = false)
+), true, false)</errorConditionFormula>
+    <errorDisplayField>Allow_Insolvency_Date_In_Past__c</errorDisplayField>
+    <errorMessage>Insolvency Date is older than 2 months. Please accept the checkbox first.</errorMessage>
+</ValidationRule>

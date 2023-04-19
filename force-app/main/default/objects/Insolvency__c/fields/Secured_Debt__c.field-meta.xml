@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Secured_Debt__c</fullName>
+    <description>The total sum value of all secured debt, as noted originally in the creditor’s package.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total sum value of all secured debt, as noted originally in the creditor’s package.</inlineHelpText>
+    <label>Secured Debt</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trustee_Company__c</fullName>
+    <description>The company name of the debtor&apos;s insolvency trustee</description>
+    <externalId>false</externalId>
+    <formula>Insolvency__r.Trustee_Company_Name_Formula__c</formula>
+    <inlineHelpText>The company name of the debtor&apos;s insolvency trustee</inlineHelpText>
+    <label>Trustee Company</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

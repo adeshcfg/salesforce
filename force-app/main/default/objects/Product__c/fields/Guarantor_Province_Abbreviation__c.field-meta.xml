@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Guarantor_Province_Abbreviation__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( Guarantor_Province__c,
+&quot;Alberta&quot;, &quot;AB&quot;,
+&quot;British Columbia&quot;, &quot;BC&quot;,
+&quot;Manitoba&quot;, &quot;MB&quot;,
+&quot;New Brunswick&quot;, &quot;NB&quot;,
+&quot;Newfoundland and Labrador&quot;, &quot;NL&quot;,
+&quot;Northwest Territories&quot;, &quot;NT&quot;,
+&quot;Nova Scotia&quot;, &quot;NS&quot;,
+&quot;Nunavut&quot;, &quot;NU&quot;,
+&quot;Ontario&quot;, &quot;ON&quot;,
+&quot;Prince Edward Island&quot;, &quot;PE&quot;,
+&quot;Quebec&quot;, &quot;QC&quot;,
+&quot;Saskatchewan&quot;, &quot;SK&quot;,
+&quot;Yukon&quot;, &quot;YT&quot;,
+Guarantor_Province__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Guarantor Province Abbreviation</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

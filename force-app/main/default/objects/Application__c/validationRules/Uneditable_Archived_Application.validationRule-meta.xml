@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Uneditable_Archived_Application</fullName>
+    <active>false</active>
+    <errorConditionFormula>ISPICKVAL(PRIORVALUE(Application_Status__c), &quot;Archived&quot;)</errorConditionFormula>
+    <errorMessage>Once application is archived, it cannot be edited</errorMessage>
+</ValidationRule>

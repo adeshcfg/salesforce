@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remitted_payment</fullName>
+    <active>true</active>
+    <description>Once payment is remitted, do not allow payment to be updated</description>
+    <errorConditionFormula>OR(AND( 
+ISCHANGED(Is_Payment_Remitted__c), Is_Payment_Remitted__c  = false),
+AND(NOT(ISCHANGED(Is_Payment_Remitted__c)), NOT(ISCHANGED( Actioned__c )), Is_Payment_Remitted__c  = true))</errorConditionFormula>
+    <errorDisplayField>Account_Number__c</errorDisplayField>
+    <errorMessage>Payment is remitted hence you can not update the record</errorMessage>
+</ValidationRule>

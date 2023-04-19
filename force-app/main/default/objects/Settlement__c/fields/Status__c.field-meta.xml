@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+                <label>In Progress</label>
+            </value>
+            <value>
+                <fullName>More Info required</fullName>
+                <default>false</default>
+                <label>More Info required</label>
+            </value>
+            <value>
+                <fullName>Ready for review</fullName>
+                <default>true</default>
+                <label>Ready for review</label>
+            </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Withdraw</fullName>
+                <default>false</default>
+                <label>Withdraw</label>
+            </value>
+            <value>
+                <fullName>Counter offer proposed</fullName>
+                <default>false</default>
+                <label>Counter offer proposed</label>
+            </value>
+            <value>
+                <fullName>Counter offer accepted</fullName>
+                <default>false</default>
+                <label>Counter offer accepted</label>
+            </value>
+            <value>
+                <fullName>Acknowledged by agency</fullName>
+                <default>false</default>
+                <label>Acknowledged by agency</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

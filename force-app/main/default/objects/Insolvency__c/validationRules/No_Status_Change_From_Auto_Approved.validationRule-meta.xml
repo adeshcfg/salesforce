@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_Status_Change_From_Auto_Approved</fullName>
+    <active>false</active>
+    <description>To not allow users to change the status once it is Auto approved</description>
+    <errorConditionFormula>AND(  ISCHANGED( Voting_Decision__c ) ,
+ ISPICKVAL( PRIORVALUE(Voting_Decision__c), &quot;Auto Approved&quot;) 
+)</errorConditionFormula>
+    <errorMessage>Voting decision cannot be changed once it is auto approved</errorMessage>
+</ValidationRule>

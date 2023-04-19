@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reage</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>Current_Balance__c</columns>
+    <columns>Last_Payment_Amount__c</columns>
+    <columns>Last_Payment_Date__c</columns>
+    <columns>Delinquency_Cycles__c</columns>
+    <columns>External_Status_Current__c</columns>
+    <columns>Reason_for_Legal__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Reason_for_Legal__c</field>
+        <operation>equals</operation>
+        <value>Re-age</value>
+    </filters>
+    <label>Reage</label>
+    <sharedTo>
+        <group>Affirm_CFG_Users</group>
+        <group>Fidem_BS</group>
+    </sharedTo>
+</ListView>

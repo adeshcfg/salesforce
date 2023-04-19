@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invalidate_Work_Phone__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Invalidate Work Phone</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Invalidate Work Phone</inlineHelpText>
+    <label>Invalidate Work Phone</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

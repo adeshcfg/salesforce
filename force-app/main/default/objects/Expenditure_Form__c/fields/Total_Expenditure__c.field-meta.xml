@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Expenditure__c</fullName>
+    <externalId>false</externalId>
+    <formula>Charity_Subtotal__c  +  Food_Subtotal__c  +  Housing_Subtotal__c  +  Insurance_Subtotal__c  +  Personal_Subtotal__c  +  Savings_Subtotal__c  +  Transportation_Subtotal__c  +  Pet_Subtotal__c +  Loan_Subtotal__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Monthly Total Expenditure</inlineHelpText>
+    <label>Total Expenditure</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Payment_Agency__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Product_Payment_Agency</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Product_Payment_Agency</inlineHelpText>
+    <label>Product Payment Agency</label>
+    <referenceTo>Placement__c</referenceTo>
+    <relationshipLabel>Product Payment Staging (Product Payment Agency)</relationshipLabel>
+    <relationshipName>Product_Payment_Staging1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

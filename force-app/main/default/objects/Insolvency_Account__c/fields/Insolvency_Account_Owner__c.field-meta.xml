@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Account_Owner__c</fullName>
+    <description>Insolvency Account Owner</description>
+    <externalId>false</externalId>
+    <formula>CASE( 
+Owner:User.Profile.Name , 
+&apos;Scotia Bank Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName , 
+&apos;Scotia Bank Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,  
+&apos;SPL Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
+&apos;SPL Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
+&apos;SDA Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
+&apos;SDA Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
+&apos;&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Insolvency Account Owner</inlineHelpText>
+    <label>Insolvency Account Owner</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

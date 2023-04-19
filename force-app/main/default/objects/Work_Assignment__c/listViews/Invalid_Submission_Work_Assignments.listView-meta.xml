@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invalid_Submission_Work_Assignments</fullName>
+    <columns>CREATED_DATE</columns>
+    <columns>NAME</columns>
+    <columns>Title__c</columns>
+    <columns>Description__c</columns>
+    <columns>Product__c</columns>
+    <columns>Placement_Agency__c</columns>
+    <columns>Placement_Agency_Name__c</columns>
+    <columns>Assign_To__c</columns>
+    <columns>Assigned_To_User__c</columns>
+    <columns>Requested_Date__c</columns>
+    <columns>Due_Date__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Sub_Purpose__c</field>
+        <operation>equals</operation>
+        <value>Invalid Submission</value>
+    </filters>
+    <label>Invalid Submission Work Assignments</label>
+    <sharedTo>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

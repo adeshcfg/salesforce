@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Type__c</fullName>
+    <description>The type of insolvency filing the debtor(s) have made.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The type of insolvency filing the debtor(s) have made.</inlineHelpText>
+    <label>Insolvency Type</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bankruptcy</fullName>
+                <default>false</default>
+                <label>Bankruptcy</label>
+            </value>
+            <value>
+                <fullName>Consumer Proposal</fullName>
+                <default>false</default>
+                <label>Consumer Proposal</label>
+            </value>
+            <value>
+                <fullName>Division 1 Proposal</fullName>
+                <default>false</default>
+                <label>Division 1 Proposal</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

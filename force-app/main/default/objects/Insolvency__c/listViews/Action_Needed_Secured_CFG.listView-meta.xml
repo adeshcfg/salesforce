@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Action_Needed_Secured_CFG</fullName>
+    <booleanFilter>1 AND 2 AND 3</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Insolvency_Date__c</columns>
+    <columns>Insolvency_Type__c</columns>
+    <columns>Number_Of_Days_In_Current_Status__c</columns>
+    <columns>Insolvency_Owner__c</columns>
+    <columns>Debtor_1_First_Name__c</columns>
+    <columns>Debtor_1_Last_Name__c</columns>
+    <columns>Insolvency_Status__c</columns>
+    <columns>Insolvency_Status_Last_Changed__c</columns>
+    <columns>Number_of_Open_Assignments__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Num_of_Accounts_Needing_Validation__c</field>
+        <operation>greaterThan</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Insolvency_Status__c</field>
+        <operation>equals</operation>
+        <value>For Owner Review</value>
+    </filters>
+    <filters>
+        <field>No_Of_Secured_Accounts__c</field>
+        <operation>greaterThan</operation>
+        <value>0</value>
+    </filters>
+    <label>Action Needed - Secured</label>
+    <sharedTo>
+        <group>Insolvency_CFG_BS</group>
+        <group>Insolvency_CFG_Users</group>
+        <group>Insolvency_SDA_Users</group>
+        <group>Insolvency_SPL_Users</group>
+        <group>Insolvency_Scotia_Users</group>
+    </sharedTo>
+</ListView>

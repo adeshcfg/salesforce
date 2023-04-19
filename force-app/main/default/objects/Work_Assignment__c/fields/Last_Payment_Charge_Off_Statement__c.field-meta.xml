@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Payment_Charge_Off_Statement__c</fullName>
+    <description>Last Payment Statement +1 &amp; Charge Off Statement</description>
+    <externalId>false</externalId>
+    <formula>&apos; &apos;</formula>
+    <inlineHelpText>Last Payment Statement +1 &amp; Charge Off Statement</inlineHelpText>
+    <label>Last Payment + Charge Off Statement</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Records_Processed__c</fullName>
+    <description>Number of Records Processed by the job</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number of Records Processed by the job</inlineHelpText>
+    <label>Number of Records Processed</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Percentage_Of_Unsecured_Debt__c</fullName>
+    <description>The percentage of the unsecured Debt Amount  expected amount to be claimed on this account</description>
+    <externalId>false</externalId>
+    <formula>Claim_Amount__c  /  Insolvency__r.Total_Unsecured_Liabilities_Clc__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The percentage of the unsecured Debt Amount  expected amount to be claimed on this account</inlineHelpText>
+    <label>Percentage Of Unsecured Debt</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_Rate_to_For_Interest_Adjustment__c</fullName>
+    <description>Interest Rate to For Interest Adjustment</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Interest Rate to For Interest Adjustment</inlineHelpText>
+    <label>Interest Rate to For Interest Adjustment</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Previous_Principal_Balance__c</fullName>
+    <description>Previous Principal Balance</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Previous Principal Balance</inlineHelpText>
+    <label>Previous Principal Balance</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

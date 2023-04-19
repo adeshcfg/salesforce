@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Script__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(Loan_Type__c, 
+&quot;Affirm Financial MasterCard&quot;, 
+CASE(PcoD_Bankruptcy_State__c, 
+&quot;BKCP Not Discharged&quot;, HYPERLINK(&quot;https://c.na55.content.force.com/servlet/servlet.FileDownload?file=015j00000026ZPn&quot;,&quot;Script 2&quot;), 
+HYPERLINK(&quot;https://c.na55.content.force.com/servlet/servlet.FileDownload?file=015j00000026ZPi&quot;,&quot;Script 1&quot;)), 
+
+&quot;Affirm Financial Term Loan&quot;, 
+CASE(Loan_Process_Type__c, 
+&quot;Traditional&quot;, 
+CASE(Permanent_Address_Province__c, 
+&quot;MB&quot;, HYPERLINK(&quot;https://c.na55.content.force.com/apex/ShowLoanTeleScript?applName=&quot; &amp; Name,&quot;Manitoba specific Loan Telescript&quot;), 
+HYPERLINK(&quot;https://c.na55.content.force.com/apex/ShowLoanTeleScript?applName=&quot; &amp; Name ,&quot;Generic Loan Telescript&quot;)), 
+CASE(PcoD_Bankruptcy_State__c, 
+&quot;BKCP Not Discharged&quot;, HYPERLINK(&quot;https://c.na55.content.force.com/servlet/servlet.FileDownload?file=015j00000026ZPs&quot;,&quot;Script 3&quot;), 
+&quot;NA&quot;)), 
+&quot;NA&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Script</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

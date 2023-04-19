@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ICT_MIranda</fullName>
+    <columns>NAME</columns>
+    <columns>Collection_Agency__c</columns>
+    <columns>Collection_Agency_Formula__c</columns>
+    <columns>Collection_Sub_Status__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Originating_Creditor__c</columns>
+    <columns>Product_Type__c</columns>
+    <columns>Current_Balance__c</columns>
+    <columns>Charged_Off_Date__c</columns>
+    <columns>Last_Payment_Date__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>Purchase_Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OWNER.FIRST_NAME</field>
+        <operation>equals</operation>
+        <value>Miranda</value>
+    </filters>
+    <label>ICT - Miranda</label>
+</ListView>

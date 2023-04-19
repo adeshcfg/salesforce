@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Modified_Yesterday</fullName>
+    <columns>NAME</columns>
+    <columns>Legal_Sub_Status__c</columns>
+    <columns>Legal_Agency__c</columns>
+    <columns>Judgment_Province__c</columns>
+    <columns>Suit_Amount__c</columns>
+    <columns>Agency_Initiated_Legal_Action__c</columns>
+    <columns>Current_Principal_Balance__c</columns>
+    <columns>Payment_frequency__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>LAST_UPDATE</field>
+        <operation>equals</operation>
+        <value>YESTERDAY</value>
+    </filters>
+    <label>Modified Yesterday</label>
+</ListView>

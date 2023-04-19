@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PoC_Details_Provided_By__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>PoC Details Provided By</description>
+    <externalId>false</externalId>
+    <inlineHelpText>PoC Details Provided By</inlineHelpText>
+    <label>PoC Details Provided By</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Insolvency_Accounts4</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

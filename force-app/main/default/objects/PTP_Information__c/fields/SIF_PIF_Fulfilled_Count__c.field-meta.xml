@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SIF_PIF_Fulfilled_Count__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(  OR(ISPICKVAL( Product__r.Collection_Sub_Status__c , &apos;Payment Arrangement - Monthly&apos;),
+ISPICKVAL( Product__r.Collection_Sub_Status__c , &apos;Payment Arrangement – Weekly&apos;))  
+, 1, 0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>SIF/PIF Fulfilled Count</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_Card_Email_Missed</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>Current_Balance__c</columns>
+    <columns>Payment_Due_Date__c</columns>
+    <columns>Payment_Amount__c</columns>
+    <columns>Override_Payment_Date__c</columns>
+    <columns>Override_Payment_Amount__c</columns>
+    <columns>NSF_Fee_Amount_Outstanding__c</columns>
+    <columns>Hold_Payments__c</columns>
+    <columns>Funding_Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Exclude_For_Email__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Email_Address__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product__c.Credit_Card_Account</value>
+    </filters>
+    <label>Credit Card - Email Missed</label>
+    <sharedTo>
+        <group>Affirm_CFG_Users</group>
+        <group>Fidem_BS</group>
+    </sharedTo>
+</ListView>

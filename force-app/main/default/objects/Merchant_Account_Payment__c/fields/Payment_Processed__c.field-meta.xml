@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Processed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Field to check whether the payment has been processed while calculating Current Balance and CAD on Merchant Account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checks if amount on the record is used to calculate Current Balance and CAD on Merchant Account</inlineHelpText>
+    <label>Payment Processed</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

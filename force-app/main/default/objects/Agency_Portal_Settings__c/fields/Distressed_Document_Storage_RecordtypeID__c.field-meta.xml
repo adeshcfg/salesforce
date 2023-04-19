@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distressed_Document_Storage_RecordtypeID__c</fullName>
+    <description>Distressed Document Storage RecordtypeID</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Distressed Document Storage RecordtypeID</inlineHelpText>
+    <label>Distressed Document Storage RecordtypeID</label>
+    <length>20</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

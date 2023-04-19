@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Account_Recovery__c</fullName>
+    <description>The total of all payments made to date on this account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total of all payments made to date on this account</inlineHelpText>
+    <label>Total Account Recovery</label>
+    <summarizedField>Insolvency_Payment__c.Payment_Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>Insolvency_Payment__c.Is_Payment_Remitted__c</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Insolvency_Payment__c.Payment_Reversed__c</field>
+        <operation>equals</operation>
+        <value></value>
+    </summaryFilterItems>
+    <summaryForeignKey>Insolvency_Payment__c.Insolvency_Account__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

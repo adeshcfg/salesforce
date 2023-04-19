@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Last_Payment_Amount__c</fullName>
+    <description>The last payment amount for this Insolvency</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The last payment amount for this Insolvency</inlineHelpText>
+    <label>Insolvency Last Payment Amount</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

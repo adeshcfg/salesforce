@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_On_File_Primary_Debtor__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Insolvency on file Primary Debtor is used for distressed collection</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Insolvency on file Primary Debtor is used for distressed collection</inlineHelpText>
+    <label>Insolvency On File Primary Debtor</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

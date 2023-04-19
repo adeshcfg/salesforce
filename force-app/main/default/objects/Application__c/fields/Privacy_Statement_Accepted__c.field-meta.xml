@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Privacy_Statement_Accepted__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>checkbox to denote Privacy statement is accepted by user</description>
+    <externalId>false</externalId>
+    <inlineHelpText>checkbox to denote Privacy statement is accepted by user</inlineHelpText>
+    <label>Privacy Statement Accepted</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

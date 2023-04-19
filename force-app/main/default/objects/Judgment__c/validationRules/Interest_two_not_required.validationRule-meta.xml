@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_two_not_required</fullName>
+    <active>false</active>
+    <description>Interest-2 is not required if Balance-2 is empty</description>
+    <errorConditionFormula>AND(
+    ISBLANK( Balance_two__c ),
+    NOT(ISBLANK( Interest_Rate_two__c ))
+)</errorConditionFormula>
+    <errorDisplayField>Interest_Rate_two__c</errorDisplayField>
+    <errorMessage>Interest-2 is not required if Balance-2 is empty</errorMessage>
+</ValidationRule>

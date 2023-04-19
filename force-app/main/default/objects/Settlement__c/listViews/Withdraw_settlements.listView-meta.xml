@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Withdraw_settlements</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>NAME</columns>
+    <columns>Settlement_Number__c</columns>
+    <columns>Product__c</columns>
+    <columns>Judgment__c</columns>
+    <columns>Placement_Formula__c</columns>
+    <columns>Required_Amount__c</columns>
+    <columns>Proposal_Amount__c</columns>
+    <columns>Total_balance__c</columns>
+    <columns>Payment_Frequency__c</columns>
+    <columns>Employment__c</columns>
+    <columns>Value_Tier__c</columns>
+    <columns>Original_seller__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Withdraw</value>
+    </filters>
+    <label>Withdraw Settlements</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Distressed_ICT_group</group>
+        <group>Distressed_LRT_group</group>
+        <group>ICT_User_Visibility_Group</group>
+        <group>LRT_User_Visibility_Group</group>
+    </sharedTo>
+</ListView>

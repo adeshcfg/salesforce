@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trustee_Variable_Fees__c</fullName>
+    <description>The calculated trustee variable fees for this insolvency</description>
+    <externalId>false</externalId>
+    <formula>IF(TEXT(Insolvency_Type__c) == &apos;Consumer Proposal&apos; || TEXT(Insolvency_Type__c) == &apos;Division 1 Proposal&apos;,
+(
+(
+(
+Payment_Amount__c * Number_of_Payments__c
+)
++ Bulk_Payment_Amount__c
+)
+- $Setup.Trustee_Fees__c.Trustee_Administration_Fee__c - $Setup.Trustee_Fees__c.Counselling_Fee__c - $Setup.Trustee_Fees__c.Receiver_Fee__c
+)
+*
+$Setup.Trustee_Fees__c.Trustee_Variable_Fee_Rate__c,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The calculated trustee variable fees for this insolvency</inlineHelpText>
+    <label>Trustee Variable Fees</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

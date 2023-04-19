@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Name_field_non_editable</fullName>
+    <active>true</active>
+    <description>Name field to be non editable for Credit Card and Loan records</description>
+    <errorConditionFormula>AND
+(
+$Profile.Name != &apos;System Administrator&apos;,
+OR(
+ISPICKVAL(Source_System__c , &apos;FDR&apos;),
+ISPICKVAL(Source_System__c , &apos;Megasys&apos;)
+),
+Not(ISNEW()),
+AND(ISCHANGED(Name), Not(ISBLANK(PRIORVALUE(Name))))
+)</errorConditionFormula>
+    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+    <errorMessage>User cannot update the Account Number</errorMessage>
+</ValidationRule>

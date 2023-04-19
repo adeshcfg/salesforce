@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Debt_Service_Ratio__c</fullName>
+    <description>The household sector DSR measures the proportion of household disposable income that is devoted to making required interest and principal payments with respect to the sector’s total liabilities.</description>
+    <externalId>false</externalId>
+    <formula>(
+Payments_To_Proposal__c + 
+Payment_To_Secured_Creditor__c + 
+Payments_Other_Than_Mortgage_Vehicle__c + 
+Other_Payments__c
+)
+/
+(
+Disposable_Income__c
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The household sector DSR measures the proportion of household disposable income that is devoted to making required interest and principal payments with respect to the sector’s total liabilities.</inlineHelpText>
+    <label>Debt Service Ratio (DSR)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

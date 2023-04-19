@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canaccede_Insolvencies_to_be_worked</fullName>
+    <columns>Insolvency__c</columns>
+    <columns>NAME</columns>
+    <columns>Data_ID__c</columns>
+    <columns>Bank_Name__c</columns>
+    <columns>Borrower_Primary__c</columns>
+    <columns>Number_Of_Days_In_Current_Status__c</columns>
+    <columns>Claim_Type__c</columns>
+    <columns>Account_Type__c</columns>
+    <columns>Insolvency_Account_Owner__c</columns>
+    <columns>Product_Code__c</columns>
+    <columns>Claim_Amount__c</columns>
+    <columns>Insolvency_Status__c</columns>
+    <columns>Insolvency_Status_Last_Changed__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Insolvency_Status__c</field>
+        <operation>equals</operation>
+        <value>For Owner Review</value>
+    </filters>
+    <filters>
+        <field>Bank_Name__c</field>
+        <operation>equals</operation>
+        <value>canaccede</value>
+    </filters>
+    <filters>
+        <field>Documents_Required__c</field>
+        <operation>notEqual</operation>
+        <value>CCS Acceptance and Payment History</value>
+    </filters>
+    <label>Canaccede Insolvencies to be worked</label>
+    <sharedTo>
+        <group>Insolvency_CFG_BS</group>
+        <group>Insolvency_CFG_Users</group>
+        <group>Insolvency_Canaccede_Users</group>
+    </sharedTo>
+</ListView>

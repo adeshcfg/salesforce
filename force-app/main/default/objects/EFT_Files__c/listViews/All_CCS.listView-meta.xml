@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_CCS</fullName>
+    <columns>NAME</columns>
+    <columns>Cheque_Number__c</columns>
+    <columns>Posting_Date__c</columns>
+    <columns>Total_Payments_Amount__c</columns>
+    <columns>Total_Record_Count__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>EFT_Files__c.CCS_EFT</value>
+    </filters>
+    <label>All CCS</label>
+</ListView>

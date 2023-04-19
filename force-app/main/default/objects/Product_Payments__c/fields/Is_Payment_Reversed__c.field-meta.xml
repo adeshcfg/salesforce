@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Payment_Reversed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Set to true if reversal payment is added for the corresponding payment</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Set to true if reversal payment is added for the corresponding payment</inlineHelpText>
+    <label>Is Payment Reversed</label>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

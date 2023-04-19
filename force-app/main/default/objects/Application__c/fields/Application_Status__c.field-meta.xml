@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Status__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Application Status</inlineHelpText>
+    <label>Application Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>AFSI Scripting</fullName>
+                <default>false</default>
+                <label>AFSI Scripting</label>
+            </value>
+            <value>
+                <fullName>Analyst Declined</fullName>
+                <default>false</default>
+                <label>Analyst Declined</label>
+            </value>
+            <value>
+                <fullName>Auto Approved</fullName>
+                <default>false</default>
+                <label>Auto Approved</label>
+            </value>
+            <value>
+                <fullName>CC Creation</fullName>
+                <default>false</default>
+                <label>CC Creation</label>
+            </value>
+            <value>
+                <fullName>CLI Scripting</fullName>
+                <default>false</default>
+                <label>CLI Scripting</label>
+            </value>
+            <value>
+                <fullName>Completed - CLI</fullName>
+                <default>false</default>
+                <label>Completed - CLI</label>
+            </value>
+            <value>
+                <fullName>Completed - Loan</fullName>
+                <default>false</default>
+                <label>Completed - Loan</label>
+            </value>
+            <value>
+                <fullName>Conditional</fullName>
+                <default>false</default>
+                <label>Conditional</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Email-Auth Sent</fullName>
+                <default>false</default>
+                <label>Email-Auth Sent</label>
+            </value>
+            <value>
+                <fullName>Expired</fullName>
+                <default>false</default>
+                <label>Expired</label>
+            </value>
+            <value>
+                <fullName>Fraud</fullName>
+                <default>false</default>
+                <label>Fraud</label>
+            </value>
+            <value>
+                <fullName>Fraud Investigation</fullName>
+                <default>false</default>
+                <label>Fraud Investigation</label>
+            </value>
+            <value>
+                <fullName>Loan Delivery</fullName>
+                <default>false</default>
+                <label>Loan Delivery</label>
+            </value>
+            <value>
+                <fullName>Manager Approval</fullName>
+                <default>false</default>
+                <label>Manager Approval</label>
+            </value>
+            <value>
+                <fullName>Review</fullName>
+                <default>false</default>
+                <label>Review</label>
+            </value>
+            <value>
+                <fullName>Scripting Required</fullName>
+                <default>false</default>
+                <label>Scripting Required</label>
+            </value>
+            <value>
+                <fullName>Waiting for Loan Docs</fullName>
+                <default>false</default>
+                <label>Waiting for Loan Docs</label>
+            </value>
+            <value>
+                <fullName>Waiting for Loan Docs - Auth Passed</fullName>
+                <default>false</default>
+                <label>Waiting for Loan Docs - Auth Passed</label>
+            </value>
+            <value>
+                <fullName>BK/CP No Disch</fullName>
+                <default>false</default>
+                <label>BK/CP No Disch</label>
+            </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Analyst Approved</fullName>
+                <default>false</default>
+                <label>Analyst Approved</label>
+            </value>
+            <value>
+                <fullName>Scripting</fullName>
+                <default>false</default>
+                <label>Scripting</label>
+            </value>
+            <value>
+                <fullName>Archived</fullName>
+                <default>false</default>
+                <label>Archived</label>
+            </value>
+            <value>
+                <fullName>System Declined</fullName>
+                <default>false</default>
+                <label>System Declined</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

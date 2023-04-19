@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pay_Non_Recoverable_Fee__c</fullName>
+    <description>Non-Recoverable Fee Posted, reversed or paid down on Account from Payment Amount</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Non-Recoverable Fee Posted, reversed or paid down on Account from Payment Amount</inlineHelpText>
+    <label>Pay Non-Recoverable Fee</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

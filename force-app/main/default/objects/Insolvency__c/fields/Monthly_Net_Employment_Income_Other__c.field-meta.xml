@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Monthly_Net_Employment_Income_Other__c</fullName>
+    <description>Monthly Net Employment Income Other</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Monthly Net Employment Income Other</inlineHelpText>
+    <label>Monthly Net Employment Income Other</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

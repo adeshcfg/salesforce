@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Metadata_Type__c</fullName>
+    <description>Metadata Type</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Metadata Type</inlineHelpText>
+    <label>Metadata Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ValidationRule</fullName>
+                <default>false</default>
+                <label>ValidationRule</label>
+            </value>
+            <value>
+                <fullName>WorkflowRule</fullName>
+                <default>false</default>
+                <label>WorkflowRule</label>
+            </value>
+            <value>
+                <fullName>ProcessBuilder</fullName>
+                <default>false</default>
+                <label>ProcessBuilder</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

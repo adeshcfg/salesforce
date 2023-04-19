@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pending_Recall__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Pending Recall Flag to check that pool&apos;s product is set to pending recall</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Pending Recall Flag to check that pool&apos;s product is set to pending recall</inlineHelpText>
+    <label>Pending Recall</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

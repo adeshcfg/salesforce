@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remitted_Payment_Required_Fields</fullName>
+    <active>true</active>
+    <description>Once payment is remitted, Remitted date, remitted cheque number and remitted to values should be populated</description>
+    <errorConditionFormula>OR(
+AND(
+     Is_Payment_Remitted__c = True,
+     Remitted_Back_To__c = null    
+),
+AND(
+     Remitted_Back_To__c &lt;&gt; null,
+     Is_Payment_Remitted__c = False
+)
+)</errorConditionFormula>
+    <errorMessage>Is Payment Remitted and Remitted Back To values are required</errorMessage>
+</ValidationRule>

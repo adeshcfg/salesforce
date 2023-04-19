@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>For_Review_Refer_to_Legal</fullName>
+    <columns>Statute_Date__c</columns>
+    <columns>Sent_to_Review_Date__c</columns>
+    <columns>NAME</columns>
+    <columns>Originating_Creditor__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Refer_to_Legal__c</columns>
+    <columns>Legal_Decision_Date__c</columns>
+    <columns>Legal_Decision_by__c</columns>
+    <columns>Collection_Agency_Formula__c</columns>
+    <columns>Current_Balance__c</columns>
+    <columns>Legal_Referral_Comments__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product__c.Distressed_Account</value>
+    </filters>
+    <filters>
+        <field>Refer_to_Legal__c</field>
+        <operation>equals</operation>
+        <value>For Review</value>
+    </filters>
+    <label>For Review - Refer to Legal</label>
+    <sharedTo>
+        <group>Agency_Group</group>
+        <group>ICT_Group</group>
+        <group>ICT_User_Visibility_Group</group>
+        <group>LRT_Group</group>
+        <group>LRT_User_Visibility_Group</group>
+        <group>Unplaced_Group</group>
+    </sharedTo>
+</ListView>

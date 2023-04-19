@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distressed_Created_Today</fullName>
+    <columns>NAME</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Collection_Agency__c</columns>
+    <columns>Collection_Agency_Formula__c</columns>
+    <columns>Status__c</columns>
+    <columns>Sub_Status__c</columns>
+    <columns>Pool_Name__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>Email_Address__c</columns>
+    <columns>Phone_Other__c</columns>
+    <columns>State__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <filters>
+        <field>Record_Type_Name__c</field>
+        <operation>equals</operation>
+        <value>Distressed_Account</value>
+    </filters>
+    <label>Distressed - Created Today</label>
+    <sharedTo>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

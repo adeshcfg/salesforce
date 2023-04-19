@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agency_Initiated_Legal_Action_Formula__c</fullName>
+    <externalId>false</externalId>
+    <formula>Agency_Initiated_Legal_Action_Lookup__r.Agency_Name__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Display Agency Name</inlineHelpText>
+    <label>Agency Initiated Legal Action Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

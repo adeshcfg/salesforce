@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CFG_Open_Cases__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>Number of Open CFG Assignments</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number of Open CFG Assignments</inlineHelpText>
+    <label>Number of Open Assignments - CFG</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

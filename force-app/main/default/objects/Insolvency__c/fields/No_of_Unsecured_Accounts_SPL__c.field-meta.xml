@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_of_Unsecured_Accounts_SPL__c</fullName>
+    <description>Number of Unsecured Accounts SPL</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number of Unsecured Accounts SPL</inlineHelpText>
+    <label>RL Number of Unsecured Accounts SPL</label>
+    <summarizedField>Insolvency_Detail__c.Number_of_Unsecured_Accounts__c</summarizedField>
+    <summaryFilterItems>
+        <field>Insolvency_Detail__c.Bank_Name__c</field>
+        <operation>equals</operation>
+        <value>SPL</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Insolvency_Detail__c.Insolvency__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

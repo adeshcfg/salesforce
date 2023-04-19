@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Set_Voting_Decision_Only_If_Its_Eligible</fullName>
+    <active>true</active>
+    <description>Set the voting decision only if Eligible For Voting Decision is checked</description>
+    <errorConditionFormula>AND( Eligible_For_Voting_Decision__c = false,
+ ISCHANGED( Voting_Decision__c ) 
+
+)</errorConditionFormula>
+    <errorMessage>Voting decision cannot be set, if eligible for voting decision is not checked</errorMessage>
+</ValidationRule>

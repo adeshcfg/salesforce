@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MutipleFileUpload__c</fullName>
+    <description>This field is used to store the first 3 characters from the id for multiple file upload functionality.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>This field is used to store the first 3 characters from the id for multiple file upload functionality.</inlineHelpText>
+    <label>MutipleFileUpload</label>
+    <length>50</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

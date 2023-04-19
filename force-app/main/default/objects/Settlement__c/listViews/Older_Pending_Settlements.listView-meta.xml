@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Older_Pending_Settlements</fullName>
+    <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Settlement_Number__c</columns>
+    <columns>Proposal_Amount__c</columns>
+    <columns>Proposal_Total_Percent__c</columns>
+    <columns>Required_Amount__c</columns>
+    <columns>Required_Total_Percent__c</columns>
+    <columns>Product__c</columns>
+    <columns>Judgment__c</columns>
+    <columns>Placement__c</columns>
+    <columns>Placement_Formula__c</columns>
+    <columns>Payment_Plan_Amount__c</columns>
+    <columns>Payment_Plan_Length__c</columns>
+    <columns>Principal_Balance__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>lessThan</operation>
+        <value>LAST_N_DAYS:7</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Ready for review</value>
+    </filters>
+    <filters>
+        <field>LAST_UPDATE</field>
+        <operation>lessThan</operation>
+        <value>LAST_N_DAYS:7</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Counter offer proposed,Acknowledged by agency</value>
+    </filters>
+    <label>Older/Pending Settlements</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Distressed_ICT_group</group>
+        <group>Distressed_LRT_group</group>
+        <group>ICT_User_Visibility_Group</group>
+        <group>LRT_User_Visibility_Group</group>
+    </sharedTo>
+</ListView>

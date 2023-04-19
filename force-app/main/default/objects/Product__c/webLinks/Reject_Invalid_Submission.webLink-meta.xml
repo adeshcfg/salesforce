@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reject_Invalid_Submission</fullName>
+    <availability>online</availability>
+    <description>Reject Invalid Submission btn</description>
+    <displayType>button</displayType>
+    <linkType>page</linkType>
+    <masterLabel>Reject Invalid Submission</masterLabel>
+    <openType>replace</openType>
+    <page>RejectInvalidSubmissionPage</page>
+    <protected>false</protected>
+</WebLink>

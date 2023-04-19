@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expected_Recovery__c</fullName>
+    <description>Expected Recovery %  = 100 - FairShare %</description>
+    <externalId>false</externalId>
+    <formula>1 -  FairShare_Percentage__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Expected Recovery %  = 100 - FairShare %</inlineHelpText>
+    <label>Expected Recovery %</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

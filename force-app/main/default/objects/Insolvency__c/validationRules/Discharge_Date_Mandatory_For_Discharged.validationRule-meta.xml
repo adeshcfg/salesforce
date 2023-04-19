@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Discharge_Date_Mandatory_For_Discharged</fullName>
+    <active>true</active>
+    <description>Discharge Date mandatory for Discharged Status</description>
+    <errorConditionFormula>OR((ISCHANGED( Insolvency_Status__c ) &amp;&amp; 
+ISPICKVAL(Insolvency_Status__c , &apos;Discharged&apos;)&amp;&amp; 
+ISNULL( Insolvency_Discharged_Date__c )), 
+(ISPICKVAL(Insolvency_Status__c , &apos;Discharged&apos;)&amp;&amp; 
+ISCHANGED( Insolvency_Discharged_Date__c )&amp;&amp; 
+ISNULL(Insolvency_Discharged_Date__c )), 
+false)</errorConditionFormula>
+    <errorDisplayField>Insolvency_Discharged_Date__c</errorDisplayField>
+    <errorMessage>Discharge Date is mandatory as Insolvency Status moved to Discharged</errorMessage>
+</ValidationRule>

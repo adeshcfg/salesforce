@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Housing_Subtotal__c</fullName>
+    <description>Sum of Housing &amp; Expenditure</description>
+    <externalId>false</externalId>
+    <formula>Cable__c  +  Electricity__c  +  Gas__c  +  House_Maintenance__c  +  Housing_Other__c  +  Mortgage_or_Rent__c  +  Phone__c  +  Water_and_Sewer__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Monthly Housing &amp; Expenditure Subtotal  Fare</inlineHelpText>
+    <label>Subtotal</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

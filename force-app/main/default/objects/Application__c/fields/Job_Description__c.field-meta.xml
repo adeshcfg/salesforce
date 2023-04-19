@@ -1,0 +1,2490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job_Description__c</fullName>
+    <description>Values depending upon Industry</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Values depending upon Industry</inlineHelpText>
+    <label>Job Description</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Industry__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Accountant</fullName>
+                <default>false</default>
+                <label>Accountant</label>
+            </value>
+            <value>
+                <fullName>Accounting Consultant</fullName>
+                <default>false</default>
+                <label>Accounting Consultant</label>
+            </value>
+            <value>
+                <fullName>Account Management Commissioned</fullName>
+                <default>false</default>
+                <label>Account Management Commissioned</label>
+            </value>
+            <value>
+                <fullName>Account Management Salaried</fullName>
+                <default>false</default>
+                <label>Account Management Salaried</label>
+            </value>
+            <value>
+                <fullName>Accounts Payable or Receivable</fullName>
+                <default>false</default>
+                <label>Accounts Payable or Receivable</label>
+            </value>
+            <value>
+                <fullName>Actuarial Analysis</fullName>
+                <default>false</default>
+                <label>Actuarial Analysis</label>
+            </value>
+            <value>
+                <fullName>Administrative Assistant</fullName>
+                <default>false</default>
+                <label>Administrative Assistant</label>
+            </value>
+            <value>
+                <fullName>Administrative Support</fullName>
+                <default>false</default>
+                <label>Administrative Support</label>
+            </value>
+            <value>
+                <fullName>Administrator</fullName>
+                <default>false</default>
+                <label>Administrator</label>
+            </value>
+            <value>
+                <fullName>Advisor</fullName>
+                <default>false</default>
+                <label>Advisor</label>
+            </value>
+            <value>
+                <fullName>Aeronautic or Avionic Engineering</fullName>
+                <default>false</default>
+                <label>Aeronautic or Avionic Engineering</label>
+            </value>
+            <value>
+                <fullName>Agricultural Specialist</fullName>
+                <default>false</default>
+                <label>Agricultural Specialist</label>
+            </value>
+            <value>
+                <fullName>Airport Security and Screening</fullName>
+                <default>false</default>
+                <label>Airport Security and Screening</label>
+            </value>
+            <value>
+                <fullName>Air Traffic Controller</fullName>
+                <default>false</default>
+                <label>Air Traffic Controller</label>
+            </value>
+            <value>
+                <fullName>Alternative Medicine</fullName>
+                <default>false</default>
+                <label>Alternative Medicine</label>
+            </value>
+            <value>
+                <fullName>Architect</fullName>
+                <default>false</default>
+                <label>Architect</label>
+            </value>
+            <value>
+                <fullName>Artist</fullName>
+                <default>false</default>
+                <label>Artist</label>
+            </value>
+            <value>
+                <fullName>Assembly or Assembly Line</fullName>
+                <default>false</default>
+                <label>Assembly or Assembly Line</label>
+            </value>
+            <value>
+                <fullName>Attorney</fullName>
+                <default>false</default>
+                <label>Attorney</label>
+            </value>
+            <value>
+                <fullName>Auditor</fullName>
+                <default>false</default>
+                <label>Auditor</label>
+            </value>
+            <value>
+                <fullName>Bank Manager</fullName>
+                <default>false</default>
+                <label>Bank Manager</label>
+            </value>
+            <value>
+                <fullName>Bank Teller</fullName>
+                <default>false</default>
+                <label>Bank Teller</label>
+            </value>
+            <value>
+                <fullName>Bartender</fullName>
+                <default>false</default>
+                <label>Bartender</label>
+            </value>
+            <value>
+                <fullName>BioEngineering</fullName>
+                <default>false</default>
+                <label>BioEngineering</label>
+            </value>
+            <value>
+                <fullName>Blacksmith</fullName>
+                <default>false</default>
+                <label>Blacksmith</label>
+            </value>
+            <value>
+                <fullName>Bookkeeping</fullName>
+                <default>false</default>
+                <label>Bookkeeping</label>
+            </value>
+            <value>
+                <fullName>Brand or Product Marketing</fullName>
+                <default>false</default>
+                <label>Brand or Product Marketing</label>
+            </value>
+            <value>
+                <fullName>Broadcasting and Post Production</fullName>
+                <default>false</default>
+                <label>Broadcasting and Post Production</label>
+            </value>
+            <value>
+                <fullName>Broker</fullName>
+                <default>false</default>
+                <label>Broker</label>
+            </value>
+            <value>
+                <fullName>Budget Management</fullName>
+                <default>false</default>
+                <label>Budget Management</label>
+            </value>
+            <value>
+                <fullName>Building or Construction Inspection</fullName>
+                <default>false</default>
+                <label>Building or Construction Inspection</label>
+            </value>
+            <value>
+                <fullName>Bus Driver</fullName>
+                <default>false</default>
+                <label>Bus Driver</label>
+            </value>
+            <value>
+                <fullName>Business Analysis or Research</fullName>
+                <default>false</default>
+                <label>Business Analysis or Research</label>
+            </value>
+            <value>
+                <fullName>Business Development</fullName>
+                <default>false</default>
+                <label>Business Development</label>
+            </value>
+            <value>
+                <fullName>Business Unit Management</fullName>
+                <default>false</default>
+                <label>Business Unit Management</label>
+            </value>
+            <value>
+                <fullName>CAD or Drafting</fullName>
+                <default>false</default>
+                <label>CAD or Drafting</label>
+            </value>
+            <value>
+                <fullName>Call Centre</fullName>
+                <default>false</default>
+                <label>Call Centre</label>
+            </value>
+            <value>
+                <fullName>Cargo and Baggage Handling</fullName>
+                <default>false</default>
+                <label>Cargo and Baggage Handling</label>
+            </value>
+            <value>
+                <fullName>Carpenter</fullName>
+                <default>false</default>
+                <label>Carpenter</label>
+            </value>
+            <value>
+                <fullName>Chef</fullName>
+                <default>false</default>
+                <label>Chef</label>
+            </value>
+            <value>
+                <fullName>Chemical Engineering</fullName>
+                <default>false</default>
+                <label>Chemical Engineering</label>
+            </value>
+            <value>
+                <fullName>Child Care and Development</fullName>
+                <default>false</default>
+                <label>Child Care and Development</label>
+            </value>
+            <value>
+                <fullName>Civil and Structural Engineering</fullName>
+                <default>false</default>
+                <label>Civil and Structural Engineering</label>
+            </value>
+            <value>
+                <fullName>Claims Processing</fullName>
+                <default>false</default>
+                <label>Claims Processing</label>
+            </value>
+            <value>
+                <fullName>Claims Review and Adjusting</fullName>
+                <default>false</default>
+                <label>Claims Review and Adjusting</label>
+            </value>
+            <value>
+                <fullName>Collections</fullName>
+                <default>false</default>
+                <label>Collections</label>
+            </value>
+            <value>
+                <fullName>Computer Animation</fullName>
+                <default>false</default>
+                <label>Computer Animation</label>
+            </value>
+            <value>
+                <fullName>Computer or Network Security</fullName>
+                <default>false</default>
+                <label>Computer or Network Security</label>
+            </value>
+            <value>
+                <fullName>Concrete and Masonry</fullName>
+                <default>false</default>
+                <label>Concrete and Masonry</label>
+            </value>
+            <value>
+                <fullName>Content Development</fullName>
+                <default>false</default>
+                <label>Content Development</label>
+            </value>
+            <value>
+                <fullName>Contracts Administration</fullName>
+                <default>false</default>
+                <label>Contracts Administration</label>
+            </value>
+            <value>
+                <fullName>Copywriter</fullName>
+                <default>false</default>
+                <label>Copywriter</label>
+            </value>
+            <value>
+                <fullName>Copywriting</fullName>
+                <default>false</default>
+                <label>Copywriting</label>
+            </value>
+            <value>
+                <fullName>Copywriting or Editing</fullName>
+                <default>false</default>
+                <label>Copywriting or Editing</label>
+            </value>
+            <value>
+                <fullName>Corporate Accounting</fullName>
+                <default>false</default>
+                <label>Corporate Accounting</label>
+            </value>
+            <value>
+                <fullName>Corporate Development and Training</fullName>
+                <default>false</default>
+                <label>Corporate Development and Training</label>
+            </value>
+            <value>
+                <fullName>Corporate Finance</fullName>
+                <default>false</default>
+                <label>Corporate Finance</label>
+            </value>
+            <value>
+                <fullName>Correctional Officer</fullName>
+                <default>false</default>
+                <label>Correctional Officer</label>
+            </value>
+            <value>
+                <fullName>Cost Estimating</fullName>
+                <default>false</default>
+                <label>Cost Estimating</label>
+            </value>
+            <value>
+                <fullName>Creative Direction or Lead</fullName>
+                <default>false</default>
+                <label>Creative Direction or Lead</label>
+            </value>
+            <value>
+                <fullName>Credit Manager</fullName>
+                <default>false</default>
+                <label>Credit Manager</label>
+            </value>
+            <value>
+                <fullName>Credit Review or Analysis</fullName>
+                <default>false</default>
+                <label>Credit Review or Analysis</label>
+            </value>
+            <value>
+                <fullName>Customer Service</fullName>
+                <default>false</default>
+                <label>Customer Service</label>
+            </value>
+            <value>
+                <fullName>Customer Training</fullName>
+                <default>false</default>
+                <label>Customer Training</label>
+            </value>
+            <value>
+                <fullName>Customs or Immigration</fullName>
+                <default>false</default>
+                <label>Customs or Immigration</label>
+            </value>
+            <value>
+                <fullName>Database Administration</fullName>
+                <default>false</default>
+                <label>Database Administration</label>
+            </value>
+            <value>
+                <fullName>Database Development</fullName>
+                <default>false</default>
+                <label>Database Development</label>
+            </value>
+            <value>
+                <fullName>Data Entry or Order Processing</fullName>
+                <default>false</default>
+                <label>Data Entry or Order Processing</label>
+            </value>
+            <value>
+                <fullName>Dental Assistant or Hygienist</fullName>
+                <default>false</default>
+                <label>Dental Assistant or Hygienist</label>
+            </value>
+            <value>
+                <fullName>Desktop Service and Support</fullName>
+                <default>false</default>
+                <label>Desktop Service and Support</label>
+            </value>
+            <value>
+                <fullName>Direct Marketing</fullName>
+                <default>false</default>
+                <label>Direct Marketing</label>
+            </value>
+            <value>
+                <fullName>Doctor MD or PhD</fullName>
+                <default>false</default>
+                <label>Doctor MD or PhD</label>
+            </value>
+            <value>
+                <fullName>Documentation or Technical Writing</fullName>
+                <default>false</default>
+                <label>Documentation or Technical Writing</label>
+            </value>
+            <value>
+                <fullName>Economist</fullName>
+                <default>false</default>
+                <label>Economist</label>
+            </value>
+            <value>
+                <fullName>Editing and Proofreading</fullName>
+                <default>false</default>
+                <label>Editing and Proofreading</label>
+            </value>
+            <value>
+                <fullName>Electrical or Electronic Engineer</fullName>
+                <default>false</default>
+                <label>Electrical or Electronic Engineer</label>
+            </value>
+            <value>
+                <fullName>Electrician</fullName>
+                <default>false</default>
+                <label>Electrician</label>
+            </value>
+            <value>
+                <fullName>Electronics Installation or Repair</fullName>
+                <default>false</default>
+                <label>Electronics Installation or Repair</label>
+            </value>
+            <value>
+                <fullName>EMT or Paramedic</fullName>
+                <default>false</default>
+                <label>EMT or Paramedic</label>
+            </value>
+            <value>
+                <fullName>Energy or Nuclear Engineering</fullName>
+                <default>false</default>
+                <label>Energy or Nuclear Engineering</label>
+            </value>
+            <value>
+                <fullName>Enterprise Software Consulting</fullName>
+                <default>false</default>
+                <label>Enterprise Software Consulting</label>
+            </value>
+            <value>
+                <fullName>Environmental Analysis</fullName>
+                <default>false</default>
+                <label>Environmental Analysis</label>
+            </value>
+            <value>
+                <fullName>Environmental Conservation</fullName>
+                <default>false</default>
+                <label>Environmental Conservation</label>
+            </value>
+            <value>
+                <fullName>Environmental Engineering</fullName>
+                <default>false</default>
+                <label>Environmental Engineering</label>
+            </value>
+            <value>
+                <fullName>Equipment Installation or Repair</fullName>
+                <default>false</default>
+                <label>Equipment Installation or Repair</label>
+            </value>
+            <value>
+                <fullName>Equipment Operations</fullName>
+                <default>false</default>
+                <label>Equipment Operations</label>
+            </value>
+            <value>
+                <fullName>Equipment or Forklift or Crane Ops</fullName>
+                <default>false</default>
+                <label>Equipment or Forklift or Crane Ops</label>
+            </value>
+            <value>
+                <fullName>Escrow Officer or Manager</fullName>
+                <default>false</default>
+                <label>Escrow Officer or Manager</label>
+            </value>
+            <value>
+                <fullName>Event Planner</fullName>
+                <default>false</default>
+                <label>Event Planner</label>
+            </value>
+            <value>
+                <fullName>Event Planning or Coordination</fullName>
+                <default>false</default>
+                <label>Event Planning or Coordination</label>
+            </value>
+            <value>
+                <fullName>Events or Promotional Marketing</fullName>
+                <default>false</default>
+                <label>Events or Promotional Marketing</label>
+            </value>
+            <value>
+                <fullName>Executive Support</fullName>
+                <default>false</default>
+                <label>Executive Support</label>
+            </value>
+            <value>
+                <fullName>Facilities Management</fullName>
+                <default>false</default>
+                <label>Facilities Management</label>
+            </value>
+            <value>
+                <fullName>Fashion and Accessories Design</fullName>
+                <default>false</default>
+                <label>Fashion and Accessories Design</label>
+            </value>
+            <value>
+                <fullName>Field Sales</fullName>
+                <default>false</default>
+                <label>Field Sales</label>
+            </value>
+            <value>
+                <fullName>Filing and Records Management</fullName>
+                <default>false</default>
+                <label>Filing and Records Management</label>
+            </value>
+            <value>
+                <fullName>Financial Analysis or Reporting</fullName>
+                <default>false</default>
+                <label>Financial Analysis or Reporting</label>
+            </value>
+            <value>
+                <fullName>Financial Products Sales</fullName>
+                <default>false</default>
+                <label>Financial Products Sales</label>
+            </value>
+            <value>
+                <fullName>Firefighter or Rescue</fullName>
+                <default>false</default>
+                <label>Firefighter or Rescue</label>
+            </value>
+            <value>
+                <fullName>Fitness and Sports Instruction</fullName>
+                <default>false</default>
+                <label>Fitness and Sports Instruction</label>
+            </value>
+            <value>
+                <fullName>Fitness Training</fullName>
+                <default>false</default>
+                <label>Fitness Training</label>
+            </value>
+            <value>
+                <fullName>Flight Attendant</fullName>
+                <default>false</default>
+                <label>Flight Attendant</label>
+            </value>
+            <value>
+                <fullName>Flooring</fullName>
+                <default>false</default>
+                <label>Flooring</label>
+            </value>
+            <value>
+                <fullName>Food and Beverage Serving</fullName>
+                <default>false</default>
+                <label>Food and Beverage Serving</label>
+            </value>
+            <value>
+                <fullName>Food Preparation or Cooking</fullName>
+                <default>false</default>
+                <label>Food Preparation or Cooking</label>
+            </value>
+            <value>
+                <fullName>Food Safety and Inspection</fullName>
+                <default>false</default>
+                <label>Food Safety and Inspection</label>
+            </value>
+            <value>
+                <fullName>Franchise or Business Ownership</fullName>
+                <default>false</default>
+                <label>Franchise or Business Ownership</label>
+            </value>
+            <value>
+                <fullName>Fraud Investigation</fullName>
+                <default>false</default>
+                <label>Fraud Investigation</label>
+            </value>
+            <value>
+                <fullName>Front Desk or Reception</fullName>
+                <default>false</default>
+                <label>Front Desk or Reception</label>
+            </value>
+            <value>
+                <fullName>Fundraising</fullName>
+                <default>false</default>
+                <label>Fundraising</label>
+            </value>
+            <value>
+                <fullName>Geological Analysis</fullName>
+                <default>false</default>
+                <label>Geological Analysis</label>
+            </value>
+            <value>
+                <fullName>Graphic Arts or Illustration</fullName>
+                <default>false</default>
+                <label>Graphic Arts or Illustration</label>
+            </value>
+            <value>
+                <fullName>Guest Services or Concierge</fullName>
+                <default>false</default>
+                <label>Guest Services or Concierge</label>
+            </value>
+            <value>
+                <fullName>Haircutting or Styling</fullName>
+                <default>false</default>
+                <label>Haircutting or Styling</label>
+            </value>
+            <value>
+                <fullName>Hazardous Materials Handling</fullName>
+                <default>false</default>
+                <label>Hazardous Materials Handling</label>
+            </value>
+            <value>
+                <fullName>Health Care Aid</fullName>
+                <default>false</default>
+                <label>Health Care Aid</label>
+            </value>
+            <value>
+                <fullName>Heavy Equipment Operation</fullName>
+                <default>false</default>
+                <label>Heavy Equipment Operation</label>
+            </value>
+            <value>
+                <fullName>Hospital or Clinic Administration</fullName>
+                <default>false</default>
+                <label>Hospital or Clinic Administration</label>
+            </value>
+            <value>
+                <fullName>Host or Hostess</fullName>
+                <default>false</default>
+                <label>Host or Hostess</label>
+            </value>
+            <value>
+                <fullName>Hotel or Lodging Management</fullName>
+                <default>false</default>
+                <label>Hotel or Lodging Management</label>
+            </value>
+            <value>
+                <fullName>Human Resources Professional</fullName>
+                <default>false</default>
+                <label>Human Resources Professional</label>
+            </value>
+            <value>
+                <fullName>HVAC</fullName>
+                <default>false</default>
+                <label>HVAC</label>
+            </value>
+            <value>
+                <fullName>Import or Export Administration</fullName>
+                <default>false</default>
+                <label>Import or Export Administration</label>
+            </value>
+            <value>
+                <fullName>Industrial Design</fullName>
+                <default>false</default>
+                <label>Industrial Design</label>
+            </value>
+            <value>
+                <fullName>Industrial Engineering</fullName>
+                <default>false</default>
+                <label>Industrial Engineering</label>
+            </value>
+            <value>
+                <fullName>Information Technology Specialist</fullName>
+                <default>false</default>
+                <label>Information Technology Specialist</label>
+            </value>
+            <value>
+                <fullName>Insurance Agent or Broker</fullName>
+                <default>false</default>
+                <label>Insurance Agent or Broker</label>
+            </value>
+            <value>
+                <fullName>Interior Design</fullName>
+                <default>false</default>
+                <label>Interior Design</label>
+            </value>
+            <value>
+                <fullName>International Sales</fullName>
+                <default>false</default>
+                <label>International Sales</label>
+            </value>
+            <value>
+                <fullName>Inventory Planning and Management</fullName>
+                <default>false</default>
+                <label>Inventory Planning and Management</label>
+            </value>
+            <value>
+                <fullName>Investor and Public Relations</fullName>
+                <default>false</default>
+                <label>Investor and Public Relations</label>
+            </value>
+            <value>
+                <fullName>IT Project Management</fullName>
+                <default>false</default>
+                <label>IT Project Management</label>
+            </value>
+            <value>
+                <fullName>IT Telecom Administration</fullName>
+                <default>false</default>
+                <label>IT Telecom Administration</label>
+            </value>
+            <value>
+                <fullName>Janitorial or Cleaning</fullName>
+                <default>false</default>
+                <label>Janitorial or Cleaning</label>
+            </value>
+            <value>
+                <fullName>Journalism</fullName>
+                <default>false</default>
+                <label>Journalism</label>
+            </value>
+            <value>
+                <fullName>Judge</fullName>
+                <default>false</default>
+                <label>Judge</label>
+            </value>
+            <value>
+                <fullName>Laboratory or Pathology</fullName>
+                <default>false</default>
+                <label>Laboratory or Pathology</label>
+            </value>
+            <value>
+                <fullName>Landscaping</fullName>
+                <default>false</default>
+                <label>Landscaping</label>
+            </value>
+            <value>
+                <fullName>Laundry and Dry Cleaning</fullName>
+                <default>false</default>
+                <label>Laundry and Dry Cleaning</label>
+            </value>
+            <value>
+                <fullName>Law Enforcement</fullName>
+                <default>false</default>
+                <label>Law Enforcement</label>
+            </value>
+            <value>
+                <fullName>Layout or Prepress</fullName>
+                <default>false</default>
+                <label>Layout or Prepress</label>
+            </value>
+            <value>
+                <fullName>Legal Specialist</fullName>
+                <default>false</default>
+                <label>Legal Specialist</label>
+            </value>
+            <value>
+                <fullName>Librarian</fullName>
+                <default>false</default>
+                <label>Librarian</label>
+            </value>
+            <value>
+                <fullName>Locksmith</fullName>
+                <default>false</default>
+                <label>Locksmith</label>
+            </value>
+            <value>
+                <fullName>Machining or CNC</fullName>
+                <default>false</default>
+                <label>Machining or CNC</label>
+            </value>
+            <value>
+                <fullName>Mail Carrier</fullName>
+                <default>false</default>
+                <label>Mail Carrier</label>
+            </value>
+            <value>
+                <fullName>Maintenance</fullName>
+                <default>false</default>
+                <label>Maintenance</label>
+            </value>
+            <value>
+                <fullName>Management Consultant</fullName>
+                <default>false</default>
+                <label>Management Consultant</label>
+            </value>
+            <value>
+                <fullName>Managerial Consulting</fullName>
+                <default>false</default>
+                <label>Managerial Consulting</label>
+            </value>
+            <value>
+                <fullName>Marine Engineering</fullName>
+                <default>false</default>
+                <label>Marine Engineering</label>
+            </value>
+            <value>
+                <fullName>Marketing Communications</fullName>
+                <default>false</default>
+                <label>Marketing Communications</label>
+            </value>
+            <value>
+                <fullName>Marketing Production or Traffic</fullName>
+                <default>false</default>
+                <label>Marketing Production or Traffic</label>
+            </value>
+            <value>
+                <fullName>Market Research</fullName>
+                <default>false</default>
+                <label>Market Research</label>
+            </value>
+            <value>
+                <fullName>Mechanic</fullName>
+                <default>false</default>
+                <label>Mechanic</label>
+            </value>
+            <value>
+                <fullName>Mechanical Engineering</fullName>
+                <default>false</default>
+                <label>Mechanical Engineering</label>
+            </value>
+            <value>
+                <fullName>Media and Advertising Sales</fullName>
+                <default>false</default>
+                <label>Media and Advertising Sales</label>
+            </value>
+            <value>
+                <fullName>Media Planning and Buying</fullName>
+                <default>false</default>
+                <label>Media Planning and Buying</label>
+            </value>
+            <value>
+                <fullName>Media Relations</fullName>
+                <default>false</default>
+                <label>Media Relations</label>
+            </value>
+            <value>
+                <fullName>Medical Imaging</fullName>
+                <default>false</default>
+                <label>Medical Imaging</label>
+            </value>
+            <value>
+                <fullName>Medical Practitioner</fullName>
+                <default>false</default>
+                <label>Medical Practitioner</label>
+            </value>
+            <value>
+                <fullName>Medical Technician</fullName>
+                <default>false</default>
+                <label>Medical Technician</label>
+            </value>
+            <value>
+                <fullName>Medical Therapy or Rehab Services</fullName>
+                <default>false</default>
+                <label>Medical Therapy or Rehab Services</label>
+            </value>
+            <value>
+                <fullName>Mental Health</fullName>
+                <default>false</default>
+                <label>Mental Health</label>
+            </value>
+            <value>
+                <fullName>Merchandise Planning and Buying</fullName>
+                <default>false</default>
+                <label>Merchandise Planning and Buying</label>
+            </value>
+            <value>
+                <fullName>Mergers and Acquisitions</fullName>
+                <default>false</default>
+                <label>Mergers and Acquisitions</label>
+            </value>
+            <value>
+                <fullName>Messenger or Courier</fullName>
+                <default>false</default>
+                <label>Messenger or Courier</label>
+            </value>
+            <value>
+                <fullName>Metal Fabrication or Welding</fullName>
+                <default>false</default>
+                <label>Metal Fabrication or Welding</label>
+            </value>
+            <value>
+                <fullName>Military Combat</fullName>
+                <default>false</default>
+                <label>Military Combat</label>
+            </value>
+            <value>
+                <fullName>Mold Making or Casting</fullName>
+                <default>false</default>
+                <label>Mold Making or Casting</label>
+            </value>
+            <value>
+                <fullName>Multimedia</fullName>
+                <default>false</default>
+                <label>Multimedia</label>
+            </value>
+            <value>
+                <fullName>Nanny</fullName>
+                <default>false</default>
+                <label>Nanny</label>
+            </value>
+            <value>
+                <fullName>Naval Architecture</fullName>
+                <default>false</default>
+                <label>Naval Architecture</label>
+            </value>
+            <value>
+                <fullName>Network and Server Administration</fullName>
+                <default>false</default>
+                <label>Network and Server Administration</label>
+            </value>
+            <value>
+                <fullName>New Product Research and Design</fullName>
+                <default>false</default>
+                <label>New Product Research and Design</label>
+            </value>
+            <value>
+                <fullName>Nurse Practitioner</fullName>
+                <default>false</default>
+                <label>Nurse Practitioner</label>
+            </value>
+            <value>
+                <fullName>Nutrition and Diet</fullName>
+                <default>false</default>
+                <label>Nutrition and Diet</label>
+            </value>
+            <value>
+                <fullName>Occupational Health and Safety</fullName>
+                <default>false</default>
+                <label>Occupational Health and Safety</label>
+            </value>
+            <value>
+                <fullName>Office Management</fullName>
+                <default>false</default>
+                <label>Office Management</label>
+            </value>
+            <value>
+                <fullName>Oil Rig or Pipeline Work</fullName>
+                <default>false</default>
+                <label>Oil Rig or Pipeline Work</label>
+            </value>
+            <value>
+                <fullName>Operations or Plant Management</fullName>
+                <default>false</default>
+                <label>Operations or Plant Management</label>
+            </value>
+            <value>
+                <fullName>Operations Telecom Administration</fullName>
+                <default>false</default>
+                <label>Operations Telecom Administration</label>
+            </value>
+            <value>
+                <fullName>Optical</fullName>
+                <default>false</default>
+                <label>Optical</label>
+            </value>
+            <value>
+                <fullName>Painter</fullName>
+                <default>false</default>
+                <label>Painter</label>
+            </value>
+            <value>
+                <fullName>Painting or Wallpapering</fullName>
+                <default>false</default>
+                <label>Painting or Wallpapering</label>
+            </value>
+            <value>
+                <fullName>Paralegal and Legal Secretary</fullName>
+                <default>false</default>
+                <label>Paralegal and Legal Secretary</label>
+            </value>
+            <value>
+                <fullName>Pharmacist</fullName>
+                <default>false</default>
+                <label>Pharmacist</label>
+            </value>
+            <value>
+                <fullName>Photography and Videography</fullName>
+                <default>false</default>
+                <label>Photography and Videography</label>
+            </value>
+            <value>
+                <fullName>Pilot</fullName>
+                <default>false</default>
+                <label>Pilot</label>
+            </value>
+            <value>
+                <fullName>Plumbing or Pipe Fitting</fullName>
+                <default>false</default>
+                <label>Plumbing or Pipe Fitting</label>
+            </value>
+            <value>
+                <fullName>President or Top Executive</fullName>
+                <default>false</default>
+                <label>President or Top Executive</label>
+            </value>
+            <value>
+                <fullName>Printing and Binding</fullName>
+                <default>false</default>
+                <label>Printing and Binding</label>
+            </value>
+            <value>
+                <fullName>Process Management</fullName>
+                <default>false</default>
+                <label>Process Management</label>
+            </value>
+            <value>
+                <fullName>Product Analyst</fullName>
+                <default>false</default>
+                <label>Product Analyst</label>
+            </value>
+            <value>
+                <fullName>Production or Operations Planning</fullName>
+                <default>false</default>
+                <label>Production or Operations Planning</label>
+            </value>
+            <value>
+                <fullName>Production Quality Assurance</fullName>
+                <default>false</default>
+                <label>Production Quality Assurance</label>
+            </value>
+            <value>
+                <fullName>Product Management</fullName>
+                <default>false</default>
+                <label>Product Management</label>
+            </value>
+            <value>
+                <fullName>Professor</fullName>
+                <default>false</default>
+                <label>Professor</label>
+            </value>
+            <value>
+                <fullName>Project or Program Management</fullName>
+                <default>false</default>
+                <label>Project or Program Management</label>
+            </value>
+            <value>
+                <fullName>Property Management</fullName>
+                <default>false</default>
+                <label>Property Management</label>
+            </value>
+            <value>
+                <fullName>Public Health Administration</fullName>
+                <default>false</default>
+                <label>Public Health Administration</label>
+            </value>
+            <value>
+                <fullName>Public Relations Specialist</fullName>
+                <default>false</default>
+                <label>Public Relations Specialist</label>
+            </value>
+            <value>
+                <fullName>Purchasing</fullName>
+                <default>false</default>
+                <label>Purchasing</label>
+            </value>
+            <value>
+                <fullName>Real Estate Agent or Broker</fullName>
+                <default>false</default>
+                <label>Real Estate Agent or Broker</label>
+            </value>
+            <value>
+                <fullName>Reception or Switchboard</fullName>
+                <default>false</default>
+                <label>Reception or Switchboard</label>
+            </value>
+            <value>
+                <fullName>Research</fullName>
+                <default>false</default>
+                <label>Research</label>
+            </value>
+            <value>
+                <fullName>Reservations or Ticketing</fullName>
+                <default>false</default>
+                <label>Reservations or Ticketing</label>
+            </value>
+            <value>
+                <fullName>Restaurant Management</fullName>
+                <default>false</default>
+                <label>Restaurant Management</label>
+            </value>
+            <value>
+                <fullName>Retail or Cashier</fullName>
+                <default>false</default>
+                <label>Retail or Cashier</label>
+            </value>
+            <value>
+                <fullName>RF or Wireless Engineering</fullName>
+                <default>false</default>
+                <label>RF or Wireless Engineering</label>
+            </value>
+            <value>
+                <fullName>Roofing</fullName>
+                <default>false</default>
+                <label>Roofing</label>
+            </value>
+            <value>
+                <fullName>Sales Supervisor</fullName>
+                <default>false</default>
+                <label>Sales Supervisor</label>
+            </value>
+            <value>
+                <fullName>Sales Support or Assistance</fullName>
+                <default>false</default>
+                <label>Sales Support or Assistance</label>
+            </value>
+            <value>
+                <fullName>School or Branch Management</fullName>
+                <default>false</default>
+                <label>School or Branch Management</label>
+            </value>
+            <value>
+                <fullName>School Principal</fullName>
+                <default>false</default>
+                <label>School Principal</label>
+            </value>
+            <value>
+                <fullName>Scientific or Technical Production</fullName>
+                <default>false</default>
+                <label>Scientific or Technical Production</label>
+            </value>
+            <value>
+                <fullName>Security Guard</fullName>
+                <default>false</default>
+                <label>Security Guard</label>
+            </value>
+            <value>
+                <fullName>Security Intelligence and Analysis</fullName>
+                <default>false</default>
+                <label>Security Intelligence and Analysis</label>
+            </value>
+            <value>
+                <fullName>Select job description</fullName>
+                <default>false</default>
+                <label>Select job description</label>
+            </value>
+            <value>
+                <fullName>Server</fullName>
+                <default>false</default>
+                <label>Server</label>
+            </value>
+            <value>
+                <fullName>Sewing and Tailoring</fullName>
+                <default>false</default>
+                <label>Sewing and Tailoring</label>
+            </value>
+            <value>
+                <fullName>Sheetrock or Plastering</fullName>
+                <default>false</default>
+                <label>Sheetrock or Plastering</label>
+            </value>
+            <value>
+                <fullName>Shipping and Receiving</fullName>
+                <default>false</default>
+                <label>Shipping and Receiving</label>
+            </value>
+            <value>
+                <fullName>Site Superintendent</fullName>
+                <default>false</default>
+                <label>Site Superintendent</label>
+            </value>
+            <value>
+                <fullName>Social Work</fullName>
+                <default>false</default>
+                <label>Social Work</label>
+            </value>
+            <value>
+                <fullName>Software or System Architecture</fullName>
+                <default>false</default>
+                <label>Software or System Architecture</label>
+            </value>
+            <value>
+                <fullName>Software or Web Development</fullName>
+                <default>false</default>
+                <label>Software or Web Development</label>
+            </value>
+            <value>
+                <fullName>Software or Web Training</fullName>
+                <default>false</default>
+                <label>Software or Web Training</label>
+            </value>
+            <value>
+                <fullName>Software Quality Assurance</fullName>
+                <default>false</default>
+                <label>Software Quality Assurance</label>
+            </value>
+            <value>
+                <fullName>Special Education</fullName>
+                <default>false</default>
+                <label>Special Education</label>
+            </value>
+            <value>
+                <fullName>Store or Branch Management</fullName>
+                <default>false</default>
+                <label>Store or Branch Management</label>
+            </value>
+            <value>
+                <fullName>Store Security or Loss Prevention</fullName>
+                <default>false</default>
+                <label>Store Security or Loss Prevention</label>
+            </value>
+            <value>
+                <fullName>Strategic Planning or Intelligence</fullName>
+                <default>false</default>
+                <label>Strategic Planning or Intelligence</label>
+            </value>
+            <value>
+                <fullName>Supplier or Vendor Management</fullName>
+                <default>false</default>
+                <label>Supplier or Vendor Management</label>
+            </value>
+            <value>
+                <fullName>Surveying</fullName>
+                <default>false</default>
+                <label>Surveying</label>
+            </value>
+            <value>
+                <fullName>Systems Analysis</fullName>
+                <default>false</default>
+                <label>Systems Analysis</label>
+            </value>
+            <value>
+                <fullName>Systems or Process Engineering</fullName>
+                <default>false</default>
+                <label>Systems or Process Engineering</label>
+            </value>
+            <value>
+                <fullName>Teacher</fullName>
+                <default>false</default>
+                <label>Teacher</label>
+            </value>
+            <value>
+                <fullName>Technical Support and Sales</fullName>
+                <default>false</default>
+                <label>Technical Support and Sales</label>
+            </value>
+            <value>
+                <fullName>Telemarketing</fullName>
+                <default>false</default>
+                <label>Telemarketing</label>
+            </value>
+            <value>
+                <fullName>Telesales</fullName>
+                <default>false</default>
+                <label>Telesales</label>
+            </value>
+            <value>
+                <fullName>Tour Guide</fullName>
+                <default>false</default>
+                <label>Tour Guide</label>
+            </value>
+            <value>
+                <fullName>Town or City Planning</fullName>
+                <default>false</default>
+                <label>Town or City Planning</label>
+            </value>
+            <value>
+                <fullName>Train or Rail Operator</fullName>
+                <default>false</default>
+                <label>Train or Rail Operator</label>
+            </value>
+            <value>
+                <fullName>Transcription</fullName>
+                <default>false</default>
+                <label>Transcription</label>
+            </value>
+            <value>
+                <fullName>Translation or Interpretation</fullName>
+                <default>false</default>
+                <label>Translation or Interpretation</label>
+            </value>
+            <value>
+                <fullName>Travel Agent or Ticket Sales</fullName>
+                <default>false</default>
+                <label>Travel Agent or Ticket Sales</label>
+            </value>
+            <value>
+                <fullName>Travel Consultant</fullName>
+                <default>false</default>
+                <label>Travel Consultant</label>
+            </value>
+            <value>
+                <fullName>Truck Driver</fullName>
+                <default>false</default>
+                <label>Truck Driver</label>
+            </value>
+            <value>
+                <fullName>Urban Planner</fullName>
+                <default>false</default>
+                <label>Urban Planner</label>
+            </value>
+            <value>
+                <fullName>Usability or Info Architecture</fullName>
+                <default>false</default>
+                <label>Usability or Info Architecture</label>
+            </value>
+            <value>
+                <fullName>Vehicle Dispatch Routing</fullName>
+                <default>false</default>
+                <label>Vehicle Dispatch Routing</label>
+            </value>
+            <value>
+                <fullName>Vehicle Inspection</fullName>
+                <default>false</default>
+                <label>Vehicle Inspection</label>
+            </value>
+            <value>
+                <fullName>Vehicle Repair or Maintenance</fullName>
+                <default>false</default>
+                <label>Vehicle Repair or Maintenance</label>
+            </value>
+            <value>
+                <fullName>Visual or Display Merchandising</fullName>
+                <default>false</default>
+                <label>Visual or Display Merchandising</label>
+            </value>
+            <value>
+                <fullName>Warehousing</fullName>
+                <default>false</default>
+                <label>Warehousing</label>
+            </value>
+            <value>
+                <fullName>Waste Pick Up or Removal</fullName>
+                <default>false</default>
+                <label>Waste Pick Up or Removal</label>
+            </value>
+            <value>
+                <fullName>Web or UI or UX Design</fullName>
+                <default>false</default>
+                <label>Web or UI or UX Design</label>
+            </value>
+            <value>
+                <fullName>Wire or Cable Installation or Repair</fullName>
+                <default>false</default>
+                <label>Wire or Cable Installation or Repair</label>
+            </value>
+            <value>
+                <fullName>Retired</fullName>
+                <default>false</default>
+                <label>Retired</label>
+            </value>
+            <value>
+                <fullName>Other Administrative or Clerical</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Administrative or Clerical</label>
+            </value>
+            <value>
+                <fullName>Other Business or Strategic Management</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Business or Strategic Management</label>
+            </value>
+            <value>
+                <fullName>Other Construction or Skilled Trades</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Construction or Skilled Trades</label>
+            </value>
+            <value>
+                <fullName>Other Creative or Design</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Creative or Design</label>
+            </value>
+            <value>
+                <fullName>Other Customer Support or Client Care</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Customer Support or Client Care</label>
+            </value>
+            <value>
+                <fullName>Other Editorial or Writing</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Editorial or Writing</label>
+            </value>
+            <value>
+                <fullName>Other Education or Training</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Education or Training</label>
+            </value>
+            <value>
+                <fullName>Other Engineering or Architecture</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Engineering or Architecture</label>
+            </value>
+            <value>
+                <fullName>Other Finance or Insurance</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Finance or Insurance</label>
+            </value>
+            <value>
+                <fullName>Other Food Services or Hospitality</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Food Services or Hospitality</label>
+            </value>
+            <value>
+                <fullName>Other IT</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other IT</label>
+            </value>
+            <value>
+                <fullName>Other Installation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Installation</label>
+            </value>
+            <value>
+                <fullName>Other Legal</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Legal</label>
+            </value>
+            <value>
+                <fullName>Other Logistics or Transportation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Logistics or Transportation</label>
+            </value>
+            <value>
+                <fullName>Other Marketing</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Marketing</label>
+            </value>
+            <value>
+                <fullName>Other Medical or Health</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Medical or Health</label>
+            </value>
+            <value>
+                <fullName>Other Production Operations</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Production Operations</label>
+            </value>
+            <value>
+                <fullName>Other Project or Program Management</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Project or Program Management</label>
+            </value>
+            <value>
+                <fullName>Other Quality Assurance or Safety</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Quality Assurance or Safety</label>
+            </value>
+            <value>
+                <fullName>Other Sales or Business Development</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Sales or Business Development</label>
+            </value>
+            <value>
+                <fullName>Other Science or Research and Design</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Science or Research and Design</label>
+            </value>
+            <value>
+                <fullName>Other Security or Protective Services</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Security or Protective Services</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Electrician</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Electronics Installation or Repair</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Equipment Installation or Repair</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Facilities Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>HVAC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Janitorial or Cleaning</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Landscaping</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Locksmith</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Maintenance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Oil Rig or Pipeline Work</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Painter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Plumbing or Pipe Fitting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Vehicle Repair or Maintenance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Installation or Maintenance or Repair</controllingFieldValue>
+            <valueName>Wire or Cable Installation or Repair</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Science or Research and Design</controllingFieldValue>
+            <valueName>Environmental Analysis</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Science or Research and Design</controllingFieldValue>
+            <valueName>Geological Analysis</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Science or Research and Design</controllingFieldValue>
+            <valueName>New Product Research and Design</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Science or Research and Design</controllingFieldValue>
+            <valueName>Research</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Computer or Network Security</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Database Administration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Database Development</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Desktop Service and Support</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Enterprise Software Consulting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Information Technology Specialist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>IT Project Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>IT Telecom Administration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Network and Server Administration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Software or System Architecture</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Software or Web Development</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Systems Analysis</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Usability or Info Architecture</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Web or UI or UX Design</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retired</controllingFieldValue>
+            <valueName>Retired</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Attorney</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Contracts Administration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Judge</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Legal Specialist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Paralegal and Legal Secretary</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <controllingFieldValue>Security or Protective Services</controllingFieldValue>
+            <valueName>Airport Security and Screening</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Air Traffic Controller</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Budget Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Bus Driver</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Cargo and Baggage Handling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Cost Estimating</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Equipment or Forklift or Crane Ops</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Flight Attendant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Hazardous Materials Handling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Import or Export Administration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Inventory Planning and Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Mail Carrier</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Merchandise Planning and Buying</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Messenger or Courier</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Pilot</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Purchasing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Shipping and Receiving</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Supplier or Vendor Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Train or Rail Operator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Travel Consultant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Truck Driver</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Vehicle Dispatch Routing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Logistics or Transportation</controllingFieldValue>
+            <valueName>Warehousing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Agricultural Specialist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Assembly or Assembly Line</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Broadcasting and Post Production</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Equipment Operations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Laundry and Dry Cleaning</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Layout or Prepress</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Machining or CNC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Metal Fabrication or Welding</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Mold Making or Casting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Operations or Plant Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Operations Telecom Administration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Printing and Binding</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Production or Operations Planning</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Scientific or Technical Production</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Sewing and Tailoring</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Manufacture or Production or Operations</controllingFieldValue>
+            <valueName>Waste Pick Up or Removal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Brand or Product Marketing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Copywriting or Editing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Direct Marketing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Events or Promotional Marketing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Investor and Public Relations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Marketing Communications</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Marketing Production or Traffic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Market Research</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Media Planning and Buying</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Media Relations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Product Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Public Relations Specialist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Telemarketing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Visual or Display Merchandising</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Alternative Medicine</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Dental Assistant or Hygienist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Doctor MD or PhD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>EMT or Paramedic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Fitness Training</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Health Care Aid</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Laboratory or Pathology</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Medical Imaging</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Medical Practitioner</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Medical Technician</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Medical Therapy or Rehab Services</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Mental Health</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Nurse Practitioner</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Nutrition and Diet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Optical</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Pharmacist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Medical or Health</controllingFieldValue>
+            <valueName>Social Work</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project or Program Management</controllingFieldValue>
+            <valueName>Event Planning or Coordination</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project or Program Management</controllingFieldValue>
+            <valueName>Management Consultant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project or Program Management</controllingFieldValue>
+            <valueName>Process Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Project or Program Management</controllingFieldValue>
+            <valueName>Project or Program Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Quality Assurance or Safety</controllingFieldValue>
+            <valueName>Building or Construction Inspection</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Quality Assurance or Safety</controllingFieldValue>
+            <valueName>Environmental Conservation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Quality Assurance or Safety</controllingFieldValue>
+            <valueName>Food Safety and Inspection</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Quality Assurance or Safety</controllingFieldValue>
+            <valueName>Fraud Investigation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Quality Assurance or Safety</controllingFieldValue>
+            <valueName>Occupational Health and Safety</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Quality Assurance or Safety</controllingFieldValue>
+            <valueName>Production Quality Assurance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Quality Assurance or Safety</controllingFieldValue>
+            <valueName>Software Quality Assurance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Quality Assurance or Safety</controllingFieldValue>
+            <valueName>Vehicle Inspection</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Administrative Assistant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Administrative Support</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Claims Processing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Data Entry or Order Processing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Executive Support</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Filing and Records Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Office Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Property Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Reception or Switchboard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Administrative or Clerical</controllingFieldValue>
+            <valueName>Transcription</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Business Analysis or Research</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Business Unit Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Franchise or Business Ownership</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Hospital or Clinic Administration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Hotel or Lodging Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Human Resources Professional</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Managerial Consulting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Mergers and Acquisitions</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>President or Top Executive</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Public Health Administration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Restaurant Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>School or Branch Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Store or Branch Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Strategic Planning or Intelligence</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Town or City Planning</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Business or Strategic Management</controllingFieldValue>
+            <valueName>Urban Planner</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Blacksmith</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>CAD or Drafting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Carpenter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Concrete and Masonry</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Flooring</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Heavy Equipment Operation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Mechanic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Painting or Wallpapering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Roofing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Sheetrock or Plastering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Site Superintendent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Construction or Skilled Trades</controllingFieldValue>
+            <valueName>Surveying</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Architect</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Artist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Computer Animation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Copywriter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Creative Direction or Lead</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Fashion and Accessories Design</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Graphic Arts or Illustration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Industrial Design</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Interior Design</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Multimedia</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Creative or Design</controllingFieldValue>
+            <valueName>Photography and Videography</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Support or Client Care</controllingFieldValue>
+            <valueName>Account Management Salaried</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Support or Client Care</controllingFieldValue>
+            <valueName>Bank Teller</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Support or Client Care</controllingFieldValue>
+            <valueName>Call Centre</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Support or Client Care</controllingFieldValue>
+            <valueName>Customer Service</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Support or Client Care</controllingFieldValue>
+            <valueName>Customer Training</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Support or Client Care</controllingFieldValue>
+            <valueName>Haircutting or Styling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Support or Client Care</controllingFieldValue>
+            <valueName>Nanny</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Support or Client Care</controllingFieldValue>
+            <valueName>Reservations or Ticketing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Editorial or Writing</controllingFieldValue>
+            <valueName>Content Development</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Editorial or Writing</controllingFieldValue>
+            <valueName>Copywriting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Editorial or Writing</controllingFieldValue>
+            <valueName>Documentation or Technical Writing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Editorial or Writing</controllingFieldValue>
+            <valueName>Editing and Proofreading</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Editorial or Writing</controllingFieldValue>
+            <valueName>Journalism</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Editorial or Writing</controllingFieldValue>
+            <valueName>Translation or Interpretation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Administrator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Advisor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Child Care and Development</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Corporate Development and Training</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Fitness and Sports Instruction</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Librarian</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Professor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>School Principal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Software or Web Training</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Special Education</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Education or Training</controllingFieldValue>
+            <valueName>Teacher</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Aeronautic or Avionic Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>BioEngineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Chemical Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Civil and Structural Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Electrical or Electronic Engineer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Energy or Nuclear Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Environmental Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Industrial Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Marine Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Mechanical Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Naval Architecture</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>RF or Wireless Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Engineering or Architecture</controllingFieldValue>
+            <valueName>Systems or Process Engineering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Accountant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Accounting Consultant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Accounts Payable or Receivable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Actuarial Analysis</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Auditor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Bank Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Bookkeeping</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Broker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Claims Review and Adjusting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Collections</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Corporate Accounting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Corporate Finance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Credit Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Credit Review or Analysis</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Economist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Escrow Officer or Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finance or Insurance</controllingFieldValue>
+            <valueName>Financial Analysis or Reporting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Account Management Commissioned</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Business Development</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Field Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Financial Products Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Fundraising</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Insurance Agent or Broker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>International Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Media and Advertising Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Product Analyst</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Real Estate Agent or Broker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Retail or Cashier</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Sales Supervisor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Sales Support or Assistance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Technical Support and Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Telesales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail Sales or Business Development</controllingFieldValue>
+            <valueName>Travel Agent or Ticket Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Bartender</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Chef</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Event Planner</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Food and Beverage Serving</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Food Preparation or Cooking</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Front Desk or Reception</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Guest Services or Concierge</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Host or Hostess</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Server</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Food Services or Hospitality</controllingFieldValue>
+            <valueName>Tour Guide</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Security or Protective Services</controllingFieldValue>
+            <valueName>Correctional Officer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Security or Protective Services</controllingFieldValue>
+            <valueName>Customs or Immigration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Security or Protective Services</controllingFieldValue>
+            <valueName>Firefighter or Rescue</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Security or Protective Services</controllingFieldValue>
+            <valueName>Law Enforcement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Security or Protective Services</controllingFieldValue>
+            <valueName>Military Combat</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Security or Protective Services</controllingFieldValue>
+            <valueName>Security Guard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Security or Protective Services</controllingFieldValue>
+            <valueName>Security Intelligence and Analysis</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Security or Protective Services</controllingFieldValue>
+            <valueName>Store Security or Loss Prevention</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

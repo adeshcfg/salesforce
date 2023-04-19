@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_Estate1</fullName>
+    <active>false</active>
+    <errorConditionFormula>And (NOT(ISBLANK( Name)),NOT( REGEX( Name, &quot;(((\\d{2}-){1}\\d{7}))&quot;)))</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>Estate number is invalid, should be in this format xx-xxxxxxx</errorMessage>
+</ValidationRule>

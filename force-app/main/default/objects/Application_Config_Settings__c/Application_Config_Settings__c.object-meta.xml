@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Global config settings such as on/off switch (checkbox) that will decide whether to run the trigger code or not</description>
+    <enableFeeds>false</enableFeeds>
+    <label>Application Configuration Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

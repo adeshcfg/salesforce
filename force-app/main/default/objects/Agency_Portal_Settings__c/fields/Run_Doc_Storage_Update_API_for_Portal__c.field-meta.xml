@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Doc_Storage_Update_API_for_Portal__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Run Doc Storage Update API for Portal</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Run Doc Storage Update API for Portal</inlineHelpText>
+    <label>Run Doc Storage Update API for Portal</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

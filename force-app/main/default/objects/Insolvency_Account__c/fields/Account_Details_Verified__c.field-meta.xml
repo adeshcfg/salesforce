@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Details_Verified__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Check this box once the account details in this section are validated and confirmed.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Check this box once the account details in this section are validated and confirmed.</inlineHelpText>
+    <label>Account Details Verified</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

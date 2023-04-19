@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_CCS_Accounts_no_address</fullName>
+    <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+    <columns>NAME</columns>
+    <columns>CCS_Agency__c</columns>
+    <columns>CCS_Client_ID__c</columns>
+    <columns>CCS_Stage__c</columns>
+    <columns>Address_Line1__c</columns>
+    <columns>Codebtor_Address_Line1__c</columns>
+    <columns>Address_Line2__c</columns>
+    <columns>Codebtor_Address_Line2__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product__c.CCS_Account</value>
+    </filters>
+    <filters>
+        <field>Address_Line1__c</field>
+        <operation>equals</operation>
+        <value>NA</value>
+    </filters>
+    <filters>
+        <field>Codebtor_Address_Line1__c</field>
+        <operation>equals</operation>
+        <value>NA</value>
+    </filters>
+    <label>All CCS Accounts - No address</label>
+    <sharedTo>
+        <group>CCS_CFG_BS</group>
+        <group>CCS_CFG_User</group>
+    </sharedTo>
+</ListView>

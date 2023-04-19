@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deposit_Account_Name_Formula__c</fullName>
+    <description>Populate bank details for Dividend</description>
+    <externalId>false</externalId>
+    <formula>CASE(Deposit_Account_Name__c, 
+&apos;CIML&apos;, &apos;CIML - 156&apos;, 
+&apos;CCL&apos;, &apos;CCLP - 130&apos;, 
+&apos;CAL&apos;, &apos;CAL - 767&apos;, 
+&apos;CIH&apos;, &apos;CIHI - 877&apos;, 
+&apos;ETC&apos;, &apos;FIM - 810&apos;, 
+&apos;AAL&apos;, &apos;CIHI - 877&apos;, 
+&apos;AFL&apos;, &apos;ACQ - 618&apos;, 
+&apos;CIA&apos;, &apos;CIHI - 877&apos;, 
+&apos;AFSI&apos;, &apos;AFSI - 631&apos; 
+,null)</formula>
+    <inlineHelpText>Populate bank details for Dividend</inlineHelpText>
+    <label>Deposit Account Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

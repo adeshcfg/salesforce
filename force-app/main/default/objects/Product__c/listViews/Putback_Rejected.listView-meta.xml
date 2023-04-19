@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Putback_Rejected</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Email_Address__c</columns>
+    <columns>Phone_Home__c</columns>
+    <columns>Phone_Work__c</columns>
+    <columns>Phone_Other__c</columns>
+    <columns>Collection_Agency_Formula__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product__c.Distressed_Account</value>
+    </filters>
+    <filters>
+        <field>Purchase_Status__c</field>
+        <operation>equals</operation>
+        <value>Putback Rejected</value>
+    </filters>
+    <label>Putback Rejected</label>
+    <sharedTo>
+        <group>Distressed_ICT_group</group>
+        <group>Distressed_LRT_group</group>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

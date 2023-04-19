@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Commission_Rate_Mode__c</fullName>
+    <externalId>false</externalId>
+    <label>Commission Rate Mode</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Commission Rate Only</fullName>
+                <default>true</default>
+                <label>Commission Rate Only</label>
+            </value>
+            <value>
+                <fullName>Commission Rate and Disbursement</fullName>
+                <default>false</default>
+                <label>Commission Rate and Disbursement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

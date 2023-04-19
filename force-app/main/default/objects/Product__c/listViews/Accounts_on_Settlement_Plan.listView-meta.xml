@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accounts_on_Settlement_Plan</fullName>
+    <columns>NAME</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Delinquency_Days__c</columns>
+    <columns>Current_Balance__c</columns>
+    <columns>Last_Payment_Date__c</columns>
+    <columns>Last_Payment_Amount__c</columns>
+    <columns>PTP1_Date__c</columns>
+    <columns>External_Status_Current__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Reason_for_Legal__c</field>
+        <operation>equals</operation>
+        <value>Settlement</value>
+    </filters>
+    <filters>
+        <field>Current_Balance__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>PRIN_Number__c</field>
+        <operation>equals</operation>
+        <value>200</value>
+    </filters>
+    <filters>
+        <field>External_Status_Current__c</field>
+        <operation>notEqual</operation>
+        <value>Z,B</value>
+    </filters>
+    <label>Accounts on Settlement Plan</label>
+    <sharedTo>
+        <group>Affirm_CFG_Users</group>
+        <group>Fidem_BS</group>
+    </sharedTo>
+</ListView>

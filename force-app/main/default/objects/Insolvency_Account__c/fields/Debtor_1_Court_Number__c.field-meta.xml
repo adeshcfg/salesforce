@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Debtor_1_Court_Number__c</fullName>
+    <description>The court number for this account, as assigned to the debtor.</description>
+    <externalId>false</externalId>
+    <formula>Insolvency__r.Debtor_1_Court_Number__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The court number for this account, as assigned to the debtor.</inlineHelpText>
+    <label>Court Number</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

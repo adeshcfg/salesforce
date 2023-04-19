@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Merchant_Account_Payment_Trigger__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Run Merchant Account Payment Trigger</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Run Merchant Account Payment Trigger</inlineHelpText>
+    <label>Run Merchant Account Payment Trigger</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

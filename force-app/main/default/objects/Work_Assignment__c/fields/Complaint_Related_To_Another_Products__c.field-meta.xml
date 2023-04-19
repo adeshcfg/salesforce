@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Complaint_Related_To_Another_Products__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Does This Complaint Related To Another Product</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Does This Complaint Related To Another Product</inlineHelpText>
+    <label>Complaint Related To Another Account ID</label>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

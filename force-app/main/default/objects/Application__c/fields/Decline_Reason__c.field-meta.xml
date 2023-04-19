@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decline_Reason__c</fullName>
+    <description>Adjudication Decline Reason</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Adjudication Decline Reason</inlineHelpText>
+    <label>Adjudication Declined Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Adjudicated amount over max credit</fullName>
+                <default>false</default>
+                <label>Adjudicated amount over max credit</label>
+            </value>
+            <value>
+                <fullName>AML failed</fullName>
+                <default>false</default>
+                <label>AML failed</label>
+            </value>
+            <value>
+                <fullName>CLI</fullName>
+                <default>false</default>
+                <label>CLI</label>
+            </value>
+            <value>
+                <fullName>Customer decline - Alternate Card</fullName>
+                <default>false</default>
+                <label>Customer decline - Alternate Card</label>
+            </value>
+            <value>
+                <fullName>Customer decline  - Interest rate</fullName>
+                <default>false</default>
+                <label>Customer decline  - Interest rate</label>
+            </value>
+            <value>
+                <fullName>Customer decline  - Monthly Fee</fullName>
+                <default>false</default>
+                <label>Customer decline  - Monthly Fee</label>
+            </value>
+            <value>
+                <fullName>Debit Ratio High</fullName>
+                <default>false</default>
+                <label>Debit Ratio High</label>
+            </value>
+            <value>
+                <fullName>Duplicate application</fullName>
+                <default>false</default>
+                <label>Duplicate application</label>
+            </value>
+            <value>
+                <fullName>Fraud not cleared</fullName>
+                <default>false</default>
+                <label>Fraud not cleared</label>
+            </value>
+            <value>
+                <fullName>Legal item</fullName>
+                <default>false</default>
+                <label>Legal item</label>
+            </value>
+            <value>
+                <fullName>Thin bureau</fullName>
+                <default>false</default>
+                <label>Thin bureau</label>
+            </value>
+            <value>
+                <fullName>Unable to confirm income</fullName>
+                <default>false</default>
+                <label>Unable to confirm income</label>
+            </value>
+            <value>
+                <fullName>Confirmed Fraud</fullName>
+                <default>false</default>
+                <label>Confirmed Fraud</label>
+            </value>
+            <value>
+                <fullName>Utilization of credit</fullName>
+                <default>false</default>
+                <label>Utilization of credit</label>
+            </value>
+            <value>
+                <fullName>Credit need not found</fullName>
+                <default>false</default>
+                <label>Credit need not found</label>
+            </value>
+            <value>
+                <fullName>Derog not included in BKCP</fullName>
+                <default>false</default>
+                <label>Derog not included in BKCP</label>
+            </value>
+            <value>
+                <fullName>Customer declined – Approved amount</fullName>
+                <default>false</default>
+                <label>Customer declined – Approved amount</label>
+            </value>
+            <value>
+                <fullName>Customer declined – Negative Customer Experience</fullName>
+                <default>false</default>
+                <label>Customer declined – Negative Customer Experience</label>
+            </value>
+            <value>
+                <fullName>Customer declined – Funding delays</fullName>
+                <default>false</default>
+                <label>Customer declined – Funding delays</label>
+            </value>
+            <value>
+                <fullName>Customer declined – consolidation/balance transfer</fullName>
+                <default>false</default>
+                <label>Customer declined – consolidation/balance transfer</label>
+            </value>
+            <value>
+                <fullName>Customer declined – Refused to complete loan process</fullName>
+                <default>false</default>
+                <label>Customer declined – Refused to complete loan process</label>
+            </value>
+            <value>
+                <fullName>Customer declined – Received loan from another party</fullName>
+                <default>false</default>
+                <label>Customer declined – Received loan from another party</label>
+            </value>
+            <value>
+                <fullName>DSR Failed</fullName>
+                <default>false</default>
+                <label>DSR Failed</label>
+            </value>
+            <value>
+                <fullName>Employment Length Failed</fullName>
+                <default>false</default>
+                <label>Employment Length Failed</label>
+            </value>
+            <value>
+                <fullName>Annual Income Failed</fullName>
+                <default>false</default>
+                <label>Annual Income Failed</label>
+            </value>
+            <value>
+                <fullName>BK Low Credit Score</fullName>
+                <default>false</default>
+                <label>BK Low Credit Score</label>
+            </value>
+            <value>
+                <fullName>Customer In Credit Counselling</fullName>
+                <default>false</default>
+                <label>Customer In Credit Counselling</label>
+            </value>
+            <value>
+                <fullName>CP Low Credit Score</fullName>
+                <default>false</default>
+                <label>CP Low Credit Score</label>
+            </value>
+            <value>
+                <fullName>Payday Loans</fullName>
+                <default>false</default>
+                <label>Payday Loans</label>
+            </value>
+            <value>
+                <fullName>Bad Revolving Debt</fullName>
+                <default>false</default>
+                <label>Bad Revolving Debt</label>
+            </value>
+            <value>
+                <fullName>No Hit</fullName>
+                <default>false</default>
+                <label>No Hit</label>
+            </value>
+            <value>
+                <fullName>System Not Reachable</fullName>
+                <default>false</default>
+                <label>System Not Reachable</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

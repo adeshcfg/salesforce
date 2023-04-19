@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Co_Borrower_Cutomer_Type</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>NAME</columns>
+    <columns>Legal_Status__c</columns>
+    <columns>Legal_Sub_Status__c</columns>
+    <columns>Legal_Agency__c</columns>
+    <columns>Suit_Amount__c</columns>
+    <columns>Agency_Initiated_Legal_Action__c</columns>
+    <columns>Current_Principal_Balance__c</columns>
+    <columns>Payment_frequency__c</columns>
+    <columns>Template_for_Customer_Type__c</columns>
+    <columns>Template_Court_Name__c</columns>
+    <columns>Template_Court_Address__c</columns>
+    <columns>Template_Court_Phone_Number__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Template_for_Customer_Type__c</field>
+        <operation>equals</operation>
+        <value>Co-Borrower</value>
+    </filters>
+    <label>Co-Borrower Customer Type</label>
+    <sharedTo>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

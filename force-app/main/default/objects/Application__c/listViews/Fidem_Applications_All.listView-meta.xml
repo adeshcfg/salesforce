@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fidem_Applications_All</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Application_Date__c</columns>
+    <columns>Decision__c</columns>
+    <columns>Decision_Timestamp__c</columns>
+    <columns>AML_Decision__c</columns>
+    <columns>AML_Decision_Timestamp__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Application__c.Fidem_Finance_MasterCard</value>
+    </filters>
+    <label>Fidem Applications - All</label>
+    <sharedTo>
+        <group>Fidem_BS</group>
+    </sharedTo>
+</ListView>

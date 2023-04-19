@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reviewed_status__c</fullName>
+    <externalId>false</externalId>
+    <label>Reviewed status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sold to Canaccede</fullName>
+                <default>false</default>
+                <label>Sold to Canaccede</label>
+            </value>
+            <value>
+                <fullName>Need to be remitted</fullName>
+                <default>false</default>
+                <label>Need to be remitted</label>
+            </value>
+            <value>
+                <fullName>Unable To Locate Account - More Information Required</fullName>
+                <default>false</default>
+                <label>Unable To Locate Account - More Information Required</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

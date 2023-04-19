@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Preparation_of_Insolvency_File__c</fullName>
+    <description>Preparation of Insolvency File(SLA step 1)</description>
+    <externalId>false</externalId>
+    <formula>(5 * ( FLOOR( ( Insolvency_Created_Date__c - DATE( 1900, 1, 8) ) / 7 ) )
++
+MIN( 5, MOD( Insolvency_Created_Date__c - DATE( 1900, 1, 8), 7 ) ) )
+-
+(5 * ( FLOOR( ( Insolvency_Received_Date__c - DATE( 1900, 1, 8) ) / 7))
++
+MIN( 5, MOD( Insolvency_Received_Date__c - DATE( 1900, 1, 8), 7 ) ) )
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2020-12-25&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2020-12-25&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2021-12-28&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2021-12-28&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-02-21&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-02-21&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-04-15&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-04-15&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-05-23&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-05-23&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-06-24&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-06-24&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-07-01&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-07-01&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-08-01&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-08-01&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-09-05&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-09-05&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-09-30&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-09-30&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-10-10&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-10-10&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-11-11&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-11-11&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-12-26&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-12-26&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2022-12-27&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2022-12-27&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-01-02&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-01-02&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-02-20&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-02-20&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-04-07&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-04-07&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-04-10&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-04-10&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-05-22&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-05-22&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-07-03&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-07-03&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-08-07&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-08-07&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-09-04&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-09-04&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-10-02&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-10-02&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-10-09&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-10-09&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-11-13&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-11-13&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-12-25&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-12-25&quot;)),1,0)
+-
+IF(AND(Insolvency_Received_Date__c &lt; DATEVALUE(&quot;2023-12-26&quot;),
+Insolvency_Created_Date__c &gt; DATEVALUE(&quot;2023-12-26&quot;)),1,0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Preparation of Insolvency File(SLA step 1)</inlineHelpText>
+    <label>SLA - Preparation of Insolvency File</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

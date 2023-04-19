@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Back_to_Collections_Review_Completed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Back to Collections Review Completed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Back to Collections Review Completed</inlineHelpText>
+    <label>Back to Collections Review Completed</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Purchase_Factor__c</columns>
+    <columns>Purchase_Amount__c</columns>
+    <columns>Purchase_date__c</columns>
+    <columns>Purchase_Value__c</columns>
+    <columns>Purchase_Accounts__c</columns>
+    <columns>Purchase_ID__c</columns>
+    <columns>Account_Purchasing_Entity_ID__c</columns>
+    <columns>Purchase_Group__c</columns>
+    <columns>Portfolio_Group_Name__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

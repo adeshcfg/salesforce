@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bank_Name__c</fullName>
+    <description>Bank Name from Insolvency Account</description>
+    <externalId>false</externalId>
+    <label>Bank Name</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Scotia Bank</fullName>
+                <default>false</default>
+                <label>Scotia Bank</label>
+            </value>
+            <value>
+                <fullName>SPL</fullName>
+                <default>false</default>
+                <label>SPL</label>
+            </value>
+            <value>
+                <fullName>SDA</fullName>
+                <default>false</default>
+                <label>SDA</label>
+            </value>
+            <value>
+                <fullName>Unknown</fullName>
+                <default>false</default>
+                <label>Unknown</label>
+            </value>
+            <value>
+                <fullName>MBNA</fullName>
+                <default>false</default>
+                <label>MBNA</label>
+            </value>
+            <value>
+                <fullName>TD Bank</fullName>
+                <default>false</default>
+                <label>TD Bank</label>
+            </value>
+            <value>
+                <fullName>Tangerine</fullName>
+                <default>false</default>
+                <label>Tangerine</label>
+            </value>
+            <value>
+                <fullName>Auto Capital</fullName>
+                <default>false</default>
+                <label>Auto Capital</label>
+            </value>
+            <value>
+                <fullName>Progressa</fullName>
+                <default>false</default>
+                <label>Progressa</label>
+            </value>
+            <value>
+                <fullName>Lendcare</fullName>
+                <default>false</default>
+                <label>Lendcare</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recall_Agency</fullName>
+    <availability>online</availability>
+    <description>Recall Agency</description>
+    <displayType>button</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>Recall Product</masterLabel>
+    <openType>sidebar</openType>
+    <page>ProductRecallIndividual</page>
+    <protected>false</protected>
+</WebLink>

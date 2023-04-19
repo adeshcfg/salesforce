@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Voting_Options__c</fullName>
+    <description>The vote to cast on the Voting Letter for this account&apos;s proof of claim.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The vote to cast on the Voting Letter for this account&apos;s proof of claim.</inlineHelpText>
+    <label>Voting Options</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Vote Accept</fullName>
+                <default>true</default>
+                <label>Vote: Accept</label>
+            </value>
+            <value>
+                <fullName>Vote: Decline - No Meeting Requested</fullName>
+                <default>false</default>
+                <label>Vote: Decline - No Meeting Requested</label>
+            </value>
+            <value>
+                <fullName>Vote: Decline - With Creditor Meeting Request</fullName>
+                <default>false</default>
+                <label>Vote: Decline - With Creditor Meeting Request</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

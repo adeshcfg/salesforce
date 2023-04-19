@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Post_Judgment_Writ_Garnishment_Payment</fullName>
+    <active>false</active>
+    <description>Post-Judgment –Writ_Garnishment_Payment
+
+Following fields become mandatory and remain editable
+Garnishment number 
+Garnishment Date 
+Garnishment Amount 
+Number of payments</description>
+    <errorConditionFormula>AND( 
+    ISPICKVAL( Legal_Status__c ,&apos;Post-Judgment&apos;),
+    OR(
+       ISPICKVAL( Legal_Sub_Status__c ,&apos;Writ Filed&apos;),
+       ISPICKVAL( Legal_Sub_Status__c ,&apos;Writ &amp; Garnishment&apos;),
+
+       ISPICKVAL( Legal_Sub_Status__c ,&apos;Writ and Payment Arrangement&apos;)
+    ),
+    OR( 
+       ISBLANK(   Writ_Amount__c   ), 
+       ISBLANK(   Writ_Number__c   ), 
+       ISBLANK( Date_Writ_Issued__c )
+    )
+)</errorConditionFormula>
+    <errorMessage>Following fields are mandatory 
+Writ number,
+Writ Date,
+Writ Amount</errorMessage>
+</ValidationRule>

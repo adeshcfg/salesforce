@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mandatory_on_No_PoC_Required_Status</fullName>
+    <active>false</active>
+    <description>Make mandatory on Status set to &apos;No PoC Required&apos;</description>
+    <errorConditionFormula>AND(
+ISCHANGED(Insolvency_Status__c), 
+ISPICKVAL(Insolvency_Status__c,&quot;No PoC Required&quot;),
+ISBLANK(Reason_for_No_PoC_Required__c))</errorConditionFormula>
+    <errorDisplayField>Reason_for_No_PoC_Required__c</errorDisplayField>
+    <errorMessage>Please enter Reasons for No PoC Required as Processing Status is No PoC Required</errorMessage>
+</ValidationRule>

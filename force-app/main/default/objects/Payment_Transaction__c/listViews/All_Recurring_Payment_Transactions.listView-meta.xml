@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Recurring_Payment_Transactions</fullName>
+    <columns>NAME</columns>
+    <columns>Parent__c</columns>
+    <columns>Product__c</columns>
+    <columns>Amount__c</columns>
+    <columns>Payment_Type__c</columns>
+    <columns>Recurrence_Type__c</columns>
+    <columns>Day_Of_Month__c</columns>
+    <columns>Day_Of_Week__c</columns>
+    <columns>End_Date__c</columns>
+    <columns>Next_Payment_Date__c</columns>
+    <columns>Number_of_Payments__c</columns>
+    <columns>Status__c</columns>
+    <columns>Initial_Payment_Process_Initiated_By__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Payment_Transaction__c.Recurring_Payment_Master</value>
+    </filters>
+    <label>All Recurring Payment Transactions</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Customer_Portal_Group</group>
+    </sharedTo>
+</ListView>

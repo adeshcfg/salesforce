@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bank_Account_Number__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(Purchase_Group__c	, 
+&apos;CAL&apos;,  &apos;03482 1082-767&apos;, 
+&apos;AFL&apos;  , &apos;03482 1085-618&apos;,
+&apos;CCL&apos;, &apos;03482 1993-130&apos;,
+&apos;CLP&apos;, &apos;03482 1993-130&apos;,
+&apos;AFF&apos;, &apos;03482-1990-810&apos;,
+&apos;ETC&apos;, &apos;03482-1990-810&apos;,
+&apos;AAL&apos;, &apos;32162 1004-877&apos;,
+&apos;CIA&apos;, &apos;32162 1004-877&apos;,
+&apos;CIH&apos;, &apos;32162 1004-877&apos;,
+&apos;CFL&apos;, &apos;32162  1004-156&apos;,
+&apos;FID&apos;, &apos;03482 1990-706&apos;,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Bank Account Number</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Send_Email_Statements__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checkbox to send email statement PDFs to accounts</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checkbox to send email statement PDFs to accounts</inlineHelpText>
+    <label>Send Email Statements</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LRT_Distressed_Accounts_Needs_Review</fullName>
+    <columns>NAME</columns>
+    <columns>Active_Distressed_Account__c</columns>
+    <columns>Active_Distressed_Days__c</columns>
+    <columns>Previous_Primary_Account_Number__c</columns>
+    <columns>Previous_Secondary_Account_Number__c</columns>
+    <columns>Collection_Agency__c</columns>
+    <columns>Collection_Agency_Formula__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product__c.Distressed_Account</value>
+    </filters>
+    <filters>
+        <field>Needs_Manual_Review__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Collection_Agency__c</field>
+        <operation>equals</operation>
+        <value>6</value>
+    </filters>
+    <label>LRT-Distressed Accounts - Needs Review</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Distressed_ICT_group</group>
+        <group>Distressed_LRT_group</group>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unallocated_remitted_to_Scotia</fullName>
+    <columns>NAME</columns>
+    <columns>Estate_Number__c</columns>
+    <columns>Account_Number__c</columns>
+    <columns>Unallocated_Amount__c</columns>
+    <columns>Updated_Account_Number__c</columns>
+    <columns>Customer_Name__c</columns>
+    <columns>Actioned__c</columns>
+    <columns>Any_other_comments__c</columns>
+    <columns>Bank_Name__c</columns>
+    <columns>Remitted_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Is_Payment_Remitted__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Actioned__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Bank_Name__c</field>
+        <operation>contains</operation>
+        <value>Scotia Bank,SPL,SDA</value>
+    </filters>
+    <label>Unallocated remitted to Scotia</label>
+    <sharedTo>
+        <group>Scotia_Unallocated_public_group</group>
+    </sharedTo>
+</ListView>

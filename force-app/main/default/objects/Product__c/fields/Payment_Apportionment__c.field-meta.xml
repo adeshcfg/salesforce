@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Apportionment__c</fullName>
+    <description>This field is used for the sequence of payment deductions.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This field is used for the sequence of payment deductions.</inlineHelpText>
+    <label>Payment Apportionment</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Fees &gt; Interest &gt; Principal</fullName>
+                <default>true</default>
+                <label>Fees &gt; Interest &gt; Principal</label>
+            </value>
+            <value>
+                <fullName>Fees &gt; Principal &gt; Interest</fullName>
+                <default>false</default>
+                <label>Fees &gt; Principal &gt; Interest</label>
+            </value>
+            <value>
+                <fullName>Fees &gt; Principal</fullName>
+                <default>false</default>
+                <label>Fees &gt; Principal</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

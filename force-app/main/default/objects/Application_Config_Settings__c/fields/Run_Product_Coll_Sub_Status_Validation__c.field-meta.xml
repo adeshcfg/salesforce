@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Product_Coll_Sub_Status_Validation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>not to allow status change directly to Legal status. Legal status will only be changed automatically after Judgment record is added</description>
+    <externalId>false</externalId>
+    <label>Run Product Coll Sub Status Validation</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

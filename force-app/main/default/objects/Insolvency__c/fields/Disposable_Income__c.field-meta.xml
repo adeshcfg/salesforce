@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disposable_Income__c</fullName>
+    <description>Disposable income is total income (including government transfers) after deducting not only income taxes but also several non-discretionary expenditures</description>
+    <externalId>false</externalId>
+    <formula>Total_Monthly_Income_Of_Family__c
+- Property_Taxes_Condo_Fees_Expenses__c
+- Gifts_Charitable_Expenses__c
+- Life_Insurance_Expenses__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Disposable income is total income (including government transfers) after deducting not only income taxes but also several non-discretionary expenditures</inlineHelpText>
+    <label>Disposable Income</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

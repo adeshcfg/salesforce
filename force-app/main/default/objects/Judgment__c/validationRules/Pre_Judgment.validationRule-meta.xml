@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pre_Judgment</fullName>
+    <active>false</active>
+    <description>For all Pre-Judgment statuses (except for Action Rejected) - Following fields become mandatory and remain editable 
+Suit Amount 
+Case Number 
+Court 
+County 
+Legal Firm 
+Attorney 
+Legal Agency</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL( Legal_Status__c, &apos;Pre-Judgment&apos;),
+    NOT(ISPICKVAL(  Legal_Sub_Status__c, &apos;Action Rejected&apos;)),
+    OR(
+       ISBLANK( Suit_Amount__c ),
+       ISBLANK( Case_Number__c ),
+       ISPICKVAL(Court__c, &apos;&apos;),
+       ISPICKVAL( Country__c , &apos;&apos; ),
+       ISBLANK( Legal_Firm__c ),
+       ISBLANK( Attorney__c ),
+       ISBLANK(  Legal_Agency__c  ) 
+     )
+)</errorConditionFormula>
+    <errorMessage>Please make sure 
+Suit Amount,
+Case Number,
+Court,
+County,
+Legal Firm,
+Attorney, and Legal Agency are entered</errorMessage>
+</ValidationRule>

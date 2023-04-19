@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accounts_Needing_Validation_SDA__c</fullName>
+    <description>RL Accounts Needing Validation SDA</description>
+    <externalId>false</externalId>
+    <inlineHelpText>RL Accounts Needing Validation SDA</inlineHelpText>
+    <label>RL Accounts Needing Validation SDA</label>
+    <summarizedField>Insolvency_Detail__c.Number_of_Accounts_Needing_Validation__c</summarizedField>
+    <summaryFilterItems>
+        <field>Insolvency_Detail__c.Bank_Name__c</field>
+        <operation>equals</operation>
+        <value>SDA</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Insolvency_Detail__c.Insolvency__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

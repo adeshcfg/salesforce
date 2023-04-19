@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investment_Group__c</fullName>
+    <description>Investment Group used for Seller</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Reporting Group Name</inlineHelpText>
+    <label>Investment Group</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BNS DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>BNS DISTRESSED FF</label>
+            </value>
+            <value>
+                <fullName>MBNA DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>MBNA DISTRESSED FF</label>
+            </value>
+            <value>
+                <fullName>BNS 7 DISTRESSED</fullName>
+                <default>false</default>
+                <label>BNS 7 DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>CUETS DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>CUETS DISTRESSED FF</label>
+            </value>
+            <value>
+                <fullName>BNS 1 DISTRESSED</fullName>
+                <default>false</default>
+                <label>BNS 1 DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>BNS 1 INSOLVENT</fullName>
+                <default>false</default>
+                <label>BNS 1 INSOLVENT</label>
+            </value>
+            <value>
+                <fullName>BNS 2 DISTRESSED</fullName>
+                <default>false</default>
+                <label>BNS 2 DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>BNS 2 INSOLVENT</fullName>
+                <default>false</default>
+                <label>BNS 2 INSOLVENT</label>
+            </value>
+            <value>
+                <fullName>BNS 3 INSOLVENT</fullName>
+                <default>false</default>
+                <label>BNS 3 INSOLVENT</label>
+            </value>
+            <value>
+                <fullName>BNS 4 INSOLVENT</fullName>
+                <default>false</default>
+                <label>BNS 4 INSOLVENT</label>
+            </value>
+            <value>
+                <fullName>BNS 5 DISTRESSED</fullName>
+                <default>false</default>
+                <label>BNS 5 DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>BNS 5 INSOLVENT</fullName>
+                <default>false</default>
+                <label>BNS 5 INSOLVENT</label>
+            </value>
+            <value>
+                <fullName>BNS 6 DISTRESSED</fullName>
+                <default>false</default>
+                <label>BNS 6 DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>BNS 6 INSOLVENT</fullName>
+                <default>false</default>
+                <label>BNS 6 INSOLVENT</label>
+            </value>
+            <value>
+                <fullName>BMO DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>BMO DISTRESSED FF</label>
+            </value>
+            <value>
+                <fullName>BNS INSOLVENT FF</fullName>
+                <default>false</default>
+                <label>BNS INSOLVENT FF</label>
+            </value>
+            <value>
+                <fullName>CBV DISTRESSED</fullName>
+                <default>false</default>
+                <label>CBV DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>CUETS INSOLVENT FF</fullName>
+                <default>false</default>
+                <label>CUETS INSOLVENT FF</label>
+            </value>
+            <value>
+                <fullName>GOEASY DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>GOEASY DISTRESSED FF</label>
+            </value>
+            <value>
+                <fullName>LENDCARE DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>LENDCARE DISTRESSED FF</label>
+            </value>
+            <value>
+                <fullName>NBC 1 DISTRESSED</fullName>
+                <default>false</default>
+                <label>NBC 1 DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>NBC 2 DISTRESSED</fullName>
+                <default>false</default>
+                <label>NBC 2 DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>PROGRESSA DISTRESSED</fullName>
+                <default>false</default>
+                <label>PROGRESSA DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>RELIANCE DISTRESSED</fullName>
+                <default>false</default>
+                <label>RELIANCE DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>ROGERS DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>ROGERS DISTRESSED FF</label>
+            </value>
+            <value>
+                <fullName>SANTANDER DISTRESSED</fullName>
+                <default>false</default>
+                <label>SANTANDER DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>TDCT 1 DISTRESSED</fullName>
+                <default>false</default>
+                <label>TDCT 1 DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>TDCT 2 DISTRESSED</fullName>
+                <default>false</default>
+                <label>TDCT 2 DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>TDCT DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>TDCT DISTRESSED FF</label>
+            </value>
+            <value>
+                <fullName>PROGRESSA CCS</fullName>
+                <default>false</default>
+                <label>PROGRESSA CCS</label>
+            </value>
+            <value>
+                <fullName>PROGRESSA INSOLVENT</fullName>
+                <default>false</default>
+                <label>PROGRESSA INSOLVENT</label>
+            </value>
+            <value>
+                <fullName>MBNA INSOLVENT FF</fullName>
+                <default>false</default>
+                <label>MBNA INSOLVENT FF</label>
+            </value>
+            <value>
+                <fullName>LENDCARE INSOLVENT FF</fullName>
+                <default>false</default>
+                <label>LENDCARE INSOLVENT FF</label>
+            </value>
+            <value>
+                <fullName>MBNA DISTRESSED</fullName>
+                <default>false</default>
+                <label>MBNA DISTRESSED</label>
+            </value>
+            <value>
+                <fullName>BNS 7 INSOLVENT</fullName>
+                <default>false</default>
+                <label>BNS 7 INSOLVENT</label>
+            </value>
+            <value>
+                <fullName>BNS CCS 1</fullName>
+                <default>false</default>
+                <label>BNS CCS 1</label>
+            </value>
+            <value>
+                <fullName>BNS CCS 2</fullName>
+                <default>false</default>
+                <label>BNS CCS 2</label>
+            </value>
+            <value>
+                <fullName>BNS PERU</fullName>
+                <default>false</default>
+                <label>BNS PERU</label>
+            </value>
+            <value>
+                <fullName>OTHER</fullName>
+                <default>false</default>
+                <label>OTHER</label>
+            </value>
+            <value>
+                <fullName>FIDEM</fullName>
+                <default>false</default>
+                <label>FIDEM</label>
+            </value>
+            <value>
+                <fullName>Santander Insolvent</fullName>
+                <default>false</default>
+                <label>Santander Insolvent</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

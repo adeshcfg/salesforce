@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actioned_before_remitted</fullName>
+    <active>true</active>
+    <description>record can not be action-ed if it is not remitted</description>
+    <errorConditionFormula>AND(
+ Is_Payment_Remitted__c = false,
+  ISCHANGED( Actioned__c ) 
+)</errorConditionFormula>
+    <errorMessage>Payment cannot be marked as action-ed if payment is not remitted back.</errorMessage>
+</ValidationRule>

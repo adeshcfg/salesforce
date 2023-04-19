@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Type_Description__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(Payment_Type__c,
+&apos;1000&apos;, &apos;Regular Payment&apos;,
+&apos;1001&apos;, &apos;Paid in full (PIF)&apos;,
+&apos;1002&apos;, &apos;Settled in full (SIF)&apos;,
+&apos;1003&apos;, &apos;Reversal&apos;,
+&apos;1004&apos;, &apos;Credit Balance Refund&apos;,
+&apos;3000&apos;, &apos;Balance adjustment&apos;,
+&apos;3400&apos;, &apos;Fair Share&apos;,
+&apos;4000&apos;, &apos;Fee Assessment&apos;,
+&apos;4001&apos;, &apos;Fee Assessment (NR)&apos;,
+&apos;4002&apos;, &apos;Court Cost Assessment&apos;,
+&apos;4003&apos;, &apos;Court Cost Assessment (NR)&apos;,
+&apos;5000&apos;, &apos;Fee Assessment&apos;,
+&apos;5001&apos;, &apos;Fee Assessment (NR)&apos;,
+&apos;5002&apos;, &apos;Court Cost Assessment&apos;,
+&apos;5003&apos;, &apos;Court Cost Assessment (NR)&apos;,
+&apos;7000&apos;, &apos;Judgment adjustment&apos;,
+&apos;7001&apos;, &apos;Judgment vacate adjustment&apos;,
+&apos;8000&apos;, &apos;Balance adjustment&apos;,
+null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Payment Type Description</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

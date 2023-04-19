@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Settlement_Proposal_Update</fullName>
+    <columns>NAME</columns>
+    <columns>Title__c</columns>
+    <columns>Priority__c</columns>
+    <columns>Status__c</columns>
+    <columns>Purpose__c</columns>
+    <columns>Sub_Purpose__c</columns>
+    <columns>Settlement__c</columns>
+    <columns>Requested_Date__c</columns>
+    <columns>Due_Date__c</columns>
+    <columns>Assign_To__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Purpose__c</field>
+        <operation>equals</operation>
+        <value>Approved</value>
+    </filters>
+    <filters>
+        <field>Sub_Purpose__c</field>
+        <operation>equals</operation>
+        <value>Settlement</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Work_Assignment__c.Agency,Work_Assignment__c.CFG</value>
+    </filters>
+    <label>Settlement Proposal Update</label>
+    <sharedTo>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

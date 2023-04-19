@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asset_Status__c</fullName>
+    <description>This field tracks the status of this account as an asset to Canaccede.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This field tracks the status of this account as an asset to Canaccede.</inlineHelpText>
+    <label>Asset Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>De-securitized by Seller</fullName>
+                <default>false</default>
+                <label>De-securitized by Seller</label>
+            </value>
+            <value>
+                <fullName>Purchased</fullName>
+                <default>false</default>
+                <label>Purchased</label>
+            </value>
+            <value>
+                <fullName>Putback</fullName>
+                <default>false</default>
+                <label>Putback</label>
+            </value>
+            <value>
+                <fullName>De-securitization requested</fullName>
+                <default>false</default>
+                <label>De-securitization requested</label>
+            </value>
+            <value>
+                <fullName>Bulk Purchased</fullName>
+                <default>false</default>
+                <label>Bulk Purchased</label>
+            </value>
+            <value>
+                <fullName>Duplicate Purchased</fullName>
+                <default>false</default>
+                <label>Duplicate Purchased</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Putback Pending</fullName>
+                <default>false</default>
+                <label>Putback Pending</label>
+            </value>
+            <value>
+                <fullName>Buyback</fullName>
+                <default>false</default>
+                <label>Buyback</label>
+            </value>
+            <value>
+                <fullName>Debt Purchase</fullName>
+                <default>false</default>
+                <label>Debt Purchase</label>
+            </value>
+            <value>
+                <fullName>Buyback Pending</fullName>
+                <default>false</default>
+                <label>Buyback Pending</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

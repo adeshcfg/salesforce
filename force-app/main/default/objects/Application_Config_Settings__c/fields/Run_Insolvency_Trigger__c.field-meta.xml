@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Insolvency_Trigger__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Checks whether to run Insolvency Trigger or not</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checks whether to run Insolvency Trigger or not</inlineHelpText>
+    <label>Run Insolvency Trigger</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

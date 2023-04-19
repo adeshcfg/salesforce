@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Assignment_Status__c</fullName>
+    <description>Related Assignment Status</description>
+    <externalId>false</externalId>
+    <formula>Text(Assignment__r.Status)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Related Assignment Status</inlineHelpText>
+    <label>Related Assignment Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manual_Reject_Majority_Approved_status</fullName>
+    <active>false</active>
+    <description>To set the Voting Decision value as “Manually Rejected - Majority Approved”, current value of Voting Decision must be “Manually Rejected”</description>
+    <errorConditionFormula>AND(  
+ISCHANGED( Voting_Decision__c ) , 
+ISPICKVAL(Voting_Decision__c, &quot;Manually Rejected - Majority Approved&quot;),
+NOT(ISPICKVAL(PRIORVALUE(Voting_Decision__c), &quot;Manually Rejected&quot;)) 
+)</errorConditionFormula>
+    <errorMessage>To set the Voting Decision value as “Manually Rejected - Majority Approved”, current value of Voting Decision must be “Manually Rejected”</errorMessage>
+</ValidationRule>

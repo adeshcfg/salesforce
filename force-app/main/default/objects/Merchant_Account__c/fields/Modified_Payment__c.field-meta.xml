@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Modified_Payment__c</fullName>
+    <description>Modified payment amount USD</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Modified payment amount USD</inlineHelpText>
+    <label>Modified Payment</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

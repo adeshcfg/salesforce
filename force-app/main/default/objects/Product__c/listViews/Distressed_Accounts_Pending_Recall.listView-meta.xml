@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distressed_Accounts_Pending_Recall</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Email_Address__c</columns>
+    <columns>Collection_Agency__c</columns>
+    <columns>Last_Payment_Amount__c</columns>
+    <columns>Last_Payment_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Placement_Status__c</field>
+        <operation>startsWith</operation>
+        <value>8</value>
+    </filters>
+    <label>Distressed Accounts - Pending Recall</label>
+    <sharedTo>
+        <group>Distressed_ICT_group</group>
+        <group>Distressed_LRT_group</group>
+    </sharedTo>
+</ListView>

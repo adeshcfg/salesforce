@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canaccede_and_Existing_Agency_Visibility</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>NAME</columns>
+    <columns>Document_Type__c</columns>
+    <columns>Document_Storage_Number__c</columns>
+    <columns>Placement_Agency__c</columns>
+    <columns>Agency_Name__c</columns>
+    <columns>Customer__c</columns>
+    <columns>Judgment__c</columns>
+    <columns>Settlement__c</columns>
+    <columns>Work_Assignment__c</columns>
+    <columns>Visibility__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Visibility__c</field>
+        <operation>equals</operation>
+        <value>Canaccede + Existing Agency</value>
+    </filters>
+    <label>Canaccede and Existing Agency Visibility</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

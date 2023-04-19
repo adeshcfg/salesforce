@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Payments__c</fullName>
+    <description>Total of payments whose payment type starts with 100</description>
+    <externalId>false</externalId>
+    <label>Total Payments</label>
+    <summarizedField>Product_Payments__c.Payment_Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>Product_Payments__c.Payment_Type__c</field>
+        <operation>startsWith</operation>
+        <value>100</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Product_Payments__c.CCS_Account__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

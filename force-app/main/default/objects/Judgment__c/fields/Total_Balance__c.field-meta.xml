@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Balance__c</fullName>
+    <description>Total Balance as per the “Current Principal Balance” + “Current Interest Balance” + “NSF Fees” + “Balance Adjusting Disbursements”.</description>
+    <externalId>false</externalId>
+    <formula>Current_Interest_Balance__c +  Current_Principal_Balance__c +  NSF_Fees__c +  Balance_Adjusting_Disbursements__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Balance</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

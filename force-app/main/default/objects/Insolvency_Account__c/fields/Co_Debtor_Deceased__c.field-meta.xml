@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Co_Debtor_Deceased__c</fullName>
+    <externalId>false</externalId>
+    <formula>Insolvency__r.Co_Debtor_Deceased__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>To flag a Co-debtor as deceased</inlineHelpText>
+    <label>Co-Debtor Deceased</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

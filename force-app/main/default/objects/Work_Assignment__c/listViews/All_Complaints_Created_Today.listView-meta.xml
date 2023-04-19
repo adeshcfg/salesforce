@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Complaints_Created_Today</fullName>
+    <columns>NAME</columns>
+    <columns>Task_Number__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Placement_Agency_Name__c</columns>
+    <columns>Customer__c</columns>
+    <columns>Account_Number__c</columns>
+    <columns>Complaint_Related_To_Another_Products__c</columns>
+    <columns>Canaccede_Entity__c</columns>
+    <columns>Original_Creditor__c</columns>
+    <columns>Date_Complaint_Received_By_Agency__c</columns>
+    <columns>Description__c</columns>
+    <columns>Complaint_Type__c</columns>
+    <columns>Root_Cause__c</columns>
+    <columns>Priority__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Work_Assignment__c.Agency_Complaint,Work_Assignment__c.CFG_Complaint</value>
+    </filters>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>All Complaints Created Today</label>
+    <sharedTo>
+        <group>Compliance_Team</group>
+    </sharedTo>
+</ListView>

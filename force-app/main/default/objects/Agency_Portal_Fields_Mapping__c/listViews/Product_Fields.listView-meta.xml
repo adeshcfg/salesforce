@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Fields</fullName>
+    <columns>NAME</columns>
+    <columns>Field_API__c</columns>
+    <columns>Field_JSON_Tag__c</columns>
+    <columns>Field_Type__c</columns>
+    <columns>Object_Name__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Object_Name__c</field>
+        <operation>equals</operation>
+        <value>Product</value>
+    </filters>
+    <label>Product Fields</label>
+</ListView>

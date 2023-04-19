@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Reporting_Month__c</fullName>
+    <description>Field to use for reporting purpose</description>
+    <externalId>false</externalId>
+    <formula>IF( NOT(ISNULL(Insolvency_Account__r.Purchase_Date__c)) ,
+IF(Insolvency_Account__r.Purchase_Date__c &gt; Payment_Created__c ,
+(TEXT(YEAR(Insolvency_Account__r.Purchase_Date__c)) + if(MONTH(Insolvency_Account__r.Purchase_Date__c) &lt; 10, &apos;0&apos;+TEXT(MONTH(Insolvency_Account__r.Purchase_Date__c)), TEXT(MONTH(Insolvency_Account__r.Purchase_Date__c)))), Payment_Posting_Month__c ),
+Payment_Posting_Month__c )</formula>
+    <inlineHelpText>Field to use for reporting purpose</inlineHelpText>
+    <label>Payment Reporting Month</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

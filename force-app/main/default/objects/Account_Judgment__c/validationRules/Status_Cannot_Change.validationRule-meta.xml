@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Cannot_Change</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISCHANGED(Status__c), TEXT(PRIORVALUE(Status__c) ) =&apos;Inactive&apos;,
+ISPICKVAL( Judgment__r.Legal_Sub_Status__c,&apos;Vacated&apos;)
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>Status cannot be changed for Vacated judgments</errorMessage>
+</ValidationRule>

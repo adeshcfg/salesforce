@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Surplus_Bankruptcy_Payment_Frml__c</fullName>
+    <description>Surplus Bankruptcy Payment</description>
+    <externalId>false</externalId>
+    <formula>MAX(0, 
+( (Available_Monthly_Income_Of_Family__c -  Surplus_Income_Limits__c ) / 2)* (Debtor_Portion_Of_Monthly_Income__c) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Surplus Bankruptcy Payment</inlineHelpText>
+    <label>Surplus Bankruptcy Payment</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

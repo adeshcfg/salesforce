@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Debtor_Name_Formula__c</fullName>
+    <externalId>false</externalId>
+    <formula>Insolvency__r.Debtor_1_Last_Name__c +  
+&apos;, &apos;+  Insolvency__r.Debtor_1_First_Name__c +
+IF( NOT( ISBLANK( Insolvency__r.Debtor_1_Middle_Name__c ) ) , &apos; &apos; + 
+ Insolvency__r.Debtor_1_Middle_Name__c , &apos;&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Debtor Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

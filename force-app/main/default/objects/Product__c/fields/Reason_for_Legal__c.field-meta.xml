@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_Legal__c</fullName>
+    <description>Reason for Legal currently in use on this account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Reason for Legal currently in use on this account</inlineHelpText>
+    <label>Reason for Legal</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>All Actions complete</fullName>
+                <default>false</default>
+                <label>All Actions complete</label>
+            </value>
+            <value>
+                <fullName>Address Match</fullName>
+                <default>false</default>
+                <label>Address Match</label>
+            </value>
+            <value>
+                <fullName>Dodger</fullName>
+                <default>false</default>
+                <label>Dodger</label>
+            </value>
+            <value>
+                <fullName>Employment</fullName>
+                <default>false</default>
+                <label>Employment</label>
+            </value>
+            <value>
+                <fullName>Flyer</fullName>
+                <default>false</default>
+                <label>Flyer</label>
+            </value>
+            <value>
+                <fullName>Homeownership &amp; Employment</fullName>
+                <default>false</default>
+                <label>Homeownership &amp; Employment</label>
+            </value>
+            <value>
+                <fullName>Homeownership</fullName>
+                <default>false</default>
+                <label>Homeownership</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Young Gun</fullName>
+                <default>false</default>
+                <label>Young Gun</label>
+            </value>
+            <value>
+                <fullName>Homeownership Indicator</fullName>
+                <default>false</default>
+                <label>Homeownership Indicator</label>
+            </value>
+            <value>
+                <fullName>Employment Indicator</fullName>
+                <default>false</default>
+                <label>Employment Indicator</label>
+            </value>
+            <value>
+                <fullName>FICO</fullName>
+                <default>false</default>
+                <label>FICO</label>
+            </value>
+            <value>
+                <fullName>Prepared for Legal</fullName>
+                <default>false</default>
+                <label>Prepared for Legal</label>
+            </value>
+            <value>
+                <fullName>Deferment</fullName>
+                <default>false</default>
+                <label>Deferment</label>
+            </value>
+            <value>
+                <fullName>RBO</fullName>
+                <default>false</default>
+                <label>RBO</label>
+            </value>
+            <value>
+                <fullName>Re-age</fullName>
+                <default>false</default>
+                <label>Re-age</label>
+            </value>
+            <value>
+                <fullName>Settlement</fullName>
+                <default>false</default>
+                <label>Settlement</label>
+            </value>
+            <value>
+                <fullName>Workout Program</fullName>
+                <default>false</default>
+                <label>Workout Program</label>
+            </value>
+            <value>
+                <fullName>Property</fullName>
+                <default>false</default>
+                <label>Property</label>
+            </value>
+            <value>
+                <fullName>Property &amp; Employment</fullName>
+                <default>false</default>
+                <label>Property &amp; Employment</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

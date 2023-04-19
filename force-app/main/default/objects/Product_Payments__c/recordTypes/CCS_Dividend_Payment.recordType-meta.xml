@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CCS_Dividend_Payment</fullName>
+    <active>true</active>
+    <description>Payments created by payment processing for CCS</description>
+    <label>CCS Dividend Payment</label>
+    <picklistValues>
+        <picklist>Billing_Entity__c</picklist>
+        <values>
+            <fullName>Affinity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C%2EC%2EA%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Charness%2C Charness %26 Charness LLP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General Credit Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kingston Data %26 Credit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NCRi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Direct_Payment_Type__c</picklist>
+        <values>
+            <fullName>Balance adjustment due for Equipment Return</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Direct Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Equipment Return Payment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Fee_Type__c</picklist>
+        <values>
+            <fullName>Assessment Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CIML Service Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificate Of Judgment Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Charness Retainer %28%24400%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim Attainment Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Costs Awarded To The Defendant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Court Filing Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Court Runner Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Default Judgment Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E-Filing Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Filing Garnishment Order</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Garnishment Attainment Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Motion Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paralegal%2FLawyer Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Process Server Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Register a Lien</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Registered Mail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Search Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sheriff Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trial Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Writ Attainment Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Writ Renewal Fee</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Reversed__c</picklist>
+        <values>
+            <fullName>NSF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stale Dated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stopped</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unauthorised</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

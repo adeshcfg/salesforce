@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assigning_either_product_or_judgment</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( ISBLANK( Product__c ) , ISBLANK( Judgment__c ) )</errorConditionFormula>
+    <errorMessage>Settlement record cannot be created without adding product or judgment</errorMessage>
+</ValidationRule>

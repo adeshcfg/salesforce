@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Repair_Maintenance_Gas_Expenses__c</fullName>
+    <description>Repair Maintenance Gas Expenses</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Repair Maintenance Gas Expenses</inlineHelpText>
+    <label>Repair Maintenance Gas Expenses</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

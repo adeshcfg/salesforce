@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Charge_Off_policy__c</fullName>
+    <description>Charge Off policy used for Selller</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Charge Off policy used for Selller</inlineHelpText>
+    <label>Charge Off policy</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

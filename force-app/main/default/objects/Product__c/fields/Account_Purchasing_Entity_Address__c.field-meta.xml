@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Purchasing_Entity_Address__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(VALUE( Account_Purchasing_Entity__c )=4, &quot;P.O Box 9, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=5, &quot;P.O Box 9, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=6, &quot;P.O. Box 53, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=7, &quot;P.O Box 9, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=8, &quot;P.O Box 9, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=9, &quot;P.O. Box 53, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=10, &quot;P.O. Box 53, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=11, &quot;P.O Box 9, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=13, &quot;P.O Box 9, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=14, &quot;P.O Box 9, Station B&quot;,
+IF(VALUE( Account_Purchasing_Entity__c )=15, &quot;P.O Box 9, Station B&quot;, &quot;&quot;)
+) ) ) ) ) ) ) )))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Account Purchasing Entity Address</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

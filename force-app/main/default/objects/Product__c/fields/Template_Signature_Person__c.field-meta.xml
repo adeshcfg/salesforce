@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Template_Signature_Person__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( Collection_Agency__c = 6, &apos;Bill Giles&apos;,  IF(Collection_Agency__c = 68, &apos;Zowie Douglas&apos;, &apos;&apos;) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Template Signature Person</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

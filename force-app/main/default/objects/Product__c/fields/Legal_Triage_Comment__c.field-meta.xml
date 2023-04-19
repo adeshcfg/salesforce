@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Triage_Comment__c</fullName>
+    <description>Notes and comments regarding this account&apos;s legal triage status.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Notes and comments regarding this account&apos;s legal triage status.</inlineHelpText>
+    <label>Legal Triage Comment</label>
+    <length>2048</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

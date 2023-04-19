@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Manual_Review_Overages__c</fullName>
+    <description>Total Manual Review Overages</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Total Manual Review Overages</inlineHelpText>
+    <label>Total Manual Review Overages</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

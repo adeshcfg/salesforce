@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>Placement_Text_Id__c</columns>
+    <columns>Placement_Formula__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>NAME</columns>
+    <columns>Settlement_Number__c</columns>
+    <columns>Status__c</columns>
+    <columns>Product__c</columns>
+    <columns>Judgment__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Total_balance__c</columns>
+    <columns>Proposal_Amount__c</columns>
+    <columns>Proposal_Total_Percent__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+    <sharedTo>
+        <group>ICT_Group</group>
+        <group>LRT_Group</group>
+    </sharedTo>
+</ListView>

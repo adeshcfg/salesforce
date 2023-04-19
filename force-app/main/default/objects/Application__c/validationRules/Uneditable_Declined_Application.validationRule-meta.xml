@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Uneditable_Declined_Application</fullName>
+    <active>false</active>
+    <errorConditionFormula>OR(
+ISPICKVAL( PRIORVALUE(Application_Status__c ), &quot;Analyst Declined&quot;),
+ISPICKVAL(PRIORVALUE(Application_Status__c ) , &quot;System Declined&quot;)
+)</errorConditionFormula>
+    <errorMessage>Once Application is declined, it cannot be edited</errorMessage>
+</ValidationRule>

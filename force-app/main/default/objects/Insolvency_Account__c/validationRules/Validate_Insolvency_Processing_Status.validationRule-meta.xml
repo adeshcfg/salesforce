@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_Insolvency_Processing_Status</fullName>
+    <active>false</active>
+    <description>To validate Insolvency Account Processing Status changes for internal and external users</description>
+    <errorConditionFormula>($Setup.Application_Config_Settings__c.Run_Insolvency_Status_Validations__c == True) &amp;&amp;
+(ISNEW() || ISCHANGED(Insolvency_Status__c)) &amp;&amp; 
+(Not(
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;New&quot;) &amp;&amp; ISNEW())
+||
+(CONTAINS($Profile.Name,&quot;Community User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;PoC Details Provided&quot;) &amp;&amp; ISNEW())
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;New&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;For Owner Review&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Pre-Filing Review&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;PoC Details Provided&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Pre-Filing Review&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;PoC Package Generated&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Claim Filed&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;PoC Package Generated&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Claim Established&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Claim Filed&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Pre-Filing Review&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Claim Filed&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Discharged&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Claim Established&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Purchase Pending&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Claim Established&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Claim Established&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Annulled&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Claim Established&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Discharged&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Claim Established&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Purchase Pending&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Claim Established&quot;) &amp;&amp; ISPICKVAL(PRIORVALUE(Insolvency_Status__c),&quot;Purchased&quot;))
+||
+(($Profile.Name == &quot;System Administrator&quot; || $Profile.Name == &quot;CFG - Insolvency User&quot;) &amp;&amp; ISPICKVAL(Insolvency_Status__c, &quot;Annulled&quot;) &amp;&amp; !ISNEW())
+)
+)</errorConditionFormula>
+    <errorDisplayField>Insolvency_Status__c</errorDisplayField>
+    <errorMessage>Invalid Insolvency Account Processing Status change</errorMessage>
+</ValidationRule>

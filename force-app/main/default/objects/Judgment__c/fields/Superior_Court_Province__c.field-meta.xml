@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Superior_Court_Province__c</fullName>
+    <description>Superior Court Province</description>
+    <externalId>false</externalId>
+    <formula>TEXT( Superior_Court__r.Superior_Court_Province__c )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Superior Court Province</inlineHelpText>
+    <label>Superior Court Province</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

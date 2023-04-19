@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Record_Process__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Is Record Process</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Is Record Process</inlineHelpText>
+    <label>Is Record Process</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

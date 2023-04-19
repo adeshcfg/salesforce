@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposal_Principal_Percent__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(NOT( ISBLANK(Product__c)),((Proposal_Amount__c /  Product__r.Current_Principal_Balance__c )),  
+IF(NOT( ISBLANK( Judgment__c )), ((Proposal_Amount__c /   Judgment__r.Current_Principal_Balance__c  ) ), 0) )</formula>
+    <inlineHelpText>Proposal Principal %</inlineHelpText>
+    <label>Proposal Principal %</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

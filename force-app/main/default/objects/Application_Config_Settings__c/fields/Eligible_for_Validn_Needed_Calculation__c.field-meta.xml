@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Eligible_for_Validn_Needed_Calculation__c</fullName>
+    <description>Eligible for Validation Needed Calculation</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Eligible for Validation Needed Calculation</inlineHelpText>
+    <label>Eligible for Validn Needed Calculation</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

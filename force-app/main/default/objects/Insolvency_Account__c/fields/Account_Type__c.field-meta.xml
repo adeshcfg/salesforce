@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Type__c</fullName>
+    <description>The type of product / financial service account.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The type of product / financial service account.</inlineHelpText>
+    <label>Product Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Auto</fullName>
+                <default>false</default>
+                <label>Auto</label>
+            </value>
+            <value>
+                <fullName>Auto Loan</fullName>
+                <default>false</default>
+                <label>Auto Loan</label>
+            </value>
+            <value>
+                <fullName>Bank Card Product</fullName>
+                <default>false</default>
+                <label>Bank Card Product</label>
+            </value>
+            <value>
+                <fullName>Line of Credit</fullName>
+                <default>false</default>
+                <label>Line of Credit</label>
+            </value>
+            <value>
+                <fullName>Mortgage</fullName>
+                <default>false</default>
+                <label>Mortgage</label>
+            </value>
+            <value>
+                <fullName>Online Loans</fullName>
+                <default>false</default>
+                <label>Online Loans</label>
+            </value>
+            <value>
+                <fullName>Overdraft - Retail</fullName>
+                <default>false</default>
+                <label>Overdraft - Retail</label>
+            </value>
+            <value>
+                <fullName>Overdraft - Small Business</fullName>
+                <default>false</default>
+                <label>Overdraft - Small Business</label>
+            </value>
+            <value>
+                <fullName>Scotia Plan Loan</fullName>
+                <default>false</default>
+                <label>Scotia Plan Loan</label>
+            </value>
+            <value>
+                <fullName>Small Business</fullName>
+                <default>false</default>
+                <label>Small Business</label>
+            </value>
+            <value>
+                <fullName>Small Business Visa</fullName>
+                <default>false</default>
+                <label>Small Business Visa</label>
+            </value>
+            <value>
+                <fullName>Term Loan</fullName>
+                <default>false</default>
+                <label>Term Loan</label>
+            </value>
+            <value>
+                <fullName>Unauthorized Overdraft</fullName>
+                <default>false</default>
+                <label>Unauthorized Overdraft</label>
+            </value>
+            <value>
+                <fullName>Unknown</fullName>
+                <default>false</default>
+                <label>Unknown</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

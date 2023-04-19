@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency__c</fullName>
+    <description>Insolvency</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Insolvency</inlineHelpText>
+    <label>Insolvency</label>
+    <referenceTo>Insolvency__c</referenceTo>
+    <relationshipLabel>Open Assignment Insolvencies</relationshipLabel>
+    <relationshipName>Open_Assignment_Insolvencies</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>true</writeRequiresMasterRead>
+</CustomField>

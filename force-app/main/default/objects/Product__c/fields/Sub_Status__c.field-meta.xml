@@ -1,0 +1,1215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Status__c</fullName>
+    <description>Sub Status</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Sub Status</inlineHelpText>
+    <label>Placement Sub Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Status__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Ready</fullName>
+                <default>true</default>
+                <label>Ready</label>
+            </value>
+            <value>
+                <fullName>Accepted by agency</fullName>
+                <default>false</default>
+                <label>Accepted by agency</label>
+            </value>
+            <value>
+                <fullName>Initial Letter Sent</fullName>
+                <default>false</default>
+                <label>Initial Letter Sent</label>
+            </value>
+            <value>
+                <fullName>Follow-Up Letter Sent</fullName>
+                <default>false</default>
+                <label>Follow-Up Letter Sent</label>
+            </value>
+            <value>
+                <fullName>Return To Sender</fullName>
+                <default>false</default>
+                <label>Return To Sender</label>
+            </value>
+            <value>
+                <fullName>Added To Dialer</fullName>
+                <default>false</default>
+                <label>Added To Dialer</label>
+            </value>
+            <value>
+                <fullName>Message Left</fullName>
+                <default>false</default>
+                <label>Message Left</label>
+            </value>
+            <value>
+                <fullName>Contact Established</fullName>
+                <default>false</default>
+                <label>Contact Established</label>
+            </value>
+            <value>
+                <fullName>Email Contact Established</fullName>
+                <default>false</default>
+                <label>Email Contact Established</label>
+            </value>
+            <value>
+                <fullName>Possible Payer</fullName>
+                <default>false</default>
+                <label>Possible Payer</label>
+            </value>
+            <value>
+                <fullName>Settlement Pending</fullName>
+                <default>false</default>
+                <label>Settlement Pending</label>
+            </value>
+            <value>
+                <fullName>Refusal</fullName>
+                <default>false</default>
+                <label>Refusal</label>
+            </value>
+            <value>
+                <fullName>Legal Review</fullName>
+                <default>false</default>
+                <label>Legal Review</label>
+            </value>
+            <value>
+                <fullName>Debtor Claims Paid - Awaiting Proof</fullName>
+                <default>false</default>
+                <label>Debtor Claims Paid - Awaiting Proof</label>
+            </value>
+            <value>
+                <fullName>Proof of Payment Submitted to Client</fullName>
+                <default>false</default>
+                <label>Proof of Payment Submitted to Client</label>
+            </value>
+            <value>
+                <fullName>Complaint</fullName>
+                <default>false</default>
+                <label>Complaint</label>
+            </value>
+            <value>
+                <fullName>Client Request</fullName>
+                <default>false</default>
+                <label>Client Request</label>
+            </value>
+            <value>
+                <fullName>Checking for Assets - Possible Legal</fullName>
+                <default>false</default>
+                <label>Checking for Assets - Possible Legal</label>
+            </value>
+            <value>
+                <fullName>Claim Issued</fullName>
+                <default>false</default>
+                <label>Claim Issued</label>
+            </value>
+            <value>
+                <fullName>Claim Served</fullName>
+                <default>false</default>
+                <label>Claim Served</label>
+            </value>
+            <value>
+                <fullName>Payment Arrangement</fullName>
+                <default>false</default>
+                <label>Payment Arrangement</label>
+            </value>
+            <value>
+                <fullName>Defended Action</fullName>
+                <default>false</default>
+                <label>Defended Action</label>
+            </value>
+            <value>
+                <fullName>Media Requested - Awaiting</fullName>
+                <default>false</default>
+                <label>Media Requested - Awaiting</label>
+            </value>
+            <value>
+                <fullName>Counterclaim</fullName>
+                <default>false</default>
+                <label>Counterclaim</label>
+            </value>
+            <value>
+                <fullName>Abandonned Claim</fullName>
+                <default>false</default>
+                <label>Abandonned Claim</label>
+            </value>
+            <value>
+                <fullName>Recommended for Legal Action</fullName>
+                <default>false</default>
+                <label>Recommended for Legal Action</label>
+            </value>
+            <value>
+                <fullName>Approved for Legal Action</fullName>
+                <default>false</default>
+                <label>Approved for Legal Action</label>
+            </value>
+            <value>
+                <fullName>Reviewing for Legal action</fullName>
+                <default>false</default>
+                <label>Reviewing for Legal action</label>
+            </value>
+            <value>
+                <fullName>Demand Letter Sent</fullName>
+                <default>false</default>
+                <label>Demand Letter Sent</label>
+            </value>
+            <value>
+                <fullName>Legal Action Rejected</fullName>
+                <default>false</default>
+                <label>Legal Action Rejected</label>
+            </value>
+            <value>
+                <fullName>Proposal</fullName>
+                <default>false</default>
+                <label>Proposal</label>
+            </value>
+            <value>
+                <fullName>Established</fullName>
+                <default>false</default>
+                <label>Established</label>
+            </value>
+            <value>
+                <fullName>CCCS Program</fullName>
+                <default>false</default>
+                <label>CCCS Program</label>
+            </value>
+            <value>
+                <fullName>Promise to Pay - Single Payment</fullName>
+                <default>false</default>
+                <label>Promise to Pay - Single Payment</label>
+            </value>
+            <value>
+                <fullName>Promise to Pay - Monthly Payments</fullName>
+                <default>false</default>
+                <label>Promise to Pay - Monthly Payments</label>
+            </value>
+            <value>
+                <fullName>Post Dated Cheques - at Agency</fullName>
+                <default>false</default>
+                <label>Post Dated Cheques - at Agency</label>
+            </value>
+            <value>
+                <fullName>Post Dated Cheques - at Client</fullName>
+                <default>false</default>
+                <label>Post Dated Cheques - at Client</label>
+            </value>
+            <value>
+                <fullName>Preauthorized Payments/Direct Deposits</fullName>
+                <default>false</default>
+                <label>Preauthorized Payments/Direct Deposits</label>
+            </value>
+            <value>
+                <fullName>Making Web/Telephone Payments</fullName>
+                <default>false</default>
+                <label>Making Web/Telephone Payments</label>
+            </value>
+            <value>
+                <fullName>Debtor Refinancing</fullName>
+                <default>false</default>
+                <label>Debtor Refinancing</label>
+            </value>
+            <value>
+                <fullName>In Contact</fullName>
+                <default>false</default>
+                <label>In Contact</label>
+            </value>
+            <value>
+                <fullName>Unable To Locate</fullName>
+                <default>false</default>
+                <label>Unable To Locate</label>
+            </value>
+            <value>
+                <fullName>Broken Promise</fullName>
+                <default>false</default>
+                <label>Broken Promise</label>
+            </value>
+            <value>
+                <fullName>NSF/Stopped Payment - Cheque</fullName>
+                <default>false</default>
+                <label>NSF/Stopped Payment - Cheque</label>
+            </value>
+            <value>
+                <fullName>NSF/Stopped Payment - PAP</fullName>
+                <default>false</default>
+                <label>NSF/Stopped Payment - PAP</label>
+            </value>
+            <value>
+                <fullName>Default Judgment</fullName>
+                <default>false</default>
+                <label>Default Judgment</label>
+            </value>
+            <value>
+                <fullName>Consent Judgment</fullName>
+                <default>false</default>
+                <label>Consent Judgment</label>
+            </value>
+            <value>
+                <fullName>Assessment</fullName>
+                <default>false</default>
+                <label>Assessment</label>
+            </value>
+            <value>
+                <fullName>Granted but subsequently refused</fullName>
+                <default>false</default>
+                <label>Granted but subsequently refused</label>
+            </value>
+            <value>
+                <fullName>Writ Filed</fullName>
+                <default>false</default>
+                <label>Writ Filed</label>
+            </value>
+            <value>
+                <fullName>Certificate of Execution</fullName>
+                <default>false</default>
+                <label>Certificate of Execution</label>
+            </value>
+            <value>
+                <fullName>Writ &amp; Garnishment</fullName>
+                <default>false</default>
+                <label>Writ &amp; Garnishment</label>
+            </value>
+            <value>
+                <fullName>Writ - Payment Arrangements</fullName>
+                <default>false</default>
+                <label>Writ - Payment Arrangements</label>
+            </value>
+            <value>
+                <fullName>Writ &amp; Enforcement by Sheriff off</fullName>
+                <default>false</default>
+                <label>Writ &amp; Enforcement by Sheriff off</label>
+            </value>
+            <value>
+                <fullName>Writ &amp; Locating Enforcement</fullName>
+                <default>false</default>
+                <label>Writ &amp; Locating Enforcement</label>
+            </value>
+            <value>
+                <fullName>Writ &amp; Judicial Sale</fullName>
+                <default>false</default>
+                <label>Writ &amp; Judicial Sale</label>
+            </value>
+            <value>
+                <fullName>No Writ &amp; Locating Enforcement</fullName>
+                <default>false</default>
+                <label>No Writ &amp; Locating Enforcement</label>
+            </value>
+            <value>
+                <fullName>Bank Garnishment</fullName>
+                <default>false</default>
+                <label>Bank Garnishment</label>
+            </value>
+            <value>
+                <fullName>Wage Garnishment</fullName>
+                <default>false</default>
+                <label>Wage Garnishment</label>
+            </value>
+            <value>
+                <fullName>Voluntary assignment of wages</fullName>
+                <default>false</default>
+                <label>Voluntary assignment of wages</label>
+            </value>
+            <value>
+                <fullName>Bankruptcy</fullName>
+                <default>false</default>
+                <label>Bankruptcy</label>
+            </value>
+            <value>
+                <fullName>Deceased</fullName>
+                <default>false</default>
+                <label>Deceased</label>
+            </value>
+            <value>
+                <fullName>Fraud</fullName>
+                <default>false</default>
+                <label>Fraud</label>
+            </value>
+            <value>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+                <label>Insurance</label>
+            </value>
+            <value>
+                <fullName>Legal</fullName>
+                <default>false</default>
+                <label>Legal</label>
+            </value>
+            <value>
+                <fullName>Paid Prior</fullName>
+                <default>false</default>
+                <label>Paid Prior</label>
+            </value>
+            <value>
+                <fullName>PIF</fullName>
+                <default>false</default>
+                <label>PIF</label>
+            </value>
+            <value>
+                <fullName>SIF</fullName>
+                <default>false</default>
+                <label>SIF</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <label>Active</label>
+            </value>
+            <value>
+                <fullName>Contractual</fullName>
+                <default>false</default>
+                <label>Contractual</label>
+            </value>
+            <value>
+                <fullName>Performance</fullName>
+                <default>false</default>
+                <label>Performance</label>
+            </value>
+            <value>
+                <fullName>Complaints</fullName>
+                <default>false</default>
+                <label>Complaints</label>
+            </value>
+            <value>
+                <fullName>Front-End</fullName>
+                <default>false</default>
+                <label>Front-End</label>
+            </value>
+            <value>
+                <fullName>Back-End</fullName>
+                <default>false</default>
+                <label>Back-End</label>
+            </value>
+            <value>
+                <fullName>Bankruptcy (Bankrupt)</fullName>
+                <default>false</default>
+                <label>Bankruptcy (Bankrupt)</label>
+            </value>
+            <value>
+                <fullName>Bankruptcy (Proposal)</fullName>
+                <default>false</default>
+                <label>Bankruptcy (Proposal)</label>
+            </value>
+            <value>
+                <fullName>Bankruptcy (Dvision 1)</fullName>
+                <default>false</default>
+                <label>Bankruptcy (Dvision 1)</label>
+            </value>
+            <value>
+                <fullName>Insolvency Annulled - Pending Placement</fullName>
+                <default>false</default>
+                <label>Insolvency Annulled - Pending Placement</label>
+            </value>
+            <value>
+                <fullName>Insolvency Annulled - Legal Review</fullName>
+                <default>false</default>
+                <label>Insolvency Annulled - Legal Review</label>
+            </value>
+            <value>
+                <fullName>Bankrupt</fullName>
+                <default>false</default>
+                <label>Bankrupt</label>
+            </value>
+            <value>
+                <fullName>Division 1 Proposal</fullName>
+                <default>false</default>
+                <label>Division 1 Proposal</label>
+            </value>
+            <value>
+                <fullName>Insolvent Prior to Purchase</fullName>
+                <default>false</default>
+                <label>Insolvent Prior to Purchase</label>
+            </value>
+            <value>
+                <fullName>Cease and Desist</fullName>
+                <default>false</default>
+                <label>Cease and Desist</label>
+            </value>
+            <value>
+                <fullName>Conflict of Interest</fullName>
+                <default>false</default>
+                <label>Conflict of Interest</label>
+            </value>
+            <value>
+                <fullName>Counter Suit</fullName>
+                <default>false</default>
+                <label>Counter Suit</label>
+            </value>
+            <value>
+                <fullName>Criteria Not Met</fullName>
+                <default>false</default>
+                <label>Criteria Not Met</label>
+            </value>
+            <value>
+                <fullName>Disability</fullName>
+                <default>false</default>
+                <label>Disability</label>
+            </value>
+            <value>
+                <fullName>Dormant</fullName>
+                <default>false</default>
+                <label>Dormant</label>
+            </value>
+            <value>
+                <fullName>Efforts Exhausted</fullName>
+                <default>false</default>
+                <label>Efforts Exhausted</label>
+            </value>
+            <value>
+                <fullName>Incarcerated</fullName>
+                <default>false</default>
+                <label>Incarcerated</label>
+            </value>
+            <value>
+                <fullName>Judgment Denied</fullName>
+                <default>false</default>
+                <label>Judgment Denied</label>
+            </value>
+            <value>
+                <fullName>Military</fullName>
+                <default>false</default>
+                <label>Military</label>
+            </value>
+            <value>
+                <fullName>No Assets</fullName>
+                <default>false</default>
+                <label>No Assets</label>
+            </value>
+            <value>
+                <fullName>No Documentation</fullName>
+                <default>false</default>
+                <label>No Documentation</label>
+            </value>
+            <value>
+                <fullName>No Employment</fullName>
+                <default>false</default>
+                <label>No Employment</label>
+            </value>
+            <value>
+                <fullName>Insolvent After Purchase</fullName>
+                <default>false</default>
+                <label>Insolvent After Purchase</label>
+            </value>
+            <value>
+                <fullName>No Witness</fullName>
+                <default>false</default>
+                <label>No Witness</label>
+            </value>
+            <value>
+                <fullName>Nursing Home</fullName>
+                <default>false</default>
+                <label>Nursing Home</label>
+            </value>
+            <value>
+                <fullName>Opened in Error</fullName>
+                <default>false</default>
+                <label>Opened in Error</label>
+            </value>
+            <value>
+                <fullName>Out of Service Area</fullName>
+                <default>false</default>
+                <label>Out of Service Area</label>
+            </value>
+            <value>
+                <fullName>Extinguished</fullName>
+                <default>false</default>
+                <label>Extinguished</label>
+            </value>
+            <value>
+                <fullName>Out of Statute</fullName>
+                <default>false</default>
+                <label>Out of Statute</label>
+            </value>
+            <value>
+                <fullName>Research</fullName>
+                <default>false</default>
+                <label>Research</label>
+            </value>
+            <value>
+                <fullName>Suit Dismissed</fullName>
+                <default>false</default>
+                <label>Suit Dismissed</label>
+            </value>
+            <value>
+                <fullName>Dismissed with Prejudice</fullName>
+                <default>false</default>
+                <label>Dismissed with Prejudice</label>
+            </value>
+            <value>
+                <fullName>SSI</fullName>
+                <default>false</default>
+                <label>SSI</label>
+            </value>
+            <value>
+                <fullName>Too Small</fullName>
+                <default>false</default>
+                <label>Too Small</label>
+            </value>
+            <value>
+                <fullName>Do Not Sell</fullName>
+                <default>false</default>
+                <label>Do Not Sell</label>
+            </value>
+            <value>
+                <fullName>Wells Fargo</fullName>
+                <default>false</default>
+                <label>Wells Fargo</label>
+            </value>
+            <value>
+                <fullName>Auto Close</fullName>
+                <default>false</default>
+                <label>Auto Close</label>
+            </value>
+            <value>
+                <fullName>Defaulted</fullName>
+                <default>false</default>
+                <label>Defaulted</label>
+            </value>
+            <value>
+                <fullName>Satisfied</fullName>
+                <default>false</default>
+                <label>Satisfied</label>
+            </value>
+            <value>
+                <fullName>Vacated</fullName>
+                <default>false</default>
+                <label>Vacated</label>
+            </value>
+            <value>
+                <fullName>Sale</fullName>
+                <default>false</default>
+                <label>Sale</label>
+            </value>
+            <value>
+                <fullName>Bankrutpcy (Division 1)</fullName>
+                <default>false</default>
+                <label>Bankrutpcy (Division 1)</label>
+            </value>
+            <value>
+                <fullName>Settlement Proposal Accepted</fullName>
+                <default>false</default>
+                <label>Settlement Proposal Accepted</label>
+            </value>
+            <value>
+                <fullName>Entered Credit Counselling</fullName>
+                <default>false</default>
+                <label>Entered Credit Counselling</label>
+            </value>
+            <value>
+                <fullName>Entered Insolvency</fullName>
+                <default>false</default>
+                <label>Entered Insolvency</label>
+            </value>
+            <value>
+                <fullName>Settlement Letter Sent</fullName>
+                <default>false</default>
+                <label>Settlement Letter Sent</label>
+            </value>
+            <value>
+                <fullName>Enforcement Lost</fullName>
+                <default>false</default>
+                <label>Enforcement Lost</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Paid Prior To Previous Agency</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Buy Back To Seller</controllingFieldValue>
+            <controllingFieldValue>Recall - Paid Prior To Previous Agency</controllingFieldValue>
+            <controllingFieldValue>On Hold - Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - Buy Back To Seller</controllingFieldValue>
+            <valueName>PIF</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Paid Prior To Previous Agency</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Buy Back To Seller</controllingFieldValue>
+            <controllingFieldValue>Recall - Paid Prior To Previous Agency</controllingFieldValue>
+            <controllingFieldValue>On Hold - Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - Buy Back To Seller</controllingFieldValue>
+            <valueName>SIF</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>CCCS Program</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Payment Plan -  No Judgment - Delinquent</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Broken Promise</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Client Request</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request</controllingFieldValue>
+            <valueName>Complaints</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Cease and Desist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Conflict of Interest</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Counter Suit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Criteria Not Met</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Disability</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Dormant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Efforts Exhausted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Incarcerated</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Judgment Denied</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Military</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>No Assets</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>No Documentation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>No Employment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Insolvent After Purchase</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>No Witness</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Nursing Home</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Opened in Error</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Out of Service Area</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Extinguished</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Out of Statute</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Research</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Suit Dismissed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Dismissed with Prejudice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>SSI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Too Small</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Do Not Sell</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Wells Fargo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - In Process</controllingFieldValue>
+            <valueName>Claim Issued</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - In Process</controllingFieldValue>
+            <valueName>Claim Served</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - In Process</controllingFieldValue>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Payment Arrangement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - In Process</controllingFieldValue>
+            <controllingFieldValue>Judgment Verdict - Granted</controllingFieldValue>
+            <valueName>Defended Action</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - In Process</controllingFieldValue>
+            <controllingFieldValue>Pre - Judgment - On Hold</controllingFieldValue>
+            <controllingFieldValue>Pre - Legal - On Hold</controllingFieldValue>
+            <valueName>Media Requested - Awaiting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - In Process</controllingFieldValue>
+            <controllingFieldValue>Judgment Verdict - Granted</controllingFieldValue>
+            <controllingFieldValue>Judgment Verdict - In Process</controllingFieldValue>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Settlement Proposal Accepted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - In Process</controllingFieldValue>
+            <controllingFieldValue>Judgment Verdict - Granted</controllingFieldValue>
+            <controllingFieldValue>Judgment Verdict - In Process</controllingFieldValue>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Entered Credit Counselling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - In Process</controllingFieldValue>
+            <controllingFieldValue>Judgment Verdict - Granted</controllingFieldValue>
+            <controllingFieldValue>Judgment Verdict - In Process</controllingFieldValue>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Entered Insolvency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - Inactive</controllingFieldValue>
+            <valueName>Counterclaim</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Judgment - Inactive</controllingFieldValue>
+            <valueName>Abandonned Claim</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Ready to Close</controllingFieldValue>
+            <controllingFieldValue>Recall - Ready to Close</controllingFieldValue>
+            <valueName>Auto Close</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Legal - In Process</controllingFieldValue>
+            <valueName>Recommended for Legal Action</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Legal - In Process</controllingFieldValue>
+            <valueName>Approved for Legal Action</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Legal - In Process</controllingFieldValue>
+            <valueName>Reviewing for Legal action</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Legal - In Process</controllingFieldValue>
+            <valueName>Demand Letter Sent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Legal - In Process</controllingFieldValue>
+            <controllingFieldValue>Pre - Legal - Inactive</controllingFieldValue>
+            <valueName>Legal Action Rejected</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre - Legal - In Process</controllingFieldValue>
+            <valueName>Settlement Letter Sent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Dormant Judgment</controllingFieldValue>
+            <controllingFieldValue>Recall - Dormant Judgment</controllingFieldValue>
+            <valueName>Defaulted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Dormant Judgment</controllingFieldValue>
+            <controllingFieldValue>Recall - Dormant Judgment</controllingFieldValue>
+            <valueName>Satisfied</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Dormant Judgment</controllingFieldValue>
+            <controllingFieldValue>Recall - Dormant Judgment</controllingFieldValue>
+            <valueName>Vacated</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Buy Back To Seller</controllingFieldValue>
+            <controllingFieldValue>On Hold - Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - Buy Back To Seller</controllingFieldValue>
+            <valueName>Bankruptcy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Buy Back To Seller</controllingFieldValue>
+            <controllingFieldValue>Recall - Client Request Sale</controllingFieldValue>
+            <controllingFieldValue>On Hold - Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request Sale</controllingFieldValue>
+            <controllingFieldValue>Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - Buy Back To Seller</controllingFieldValue>
+            <valueName>Deceased</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Buy Back To Seller</controllingFieldValue>
+            <controllingFieldValue>On Hold - Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - Buy Back To Seller</controllingFieldValue>
+            <valueName>Fraud</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Buy Back To Seller</controllingFieldValue>
+            <controllingFieldValue>On Hold - Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - Buy Back To Seller</controllingFieldValue>
+            <valueName>Insurance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Buy Back To Seller</controllingFieldValue>
+            <controllingFieldValue>On Hold - Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - Buy Back To Seller</controllingFieldValue>
+            <valueName>Legal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Buy Back To Seller</controllingFieldValue>
+            <controllingFieldValue>On Hold - Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - Buy Back To Seller</controllingFieldValue>
+            <valueName>Paid Prior</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Buy Back To Seller</controllingFieldValue>
+            <controllingFieldValue>Recall - Bankruptcy</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <controllingFieldValue>On Hold - Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Bankruptcy</controllingFieldValue>
+            <controllingFieldValue>Recall - On Hold -  Buy Back Pending Research</controllingFieldValue>
+            <controllingFieldValue>Recall - Buy Back To Seller</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <controllingFieldValue>Recall - Bankruptcy</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Bankruptcy</controllingFieldValue>
+            <valueName>Proposal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <valueName>Established</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <valueName>Promise to Pay - Single Payment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <valueName>Promise to Pay - Monthly Payments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <valueName>Post Dated Cheques - at Agency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <valueName>Post Dated Cheques - at Client</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <valueName>Preauthorized Payments/Direct Deposits</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <valueName>Making Web/Telephone Payments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - In Process</controllingFieldValue>
+            <valueName>Debtor Refinancing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - Delinquent</controllingFieldValue>
+            <valueName>In Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - Delinquent</controllingFieldValue>
+            <controllingFieldValue>Recall - Uncollectible</controllingFieldValue>
+            <valueName>Unable To Locate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - Delinquent</controllingFieldValue>
+            <valueName>NSF/Stopped Payment - Cheque</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Payment Plan -  No Judgment - Delinquent</controllingFieldValue>
+            <valueName>NSF/Stopped Payment - PAP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>New Allocation - New Allocation</controllingFieldValue>
+            <valueName>Ready</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>New Allocation - New Allocation</controllingFieldValue>
+            <valueName>Accepted by agency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Demand Letters - In Process</controllingFieldValue>
+            <valueName>Initial Letter Sent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Demand Letters - In Process</controllingFieldValue>
+            <valueName>Follow-Up Letter Sent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Demand Letters - In Process</controllingFieldValue>
+            <valueName>Return To Sender</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Added To Dialer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Message Left</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Contact Established</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Email Contact Established</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Possible Payer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Settlement Pending</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Refusal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Legal Review</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Debtor Claims Paid - Awaiting Proof</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Proof of Payment Submitted to Client</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Complaint</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Client Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Establish Debtor Contact - In Process</controllingFieldValue>
+            <valueName>Checking for Assets - Possible Legal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Client Request</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request</controllingFieldValue>
+            <valueName>Contractual</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Client Request</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request</controllingFieldValue>
+            <valueName>Performance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Client Request Sale</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request Sale</controllingFieldValue>
+            <valueName>Front-End</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Client Request Sale</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request Sale</controllingFieldValue>
+            <valueName>Back-End</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Client Request Sale</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request Sale</controllingFieldValue>
+            <valueName>Bankruptcy (Bankrupt)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Client Request Sale</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request Sale</controllingFieldValue>
+            <valueName>Bankruptcy (Proposal)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Client Request Sale</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Client Request Sale</controllingFieldValue>
+            <valueName>Bankruptcy (Dvision 1)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Client Request Sale</controllingFieldValue>
+            <valueName>Sale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Bankruptcy</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Bankruptcy</controllingFieldValue>
+            <valueName>Insolvency Annulled - Pending Placement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Bankruptcy</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Bankruptcy</controllingFieldValue>
+            <valueName>Insolvency Annulled - Legal Review</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Bankruptcy</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Bankruptcy</controllingFieldValue>
+            <valueName>Division 1 Proposal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recall - Bankruptcy</controllingFieldValue>
+            <controllingFieldValue>Pending Recall - Bankruptcy</controllingFieldValue>
+            <valueName>Insolvent Prior to Purchase</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Judgment Verdict - Granted</controllingFieldValue>
+            <valueName>Default Judgment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Judgment Verdict - Granted</controllingFieldValue>
+            <valueName>Consent Judgment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Judgment Verdict - Granted</controllingFieldValue>
+            <valueName>Assessment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Judgment Verdict - Denied (update to refused)</controllingFieldValue>
+            <valueName>Granted but subsequently refused</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Writ Filed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Certificate of Execution</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Writ &amp; Garnishment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Writ - Payment Arrangements</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Writ &amp; Enforcement by Sheriff off</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Writ &amp; Locating Enforcement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Writ &amp; Judicial Sale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>No Writ &amp; Locating Enforcement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Bank Garnishment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Wage Garnishment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Voluntary assignment of wages</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post - Judgment - In Process</controllingFieldValue>
+            <valueName>Enforcement Lost</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bankruptcy Process - Active</controllingFieldValue>
+            <valueName>Active</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pending Recall - Bankruptcy</controllingFieldValue>
+            <valueName>Bankrupt</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

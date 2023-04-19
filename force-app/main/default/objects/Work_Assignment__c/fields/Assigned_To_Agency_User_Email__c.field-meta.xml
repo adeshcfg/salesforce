@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assigned_To_Agency_User_Email__c</fullName>
+    <description>This field stores the email id of the agency user and this field will be used for back-end purposes and pass the email id to portal when the user accepts the assignment instead of its name</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>This field stores the email id of the agency user and this field will be used for back-end purposes and pass the email id to portal when the user accepts the assignment instead of its name</inlineHelpText>
+    <label>Assigned To Agency User Email</label>
+    <length>50</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

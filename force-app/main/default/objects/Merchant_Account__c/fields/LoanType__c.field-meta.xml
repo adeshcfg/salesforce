@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LoanType__c</fullName>
+    <description>Term Loan, MCA</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Term Loan, MCA</inlineHelpText>
+    <label>LoanType</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Term Loan</fullName>
+                <default>false</default>
+                <label>Term Loan</label>
+            </value>
+            <value>
+                <fullName>MCA</fullName>
+                <default>false</default>
+                <label>MCA</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

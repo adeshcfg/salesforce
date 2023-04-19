@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ignore_Account_Number_for_DuplicateCheck__c</fullName>
+    <description>Ignore Account Number for Duplicate Check</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Ignore Account Number for Duplicate Check</inlineHelpText>
+    <label>Ignore Account Number for DuplicateCheck</label>
+    <length>224</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

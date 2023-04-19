@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mandatory_on_Withdrawal_PoC_Status</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISCHANGED(Insolvency_Status__c),
+ISPICKVAL(Insolvency_Status__c,&apos;Withdraw PoC&apos;), ISBLANK(Reason_for_Claim_Withdrawal__c))</errorConditionFormula>
+    <errorDisplayField>Reason_for_Claim_Withdrawal__c</errorDisplayField>
+    <errorMessage>Please enter Reason for Claim Withdrawal as Processing Status is Withdraw PoC</errorMessage>
+</ValidationRule>

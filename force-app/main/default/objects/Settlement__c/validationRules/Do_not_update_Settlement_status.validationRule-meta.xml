@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Do_not_update_Settlement_status</fullName>
+    <active>false</active>
+    <errorConditionFormula>OR(AND(OR($Profile.Name=&apos;CFG - Distressed Collection&apos;,$Profile.Name=&apos;CFG-Distressed ParaLegal Only&apos;) , OR( ISPICKVAL( Status__c , &apos;More Info required&apos;) ,ISPICKVAL( Status__c , &apos;Approved&apos;),ISPICKVAL( Status__c , &apos;Rejected&apos;)) )	
+,AND(TEXT(PRIORVALUE( Status__c)) = &apos;Approved&apos;,
+  OR(ISPICKVAL( Status__c , &apos;Rejected&apos;),ISPICKVAL( Status__c , &apos;More Info Required&apos;),ISPICKVAL( Status__c , &apos;Ready for review&apos;),ISPICKVAL( Status__c , &apos;In Progress&apos;),ISPICKVAL( Status__c , &apos;New&apos;))),
+
+AND(TEXT(PRIORVALUE( Status__c)) = &apos;Rejected&apos;,
+OR(ISPICKVAL( Status__c , &apos;Approved&apos;),ISPICKVAL( Status__c , &apos;More Info Required&apos;),ISPICKVAL( Status__c , &apos;Ready for review&apos;),ISPICKVAL( Status__c , &apos;In Progress&apos;),ISPICKVAL( Status__c , &apos;New&apos;) ))
+)</errorConditionFormula>
+    <errorMessage>You can&apos;t update record whenever the status is Approved/Rejected.</errorMessage>
+</ValidationRule>

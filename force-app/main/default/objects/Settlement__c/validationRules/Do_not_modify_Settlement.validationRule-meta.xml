@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Do_not_modify_Settlement</fullName>
+    <active>false</active>
+    <errorConditionFormula>OR(AND( OR(TEXT(PRIORVALUE( Status__c)) = &apos;Approved&apos;,TEXT(PRIORVALUE( Status__c)) = &apos;Rejected&apos;) 
+,
+
+
+
+OR(
+(ISCHANGED( Required_Amount__c)),
+(ISCHANGED( Principal_Balance__c)),
+(ISCHANGED( Settlement_complete_date__c)),
+(ISCHANGED( Proposal_Amount__c)),
+(ISCHANGED( Payment_Plan_Amount__c)),
+(ISCHANGED( Payment_Plan_Length__c)),
+(ISCHANGED( Product__c)),
+(ISCHANGED( Judgment__c)),
+(ISCHANGED( Placement__c)),
+(ISCHANGED( Company__c)),
+(ISCHANGED( Employment__c)),
+(ISCHANGED( Employment_Comments__c)),
+(ISCHANGED( Homeowner_Status__c)),(ISCHANGED( HomeOwner_Status_Comments__c)),(ISCHANGED( Monthly_Income__c)),
+(ISCHANGED( Monthly_Income_Comments__c)),(ISCHANGED( Monthly_Expenses__c)),(ISCHANGED( Monthly_Expenses_Comments__c)),(ISCHANGED( Total_Wealth__c)),(ISCHANGED( Total_Wealth_Comments__c)))),
+
+OR(AND(TEXT(PRIORVALUE( Status__c)) = &apos;Approved&apos;,
+  OR(ISPICKVAL( Status__c , &apos;Rejected&apos;),ISPICKVAL( Status__c , &apos;More Info Required&apos;),ISPICKVAL( Status__c , &apos;Ready for review&apos;),ISPICKVAL( Status__c , &apos;In Progress&apos;),ISPICKVAL( Status__c , &apos;New&apos;))),
+
+AND(TEXT(PRIORVALUE( Status__c)) = &apos;Rejected&apos;,
+OR(ISPICKVAL( Status__c , &apos;Approved&apos;),ISPICKVAL( Status__c , &apos;More Info Required&apos;),ISPICKVAL( Status__c , &apos;Ready for review&apos;),ISPICKVAL( Status__c , &apos;In Progress&apos;),ISPICKVAL( Status__c , &apos;New&apos;) ))
+))</errorConditionFormula>
+    <errorDisplayField>Approved_By__c</errorDisplayField>
+    <errorMessage>Settlement cannot be edited once it has been Approved/Rejected</errorMessage>
+</ValidationRule>

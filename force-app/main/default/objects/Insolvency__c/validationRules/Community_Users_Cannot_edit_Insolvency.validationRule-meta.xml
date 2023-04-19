@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Community_Users_Cannot_edit_Insolvency</fullName>
+    <active>true</active>
+    <description>Prevent community users from editing the Name of Insolvency</description>
+    <errorConditionFormula>AND( CONTAINS( $Profile.Name , &apos;Community User&apos;),
+ ISCHANGED( Name )  )</errorConditionFormula>
+    <errorMessage>Community User cannot edit the record</errorMessage>
+</ValidationRule>

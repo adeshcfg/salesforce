@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Commission_Rate__c</fullName>
+    <description>Product Commission Rate</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Product Commission Rate</inlineHelpText>
+    <label>Product Commission Rate</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

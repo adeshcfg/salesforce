@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unallocated_Reversed</fullName>
+    <columns>NAME</columns>
+    <columns>Account_Number__c</columns>
+    <columns>Cheque_Number__c</columns>
+    <columns>Bank_Name__c</columns>
+    <columns>Debtor_Name__c</columns>
+    <columns>Payment_Posting_Date__c</columns>
+    <columns>Is_Payments_Reversed__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Is_Payments_Reversed__c</field>
+        <operation>equals</operation>
+        <value>Stopped,Unauthorised,Stale Dated</value>
+    </filters>
+    <label>Unallocated Reversed</label>
+    <sharedTo>
+        <group>Insolvency_CFG_BS</group>
+        <group>Insolvency_CFG_Users</group>
+        <group>Insolvency_Canaccede_Users</group>
+    </sharedTo>
+</ListView>

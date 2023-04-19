@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tax_Amount__c</fullName>
+    <description>Tax Amount calculated based on Province and Tax Rate</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Tax Amount calculated based on Province and Tax Rate</inlineHelpText>
+    <label>Tax Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

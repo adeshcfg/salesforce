@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purchasing_Entity__c</fullName>
+    <description>Purchasing Entity used for Seller</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The purchaser listed on the executed Bill of Sale</inlineHelpText>
+    <label>Purchasing Entity</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Canaccede Credit LP</fullName>
+                <default>false</default>
+                <label>Canaccede Credit LP</label>
+            </value>
+            <value>
+                <fullName>CGF Canada Funding</fullName>
+                <default>false</default>
+                <label>CFG Canada Funding, LLC</label>
+            </value>
+            <value>
+                <fullName>Fidem Finance Inc.</fullName>
+                <default>false</default>
+                <label>Fidem Finance Inc.</label>
+            </value>
+            <value>
+                <fullName>Canaccede Financial Group Ltd.</fullName>
+                <default>false</default>
+                <label>Canaccede Financial Group Ltd.</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

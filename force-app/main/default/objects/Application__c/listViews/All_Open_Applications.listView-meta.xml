@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Open_Applications</fullName>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Application_Date__c</columns>
+    <columns>Requested_Credit_Limit__c</columns>
+    <columns>Decision__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Decision_Timestamp__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Application_Date__c</field>
+        <operation>greaterThan</operation>
+        <value>9/1/2020 12:00 AM</value>
+    </filters>
+    <label>All Fidem Applications</label>
+</ListView>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Issues_2</fullName>
+    <columns>NAME</columns>
+    <columns>Subject__c</columns>
+    <columns>Status__c</columns>
+    <columns>Description__c</columns>
+    <columns>Issue_Category__c</columns>
+    <columns>Priority__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Ready for Testing</value>
+    </filters>
+    <label>All Issues Ready for Testing</label>
+</ListView>

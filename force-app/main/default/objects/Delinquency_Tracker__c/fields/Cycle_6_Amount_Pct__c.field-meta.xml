@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cycle_6_Amount_Pct__c</fullName>
+    <description>Cycle 6 Amount %</description>
+    <externalId>false</externalId>
+    <formula>Cycle_6_Amount__c  / Total_Amount__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Cycle 6 Amount %</inlineHelpText>
+    <label>Cycle 6 Amount %</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

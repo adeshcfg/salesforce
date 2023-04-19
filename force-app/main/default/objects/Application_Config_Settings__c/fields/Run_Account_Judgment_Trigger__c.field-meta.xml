@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Account_Judgment_Trigger__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Run Account Judgment Trigger</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Run Account Judgment Trigger</inlineHelpText>
+    <label>Run Account Judgment Trigger</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

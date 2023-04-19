@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unique_Estate_Number</fullName>
+    <active>true</active>
+    <description>Validates if Estate Number is unique</description>
+    <errorConditionFormula>IF(ISNEW(), IF( UPPER(Name) == UPPER(VLOOKUP( $ObjectType.Insolvency__c.Fields.Name, $ObjectType.Insolvency__c.Fields.Name, Name)),true , false), 
+
+AND(ISCHANGED(Name), IF( UPPER(Name) == UPPER(VLOOKUP($ObjectType.Insolvency__c.Fields.Name, $ObjectType.Insolvency__c.Fields.Name, Name)),true,false)))</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>Estate Number is already used, please use different Estate Number</errorMessage>
+</ValidationRule>

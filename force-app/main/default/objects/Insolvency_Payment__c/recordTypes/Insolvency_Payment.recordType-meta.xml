@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Payment</fullName>
+    <active>true</active>
+    <description>Insolvency Payment</description>
+    <label>Insolvency Payment</label>
+    <picklistValues>
+        <picklist>Client_Identifier__c</picklist>
+        <values>
+            <fullName>Scotia Bank</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Reversed__c</picklist>
+        <values>
+            <fullName>NSF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payment Refunded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payment posted to Incorrect account</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stale Dated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stopped</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unauthorised</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Type__c</picklist>
+        <values>
+            <fullName>1000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1001</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1002</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1003</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3400</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4002</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4003</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7001</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

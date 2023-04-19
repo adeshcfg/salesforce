@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cardholder_Agreement_Chargeable_Media__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Cardholder Agreement Chargeable Media</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Cardholder Agreement Chargeable Media</inlineHelpText>
+    <label>Cardholder Agreement Chargeable Media</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

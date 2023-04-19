@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Days_Close_to_Voting_Date__c</fullName>
+    <description>Number of Days Close to Voting Date</description>
+    <externalId>false</externalId>
+    <formula>IF((Insolvency_Date__c + 45) &gt;=  TODAY(), (Insolvency_Date__c + 45) - TODAY() , null)</formula>
+    <inlineHelpText>Number of Days Close to Voting Date</inlineHelpText>
+    <label>Number of Days Close to Voting Date</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

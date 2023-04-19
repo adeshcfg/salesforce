@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Documents_Required__c</fullName>
+    <description>A list of the documents requested to be uploaded to this account record to process the proof of claim with the trustee.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>A list of the documents requested to be uploaded to this account record to process the proof of claim with the trustee.</inlineHelpText>
+    <label>Required Documents to Attach</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>3 Months&apos; Statements</fullName>
+                <default>false</default>
+                <label>3 Months&apos; Statements</label>
+            </value>
+            <value>
+                <fullName>CSC / PPSA / LIC</fullName>
+                <default>false</default>
+                <label>CSC / PPSA / LIC</label>
+            </value>
+            <value>
+                <fullName>Registered Charge / Certificate of Title</fullName>
+                <default>false</default>
+                <label>Registered Charge / Certificate of Title</label>
+            </value>
+            <value>
+                <fullName>CCS Acceptance and Payment History</fullName>
+                <default>false</default>
+                <label>CCS Acceptance and Payment History</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Display_Seller__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(Originating_Creditor__c,
+&quot;Bank of Nova Scotia&quot;, &quot;Bank of Nova Scotia&quot;,
+&quot;BNS&quot;, &quot;Bank of Nova Scotia&quot;,
+&quot;BNS-Tangerine&quot;, &quot;Tangerine Bank&quot;,
+&quot;CUETS&quot;, &quot;CUETS&quot;,
+&quot;Fidem Financial&quot;, &quot;Fidem Finance Inc.&quot;,
+&quot;MBNA&quot;, &quot;MBNA (a division of the Toronto-Dominion Bank)&quot;,
+&quot;TD CANADA TRUST&quot;, &quot;TD Canada Trust&quot;,
+Originating_Creditor__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Display Seller</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

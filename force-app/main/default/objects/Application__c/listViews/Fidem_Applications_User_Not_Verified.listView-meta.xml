@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fidem_Applications_User_Not_Verified</fullName>
+    <booleanFilter>1 AND 2 And 3</booleanFilter>
+    <columns>NAME</columns>
+    <columns>Customer__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Application_Status__c</columns>
+    <columns>Application_Date__c</columns>
+    <columns>Decision__c</columns>
+    <columns>Decision_Timestamp__c</columns>
+    <columns>AML_Decision__c</columns>
+    <columns>AML_Decision_Timestamp__c</columns>
+    <columns>Verification_Status__c</columns>
+    <columns>Verification_Sent_Date__c</columns>
+    <columns>Verification_Expiration_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Application__c.Fidem_Finance_MasterCard</value>
+    </filters>
+    <filters>
+        <field>Application_Status__c</field>
+        <operation>equals</operation>
+        <value>Analyst Approved,System Approved</value>
+    </filters>
+    <filters>
+        <field>Verification_Status__c</field>
+        <operation>notEqual</operation>
+        <value>Verified</value>
+    </filters>
+    <label>Fidem Applications - User Not Verified</label>
+    <sharedTo>
+        <group>Fidem_BS</group>
+    </sharedTo>
+</ListView>

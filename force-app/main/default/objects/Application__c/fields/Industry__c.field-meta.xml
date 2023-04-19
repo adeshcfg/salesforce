@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Industry__c</fullName>
+    <description>List of Industry for employment</description>
+    <externalId>false</externalId>
+    <inlineHelpText>List of Industry for employment</inlineHelpText>
+    <label>Industry</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Administrative or Clerical</fullName>
+                <default>false</default>
+                <label>Administrative or Clerical</label>
+            </value>
+            <value>
+                <fullName>Business or Strategic Management</fullName>
+                <default>false</default>
+                <label>Business or Strategic Management</label>
+            </value>
+            <value>
+                <fullName>Construction or Skilled Trades</fullName>
+                <default>false</default>
+                <label>Construction or Skilled Trades</label>
+            </value>
+            <value>
+                <fullName>Creative or Design</fullName>
+                <default>false</default>
+                <label>Creative or Design</label>
+            </value>
+            <value>
+                <fullName>Customer Support or Client Care</fullName>
+                <default>false</default>
+                <label>Customer Support or Client Care</label>
+            </value>
+            <value>
+                <fullName>Editorial or Writing</fullName>
+                <default>false</default>
+                <label>Editorial or Writing</label>
+            </value>
+            <value>
+                <fullName>Education or Training</fullName>
+                <default>false</default>
+                <label>Education or Training</label>
+            </value>
+            <value>
+                <fullName>Engineering or Architecture</fullName>
+                <default>false</default>
+                <label>Engineering or Architecture</label>
+            </value>
+            <value>
+                <fullName>Finance or Insurance</fullName>
+                <default>false</default>
+                <label>Finance or Insurance</label>
+            </value>
+            <value>
+                <fullName>Food Services or Hospitality</fullName>
+                <default>false</default>
+                <label>Food Services or Hospitality</label>
+            </value>
+            <value>
+                <fullName>Installation or Maintenance or Repair</fullName>
+                <default>false</default>
+                <label>Installation or Maintenance or Repair</label>
+            </value>
+            <value>
+                <fullName>IT</fullName>
+                <default>false</default>
+                <label>IT</label>
+            </value>
+            <value>
+                <fullName>Legal</fullName>
+                <default>false</default>
+                <label>Legal</label>
+            </value>
+            <value>
+                <fullName>Logistics or Transportation</fullName>
+                <default>false</default>
+                <label>Logistics or Transportation</label>
+            </value>
+            <value>
+                <fullName>Manufacture or Production or Operations</fullName>
+                <default>false</default>
+                <label>Manufacture or Production or Operations</label>
+            </value>
+            <value>
+                <fullName>Marketing</fullName>
+                <default>false</default>
+                <label>Marketing</label>
+            </value>
+            <value>
+                <fullName>Medical or Health</fullName>
+                <default>false</default>
+                <label>Medical or Health</label>
+            </value>
+            <value>
+                <fullName>Project or Program Management</fullName>
+                <default>false</default>
+                <label>Project or Program Management</label>
+            </value>
+            <value>
+                <fullName>Quality Assurance or Safety</fullName>
+                <default>false</default>
+                <label>Quality Assurance or Safety</label>
+            </value>
+            <value>
+                <fullName>Retail Sales or Business Development</fullName>
+                <default>false</default>
+                <label>Retail Sales or Business Development</label>
+            </value>
+            <value>
+                <fullName>Security or Protective Services</fullName>
+                <default>false</default>
+                <label>Security or Protective Services</label>
+            </value>
+            <value>
+                <fullName>Science or Research and Design</fullName>
+                <default>false</default>
+                <label>Science or Research and Design</label>
+            </value>
+            <value>
+                <fullName>Retired</fullName>
+                <default>false</default>
+                <label>Retired</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exclude_Account_Purchase_Group__c</fullName>
+    <description>Account Purchase Groups to exclude from Portal Search with comma separated values</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Account Purchase Groups to exclude from Portal Search with comma separated values</inlineHelpText>
+    <label>Exclude Account Purchase Group</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

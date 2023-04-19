@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trustee_Variable_Fee_Rate__c</fullName>
+    <defaultValue>20</defaultValue>
+    <description>Trustee Variable Fee Rate</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Trustee Variable Fee Rate</inlineHelpText>
+    <label>Trustee Variable Fee Rate</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>4</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

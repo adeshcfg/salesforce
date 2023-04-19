@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distressed_Products_for_Refer_to_Legal</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>NAME</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Email_Address__c</columns>
+    <columns>Phone_Home__c</columns>
+    <columns>Phone_Work__c</columns>
+    <columns>Phone_Other__c</columns>
+    <columns>Collection_Agency_Formula__c</columns>
+    <columns>Refer_to_Legal__c</columns>
+    <columns>Legal_Referral_Comments__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Refer_to_Legal__c</field>
+        <operation>equals</operation>
+        <value>For Review</value>
+    </filters>
+    <filters>
+        <field>Record_Type_Name__c</field>
+        <operation>equals</operation>
+        <value>Distressed_Account</value>
+    </filters>
+    <label>Refer to Legal Review - For Review</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>ICT_User_Visibility_Group</group>
+    </sharedTo>
+</ListView>

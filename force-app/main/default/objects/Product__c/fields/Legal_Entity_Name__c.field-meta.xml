@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Entity_Name__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(VALUE( Legal_Entity__c )=4, &quot;Canaccede Acquisitions&quot;,   
+IF(VALUE( Legal_Entity__c )=5, &quot;Aeox Acquisitions&quot;,  
+IF(VALUE( Legal_Entity__c )=6, &quot;Affirm Acquisitions LP&quot;,  
+IF(VALUE( Legal_Entity__c )=7, &quot;Canaccede L. P.&quot;,  
+IF(VALUE( Legal_Entity__c )=8, &quot;Canaccede Int&apos;l Holdings&quot;,  
+IF(VALUE( Legal_Entity__c )=9, &quot;Fidem Finance Inc&quot;,  
+IF(VALUE( Legal_Entity__c )=10, &quot;Fidem Finance Inc&quot;,  
+IF(VALUE( Legal_Entity__c )=11, &quot;Canaccede Assets Ltd&quot;,  
+IF(VALUE( Legal_Entity__c )=13, &quot;Canaccede Credit LP&quot;,
+IF(VALUE( Legal_Entity__c )=14, &quot;Canaccede Financial Group&quot;,
+IF(VALUE( Legal_Entity__c )=15, &quot;CFG Canada Funding, LLC&quot;, &quot;&quot;) 
+) ) ) ) ) ) ) )))</formula>
+    <label>Legal Entity Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
