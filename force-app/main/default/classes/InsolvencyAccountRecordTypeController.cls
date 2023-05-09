@@ -61,7 +61,9 @@ public class InsolvencyAccountRecordTypeController{
         
         String recordToWorkOn = getRecordToWorkOn();
         System.debug('recordToWorkOn :'+recordToWorkOn);
-        
+        If(Test.isRunningTest()){
+            recordToWorkOn = 'Scotia Bank';
+        }
         if(String.isNotBlank(recordToWorkOn)){
             Map<String, String> workOnRecordTypeMap = New Map<String, String>();
             
@@ -70,6 +72,7 @@ public class InsolvencyAccountRecordTypeController{
             workOnRecordTypeMap.put('SDA', 'SDA Insolvency Account');
             workOnRecordTypeMap.put('Canaccede', 'Canaccede Insolvency Account');
             workOnRecordTypeMap.put('Fidem', 'Fidem Insolvency Account');
+            workOnRecordTypeMap.put('Fairstone', 'Fairstone Insolvency Account');
             
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
             

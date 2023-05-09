@@ -27,11 +27,12 @@ public class TestInsolvencyAccountCopyDataController{
          
         Insolvency_Account__c insolvncyAccnt=new Insolvency_Account__c();
         insolvncyAccnt.Name='1056649437375';
-        insolvncyAccnt.Account_Type__c='Unknown';
+        insolvncyAccnt.Account_Type__c='Auto';
         insolvncyAccnt.Insolvency_Status__c='New';
         insolvncyAccnt.Borrower_Primary__c='test';
         insolvncyAccnt.Type_of_Service__c='Service and Sale';
         insolvncyAccnt.Claim_Type__c='Unsecured';
+        insolvncyAccnt.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
         Insert insolvncyAccnt;
      }
      

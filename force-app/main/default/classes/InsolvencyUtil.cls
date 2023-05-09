@@ -99,6 +99,17 @@ public without sharing class InsolvencyUtil {
         }
     }
     
+    //Check whether current user belong to Fairstone Bank Community User or not
+    public static Boolean isFairstoneBankCommunityUser(Id profileId){
+        String profileName = [Select Id,Name from Profile where Id=: profileId].Name;
+        if(profileName.contains('Fairstone') ){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
     //Return InsolvencyAccount Record Type Id DeveloperName Map
     public static Map <Id, String> getInsAccntRecorTypeMap(){
         
@@ -198,6 +209,9 @@ public without sharing class InsolvencyUtil {
       else if (profileName.contains('SDA')){
          return 'SDA Insolvency Account';
       }
+      else if (profileName.contains('Fairstone')){
+         return 'Fairstone Insolvency Account';
+      } 
     
       return null; 
     }
@@ -318,6 +332,7 @@ public without sharing class InsolvencyUtil {
             workOnRecordTypeMap.put('Scotia Bank', 'Scotia Bank Insolvency Account');
             workOnRecordTypeMap.put('SPL', 'SPL Insolvency Account');
             workOnRecordTypeMap.put('SDA', 'SDA Insolvency Account');
+            workOnRecordTypeMap.put('Fairstone', 'Fairstone Insolvency Account');
             
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
             
@@ -361,6 +376,11 @@ public without sharing class InsolvencyUtil {
         else if(clientIdentifier == 'SPL'){
             if(insolv.Chase_Record_Owner__c!= null){
                 ownerId = insolv.Chase_Record_Owner__c;
+            }
+        }
+        else if(clientIdentifier == 'Fairstone'){
+             if(insolv.Fairstone_Record_Owner__c!= null){
+                ownerId = insolv.Fairstone_Record_Owner__c;
             }
         }
         

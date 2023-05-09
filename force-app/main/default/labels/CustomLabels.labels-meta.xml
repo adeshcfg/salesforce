@@ -1,11 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Button_Save</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button.Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
         <fullName>EmailTrustee_Subject</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>EmailTrustee Subject</shortDescription>
         <value>EmailTrustee_Subject</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Account_Number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Account Number</shortDescription>
+        <value>Account Number</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Action</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Action</shortDescription>
+        <value>Action</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Bank_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Bank Name</shortDescription>
+        <value>Bank Name</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Claim_Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Claim Amount</shortDescription>
+        <value>Claim Amount</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Claim_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Claim Type</shortDescription>
+        <value>Claim Type</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Expected_Account_Recovery_Ratio</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Expected Account Recovery Ratio</shortDescription>
+        <value>Expected Account Recovery Ratio</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Insolvency_Processing_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Insolvency Processing Status</shortDescription>
+        <value>Insolvency Processing Status</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Last_Payment_Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Last Payment Amount</shortDescription>
+        <value>Last Payment Amount</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Last_Payment_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Last Payment Date</shortDescription>
+        <value>Last Payment Date</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Latest_Payment_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Latest Payment Date</shortDescription>
+        <value>Latest Payment Date</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_New_Insolvency_Account</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.New Insolvency Account</shortDescription>
+        <value>New Insolvency Account</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Open</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Open</shortDescription>
+        <value>Open</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Primary_Borrower</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Primary Borrower</shortDescription>
+        <value>Primary Borrower</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Product_Code</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Product Code</shortDescription>
+        <value>Product Code</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_Product_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Product Type</shortDescription>
+        <value>Product Type</value>
+    </labels>
+    <labels>
+        <fullName>InsolvencyAccountInline_View</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.View</shortDescription>
+        <value>View</value>
+    </labels>
+    <labels>
+        <fullName>Ownership_Record_is_owned_by</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Ownership.Record is owned by</shortDescription>
+        <value>Record is owned by</value>
+    </labels>
+    <labels>
+        <fullName>Ownership_The_record_is_owned_by_you</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Ownership.The record is owned by you</shortDescription>
+        <value>The record is owned by you</value>
     </labels>
     <labels>
         <fullName>Product_Bill_Email_Templates</fullName>

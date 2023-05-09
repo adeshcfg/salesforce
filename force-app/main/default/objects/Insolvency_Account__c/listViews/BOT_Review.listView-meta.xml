@@ -8,6 +8,7 @@
     <columns>Number_Of_Days_In_Current_Status__c</columns>
     <columns>Claim_Type__c</columns>
     <columns>Account_Type__c</columns>
+    <columns>Customer_CID__c</columns>
     <columns>Insolvency_Account_Owner__c</columns>
     <columns>Product_Code__c</columns>
     <columns>Claim_Amount__c</columns>

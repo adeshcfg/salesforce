@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>SPL</label>
             </value>
+            <value>
+                <fullName>Fairstone</fullName>
+                <default>false</default>
+                <label>Fairstone</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

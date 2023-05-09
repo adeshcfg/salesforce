@@ -20,14 +20,10 @@ public class DistressedUtilities {
         placementHistoryIDMap = new Map<Id, String>();
         
         // Iterate and push statute date values to a map
-        for(Placement_history__c m :[Select id,name,Product__c from Placement_history__c where Product__c in: prodIdList AND Placement_Recall_Date__c = null order by createdDate DESC]){
-            if(!placementHistoryIDMap.containsKey(m.Product__c)){
-                placementHistoryIDMap.put(m.Product__c, m.id);  
-                
+        for(Placement_history__c m :[Select id,name,Product__c from Placement_history__c where Product__c in: prodIdList AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC]){
+           if(!placementHistoryIDMap.containsKey(m.Product__c)){
+                placementHistoryIDMap.put(m.Product__c, m.id);
             }
-           
-            system.debug('inside placement loop');
-            system.debug('placementHistoryIDMap::'+placementHistoryIDMap);
         }
     }
     //Method calls for Allocation using Pool and Product screen.
@@ -255,9 +251,8 @@ public class DistressedUtilities {
         updatePlaceHistory.Placement_Status_Description__c = placementStatusMap.get(placeStatus).Description__c;
         updatePlaceHistory.Placement_Status_at_time_of_recall__c = placeStatus;
         
-        PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = false;
         Update updatePlaceHistory;
-        PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = true;
+        
         //Reject settlement when product is recall.
         // UpdateSettlement(prodID);
     }
@@ -367,10 +362,7 @@ public class DistressedUtilities {
         String poolAgency = '';
         //Decimal commissionAdjustment = 0;                                            
         for(Product_Staging__c product: batchScope){
-            System.debug('HEAP---@@@--- '+Limits.getHeapSize());
-            system.debug('product.Name: '+product.Data_Id__c);
-            system.debug('mapPlacement'+mapPlacement);
-            system.debug('insertedProductStaging111'+insertedProductStaging);
+            
             if(insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c != NULL){
                 system.debug('inside insertedProductStaging');
                 newAgency = insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c;    
@@ -708,16 +700,17 @@ productStaging.Include_in_Processing__c = true;
             
             Matcher MyMatcher1;
             date myDate;
-            if(String.isNotBlank(product.Status_Changed_Date_Text__c)){
-                MyMatcher1 = MyPattern1.matcher(product.Status_Changed_Date_Text__c);  
-                Matcher MyMatcher2 = MyPattern2.matcher(product.Status_Changed_Date_Text__c);  
-                Matcher MyMatcher3 = MyPattern3.matcher(product.Status_Changed_Date_Text__c);
+            system.debug('product.Status_Changed_Date__c::'+product.Status_Changed_Date__c);
+            if(String.isNotBlank(product.Status_Changed_Date__c) && product.Status_Changed_Date__c.contains('/')){
+                MyMatcher1 = MyPattern1.matcher(product.Status_Changed_Date__c);  
+                Matcher MyMatcher2 = MyPattern2.matcher(product.Status_Changed_Date__c);  
+                Matcher MyMatcher3 = MyPattern3.matcher(product.Status_Changed_Date__c);
                 system.debug('MyMatcher3.matches()::'+MyMatcher3.matches());
                 
                 system.debug('MyMatcher1:: '+MyMatcher1);
                 system.debug('MyMatcher1.matches()::'+MyMatcher1.matches());
                 //Invalid Payment date (pmt date must exist, be formatted correctly and cannot be in the future)
-                system.debug('product.Status_Changed_Date_Text__c::'+product.Status_Changed_Date_Text__c);
+                system.debug('product.Status_Changed_Date_Text__c::'+product.Status_Changed_Date__c);
                 //matching of date when entered in Text format in excel file
                 
                 if(MyMatcher1.matches() == true || Test.isRunningTest()){
@@ -725,6 +718,7 @@ productStaging.Include_in_Processing__c = true;
                     system.debug('datelist ::'+datelist);
                     myDate = date.newInstance(Integer.valueOf(datelist[2]), Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]));
                     system.debug('myDate::'+myDate);
+                    product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();
                     //product.Status_Changed_Date__C = myDate;
                     system.debug('product.Status_Changed_Date__C external '+product.Status_Changed_Date__C);
                 }
@@ -735,8 +729,7 @@ productStaging.Include_in_Processing__c = true;
                     myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                     system.debug('myDate::'+myDate);
                     //product.Status_Changed_Date__C = String.valueOf(myDate);
-                    product.Status_Changed_Date_Text__c = String.valueOf(datelist[1] )+'/'+ String.valueOf(datelist[2]) + '/'+ String.valueOf(datelist[0]);
-                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date_Text__c);
+          product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date_Text__c);
                     system.debug('product.Status_Changed_Date__C external '+product.Status_Changed_Date__C);
                 }
                 else if(MyMatcher3.matches() == true){
@@ -745,34 +738,45 @@ productStaging.Include_in_Processing__c = true;
                     myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                     system.debug('myDate::'+myDate);
                     //product.Status_Changed_Date__C = String.valueOf(myDate);
-                    product.Status_Changed_Date_Text__c = String.valueOf(datelist[1] )+'/'+ String.valueOf(datelist[2]) + '/'+ String.valueOf(datelist[0]);
-                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date_Text__c);
+                   product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year(); 
+                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date__c);
                     system.debug('product.Status_Changed_Date__C external '+product.Status_Changed_Date__C);
                 }
             }
             
             
-            
-            system.debug('mapProduct.containsKey(product.Name__c)' +mapProduct.containsKey(product.Name__c));
-            
+            //If user enters dd/mm/yyyy formate then shows the below error
+            if(product.Status_Changed_Date__C != NULL && product.Status_Changed_Date__C.contains('/')){
+                String statusChangedDate = product.Status_Changed_Date__C.substring(0,2);
+                if(statusChangedDate > '12'){
+                    ERROR_MSG += '<b>ERROR</b> - Invalid Status Changed date.<br/>';
+                    EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY)<br/>'; 
+                }
+            }
             if(!mapProduct.containsKey(product.Name__c)){
                 ERROR_MSG += '<b>ERROR</b> - Account not found.<br/>';
             }
-            //Invalid Payment Date
+            //Invalid Status_Changed_Date__C
+            //added validation for ticket 4469 - satyajit patil
+             if(product.Status_Changed_Date__C != null && product.Status_Changed_Date__C != '' && !product.Status_Changed_Date__C.contains('/')){
+                   ERROR_MSG += '<b>ERROR</b> - Invalid date.<br/>';
+                    EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY)<br/>'; 
+               
+             }            
             if(product.Status_Changed_Date__C != NULL){
                 if(myDate > Date.today()){
                     ERROR_MSG += '<b>ERROR</b> - Invalid date.<br/>';
-                    EXPECTED += 'Date cannot be in future.<br/>'; 
+                    EXPECTED += 'Status Date cannot be in future.<br/>'; 
                 }  
             }
             else{
                 if(String.isNotBlank(product.Status_Changed_Date_Text__c)){
-                    ERROR_MSG += '<b>ERROR</b> - Invalid payment date.<br/>';
-                    EXPECTED += 'Payment Date should be proper format.(MM/DD/YYYY)<br/>';
+                    ERROR_MSG += '<b>ERROR</b> - Invalid status changed date.<br/>';
+                    EXPECTED += 'Status changed Date should be proper format.(MM/DD/YYYY)<br/>';
                 }
                 else{
-                    ERROR_MSG += '<b>ERROR</b> - Enter valid payment date.<br/>';
-                    EXPECTED += 'Payment Date should be proper format.(MM/DD/YYYY)<br/>';
+                    ERROR_MSG += '<b>ERROR</b> - Status Changed date cannot be blank.<br/>';
+                    EXPECTED += 'Status Changed date cannot be blank<br/>';
                 }
                 /*ERROR_MSG += '<b>ERROR</b> - Invalid payment date.\n';
 EXPECTED += 'Payment Date cannot be blank.<br/>';*/
@@ -918,15 +922,6 @@ system.debug('settings::'+ss);
 ERROR_MSG = '<b>ERROR</b> - Account in Pending Recall.<br/>';
 }*/
             system.debug('product status date tested::' +product.Status_Changed_Date__c);
-            
-            
-            if(myDate > Date.today()){
-                ERROR_MSG += '<b>ERROR</b> - Invalid Status date.<br/>';
-                EXPECTED += 'Status Date cannot be in future.<br/>';                    
-            }else if(product.Status_Changed_Date__c == null){
-                ERROR_MSG += '<b>ERROR</b> - Invalid Status date.<br/>';
-                EXPECTED += 'Status Date Should be in proper format.<br/>';  
-            }
             
             System.debug('Current Date ' +Date.today());
             

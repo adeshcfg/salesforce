@@ -40,12 +40,13 @@ public class TestInsolvencyPopupMessage {
         Insolvency_Account__c insolvncyAccnt=new Insolvency_Account__c();
         insolvncyAccnt.RecordTypeId=rt.id;
         insolvncyAccnt.Name='1056649437375';
-        insolvncyAccnt.Account_Type__c='Unknown';
+        insolvncyAccnt.Account_Type__c='Auto';
         
         insolvncyAccnt.Insolvency_Status__c='New';
         insolvncyAccnt.Borrower_Primary__c='test';
         insolvncyAccnt.Type_of_Service__c='Service and Sale';
         insolvncyAccnt.Claim_Type__c='Unsecured';
+        insolvncyAccnt.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
         Insert insolvncyAccnt;
         insolvncyAccnt.Insolvency_Status__c='Sent to collections';
         update insolvncyAccnt;    
@@ -62,12 +63,13 @@ public class TestInsolvencyPopupMessage {
         Insolvency_Account__c insolvncyAccnt2 = new Insolvency_Account__c();
         insolvncyAccnt2.RecordTypeId=rt.id;
         insolvncyAccnt2.Name='1056649437375';
-        insolvncyAccnt2.Account_Type__c='Unknown';
+        insolvncyAccnt2.Account_Type__c='Auto';
         
         insolvncyAccnt2.Insolvency_Status__c='New';
         insolvncyAccnt2.Borrower_Primary__c='test';
         insolvncyAccnt2.Type_of_Service__c='Service and Sale';
         insolvncyAccnt2.Claim_Type__c='Unsecured';
+        insolvncyAccnt2.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
         Insert insolvncyAccnt2;
         insolvncyAccnt2.Insolvency_Status__c='BOT Review completed';
         update insolvncyAccnt;    

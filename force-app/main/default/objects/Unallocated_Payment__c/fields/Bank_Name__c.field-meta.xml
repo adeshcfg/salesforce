@@ -62,6 +62,11 @@
                 <default>false</default>
                 <label>Lendcare</label>
             </value>
+            <value>
+                <fullName>Fairstone</fullName>
+                <default>false</default>
+                <label>Fairstone</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

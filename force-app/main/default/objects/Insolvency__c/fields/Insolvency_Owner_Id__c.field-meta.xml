@@ -15,7 +15,8 @@ $Profile.Name,
 &apos;Scotia Bank Community User&apos;, (Scotia_Record_Owner__c) , 
 &apos;Scotia Bank Community User Readonly&apos;, (Scotia_Record_Owner__c), 
 &apos;Scotia Bank Login Community User&apos;, (Scotia_Record_Owner__c), 
-&apos;Scotia Bank Login Community User Readonly&apos;, (Scotia_Record_Owner__c), 
+&apos;Scotia Bank Login Community User Readonly&apos;, (Scotia_Record_Owner__c),
+&apos;Fairstone Community User&apos;, (Fairstone_Record_Owner__c), 
 (Owner:User.Id))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Insolvency Owner Id</label>

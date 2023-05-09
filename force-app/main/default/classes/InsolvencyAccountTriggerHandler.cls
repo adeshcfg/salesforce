@@ -36,11 +36,13 @@ public class InsolvencyAccountTriggerHandler {
         cIRTMap.put('SPL_Insolvency_Account', 'SPL');
         cIRTMap.put('SDA_Insolvency_Account', 'SDA');   
         cIRTMap.put('Canaccede_Insolvency_Account', 'Canaccede');  
-        cIRTMap.put('Fidem_Insolvency_Account', 'Fidem');  
+        cIRTMap.put('Fidem_Insolvency_Account', 'Fidem');
+        cIRTMap.put('Fairstone_Insolvency_Account', 'Fairstone'); 
     }
     
     //Before Insert    
     public static void handleBeforeInsert(List<Insolvency_Account__c> insolAccntsNew) {
+        system.debug('insolAccntsNew'+insolAccntsNew);
         //for Account number without space 
         for(Insolvency_Account__c accNew : insolAccntsNew){
             if(accNew.Name != NULL) {
@@ -57,7 +59,7 @@ public class InsolvencyAccountTriggerHandler {
                 
                 getDistressedProductData(accNew);
             }
-            
+            //accNew.Alias_Name__c = accNew.Last_Modify_User_Alias__c;
         }
         
         DateTime dtNow = System.now();
@@ -67,6 +69,7 @@ public class InsolvencyAccountTriggerHandler {
         if(config.Run_Insolvency_Account_Duplicate_Check__c){
             
             Insolvency_Account__c insolAccntNew = insolAccntsNew[0];
+            system.debug('insolAccntNew'+insolAccntNew);
             boolean runDuplicateCheckForProfile = false;
             boolean runDuplicateCheckForBank = false;
             
@@ -108,9 +111,12 @@ public class InsolvencyAccountTriggerHandler {
                         //duplicate check eligible for Bank
                         list<String> bankEligList = new list<String>();
                         string bankEligCS = config.Bank_Eligible_for_Duplicate_Check__c;
+                        system.debug('bankEligCS'+bankEligCS);
                         bankEligList = bankEligCS.split(',');
-                        
+                        system.debug('bankEligList'+bankEligList);
+                        system.debug('insolvency account'+insolAccntNew);
                         for(string bankElig : bankEligList){
+                            system.debug('bankElig'+bankElig);
                             if(insolAccntNew.Client_Identifier__c.contains(bankElig)){
                                 runDuplicateCheckForBank = true;
                                 break;
@@ -420,7 +426,8 @@ public class InsolvencyAccountTriggerHandler {
                 
                 getDistressedProductData(accNew);
             }
-            
+            system.debug('Last modify name'+accNew.Last_Modify_User_Alias__c);
+            //accNew.Alias_Name__c = accNew.Last_Modify_User_Alias__c;
         }
         
         set<Id> insolIdSet = new set<Id>();
@@ -1045,7 +1052,7 @@ update listInsolvency;
         update listInsolvency;
     }
     //After Insert
-    public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {      
+    public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
         handleAfterInsertUpdate(insolAccntsNew,null);          
     }
     
@@ -1078,6 +1085,7 @@ update config;
             {               
                 insolAccntsToProcess.add(insolAccntNew);
             }
+
         }
         
         handleAfterInsertUpdate(insolAccntsToProcess,oldInsolvencyID);
@@ -1596,7 +1604,7 @@ insDetails.add(insDetail);
     public static String getClientIdentifierBasedOnRecordType(Id recordTypeId){
         
         String clientIdentifierBasedOnRecordType = null;
-        
+        system.debug('recordTypeId'+recordTypeId);
         return cIRTMap.get(insAccntRecorTypeMap.get(recordTypeId));
     }
     

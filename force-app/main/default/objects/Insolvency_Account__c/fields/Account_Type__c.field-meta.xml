@@ -68,6 +68,11 @@
                 <label>Small Business Visa</label>
             </value>
             <value>
+                <fullName>Telecom</fullName>
+                <default>false</default>
+                <label>Telecom</label>
+            </value>
+            <value>
                 <fullName>Term Loan</fullName>
                 <default>false</default>
                 <label>Term Loan</label>
@@ -81,6 +86,21 @@
                 <fullName>Unknown</fullName>
                 <default>false</default>
                 <label>Unknown</label>
+            </value>
+            <value>
+                <fullName>Core Walmart Rewards Mastercard</fullName>
+                <default>false</default>
+                <label>Core Walmart Rewards Mastercard</label>
+            </value>
+            <value>
+                <fullName>World Walmart Rewards Mastercard</fullName>
+                <default>false</default>
+                <label>World Walmart Rewards Mastercard</label>
+            </value>
+            <value>
+                <fullName>Home Equity Secured Mastercard</fullName>
+                <default>false</default>
+                <label>Home Equity Secured Mastercard</label>
             </value>
         </valueSetDefinition>
     </valueSet>

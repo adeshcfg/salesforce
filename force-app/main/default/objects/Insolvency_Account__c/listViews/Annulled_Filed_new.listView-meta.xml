@@ -19,12 +19,13 @@
     <filters>
         <field>Insolvency_Status__c</field>
         <operation>equals</operation>
-        <value>Annulled - Filed new</value>
+        <value>Annulled - Filed New</value>
     </filters>
     <label>Annulled - Filed new</label>
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
+        <group>Insolvency_Fairstone_Users</group>
         <group>Insolvency_SDA_Users</group>
         <group>Insolvency_SPL_Users</group>
         <group>Insolvency_Scotia_Users</group>

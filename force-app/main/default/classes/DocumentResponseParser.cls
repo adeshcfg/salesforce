@@ -16,6 +16,7 @@ public class DocumentResponseParser {
    public static Set<String> splBank = new Set<String>{'5307', '628181'};
    public static Set<String> canaccedeBank = new Set<String>{'CANACCEDE'};
    public static Set<String> fidemBank = new Set<String>{'AFFIRM', 'FIDEM'};
+   public static Set<String> fairstone = new Set<String>{'FAIRSTONE','WALMART','DUO','5434','5435'};
       
    //Court Province Map
    public static Map<String, String> courtProvinceMap = new Map<String, String>{
@@ -101,7 +102,7 @@ public class DocumentResponseParser {
    public static void parseResponse(Id recordId) {
    
       System.debug('JSON Parser start time :'+System.now());
-      
+      system.debug('recordId'+recordId);
       Parsed_Response_Holder__c parsedResponse = [SELECT Id, Parsed_Response_Formatted__c, Status__c, Error_Details__c, assignment__c FROM Parsed_Response_Holder__c WHERE Id =: recordId ];
       Case caseRecord = [select id, Document_ID__c, status, parentID, SuppliedEmail, Creditor_s_Pack_Language__c, createdDate from case where id =: parsedResponse.assignment__c];
       List<EmailMessage> emailMsg = [select id, FromAddress from EmailMessage where RelatedToId =: caseRecord.ID limit 1];
@@ -1109,6 +1110,12 @@ public class DocumentResponseParser {
       for(String str: fidemBank){
          if(creditorName.contains(str)){
             return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+         }
+      }
+
+      for(String str: fairstone){
+         if(creditorName.contains(str)){
+            return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
          }
       }
       return null;

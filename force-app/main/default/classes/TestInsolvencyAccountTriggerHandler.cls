@@ -50,7 +50,7 @@ private class TestInsolvencyAccountTriggerHandler{
         //Portfolio record
         Portfolio_Name__c portfolioName = new Portfolio_Name__c();
         portfolioName.name = 'AFSCARDS';
-        portfolioName.Account_Purchasing_Entity_ID__c = 'test';
+        portfolioName.Account_Purchasing_Entity_ID__c  = '13';
         insert portfolioName;
         
         //Product Record
@@ -197,7 +197,7 @@ private class TestInsolvencyAccountTriggerHandler{
         //Portfolio record
         Portfolio_Name__c portfolioName = new Portfolio_Name__c();
         portfolioName.name = 'AFSCARDS';
-        portfolioName.Account_Purchasing_Entity_ID__c = 'test';
+        portfolioName.Account_Purchasing_Entity_ID__c  =' 13';
         insert portfolioName;
         
         //Product Record
@@ -229,6 +229,7 @@ private class TestInsolvencyAccountTriggerHandler{
         ia1.Name = 'Test-001';
         ia1.Insolvency_Status__c = 'For Owner Review';
         ia1.Claim_Type__c = 'Unsecured';
+        ia1.Claim_Amount__c = 1000;
         ia1.Insolvency__c = insolv.Id;   
         ia1.Portfolio_Group_Name__c = 'CCL001';
         ia1.Investment_Group__c = 'AFFIRM';
@@ -236,6 +237,9 @@ private class TestInsolvencyAccountTriggerHandler{
         ia1.Asset_Status__c = 'Purchased';
         ia1.Distressed_Data_Id__c = '848085644';
         ia1.Sent_For_Owner_Review_Date_Original__c = date.today();
+        ia1.Trustee_Not_Providing_LoR__c = false;
+        ia1.Distressed_Data_Id__c = '1';
+        ia1.Claim_Filed_Date__c = System.now();
         insert ia1;
         
         Insolvency_Account__c ia2 = new Insolvency_Account__c();
@@ -243,6 +247,7 @@ private class TestInsolvencyAccountTriggerHandler{
         ia2.Name = 'Test- 001';
         ia2.Insolvency_Status__c = 'New'; 
         ia2.Claim_Type__c = 'Secured';   
+        ia2.Claim_Amount__c = 1000;
         ia2.Insolvency__c = insolv.Id;  
         ia2.Portfolio_Group_Name__c = 'CIH002';
         ia2.Investment_Group__c = 'AFFIRM';
@@ -250,28 +255,41 @@ private class TestInsolvencyAccountTriggerHandler{
         ia2.Asset_Status__c = 'Purchased';
         ia2.Distressed_Data_Id__c = '84565665';
         ia2.Sent_For_Owner_Review_Date_Original__c = date.today();
+        ia2.Trustee_Not_Providing_LoR__c = false;
+        ia2.Distressed_Data_Id__c = '2';
+        ia2.Claim_Filed_Date__c = System.now();
         insert ia2;
         
         Insolvency_Account__c ia3 = new Insolvency_Account__c();
         ia3.RecordTypeId = recordTypeList[0].Id;
         ia3.Name = 'Test-0001';
         ia3.Insolvency_Status__c = 'Pending Assignment to Collection Agency'; 
-        ia3.Claim_Type__c = 'Secured';   
+        ia3.Claim_Type__c = 'Secured';  
+        ia3.Claim_Amount__c = 1000;
         ia3.Insolvency__c = insolv.Id;  
         ia3.Portfolio_Group_Name__c = 'CIT002';
         ia3.Investment_Group__c = 'AFFIRM';
         ia3.Portfolio_Name_Lookup__c = portfolioName.id;
         ia3.Asset_Status__c = 'Purchased';
         ia3.Sent_For_Owner_Review_Date_Original__c = date.today();
+        ia3.Trustee_Not_Providing_LoR__c = false;
+        ia3.Distressed_Data_Id__c = '3';
+        ia3.Claim_Filed_Date__c = null;
         insert ia3;
         
         Map<ID, Insolvency_Account__c> iaMap = new Map<ID, Insolvency_Account__c>();
         iaMap.put(ia3.id, ia3);
         iaMap.put(ia2.id, ia2);
         iaMap.put(ia1.id, ia1);
-        ia3 = [select Id, Name, RecordTypeId, Claim_Type__c, Client_Identifier__c, Insolvency_Status__c from Insolvency_Account__c where id =: ia3.Id];
-        ia2 = [select Id, Name, RecordTypeId, Claim_Type__c, Client_Identifier__c, Insolvency_Status__c from Insolvency_Account__c where id =: ia2.Id];
-        ia1 = [select Id, Name, RecordTypeId, Claim_Type__c, Client_Identifier__c, Insolvency_Status__c from Insolvency_Account__c where id =: ia1.Id];
+        ia3 = [select Id, Name, RecordTypeId, Claim_Type__c, Client_Identifier__c, Insolvency_Status__c, Distressed_Data_Id__c, Claim_Filed_Date__c,
+               Sent_For_Owner_Review_Date_External__c, Do_Not_Run_Status_Validation__c, Claim_Amount__c,
+               Total_Account_Recovery__c, Revival_Date__c, Sent_For_Owner_Review_Date_Original__c from Insolvency_Account__c where id =: ia3.Id];
+        ia2 = [select Id, Name, RecordTypeId, Claim_Type__c, Client_Identifier__c, Insolvency_Status__c, Distressed_Data_Id__c, Claim_Filed_Date__c,
+               Sent_For_Owner_Review_Date_External__c, Do_Not_Run_Status_Validation__c, Claim_Amount__c,
+               Total_Account_Recovery__c from Insolvency_Account__c where id =: ia2.Id];
+        ia1 = [select Id, Name, RecordTypeId, Claim_Type__c, Client_Identifier__c, Insolvency_Status__c, Distressed_Data_Id__c, Claim_Filed_Date__c,
+               Sent_For_Owner_Review_Date_External__c, Do_Not_Run_Status_Validation__c, Claim_Amount__c,
+               Total_Account_Recovery__c from Insolvency_Account__c where id =: ia1.Id];
         
         ia3.RecordTypeId = recordTypeList1[0].Id;
         ia3.Name = 'Test-0001';
@@ -279,7 +297,8 @@ private class TestInsolvencyAccountTriggerHandler{
         ia3.Asset_Status__c = 'Duplicate';
         ia3.Insolvency__c = insolv.Id;
         ia3.Distressed_Data_Id__c = '848085644';
-
+        ia3.Trustee_Not_Providing_LoR__c = true;
+        ia3.Revival_Date__c = Date.today();
         update ia3;
         iaList.add(ia3);
         
@@ -287,6 +306,7 @@ private class TestInsolvencyAccountTriggerHandler{
         ia2.Name = 'Test- 0 01';
         ia2.Insolvency_Status__c ='For Owner Review';
         ia2.Insolvency__c = insolv.Id;
+        ia2.Trustee_Not_Providing_LoR__c = true;
         update ia2;
         iaList.add(ia2);
         
@@ -294,8 +314,10 @@ private class TestInsolvencyAccountTriggerHandler{
         ia1.Name = 'Test- 0 02';
         ia1.Insolvency_Status__c ='Trustee Followup';
         ia1.Insolvency__c = insolv.Id;
+        ia1.Trustee_Not_Providing_LoR__c = true;
         update ia1;
         iaList.add(ia1);
+        Test.startTest();
         //Test for Before Update
         InsolvencyAccountTriggerHandler.handleBeforeUpdate(iaList, iaMap);
         
@@ -307,6 +329,7 @@ private class TestInsolvencyAccountTriggerHandler{
         InsolvencyAccountTriggerHandler.getClientIdentifierBasedOnRecordType(recordTypeList[0].Id);
         InsolvencyAccountTriggerHandler.errorMessageOwnerReview = 'test';
         //solvencyAccTrigger.errorMessageOwnerReview = 'test';
+        Test.stopTest();
     }
     
     //Test after insert, update, delete
@@ -436,12 +459,11 @@ private class TestInsolvencyAccountTriggerHandler{
         system.debug('Sent_For_Owner_Review_Date_External__c' +ia1.Sent_For_Owner_Review_Date_External__c);
         
         List<Insolvency_Account__c> listNewInsolvencyAccount = new List<Insolvency_Account__c>();
-        update ia1;
+        // update ia1;
         listNewInsolvencyAccount.add(ia1);
         system.debug('Sent_For_Owner_Review_Date_External__c' +ia1.Sent_For_Owner_Review_Date_External__c);
         InsolvencyAccountTriggerHandler.handleBeforeUpdate(listNewInsolvencyAccount, iaMap);
-        
-        
+        InsolvencyAccountTriggerHandler.handleAfterUpdate(listNewInsolvencyAccount, iaMap);
     }
     
     public static testMethod void testTotalClaimAmount(){

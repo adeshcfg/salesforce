@@ -13,9 +13,9 @@
         <apex:pageBlock id="pgBlock" >
         <apex:messages />
             <apex:pageBlockButtons rendered="{!!isCommunityReadOnly}">
-                <apex:commandButton style="margin-left:0%;" value="New Insolvency Account" id="NewInsolAcc" onclick="window.top.location='{!newInsolAccLink}'; return false" reRender="form"/> 
-                <apex:commandButton id="saveButton" value="Save" action="{!save}" style="display: none;" onclick="validate();">
-                <apex:commandButton value="View" onclick="newPage();" rendered="{!!isViewPage}" reRender="form"/>
+                <apex:commandButton style="margin-left:0%;" value="{!$Label.InsolvencyAccountInline_New_Insolvency_Account}" id="NewInsolAcc" onclick="window.top.location='{!newInsolAccLink}'; return false" reRender="form"/> 
+                <apex:commandButton id="saveButton" value="{!$Label.Button_Save}" action="{!save}" style="display: none;" onclick="validate();">
+                <apex:commandButton value="{!$Label.InsolvencyAccountInline_View}" onclick="newPage();" rendered="{!!isViewPage}" reRender="form"/>
                 </apex:commandButton>   
             </apex:pageBlockButtons>    
             
@@ -23,81 +23,82 @@
             
             <apex:pageblocktable value="{!InslAcctWrappers}" var="ial">
             
-                <apex:column headerValue="Action">
-                <a href="{!ial.accLink}" target="_top" value="Open">Open </a>
+                <apex:column headerValue="{!$Label.InsolvencyAccountInline_Action}">
+                <a href="{!ial.accLink}" target="_top" value="Open">{!$Label.InsolvencyAccountInline_Open}</a>
                 </apex:column>
                 
-                <apex:column headervalue="Primary Borrower">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Primary_Borrower
+                    }">
                     <apex:outputField value="{!ial.acc.Borrower_Primary__c}">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
-                <apex:column headerValue="Account Number">
+                <apex:column headerValue="{!$Label.InsolvencyAccountInline_Account_Number}">
                     <apex:outputField value="{!ial.acc.Name}">   
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
-                <apex:column headervalue="Bank Name" rendered="{!!isCommunityUser}">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Bank_Name}" rendered="{!!isCommunityUser}">
                     <apex:outputField value="{!ial.acc.Bank_Name__c}">
                      <!--   <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>  -->
-                    </apex:outputfield>
+                    </apex:outputField>
                 </apex:column>
               
-                <apex:column headervalue="Claim Type">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Claim_Type}">
                     <apex:outputField value="{!ial.acc.Claim_Type__c}" id="claimType">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
-                <apex:column headervalue="Product Type">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Product_Type}">
                     <apex:outputField value="{!ial.acc.Account_Type__c}">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
-                </apex:column>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/> 
+                    </apex:outputField>  
+                </apex:column> 
                 
-                <apex:column headerValue="Product Code">
+                <apex:column headerValue="{!$Label.InsolvencyAccountInline_Product_Code}">
                     <apex:outputField value="{!ial.acc.Product_Code__c}">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
-                <apex:column headervalue="Claim Amount">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Claim_Amount}">
                     <apex:outputField value="{!ial.acc.Claim_Amount__c }">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
-                <apex:column headervalue="Insolvency Processing Status">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Insolvency_Processing_Status}">
                     <apex:outputField value="{!ial.acc.Insolvency_Status__c}">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
-                <apex:column headervalue="Expected Account Recovery Ratio">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Expected_Account_Recovery_Ratio}">
                     <apex:outputField value="{!ial.acc.Expected_Account_Recovery_Ratio__c}">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
                 
-                <apex:column headervalue="Last Payment Date">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Last_Payment_Date}">
                     <apex:outputField value="{!ial.acc.Last_Payment_Date__c}">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
-                <apex:column headervalue="Last Payment Amount">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Last_Payment_Amount}">
                     <apex:outputField value="{!ial.acc.Last_Payment_Amount__c}">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
-                <apex:column headervalue="Latest Payment Date">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Latest_Payment_Date}">
                     <apex:outputField value="{!ial.acc.Latest_Payment_Date__c}">
-                        <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
-                    </apex:outputfield>
+                        <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
+                    </apex:outputField>
                 </apex:column>
                 
                 <!-- <apex:column headervalue="Total Remittance Count">

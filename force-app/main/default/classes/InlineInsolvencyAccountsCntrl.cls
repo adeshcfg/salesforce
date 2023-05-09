@@ -39,7 +39,8 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         cIRTMap.put('SPL_Insolvency_Account', 'SPL');
         cIRTMap.put('SDA_Insolvency_Account', 'SDA'); 
         cIRTMap.put('Canaccede_Insolvency_Account', 'Canaccede'); 
-        cIRTMap.put('Fidem_Insolvency_Account', 'Fidem'); 
+        cIRTMap.put('Fidem_Insolvency_Account', 'Fidem');
+        cIRTMap.put('Fairstone_Insolvency_Account', 'Fairstone'); 
         insolv = [Select Id, 
                             Name, 
                             Insolvency_Type__c, 

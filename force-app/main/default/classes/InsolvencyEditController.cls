@@ -27,6 +27,7 @@ public class InsolvencyEditController {
                             Scotia_Record_Owner__c, 
                             Chase_Record_Owner__c, 
                             SDA_Record_Owner__c,
+                  			Fairstone_Record_Owner__c,
                             (SELECT OwnerId 
                                 FROM Insolvency_Accounts__r
                                 where RecordType.name =: eligibleInsAcctRecordType
@@ -56,6 +57,13 @@ public class InsolvencyEditController {
             else if(InsolvencyUtil.isSDABankCommunityUser(UserInfo.getProfileId())){
                 if(insolv.SDA_Record_Owner__c == null){
                     insolv.SDA_Record_Owner__c = UserInfo.getUserId();
+                    InsolvencyUtil.updateOwnerShip(insolv);
+                }
+            }
+            
+            else if(InsolvencyUtil.isFairstoneBankCommunityUser(UserInfo.getProfileId())){
+                if(insolv.Fairstone_Record_Owner__c == null){
+                    insolv.Fairstone_Record_Owner__c = UserInfo.getUserId();
                     InsolvencyUtil.updateOwnerShip(insolv);
                 }
             }

@@ -24,6 +24,7 @@
     </filters>
     <label>For Owner Review</label>
     <sharedTo>
+        <group>Insolvency_Fairstone_Users</group>
         <group>Insolvency_Scotia_Users</group>
     </sharedTo>
 </ListView>

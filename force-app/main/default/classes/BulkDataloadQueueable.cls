@@ -176,10 +176,19 @@ public class BulkDataloadQueueable implements Queueable {
 **/
     public static Product_Staging__c createRecallRecord(List<String> csvData, String documentStorageId) {
         Product_Staging__c psRecord = new Product_Staging__c();
+        system.debug('csvData::'+csvData);
         // Map array indexes to Product Staging fields
         psRecord.Name__c = csvData[0];
-        psRecord.Placement_Status_Code__c = csvData[1];
-        psRecord.Status_Changed_Date__c = csvData[2];
+        if(csvData[1] != null || csvData[1] != ''){
+            psRecord.Placement_Status_Code__c = csvData[1];
+        }else{
+            psRecord.Placement_Status_Code__c = '';
+        }
+        if(csvData.size() >= 3){
+            psRecord.Status_Changed_Date__c = csvData[2];
+        }else{
+            psRecord.Status_Changed_Date__c = '';
+        }
         psRecord.Identifier__c = documentStorageId;
         return psRecord;
     }

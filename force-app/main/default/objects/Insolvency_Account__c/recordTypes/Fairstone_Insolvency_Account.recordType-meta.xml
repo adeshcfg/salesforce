@@ -1,65 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Fidem_Insolvency_Account</fullName>
+    <fullName>Fairstone_Insolvency_Account</fullName>
     <active>true</active>
-    <description>Fidem Insolvency Account</description>
-    <label>Fidem Insolvency Account</label>
+    <description>Fairstone Insolvency Account</description>
+    <label>Fairstone Insolvency Account</label>
     <picklistValues>
         <picklist>Account_Type__c</picklist>
         <values>
-            <fullName>Auto</fullName>
+            <fullName>Core Walmart Rewards Mastercard</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Auto Loan</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Bank Card Product</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Line of Credit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mortgage</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Online Loans</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Overdraft - Retail</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Overdraft - Small Business</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Scotia Plan Loan</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Small Business</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Small Business Visa</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Term Loan</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unauthorized Overdraft</fullName>
+            <fullName>Home Equity Secured Mastercard</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Unknown</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>World Walmart Rewards Mastercard</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -129,56 +89,28 @@
         </values>
         <values>
             <fullName>Unsecured</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Client_Identifier__c</picklist>
         <values>
-            <fullName>Fidem</fullName>
+            <fullName>Fairstone</fullName>
             <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Disallowance_Reasons__c</picklist>
         <values>
+            <fullName>Account Already purchased</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Account stat barred</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Incorrect Name Registered on PPSA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incorrect Province Registration</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incorrect VIN%23</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incorrect Vehicle Registered</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Lien Discharged</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Missing QC Retention Clause</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>No Lien Registered%2FLien Expired</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PPSA Search Resulted in No Lien Found%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -215,15 +147,7 @@
     <picklistValues>
         <picklist>Exclude_from_Purchase_Reason__c</picklist>
         <values>
-            <fullName>Account already purchased</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Legal%2FJudgement</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
             <default>false</default>
         </values>
         <values>
@@ -293,10 +217,6 @@
     <picklistValues>
         <picklist>Insolvency_Status__c</picklist>
         <values>
-            <fullName>Account Recall Requested</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Annulled</fullName>
             <default>false</default>
         </values>
@@ -309,10 +229,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Claim Omitted</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Claim Withdrawn</fullName>
             <default>false</default>
         </values>
@@ -321,23 +237,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Extinguished</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>For Owner Review</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>New</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>No PoC Required</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Pending Assignment to Collection Agency</fullName>
+            <fullName>No PoC Required</fullName>
             <default>false</default>
         </values>
         <values>
@@ -354,10 +262,6 @@
         </values>
         <values>
             <fullName>Refused %E2%80%93 Filed New</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sent to Collections</fullName>
             <default>false</default>
         </values>
         <values>
@@ -702,6 +606,10 @@
         </values>
         <values>
             <fullName>AFSCCO107</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BNS PERU</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1645,6 +1553,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL048</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL050</fullName>
             <default>false</default>
         </values>
@@ -2300,27 +2212,7 @@
     <picklistValues>
         <picklist>Product_Code__c</picklist>
         <values>
-            <fullName>AUTO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>AXG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>AXP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>AXS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>BLV</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Bank Card Product</fullName>
+            <fullName>FNS</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2328,95 +2220,19 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>MOR</fullName>
+            <fullName>MS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Motor Cycle</fullName>
+            <fullName>MW</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ODA</fullName>
+            <fullName>REG</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>OLL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Others</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>P1</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RV</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAV</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SBOP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SCL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SDA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SPL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SSL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Small Business</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Term Loan</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VCL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VFA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VFF</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VGD</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VIC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VLR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VUS</fullName>
+            <fullName>WMC</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2443,23 +2259,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Repo%E2%80%99d %E2%80%93 Seize or Sue</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SDA Account</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Scotia Private Label Account</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Small Business</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unable to Locate Account</fullName>
+            <fullName>Unable to Locate</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2482,7 +2282,7 @@
         </values>
         <values>
             <fullName>Service and Sale</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>

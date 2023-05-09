@@ -14,7 +14,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
         // List values to be used as filters in SOQL query
         List<String> assetStatus = new List<String>{'', 'Purchased', 'Debt Purchase', 'Bulk Purchased'};
         List<String> insolvencyTypes = new List<String>{'Consumer Proposal', 'Division 1 Proposal'};
-        List<String> insolvencyAccntRecordTypes = new List<String>{'Canaccede Insolvency Account', 'SDA Insolvency Account', 'SPL Insolvency Account', 'Scotia Bank Insolvency Account'};
+        List<String> insolvencyAccntRecordTypes = new List<String>{'Canaccede Insolvency Account', 'SDA Insolvency Account', 'SPL Insolvency Account', 'Scotia Bank Insolvency Account', 'Fairstone Insolvency Account'};
             
         Date months18ProiorDate = System.today().addmonths(-18);
 

@@ -51,6 +51,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Telecom</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Term Loan</fullName>
             <default>false</default>
         </values>
@@ -1630,6 +1634,10 @@
         </values>
         <values>
             <fullName>CFL039</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL040</fullName>
             <default>false</default>
         </values>
         <values>

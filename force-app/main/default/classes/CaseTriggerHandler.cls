@@ -12,7 +12,7 @@ public class CaseTriggerHandler {
     
     public static boolean runCaseTrigger = true;
     
-    public static Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
+    public static Application_Config_Settings__c config;// = Application_Config_Settings__c.getOrgDefaults();
     
     //Record Types
     public static Map <String, Id> caseRecorTypeMap;
@@ -40,7 +40,8 @@ public class CaseTriggerHandler {
         caseRTMap.put('Scotia Bank','Insolvency_Scotia_Community_Case');       
         caseRTMap.put('SPL','Insolvency_SPL_Community_Case');
         caseRTMap.put('SDA','Insolvency_SDA_Community_Case');
-        caseRTMap.put('CFG','Insolvency_Case');  
+        caseRTMap.put('CFG','Insolvency_Case');
+        caseRTMap.put('Fairstone','Insolvency_Fairstone_Community_Case');  
         
         //Remittance
         caseRTMap.put('Remittance','Remittance');
@@ -53,7 +54,7 @@ public class CaseTriggerHandler {
     
     //Before Case is cretaed
     public static void handleBeforeInsert(List<Case> casesNew) { 
-    
+
         list<case> oldCaseList = new list<case>();
         //case caseObj = casesNew[0];
         
@@ -202,6 +203,7 @@ public class CaseTriggerHandler {
     
     //After new Case is created
     public static void handleAfterInsert(List<Case> casesNewList) {
+        
         Case caseNew = casesNewList.get(0);
         
         //Remittance + CCS Case
@@ -372,6 +374,7 @@ public class CaseTriggerHandler {
     //Calculate number of open cases on Insolvency
     private static void calculateNumberOfOpenCasesIns(Id insId) {
         
+        config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
         //Related Open Cases
         List <Case> insolvencyCases = [Select id, Assign_To__c from Case
                             where status != 'Closed'
@@ -426,6 +429,7 @@ public class CaseTriggerHandler {
     //Calculate number of open cases on Insolvency Account
     private static void calculateNumberOfOpenCasesInsAccnt(Id insAccntId) {
       
+      config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
       //Related Open Cases
       List <Case> insolvencyCases = [Select id, Assign_To__c from Case
                             where status != 'Closed' 

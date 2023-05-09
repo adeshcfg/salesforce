@@ -33,11 +33,12 @@ public class TestInsolvencyAccntDragNDropController{
          // insert insolvency account
          Insolvency_Account__c insolvAcc = new Insolvency_Account__c();
          insolvAcc.Name='1056649437375';
-         insolvAcc.Account_Type__c='Unknown';
+         insolvAcc.Account_Type__c='Auto';
          insolvAcc.Insolvency_Status__c='New';
          insolvAcc.Borrower_Primary__c='test';
          insolvAcc.Type_of_Service__c='Service and Sale';
          insolvAcc.Claim_Type__c='Unsecured';
+         insolvAcc.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
          Insert insolvAcc;
 
          

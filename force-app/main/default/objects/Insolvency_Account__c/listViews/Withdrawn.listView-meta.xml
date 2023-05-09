@@ -28,17 +28,17 @@
         <value>Purchased,Bulk Purchased,Duplicate Purchased,Debt Purchase</value>
     </filters>
     <filters>
-        <field>Review_Account__c</field>
-        <operation>notEqual</operation>
-        <value>1</value>
-    </filters>
-    <filters>
         <field>Reason_for_No_PoC_Required_Dropdown__c</field>
         <operation>notEqual</operation>
         <value>Account Sold,No Open Accounts,Unable to Locate Account</value>
     </filters>
     <filters>
         <field>Back_to_Collections_Review_Completed__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Review_Account__c</field>
         <operation>equals</operation>
         <value>0</value>
     </filters>

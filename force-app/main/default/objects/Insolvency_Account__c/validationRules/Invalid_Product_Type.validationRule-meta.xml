@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invalid_Product_Type</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT(ISPICKVAL(Account_Type__c,&apos;&apos;)),
+OR(
+
+AND(
+OR(RecordType.DeveloperName == &apos;SDA_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;Canaccede_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;Fidem_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;SPL_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;Scotia_Bank_Insolvency_Account&apos;),
+
+OR(
+ISPICKVAL(Account_Type__c ,&apos;World Walmart Rewards Mastercard&apos;),
+ISPICKVAL(Account_Type__c, &apos;Core Walmart Rewards Mastercard&apos;),
+ISPICKVAL(Account_Type__c,&apos;Home Equity Secured Mastercard&apos;))
+),
+
+
+AND(RecordType.DeveloperName == &apos;Fairstone_Insolvency_Account&apos;,
+NOT(ISPICKVAL(Account_Type__c,&apos;Unknown&apos;)),
+NOT(ISPICKVAL(Account_Type__c ,&apos;World Walmart Rewards Mastercard&apos;)),
+NOT(ISPICKVAL(Account_Type__c, &apos;Core Walmart Rewards Mastercard&apos;)),
+NOT(ISPICKVAL(Account_Type__c,&apos;Home Equity Secured Mastercard&apos;))
+)
+)
+)</errorConditionFormula>
+    <errorDisplayField>Account_Type__c</errorDisplayField>
+    <errorMessage>Invalid Product Type</errorMessage>
+</ValidationRule>

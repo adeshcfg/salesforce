@@ -17,6 +17,7 @@ $Profile.Name,
 &apos;Scotia Bank Community User Readonly&apos;, (Scotia_Record_Owner__r.FirstName + &apos; &apos; +  Scotia_Record_Owner__r.LastName), 
 &apos;Scotia Bank Login Community User&apos;, (Scotia_Record_Owner__r.FirstName + &apos; &apos; + Scotia_Record_Owner__r.LastName), 
 &apos;Scotia Bank Login Community User Readonly&apos;, (Scotia_Record_Owner__r.FirstName + &apos; &apos; + Scotia_Record_Owner__r.LastName), 
+&apos;Fairstone Community User&apos;, (Fairstone_Record_Owner__r.FirstName + &apos; &apos; + Fairstone_Record_Owner__r.LastName),
 (Owner:User.FirstName + &apos; &apos; + Owner:User.LastName))</formula>
     <inlineHelpText>Insolvency Owner</inlineHelpText>
     <label>Insolvency Owner</label>

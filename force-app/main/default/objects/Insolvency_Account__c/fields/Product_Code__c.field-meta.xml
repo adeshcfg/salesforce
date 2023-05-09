@@ -162,6 +162,31 @@
                 <default>false</default>
                 <label>VUS</label>
             </value>
+            <value>
+                <fullName>MW</fullName>
+                <default>false</default>
+                <label>MW</label>
+            </value>
+            <value>
+                <fullName>MS</fullName>
+                <default>false</default>
+                <label>MS</label>
+            </value>
+            <value>
+                <fullName>FNS</fullName>
+                <default>false</default>
+                <label>FNS</label>
+            </value>
+            <value>
+                <fullName>REG</fullName>
+                <default>false</default>
+                <label>REG</label>
+            </value>
+            <value>
+                <fullName>WMC</fullName>
+                <default>false</default>
+                <label>WMC</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

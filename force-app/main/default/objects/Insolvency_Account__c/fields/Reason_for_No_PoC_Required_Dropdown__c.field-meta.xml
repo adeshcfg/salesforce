@@ -68,6 +68,11 @@
                 <default>false</default>
                 <label>Repo’d – Seize or Sue</label>
             </value>
+            <value>
+                <fullName>Unable to Locate</fullName>
+                <default>false</default>
+                <label>Unable to Locate</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

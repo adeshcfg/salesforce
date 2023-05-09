@@ -17,6 +17,8 @@ public class TestInlineInsolvencyAccountsCntrl{
         config.Profile_Eligible_for_Duplicate_Check__c = [SELECT Name FROM Profile WHERE ID =: UserInfo.getProfileId() LIMIT 1].Name;
         config.Bank_Eligible_for_Duplicate_Check__c = 'Scotia';
         config.Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN';
+        config.Eligible_for_Claim_Type_Calculation__c = 'Scotia Bank,SPL,SDA,Fairstone';
+        config.Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank,SPL,SDA,Fairstone';
         insert config;  
     }
     

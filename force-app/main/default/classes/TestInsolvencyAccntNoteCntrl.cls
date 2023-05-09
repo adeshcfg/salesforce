@@ -38,12 +38,13 @@ private class TestInsolvencyAccntNoteCntrl{
         //Insolvency Account Record
         Insolvency_Account__c insAccnt = new Insolvency_Account__c();
         insAccnt.Name='1056649437375';
-        insAccnt.Account_Type__c='Unknown';
+        insAccnt.Account_Type__c='Auto';
         insAccnt.Insolvency_Status__c='New';
         insAccnt.Borrower_Primary__c='test';
         insAccnt.Type_of_Service__c='Service and Sale';
         insAccnt.Claim_Type__c='Unsecured';
         insAccnt.Insolvency__c = insolv.Id;
+        insAccnt.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
         insert insAccnt;
         
         //Note Record
