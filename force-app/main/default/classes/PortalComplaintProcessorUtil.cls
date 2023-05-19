@@ -41,7 +41,7 @@ public class PortalComplaintProcessorUtil {
          System.debug('Assign_To_Agency_User__c-->'+ complaint.Assign_To_Agency_User__c);//Debug to check Assign_To_Agency_User__c
         complaint.Assigned_To_User_Name__c = paramMap.get('Assigned_To_User_Name');
         complaint.Customer_Identifier__c = paramMap.get('Customer_Identifier');
-       
+        
         //complaint.Judgment_Identifier__c = paramMap.get('Judgment_Identifier');
         complaint.Product_Identifier__c = paramMap.get('Product_Identifier');
         //complaint.Settlement_Identifier__c = paramMap.get('Settlement_Identifier');
@@ -79,23 +79,26 @@ public class PortalComplaintProcessorUtil {
         
         DateTime dT = System.now();
         if(String.isNotBlank(paramMap.get('Comment_Reply'))){
-            if(complaint.Latest_Comment__c != paramMap.get('Comment_Reply')){
+           // if(workAssignment.Latest_Comment__c != paramMap.get('Comment_Reply')){
                 system.debug('--Comments_History__c: '+complaint.Comments_History__c);
                 system.debug('complaint.Comment_Reply__c: '+complaint.Latest_Comment__c);
+                //workAssignment.Comment_Reply__c = paramMap.get('Comment_Reply');
+                system.debug('Comment_Reply::'+paramMap.get('Comment_Reply'));
                 complaint.Latest_Comment__c = paramMap.get('Comment_Reply');
-                String Comment = complaint.Last_Modified_By__c + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day()
-                + '/' + dT.year() + ';' + ' ' + ' ' + complaint.Latest_Comment__c + '\n' + '\n';
+                String Comment = complaint.Last_Modified_By__c + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() 
+                    + '/' + dT.year()+ ';' + ' ' + ' ' + complaint.Latest_Comment__c + '\n' + '\n';
                 system.debug('Comment : '+Comment );
                 
                 if(String.isNotBlank(complaint.Comments_History__c)){
                     Comment  = Comment  + complaint.Comments_History__c;
                 }
-                //Comment  += (String.isNotBlank(complaint.Comments_History__c) ? complaint.Comments_History__c: '');
+                //Comment  += (String.isNotBlank(workAssignment.Comments_History__c) ? workAssignment.Comments_History__c: '');
                 system.debug('Comment  2:'+Comment);
                 complaint.Comments_History__c = Comment ;
+                //workAssignment.Comment_Reply__c = '';
                 system.debug('Comment History 3:' +complaint.Comments_History__c );
-              }
-        } 
+           // }
+        }
         Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
         
         try{
@@ -210,7 +213,7 @@ public class PortalComplaintProcessorUtil {
        
             workAssignObj.Placement_Agency__c = mapPlacementNames.get(workAssignObj.Placement_Agency_Identifier__c);
             if(workAssignObj.ID == NULL){
-              
+                system.debug('Blok run sucessfully');
                 workAssignObj.Product__c = mapProductNames.get(workAssignObj.Product_Identifier__c);
                 workAssignObj.Customer__c = mapCustomerNames.get(workAssignObj.Customer_Identifier__c);
             }

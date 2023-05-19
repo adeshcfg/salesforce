@@ -1653,6 +1653,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL048</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL050</fullName>
             <default>false</default>
         </values>
@@ -1893,7 +1897,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL138</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL139</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL140</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL143</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2274,14 +2290,6 @@
         </values>
         <values>
             <fullName>PURCHASE VARIANCE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ROGERSCOMBKBULK03</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ROGERSCOMCPBULK03</fullName>
             <default>false</default>
         </values>
         <values>

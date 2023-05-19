@@ -6,7 +6,8 @@
 NOT(OR(
 $Profile.Name = &quot;CFG -Distressed Team Lead&quot;,
 $Profile.Name = &quot;CFG-Distressed ParaLegal Only&quot;,
-$Profile.Name = &quot;System Administrator&quot;
+$Profile.Name = &quot;System Administrator&quot;,
+$User.Email = &quot;dean.daer@canaccede.com&quot;
 )),
 ISCHANGED(Refer_to_Legal__c ),
 OR(

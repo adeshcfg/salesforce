@@ -14,6 +14,7 @@
     <columns>Decision_Timestamp__c</columns>
     <columns>AML_Decision__c</columns>
     <columns>AML_Decision_Timestamp__c</columns>
+    <columns>Email_Address__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RECORDTYPE</field>

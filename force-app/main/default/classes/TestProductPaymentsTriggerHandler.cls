@@ -360,7 +360,7 @@ public class TestProductPaymentsTriggerHandler {
         prodpay12.Payment_Source__c = '2';
         prodpay12.Payment_Agency__c = '68';
         prodpay12.Ignore_Warning__c = true;
-        prodpay12.Interest_Adjustment__c = 5;
+        prodpay12.Interest_Adjustment__c = -5;
         prodpay12.Interest_Payment_Amount__c = 0;
         insert prodpay12;
         
@@ -374,7 +374,8 @@ public class TestProductPaymentsTriggerHandler {
         prodpay8.Payment_Source__c = '2';
         prodpay8.Pay_Recoverable_Fee__c = 100;
         prodpay8.Ignore_Warning__c=true;
-        insert prodpay8; 
+        prodpay8.Tax_Amount__c = 12;
+        insert prodpay8;
         Test.stopTest();
      }
     
@@ -563,6 +564,7 @@ public class TestProductPaymentsTriggerHandler {
         prodpay.Interest_Adjustment__c = 5;
         prodpay.Payment_Posting_Date__c = System.today()-1;
         prodpay.Payment_Provided_Agency__c = placement.id;
+        prodpay.Payment_Agency__c = '29';
         insert prodpay;
 		
         Product_Payments__c prodpay1= new  Product_Payments__c();
@@ -577,6 +579,7 @@ public class TestProductPaymentsTriggerHandler {
         prodpay1.Interest_Adjustment__c = 5;
         prodpay1.Payment_Posting_Date__c = System.today()-1;
         prodpay1.Payment_Provided_Agency__c = placement.id;
+        prodpay1.Payment_Agency__c = '29';
         insert prodpay1;
         Test.stopTest();
      }
@@ -1725,6 +1728,165 @@ public class TestProductPaymentsTriggerHandler {
         prodpay1.Pay_Due__c = 20;
         insert prodpay1;
         
+     }
+    
+    public static testMethod void productAfterInsertTest19(){
+        ID rtid=[Select id from RecordType where sobjecttype='product__C' AND RecordType.Name = 'Distressed Account'].id;
+         
+        Placement__c placement = new Placement__c();
+        placement.Name= '68';
+        placement.Commission_Rate__c = 25;
+        placement.Apply_Ontario_Rate_on_Legal_Account__c = true;
+        insert placement;
+        
+        Pool__c pool = new Pool__c();
+        pool.Commission_Rate__c = 20;
+        insert pool;
+		
+        Product__c prod = new Product__c();
+        prod.Name = '12345';
+        prod.Current_Bal_NSF_Fees__c=10;
+        prod.Current_Balance__c=1200;
+        prod.RecordTypeId= rtid;
+        prod.Current_Bal_Court_Fees__c=0;
+        prod.Current_Bal_Attorney_Fees__c=0;
+        prod.Current_Interest_Amount__c = 20;
+        prod.Current_Bal_Other_Fees__c=0;
+        prod.Current_Bal_General_Fees__c=0;
+        prod.Current_Principal_Balance__c  = 1000;
+        prod.Status__c = 'New Allocation - New Allocation';
+        prod.Sub_Status__c = 'Ready';
+        prod.Product_Status__c = 'Test';
+        prod.State__c = 'AB';
+        prod.Collection_Agency__c = 68;
+        prod.Commission_Rate__c = 25;
+        prod.Settlement_Rate__c = 85;
+        prod.Pool_Name__c = pool.ID;
+        prod.Payment_Apportionment__c = '';
+        prod.Interest_Waived_Off__c = true;
+        prod.Interest_Waived_Off_Start_Date__c = System.today();
+        prod.Interest_Waived_Of_End_Date__c = System.today() + 2;
+        prod.Interest_Rate__c = 2;
+        prod.Recalled_Date__c = NULL;
+        prod.Commission_Adjustment__c = 2;        
+        prod.Purchase_Province__c='PE';
+        prod.Payment_Apportionment__c = 'Fees > Principal > Interest';
+        insert prod;
+        
+        Placement_history__c placementhistorycObj = new Placement_history__c (
+            product__c = prod.id,
+            Placement_Recall_Date__c = Date.today() - 10,
+            CreatedDate = system.today() - 50,
+            Commission_Rate__c = 20
+        );
+        insert placementhistorycObj;
+        
+        Test.startTest();  
+        Product_Payments__c prodpay= new  Product_Payments__c();
+        prodpay.RecordTypeId =[Select id from RecordType where sobjecttype='Product_Payments__c' AND RecordType.Name = 'Distressed Product Payment'].id;
+        prodpay.CCS_Account__c = prod.id;
+        prodpay.Payment_Amount__c = 45;
+        prodpay.Payment_Posting_Date__c= System.today().addDays(-1);
+        prodpay.Payment_Type__c = '3000';
+        prodpay.Payment_Source__c = '1';
+        prodpay.Deposit_Account_Type__c='ETC';
+        prodpay.Payment_Posting_Date_Text__c = 'Thursday';
+        prodpay.Ignore_Warning__c = true;
+        prodpay.Interest_Adjustment__c = 5;
+        prodpay.Payment_Posting_Date__c = System.today()-1;
+        prodpay.Payment_Provided_Agency__c = placement.id;
+        insert prodpay;
+        Test.stopTest();
+     }
+    
+    public static testMethod void productAfterInsertTest20(){
+        Test.startTest(); 
+        
+        ID rtid=[Select id from RecordType where sobjecttype='product__C' AND RecordType.Name = 'Distressed Account'].id;
+         
+        Placement__c placement = new Placement__c();
+        placement.Name= '68';
+        placement.Commission_Rate__c = 25;
+        placement.Agency_Name__c = 'Keyser Mason Ball LLP';
+        insert placement;
+        
+        Pool__c pool = new Pool__c();
+        pool.Commission_Rate__c = 20;
+        insert pool;
+
+        Id recordid= [SELECT id,RecordType.developerName from RecordType where sobjecttype='product__C' AND RecordType.Name='Distressed Account'].id;
+         
+        Product__c prod1 = new Product__c();
+        prod1.Name = '1000P001';
+        prod1.Current_Bal_NSF_Fees__c=10;
+        prod1.Current_Balance__c=1002;
+        prod1.RecordTypeId= rtid;
+        prod1.Current_Bal_Court_Fees__c=0;
+        prod1.Current_Interest_Amount__c = 200;
+        prod1.Current_Principal_Balance__c  = 1000;
+        prod1.Recoverable_Fee__c = 100;
+        prod1.Non_Recoverable_Fee__c = 100;
+        prod1.State__c = 'AB';
+        prod1.Collection_Agency__c = 68;
+        prod1.Payment_Apportionment__c = 'Fees > Interest > Principal';
+        prod1.Commission_Rate__c = 20;
+        prod1.Interest_Rate__c = 2;
+        prod1.Commission_Adjustment__c=1;
+        prod1.Purchase_Province__c='PE';
+		insert prod1;
+        
+        Placement_History__c placeHist = new Placement_History__c();
+        placeHist.product__c = prod1.id;
+        placeHist.Placement_ID_Text__c = '1';
+        placeHist.Placement_Recall_Date__c = system.today() - 5; 
+       	placehist.Product_Commission_rate__C=2;
+        placeHist.CreatedDate = system.today() - 182; 
+        insert placeHist;
+          
+        Product_Payments__c prodpay12 = new  Product_Payments__c();
+        prodpay12.CCS_Account__c = prod1.id;
+        prodpay12.Payment_Amount__c = 1002;
+        prodpay12.Pay_NSF__c = '1';
+        prodpay12.Payment_Posting_Date__c= System.today().addDays(-2);
+        prodpay12.Payment_Type__c = '1001';
+        prodpay12.Payment_Source__c = '2';
+        prodpay12.Payment_Agency__c = '68';
+        prodpay12.Ignore_Warning__c = true;
+        prodpay12.Interest_Adjustment__c = 5;
+        prodpay12.Interest_Payment_Amount__c = 0;
+        insert prodpay12;
+        
+        Product_Payments__c prodpay8= new  Product_Payments__c();
+        prodpay8.CCS_Account__c = prod1.id;
+        prodpay8.Payment_Amount__c = -1002;
+        prodpay8.Pay_NSF__c = '1';
+        prodpay8.Payment_Posting_Date__c= System.today().addDays(-2);
+        prodpay8.Payment_Agency__c = '68';
+        prodpay8.Payment_Type__c = '1003';
+        prodpay8.Payment_Source__c = '2';
+        prodpay8.Pay_Recoverable_Fee__c = 100;
+        prodpay8.Ignore_Warning__c=true;
+        prodpay8.Tax_Amount__c = 12;
+        prodpay8.Original_Of_Payment_Reversal__c = prodpay12.id;
+        insert prodpay8;
+        
+        Judgment__c judg = new Judgment__c();
+        Id recrdid=[SELECT id from RecordType where sobjecttype='Judgment__C' AND RecordType.Name='Judgment'].id;
+        judg.RecordTypeId=recrdid;
+        judg.Legal_Status__c='Post-Judgment';
+        judg.Legal_Sub_Status__c='Dormant';
+        judg.Judgment_Date__c = System.today();
+        judg.Legal_Agency__c = '29';
+        insert judg;
+        
+        Account_Judgment__c accjudg=new Account_Judgment__c();
+        accjudg.Product__c=prod1.id;
+        accjudg.Judgment__c=judg.id;
+        accjudg.Status__c='Active';
+        accjudg.CreatedDate = System.today();
+        insert accjudg;
+        
+        Test.stopTest();
      }
     
 }

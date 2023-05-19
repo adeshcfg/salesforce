@@ -449,6 +449,7 @@ public class TestDisplayProdPymntStagingController {
             Agency_Calculated_Comm__c = '1.0',
             Document_Storage__c = docSto1.Id,
             Tax_Amount__c = 1.1,
+            Pay_Posting_Date__c = System.today().addDays(-1),
             Original_Of_Payment_Reversal__c = prodpay5.id
         );
         insert productpaymentstagingcObj;
@@ -515,6 +516,7 @@ public class TestDisplayProdPymntStagingController {
             Agency_Calculated_Comm__c = '1.0',
             Document_Storage__c = docSto1.Id,
             Tax_Amount__c = 1.1,
+            Pay_Posting_Date__c = System.today().addDays(-1),
             Original_Of_Payment_Reversal__c = prodpay5.id
         );
         insert productpaymentstagingcObj;
@@ -558,7 +560,19 @@ public class TestDisplayProdPymntStagingController {
         prodpay.Interest_Adjustment__c = 5;
         insert prodpay;
         mapNewProductPayment.put(prodpay.id,prodpay);
-        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment);
+        
+        Work_Assignment__c workAssignment1 = new Work_Assignment__c();
+        workAssignment1.Purpose__c = 'Excel Processing';
+        workAssignment1.Sub_Purpose__c = 'Product Payment Upload File';
+        insert workAssignment1;
+        
+        Document_Storage__c docStorage1 = new Document_Storage__c();
+        docStorage1.Work_Assignment__c = workAssignment1.ID;
+        docStorage1.Uploaded_By__c = 'External User';
+        insert docStorage1;
+        
+        Savepoint sp = Database.setSavepoint();
+        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id, docStorage1.Id);
         
         Product_Payments__c prodpay1= new  Product_Payments__c();
         prodpay1.CCS_Account__c = prod.id;
@@ -581,10 +595,11 @@ public class TestDisplayProdPymntStagingController {
         prodpay1.Tax_Province__c = 'ON';
         prodpay1.Interest_Adjustment__c = 120;
         insert prodpay1;
-        
+       
         mapNewProductPayment.put(prodpay1.id,prodpay1);
+        
         Test.startTest();
-        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment);
+        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment, sp,workAssignment1.Id,docStorage1.Id);
         Test.stopTest();
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
@@ -599,7 +614,7 @@ public class TestDisplayProdPymntStagingController {
         insert prodpay2;
         
         mapNewProductPayment.put(prodpay2.id,prodpay2);
-        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment);
+        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
     }
     
     public static testMethod void testData1(){
@@ -655,7 +670,18 @@ public class TestDisplayProdPymntStagingController {
         insert prodpay2;
 
         mapNewProductPayment.put(prodpay2.id,prodpay2);
-        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment);
+         Work_Assignment__c workAssignment1 = new Work_Assignment__c();
+        workAssignment1.Purpose__c = 'Excel Processing';
+        workAssignment1.Sub_Purpose__c = 'Product Payment Upload File';
+        insert workAssignment1;
+        
+        Document_Storage__c docStorage1 = new Document_Storage__c();
+        docStorage1.Work_Assignment__c = workAssignment1.ID;
+        docStorage1.Uploaded_By__c = 'External User';
+        insert docStorage1;
+        
+        Savepoint sp = Database.setSavepoint();
+        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
     }
     
     public static testMethod void testData2(){
@@ -710,7 +736,18 @@ public class TestDisplayProdPymntStagingController {
         insert prodpay3;
 
         mapNewProductPayment.put(prodpay2.id,prodpay2);
-        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment);
+         Work_Assignment__c workAssignment1 = new Work_Assignment__c();
+        workAssignment1.Purpose__c = 'Excel Processing';
+        workAssignment1.Sub_Purpose__c = 'Product Payment Upload File';
+        insert workAssignment1;
+        
+        Document_Storage__c docStorage1 = new Document_Storage__c();
+        docStorage1.Work_Assignment__c = workAssignment1.ID;
+        docStorage1.Uploaded_By__c = 'External User';
+        insert docStorage1;
+        
+        Savepoint sp = Database.setSavepoint();
+        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
     }
     
     public static testMethod void testData3(){
@@ -767,7 +804,19 @@ public class TestDisplayProdPymntStagingController {
         insert prodpay2;
             
         mapNewProductPayment.put(prodpay2.id,prodpay2);
-        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment);
+        
+         Work_Assignment__c workAssignment1 = new Work_Assignment__c();
+        workAssignment1.Purpose__c = 'Excel Processing';
+        workAssignment1.Sub_Purpose__c = 'Product Payment Upload File';
+        insert workAssignment1;
+        
+        Document_Storage__c docStorage1 = new Document_Storage__c();
+        docStorage1.Work_Assignment__c = workAssignment1.ID;
+        docStorage1.Uploaded_By__c = 'External User';
+        insert docStorage1;
+        
+        Savepoint sp = Database.setSavepoint();
+        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
     }
     
     public static testMethod void testData4(){
@@ -812,7 +861,19 @@ public class TestDisplayProdPymntStagingController {
         insert prodpay2;
         
         mapNewProductPayment.put(prodpay2.id,prodpay2);
-        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment);
+        
+        Work_Assignment__c workAssignment1 = new Work_Assignment__c();
+        workAssignment1.Purpose__c = 'Excel Processing';
+        workAssignment1.Sub_Purpose__c = 'Product Payment Upload File';
+        insert workAssignment1;
+        
+        Document_Storage__c docStorage1 = new Document_Storage__c();
+        docStorage1.Work_Assignment__c = workAssignment1.ID;
+        docStorage1.Uploaded_By__c = 'External User';
+        insert docStorage1;
+        
+        Savepoint sp = Database.setSavepoint();
+        DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
     }
     
     

@@ -15,26 +15,24 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
     Boolean runTrigger = lrpSettings.Run_Product_Payment_Trigger__c;
     
     if(runTrigger){
-        system.debug('runTrigger::'+runTrigger);
         	if(ProductPaymentsTriggerHandler.runProductTrigger){
                 if(Trigger.isBefore) {
                     if(Trigger.isInsert){
                         //ProductTriggerHandler.handleBeforeInsert(Trigger.new);
                         ProductPaymentsTriggerHandler.handleBeforeInsert(Trigger.new);
                     }
+                    //Ticket 4546: changes done by tejal for update payment posting month as per payment posting date
                     if(Trigger.isUpdate){
-                        //ProductPaymentsTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
+                        ProductPaymentsTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
                     }                    
                 }
                                 
                 //Customer Data Load 
                 if(Trigger.isAfter) {
                     if(Trigger.isUpdate){
-                        system.debug('calling handleAferInsertUpdate');
                         ProductPaymentsTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
                     }
                     if(Trigger.isInsert){
-                        system.debug('calling handleAferInsert');
                         ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.new, Trigger.newMap, Trigger.oldMap);
                     }                          
                 }

@@ -70,11 +70,11 @@ public class ProductPaymentsTriggerHandler{
         }
         
         if(!mapNewPayments.isEmpty()){
-            calculateBalanceBackdatedPayments(mapNewProductPayment, oldProductPaymentMap);
+            calculateBalanceBackdatedPayments(mapNewProductPayment, oldProductPaymentMap,null,null,null,null);
         }
         
         if(!mapNewFees.isEmpty()){
-            calculateBalanceFeeAdjustments(mapNewFees);
+            calculateBalanceFeeAdjustments(mapNewFees, null,null,null,null);
         }
     }
     
@@ -133,8 +133,8 @@ public class ProductPaymentsTriggerHandler{
                         month1 = '0'+month1;
                     }
                     //updating code to populate Payment Created Date instead of Payment Posting Date
-                    if(productPayment.Payment_Created__c != NULL){
-                        productPayment.Payment_Posting_Month__c = String.valueOf(productPayment.Payment_Created__c.Year())
+                    if(productPayment.Payment_Posting_Date__c != NULL){
+                        productPayment.Payment_Posting_Month__c = String.valueOf(productPayment.Payment_Posting_Date__c.Year())
                                                                +  month1;
                     }
                     if(mapProducts.containsKey(productPayment.CCS_Account__c)){
@@ -229,6 +229,24 @@ public class ProductPaymentsTriggerHandler{
         }
     }
     
+    //Handle before update
+    public static void handleBeforeUpdate(List<Product_Payments__c> prodPayNew, Map<Id, Product_Payments__c> oldMap) {
+        for(Product_Payments__c productPayment : prodPayNew){
+            Date date1 = productPayment.Payment_Posting_Date__c;
+            String day1 = String.valueOf(date1.Day());
+            String month1 = String.valueOf(date1.Month());
+            String yr = String.valueOf(date1.Year());
+            
+            if(month1.length() == 1){
+                month1 = '0'+month1;
+            }
+            //updating code to populate Payment Created Date instead of Payment Posting Date
+            if(productPayment.Payment_Posting_Date__c != NULL){
+                productPayment.Payment_Posting_Month__c = String.valueOf(productPayment.Payment_Posting_Date__c.Year())
+                    +  month1;
+            }
+        }
+    }
     
     public static void getTaxAmount(list<Product_Payments__c> listNewProductPayments, Map<ID, Product__c> mapProduct){
         Decimal ComissionRate;
@@ -368,7 +386,7 @@ public class ProductPaymentsTriggerHandler{
 
     //Recalculate Interest Amount and Principal balance payments are added
     public static void calculateBalanceBackdatedPayments(map<Id, Product_Payments__c> mapNewProductPayment
-                                                        ,Map<Id, Product_Payments__c> oldProductPaymentMap){
+                                                        ,Map<Id, Product_Payments__c> oldProductPaymentMap,Savepoint sp,Id workAssignmentId,Id documentID, String paymentProcessing){
 
         // Pre load Statute Date from metadata
         StatuteDateUtilities.loadStatuteDataFromMetadata();
@@ -1153,8 +1171,30 @@ productNames += productInstance.Name + ',';
         
         ProductTriggerHandler.runProductTrigger = false;
         ProductPaymentstriggerHandler.runProductTrigger = false;
+         system.debug('updateResults2222::');
+        //update mapProductToAdjustInterestFinal.values();
         
-        update mapProductToAdjustInterestFinal.values();
+        //For ticket 4518 - satyajit patil                                                            
+        List<Database.SaveResult> updateResults = Database.update(mapProductToAdjustInterestFinal.values(),false);
+        system.debug('updateResults::'+updateResults);
+                                                  
+       List<Database.SaveResult> ErrorrResult = new List<Database.SaveResult>();
+       Set<Id> prodId = new Set<Id>();
+                                                            
+       if(paymentProcessing == 'Payment Excel Processing'){
+        for(Database.SaveResult res : updateResults){
+             system.debug('res.isSuccess()::'+res.isSuccess());
+             if(res.isSuccess() == false){
+                 	prodId.add(res.getId());
+                 system.debug('res::'+res);
+                    ErrorrResult.add(res); 
+             }
+        }
+                                                         
+        system.debug('ErrorrResult::'+ErrorrResult);
+               
+       }
+                                                   
         update listProdPaymentToUpdate;
         
         if(!setProductIDToReverse.isEmpty()){
@@ -1163,9 +1203,16 @@ productNames += productInstance.Name + ',';
         JudgmentTriggerHandler.recalculateDisbursmentFees(setProductID);
         ProductTriggerHandler.runProductTrigger = true;
         ProductPaymentstriggerHandler.runProductTrigger = true;
+        
+        //For ticket 4518 - satyajit patil                                                    
+        if(paymentProcessing == 'Payment Excel Processing' && !ErrorrResult.isEmpty()){                                                    
+        	Database.rollback(sp);
+            DisplayProductPaymentStagingController.stopSuccessfilegenaration = true;
+        	DistressedUtilities.GenerateSuccessAndErrorFile(ErrorrResult,workAssignmentId,documentID,prodId); 
+        }
     }
     
-    public static void calculateBalanceFeeAdjustments(map<ID, product_Payments__c> mapFeeAdjustments){
+    public static void calculateBalanceFeeAdjustments(map<ID, product_Payments__c> mapFeeAdjustments, Savepoint sp, Id workAssignmentId, Id documentID, String paymentProcessing){
         set<ID> setProductID = new set<ID>();
         list<Product__c> listProductsToUpdate = new list<Product__c>();
         list<Product_payments__c> listProductPaymentToUpdate = new list<Product_payments__c>();
@@ -1257,7 +1304,31 @@ productNames += productInstance.Name + ',';
             listProductsToUpdate.add(productInstance);
         }
         ProductTriggerHandler.runProductTrigger = false;
-        update listProductsToUpdate;
+         system.debug('updateResults11111::');
+        
+        //update listProductsToUpdate;
+        
+        //For ticket 4518 - satyajit patil 
+        List<Database.SaveResult> updateResults = Database.update(listProductsToUpdate,true);
+     	
+        system.debug('updateResults::'+updateResults);
+                                                  
+       List<Database.SaveResult> ErrorrResult = new List<Database.SaveResult>();
+       Set<Id> prodId = new Set<Id>();
+       if(paymentProcessing == 'Payment Excel Processing'){
+        for(Database.SaveResult res : updateResults){
+             system.debug('res.isSuccess()::'+res.isSuccess());
+             if(res.isSuccess() == false){
+                 	prodId.add(res.getId());
+                    ErrorrResult.add(res); 
+             }
+        }
+                                                         
+        system.debug('ErrorrResult::'+ErrorrResult);
+               
+       }
+        
+        system.debug('updateResults::'+updateResults);
         
         ProductPaymentstriggerHandler.runProductTrigger = false;
         update listProductPaymentToUpdate;
@@ -1266,6 +1337,13 @@ productNames += productInstance.Name + ',';
         
         ProductPaymentstriggerHandler.runProductTrigger = true;
         ProductTriggerHandler.runProductTrigger = true;
+        
+         //For ticket 4518 - satyajit patil                                                    
+        if(paymentProcessing == 'Payment Excel Processing' && !ErrorrResult.isEmpty()){                                                    
+        	Database.rollback(sp);
+            DisplayProductPaymentStagingController.stopSuccessfilegenaration = true;
+        	DistressedUtilities.GenerateSuccessAndErrorFile(ErrorrResult,workAssignmentId,documentID,prodId); 
+        }
     }
     
      public class productWrapper{
@@ -1829,9 +1907,9 @@ productNames += productInstance.Name + ',';
             && productAgency != '9999'
             && prodPayment.Payment_Agency__c != productAgency
             && !setProductPreviouslyPlacedCheck.contains(prodPayment.CCS_Account_Name__c + prodPayment.Payment_Agency__c)){
-                ERROR_MSG += '<b>ERROR</b> - This account is not available in this Placement.<br/>';
+                ERROR_MSG += '<b>WARNING</b> - This account is not available in this Placement.<br/>';
                 //EXPECTED += 'Account Agency: ' + mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency__c +'<br/>';
-                prodPayment.addError('ERROR - This account is not available in this Placement.');
+                prodPayment.addError('WARNING - This account is not available in this Placement.');
             }
             
             //Account is currently warehoused  and recalled more than 60 days ago, OR account has had subsequent placements
@@ -2349,4 +2427,5 @@ productNames += productInstance.Name + ',';
            }                                           
             return lastAgencyRecallDate;
     }
+    
 }

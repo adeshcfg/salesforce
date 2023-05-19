@@ -72,7 +72,9 @@ public class TestPortalSettlementProcessingAPI {
         Sttlmnt.Product__c = prod.Id;
         Sttlmnt.Status__c='New';
         Sttlmnt.Proposal_Amount__c= 111;
-        
+        Sttlmnt.Monthly_Expenses_Comments__c = 'test';
+         Sttlmnt.Monthly_Income_Comments__c = 'test';
+         Sttlmnt.Total_Wealth_Comments__c = 'test';
       
         
         insert Sttlmnt;

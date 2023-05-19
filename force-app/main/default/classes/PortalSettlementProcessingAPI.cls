@@ -4,7 +4,7 @@ public class PortalSettlementProcessingAPI {
     
     @future (callout=true)
     public static void processSettlement(ID settlementId){ 
-                String Query = 'SELECT ID,Name,Comment__c,Proposal_Total_Percent__c,Proposal_Principal_Percent__c,Monthly_Expenses_Comments__c,Monthly_Income_Comments__c,Total_Wealth_Comments__c,';
+                String Query = 'SELECT ID,Name,Comment__c,Proposal_Total_Percent__c,Employment_Comments__c,HomeOwner_Status_Comments__c,Proposal_Principal_Percent__c,Monthly_Expenses_Comments__c,Monthly_Income_Comments__c,Total_Wealth_Comments__c,';
         for(Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping){
             if(fieldMappingInstance.Object_Name__c == 'Settlement'){
                 Query += fieldMappingInstance.Field_API__c + ', ';
@@ -31,9 +31,13 @@ public class PortalSettlementProcessingAPI {
             String monthlyExpensesComments = '';
             String monthlyIncomeComments = '';
             String totalWealthComments = '';
+            String employmentCommment = '';
+            String homeownerStatusComments = '';
             if(String.isNotBlank(settlementInstance.Comment__c)){
-                commentReply = String.valueOf(settlementInstance.Comment__c).replace('\n', '').replace('\r', ' ');    
+                commentReply = String.valueOf(settlementInstance.Comment__c).replace('\n', '').replace('\r', ' ');   
+                commentReply = commentReply.replaceAll('\\s+', ' ');
             }
+           
             if(String.isNotBlank(settlementInstance.Monthly_Expenses_Comments__c)){
                monthlyExpensesComments = settlementInstance.Monthly_Expenses_Comments__c.replaceAll( '\\s+', ' ');
                monthlyExpensesComments = monthlyExpensesComments.replace('\n', '').replace('\r', ' ');
@@ -46,7 +50,16 @@ public class PortalSettlementProcessingAPI {
                totalWealthComments = settlementInstance.Total_Wealth_Comments__c.replaceAll( '\\s+', ' ');
                totalWealthComments= totalWealthComments.replace('\n', '').replace('\r', ' ');
             }
-            
+            if(String.isNotBlank(settlementInstance.Employment_Comments__c)){
+               employmentCommment = employmentCommment.replace('\n', '').replace('\r', ' ');
+               employmentCommment = settlementInstance.Employment_Comments__c.replaceAll( '\\s+', ' ');
+            }
+            if(String.isNotBlank(settlementInstance.HomeOwner_Status_Comments__c)){
+               homeownerStatusComments = homeownerStatusComments.replace('\n', '').replace('\r', ' ');
+               homeownerStatusComments = settlementInstance.HomeOwner_Status_Comments__c.replaceAll( '\\s+', ' ');
+            }
+             system.debug('employmentCommment:'+employmentCommment);
+             system.debug('homeownerStatusComments:'+homeownerStatusComments);
             system.debug('commentReply:'+commentReply);
               settlemntJSONRequest = '{'+ 
            '"Name": "'+settlementInstance.Name+'",'+
@@ -55,6 +68,8 @@ public class PortalSettlementProcessingAPI {
            '"Proposal_Principal_Percent": "'+settlementInstance.Proposal_Principal_Percent__c+'",'+
            '"Monthly_Expenses_Comments": "'+monthlyExpensesComments+'",'+
            '"Monthly_Income_Comments": "'+monthlyIncomeComments+'",'+
+           '"Employment_Comments": "'+employmentCommment+'",'+
+           '"HomeOwner_Status_Comments": "'+homeownerStatusComments+'",'+
            '"Total_Wealth_Comments": "'+totalWealthComments+'",'; 
             for(Agency_Portal_Fields_Mapping__c mapping : fieldMapping){
                 if(mapping.Object_Name__c == 'Settlement'){

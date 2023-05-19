@@ -14,17 +14,19 @@ public class DistressedUtilities {
     public static Map<Id, String>  placementHistoryIDMap;
     public static Map<Id, String> settlementIDMap;
     public static Map<String, ID> mapProductJudgment = new Map<String, ID>();
-    
     // Fetching and updating Placement History Map
     public static void loadPlacementHistoryIDMap(List<id> prodIdList){
         placementHistoryIDMap = new Map<Id, String>();
         
         // Iterate and push statute date values to a map
         for(Placement_history__c m :[Select id,name,Product__c from Placement_history__c where Product__c in: prodIdList AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC]){
-           if(!placementHistoryIDMap.containsKey(m.Product__c)){
+            if(!placementHistoryIDMap.containsKey(m.Product__c)){
                 placementHistoryIDMap.put(m.Product__c, m.id);
             }
+            
+            system.debug('inside placement loop');
         }
+        system.debug('placementHistoryIDMap::'+placementHistoryIDMap);
     }
     //Method calls for Allocation using Pool and Product screen.
     public static void createPlacementHistory(List<Product__c> prodList, String oldPlacementID,Decimal placement){
@@ -376,6 +378,12 @@ public class DistressedUtilities {
             String EXPECTED = '';
             String ERROR_MSG = '';
             
+             if(product.Data_Id__c == null && product.Name__c == null){
+                 ERROR_MSG += '<b>ERROR</b> - Invalid account number.<br/>';
+                 EXPECTED += 'Account number cannot be blank<br/>'; 
+            }
+             if(product.Data_Id__c == null || product.Name__c == null){
+              
             if(setPreviousPlacedProductNames.contains(product.Data_Id__c+ newAgency)){
                 ERROR_MSG+= '<b>WARNING</b>-'+'Product is placed with the agency in last 6 months'+'<br/>';
                 //product.addError('Product is placed with the agency in last 6 months');
@@ -529,7 +537,7 @@ ERROR_MSG += '<b>ERROR</b> - '+'Product is in Credit Counselling Collection Sub 
                             } 
                 }
             }
-            
+             }
             system.debug('ERROR :'+ERROR_MSG);
             system.debug('EXPECTED :'+EXPECTED);
             Product_Staging__c productStaging = new Product_Staging__c();
@@ -729,7 +737,7 @@ productStaging.Include_in_Processing__c = true;
                     myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                     system.debug('myDate::'+myDate);
                     //product.Status_Changed_Date__C = String.valueOf(myDate);
-          product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date_Text__c);
+                    product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date_Text__c);
                     system.debug('product.Status_Changed_Date__C external '+product.Status_Changed_Date__C);
                 }
                 else if(MyMatcher3.matches() == true){
@@ -744,22 +752,29 @@ productStaging.Include_in_Processing__c = true;
                 }
             }
             
+             if(product.Data_Id__c == null && product.Name__c == null){
+                 ERROR_MSG += '<b>ERROR</b> - Invalid account number.<br/>';
+                 EXPECTED += 'Account number cannot be blank<br/>'; 
+            }
             
+            if(product.Data_Id__c != null || product.Name__c != null){
             //If user enters dd/mm/yyyy formate then shows the below error
             if(product.Status_Changed_Date__C != NULL && product.Status_Changed_Date__C.contains('/')){
                 String statusChangedDate = product.Status_Changed_Date__C.substring(0,2);
-                if(statusChangedDate > '12'){
+                system.debug('inside greated than 12::'+statusChangedDate);
+                if(statusChangedDate > '12' && !statusChangedDate.contains('/')){
+                    system.debug('inside greated than 12');
                     ERROR_MSG += '<b>ERROR</b> - Invalid Status Changed date.<br/>';
                     EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY)<br/>'; 
                 }
             }
             if(!mapProduct.containsKey(product.Name__c)){
-                ERROR_MSG += '<b>ERROR</b> - Account not found.<br/>';
+                ERROR_MSG += '<b>ERROR</b> : Account not found<br/>';
             }
             //Invalid Status_Changed_Date__C
             //added validation for ticket 4469 - satyajit patil
              if(product.Status_Changed_Date__C != null && product.Status_Changed_Date__C != '' && !product.Status_Changed_Date__C.contains('/')){
-                   ERROR_MSG += '<b>ERROR</b> - Invalid date.<br/>';
+                    ERROR_MSG += '<b>ERROR</b> : Invalid status changed date.<br/>';
                     EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY)<br/>'; 
                
              }            
@@ -778,12 +793,12 @@ productStaging.Include_in_Processing__c = true;
                     ERROR_MSG += '<b>ERROR</b> - Status Changed date cannot be blank.<br/>';
                     EXPECTED += 'Status Changed date cannot be blank<br/>';
                 }
-                /*ERROR_MSG += '<b>ERROR</b> - Invalid payment date.\n';
+                /*ERROR_MSG += '<b>ERROR</b> : Incorrect status date format\n';
 EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             } 
             
             if(docStorage != NULL && docStorage.Uploaded_By__c == 'External User' && mapProductJudgment.containsKey(product.Name__c)){
-                ERROR_MSG += '<b>ERROR</b> - Invalid Status Update.<br/>';
+                ERROR_MSG += '<b>ERROR</b> : Can\'t change account in Legal status<br/>';
                 EXPECTED += 'Agency user cannot update the status on Product with Judgment<br/>';
             }
             system.debug('product.Name__c'+product.Name__c);
@@ -795,11 +810,11 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             
             //Check Recall Validations
             if(setRecentlyPaidProducts.contains(product.Name__c)){
-                ERROR_MSG += '<b>WARNING</b> - '+'Account had a recent payment in last 2 months'+'<br/>';
+                ERROR_MSG += '<b>WARNING</b> - '+': Account had payment in last 2 months'+'<br/>';
             }
             
             if(mapJudgmentCodes.containsKey(product.Placement_Status_Code__c)){
-                ERROR_MSG += '<b>ERROR</b> - Judgment Code should not updated as Status Code.<br/>';
+                ERROR_MSG += '<b>ERROR</b> : Legal Status, cannot update from judgment code<br/>';
             }
             
             if(mapProduct.containsKey(product.Name__c)
@@ -808,7 +823,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                    if(product.Placement_Status_Code__c.startsWith('9') 
                       && mapProduct.get(product.Name__c).Placement_Status__c.startsWith('8')){
                           if(product.Placement_Status_Code__c.subStringAfter('9') <> mapProduct.get(product.Name__c).Placement_Status__c.subStringAfter('8')){
-                              ERROR_MSG += '<b>ERROR</b> - An Invalid Status Code was provided.<br/>';
+                              ERROR_MSG += '<b>ERROR</b> :  Confirmation doesn’t match pending recall code<br/>';
                               EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name__c).Placement_Status__c+'.<br/>';
                           }
                       }
@@ -821,7 +836,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             {
                 
                 if(mapProduct.get(product.Name__c).Placement_Status__c.startsWith('8') && !product.Placement_Status_Code__c.startsWith('9') && docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/){
-                    ERROR_MSG += '<b>ERROR</b> - Status cannot change from pending recall to any other status.<br/>';
+                    ERROR_MSG += '<b>ERROR</b> : Pending recall cannot change to other status<br/>';
                     //EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name).Placement_Status__c+'.<br/>';
                 }
                 
@@ -829,7 +844,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 
                 if(!mapProduct.get(product.Name__c).Placement_Status__c.startsWith('8') && product.Placement_Status_Code__c.startsWith('9') && docStorage != NULL && docStorage.Uploaded_By__c == 'External User'){
                     system.debug('Run Block123');
-                    ERROR_MSG += '<b>ERROR</b> - Status can not change from any other to recall status.<br/>';
+                    ERROR_MSG += '<b>ERROR</b> : Account not in pending recall status<br/>';
                     //EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name).Placement_Status__c+'.<br/>';
                 }
                 
@@ -837,7 +852,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 //system.debug('Test run block::'+mapProduct.get(product.Name).Status__c.startsWith('Pre - Legal'));
                 if(mapProduct.get(product.Name__c).Status__c != null){
                     if((mapProduct.get(product.Name__c).Status__c.startsWith('Pre - Legal') && mapProduct.get(product.Name__c).Placement_Status__c != product.Placement_Status_Code__c) || (mapProduct.get(product.Name__c).Refer_to_Legal__c == 'For Review' && mapProduct.get(product.Name__c).Placement_Status__c != product.Placement_Status_Code__c)){
-                        ERROR_MSG += '<b>ERROR</b> - Status can not change if refer to legal is in For review/placement status is in Pre-Legal.<br/>';
+                        ERROR_MSG += '<b>ERROR</b> : Account in Refer to Legal status<br/>';
                         //EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name).Placement_Status__c+'.<br/>';
                     }
                 }
@@ -846,8 +861,8 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             
             system.debug('newAgency inside validation' +newAgency);
             if(docStorage != NULL && docStorage.Uploaded_By__c == 'External User'){
-                if(product.Placement_Status_Code__c.startsWith('8')){
-                    ERROR_MSG += '<b>ERROR</b> - Agency User cannot set account to Recall Status.<br/>';
+                if(product.Placement_Status_Code__c != Null && product.Placement_Status_Code__c.startsWith('8')){
+                    ERROR_MSG += '<b>ERROR</b> : Agency cannot set to Pending Recall status<br/>';
                     //EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name).Placement_Status__c+'.<br/>';
                 }
                 if(mapProduct.containsKey(product.Name__c)
@@ -855,7 +870,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                    && String.isNotBlank(product.Placement_Status_Code__c)
                    && !(mapProduct.get(product.Name__c).Placement_Status__c.startsWith('8'))
                    && product.Placement_Status_Code__c.startsWith('9')){
-                       ERROR_MSG += '<b>ERROR</b> - A status change is not permitted.<br/>';
+                       ERROR_MSG += '<b>ERROR</b> :  Account must be in pending recall status<br/>';
                        EXPECTED += 'Account is not in Pending Recall Status' +'.<br/>'; 
                    }
                 system.debug('product is presenet'+mapProduct.containsKey(product.Name__c));
@@ -864,7 +879,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 if(String.isnotblank(workAssignmentPlacement) 
                    && workAssignmentPlacement != newAgency 
                    && newAgency != '9999'){
-                       ERROR_MSG += '<b>ERROR</b> - This account is not available in this Placement.<br/>';
+                       ERROR_MSG += '<b>ERROR</b> : This account is not available in this Placement<br/>';
                        EXPECTED += 'Product Agency = ' +newAgency+'.<br/>';        
                    }
                 /*else if(mapProduct.containsKey(product.Name)
@@ -902,7 +917,7 @@ system.debug('settings::'+ss);
 }*/
             if(!settings.keySet().Contains(product.Placement_Status_Code__c)){
                 system.debug('inside setStatusCode');
-                ERROR_MSG += '<b>ERROR</b> - The Status Code provided was not found.<br/>';
+                ERROR_MSG += '<b>ERROR</b> : status code does not exist<br/>';
                 EXPECTED += 'Invalid Status Code.'+'<br/>'; 
             }
             
@@ -914,7 +929,7 @@ system.debug('settings::'+ss);
             if(mapProduct.containsKey(product.Name__c)
                && mapProduct.get(product.Name__c).Data_Status_Description__c != null
                && mapProduct.get(product.Name__c).Data_Status_Description__c.startswith('Closed')){
-                   ERROR_MSG = '<b>ERROR</b> - Account is Closed.<br/>';
+                   ERROR_MSG = '<b>ERROR</b> : Account is closed<br/>';
                }
             /*if(mapProduct.containsKey(product.Name)
 && mapProduct.get(product.Name).Status__c != null
@@ -926,7 +941,7 @@ ERROR_MSG = '<b>ERROR</b> - Account in Pending Recall.<br/>';
             System.debug('Current Date ' +Date.today());
             
             if(product.Assignment_Date__c <= Date.today()){    
-                ERROR_MSG += '<b>ERROR</b> - Invalid Status Date found. Must be after account Placement Date.<br/>';
+                ERROR_MSG += '<b>ERROR</b> : Status Date must be >= account Placement Date<br/>';
                 EXPECTED += 'Assignment Date should be greater than current date <br/>';
             }
             
@@ -937,7 +952,8 @@ ERROR_MSG = '<b>ERROR</b> - Account in Pending Recall.<br/>';
               mapProduct.get(product.Name__c).Purchase_Status__c == 'Buyback Requested' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Putback Requested' || 
               mapProduct.get(product.Name__c).Purchase_Status__c == 'Buyback Approved' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Putback Approved'){
                   
-                ERROR_MSG += '<b>ERROR</b> - Products which are in Buyback/Putback status can not be associated with Agency.<br/>';
+                ERROR_MSG += '<b>ERROR</b> : Account is in Buyback / Putback status<br/>';
+            }
             }
             }
             system.debug('product tested::');
@@ -1151,5 +1167,41 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
                                                //CFG_EmailNotification.sendEmailNotificationOnErrorFile(workAssignment.Created_By__c,workAssignment.Latest_Comment__c,workAssignment.name,workAssignment.title__c,workAssignment.id);
                                            }
                                        } 
+   
+     //Added for ticket 4518 - satyajit (Product update is failed at the time of payment processing then creating the error file)
+     public Static void GenerateSuccessAndErrorFile(List<Database.SaveResult> errResult,Id workAssignment,Id documentStorage, set<Id> prodIdList){
+        system.debug('block run');            
+        String failed;  
+        //Integer failedRecords = 0; 
+        failed = 'data_id,Error';    
+        system.debug('errResult::'+errResult);
+        
+            List<Product__c> prodDataList = new List<Product__c>();
+            Map<Id, String> prodName = new Map<Id, String>();
+            if(prodIdList != null){
+                
+               prodDataList = [Select id,name from product__c where id IN: prodIdList]; 
+            }
+            system.debug('prodDataList::'+prodDataList);
+            if(!prodDataList.isEmpty()){
+                for(Product__c prod : prodDataList){
+                    prodName.put(prod.id,prod.Name);
+                } 
+            }   
+            
+        for(Database.SaveResult res : errResult){
+            system.debug('res.getId()'+res.getId());
+            system.debug('res.getErrors()'+res.getErrors());
+            failed += '\n';
+            failed += '"'+prodName.get(res.getId())+'","'+res.getErrors() +'"\n';
+                
+            
+            //failedRecords = failedRecords + 1;
+        }
+            system.debug('failed::'+failed);
+        Integer prodSatgingCount = [select count() from product_payment_staging__c where identifier__c  =: documentStorage]; 
+        system.enqueueJob(new PostDocumentAPI('Product Payment Upload File',failed,'',prodSatgingCount,0,workAssignment,'CFG + Requesting Agency',documentStorage));                                              
+      
+        }
     
 }

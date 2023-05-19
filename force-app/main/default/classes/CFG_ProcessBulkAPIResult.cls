@@ -35,7 +35,6 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
                                          where
                                          Is_Record_Process__c = FALSE 
                                          AND Identifier__c =: documentStorageId
-                                         AND (Data_Id__c != null OR Name__c !=null)
                                          AND CREATEDDATE = Today]);
     }
     
@@ -45,9 +44,13 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
             Set<String> poolNameList = new Set<String>();
             for(Product_Staging__c prod: scope) {
                 if(docType == allocate){
-                    productList.add(prod.Data_Id__c);
+                    if(prod.Data_Id__c != null){
+                        productList.add(prod.Data_Id__c);
+                    }
                 }else if(docType == recall){
-                    productList.add(prod.Name__c);
+                    if(prod.Name__c != null){
+                    	productList.add(prod.Name__c);
+                    }
                 }
                 poolNameList.add(prod.pool_Name__c);
             }
@@ -57,7 +60,9 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
             list<Product_Staging__c> listProductAllocateStaging = new list<Product_Staging__c>();
             for(Product_Staging__c ps:scope) {
                 ps.Identifier__c = documentStorageId;
-                ps.External_Id__c = ps.Data_Id__c + '_' + documentStorageId;
+                if(ps.Data_Id__c != null){
+                	ps.External_Id__c = ps.Data_Id__c + '_' + documentStorageId;
+                }
                 if(ex.getMessage().length()>247){
                     ps.Comment__c = '<ERROR>' + ex.getMessage().subString(0,247);    
                 }else{
@@ -80,7 +85,9 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
         list<Product_Staging__c> listProductAllocateStaging = new list<Product_Staging__c>();
         for(Product_Staging__c ps:batchScope) {
             //ps.Identifier__c = documentStorageId;
-            ps.External_Id__c = ps.Data_Id__c + '_' + documentStorageId;
+            if(ps.Data_Id__c != null){
+            	ps.External_Id__c = ps.Data_Id__c + '_' + documentStorageId;
+            }
             listProductAllocateStaging.add(ps);
         }
         update listProductAllocateStaging;

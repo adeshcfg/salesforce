@@ -39,8 +39,11 @@ public class SavePortalAccStatusUpdateFile {
             List<Product__c> listProductsToInsert = new List<Product__c>();
             List<String> accountNumberList = new List<String>();
             for(AccountRecordsWrapper wrapRecord : listAccountRecordWrapper){
-                wrapRecord.data_id = wrapRecord.data_id.toUppercase();
-                accountNumberList.add(wrapRecord.data_id);
+                if(wrapRecord.data_id != null){
+                  wrapRecord.data_id = wrapRecord.data_id.toUppercase();
+                  accountNumberList.add(wrapRecord.data_id);
+                }
+               
             }
             list<Placement__c> listPlacements = [SELECT ID 
                                              FROM Placement__c 

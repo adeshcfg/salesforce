@@ -44,7 +44,7 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
     }
     
     public Database.QueryLocator start(Database.BatchableContext BC){
-   		return Database.getQueryLocator([SELECT id,name,Status__c,Include_in_Processing__c,Placement_Agency__c,Pool_Name__c,Current_Commission_Rate__c,Placed_Commission_Rate__c,placement_status_code__c,Placed_Settlement_Rate__c,Current_Settlement_Rate__c,Value_Tier_at_Time_of_Placement__c,status_changed_date__c,name__c,comment__c,Identifier__c,Document_Storage__r.Work_Assignment__c FROM Product_Staging__c where Identifier__c =:documentStorageId LIMIT 50000]);
+        return Database.getQueryLocator([SELECT id,name,Status__c,Include_in_Processing__c,Placement_Agency__c,Pool_Name__c,Current_Commission_Rate__c,Placed_Commission_Rate__c,placement_status_code__c,Placed_Settlement_Rate__c,Current_Settlement_Rate__c,Value_Tier_at_Time_of_Placement__c,status_changed_date__c,name__c,comment__c,Identifier__c,Document_Storage__r.Work_Assignment__c FROM Product_Staging__c where Identifier__c =:documentStorageId LIMIT 50000]);
     }
     
     public void execute(Database.BatchableContext BC, List<Product_Staging__c> scope){
@@ -54,18 +54,18 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
             //fetch failed Records
             if((ps.Include_in_Processing__c == false || ps.Status__c == 'Pending') && documentType == recall){
                 description = ps.comment__c.replaceAll('<b>', '').replaceAll('</b>', '').replaceAll('<br/>', '');
-            	csvHeaderError +='"'+ps.Name__c+'","'+ps.placement_status_code__C+'","'+ps.status_changed_date__c+'","'+description +'"\n';
-            	failedRecords = failedRecords + 1;
+                csvHeaderError +='"'+ps.Name__c+'","'+ps.placement_status_code__C+'","'+ps.status_changed_date__c+'","'+description +'"\n';
+                failedRecords = failedRecords + 1;
             }else if((ps.Include_in_Processing__c == false || ps.Status__c == 'Pending') && documentType == allocate){
                 description = ps.comment__c.replaceAll('<b>', '').replaceAll('</b>', '').replaceAll('<br/>', '');
-            	csvHeaderError +='"'+ps.Name__c+'","'+ps.Placement_Agency__c+'","'+ps.Pool_Name__c+'","'+ps.Current_Commission_Rate__c+'","'+ps.Placed_Commission_Rate__c+'","'+ps.Current_Settlement_Rate__c+'","'+ps.Placed_Settlement_Rate__c+'","'+ps.Value_Tier_at_Time_of_Placement__c+'","'+description +'"\n';
-            	failedRecords = failedRecords + 1;
+                csvHeaderError +='"'+ps.Name__c+'","'+ps.Placement_Agency__c+'","'+ps.Pool_Name__c+'","'+ps.Current_Commission_Rate__c+'","'+ps.Placed_Commission_Rate__c+'","'+ps.Current_Settlement_Rate__c+'","'+ps.Placed_Settlement_Rate__c+'","'+ps.Value_Tier_at_Time_of_Placement__c+'","'+description +'"\n';
+                failedRecords = failedRecords + 1;
             }
             
             //fetch Success Records
             if(ps.Include_in_Processing__c == true && ps.Status__c == 'Processed' && documentType != allocate){
-            	csvHeaderSuccess +='"'+ps.Name__c+'","'+ps.placement_status_code__C+'","'+ps.status_changed_date__c+'","'+SUCCESS_STR +'"\n';
-            	successRecords = successRecords + 1;
+                csvHeaderSuccess +='"'+ps.Name__c+'","'+ps.placement_status_code__C+'","'+ps.status_changed_date__c+'","'+SUCCESS_STR +'"\n';
+                successRecords = successRecords + 1;
             }
         }  
     }
@@ -187,10 +187,10 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
             system.enqueueJob(new CFG_ProcessWorkAssignment(workAssignment.Id));
         }
         
-        Document_Storage__c docStorage = [select id,name,uploaded_By__c from Document_Storage__c where id = : documentStorageId];
+        Document_Storage__c docStorage = [select id,name,uploaded_By__c,Created_By__c from Document_Storage__c where id = : documentStorageId];
 
         if(!Test.isRunningTest() && docStorage.uploaded_By__c != 'External User'){
-            CFG_EmailNotification.sendEmailNotificationOnErrorFile(workAssignment.Created_By__c,workAssignment.Latest_Comment__c,workAssignment.name,workAssignment.title__c,workAssignment.id,documentType);
+            CFG_EmailNotification.sendEmailNotificationOnErrorFile(docStorage.Created_By__c,workAssignment.Latest_Comment__c,workAssignment.name,workAssignment.title__c,workAssignment.id,documentType);
        }
     }
 }

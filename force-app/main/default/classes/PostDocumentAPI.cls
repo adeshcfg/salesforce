@@ -7,8 +7,10 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
     String visiblity;
     Id documentID;
     String DocType;
+    public static Boolean stopSuccessfilegenaration = true;
     
     public PostDocumentAPI(String DocType,String failed,String success,Integer failedRecords,Integer successRecords,Id workAssignmentId,String visiblity,Id documentID) {
+        system.debug('run bacth');
         this.failed = failed;
         this.success = success;
         this.failedRecords = failedRecords;
@@ -19,6 +21,7 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         this.DocType = DocType;
     }
     public void execute(QueueableContext context) {
+        //Database.executeBatch(new ErrorCSVFileGenerationBatch(DocType,failed,success,failedRecords,successRecords,workAssignmentId,visiblity,documentID),2000);                                              
         Map<String,Object> rawObj;
         Map<String,Object> rawObj1;
         
@@ -29,18 +32,20 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         Blob fileBlob = Blob.valueOf(failed);
         system.debug('fileBlob::'+fileBlob);
         if(failedRecords > 0){
-                if(String.isNotBlank(DocType)){
-                    if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
-                       DocType == 'Balance Adjustment Upload File'){
-                        parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Payment Failed.csv', 'Task');
-                    }else if(DocType == 'Customer Contact Information Update File'){
-                        parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Customer Contact Information Failed.csv', 'Task');
-                    }else if(DocType == 'Account Status (having Judgment) Update File'){
-                        parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Account Judgment Failed.csv', 'Task');
-                    }
-                }
-                
-                rawObj = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse.response); 
+            if(String.isNotBlank(DocType)){
+                if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
+                   DocType == 'Balance Adjustment Upload File'){
+                       parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Payment Failed.csv', 'Task');
+                   }else if(DocType == 'Customer Contact Information Update File'){
+                       parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Customer Contact Information Failed.csv', 'Task');
+                   }else if(DocType == 'Account Status (having Judgment) Update File'){
+                       parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Account Judgment Failed.csv', 'Task');
+                   }else if(DocType == 'Account Status Update File'){
+                       parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Account Status Failed.csv', 'Task');
+                   }
+            }
+            
+            rawObj = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse.response); 
         }
         
         //Success CSV API Call
@@ -48,17 +53,19 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         Blob fileBlobSuccess = Blob.valueOf(success);
         system.debug('fileBlobSuccess::'+fileBlobSuccess.size());
         if(successRecords > 0){
-                if(String.isNotBlank(DocType)){
-                    if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File'||
-                       DocType == 'Balance Adjustment Upload File'){
-                        parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Payment Success.csv', 'Task');
-                    }else if(DocType == 'Customer Contact Information Update File'){
-                        parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Customer Contact Information Success.csv', 'Task');
-                    }else if(DocType == 'Account Status (having Judgment) Update File'){
-                        parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Account Judgment Success.csv', 'Task');
-                    }
-                }
-                rawObj1 = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse1.response); 
+            if(String.isNotBlank(DocType)){
+                if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File'||
+                   DocType == 'Balance Adjustment Upload File'){
+                       parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Payment Success.csv', 'Task');
+                   }else if(DocType == 'Customer Contact Information Update File'){
+                       parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Customer Contact Information Success.csv', 'Task');
+                   }else if(DocType == 'Account Status (having Judgment) Update File'){
+                       parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Account Judgment Success.csv', 'Task');
+                   }else if(DocType == 'Account Status Update File'){
+                       parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Account Status Success.csv', 'Task');
+                   }
+            }
+            rawObj1 = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse1.response); 
         }
         
         //Create Failed CSV Document Storage
@@ -68,15 +75,18 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             failedDocStorage.Work_Assignment__c = workAssignmentID;
             if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
                DocType == 'Balance Adjustment Upload File'){
-                failedDocStorage.Document_Name__c = 'Product Payment Failed.xls';
-                failedDocStorage.Document_Type__C = 'Payment Processing File';
-            }else if(DocType == 'Customer Contact Information Update File'){
-                failedDocStorage.Document_Name__c = 'Customer Contact Information Failed.xls';
-                failedDocStorage.Document_Type__C = 'Payment Processing File';
-            }else if(DocType == 'Account Status (having Judgment) Update File'){
-                failedDocStorage.Document_Name__c = 'Account Judgment Failed.xls';
-                failedDocStorage.Document_Type__C = 'Account Judgment Processing File';
-            }
+                   failedDocStorage.Document_Name__c = 'Product Payment Failed.xls';
+                   failedDocStorage.Document_Type__C = 'Payment Processing File';
+               }else if(DocType == 'Customer Contact Information Update File'){
+                   failedDocStorage.Document_Name__c = 'Customer Contact Information Failed.xls';
+                   failedDocStorage.Document_Type__C = 'Payment Processing File';
+               }else if(DocType == 'Account Status (having Judgment) Update File'){
+                   failedDocStorage.Document_Name__c = 'Account Judgment Failed.xls';
+                   failedDocStorage.Document_Type__C = 'Account Judgment Processing File';
+               }else if(DocType == 'Account Status Update File'){
+                   failedDocStorage.Document_Name__c = 'Account Status Failed.csv';
+                   failedDocStorage.Document_Type__C = 'Account Status Processing File';
+               }
             failedDocStorage.Document_Extension__c = 'xls';
             failedDocStorage.Document_ID__c = parsedResponse.docId;
             failedDocStorage.Visibility__c = visiblity;
@@ -97,15 +107,18 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             SuccessDocStorage.Work_Assignment__c = workAssignmentID;
             if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
                DocType == 'Balance Adjustment Upload File'){
-            	SuccessDocStorage.Document_Name__c = 'Product Payment Success.xls';
-                SuccessDocStorage.Document_Type__C = 'Payment Processing File';
-            }else if(DocType == 'Customer Contact Information Update File'){
-                SuccessDocStorage.Document_Name__c = 'Customer Contact Information Success.xls';
-                SuccessDocStorage.Document_Type__C = 'Payment Processing File';
-            }else if(DocType == 'Account Status (having Judgment) Update File'){
-                SuccessDocStorage.Document_Name__c = 'Account Judgment Success.xls';
-                SuccessDocStorage.Document_Type__C = 'Account Judgment Processing File';
-            }
+                   SuccessDocStorage.Document_Name__c = 'Product Payment Success.xls';
+                   SuccessDocStorage.Document_Type__C = 'Payment Processing File';
+               }else if(DocType == 'Customer Contact Information Update File'){
+                   SuccessDocStorage.Document_Name__c = 'Customer Contact Information Success.xls';
+                   SuccessDocStorage.Document_Type__C = 'Payment Processing File';
+               }else if(DocType == 'Account Status (having Judgment) Update File'){
+                   SuccessDocStorage.Document_Name__c = 'Account Judgment Success.xls';
+                   SuccessDocStorage.Document_Type__C = 'Account Judgment Processing File';
+               }else if(DocType == 'Account Status Update File'){
+                   SuccessDocStorage.Document_Name__c = 'Account Status Success.csv';
+                   SuccessDocStorage.Document_Type__C = 'Account Status Processing File';
+               }
             SuccessDocStorage.Document_Extension__c = 'xls';
             SuccessDocStorage.Document_ID__c = parsedResponse1.docId;
             SuccessDocStorage.Visibility__c = visiblity;
@@ -127,16 +140,27 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         system.debug('workAssignmentId%%%'+workAssignmentId);
         Work_Assignment__c workAssignment = [select id,name,title__c,Created_By__c,Status__c,Latest_Comment__c,Comments_History__c,Comment_Reply__c from Work_Assignment__c where id = : workAssignmentId];
         workAssignment.Status__c = 'Completed';
-        if(failedRecords > 0){
-            workAssignment.Comment_Reply__c = 'No. of Records Failed: '+ failedRecords +'\n';
-        }else{
-            workAssignment.Comment_Reply__c = 'No. of Records Failed: 0'+'\n';
+        
+        
+        if(DocType == 'Product Payment Upload File' && failedRecords > 0 && successRecords == 0){
+            stopSuccessfilegenaration = false;
         }
-        if(successRecords > 0){
-            workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
-        }else{
-            workAssignment.Comment_Reply__c += 'No. of Records Succeeded: 0';
+        workAssignment.Comment_Reply__c = '';
+        if(stopSuccessfilegenaration == true){
+            if(failedRecords > 0){
+                workAssignment.Comment_Reply__c = 'No. of Records Failed: '+ failedRecords +'\n';
+            }else{
+                workAssignment.Comment_Reply__c = 'No. of Records Failed: 0'+'\n';
+            }
+            if(successRecords > 0){
+                workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
+            }else{
+                workAssignment.Comment_Reply__c += 'No. of Records Succeeded: 0';
+            }
+        }else if(stopSuccessfilegenaration == false){
+            workAssignment.Comment_Reply__c += 'Whole transaction is failed because of exception please check the error file and share with support team';
         }
+        
         if(workAssignment.Comments_History__c !=null){
             oldComments = workAssignment.Comments_History__c;
         }
@@ -151,8 +175,14 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         
         WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
         update workAssignment;
+        stopSuccessfilegenaration = true;
         WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
         
         DocumentStorageTriggerHandler.runDocumentStorageTrigger=true; 
+        
+        //Changes are done by ticket: 4496
+        if(!Test.isRunningTest()){
+            system.enqueueJob(new CFG_ProcessWorkAssignment(workAssignment.Id));
+        }
     }
 }

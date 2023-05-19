@@ -62,7 +62,7 @@ public class TestInsolvencyAccountEditController{
         Database.SaveResult sr = Database.insert(insShare,false);
     }
     
-    public testmethod static void testInsolvencyLockSB(){
+    /* public testmethod static void testInsolvencyLockSB(){
         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
         User u = getCommunityUser('Scotia Bank Community User');
         shareInsolvencyRecord(u.Id);
@@ -74,7 +74,6 @@ public class TestInsolvencyAccountEditController{
         // call the constructor
         InsolvencyAccountEditController controller = new InsolvencyAccountEditController (new ApexPages.StandardController(insolvAcc));
         controller.redirPage();
-        controller.redirPage();    
         System.runAs(u){
             controller.redirPage();
         }
@@ -94,7 +93,6 @@ public class TestInsolvencyAccountEditController{
         // call the constructor
         InsolvencyAccountEditController controller = new InsolvencyAccountEditController (new ApexPages.StandardController(insolvAcc));
         controller.redirPage();
-        controller.redirPage();    
         System.runAs(u){
             controller.redirPage();
         }
@@ -114,16 +112,15 @@ public class TestInsolvencyAccountEditController{
         // call the constructor
         InsolvencyAccountEditController controller = new InsolvencyAccountEditController (new ApexPages.StandardController(insolvAcc));
         controller.redirPage();
-        controller.redirPage();    
         System.runAs(u){
             controller.redirPage();
         }
         insolvAcc.Client_Identifier__c = null;
         update insolvAcc;
         controller.redirPage();
-    }
+    } */
     
-    /*public testmethod static void testInsolvencyLockFS(){
+    public testmethod static void testInsolvencyLockFS(){
         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
         User u = getCommunityUser('Fairstone Community User');
         shareInsolvencyRecord(u.Id);
@@ -134,12 +131,11 @@ public class TestInsolvencyAccountEditController{
         // call the constructor
         InsolvencyAccountEditController controller = new InsolvencyAccountEditController (new ApexPages.StandardController(insolvAcc));
         controller.redirPage();
-        controller.redirPage();    
         System.runAs(u){
             controller.redirPage();
         }
         insolvAcc.Client_Identifier__c = null;
         update insolvAcc;
         controller.redirPage();
-    }*/
+    }
 }

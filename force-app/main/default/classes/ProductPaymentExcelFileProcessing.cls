@@ -71,8 +71,11 @@ public class ProductPaymentExcelFileProcessing {
             map<String, Decimal> mapValueTierCommissionRate = getCommissionRateValues();
             
             for(PaymentRecordsWrapper wrapRecord : listPaymentRecordWrapper){
+            if(wrapRecord.data_id != null){
                 wrapRecord.data_id = wrapRecord.data_id.toUppercase();
                 accountNumberList.add(wrapRecord.data_id);
+            }
+                
             }
             
             if(String.isNotBlank(workAssignmentPlacement)){
@@ -393,8 +396,6 @@ public class ProductPaymentExcelFileProcessing {
         }
         catch(Exception ex){
             exceptionMessage = String.valueOf(ex.getStackTraceString());
-            system.debug('exceptionMessage::'+exceptionMessage);
-            system.debug('exceptionMessage::'+ex.getMessage());
         }
         
         String processingLink = '';
@@ -692,8 +693,8 @@ public class ProductPaymentExcelFileProcessing {
             if(!mapProduct.containsKey(prodPayment.CCS_Account__c)){
                 ERROR_MSG = '<b>ERROR</b> - Account not found.<br/>';
             }
-			//Invalid Payment Source as Per Document Type
-			if(docStorage.Document_Type__c == 'Direct Payment Upload File'
+            //Invalid Payment Source as Per Document Type
+            if(docStorage.Document_Type__c == 'Direct Payment Upload File'
             && String.isNotBlank(prodPayment.Payment_Source__c) && prodPayment.Payment_Source__c != '1' &&
               prodPayment.Payment_Source__c != '2' && prodPayment.Payment_Source__c != '3'){
                 ERROR_MSG += '<b>ERROR</b> - Invalid Payment Source for Direct Payment Upload File<br/>';
@@ -891,8 +892,6 @@ public class ProductPaymentExcelFileProcessing {
                     }
                 }
             }
-            system.debug('Data_Status_Description__c'+mapProduct.get(prodPayment.CCS_Account__c).Data_Status_Description__c);
-            system.debug('Data_Status_Description__c'+mapProduct.get(prodPayment.CCS_Account__c).Purchase_Status__c);
             //Account must not be closed
             if(mapProduct.containsKey(prodPayment.CCS_Account__c)
                && String.isnotblank(mapProduct.get(prodPayment.CCS_Account__c).Data_Status_Description__c)
@@ -1061,7 +1060,6 @@ public class ProductPaymentExcelFileProcessing {
                     }
                     else{
                         if(!mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                            system.debug('inside not placement history');
                             prodPayment.Payment_Provided_Agency__c = productAgencyID;
                             prodPayment.Payment_Agency__c = productAgency;
                             if(prodPayment.Pay_Due__c != NULL){
@@ -1073,9 +1071,8 @@ public class ProductPaymentExcelFileProcessing {
                         }
                         else if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) 
                                 && mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) > 15){
-                                    system.debug('inside not placement history greater than 15');
                                     prodPayment.Payment_Provided_Agency__c = productAgencyID;
-                            		prodPayment.Payment_Agency__c = productAgency;
+                                    prodPayment.Payment_Agency__c = productAgency;
                                     
                                     if(prodPayment.Pay_Due__c != NULL){
                                         prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
@@ -1087,7 +1084,6 @@ public class ProductPaymentExcelFileProcessing {
                         //This account is recalled within 15 days and 
                         else if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) 
                                 && mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) <= 15){
-                                    system.debug('inside not placement history less than 15');
                                     if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)){
                                         Decimal CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Product_Commission_rate__C;
                                         if(CommissionRate == NULL){
@@ -1097,7 +1093,6 @@ public class ProductPaymentExcelFileProcessing {
                                             CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Pool_Commission_Rate__c;
                                         }
                                         if(CommissionRate != NULL){
-                                            system.debug('inside not placement history less than 15 CommissionRate not null');
                                             //if commission adjustment is added to product, adjust Commission Rate
                                             if(mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != NULL){
                                                 CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
@@ -1183,7 +1178,6 @@ public class ProductPaymentExcelFileProcessing {
                                             }
                                         }
                                         else{
-                                            system.debug('inside not placement history less than 15 CommissionRate null');
                                             //if commission adjustment is added to product, adjust Commission Rate
                                             if(mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != NULL){
                                                 CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
@@ -1225,16 +1219,14 @@ public class ProductPaymentExcelFileProcessing {
                     }
                 }
                 }
-                
-                system.debug('productAgency'+mapProduct.containsKey(prodPayment.CCS_Account__c)+''+productAgency); 
-                system.debug('prodPayment.Payment_Agency__c'+mapProduct.containsKey(prodPayment.CCS_Account__c)+''+prodPayment.Payment_Agency__c);  
                 //This account is no longer available in this Placement
                 if(mapProduct.containsKey(prodPayment.CCS_Account__c)
                 && String.isNotBlank(productAgency)
                 && productAgency != '9999'
                 && prodPayment.Payment_Agency__c != productAgency
                 && !setProductPreviouslyPlacedCheck.contains(prodPayment.CCS_Account_Name__c + prodPayment.Payment_Agency__c)){
-                    ERROR_MSG += '<b>ERROR</b> - This account is not available in this Placement.<br/>';
+                    //Ticket 4537 - changed by tejal
+                    ERROR_MSG += '<b>WARNING</b> - This account is not available in this Placement.<br/>';
                     /*EXPECTED += 'Commission Amount will be paid to Agency '+ mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency__c +'<br/>'; */
                 }
                 

@@ -1538,9 +1538,24 @@
                 <label>CFL137</label>
             </value>
             <value>
+                <fullName>CFL138</fullName>
+                <default>false</default>
+                <label>CFL138</label>
+            </value>
+            <value>
                 <fullName>CFL139</fullName>
                 <default>false</default>
                 <label>CFL139</label>
+            </value>
+            <value>
+                <fullName>CFL140</fullName>
+                <default>false</default>
+                <label>CFL140</label>
+            </value>
+            <value>
+                <fullName>CFL143</fullName>
+                <default>false</default>
+                <label>CFL143</label>
             </value>
             <value>
                 <fullName>CFL-STREAM</fullName>
@@ -2041,16 +2056,6 @@
                 <fullName>WFF3CO107</fullName>
                 <default>false</default>
                 <label>WFF3CO107</label>
-            </value>
-            <value>
-                <fullName>ROGERSCOMBKBULK03</fullName>
-                <default>false</default>
-                <label>ROGERSCOMBKBULK03</label>
-            </value>
-            <value>
-                <fullName>ROGERSCOMCPBULK03</fullName>
-                <default>false</default>
-                <label>ROGERSCOMCPBULK03</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -255,7 +255,116 @@ insert prod4;
         failedStringSet.add('test');
         DistressedUtilities.postDocumentAPI(docStorage.id, workAssignment.id, 2, 2, successStringSet, failedStringSet, 'test', 'test', prodStagingList,'Account Status Update File');
         
+              
     }
+      ////////////////////////////////////////////////////////////////////////// Test Data AND Method changes by me//////////////////////////////////////////////////////////////////////////////////////////// 
+        static testMethod void disThirdByMe(){
+            
+      
+        Work_Assignment__c workAssignment1 = new Work_Assignment__c();
+        workAssignment1.Purpose__c = 'Excel Processing';
+        workAssignment1.Sub_Purpose__c = 'Product Allocation File';
+        insert workAssignment1;
+        
+        Document_Storage__c docStorage1 = new Document_Storage__c();
+        docStorage1.Work_Assignment__c = workAssignment1.ID;
+        docStorage1.Uploaded_By__c = 'External User';
+        insert docStorage1;
+            
+        Pool__c poolData1 = new Pool__c();
+        poolData1.Placement_Agency__c = 89;
+        poolData1.Commission_Rate__c=2;
+             //poolData.Name='test';
+        insert poolData1;
+        
+        Map<ID, Pool__c> poolMap1 = new Map<ID, Pool__c>();
+        poolMap1.put(poolData1.id,poolData1);
+            
+            
+        List<Product__c> prodList1 = new List<Product__c>();
+        
+        Product__c prodd2= new Product__c();
+        List<User> systemNamee=[Select Name from User where Name ='System API'];
+        prodd2.name = '12345';
+        prodd2.Internal_Status__c = 'Active';
+        prodd2.Payment_Setup_Status__c = 'Automated';
+        prodd2.Funding_Status__c = 'Funded';
+        prodd2.Funding_Type__c = 'Automated';
+        prodd2.Disbursement_Amount__c = 3000.00;
+        prodd2.Collection_Agency__c = 30;
+        prodd2.Current_Balance__c = 7730;
+        prodd2.Current_Principal_Balance__c = 5000;
+        prodd2.Current_Interest_Amount__c = 2730;
+        prodd2.product_status__C = '310000';
+        prodd2.Current_Workflow__c = 'Collection Process';
+        prodd2.Requested_Close_Date__c = System.Today();
+        prodd2.Status__c = 'New Allocation - New Allocation';
+        prodd2.Sub_Status__c = 'Ready';
+        prodd2.Product_Status__c = 'Test';
+       prodd2.Data_Status_Description__c='Closed test';
+        prodd2.Last_Name__c = 'xyz';
+        prodd2.Recoverable_Fee__c =123;
+        //prod2.Pool_Name__c = pool.id;
+        prodd2.Placement_Status__c = '100010';
+        prodd2.Credit_Counselling_Date__c =null;
+        prodd2.Purchase_Status__c = 'Buyback Approved';
+        prodd2.Last_Payment_Date__c = Date.newInstance(2016, 12, 5);
+        prodd2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
+        prodd2.Recoverable_Fee__c = 100;
+        prodd2.Allocated_Amount_Principal__c = 200;
+        prodd2.Allocated_Amount_Interest__c = 300;
+        prodd2.Commission_Rate_at_Time_of_Placement__c=2;
+        prodd2.Commission_Rate__c=4;
+        prodd2.Settlement_Rate__c=5;
+        prodd2.Value_Tier_at_Time_of_Placement__c='A';
+        prodd2.Placed_Settlement_Rate__c=5;
+        prodd2.Current_Bal_NSF_Fees__c = 400;
+        prodd2.Purchase_Province__c ='AB';
+        prodd2.State__c='Ontario';
+        prodd2.Collection_Sub_Status__c='Credit Counselling';
+        insert prodd2;
+            
+            Map<String, Product__c> mapProductName1 = new Map<String, Product__c>();
+        Map<String ,Pool__C> poolMap2 = new Map<String ,Pool__C>();
+        
+        mapProductName1.put(prodd2.name,prodd2);
+            poolMap2.put(poolData1.name,poolData1);
+            
+        Product_Staging__c productStaging1 = new Product_Staging__c();
+        productStaging1.Product_ID__c = prodd2.ID;
+        productStaging1.Data_Id__c = NULL; //prod2.Name;
+        productStaging1.Name__c = NULL;//prod2.Name;
+        productStaging1.Document_Storage__c = docStorage1.ID;
+        productStaging1.Comment__c = 'SUCCESS';
+        productStaging1.Status__c = 'Processed';
+        productStaging1.Identifier__c = docStorage1.ID;
+        productStaging1.Placement_Agency__c = '1';
+        productStaging1.Status_Changed_Date__c = String.valueOf(Date.today());
+        productStaging1.Placement_Status_Code__c = '900000';
+        productStaging1.Pool_Name_ID__c = poolData1.id;
+        productStaging1.Current_Principal_Balance__c = 5000;
+        productStaging1.Current_Interest_Balance__c = 400;
+        productStaging1.Status_Changed_Date_Text__c = '27/03/2023';
+        productStaging1.Status_Changed_Date__c ='27/03/2023';
+        productStaging1.Fees__c = 300;
+      //  productStaging.Pool_Name__c='test';
+        insert productStaging1;
+        
+        List<Product_staging__c> prodStagingList1 = new List<Product_staging__c>();
+        prodStagingList1.add(productStaging1);
+            
+        set<string> successStringSet = new set<string>();
+        successStringSet.add('test');
+        set<string> failedStringSet =  new set<string>();
+        failedStringSet.add('test');    
+        
+        DistressedUtilities.allocationValidationOnRecordUpdate(prodStagingList1,prodList1, mapProductName1, docStorage1.id, poolMap2);
+        DistressedUtilities.recallValidationOnRecordUpdate(prodStagingList1, prodList1, mapProductName1, docStorage1.id, workAssignment1.id, docStorage1);
+        DistressedUtilities.postDocumentAPI(docStorage1.id, workAssignment1.id, 2, 2, successStringSet, failedStringSet, 'test', 'test', prodStagingList1,'Account Status Update File');  
+
+        
+        }
     
     static testMethod void disUtilitySettlemt(){
          Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());

@@ -44,6 +44,8 @@ public class PortalComplaintProcessingAPI {
                 escapeProdlistString = productsList.escapeUnicode();
                 system.debug('escapeProdlistString::'+escapeProdlistString);
             }          
+            system.debug('Comment_Reply::'+complaintInstance.Latest_Comment__c);
+            system.debug('oldLatestComment::'+oldLatestComment);
             
             complaintJSONRequest = '{'+
                 //'"Identifier":'+workAssignmentInstance.SF_ID__c+','+
@@ -56,11 +58,11 @@ public class PortalComplaintProcessingAPI {
                 '"Requested_Date": "'+complaintInstance.Requested_Date__c+'",'+
                 '"Due_Date": "'+complaintInstance.Due_Date__c+'",'+
                 '"Next_follow_up_date": "'+complaintInstance.Next_follow_up_date__c+'",';
-                if(oldLatestComment != complaintInstance.Latest_Comment__c) {
+                //if(oldLatestComment != complaintInstance.Latest_Comment__c) {
                     complaintJSONRequest += '"Comment_Reply": "'+(String.isnotBlank(complaintInstance.Latest_Comment__c) ? 
                     complaintInstance.Latest_Comment__c.escapeUnicode()
                    : complaintInstance.Latest_Comment__c) +'",';
-                }
+               /// }
                 complaintJSONRequest += '"Reopen_Comments": "'+complaintInstance.Reopen_Comments__c+'",'+
                 '"Complaint_Type": "'+complaintInstance.Complaint_Type__c+'",'+
                 '"Root_Cause": "'+complaintInstance.Root_Cause__c+'",'+
