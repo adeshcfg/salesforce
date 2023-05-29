@@ -17,6 +17,7 @@ public class PortalJudgmentProcessorUtil {
     public static Date writRenewalDate;
     public static Date garnishmentDate;
     public static Date judgmentDate;
+    public static Map<id,Judgment__c> mapJudgment = new Map<id,Judgment__c>();
     //Create Request Fund record 
     public static String processJudgment(Map<String,String> paramMap, Judgment__c judgment){
         //Create temporary account instance to store request values
@@ -25,22 +26,27 @@ public class PortalJudgmentProcessorUtil {
         list<Judgment__c> listNewJudgments = new list<Judgment__c>();
         List<ID> productId = new List<ID>();
         List<String> productNames = new List<String>();
-        Map<id,Judgment__c> mapJudgment = new Map<id,Judgment__c>();
-        mapJudgment.put(judgment.id,judgment);
-        system.debug('mapJudgment before::'+mapJudgment);
-        system.debug('judgment before::'+judgment);
+        
+        Judgment__c judgmentnew = new Judgment__c();
+        judgmentnew.id = judgment.id;
+        judgmentnew.Legal_Status__c = judgment.Legal_Status__c;
+        judgmentnew.Legal_Sub_Status__c = judgment.Legal_Sub_Status__c;
+        judgmentnew.Judgment_Date__c = judgment.Judgment_Date__c;
+        
+        //judgmentnew = judgment;
+
+        if (!mapJudgment.containsKey(judgmentnew.id)) {
+            mapJudgment.put(judgmentnew.id,judgmentnew);
+        }
+
         writRenewalDate = judgment.Writ_Renewal_Date__c;
         garnishmentDate = judgment.Garnishment_Date__c;
         judgmentDate = judgment.Judgment_Date__c;
-        system.debug('judgmentDatecheck'+judgmentDate);
         LegalStatus = judgment.Legal_Status__c;
         LegalSubStatus = judgment.Legal_Sub_Status__c;
+        
         for(Agency_Portal_Fields_Mapping__c mapping : fieldMapping){
-            
             if(mapping.Object_Name__c == 'Judgment'){
-                
-                system.debug('tag:: '+paramMap.get(mapping.Field_JSON_Tag__c));
-               
                 if(mapping.Field_Type__c == 'Currency'){
                     if(String.isNotBlank(paramMap.get(mapping.Field_JSON_Tag__c))){
                         judgment.put(mapping.Field_API__c, Decimal.valueOf(paramMap.get(mapping.Field_JSON_Tag__c)));
@@ -55,9 +61,8 @@ public class PortalJudgmentProcessorUtil {
                     judgment.put(mapping.Field_API__c, paramMap.get(mapping.Field_JSON_Tag__c));
                 } 
             }
-            
-            
         }
+
         try{
             //to not run workassignment trigger
             JudgmentTriggerHandler.runJudgmentTrigger = false;
@@ -66,39 +71,28 @@ public class PortalJudgmentProcessorUtil {
             list<Judgment__c> listJudgment = new list<Judgment__c>();
             listJudgment.add(judgment);
             getJudgmentRelatedAgencyData(listJudgment);
-            system.debug('listJudgment::'+listJudgment);
             judgment.Inbound_API_Request_Body__c = String.valueOf(paramMap);
             judgment.Inbound_API_Response_Body__c = 'Successfully Created';
-            system.debug('judgment.ID::'+judgment.ID);
-             system.debug('listJudgmentUTIL::'+listJudgment);
             if(judgment.ID == NULL){
                 insert judgment;
             }
             else{
-                //system.debug('Block run');
                 update judgment;
                 writRenewalDate = judgment.Writ_Renewal_Date__c;
         		garnishmentDate = judgment.Garnishment_Date__c;
                 if(writRenewalDate != null && garnishmentDate != null){
                    if(writRenewalDate != Date.valueOf(paramMap.get('Date_Writ_Issued')) || garnishmentDate != Date.valueOf(paramMap.get('Garnishment_Date'))){
-                        system.debug('judgment.id'+judgment.id);
                         PortalJudgmentProcessingAPI.processJudgment(judgment.id);
                     } 
                 }
+                listNewJudgments.add(judgment);
+                JudgmentTriggerHandler.updateJudgmentInterestBalOnProduct(listNewJudgments, mapJudgment);
                 if(LegalStatus != null && LegalSubStatus != null){
                    if(LegalStatus != paramMap.get('Legal_Status') || LegalSubStatus != paramMap.get('Legal_Sub_Status')){
-                       system.debug('inside legal sub status');
                        	listJudgmentStatuses.add(judgment.Legal_Status__c);
-        				listNewJudgments.add(judgment);
-                       JudgmentTriggerHandler.updateProductStatusesOnJudgment(listNewJudgments,listJudgmentStatuses);
-                       system.debug('judgmentDate param'+paramMap.get('Judgment_Date'));
-                       system.debug('judgmentDate'+judgmentDate);
-                       system.debug('judgment.id'+judgment.id);
-                       
-                       JudgmentTriggerHandler.updateJudgmentInterestBalOnProduct(listNewJudgments, mapJudgment);
+                       	JudgmentTriggerHandler.updateProductStatusesOnJudgment(listNewJudgments,listJudgmentStatuses);
                     } 
                 }
-                
             }
             JudgmentTriggerHandler.runJudgmentTrigger = true;
             return 'success';
@@ -144,7 +138,7 @@ public class PortalJudgmentProcessorUtil {
             setCountyID.add(judgmentObj.County_Identifier__c);
             setAgencyInitiatedLegalID.add(judgmentObj.Agency_Initiated_Legal_Action__c);
         }
-        system.debug('setSuperiorCourtID:'+setSuperiorCourtID);
+
         for(Superior_Court__c sCourt : [SELECT ID, Name
                                         FROM Superior_Court__c
                                         WHERE Name IN : setSuperiorCourtID]){
@@ -195,20 +189,17 @@ public class PortalJudgmentProcessorUtil {
             JudgmentObj.Agency_Initiated_Legal_Action_Lookup__c = mapAgencyInitiatedLegalNames.get(JudgmentObj.Agency_Initiated_Legal_Action__c);
             prodProvinceName = JudgmentObj.Judgment_Province__c;
         }
-         system.debug('prodProvinceName::'+prodProvinceName);
+
          ProvinceNameFormat = nameFormat(prodProvinceName);
         	
          provinceAcronymFormat = prodProvinceName.toUpperCase();
-         for(Judgment__c JudgmentObj : listJudgment){
-             if(mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)){
-                       JudgmentObj.Judgment_Province__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Name__c; 
-                        //system.debug('judgment.Placed_Province__c::'+judgment.Placed_Province__c);
-                    }else if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
-                       JudgmentObj.Judgment_Province__c = ProvinceNameFormat; 
-                    }
-         }
-         
-        
+        for(Judgment__c JudgmentObj : listJudgment){
+            if(mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)){
+                JudgmentObj.Judgment_Province__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Name__c; 
+            }else if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
+                JudgmentObj.Judgment_Province__c = ProvinceNameFormat; 
+            }
+        }
     }  
     //get Province Name
     public static String nameFormat (String name) {

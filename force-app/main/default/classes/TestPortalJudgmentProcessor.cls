@@ -30,15 +30,14 @@ public class TestPortalJudgmentProcessor {
     
     public static testMethod void updateJudgmentTest(){
         
-        string prodProvinceName;
-        string ProvinceNameFormat;
-        string provinceAcronymFormat;
-        string LegalStatus;
-        string LegalSubStatus;
-        string PlacementStatus;
-        Date writRenewalDate;
-        Date garnishmentDate;
-        
+        Province_Tax_Rate_Mapping__mdt province2 = new Province_Tax_Rate_Mapping__mdt();
+        province2.Label = 'Alberta';
+        province2.Province_Acronym__c = 'AB';
+        province2.Province_Name__c = 'Alberta';
+        province2.Province_Tax_Rate__c = 5;
+        province2.Canada_Tax_Rate__c = 5;
+        province2.Total_Tax_Rate__c = 10;
+                
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         API_Call_Details__c  settings = new API_Call_Details__c ();
         settings.Name = 'Agency Portal API';
@@ -53,10 +52,10 @@ public class TestPortalJudgmentProcessor {
         insert settings;    
        
         Agency_Portal_Fields_Mapping__c FieldMap = new Agency_Portal_Fields_Mapping__c();
-        FieldMap.Field_API__c = 'Proposal_Amount__c';
-        FieldMap.Field_JSON_Tag__c ='Proposal_Amount';
+        FieldMap.Field_API__c = 'Balance_one__c';
+        FieldMap.Field_JSON_Tag__c ='Balance_one';
         FieldMap.Object_Name__c = 'Judgment';
-        FieldMap.Name = 'Monthly Expenses';
+        FieldMap.Name = 'Balance one';
         FieldMap.Field_Type__c = 'Currency';
         insert FieldMap;
         
@@ -68,10 +67,10 @@ public class TestPortalJudgmentProcessor {
         insert FieldMap1;
         
         Agency_Portal_Fields_Mapping__c FieldMap2 = new Agency_Portal_Fields_Mapping__c();
-        FieldMap2.Field_API__c = 'Judgment_complete_date__c';
-        FieldMap2.Field_JSON_Tag__c ='Judgment_complete_date';
+        FieldMap2.Field_API__c = 'Date_Writ_Issued__c';
+        FieldMap2.Field_JSON_Tag__c ='Date_Writ_Issued';
         FieldMap2.Object_Name__c = 'Judgment';
-        FieldMap2.Name = 'Judgment complete date';
+        FieldMap2.Name = 'Date_Writ_Issued';
         FieldMap2.Field_Type__c = 'Date';
         insert FieldMap2;
         
@@ -81,29 +80,6 @@ public class TestPortalJudgmentProcessor {
         FieldMap3.Object_Name__c = 'Judgment';
         FieldMap3.Name = 'Legal_Status';
         insert FieldMap3;
-        
-        Agency_Portal_Fields_Mapping__c FieldMap4 = new Agency_Portal_Fields_Mapping__c();
-        FieldMap4.Field_API__c = 'Judgment_Number__c';
-        FieldMap4.Field_JSON_Tag__c ='Judgment_Number';
-        FieldMap4.Object_Name__c = 'Judgment';
-        FieldMap4.Name = 'Judgment_Number';
-        insert FieldMap4;
-        
-         Agency_Portal_Fields_Mapping__c FieldMap5 = new Agency_Portal_Fields_Mapping__c();
-        FieldMap5.Field_API__c = 'Current_Principal_Balance__c';
-        FieldMap5.Field_JSON_Tag__c ='Current_Principal_Balance';
-        FieldMap5.Object_Name__c = 'Judgment';
-        FieldMap5.Name = 'Current_Principal_Balance';
-		FieldMap5.Field_Type__c = 'Currency';        
-        insert FieldMap5;
-        
-        Agency_Portal_Fields_Mapping__c FieldMap6 = new Agency_Portal_Fields_Mapping__c();
-        FieldMap6.Field_API__c = 'Judgment_Date__c';
-        FieldMap6.Field_JSON_Tag__c ='Judgment_Date';
-        FieldMap6.Object_Name__c = 'Judgment';
-        FieldMap6.Name = 'Judgment_Date';
-		FieldMap6.Field_Type__c = 'Date';        
-        insert FieldMap6;
         
         Superior_Court__C supCourt = new Superior_Court__C();
         supCourt.Name = 'XYZ';
@@ -189,7 +165,6 @@ public class TestPortalJudgmentProcessor {
         list<Payment_Transaction__c> listPaymentTransactionToProcess = new list<Payment_Transaction__c>();
         map<ID, Payment_Transaction__c> mapPaymentTransactions = new Map<ID, Payment_Transaction__c>();
         
-        
         Payment_Transaction__c prductTran = new Payment_Transaction__c();
         prductTran.Amount__c = 100;
         prductTran.Collection_Agency__c= 29;
@@ -199,11 +174,10 @@ public class TestPortalJudgmentProcessor {
         listPaymentTransactionToProcess.add(prductTran);
         mapPaymentTransactions.put(prductTran.id , prductTran);
         
-        
         Map<Id, Judgment__c> mapJudgment1 = New Map<Id, Judgment__c>();
         Judgment__c judgment1 = new Judgment__c();
         judgment1.Judgment_Number__c = 'JC-111';
-        judgment1.Legal_Agency__c = 'Test Agency';
+        judgment1.Legal_Agency__c = '1';
         judgment1.Country__c = 'CANADA';
         judgment1.Created_By__c = 'TESTABC';
         judgment1.Last_Modified_By__c = 'TEST123';
@@ -212,21 +186,25 @@ public class TestPortalJudgmentProcessor {
         judgment1.Suit_Amount__c = 200;
         judgment1.Company_Name__c = 'Test';
         judgment1.Writ_Renewal_Date__c =Date.newInstance(2016, 12, 9);
+        judgment1.Garnishment_Date__c =Date.newInstance(2016, 12, 9);
         judgment1.Agency_Initiated_Legal_Action_Lookup__c = place.Id;
         judgment1.Superior_Court__c = supCourt.Id;
         judgment1.Small_Claims_Court__c = smCourt.Id;
         judgment1.Enforcement_County__c = enCourt.Id;
         judgment1.County__c = court.Id;
         judgment1.Agency_Initiated_Legal_Action__c ='1';
-        judgment1.Judgment_Province__c = 'ON';
+        judgment1.Judgment_Province__c = 'Alberta';
+        judgment1.Superior_Court_Identifier__c = 'XYZ';
+        judgment1.Small_Claims_Court_Identifier__c = 'XYZ';
+        judgment1.Enforcement_County_Identifier__c = 'ABC';
+        judgment1.County_Identifier__c = 'XYZ';
+        judgment1.Legal_Status__c = 'Pre-legal';
+        judgment1.Legal_Sub_Status__c = 'Recommended for legal action	';
         insert judgment1;
         mapJudgment.put(judgment.id,judgment1);
        
-        
-       
         map<String, String> paramMap = new map<String, String>();
         paramMap.put('Judgment_Number', 'JC-111');
-        //paramMap.put('Judgment_Date','2022-01-03');
         paramMap.put('Legal_Agency','Test Agency');
         paramMap.put('Superior_Court','XYZ');
         paramMap.put('Small_Claims_Court','XYZ');
@@ -240,6 +218,9 @@ public class TestPortalJudgmentProcessor {
         paramMap.put('Suit_Amount','2000.00');
         paramMap.put('Garnishment_Date','2022-01-03');
         paramMap.put('Judgment_Province','ON');
+        paramMap.put('Legal_Status','Judgment');
+        paramMap.put('Legal_Sub_Status','Default Judgment');	
+        paramMap.put('Balance_one','1000');
         PortalJudgmentProcessorUtil.processJudgment(paramMap, judgment1);
     }
 }

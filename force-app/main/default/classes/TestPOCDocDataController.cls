@@ -27,7 +27,7 @@ public class TestPOCDocDataController{
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
         insert config; 
          
-         PoC_Package_Settings__c poc = new PoC_Package_Settings__c(Name = 'Scotia Bank');
+         PoC_Package_Settings__c poc = new PoC_Package_Settings__c(Name = 'Scotia Bank',Client_Company_Name__c = 'test');
          insert poc;
          
          //Insolvency insertion
@@ -70,6 +70,7 @@ public class TestPOCDocDataController{
         insolAcct.Client_Identifier__c = 'Scotia Bank';
         insolAcct.Portfolio_Group_Name__c='CAL005';
         insolAcct.recordTypeId = devRecordTypeId;
+        insolAcct.Last_Payment_Date__c=Date.newInstance(2020, 01, 08);
         insert insolAcct;
      }
       static testMethod void mergeFieldsTest(){

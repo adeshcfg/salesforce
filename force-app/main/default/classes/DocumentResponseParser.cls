@@ -100,11 +100,14 @@ public class DocumentResponseParser {
 
    // Method takes Parser Handler Ids and parse JSON reponse                                           
    public static void parseResponse(Id recordId) {
-   
-      System.debug('JSON Parser start time :'+System.now());
-      system.debug('recordId'+recordId);
       Parsed_Response_Holder__c parsedResponse = [SELECT Id, Parsed_Response_Formatted__c, Status__c, Error_Details__c, assignment__c FROM Parsed_Response_Holder__c WHERE Id =: recordId ];
-      Case caseRecord = [select id, Document_ID__c, status, parentID, SuppliedEmail, Creditor_s_Pack_Language__c, createdDate from case where id =: parsedResponse.assignment__c];
+      // Production Issue - Converted variable to list
+      List<Case> caseRecordList = [select id, Document_ID__c, status, parentID, SuppliedEmail, Creditor_s_Pack_Language__c, createdDate from case where id =: parsedResponse.assignment__c];
+      // Production Issue - Added List empty check
+      if(caseRecordList.isEmpty()) {
+         return;
+      }
+      Case caseRecord = caseRecordList[0];
       List<EmailMessage> emailMsg = [select id, FromAddress from EmailMessage where RelatedToId =: caseRecord.ID limit 1];
       List<Attachment> attach = new List<Attachment>();
     
@@ -199,9 +202,7 @@ public class DocumentResponseParser {
             if(res.Form79Parts != NULL){
                parseForm79Parts(res.Form79Parts, insolv, insolvAccounts, creditorAccounts);
             } // Form79Parts ENDS
-
                insolv = populateInsolvency(insolv, caseRecord);
-               system.debug('insolv.Name'+insolv.Name);
                insert insolv;
                
                insolvAccounts = populateInsolvencyAccount(insolvAccounts);
@@ -240,7 +241,6 @@ public class DocumentResponseParser {
                    newAttach.Description = 'Creditors Package';
                    listInsolvAttach.add(newAttach);
                }
-               
                insert listInsolvAttach;
                
                /*
@@ -267,22 +267,16 @@ public class DocumentResponseParser {
          catch(Exception ex){
             parsedResponse.Error_Details__c = ex.getMessage();
             parsedResponse.Status__c = 'Error';
-            
             caseRecord.status = 'Manually Process';
-            system.debug('parsedResponse.Error_Details__c '+parsedResponse.Error_Details__c);
             CaseComment addCom = new CaseComment();
             addCom.CommentBody = ex.getMessage();
             addCom.ParentID = caseRecord.id;
             insert addCom;
          }
          update parsedResponse;
-         
          CaseTriggerHandler.runCaseTrigger = false;
          update caseRecord;
          CaseTriggerHandler.runCaseTrigger = True;
-         
-         System.debug('JSON Parser completion time :'+System.now());
-         
       }// End IF
     }
     

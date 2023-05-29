@@ -366,7 +366,7 @@ public class POCDocController{
             Insolvency__c insolvencyObj = new Insolvency__c(Id = insolvencyId);
             insolvencyObj.Number_of_POC_Details_Provided_Accounts__c = 
             database.countQuery('select count() from insolvency_account__c where insolvency_status__C = \'PoC Details provided\''+
-                               +'and Insolvency__c = :insolvencyId and (RecordType.DeveloperName = \'Scotia_Bank_Insolvency_Account\' OR RecordType.DeveloperName = \'SDA_Insolvency_Account\' OR RecordType.DeveloperName = \'SPL_Insolvency_Account\')');
+                               +'and Insolvency__c = :insolvencyId and (RecordType.DeveloperName = \'Scotia_Bank_Insolvency_Account\' OR RecordType.DeveloperName = \'SDA_Insolvency_Account\' OR RecordType.DeveloperName = \'SPL_Insolvency_Account\' OR RecordType.DeveloperName = \'Fairstone_Insolvency_Account\')');
             InsolvencyTriggerHandler.runInsolvencyTrigger = false;
             update insolvencyObj;
             InsolvencyTriggerHandler.runInsolvencyTrigger = true;

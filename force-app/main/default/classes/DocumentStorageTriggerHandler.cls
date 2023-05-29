@@ -119,17 +119,17 @@ public class DocumentStorageTriggerHandler {
                 //system.debug('mapWorkAssignment::'+mapWorkAssignment.get(documentStorage.Work_Assignment__c).recordTypeID);
                 if(mapWorkAssignment != NULL && documentStorage.Work_Assignment__c != NULL
                 && (mapWorkAssignment.get(documentStorage.Work_Assignment__c).recordTypeID == config.AgencyComplaintWorkAssignmentRecordType__c || 
-                   mapWorkAssignment.get(documentStorage.Work_Assignment__c).recordTypeID == config.CFGComplaintWorkAssignmentRecordID__c)){
-                       notificationCallAPI(documentStorage.Placement_Identifier__c,'Document','Complaint No: '+mapWorkAssignment.get(documentStorage.Work_Assignment__c).Name+' Document Uploaded','Document '+documentStorage.Name+' is uploaded and ready to view. Document type is '+documentStorage.Document_Type__c);
+                   mapWorkAssignment.get(documentStorage.Work_Assignment__c).recordTypeID == config.CFGComplaintWorkAssignmentRecordID__c) && documentStorage.Visibility__c != 'CFG Only'){
+                      notificationCallAPI(documentStorage.Placement_Identifier__c,'Document','Complaint No: '+mapWorkAssignment.get(documentStorage.Work_Assignment__c).Name+' Document Uploaded','Document '+documentStorage.Name+' is uploaded and ready to view. Document type is '+documentStorage.Document_Type__c);
                 }
              if((documentStorage.Document_Type__c == PRODUCT_ALLOCATION_FILE || documentStorage.Document_Type__c == ACCOUNT_STATUS_UPDATE_FILE) && documentStorage.Document_Id__c != NULL && (documentStorage.File_Processing_Status__c == 'Pending'  || String.isBlank(documentStorage.File_Processing_Status__c))){
                         String workAssignmentPlacement = '';
                        if(documentStorage.Work_Assignment_Placement__c != null){
                            workAssignmentPlacement = documentStorage.Work_Assignment_Placement__c;
                        }
-                		if(!Test.isRunningTest()){
-                      		System.enqueueJob(new BulkDataloadQueueable('PARSE_CSV', null, 0, documentStorage));
-                    	}
+                        if(!Test.isRunningTest()){
+                            System.enqueueJob(new BulkDataloadQueueable('PARSE_CSV', null, 0, documentStorage));
+                        }
                        //processProductAllocation(documentStorage.Document_Id__c, workAssignmentPlacement, documentStorage.ID,documentStorage.Document_Type__c, documentStorage.Document_URL__c);                                    
                       //System.scheduleBatch(new CFG_ProcessBulkAPIResult('',documentStorage.ID,documentStorage.Work_Assignment__c,documentStorage.Document_Type__c,documentStorage), 'Bulk Process data', 3);
                 }

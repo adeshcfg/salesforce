@@ -1172,12 +1172,22 @@ productNames += productInstance.Name + ',';
         ProductTriggerHandler.runProductTrigger = false;
         ProductPaymentstriggerHandler.runProductTrigger = false;
          system.debug('updateResults2222::');
-        //update mapProductToAdjustInterestFinal.values();
         
-        //For ticket 4518 - satyajit patil                                                            
-        List<Database.SaveResult> updateResults = Database.update(mapProductToAdjustInterestFinal.values(),false);
-        system.debug('updateResults::'+updateResults);
-                                                  
+        //For ticket 4518 - satyajit patil     
+        List<Database.SaveResult> updateResults;
+        if(paymentProcessing == 'Payment Excel Processing'){                                                       
+        	updateResults = Database.update(mapProductToAdjustInterestFinal.values(),false);
+        	system.debug('updateResults::'+updateResults);
+        
+        }else{
+            try{
+            	update mapProductToAdjustInterestFinal.values();
+            }catch(Exception e){
+                for(Product_Payments__c productPay : mapNewProductPayment.values()){
+                    productPay.addError('Product Update is failed due to below exception: '+e.getMessage());
+                }
+            }
+        }                                      
        List<Database.SaveResult> ErrorrResult = new List<Database.SaveResult>();
        Set<Id> prodId = new Set<Id>();
                                                             
@@ -1309,10 +1319,21 @@ productNames += productInstance.Name + ',';
         //update listProductsToUpdate;
         
         //For ticket 4518 - satyajit patil 
-        List<Database.SaveResult> updateResults = Database.update(listProductsToUpdate,true);
-     	
-        system.debug('updateResults::'+updateResults);
-                                                  
+        List<Database.SaveResult> updateResults;
+         if(paymentProcessing == 'Payment Excel Processing'){
+       		 updateResults = Database.update(listProductsToUpdate,true);
+     		 system.debug('updateResults::'+updateResults);
+         }else{
+              try{
+            	 update listProductsToUpdate;
+            }catch(Exception e){
+                for(Product_Payments__c productPay : mapFeeAdjustments.values()){
+                    productPay.addError('Product Update is failed due to below exception: '+e.getMessage());
+                }
+            }
+            
+         }
+        
        List<Database.SaveResult> ErrorrResult = new List<Database.SaveResult>();
        Set<Id> prodId = new Set<Id>();
        if(paymentProcessing == 'Payment Excel Processing'){

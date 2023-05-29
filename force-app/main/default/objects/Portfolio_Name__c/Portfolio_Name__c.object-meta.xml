@@ -156,7 +156,7 @@
     <label>Portfolio Name</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>
-        <label>Portfolio Name</label>
+        <label>Portfolio</label>
         <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>

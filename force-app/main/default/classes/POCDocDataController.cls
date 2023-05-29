@@ -20,6 +20,7 @@ public class POCDocDataController {
     public String formattedDateToday{get;set;}
     public String formattedLastpaymentDate{get;set;}
     public String formattedDateTodayHeader{get;set;}
+    public Boolean spaceCount{get;set;}
     
     public POCDocDataController(){
          
@@ -86,7 +87,13 @@ public class POCDocDataController {
             formattedDateTodayHeader = String.valueOf(' '+frenchDates.get(dateNow.month()) + ' '+dateNow.day()+' '+String.valueOf(dateNow.year()));                            
         // Read poc Package custom setting to fetch related data
         pocPackage = (PoC_Package_Settings__c)PoC_Package_Settings__c.getValues(insolvAcc.Client_Identifier__c);
-        
+        spaceCount = False;
+        if(pocPackage.Client_Company_Name__c.length() < 13){
+            spaceCount = True;
+            //for(Integer i=1;i<13-pocPackage.Client_Company_Name__c.length();i++){
+                //spaceCount += '&nbsp;';
+            //}
+        }
          //Fetch first 3 letters of Portfolio Group Name
             //String portGroupMapShort = LEFT(insolvAcc.Portfolio_Group_Name__c,3);
             if(insolvAcc.Portfolio_Group_Name__c != null){

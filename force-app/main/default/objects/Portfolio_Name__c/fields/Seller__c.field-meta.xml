@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Seller__c</fullName>
-    <deleteConstraint>SetNull</deleteConstraint>
-    <description>Seller Information used for Seller</description>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Selling Entity Information used for Seller</description>
     <externalId>false</externalId>
-    <inlineHelpText>Seller the portfolio was purchased from</inlineHelpText>
-    <label>Seller</label>
+    <inlineHelpText>Selling Entity the portfolio was purchased from</inlineHelpText>
+    <label>Selling Entity</label>
     <lookupFilter>
         <active>true</active>
         <filterItems>

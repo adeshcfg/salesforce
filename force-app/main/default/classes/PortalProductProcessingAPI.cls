@@ -177,7 +177,6 @@ public class PortalProductProcessingAPI {
     }
     @future (callout=true)
     public static void processProductBulk(List<ID> productId){
-        system.debug('Product API call');
         accTokenBulk = getRequestToken();
         String Query = 'SELECT ID,Legal_Decision_by__r.Name,Customer_Identifier__c,Pool_Name__r.Pool_ID__c,Created_By__c,Allocated_Amount_Total__c,Employer_Name__c,Current_Fees__c,Portfolio_Name_Lookup__r.Purchase_ID__c, ';
         for(Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping){
@@ -185,19 +184,17 @@ public class PortalProductProcessingAPI {
                 //system.debug('fieldMappingInstance.Field_API__c: '+fieldMappingInstance.Field_API__c);
                 Query += fieldMappingInstance.Field_API__c + ', ';
             }
-            
         }
         Query = Query.removeEnd(', ');
-        system.debug('Query after:'+Query);
         Query+= ' FROM Product__c WHERE ID IN: productId';
-        system.debug('Query: '+Query);
-        list<Product__c> listProduct = Database.query(Query);
-        system.debug('listProduct: '+listProduct);
-        
+        list<Product__c> listProduct = Database.query(Query);        
         String productJSONRequest;
         //Product__c productInstance ;
         if(!listProduct.isEmpty()){
-            for(Product__c productInstance : listProduct ){
+            // Production Issue - Limited for loop to 100 records to avoid 101 callout limit
+            Integer listProductSize = listProduct.size() > 100 ? 100 : listProduct.size();
+            for(Integer i = 0; i < listProductSize ; i++){
+                Product__c productInstance = listProduct[i];
                 //Create JSON request for customer update
                 //productInstance = listProduct[0];
                 String escapeString = '';
@@ -206,9 +203,6 @@ public class PortalProductProcessingAPI {
                     escapeString = productInstance.Product_Status__c;
                     prodStatus = escapeString.replaceAll('-','');
                 }*/
-                
-                system.debug('productInstance '+productInstance);
-                
                 List<Product_Extension__c> listProductExtensions = [SELECT ID,Name,Account_ID__c,Address_Line1__c,Address_Line2__c,City__c,
                                                                     Country__c,Dealer__c, Description__c,Equipment_Description__c,Equipment_Location__c,
                                                                     Equipment_Returned_Date__c,Equipment_S_N__c,Equipment_Value__c,
@@ -237,9 +231,7 @@ public class PortalProductProcessingAPI {
                         else{
                             if(mapping.Field_Type__c == 'DateTime' && productInstance.get(mapping.Field_API__c) != NULL){
                                 DateTime ss = DateTime.valueOf(productInstance.get(mapping.Field_API__c));
-                                
                                 String convertedDateTime = ss.format('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\''); 
-                                system.debug('convertedDateTime::'+mapping.Field_JSON_Tag__c+convertedDateTime);
                                 productJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
                                     convertedDateTime+'\", ';  
                                 
@@ -247,7 +239,6 @@ public class PortalProductProcessingAPI {
                         }
                         //system.debug('mapping.Field_JSON_Tag__c: '+mapping.Field_API__c+productInstance.get(mapping.Field_API__c));
                     }
-                    
                 }
                 //productJSONRequest += '"Product_Status": "'+prodStatus+'",';
                 
@@ -273,36 +264,24 @@ public class PortalProductProcessingAPI {
                 productJSONRequest = productJSONRequest.removeEnd(', ');
                 productJSONRequest += '}';
                 
-                system.debug('productJSONRequest: '+productJSONRequest);
-                
                 //Get access token for http request
                 if (accTokenBulk != '') {
                     // Instantiate a new http object
                     Http h = new Http();
                     // Instantiate a new HTTP request
                     HttpRequest req = new HttpRequest();
-                    system.debug('productJSONRequest: '+productJSONRequest);
                     req.setBody(productJSONRequest);
-                    system.debug('req body'+req.getBody());
                     req.setHeader('Authorization', 'Bearer ' + accTokenBulk);
                     req.setHeader('Content-Type', 'application/json;charset=UTF-8');
                     apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFProduct');
                     req.setEndpoint(apiCallDetails.PDF_API_URL__c+productInstance.Name);
                     req.setMethod('PUT');
-                    system.debug('req endpoint:: '+req.getEndpoint());
-                    system.debug('req body:: '+req.getBody());
-                    productInstance.Outbound_API_Request_Body__c = req.getBody();
-                    system.debug('Outbound req body:: '+req.getBody());
-                    system.debug('req:: '+req);
-                    
-                    
+                    productInstance.Outbound_API_Request_Body__c = req.getBody();                    
                     try{
                         // Send the request, and return a response
                         HttpResponse res = h.send(req);
-                        system.debug('res.getBody(): '+res.getBody());
                         Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                         productInstance.Outbound_API_Response_Body__c = res.getBody();
-                        system.debug('Outbound res body::' +res.getBody());
                         if(res.getStatusCode() == 200
                            && bodyMap.get('IsSuccess') == String.valueOf('true')){
                                system.debug(bodyMap.get('ReturnMessage'));

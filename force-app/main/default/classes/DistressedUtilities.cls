@@ -737,7 +737,7 @@ productStaging.Include_in_Processing__c = true;
                     myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                     system.debug('myDate::'+myDate);
                     //product.Status_Changed_Date__C = String.valueOf(myDate);
-                    product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date_Text__c);
+					product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date_Text__c);
                     system.debug('product.Status_Changed_Date__C external '+product.Status_Changed_Date__C);
                 }
                 else if(MyMatcher3.matches() == true){
@@ -774,7 +774,7 @@ productStaging.Include_in_Processing__c = true;
             //Invalid Status_Changed_Date__C
             //added validation for ticket 4469 - satyajit patil
              if(product.Status_Changed_Date__C != null && product.Status_Changed_Date__C != '' && !product.Status_Changed_Date__C.contains('/')){
-                    ERROR_MSG += '<b>ERROR</b> : Invalid status changed date.<br/>';
+               		ERROR_MSG += '<b>ERROR</b> : Invalid status changed date.<br/>';
                     EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY)<br/>'; 
                
              }            
@@ -842,11 +842,11 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 
                 //agency can not change from any other status to recall status.
                 
-                if(!mapProduct.get(product.Name__c).Placement_Status__c.startsWith('8') && product.Placement_Status_Code__c.startsWith('9') && docStorage != NULL && docStorage.Uploaded_By__c == 'External User'){
+                /*if(!mapProduct.get(product.Name__c).Placement_Status__c.startsWith('8') && product.Placement_Status_Code__c.startsWith('9') && docStorage != NULL && docStorage.Uploaded_By__c == 'External User'){
                     system.debug('Run Block123');
                     ERROR_MSG += '<b>ERROR</b> : Account not in pending recall status<br/>';
                     //EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name).Placement_Status__c+'.<br/>';
-                }
+                }*/
                 
                 //agency can not change status when refer to legal is in for review/main status is in pregal.
                 //system.debug('Test run block::'+mapProduct.get(product.Name).Status__c.startsWith('Pre - Legal'));
@@ -862,7 +862,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             system.debug('newAgency inside validation' +newAgency);
             if(docStorage != NULL && docStorage.Uploaded_By__c == 'External User'){
                 if(product.Placement_Status_Code__c != Null && product.Placement_Status_Code__c.startsWith('8')){
-                    ERROR_MSG += '<b>ERROR</b> : Agency cannot set to Pending Recall status<br/>';
+                    ERROR_MSG += '<b>ERROR</b> : Status can not change from any other to recall status.<br/>';
                     //EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name).Placement_Status__c+'.<br/>';
                 }
                 if(mapProduct.containsKey(product.Name__c)
@@ -870,7 +870,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                    && String.isNotBlank(product.Placement_Status_Code__c)
                    && !(mapProduct.get(product.Name__c).Placement_Status__c.startsWith('8'))
                    && product.Placement_Status_Code__c.startsWith('9')){
-                       ERROR_MSG += '<b>ERROR</b> :  Account must be in pending recall status<br/>';
+                       ERROR_MSG += '<b>ERROR</b> : Account not in pending recall status<br/>';
                        EXPECTED += 'Account is not in Pending Recall Status' +'.<br/>'; 
                    }
                 system.debug('product is presenet'+mapProduct.containsKey(product.Name__c));
@@ -936,15 +936,15 @@ system.debug('settings::'+ss);
 && mapProduct.get(product.Name).Status__c.startswith('Pending Recall')){
 ERROR_MSG = '<b>ERROR</b> - Account in Pending Recall.<br/>';
 }*/
-            system.debug('product status date tested::' +product.Status_Changed_Date__c);
+            system.debug('product status date tested::' +product.Assignment_Date__c);
             
             System.debug('Current Date ' +Date.today());
-            
-            if(product.Assignment_Date__c <= Date.today()){    
-                ERROR_MSG += '<b>ERROR</b> : Status Date must be >= account Placement Date<br/>';
-                EXPECTED += 'Assignment Date should be greater than current date <br/>';
+            if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Assignment_Date__c <> null){
+            if(mapProduct.get(product.Name__c).Assignment_Date__c > myDate){    
+                ERROR_MSG += '<b>ERROR</b> : Status Date is less than account Placement Date<br/>';
+                EXPECTED += 'Status Date must be >= account Placement Date<br/>';
             }
-            
+            }
             //Added validation when account is in putback/buyback - developer: satyajit for ticket: 4377
             if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Purchase_Status__c != null){
             if(mapProduct.get(product.Name__c).Purchase_Status__c == 'Eligible for Buyback' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Eligible for Putback'
@@ -1200,7 +1200,7 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
         }
             system.debug('failed::'+failed);
         Integer prodSatgingCount = [select count() from product_payment_staging__c where identifier__c  =: documentStorage]; 
-        system.enqueueJob(new PostDocumentAPI('Product Payment Upload File',failed,'',prodSatgingCount,0,workAssignment,'CFG + Requesting Agency',documentStorage));                                              
+       	system.enqueueJob(new PostDocumentAPI('Product Payment Upload File',failed,'',prodSatgingCount,0,workAssignment,'CFG + Requesting Agency',documentStorage));                                              
       
         }
     

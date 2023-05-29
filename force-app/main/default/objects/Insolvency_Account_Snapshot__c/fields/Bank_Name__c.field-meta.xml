@@ -27,6 +27,11 @@
                 <default>false</default>
                 <label>SDA</label>
             </value>
+            <value>
+                <fullName>Fairstone</fullName>
+                <default>false</default>
+                <label>Fairstone</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

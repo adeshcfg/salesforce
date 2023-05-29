@@ -39,6 +39,7 @@
                 }
             </style>
             <script>
+            //alert("inside script");
             var showSendButton = false;
             var validEmail = false;
             var validSubject =  false;
@@ -47,13 +48,14 @@
             
             // On page load validate all input elements like To address, Email subject, Email body
             window.onload = function(){
+                //alert("inside load");
                 validateForm();
                 validateSendEmailButton();
             }
             
             // Validate all other elements to enable Email trustee button
             function validateSendEmailButton(){    
-                
+                //alert("inside validateSendEmailButton");
                 if(validEmail && validSubject  && validMessage ){
                     document.getElementById('page:form:EmailTrusteeBtn').disabled = false;
                 }else{
@@ -74,14 +76,14 @@
                     document.getElementById('text-input-id-3-error').classList.add('slds-show');
                     validSubject = false;
                     validateSendEmailButton();
-                    console.log('x::',x);
+                    //console.log('x::',x);
                     return false;
                 }else{
                     document.getElementById('subjectInputDiv').classList.remove('slds-has-error');
                     document.getElementById('text-input-id-3-error').classList.remove('slds-show');
                     validSubject = true;
                     validateSendEmailButton();
-                    console.log('x::',x);
+                    //console.log('x::',x);
                     return true;
                 }
             }
@@ -91,20 +93,20 @@
                 
                 var x = getElementsByClassName('emailMessage')[0].value;
                 x = x.trim();
-                console.log('x email message::',x);
+                //console.log('x email message::',x);
                 if(x == ''){
                     document.getElementById('messageInputDiv').classList.add('slds-has-error');
                     document.getElementById('text-input-id-4-error').classList.add('slds-show');
                     validMessage = false;
                     validateSendEmailButton();
-                    console.log('x email:',x);
+                    //console.log('x email:',x);
                     return false;
                 }else{
                     document.getElementById('messageInputDiv').classList.remove('slds-has-error');
                     document.getElementById('text-input-id-4-error').classList.remove('slds-show');
                     validMessage = true;
                     validateSendEmailButton();
-                    console.log('x email:',x);
+                    //console.log('x email:',x);
                 }
             }
             
@@ -121,7 +123,7 @@
                     xEmail = xEmail.substring(0, xEmail.length - 1);
                 }
                 var emailList = xEmail.split(';');
-                console.log('emailList::',emailList);
+                //console.log('emailList::',emailList);
                 //alert('emailList: '+emailList);
                 finalEmail = [];
                 for(var i = 0; i < emailList.length; i++){
@@ -156,7 +158,7 @@
             
             // validate email address format is entered correctly or not
             function validateToEmail(){
-                console.log('validEmail',validEmail);
+                //console.log('validEmail',validEmail);
                 timeout = setTimeout(function () {
                     validateEmail();
                     if(validEmail == true)
@@ -165,18 +167,19 @@
             }
             
             function validateForm() {
+                //alert("inside validateForm");
                 validateEmailMessage();
-                console.log('email message validated');
+                //console.log('email message validated');
                 validateSubject();
-                console.log('email subject validated');
+                //console.log('email subject validated');
                 validateEmail();
-                console.log({!emailBody});
-                console.log('email validated');
+                
+                //console.log('email validated');
             }
             
             // function to check whether email sent successfully or not
             function target(){
-                console.log('isAmemdedClaim');
+                //console.log('isAmemdedClaim');
                 var checkVal = document.getElementById('page:form:hiddenCheck').value;
                 var docException = document.getElementById('page:form:docException').value;
                 var accStatementError = document.getElementById('page:form:accStatementError').value;
@@ -222,7 +225,7 @@
                 }
                 
                 if(isPocRequired == 'true'){
-                    console.log('innsnnsa');
+                    //console.log('innsnnsa');
                     element = document.getElementById("isPocRequiredException");
                     unfade(element);
                     return;

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Status_Update</fullName>
+    <availability>online</availability>
+    <description>Product Status Update Button</description>
+    <displayType>button</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>Product Status Update</masterLabel>
+    <openType>sidebar</openType>
+    <page>ProductStatusUpdateIndividual</page>
+    <protected>false</protected>
+</WebLink>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Purchase_Accounts__c</fullName>
-    <description>Purchase Accounts</description>
+    <description>Accounts Purchased</description>
     <externalId>false</externalId>
-    <inlineHelpText>Purchase Accounts</inlineHelpText>
-    <label>Purchase Accounts</label>
+    <inlineHelpText>Accounts Purchased</inlineHelpText>
+    <label>Accounts Purchased</label>
     <precision>5</precision>
     <required>false</required>
     <scale>0</scale>

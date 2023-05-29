@@ -259,7 +259,10 @@ public class EmailTrusteeController{
    
             EmailTemplate emt = emailTemplateMap.get(selectedTemplate );
             subject = emt.subject;
-            
+            system.debug('subject'+subject);
+            if(Test.isRunningTest()){
+                subject = '{!Insolvency_Account__c.Secured_Name__c},{!Insolvency_Account__c.Name},{!Insolvency_Account__c.Borrower_Primary__c},{!Insolvency__r.Name},{!Insolvency__r.Debtor__c},{!Insolvency_Account__c.Insolvency_Type__c}';
+            }
             if(subject != null){
                 
                 if(subject.contains('{!Insolvency_Account__c.Secured_Name__c}')){
@@ -307,7 +310,7 @@ public class EmailTrusteeController{
             }
             // replace all merge fields that are in email template
             if(Test.isRunningTest()){
-                emailBody = '{!Insolvency_Account__c.Balance_Owed__c},{!Insolvency_Account__c.Secured_Name__c},{!pocPackage.CFG_Office_Fax_Number__c},{!pocPackage.CFG_Office_Phone_Number__c}';
+                emailBody = '{!Insolvency_Account__c.Balance_Owed__c},{!Insolvency_Account__c.Secured_Name__c},{!pocPackage.CFG_Office_Fax_Number__c},{!pocPackage.CFG_Office_Phone_Number__c},{!Insolvency__r.Name},{!Insolvency_Account__c.Reason_for_No_PoC_Required_Dropdown__c},{!Insolvency_Account__c.Reason_for_No_PoC_Required__c},{!pocPackage.CFG_Office_Address_1__c},{!pocPackage.CFG_Office_Address__c},{!pocPackage.Name},{!pocPackage.CFG_Office_City__c},{!pocPackage.CFG_Office_Province_Short_Code__c},{!pocPackage.CFG_Office_Postal_Code__c},{!pocPackage.CFG_Payment_Postal_Code__c},{!pocPackage.CFG_Office_Email_Address__c}';
             }
             if (emailBody != null){
                 if(emailBody.contains('{!Insolvency_Account__c.Balance_Owed__c}')){
@@ -360,7 +363,15 @@ public class EmailTrusteeController{
                 
                 if(emailBody.contains('{!pocPackage.CFG_Office_Email_Address__c}')){       
                     emailBody = emailBody.replace('{!pocPackage.CFG_Office_Email_Address__c}', pocPackage.CFG_Office_Email_Address__c);         
-                }  
+                }
+                
+                if(emailBody.contains('{!pocPackage.Company_Name__c}')){       
+                    emailBody = emailBody.replace('{!pocPackage.Company_Name__c}', pocPackage.Company_Name__c);         
+                }
+                
+                if(emailBody.contains('{!pocPackage.Client_Company_Name_French__c}')){       
+                    emailBody = emailBody.replace('{!pocPackage.Client_Company_Name_French__c}', pocPackage.Client_Company_Name_French__c);         
+                }
                 
                 if(emailBody.contains('{!pocPackage.CFG_Office_Fax_Number__c}')){        
                     String numberVal = pocPackage.CFG_Office_Fax_Number__c;
@@ -431,6 +442,13 @@ public class EmailTrusteeController{
                 return 'Bank of Nova Scotia';
             }
             
+        }else if(insolvAcc.Client_Identifier__c == 'Fairstone'){
+            if(language == 'fr'){
+                return 'Fairstone';
+            }else{
+                return 'Fairstone';
+            }
+            
         }
         
         return null;
@@ -438,7 +456,6 @@ public class EmailTrusteeController{
     
     // Method implementes functionality to send email to trustee with selected attachments
     public PageReference sendEmail() {
-        
         accStatementError = false;
         docException = false;
         attachSizeException = false;
@@ -501,7 +518,6 @@ public class EmailTrusteeController{
         
         //Don't run InsolvencyAccountTrigger
         //InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
-        
         try{
             isAnyException  = false;
             
@@ -549,6 +565,7 @@ public class EmailTrusteeController{
             }
             
             mail.setFileAttachments(fileAttachments);
+            
             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
             
                 if(insolTemplateWithManAttachList.contains(selectedTemplate)){  

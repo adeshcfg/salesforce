@@ -27,18 +27,19 @@ public class TestPOCDocController{
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
         insert config; 
          
-         PoC_Package_Settings__c poc = new PoC_Package_Settings__c(Name = 'Scotia Bank');
+         PoC_Package_Settings__c poc = new PoC_Package_Settings__c(
+             Name = 'Scotia Bank',
+             Account_Statement_Not_Allowed__c = '0018A00000uB1Nt,0018A00000uB1Nt'
+         );
          insert poc;
          
          //Insolvency insertion
         Insolvency__c insolv = new Insolvency__c();
         insolv.name = 'Dup-1';
-        
-        //insolv.Insolvency_Date__c=Date.newInstance(2020,04, 11);
         insolv.Insolvency_Date__c = Date.Today().addMonths(-1);
-        
         insolv.Insolvency_Type__c='Bankruptcy';
         insolv.Debtor_2_Estate_Number__c='1234';
+        insolv.Voting_Decision__c = 'Needs Manual Review';
         insert insolv;
          
         //Insolvency Account insertion
@@ -66,14 +67,81 @@ public class TestPOCDocController{
         insolAcct.Account_Type__c = '';
         insolAcct.Borrower_Primary__c = '';    
         insolAcct.Type_of_Service__c = '';
-        insolAcct.Claim_Type__c = '';
+        insolAcct.Claim_Type__c = 'Unsecured';
         insolAcct.Reasons_for_Duplicate_Account_Number__c='Test';
         insolAcct.Client_Identifier__c = 'Scotia Bank';
         insolAcct.Portfolio_Group_Name__c='CAL005';
         insolAcct.recordTypeId = devRecordTypeId;
+        insolAcct.Last_Payment_Date__c = Date.newInstance(2020, 01, 05);
+        insolAcct.Voting_Options__c = 'Vote: Decline - With Creditor Meeting Request';
+        insolAcct.Proof_of_Claim_Required__c = false;
+        insolAcct.Client_Identifier__c = 'Canaccede';
+        insolAcct.Asset_Status__c = 'Putback';
         insert insolAcct;
      }
-     
+    
+     static testMethod void testData1() {
+         //Custom setting record creation
+        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
+        config.Run_Insolvency_Account_Trigger__c = true;
+        config.Run_Insolvency_Status_Validations__c = true;
+        config.Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
+        config.Eligible_for_Claim_Type_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
+        config.Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm';
+        config.Display_Duplicate_Accounts_List_View__c=10;
+        config.Bank_Eligible_for_Duplicate_Check__c = 'SPL';
+        config.Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN';
+        config.Run_Insolvency_Trigger__c = false;
+        config.Run_Insolvency_Account_Duplicate_Check__c = true;
+        //insert config; 
+         
+         PoC_Package_Settings__c poc = new PoC_Package_Settings__c(Name = 'Scotia Bank');
+         insert poc;
+         
+         //Insolvency insertion
+        Insolvency__c insolv = new Insolvency__c();
+        insolv.name = 'Dup-2';
+        insolv.Insolvency_Date__c = Date.Today().addMonths(-1);
+        insolv.Insolvency_Type__c='Bankruptcy';
+        insolv.Debtor_2_Estate_Number__c='12345';
+        insert insolv;
+         
+        //Insolvency Account insertion
+        Id devRecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Canaccede Insolvency Account').getRecordTypeId();
+        Insolvency_Account__c insolAcct = new Insolvency_Account__c();
+        insolAcct.name = 'TestDup -2';
+        insolAcct.Account_Number_Without_Space__c = 'TestDup -2';
+        insolAcct.Insolvency_Status__c = 'New';
+        insolAcct.Insolvency__c = insolv.id;
+        insolAcct.Account_Type__c = 'Line of Credit';
+        insolAcct.Borrower_Primary__c = 'Kajal';
+        insolAcct.Type_of_Service__c = 'Service Only';
+        insolAcct.Claim_Amount__c = 1200.00;
+        insolAcct.Claim_Type__c = 'Secured';
+        insolAcct.Excluded_from_Purchase__c=False;
+        insolAcct.Excluded_Account_Comments__c='TestData';
+        insolAcct.Is_Duplicate_Resolved__c=False;
+        insolAcct.Insolvency_Type__c='Bankruptcy';
+        insolAcct.Insolvency_Date__c=Date.newInstance(2020,04, 11);
+        insolAcct.Product_Code__c='MOR';
+        insolAcct.Debtor__c='test';
+        insolAcct.PoC_Created_Date__c=DateTime.newInstance(2020, 01, 08);
+        insolAcct.Asset_Status__c ='Purchased';
+        insolAcct.Insolvency__c = insolv.id;
+        insolAcct.Account_Type__c = '';
+        insolAcct.Borrower_Primary__c = '';    
+        insolAcct.Type_of_Service__c = '';
+        insolAcct.Claim_Type__c = 'Secured';
+        insolAcct.Reasons_for_Duplicate_Account_Number__c='Test';
+        insolAcct.Client_Identifier__c = 'Scotia Bank';
+        insolAcct.Portfolio_Group_Name__c='CAL005';
+        insolAcct.recordTypeId = devRecordTypeId;
+        insolAcct.Last_Payment_Date__c = Date.newInstance(2020, 01, 05);
+        insolAcct.Voting_Options__c = 'Vote: Decline - No Meeting Requested';
+        insert insolAcct;
+        
+         POCDocController POCDocControllerInstance = new POCDocController();
+     }
      // Unit test for saving poc pdf document as attachment of insolvancy account
 		static testMethod void savePOCDocTest(){
           Insolvency_Account__c insolAcct = [SELECT Id FROM Insolvency_Account__c LIMIT 1];

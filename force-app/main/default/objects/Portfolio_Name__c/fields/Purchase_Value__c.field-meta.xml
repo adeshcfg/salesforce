@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Purchase_Value__c</fullName>
-    <description>Purchase Value used for Seller</description>
+    <description>Purchase Face Value used for Seller</description>
     <externalId>false</externalId>
     <inlineHelpText>&quot;The face value of the purchased accounts
 
 Feedback from Wendy on 4-July:
 Yes, this value (facevalue of the purchased account) can be populated on portfolio creation, but the reason it is added to this Portfolio list is so that it is populated as an informational field on the portfolio.  This value should match the amount purchased on the executed contract and is used as a double check during load creation to ensure we have all the correct values.&quot;</inlineHelpText>
-    <label>Purchase Value</label>
+    <label>Purchase Face Value</label>
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>

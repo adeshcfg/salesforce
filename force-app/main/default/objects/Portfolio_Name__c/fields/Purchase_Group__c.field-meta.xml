@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Purchase_Group__c</fullName>
-    <description>Purchase group name with 3 character</description>
-    <encryptionScheme>None</encryptionScheme>
+    <description>Asset Type name with 3 character</description>
     <externalId>false</externalId>
-    <inlineHelpText>Purchase group name with 3 character</inlineHelpText>
-    <label>Purchase Group</label>
-    <length>15</length>
+    <inlineHelpText>Asset Type name with 3 character</inlineHelpText>
+    <label>Asset Type</label>
     <required>false</required>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Performing</fullName>
+                <default>false</default>
+                <label>Performing</label>
+            </value>
+            <value>
+                <fullName>Distressed</fullName>
+                <default>false</default>
+                <label>Distressed</label>
+            </value>
+            <value>
+                <fullName>Credit Counselling</fullName>
+                <default>false</default>
+                <label>Credit Counselling</label>
+            </value>
+            <value>
+                <fullName>Consumer Proposal</fullName>
+                <default>false</default>
+                <label>Consumer Proposal</label>
+            </value>
+            <value>
+                <fullName>Bankruptcy</fullName>
+                <default>false</default>
+                <label>Bankruptcy</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>

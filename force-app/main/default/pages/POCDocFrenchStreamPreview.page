@@ -171,18 +171,18 @@
                <table>
                <tr>
                  <td style="vertical-align:top;"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Objet:</span></td>
-                 <td style="padding-left:40px;"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} à {!UPPER(pocPackage.CFG_Office_Name_2__c)}.</span> </td>
+                 <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} à {!UPPER(pocPackage.CFG_Office_Name_2__c)}.</span> </td>
+                 <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} BANK OF CANADA (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>  
              </tr>
              </table>
              <hr style="border-color:black;margin: 11px 0px 18px 0px;"/>
-             
-             Nous vous écrivons pour vous informer que le compte et la réclamation connexe qui nous sont dus (le « compte ») par le débiteur (le « débiteur ») décrit dans la preuve de réclamation ci-jointe est en cours d’achat par
-             {!pocPackage.CFG_Office_Name_2__c}. We understand that the Debtor is subject to proceedings under the
-              <span style=" font-style:italic;">Nous comprenons que le débiteur est soumis à une procédures en vertu de la </span>(Canada) à l'égard de laquelle vous avez été nommé syndic de faillite
+                 Nous vous écrivons pour vous informer que le compte et la réclamation connexe qui nous sont dus (le « compte ») par le débiteur (le « débiteur ») décrit dans la preuve de réclamation ci-jointe est en cours d’achat par
+                 {!pocPackage.CFG_Office_Name_2__c}. We understand that the Debtor is subject to proceedings under the
+                 <span style=" font-style:italic;">Nous comprenons que le débiteur est soumis à une procédures en vertu de la </span>(Canada) à l'égard de laquelle vous avez été nommé syndic de faillite
             <br/><br/>
              Nous autorisons par la présente {!pocPackage.CFG_Office_Name_2__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name_2__c}.
             <br/><br/>
-            Si vous avez des questions, n'hésitez pas à contacter Canaccede International Management Ltd. aux coordonnées suivantes:<!--{!pocPackage.CFG_Office_Name__c}-->
+            Si vous avez des questions, n'hésitez pas à contacter {!IF(insolvAcc.Client_Identifier__c == "Fairstone", "CFG Canada Funding, LLC.", "Canaccede International Management Ltd.")}  aux coordonnées suivantes:<!--{!pocPackage.CFG_Office_Name__c}-->
             <br/><br/>
             <div style="padding-left:30px;">
                     Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br/>
@@ -209,15 +209,20 @@
             </div><br/>
             Sincèrement,
             <br/><br/>
-            <span style="font-weight:bold;">{!UPPER(pocPackage.Client_Company_Name_French__c)}</span>
+            <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name_French__c)}</span>
+            <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA</span>
             <br/><br/>
-            <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/>
+            <span style="display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>
+            <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>    
             <table style="margin-top:-20px;">
                 <tr>
                     <td style="vertical-align:top;font-family:'Arial Unicode MS'">Par:</td>
-                    <td style="font-family:'Arial Unicode MS'">_________________________
+                    <td style='font-family:"Arial Unicode MS";display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}'>_________________________
                     <br/>Nom: Graham Anderson<br/>
                     Titre: VP, Retail &amp; Small Business Collections, Fraud and Quality Assurance</td>
+                    <td style='font-family:"Arial Unicode MS";display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}'>_________________________
+                    <br/>Nom: Jahed Jahed<br/>
+                    Titre: VP Collections and Fraud Operation</td>
                 </tr>
             </table>
                </div>
@@ -299,7 +304,7 @@
                            <table>
                               <tr>
                                  <td style="vertical-align:top;">1.</td>
-                                 <td style="padding-left:10px;">Que je suis le président de <b> Canaccede International Management Ltd.</b>, prestataire de services pour <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> qui est l'acheteur du compte de " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" /> <b>LA BANQUE DE NOUVELLE-ÉCOSSE.</b></td>
+                                 <td style="padding-left:10px;">Que je suis le président de <b> Canaccede International Management Ltd.</b>, prestataire de services pour <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> qui est l'acheteur du compte de " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" /> <b>{!pocPackage.Client_Company_Name_French__c}.</b></td>
                               </tr>
                               <tr>
                                  <td style="vertical-align:top;">2.</td>
@@ -655,7 +660,7 @@
                               </tr>
                               <tr >
                                  <td  style="vertical-align:top;text-align:center;">-</td>
-                                 <td style="padding-left:8px;">des créanciers représentant en valeur au moins 25 p. 100 des réclamations prouvées en font la demande avant l’expiration des 45 jours suivant le dépôt de la proposition de consommateur.
+                                 <td style="padding-left:8px;">des créanciers représentant en valeur au moins 25% des réclamations prouvées en font la demande avant l’expiration des 45 jours suivant le dépôt de la proposition de consommateur.
                                  </td>
                               </tr>
                               <tr>
