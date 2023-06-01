@@ -305,147 +305,151 @@ public class PortalProductProcessingAPI {
         }
         
     }
-    public static List<product__c> processProductBulkBatchone(List<ID> productId){
-        system.debug('Product API call');
+
+    public static List<product__c> processProductBulkBatchone(Set<Id> setProductIds) {
         accTokenBulk = getRequestToken();
-        String Query = 'SELECT iD,Legal_Decision_by__r.Name,Customer_Identifier__c,Pool_Name__r.Pool_ID__c,Created_By__c,Allocated_Amount_Total__c,Employer_Name__c,Current_Fees__c,Portfolio_Name_Lookup__r.Purchase_ID__c, ';
-        for(Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping){
-            if(fieldMappingInstance.Object_Name__c == 'Product'){
-                //system.debug('fieldMappingInstance.Field_API__c: '+fieldMappingInstance.Field_API__c);
-                Query += fieldMappingInstance.Field_API__c + ', ';
-            }
-            
-        }
-        Query = Query.removeEnd(', ');
-        system.debug('Query after:'+Query);
-        Query+= ' FROM Product__c WHERE ID IN: productId';
-        system.debug('Query: '+Query);
-        list<Product__c> listProduct = Database.query(Query);
-        system.debug('listProduct: '+listProduct);
-         list<Product__c> listProductupdate = new list<product__c>();
+        List<Product__c> listProduct = new List<Product__c>();
+        List<Product__c> listProductupdate = new List<Product__c>();
+        Map<String, Product_Extension__c> mapProductIdProdExtension = new Map<String, Product_Extension__c>();
         String productJSONRequest;
-        //Product__c productInstance ;
-        if(!listProduct.isEmpty()){
-            for(Product__c productInstance : listProduct ){
-                //Create JSON request for customer update
-                //productInstance = listProduct[0];
-                String escapeString = '';
-                List<Product_Extension__c> listProductExtensions = [SELECT ID,Name,Account_ID__c,Address_Line1__c,Address_Line2__c,City__c,
-                                                                    Country__c,Dealer__c, Description__c,Equipment_Description__c,Equipment_Location__c,
-                                                                    Equipment_Returned_Date__c,Equipment_S_N__c,Equipment_Value__c,
-                                                                    Province__c,Repossession_Date__c,Value__c,Zip_Code__c
-                                                                    FROM Product_Extension__c
-                                                                    WHERE Account_ID__c = :productInstance.Id limit 1];
-                productJSONRequest = '{'+
-                    '"Name": "'+productInstance.Name+'",'+
-                    '"Legal_Decision_By": "'+productInstance.Legal_Decision_by__r.Name+'",'+
-                    '"Account_Portfolio_ID": "'+productInstance.Portfolio_Name_Lookup__r.Purchase_ID__c+'",'+
-                    '"Pool_Name": "'+productInstance.Pool_Name__r.Pool_ID__c+'",'+
-                	'"Created_By": "'+productInstance.Created_By__c+'",'+
-                	'"Allocated_Amount_Total": "'+productInstance.Allocated_Amount_Total__c+'",'+
-                    //'"Account_Purchasing_Entity_Value": "'+productInstance.Account_Purchasing_Entity_Value__c+'",'+
-                    //'"Legal_Entity_Value": "'+productInstance.Legal_Entity_Name__c+'",'+
-                    '"Company_Name": "'+productInstance.Employer_Name__c+'",'+
-                    '"Customer_Identifier": "'+productInstance.Customer_Identifier__c+'",'+
-                    '"Current_Fees": "'+productInstance.Current_Fees__c+'",';
-                
-                for(Agency_Portal_Fields_Mapping__c mapping : fieldMapping){
-                    if(mapping.Object_Name__c == 'Product'){
-                        if(mapping.Field_Type__c != 'DateTime'){
-                            productJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
-                                productInstance.get(mapping.Field_API__c)+'\", ';    
-                        }
-                        else{
-                            if(mapping.Field_Type__c == 'DateTime' && productInstance.get(mapping.Field_API__c) != NULL){
-                                DateTime ss = DateTime.valueOf(productInstance.get(mapping.Field_API__c));
-                                
-                                String convertedDateTime = ss.format('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\''); 
-                                system.debug('convertedDateTime::'+mapping.Field_JSON_Tag__c+convertedDateTime);
-                                productJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
-                                    convertedDateTime+'\", ';  
-                                
-                            }        
-                        }
-                        //system.debug('mapping.Field_JSON_Tag__c: '+mapping.Field_API__c+productInstance.get(mapping.Field_API__c));
-                    }
-                    
+        if (!setProductIds.isEmpty()) {
+            for (Product_Extension__c prodExtension : [
+                SELECT
+                    ID,
+                    Name,
+                    Account_ID__c,
+                    Address_Line1__c,
+                    Address_Line2__c,
+                    City__c,
+                    Country__c,
+                    Dealer__c,
+                    Description__c,
+                    Equipment_Description__c,
+                    Equipment_Location__c,
+                    Equipment_Returned_Date__c,
+                    Equipment_S_N__c,
+                    Equipment_Value__c,
+                    Province__c,
+                    Repossession_Date__c,
+                    Value__c,
+                    Zip_Code__c
+                FROM Product_Extension__c
+                WHERE Account_ID__c IN :setProductIds
+            ]) {
+                mapProductIdProdExtension.put(prodExtension.Account_ID__c, prodExtension);
+            }
+            String query = 'SELECT ID,Legal_Decision_by__r.Name,Customer_Identifier__c,Pool_Name__r.Pool_ID__c,Created_By__c,Allocated_Amount_Total__c,Employer_Name__c,Current_Fees__c,Portfolio_Name_Lookup__r.Purchase_ID__c, ';
+            for (Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping) {
+                if (fieldMappingInstance.Object_Name__c == 'Product') {
+                    query += fieldMappingInstance.Field_API__c + ', ';
                 }
-                //productJSONRequest += '"Product_Status": "'+prodStatus+'",';
-                
-                if(!listProductExtensions.isEmpty()){
-                    // productJSONRequest += '"Name": "'+listProductExtensions[0].Name+'",';
-                    productJSONRequest += '"Extension_Description": "'+listProductExtensions[0].Description__c+'",';
-                    productJSONRequest += '"Collateral_Address_Line1": "'+listProductExtensions[0].Address_Line1__c+'",';
-                    productJSONRequest += '"Collateral_Address_Line2": "'+listProductExtensions[0].Address_Line2__c+'",';
-                    productJSONRequest += '"Collateral_City": "'+listProductExtensions[0].City__c+'",';
-                    productJSONRequest += '"Account_ID": "'+listProductExtensions[0].Account_ID__c+'",';
-                    productJSONRequest += '"Collateral_Country": "'+listProductExtensions[0].Country__c+'",';
-                    productJSONRequest += '"Dealer": "'+listProductExtensions[0].Dealer__c+'",';
-                    productJSONRequest += '"Equipment_Description": "'+listProductExtensions[0].Equipment_Description__c+'",';
-                    productJSONRequest += '"Equipment_Location": "'+listProductExtensions[0].Equipment_Location__c+'",';
-                    productJSONRequest += '"Equipment_Returned_Date": "'+listProductExtensions[0].Equipment_Returned_Date__c+'",';
-                    productJSONRequest += '"Equipment_S_N": "'+listProductExtensions[0].Equipment_S_N__c+'",';
-                    productJSONRequest += '"Equipment_Value": "'+listProductExtensions[0].Equipment_Value__c+'",';
-                    productJSONRequest += '"Province": "'+listProductExtensions[0].Province__c+'",';
-                    productJSONRequest += '"Repossession_Date": "'+listProductExtensions[0].Repossession_Date__c+'",';
-                    productJSONRequest += '"Value": "'+listProductExtensions[0].Value__c+'",';
-                    productJSONRequest += '"Collateral_Zip_Code": "'+listProductExtensions[0].Zip_Code__c+'"';
+            }
+            query = query.removeEnd(', ');
+            query += ' FROM Product__c WHERE ID IN: setProductIds';
+            listProduct = Database.query(String.escapeSingleQuotes(query));
+        }
+        if (!listProduct.isEmpty()) {
+            for (Product__c productInstance : listProduct) {
+                String escapeString = '';
+                productJSONRequest =
+                    '{' +
+                    '"Name": "' +
+                    productInstance.Name +
+                    '",' +
+                    '"Legal_Decision_By": "' +
+                    productInstance.Legal_Decision_by__r.Name +
+                    '",' +
+                    '"Account_Portfolio_ID": "' +
+                    productInstance.Portfolio_Name_Lookup__r.Purchase_ID__c +
+                    '",' +
+                    '"Pool_Name": "' +
+                    productInstance.Pool_Name__r.Pool_ID__c +
+                    '",' +
+                    '"Created_By": "' +
+                    productInstance.Created_By__c +
+                    '",' +
+                    '"Allocated_Amount_Total": "' +
+                    productInstance.Allocated_Amount_Total__c +
+                    '",' +
+                    '"Company_Name": "' +
+                    productInstance.Employer_Name__c +
+                    '",' +
+                    '"Customer_Identifier": "' +
+                    productInstance.Customer_Identifier__c +
+                    '",' +
+                    '"Current_Fees": "' +
+                    productInstance.Current_Fees__c +
+                    '",';
+
+                for (Agency_Portal_Fields_Mapping__c mapping : fieldMapping) {
+                    if (mapping.Object_Name__c == 'Product') {
+                        if (mapping.Field_Type__c != 'DateTime') {
+                            productJSONRequest += '\"' + mapping.Field_JSON_Tag__c + '\":"' + productInstance.get(mapping.Field_API__c) + '\", ';
+                        } else {
+                            if (mapping.Field_Type__c == 'DateTime' && productInstance.get(mapping.Field_API__c) != null) {
+                                DateTime ss = DateTime.valueOf(productInstance.get(mapping.Field_API__c));
+                                String convertedDateTime = ss.format('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'');
+                                productJSONRequest += '\"' + mapping.Field_JSON_Tag__c + '\":"' + convertedDateTime + '\", ';
+                            }
+                        }
+                    }
+                }
+                if (mapProductIdProdExtension.containsKey(productInstance.Id)) {
+                    productJSONRequest += '"Extension_Description": "' + mapProductIdProdExtension.get(productInstance.Id).Description__c + '",';
+                    productJSONRequest += '"Collateral_Address_Line1": "' + mapProductIdProdExtension.get(productInstance.Id).Address_Line1__c + '",';
+                    productJSONRequest += '"Collateral_Address_Line2": "' + mapProductIdProdExtension.get(productInstance.Id).Address_Line2__c + '",';
+                    productJSONRequest += '"Collateral_City": "' + mapProductIdProdExtension.get(productInstance.Id).City__c + '",';
+                    productJSONRequest += '"Account_ID": "' + mapProductIdProdExtension.get(productInstance.Id).Account_ID__c + '",';
+                    productJSONRequest += '"Collateral_Country": "' + mapProductIdProdExtension.get(productInstance.Id).Country__c + '",';
+                    productJSONRequest += '"Dealer": "' + mapProductIdProdExtension.get(productInstance.Id).Dealer__c + '",';
+                    productJSONRequest += '"Equipment_Description": "' + mapProductIdProdExtension.get(productInstance.Id).Equipment_Description__c + '",';
+                    productJSONRequest += '"Equipment_Location": "' + mapProductIdProdExtension.get(productInstance.Id).Equipment_Location__c + '",';
+                    productJSONRequest += '"Equipment_Returned_Date": "' + mapProductIdProdExtension.get(productInstance.Id).Equipment_Returned_Date__c + '",';
+                    productJSONRequest += '"Equipment_S_N": "' + mapProductIdProdExtension.get(productInstance.Id).Equipment_S_N__c + '",';
+                    productJSONRequest += '"Equipment_Value": "' + mapProductIdProdExtension.get(productInstance.Id).Equipment_Value__c + '",';
+                    productJSONRequest += '"Province": "' + mapProductIdProdExtension.get(productInstance.Id).Province__c + '",';
+                    productJSONRequest += '"Repossession_Date": "' + mapProductIdProdExtension.get(productInstance.Id).Repossession_Date__c + '",';
+                    productJSONRequest += '"Value": "' + mapProductIdProdExtension.get(productInstance.Id).Value__c + '",';
+                    productJSONRequest += '"Collateral_Zip_Code": "' + mapProductIdProdExtension.get(productInstance.Id).Zip_Code__c + '"';
                 }
                 productJSONRequest = productJSONRequest.removeEnd(', ');
                 productJSONRequest += '}';
-                
-                system.debug('productJSONRequest: '+productJSONRequest);
-                
+
                 //Get access token for http request
-                if (accTokenBulk != '') {
+                if (String.isNotBlank(accTokenBulk)) {
                     // Instantiate a new http object
                     Http h = new Http();
                     // Instantiate a new HTTP request
                     HttpRequest req = new HttpRequest();
-                    system.debug('productJSONRequest: '+productJSONRequest);
                     req.setBody(productJSONRequest);
-                    system.debug('req body'+req.getBody());
                     req.setHeader('Authorization', 'Bearer ' + accTokenBulk);
                     req.setHeader('Content-Type', 'application/json;charset=UTF-8');
                     apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFProduct');
-                    req.setEndpoint(apiCallDetails.PDF_API_URL__c+productInstance.Name);
+                    req.setEndpoint(apiCallDetails.PDF_API_URL__c + productInstance.Name);
                     req.setMethod('PUT');
-                    system.debug('req endpoint:: '+req.getEndpoint());
-                    system.debug('req body:: '+req.getBody());
                     productInstance.Outbound_API_Request_Body__c = req.getBody();
-                    system.debug('Outbound req body:: '+req.getBody());
-                    system.debug('req:: '+req);
-                    
-                    
-                    try{
+                    try {
                         // Send the request, and return a response
                         HttpResponse res = h.send(req);
-                        system.debug('res.getBody(): '+res.getBody());
-                        Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
+                        Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
                         productInstance.Outbound_API_Response_Body__c = res.getBody();
-                        system.debug('Outbound res body::' +res.getBody());
-                        if(res.getStatusCode() == 200
-                           && bodyMap.get('IsSuccess') == String.valueOf('true')){
-                               system.debug(bodyMap.get('ReturnMessage'));
-                           }       
-                        else{
-                            system.debug('Error Response');
-                            system.debug(bodyMap.get('ReturnMessage'));
+                        if (res.getStatusCode() == 200 && bodyMap.get('IsSuccess') == String.valueOf('true')) {
+                            System.Debug(bodyMap.get('ReturnMessage'));
+                        } else {
+                            System.Debug('Error Response');
+                            System.Debug(bodyMap.get('ReturnMessage'));
                         }
+                    } catch (Exception ex) {
+                        System.Debug('exception ex: ' + ex);
                     }
-                    catch(Exception ex){
-                        system.debug('exception ex: '+ex);
-                    }
-                    
-                    if(productInstance != NULL){
+                    if (productInstance != null) {
                         listProductupdate.add(productInstance);
                     }
                 }
             }
             return listProductupdate;
         }
-        
-		return null;        
+        return null;
     }
    
     

@@ -201,7 +201,7 @@ public class TestPortalProductProcessingAPI {
         prodids.add(prod8.id);
         PortalProductProcessingAPI.processProductBulkBatch(prodids);
 		PortalProductProcessingAPI.processProductBulk(prodids);
-        PortalProductProcessingAPI.processProductBulkBatchone(prodids);
+        PortalProductProcessingAPI.processProductBulkBatchone(new Set<Id>(prodids));
         
     }
     
