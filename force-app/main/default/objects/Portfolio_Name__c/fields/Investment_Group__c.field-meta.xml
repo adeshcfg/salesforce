@@ -217,6 +217,11 @@
                 <default>false</default>
                 <label>Santander Insolvent</label>
             </value>
+            <value>
+                <fullName>CTB DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>CTB DISTRESSED FF</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
