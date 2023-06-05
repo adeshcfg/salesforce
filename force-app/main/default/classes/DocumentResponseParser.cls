@@ -16,7 +16,9 @@ public class DocumentResponseParser {
    public static Set<String> splBank = new Set<String>{'5307', '628181'};
    public static Set<String> canaccedeBank = new Set<String>{'CANACCEDE'};
    public static Set<String> fidemBank = new Set<String>{'AFFIRM', 'FIDEM'};
-   public static Set<String> fairstone = new Set<String>{'FAIRSTONE','WALMART','DUO','5434','5435'};
+   public static Set<String> fairstone = new Set<String>{'FAIRSTONE','WALMART','DUO'};
+   public static Set<String> fairstoneAcc = new Set<String>{'5434','5435'};
+   public static Set<String> fairstoneExcludeAcc = new Set<String>{'6030','676'};
       
    //Court Province Map
    public static Map<String, String> courtProvinceMap = new Map<String, String>{
@@ -91,6 +93,7 @@ public class DocumentResponseParser {
    public static final string UNKNOWN_RECORD_NAME = 'unknown';
    public static final string Other_RECORD_NAME = 'other';
    
+   public static Date InsolvencyAccDate;
    // Fetch Insolvency Account record types
    static{
       for(RecordType rtype: [SELECT Id, Name, DeveloperName FROM RecordType WHERE SObjectType = 'Insolvency_Account__c']){
@@ -191,6 +194,11 @@ public class DocumentResponseParser {
             // Form49Parts
             if(res.Form49Parts != NULL){
                parseForm49Parts(res.Form49Parts, insolv);
+            }
+            
+            // Form69Parts
+            if(res.Form69Parts != NULL){
+               parseForm69Parts(res.Form69Parts, insolv);
             }
 
             // Form65Parts
@@ -351,8 +359,17 @@ public class DocumentResponseParser {
           insolv.Insolvency_Type__c = form49Parts.insolvencyType;
       }
       */
-      
+      InsolvencyAccDate = insolv.Insolvency_Date__c;
       insolv.Insolvency_Type__c = 'Consumer Proposal';
+   }
+
+   //parseForm69Parts
+   public static void parseForm69Parts(Form69Parts form69Parts, Insolvency__c insolv){
+      if(form69Parts.insolvencyDate != NULL){
+         insolv.Insolvency_Date__c = formatDate(form69Parts.insolvencyDate);  // convert 11/03/2020 to Salesforce Date format
+         InsolvencyAccDate = formatDate(form69Parts.insolvencyDate);
+      }
+      insolv.Insolvency_Type__c = 'Bankruptcy';
    }
 
    //parseForm65Parts
@@ -1081,7 +1098,7 @@ public class DocumentResponseParser {
     }
 
     // Read all Insolvency Record types and return
-    public static Id getInsolvencyRecordType(String creditorName){
+    public static Id getInsolvencyRecordType(String creditorName,String creditorAccountNumber){
       creditorName = creditorName.toUpperCase();
       for(String str: scotiaBank){
          if(creditorName.contains(str)){
@@ -1108,12 +1125,24 @@ public class DocumentResponseParser {
       }
 
       for(String str: fairstone){
-         if(creditorName.contains(str)){
-            return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
+         for(String excludeAcc: fairstoneExcludeAcc){
+            if(creditorName.contains(str) && !creditorAccountNumber.startsWith(excludeAcc) && InsolvencyAccDate > Date.newInstance( 2023, 5, 23 )){
+               return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
+            }
          }
       }
       return null;
     }
+
+    // Read Insolvency Record types based on account number starts with specific sequence as defined
+    public static Id getFairstoneInsolvencyRecordTypeAccNumber(String creditorAccountNumber){
+      for(String str: fairstoneAcc){
+        if(creditorAccountNumber.startsWith(str) && InsolvencyAccDate > Date.newInstance( 2023, 5, 23 )){
+           return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
+        }
+     }
+     return null;
+   }
 
     // Read Insolvency Record types based on account number starts with specific sequence as defined
     public static Id getInsolvencyRecordTypeAccountNumber(String creditorAccountNumber){
@@ -1145,7 +1174,7 @@ public class DocumentResponseParser {
 
          if(liability.creditor != NULL){
             insolvAccount.Creditor_Name__c = liability.creditor;
-            insolvAccount.RecordTypeId = getInsolvencyRecordType(liability.creditor);
+            insolvAccount.RecordTypeId = getInsolvencyRecordType(liability.creditor,liability.accountNumber);
          }
          if(liability.creditorAddress != NULL){
             insolvAccount.Address_of_Creditor__c = liability.creditorAddress;
@@ -1173,9 +1202,10 @@ public class DocumentResponseParser {
             }
             */
 
-            // Check if this is SPL account
+            // Check if this is SPL or Fairstone account
             if(insolvAccount.RecordTypeId == NULL){
                insolvAccount.RecordTypeId = getInsolvencyRecordTypeAccountNumber(liability.accountNumber);
+               insolvAccount.RecordTypeId = getFairstoneInsolvencyRecordTypeAccNumber(liability.accountNumber);
             }
          }
          // Unsecured Account
@@ -1525,6 +1555,7 @@ public class DocumentResponseParser {
         public Form49Parts Form49Parts;
         public Form65Parts Form65Parts;
         public Form79Parts Form79Parts;
+        public Form69Parts Form69Parts;
     }
 
     public class Form01Dot1Parts{
@@ -1602,6 +1633,13 @@ public class DocumentResponseParser {
     public class Form49Parts{
       public string insolvencyType;
       public String insolvencyDate;
+      //public Date insolvencyAccDate;
+    }
+
+    public class Form69Parts{
+      public string insolvencyType;
+      public String insolvencyDate;
+      //public Date insolvencyAccDate;
     }
 
     public class Form65Parts{
