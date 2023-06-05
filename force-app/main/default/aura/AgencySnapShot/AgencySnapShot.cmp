@@ -15,6 +15,7 @@
                                 data-doctype="{!f.Document_Type__c}" 
                                 data-filename="{!f.Document_Name__c}" 
                                 data-documentid="{!f.Document_Id__c}" 
+                               data-documenturl="{!f.Document_URL__c}" 
                                 data-filetype="{!f.Content_Type__c}" 
                                 onclick="{!c.previewFile}">
                                 {!f.Document_Name__c}	

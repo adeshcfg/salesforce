@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Insolvency_Discharge_Date__c</fullName>
-    <description>DebtNext-specific</description>
+    <fullName>Agency_Id__c</fullName>
+    <description>Set product agency</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <inlineHelpText>DebtNext-specific</inlineHelpText>
-    <label>Insolvency End Date</label>
+    <inlineHelpText>Set product agency</inlineHelpText>
+    <label>Agency Id</label>
+    <length>10</length>
     <required>false</required>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Date</type>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>

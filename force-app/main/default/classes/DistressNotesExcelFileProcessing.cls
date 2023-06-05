@@ -21,6 +21,7 @@ public class DistressNotesExcelFileProcessing {
     Boolean SuccessHasRecord;
     Boolean FailedHasRecord;
     //public Id workAssignmentId {get;set;}
+    
     List<distressedNotesRecordsWrapper> listdistressedNotesRecordsWrapper = new List<distressedNotesRecordsWrapper>();
     
     Map <String, Integer> fieldNumberMap = new Map < String, Integer > ();
@@ -42,6 +43,7 @@ public class DistressNotesExcelFileProcessing {
         List<distressedNotesRecordsWrapper>  listdistressedNotesRecordsWrapper = (List<distressedNotesRecordsWrapper>)JSON.deserialize(dataAsString, List<distressedNotesRecordsWrapper>.class);
         return listdistressedNotesRecordsWrapper;
     }
+    
     
     public void processExcelFileRecords(){
          list<Document_Storage__c> listDocuments = [Select ID, Creator__c, Work_Assignment__c, Uploaded_By__c 
@@ -179,7 +181,7 @@ System.debug('The email failed to send: '
         list<Distressed_Note_Staging__c> listcustconinfoStaging = new list<Distressed_Note_Staging__c>();
         Distressed_Note_Staging__c distNoteStaging = new Distressed_Note_Staging__c();
         
-        for(Product__c prod : [Select ID,Name From Product__c 
+        for(Product__c prod : [Select ID,Name,collection_agency__c From Product__c 
                                Where id in: mapProduct1.keySet()]){
                                    mapProduct.put(prod.Name, prod);
                                }
@@ -218,6 +220,9 @@ System.debug('The email failed to send: '
             distNoteStaging.body__c = distNotes.body__c;
             distNoteStaging.Visibility__c = distNotes.Visibility__c;
             distNoteStaging.ProdID__c = distNotes.Product_Identifier__c;
+            if(mapProduct.containsKey(distNotes.Product_Identifier__c) && mapProduct.get(distNotes.Product_Identifier__c).Collection_agency__c != null){
+                distNoteStaging.Agency_Id__c = String.valueOf(mapProduct.get(distNotes.Product_Identifier__c).Collection_agency__c);
+            }
             system.debug('distNoteStaging**:: '+distNoteStaging);
             
             if(mapAccountNumberID.containsKey(distNotes.Product_Identifier__c)){

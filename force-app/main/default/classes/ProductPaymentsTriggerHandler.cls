@@ -1208,7 +1208,7 @@ productNames += productInstance.Name + ',';
         update listProdPaymentToUpdate;
         
         if(!setProductIDToReverse.isEmpty()){
-            PortalProductProcessingAPI.processProductBulk(setProductIDToReverse);
+            PortalProductProcessingAPI.processProductBulkBatch(setProductIDToReverse);
         }
         JudgmentTriggerHandler.recalculateDisbursmentFees(setProductID);
         ProductTriggerHandler.runProductTrigger = true;

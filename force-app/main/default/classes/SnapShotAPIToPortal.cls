@@ -9,14 +9,13 @@ public class SnapShotAPIToPortal {
         Set<String> placeId = new Set<String>();
        
         //for product and pool screen allocation
+        Snapshot snap = new Snapshot();
+
         if(documentStorageId.contains('DS_ACC') ){
             List<Product__c> listProd = [Select collection_agency__c,Name from Product__c where id IN: prodIdList]; 
             
             for(Product__c prod : listProd){
                 placeId.add(String.valueOf(prod.collection_agency__c));
-                
-                Snapshot snap = new Snapshot();
-                
                 snap.DocumentStorageId = documentStorageId;
                 for(String place : placeId){
                     Agencies agcy = new Agencies();
@@ -33,7 +32,7 @@ public class SnapShotAPIToPortal {
                 snap.Allocations = awList;
                 sJOSN = JSON.serialize(snap);
                 system.debug('sJOSN::'+sJOSN); 
-            }	
+            }   
         }else{
             List<Product_Staging__c> listProdStaging = [Select Placement_Agency__c ,Identifier__c ,Data_Id__c 
                                                         From Product_Staging__c
@@ -45,9 +44,7 @@ public class SnapShotAPIToPortal {
             for(Product_Staging__c prodStaging : listProdStaging){
                 placeId.add(prodStaging.Placement_Agency__c);
                 
-            }	
-            
-            Snapshot snap = new Snapshot();
+            }   
             
             snap.DocumentStorageId = documentStorageId;
             for(String place : placeId){
@@ -105,22 +102,29 @@ public class SnapShotAPIToPortal {
                     system.debug('inside before 202');
                     listAccountRecordWrapper = deSerializeJSON(res.getBody());
                     system.debug('inside after 202');
-                    /*accountRecordsWrapper accountList = new accountRecordsWrapper();
-accountList = listAccountRecordWrapper.documents;
-List<documentsList> docList = new List<documentsList>();
-docList = accountList.documents;*/
+                   
                     document_storage__c docData;
-                    if(!documentStorageId.contains('DS_ACC') ){
+                    if(!documentStorageId.contains('DS_ACC')){
                         docData = [select id,Work_Assignment__c from document_storage__c where id = :documentStorageId];
                         
                     }
-                    if(docData != null){
-                        Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
+                    Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
+                    if(docData != null && !snap.Allocations.isEmpty()){
                         updateWorkAssign.id = docData.Work_Assignment__c;
                         updateWorkAssign.Comment_Reply__c = 'SnapShot requested successfully';
                         WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
                         update updateWorkAssign;
                         WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+                    }else if(snap.Allocations.isEmpty()){
+                        //Added by satyajit for ticket 4217
+                        updateWorkAssign.id = docData.Work_Assignment__c;
+                       // updateWorkAssign.Comment_Reply__c = 'Trasaction Is failed please find the attached error file and share with support team';
+                        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
+                        update updateWorkAssign;
+                        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+                        
+                        //Added by satyajit for ticket 4217
+                        Database.executeBatch(new ErrorCSVFileGenerationBatch(documentStorageId,'Product Allocation File'),200);
                     }
                     
                     //system.debug(bodyMap.get('ReturnMessage'));
@@ -258,7 +262,6 @@ docList = accountList.documents;*/
         public Integer Agency{get; set;}
     }
     public class Snapshot {
-        
         public String DocumentStorageId {get; set;}
         public List<Agencies> Allocations {get; set;}
     }

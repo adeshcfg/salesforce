@@ -154,9 +154,11 @@ public class AllocationProductProcessing {
             update mapPool.values();
             PoolTriggerHandler.runPoolTrigger = true;
             
-            PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = false;
-            insert listPlacementHistory;
-            PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = true;
+            // Commented by satyajit for ticket: 4217
+            //PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = false;
+            
+            //insert listPlacementHistory;
+            //PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = true;
             productNames.removeEnd(',');
             
             list<Work_Assignment__c> listWorkAssignmentToUpsert = new list<Work_Assignment__c>();
@@ -165,6 +167,14 @@ public class AllocationProductProcessing {
                 if(listProductToUpdate.size()>0){
                     update listProductToUpdate;
                 }
+                
+                // Added by satyajit for ticket: 4217
+                if(listPlacementHistory.size()>0){
+                     PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = false;
+                     insert listPlacementHistory;
+                     PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = true;
+                }
+                
             }catch(Exception ex){
                 
                 for(Product_Staging__c productStaging: listProductStaging){

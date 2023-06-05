@@ -41,7 +41,7 @@ public with sharing class TestSnapshotProcessor {
 
         Test.startTest();
         System.Test.setMock(HttpCalloutMock.class, mock);
-       // SnapshotProcessor.createSnapshotFile(new List<Id> {prod.Id}, prod.Collection_Agency_Placement__c);
+       
 
        Id productRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Distressed_Account').getRecordTypeId();
 
@@ -67,6 +67,8 @@ public with sharing class TestSnapshotProcessor {
         prod.Product_Status__c = 'Test';
         prod.RecordTypeId = productRecordTypeId;
         insert prod;
+        
+        SnapshotProcessor.createSnapshotFile(new List<Id> {prod.Id}, prod.Collection_Agency_Placement__c);
         
         Test.stopTest();
     }

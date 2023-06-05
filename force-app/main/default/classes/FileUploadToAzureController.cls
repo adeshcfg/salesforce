@@ -593,11 +593,15 @@ public without sharing class  FileUploadToAzureController {
     }
     //Added by Rajesh 4134
      @AuraEnabled
-    public static string uploadDocumentProxy(string documentId){
-        Document_Storage__c docObj = [Select id,product__c,Document_Extension__c,Document_Name__c,Document_URL__c from Document_storage__c where document_Id__c=:documentId][0];
-      //  Document documents = [SELECT Id, FolderId, Folder.Name FROM Document WHERE Folder.Name ='Metadata_Content' LIMIT 1];
+    public static string uploadDocumentProxy(string documentURL){
+        //Commented by satyajit because we are using document URL instead of document id as discussed with Ankur
+        //Document_Storage__c docObj = [Select id,product__c,Document_Extension__c,Document_Name__c,Document_URL__c from Document_storage__c where document_URL__c=:documentId][0];
+      //system.debug('documentURL::'+documentURL);
+        //  Document documents = [SELECT Id, FolderId, Folder.Name FROM Document WHERE Folder.Name ='Metadata_Content' LIMIT 1];
        Folder documents = [SELECT Id, Name FROM Folder where Name = 'Metadata_Content' Limit 1];
-       String fileToDownloadID =DocumentApiClient.createDocumentFromAzure(documents.Id,docObj.Document_URL__c);
+        
+       //Pass the document URL directly : change made by satyajit
+       String fileToDownloadID =DocumentApiClient.createDocumentFromAzure(documents.Id,documentURL);
         //Building the URL to downlowd the file from salesforce
            String fileToDownload =URL.getSalesforceBaseUrl().toExternalForm()+'/servlet/servlet.FileDownload?file='+fileToDownloadID;
        //Api call

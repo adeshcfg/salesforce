@@ -37,8 +37,8 @@ public class DisplayDistressedNotesStagingController {
         FailedHasRecord = false;
         String recordIdentfier = ApexPages.currentPage().getParameters().get('id');
         system.debug(' recordIdentfier ' +recordIdentfier);
-        listDistressedNotesStaging = [SELECT ID,body__c,ProdID__c,Comment__c,	CreatedById,Data_Id__c,Document_Storage__r.Work_Assignment__c,
-									Name,Document_Storage__c,Expected_Value__c,Identifier__c,	LastModifiedById,OwnerId,Product_Id__c,	Status__c,Title__c,Visibility__c
+        listDistressedNotesStaging = [SELECT ID,body__c,ProdID__c,Comment__c,Agency_Id__c,CreatedById,Data_Id__c,Document_Storage__r.Work_Assignment__c,
+									Name,Document_Storage__c,Expected_Value__c,Identifier__c,LastModifiedById,OwnerId,Product_Id__c,	Status__c,Title__c,Visibility__c
                                       FROM Distressed_Note_Staging__c WHERE Identifier__c = :recordIdentfier];
         system.debug(' listDistressedNotesStaging ' +listDistressedNotesStaging);
          if(listDistressedNotesStaging.isEmpty()){
@@ -110,8 +110,10 @@ public class DisplayDistressedNotesStagingController {
                 distNotes.Product__c = distStaging.Product_Id__c;
                 distNotes.Title__c = distStaging.Title__c;
                 distNotes.Visibility__c = distStaging.Visibility__c;
-                distNotes.Product_Identifier__c = distStaging.Data_Id__c;
-                
+                distNotes.Product_Identifier__c = distStaging.ProdID__c;
+                distNotes.Agency_ID__c = distStaging.Agency_Id__c;
+                distNotes.Created_By__C = UserInfo.getName();
+                distNotes.Last_Modified_By__c = UserInfo.getName();
                 listDistNotes.add(distNotes);
                 system.debug('listDistNotes::'+listDistNotes);
                 
@@ -139,7 +141,9 @@ public class DisplayDistressedNotesStagingController {
         DistressedNotesTriggerHandler.runDistressedNotesTrigger = false;
         insert listDistNotes;
         DistressedNotesTriggerHandler.runDistressedNotesTrigger = true;
-         
+        
+         //Added for ticket: 4232 by satyajit
+        Database.executeBatch(new DistressedNotesAPIBatch(listDistNotes),200);
         list<Work_Assignment__c> listWorkAssignmentToUpsert = new list<Work_Assignment__c>();
         
         //Create Task record and assign it to Agency
@@ -160,6 +164,7 @@ public class DisplayDistressedNotesStagingController {
         update workAssignment;
         system.debug('workAssignment: '+workAssignment);
         upsert listWorkAssignmentToUpsert;
+         
         showButton = true;
         displayPanel = false;
         return null;

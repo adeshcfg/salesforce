@@ -1580,7 +1580,7 @@ productToUpdateMap.put(productInstance.id,productInstance);
             if(config.Run_Judgment_Update_API_For_Portal__c){ 
                 //call API
                 PortalJudgmentProcessingAPI.processJudgment(judgment.ID); 
-                if(judgment.Legal_Agency__c != null &&
+                /*if(judgment.Legal_Agency__c != null &&
                    judgment.Name == mapOldJudgments.get(judgment.ID).Name &&
                    judgment.Legal_Status__c != null &&
                    judgment.Legal_Sub_Status__c != null &&
@@ -1588,7 +1588,7 @@ productToUpdateMap.put(productInstance.id,productInstance);
                   ){
                       system.debug('Notification::');
                       notificationCallAPI(judgment.Legal_Agency__c,'Judgment','Judgment Updated','Judgment ' + judgment.Name + ' has been updated  to status update '+ judgment.Legal_Status__c + ' '+judgment.Legal_Sub_Status__c);
-                  }
+                  }*/
                 
             }
         }

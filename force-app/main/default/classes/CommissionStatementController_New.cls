@@ -36,8 +36,6 @@ public class CommissionStatementController_New {
         DateTime currentDate = system.now();
         //amountDue = new map<String, Decimal>();
        
-        
-         
         String currentMonth;
         String currentDay;
         Id id = System.currentPageReference().getParameters().get('Id');        
@@ -293,7 +291,7 @@ public class CommissionStatementController_New {
             '9' => 'September',
             '10' => 'October',
             '11' => 'November',
-            '0' => 'December'         
+            '12' => 'December'         
             };
                 public void getMonth(String month){
                     //month = province.toUpperCase();

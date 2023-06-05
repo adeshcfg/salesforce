@@ -859,11 +859,12 @@
    previewDocumentProxy:function(component, event){
         // console.log('uploadAppRecHelper::'+component.find("appAprvStatus").get("v.value") );
         var documentId = event.currentTarget.dataset.documentid;
-      //  alert(documentId);
+       var documentURL = event.currentTarget.dataset.documenturl;
+       //alert(documentURL);
     	var action1 = component.get("c.uploadDocumentProxy"); 
     //    console.log(event.currentTarget.dataset.documentid);
         action1.setParams({              
-            "documentId":documentId
+            "documentURL":documentURL
         });  
     	action1.setCallback(this,function(response){  
             var state = response.getState(); 

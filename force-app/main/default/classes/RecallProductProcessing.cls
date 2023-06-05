@@ -86,7 +86,7 @@ public class RecallProductProcessing {
                     prod.Sub_Status__c = productStaging.Placement_Sub_Status__c;
                     prod.Status_Changed_Date__c = myDate;
                    
-                   if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9')) || Test.isRunningTest()){	
+                   if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9')) || Test.isRunningTest()){   
                         if(codeMapping.containsKey(prod.Placement_Status__c) ){
                             if(codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c != NULL){
                                 prod.Product_Status__c = codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c;
@@ -134,6 +134,13 @@ public class RecallProductProcessing {
                     update prodList;
                     ProductTriggerHandler.runProductTrigger = true;
                 }
+                
+                // Added by satyajit for ticket: 4217
+                if(prodIds.size() > 0){
+                //Update Placement history when product is recalled.
+                DistressedUtilities.updatePlacementHistory_New(ProdIds,PlacementStatusMap);
+             
+            }
             }catch(Exception ex){
 
                 for(Product_Staging__c productStaging: listproductstaging){
@@ -150,11 +157,13 @@ public class RecallProductProcessing {
                 update listproductstaging;
             }
             system.debug('prodIds::'+prodIds);
-            if(prodIds.size() > 0){
+            
+            // Commented by satyajit for ticket: 4217
+           /* if(prodIds.size() > 0){
                 //Update Placement history when product is recalled.
                 DistressedUtilities.updatePlacementHistory_New(ProdIds,PlacementStatusMap);
              
-            }
+            }*/
             
         }catch(Exception ex){
             system.debug('exception success file--+--'+ex.getLineNumber());

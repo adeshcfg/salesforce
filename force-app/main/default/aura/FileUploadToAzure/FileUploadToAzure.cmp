@@ -10,6 +10,7 @@
     <aura:attribute name="fileName1" type="String" />
     <aura:attribute name="parentId" type="Id" default="" />
     <aura:attribute name="documentid" type="Id" default="" />
+    <aura:attribute name="documenturl" type="String" default="" />
     <!-- 'showLoadingSpinner' attribute for show/hide the uploading image and msg in aura:if-->
     <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
     <!-- 'fileName' attribute for display the selected file name -->
@@ -176,7 +177,8 @@
                          <a href="javascript:void(0)" aura:id="{!f.Document_ID__c}" 
                            data-doctype="{!f.Document_Type__c}" 
                            data-filename="{!f.Document_Name__c}" 
-                           data-documentid="{!f.Document_Id__c}" 
+                           data-documentid="{!f.Document_Id__c}"
+                           data-documenturl="{!f.Document_URL__c}"
                            data-filetype="{!f.Content_Type__c}" 
                            onclick="{!c.previewFile}">
                             {!f.Document_Name__c}	
