@@ -1122,7 +1122,12 @@ public class DocumentResponseParser {
              && !(creditorAccountNumber.contains(acctNameCS1))
              && InsolvencyAccDate > Date.newInstance( 2023, 5, 23 )){
                  return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
-             }
+             }else{
+               if(creditorName.contains(str) && creditorAccountNumber == NULL
+                 && InsolvencyAccDate > Date.newInstance( 2023, 5, 23 )){
+                   return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
+               }
+           }
       }
         
       for(String str: canaccedeBank){
