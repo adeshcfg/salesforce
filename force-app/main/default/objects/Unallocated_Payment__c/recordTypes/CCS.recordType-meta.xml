@@ -41,6 +41,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Rogers</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>SDA</fullName>
             <default>false</default>
         </values>

@@ -222,6 +222,11 @@
                 <default>false</default>
                 <label>CTB DISTRESSED FF</label>
             </value>
+            <value>
+                <fullName>GOEASY INSOLVENT FF</fullName>
+                <default>false</default>
+                <label>GOEASY INSOLVENT FF</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
