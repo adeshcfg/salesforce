@@ -1117,7 +1117,8 @@ public class DocumentResponseParser {
       String acctNameCS1 = '6030';
       //Ticket 4587 and 4581: fairstone account not starts with 676 and 6030 and insolvency date should be greater than 23rd May
       for(String str: fairstone){
-          if(creditorName.contains(str) && !(creditorAccountNumber.contains(acctNameCS))
+          if(creditorName.contains(str) && creditorAccountNumber != NULL
+             && !(creditorAccountNumber.contains(acctNameCS))
              && !(creditorAccountNumber.contains(acctNameCS1))
              && InsolvencyAccDate > Date.newInstance( 2023, 5, 23 )){
                  return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
