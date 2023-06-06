@@ -11,7 +11,7 @@
 public class DocumentResponseParser {
    
    // Creditor Name check to assign Record Type
-   public static Set<String> scotiaBank = new Set<String>{'BANK OF NOVA SCOTIA', 'SCOTIABANK', 'SCOTIA BANK'};
+   public static Set<String> scotiaBank = new Set<String>{'BANK OF NOVA SCOTIA', 'SCOTIABANK', 'SCOTIA BANK','SCOTIA MORTGAGE CORPORATION'};
    public static Set<String> sdaBank = new Set<String>{'SDA', 'SCOTIA DEALER ADVANTAGE'};
    public static Set<String> splBank = new Set<String>{'5307', '628181'};
    public static Set<String> canaccedeBank = new Set<String>{'CANACCEDE'};
