@@ -18,7 +18,8 @@ public class DocumentResponseParser {
    public static Set<String> fidemBank = new Set<String>{'AFFIRM', 'FIDEM'};
    public static Set<String> fairstone = new Set<String>{'FAIRSTONE','WALMART','DUO'};
    public static Set<String> fairstoneAcc = new Set<String>{'5434','5435'};
-   public static Set<String> fairstoneExcludeAcc = new Set<String>{'6030','676'};
+   //public static Set<String> fairstoneExcludeAcc = new Set<String>{'676'};
+   //public static Set<String> fairstoneExcludeAccData = new Set<String>{'6030'};
       
    //Court Province Map
    public static Map<String, String> courtProvinceMap = new Map<String, String>{
@@ -1112,6 +1113,17 @@ public class DocumentResponseParser {
          }
       }
 
+      string acctNameCS = '676';
+      String acctNameCS1 = '6030';
+ 
+      for(String str: fairstone){
+          if(creditorName.contains(str) && !(creditorAccountNumber.contains(acctNameCS))
+             && !(creditorAccountNumber.contains(acctNameCS1))
+             && InsolvencyAccDate > Date.newInstance( 2023, 5, 23 )){
+                 return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
+             }
+      }
+        
       for(String str: canaccedeBank){
          if(creditorName.contains(str)){
             return insolvencyRecordTypeMap.get('Canaccede_Insolvency_Account');
@@ -1124,13 +1136,7 @@ public class DocumentResponseParser {
          }
       }
 
-      for(String str: fairstone){
-         for(String excludeAcc: fairstoneExcludeAcc){
-            if(creditorName.contains(str) && !creditorAccountNumber.startsWith(excludeAcc) && InsolvencyAccDate > Date.newInstance( 2023, 5, 23 )){
-               return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
-            }
-         }
-      }
+      
       return null;
     }
 
