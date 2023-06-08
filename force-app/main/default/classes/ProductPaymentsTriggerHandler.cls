@@ -398,6 +398,7 @@ public class ProductPaymentsTriggerHandler{
         set<ID> setSettledInFullPayments = new Set<ID>();
         mapStatusProductWrapper = new map<String, productWrapper>();
         set<String> setReversalPayments = new set<String>();
+        Set<String> productIdsForPaymentUpdate = new Set<String>();
         
         for(Product_Payments__c productPay : mapNewProductPayment.values()){
             setProductID.add(productPay.CCS_Account__c);
@@ -428,7 +429,6 @@ public class ProductPaymentsTriggerHandler{
                                                  
             }    
         }
-        system.debug('listProductsIds'+listProductsIds);                                                    
         map<ID,Date> mapProductNameIds = new map<ID,Date>();
         for(Account_judgment__c accJudgment : [SELECT ID, Name,Product__c, Judgment__c, Product__r.Name,
                                                Judgment__r.Judgment_Date__c
@@ -463,7 +463,7 @@ public class ProductPaymentsTriggerHandler{
                                                       Non_Recoverable_Fee__c, Recoverable_Fee__c, Placement_Status__c, 
                                                       Product_Status__c, Status__c, Data_Status_Description__c,Interest_Rate__c,
                                                       Sub_Status__c, Interest_Waived_Off_Start_Date__c, Interest_Waived_Of_End_Date__c ,
-                                                      Payment_Apportionment__c,Interest_Waived_Off__c,Owner.Name,
+                                                      Payment_Apportionment__c,Interest_Waived_Off__c,Owner.Name,Payment_Amount__c,
                                             (SELECT ID, Payment_Amount__c,Pay_NSF__c,Pay_Attorney__c,Payment_Posting_Date__c,
                                                       Pay_Court__c,Pay_Other__c,Pay_Fees__c,Interest_Payment_Amount__c,
                                                       Pay_Due__c, Pay_Recoverable_Fee__c, Pay_Non_Recoverable_fee__c,Pay_Placedetail_Status__c,
@@ -1139,27 +1139,9 @@ productNames += productInstance.Name + ',';
                        
                    
                    if(payProductInstance.payment_type__c == '1003' && productInstance.Last_Payment_Date__c == payProductInstance.Payment_Posting_Date__c && productInstance.Last_Payment_Amount__c == (payProductInstance.Payment_Amount__c*-1)){
-                      if(prodPaymentId !=null){
-                          List<Product_Payments__C> latestPayment1 = [select Id,name,Payment_Posting_Date__c,Payment_Amount__c
-                                                            from Product_Payments__C where CCS_Account__c =: payProductInstance.CCS_Account__c
-                                                            AND Payment_Amount__c > 0
-                                                            AND Payment_Posting_Date__c <=: productInstance.Last_Payment_Date__c
-                                                            AND (Payment_Type__c = '1000' OR Payment_Type__c = '1001' OR Payment_Type__c = '1002'OR Payment_Type__c = '8000')
-                                                            AND Id NOT IN: prodPaymentId order by Payment_Posting_Date__c desc limit 1];
-                          if(!latestPayment1.isEmpty()){
-                              
-                              for(Product_Payments__C prodPay : latestPayment1){
-                                  productInstance.Last_Payment_Date__c = prodPay.Payment_Posting_Date__c;
-                                  productInstance.Last_Payment_Amount__c = prodPay.Payment_Amount__c;
-                                  productInstance.Statute_Date__c= StatuteDateUtilities.getStatueDate(productInstance.Last_Payment_Date__c, productInstance.Open_Date__c, productInstance.Charged_Off_Date__c,  productInstance.Statute_Date__c,productInstance.purchase_Province__c);
-                              }
-                          }else{
-                           product_Payments__c prodOldDate = [select id,name,Last_Payment_Date__c,Last_Payment_Amount__c from product_Payments__c 
-                        where CCS_Account__c =: payProductInstance.CCS_Account__c 
-                        AND (Payment_Type__c = '1000' OR Payment_Type__c = '1001' OR Payment_Type__c = '1002'OR Payment_Type__c = '8000') order by name ASC limit 1];
-                          productInstance.Last_Payment_Date__c = prodOldDate.Last_Payment_Date__c;
-                          productInstance.Last_Payment_Amount__c = prodOldDate.Last_Payment_Amount__c;
-                      }
+                      if(prodPaymentId !=null){    
+                        productIdsForPaymentUpdate.add(payProductInstance.CCS_Account__c);                             
+                        productInstance.Statute_Date__c= StatuteDateUtilities.getStatueDate(productInstance.Last_Payment_Date__c, productInstance.Open_Date__c, productInstance.Charged_Off_Date__c,  productInstance.Statute_Date__c,productInstance.purchase_Province__c);
                       }
                    }  
                         mapProductToAdjustInterestFinal.put(productInstance.ID, productInstance);
@@ -1168,16 +1150,48 @@ productNames += productInstance.Name + ',';
             }
            
         }
+
+        // 4329 - Take queries out from for loop and update the logic for updating Last Payment Date and Amount
+        if (!productIdsForPaymentUpdate.isEmpty()) {
+            for (Product__c product : [
+                SELECT
+                    Id,
+                    Name,
+                    Last_Payment_Date__c,
+                    (
+                        SELECT Id, Name, Payment_Amount__c, Payment_Type__c, Payment_Posting_Date__c
+                        FROM Product_Payments__r
+                        WHERE
+                            CCS_Account__r.RecordType.DeveloperName = 'Distressed_Account'
+                            AND (Payment_Type__c = '1000'
+                            OR Payment_Type__c = '1001'
+                            OR Payment_Type__c = '1002'
+                            OR Payment_Type__c = '8000')
+                            AND Payment_Amount__c > 0
+                            AND Payment_Posting_Date__c != NULL
+                            AND Is_Payment_Reversed__c = FALSE
+                        ORDER BY Payment_Posting_Date__c DESC
+                        LIMIT 1
+                    )
+                FROM Product__c
+                WHERE Last_Payment_Date__c != NULL AND Id IN :productIdsForPaymentUpdate
+            ]) {
+                mapProductToAdjustInterestFinal.get(product.Id).Last_Payment_Date__c = !product.Product_Payments__r.isEmpty()
+                    ? product.Product_Payments__r[0].Payment_Posting_Date__c
+                    : mapProductToAdjustInterestFinal.get(product.Id).Last_Payment_Date__c;
+                mapProductToAdjustInterestFinal.get(product.Id).Last_Payment_Amount__c = !product.Product_Payments__r.isEmpty()
+                    ? product.Product_Payments__r[0].Payment_Amount__c
+                    : mapProductToAdjustInterestFinal.get(product.Id).Payment_Amount__c;
+            }
+        }
         
         ProductTriggerHandler.runProductTrigger = false;
         ProductPaymentstriggerHandler.runProductTrigger = false;
-         system.debug('updateResults2222::');
         
         //For ticket 4518 - satyajit patil     
         List<Database.SaveResult> updateResults;
         if(paymentProcessing == 'Payment Excel Processing'){                                                       
         	updateResults = Database.update(mapProductToAdjustInterestFinal.values(),false);
-        	system.debug('updateResults::'+updateResults);
         
         }else{
             try{
@@ -1193,16 +1207,11 @@ productNames += productInstance.Name + ',';
                                                             
        if(paymentProcessing == 'Payment Excel Processing'){
         for(Database.SaveResult res : updateResults){
-             system.debug('res.isSuccess()::'+res.isSuccess());
-             if(res.isSuccess() == false){
-                 	prodId.add(res.getId());
-                 system.debug('res::'+res);
-                    ErrorrResult.add(res); 
-             }
-        }
-                                                         
-        system.debug('ErrorrResult::'+ErrorrResult);
-               
+            if(res.isSuccess() == false){
+                prodId.add(res.getId());
+                ErrorrResult.add(res); 
+            }
+        }                                                      
        }
                                                    
         update listProdPaymentToUpdate;
@@ -1314,7 +1323,6 @@ productNames += productInstance.Name + ',';
             listProductsToUpdate.add(productInstance);
         }
         ProductTriggerHandler.runProductTrigger = false;
-         system.debug('updateResults11111::');
         
         //update listProductsToUpdate;
         
@@ -1322,7 +1330,6 @@ productNames += productInstance.Name + ',';
         List<Database.SaveResult> updateResults;
          if(paymentProcessing == 'Payment Excel Processing'){
        		 updateResults = Database.update(listProductsToUpdate,true);
-     		 system.debug('updateResults::'+updateResults);
          }else{
               try{
             	 update listProductsToUpdate;
@@ -1338,18 +1345,12 @@ productNames += productInstance.Name + ',';
        Set<Id> prodId = new Set<Id>();
        if(paymentProcessing == 'Payment Excel Processing'){
         for(Database.SaveResult res : updateResults){
-             system.debug('res.isSuccess()::'+res.isSuccess());
-             if(res.isSuccess() == false){
-                 	prodId.add(res.getId());
-                    ErrorrResult.add(res); 
-             }
-        }
-                                                         
-        system.debug('ErrorrResult::'+ErrorrResult);
-               
+            if(res.isSuccess() == false){
+                prodId.add(res.getId());
+                ErrorrResult.add(res); 
+            }
+        }                                              
        }
-        
-        system.debug('updateResults::'+updateResults);
         
         ProductPaymentstriggerHandler.runProductTrigger = false;
         update listProductPaymentToUpdate;
@@ -1973,7 +1974,6 @@ productNames += productInstance.Name + ',';
             
             //Transaction type is incorrect
             if(prodPayment.Payment_Type__c != NULL && !validPaymentTypes.contains(prodPayment.Payment_Type__c)){
-                system.debug('prodPayment.Payment_Type__c::'+prodPayment.Payment_Type__c);
                 ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type.<br/>';
                 prodPayment.addError('Invalid Payment Type.');
             }            
@@ -2120,7 +2120,6 @@ productNames += productInstance.Name + ',';
                     if(mapProduct.containsKey(prodPayment.CCS_Account__c)
                     && (productAgency != '9999' && String.isNotBlank(productAgency))){
                         //This account is recalled before 15 days 
-                       system.debug('mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)::'+prodPayment.CCS_Account__c);
                         if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) 
                         && mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) > 15){
                             prodPayment.Payment_Provided_Agency__c = productAgencyID;
