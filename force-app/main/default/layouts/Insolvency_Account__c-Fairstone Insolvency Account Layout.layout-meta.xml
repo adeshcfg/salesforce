@@ -431,6 +431,10 @@
                 <behavior>Readonly</behavior>
                 <field>Insolvency_Last_Payment_Amount__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Charge_Off_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
