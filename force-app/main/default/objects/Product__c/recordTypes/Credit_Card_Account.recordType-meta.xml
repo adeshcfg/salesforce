@@ -399,6 +399,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>GOEASY INSOLVENT FF</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>LC DISTRESSED FF</fullName>
             <default>false</default>
         </values>
@@ -1520,6 +1524,10 @@
         </values>
         <values>
             <fullName>CFL144</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL149</fullName>
             <default>false</default>
         </values>
         <values>

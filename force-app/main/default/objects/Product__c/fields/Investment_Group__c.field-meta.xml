@@ -322,6 +322,11 @@
                 <default>false</default>
                 <label>ROGERS INSOLVENT</label>
             </value>
+            <value>
+                <fullName>GOEASY INSOLVENT FF</fullName>
+                <default>false</default>
+                <label>GOEASY INSOLVENT FF</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
