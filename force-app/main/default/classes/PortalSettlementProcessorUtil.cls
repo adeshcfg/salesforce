@@ -59,6 +59,10 @@ public class PortalSettlementProcessorUtil {
       settlement.Monthly_Expenses_Comments__c = paramMap.get('Monthly_Expenses_Comments');
       settlement.Monthly_Income_Comments__c = paramMap.get('Monthly_Income_Comments');
       settlement.Total_Wealth_Comments__c = paramMap.get('Total_Wealth_Comments');
+        
+        //Addedn for Ticket: 4034 by Satyajit
+        settlement.Employment_Comments__c = paramMap.get('Employment_Comments');
+        settlement.HomeOwner_Status_Comments__c = paramMap.get('HomeOwner_Status_Comments');
       DateTime dT = System.now();
         if(String.isNotBlank(paramMap.get('Comment_Reply'))){
             if(settlement.Comment__c != paramMap.get('Comment_Reply')){
