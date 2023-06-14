@@ -34,10 +34,13 @@ public class DistressedUtilities {
         system.debug('oldPlacementID::'+oldPlacementID);
         List<Placement_History__c> PlaceHistoryList = new List<Placement_History__c>(); 
         for(Product__c product : prodList){
-            decimal nonRecoverable = 0;
+            decimal recoverableFee = 0;
             decimal allocatedAmountPrincipal = 0;
             decimal allocatedAmountInterest = 0;
             decimal currentBalNSFFees = 0;
+            
+            decimal totalAllocatedBalance = 0;
+            
             //Placement__c plceID = [select id,name,Commission_Rate__c from Placement__c where name =: String.valueOf(product.Collection_Agency__c) limit 1];
             Placement_History__c placementHistory = new Placement_History__c();
             placementHistory.Product__c = product.id;
@@ -63,7 +66,7 @@ public class DistressedUtilities {
             //placementHistory.Allocated_Balance__c = product.Allocated_Amount_Total__c;
             //
             if(product.Recoverable_Fee__c != null){
-                nonRecoverable = product.Recoverable_Fee__c;
+                recoverableFee = product.Recoverable_Fee__c;
             }
             if(product.Allocated_Amount_Principal__c != null){
                 allocatedAmountPrincipal = product.Allocated_Amount_Principal__c;
@@ -75,16 +78,19 @@ public class DistressedUtilities {
                 currentBalNSFFees = product.Current_Bal_NSF_Fees__c;
             }
             
-            placementHistory.Allocated_Balance__c = nonRecoverable + 
+            totalAllocatedBalance = recoverableFee + 
                 allocatedAmountPrincipal + 
                 allocatedAmountInterest + 
                 currentBalNSFFees;
+            
+            placementHistory.Allocated_Balance__c = totalAllocatedBalance;
+                
             placementHistory.Placed_Commission_Rate__c = product.Commission_Rate_at_Time_of_Placement__c;
             placementHistory.Value_Tier_at_Placement__c = product.Value_Tier_at_Time_of_Placement__c;
             placementHistory.Placed_Settlement_Rate__c = product.Placed_Settlement_Rate__c;
             placementHistory.Recoverable_fee_balance__c = product.Recoverable_Fee__c;
             placementHistory.Non_recoverable_fee_balance__c = product.Non_Recoverable_Fee__c;
-            placementHistory.Total_Balance_at_Placement__c = placementHistory.Allocated_Balance__c;
+            placementHistory.Total_Balance_at_Placement__c = totalAllocatedBalance;
             
             PlaceHistoryList.add(placementHistory);
             
@@ -97,10 +103,13 @@ public class DistressedUtilities {
         //system.debug('product::'+prodList);
         // system.debug('oldPlacementID::'+oldPlacementID);
         List<Placement_History__c> PlaceHistoryList = new List<Placement_History__c>(); 
-        decimal nonRecoverable = 0;
+        decimal recoverableFee = 0;
         decimal allocatedAmountPrincipal = 0;
         decimal allocatedAmountInterest = 0;
         decimal currentBalNSFFees = 0;
+        
+        decimal totalAllocatedBalance = 0;
+        
         //Placement__c plceID = [select id,name,Commission_Rate__c from Placement__c where name =: String.valueOf(product.Collection_Agency__c) limit 1];
         Placement_History__c placementHistory = new Placement_History__c();
         placementHistory.Product__c = productToRefer.Id;
@@ -140,7 +149,7 @@ public class DistressedUtilities {
         placementHistory.Non_recoverable_fee_balance__c =productToRefer.Non_Recoverable_Fee__c;
         
         if(productToRefer.Recoverable_Fee__c != null){
-            nonRecoverable = productToRefer.Recoverable_Fee__c;
+            recoverableFee = productToRefer.Recoverable_Fee__c;
         }
         if(productToRefer.Allocated_Amount_Principal__c != null){
             allocatedAmountPrincipal = productToRefer.Allocated_Amount_Principal__c;
@@ -152,12 +161,14 @@ public class DistressedUtilities {
             currentBalNSFFees = productToRefer.Current_Bal_NSF_Fees__c;
         }
         
-        placementHistory.Allocated_Balance__c = nonRecoverable + 
+        totalAllocatedBalance = recoverableFee + 
             allocatedAmountPrincipal + 
             allocatedAmountInterest + 
             currentBalNSFFees;
         
-        placementHistory.Total_Balance_at_Placement__c = placementHistory.Allocated_Balance__c;
+        placementHistory.Allocated_Balance__c = totalAllocatedBalance;
+            
+        placementHistory.Total_Balance_at_Placement__c = totalAllocatedBalance;
         
         PlaceHistoryList.add(placementHistory);
         
@@ -169,10 +180,12 @@ public class DistressedUtilities {
         //system.debug('product::'+prodList);
         // system.debug('oldPlacementID::'+oldPlacementID);
         List<Placement_History__c> PlaceHistoryList = new List<Placement_History__c>(); 
-        decimal nonRecoverable = 0;
+        decimal recoverableFee = 0;
         decimal allocatedAmountPrincipal = 0;
         decimal allocatedAmountInterest = 0;
         decimal currentBalNSFFees = 0;
+        
+        decimal totalAllocatedBalance = 0;
         //Placement__c plceID = [select id,name,Commission_Rate__c from Placement__c where name =: String.valueOf(product.Collection_Agency__c) limit 1];
         Placement_History__c placementHistory = new Placement_History__c();
         placementHistory.Product__c = productToRefer.Id;
@@ -212,7 +225,7 @@ public class DistressedUtilities {
         placementHistory.Non_recoverable_fee_balance__c =productToRefer.Non_Recoverable_Fee__c;
         
         if(productToRefer.Recoverable_Fee__c != null){
-            nonRecoverable = productToRefer.Recoverable_Fee__c;
+            recoverableFee = productToRefer.Recoverable_Fee__c;
         }
         if(productToRefer.Allocated_Amount_Principal__c != null){
             //system.debug('allocatedAmountPrincipal::'+ productToRefer.Allocated_Amount_Principal__c);
@@ -228,11 +241,14 @@ public class DistressedUtilities {
         //system.debug('allocatedAmountInterest1::'+ allocatedAmountInterest);
         //system.debug('allocatedAmountPrincipal2::'+ allocatedAmountPrincipal);
         
-        placementHistory.Allocated_Balance__c = nonRecoverable + 
+        totalAllocatedBalance = recoverableFee + 
             allocatedAmountPrincipal + 
             allocatedAmountInterest + 
             currentBalNSFFees;
-        placementHistory.Total_Balance_at_Placement__c = placementHistory.Allocated_Balance__c;
+        
+        placementHistory.Allocated_Balance__c = totalAllocatedBalance;
+        
+        placementHistory.Total_Balance_at_Placement__c = totalAllocatedBalance;
         
         return placementHistory;
         // PlaceHistoryList.add(placementHistory);
@@ -936,15 +952,23 @@ system.debug('settings::'+ss);
 && mapProduct.get(product.Name).Status__c.startswith('Pending Recall')){
 ERROR_MSG = '<b>ERROR</b> - Account in Pending Recall.<br/>';
 }*/
-            system.debug('product status date tested::' +product.Assignment_Date__c);
+            system.debug('product status date tested::' +mapProduct.get(product.Name__c).Assignment_Date__c );
             
-            System.debug('Current Date ' +Date.today());
-            if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Assignment_Date__c <> null){
+            System.debug('Current Date ' +myDate);
+                if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Assignment_Date__c <> null){
             if(mapProduct.get(product.Name__c).Assignment_Date__c > myDate){    
-                ERROR_MSG += '<b>ERROR</b> : Status Date is less than account Placement Date<br/>';
+               	ERROR_MSG += '<b>ERROR</b> : Status Date is less than account Placement Date<br/>';
                 EXPECTED += 'Status Date must be >= account Placement Date<br/>';
             }
-            }
+              
+             /* //Added for ticket 4406 by satyajit
+                    if(mapProduct.get(product.Name__c).Assignment_Date__c >= Date.valueOf(product.Status_Changed_Date__c) ||
+                      (mapProduct.get(product.Name__c).Assignment_Date__c <= myDate && Date.valueOf(product.Status_Changed_Date__c) > myDate)){
+                        ERROR_MSG += '<b>ERROR</b> : Invalid Status Date found. Must be after account Placement Date.<br/>';
+                		EXPECTED += 'Status Date must be >= account Placement Date<br/>';  
+                    }*/
+           }
+            
             //Added validation when account is in putback/buyback - developer: satyajit for ticket: 4377
             if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Purchase_Status__c != null){
             if(mapProduct.get(product.Name__c).Purchase_Status__c == 'Eligible for Buyback' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Eligible for Putback'
