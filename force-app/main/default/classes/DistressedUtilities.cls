@@ -952,9 +952,9 @@ system.debug('settings::'+ss);
 && mapProduct.get(product.Name).Status__c.startswith('Pending Recall')){
 ERROR_MSG = '<b>ERROR</b> - Account in Pending Recall.<br/>';
 }*/
-            system.debug('product status date tested::' +mapProduct.get(product.Name__c).Assignment_Date__c );
+            //system.debug('product status date tested::' +mapProduct.get(product.Name__c).Assignment_Date__c );
             
-            System.debug('Current Date ' +myDate);
+            //System.debug('Current Date ' +myDate);
                 if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Assignment_Date__c <> null){
             if(mapProduct.get(product.Name__c).Assignment_Date__c > myDate){    
                	ERROR_MSG += '<b>ERROR</b> : Status Date is less than account Placement Date<br/>';
