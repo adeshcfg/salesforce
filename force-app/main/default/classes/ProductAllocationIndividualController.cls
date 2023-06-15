@@ -33,7 +33,7 @@ public with sharing class ProductAllocationIndividualController {
                           Current_Bal_Court_Fees__c,Collection_Agency_Placement__r.Commission_Rate__c,
                           Collection_Sub_Status__c, Data_Status_Description__c,Commission_Rate__c,Pool_Name__r.Commission_Rate__c,
                           Placement_Status__c, Pool_Name__r.Name, RecordTypeID,Allocated_Amount_Total__c,Commission_Rate_at_Time_of_Placement__c,Value_Tier_at_Time_of_Placement__c,
-                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c
+                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c,Purchase_Status__c
                    FROM Product__c WHERE ID= :productID];
         system.debug('product: '+product);
         if(product.Collection_Agency_Placement__c == NULL || product.Collection_Agency__c == 9999){
@@ -73,8 +73,8 @@ public with sharing class ProductAllocationIndividualController {
             if(!agencyTo_ProductIdsMap.isEmpty()){
                 for(Id agencyId : agencyTo_ProductIdsMap.keySet()){
                     system.debug('agencyId' +agencyId);
-                    System.enqueueJob(new SnapshotQueueableClass(agencyTo_ProductIdsMap.get(agencyId), agencyId));
-                    System.enqueueJob(new SnapshotQueueableClassForExcel(agencyTo_ProductIdsMap.get(agencyId), agencyId));
+                System.enqueueJob(new SnapshotQueueableClass(productIds, agencyId));
+                //System.enqueueJob(new SnapshotQueueableClassForExcel(agencyTo_ProductIdsMap.get(agencyId), agencyId));
                     
                 }
             }
@@ -156,7 +156,20 @@ public with sharing class ProductAllocationIndividualController {
             insert placementHistory;*/
             /*PortalProductStatusBulkAPI.processBulkProducts(product.Name, NEW_ALLOCATION_READY, ALLOCATED, String.valueOf(Date.today()), 
                                                            'Allocation',placement.Name, product.Pool_Name__r.Name);*/
-            PortalProductProcessingAPI.processProduct(product.ID);
+            
+            //Added by satyajit
+            Map<Id,String> placeStatus = new Map<Id,String>();
+            placeStatus.put(product.id,product.Placement_Status__c);
+            
+            List<Id> prodListId = new List<Id>();
+            prodListId.add(product.Id);
+            
+            //Commented by satyajit
+            //PortalProductProcessingAPI.processProduct(product.ID);
+            
+            //Added by satyajit
+            Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Product Allocation File'), 200);
+            
             ProductTriggerHandler.runProductTrigger = true;
             getSnapshortRecords(new List<Product__c>{product});
             ERROR_MSG = 'Product Allocated to Agency : ' +placement.Name + ' - ' + placement.Agency_Name__c;
@@ -254,7 +267,21 @@ public with sharing class ProductAllocationIndividualController {
                 
                 /*PortalProductStatusBulkAPI.processBulkProducts(product.Name, NEW_ALLOCATION_READY, ALLOCATED, String.valueOf(Date.today()), 
                                            'Allocation',placement.Name, product.Pool_Name__r.Name);*/
-                PortalProductProcessingAPI.processProduct(product.ID);
+                
+                //Added by satyajit
+                Map<Id,String> placeStatus = new Map<Id,String>();
+                placeStatus.put(product.id,product.Placement_Status__c);
+                
+                List<Id> prodListId = new List<Id>();
+                prodListId.add(product.Id);
+                
+                //Commented by satyajit
+                //PortalProductProcessingAPI.processProduct(product.ID);
+                
+                //Added by satyajit
+                Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Product Allocation File'), 200);
+                
+                system.debug('product::'+product);
                 getSnapshortRecords(new List<Product__c>{product});
                 ProductTriggerHandler.runProductTrigger = true;
                 ERROR_MSG = 'Product Allocated to Agency : ' +placement.Name + ' - ' + placement.Agency_Name__c;
