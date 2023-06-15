@@ -1331,6 +1331,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL071</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL072</fullName>
             <default>false</default>
         </values>
@@ -1495,6 +1499,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL132</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL135</fullName>
             <default>false</default>
         </values>
@@ -1516,6 +1524,10 @@
         </values>
         <values>
             <fullName>CFL140</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL141</fullName>
             <default>false</default>
         </values>
         <values>

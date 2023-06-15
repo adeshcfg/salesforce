@@ -13,6 +13,7 @@ ISCHANGED(Refer_to_Legal__c),
 ISPICKVAL(Refer_to_Legal__c , &apos;&apos;)
 )
 )</errorConditionFormula>
+    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
     <errorMessage>Once refer to legal is set, it cannot be reset to blank.
 
 Reason for legal referral is required when refer to legal is not blank.</errorMessage>
