@@ -151,11 +151,11 @@ public class DistressedUtilities {
         if(productToRefer.Recoverable_Fee__c != null){
             recoverableFee = productToRefer.Recoverable_Fee__c;
         }
-        if(productToRefer.Allocated_Amount_Principal__c != null){
-            allocatedAmountPrincipal = productToRefer.Allocated_Amount_Principal__c;
+        if(productToRefer.Current_Principal_Balance__c != null){
+            allocatedAmountPrincipal = productToRefer.Current_Principal_Balance__c;
         }
-        if(productToRefer.Allocated_Amount_Interest__c != null){
-            allocatedAmountInterest = productToRefer.Allocated_Amount_Interest__c;
+        if(productToRefer.Current_Interest_Amount__c != null){
+            allocatedAmountInterest = productToRefer.Current_Interest_Amount__c;
         }
         if(productToRefer.Current_Bal_NSF_Fees__c != null){
             currentBalNSFFees = productToRefer.Current_Bal_NSF_Fees__c;
@@ -177,7 +177,7 @@ public class DistressedUtilities {
     
     //Create Placement history record when account is allocate to agency via excel processing.
     public static Placement_History__c createPlaceHistoryAlloExcel_New(Product_Staging__c productStaging1, Product__c productToRefer,map<String,Placement__c> mapPlacement, map<ID, Pool__c> mapPoolRecords){
-        //system.debug('product::'+prodList);
+        //system.debug('productToRefer::'+productToRefer);
         // system.debug('oldPlacementID::'+oldPlacementID);
         List<Placement_History__c> PlaceHistoryList = new List<Placement_History__c>(); 
         decimal recoverableFee = 0;
@@ -189,7 +189,7 @@ public class DistressedUtilities {
         //Placement__c plceID = [select id,name,Commission_Rate__c from Placement__c where name =: String.valueOf(product.Collection_Agency__c) limit 1];
         Placement_History__c placementHistory = new Placement_History__c();
         placementHistory.Product__c = productToRefer.Id;
-        
+        //system.debug('productStaging1.Placement_Agency_ID__c::'+productStaging1.Placement_Agency_ID__c);
         placementHistory.Placement__c = productStaging1.Placement_Agency_ID__c; 
         placementHistory.Product_Commission_Rate__c = productStaging1.Current_Commission_Rate__c; 
         placementHistory.Placed_Commission_Rate__c = productStaging1.Placed_Commission_Rate__c;
@@ -227,16 +227,17 @@ public class DistressedUtilities {
         if(productToRefer.Recoverable_Fee__c != null){
             recoverableFee = productToRefer.Recoverable_Fee__c;
         }
-        if(productToRefer.Allocated_Amount_Principal__c != null){
-            //system.debug('allocatedAmountPrincipal::'+ productToRefer.Allocated_Amount_Principal__c);
-            allocatedAmountPrincipal = productToRefer.Allocated_Amount_Principal__c;
+        if(productToRefer.Current_Principal_Balance__c != null){
+            //system.debug('allocatedAmountPrincipal::'+ productToRefer.Current_Principal_Balance__c);
+            allocatedAmountPrincipal = productToRefer.Current_Principal_Balance__c;
         }
-        if(productToRefer.Allocated_Amount_Interest__c != null){
-            //system.debug('allocatedAmountInterest::'+ productToRefer.Allocated_Amount_Interest__c);
-            allocatedAmountInterest = productToRefer.Allocated_Amount_Interest__c;
+        if(productToRefer.Current_Interest_Amount__c != null){
+            //system.debug('allocatedAmountInterest::'+ productToRefer.Current_Interest_Amount__c);
+            allocatedAmountInterest = productToRefer.Current_Interest_Amount__c;
         }
         if(productToRefer.Current_Bal_NSF_Fees__c != null){
             currentBalNSFFees = productToRefer.Current_Bal_NSF_Fees__c;
+            //system.debug('currentBalNSFFees::'+ currentBalNSFFees);
         }
         //system.debug('allocatedAmountInterest1::'+ allocatedAmountInterest);
         //system.debug('allocatedAmountPrincipal2::'+ allocatedAmountPrincipal);
@@ -245,7 +246,6 @@ public class DistressedUtilities {
             allocatedAmountPrincipal + 
             allocatedAmountInterest + 
             currentBalNSFFees;
-        
         placementHistory.Allocated_Balance__c = totalAllocatedBalance;
         
         placementHistory.Total_Balance_at_Placement__c = totalAllocatedBalance;
@@ -602,7 +602,7 @@ productStaging.Pool_Name__c = product.Pool_Name__r.Name;
             // Change 15 Jan
             //system.debug('---+product.Collection_Agency__c+--'+product.Collection_Agency__c);
             system.debug('---+productStaging.Placement_Agency__c+--'+insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c);
-            if(mapProductName.containsKey(product.Data_Id__c) && mapProductName.get(product.Data_Id__c).Collection_Agency__c != NULL){
+            if(mapProductName.containsKey(product.Data_Id__c)){
                 //productStaging.Placement_Agency__c = String.valueOf(product.Collection_Agency__c);
                 system.debug('---++++---'+mapPlacement.containsKey(productStaging.Placement_Agency__c));
                 system.debug('---++++---'+mapPlacement.containsKey(insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c));
