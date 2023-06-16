@@ -624,8 +624,9 @@ public class ProductTriggerHandler{
                 if(prod.Current_Principal_Balance__c != NULL && prod.Current_Interest_Amount__c != NUll){
                     //prod.Current_Balance__c = prod.Current_Principal_Balance__c + prod.Current_Interest_Amount__c;    
                 }
-                if((prodOld.Insolvency_Date__c == null && prod.Insolvency_Date__c != null)
-                || (prodOld.Deceased_Date__c == null && prod.Deceased_Date__c != null)){
+             //Interest Rate on Product changed to 0% when updating insolvency information
+             //RemoveprodOld.Insolvency_Date__c == null && prod.Insolvency_Date__c != null for ticket 4599
+                if(prodOld.Deceased_Date__c == null && prod.Deceased_Date__c != null){
                     if(prod.Interest_Rate__c != 0){
                         prod.Previous_Interest_Rate__c = prod.Interest_Rate__c;
                         prod.Interest_Rate__c = 0;
