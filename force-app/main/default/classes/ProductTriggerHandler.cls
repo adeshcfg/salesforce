@@ -367,8 +367,12 @@ public class ProductTriggerHandler{
         catch(Exception ex){
             system.debug('Exception ex'+ex);
         }
+        //New code
+        if(!Test.isRunningTest()){
         runProductTrigger = false;
+        }
         
+         //old code    runProductTrigger = false;
     }
     
     //Handle before update
