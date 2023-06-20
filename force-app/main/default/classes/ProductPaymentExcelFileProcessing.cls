@@ -800,8 +800,7 @@ public class ProductPaymentExcelFileProcessing {
                     toleranceAmount = toleranceAmount.setScale(2, RoundingMode.HALF_UP);
                 }
                 //4532: product has active settment then calcuate based on Required Amount
-                if(mapSettlementData.containskey(prodPayment.CCS_Account__c)){
-                    if(mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c == 'One Time Payment' &&
+                if(mapSettlementData.containskey(prodPayment.CCS_Account__c) && mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c == 'One Time Payment' &&
                        mapSettlementData.get(prodPayment.CCS_Account__c).Status__c == 'Approved' &&
                        mapSettlementData.get(prodPayment.CCS_Account__c).Required_Amount__c != prodPayment.Payment_Amount__c){
                            ERROR_MSG += '<b>WARNING</b> - Payment does not meet Settlement parameter on Account ' 
@@ -810,7 +809,6 @@ public class ProductPaymentExcelFileProcessing {
                            EXPECTED += 'Expected Settlement Amount : '+mapSettlementData.get(prodPayment.CCS_Account__c).Required_Amount__c
                                +'<br/>';
                        }
-                }
                 else{
                     //4532: Check if payment amount less than tolerance amount percents on Placement
                     if(prodPayment.Payment_Amount__c <> toleranceAmount){

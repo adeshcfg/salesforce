@@ -2264,8 +2264,7 @@ productNames += productInstance.Name + ',';
                         toleranceAmount = toleranceAmount.setScale(2, RoundingMode.HALF_UP);
                     }  
                     //product has active settment then calcuate based on Required Amount
-                    if(mapSettlementData.containskey(prodPayment.CCS_Account__c)){
-                        if(mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c == 'One Time Payment' &&
+                    if(mapSettlementData.containskey(prodPayment.CCS_Account__c) && mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c == 'One Time Payment' &&
                            mapSettlementData.get(prodPayment.CCS_Account__c).Status__c == 'Approved' &&
                            mapSettlementData.get(prodPayment.CCS_Account__c).Required_Amount__c != NULL &&
                            mapSettlementData.get(prodPayment.CCS_Account__c).Required_Amount__c != prodPayment.Payment_Amount__c){
@@ -2276,7 +2275,7 @@ productNames += productInstance.Name + ',';
                                    +'<br/>';
                                if(prodPayment.Ignore_Warning__c == false){
                                    prodPayment.addError('WARNING : Payment does not meet Settlement parameter on Account Settlement Rate %:'+mapProduct.get(prodPayment.CCS_Account__c).Settlement_Rate__c);
-                               }
+                                   
                            }
                     }
                     else{
