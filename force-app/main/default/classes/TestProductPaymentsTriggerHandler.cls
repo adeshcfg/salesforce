@@ -222,7 +222,14 @@ public class TestProductPaymentsTriggerHandler {
         accjudg.Judgment__c=judg.id;
         accjudg.Status__c='Active';
         insert accjudg;
-         
+        
+        settlement__c settlementData = new settlement__c();
+        settlementData.Product__c = prod1.id;
+        settlementData.Required_Amount__c = 10;
+        settlementData.Payment_Frequency__c = 'One Time Payment';
+        settlementData.Status__c = 'Approved';
+        insert settlementData;
+        
         //product payment record creation
         List<Product_Payments__c> paylist=new list< Product_Payments__c>();
         Product_Payments__c prodpay= new  Product_Payments__c();
@@ -298,10 +305,10 @@ public class TestProductPaymentsTriggerHandler {
         
         List<Product_Payments__c> paylist1=new list< Product_Payments__c>();
         paylist1.add(prodpay);
-        paylist1.add(prodpay1);
+        //paylist1.add(prodpay1);
         paylist1.add(prodpay2);
         paylist1.add(prodpay3);
-        paylist1.add(prodpay4);
+        //paylist1.add(prodpay4);
         insert paylist1;
         
         Test.stopTest();

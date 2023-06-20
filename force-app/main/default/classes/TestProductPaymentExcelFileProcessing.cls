@@ -296,6 +296,13 @@ private class TestProductPaymentExcelFileProcessing{
         prod.Purchase_Province__c = 'BC';    
         insert prod;
         
+        settlement__c settlementData = new settlement__c();
+        settlementData.Product__c = prod.id;
+        settlementData.Required_Amount__c = 10;
+        settlementData.Payment_Frequency__c = 'One Time Payment';
+        settlementData.Status__c = 'Approved';
+        insert settlementData;
+        
         Judgment__c judgment = new Judgment__c();
         judgment.Legal_Status__c ='Judgment';
         judgment.Legal_Sub_Status__c = 'Recommended for legal action';
