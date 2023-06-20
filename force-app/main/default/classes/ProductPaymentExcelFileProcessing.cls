@@ -809,15 +809,15 @@ public class ProductPaymentExcelFileProcessing {
                            EXPECTED += 'Expected Settlement Amount : '+mapSettlementData.get(prodPayment.CCS_Account__c).Required_Amount__c
                                +'<br/>';
                        }
-                else{
+                else if(mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c != 'One Time Payment' &&
+                mapSettlementData.get(prodPayment.CCS_Account__c).Status__c != 'Approved' &&
+                prodPayment.Payment_Amount__c <> toleranceAmount){
                     //4532: Check if payment amount less than tolerance amount percents on Placement
-                    if(prodPayment.Payment_Amount__c <> toleranceAmount){
                     ERROR_MSG += '<b>WARNING</b> - Payment does not meet Settlement parameter on Account ' 
                                 + 'Settlement Rate % : '+mapProduct.get(prodPayment.CCS_Account__c).Settlement_Rate__c
                                 +'<br/>';
                     EXPECTED += 'Expected Settlement Amount : '+toleranceAmount
                                 +'<br/>';
-                    }
                 }
             }
               //Payment does not meet paid in full parameters Amount cannot be negative

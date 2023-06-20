@@ -2278,9 +2278,10 @@ productNames += productInstance.Name + ',';
                                    
                            }
                     }
-                    else{
+                    else if(mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c != 'One Time Payment' &&
+                    mapSettlementData.get(prodPayment.CCS_Account__c).Status__c != 'Approved' &&
+                    prodPayment.Payment_Amount__c <> toleranceAmount){
                     //Check if payment amount matches tolerance amount percents on Placement
-                    if(prodPayment.Payment_Amount__c <> toleranceAmount){
                         ERROR_MSG += '<b>WARNING</b> - Payment does not meet Settlement parameter on Account ' 
                                     + 'Settlement Rate % : '+mapProduct.get(prodPayment.CCS_Account__c).Settlement_Rate__c
                                     +'<br/>';
@@ -2289,7 +2290,6 @@ productNames += productInstance.Name + ',';
                         if(prodPayment.Ignore_Warning__c == false){
                             prodPayment.addError('WARNING : Payment does not meet Settlement parameter on Account Settlement Rate %:'+mapProduct.get(prodPayment.CCS_Account__c).Settlement_Rate__c);
                             }
-                        }
                     }
                 }             
             
