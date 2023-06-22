@@ -2278,7 +2278,7 @@ productNames += productInstance.Name + ',';
                                    
                            }
                     }
-                    else if(mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c != 'One Time Payment' &&
+                    else if(mapSettlementData.containskey(prodPayment.CCS_Account__c) && mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c != 'One Time Payment' &&
                     mapSettlementData.get(prodPayment.CCS_Account__c).Status__c != 'Approved' &&
                     prodPayment.Payment_Amount__c <> toleranceAmount){
                     //Check if payment amount matches tolerance amount percents on Placement
