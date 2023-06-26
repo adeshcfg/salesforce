@@ -1,23 +1,23 @@
 /**************************************************************************************************
- *
- *  Class:   
- *  @description : This is a webservice class(provide) to create/update DistressedNotes Record from 
- *                 Salesforce to Portal DB
- *  @author : A5E Consulting
- *  @date : 11/02/2022
- 
- *************************************************************************************************/
+*
+*  Class:   
+*  @description : This is a webservice class(provide) to create/update DistressedNotes Record from 
+*                 Salesforce to Portal DB
+*  @author : A5E Consulting
+*  @date : 11/02/2022
+
+*************************************************************************************************/
 public class PortalDistressedNotesProcessingAPI {
     public static API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
     @future (callout=true)
     public static void processDistressedNotes(ID distressedNotesId, String method){ 
         list<Distressed_notes__c> listDistressedNotes = [SELECT ID, Name, Body__c, Created_By__c, Customer__c, Customer_Identifier__c, Hist_Completed__c, Hist_Due__c, Hist_Open__c, Hist_Private__c, 
-                                                                Judgment__c, Judgment_Identifier__c, Last_Modified_By__c, Notes_Date__c, 
-                                                                Notes_History__c, Product__c, Product_Identifier__c, Settlement__c,Settlement_Identifier__c,
-                                                                Settlement_account__c, DistressedTitle__c, Title__c,Visibility__c,Distressed_Notes_Number__c,Agency_ID__c                                   
-                                                       FROM Distressed_notes__c 
-                                                       WHERE ID= :distressedNotesId];
-         system.debug('listDistressedNotes: '+listDistressedNotes);
+                                                         Judgment__c, Judgment_Identifier__c, Last_Modified_By__c, Notes_Date__c, 
+                                                         Notes_History__c, Product__c, Product_Identifier__c, Settlement__c,Settlement_Identifier__c,
+                                                         Settlement_account__c, DistressedTitle__c, Title__c,Visibility__c,Distressed_Notes_Number__c,Agency_ID__c                                   
+                                                         FROM Distressed_notes__c 
+                                                         WHERE ID= :distressedNotesId];
+        system.debug('listDistressedNotes: '+listDistressedNotes);
         
         String distressedNotesJSONRequest;
         Distressed_notes__c distressedNotesInstance;
@@ -28,10 +28,24 @@ public class PortalDistressedNotesProcessingAPI {
             //String escapeString = body.escapeUnicode();
             //system.debug('escapeString '+escapeString);
             system.debug('distressedNotesInstance '+distressedNotesInstance);
+            
+            //For Ticket: 4618 - changes done by satyajit
+            String escapedValue = '';
+            String escapedTitle = '';
+            
+            if(String.isNotBlank(distressedNotesInstance.Body__c)){
+                escapedValue = String.valueOf(distressedNotesInstance.Body__c).replace('\n', '').replace('\r', ' ');   
+                escapedValue = escapedValue.replaceAll('\\s+', ' ');
+            }
+            if(String.isNotBlank(distressedNotesInstance.Title__c)){
+                escapedTitle = String.valueOf(distressedNotesInstance.Title__c).replace('\n', '').replace('\r', ' ');   
+                escapedTitle = escapedTitle.replaceAll('\\s+', ' ');
+            }
+            
             distressedNotesJSONRequest = '{'+
                 '"Name": "'+distressedNotesInstance.Distressed_Notes_Number__c+'",'+
-                '"Title": "'+distressedNotesInstance.Title__c+'",'+
-                '"Body": "'+distressedNotesInstance.Body__c+'",'+
+                '"Title": "'+escapedTitle+'",'+
+                '"Body": "'+escapedValue+'",'+
                 '"Notes_History": "'+distressedNotesInstance.Notes_History__c+'",'+
                 '"Notes_Date": "'+distressedNotesInstance.Notes_Date__c+'",'+
                 '"Hist_Open": "'+distressedNotesInstance.Hist_Open__c+'",'+
@@ -74,7 +88,7 @@ public class PortalDistressedNotesProcessingAPI {
             system.debug('Outbound req body:: '+req.getBody());
             system.debug('req:: '+req);
             
-    
+            
             try{
                 // Send the request, and return a response
                 HttpResponse res = h.send(req);
@@ -83,9 +97,9 @@ public class PortalDistressedNotesProcessingAPI {
                 distressedNotesInstance.Outbound_API_Response_Body__c = res.getBody();
                 system.debug('Outbound res body:: '+res.getBody());
                 if(res.getStatusCode() == 200
-                && bodyMap.get('IsSuccess') == String.valueOf('true')){
-                    system.debug(bodyMap.get('ReturnMessage'));
-                }       
+                   && bodyMap.get('IsSuccess') == String.valueOf('true')){
+                       system.debug(bodyMap.get('ReturnMessage'));
+                   }       
                 else{
                     system.debug('Error Response');
                     system.debug(bodyMap.get('ReturnMessage'));
@@ -112,7 +126,7 @@ public class PortalDistressedNotesProcessingAPI {
         String dpapiClientSecret = apiCallDetails.Client_Secret__c;
         String authorizationtUrl =  apiCallDetails.AuthorizationtUrl__c;
         String parsePDFApi =  apiCallDetails.PDF_API_URL__c;
-
+        
         authorizationtUrl = authorizationtUrl.replace('{{tenandId}}', dptenandId);
         system.debug('authorizationtUrl changed: '+authorizationtUrl);
         String bodyParams =  'client_id='+dpapiClientClientId;
