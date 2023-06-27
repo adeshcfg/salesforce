@@ -83,22 +83,38 @@ public class ProcessProductBulkBatchAllocation {
                     
                     for(Agency_Portal_Fields_Mapping__c mapping : fieldMapping){
                         if(mapping.Object_Name__c == 'Product'){
-                            if(mapping.Field_Type__c != 'DateTime'){
+                            if(mapping.Field_Type__c != 'DateTime'  && mapping.Field_Type__c != 'Date'){
                                 
                                 
                             //For Ticket: 4612 - changes done by satyajit
                             String fieldValue = String.valueOf(productInstance.get(mapping.Field_API__c));
                             String escapedValue;
                             if(fieldValue != null){
-                                escapedValue = fieldValue.replaceAll('(?!^\\+)[^\\d]','');
+                               // escapedValue = fieldValue.replaceAll('(?!^\\+)[^\\d]','');
+                               //escapedValue = fieldValue.replaceAll('[^a-zA-Z0-9\\s+]', '');
+                                escapedValue = fieldValue.replace('\n', '').replace('\r', ' ');   
+                				escapedValue = escapedValue.replaceAll('\\s+', ' ');
+                                escapedValue = escapedValue.replace('\b', '');
+                                escapedValue = escapedValue.replace('\f', '');
+                                escapedValue = escapedValue.replace('\"', '');   
+                                escapedValue = escapedValue.replace('\\', '');
+                                escapedValue = escapedValue.replace('}', ''); 
+                                escapedValue = escapedValue.replace('{', '');
+                                escapedValue = escapedValue.replace('[', '');
+                                escapedValue = escapedValue.replace(']', '');
+                                escapedValue = escapedValue.replace('(', '');
+                                escapedValue = escapedValue.replace(')', '');
                             }
                             
                             //system.debug(escapedValue);
                             productJSONRequest += '\"' + mapping.Field_JSON_Tag__c + '\":"' + escapedValue + '\", ';
                                // productJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
                                    // productInstance.get(mapping.Field_API__c)+'\", ';    
-                            }
-                            else{
+                            }else if(mapping.Field_Type__c == 'Date'){
+                                 //For Ticket: 4612 - changes done by satyajit
+                                productJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
+                                   productInstance.get(mapping.Field_API__c)+'\", ';  
+                            }else{
                                 if(mapping.Field_Type__c == 'DateTime' && productInstance.get(mapping.Field_API__c) != NULL){
                                     DateTime ss = DateTime.valueOf(productInstance.get(mapping.Field_API__c));
                                     
