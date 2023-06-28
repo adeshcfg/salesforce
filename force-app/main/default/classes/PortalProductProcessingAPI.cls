@@ -387,26 +387,10 @@ public class PortalProductProcessingAPI {
                             
                             //For Ticket: 4612 - changes done by satyajit
                             String fieldValue = String.valueOf(productInstance.get(mapping.Field_API__c));
-                            String escapedValue;
-                            if(fieldValue != null){
-                                //escapedValue = fieldValue.replaceAll('[^a-zA-Z0-9\\s+]', '');
-                                escapedValue = fieldValue.replace('\n', '').replace('\r', ' ');   
-                				escapedValue = escapedValue.replaceAll('\\s+', ' ');
-                                escapedValue = escapedValue.replace('\b', '');
-                                escapedValue = escapedValue.replace('\f', '');
-                                escapedValue = escapedValue.replace('\"', '');   
-                                escapedValue = escapedValue.replace('\\', '');
-                                escapedValue = escapedValue.replace('}', ''); 
-                                escapedValue = escapedValue.replace('{', '');
-                                escapedValue = escapedValue.replace('[', '');
-                                escapedValue = escapedValue.replace(']', '');
-                                escapedValue = escapedValue.replace('(', '');
-                                escapedValue = escapedValue.replace(')', '');
-                                //escapedValue = fieldValue.replaceAll('(?!^\\+)[^\\d]','');
-                            }
-                            
-                            //system.debug(escapedValue);
-                            productJSONRequest += '\"' + mapping.Field_JSON_Tag__c + '\":"' + escapedValue + '\", ';
+                            //system.debug('fieldValue::'+fieldValue);
+                            String escapedValue = Json.serialize(fieldValue);
+                           // system.debug('escapedValue::'+escapedValue);
+                            productJSONRequest += '\"' + mapping.Field_JSON_Tag__c + '\":' + escapedValue + ', ';
                         } else if(mapping.Field_Type__c == 'Date' && productInstance.get(mapping.Field_API__c) != null){
                             //For Ticket: 4612 - changes done by satyajit
                              productJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
@@ -460,7 +444,7 @@ public class PortalProductProcessingAPI {
                         HttpResponse res = h.send(req);
                         Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
                         productInstance.Outbound_API_Response_Body__c = res.getBody();
-                        //System.Debug('res::'+res.getBody());
+                       // System.Debug('res::'+res.getBody());
                         if (res.getStatusCode() == 200 && bodyMap.get('IsSuccess') == String.valueOf('true')) {
                             System.Debug(bodyMap.get('ReturnMessage'));
                         } else {
