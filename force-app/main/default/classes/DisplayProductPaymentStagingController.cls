@@ -107,8 +107,39 @@ public class DisplayProductPaymentStagingController {
         map<ID, Product_Payments__c> mapProductPayments = new map<ID, product_Payments__c>();
         map<ID, Product_Payments__c> mapBalanceAdjustments = new map<ID, product_Payments__c>();
         List<Product_Payment_Staging__c> listProductPaymentStaging = new List<Product_Payment_Staging__c>();    
+        Map<Id, Product__c> mapProducts = new map<Id, Product__c>();
+        Set<Id> setProductId = new Set<Id>();
+        Map<String, List<Placement_History__c>> mapProductIdPlacementHistoryList = new Map<String,List<Placement_History__c>>();
         String monthInt = '';
         Integer monthSize = null;
+        
+        for(productPaymentStagingWrapper payStagingWrapper : listProductPayStagingWrapper){
+            setProductId.add(payStagingWrapper.payStaging.Product_ID__c);
+        }
+
+        // 4578 Changes - Get product and placement history details
+        if (!setProductId.isEmpty()) {
+            for (Placement_History__c placementHistory : [
+                SELECT Id, Product__c, Placement_Date__c, Agency_Id__c
+                FROM Placement_History__c
+                WHERE Product__c IN :setProductId
+                ORDER BY Placement_Date__c DESC
+            ]) {
+                if (mapProductIdPlacementHistoryList.containsKey(placementHistory.Product__c)) {
+                    mapProductIdPlacementHistoryList.get(placementHistory.Product__c).add(placementHistory);
+                } else {
+                    mapProductIdPlacementHistoryList.put(placementHistory.Product__c, new List<Placement_History__c>{ placementHistory });
+                }
+            }
+
+            for (Product__c productInstance : [
+                SELECT Id, Collection_Agency__c, Recalled_Date__c
+                FROM Product__c
+                WHERE ID IN :setProductId
+            ]) {
+                mapProducts.put(productInstance.ID, productInstance);
+            }
+        }
         
         //Get Placement ID
         list<Placement__c> listPlacements = [SELECT ID 
@@ -178,6 +209,8 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Original_Of_Payment_Reversal__c = payStaging.Original_Of_Payment_Reversal__c;
                    prodPayment.Fee_Type__c = payStaging.Fee_Type__c;
                    prodPayment.Billing_Entity__c = payStaging.Billing_Entity__c;
+                   //4578 - Link appropriate placement history with payment
+                   prodPayment.Placement_History__c = ProductPaymentsTriggerHandler.getPlacementHistoryToLink(prodPayment, mapProducts, mapProductIdPlacementHistoryList);
                    if(prodPayment.Payment_Type__c != null){
                        if(FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)){
                            prodPayment.Interest_Payment_Amount__c = payStaging.Interest_Payment_Amount__c;
