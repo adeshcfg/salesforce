@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>validate_Value_Tier_at_time_of_placement</fullName>
+    <active>true</active>
+    <description>The value tier at the time of placement supports only alphabetic and special characters only.</description>
+    <errorConditionFormula>if(NOT(REGEX(Text(Value_Tier_at_Time_of_Placement__c), &quot;^[a-zA-Z!@#$&amp;?!*%()\\-`.+,/\&quot;]*$&quot;)),true,false)</errorConditionFormula>
+    <errorDisplayField>Value_Tier_at_Time_of_Placement__c</errorDisplayField>
+    <errorMessage>Invalid Value tier at the time of placement</errorMessage>
+</ValidationRule>
