@@ -825,6 +825,131 @@ prod.Collection_Sub_Status__c = 'Pending Recall';
        // ProductTriggerHandler.updateCustomerFromProduct(prod);
        // ProductTriggerHandler.needtoUpdateCustomer(prod1);
     }
+    
+    
+   @IsTest
+    static void testCalculateDeliquency(){
+             Product__c prod = new Product__c();
+        prod.name = '123451212';
+        prod.Payment_Setup_Status__c = 'Automated';
+        prod.Funding_Status__c = 'Released Batch';
+        prod.Funding_Type__c = 'Automated';
+        prod.Disbursement_Amount__c = 2000.00;
+        prod.Current_Balance__c = 7000;
+        prod.Current_Principal_Balance__c = 5000;
+        prod.Current_Interest_Amount__c = 2000;
+        prod.Current_Workflow__c = 'Collection Process';
+        prod.Requested_Close_Date__c = System.Today();
+        prod.Status__c = 'New Allocation - New Allocation';
+        prod.Sub_Status__c = 'Ready';
+        prod.Product_Status__c = 'Test';
+        prod.Last_Name__c = 'xyz';
+       // prod.Pool_Name__c = pool.id;
+        prod.Collection_Agency__c = 30;
+        prod.Placement_Status__c = '100010';
+        prod.Purchase_Status__c = 'Buyback Initiated';
+        prod.Open_Date__c = Date.newInstance(2022, 12, 5);
+        prod.state__c = 'Alberta';
+        prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
+               prod.Purchase_Province__c='PE';
+        prod.Internal_Status__c='Active';
+        
+ insert prod;
+        
+          Product__c prodOld = new Product__c();
+        prodOld.name = 'Prod6';
+       // prod2.recordTypeId = recordTypeId;
+        prodOld.Phone_Home__c = '12345678999';
+        prodOld.Phone_Other__c = '8974563214';
+        prodOld.Phone_Work__c = '27896541236';
+        prodOld.Requested_Close_Date__c = null;
+        prodOld.Closed_Date__c = null;
+        prodOld.Payment_Due_Date__c = System.Today().addDays(20);
+        prodOld.Internal_Status__c = 'Active';
+        prodOld.product_status__C = '310000';
+        prodOld.Status__c = 'New Allocation - New Allocation';
+        prodOld.Sub_Status__c = 'Ready';
+        prodOld.Product_Status__c = 'Test';
+        prodOld.Company_Name__c = 'Test Company';
+        //prodOld.Deceased_Date__c = Date.newInstance(2022, 2, 19);
+        //prodOld.Insolvency_Date__c = Date.newInstance(2016, 12, 9);
+        prodOld.Account_Portfolio_ID__c ='Test';
+        prodold.Credit_Counselling_Date__c=null;
+        prodold.Purchase_Province__c='PE';
+prodOld.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        insert prodOld;
+        
+         Product__c prod2 = new Product__c();
+        prod2.name = '12345121232';
+        prod2.Payment_Setup_Status__c = 'Automated';
+        prod2.Funding_Status__c = 'Released Batch';
+        prod2.Funding_Type__c = 'Automated';
+        prod2.Disbursement_Amount__c = 2000.00;
+        prod2.Current_Balance__c = 7000;
+        prod2.Current_Principal_Balance__c = 5000;
+        prod2.Current_Interest_Amount__c = 2000;
+        prod2.Current_Workflow__c = 'Collection Process';
+        prod2.Requested_Close_Date__c = System.Today();
+        prod2.Status__c = 'New Allocation - New Allocation';
+        prod2.Sub_Status__c = 'Ready';
+        prod2.Product_Status__c = 'Test';
+        prod2.Last_Name__c = 'xyz';
+       // prod.Pool_Name__c = pool.id;
+        prod2.Collection_Agency__c = 30;
+        prod2.Placement_Status__c = '100010';
+        prod2.Purchase_Status__c = 'Buyback Initiated';
+        prod2.Open_Date__c = Date.newInstance(2022, 12, 5);
+        prod2.state__c = 'Alberta';
+        prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
+        prod2.Purchase_Province__c='PE';
+        prod2.Internal_Status__c='Active';
+        prod2.Payment_Due_Date__c=System.today()+2;
+        prod2.Deceased_Date__c=null;//System.today()+10;
+
+        insert prod2;
+        
+        
+         Product__c prod3 = new Product__c();
+        prod3.name = '12345121232';
+        prod3.Payment_Setup_Status__c = 'Automated';
+        prod3.Funding_Status__c = 'Released Batch';
+        prod3.Funding_Type__c = 'Automated';
+        prod3.Disbursement_Amount__c = 2000.00;
+        prod3.Current_Balance__c = 7000;
+        prod3.Current_Principal_Balance__c = 5000;
+        prod3.Current_Interest_Amount__c = 2000;
+        prod3.Current_Workflow__c = 'Collection Process';
+        prod3.Requested_Close_Date__c = System.Today();
+        prod3.Status__c = 'New Allocation - New Allocation';
+        prod3.Sub_Status__c = 'Ready';
+        prod3.Product_Status__c = 'Test';
+        prod3.Last_Name__c = 'xyz';
+       // prod.Pool_Name__c = pool.id;
+        prod3.Collection_Agency__c = 30;
+        prod3.Placement_Status__c = '100010';
+        prod3.Purchase_Status__c = 'Buyback Initiated';
+        prod3.Open_Date__c = Date.newInstance(2022, 12, 5);
+        prod3.state__c = 'Alberta';
+        prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
+        prod3.Purchase_Province__c='PE';
+        prod3.Payment_Due_Date__c=System.today()+2;
+        prod3.Credit_Counselling_Date__c=null;
+        insert prod3;
+        Test.startTest();
+        ProductTriggerHandler.UtilityMethod();
+        ProductTriggerHandler.calculateDeliquency(prod,prodOld,false );
+        ProductTriggerHandler.calculateDeliquency(prod2,prodOld,false );
+        ProductTriggerHandler.calculateDeliquency(prod3,prodOld,false );
+        //prod3.Date_for_Stat_Barred_calculations__c=System.today()+5;
+        
+        Test.stopTest();
+        prod3.Statute_Date__c=null;
+        prod3.Credit_Counselling_Date__c=System.today()+1;
+        update prod3;
+        prod2.Deceased_Date__c=System.today()+10;
+        update prod2;
+    }
+    
     @istest
     static void testcalculateBalanceBackdatedPayments2Method(){
         list<product__c> newProdList=new list<product__c>();

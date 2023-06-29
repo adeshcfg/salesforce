@@ -481,10 +481,10 @@ public with sharing class ProductRecallIndividualController {
                                               AND Payment_Agency__c = :newPlacement
                                               AND Payment_Posting_Date__c = LAST_N_DAYS:60];
                                           
-        if(String.isNotBlank(product.Collection_Sub_Status__c) && product.Collection_Sub_Status__c == 'Legal'){
+        /*if(String.isNotBlank(product.Collection_Sub_Status__c) && product.Collection_Sub_Status__c == 'Legal'){
             system.debug('recall warning::');
             ERROR_MSG += '<b>WARNING</b> - '+'Product is in Legal Status'+'<br/>';
-        }
+        }*/
             
         //Check Recall Validations
         if(!listProductPayments.isEmpty()){

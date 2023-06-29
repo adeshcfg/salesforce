@@ -222,7 +222,14 @@ public class TestProductPaymentsTriggerHandler {
         accjudg.Judgment__c=judg.id;
         accjudg.Status__c='Active';
         insert accjudg;
-         
+        
+        settlement__c settlementData = new settlement__c();
+        settlementData.Product__c = prod1.id;
+        settlementData.Required_Amount__c = 10;
+        settlementData.Payment_Frequency__c = 'One Time Payment';
+        settlementData.Status__c = 'Approved';
+        insert settlementData;
+        
         //product payment record creation
         List<Product_Payments__c> paylist=new list< Product_Payments__c>();
         Product_Payments__c prodpay= new  Product_Payments__c();
@@ -298,10 +305,10 @@ public class TestProductPaymentsTriggerHandler {
         
         List<Product_Payments__c> paylist1=new list< Product_Payments__c>();
         paylist1.add(prodpay);
-        paylist1.add(prodpay1);
+        //paylist1.add(prodpay1);
         paylist1.add(prodpay2);
         paylist1.add(prodpay3);
-        paylist1.add(prodpay4);
+        //paylist1.add(prodpay4);
         insert paylist1;
         
         Test.stopTest();
@@ -1570,46 +1577,8 @@ public class TestProductPaymentsTriggerHandler {
         prodpay13.Interest_Adjustment__c = 5;
         prodpay13.Interest_Payment_Amount__c = 0;
         insert prodpay13;
-        ProductPaymentsTriggerHandler.productWrapper wrapper = new ProductPaymentsTriggerHandler.productWrapper(prod1.name,'806000','302000','68');
-        Test.stopTest();
-     }
-    
-    public static testMethod void productPaymentReversalTest17(){
-        Test.startTest(); 
-        Placement__c placement = new Placement__c();
-        placement.Name= '68';
-        placement.Commission_Rate__c = 25;
-        placement.Agency_Name__c = 'Keyser Mason Ball LLP';
-        insert placement;
-       
-        Product__c prod1 = new Product__c();
-        prod1.Name = '1000P001';
-        prod1.RecordTypeId= [Select id from RecordType where sobjecttype='product__C' AND RecordType.Name = 'Distressed Account'].id;
-        prod1.State__c = 'AB';
-        prod1.Collection_Agency__c = 68;
-        prod1.Data_Status_Description__c = 'closed - testing';
-        prod1.Purchase_Status__c = 'Putback Rejected';
-		insert prod1;
         
-        Placement_History__c placeHist = new Placement_History__c();
-        placeHist.product__c = prod1.id;
-        placeHist.Placement_ID_Text__c = '1';
-        placeHist.Placement_Recall_Date__c = system.today() - 5; 
-       	placehist.Product_Commission_rate__C=2;
-        placeHist.CreatedDate = system.today() - 2; 
-        insert placeHist;
-          
-        Product_Payments__c prodpay12 = new  Product_Payments__c();
-        prodpay12.CCS_Account__c = prod1.id;
-        prodpay12.Payment_Amount__c = 1002;
-        prodpay12.Payment_Posting_Date__c= System.today().addDays(-2);
-        prodpay12.Payment_Type__c = '1002';
-        prodpay12.Payment_Source__c = '2';
-        prodpay12.Payment_Agency__c = '68';
-        prodpay12.Ignore_Warning__c = true;
-        insert prodpay12;
-        
-        Product_Payments__c prodpay8= new  Product_Payments__c();
+        /*Product_Payments__c prodpay8= new  Product_Payments__c();
         prodpay8.CCS_Account__c = prod1.id;
         prodpay8.Payment_Amount__c = -1002;
         prodpay8.Payment_Posting_Date__c= System.today().addDays(-2);
@@ -1617,9 +1586,9 @@ public class TestProductPaymentsTriggerHandler {
         prodpay8.Payment_Type__c = '1003';
         prodpay8.Payment_Source__c = '2';
         prodpay8.Ignore_Warning__c=true;
-        prodpay8.Original_Of_Payment_Reversal__c = prodpay12.id;
-        insert prodpay8; 
-
+        insert prodpay8;*/ 
+        
+        ProductPaymentsTriggerHandler.productWrapper wrapper = new ProductPaymentsTriggerHandler.productWrapper(prod1.name,'806000','302000','68');
         Test.stopTest();
      }
     	

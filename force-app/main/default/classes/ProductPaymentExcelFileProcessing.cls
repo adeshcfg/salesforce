@@ -591,6 +591,15 @@ public class ProductPaymentExcelFileProcessing {
                                      where id IN :productAgencyIds]){
                mapPlacementData.put(placementData.id,placementData);
          }
+        //4532: get product having settlement
+        Map<id,Settlement__c> mapSettlementData = new Map<id,Settlement__c>();                                            
+        List<Settlement__c> settlementData = [select id,name,Product__c,Required_Amount__c,Status__c,Payment_Frequency__c
+                                             FROM Settlement__c
+                                             where Product__c IN :setProductNames];
+                                                    
+        for(Settlement__c settleData : settlementData){
+              mapSettlementData.put(settleData.Product__c,settleData);                                          
+        }  
                                                  
         set<String> setProductPreviouslyPlacedCheck = new set<String>();
         if(docStorage.Document_Type__c == 'Product Payment Upload File'){
@@ -790,9 +799,20 @@ public class ProductPaymentExcelFileProcessing {
                                       mapProduct.get(prodPayment.CCS_Account__c).Settlement_Rate__c)/100;
                     toleranceAmount = toleranceAmount.setScale(2, RoundingMode.HALF_UP);
                 }
-                
-                //Check if payment amount less than tolerance amount percents on Placement
-                if(prodPayment.Payment_Amount__c < toleranceAmount){
+                //4532: product has active settment then calcuate based on Required Amount
+                if(mapSettlementData.containskey(prodPayment.CCS_Account__c) && mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c == 'One Time Payment' &&
+                       mapSettlementData.get(prodPayment.CCS_Account__c).Status__c == 'Approved' &&
+                       mapSettlementData.get(prodPayment.CCS_Account__c).Required_Amount__c != prodPayment.Payment_Amount__c){
+                           ERROR_MSG += '<b>WARNING</b> - Payment does not meet Settlement parameter on Account ' 
+                               + 'Settlement Rate % : '+mapProduct.get(prodPayment.CCS_Account__c).Settlement_Rate__c
+                               +'<br/>';
+                           EXPECTED += 'Expected Settlement Amount : '+mapSettlementData.get(prodPayment.CCS_Account__c).Required_Amount__c
+                               +'<br/>';
+                       }
+                else if(mapSettlementData.containskey(prodPayment.CCS_Account__c) && mapSettlementData.get(prodPayment.CCS_Account__c).Payment_Frequency__c != 'One Time Payment' &&
+                mapSettlementData.get(prodPayment.CCS_Account__c).Status__c != 'Approved' &&
+                prodPayment.Payment_Amount__c <> toleranceAmount){
+                    //4532: Check if payment amount less than tolerance amount percents on Placement
                     ERROR_MSG += '<b>WARNING</b> - Payment does not meet Settlement parameter on Account ' 
                                 + 'Settlement Rate % : '+mapProduct.get(prodPayment.CCS_Account__c).Settlement_Rate__c
                                 +'<br/>';
