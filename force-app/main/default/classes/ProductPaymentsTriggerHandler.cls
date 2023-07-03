@@ -85,7 +85,7 @@ public class ProductPaymentsTriggerHandler{
         Map<String, List<Placement_History__c>> mapProductIdPlacementHistoryList
     ) {
         String placementId = null;
-        // If the product is in warehouse and was recalled less than 15 days before the payment posting date, link the placement history with created date just before the payment posting date
+        // If the product is in warehouse and was recalled less than 15 days before today's date, link the latest placement history
         if (
             mapProducts.containsKey(productPayment.CCS_Account__c) &&
             mapProducts.get(productPayment.CCS_Account__c).Collection_Agency__c == 9999 &&
@@ -104,7 +104,7 @@ public class ProductPaymentsTriggerHandler{
             for (Placement_History__c placementHistory : mapProductIdPlacementHistoryList.get(productPayment.CCS_Account__c)) {
                 if (
                     placementHistory.Placement_Date__c <= productPayment.Payment_Posting_Date__c &&
-                    mapProducts.get(productPayment.CCS_Account__c).Collection_Agency__c == Decimal.valueOf(placementHistory.Agency_Id__c)
+                    productPayment.Payment_Provided_Agency__c == placementHistory.Placement__c
                 ) {
                     placementId = placementHistory.Id;
                     break;
@@ -138,7 +138,7 @@ public class ProductPaymentsTriggerHandler{
         
         if(!setProductId.isEmpty()){
             // 4578 Changes - Query and create map of placement history records for the products getting payments posted on
-            for(Placement_History__c placementHistory : [SELECT Id, Product__c, Placement_Date__c, Agency_Id__c FROM Placement_History__c WHERE Product__c IN :setProductId Order By Placement_Date__c Desc]){
+            for(Placement_History__c placementHistory : [SELECT Id, Product__c, Placement_Date__c, Agency_Id__c, Placement__c FROM Placement_History__c WHERE Product__c IN :setProductId Order By Placement_Date__c Desc]){
                 if(mapProductIdPlacementHistoryList.containsKey(placementHistory.Product__c)){
                     mapProductIdPlacementHistoryList.get(placementHistory.Product__c).add(placementHistory);
                 }
@@ -185,8 +185,6 @@ public class ProductPaymentsTriggerHandler{
                                                                +  month1;
                     }
                     if(mapProducts.containsKey(productPayment.CCS_Account__c)){
-                        //4578 - Link appropriate placement history with payment
-                        productPayment.Placement_History__c = getPlacementHistoryToLink(productPayment, mapProducts, mapProductIdPlacementHistoryList);
                         productPayment.Product_Agency__c =   mapProducts.get(productPayment.CCS_Account__c).Collection_Agency_Placement__c;
                         productPayment.Pool_Lookup__c = mapProducts.get(productPayment.CCS_Account__c).Pool_Name__c;
                         productPayment.Legal_Entity__c = mapProducts.get(productPayment.CCS_Account__c).Legal_Entity__c;
@@ -272,6 +270,8 @@ public class ProductPaymentsTriggerHandler{
                          ComissionRate = null;
                     }
                 }
+                //4578 - Link appropriate placement history with payment
+                productPayment.Placement_History__c = getPlacementHistoryToLink(productPayment, mapProducts, mapProductIdPlacementHistoryList);
                 getTaxAmount(listNewProductPayments, mapProducts);
                 validationOnRecordUpdate2(listNewProductPayments, setProductId, setPlacementID,mapProducts);                
             }    
