@@ -474,6 +474,7 @@ public class DistressedUtilities {
                 ERROR_MSG += '<b>ERROR</b> - Products which are in Buyback/Putback status can not be associated with Agency.<br/>';
             }
             }
+            //4658 -  Validation for value tier at time of placement
             String valueTireRegex = '^[a-zA-Z!@#$&?!*%()\\-`.+,/\"]*$';   
             Pattern MyPattern2 = Pattern.compile(valueTireRegex);
             Matcher MyMatcher2;
