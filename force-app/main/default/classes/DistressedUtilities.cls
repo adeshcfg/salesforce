@@ -23,15 +23,10 @@ public class DistressedUtilities {
             if(!placementHistoryIDMap.containsKey(m.Product__c)){
                 placementHistoryIDMap.put(m.Product__c, m.id);
             }
-            
-            system.debug('inside placement loop');
         }
-        system.debug('placementHistoryIDMap::'+placementHistoryIDMap);
     }
     //Method calls for Allocation using Pool and Product screen.
     public static void createPlacementHistory(List<Product__c> prodList, String oldPlacementID,Decimal placement){
-        system.debug('product::'+prodList);
-        system.debug('oldPlacementID::'+oldPlacementID);
         List<Placement_History__c> PlaceHistoryList = new List<Placement_History__c>(); 
         for(Product__c product : prodList){
             decimal recoverableFee = 0;
@@ -62,7 +57,7 @@ public class DistressedUtilities {
             placementHistory.Pool_Commission_Rate__c = product.Pool_Name__r.Commission_Rate__c;
             placementHistory.Product_Commission_Rate__c = product.Commission_Rate__c;
             placementHistory.Pool_ID__c = product.Pool_Name__r.Name;
-            system.debug('inside allocateWithWarning'+product.Allocated_Amount_Total__c);
+
             //placementHistory.Allocated_Balance__c = product.Allocated_Amount_Total__c;
             //
             if(product.Recoverable_Fee__c != null){
@@ -100,15 +95,13 @@ public class DistressedUtilities {
     
     //Method calls for Allocation using excel processing.
     public static void createPlaceHistoryAlloExcel(Product_Staging__c productStaging1, Product__c productToRefer,map<String,Placement__c> mapPlacement, map<ID, Pool__c> mapPoolRecords){
-        //system.debug('product::'+prodList);
-        // system.debug('oldPlacementID::'+oldPlacementID);
         List<Placement_History__c> PlaceHistoryList = new List<Placement_History__c>(); 
         decimal recoverableFee = 0;
         decimal allocatedAmountPrincipal = 0;
         decimal allocatedAmountInterest = 0;
         decimal currentBalNSFFees = 0;
         
-        decimal totalAllocatedBalance = 0;
+       decimal totalAllocatedBalance = 0;
         
         //Placement__c plceID = [select id,name,Commission_Rate__c from Placement__c where name =: String.valueOf(product.Collection_Agency__c) limit 1];
         Placement_History__c placementHistory = new Placement_History__c();
@@ -177,8 +170,6 @@ public class DistressedUtilities {
     
     //Create Placement history record when account is allocate to agency via excel processing.
     public static Placement_History__c createPlaceHistoryAlloExcel_New(Product_Staging__c productStaging1, Product__c productToRefer,map<String,Placement__c> mapPlacement, map<ID, Pool__c> mapPoolRecords){
-        //system.debug('productToRefer::'+productToRefer);
-        // system.debug('oldPlacementID::'+oldPlacementID);
         List<Placement_History__c> PlaceHistoryList = new List<Placement_History__c>(); 
         decimal recoverableFee = 0;
         decimal allocatedAmountPrincipal = 0;
@@ -189,7 +180,7 @@ public class DistressedUtilities {
         //Placement__c plceID = [select id,name,Commission_Rate__c from Placement__c where name =: String.valueOf(product.Collection_Agency__c) limit 1];
         Placement_History__c placementHistory = new Placement_History__c();
         placementHistory.Product__c = productToRefer.Id;
-        //system.debug('productStaging1.Placement_Agency_ID__c::'+productStaging1.Placement_Agency_ID__c);
+        
         placementHistory.Placement__c = productStaging1.Placement_Agency_ID__c; 
         placementHistory.Product_Commission_Rate__c = productStaging1.Current_Commission_Rate__c; 
         placementHistory.Placed_Commission_Rate__c = productStaging1.Placed_Commission_Rate__c;
@@ -220,7 +211,6 @@ public class DistressedUtilities {
             }
         }
         //placementHistory.Product_Commission_Rate__c = productToRefer.Commission_Rate__c;
-        //system.debug('productToRefer::'+productToRefer);
         placementHistory.Recoverable_fee_balance__c = productToRefer.Recoverable_Fee__c;
         placementHistory.Non_recoverable_fee_balance__c =productToRefer.Non_Recoverable_Fee__c;
         
@@ -228,24 +218,20 @@ public class DistressedUtilities {
             recoverableFee = productToRefer.Recoverable_Fee__c;
         }
         if(productToRefer.Current_Principal_Balance__c != null){
-            //system.debug('allocatedAmountPrincipal::'+ productToRefer.Current_Principal_Balance__c);
             allocatedAmountPrincipal = productToRefer.Current_Principal_Balance__c;
         }
         if(productToRefer.Current_Interest_Amount__c != null){
-            //system.debug('allocatedAmountInterest::'+ productToRefer.Current_Interest_Amount__c);
             allocatedAmountInterest = productToRefer.Current_Interest_Amount__c;
         }
         if(productToRefer.Current_Bal_NSF_Fees__c != null){
             currentBalNSFFees = productToRefer.Current_Bal_NSF_Fees__c;
-            //system.debug('currentBalNSFFees::'+ currentBalNSFFees);
         }
-        //system.debug('allocatedAmountInterest1::'+ allocatedAmountInterest);
-        //system.debug('allocatedAmountPrincipal2::'+ allocatedAmountPrincipal);
         
         totalAllocatedBalance = recoverableFee + 
             allocatedAmountPrincipal + 
             allocatedAmountInterest + 
             currentBalNSFFees;
+
         placementHistory.Allocated_Balance__c = totalAllocatedBalance;
         
         placementHistory.Total_Balance_at_Placement__c = totalAllocatedBalance;
@@ -265,7 +251,6 @@ public class DistressedUtilities {
         updatePlaceHistory.Id = placeHistory.Id;
         updatePlaceHistory.Placement_Recall_Date__c = Date.today();
         updatePlaceHistory.Placement_Status__c = placeStatus;
-        system.debug('placeStatus::'+placeStatus);
         updatePlaceHistory.Placement_Status_Description__c = placementStatusMap.get(placeStatus).Description__c;
         updatePlaceHistory.Placement_Status_at_time_of_recall__c = placeStatus;
         
@@ -277,16 +262,12 @@ public class DistressedUtilities {
     
     //Update placement history record when account recalled from agency.
     public static void updatePlacementHistory_New(List<id> prodIdList,map<ID, String> placeStatus){  
-        system.debug('Block run in history::'+prodIdList);
         loadPlacementHistoryIDMap(prodIdList);
         
-        //system.debug('Block run in history::'+placementHistoryIDMap);
         List<Placement_history__c> lstUpdateHis = new List<Placement_history__c>();
         //Placement_history__c placeHistory = [Select id,name from Placement_history__c where Product__c =: product AND Placement_Recall_Date__c = null limit 1];
         for(id pid:prodIdList){
-            system.debug('Block run in history inside for'+placementHistoryIDMap.get(pid));
             if(placementHistoryIDMap.get(pid)!=null){
-                system.debug('Block run in history inside if');
                 Placement_history__c updatePlaceHistory = new Placement_history__c();
                 updatePlaceHistory.Id = placementHistoryIDMap.get(pid); //placeHistory.Id;
                 updatePlaceHistory.Placement_Recall_Date__c = Date.today();
@@ -299,7 +280,6 @@ public class DistressedUtilities {
                 //Update updatePlaceHistory;
             }
         }
-        system.debug('lstUpdateHis::'+lstUpdateHis);
         PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = false;
         update lstUpdateHis;
         PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = true;
@@ -307,7 +287,6 @@ public class DistressedUtilities {
     
     //Reject settlement when product is recall.
     public static void UpdateSettlement(List<id> prodIdList){   
-        system.debug('Inside settlement update');
         Database.executeBatch(new updateSettlementStatusBatch(prodIdList), 1);
     }
     
@@ -318,7 +297,6 @@ public class DistressedUtilities {
         // Iterate and push statute date values to a map
         for(Settlement__c m :[Select id,name,Product__c from Settlement__c where Product__c in: prodIdList AND (Status__c != 'Withdraw' OR Status__c != 'Rejected')]){
             settlementIDMap.put(m.Product__c, m.id);
-            system.debug('inside placement loop');
         }
     }   
     
@@ -335,8 +313,6 @@ public class DistressedUtilities {
         Map<String, String> mapProvinceNames = new Map<String, String>();
         list<Product_Staging__c> listProductAllocateStaging = new list<Product_Staging__c>();
         set<String> setPreviousPlacedProductNames = getPlacementHistoryDetails(mapProductName.keySet());
-        system.debug('setPreviousPlacedProductNames: '+setPreviousPlacedProductNames);               
-        system.debug('mapProduct:: '+mapProductName);
         map<String, Decimal> mapProductNameAmount = new map<String, Decimal>(); 
         
         Map<String, Product_Staging__c> insertedProductStaging = new Map<String, Product_Staging__c>();
@@ -344,7 +320,6 @@ public class DistressedUtilities {
             for(Product_Staging__c p:batchScope) {
                 insertedProductStaging.put(p.Data_Id__c, p);
             }
-            system.debug('insertedProductStaging'+insertedProductStaging);
         }
         for(Product_Staging__c prodList:batchScope) {
             if(mapProductNameAmount.containsKey(String.valueOf(prodList.Data_Id__c))){
@@ -360,7 +335,6 @@ public class DistressedUtilities {
         for(Pool__c pool : [SELECT ID, Name,Placement_Agency__c FROM Pool__c ]){
             mapPool.put(pool.Name, pool);
         }                                                                            
-        system.debug('mapPlacement: '+mapPlacement);
         
         //Fill provice name map with abbriviations
         mapProvinceNames.put('NS', 'Nova Scotia');
@@ -382,14 +356,11 @@ public class DistressedUtilities {
         for(Product_Staging__c product: batchScope){
             
             if(insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c != NULL){
-                system.debug('inside insertedProductStaging');
                 newAgency = insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c;    
             }
-            system.debug('newAgency: '+newAgency);
             if(mapProductName.containsKey(product.Data_Id__c) && mapProductName.get(product.Data_Id__c).Collection_Agency__c != NULL){
                 oldAgency = String.valueOf(Math.floor(mapProductName.get(product.Data_Id__c).Collection_Agency__c));    
             }
-            system.debug('oldAgency: '+oldAgency);
             // 3
             String EXPECTED = '';
             String ERROR_MSG = '';
@@ -403,7 +374,6 @@ public class DistressedUtilities {
             if(setPreviousPlacedProductNames.contains(product.Data_Id__c+ newAgency)){
                 ERROR_MSG+= '<b>WARNING</b>-'+'Product is placed with the agency in last 6 months'+'<br/>';
                 //product.addError('Product is placed with the agency in last 6 months');
-                system.debug('previously placed');
             }
             if(!mapProductName.containsKey(product.Data_Id__c)){
                 ERROR_MSG = '<b>ERROR</b>-Invalid Account Number.'+'<br/>';
@@ -423,27 +393,21 @@ public class DistressedUtilities {
             }
             
             String AgencyProvince;
-            system.debug('newAgency::'+newAgency);
             if(String.isNotBlank(newAgency)
                && mapPlacement.containsKey(newAgency)
                && String.isNotBlank(mapPlacement.get(newAgency).Serviceable_Province__c)){
                    AgencyProvince = mapPlacement.get(newAgency).Serviceable_Province__c; 
                }
-            system.debug('AgencyProvince: '+AgencyProvince);
-            //system.debug('product.State__c: '+product.State__c);
             if(String.isNotBlank(newAgency)
                && String.isNotBlank(AgencyProvince)
                && mapProductName.containsKey(product.Data_Id__c)
                && String.isNotBlank(mapProductName.get(product.Data_Id__c).State__c)
                && ( (!mapProvinceNames.containsKey(mapProductName.get(product.Data_Id__c).State__c) && !AgencyProvince.contains(mapProductName.get(product.Data_Id__c).State__c))
                    ||   (mapProvinceNames.containsKey(mapProductName.get(product.Data_Id__c).State__c)  &&!AgencyProvince.contains(mapProvinceNames.get(mapProductName.get(product.Data_Id__c).State__c))))){
-                       system.debug('error');
                        ERROR_MSG += '<b>ERROR</b>- '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
                        EXPECTED += 'Product Province - ' + mapProductName.get(product.Data_Id__c).State__c +'<br/>';
-                       system.debug('province error');
                    }
             
-            system.debug('oldAgency before check'+oldAgency);
             if(newAgency == oldAgency){
                 //commented by tejal ERROR to WARNING
                 ERROR_MSG += '<b>ERROR</b> - '+'Product is already placed with Same agency'+'<br/>'; 
@@ -454,7 +418,6 @@ public class DistressedUtilities {
                 //errorMessage += ' VALIDATION: '+'Product is already placed with another agency:'+oldAgency;
                 //product.addError('Product is allready placed with Agency');
                 //errorAdded = true;
-                system.debug('already placed error');
             }
             
             
@@ -469,14 +432,10 @@ public class DistressedUtilities {
                     poolAgency = String.valueOf(mapPoolName.get(insertedProductStaging.get(product.Data_Id__c).Pool_Name__c).Placement_Agency__c);
                 }
             }
-            system.debug('poolAgency***'+poolAgency);
-            system.debug('prodAgency***'+prodAgency);
-            system.debug('mapPoolName***'+mapPoolName);
             if(Test.isRunningTest()){
                 poolAgency = '30';
             }
             if(mapPoolName.containsKey(insertedProductStaging.get(product.Data_Id__c).Pool_Name__c) && mapPoolName.get(insertedProductStaging.get(product.Data_Id__c).Pool_Name__c).Placement_Agency__c != null) {
-                system.debug('inside error valid');
                 if(prodAgency != poolAgency){ // Here We should put a check of prod agency not equal 9999 by Nirmallya
                     //commented by tejal ERROR to WARNING
                     ERROR_MSG += '<b>ERROR</b> - Pool cannot be mapped to account.<br/>';
@@ -492,9 +451,7 @@ public class DistressedUtilities {
                     }
                 }
             }
-            system.debug('mapProductName::'+mapProductName);
-            system.debug('product.Data_Id__c::'+product.Data_Id__c);
-            //system.debug('product Name'+product.Data_Id__c+'purchase status'+mapProductName.get(product.Data_Id__c).Purchase_Status__c);
+            
             //Buyback/Putback Validation
             if(mapProductName.containsKey(product.Data_Id__c)){
                 if(mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback Approved' && 
@@ -517,7 +474,21 @@ public class DistressedUtilities {
                 ERROR_MSG += '<b>ERROR</b> - Products which are in Buyback/Putback status can not be associated with Agency.<br/>';
             }
             }
+            String valueTireRegex = '^[a-zA-Z!@#$&?!*%()\\-`.+,/\"]*$';   
+            Pattern MyPattern2 = Pattern.compile(valueTireRegex);
+            Matcher MyMatcher2;
             
+            if(product.Value_Tier_at_Time_of_Placement__c != NULL){
+               MyMatcher2 = MyPattern2.matcher(product.Value_Tier_at_Time_of_Placement__c);       
+            }
+            if(MyMatcher2 != NULL){
+                if(MyMatcher2.matches() == false){
+                    ERROR_MSG += '<b>ERROR</b> - Invalid Value tier at the time of placement.<br/>';
+                    EXPECTED += 'Only alphabetical with/without special characters allowed.<br/>';
+                }
+            }
+            
+                     
             if(String.isNotBlank(newAgency) && mapProductName.containsKey(product.Data_Id__c)){
                 if(String.isNotBlank(mapProductName.get(product.Data_Id__c).Collection_Sub_Status__c)){
                     String collectionSubStatus = mapProductName.get(product.Data_Id__c).Collection_Sub_Status__c;
@@ -541,7 +512,6 @@ ERROR_MSG += '<b>ERROR</b> - '+'Product is in Credit Counselling Collection Sub 
                     }
                 }
                 
-                system.debug('mapProductName.get(product.Name'+mapProductName);
                 if(String.isNotBlank(mapProductName.get(product.Data_Id__c).Data_Status_Description__c)){
                     String dataStatus = mapProductName.get(product.Data_Id__c).Data_Status_Description__c;
                     if(dataStatus.contains('Closed')){
@@ -554,8 +524,7 @@ ERROR_MSG += '<b>ERROR</b> - '+'Product is in Credit Counselling Collection Sub 
                 }
             }
              }
-            system.debug('ERROR :'+ERROR_MSG);
-            system.debug('EXPECTED :'+EXPECTED);
+
             Product_Staging__c productStaging = new Product_Staging__c();
             productStaging.Id = product.Id;
             productStaging.External_Id__c = product.Data_Id__c + '_' +documentStorageId;
@@ -563,10 +532,8 @@ ERROR_MSG += '<b>ERROR</b> - '+'Product is in Credit Counselling Collection Sub 
             // Comment Changes - 19 Jan
             if(ERROR_MSG.length() > 254) {
                 productStaging.Comment__c = ERROR_MSG.substring(0, 253);
-                system.debug('inside commment > 254::'+product.Data_Id__c);
             }else {
                 productStaging.Comment__c = ERROR_MSG;
-                system.debug('outside commment < 254::'+product.Data_Id__c);
             }
             // Comment Changes - 19 Jan
             productStaging.Status__c = 'Pending';
@@ -594,20 +561,14 @@ ERROR_MSG += '<b>ERROR</b> - '+'Product is in Credit Counselling Collection Sub 
 commissionAdjustment = mapProductName.get(product.Name).Commission_Adjustment__c;
 }*/
             }
-            system.debug('product.Name+ 1: '+product.Data_Id__c);
             /*if(product.Pool_Name__r.Name != NULL ){
 productStaging.Pool_Name__c = product.Pool_Name__r.Name;
 }*/
             
             // Change 15 Jan
-            //system.debug('---+product.Collection_Agency__c+--'+product.Collection_Agency__c);
-            system.debug('---+productStaging.Placement_Agency__c+--'+insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c);
             if(mapProductName.containsKey(product.Data_Id__c)){
                 //productStaging.Placement_Agency__c = String.valueOf(product.Collection_Agency__c);
-                system.debug('---++++---'+mapPlacement.containsKey(productStaging.Placement_Agency__c));
-                system.debug('---++++---'+mapPlacement.containsKey(insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c));
                 if(mapPlacement.containsKey(insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c) && insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c != null){
-                    system.debug('---+ID+----'+mapPlacement.get(insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c).ID);
                     productStaging.Placement_Agency_ID__c = mapPlacement.get(insertedProductStaging.get(product.Data_Id__c).Placement_Agency__c).ID;    
                 }
             }
@@ -628,22 +589,18 @@ productStaging.Pool_Name__c = product.Pool_Name__r.Name;
             if(mapProductName.containsKey(product.Data_Id__c) && mapProductName.get(product.Data_Id__c).Settlement_Rate__c != NULL ){
                 productStaging.Current_Settlement_Rate__c = mapProductName.get(product.Data_Id__c).Settlement_Rate__c;
             }
-            system.debug('productStaging.Current_Settlement_Rate__c***: '+productStaging.Current_Settlement_Rate__c);
             if(mapProductName.containsKey(product.Data_Id__c) && mapProductName.get(product.Data_Id__c).Value_Tier_at_Time_of_Placement__c != NULL ){
                 productStaging.Value_Tier_at_Time_of_Placement__c = mapProductName.get(product.Data_Id__c).Value_Tier_at_Time_of_Placement__c;
             }
             if(mapProductName.containsKey(product.Data_Id__c) && mapProductName.get(product.Data_Id__c).Placed_Settlement_Rate__c != NULL ){
                 productStaging.Placed_Settlement_Rate__c = mapProductName.get(product.Data_Id__c).Placed_Settlement_Rate__c;
             }
-            system.debug('Pool Name Id:'+mapPool.get(insertedProductStaging.get(product.Data_Id__c).Pool_Name__c));
             //productStaging.Pool_Name__c = String.valueOf(product.Pool_Name_Text__c);
             if(insertedProductStaging.get(product.Data_Id__c).Pool_Name__c != NULL && mapPool.get(insertedProductStaging.get(product.Data_Id__c).Pool_Name__c) != NULL){
                 if(mapPool.get(insertedProductStaging.get(product.Data_Id__c).Pool_Name__c) != null) {
                     productStaging.Pool_Name_ID__c = mapPool.get(insertedProductStaging.get(product.Data_Id__c).Pool_Name__c).ID;
                 }
             }
-            system.debug('productStaging: '+productStaging);
-            system.debug('ERROR_MSG: '+ERROR_MSG);
             if(String.isBlank(ERROR_MSG)){
                 productStaging.Comment__c = 'SUCCESS';
                 productStaging.Include_in_Processing__c = true;
@@ -655,16 +612,13 @@ productStaging.Include_in_Processing__c = true;
 if(ERROR_MSG.contains('WARNING') && !ERROR_MSG.contains('ERROR ')){
 productStaging.Include_in_Processing__c = true;
 }*/
-            system.debug('product.Name+ 1: '+product.Data_Id__c);
-            system.debug('product.Name+ 1: '+productStaging.Name__c);
+
             listProductAllocateStaging.add(productStaging);
             ERROR_MSG = '';
             newAgency = '';
             oldAgency = '';
-            
-            System.debug('HEAP---%%--- '+Limits.getHeapSize());
         }
-        system.debug('listProductAllocateStaging: '+listProductAllocateStaging);
+
         return listProductAllocateStaging;
     }
     
@@ -674,7 +628,7 @@ productStaging.Include_in_Processing__c = true;
                                                                           String workAssignmentPlacement/* ,map<String,String> mapFilingDate */,
                                                                           Document_Storage__c docStorage)
     {
-        system.debug('mapProduct::'+mapProduct);     
+   
         map<String, Decimal> mapProductNameAmount = new map<String, Decimal>();
         map<String, Judgment_product_codes_mapping__c> mapJudgment = Judgment_product_codes_mapping__c.getAll();
         map<String, Judgment_product_codes_mapping__c> mapJudgmentCodes = new map<String, Judgment_product_codes_mapping__c>();                                            
@@ -683,7 +637,7 @@ productStaging.Include_in_Processing__c = true;
         }
         set<String> setRecentlyPaidProducts = new set<String>();
         setRecentlyPaidProducts = AccountStatusUpdateExcelFileProcessing.getProductPaymentDetails(mapProduct.keySet());
-        system.debug('setRecentlyPaidProducts::'+setRecentlyPaidProducts);                 
+                
         for(Product_Staging__c product : batchScope){
             if(mapProductNameAmount.containsKey(String.valueOf(product.Name__c))){
                 mapProductNameAmount.put(String.valueOf(product.Name__c), 
@@ -700,7 +654,6 @@ productStaging.Include_in_Processing__c = true;
         Map<String, Placement_Status_Code_Mapping__c> settings = Placement_Status_Code_Mapping__c.getAll();
         
         for(Product_Staging__c product : batchScope){
-            system.debug('product::::: '+product);
             Boolean error = false;
             String ERROR_MSG = '';
             String EXPECTED = '';
@@ -724,47 +677,30 @@ productStaging.Include_in_Processing__c = true;
             
             Matcher MyMatcher1;
             date myDate;
-            system.debug('product.Status_Changed_Date__c::'+product.Status_Changed_Date__c);
             if(String.isNotBlank(product.Status_Changed_Date__c) && product.Status_Changed_Date__c.contains('/')){
                 MyMatcher1 = MyPattern1.matcher(product.Status_Changed_Date__c);  
                 Matcher MyMatcher2 = MyPattern2.matcher(product.Status_Changed_Date__c);  
                 Matcher MyMatcher3 = MyPattern3.matcher(product.Status_Changed_Date__c);
-                system.debug('MyMatcher3.matches()::'+MyMatcher3.matches());
-                
-                system.debug('MyMatcher1:: '+MyMatcher1);
-                system.debug('MyMatcher1.matches()::'+MyMatcher1.matches());
                 //Invalid Payment date (pmt date must exist, be formatted correctly and cannot be in the future)
-                system.debug('product.Status_Changed_Date_Text__c::'+product.Status_Changed_Date__c);
                 //matching of date when entered in Text format in excel file
                 
                 if(MyMatcher1.matches() == true || Test.isRunningTest()){
                     list<String> datelist = product.Status_Changed_Date__c.split('/');
-                    system.debug('datelist ::'+datelist);
                     myDate = date.newInstance(Integer.valueOf(datelist[2]), Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]));
-                    system.debug('myDate::'+myDate);
                     product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();
-                    //product.Status_Changed_Date__C = myDate;
-                    system.debug('product.Status_Changed_Date__C external '+product.Status_Changed_Date__C);
                 }
                 //matching of date when entered in Date format in excel file  product.Status_Changed_Date__c 
                 else if(MyMatcher2.matches() == true){
                     list<String> datelist = product.Status_Changed_Date__c.split('/');
-                    system.debug('datelist2 ::'+datelist);
                     myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
-                    system.debug('myDate::'+myDate);
                     //product.Status_Changed_Date__C = String.valueOf(myDate);
-					product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date_Text__c);
-                    system.debug('product.Status_Changed_Date__C external '+product.Status_Changed_Date__C);
+					product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();                   
                 }
                 else if(MyMatcher3.matches() == true){
                     list<String> datelist = product.Status_Changed_Date__c.split('/');
-                    system.debug('datelist ::'+datelist);
                     myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
-                    system.debug('myDate::'+myDate);
                     //product.Status_Changed_Date__C = String.valueOf(myDate);
                    product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year(); 
-                    system.debug('Payment_Posting_Date_Text__c::::'+product.Status_Changed_Date__c);
-                    system.debug('product.Status_Changed_Date__C external '+product.Status_Changed_Date__C);
                 }
             }
             
@@ -777,9 +713,7 @@ productStaging.Include_in_Processing__c = true;
             //If user enters dd/mm/yyyy formate then shows the below error
             if(product.Status_Changed_Date__C != NULL && product.Status_Changed_Date__C.contains('/')){
                 String statusChangedDate = product.Status_Changed_Date__C.substring(0,2);
-                system.debug('inside greated than 12::'+statusChangedDate);
                 if(statusChangedDate > '12' && !statusChangedDate.contains('/')){
-                    system.debug('inside greated than 12');
                     ERROR_MSG += '<b>ERROR</b> - Invalid Status Changed date.<br/>';
                     EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY)<br/>'; 
                 }
@@ -817,11 +751,9 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 ERROR_MSG += '<b>ERROR</b> : Can\'t change account in Legal status<br/>';
                 EXPECTED += 'Agency user cannot update the status on Product with Judgment<br/>';
             }
-            system.debug('product.Name__c'+product.Name__c);
             if(mapProduct.containsKey(product.Name__c)
                && mapProduct.get(product.Name__c).Collection_Agency__c != NULL){
                    newAgency = String.valueOf(Math.floor(mapProduct.get(product.Name__c).Collection_Agency__c));  
-                   system.debug('newAgency inside if' +newAgency);
                }
             
             //Check Recall Validations
@@ -859,13 +791,12 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 //agency can not change from any other status to recall status.
                 
                 /*if(!mapProduct.get(product.Name__c).Placement_Status__c.startsWith('8') && product.Placement_Status_Code__c.startsWith('9') && docStorage != NULL && docStorage.Uploaded_By__c == 'External User'){
-                    system.debug('Run Block123');
                     ERROR_MSG += '<b>ERROR</b> : Account not in pending recall status<br/>';
                     //EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name).Placement_Status__c+'.<br/>';
                 }*/
                 
                 //agency can not change status when refer to legal is in for review/main status is in pregal.
-                //system.debug('Test run block::'+mapProduct.get(product.Name).Status__c.startsWith('Pre - Legal'));
+                
                 if(mapProduct.get(product.Name__c).Status__c != null){
                     if((mapProduct.get(product.Name__c).Status__c.startsWith('Pre - Legal') && mapProduct.get(product.Name__c).Placement_Status__c != product.Placement_Status_Code__c) || (mapProduct.get(product.Name__c).Refer_to_Legal__c == 'For Review' && mapProduct.get(product.Name__c).Placement_Status__c != product.Placement_Status_Code__c)){
                         ERROR_MSG += '<b>ERROR</b> : Account in Refer to Legal status<br/>';
@@ -874,8 +805,6 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 }
                 
             }
-            
-            system.debug('newAgency inside validation' +newAgency);
             if(docStorage != NULL && docStorage.Uploaded_By__c == 'External User'){
                 if(product.Placement_Status_Code__c != Null && product.Placement_Status_Code__c.startsWith('8')){
                     ERROR_MSG += '<b>ERROR</b> : Status can not change from any other to recall status.<br/>';
@@ -889,9 +818,6 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                        ERROR_MSG += '<b>ERROR</b> : Account not in pending recall status<br/>';
                        EXPECTED += 'Account is not in Pending Recall Status' +'.<br/>'; 
                    }
-                system.debug('product is presenet'+mapProduct.containsKey(product.Name__c));
-                system.debug('newAgency'+newAgency);
-                system.debug('workAssignmentPlacement'+workAssignmentPlacement);
                 if(String.isnotblank(workAssignmentPlacement) 
                    && workAssignmentPlacement != newAgency 
                    && newAgency != '9999'){
@@ -927,12 +853,9 @@ EXPECTED += 'WorkAssignment Agency = ' +workAssignmentPlacement+'.<br/>Product A
 
 }*/
             
-            system.debug('product.Placement_Status__c::'+product.Placement_Status_Code__c);
             /*for(String ss : settings.keySet()){
-system.debug('settings::'+ss);
 }*/
             if(!settings.keySet().Contains(product.Placement_Status_Code__c)){
-                system.debug('inside setStatusCode');
                 ERROR_MSG += '<b>ERROR</b> : status code does not exist<br/>';
                 EXPECTED += 'Invalid Status Code.'+'<br/>'; 
             }
@@ -952,22 +875,20 @@ system.debug('settings::'+ss);
 && mapProduct.get(product.Name).Status__c.startswith('Pending Recall')){
 ERROR_MSG = '<b>ERROR</b> - Account in Pending Recall.<br/>';
 }*/
-            //system.debug('product status date tested::' +mapProduct.get(product.Name__c).Assignment_Date__c );
-            
-            //System.debug('Current Date ' +myDate);
+
                 if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Assignment_Date__c <> null){
-            if(mapProduct.get(product.Name__c).Assignment_Date__c > myDate){    
-               	ERROR_MSG += '<b>ERROR</b> : Status Date is less than account Placement Date<br/>';
-                EXPECTED += 'Status Date must be >= account Placement Date<br/>';
-            }
-              
-             /* //Added for ticket 4406 by satyajit
-                    if(mapProduct.get(product.Name__c).Assignment_Date__c >= Date.valueOf(product.Status_Changed_Date__c) ||
-                      (mapProduct.get(product.Name__c).Assignment_Date__c <= myDate && Date.valueOf(product.Status_Changed_Date__c) > myDate)){
-                        ERROR_MSG += '<b>ERROR</b> : Invalid Status Date found. Must be after account Placement Date.<br/>';
-                		EXPECTED += 'Status Date must be >= account Placement Date<br/>';  
-                    }*/
-           }
+                    if(mapProduct.get(product.Name__c).Assignment_Date__c > myDate){    
+                        ERROR_MSG += '<b>ERROR</b> : Status Date is less than account Placement Date<br/>';
+                        EXPECTED += 'Status Date must be >= account Placement Date<br/>';
+                    }
+                    
+                    /* //Added for ticket 4406 by satyajit
+if(mapProduct.get(product.Name__c).Assignment_Date__c >= Date.valueOf(product.Status_Changed_Date__c) ||
+(mapProduct.get(product.Name__c).Assignment_Date__c <= myDate && Date.valueOf(product.Status_Changed_Date__c) > myDate)){
+ERROR_MSG += '<b>ERROR</b> : Invalid Status Date found. Must be after account Placement Date.<br/>';
+EXPECTED += 'Status Date must be >= account Placement Date<br/>';  
+}*/
+                }
             
             //Added validation when account is in putback/buyback - developer: satyajit for ticket: 4377
             if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Purchase_Status__c != null){
@@ -980,11 +901,9 @@ ERROR_MSG = '<b>ERROR</b> - Account in Pending Recall.<br/>';
             }
             }
             }
-            system.debug('product tested::');
             
             
             accStaging = new Product_Staging__c();
-            system.debug('product: '+product);
             // To do
             accStaging.Id = product.Id;
             accStaging.Data_Id__c = product.Name__c;
@@ -1030,8 +949,7 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
             listAccStaging.add(accStaging);
             ERROR_MSG = '';
         }
-        system.debug('listAccStaging: '+listAccStaging);
-        system.debug('listAccStaging: '+listAccStaging.size());
+
         return listAccStaging;
         
     }
@@ -1046,7 +964,6 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
                                                          //Combine Product name + Placement Agency
                                                          setProductAgencyName.add(placementHistory.Product__r.Name + placementHistory.Placement__r.Name );   
                                                      }
-        system.debug('setProductAgencyName::'+setProductAgencyName);
         return setProductAgencyName;
     }
     
@@ -1193,12 +1110,10 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
                                        } 
    
      //Added for ticket 4518 - satyajit (Product update is failed at the time of payment processing then creating the error file)
-     public Static void GenerateSuccessAndErrorFile(List<Database.SaveResult> errResult,Id workAssignment,Id documentStorage, set<Id> prodIdList){
-        system.debug('block run');            
+     public Static void GenerateSuccessAndErrorFile(List<Database.SaveResult> errResult,Id workAssignment,Id documentStorage, set<Id> prodIdList){          
         String failed;  
         //Integer failedRecords = 0; 
         failed = 'data_id,Error';    
-        system.debug('errResult::'+errResult);
         
             List<Product__c> prodDataList = new List<Product__c>();
             Map<Id, String> prodName = new Map<Id, String>();
@@ -1206,7 +1121,6 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
                 
                prodDataList = [Select id,name from product__c where id IN: prodIdList]; 
             }
-            system.debug('prodDataList::'+prodDataList);
             if(!prodDataList.isEmpty()){
                 for(Product__c prod : prodDataList){
                     prodName.put(prod.id,prod.Name);
@@ -1214,15 +1128,12 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
             }   
             
         for(Database.SaveResult res : errResult){
-            system.debug('res.getId()'+res.getId());
-            system.debug('res.getErrors()'+res.getErrors());
             failed += '\n';
             failed += '"'+prodName.get(res.getId())+'","'+res.getErrors() +'"\n';
                 
             
             //failedRecords = failedRecords + 1;
         }
-            system.debug('failed::'+failed);
         Integer prodSatgingCount = [select count() from product_payment_staging__c where identifier__c  =: documentStorage]; 
        	system.enqueueJob(new PostDocumentAPI('Product Payment Upload File',failed,'',prodSatgingCount,0,workAssignment,'CFG + Requesting Agency',documentStorage));                                              
       
