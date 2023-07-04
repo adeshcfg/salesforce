@@ -120,7 +120,7 @@ public class DisplayProductPaymentStagingController {
         // 4578 Changes - Get product and placement history details
         if (!setProductId.isEmpty()) {
             for (Placement_History__c placementHistory : [
-                SELECT Id, Product__c, Placement_Date__c, Agency_Id__c
+                SELECT Id, Product__c, Placement_Date__c, Agency_Id__c, Placement__c
                 FROM Placement_History__c
                 WHERE Product__c IN :setProductId
                 ORDER BY Placement_Date__c DESC
