@@ -616,7 +616,7 @@ public with sharing class DocumentAPIClient{
         
    // String encodedString = EncodingUtil.urlEncode(attachmentName,'UTF-8');
      //   attachmentName = encodedString;
-        apiURL = apiURL +'sobjects/folders/'+folderId+'?name='+name;
+        apiURL = apiURL +'sobjects/folders/'+folderId+'?name='+EncodingUtil.urlEncode(name, 'UTF-8');
         system.debug('urllll@@@@@@: '+ apiURL);
         
         //generate autherization URL and parameters
