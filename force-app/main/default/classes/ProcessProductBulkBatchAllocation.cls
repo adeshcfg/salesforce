@@ -83,11 +83,19 @@ public class ProcessProductBulkBatchAllocation {
                     
                     for(Agency_Portal_Fields_Mapping__c mapping : fieldMapping){
                         if(mapping.Object_Name__c == 'Product'){
-                            if(mapping.Field_Type__c != 'DateTime'){
+                            if(mapping.Field_Type__c != 'DateTime'  && mapping.Field_Type__c != 'Date'){
+                            //For Ticket: 4612 - changes done by satyajit
+                            String fieldValue = String.valueOf(productInstance.get(mapping.Field_API__c));
+                            //system.debug('fieldValue::'+fieldValue);
+                            String escapedValue = Json.serialize(fieldValue);
+                           // system.debug('escapedValue::'+escapedValue);
+                            productJSONRequest += '\"' + mapping.Field_JSON_Tag__c + '\":' + escapedValue + ', ';
+                                
+                            }else if(mapping.Field_Type__c == 'Date'){
+                                 //For Ticket: 4612 - changes done by satyajit
                                 productJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
-                                    productInstance.get(mapping.Field_API__c)+'\", ';    
-                            }
-                            else{
+                                   productInstance.get(mapping.Field_API__c)+'\", ';  
+                            }else{
                                 if(mapping.Field_Type__c == 'DateTime' && productInstance.get(mapping.Field_API__c) != NULL){
                                     DateTime ss = DateTime.valueOf(productInstance.get(mapping.Field_API__c));
                                     

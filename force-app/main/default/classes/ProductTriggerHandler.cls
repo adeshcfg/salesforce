@@ -1079,7 +1079,7 @@ public class ProductTriggerHandler{
             }          
         }
         if(runProductAPITrigger){
-        PortalProductProcessingAPI.processProductBulk(prodIds);
+        PortalProductProcessingAPI.processProductBulkBatch(prodIds);
         }
         //PortalProductProcessingAPI.processProductBulkBatch(prodIds);
         calculateBalanceBackdatedPayments2(listNewProducts, mapOldProducts);
