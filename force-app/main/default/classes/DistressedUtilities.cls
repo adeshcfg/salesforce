@@ -479,11 +479,16 @@ public class DistressedUtilities {
             Pattern MyPattern2 = Pattern.compile(valueTireRegex);
             Matcher MyMatcher2;
             
+            String valueTireAlphabetRegex = '^[!@#$&?!*%()\\-`.+,/\"]*$';
+            Pattern MyPattern3 = Pattern.compile(valueTireAlphabetRegex);
+            Matcher MyMatcher3;
+                 
             if(product.Value_Tier_at_Time_of_Placement__c != NULL){
-               MyMatcher2 = MyPattern2.matcher(product.Value_Tier_at_Time_of_Placement__c);       
+               MyMatcher2 = MyPattern2.matcher(product.Value_Tier_at_Time_of_Placement__c); 
+               MyMatcher3 = MyPattern3.matcher(product.Value_Tier_at_Time_of_Placement__c);
             }
             if(MyMatcher2 != NULL){
-                if(MyMatcher2.matches() == false){
+                if(MyMatcher2.matches() == false || MyMatcher3.matches() == True){
                     ERROR_MSG += '<b>ERROR</b> - Invalid Value tier at the time of placement.<br/>';
                     EXPECTED += 'Only alphabetical with/without special characters allowed.<br/>';
                 }
