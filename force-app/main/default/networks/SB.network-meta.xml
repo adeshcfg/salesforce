@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Network xmlns="http://soap.sforce.com/2006/04/metadata">
+    <allowInternalUserLogin>true</allowInternalUserLogin>
+    <allowMembersToFlag>false</allowMembersToFlag>
+    <changePasswordTemplate>Community/Password_Reset_Email</changePasswordTemplate>
+    <communityRoles/>
+    <disableReputationRecordConversations>false</disableReputationRecordConversations>
+    <emailFooterLogo>Communities_Shared_Document_Folder/Canaccede_Community_Logo.png</emailFooterLogo>
+    <emailFooterText>Insolvency Stream</emailFooterText>
+    <emailSenderAddress>SBInsolvency@canaccede.com</emailSenderAddress>
+    <emailSenderName>Insolvency Stream</emailSenderName>
+    <enableApexCDNCaching>true</enableApexCDNCaching>
+    <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
+    <enableDirectMessages>false</enableDirectMessages>
+    <enableExperienceBundleBasedSnaOverrideEnabled>false</enableExperienceBundleBasedSnaOverrideEnabled>
+    <enableGuestChatter>false</enableGuestChatter>
+    <enableGuestFileAccess>false</enableGuestFileAccess>
+    <enableGuestMemberVisibility>false</enableGuestMemberVisibility>
+    <enableImageOptimizationCDN>true</enableImageOptimizationCDN>
+    <enableInvitation>false</enableInvitation>
+    <enableKnowledgeable>false</enableKnowledgeable>
+    <enableMemberVisibility>true</enableMemberVisibility>
+    <enableNicknameDisplay>false</enableNicknameDisplay>
+    <enablePrivateMessages>false</enablePrivateMessages>
+    <enableReputation>false</enableReputation>
+    <enableShowAllNetworkSettings>true</enableShowAllNetworkSettings>
+    <enableSiteAsContainer>false</enableSiteAsContainer>
+    <enableTalkingAboutStats>false</enableTalkingAboutStats>
+    <enableTopicAssignmentRules>true</enableTopicAssignmentRules>
+    <enableTopicSuggestions>false</enableTopicSuggestions>
+    <enableUpDownVote>false</enableUpDownVote>
+    <forgotPasswordTemplate>Community/Password_Reset_Email</forgotPasswordTemplate>
+    <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
+    <headlessForgotPasswordTemplate>unfiled$public/CommunityHeadlessForgotPasswordTemplate</headlessForgotPasswordTemplate>
+    <networkMemberGroups>
+        <permissionSet>Community_Access</permissionSet>
+        <profile>scotia bank community user</profile>
+        <profile>scotia bank community user readonly</profile>
+        <profile>scotia bank login community user readonly</profile>
+        <profile>scotia bank login community user</profile>
+        <profile>spl login community user</profile>
+        <profile>spl login community user readonly</profile>
+        <profile>scotia spl common community user readonly</profile>
+        <profile>spl community user</profile>
+        <profile>scotia spl common login community user readonly</profile>
+        <profile>spl community user readonly</profile>
+        <profile>sda login community user readonly</profile>
+        <profile>sda community user readonly</profile>
+        <profile>sda login community user</profile>
+        <profile>sda community user</profile>
+        <profile>scotia bank login community user unallocated</profile>
+    </networkMemberGroups>
+    <networkPageOverrides>
+        <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
+        <forgotPasswordPageOverrideSetting>Standard</forgotPasswordPageOverrideSetting>
+        <homePageOverrideSetting>Standard</homePageOverrideSetting>
+        <loginPageOverrideSetting>Standard</loginPageOverrideSetting>
+        <selfRegProfilePageOverrideSetting>Standard</selfRegProfilePageOverrideSetting>
+    </networkPageOverrides>
+    <picassoSite>SB1</picassoSite>
+    <selfRegistration>false</selfRegistration>
+    <sendWelcomeEmail>true</sendWelcomeEmail>
+    <site>SB</site>
+    <siteArchiveStatus>NotArchived</siteArchiveStatus>
+    <status>Live</status>
+    <tabs>
+        <customTab>Insolvency__c</customTab>
+        <customTab>Insolvency_Account__c</customTab>
+        <customTab>Unallocated_Payment__c</customTab>
+        <defaultTab>01rf1000001DzIH</defaultTab>
+        <standardTab>Case</standardTab>
+        <standardTab>Dashboard</standardTab>
+    </tabs>
+    <urlPathPrefix>SB</urlPathPrefix>
+    <welcomeTemplate>Community/Welcome_Email</welcomeTemplate>
+</Network>
