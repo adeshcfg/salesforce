@@ -483,12 +483,17 @@ public class DistressedUtilities {
             Pattern MyPattern3 = Pattern.compile(valueTireAlphabetRegex);
             Matcher MyMatcher3;
                  
+            String valueTireFirstLetterAlphabetRegex = '[a-zA-Z]{1}.*';
+            Pattern MyPattern4 = Pattern.compile(valueTireFirstLetterAlphabetRegex);
+            Matcher MyMatcher4;
+                 
             if(product.Value_Tier_at_Time_of_Placement__c != NULL){
                MyMatcher2 = MyPattern2.matcher(product.Value_Tier_at_Time_of_Placement__c); 
                MyMatcher3 = MyPattern3.matcher(product.Value_Tier_at_Time_of_Placement__c);
+               MyMatcher4 = MyPattern4.matcher(product.Value_Tier_at_Time_of_Placement__c);
             }
             if(MyMatcher2 != NULL){
-                if(MyMatcher2.matches() == false || MyMatcher3.matches() == True){
+                if(MyMatcher2.matches() == false || MyMatcher3.matches() == True || MyMatcher4.matches() == false){
                     ERROR_MSG += '<b>ERROR</b> - Invalid Value tier at the time of placement.<br/>';
                     EXPECTED += 'Only alphabetical with/without special characters allowed.<br/>';
                 }
