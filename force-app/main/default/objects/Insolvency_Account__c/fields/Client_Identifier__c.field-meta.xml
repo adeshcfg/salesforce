@@ -40,6 +40,11 @@
                 <default>false</default>
                 <label>Fairstone</label>
             </value>
+            <value>
+                <fullName>Goeasy</fullName>
+                <default>false</default>
+                <label>Goeasy</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
