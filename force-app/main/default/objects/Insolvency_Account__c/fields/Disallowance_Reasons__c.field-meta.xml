@@ -61,7 +61,7 @@
             <value>
                 <fullName>Account stat barred</fullName>
                 <default>false</default>
-                <label>Account stat barred</label>
+                <label>Account Stat barred</label>
             </value>
             <value>
                 <fullName>Account Already purchased</fullName>

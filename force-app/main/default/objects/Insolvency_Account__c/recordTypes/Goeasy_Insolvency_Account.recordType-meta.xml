@@ -4,7 +4,21 @@
     <active>true</active>
     <description>Goeasy Insolvency Account</description>
     <label>Goeasy Insolvency Account</label>
-    
+    <picklistValues>
+        <picklist>Account_Type__c</picklist>
+        <values>
+            <fullName>Leasing product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secured Personal Installment Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unsecured Installment Loan</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
     <picklistValues>
         <picklist>Active_Status__c</picklist>
         <values>
