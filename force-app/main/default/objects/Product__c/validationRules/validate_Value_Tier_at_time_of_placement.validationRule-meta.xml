@@ -3,7 +3,13 @@
     <fullName>validate_Value_Tier_at_time_of_placement</fullName>
     <active>true</active>
     <description>The value tier at the time of placement supports only alphabetic and special characters only.</description>
-    <errorConditionFormula>if(NOT(REGEX(Text(Value_Tier_at_Time_of_Placement__c), &quot;^[a-zA-Z!@#$&amp;?!*%()\\-`.+,/\&quot;]*$&quot;)),true,false)</errorConditionFormula>
+    <errorConditionFormula>AND(ISCHANGED(Value_Tier_at_Time_of_Placement__c),
+OR(
+if(NOT(REGEX(Text(Value_Tier_at_Time_of_Placement__c), &quot;^[a-zA-Z!@#$&amp;?!*%()\\-`.+,/\&quot;]*$&quot;)),true,false),
+if((REGEX(Text(Value_Tier_at_Time_of_Placement__c), &quot;^[!@#$&amp;?!*%()\\-`.+,/\&quot;]*$&quot;)),true,false),
+if(NOT(REGEX(Text(Value_Tier_at_Time_of_Placement__c),&quot;[a-zA-Z]{1}.*&quot;)),true,false)
+)
+)</errorConditionFormula>
     <errorDisplayField>Value_Tier_at_Time_of_Placement__c</errorDisplayField>
     <errorMessage>Invalid Value tier at the time of placement</errorMessage>
 </ValidationRule>

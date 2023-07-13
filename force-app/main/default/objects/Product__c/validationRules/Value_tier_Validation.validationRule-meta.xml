@@ -3,12 +3,13 @@
     <fullName>Value_tier_Validation</fullName>
     <active>true</active>
     <description>The value tier supports only alphabetic and special characters only.</description>
-    <errorConditionFormula>/*OR(OR(NOT(REGEX(Text(Value_Tier_at_Time_of_Placement__c) , &quot;[a-zA-Z]{1}.*&quot;)),REGEX(Text(Value_Tier_at_Time_of_Placement__c), &quot;[a-zA-Z0-9]+&quot;)),
-
-(REGEX(Text(Value_Tier_at_Time_of_Placement__c), &quot;\\[0-9]&quot;)
-))*/
-
-if(NOT(REGEX(Text(Value_Tier__c), &quot;^[a-zA-Z!@#$&amp;?!*%()\\-`.+,/\&quot;]*$&quot;)),true,false)</errorConditionFormula>
+    <errorConditionFormula>AND(ISCHANGED(Value_Tier__c),
+OR(
+if(NOT(REGEX(Text(Value_Tier__c), &quot;^[a-zA-Z!@#$&amp;?!*%()\\-`.+,/\&quot;]*$&quot;)),true,false),
+if((REGEX(Text(Value_Tier__c), &quot;^[!@#$&amp;?!*%()\\-`.+,/\&quot;]*$&quot;)),true,false),
+if(NOT(REGEX(Text(Value_Tier__c),&quot;[a-zA-Z]{1}.*&quot;)),true,false)
+)
+)</errorConditionFormula>
     <errorDisplayField>Value_Tier__c</errorDisplayField>
     <errorMessage>Invalid Value tier</errorMessage>
 </ValidationRule>
