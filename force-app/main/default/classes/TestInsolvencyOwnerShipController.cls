@@ -44,5 +44,13 @@ public class TestInsolvencyOwnerShipController{
         obj.isSDABankCommunityUser = false;
         obj.isChaseBankCommunityUser = true;
         obj.checkInsolvencyAccountOwnerShip();
+
+        obj.isChaseBankCommunityUser = false;
+        obj.isFairstoneBankCommunityUser = true;
+        obj.checkInsolvencyAccountOwnerShip();
+
+        obj.isFairstoneBankCommunityUser = false;
+        obj.isGoeasyBankCommunityUser = true;
+        obj.checkInsolvencyAccountOwnerShip();
      }
 }

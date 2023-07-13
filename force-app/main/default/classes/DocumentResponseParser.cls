@@ -18,6 +18,7 @@ public class DocumentResponseParser {
    public static Set<String> fidemBank = new Set<String>{'AFFIRM', 'FIDEM'};
    public static Set<String> fairstone = new Set<String>{'FAIRSTONE','WALMART','DUO'};
    public static Set<String> fairstoneAcc = new Set<String>{'5434','5435'};
+   public static Set<String> goEasy = new Set<String>{'EASYFINANCIAL SERVICES', 'EASY FINANCIAL', 'EASYHOME', 'EASY HOME', 'GOEASY', 'GO EASY'};
    //public static Set<String> fairstoneExcludeAcc = new Set<String>{'676'};
    //public static Set<String> fairstoneExcludeAccData = new Set<String>{'6030'};
       
@@ -1139,6 +1140,12 @@ public class DocumentResponseParser {
       for(String str: fidemBank){
          if(creditorName.contains(str)){
             return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+         }
+      }
+
+      for(String str: goEasy){
+         if(creditorName.contains(str)){
+            return insolvencyRecordTypeMap.get('Goeasy_Insolvency_Account');
          }
       }
 

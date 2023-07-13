@@ -86,4 +86,19 @@ public class TestInsolvencyEditController{
         update insolv;
         controller.redirPage();
     }
+
+    public testmethod static void testInsolvencyLockGE(){
+        Insolvency__c insolv = [SELECT Id FROM Insolvency__c LIMIT 1];
+        User u = TestInsolvencyAccountEditController.getCommunityUser('Goeasy Community User');
+        TestInsolvencyAccountEditController.shareInsolvencyRecord(u.Id);
+        ApexPages.currentPage().getParameters().put('id', insolv.Id);
+        // call the constructor
+        InsolvencyEditController controller = new InsolvencyEditController(new ApexPages.StandardController(insolv));
+        System.runAs(u){
+            controller.redirPage();
+        }
+        insolv.Client_Identifiers__c = null;
+        update insolv;
+        controller.redirPage();
+    }
 }

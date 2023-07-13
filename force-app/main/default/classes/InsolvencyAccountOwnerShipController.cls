@@ -27,6 +27,9 @@ public class InsolvencyAccountOwnerShipController{
     
     @TestVisible
     Boolean isFairstoneBankCommunityUser;
+
+    @TestVisible
+    Boolean isGoeasyBankCommunityUser;
     
     
     public InsolvencyAccountOwnerShipController(ApexPages.StandardController controller) {
@@ -44,6 +47,7 @@ public class InsolvencyAccountOwnerShipController{
             isChaseBankCommunityUser = InsolvencyUtil.isChaseBankCommunityUser(Userinfo.getProfileId());
             isSDABankCommunityUser = InsolvencyUtil.isSDABankCommunityUser(Userinfo.getProfileId());
             isFairstoneBankCommunityUser = InsolvencyUtil.isFairstoneBankCommunityUser(Userinfo.getProfileId()); 
+            isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(Userinfo.getProfileId()); 
         }
     }
     
@@ -62,12 +66,14 @@ public class InsolvencyAccountOwnerShipController{
             if(!InsolvencyUtil.isScotiaBankCommunityUser(owner.profileId) &&
                 !InsolvencyUtil.isChaseBankCommunityUser(owner.profileId) && 
                 !InsolvencyUtil.isSDABankCommunityUser(owner.profileId) &&
-              	!InsolvencyUtil.isFairstoneBankCommunityUser(owner.profileId)){
+              	!InsolvencyUtil.isFairstoneBankCommunityUser(owner.profileId) &&
+                !InsolvencyUtil.isGoeasyBankCommunityUser(owner.profileId)){
                 
                 Insolvency__c insolv = [SELECT Scotia_Record_Owner__c, 
                                                 Chase_Record_Owner__c, 
                                                 SDA_Record_Owner__c,
                                         		Fairstone_Record_Owner__c,
+                                                Goeasy_Record_Owner__c,
                                                 (SELECT OwnerId 
                                                     FROM Insolvency_Accounts__r 
                                                     where RecordType.name =: eligibleInsAcctRecordType
@@ -99,6 +105,12 @@ public class InsolvencyAccountOwnerShipController{
                         InsolvencyUtil.updateOwnerShip(insolv);
                     }
                 }
+                else if(isGoeasyBankCommunityUser){
+                    if(insolv.Goeasy_Record_Owner__c == null){
+                        insolv.Goeasy_Record_Owner__c = UserInfo.getUserId();
+                        InsolvencyUtil.updateOwnerShip(insolv);
+                    }
+                }
             }
             else if(insolvAcc.OwnerId != Userinfo.getUserId()){
                 eligibleForOwnerShip = true;
@@ -119,7 +131,7 @@ public class InsolvencyAccountOwnerShipController{
         */
         
         
-        if(isScotiaBankCommunityUser || isChaseBankCommunityUser || isSDABankCommunityUser || isFairstoneBankCommunityUser){
+        if(isScotiaBankCommunityUser || isChaseBankCommunityUser || isSDABankCommunityUser || isFairstoneBankCommunityUser || isGoeasyBankCommunityUser){
             insolvAcc.OwnerID = UserInfo.getUserId();
             insolvAcc.Do_Not_Run_Status_Validation__c = True;
             update insolvAcc;
