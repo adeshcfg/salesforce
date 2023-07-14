@@ -64,6 +64,10 @@
                 <behavior>Edit</behavior>
                 <field>Portfolio_Group_Name__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Placement_History__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

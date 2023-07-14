@@ -77,6 +77,10 @@
                 <behavior>Readonly</behavior>
                 <field>Portfolio_Group_Name__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Placement_History__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

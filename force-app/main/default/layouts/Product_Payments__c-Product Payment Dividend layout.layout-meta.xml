@@ -41,6 +41,10 @@
                 <behavior>Readonly</behavior>
                 <field>Deposit_Account_Type__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Placement_History__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
