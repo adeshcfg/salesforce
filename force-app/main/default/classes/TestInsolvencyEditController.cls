@@ -15,7 +15,7 @@ public class TestInsolvencyEditController{
         Insolvency__c insolv = new Insolvency__c(name = 'test-insolEdit', Client_Identifiers__c = 'Scotia Bank');
         insert insolv;
         
-        Application_Config_Settings__c appConfig = new Application_Config_Settings__c(Run_Insolvency_Status_Validations__c = true, Run_Record_Ownership__c = true);
+        Application_Config_Settings__c appConfig = new Application_Config_Settings__c(Run_Insolvency_Status_Validations__c = true, Run_Record_Ownership__c = true, Domain_Name__c = '@rcfax.test');
         insert appConfig;
     }
     
@@ -100,5 +100,21 @@ public class TestInsolvencyEditController{
         insolv.Client_Identifiers__c = null;
         update insolv;
         controller.redirPage();
+    }
+
+    @IsTest
+    static void testFileSizeToString(){
+        Test.startTest();
+        InsolvencyUtil.fileSizeToString(1025);
+        InsolvencyUtil.fileSizeToString(1025*1024);
+        InsolvencyUtil.fileSizeToString(1025*1024*1024);
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testFormatFaxAsEmail(){
+        Test.startTest();
+        InsolvencyUtil.formatFaxAsEmail('12345');
+        Test.stopTest();
     }
 }
