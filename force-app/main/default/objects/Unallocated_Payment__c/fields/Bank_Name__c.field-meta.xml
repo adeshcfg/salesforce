@@ -68,6 +68,11 @@
                 <label>Fairstone</label>
             </value>
             <value>
+                <fullName>Goeasy</fullName>
+                <default>false</default>
+                <label>Goeasy</label>
+            </value>
+            <value>
                 <fullName>Rogers</fullName>
                 <default>false</default>
                 <label>Rogers</label>
