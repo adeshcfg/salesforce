@@ -64,6 +64,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Agencies_Accounts__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Business_Account__c</field>
             </layoutItems>
             <layoutItems>
@@ -177,10 +181,6 @@
                 <field>Borrower_Primary__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Customer_CID__c</field>
-            </layoutItems>
-            <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
@@ -190,10 +190,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Debtor_1_Date_of_Birth__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Debtor_1_Employer_Street__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
