@@ -32,6 +32,11 @@
                 <default>false</default>
                 <label>Fairstone</label>
             </value>
+            <value>
+                <fullName>Easy Financial Services Ltd</fullName>
+                <default>false</default>
+                <label>Easy Financial Services Ltd</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
