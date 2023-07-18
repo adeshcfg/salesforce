@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>LOR Demand Template</name>
+    <style>none</style>
+    <subject>s.130 Notification</subject>
+    <textOnly>{!TODAY()}
+
+{!insolvAcc.Trustee_Company__c} {!insolvAcc.Trustee_Office__c}
+
+Attention: Estate Trustee
+
+Re: Bankruptcy of  {!insolv.Debitors}
+Security :   {!insolvAcc.Security_Description__c}
+V.I.N:  {!Insolvency_Account__c.Vehicle_Identification_Number__c}
+Secured Creditor:  {!pocPackage.Client_Company_Name__c}
+
+Dear Madam/Sir:
+
+Please be advised that {!pocPackage.CFG_Office_Name}. (“we” and “us”) is acting on behalf of the secured creditor,{!pocPackage.Client_Company_Name__c}., in connection with the above noted matter. On{!insolvAcc.Insolvency_Status_Last_Changed__c}, we forwarded to your office a proof of claim for the above referenced security (the “Security”) on behalf of {!pocPackage.Company_Name__c}, along with the Bankruptcy and Insolvency Act Section 130 request for trustee election.
+
+It has been more than 30 days since the proof of claim and the request for election were filed with you. As per section 130 of the Bankruptcy and Insolvency Act, because the trustee has not indicated within 30 days of the request by the secured creditor whether it intends to exercise its power of redemption or require the security to be realized, the election has been lost and its interests in the Security are now vested in {!pocPackage.Company_Name__c}.
+
+We request that you provide us with confirmation that the trustee releases its interest in the Security by the close of business on {5 business days}. If a response is not received, then {!pocPackage.Company_Name__c} will exercise any of its rights with respect to the Security without further notice or action. Should we be unable to locate the Security, we will be in contact with your office again to ascertain the location of same.
+
+Should you have any questions or require further information, please do not hesitate to contact
+
+{!pocPackage.CFG_Office_Name}.
+Phone:{!pocPackage.CFG_Office_Phone_Number__c}
+Fax:{!pocPackage.CFG_Office_Fax_Number__c}
+Email: {!pocPackage.CFG_Office_Email_Address__c}
+
+Sincerely,
+
+Insolvency Department.
+{!pocPackage.CFG_Office_Name}.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
