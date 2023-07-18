@@ -1233,6 +1233,10 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
         for (Insolvency_Account__c insolAccnt : insolAccnts){
             
             Insolvency__c insolvency = insolvencyMap.get(insolAccnt.Insolvency__c);
+            // Populate client identifier based on record type
+            if(insolAccnt.RecordTypeId != null && insolAccnt.Client_Identifier__c == null){
+                insolAccnt.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(insolAccnt.RecordTypeId));
+            }
             
             //Check if insolvency account is Scotia and POC Details are provided
             if(insolAccnt.Insolvency_Status__c == 'POC Details Provided'
