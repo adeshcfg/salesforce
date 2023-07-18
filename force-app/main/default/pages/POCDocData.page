@@ -38,8 +38,9 @@
                 <table>
                     <tr>
                         <td style="vertical-align:top;"><span style="font-family: Times New Roman; font-weight:bold;">Re:</span></td>
-                        <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}" escape="false"><span style="font-family: Times New Roman; font-weight:bold;">Notice of Sale of Accounts by {!UPPER(pocPackage.Client_Company_Name__c)} to {!UPPER(pocPackage.CFG_Office_Name_2__c)}.<apex:outputText value="{!IF(spaceCount, '&nbsp;&nbsp;&nbsp;&nbsp;','')}" escape="false"/></span> </td>
+                        <td style="padding-left:40px;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}" escape="false"><span style="font-family: Times New Roman; font-weight:bold;">Notice of Sale of Accounts by {!UPPER(pocPackage.Client_Company_Name__c)} to {!UPPER(pocPackage.CFG_Office_Name_2__c)}.<apex:outputText value="{!IF(spaceCount, '&nbsp;&nbsp;&nbsp;&nbsp;','')}" escape="false"/></span> </td>
                         <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}" escape="false"><span style="font-family: Times New Roman; font-weight:bold;">Notice of Sale of Accounts by {!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA (“Seller”) to {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).<apex:outputText value="{!IF(spaceCount, '&nbsp;&nbsp;&nbsp;&nbsp;','')}" escape="false"/></span> </td>
+                        <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Notice of Sale of Accounts by {!UPPER(pocPackage.Client_Company_Name__c)}(“Seller”) to {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>    
                     </tr>
                 </table>
                 <hr style="border-color:black;"/>
@@ -49,7 +50,7 @@
                 claim is in the process of being purchased by {!pocPackage.CFG_Office_Name_2__c}. We understand that the Debtor is subject to proceedings under the
                 <span style="font-family: Times New Roman; font-style:italic;">Bankruptcy and Insolvency Act </span>(Canada) in respect of which you have been appointed as bankruptcy trustee.
                 </apex:outputText>
-                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Fairstone'}"> 
+                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Fairstone' || insolvAcc.Client_Identifier__c == 'Goeasy'}"> 
                     We are writing to notify you that the account and related claim owing to us (the "Account") by the debtor (the "Debtors") described in the attached proof of
                     claim is in the process of being purchased by {!pocPackage.CFG_Office_Name_2__c}. We understand the Debtor is subject to proceedings under the
                     <span style="font-family: Times New Roman; font-style:italic;">Bankruptcy and Insolvency Act </span>(Canada) in respect of which you have been appointed as bankruptcy trustee or proposal trustee, as the case may be.

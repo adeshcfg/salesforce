@@ -40,8 +40,9 @@
                 <table>
                     <tr>
                         <td style="vertical-align:top;"><span style="font-family: Times New Roman; font-weight:bold;">Objet:</span></td>
-                        <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}"><span style="font-family: Times New Roman; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} à {!UPPER(pocPackage.CFG_Office_Name_2__c)}.</span> </td>
+                        <td style="padding-left:40px;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"><span style="font-family: Times New Roman; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} à {!UPPER(pocPackage.CFG_Office_Name_2__c)}.</span> </td>
                         <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><span style="font-family: Times New Roman; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} BANK OF CANADA (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>
+                        <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>    
                     </tr>
                 </table>
                 <hr style="border-color:black;"/>
@@ -52,7 +53,7 @@
                 <br/><br/>
                 Nous autorisons par la présente {!pocPackage.CFG_Office_Name_2__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name_2__c}.
                 <br/><br/>
-                Si vous avez des questions, n'hésitez pas à contacter {!IF(insolvAcc.Client_Identifier__c == "Fairstone", "CFG Canada Funding, LLC.", "Canaccede International Management Ltd.")} aux coordonnées suivantes:
+                Si vous avez des questions, n'hésitez pas à contacter {!IF(OR(insolvAcc.Client_Identifier__c == "Fairstone",insolvAcc.Client_Identifier__c == "Goeasy"), "CFG Canada Funding, LLC.", "Canaccede International Management Ltd.")} aux coordonnées suivantes:
                 <br/><br/>
                 <div style="padding-left:30px;">
                     {!pocPackage.CFG_French_Office_Name__c}<br/>
@@ -87,10 +88,10 @@
                 <table style="margin-top:-30px;">
                     <tr>
                         <td style="vertical-align:top;">Par:</td>
-                        <td style='display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}'>_________________________
+                        <td style='display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}'>_________________________
                             <br/>Nom: Graham Anderson<br/>
                             Titre: VP, Retail &amp; Small Business Collections, Fraud and Quality Assurance</td>
-                        <td style='display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}'>_________________________
+                        <td style='display:{!IF(OR(insolvAcc.Client_Identifier__c == "Fairstone",insolvAcc.Client_Identifier__c == "Goeasy"), "block;", "none;")}'>_________________________
                             <br/>Nom: Jahed Jahed<br/>
                             Titre: VP Collections and Fraud Operation</td>
                     </tr>
@@ -464,8 +465,9 @@
                         </tr>
                         <tr>
                             <td style=" vertical-align:top;">Avertissements:</td>
-                            <td>Le syndic peut, en vertu du paragraphe 128(3) de la Loi, racheter une garantie sur paiement au créancier garanti de la créance ou de la valeur de la garantie telle qu’elle a été fixée par le créancier garanti dans la preuve de garantie.
-                                
+                            <td>Le syndic peut, en vertu du paragraphe 128(3) de la Loi, racheter une garantie sur paiement au créancier garanti de la créance ou de la valeur de la garantie telle qu’elle a été fixée par le créancier garanti dans la preuve de garantie.  
+                            </td>
+                            <td style="display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}">Le paragraphe 201(1) de la Loi prévoit l’imposition de peines sévères en cas de présentation de réclamations, de preuves, de déclarations ou d’états de compte qui sont faux
                             </td>
                         </tr>
                         <tr>
