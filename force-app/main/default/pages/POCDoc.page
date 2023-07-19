@@ -221,12 +221,12 @@
             <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)}</span>
             <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA</span>
             <br/><br/>
-            <span style="display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/> </span>
+            <span style="display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/> </span>
             <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/> </span>    
             <table style="margin-top:-20px;">
                 <tr>
-                    <td style="vertical-align:top;font-family:'Arial Unicode MS'">By:</td>
-                    <td style='font-family:"Arial Unicode MS";display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}' >_________________________
+                    <td style="vertical-align:top;font-family:'Arial Unicode MS';display:{!IF(insolvAcc.Client_Identifier__c != 'Goeasy', 'block;', 'none;')}">By:</td>
+                    <td style='font-family:"Arial Unicode MS";display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}' >_________________________
                     <br/>Name: Graham Anderson<br/>
                     Title: VP, Retail &amp; Small Business Collections, Fraud and Quality Assurance</td>
                     <td style='font-family:"Arial Unicode MS";display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}' >_________________________

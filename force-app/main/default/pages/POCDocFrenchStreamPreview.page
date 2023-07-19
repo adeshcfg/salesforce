@@ -217,11 +217,11 @@
             <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>    
             <table style="margin-top:-20px;">
                 <tr>
-                    <td style="vertical-align:top;font-family:'Arial Unicode MS'">Par:</td>
+                    <td style="vertical-align:top;font-family:'Arial Unicode MS';display:{!IF(insolvAcc.Client_Identifier__c != "Goeasy", "block;", "none;")}">Par:</td>
                     <td style='font-family:"Arial Unicode MS";display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}'>_________________________
                     <br/>Nom: Graham Anderson<br/>
                     Titre: VP, Retail &amp; Small Business Collections, Fraud and Quality Assurance</td>
-                    <td style='font-family:"Arial Unicode MS";display:{!IF(OR(insolvAcc.Client_Identifier__c == "Fairstone",insolvAcc.Client_Identifier__c == "Goeasy"), "block;", "none;")}'>_________________________
+                    <td style='font-family:"Arial Unicode MS";display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}'>_________________________
                     <br/>Nom: Jahed Jahed<br/>
                     Titre: VP Collections and Fraud Operation</td>
                 </tr>

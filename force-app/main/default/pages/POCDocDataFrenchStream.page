@@ -78,24 +78,32 @@
                         </tr>
                     </table>
                 </div><br/>
+                <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
+                <br/><br/>
+                </apex:outputPanel>
                 Sincèrement,
                 <br/><br/>
                 <span style=" font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name_French__c)}</span>
                 <span style=" font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name_French__c)} BANK OF CANADA</span>
-                <br/><br/>               
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/>
+                <br/><br/> 
+                <span style="display:{!IF(insolvAcc.Client_Identifier__c != "Goeasy", "block;", "none;")}"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>
                 <br/>
+                <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
+                <br/><br/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c != 'Goeasy'}">
                 <table style="margin-top:-30px;">
                     <tr>
                         <td style="vertical-align:top;">Par:</td>
-                        <td style='display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}'>_________________________
+                        <td style='display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}'>_________________________
                             <br/>Nom: Graham Anderson<br/>
                             Titre: VP, Retail &amp; Small Business Collections, Fraud and Quality Assurance</td>
-                        <td style='display:{!IF(OR(insolvAcc.Client_Identifier__c == "Fairstone",insolvAcc.Client_Identifier__c == "Goeasy"), "block;", "none;")}'>_________________________
+                        <td style='display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}'>_________________________
                             <br/>Nom: Jahed Jahed<br/>
                             Titre: VP Collections and Fraud Operation</td>
                     </tr>
                 </table>
+                </apex:outputPanel>
                 <br/><br/><br/><br/><br/>
             </div>
             </apex:outputPanel>
