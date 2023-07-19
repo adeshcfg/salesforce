@@ -211,6 +211,8 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Billing_Entity__c = payStaging.Billing_Entity__c;
                    //4578 - Link appropriate placement history with payment
                    prodPayment.Placement_History__c = ProductPaymentsTriggerHandler.getPlacementHistoryToLink(prodPayment, mapProducts, mapProductIdPlacementHistoryList);
+                   // 4806
+                   prodPayment.Placement_History_External__c =  prodPayment.Placement_History__c;
                    if(prodPayment.Payment_Type__c != null){
                        if(FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)){
                            prodPayment.Interest_Payment_Amount__c = payStaging.Interest_Payment_Amount__c;

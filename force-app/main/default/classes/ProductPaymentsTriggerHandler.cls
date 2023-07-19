@@ -272,6 +272,8 @@ public class ProductPaymentsTriggerHandler{
                 }
                 //4578 - Link appropriate placement history with payment
                 productPayment.Placement_History__c = getPlacementHistoryToLink(productPayment, mapProducts, mapProductIdPlacementHistoryList);
+                // 4806
+                productPayment.Placement_History_External__c = productPayment.Placement_History__c;
                 getTaxAmount(listNewProductPayments, mapProducts);
                 validationOnRecordUpdate2(listNewProductPayments, setProductId, setPlacementID,mapProducts);                
             }    
