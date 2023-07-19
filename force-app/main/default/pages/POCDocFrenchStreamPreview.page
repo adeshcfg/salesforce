@@ -288,14 +288,14 @@
                            </span> <br/>
                            De la Ville de <span style="font-weight : bold">{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</span>, dans la province de <span style="font-weight : bold">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                            <br/>
-                           Et la reclamation de <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c == 'Scotia Bank'}"><b> {!pocPackage.Client_Company_Name_French__c}</b> (Créancier)</apex:outputText>
-                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank'}"><b> {!pocPackage.CFG_Office_Name__c}</b> (Créancier)</apex:outputText>
+                           Et la reclamation de <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL')}"><b> {!pocPackage.Client_Company_Name_French__c}</b> (Créancier)</apex:outputText>
+                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}"><b> {!pocPackage.CFG_Office_Name__c}</b> (Créancier)</apex:outputText>
                             <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c}</b> (Créancier)</apex:outputText>        
                            <br/><br/>
                            <i>Tous les avis ou correspondances concernant cette réclamation doivent être envoyés à l'adresse suivante:</i>
                         </div>
                         <div style="font-weight : bold; text-align:center;padding-top:10px;">
-                           <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' || (insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c == 'Scotia Bank')}">{!pocPackage.Client_Company_Name_French__c} C/O </apex:outputText> Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br/>
+                           <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL'))}">{!pocPackage.Client_Company_Name_French__c} C/O </apex:outputText> Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br/>
                            {!pocPackage.CFG_Office_Address_1__c}<br/>
                            {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
                         </div>
@@ -306,8 +306,8 @@
                            <table>
                               <tr>
                                  <td style="vertical-align:top;">1.</td>
-                                 <td style="padding-left:10px;">Que je suis le président de <b> Canaccede International Management Ltd.</b>, prestataire de services pour <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> qui est l'acheteur du compte de " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank'}" />
-                                     <apex:outputText value="<b> {!pocPackage.Client_Company_Name_French__c},</b> qui est l'acheteur du compte de " escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured' || insolvAcc.Claim_Type__c == 'Unsecured') && insolvAcc.Bank_Name__c == 'Scotia Bank'}" /><b>{!pocPackage.Client_Company_Name_French__c}.</b></td>
+                                 <td style="padding-left:10px;">Que je suis le président de <b> Canaccede International Management Ltd.</b>, prestataire de services pour <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> qui est l'acheteur du compte de " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}" />
+                                     <apex:outputText value="<b> {!pocPackage.Client_Company_Name_French__c},</b> qui est l'acheteur du compte de " escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured' || insolvAcc.Claim_Type__c == 'Unsecured') && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL')}" /><b>{!pocPackage.Client_Company_Name_French__c}.</b></td>
                               </tr>
                               <tr>
                                  <td style="vertical-align:top;">2.</td>
@@ -548,8 +548,8 @@
                                        <br/>
                                        <b>Bryan Szemenyei, Président</b><br/>
                                        <b>Canaccede International Management Ltd.,</b><br/>
-                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank'}" />
-                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c == 'Scotia Bank')}" />
+                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}" />
+                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL'))}" />
                                     </td>
                                  </tr>
                               </Table>
@@ -733,8 +733,8 @@
                                        <br/>
                                        <b>Bryan Szemenyei, Président</b><br/>
                                        <b>Canaccede International Management Ltd., </b><br/>
-                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier) </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank'}" />
-                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c == 'Scotia Bank')}" />
+                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier) </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}" />
+                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL'))}" />
                                     </td>
                                  </tr>
                               </Table>
