@@ -120,7 +120,7 @@ public class DisplayProductPaymentStagingController {
         // 4578 Changes - Get product and placement history details
         if (!setProductId.isEmpty()) {
             for (Placement_History__c placementHistory : [
-                SELECT Id, Product__c, Placement_Date__c, Agency_Id__c, Placement__c
+                SELECT Id, Product__c, Placement_Date__c, Agency_Id__c, Placement__c, Placement_History_External__c
                 FROM Placement_History__c
                 WHERE Product__c IN :setProductId
                 ORDER BY Placement_Date__c DESC
@@ -210,9 +210,10 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Fee_Type__c = payStaging.Fee_Type__c;
                    prodPayment.Billing_Entity__c = payStaging.Billing_Entity__c;
                    //4578 - Link appropriate placement history with payment
-                   prodPayment.Placement_History__c = ProductPaymentsTriggerHandler.getPlacementHistoryToLink(prodPayment, mapProducts, mapProductIdPlacementHistoryList);
+                   Map<String, String> mapPlacementHistoryToLink = ProductPaymentsTriggerHandler.getPlacementHistoryToLink(prodPayment, mapProducts, mapProductIdPlacementHistoryList);
+                   prodPayment.Placement_History__c = mapPlacementHistoryToLink.get('Id');
                    // 4806
-                   prodPayment.Placement_History_External__c =  prodPayment.Placement_History__c;
+                   prodPayment.Placement_History_External__c =  mapPlacementHistoryToLink.get('Placement_History_External__c');
                    if(prodPayment.Payment_Type__c != null){
                        if(FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)){
                            prodPayment.Interest_Payment_Amount__c = payStaging.Interest_Payment_Amount__c;
