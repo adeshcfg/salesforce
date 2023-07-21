@@ -46,6 +46,37 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Share_Insolvency_Cases_Goeasy_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule to share Insolvency Cases with Goeasy community users</description>
+        <label>Share Insolvency Cases Goeasy Users</label>
+        <sharedTo>
+            <group>Insolvency_Goeasy_Users</group>
+        </sharedTo>
+        <booleanFilter>(1 OR (2 AND (3 OR 4) ) )</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Goeasy Community Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>Goeasy</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Entity_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Goeasy</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_Insolvency_Cases_SDA_Users</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Insolvency Cases SDA Users</description>
