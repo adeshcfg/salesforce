@@ -1260,7 +1260,14 @@ public class DocumentResponseParser {
             insolvAccount.Liability_Id__c = liability.liabilityId;
          }
         
-         
+         // 4798
+         if(String.isNotBlank(insolvAccount.Claim_Type__c) && String.isNotBlank(insolvAccount.RecordTypeId) && insolvAccount.RecordTypeId == insolvencyRecordTypeMap.get('Goeasy_Insolvency_Account')){
+            insolvAccount.Type_of_Service__c = 'Service and Sale';
+            if(insolvAccount.Claim_Type__c == 'Secured'){
+               insolvAccount.Type_of_Service__c = 'Service Only';
+            }
+         }
+
          // Add to insolvency if it is Scotia bank, SPL, or SDA
          if(insolvAccount.RecordTypeId != NULL){
             insolvAccounts.add(insolvAccount);
