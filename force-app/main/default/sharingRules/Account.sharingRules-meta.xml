@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Agency_Group_Customer_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>sharing rule for record with Collection Agency neither 6 nor 68 &amp; Cannaccede Customer, share with Agency Group</description>
+        <label>Agency Group Customer Sharing</label>
+        <sharedTo>
+            <group>Agency_Group</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <criteriaItems>
+            <field>External_Collection_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value>null</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>External_Collection_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Agency_Group_Read_Only_Customer_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>sharing rule for record with Collection Agency neither 6 nor 68 &amp; Cannaccede Customer, share with Agency Group read only</description>
+        <label>Agency Group Read Only Customer Sharing</label>
+        <sharedTo>
+            <group>Agency_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <criteriaItems>
+            <field>External_Collection_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value>null</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>External_Collection_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Distressed_Seller_Customers</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>This is created for users of profile 
+1. CFG - Client Services
+2. CFG - Distressed Collection
+3. CFG -Distressed Team Lead
+4. CFG-Distressed ParaLegal Only</description>
+        <label>Distressed Seller Customers</label>
+        <sharedTo>
+            <group>Seller_Customer</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Seller</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_Group_Customer_Read_Only_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>sharing rule for record with Collection Agency containing 68 &amp; Cannaccede Customer, share with ICT Group Read only</description>
+        <label>ICT Group Customer Read Only Sharing</label>
+        <sharedTo>
+            <group>ICT_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>A68A</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_Group_Customer_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>sharing rule for record with Collection Agency containing 68 &amp; Cannaccede Customer, share with ICT Group</description>
+        <label>ICT Group Customer Sharing</label>
+        <sharedTo>
+            <group>ICT_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>A68A</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_User_Visibility_Edit_Group</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Access of Customer object to Miranda Clark,Carly Fisher,Nancy Labonte</description>
+        <label>ICT User Visibility/Edit Group</label>
+        <sharedTo>
+            <group>ICT_User_Visibility_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LRT_Group_Customer_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>sharing rule for record with Collection Agency containing 6 &amp; Canaccede Customer, share with LRT Group</description>
+        <label>LRT Group Customer Sharing</label>
+        <sharedTo>
+            <group>LRT_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>A6A</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LRT_Group_Read_Only_Sharing_setting</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>sharing rule for record with Collection Agency containing 6 &amp; Canaccede Customer, share with LRT Group Read only</description>
+        <label>LRT Group Read Only Sharing setting</label>
+        <sharedTo>
+            <group>LRT_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value>A6A</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Merchant_Records_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Merchant Records Sharing</description>
+        <label>Merchant Records Sharing</label>
+        <sharedTo>
+            <group>Merchant_Access</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Merchant</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Seller_Sharing_Rule</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Seller Sharing Rule</description>
+        <label>Seller Sharing Rule</label>
+        <sharedTo>
+            <group>Distressed_ICT_group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Account_Record_type__c</field>
+            <operation>equals</operation>
+            <value>Seller</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Account_Fidem_Users_BS</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>Share Account Fidem Users BS</label>
+        <sharedTo>
+            <group>Fidem_BS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Fidem Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Business_Customers_with_Salespipeline</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Share Business customers with SalesPipeline</description>
+        <label>Share Business Customers with Salespipeline</label>
+        <sharedTo>
+            <group>Sales_Pipeline</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>IsPersonAccount</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sales Pipeline</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Fidem_Users_Read_Only</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Share Fidem Users Read Only</description>
+        <label>Share Fidem Users Read Only</label>
+        <sharedTo>
+            <group>Fidem_BS_Read_Only</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Fidem Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Trustee_Insolvency_CFG_Users_BS</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>Share Trustee Insolvency CFG Users BS</label>
+        <sharedTo>
+            <group>Insolvency_CFG_BS</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Trustee Company,Trustee Office</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>equals</operation>
+            <value>Scotia</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>equals</operation>
+            <value>MBNA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>equals</operation>
+            <value>SDA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>equals</operation>
+            <value>TD Bank</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>equals</operation>
+            <value>Tangerine Bank</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>equals</operation>
+            <value>Auto Capital</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Shared_accounts_for_CCS_BS</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>Shared accounts for CCS BS</label>
+        <sharedTo>
+            <group>CCS_CFG_BS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CCS Agency,Canaccede Customer,CSS Company</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Unplaced_Group_Customer_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>sharing rule for record with Collection Agency containing unplaced &amp; Cannaccede Customer, share with Unplaced Group</description>
+        <label>Unplaced Group Customer Sharing</label>
+        <sharedTo>
+            <group>Unplaced_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>AunplacedA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Unplaced_Group_Read_Only_Customer_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>sharing rule for record with Collection Agency containing unplaced &amp; Cannaccede Customer, share with Unplaced Group read only</description>
+        <label>Unplaced Group Read Only Customer Sharing</label>
+        <sharedTo>
+            <group>Unplaced_Group_Read_Only</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>AunplacedA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Customer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

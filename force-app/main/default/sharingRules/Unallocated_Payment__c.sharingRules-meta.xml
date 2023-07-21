@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Unallocated_Scotia_sharing_rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule to share unallocated payment records to external users</description>
+        <label>Unallocated Scotia sharing rule</label>
+        <sharedTo>
+            <group>Scotia_Unallocated_public_group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Allocated__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Bank_Name__c</field>
+            <operation>equals</operation>
+            <value>Scotia Bank,SPL,SDA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Is_Payments_Reversed__c</field>
+            <operation>notEqual</operation>
+            <value>NSF,Stopped,Unauthorised,Stale Dated</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Remitted_Back_to_Formula__c</field>
+            <operation>equals</operation>
+            <value>Scotia</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

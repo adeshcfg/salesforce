@@ -1368,6 +1368,11 @@
                 <label>CFL087</label>
             </value>
             <value>
+                <fullName>CFL088</fullName>
+                <default>false</default>
+                <label>CFL088</label>
+            </value>
+            <value>
                 <fullName>CFL089</fullName>
                 <default>false</default>
                 <label>CFL089</label>
@@ -1578,9 +1583,34 @@
                 <label>CFL144</label>
             </value>
             <value>
+                <fullName>CFL145</fullName>
+                <default>false</default>
+                <label>CFL145</label>
+            </value>
+            <value>
                 <fullName>CFL149</fullName>
                 <default>false</default>
                 <label>CFL149</label>
+            </value>
+            <value>
+                <fullName>CFL151</fullName>
+                <default>false</default>
+                <label>CFL151</label>
+            </value>
+            <value>
+                <fullName>CFL154</fullName>
+                <default>false</default>
+                <label>CFL154</label>
+            </value>
+            <value>
+                <fullName>CFL156</fullName>
+                <default>false</default>
+                <label>CFL156</label>
+            </value>
+            <value>
+                <fullName>CFL158</fullName>
+                <default>false</default>
+                <label>CFL158</label>
             </value>
             <value>
                 <fullName>CFL-STREAM</fullName>

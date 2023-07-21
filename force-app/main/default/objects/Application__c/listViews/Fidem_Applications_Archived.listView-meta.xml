@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Fidem_Applications_Archived</fullName>
-    <booleanFilter>1 AND 2</booleanFilter>
+    <booleanFilter>1 AND 2 AND 3</booleanFilter>
     <columns>NAME</columns>
     <columns>Customer__c</columns>
     <columns>First_Name__c</columns>
@@ -24,7 +24,12 @@
         <operation>equals</operation>
         <value>Archived</value>
     </filters>
-    <label>Fidem Applications - Archived</label>
+    <filters>
+        <field>Application_Status_Last_Changed_Date__c</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>Fidem Applications - Archived ( today)</label>
     <sharedTo>
         <group>Fidem_BS</group>
     </sharedTo>

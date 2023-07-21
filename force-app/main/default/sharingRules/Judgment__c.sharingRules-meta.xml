@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Agency_Group_Judgement_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Agency Group Judgement Sharing</label>
+        <sharedTo>
+            <group>Agency_Group</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>External_Collection_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value>null</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>External_Collection_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Agency_Group_Read_Only_Judgement_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Agency Group Read Only Judgement Sharing</label>
+        <sharedTo>
+            <group>Agency_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>External_Collection_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value>null</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>External_Collection_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_Group_Judgement_Read_Only_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ICT Group Judgement Read Only Sharing</label>
+        <sharedTo>
+            <group>ICT_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1</booleanFilter>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>A68A</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_Group_Judgement_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ICT Group Judgement Sharing</label>
+        <sharedTo>
+            <group>ICT_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>A68A</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LRT_Group_Judgement_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>LRT Group Judgement Sharing</label>
+        <sharedTo>
+            <group>LRT_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>A6A</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LRT_Group_judgment_Read_only_sharing_setting</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>LRT Group judgment Read only sharing setting</label>
+        <sharedTo>
+            <group>LRT_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1</booleanFilter>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>A6A</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Unplaced_Group_Judgement_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Unplaced Group Judgement Sharing</label>
+        <sharedTo>
+            <group>Unplaced_Group</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2 OR 3</booleanFilter>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>AunplacedA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value>null</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Unplaced_Group_Read_Only_Judgement_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Unplaced Group Read Only Judgement Sharing</label>
+        <sharedTo>
+            <group>Unplaced_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2 OR 3</booleanFilter>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>AunplacedA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value>null</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

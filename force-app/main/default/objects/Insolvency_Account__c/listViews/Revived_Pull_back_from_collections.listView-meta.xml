@@ -43,7 +43,7 @@
         <operation>equals</operation>
         <value>Unsecured</value>
     </filters>
-    <label>Revived - Pull back from collections</label>
+    <label>Revived - Recall from collections</label>
     <sharedTo>
         <group>CCS_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>

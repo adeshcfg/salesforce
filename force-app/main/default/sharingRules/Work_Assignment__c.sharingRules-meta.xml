@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Agency_Group_Sharing_Setting</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agency records with supervisor.</description>
+        <label>Agency Group Sharing Setting</label>
+        <sharedTo>
+            <group>Agency_Group</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CFG Excel Processing,CFG Media,Agency Excel Processing,Agency Work Assignment,Agency Media,CFG Work Assignment</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value>6</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value>68</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Agency_Group_read_only_sharing_setting</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Share records that are not equal to 6 and 68.</description>
+        <label>Agency Group read only sharing setting</label>
+        <sharedTo>
+            <group>Agency_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CFG Excel Processing,CFG Media,Agency Excel Processing,Agency Media</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value>6</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>notEqual</operation>
+            <value>68</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_Group_Sharing_Read_Only_Setting</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Share media and excel processing records with placement 68 read only.</description>
+        <label>ICT Group Sharing Read Only Setting</label>
+        <sharedTo>
+            <group>ICT_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CFG Excel Processing,CFG Media,Agency Excel Processing,Agency Media</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value>68</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_Group_Sharing_Setting</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share media and excel processing records with placement 68.</description>
+        <label>ICT Group Sharing Setting</label>
+        <sharedTo>
+            <group>ICT_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CFG Excel Processing,CFG Media,Agency Excel Processing,Agency Work Assignment,Agency Media,CFG Work Assignment</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value>68</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LRT_Group_Sharing_Setting</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>share media placement 6 and 68 records with LRT team</description>
+        <label>LRT Group Sharing Setting</label>
+        <sharedTo>
+            <group>LRT_Group</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CFG Excel Processing,CFG Media,Agency Excel Processing,Agency Work Assignment,Agency Media,CFG Work Assignment</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value>6</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LRT_Group_Work_assignment_Read_Only_Sharing_Setting</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>LRT Group Work assignment Read Only Sharing Setting</label>
+        <sharedTo>
+            <group>LRT_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CFG Excel Processing,CFG Media,Agency Excel Processing,Agency Media</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value>6</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_record_with_Compliance</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Share record with Compliance</label>
+        <sharedTo>
+            <group>Compliance_Team</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Agency Complaint,CFG Complaint</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Unplaced_Group_Sharing_setting</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share unplaced records with supervisor</description>
+        <label>Unplaced Group Sharing setting</label>
+        <sharedTo>
+            <group>Unplaced_Group</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CFG Excel Processing,CFG Media,Agency Excel Processing,Agency Work Assignment,Agency Media,CFG Work Assignment</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>unplaced_read_only_sharing_setting</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Share Unplaced records with placement 6 and 68.</description>
+        <label>unplaced read only sharing setting</label>
+        <sharedTo>
+            <group>Unplaced_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CFG Excel Processing,CFG Media,Agency Excel Processing,Agency Media</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Placement_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

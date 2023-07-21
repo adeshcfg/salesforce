@@ -166,10 +166,6 @@
                 <field>Borrower_Primary__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Customer_CID__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Debtor_1_Alias_Name__c</field>
             </layoutItems>

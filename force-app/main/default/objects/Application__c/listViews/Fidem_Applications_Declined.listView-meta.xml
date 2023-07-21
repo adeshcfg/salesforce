@@ -22,7 +22,7 @@
     <filters>
         <field>Application_Status__c</field>
         <operation>equals</operation>
-        <value>Analyst Declined,System Declined</value>
+        <value>,System Declined,Analyst Declined</value>
     </filters>
     <label>Fidem Applications - Declined</label>
     <sharedTo>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Share_Insolvency_Cases_CFG_Users_BS</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Share Insolvency Cases CFG Users BS</label>
+        <sharedTo>
+            <group>Insolvency_CFG_BS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>EmailToCase,Insolvency Scotia Community Case,Insolvency SDA Community Case,Remittance,Insolvency Case,Canaccede EmailToCase,Insolvency SPL Community Case</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Insolvency_Cases_Fairstone_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule to share Insolvency Cases with Fairstone community users</description>
+        <label>Share Insolvency Cases Fairstone Users</label>
+        <sharedTo>
+            <group>Insolvency_Fairstone_Users</group>
+        </sharedTo>
+        <booleanFilter>(1 OR (2 AND (3 OR 4) ) )</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Fairstone Community Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>Fairstone</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Entity_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Fairstone</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Insolvency_Cases_SDA_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Insolvency Cases SDA Users</description>
+        <label>Share Insolvency Cases SDA Users</label>
+        <sharedTo>
+            <group>Insolvency_SDA_Users</group>
+        </sharedTo>
+        <booleanFilter>(1 OR (2 AND (3 OR 4) ) )</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency SDA Community Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>SDA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Entity_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>SDA</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Insolvency_Cases_SPL_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule to share Insolvency Cases with SPL community users</description>
+        <label>Share Insolvency Cases SPL Users</label>
+        <sharedTo>
+            <group>Insolvency_SPL_Users</group>
+        </sharedTo>
+        <booleanFilter>(1 OR (2 AND (3 OR 4) ) )</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency SPL Community Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>SPL</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Entity_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>SPL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Insolvency_Cases_Scotia_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule to share Insolvency Cases with Scotia community users</description>
+        <label>Share Insolvency Cases Scotia Users</label>
+        <sharedTo>
+            <group>Insolvency_Scotia_Users</group>
+        </sharedTo>
+        <booleanFilter>(1 OR (2 AND (3 OR 4) ) )</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Scotia Community Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>Scotia Bank</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Entity_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Scotia Bank</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

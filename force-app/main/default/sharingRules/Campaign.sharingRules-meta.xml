@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Share_CET_Campaign</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share CET Campaign</description>
+        <label>Share CET Campaign</label>
+        <sharedTo>
+            <group>CET_Dialer_Campaign</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>equals</operation>
+            <value>CET 8x8 Dialer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_ICT_Campaign</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share ICT Campaign</description>
+        <label>Share ICT Campaign</label>
+        <sharedTo>
+            <group>ICT_Dialer_Campaign</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>equals</operation>
+            <value>ICT 8x8 Dialer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_LRT_Campaign</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share LRT Campaign</description>
+        <label>Share LRT Campaign</label>
+        <sharedTo>
+            <group>LRT_Dialer_Campaign</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>equals</operation>
+            <value>LRT 8x8 Dialer</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

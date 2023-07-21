@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>Canaccede_Users_Visibility</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Canaccede Users Visibility</description>
+        <label>Canaccede Users Visibility</label>
+        <sharedTo>
+            <group>Canaccede_Visibility_Group</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Canaccede_Visibility_Group</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Fidem_Users_Visibility</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Fidem Users Visibility</description>
+        <label>Fidem Users Visibility</label>
+        <sharedTo>
+            <group>Fidem_Visibility_Group</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Fidem_Visibility_Group</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ICT_Users_Visibility</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>ICT Users Visibility</description>
+        <label>ICT Users Visibility</label>
+        <sharedTo>
+            <group>ICT_User_Visibility_Group</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ICT_User_Visibility_Group</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>LRT_Users_Visibility</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>LRT Users Visibility</description>
+        <label>LRT Users Visibility</label>
+        <sharedTo>
+            <group>LRT_User_Visibility_Group</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>LRT_User_Visibility_Group</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Sales_Pipeline_Users_Visibility</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Sales Pipeline Users Visibility</description>
+        <label>Sales Pipeline Users Visibility</label>
+        <sharedTo>
+            <group>Sales_Pipeline</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>Sales_Pipeline</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

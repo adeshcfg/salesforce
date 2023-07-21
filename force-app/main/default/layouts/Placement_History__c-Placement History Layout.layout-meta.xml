@@ -140,7 +140,7 @@
                 <field>LastModifiedById</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Placement_History_External__c</field>
             </layoutItems>
         </layoutColumns>

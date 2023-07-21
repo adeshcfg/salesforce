@@ -14,7 +14,6 @@
     <columns>Collection_Sub_Status__c</columns>
     <columns>Reason_for_Legal__c</columns>
     <columns>Phone_Home__c</columns>
-    <columns>Purchase_Status__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>External_Status_Current__c</field>
@@ -44,7 +43,7 @@
     <filters>
         <field>Delinquency_Days__c</field>
         <operation>lessThan</operation>
-        <value>150</value>
+        <value>210</value>
     </filters>
     <filters>
         <field>PTP1_Date__c</field>

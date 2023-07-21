@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distressed_Products_Unrecalled_Invalids</fullName>
+    <columns>LAST_UPDATE</columns>
+    <columns>Timestamp_Of_Invalid_Submission__c</columns>
+    <columns>NAME</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Collection_Agency__c</columns>
+    <columns>Collection_Agency_Formula__c</columns>
+    <columns>Invalid_Submission_Reason__c</columns>
+    <columns>Pool_Name__c</columns>
+    <columns>Email_Address__c</columns>
+    <columns>Phone_Home__c</columns>
+    <columns>Phone_Work__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Record_Type_Name__c</field>
+        <operation>equals</operation>
+        <value>Distressed_Account</value>
+    </filters>
+    <filters>
+        <field>Invalid_Submission__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Collection_Agency__c</field>
+        <operation>lessThan</operation>
+        <value>9999</value>
+    </filters>
+    <label>Distressed Products- Unrecalled Invalids</label>
+    <sharedTo>
+        <group>Client_Service_Group</group>
+    </sharedTo>
+</ListView>

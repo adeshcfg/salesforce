@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Share_Fairstone_Insolvency</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Fairstone Insolvency</description>
+        <label>Share Fairstone Insolvency</label>
+        <sharedTo>
+            <group>Insolvency_Fairstone_Users</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Fairstone</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Staging</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_SDA_Insolvency</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share SDA Insolvency</description>
+        <label>Share SDA Insolvency</label>
+        <sharedTo>
+            <group>Insolvency_SDA_Users</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>SDA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Staging</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_SPL_Insolvency</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule to share Insolvency records with SPL users</description>
+        <label>Share SPL Insolvency</label>
+        <sharedTo>
+            <group>Insolvency_SPL_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>SPL</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Staging</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Scotia_Insolvency</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule to share Insolvency records with Scotia users</description>
+        <label>Share Scotia Insolvency</label>
+        <sharedTo>
+            <group>Insolvency_Scotia_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Scotia Bank</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Staging</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

@@ -5,6 +5,7 @@
     <columns>Application__c</columns>
     <columns>Customer__c</columns>
     <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Loan_Type__c</field>

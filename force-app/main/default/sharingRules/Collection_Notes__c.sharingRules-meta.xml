@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Canaccede_Notes</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Canaccede Notes</label>
+        <sharedTo>
+            <group>Distressed_CFG_BS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede Notes</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Fidem_Notes</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Fidem Notes</label>
+        <sharedTo>
+            <group>Fidem_BS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Fidem Notes</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Fidem_Notes_Read_only</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Fidem Notes Read only</description>
+        <label>Fidem Notes Read only</label>
+        <sharedTo>
+            <group>Fidem_BS_Read_Only</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Fidem Notes</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

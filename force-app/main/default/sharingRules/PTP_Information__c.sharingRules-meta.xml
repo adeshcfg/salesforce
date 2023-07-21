@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Canaccede_PTP</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Distressed PTP records with Distressed users</description>
+        <label>Canaccede PTP</label>
+        <sharedTo>
+            <group>Distressed_CFG_BS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede PTP</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Fidem_PTP</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Fidem PTP records with Fidem users</description>
+        <label>Fidem PTP</label>
+        <sharedTo>
+            <group>Fidem_BS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Fidem PTP</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Fidem_PTP_Read_only</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Fidem PTP Read only</label>
+        <sharedTo>
+            <group>Fidem_BS_Read_Only</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Fidem PTP</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

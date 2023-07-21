@@ -1105,11 +1105,6 @@
             <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Allocate_Agency</actionName>
-            <actionType>CustomButton</actionType>
-            <sortOrder>6</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Recall_Agency</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>7</sortOrder>
@@ -1118,6 +1113,11 @@
             <actionName>Reject_Invalid_Submission</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>8</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Allocate_Agency</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>6</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Product_Ledger</actionName>

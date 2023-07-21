@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Agency_Group_Product_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>sharing rule for record with Collection Agency is neither 68 nor 6 &amp; Distressed Account, share with Agency Group</description>
+        <label>Agency Group Product Sharing</label>
+        <sharedTo>
+            <group>Agency_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>notEqual</operation>
+            <value>68</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>notEqual</operation>
+            <value>6</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Agency_Group_Read_Only_Product_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>sharing rule for record with Collection Agency is neither 68 nor 6 &amp; Distressed Account, share with Agency Group read only</description>
+        <label>Agency Group Read Only Product Sharing</label>
+        <sharedTo>
+            <group>Agency_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>notEqual</operation>
+            <value>68</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>notEqual</operation>
+            <value>6</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>BS_Fidem_Read_Only</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>BS - Fidem Read Only</description>
+        <label>BS - Fidem Read Only</label>
+        <sharedTo>
+            <group>Fidem_BS_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Credit Card Account</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Loan Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>CCS_BS</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>CCS - BS</label>
+        <sharedTo>
+            <group>CCS_CFG_BS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CCS Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Distressed_Compliance</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Distressed - Compliance</description>
+        <label>Distressed - Compliance</label>
+        <sharedTo>
+            <group>Compliance_Team</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Fidem_BS</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Fidem - BS</label>
+        <sharedTo>
+            <group>Fidem_BS</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Credit Card Account</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Loan Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_Group_Product_Read_Only_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ICT Group Product Read Only Sharing</label>
+        <sharedTo>
+            <group>ICT_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>equals</operation>
+            <value>68</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_Group_Product_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>sharing rule for record with Collection Agency=68 &amp; Distressed Account, share with ICT Group</description>
+        <label>ICT Group Product Sharing</label>
+        <sharedTo>
+            <group>ICT_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>equals</operation>
+            <value>68</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LRT_Group_Product_Read_Only_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>sharing rule for record with Collection Agency=6 &amp; Distressed Account, share with LRT Group Read Only</description>
+        <label>LRT Group Product Read Only Sharing</label>
+        <sharedTo>
+            <group>LRT_Group_Read_Only</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>equals</operation>
+            <value>6</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LRT_Group_Product_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>sharing rule for record with Collection Agency=6 &amp; Distressed Account, share with LRT Group</description>
+        <label>LRT Group Product Sharing</label>
+        <sharedTo>
+            <group>LRT_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>equals</operation>
+            <value>6</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Unplaced_Group_Product_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>sharing rule for record with no Collection Agency &amp; Distressed Account, share with Unplaced Group</description>
+        <label>Unplaced Group Product Sharing</label>
+        <sharedTo>
+            <group>Unplaced_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Unplaced_Group_Read_Only_Product_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>sharing rule for record with no Collection Agency &amp; Distressed Account, share with Unplaced Group read only</description>
+        <label>Unplaced Group Read Only Product Sharing</label>
+        <sharedTo>
+            <group>Unplaced_Group_Read_Only</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>
