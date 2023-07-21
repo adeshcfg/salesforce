@@ -113,6 +113,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Account Validation</valueName>
         </valueSettings>
         <valueSettings>
@@ -122,6 +123,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Amend Claim</valueName>
         </valueSettings>
         <valueSettings>
@@ -131,6 +133,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Business Insolvency</valueName>
         </valueSettings>
         <valueSettings>
@@ -151,6 +154,7 @@
             <controllingFieldValue>SPL</controllingFieldValue>
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Letter of Release Request</valueName>
         </valueSettings>
         <valueSettings>
@@ -160,6 +164,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>More Information Required</valueName>
         </valueSettings>
         <valueSettings>
@@ -169,6 +174,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Needs Documentation</valueName>
         </valueSettings>
         <valueSettings>
@@ -178,6 +184,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Notice of Disallowance</valueName>
         </valueSettings>
         <valueSettings>
@@ -187,6 +194,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Query</valueName>
         </valueSettings>
         <valueSettings>
@@ -196,6 +204,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Refund Request</valueName>
         </valueSettings>
         <valueSettings>
@@ -205,6 +214,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Secured Communications</valueName>
         </valueSettings>
         <valueSettings>
@@ -220,6 +230,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Withdraw PoC</valueName>
         </valueSettings>
         <valueSettings>
@@ -229,6 +240,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>Final</valueName>
         </valueSettings>
         <valueSettings>
@@ -238,6 +250,7 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
             <valueName>OSB Request</valueName>
         </valueSettings>
         <valueSettings>
