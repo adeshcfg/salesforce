@@ -3,6 +3,6 @@
     <fullName>Claim_Amount_Required</fullName>
     <active>true</active>
     <description>Claim_amount_required when select/update No_POC_Required</description>
-    <errorConditionFormula>IF( OR( ISPICKVAL( Reason_for_No_PoC_Required_Dropdown__c, &apos; &apos; ), ISBLANK( Claim_Amount__c )), true, false )</errorConditionFormula>
+    <errorConditionFormula>AND(NOT(ISNEW()),NOT(ISPICKVAL( Reason_for_No_PoC_Required_Dropdown__c, &apos;&apos;)), ISBLANK( Claim_Amount__c ))</errorConditionFormula>
     <errorMessage>Please Enter the Claim Amount</errorMessage>
 </ValidationRule>
