@@ -14,14 +14,8 @@ RecordType.DeveloperName == &apos;Fidem_Insolvency_Account&apos;,
 RecordType.DeveloperName == &apos;SPL_Insolvency_Account&apos;,
 RecordType.DeveloperName == &apos;Scotia_Bank_Insolvency_Account&apos;),
 
-OR(ISPICKVAL(Account_Type__c,&apos;Unknown&apos;),
-ISPICKVAL(Account_Type__c ,&apos;World Walmart Rewards Mastercard&apos;),
+OR(ISPICKVAL(Account_Type__c ,&apos;World Walmart Rewards Mastercard&apos;),
 ISPICKVAL(Account_Type__c, &apos;Core Walmart Rewards Mastercard&apos;),
-
-ISPICKVAL(Account_Type__c, &apos;Leasing product&apos;),
-ISPICKVAL(Account_Type__c, &apos;Secured Personal Installment Loan&apos;),
-ISPICKVAL(Account_Type__c, &apos;Unsecured Installment Loan&apos;),
-
 ISPICKVAL(Account_Type__c,&apos;Home Equity Secured Mastercard&apos;))
 ),
 
