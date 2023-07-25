@@ -11,6 +11,7 @@ Owner:User.Profile.Name ,
 &apos;SPL Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
 &apos;SDA Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
 &apos;SDA Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
+&apos;Goeasy Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
 &apos;&apos;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Insolvency Account Owner</inlineHelpText>

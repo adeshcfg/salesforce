@@ -248,7 +248,9 @@ public class InsolvencyAccountTriggerHandler {
                                            //Query updated to consider Insolvency Owner fields
                                            Scotia_Record_Owner__c,
                                            SDA_Record_Owner__c,
-                                           Chase_Record_Owner__c
+                                           Chase_Record_Owner__c,
+                                           Fairstone_Record_Owner__c,
+                                           Goeasy_Record_Owner__c
                                            from Insolvency__c
                                            where Id IN: insolIdSet];
         
