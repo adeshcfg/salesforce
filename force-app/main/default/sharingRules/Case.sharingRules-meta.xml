@@ -10,7 +10,7 @@
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>EmailToCase,Insolvency Scotia Community Case,Insolvency SDA Community Case,Remittance,Insolvency Case,Canaccede EmailToCase,Insolvency SPL Community Case</value>
+            <value>EmailToCase,Insolvency Scotia Community Case,Insolvency Fairstone Community Case,Insolvency SDA Community Case,Remittance,Insolvency Case,Canaccede EmailToCase,Insolvency SPL Community Case</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
