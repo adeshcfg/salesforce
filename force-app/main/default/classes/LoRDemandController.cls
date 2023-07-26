@@ -51,7 +51,8 @@ public class LoRDemandController{
                      LOR_Notice_1_Sent_Date__c,
                      LOR_Notice_2_Sent_Date__c,
                      LoR_Notice_1_FollowUp_Date__c,
-                     Vehicle_Identification_Number__c 
+                     Vehicle_Identification_Number__c, Account_Type__c,
+                     Bank_Name__c 
                      FROM Insolvency_Account__c 
                      WHERE Id =: ApexPages.currentPage().getParameters().get('Id')];
         invalidCriteriaMsg = '';
@@ -106,7 +107,16 @@ public class LoRDemandController{
         // Convert DateTime to Date format ex: May 01, 2018
         //String formattedDate = DateTime.newInstance(dt.year(),dt.month(),dt.day()).format('MMM dd, YYYY');
         String formattedDate = DateTime.newInstance(dateToday.year(),dateToday.month(),dateToday.day()).formatGMT('MMM dd, YYYY');
-        
+        String companyName = pocPackage.Company_Name__c;
+        String clientCompanyName = pocPackage.Client_Company_Name__c;
+        if(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'){
+            companyName = pocPackage.CFG_Office_Name_2__c;
+            clientCompanyName = pocPackage.CFG_Office_Name_2__c.toUppercase();
+            if(languageValue == 'fr'){
+                pocPackage.Client_Company_Name_French__c = pocPackage.CFG_Office_Name_2__c;
+            }
+        }
+
         // Merge fields used in email template
         Map<String, String> emailMergeFields  = new Map<String, String>{
                 '{!TODAY()}' => formattedDate,
@@ -117,6 +127,10 @@ public class LoRDemandController{
                 '{!insolvAcc.Security_Description__c}' => (insolvAcc.Security_Description__c != null ? insolvAcc.Security_Description__c : ''),
                 '{!insolvAcc.Insolvency_Status_Last_Changed__c}' => String.valueOf(insolvAcc.Insolvency_Status_Last_Changed__c.formatGMT('MMM dd, YYYY')),
                 '{!pocPackage.Client_Company_Name__c}' => pocPackage.Client_Company_Name__c.toUppercase(),
+                '{!pocPackage.Company_Name__c}' => pocPackage.Company_Name__c,
+                '{!pocPackage.CFG_Office_Name_2__c}' => pocPackage.CFG_Office_Name_2__c,
+                '{!companyName}' => companyName,
+                '{!clientCompanyName}' => clientCompanyName,
                 '{5 business days}'     =>  WeekdayCalculate(),
                     //'{!nextBusinessDate}' => DateTime.newInstance(nextBusinessDate.year(), nextBusinessDate.month(), nextBusinessDate.day()).formatGMT('MMM dd, YYYY'),
                 '{!pocPackage.CFG_Office_Phone_Number__c}' => pocPackage.CFG_Office_Phone_Number__c.replace('-','.'),

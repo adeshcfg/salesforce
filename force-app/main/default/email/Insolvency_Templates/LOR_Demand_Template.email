@@ -33,8 +33,8 @@ Attention: Estate Trustee</b> </div>
     </tr>
     
     <tr>
-<td style="padding-bottom: 10px"><b>Secured Creditor:</b></td>
-<td><b>{!pocPackage.Client_Company_Name__c}</b></td>
+<td style="padding-bottom: 10px;"><b>Secured Creditor:</b></td>
+<td><b>{!clientCompanyName}</b></td>
 <td></td>
     </tr>
 </table>
@@ -44,11 +44,11 @@ Attention: Estate Trustee</b> </div>
 Dear Madam/Sir: </div>
 <br/>
 <div style= "font-size: 9.5px;">
-Please be advised that Canaccede International Management Ltd. (“we” and “us”) is acting on behalf of the secured creditor, <b>{!pocPackage.Client_Company_Name__c}</b>, in connection with the above noted matter. On <b>{!insolvAcc.Insolvency_Status_Last_Changed__c}</b>, we forwarded to your office a proof of claim for the above referenced security (the “Security”) on behalf of {!pocPackage.Company_Name__c}, along with the Bankruptcy and Insolvency Act Section 130 request for trustee election.
+Please be advised that Canaccede International Management Ltd. (“we” and “us”) is acting on behalf of the secured creditor, <b>{!clientCompanyName}</b>, in connection with the above noted matter. On <b>{!insolvAcc.Insolvency_Status_Last_Changed__c}</b>, we forwarded to your office a proof of claim for the above referenced security (the “Security”) on behalf of {!companyName}, along with the Bankruptcy and Insolvency Act Section 130 request for trustee election.
    <br/><br/>
-It has been more than 30 days since the proof of claim and the request for election were filed with you. As per section 130 of the Bankruptcy and Insolvency Act, because the trustee has not indicated within 30 days of the request by the secured creditor whether it intends to exercise its power of redemption or require the security to be realized, the election has been lost and its interests in the Security are now vested in {!pocPackage.Company_Name__c}.
+It has been more than 30 days since the proof of claim and the request for election were filed with you. As per section 130 of the Bankruptcy and Insolvency Act, because the trustee has not indicated within 30 days of the request by the secured creditor whether it intends to exercise its power of redemption or require the security to be realized, the election has been lost and its interests in the Security are now vested in {!companyName}.
 <br/><br/>
-We request that you provide us with confirmation that the trustee releases its interest in the Security by the close of business on <b>{5 business days}</b>. If a response is not received, then {!pocPackage.Company_Name__c} will exercise any of its rights with respect to the Security without further notice or action. Should we be unable to locate the Security, we will be in contact with your office again to ascertain the location of same.
+We request that you provide us with confirmation that the trustee releases its interest in the Security by the close of business on <b>{5 business days}</b>. If a response is not received, then {!companyName} will exercise any of its rights with respect to the Security without further notice or action. Should we be unable to locate the Security, we will be in contact with your office again to ascertain the location of same.
 <br/><br/>
 Should you have any questions or require further information, please do not hesitate to contact
 <br/><br/>
