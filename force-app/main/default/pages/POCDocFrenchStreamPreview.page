@@ -173,7 +173,7 @@
                  <td style="vertical-align:top;"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Objet:</span></td>
                  <td style="padding-left:40px;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} à {!UPPER(pocPackage.CFG_Office_Name_2__c)}.</span> </td>
                  <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} BANK OF CANADA (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>  
-                 <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>    
+                 <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!pocPackage.Client_Company_Name__c}. (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>    
              </tr>
              </table>
              <hr style="border-color:black;margin: 11px 0px 18px 0px;"/>
@@ -210,7 +210,8 @@
             </div><br/>
             Sincèrement,
             <br/><br/>
-            <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name_French__c)}</span>
+            <span style="font-weight:bold;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name_French__c)}</span>
+            <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}">{!(pocPackage.Client_Company_Name__c)} </span>
             <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA</span>
             <br/><br/>
             <span style="display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>
@@ -577,10 +578,10 @@
                                  </tr>
                                  <tr>
                                     <td style=" vertical-align:top;">Avertissements:</td>
-                                    <td>Le syndic peut, en vertu du paragraphe 128(3) de la Loi, racheter une garantie sur paiement au créancier garanti de la créance ou de la valeur de la garantie telle qu’elle a été fixée par le créancier garanti dans la preuve de garantie.
-                                    </td>
-                                     <td style="display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}">Le paragraphe 201(1) de la Loi prévoit l’imposition de peines sévères en cas de présentation de réclamations, de preuves, de déclarations ou d’états de compte qui sont faux
+                                    <td>Le syndic peut, en vertu du paragraphe 128(3) de la Loi, racheter une garantie sur paiement au créancier garanti de la créance ou de la valeur de la garantie telle qu’elle a été fixée par le créancier garanti dans la preuve de garantie. 
+                                     	<apex:outputText escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Claim_Type__c == 'Secured'}" ><br/> Le paragraphe 201(1) de la Loi prévoit l’imposition de peines sévères en cas de présentation de réclamations, de preuves, de déclarations ou d’états de compte qui sont faux </apex:outputText>
                                      </td>
+                                     
                                  </tr>
                                  <tr>
                                     <td style=" vertical-align:top;">Remarques:</td>
