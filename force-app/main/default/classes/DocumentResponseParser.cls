@@ -1130,6 +1130,12 @@ public class DocumentResponseParser {
                }
            }
       }
+
+      for(String str: goEasy){
+         if(creditorName.contains(str)){
+            return insolvencyRecordTypeMap.get('Goeasy_Insolvency_Account');
+         }
+      }
         
       for(String str: canaccedeBank){
          if(creditorName.contains(str)){
@@ -1142,13 +1148,6 @@ public class DocumentResponseParser {
             return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
          }
       }
-
-      for(String str: goEasy){
-         if(creditorName.contains(str)){
-            return insolvencyRecordTypeMap.get('Goeasy_Insolvency_Account');
-         }
-      }
-
       
       return null;
     }
