@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agencies_Accounts__c</fullName>
+    <externalId>false</externalId>
+    <label>Agencies Accounts</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Reason_for_No_PoC_Required_Dropdown__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Canaccede Financial Group(CFG)</fullName>
+                <default>false</default>
+                <label>Canaccede Financial Group(CFG)</label>
+            </value>
+            <value>
+                <fullName>Capital Recovery Service Ltd (CBV)</fullName>
+                <default>false</default>
+                <label>Capital Recovery Service Ltd (CBV)</label>
+            </value>
+            <value>
+                <fullName>EOS Canada Inc</fullName>
+                <default>false</default>
+                <label>EOS Canada Inc</label>
+            </value>
+            <value>
+                <fullName>Financial Debt Recovery(FDR)</fullName>
+                <default>false</default>
+                <label>Financial Debt Recovery(FDR)</label>
+            </value>
+            <value>
+                <fullName>Mac Financial Recovery Inc</fullName>
+                <default>false</default>
+                <label>Mac Financial Recovery Inc</label>
+            </value>
+            <value>
+                <fullName>PRA Group Canada Inc</fullName>
+                <default>false</default>
+                <label>PRA Group Canada Inc</label>
+            </value>
+            <value>
+                <fullName>Pyxis Customer Solutions Ltd</fullName>
+                <default>false</default>
+                <label>Pyxis Customer Solutions Ltd</label>
+            </value>
+            <value>
+                <fullName>Razor Capital</fullName>
+                <default>false</default>
+                <label>Razor Capital</label>
+            </value>
+            <value>
+                <fullName>Resolve Financial Recovery (RFR)</fullName>
+                <default>false</default>
+                <label>Resolve Financial Recovery (RFR)</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>Canaccede Financial Group(CFG)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>Capital Recovery Service Ltd (CBV)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>EOS Canada Inc</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>Financial Debt Recovery(FDR)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>Mac Financial Recovery Inc</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>PRA Group Canada Inc</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>Pyxis Customer Solutions Ltd</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>Razor Capital</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>Resolve Financial Recovery (RFR)</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>
