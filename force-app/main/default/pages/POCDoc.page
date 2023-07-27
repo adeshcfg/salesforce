@@ -173,7 +173,7 @@
                  <td style="vertical-align:top;"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Re:</span></td>
                  <td style="padding-left:40px;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone", insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Notice of Sale of Accounts by {!UPPER(pocPackage.Client_Company_Name__c)} to {!UPPER(pocPackage.CFG_Office_Name_2__c)}.</span> </td>
                  <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Notice of Sale of Accounts by {!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA (“Seller”) to {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>  
-                 <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Notice of Sale of Accounts by {!pocPackage.Client_Company_Name__c}., (“Seller”) to {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>    
+                 <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Notice of Sale of Accounts by {!pocPackage.Client_Company_Name__c}., (“Seller”) to {!UPPER(pocPackage.CFG_Office_Name__c)} (“CFG CANADA”).</span> </td>    
              </tr>
              </table>
              <hr style="border-color:black;margin: 11px 0px 18px 0px;"/>
