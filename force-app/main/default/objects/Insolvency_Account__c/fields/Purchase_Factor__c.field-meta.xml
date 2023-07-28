@@ -57,6 +57,29 @@
 				&apos;Auto Loan&apos;, 0.0095,
 				0),
             0),
+        &apos;Fairstone Insolvency Account&apos;,  
+		 CASE(Insolvency__r.Insolvency_Type__c, 
+			&apos;Bankruptcy&apos;, 
+		 CASE(Account_Type__c,
+				 &apos;World Walmart Rewards Mastercard&apos;, 0.0177,
+                                 &apos;Core Walmart Rewards Mastercard&apos;, 0.0177,
+                                 &apos;Home Equity Secured Mastercard&apos;, 0.0177,
+                                  0),
+                         &apos;Consumer Proposal&apos;, 
+				CASE(Account_Type__c,
+				 &apos;World Walmart Rewards Mastercard&apos;, 0.13,
+                                 &apos;Core Walmart Rewards Mastercard&apos;, 0.13,
+                                 &apos;Home Equity Secured Mastercard&apos;, 00.13,
+                                  0),         
+                         &apos;Division 1 Proposal&apos;, 
+				CASE(Account_Type__c,
+				 &apos;World Walmart Rewards Mastercard&apos;, 0.13,
+                                 &apos;Core Walmart Rewards Mastercard&apos;, 0.13,
+                                 &apos;Home Equity Secured Mastercard&apos;, 00.13,
+                                  0), 
+                                  0), 
+
+
 	Portfolio_Name_Lookup__r.Purchase_Price_Percent__c)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Purchase Factor</inlineHelpText>
@@ -65,6 +88,5 @@
     <required>false</required>
     <scale>2</scale>
     <trackHistory>false</trackHistory>
-    <trackTrending>false</trackTrending>
     <type>Percent</type>
 </CustomField>
