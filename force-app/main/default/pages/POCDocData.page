@@ -160,15 +160,13 @@
                     </span> <br/>
                     of the City of <span style="font-weight : bold;font-family: sans-serif; ">{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</span>, in the Province of <span style="font-weight : bold;font-family: sans-serif; ">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>
-                    and the claim of <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL')}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.Client_Company_Name__c}</span></apex:outputText> 
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name__c}</span></apex:outputText>
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.Client_Company_Name__c} {!pocPackage.Client_Company_Creditor_Name__c}</span> </apex:outputText> (creditor)          
+                    and the claim of <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name__c}</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.Client_Company_Name__c} {!pocPackage.Client_Company_Creditor_Name__c}</span> </apex:outputText> (creditor)          
                     <br/><br/>
                     <span style="font-family: sans-serif; font-style:italic;">All notices or correspondence regarding this claim must be forwarded to the following address:</span>
                 </div>
                 
                 <div style="font-weight : bold; text-align:center;padding-top:0px; font-family: sans-serif;">
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL'))}">{!pocPackage.Client_Company_Name__c} C/O </apex:outputText> Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br/>
+                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">{!pocPackage.Client_Company_Name__c} C/O </apex:outputText> Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br/>
                     {!pocPackage.CFG_Office_Address_1__c}<br/>
                     {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
                 </div>
@@ -179,9 +177,7 @@
                     <table >
                         <tr>
                             <td style="vertical-align:top;"><b>1.</b></td>
-                            <td style="padding-left:10px;">That I am the President of <span style="font-family: sans-serif; font-weight:bold;">Canaccede International Management Ltd.,</span> servicer for <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.CFG_Office_Name__c},</span> who is the purchaser of the account from </apex:outputText> 
-                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL')}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.Client_Company_Name__c},</span> who is the purchaser of the account from </apex:outputText>
-                                <span  style="font-family: sans-serif; font-weight:bold;">{!pocPackage.Client_Company_Name__c}.</span></td>
+                            <td style="padding-left:10px;">That I am the President of <span style="font-family: sans-serif; font-weight:bold;">Canaccede International Management Ltd.,</span> servicer for <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.CFG_Office_Name__c},</span> who is the purchaser of the account from </apex:outputText> <span  style="font-family: sans-serif; font-weight:bold;">{!pocPackage.Client_Company_Name__c}.</span></td>
                         </tr>
                         <tr>
                             <td style="vertical-align:top;">2.</td>
@@ -453,8 +449,8 @@
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, President<br/>
                                 Canaccede International Management Ltd.,<br/>
-                                <apex:outputText value="Servicer for {!pocPackage.CFG_Office_Name__c} (creditor)." escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}" /> 
-                                <apex:outputText value="Servicer for {!pocPackage.Client_Company_Name__c} (creditor)" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL'))}" /> 
+                                <apex:outputText value="Servicer for {!pocPackage.CFG_Office_Name__c} (creditor)." escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" /> 
+                                <apex:outputText value="Servicer for {!pocPackage.Client_Company_Name__c} (creditor)" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> 
                                 
                             </span>
                         </td>
@@ -646,8 +642,8 @@
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, President<br/>
                             Canaccede International Management Ltd.,<br/>
-                            <apex:outputText value="Servicer for {!pocPackage.CFG_Office_Name__c} (creditor)." escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}" /> 
-                                <apex:outputText value="Servicer for {!pocPackage.Client_Company_Name__c} (creditor)" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL'))}" />
+                            <apex:outputText value="Servicer for {!pocPackage.CFG_Office_Name__c} (creditor)." escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" />
+                            <apex:outputText value="Servicer for {!pocPackage.Client_Company_Name__c} (creditor)" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" />
                             
                         </span>
                     </td>

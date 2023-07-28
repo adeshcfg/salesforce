@@ -79,12 +79,12 @@ public class ProductPaymentsTriggerHandler{
     }
 
     // 4578 Changes - Method to get appropriate placement history record to be linked to the payment
-    public static Map<String, String> getPlacementHistoryToLink(
+    public static String getPlacementHistoryToLink(
         Product_Payments__c productPayment,
         Map<Id, Product__c> mapProducts,
         Map<String, List<Placement_History__c>> mapProductIdPlacementHistoryList
     ) {
-        Map<String, String> placementHistoryExternalIdMap = new Map<String, String>{'Id' => null, 'Placement_History_External__c' => null};
+        String placementId = null;
         // If the product is in warehouse and was recalled less than 15 days before today's date, link the latest placement history
         if (
             mapProducts.containsKey(productPayment.CCS_Account__c) &&
@@ -93,8 +93,7 @@ public class ProductPaymentsTriggerHandler{
             mapProducts.get(productPayment.CCS_Account__c).Recalled_Date__c.daysBetween(Date.today()) <= 15 &&
             mapProductIdPlacementHistoryList.containsKey(productPayment.CCS_Account__c)
         ) {
-            placementHistoryExternalIdMap.put('Id', mapProductIdPlacementHistoryList.get(productPayment.CCS_Account__c)[0].Id);
-            placementHistoryExternalIdMap.put('Placement_History_External__c', mapProductIdPlacementHistoryList.get(productPayment.CCS_Account__c)[0].Placement_History_External__c);
+            placementId = mapProductIdPlacementHistoryList.get(productPayment.CCS_Account__c)[0].Id;
         }
         // If the product is not in warehouse, link the latest placement history record before the payment posting date
         else if (
@@ -107,13 +106,12 @@ public class ProductPaymentsTriggerHandler{
                     placementHistory.Placement_Date__c <= productPayment.Payment_Posting_Date__c &&
                     productPayment.Payment_Provided_Agency__c == placementHistory.Placement__c
                 ) {
-                    placementHistoryExternalIdMap.put('Id', placementHistory.Id);
-                    placementHistoryExternalIdMap.put('Placement_History_External__c', placementHistory.Placement_History_External__c);
+                    placementId = placementHistory.Id;
                     break;
                 }
             }
         }
-        return placementHistoryExternalIdMap;
+        return placementId;
     }
     
     public static void handleBeforeInsert(list<Product_Payments__c> listNewProductPayments){
@@ -140,7 +138,7 @@ public class ProductPaymentsTriggerHandler{
         
         if(!setProductId.isEmpty()){
             // 4578 Changes - Query and create map of placement history records for the products getting payments posted on
-            for(Placement_History__c placementHistory : [SELECT Id, Product__c, Placement_Date__c, Agency_Id__c, Placement__c, Placement_History_External__c FROM Placement_History__c WHERE Product__c IN :setProductId Order By Placement_Date__c Desc]){
+            for(Placement_History__c placementHistory : [SELECT Id, Product__c, Placement_Date__c, Agency_Id__c, Placement__c FROM Placement_History__c WHERE Product__c IN :setProductId Order By Placement_Date__c Desc]){
                 if(mapProductIdPlacementHistoryList.containsKey(placementHistory.Product__c)){
                     mapProductIdPlacementHistoryList.get(placementHistory.Product__c).add(placementHistory);
                 }
@@ -272,11 +270,8 @@ public class ProductPaymentsTriggerHandler{
                          ComissionRate = null;
                     }
                 }
-                // 4578 - Link appropriate placement history with payment
-                Map<String, String> mapPlacementHistoryToLink = getPlacementHistoryToLink(productPayment, mapProducts, mapProductIdPlacementHistoryList);
-                productPayment.Placement_History__c = mapPlacementHistoryToLink.get('Id');
-                // 4806
-                productPayment.Placement_History_External__c = mapPlacementHistoryToLink.get('Placement_History_External__c');
+                //4578 - Link appropriate placement history with payment
+                productPayment.Placement_History__c = getPlacementHistoryToLink(productPayment, mapProducts, mapProductIdPlacementHistoryList);
                 getTaxAmount(listNewProductPayments, mapProducts);
                 validationOnRecordUpdate2(listNewProductPayments, setProductId, setPlacementID,mapProducts);                
             }    

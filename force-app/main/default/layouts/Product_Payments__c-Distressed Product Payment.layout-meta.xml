@@ -93,10 +93,6 @@
                 <behavior>Readonly</behavior>
                 <field>Placement_History__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Placement_History_External__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

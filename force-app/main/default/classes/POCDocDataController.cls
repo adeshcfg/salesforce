@@ -48,7 +48,7 @@ public class POCDocDataController {
                                 Insolvency__r.Insolvency_Date__c, Secured_Asset_Amount__c,Security_Description__c,
                                 Voting_Letter_Comments__c, Claim_Type__c, Claim_Amount__c,Amended_Claim_Flag__c,
                                 Insolvency__r.Trustee__r.Name, Insolvency__r.Trustee__r.Parent.Name, Client_Identifier__c,
-                                Last_Payment_Date__c, Last_Payment_Amount__c, Interest_Rate__c, Insolvency_Status__c,Bank_Name__c,
+                                Last_Payment_Date__c, Last_Payment_Amount__c, Interest_Rate__c, Insolvency_Status__c,
                                
                                 Insolvency__r.Debtor_1_First_Name__c, Insolvency__r.Debtor_1_Last_Name__c, Insolvency__r.Debtor_1_Middle_Name__c, 
                                 Insolvency__r.Debtor_2_First_Name__c, Insolvency__r.Debtor_2_Last_Name__c, Insolvency__r.Debtor_2_Middle_Name__c, 
