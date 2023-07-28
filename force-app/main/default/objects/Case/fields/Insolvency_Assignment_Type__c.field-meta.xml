@@ -100,6 +100,36 @@
                 <label>Fax Confirmation Report</label>
             </value>
             <value>
+                <fullName>Balance Updates</fullName>
+                <default>false</default>
+                <label>Balance Updates</label>
+            </value>
+            <value>
+                <fullName>DMP</fullName>
+                <default>false</default>
+                <label>DMP</label>
+            </value>
+            <value>
+                <fullName>Drop Notification</fullName>
+                <default>false</default>
+                <label>Drop Notification</label>
+            </value>
+            <value>
+                <fullName>PIF request</fullName>
+                <default>false</default>
+                <label>PIF request</label>
+            </value>
+            <value>
+                <fullName>Payout Request</fullName>
+                <default>false</default>
+                <label>Payout Request</label>
+            </value>
+            <value>
+                <fullName>Settlement Offer</fullName>
+                <default>false</default>
+                <label>Settlement Offer</label>
+            </value>
+            <value>
                 <fullName>Forward Request</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
