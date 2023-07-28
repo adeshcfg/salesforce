@@ -112,6 +112,16 @@
                 <default>false</default>
                 <label>Property &amp; Employment</label>
             </value>
+            <value>
+                <fullName>Legal Score</fullName>
+                <default>false</default>
+                <label>Legal Score</label>
+            </value>
+            <value>
+                <fullName>Profitable/Refusal</fullName>
+                <default>false</default>
+                <label>Profitable/Refusal</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
