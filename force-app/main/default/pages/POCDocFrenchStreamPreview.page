@@ -152,6 +152,7 @@
                </div>
                <article class="slds-card slds-p-top_medium ArialUnicodeMSFont" style="background: #fff;">
                   <!-- Adding new page STARTS -->
+                  <apex:outputPanel rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                 <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Insolvency_Type__c != 'Division 1 Proposal' && insolvAcc.Business_Account__c == False}">     
                     
             <div style='font-family: "Arial Unicode MS"; width:86%; margin:auto; font-size:14px; display:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "block;", "none;")}'>
@@ -231,6 +232,7 @@
                 <br/><br/>
                <div class="pageSeperator" style="display : {!IF(insolvAcc.Claim_Type__c == "Unsecured", 'block;', 'none;')}">
                         </div>
+                        </apex:outputPanel>
                    </apex:outputPanel>
                   <apex:outputPanel rendered="{!form31}">
                      <div style="font-size: 13px; margin:auto; line-height: 17px; width:90%;padding-top: 20px;">

@@ -18,7 +18,7 @@
             }
         </style>
         <apex:outputPanel rendered="{! $CurrentPage.parameters.proofOfClaim == 'true'}">
-        
+            <apex:outputPanel rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
             <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Insolvency_Type__c != 'Division 1 Proposal' && insolvAcc.Business_Account__c == False}">
         <!-- Adding new page STARTS-->
             <div style='font-family: "Times New Roman"; width:90%; margin:auto; font-size:16px; display:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "block;", "none;")}'>
@@ -107,6 +107,7 @@
                 </apex:outputPanel>
                 <br/><br/><br/><br/><br/>
             </div>
+            </apex:outputPanel>
             </apex:outputPanel>
             <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
                 
