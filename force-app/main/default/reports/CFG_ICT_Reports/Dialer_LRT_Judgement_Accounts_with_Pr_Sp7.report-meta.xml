@@ -70,7 +70,7 @@
             <operator>equals</operator>
             <value></value>
         </criteriaItems>
-        <language>en_US</language>
+        <!-- <language>en_US</language> -->
     </filter>
     <format>Tabular</format>
     <name>Dialer LRT - Judgement Accounts with Pr</name>
