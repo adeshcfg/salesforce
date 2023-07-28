@@ -112,7 +112,7 @@ public class POCDocController{
                                 Insolvency__r.Trustee__r.Name, Insolvency__r.Trustee__r.Parent.Name, Client_Identifier__c,
                                 Last_Payment_Date__c, Last_Payment_Amount__c, Interest_Rate__c, Insolvency_Status__c,Asset_Status__c,                               
                                 Insolvency__r.Debtor_1_First_Name__c, Insolvency__r.Debtor_1_Last_Name__c, Insolvency__r.Debtor_1_Middle_Name__c, 
-                                Insolvency__r.Debtor_2_First_Name__c, Insolvency__r.Debtor_2_Last_Name__c, Insolvency__r.Debtor_2_Middle_Name__c,Bank_Name__c, 
+                                Insolvency__r.Debtor_2_First_Name__c, Insolvency__r.Debtor_2_Last_Name__c, Insolvency__r.Debtor_2_Middle_Name__c, 
                                 Statements_Required__c, Proof_of_Claim_Required__c, Voting_Options__c ,Include_Voting_Letter__c, Amended_PoC_Created_Date__c, PoC_Created_Date__c   
                                 FROM Insolvency_Account__c 
                                 WHERE Id =: ApexPages.currentPage().getParameters().get('Id')];
