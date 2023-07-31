@@ -102,6 +102,16 @@
                 <default>false</default>
                 <label>Pending Assignment to Collection Agency</label>
             </value>
+            <value>
+                <fullName>Failed (Program closed by Creditor)</fullName>
+                <default>false</default>
+                <label>Failed (Program closed by Creditor)</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
