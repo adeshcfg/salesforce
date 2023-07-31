@@ -190,7 +190,12 @@
              </apex:outputText>
              
             <br/><br/>
+            <apex:outputText rendered="{!insolvAcc.Client_Identifier__c != 'Goeasy'}">
              We hereby authorize {!pocPackage.CFG_Office_Name_2__c}. to file the attached proof of claim for the account described in the proof of claim in the name of {!pocPackage.CFG_Office_Name_2__c}.
+            </apex:outputText>
+            <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
+             We hereby authorize {!pocPackage.CFG_Office_Name__c}. to file the attached proof of claim for the account described in the proof of claim in the name of {!pocPackage.CFG_Office_Name__c}.
+            </apex:outputText>
             <br/><br/>
             If you have any queries, please do not hesitate to contact Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}-->. at the following contact details:
             <br/><br/>
