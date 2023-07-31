@@ -51,7 +51,12 @@
                 Nous comprenons que le débiteur est soumis à une procédures en vertu de la 
                 <span style="font-family: Times New Roman; font-style:italic;">Loi sur la faillite et l'insolvabilité </span>(Canada) à l'égard de laquelle vous avez été nommé syndic de faillite.
                 <br/><br/>
+                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c != 'Goeasy'}">
                 Nous autorisons par la présente {!pocPackage.CFG_Office_Name_2__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name_2__c}.
+                </apex:outputText>
+                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
+                Nous autorisons par la présente {!pocPackage.CFG_Office_Name__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name__c}.
+                </apex:outputText>
                 <br/><br/>
                 Si vous avez des questions, n'hésitez pas à contacter {!IF(OR(insolvAcc.Client_Identifier__c == "Fairstone",insolvAcc.Client_Identifier__c == "Goeasy"), "CFG Canada Funding, LLC.", "Canaccede International Management Ltd.")} aux coordonnées suivantes:
                 <br/><br/>
