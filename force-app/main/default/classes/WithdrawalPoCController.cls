@@ -265,16 +265,21 @@
         if(insolvAcc.Client_Identifier__c == 'Canaccede' && language == 'fr'){
             return 'Créancier- {!pocPackage.Client_Company_Name_French__c}, cessionnaire de \'{!insolvAcc.Originator__c}\', Numéro de compte: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Montant {!insolvAcc.Claim_Amount__c}';
         }
-        if(insolvAcc.Client_Identifier__c != 'Canaccede' && language == 'fr'){
+        if(insolvAcc.Client_Identifier__c != 'Goeasy' && insolvAcc.Client_Identifier__c != 'Canaccede' && language == 'fr'){
             return 'Créancier- {!pocPackage.Client_Company_Name_French__c}, Numéro de compte: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Montant {!insolvAcc.Claim_Amount__c}';
         }
         if(insolvAcc.Client_Identifier__c == 'Canaccede' && language != 'fr'){
             return 'Creditor- {!pocPackage.Client_Company_Name__c}, Assignee of \'{!insolvAcc.Originator__c}\', Account Number: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Amount {!insolvAcc.Claim_Amount__c}';
         }
-        if(insolvAcc.Client_Identifier__c != 'Canaccede' && language != 'fr'){
+        if(insolvAcc.Client_Identifier__c != 'Goeasy' && insolvAcc.Client_Identifier__c != 'Canaccede' && language != 'fr'){
             return 'Creditor- {!pocPackage.Client_Company_Name__c}, Account Number: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Amount {!insolvAcc.Claim_Amount__c}';
         }
-        
+        if(insolvAcc.Client_Identifier__c == 'Goeasy' && language == 'fr'){
+            return 'Créancier- {!pocPackage.Company_Name__c}, Numéro de compte: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Montant {!insolvAcc.Claim_Amount__c}';
+        }
+        if(insolvAcc.Client_Identifier__c == 'Goeasy' && language != 'fr'){
+            return 'Creditor- {!pocPackage.Company_Name__c}, Account Number: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Amount {!insolvAcc.Claim_Amount__c}';
+        }
         return null;
     }
     
