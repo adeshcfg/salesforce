@@ -1,49 +1,49 @@
-<div style=""font-family"": 'Arial Unicode MS'; font-size: 10px;"">
+<div style="font-family": 'Arial Unicode MS'; font-size: 10px;">
 <br/><br/><br/>
-<div style=""width:100%; text-align:center;"">
+<div style="width:100%; text-align:center;">
 <img src='https://c.na103.content.force.com/servlet/servlet.ImageServer?id=015j0000000vIjk&oid=00Dj0000001ripe&lastMod=1433979584000' style=""width: 200px; height:40px""/>
 </div>
-<div style=""font-size: 9.5px;"" >
+<div style="font-size: 9.5px;" >
 <b>{!TODAY()}</b></div><br/>
 <b>
-<div style=""font-size: 9.5px;"" class=""view-font"">{!insolvAcc.Trustee_Company__c} {!insolvAcc.Trustee_Office__c}</div>
+<div style="font-size: 9.5px;" class="view-font">{!insolvAcc.Trustee_Company__c} {!insolvAcc.Trustee_Office__c}</div>
 <br/>
-<div style= ""font-size: 9.5px;"">
+<div style= "font-size: 9.5px;">
 Attention: Syndic d'insolvabilité</b> </div>
 <br/>
-<table style=""width: 100%;font-size: 9.5px; "">
+<table style="width: 100%;font-size: 9.5px; ">
  <tr>
-  <td style="" width:20%; vertical-align: text-bottom; padding-bottom: 10px;""><b>Objet:  Faillite de</b></td>
-<td class=""second-column""><b>{!insolv.Debitors}</b>
+  <td style=" width:20%; vertical-align: text-bottom; padding-bottom: 10px;"><b>Objet:  Faillite de</b></td>
+<td class="second-column"><b>{!insolv.Debitors}</b>
     </td>
 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
     </tr>
     
     <tr>
-<td style=""padding-bottom: 10px""><b>Actif:</b> 
+<td style="padding-bottom: 10px"><b>Actif:</b> 
  </td>
 <td><b>{!insolvAcc.Security_Description__c}</b></td>
 <td></td>
     </tr>
     
     <tr>
-<td style=""padding-bottom: 10px;""><b>N.I.V:</b></td>
+<td style="padding-bottom: 10px;"><b>N.I.V:</b></td>
 <td><b>{!Insolvency_Account__c.Vehicle_Identification_Number__c}</b></td>
 <td></td>
     </tr>
     
     <tr>
-<td style=""padding-bottom: 10px""><b>Créancier Garanti:</b></td>
+<td style="padding-bottom: 10px"><b>Créancier Garanti:</b></td>
 <td><b>{!pocPackage.Client_Company_Name_French__c}</b></td>
 <td></td>
     </tr>
 </table>
 
 <br/>
-<div style= ""font-size: 9.5px;"">
+<div style= "font-size: 9px;">
 Cher(ère) Monsieur / Madame,</div>
 <br/>
-<div style= ""font-size: 9.5px;"">
+<div style= "font-size: 9px;">
 Veuillez prendre note que Canaccede International Management Ltd. (« nous ») agit au nom du créancier garanti, <b>{!pocPackage.Client_Company_Name_French__c}</b> (« Banque Scotia »), relativement au dossier susmentionnée. Le <b>{!insolvAcc.Insolvency_Status_Last_Changed__c}</b>, nous avons transmis à votre bureau une preuve de réclamation pour l’Actif susmentionné (l’ « Actif ») au nom de {!pocPackage.Client_Company_Name_French__c}, ainsi qu’unqu’un avis écrit exigeant que vous choisissier d’exercer votre pouvoir de rachater la garantie ou de la faire réaliser en vertu de l’article 130 de la Loi sur la faillite et l’insolvabilité.
    <br/><br/>
 Plus de 30 jours se sont écoulés depuis le dépôt de la preuve de réclamation et de l’avis écrit. Conformément à l’article 130 de la Loi sur la faillite et l’insolvabilité, le syndic n’ayant pas indiqué dans les 30 jours suivant la demande du créancier garanti s’il entend exercer son pouvoir de rachat ou exiger la réalisation de la garantie,ce choix a été perdu et ses intérêts dans les biens compris dans la garantie qui s sont maintenant dévolus à {!pocPackage.Client_Company_Name_French__c}.
@@ -60,6 +60,6 @@ Si vous avez des questions, n’hésitez pas à communiquer avec notre bureau.
 Sincèrement,
  <br/>
 Département de l'insolvabilité<br/>
-{Canaccede International Management Ltd.</div>
+Canaccede International Management Ltd.</div>
 </div>
 </div>
