@@ -213,6 +213,9 @@
         if(insolvAcc.Claim_Amount__c != null){
             claimAmount = '$'+String.format(insolvAcc.Claim_Amount__c.format(), args);
         }
+        if(insolvAcc.Bank_Name__c == 'Goeasy'){
+                pocPackage.Client_Company_Name__c = pocPackage.Company_Name__c;
+        }
         Map<String, String> emailMergeFields  = new Map<String, String>{
                                                     '{!TODAY()}' => formattedDate,
                                                     '{!Insolvency__r.Trustee__r.Parent.Name}' => insolvAcc.Insolvency__r.Trustee__r.Parent.Name,
