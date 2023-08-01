@@ -116,7 +116,13 @@ public class LoRDemandController{
                 pocPackage.Client_Company_Name_French__c = pocPackage.CFG_Office_Name_2__c;
             }
         }
-
+		if(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c != 'Leasing product'){
+            companyName = 'Easyfinancial';
+            clientCompanyName = companyName.toUppercase();
+            if(languageValue == 'fr'){
+                pocPackage.Client_Company_Name_French__c = 'Easyfinancial';
+            }
+        }
         // Merge fields used in email template
         Map<String, String> emailMergeFields  = new Map<String, String>{
                 '{!TODAY()}' => formattedDate,
