@@ -109,7 +109,10 @@ public class LoRDemandController{
         String formattedDate = DateTime.newInstance(dateToday.year(),dateToday.month(),dateToday.day()).formatGMT('MMM dd, YYYY');
         String companyName = pocPackage.Company_Name__c;
         String clientCompanyName = pocPackage.Client_Company_Name__c;
+        // Only used in French template
+        String clientCompanyNameSuffix = ' (« Banque Scotia »)';
         if(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'){
+            clientCompanyNameSuffix = '';
             companyName = pocPackage.CFG_Office_Name_2__c;
             clientCompanyName = pocPackage.CFG_Office_Name_2__c.toUppercase();
             if(languageValue == 'fr'){
@@ -117,6 +120,7 @@ public class LoRDemandController{
             }
         }
 		if(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c != 'Leasing product'){
+            clientCompanyNameSuffix = '';
             companyName = 'Easyfinancial';
             clientCompanyName = companyName.toUppercase();
             if(languageValue == 'fr'){
@@ -137,6 +141,7 @@ public class LoRDemandController{
                 '{!pocPackage.CFG_Office_Name_2__c}' => pocPackage.CFG_Office_Name_2__c,
                 '{!companyName}' => companyName,
                 '{!clientCompanyName}' => clientCompanyName,
+                '{!clientCompanyNameSuffix}' => clientCompanyNameSuffix,
                 '{5 business days}'     =>  WeekdayCalculate(),
                     //'{!nextBusinessDate}' => DateTime.newInstance(nextBusinessDate.year(), nextBusinessDate.month(), nextBusinessDate.day()).formatGMT('MMM dd, YYYY'),
                 '{!pocPackage.CFG_Office_Phone_Number__c}' => pocPackage.CFG_Office_Phone_Number__c.replace('-','.'),
