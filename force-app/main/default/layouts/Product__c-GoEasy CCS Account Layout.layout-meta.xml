@@ -230,6 +230,10 @@
                 <field>Expected_First_disbursement_date__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Months_active_in_Program__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Accepted_Payment_Amount__c</field>
             </layoutItems>
