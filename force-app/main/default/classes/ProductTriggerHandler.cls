@@ -194,6 +194,16 @@ public class ProductTriggerHandler{
         list<Product__c> listDistressedProduct = new list<Product__c>();
         
         for(Product__c prod : prodNew){
+			//for Ticket 4834 - populating bank account number based on Account ID
+            if(prod.name <> NULL){
+                prod.Bank_Refence_Number__c = prod.name;
+            }
+            
+            //for Ticket 4895 - populating Payment Missed
+            if(prod.Proposed_Payment_Amount__c <> NULL && prod.Proposed_Payment_Amount__c > 0 && 
+               prod.Amount_of_payments_missed__c <> NULL){
+               prod.Payment_Missed__c = (prod.Amount_of_payments_missed__c / prod.Proposed_Payment_Amount__c );
+            }
 
             /*if( prod.Open_Date__c != null && 
                 (prod.Statute_Date__c == null || prod.Open_Date__c < prod.Statute_Date__c )
@@ -439,7 +449,15 @@ public class ProductTriggerHandler{
                 //creatJudgment(prod);
                 }
             }
-           
+           //for Ticket 4834 - populating bank account number based on Account ID
+            if(prod.name <> NULL){
+                prod.Bank_Refence_Number__c = prod.name;
+            }
+            //for Ticket 4895 - populating Payment Missed
+            if(prod.Proposed_Payment_Amount__c <> NULL && prod.Proposed_Payment_Amount__c > 0 && 
+               prod.Amount_of_payments_missed__c <> NULL){
+               prod.Payment_Missed__c = (prod.Amount_of_payments_missed__c / prod.Proposed_Payment_Amount__c );
+            }
                 system.debug('agency:'+prod.Collection_Agency__c);
                 if (isCanaccedeAPIUser() || Test.isRunningTest()){
                     // Added record type check for Loan Account OR Credit Card Account
