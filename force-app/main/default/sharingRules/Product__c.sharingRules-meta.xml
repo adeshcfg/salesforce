@@ -122,6 +122,20 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Goeasy_CCS_Account</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Goeasy CCS Account</label>
+        <sharedTo>
+            <group>GoEasy_CCS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>GoEasy CCS Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ICT_Group_Product_Read_Only_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ICT Group Product Read Only Sharing</label>
