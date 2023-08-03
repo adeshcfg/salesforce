@@ -43,7 +43,7 @@
                 <field>Product__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Months_active_in_Program__c</field>
             </layoutItems>
         </layoutColumns>
