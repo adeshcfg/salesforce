@@ -227,6 +227,7 @@
                                                     '{!insolv.Debitors}' => (insolvAcc.Insolvency__r.Debtor__c != null ? insolvAcc.Insolvency__r.Debtor__c : '') + (insolvAcc.Insolvency__r.Co_Debtor__c != null ? (insolvAcc.Insolvency__r.Debtor__c != null ? ',' : '')+insolvAcc.Insolvency__r.Co_Debtor__c : ''),
                                                     '{!Display_Text_As_Per_Bank}' => displayText(),
                                                     '{!pocPackage.Client_Company_Name__c}' => pocPackage.Client_Company_Name__c,
+                                                    '{!pocPackage.Company_Name__c}' => pocPackage.Company_Name__c,
                                                     '{!pocPackage.Client_Company_Name_French__c}' => pocPackage.Client_Company_Name_French__c,    
                                                     '{!pocPackage.CFG_Office_Phone_Number__c}' => pocPackage.CFG_Office_Phone_Number__c.replace('-','.'),
                                                     '{!pocPackage.CFG_Office_Address_1__c}'=> pocPackage.CFG_Office_Address_1__c,
