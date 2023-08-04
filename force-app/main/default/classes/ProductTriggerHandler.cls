@@ -343,7 +343,8 @@ public class ProductTriggerHandler{
                 // Insolvency Product enhancements
                 system.debug('prod.RecordTypeId::'+prod.RecordTypeId);
                 system.debug('prod.Last_Name__c::'+prod.Last_Name__c);
-                if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ){
+                if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ||
+                  prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId){
                     system.debug('inside if recordtypeid');
                     if(String.isNotBlank(prod.Last_Name__c)){
                         system.debug('call matching cutomers');
@@ -475,7 +476,8 @@ public class ProductTriggerHandler{
                     
                     // Check if product is Insolvency Account / Distressed_Account or not
                     //if(prodRTypeIdMap.get('Insolvency_Account') == prod.RecordTypeId || prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId)
-                    if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId){
+                    if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ||
+                      prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId){
                         if(prod.customer__c == null){
                             
                             if(oldCustomerId != null){
