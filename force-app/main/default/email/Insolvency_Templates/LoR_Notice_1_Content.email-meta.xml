@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>LoR Notice 1 Content</name>
+    <style>none</style>
+    <subject>Security Letter of Release - Estate No : {!insolv.EstateNumber}; Account No. : {!Insolvency_Account__c.Secured_Name__c}</subject>
+    <textOnly>Dear Sir/Madam.
+
+As you are aware, {!pocPackage.CFG_Office_Name__c} is processing {!pocPackage.BankNameWiseCompanyName} insolvent accounts. Our records show that we have sent a proof of claim but not yet received a letter of release.
+
+Please see the attached letter from {!pocPackage.BankNameWiseCompanyName} for more information.
+
+Sincerely
+
+
+{!pocPackage.CFG_Office_Name__c}
+
+P:{!pocPackage.CFG_Office_Phone_Number__c} E: {!pocPackage.CFG_Office_Email_Address__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

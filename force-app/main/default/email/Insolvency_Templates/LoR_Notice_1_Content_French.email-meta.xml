@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>LoR_Notice_1_Content_French</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>LoR Notice 1 Content</name>
+    <style>none</style>
+    <subject>Demande de la Lettre de mainlevée - Numéro du Surintendant : {!insolv.EstateNumber}; Numéro de compte: {!Insolvency_Account__c.Secured_Name__c}</subject>
+    <textOnly>Cher(ère) Monsieur / Madame,
+
+Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de {!pocPackage.BankNameWiseFrenchCompanyName}. Nos dossiers indiquent que nous vous avons envoyé une preuve de réclamation mais que nous n’avons pas encore reçu de lettre de mainlevée.
+
+Veuillez consulter la lettre ci-jointe de {!pocPackage.BankNameWiseFrenchCompanyName} pour de plus amples renseignements.
+
+Sincèrement
+
+Canaccede International Management Ltd.
+
+P:{!pocPackage.CFG_Office_Phone_Number__c} E: {!pocPackage.CFG_Office_Email_Address__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -109,12 +109,16 @@ public class LoRDemandController{
         String formattedDate = DateTime.newInstance(dateToday.year(),dateToday.month(),dateToday.day()).formatGMT('MMM dd, YYYY');
         String companyName = pocPackage.Company_Name__c;
         String clientCompanyName = pocPackage.Client_Company_Name__c;
+        String bankNameWiseCompanyName = pocPackage.Client_Company_Name__c;
+        String bankNameWiseFrenchCompanyName = pocPackage.Client_Company_Name_French__c;
         // Only used in French template
         String clientCompanyNameSuffix = ' (« Banque Scotia »)';
         if(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'){
             clientCompanyNameSuffix = '';
             companyName = pocPackage.CFG_Office_Name_2__c;
             clientCompanyName = pocPackage.CFG_Office_Name_2__c.toUppercase();
+            bankNameWiseCompanyName = pocPackage.Company_Name__c;
+			bankNameWiseFrenchCompanyName = pocPackage.Company_Name__c;
             if(languageValue == 'fr'){
                 pocPackage.Client_Company_Name_French__c = pocPackage.CFG_Office_Name_2__c;
             }
@@ -123,6 +127,8 @@ public class LoRDemandController{
             clientCompanyNameSuffix = '';
             companyName = 'Easyfinancial';
             clientCompanyName = companyName.toUppercase();
+            bankNameWiseCompanyName = pocPackage.Company_Name__c;
+			bankNameWiseFrenchCompanyName = pocPackage.Company_Name__c;
             if(languageValue == 'fr'){
                 pocPackage.Client_Company_Name_French__c = 'Easyfinancial';
             }
@@ -153,8 +159,9 @@ public class LoRDemandController{
                 '{!pocPackage.CFG_Office_Name}' => pocPackage.CFG_Office_Name__c,
                 '{!Insolvency_Account__c.Vehicle_Identification_Number__c}' => (insolvAcc.Vehicle_Identification_Number__c != null ? insolvAcc.Vehicle_Identification_Number__c : ''),
                  '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c,
-                  '{!pocPackage.CFG_Office_Name__c}'   =>pocPackage.CFG_Office_Name__c
-                
+                  '{!pocPackage.CFG_Office_Name__c}'   =>pocPackage.CFG_Office_Name__c,
+                '{!pocPackage.BankNameWiseCompanyName}' => bankNameWiseCompanyName,
+                '{!pocPackage.BankNameWiseFrenchCompanyName}' => bankNameWiseFrenchCompanyName
                 };
         
         List<EmailTemplate> emtList = new List<EmailTemplate>();

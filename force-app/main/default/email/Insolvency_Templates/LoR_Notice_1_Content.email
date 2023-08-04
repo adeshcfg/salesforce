@@ -1,0 +1,22 @@
+Dear Sir/Madam.
+
+<br/><br/>
+
+As you are aware, {!pocPackage.CFG_Office_Name__c} is processing {!pocPackage.BankNameWiseCompanyName} insolvent accounts. Our records show that we have sent a proof of claim but not yet received a letter of release.
+
+<br/><br/>
+
+Please see the attached letter from {!pocPackage.BankNameWiseCompanyName} for more information.
+
+<br/><br/>
+
+Sincerely,
+
+<br/><br/>
+
+{!pocPackage.CFG_Office_Name__c}
+
+<br/><br/>
+
+P:{!pocPackage.CFG_Office_Phone_Number__c} <br/>
+E: {!pocPackage.CFG_Office_Email_Address__c}
