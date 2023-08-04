@@ -94,11 +94,11 @@
                 <field>Expected_Recovery__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Orderly_Payment_of_Debts__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Payment_Missed__c</field>
             </layoutItems>
         </layoutColumns>
@@ -167,7 +167,7 @@
                 <field>SIN__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>CID_number__c</field>
             </layoutItems>
             <layoutItems>
@@ -181,10 +181,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Phone_Other__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Portfolio_Group_Name__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -217,19 +213,19 @@
                 <field>Reason_for_Proposal__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Initial_Proposal_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Second_Proposal_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Third_Proposal_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Fourth_Proposal_Date__c</field>
             </layoutItems>
         </layoutColumns>
@@ -282,7 +278,7 @@
                 <field>Last_Payment_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Depot_Volontaire__c</field>
             </layoutItems>
         </layoutColumns>
@@ -318,10 +314,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Amount__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Investment_Group__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
