@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GoEasy_CCS_Accounts_Proposal_Status_Ap</fullName>
+    <columns>NAME</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Proposal_Status__c</field>
+        <operation>equals</operation>
+        <value>Approve</value>
+    </filters>
+    <label>GoEasy CCS Acc Proposal Status- Approved</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Insolvency_Goeasy_Users</group>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GoEasy_DV_Accounts_For_Owner_Review</fullName>
+    <columns>NAME</columns>
+    <filterScope>Everything</filterScope>
+    <label>GoEasy DV Accounts – For Owner Review</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Insolvency_Goeasy_Users</group>
+    </sharedTo>
+</ListView>

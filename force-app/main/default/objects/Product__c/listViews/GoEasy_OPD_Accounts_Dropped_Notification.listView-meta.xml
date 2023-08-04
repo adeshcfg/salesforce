@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GoEasy_OPD_Accounts_Dropped_Notification</fullName>
+    <columns>NAME</columns>
+    <filterScope>Everything</filterScope>
+    <label>GoEasy OPD Accounts–Dropped Notification</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Insolvency_Goeasy_Users</group>
+    </sharedTo>
+</ListView>
