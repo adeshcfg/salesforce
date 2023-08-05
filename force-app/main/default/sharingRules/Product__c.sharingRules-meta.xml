@@ -123,7 +123,7 @@
     </sharingCriteriaRules>
     <sharingCriteriaRules>
         <fullName>Goeasy_CCS_Account</fullName>
-        <accessLevel>Read</accessLevel>
+        <accessLevel>Edit</accessLevel>
         <label>Goeasy CCS Account</label>
         <sharedTo>
             <group>GoEasy_CCS</group>
