@@ -172,8 +172,6 @@ public class LoRDemandController{
             emtList = [SELECT Id, Name, HtmlValue, Body,Subject FROM EmailTemplate WHERE Id =: pocPackage.LoR_DemandTemplate_Id__c OR Id =: pocPackage.LoR_Notice_1_Content_Id__c];
         }
         
-        system.debug('emtList:::'+emtList);
-        
         // Fetch LoRNotice1 email template
         for(EmailTemplate emt : emtList){
             if(emt.Id == pocPackage.LoR_DemandTemplate_Id__c || emt.Id == pocPackage.LoR_DemandTemplate_French_Id__c){
@@ -188,18 +186,12 @@ public class LoRDemandController{
                 emailBody = emt.Body;
             }
         }
-        system.debug('attachmentBody::'+attachmentBody);
-        system.debug('Suject:' + subject);
-        /*system.debug('email body:' + emailBody );
-        system.debug('attachment body:' + attachmentBody );*/
         
         // replace merge fields in email template with actual values in Insolvency Account
         if(!Test.isRunningTest()){
             for(String str : emailMergeFields.keySet()){
                 emailBody = emailBody.replace(str, emailMergeFields.get(str));
                 attachmentBody = attachmentBody.replace(str, emailMergeFields.get(str));
-                
-                system.debug('For LOGO Perpose '+attachmentBody);
             }
         }
     }
