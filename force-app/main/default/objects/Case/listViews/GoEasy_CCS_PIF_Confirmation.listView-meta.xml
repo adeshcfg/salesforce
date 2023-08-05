@@ -30,4 +30,7 @@
     </filters>
     <label>GoEasy CCS PIF Confirmation</label>
     <language>en_US</language>
+    <sharedTo>
+        <group>GoEasy_CCS</group>
+    </sharedTo>
 </ListView>

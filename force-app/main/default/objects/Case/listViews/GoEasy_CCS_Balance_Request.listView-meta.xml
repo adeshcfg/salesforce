@@ -37,6 +37,6 @@
     <label>GoEasy CCS Balance Request</label>
     <language>en_US</language>
     <sharedTo>
-        <group>Insolvency_Goeasy_Users</group>
+        <group>GoEasy_CCS</group>
     </sharedTo>
 </ListView>
