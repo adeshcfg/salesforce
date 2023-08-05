@@ -26,6 +26,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Disbursement_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Customer__c</field>
             </layoutItems>
         </layoutColumns>
@@ -45,6 +49,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Months_active_in_Program__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Orderly_Payment_of_Debts__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Depot_Volontaire__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -100,10 +112,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Expected_Recovery__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Orderly_Payment_of_Debts__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -292,10 +300,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Depot_Volontaire__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

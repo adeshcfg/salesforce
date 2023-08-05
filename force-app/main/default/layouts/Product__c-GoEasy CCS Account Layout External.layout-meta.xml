@@ -7,6 +7,20 @@
     <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Review Status</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Account_Reviewed__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns/>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
         <customLabel>false</customLabel>
         <detailHeading>false</detailHeading>
         <editHeading>true</editHeading>
@@ -19,6 +33,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>CCS_Client_ID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Disbursement_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Customer__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -37,6 +59,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Months_active_in_Program__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Orderly_Payment_of_Debts__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Depot_Volontaire__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -92,10 +122,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Expected_Recovery__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Orderly_Payment_of_Debts__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -276,10 +302,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Depot_Volontaire__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
