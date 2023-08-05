@@ -17,6 +17,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product__c.Account_Reviewed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product__c.Address_Line1__c</field>
         <readable>true</readable>
     </fieldPermissions>
