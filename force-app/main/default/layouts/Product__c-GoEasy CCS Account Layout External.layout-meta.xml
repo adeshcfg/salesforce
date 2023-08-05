@@ -38,10 +38,6 @@
                 <behavior>Readonly</behavior>
                 <field>Disbursement_Date__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Customer__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -49,7 +45,7 @@
                 <field>RecordTypeId</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
+                <behavior>Edit</behavior>
                 <field>CCS_Stage__c</field>
             </layoutItems>
             <layoutItems>
