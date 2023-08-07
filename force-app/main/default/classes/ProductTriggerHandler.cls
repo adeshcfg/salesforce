@@ -113,7 +113,25 @@ public class ProductTriggerHandler{
         }
     }
     
-    
+    // 4951 - Get existing products having same name or record type
+    public static Set<String> getMatchingProducts(List<Product__c> listNewProducts){
+        List<Product__c> duplicateCandidates = new List<Product__c>();
+        Set<String> nameRecordTypeIdKey = new Set<String>();
+        Set<String> recordTypeIds = new Set<String>();
+        Set<String> names = new Set<String>();
+        for(Product__c prod : listNewProducts){
+            recordTypeIds.add(prod.RecordTypeId);
+            names.add(prod.Name);
+        }
+        if(!recordTypeIds.isEmpty() || !names.isEmpty()){
+            duplicateCandidates = [SELECT Name, RecordTypeId FROM Product__c WHERE (RecordTypeId IN :recordTypeIds OR Name IN :names)];
+            for(Product__c product : duplicateCandidates){
+                nameRecordTypeIdKey.add(product.RecordTypeId + '-' + product.Name);
+            }
+        }
+        return nameRecordTypeIdKey;
+    }
+
     public static Set<String> getPlacementHistoryDetails(set<Id> setProductId){
         set<Id> setPreviousPlacedProduct = new Set<Id>();
         map<Id, Id> mapAllProductAgency = new map<Id, Id>();
@@ -185,7 +203,7 @@ public class ProductTriggerHandler{
 
         getPlacementStatusCodes();
         Integer i = 0;
-        
+        Set<String> nameRecordTypeIdKey = ProductTriggerHandler.getMatchingProducts(prodNew);
         map<String, Decimal> mapAccountPurchaseGroupCount = new map<String, Decimal>();
         set<String> setAccountPortfolioID = new set<String>();
         List<ID> poolplacementName = new List<ID>();
@@ -194,6 +212,9 @@ public class ProductTriggerHandler{
         list<Product__c> listDistressedProduct = new list<Product__c>();
         
         for(Product__c prod : prodNew){
+            if(!nameRecordTypeIdKey.isEmpty() && nameRecordTypeIdKey.contains(prod.RecordTypeId + '-' + prod.Name)){
+                prod.addError(System.Label.Duplicate_Account_ID_Validation_Error);
+            }
 			//for Ticket 4834 - populating bank account number based on Account ID
             if(prod.name <> NULL){
                 prod.Bank_Refence_Number__c = prod.name;
@@ -432,8 +453,12 @@ public class ProductTriggerHandler{
         }
         //Fetch System Api                
         if(lrpSetting.Run_Product_Before_Trigger__c == true){
+            Set<String> nameRecordTypeIdKey = ProductTriggerHandler.getMatchingProducts(listNewProducts);
             for(Product__c prod : listNewProducts){ 
             Product__c prodOld1 = mapOldProducts.get(prod.id);
+            if((prod.Name != prodOld1.Name || prod.RecordTypeId != prodOld1.RecordTypeId) && (!nameRecordTypeIdKey.isEmpty() && nameRecordTypeIdKey.contains(prod.RecordTypeId + '-' + prod.Name))){
+                prod.addError(System.Label.Duplicate_Account_ID_Validation_Error);
+            }
                 system.debug('prodOld1:'+prodOld1);
             if(prod.Refer_to_Legal__c == 'Approved' && prodOld1.Refer_to_Legal__c != prod.Refer_to_Legal__c){ 
                 system.debug('block run');

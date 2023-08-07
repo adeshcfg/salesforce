@@ -271,7 +271,7 @@ private class TestProductTriggerHandler {
         
         Product__c prod8= new Product__c();
         List<User> systemName2=[Select Name from User where Name ='System API'];
-        prod8.name = '123454522';
+        prod8.name = '1234545221';
         prod8.Internal_Status__c = 'Active';
         prod8.Payment_Setup_Status__c = 'Automated';
         prod8.Funding_Status__c = 'Funded';
@@ -688,7 +688,7 @@ prod.Collection_Sub_Status__c = 'Pending Recall';
         prod.Phone_Other__c = '123456';
         prod.Phone_Work__c = '123456';
         prod.Phone_Home__c = '123456';
-        prod.Date_of_Birth__c = system.Today().addDays(-1);
+        prod.Date_of_Birth__c = system.Today().addDays(-7000);
         prod.State__c = 'ON';
         prod.Zip_Code__c = '123456';
         prod.City__c = 'NYC';
@@ -728,7 +728,7 @@ prod.Collection_Sub_Status__c = 'Pending Recall';
         
        Product__c prod2 = new Product__c(); 
         prod2 = new Product__c();        
-        prod2.name = 'Prod6';
+        prod2.name = 'Prod7';
        // prod2.recordTypeId = recordTypeId;
         prod2.Phone_Home__c = '12345678999';
         prod2.Phone_Other__c = '8974563214';
@@ -788,7 +788,7 @@ prod.Collection_Sub_Status__c = 'Pending Recall';
         //newProdList.add(prodNew); 
         
         Product__c prodOld = new Product__c();
-        prodOld.name = 'Prod6';
+        prodOld.name = 'Prod60';
        // prod2.recordTypeId = recordTypeId;
         prodOld.Phone_Home__c = '12345678999';
         prodOld.Phone_Other__c = '8974563214';
