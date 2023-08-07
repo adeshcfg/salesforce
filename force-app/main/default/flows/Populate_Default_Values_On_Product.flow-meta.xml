@@ -27,12 +27,6 @@
         </rules>
     </decisions>
     <environments>Default</environments>
-    <formulas>
-        <name>MonthsDifference</name>
-        <dataType>Number</dataType>
-        <expression>MONTH({!$Record.Expected_First_disbursement_date__c}) + 12 - MONTH({!$Flow.CurrentDate}) + 12 * (YEAR({!$Record.Expected_First_disbursement_date__c}) - YEAR({!$Flow.CurrentDate}) -1)</expression>
-        <scale>2</scale>
-    </formulas>
     <interviewLabel>Populate Default Values On Product {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Populate Default Values On Product</label>
     <processMetadataValues>
@@ -59,9 +53,6 @@
         <label>Populate FairShare Percentage</label>
         <locationX>182</locationX>
         <locationY>623</locationY>
-        <connector>
-            <targetReference>Update_Months_active_in_Program</targetReference>
-        </connector>
         <inputAssignments>
             <field>FairShare_Percentage__c</field>
             <value>
@@ -88,27 +79,6 @@
             <field>Accepted_Interest_rate__c</field>
             <value>
                 <numberValue>9.9</numberValue>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_Months_active_in_Program</name>
-        <label>Update Months active in Program</label>
-        <locationX>182</locationX>
-        <locationY>731</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Expected_First_disbursement_date__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Months_active_in_Program__c</field>
-            <value>
-                <elementReference>MonthsDifference</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
