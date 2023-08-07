@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Min_Payment_Required__c</fullName>
     <externalId>false</externalId>
-    <formula>Original_Balance__c  / of_payments__c</formula>
+    <formula>IF(ISNULL(of_payments__c) || of_payments__c = 0, null,Original_Balance__c / of_payments__c )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Min. payment required to have account set up in program</inlineHelpText>
     <label>Min. Payment Required</label>
