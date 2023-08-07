@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <formula>Original_Balance__c  / of_payments__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Min. payment required to have account set up in program</inlineHelpText>
     <label>Min. Payment Required</label>
     <precision>18</precision>
     <required>false</required>
