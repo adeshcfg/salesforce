@@ -236,7 +236,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Product__c.Months_active_in_Program__c</field>
         <readable>true</readable>
     </fieldPermissions>
