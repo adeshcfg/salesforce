@@ -147,4 +147,11 @@
         <shortDescription>Product Bill Email Templates</shortDescription>
         <value>D1 Payment Reminder,D10 Let Us Help,D36 Let Us Help,D55 Potential Legal</value>
     </labels>
+    <labels>
+        <fullName>Duplicate_Account_ID_Validation_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Duplicate Account ID Validation Error</shortDescription>
+        <value>Duplicate Account ID</value>
+    </labels>
 </CustomLabels>
