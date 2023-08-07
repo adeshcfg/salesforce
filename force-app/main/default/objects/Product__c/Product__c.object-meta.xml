@@ -222,6 +222,7 @@
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
         <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <listViewButtons>Send_Bulk_SMS</listViewButtons>
         <listViewButtons>Bulk_Eligible_Update</listViewButtons>
         <listViewButtons>Buyback_Putback_Status_Update</listViewButtons>
