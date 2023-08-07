@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <formula>Accepted_Payment_Amount__c * Months_active_in_Program__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Payment amount that is expected to have been received to date</inlineHelpText>
     <label>Expected Payment Amount received To Date</label>
     <precision>18</precision>
     <required>false</required>
