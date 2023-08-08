@@ -38,6 +38,10 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CCS_Assignment_Type__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>CreatedDate</field>
             </layoutItems>
@@ -174,7 +178,6 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <quickActionList/>
     <relatedLists>
         <relatedList>RelatedCommentsList</relatedList>
     </relatedLists>
