@@ -3,7 +3,7 @@
     <fullName>Invalid_Customer_Record</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-ISCHANGED( Customer__c), 
+OR( ISNEW(), ISCHANGED( Customer__c)), 
 OR(
 AND(RecordType.DeveloperName = &apos;GoEasy_CCS_Account&apos;,
  Customer__r.RecordType.DeveloperName &lt;&gt; &apos;CCS_Accounts&apos;),
