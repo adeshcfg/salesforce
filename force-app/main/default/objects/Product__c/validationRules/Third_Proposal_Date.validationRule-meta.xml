@@ -6,10 +6,10 @@
 AND(ISCHANGED(Third_Proposal_Date__c ),Third_Proposal_Date__c &gt; TODAY()),
 
 AND(OR(ISCHANGED(Second_Proposal_Date__c),ISCHANGED(Third_Proposal_Date__c )),
-Second_Proposal_Date__c &gt; Third_Proposal_Date__c),
+Second_Proposal_Date__c &gt;= Third_Proposal_Date__c),
 
 AND(OR(ISCHANGED(Initial_Proposal_Date__c),ISCHANGED(Third_Proposal_Date__c )),
-Initial_Proposal_Date__c&gt; Third_Proposal_Date__c )
+Initial_Proposal_Date__c&gt;= Third_Proposal_Date__c )
 
 )</errorConditionFormula>
     <errorDisplayField>Third_Proposal_Date__c</errorDisplayField>

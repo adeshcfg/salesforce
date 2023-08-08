@@ -6,13 +6,13 @@
 AND(ISCHANGED(Fourth_Proposal_Date__c),Fourth_Proposal_Date__c&gt; TODAY()),
 
 AND(OR(ISCHANGED(Fourth_Proposal_Date__c),ISCHANGED(Third_Proposal_Date__c)),
-Third_Proposal_Date__c&gt; Fourth_Proposal_Date__c),
+Third_Proposal_Date__c&gt;= Fourth_Proposal_Date__c),
 
 AND(OR(ISCHANGED(Fourth_Proposal_Date__c),ISCHANGED(Second_Proposal_Date__c)),
-Second_Proposal_Date__c &gt; Fourth_Proposal_Date__c),
+Second_Proposal_Date__c &gt;= Fourth_Proposal_Date__c),
 
 AND(OR(ISCHANGED(Fourth_Proposal_Date__c),ISCHANGED(Initial_Proposal_Date__c)),
-Initial_Proposal_Date__c &gt; Fourth_Proposal_Date__c)
+Initial_Proposal_Date__c &gt;= Fourth_Proposal_Date__c)
 
 )</errorConditionFormula>
     <errorDisplayField>Fourth_Proposal_Date__c</errorDisplayField>
