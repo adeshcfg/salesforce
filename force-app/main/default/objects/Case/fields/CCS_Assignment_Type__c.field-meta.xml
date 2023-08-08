@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CCS_Assignment_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>CCS Assignment Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Balance Updates</fullName>
+                <default>false</default>
+                <label>Balance Updates</label>
+            </value>
+            <value>
+                <fullName>DMP</fullName>
+                <default>false</default>
+                <label>DMP</label>
+            </value>
+            <value>
+                <fullName>Drop Notification</fullName>
+                <default>false</default>
+                <label>Drop Notification</label>
+            </value>
+            <value>
+                <fullName>PIF request</fullName>
+                <default>false</default>
+                <label>PIF request</label>
+            </value>
+            <value>
+                <fullName>Payout Request</fullName>
+                <default>false</default>
+                <label>Payout Request</label>
+            </value>
+            <value>
+                <fullName>Settlement Offer</fullName>
+                <default>false</default>
+                <label>Settlement Offer</label>
+            </value>
+            <value>
+                <fullName>Needs Documentation</fullName>
+                <default>false</default>
+                <label>Needs Documentation</label>
+            </value>
+            <value>
+                <fullName>Secured Communications</fullName>
+                <default>false</default>
+                <label>Secured Communications</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
