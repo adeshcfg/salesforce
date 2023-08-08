@@ -114,20 +114,22 @@ public class ProductTriggerHandler{
     }
     
     // 4951 - Get existing products having same name or record type
-    public static Set<String> getMatchingProducts(List<Product__c> listNewProducts){
+    public static Set<String> getMatchingProducts(List<Product__c> listNewProducts) {
         List<Product__c> duplicateCandidates = new List<Product__c>();
         Set<String> nameRecordTypeIdKey = new Set<String>();
-        Set<String> recordTypeIds = new Set<String>();
         Set<String> names = new Set<String>();
-        for(Product__c prod : listNewProducts){
-            recordTypeIds.add(prod.RecordTypeId);
-            names.add(prod.Name);
-        }
-        if(!recordTypeIds.isEmpty() || !names.isEmpty()){
-            duplicateCandidates = [SELECT Name, RecordTypeId FROM Product__c WHERE (RecordTypeId IN :recordTypeIds OR Name IN :names)];
-            for(Product__c product : duplicateCandidates){
-                nameRecordTypeIdKey.add(product.RecordTypeId + '-' + product.Name);
+        try {
+            for (Product__c prod : listNewProducts) {
+                names.add(prod.Name);
             }
+            if (!names.isEmpty()) {
+                duplicateCandidates = [SELECT Name, RecordTypeId FROM Product__c WHERE Name IN :names];
+                for (Product__c product : duplicateCandidates) {
+                    nameRecordTypeIdKey.add(product.RecordTypeId + '-' + product.Name);
+                }
+            }
+        } catch (Exception ex) {
+            System.debug('Exception in getMatchingProducts ' + ex.getStackTraceString());
         }
         return nameRecordTypeIdKey;
     }
