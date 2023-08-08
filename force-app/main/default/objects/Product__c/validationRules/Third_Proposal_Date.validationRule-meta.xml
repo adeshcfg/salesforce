@@ -13,5 +13,5 @@ Initial_Proposal_Date__c&gt; Third_Proposal_Date__c )
 
 )</errorConditionFormula>
     <errorDisplayField>Third_Proposal_Date__c</errorDisplayField>
-    <errorMessage>The third Proposal Date should not be future date and greater than Initial and Second proposal date</errorMessage>
+    <errorMessage>The Third Proposal Date cannot be in future and should be greater than Initial Proposal Date and Second Proposal Date</errorMessage>
 </ValidationRule>
