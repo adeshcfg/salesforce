@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Types__c</fullName>
+    <description>To differentiate between emails(Assignments)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>To differentiate between emails(Assignments)</inlineHelpText>
+    <label>Form Types</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Balance Updates</fullName>
+                <default>false</default>
+                <label>Balance Updates</label>
+            </value>
+            <value>
+                <fullName>Bulk Response</fullName>
+                <default>false</default>
+                <label>Bulk Response</label>
+            </value>
+            <value>
+                <fullName>Chq Stub</fullName>
+                <default>false</default>
+                <label>Chq Stub</label>
+            </value>
+            <value>
+                <fullName>Creditor Package</fullName>
+                <default>false</default>
+                <label>Creditor Package</label>
+            </value>
+            <value>
+                <fullName>Deficiency / Rejected POC</fullName>
+                <default>false</default>
+                <label>Deficiency / Rejected POC</label>
+            </value>
+            <value>
+                <fullName>DMP</fullName>
+                <default>false</default>
+                <label>DMP</label>
+            </value>
+            <value>
+                <fullName>Drop Notification</fullName>
+                <default>false</default>
+                <label>Drop Notification</label>
+            </value>
+            <value>
+                <fullName>Fidem</fullName>
+                <default>false</default>
+                <label>Fidem</label>
+            </value>
+            <value>
+                <fullName>Final</fullName>
+                <default>false</default>
+                <label>Final</label>
+            </value>
+            <value>
+                <fullName>Form 149 – Notice to Prove Claim</fullName>
+                <default>false</default>
+                <label>Form 149 – Notice to Prove Claim</label>
+            </value>
+            <value>
+                <fullName>Form 15 – Deemed Discharge of Trustee</fullName>
+                <default>false</default>
+                <label>Form 15 – Deemed Discharge of Trustee</label>
+            </value>
+            <value>
+                <fullName>Form 16 – Certificate of Compliance</fullName>
+                <default>false</default>
+                <label>Form 16 – Certificate of Compliance</label>
+            </value>
+            <value>
+                <fullName>Form 33 – Notice of Intention</fullName>
+                <default>false</default>
+                <label>Form 33 – Notice of Intention</label>
+            </value>
+            <value>
+                <fullName>Form 40.1 - Notice of Hearing</fullName>
+                <default>false</default>
+                <label>Form 40.1 - Notice of Hearing</label>
+            </value>
+            <value>
+                <fullName>Form 49 – Amendment</fullName>
+                <default>false</default>
+                <label>Form 49 – Amendment</label>
+            </value>
+            <value>
+                <fullName>Form 50 - Meeting Of Creditors</fullName>
+                <default>false</default>
+                <label>Form 50 - Meeting Of Creditors</label>
+            </value>
+            <value>
+                <fullName>Form 52 – Notice of Status</fullName>
+                <default>false</default>
+                <label>Form 52 – Notice of Status</label>
+            </value>
+            <value>
+                <fullName>Form 56 – Notice of annulment</fullName>
+                <default>false</default>
+                <label>Form 56 – Notice of annulment</label>
+            </value>
+            <value>
+                <fullName>Form 69 – Impending Automatic Discharge</fullName>
+                <default>false</default>
+                <label>Form 69 – Impending Automatic Discharge</label>
+            </value>
+            <value>
+                <fullName>Form 71 – Notice of First Meeting</fullName>
+                <default>false</default>
+                <label>Form 71 – Notice of First Meeting</label>
+            </value>
+            <value>
+                <fullName>Form 76 – Notice of Proof of Security</fullName>
+                <default>false</default>
+                <label>Form 76 – Notice of Proof of Security</label>
+            </value>
+            <value>
+                <fullName>Form 77 – Notice of Disallowance</fullName>
+                <default>false</default>
+                <label>Form 77 – Notice of Disallowance</label>
+            </value>
+            <value>
+                <fullName>Form 80 – Notice of Intended opposition to discharge.</fullName>
+                <default>false</default>
+                <label>Form 80 – Notice of Intended opposition to discharge.</label>
+            </value>
+            <value>
+                <fullName>Form 81 &amp; 82– Application for Discharge</fullName>
+                <default>false</default>
+                <label>Form 81 &amp; 82– Application for Discharge</label>
+            </value>
+            <value>
+                <fullName>Form 92 – Notice of Proposal</fullName>
+                <default>false</default>
+                <label>Form 92 – Notice of Proposal</label>
+            </value>
+            <value>
+                <fullName>Form 93 &amp; 96 – Revival</fullName>
+                <default>false</default>
+                <label>Form 93 &amp; 96 – Revival</label>
+            </value>
+            <value>
+                <fullName>French Document</fullName>
+                <default>false</default>
+                <label>French Document</label>
+            </value>
+            <value>
+                <fullName>Inspector File</fullName>
+                <default>false</default>
+                <label>Inspector File</label>
+            </value>
+            <value>
+                <fullName>Interim</fullName>
+                <default>false</default>
+                <label>Interim</label>
+            </value>
+            <value>
+                <fullName>LendCare</fullName>
+                <default>false</default>
+                <label>LendCare</label>
+            </value>
+            <value>
+                <fullName>Missing Dividend</fullName>
+                <default>false</default>
+                <label>Missing Dividend</label>
+            </value>
+            <value>
+                <fullName>OSB Request</fullName>
+                <default>false</default>
+                <label>OSB Request</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Payout Request</fullName>
+                <default>false</default>
+                <label>Payout Request</label>
+            </value>
+            <value>
+                <fullName>PIF request</fullName>
+                <default>false</default>
+                <label>PIF request</label>
+            </value>
+            <value>
+                <fullName>Recall Request</fullName>
+                <default>false</default>
+                <label>Recall Request</label>
+            </value>
+            <value>
+                <fullName>Refund Request</fullName>
+                <default>false</default>
+                <label>Refund Request</label>
+            </value>
+            <value>
+                <fullName>Release Letters</fullName>
+                <default>false</default>
+                <label>Release Letters</label>
+            </value>
+            <value>
+                <fullName>Settlement Offer</fullName>
+                <default>false</default>
+                <label>Settlement Offer</label>
+            </value>
+            <value>
+                <fullName>Status of Insolvency Response</fullName>
+                <default>false</default>
+                <label>Status of Insolvency Response</label>
+            </value>
+            <value>
+                <fullName>Trustee Follow Up Response</fullName>
+                <default>false</default>
+                <label>Trustee Follow Up Response</label>
+            </value>
+            <value>
+                <fullName>Vote-Voice Mail</fullName>
+                <default>false</default>
+                <label>Vote-Voice Mail</label>
+            </value>
+            <value>
+                <fullName>Needs Documentation</fullName>
+                <default>false</default>
+                <label>Needs Documentation</label>
+            </value>
+            <value>
+                <fullName>Secured Communications</fullName>
+                <default>false</default>
+                <label>Secured Communications</label>
+            </value>
+            <value>
+                <fullName>SDA Credit Pack</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SDA Credit Pack</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
