@@ -23,8 +23,8 @@
     </filters>
     <filters>
         <field>CASES.STATUS</field>
-        <operation>equals</operation>
-        <value>New,In Progress</value>
+        <operation>notEqual</operation>
+        <value>Closed</value>
     </filters>
     <label>GoEasy CCS Secured Communication</label>
     <language>en_US</language>
