@@ -3,7 +3,7 @@
     <fullName>GoEasy_DB_Accounts_Dropped_Notificatio</fullName>
     <columns>NAME</columns>
     <filterScope>Everything</filterScope>
-    <label>GoEasy DB Accounts – Dropped Notificatio</label>
+    <label>GoEasy DB Acc – Dropped Notification</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

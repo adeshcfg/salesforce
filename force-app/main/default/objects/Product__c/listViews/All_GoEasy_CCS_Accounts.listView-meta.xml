@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>GoEasy_CCS_Accounts_In_Progress_notice</fullName>
+    <fullName>All_GoEasy_CCS_Accounts</fullName>
     <columns>NAME</columns>
-    <columns>Last_Name__c</columns>
-    <columns>First_Name__c</columns>
-    <columns>Agency_Office__c</columns>
+    <columns>CCS_Agency__c</columns>
+    <columns>CCS_Client_ID__c</columns>
     <columns>CCS_Stage__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>CCS_Stage__c</field>
+        <field>RECORDTYPE</field>
         <operation>equals</operation>
-        <value>In Progress (notice has been sent)</value>
+        <value>Product__c.GoEasy_CCS_Account</value>
     </filters>
-    <label>GoEasy CCS Acc In Progress (notice Sent)</label>
+    <label>All GoEasy CCS Accounts</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

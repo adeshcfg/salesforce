@@ -2,9 +2,9 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>GoEasy_CCS_Accounts_Proposal_Status_Bl</fullName>
     <columns>NAME</columns>
-    <columns>CCS_Account_Number__c</columns>
-    <columns>CCS_Client_ID__c</columns>
-    <columns>CCS_Debtor_Name__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Last_Name__c</columns>
+    <columns>Agency_Office__c</columns>
     <columns>Proposal_Status__c</columns>
     <columns>UPDATEDBY_USER</columns>
     <columns>LAST_UPDATE</columns>
