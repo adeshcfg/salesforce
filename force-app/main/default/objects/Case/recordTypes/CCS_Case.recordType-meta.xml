@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Insolvency_Goeasy_Community_Case</fullName>
+    <fullName>CCS_Case</fullName>
     <active>true</active>
-    <businessProcess>Insolvency Cases Process</businessProcess>
+    <businessProcess>CCS Cases Process</businessProcess>
     <compactLayoutAssignment>Goeasy_Layout</compactLayoutAssignment>
-    <description>Used for Goessy</description>
-    <label>Insolvency Goeasy Community Case</label>
+    <label>CCS Case</label>
     <picklistValues>
         <picklist>Origin</picklist>
         <values>
             <fullName>CCS Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Canaccede Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Chatter</fullName>
             <default>false</default>
         </values>
         <values>
