@@ -5,7 +5,7 @@
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Payment Created</inlineHelpText>
-    <label>Payment Created Date</label>
+    <label>Payment Reporting Date</label>
     <required>false</required>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
