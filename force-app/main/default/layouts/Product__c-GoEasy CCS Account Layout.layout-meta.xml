@@ -114,7 +114,7 @@
                 <field>Expected_Recovery__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Payment_Missed__c</field>
             </layoutItems>
         </layoutColumns>
@@ -301,6 +301,10 @@
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Last_Payment_Amount__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -330,10 +334,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Counter_Donation__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Last_Payment_Amount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
