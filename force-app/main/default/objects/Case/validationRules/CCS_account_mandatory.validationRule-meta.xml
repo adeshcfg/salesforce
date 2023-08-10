@@ -3,7 +3,8 @@
     <fullName>CCS_account_mandatory</fullName>
     <active>true</active>
     <description>CCS account field mandatory</description>
-    <errorConditionFormula>ISBLANK( CCS_Account__c )</errorConditionFormula>
+    <errorConditionFormula>AND
+(RecordType.DeveloperName ==&apos;CCS_Case&apos;, ISBLANK( CCS_Account__c ))</errorConditionFormula>
     <errorDisplayField>CCS_Account__c</errorDisplayField>
-    <errorMessage>CCS Account is mandatory</errorMessage>
+    <errorMessage>CCS account is mandatory</errorMessage>
 </ValidationRule>
