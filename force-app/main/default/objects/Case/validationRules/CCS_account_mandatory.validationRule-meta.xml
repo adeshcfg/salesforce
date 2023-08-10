@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CCS_account_mandatory</fullName>
+    <active>true</active>
+    <description>CCS account field mandatory</description>
+    <errorConditionFormula>ISBLANK( CCS_Account__c )</errorConditionFormula>
+    <errorDisplayField>CCS_Account__c</errorDisplayField>
+    <errorMessage>CCS account should be mandatory</errorMessage>
+</ValidationRule>
