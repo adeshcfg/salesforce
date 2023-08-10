@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Past_Expected_First_disbursement_date</fullName>
+    <active>true</active>
+    <description>Expected First disbursement date should not be a past date</description>
+    <errorConditionFormula>Expected_First_disbursement_date__c &lt; TODAY()</errorConditionFormula>
+    <errorDisplayField>Expected_First_disbursement_date__c</errorDisplayField>
+    <errorMessage>Expected First disbursement date cannot be a past date</errorMessage>
+</ValidationRule>
