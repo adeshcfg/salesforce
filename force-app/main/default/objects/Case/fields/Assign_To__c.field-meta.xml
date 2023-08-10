@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Assign To</label>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -44,7 +45,7 @@
             <value>
                 <fullName>Goeasy</fullName>
                 <default>false</default>
-                <label>Goeasy</label>
+                <label>Easyfinancial</label>
             </value>
         </valueSetDefinition>
     </valueSet>
