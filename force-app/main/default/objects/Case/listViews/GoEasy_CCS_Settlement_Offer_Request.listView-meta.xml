@@ -9,6 +9,11 @@
     <columns>CASES.CREATED_DATE</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Form_Types__c</field>
+        <operation>equals</operation>
+        <value>Settlement Offer</value>
+    </filters>
     <label>GoEasy CCS Settlement Offer Request</label>
     <language>en_US</language>
     <sharedTo>
