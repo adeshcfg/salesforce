@@ -2,7 +2,17 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>GoEasy_DV_Accounts</fullName>
     <columns>NAME</columns>
+    <columns>Last_Name__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Agency_Office__c</columns>
+    <columns>CCS_Agency__c</columns>
+    <columns>Proposal_Status__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Depot_Volontaire__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
     <label>GoEasy DV Accounts</label>
     <language>en_US</language>
     <sharedTo>

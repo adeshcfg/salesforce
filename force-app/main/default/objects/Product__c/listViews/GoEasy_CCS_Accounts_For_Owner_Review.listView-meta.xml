@@ -13,6 +13,16 @@
         <operation>equals</operation>
         <value>For Owner  Review</value>
     </filters>
+    <filters>
+        <field>Orderly_Payment_of_Debts__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Depot_Volontaire__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
     <label>GoEasy CCS Accounts For Owner Review</label>
     <language>en_US</language>
     <sharedTo>
