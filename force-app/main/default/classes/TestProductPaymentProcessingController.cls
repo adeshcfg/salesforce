@@ -496,6 +496,7 @@ public class TestProductPaymentProcessingController {
         Case assignment = new Case();
         assignment.Status = 'New';
         assignment.Insolvency__c = insolv.id; 
+        assignment.CCS_Account__c = prod1.id;
         insert assignment;
         
         Id cssDividendREcordTYpeId = [select id from RecordType where SobjectType = 'remittance__C' and name like '%CCS%' ].id;
