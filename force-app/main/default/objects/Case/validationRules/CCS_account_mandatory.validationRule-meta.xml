@@ -5,5 +5,5 @@
     <description>CCS account field mandatory</description>
     <errorConditionFormula>ISBLANK( CCS_Account__c )</errorConditionFormula>
     <errorDisplayField>CCS_Account__c</errorDisplayField>
-    <errorMessage>CCS account should be mandatory</errorMessage>
+    <errorMessage>CCS Account is mandatory</errorMessage>
 </ValidationRule>
