@@ -37,20 +37,44 @@ public class TestProductPaymentProcessingController {
         unAloccPay.recordTypeid = [select id from RecordType where SobjectType = 'unallocated_payment__c' and name like '%ccs%'].id;
         insert unAloccPay;
         
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         //Product record creation
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CIA');
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         //Product record creation
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='AAL');
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
         prod1.Product_Status__c = 'Test';
+        prod1.Customer__c = accInstance1.id;
+        prod1.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod1.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod1.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod1;
         
         //Product Payment    
@@ -161,12 +185,29 @@ public class TestProductPaymentProcessingController {
     }
     
     static testMethod void testController(){
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Portfolio_Group_Name__c ='CLP';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         Remittance__c divid = new Remittance__c(Cheque_Payment_Reference_Number__c = NULL,
@@ -281,12 +322,29 @@ public class TestProductPaymentProcessingController {
     }
     
     static testMethod void testController1(){
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Portfolio_Group_Name__c ='CLP';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         Remittance__c divid = new Remittance__c(Cheque_Payment_Reference_Number__c = NULL,
@@ -301,8 +359,9 @@ public class TestProductPaymentProcessingController {
         
         Unallocated_Payment__c unAloccPay = new Unallocated_Payment__c(Account_Number__c = 'unknown',Remittance__c = divid.Id, Allocated__c = FALSE,Unallocated_Amount__c=12.00,Unallocated_Fairshare_Amount__c=20.00);
         unAloccPay.recordTypeid = [select id from RecordType where SobjectType = 'unallocated_payment__c' and name like '%ccs%'].id;
+       
         insert unAloccPay;
-        
+       
         divid.Cheque_Amount__c = 500.00;
         divid.Fairshare_Amount__c = 50.00;
         divid.status__C = 'Processed';
@@ -371,20 +430,44 @@ public class TestProductPaymentProcessingController {
     }
     
     static testMethod void testController2(){
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Portfolio_Group_Name__c ='CIA';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
         prod1.Portfolio_Group_Name__c ='CFL';
         prod1.Product_Status__c = 'Test';
+        prod1.Customer__c = accInstance1.id;
+        prod1.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod1.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod1.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod1;
         
         Remittance__c divid = new Remittance__c(Cheque_Payment_Reference_Number__c = NULL,
@@ -545,27 +628,58 @@ public class TestProductPaymentProcessingController {
         unAloccPay.recordTypeid = [select id from RecordType where SobjectType = 'unallocated_payment__c' and name like '%ccs%'].id;
         insert unAloccPay;
         
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         //Product record creation
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CIH');
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         //Product record creation
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CCL');
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
         prod1.Product_Status__c = 'Test';
+        prod1.Customer__c = accInstance1.id;
+        prod1.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod1.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod1.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod1;
         
         Product__c prod2 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='ETC');
-        prod2.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod2.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Sub_Status__c = 'Ready';
         prod2.Product_Status__c = 'Test';
+        prod2.Customer__c = accInstance1.id;
+        prod2.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod2.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod2.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod2.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod2.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod2.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod2;
         
         //Product Payment    
@@ -723,26 +837,57 @@ public class TestProductPaymentProcessingController {
         dividWihtouCheque.id = divid1.id;
         update dividWihtouCheque;
         
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CIH');
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         //Product record creation
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CCL');
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
         prod1.Product_Status__c = 'Test';
+        prod1.Customer__c = accInstance1.id;
+        prod1.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod1.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod1.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod1;
         
         Product__c prod2 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='ETC');
-        prod2.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod2.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Sub_Status__c = 'Ready';
         prod2.Product_Status__c = 'Test';
+        prod2.Customer__c = accInstance1.id;
+        prod2.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod2.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod2.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod2.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod2.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod2.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod2;
         
         //Product Payment    
@@ -842,19 +987,43 @@ public class TestProductPaymentProcessingController {
         dividWihtouCheque.id = divid1.id;
         update dividWihtouCheque;
         
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CCL');
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         //Product record creation
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CLP');
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
         prod1.Product_Status__c = 'Test';
+        prod1.Customer__c = accInstance1.id;
+        prod1.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod1.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod1.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod1;
         
         //Product Payment    
@@ -948,19 +1117,43 @@ public class TestProductPaymentProcessingController {
         dividWihtouCheque.id = divid1.id;
         update dividWihtouCheque;
         
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='AFF');
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         //Product record creation
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='ETC');
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
         prod1.Product_Status__c = 'Test';
+        prod1.Customer__c = accInstance1.id;
+        prod1.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod1.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod1.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod1;
         
         //Product Payment    
@@ -1052,19 +1245,43 @@ public class TestProductPaymentProcessingController {
         dividWihtouCheque.id = divid1.id;
         update dividWihtouCheque;
         
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CFL');
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         //Product record creation
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CAL');
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
         prod1.Product_Status__c = 'Test';
+        prod1.Customer__c = accInstance1.id;
+        prod1.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod1.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod1.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod1;
         
         //Product Payment    
@@ -1156,19 +1373,43 @@ public class TestProductPaymentProcessingController {
         dividWihtouCheque.id = divid1.id;
         update dividWihtouCheque;
         
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CIA');
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
+        prod.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod;
         
         //Product record creation
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today(), Portfolio_Group_Name__c='CFL');
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
         prod1.Product_Status__c = 'Test';
+        prod1.Customer__c = accInstance1.id;
+        prod1.Initial_Proposal_Date__c = Date.newInstance(2023, 08, 01);
+        prod1.Second_Proposal_Date__c = Date.newInstance(2023, 08, 02);
+        prod1.Third_Proposal_Date__c = Date.newInstance(2023, 08, 03);
+        prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Proposal_Received_Date__c = Date.newInstance(2023, 08, 04);
+        prod1.Expected_First_disbursement_date__c  = Date.newInstance(2023, 08, 05);
         insert prod1;
         
         //Product Payment    
