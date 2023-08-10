@@ -90,7 +90,7 @@
                 <field>Principal_Amount__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>FairShare_Percentage__c</field>
             </layoutItems>
             <layoutItems>
