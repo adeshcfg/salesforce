@@ -286,7 +286,7 @@
                 <field>Balance_Provided_by_CCS_Company__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
+                <behavior>Edit</behavior>
                 <field>Original_Balance__c</field>
             </layoutItems>
             <layoutItems>
