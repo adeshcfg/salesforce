@@ -114,6 +114,7 @@ public class LoRDemandController{
         // Only used in French template
         String clientCompanyNameSuffix = ' (« Banque Scotia »)';
         if(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'){
+            pocPackage.Client_Company_Name__c = pocPackage.CFG_Office_Name_2__c;
             clientCompanyNameSuffix = '';
             companyName = pocPackage.CFG_Office_Name_2__c;
             clientCompanyName = pocPackage.CFG_Office_Name_2__c.toUppercase();
@@ -161,7 +162,13 @@ public class LoRDemandController{
                  '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c,
                   '{!pocPackage.CFG_Office_Name__c}'   =>pocPackage.CFG_Office_Name__c,
                 '{!pocPackage.BankNameWiseCompanyName}' => bankNameWiseCompanyName,
-                '{!pocPackage.BankNameWiseFrenchCompanyName}' => bankNameWiseFrenchCompanyName
+                '{!pocPackage.BankNameWiseFrenchCompanyName}' => bankNameWiseFrenchCompanyName,
+                '{!pocPackage.CFG_Office_Address_1__c}'   =>pocPackage.CFG_Office_Address_1__c,
+                '{!pocPackage.CFG_Office_City__c}'   =>pocPackage.CFG_Office_City__c,
+                '{!pocPackage.CFG_Office_Province__c}'   =>pocPackage.CFG_Office_Province__c,
+                '{!pocPackage.CFG_Office_Postal_Code__c}'   =>pocPackage.CFG_Office_Postal_Code__c,
+                '{!pocPackage.CFG_Office_Website__c}'   =>pocPackage.CFG_Office_Website__c,
+                '{!pocPackage.CFG_French_Office_Name__c}'   =>pocPackage.CFG_French_Office_Name__c
                 };
         
         List<EmailTemplate> emtList = new List<EmailTemplate>();
@@ -176,9 +183,8 @@ public class LoRDemandController{
         for(EmailTemplate emt : emtList){
             if(emt.Id == pocPackage.LoR_DemandTemplate_Id__c || emt.Id == pocPackage.LoR_DemandTemplate_French_Id__c){
                 attachmentBody = emt.HtmlValue;
-                subject = emt.Subject;
-                emailBody = attachmentBody.stripHtmlTags();
-                system.debug('FOR LOGO' +attachmentBody );
+                // subject = emt.Subject;
+                // emailBody = attachmentBody.stripHtmlTags();
             }else if(emt.Id == pocPackage.LoR_Notice_1_Content_Id__c || emt.Id == pocPackage.LoR_Notice_1_Content_French_Id__c){
                 subject = emt.subject;
                 subject = subject.replace('{!insolv.EstateNumber}', insolvAcc.Insolvency__r.Name);
