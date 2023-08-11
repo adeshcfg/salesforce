@@ -1,0 +1,75 @@
+<table style="font-family: 'Arial Unicode MS';font-size: 9px;">
+<tr>
+<td style="width:80px">
+<img src='https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003PeHp&oid=00Dj0000001ripe&lastMod=1634276221000' /> 
+</td>
+<td style="padding-left:50px; width:300px;">
+{!pocPackage.CFG_French_Office_Name__c}<br/>
+{!pocPackage.CFG_Office_Address_1__c}<br/>
+{!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+</td>
+<td style="width:100px; text-align: right;">
+t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+{!pocPackage.CFG_Office_Website__c}
+</td>
+</tr>
+</table>
+
+<div style="font-size: 9px;" >
+<b>{!TODAY()}</b></div><br/>
+<b>
+<div style="font-size: 9px;" class="view-font">{!insolvAcc.Trustee_Company__c} {!insolvAcc.Trustee_Office__c}</div>
+<br/>
+<div style= "font-size: 9px;">
+Attention: Syndic d'insolvabilité</b> </div>
+<br/>
+<table style="width: 100%;font-size: 9px; ">
+ <tr style="padding-bottom: 10px;">
+  <td style=" width:20%; vertical-align: text-bottom;"><b>Objet:  Faillite de</b></td>
+<td class="second-column"><b>{!insolv.Debitors}</b>
+    </td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+    <tr/>
+    <tr style="padding-bottom: 10px">
+<td ><b>Actif:</b> 
+ </td>
+<td><b>{!insolvAcc.Security_Description__c}</b></td>
+<td></td>
+    </tr>
+    <tr/>
+    <tr style="padding-bottom: 10px;">
+<td ><b>N.I.V:</b></td>
+<td><b>{!Insolvency_Account__c.Vehicle_Identification_Number__c}</b></td>
+<td></td>
+    </tr>
+    <tr/>
+    <tr style="padding-bottom: 10px">
+<td ><b>Créancier Garanti:</b></td>
+<td><b>{!pocPackage.Client_Company_Name__c}</b></td>
+<td></td>
+    </tr>
+</table>
+
+<br/>
+<div style= "font-size: 8px;">
+Cher(ère) Monsieur / Madame,</div>
+<br/>
+<div style= "font-size: 8px;">
+Veuillez prendre note que Canaccede International Management Ltd. (« nous ») agit au nom du créancier garanti, <b>{!pocPackage.Client_Company_Name__c}</b>{!clientCompanyNameSuffix}, relativement au dossier susmentionnée. Le <b>{!insolvAcc.Insolvency_Status_Last_Changed__c}</b>, nous avons transmis à votre bureau une preuve de réclamation pour l’Actif susmentionné (l’ « Actif ») au nom de {!pocPackage.Client_Company_Name_French__c}, ainsi qu’unqu’un avis écrit exigeant que vous choisissier d’exercer votre pouvoir de rachater la garantie ou de la faire réaliser en vertu de l’article 130 de la Loi sur la faillite et l’insolvabilité.
+   <br/>
+Plus de 30 jours se sont écoulés depuis le dépôt de la preuve de réclamation et de l’avis écrit. Conformément à l’article 130 de la Loi sur la faillite et l’insolvabilité, le syndic n’ayant pas indiqué dans les 30 jours suivant la demande du créancier garanti s’il entend exercer son pouvoir de rachat ou exiger la réalisation de la garantie,ce choix a été perdu et ses intérêts dans les biens compris dans la garantie qui s sont maintenant dévolus à {!pocPackage.Client_Company_Name_French__c}.
+<br/>
+Nous vous demandons de nous fournir la confirmation que le Syndicrenonce à sa participation dans les biens compris dans la garantie d’ici le <b>{5 business days}</b>. Si aucune réponse n’est reçue, {!pocPackage.Client_Company_Name_French__c} exercera ses droits à l’égard des biens compris dans la garantie sans autre avis ni délai. Si nous ne sommes pas en mesure de localiser lesdit biens garantis, nous communiquerons de nouveau avec votre bureau pour vérifier leuremplacement.
+<br/>
+Si vous avez des questions, n’hésitez pas à communiquer avec notre bureau.
+<br/>
+<b>Canaccede International Management Ltd.</b><br/>
+<b>Téléphone: {!pocPackage.CFG_Office_Phone_Number__c}</b><br/>
+<b>Télécopieur: {!pocPackage.CFG_Office_Fax_Number__c}</b><br/>
+<b>Email: {!pocPackage.CFG_Office_Email_Address__c}</b>
+ <br/><br/>
+Sincèrement,<br/>
+Département de l'insolvabilité<br/>
+Canaccede International Management Ltd.</div>
