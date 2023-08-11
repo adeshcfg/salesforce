@@ -148,17 +148,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Collection_Movement_Status__c</picklist>
-        <values>
-            <fullName>Moved out of Collection</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Returned to Collection</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Collection_Sub_Status__c</picklist>
         <values>
             <fullName>Bankrupt Account</fullName>
@@ -311,21 +300,6 @@
         </values>
         <values>
             <fullName>Customer Paying</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Delivery_Method__c</picklist>
-        <values>
-            <fullName>Courier</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mail</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2647,6 +2621,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Leasing product</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Loan</fullName>
             <default>false</default>
         </values>
@@ -2735,7 +2713,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Secured Personal Installment Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>UNAUTHORIZED OVERDRAFT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unsecured Installment Loan</fullName>
             <default>false</default>
         </values>
         <values>
