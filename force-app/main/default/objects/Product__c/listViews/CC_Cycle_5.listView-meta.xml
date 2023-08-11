@@ -56,4 +56,8 @@
         <operation>equals</operation>
     </filters>
     <label>CC Cycle 5-6</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
 </ListView>

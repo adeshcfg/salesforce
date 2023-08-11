@@ -17,55 +17,6 @@
     <label>Modified Yesterday</label>
     <language>en_US</language>
     <sharedTo>
-        <allCustomerPortalUsers></allCustomerPortalUsers>
         <allInternalUsers></allInternalUsers>
-        <group>Affirm_CFG_Users</group>
-        <group>Agency_Group</group>
-        <group>Agency_Group_Read_Only</group>
-        <group>CCS_CFG_BS</group>
-        <group>CCS_CFG_User</group>
-        <group>CCS_List_View</group>
-        <group>CET_Dialer_Campaign</group>
-        <group>Canaccede_Visibility_Group</group>
-        <group>Client_Service_Group</group>
-        <group>Collector_group</group>
-        <group>Compliance_Team</group>
-        <group>Customer_Portal_Group</group>
-        <group>Distressed_Agency_User_Update_Group</group>
-        <group>Distressed_CFG_BS</group>
-        <group>Distressed_Collection_User_Group</group>
-        <group>Distressed_ICT_group</group>
-        <group>Distressed_LRT_group</group>
-        <group>Fairstone_Dashboard_Edit_Access</group>
-        <group>Fidem_BS</group>
-        <group>Fidem_BS_Read_Only</group>
-        <group>Fidem_CFG_Users</group>
-        <group>Fidem_CFG_Users_Read_Only</group>
-        <group>Fidem_Visibility_Group</group>
-        <group>ICT_Dialer_Campaign</group>
-        <group>ICT_Group</group>
-        <group>ICT_Group_Read_Only</group>
-        <group>ICT_User_Visibility_Group</group>
-        <group>Insolvency_CFG_BS</group>
-        <group>Insolvency_CFG_Users</group>
-        <group>Insolvency_Canaccede_Users</group>
-        <group>Insolvency_Fairstone_Users</group>
-        <group>Insolvency_SDA_Users</group>
-        <group>Insolvency_SPL_Users</group>
-        <group>Insolvency_Scotia_Users</group>
-        <group>LRT_Dialer_Campaign</group>
-        <group>LRT_Group</group>
-        <group>LRT_Group_Read_Only</group>
-        <group>LRT_User_Visibility_Group</group>
-        <group>Lead_Notification_Users</group>
-        <group>Merchant_Access</group>
-        <group>Paralegal_group</group>
-        <group>Sales_Pipeline</group>
-        <group>Sales_Pipeline_Document_Upload</group>
-        <group>Scotia_Report_Admin_Users</group>
-        <group>Scotia_Unallocated_public_group</group>
-        <group>Teamlead_group</group>
-        <group>Unplaced_Group</group>
-        <group>Unplaced_Group_Read_Only</group>
     </sharedTo>
 </ListView>
