@@ -307,18 +307,9 @@
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
                                                 <div class="slds-select_container">
-                                                 
                                                     <apex:selectList size="1" value="{!selectedTempalteName}" styleClass="slds-select" onchange="emailTemplateChangedJS();">
-                                                          <apex:selectOption itemValue="Product Default Template" itemLabel="Product Default Template"/>
-                                                         <apex:selectOption itemValue="Response to proposal" itemLabel="Response to proposal"/>
-                                                        <apex:selectOption itemValue="Balance Request" itemLabel="Balance Request"/>
-                                                        <apex:selectOption itemValue="Paid in Full" itemLabel="Paid in Full"/>
-                                                        <apex:selectOption itemValue="Settled in Full" itemLabel="Settled in Full"/>
-                                                        <apex:selectOption itemValue="Lower Monthly Payments" itemLabel="Lower Monthly Payments"/>
-                                                        <apex:selectOption itemValue="Program drop" itemLabel="Program drop"/>
-                                                        <apex:selectOption itemValue="Settlement Offer" itemLabel="Settlement Offer"/>
+                                                        <apex:selectOptions value="{!templates}"></apex:selectOptions>
                                                     </apex:selectList>
-                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -360,7 +351,7 @@
                      <div class="slds-grid slds-p-around_medium slds-border_top slds-theme--default via-border-bottom-corners">
                         <div class="slds-col slds-align_absolute-center">
                             
-                           <apex:commandButton id="CCSEmailAgency"  onclick=" validateAtt();" styleclass="slds-button slds-button_neutral" value="CCS Email Agency" reRender="{! selectedTempalteName <> null}"/>
+                           <apex:commandButton id="CCSEmailAgency"  onclick=" validateAtt();" styleclass="slds-button slds-button_neutral" value="CCS Email Agency" reRender="{!selectedTempalteName <> null}"/>
                            <input type="button" onclick="closeWindow();" class="slds-button slds-button_neutral" value="Cancel"/>
                         </div>
                      </div>
