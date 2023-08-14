@@ -13,7 +13,7 @@
         <operation>equals</operation>
         <value>Missed Payment</value>
     </filters>
-    <label>GoEasy CCS Accounts Missed Payment</label>
+    <label>Easyfinancial CCS Missed Payment</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

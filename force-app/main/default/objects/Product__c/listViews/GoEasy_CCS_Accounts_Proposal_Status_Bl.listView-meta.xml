@@ -13,7 +13,7 @@
         <field>Proposal_Status__c</field>
         <operation>equals</operation>
     </filters>
-    <label>GoEasy CCS Acc Proposal Status - Blank</label>
+    <label>Easyfinancial CCS Proposal - Blank</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

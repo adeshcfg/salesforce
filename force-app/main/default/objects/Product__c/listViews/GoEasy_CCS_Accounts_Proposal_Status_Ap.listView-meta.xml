@@ -14,7 +14,7 @@
         <operation>equals</operation>
         <value>Approve</value>
     </filters>
-    <label>GoEasy CCS Acc Proposal Status- Approved</label>
+    <label>Easyfinancial CCS Proposal - Approved</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

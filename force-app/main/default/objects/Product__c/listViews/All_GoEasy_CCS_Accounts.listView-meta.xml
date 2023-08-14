@@ -11,7 +11,7 @@
         <operation>equals</operation>
         <value>Product__c.GoEasy_CCS_Account</value>
     </filters>
-    <label>All GoEasy CCS Accounts</label>
+    <label>All Easyfinancial CCS Accounts</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

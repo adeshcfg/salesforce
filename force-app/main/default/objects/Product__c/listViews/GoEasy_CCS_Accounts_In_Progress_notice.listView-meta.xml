@@ -12,7 +12,7 @@
         <operation>equals</operation>
         <value>In Progress (notice has been sent)</value>
     </filters>
-    <label>GoEasy CCS Acc In Progress (notice Sent)</label>
+    <label>Easyfinancial CCS  In Progress</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

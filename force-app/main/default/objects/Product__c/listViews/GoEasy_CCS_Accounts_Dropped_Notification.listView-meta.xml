@@ -13,7 +13,7 @@
         <operation>equals</operation>
         <value>Dropped Notifications</value>
     </filters>
-    <label>GoEasy CCS Accounts Dropped Notification</label>
+    <label>Easyfinancial CCS Dropped Notification</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

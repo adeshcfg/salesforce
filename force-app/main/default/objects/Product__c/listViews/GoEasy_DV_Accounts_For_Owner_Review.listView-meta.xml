@@ -18,7 +18,7 @@
         <operation>equals</operation>
         <value>1</value>
     </filters>
-    <label>GoEasy DV Accounts – For Owner Review</label>
+    <label>Easyfinancial DV – For Owner Review</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

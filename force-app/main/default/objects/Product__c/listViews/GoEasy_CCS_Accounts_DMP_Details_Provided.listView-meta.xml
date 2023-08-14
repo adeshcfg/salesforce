@@ -13,7 +13,7 @@
         <operation>equals</operation>
         <value>DMP Details provided</value>
     </filters>
-    <label>GoEasy CCS Accounts DMP Details Provided</label>
+    <label>Easyfinancial CCS DMP Details Provided</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

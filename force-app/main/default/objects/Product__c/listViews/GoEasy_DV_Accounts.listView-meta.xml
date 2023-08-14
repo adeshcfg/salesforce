@@ -13,7 +13,7 @@
         <operation>equals</operation>
         <value>1</value>
     </filters>
-    <label>GoEasy DV Accounts</label>
+    <label>Easyfinancial DV Accounts</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>

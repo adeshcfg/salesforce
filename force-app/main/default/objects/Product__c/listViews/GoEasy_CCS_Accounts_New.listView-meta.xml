@@ -13,7 +13,7 @@
         <operation>equals</operation>
         <value>New</value>
     </filters>
-    <label>GoEasy CCS Accounts New</label>
+    <label>Easyfinancial CCS Accounts New</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>
