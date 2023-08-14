@@ -235,10 +235,9 @@
                 <label>Secured Communications</label>
             </value>
             <value>
-                <fullName>Rogers</fullName>
+                <fullName>Voice Mail</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Rogers</label>
+                <label>Voice Mail</label>
             </value>
             <value>
                 <fullName>SDA Credit Pack</fullName>
