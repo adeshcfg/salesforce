@@ -1,0 +1,19 @@
+<body>
+Sir / Madam,
+
+<br/><br/>
+
+Our records indicate that the above mentioned debtor has fallen behind by the sum of 2 accumulative payments, agreed upon at the time of DMP Acceptance. Please advise if we can expect payment on this account, or if we should be closing the program as default.  
+
+<br/><br/>
+
+Sincerely,
+
+<br/><br/>
+
+{!CCSPackage.CFG_Name__c} | {!CCSPackage.CFG_Office_Name__c}<br/>
+{!servicerName}<br/>
+{!CCSPackage.CFG_Office_Address_1__c} | {!CCSPackage.CFG_Office_City__c} |{!CCSPackage.CFG_Office_Province__c} | {!CCSPackage.CFG_Office_Postal_Code__c} <br/>
+T: {!CCSPackage.CFG_Office_Phone_Number__c} |
+F: {!CCSPackage.CFG_Office_Fax_Number__c} | {!CCSPackage.CFG_Office_Website__c}
+</body>

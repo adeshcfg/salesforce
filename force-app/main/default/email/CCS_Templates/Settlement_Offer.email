@@ -1,0 +1,18 @@
+<br/><br/>
+
+Sir / Madam,
+<br/><br/>
+As per our recent communication please see the attached agreed settlement offer.  
+
+
+<br/><br/>
+
+Sincerely,
+
+<br/><br/>
+
+{!CCSPackage.CFG_Name__c} | {!CCSPackage.CFG_Office_Name__c} <br/>
+{!servicerName}<br/>
+{!CCSPackage.CFG_Office_Address_1__c} | {!CCSPackage.CFG_Office_City__c}| {!CCSPackage.CFG_Office_Province__c} | {!CCSPackage.CFG_Office_Postal_Code__c} <br/>
+T: {!CCSPackage.CFG_Office_Phone_Number__c} 
+F: {!CCSPackage.CFG_Office_Fax_Number__c} | {!CCSPackage.CFG_Office_Website__c}

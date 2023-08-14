@@ -1,0 +1,43 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="font-family: 'Arial Unicode MS';">
+<br/><br/><br/> 
+{!logoVisiblity}
+<br/>
+<p style="font-family: 'Arial Unicode MS'; font-size: 11px;">Date: {!Today}
+<br/><br/>
+{!Product__r.CCS_Agency__r.Name}
+<br/><br/>
+RE:  Settlement Offer <br/>
+       CCS Office File ID Number: {!Product__c.CCS_Client_ID__c} <br/>
+       Name of Customer: {!Product__r.Customer__r.Name}<br/>
+       Account Number:  {!Product__c.Name}<br/>
+
+<br/><br/>
+
+Dear Sir /Madam 
+<br/><br/>
+This letter is regarding the settlement offer request for the debtor mentioned above. On a without prejudice basis we are willing to accept settlement of {!Product__c.Settlement_Amount__c} on this account as long as the payment is received in our office no later than {!Product__c.Settlement_Manual_Date__c}.<br/><br/>
+Please note, if funds are not received as outlined above, this offer shall become null and void and the full balance, plus interest will become due immediately. 
+<br/><br/>
+If you have any questions or concerns, please do not hesitate to contact us. <br/><br/>
+Sincerely,<br/><br/>
+{!CCSPackage.CFG_Name__c}<br/>
+{!CCSPackage.CFG_Office_Name__c}<br/>
+{!servicerName}<br/>
+<br/><br/><br/>
+<br/><br/><br/>
+</p>
+<p  style="text-align:center;">
+<b>{!CCSPackage.CFG_Office_Name__c} </b><br/>
+{!CCSPackage.CFG_Office_Address_1__c} | {!CCSPackage.CFG_Office_City__c} | {!CCSPackage.CFG_Office_Province__c} | {!CCSPackage.CFG_Office_Postal_Code__c} <br/>
+Tel: {!CCSPackage.CFG_Office_Phone_Number__c} | Fax: 
+ {!CCSPackage.CFG_Office_Fax_Number__c}<br/>
+Email: {!CCSPackage.CFG_Office_Website__c}
+</p>
+</div>
+</body>
+</html>

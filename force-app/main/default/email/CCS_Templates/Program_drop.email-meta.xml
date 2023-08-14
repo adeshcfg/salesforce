@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Program drop</name>
+    <style>none</style>
+    <subject>CCS Office File #:{!Product__c.Name} {!Product__r.Customer__r.Name}– Program drop</subject>
+    <textOnly>Sir / Madam,
+
+This email is to notify you that we are closing the debt management program for the above customer as payments have not been received as agreed. Our records show that the last payment was received on the {!Product__c.Last_Payment_Date__c}.
+
+If you have any questions, do not hesitate in contacting us.
+
+Sincerely,
+
+{!CCSPackage.CFG_Name__c} | {!CCSPackage.CFG_Office_Name__c}
+{!servicerName}
+{!CCSPackage.CFG_Office_Address_1__c} | {!CCSPackage.CFG_Office_City__c} |{!CCSPackage.CFG_Office_Province__c} | {!CCSPackage.CFG_Office_Postal_Code__c}
+T: {!CCSPackage.CFG_Office_Phone_Number__c} | F: {!CCSPackage.CFG_Office_Fax_Number__c} | {!CCSPackage.CFG_Office_Website__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

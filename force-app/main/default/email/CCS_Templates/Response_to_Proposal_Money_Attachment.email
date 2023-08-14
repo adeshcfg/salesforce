@@ -1,0 +1,51 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="font-family: 'Arial Unicode MS';">
+<br/><br/><br/>
+<div style="width:100%;"> 
+{!logoVisiblity}
+</div>
+<br/>
+<p style="font-family: 'Arial Unicode MS'; font-size: 11px;">
+Date: {!Today}
+
+<br/><br/>
+{!Product__r.CCS_Agency__r.Name}
+<br/><br/>
+RE:  Consent of Creditor. <br/>
+        File ID Number: {!Product__c.CCS_Client_ID__c} <br/>
+        Account Number: {!Product__c.Name}<br/>
+        Creditor: {!Product__c.Originating_Creditor__c}<br/>
+<br/><br/>
+Dear Agency, 
+<br/><br/>
+ I hear by certify that {!Product__c.Current_Balance__c} is our net balance outstanding as of  {!Today}<br/> 
+<br/>
+Legal Name of Creditor: Easyfinancial Services Ltd. <br/>
+Account serviced by: Canaccede International Management<br/>
+Address: Station B – P.O Box 9, London, ON, N6A 4V3<br/>
+Ph #: 1-844-827-9225 Fax: 1-844-827-9226 
+<br/><br/>
+If you have any questions or concerns, please do not hesitate to contact us. 
+<br/><br/>
+Sincerely,<br/><br/>
+{!CCSPackage.CFG_Name__c}<br/>
+{!CCSPackage.CFG_Office_Name__c}<br/>
+{!servicerName}<br/>
+<br/><br/><br/>
+<br/>
+
+</p>
+<p style="width:100%; text-align:center;" >
+<br/><b>{!CCSPackage.CFG_Office_Name__c} </b><br/>
+{!CCSPackage.CFG_Office_Address_1__c} | {!CCSPackage.CFG_Office_City__c} | {!CCSPackage.CFG_Office_Province__c} | {!CCSPackage.CFG_Office_Postal_Code__c} <br/>
+Tel: {!CCSPackage.CFG_Office_Phone_Number__c} | Fax:
+ {!CCSPackage.CFG_Office_Fax_Number__c}<br/>
+Email: {!CCSPackage.CFG_Office_Website__c}
+</p>
+</div>
+</body>
+</html>

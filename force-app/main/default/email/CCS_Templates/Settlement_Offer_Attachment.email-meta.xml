@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Settlement Offer Attachment</name>
+    <style>none</style>
+    <subject>File #:{!Product__c.Name} {!Product__r.Customer__r.Name}</subject>
+    <textOnly>Date: {!Today}
+
+{!Product__r.CCS_Agency__r.Name}
+
+RE:  Settlement Offer
+CCS Office File ID Number: {!Product__c.CCS_Client_ID__c}
+Name of Customer: {!Product__r.Customer__r.Name}
+Account Number:  {!Product__c.Name}
+
+
+Dear Sir /Madam
+
+This letter is regarding the settlement offer request for the debtor mentioned above. On a without prejudice basis we are willing to accept settlement of {!Product__c.Settlement_Amount__c} on this account as long as the payment is received in our office no later than {!Product__c.Settlement_Manual_Date__c}.
+
+Please note, if funds are not received as outlined above, this offer shall become null and void and the full balance, plus interest will become due immediately.
+
+If you have any questions or concerns, please do not hesitate to contact us.
+
+Sincerely,
+
+{!CCSPackage.CFG_Name__c}
+{!CCSPackage.CFG_Office_Name__c}
+{!servicerName}
+
+
+
+
+
+
+
+{!CCSPackage.CFG_Office_Name__c}
+{!CCSPackage.CFG_Office_Address_1__c} | {!CCSPackage.CFG_Office_City__c} | {!CCSPackage.CFG_Office_Province__c} | {!CCSPackage.CFG_Office_Postal_Code__c}
+Tel: {!CCSPackage.CFG_Office_Phone_Number__c} | Fax: {!CCSPackage.CFG_Office_Fax_Number__c}
+Email: {!CCSPackage.CFG_Office_Website__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Lower Monthly Payments Attachment</name>
+    <style>none</style>
+    <subject>CCS OfficeFile #:{!Product__c.Name} {!Product__r.Customer__r.Name} – Lower Monthly Payments</subject>
+    <textOnly>Date: {!Today}
+
+{!Product__r.CCS_Agency__r.Name}
+
+
+RE:  Monthly Payment Adjustment.
+CCS Office File ID Number: {!Product__c.CCS_Client_ID__c}
+Name of Customer: {!Product__r.Customer__r.Name}
+Account Number:    {!Product__c.Name}
+
+
+
+Dear Sir /Madam
+
+
+As per your recent request we can confirm that Canaccede International Management Ltd will authorize your office to lower the monthly payments from $ {!Product__c.Manually_Fill__c} to $ {!Product__c.Monthly_Payment_Amount__c}.Our records show that we still have a remaining balance of {!Product__c.Current_Balance__c}.
+
+The last payment we show for this account was for {!Product__c.Last_Payment_Amount__c} which was received on the {!Product__c.Last_Payment_Date__c}.
+
+If you have any questions or concerns, please do not hesitate to contact us.
+
+Sincerely,
+
+{!CCSPackage.CCS_Name__c}
+{!CCSPackage.CFG_Office_Name__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
