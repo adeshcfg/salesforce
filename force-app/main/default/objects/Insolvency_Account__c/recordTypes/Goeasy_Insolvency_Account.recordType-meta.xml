@@ -3,7 +3,7 @@
     <fullName>Goeasy_Insolvency_Account</fullName>
     <active>true</active>
     <description>Goeasy Insolvency Account</description>
-    <label>Goeasy Insolvency Account</label>
+    <label>Easyfinancial Insolvency Account</label>
     <picklistValues>
         <picklist>Account_Type__c</picklist>
         <values>

@@ -2,7 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>GoEasy_CCS_Account</fullName>
     <active>true</active>
-    <label>GoEasy CCS Account</label>
+    <label>Easyfinancial CCS Account</label>
     <picklistValues>
         <picklist>Bank_Name__c</picklist>
         <values>
