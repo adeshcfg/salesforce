@@ -55,6 +55,10 @@
                 <field>Previous_Account_Reference__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Customer_CID__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Account_Type__c</field>
             </layoutItems>
@@ -538,7 +542,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h8A000004L1Jt</masterLabel>
+        <masterLabel>00h8A000004L7J1</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>1</sizeY>
         <summaryLayoutItems>
