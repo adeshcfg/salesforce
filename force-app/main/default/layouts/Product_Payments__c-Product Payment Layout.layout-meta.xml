@@ -69,6 +69,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Gross_Payment_Amount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Balance_Before_Payment__c</field>
             </layoutItems>
             <layoutItems>
