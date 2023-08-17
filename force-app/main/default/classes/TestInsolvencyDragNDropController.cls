@@ -35,6 +35,7 @@ public class TestInsolvencyDragNDropController{
           // call the constructor
           InsolvencyDragNDropController controller = new InsolvencyDragNDropController(new ApexPages.StandardController(insolv));
           InsolvencyDragNDropController.getDocumentOptions();
+          InsolvencyDragNDropController.getAllDocumentOptionsFrench();
           InsolvencyDragNDropController.getfileDocumentOptions();
           InsolvencyDragNDropController.getRecordInfo(insolv.Id);
           controller.updateAtList();
