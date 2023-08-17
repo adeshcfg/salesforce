@@ -19,8 +19,8 @@ global class InsolvencyDragNDropController{
     public List<Attachment> attList {set;get;}
     public Insolvency__c insAcc{set;get;}
     public Boolean isCommunityUser {set; get;}
-    public Boolean isGoeasyBankCommunityUser {set; get;}
     public Boolean isCommunityReadOnlyUser {set; get;}
+    public Boolean isGoeasyBankCommunityUser {set; get;}
     public Id selectedAttId {set;get;}
     
     //Utility method to populate Attachment types
