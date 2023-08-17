@@ -5,7 +5,7 @@
     <columns>Last_Name__c</columns>
     <columns>First_Name__c</columns>
     <columns>Agency_Office__c</columns>
-    <columns>Product_Status__c</columns>
+    <columns>Proposal_Status__c</columns>
     <columns>UPDATEDBY_USER</columns>
     <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
