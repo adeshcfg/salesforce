@@ -19,6 +19,7 @@ global class InsolvencyDragNDropController{
     public List<Attachment> attList {set;get;}
     public Insolvency__c insAcc{set;get;}
     public Boolean isCommunityUser {set; get;}
+    public Boolean isGoeasyBankCommunityUser {set; get;}
     public Boolean isCommunityReadOnlyUser {set; get;}
     public Id selectedAttId {set;get;}
     
@@ -75,6 +76,7 @@ global class InsolvencyDragNDropController{
         
         //Checking if community user
         isCommunityUser = InsolvencyUtil.isCommunityUser();
+        isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
         //Check whether current user is readonly profile or not
         isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser();      
     }

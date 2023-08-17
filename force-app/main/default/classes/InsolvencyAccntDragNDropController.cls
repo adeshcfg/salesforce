@@ -21,6 +21,7 @@
     
     public Insolvency_Account__c insAcc{set;get;}
     public Id selectedAttId {set;get;}
+    public Boolean isGoeasyBankCommunityUser {set; get;}
     public Boolean isCommunityReadOnlyUser {set; get;}
     public Boolean isCommunityUser {set; get;}
     
@@ -88,7 +89,7 @@
 
         //Checking if community user
         isCommunityUser = InsolvencyUtil.isCommunityUser();
-        
+        isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
         //Checking if read only community user
         isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser(); 
     }
