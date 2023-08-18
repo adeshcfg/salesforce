@@ -5,7 +5,9 @@
     <name>Settlement In Full</name>
     <style>none</style>
     <subject>File #:{!Product__c.Name} {!Product__r.Customer__r.Name}</subject>
-    <textOnly>Date: {!Today}
+    <textOnly>{!logoVisiblity}
+
+Date: {!Today}
 
 {!Product__r.CCS_Agency__r.Name}
 
