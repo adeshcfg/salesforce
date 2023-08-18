@@ -45,7 +45,7 @@
                 <field>Previous_Account_Reference__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Customer_CID__c</field>
             </layoutItems>
             <layoutItems>
