@@ -387,7 +387,7 @@
         <label>Claim Amounts</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Claim_Type__c</field>
             </layoutItems>
             <layoutItems>

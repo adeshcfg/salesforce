@@ -326,7 +326,7 @@
                 <field>Claim_Type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Claim_Amount__c</field>
             </layoutItems>
             <layoutItems>
@@ -521,7 +521,7 @@
             <actionType>StandardButton</actionType>
             <sortOrder>0</sortOrder>
         </platformActionListItems>
-        <platformActionListItems>
+                <platformActionListItems>
             <actionName>Copy_Fields</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>2</sortOrder>
