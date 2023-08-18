@@ -28,6 +28,15 @@ private class TestInsolvencyAccountTriggerHandler{
     
     //Test Before Insert
     static testMethod void insolvencyBeforeInsertTest(){
+         Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
         
         //Insolvency Record
         List<Insolvency__c> insolvList = new List<Insolvency__c>();
@@ -72,6 +81,7 @@ private class TestInsolvencyAccountTriggerHandler{
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         
         Product__c prod1 = new Product__c();
@@ -90,6 +100,7 @@ private class TestInsolvencyAccountTriggerHandler{
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
         prod1.Product_Status__c = 'Test';
+        prod1.Customer__c = accInstance1.id;
         prod1.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         
         prodList.add(prod);
@@ -200,6 +211,16 @@ private class TestInsolvencyAccountTriggerHandler{
         portfolioName.Account_Purchasing_Entity_ID__c  =' 13';
         insert portfolioName;
         
+        Account accInstance1 = new Account();
+        string recrdid3= [SELECT id from RecordType where sobjecttype='Account' 
+                          AND RecordType.Name='Canaccede Customer'].id;
+        accInstance1.RecordTypeId=recrdid3;
+        accInstance1.FirstName = 'Ana';
+        accInstance1.LastName = 'Starrk';
+        accInstance1.Number_Of_Open_Complaint__c = 6;
+        accInstance1.Phone_Number__pc = '123' ;
+        insert accInstance1;
+        
         //Product Record
         Product__c prod = new Product__c();
         prod.name = '848085644';
@@ -217,6 +238,7 @@ private class TestInsolvencyAccountTriggerHandler{
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
+        prod.Customer__c = accInstance1.id;
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         insert prod;
         

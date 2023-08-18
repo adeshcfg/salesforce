@@ -13,7 +13,7 @@ public class TestInsolvencyAccountEditController{
         insert insolv;
         
         // insert insolvency account
-        Insolvency_Account__c insolvAcc = new Insolvency_Account__c(Insolvency__c = insolv.Id,Account_Number_Without_Space__c ='1234',Client_Identifier__c ='Scotia',Insolvency_Status__c ='PoC Package Generated', OwnerID = UserInfo.getUserId());
+        Insolvency_Account__c insolvAcc = new Insolvency_Account__c(Insolvency__c = insolv.Id,Account_Number_Without_Space__c ='1234',Client_Identifier__c ='Scotia',Insolvency_Status__c ='PoC Package Generated', OwnerID = UserInfo.getUserId(),Claim_Amount__c =10);
         insert insolvAcc ;    
         
         Application_Config_Settings__c appConfig = new Application_Config_Settings__c(Run_Insolvency_Status_Validations__c = true , Run_Record_Ownership__c = true,Ignore_Account_Number_for_DuplicateCheck__c = 'LINEOFCREDIT',

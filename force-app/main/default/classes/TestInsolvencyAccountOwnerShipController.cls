@@ -21,7 +21,7 @@ public class TestInsolvencyAccountOwnerShipController{
          Insolvency__c insolv = new Insolvency__c(name = 'test-owner001', Is_Record_Locked__c = true);
          insert insolv;      
          
-         Insolvency_Account__c insolvAacc = new Insolvency_Account__c( Insolvency__c = insolv.Id, OwnerId = UserInfo.getUserId(), Name = 'test123');
+         Insolvency_Account__c insolvAacc = new Insolvency_Account__c( Insolvency__c = insolv.Id, OwnerId = UserInfo.getUserId(), Name = 'test123',Claim_Amount__c =10);
          insert insolvAacc ;
          
     }

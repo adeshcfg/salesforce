@@ -79,7 +79,7 @@ public class TestLoRDemandController{
                                                                  Date_LOR_received_for_Secured__c = System.Today(),
                                                                  Insolvency_Status__c = 'For Owner Review',
                                                                  PoC_Created_Date__c = System.Today().addDays(-25),
-                                                                 RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Goeasy Insolvency Account').getRecordTypeId(),
+                                                                 RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Easyfinancial Insolvency Account').getRecordTypeId(),
                                                                  Account_Number_Without_Space__c='Test-001');
          insert insolcAcc1;
          
@@ -94,7 +94,7 @@ public class TestLoRDemandController{
                                                                  Date_LOR_received_for_Secured__c = System.Today(),
                                                                  Insolvency_Status__c = 'For Owner Review',
                                                                  PoC_Created_Date__c = System.Today().addDays(-25),
-                                                                 RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Goeasy Insolvency Account').getRecordTypeId(),
+                                                                 RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Easyfinancial Insolvency Account').getRecordTypeId(),
                                                                  Account_Number_Without_Space__c='Test-001');
          insert insolcAcc2;
          
