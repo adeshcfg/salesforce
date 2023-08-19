@@ -199,6 +199,39 @@ public class ProductTriggerHandler{
         if(!Test.isRunningTest()){
             UtilityMethod();
         }
+        ID productSource; 
+        for(Product__c prodData :prodNew){
+            if(prodData.isClone()){
+                productSource = prodData.getCloneSourceId();
+                if(productSource <> NULL){
+                    Product__c prodCustomer1 = [Select id,name,Customer__c,First_Name__c,Last_Name__c,Date_of_Birth__c,SIN__c,
+                                                CID_number__c,Phone_Home__c,Phone_Work__c,Phone_Other__c,Address_Line1__c,Address_Line2__c,
+                                                City__c,Zip_Code__c,Provinces__c,Country__c,Reason_for_Proposal__c,Initial_Proposal_Date__c,
+                                                Second_Proposal_Date__c,Third_Proposal_Date__c,Fourth_Proposal_Date__c
+                                                from product__c where id =: productSource];
+                    prodData.First_Name__c = prodCustomer1.First_Name__c;
+                    prodData.Last_Name__c = prodCustomer1.Last_Name__c;
+                    prodData.Date_of_Birth__c = prodCustomer1.Date_of_Birth__c;
+                    prodData.SIN__c = prodCustomer1.SIN__c;
+                    prodData.CID_number__c = prodCustomer1.CID_number__c;
+                    prodData.Phone_Home__c = prodCustomer1.Phone_Home__c;
+                    prodData.Phone_Work__c = prodCustomer1.Phone_Work__c;
+                    prodData.Phone_Other__c = prodCustomer1.Phone_Other__c;
+                    prodData.Address_Line1__c = prodCustomer1.Address_Line1__c;
+                    prodData.Address_Line2__c = prodCustomer1.Address_Line2__c;
+                    prodData.City__c = prodCustomer1.City__c;
+                    prodData.Zip_Code__c = prodCustomer1.Zip_Code__c;
+                    prodData.Provinces__c = prodCustomer1.Provinces__c;
+                    prodData.Country__c = prodCustomer1.Country__c;
+                    prodData.Reason_for_Proposal__c = prodCustomer1.Reason_for_Proposal__c;
+                    prodData.Initial_Proposal_Date__c = prodCustomer1.Initial_Proposal_Date__c;
+                    prodData.Second_Proposal_Date__c = prodCustomer1.Second_Proposal_Date__c;
+                    prodData.Third_Proposal_Date__c = prodCustomer1.Third_Proposal_Date__c;
+                    prodData.Fourth_Proposal_Date__c = prodCustomer1.Fourth_Proposal_Date__c;
+                }
+            }
+        }
+        
         
         // Pre load Statute Date from metadata
         StatuteDateUtilities.loadStatuteDataFromMetadata();
