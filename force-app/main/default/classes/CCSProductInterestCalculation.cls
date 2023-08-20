@@ -19,8 +19,6 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
              AND Current_Balance__c > 0 
              AND Interest_Rate__c != NULL 
              AND Interest_Rate__c != 0
-             //AND Interest_Amount_Last_Calculated_Date__c != NULL
-             //AND Interest_Amount_Last_Calculated_Date__c <> TODAY
              AND (CCS_Stage__c ='Missed Payment' OR CCS_Stage__c = 'In Progress (notice has been sent)')
             ]
         );
@@ -39,15 +37,14 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
         Decimal Principal_Balance = 0;
         Decimal NoOfDaysInYear = config.Number_of_Days__c;
         Date Today = Date.today();
-
-        system.debug('Current Time After Related records query: '+system.now());
-       
+       	//Simplify no of days to 1/365;
+        Decimal NoOfDays = (1 / NoOfDaysInYear);
+        
         for(Product__c productObj :listProducts){
-            //If interest calculation date falls between Waived of Dates, product will be excluded from Daily Interest Accrual
-            //productObj.Interest_Amount_Last_Calculated_Date__c = productObj.Interest_Amount_Last_Calculated_Date__c.addDays(1);
+            //updating Interest Last Calculated date to current date
             productObj.Interest_Amount_Last_Calculated_Date__c = Date.today();
-            System.debug('Current Time 4 before interest rate checks:'+System.now());
-                    InterestRate = productObj.Interest_Rate__c;
+
+                 InterestRate = productObj.Interest_Rate__c;
                 //Round of the Principal Balance to 2 decimal places
                 Principal_Balance = productObj.Current_Balance__c.setScale(2,RoundingMode.HALF_UP);
                 //Interest Amount calculation = ((P*N*R)/100)/365
@@ -56,12 +53,8 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
                     system.debug('Principal_Balance:: '+Principal_Balance);
                     system.debug('InterestRate:: '+InterestRate);
                     system.debug('NoOfDaysInYear:: '+NoOfDaysInYear);
-                                        
-                    //Decimal NoOfDays = productObj.Interest_Amount_Last_Calculated_Date__c.daysBetween(Today);
-                    
                     //Run Batch for one day at time
-                    //Simplify no of days to 1/365;
-                    Decimal NoOfDays = (1 / NoOfDaysInYear);
+                    
                     //round of no of days to 5 decimal places
                     NoOfDays = NoOfDays.setScale(5,RoundingMode.HALF_UP);
                     
@@ -72,9 +65,6 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
                     InterestAmount = Principal_Balance * InterestRate * NoOfDays;
                     //Round off Interest Amount accrued to 2 decimal places
                     InterestAmount = InterestAmount.setScale(2,RoundingMode.HALF_UP);
-                    
-                    /*InterestAmount =           
-                    (((Principal_Balance * InterestRate * NoOfDays)/100)/NoOfDaysInYear);*/
                     
                     system.debug('productObj.Current_Interest_Amount__c:: '+productObj.Current_Interest_Amount__c);
                     system.debug('InterestAmount::'+InterestAmount);
@@ -101,10 +91,8 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
                     system.debug('productObj: '+productObj);
                 }    
             
-            
             Principal_Balance = 0;
             InterestRate = Null;
-            //productObj.Interest_Amount_Last_Calculated_Date__c = Date.today();
         }
         
         system.debug('listProducts update: '+listProducts);
