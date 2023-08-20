@@ -19,8 +19,8 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
              AND Current_Balance__c > 0 
              AND Interest_Rate__c != NULL 
              AND Interest_Rate__c != 0
-             AND Interest_Amount_Last_Calculated_Date__c != NULL
-             AND Interest_Amount_Last_Calculated_Date__c <> TODAY
+             //AND Interest_Amount_Last_Calculated_Date__c != NULL
+             //AND Interest_Amount_Last_Calculated_Date__c <> TODAY
              AND (CCS_Stage__c ='Missed Payment' OR CCS_Stage__c = 'In Progress (notice has been sent)')
             ]
         );
@@ -44,7 +44,8 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
        
         for(Product__c productObj :listProducts){
             //If interest calculation date falls between Waived of Dates, product will be excluded from Daily Interest Accrual
-            productObj.Interest_Amount_Last_Calculated_Date__c = productObj.Interest_Amount_Last_Calculated_Date__c.addDays(1);
+            //productObj.Interest_Amount_Last_Calculated_Date__c = productObj.Interest_Amount_Last_Calculated_Date__c.addDays(1);
+            productObj.Interest_Amount_Last_Calculated_Date__c = Date.today();
             System.debug('Current Time 4 before interest rate checks:'+System.now());
                     InterestRate = productObj.Interest_Rate__c;
                 //Round of the Principal Balance to 2 decimal places
