@@ -196,9 +196,11 @@ public class ProductTriggerHandler{
     
     //Handle before insert
     public static void handleBeforeInsert(List<Product__c> prodNew) {
+        Boolean isCommunityUser = false;
         if(!Test.isRunningTest()){
             UtilityMethod();
         }
+        isCommunityUser = InsolvencyUtil.isCommunityUser();
         ID productSource; 
         for(Product__c prodData :prodNew){
             if(prodData.isClone()){
@@ -229,6 +231,15 @@ public class ProductTriggerHandler{
                     prodData.Third_Proposal_Date__c = prodCustomer1.Third_Proposal_Date__c;
                     prodData.Fourth_Proposal_Date__c = prodCustomer1.Fourth_Proposal_Date__c;
                 }
+            }
+            //Comminity user cannot create new record
+            if(isCommunityUser){
+                if(!prodData.isClone()){
+                    productSource = prodData.getCloneSourceId();
+                    if(productSource == NULL){
+                        prodData.addError('Please use Clone Button to Create New Record');
+                    }
+                } 
             }
         }
         
