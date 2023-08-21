@@ -330,12 +330,14 @@ global class CCSEmailController {
         List<Messaging.Emailfileattachment> fileAttachments = new List<Messaging.Emailfileattachment>();
         Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();
         efa.setFileName(attachmentName);
-        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop') {
+        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
+           && selectedTempalteName != 'Missed Payment Followup') {
             efa.setBody(Blob.toPDF(attachmentBody));
         }
 
         fileAttachments.add(efa);
-        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop') {
+        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
+           && selectedTempalteName != 'Missed Payment Followup') {
             mail.setFileAttachments(fileAttachments);
         }
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
@@ -343,7 +345,8 @@ global class CCSEmailController {
         // Create Attachment copy in Activity history
         Task emailTask = [SELECT id FROM Task WHERE whatID = :pro.id ORDER BY CreatedDate DESC LIMIT 1];
         EmailMessage emailmsg = [SELECT Id, parentId FROM EmailMessage WHERE activityId = :emailTask.Id];
-        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop') {
+        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
+           && selectedTempalteName != 'Missed Payment Followup') {
             list<Attachment> emailMsgAttachments = new List<Attachment>();
             Attachment attach = new Attachment();
             attach.ParentId = emailmsg.Id;
