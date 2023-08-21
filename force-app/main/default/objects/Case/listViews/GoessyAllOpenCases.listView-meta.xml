@@ -29,7 +29,8 @@
         <operation>equals</operation>
         <value>1</value>
     </filters>
-    <label>* Goeasy Open Assignments</label>
+    <label>10.Easyfinancial Open Assignments</label>
+    
     <sharedTo>
         <group>Insolvency_Goeasy_Users</group>
     </sharedTo>
