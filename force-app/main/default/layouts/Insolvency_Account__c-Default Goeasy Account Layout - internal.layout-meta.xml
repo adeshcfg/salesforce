@@ -45,10 +45,6 @@
                 <field>Previous_Account_Reference__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Customer_CID__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Account_Type__c</field>
             </layoutItems>
@@ -139,6 +135,10 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Borrower_Primary__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Customer_CID__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
