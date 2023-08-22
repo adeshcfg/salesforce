@@ -17,7 +17,7 @@
     <filters>
         <field>Assign_To__c</field>
         <operation>equals</operation>
-        <value>CFG</value>
+        <value>CFG,Goeasy</value>
     </filters>
     <filters>
         <field>CCS_Account__c</field>
@@ -26,11 +26,12 @@
     <filters>
         <field>CASES.STATUS</field>
         <operation>equals</operation>
-        <value>New,In Progress,On Hold,Escalated</value>
+        <value>New,In Progress,Completed,Closed</value>
     </filters>
     <label>Easyfinancial CCS PIF Confirmation</label>
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>
+        <group>Insolvency_Goeasy_Users</group>
     </sharedTo>
 </ListView>

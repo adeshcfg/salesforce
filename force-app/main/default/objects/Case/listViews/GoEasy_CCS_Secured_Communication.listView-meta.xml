@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>GoEasy_CCS_Secured_Communication</fullName>
-    <columns>Account_Number__c</columns>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>CCS_Account__c</columns>
     <columns>NAME</columns>
     <columns>CASES.SUBJECT</columns>
     <columns>CASES.STATUS</columns>
@@ -18,5 +19,6 @@
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>
+        <group>Insolvency_Goeasy_Users</group>
     </sharedTo>
 </ListView>
