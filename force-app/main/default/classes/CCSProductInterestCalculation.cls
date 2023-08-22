@@ -11,14 +11,15 @@ public class CCSProductInterestCalculation implements Database.Batchable<sobject
 public Database.QueryLocator start(Database.BatchableContext bc) {
         // collect the batches of records or objects to be passed to execute
         return Database.getQueryLocator(
-            [SELECT ID,  Interest_Rate__c, Current_Interest_Amount__c,CCS_Stage__c, 
+            [SELECT ID,  Interest_Rate__c,Accepted_Interest_rate__C, Current_Interest_Amount__c,CCS_Stage__c, 
                     Interest_Amount_Last_Calculated_Date__c,   State__c, Current_Balance__c                     
              FROM Product__c 
              WHERE RecordType.DeveloperName= 'GoEasy_CCS_Account'  
              AND Current_Balance__c != null 
              AND Current_Balance__c > 0 
-             AND Interest_Rate__c != NULL 
-             AND Interest_Rate__c != 0
+             // Interest_Rate__c or Accepted_Interest_rate__c should be present 
+             AND ((Interest_Rate__c != NULL 
+             AND Interest_Rate__c != 0) OR (Accepted_Interest_rate__C != NULL and Accepted_Interest_rate__C !=0))
              AND (CCS_Stage__c ='Missed Payment' OR CCS_Stage__c = 'In Progress (notice has been sent)')
             ]
         );
@@ -43,8 +44,13 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
         for(Product__c productObj :listProducts){
             //updating Interest Last Calculated date to current date
             productObj.Interest_Amount_Last_Calculated_Date__c = Date.today();
-
-                 InterestRate = productObj.Interest_Rate__c;
+            // If Interest_Rate__C is blank or null then Interest will be calculated on Accepted_Interest_Rate__C
+            if(productObj.Interest_Rate__c!=Null &&  productObj.Interest_Rate__c!=0){
+                InterestRate = productObj.Interest_Rate__c;
+            }else if(productObj.Accepted_Interest_rate__C!=Null &&  productObj.Accepted_Interest_rate__C!=0){
+                InterestRate = productObj.Accepted_Interest_rate__C;
+            }
+            
                 //Round of the Principal Balance to 2 decimal places
                 Principal_Balance = productObj.Current_Balance__c.setScale(2,RoundingMode.HALF_UP);
                 //Interest Amount calculation = ((P*N*R)/100)/365
