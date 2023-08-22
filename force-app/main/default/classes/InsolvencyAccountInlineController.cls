@@ -22,6 +22,7 @@ public with sharing class InsolvencyAccountInlineController {
     public String profileName;
     public boolean isViewPage{get;set;}
     public string insolAccountId{get; set;}
+    public boolean isGoeasyCommunityUser {get; set;}
     public boolean runDuplicateCheckForProfile = false;
     public boolean runDuplicateCheckForBank = false;
     
@@ -62,7 +63,7 @@ public with sharing class InsolvencyAccountInlineController {
        
        //Check whether current user is readonly profile or not
        isCommunityReadOnly = InsolvencyUtil.isCommunityReadOnlyUser();
-       
+       isGoeasyCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
        //get the Profile name of current login user
         profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
         
@@ -88,7 +89,8 @@ public with sharing class InsolvencyAccountInlineController {
                         Insolvency__c, Insolvency__r.Name, Insolvency_Status__c, Account_Type__c,
                         Product_Code__c, Borrower_Primary__c, Type_of_Service__c, Claim_Type__c, Claim_Amount__c, 
                         Interest_Rate__c, Expected_Account_Recovery_Ratio__c, Last_Payment_Date__c, Last_Payment_Amount__c, Latest_Payment_Date__c, Amended_Claim_Flag__c, 
-                        Voting_Letter_Comments__c, Security_Description__c, Secured_Asset_Amount__c,Is_Duplicate_Resolved__c,Total_Remittance_count__c ,recordType.name
+                        Voting_Letter_Comments__c, Security_Description__c, Secured_Asset_Amount__c,Is_Duplicate_Resolved__c,Total_Remittance_count__c ,recordType.name,
+                        recordType.developername
                         from Insolvency_Account__c 
                         where Insolvency__c =: InsolId and recordType.name != 'Unknown Bank' order by Latest_Payment_Date__c desc];
     }
