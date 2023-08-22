@@ -17,5 +17,6 @@
     <language>en_US</language>
     <sharedTo>
         <group>GoEasy_CCS</group>
+        <group>Insolvency_Goeasy_Users</group>
     </sharedTo>
 </ListView>
