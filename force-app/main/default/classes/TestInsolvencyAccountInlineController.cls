@@ -32,11 +32,12 @@ public class TestInsolvencyAccountInlineController {
         insolAcct.name = 'Test111';
         insolAcct.Insolvency_Status__c = 'New';
         insolAcct.Insolvency__c = insolv.id;
-        insolAcct.Account_Type__c = 'Line of Credit';
+        //insolAcct.Account_Type__c = 'Line of Credit';
         insolAcct.Borrower_Primary__c = 'Kajal';
         insolAcct.Type_of_Service__c = 'Service Only';
         insolAcct.Claim_Type__c = 'Secured';
         insolAcct.Is_Duplicate_Resolved__c = false;
+        insolAcct.Client_Identifier__c = 'Goeasy';
         insert insolAcct;
         
         insolAcct = [select Id, Name from insolvency_Account__c where id =: insolAcct.Id];
@@ -48,6 +49,8 @@ public class TestInsolvencyAccountInlineController {
         insolAcct.Claim_Type__c = '';
         insolAcct.Product_Code__c = '';
         insolAcct.Account_Type__c = '';
+        insolAcct.Claim_Amount__c = 100;
+        insolAcct.Client_Identifier__c = 'Goeasy';
         update insolAcct;
         //Database.update(insolAcct, false);
         
@@ -76,7 +79,7 @@ public class TestInsolvencyAccountInlineController {
         list<string> ignoreNamesList1 = new list<string>{'UNKNOWN'};
         cc1.dupAccCheckList(insolAcct.Id, insolAcct.RecordTypeId, insolAcct.Name, insolAcct.Insolvency__r.Id, ignoreNamesList1);
         cc1.getInslAcctWrappers();
-        //cc.getCommunityUrl();
+        cc.createExistingInsolAccountLink('Test','Test');
         cc1.message = 'Error has occured';
     }
 }
