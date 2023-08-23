@@ -240,6 +240,11 @@
                 <label>Voice Mail</label>
             </value>
             <value>
+                <fullName>Business Insolvency</fullName>
+                <default>false</default>
+                <label>Business Insolvency</label>
+            </value>
+            <value>
                 <fullName>SDA Credit Pack</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
