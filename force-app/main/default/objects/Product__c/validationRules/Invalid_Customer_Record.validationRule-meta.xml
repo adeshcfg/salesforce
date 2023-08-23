@@ -3,9 +3,10 @@
     <fullName>Invalid_Customer_Record</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-OR( ISNEW(), ISCHANGED( Customer__c)), 
+$Profile.Name &lt;&gt; &apos;System Administrator&apos;,
+OR(ISNEW(), ISCHANGED( Customer__c)), 
 OR(
-AND( $Profile.Name &lt;&gt; &apos;Goeasy Community User&apos;,
+AND($Profile.Name &lt;&gt; &apos;Goeasy Community User&apos;,
  RecordType.DeveloperName = &apos;GoEasy_CCS_Account&apos;,
  Customer__r.RecordType.DeveloperName &lt;&gt; &apos;CCS_Accounts&apos;),
 
@@ -14,7 +15,6 @@ AND(OR(RecordType.DeveloperName = &apos;Credit_Card_Account&apos;,RecordType.Dev
 
 AND(OR(RecordType.DeveloperName = &apos;Distressed_Account&apos;,RecordType.DeveloperName = &apos;CCS_Account&apos;),
  Customer__r.RecordType.DeveloperName &lt;&gt; &apos;Canaccede_Customer&apos;)
-
 )
 )</errorConditionFormula>
     <errorDisplayField>Customer__c</errorDisplayField>
