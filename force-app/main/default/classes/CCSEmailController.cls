@@ -36,7 +36,7 @@ global class CCSEmailController {
 
     // Controller to load initial values and insolvancy account details
     public CCSEmailController() {
-        String imageUrl = 'https://c.cs45.content.force.com/servlet/servlet.ImageServer?oid=00D8A000000Mrog&id=0158A0000014yP1';
+        String imageUrl = System.Label.CFG_Email_Template_Logo_URL;
         String style = 'style="align:left"';
         String height = '80px';
         String width = 'auto';
@@ -125,7 +125,7 @@ global class CCSEmailController {
             pro.Proposal_Status__c = 'ACCEPT';
             height = '100px';
             width = '100%';
-            imageUrl = 'https://c.cs45.content.force.com/servlet/servlet.ImageServer?oid=00D8A000000Mrog&id=0158A0000014ymy';
+            imageUrl = System.Label.Easyfinancial_Email_Template_Logo_URL;
             style = '';
         } else {
             selectedTempalteName = 'Product Default Template';
