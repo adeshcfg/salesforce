@@ -173,6 +173,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Debtor_1_Date_of_Birth__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Debtor_Deceased__c</field>
             </layoutItems>
             <layoutItems>
@@ -185,10 +189,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Debtor_1_Alias_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Debtor_1_Date_of_Birth__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
