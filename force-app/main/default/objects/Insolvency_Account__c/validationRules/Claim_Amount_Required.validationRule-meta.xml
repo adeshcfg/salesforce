@@ -4,6 +4,7 @@
     <active>true</active>
     <description>Claim_amount_required when select/update No_POC_Required</description>
     <errorConditionFormula>AND(NOT(ISNEW()),
+$Profile.Name &lt;&gt; &apos;System Administrator&apos;,
 NOT(
     ISPICKVAL( Insolvency_Status__c , &apos;No PoC Required&apos;)||
     ISPICKVAL( Insolvency_Status__c , &apos;For Owner Review&apos;)), 
