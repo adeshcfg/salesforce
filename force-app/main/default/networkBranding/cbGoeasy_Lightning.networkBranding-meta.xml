@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <NetworkBranding xmlns="http://soap.sforce.com/2006/04/metadata">
     <loginFooterText>Insolvency Stream</loginFooterText>
-    <loginLogo>Communities_Shared_Document_Folder1/insolvency_stream_transparent_png.png</loginLogo>
-    <loginLogoName>insolvency_stream_transparent.png</loginLogoName>
+    <loginLogo>Communities_Shared_Document_Folder1/cfg_STREAM_TM_logo_full_color_rgb_login_jpg.jpg</loginLogo>
+    <loginLogoName>cfg_STREAM_TM-logo-full-color-rgb-login.jpg</loginLogoName>
     <loginPrimaryColor>#1797C0</loginPrimaryColor>
     <loginQuaternaryColor>#B1BAC1</loginQuaternaryColor>
     <network>Goeasy Lightning</network>
