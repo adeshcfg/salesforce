@@ -18,7 +18,7 @@
             }
         </style>
         <apex:outputPanel rendered="{! $CurrentPage.parameters.proofOfClaim == 'true'}">
-            <apex:outputPanel rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+            <apex:outputPanel rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
             <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Insolvency_Type__c != 'Division 1 Proposal' && insolvAcc.Business_Account__c == False}">
         <!-- Adding new page STARTS-->
             <div style='font-family: "Times New Roman"; width:90%; margin:auto; font-size:16px; display:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "block;", "none;")}'>
@@ -170,20 +170,20 @@
                     </span> <br/>
                     De la Ville de <span style="font-weight : bold;font-family: sans-serif; ">{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</span>, dans la province de <span style="font-weight : bold;font-family: sans-serif; ">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>
-                    Et la reclamation de <apex:outputText rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL')}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.Client_Company_Name_French__c}</span></apex:outputText>
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name__c}</span></apex:outputText> 
+                    Et la reclamation de <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.Client_Company_Name_French__c}</span></apex:outputText>
+                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name__c}</span></apex:outputText> 
                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c}</span> </apex:outputText> (Créancier)          
                     </apex:outputText>
-                    <apex:outputText rendered="{!insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name_2__c}</span> (Créancier)</apex:outputText>
+                    <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name_2__c}</span> (Créancier)</apex:outputText>
                     <br/><br/>
                     <span style="font-family: sans-serif; font-style:italic;">Tous les avis ou correspondances concernant cette réclamation doivent être envoyés à l'adresse suivante:</span>
                 </div>
                 
                 <div style="font-weight : bold; text-align:center;padding-top:0px; font-family: sans-serif;">
-                    <apex:outputText rendered="{!insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}">{!pocPackage.CFG_Office_Name_2__c} C/O </apex:outputText>
-                    <apex:outputText rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL'))}">{!pocPackage.Client_Company_Name__c} C/O </apex:outputText> 
+                    <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}">{!pocPackage.CFG_Office_Name_2__c} C/O </apex:outputText>
+                    <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL'))}">{!pocPackage.Client_Company_Name__c} C/O </apex:outputText> 
                     </apex:outputText>
                     {!pocPackage.CFG_French_Office_Name__c}<br/>
                     {!pocPackage.CFG_Office_Address_1__c}<br/>
@@ -197,12 +197,12 @@
                         <tr>
                             <td style="vertical-align:top;"><b>1.</b></td>
                             <td style="padding-left:10px;">Que je suis le président de <span style="font-family: sans-serif; font-weight:bold;">{!pocPackage.CFG_French_Office_Name__c},</span> prestataire de services pour 
-                                <apex:outputText rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
-                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.CFG_Office_Name__c},</span> qui est l'acheteur du compte de </apex:outputText> 
-                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL')}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.Client_Company_Name_French__c},</span> qui est l'acheteur du compte de </apex:outputText>
+                                <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.CFG_Office_Name__c},</span> qui est l'acheteur du compte de </apex:outputText> 
+                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.Client_Company_Name_French__c},</span> qui est l'acheteur du compte de </apex:outputText>
                                 <span  style="font-family: sans-serif; font-weight:bold;">{!pocPackage.Client_Company_Name_French__c}.</span>
                                 </apex:outputText>
-                                <apex:outputText escape="false" rendered="{!insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><span style='font-family: sans-serif; font-weight:bold;'>{!pocPackage.CFG_Office_Name_2__c}</span></apex:outputText>.</td>
+                                <apex:outputText escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><span style='font-family: sans-serif; font-weight:bold;'>{!pocPackage.CFG_Office_Name_2__c}</span></apex:outputText>.</td>
                         </tr>
                         <tr>
                             <td style="vertical-align:top;">2.</td>
@@ -474,11 +474,11 @@
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, Président<br/>
                                 {!pocPackage.CFG_French_Office_Name__c}<br/>
-                                <apex:outputText rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+                                <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                                <!-- <apex:outputText value="<br/>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (Créancier)
                                 <apex:outputText value="<br/><br/>" escape="false" rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" /> -->
-                                <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}" />
-                                <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL'))}" />
+                                <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
+                                <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL'))}" />
                                 </apex:outputText>
                                 <apex:outputText value="<b>Prestataire de Services pour for {!pocPackage.CFG_Office_Name_2__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}" />
                             </span>
@@ -557,11 +557,11 @@
                     <br/>
                     De la Ville de <span  style="font-family: sans-serif; font-weight:bold;"> {!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</span>, dans la province de <span  style="font-family: sans-serif; font-weight:bold;">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>Et la reclamation de 
-                    <apex:outputText rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+                    <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name__c}</span></apex:outputText> 
                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c}</span> (Créancier)</apex:outputText>   
                     </apex:outputText>
-                    <apex:outputText rendered="{!insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.CFG_Office_Name_2__c} </span> (Créancier)</apex:outputText>
+                    <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.CFG_Office_Name_2__c} </span> (Créancier)</apex:outputText>
                 </div>
                 <br/>
                 <tr style="text-align:left;">
@@ -676,9 +676,9 @@
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, Président<br/>
                             {!pocPackage.CFG_French_Office_Name__c}<br/>
-                            <apex:outputText rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
-                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier) </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Bank_Name__c != 'Scotia Bank' && insolvAcc.Bank_Name__c != 'SDA' && insolvAcc.Bank_Name__c != 'SPL'}" />
-                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Bank_Name__c == 'Scotia Bank' || insolvAcc.Bank_Name__c == 'SDA' || insolvAcc.Bank_Name__c == 'SPL'))}" />
+                            <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier) </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
+                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') || (insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL'))}" />
                             </apex:outputText>
                             <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name_2__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}" />
                         </span>
@@ -795,7 +795,7 @@
                 
                 <div style="padding-bottom:0px; clear:both; font-size:13px;">
                     <span  style="font-family: sans-serif; font-weight:bold;">No dossier: </span> {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br/>
-                    <apex:outputText rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+                    <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                     <span style="font-family: sans-serif; font-weight:bold;"> Informations relatives au paragraphe 6 de la preuve de la Preuve de réclamation</span>
                     </apex:outputText>
                     <h3 style="text-align:center;"><span  style="font-family: sans-serif; font-weight:bold;">Contexte du compte</span></h3>
@@ -869,7 +869,7 @@
                     </apex:outputText>
                 </table>
                 
-                <apex:outputText rendered="{!NOT(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+                <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                  <div style="padding-left:7px;">
                 <span style="font-family: sans-serif; font-size:13px;">Si elles sont disponibles, veuillez consulter les états ci-joints pour connaître tous les détails des paiements, crédits et virements survenus au cours des trois mois précédant la date de l’insolvabilité.</span>
                 </div>

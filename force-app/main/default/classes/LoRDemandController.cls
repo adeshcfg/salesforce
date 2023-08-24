@@ -113,7 +113,7 @@ public class LoRDemandController{
         String bankNameWiseFrenchCompanyName = pocPackage.Client_Company_Name_French__c;
         // Only used in French template
         String clientCompanyNameSuffix = ' (« Banque Scotia »)';
-        if(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'){
+        if(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'){
             pocPackage.Client_Company_Name__c = pocPackage.CFG_Office_Name_2__c;
             clientCompanyNameSuffix = '';
             companyName = pocPackage.CFG_Office_Name_2__c;
@@ -124,7 +124,7 @@ public class LoRDemandController{
                 pocPackage.Client_Company_Name_French__c = pocPackage.CFG_Office_Name_2__c;
             }
         }
-		if(insolvAcc.Bank_Name__c == 'Goeasy' && insolvAcc.Account_Type__c != 'Leasing product'){
+		if(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c != 'Leasing product'){
             clientCompanyNameSuffix = '';
             companyName = 'Easyfinancial';
             clientCompanyName = companyName.toUppercase();
@@ -159,8 +159,8 @@ public class LoRDemandController{
                 '{!pocPackage.CFG_Office_Fax_Number__c}' => pocPackage.CFG_Office_Fax_Number__c.replace('-','.'),
                 '{!pocPackage.CFG_Office_Name}' => pocPackage.CFG_Office_Name__c,
                 '{!Insolvency_Account__c.Vehicle_Identification_Number__c}' => (insolvAcc.Vehicle_Identification_Number__c != null ? insolvAcc.Vehicle_Identification_Number__c : ''),
-                 '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c,
-                  '{!pocPackage.CFG_Office_Name__c}'   =>pocPackage.CFG_Office_Name__c,
+                '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c,
+                '{!pocPackage.CFG_Office_Name__c}'   =>pocPackage.CFG_Office_Name__c,
                 '{!pocPackage.BankNameWiseCompanyName}' => bankNameWiseCompanyName,
                 '{!pocPackage.BankNameWiseFrenchCompanyName}' => bankNameWiseFrenchCompanyName,
                 '{!pocPackage.CFG_Office_Address_1__c}'   =>pocPackage.CFG_Office_Address_1__c,
@@ -178,7 +178,6 @@ public class LoRDemandController{
         }else{
             emtList = [SELECT Id, Name, HtmlValue, Body,Subject FROM EmailTemplate WHERE Id =: pocPackage.LoR_DemandTemplate_Id__c OR Id =: pocPackage.LoR_Notice_1_Content_Id__c];
         }
-        
         // Fetch LoRNotice1 email template
         for(EmailTemplate emt : emtList){
             if(emt.Id == pocPackage.LoR_DemandTemplate_Id__c || emt.Id == pocPackage.LoR_DemandTemplate_French_Id__c){
