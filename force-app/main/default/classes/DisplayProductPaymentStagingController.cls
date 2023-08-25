@@ -167,21 +167,20 @@ public class DisplayProductPaymentStagingController {
                && payStagingWrapper.selected == true){
                    
                    Product_Payments__c prodPayment = new Product_Payments__c();
-                   
                    prodPayment.CCS_Account__c = payStaging.Product_ID__c;
                    prodPayment.Payment_Amount__c = payStaging.Payment_Amount__c;
                    prodPayment.Payment_Posting_Date__c = payStaging.Pay_Posting_Date__c;
                    prodPayment.Payment_Created__c = Date.today();
-                   //updating code to populate Payment Created Date instead of Payment Posting Date
-                   monthInt = String.valueOf(prodPayment.Payment_Posting_Date__c.month());
+                   //updating the code to populate payment posting month from Payment created instead of Payment Posting date Ticket: 4546
+                   monthInt = String.valueOf(prodPayment.Payment_Created__c.month());
                    
                    if(monthInt.length() == 1){
-                       currentMonth = '0' + String.valueOf(prodPayment.Payment_Posting_Date__c.month());
+                       currentMonth = '0' + String.valueOf(prodPayment.Payment_Created__c.month());
                    }else{
-                       currentMonth = String.valueOf(prodPayment.Payment_Posting_Date__c.month()); 
+                       currentMonth = String.valueOf(prodPayment.Payment_Created__c.month()); 
                    }
-                   
-                   prodPayment.Payment_Posting_Month__c =  String.valueOf(prodPayment.Payment_Posting_Date__c.year() +''+ currentMonth);
+                   //updating the code to populate payment posting month from Payment created instead of Payment Posting date Ticket: 4546
+                   prodPayment.Payment_Posting_Month__c =  String.valueOf(prodPayment.Payment_Created__c.year() +''+ currentMonth);
                    prodPayment.Payment_Posting_Date_Text__c = payStaging.Payment_Posting_Date__c;
                    prodPayment.Payment_Type__c = payStaging.Payment_Type__c;
                    prodPayment.Payment_Source__c = payStaging.Payment_Source__c;
@@ -279,7 +278,6 @@ public class DisplayProductPaymentStagingController {
             
             //Added by satyajit for ticket:4518
             //Database.rollback(sp);
-            
             for(Product_Payment_Staging__c ProductPaymentStaging: listProductPaymentStaging){
                 String msg = '<b>ERROR</b>-'+ex.getMessage();
                 if(msg.length() > 254){
@@ -375,16 +373,17 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.CCS_Account__c = payStaging.Product_ID__c;
                    prodPayment.Payment_Amount__c = payStaging.Payment_Amount__c;
                    prodPayment.Payment_Posting_Date__c = payStaging.Pay_Posting_Date__c;
-                   //updating the code to populate payment posting month from Payment created instead of Payment Posting date
+                   //updating the code to populate payment posting month from Payment created instead of Payment Posting date Ticket: 4546
                    prodPayment.Payment_Created__c = Date.today();
-                   monthInt = String.valueOf(prodPayment.Payment_Posting_Date__c.month());
+                   monthInt = String.valueOf(prodPayment.Payment_Created__c.month());
                    
                    if(monthInt.length() == 1){
-                       currentMonth = '0' + String.valueOf(prodPayment.Payment_Posting_Date__c.month());
+                       currentMonth = '0' + String.valueOf(prodPayment.Payment_Created__c.month());
                    }else{
-                       currentMonth = String.valueOf(prodPayment.Payment_Posting_Date__c.month()); 
+                       currentMonth = String.valueOf(prodPayment.Payment_Created__c.month()); 
                    }
-                   prodPayment.Payment_Posting_Month__c =  String.valueOf(prodPayment.Payment_Posting_Date__c.year() +''+ currentMonth);
+                   //updating the code to populate payment posting month from Payment created instead of Payment Posting date Ticket: 4546
+                   prodPayment.Payment_Posting_Month__c =  String.valueOf(prodPayment.Payment_Created__c.year() +''+ currentMonth);
                    prodPayment.Payment_Posting_Date_Text__c = payStaging.Payment_Posting_Date__c;
                    prodPayment.Payment_Type__c = payStaging.Payment_Type__c;
                    prodPayment.Payment_Source__c = payStaging.Payment_Source__c;

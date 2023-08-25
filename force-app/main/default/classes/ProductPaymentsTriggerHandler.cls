@@ -172,7 +172,7 @@ public class ProductPaymentsTriggerHandler{
             for(Product_Payments__c productPayment : listNewProductPayments){
                
                 if(prodRTypeIdMap.get('Distressed_Product_Payment') == productPayment.RecordTypeId){
-                    Date date1 = productPayment.Payment_Posting_Date__c;
+                    Date date1 = productPayment.Payment_Created__c;
                     String day1 = String.valueOf(date1.Day());
                     String month1 = String.valueOf(date1.Month());
                     String yr = String.valueOf(date1.Year());
@@ -181,9 +181,9 @@ public class ProductPaymentsTriggerHandler{
                     if(month1.length() == 1){
                         month1 = '0'+month1;
                     }
-                    //updating code to populate Payment Created Date instead of Payment Posting Date
-                    if(productPayment.Payment_Posting_Date__c != NULL){
-                        productPayment.Payment_Posting_Month__c = String.valueOf(productPayment.Payment_Posting_Date__c.Year())
+                    //updating the code to populate payment posting month from Payment created instead of Payment Posting date Ticket: 4546
+                    if(productPayment.Payment_Created__c != NULL){
+                        productPayment.Payment_Posting_Month__c = String.valueOf(productPayment.Payment_Created__c.Year())
                                                                +  month1;
                     }
                     if(mapProducts.containsKey(productPayment.CCS_Account__c)){
@@ -286,7 +286,7 @@ public class ProductPaymentsTriggerHandler{
     //Handle before update
     public static void handleBeforeUpdate(List<Product_Payments__c> prodPayNew, Map<Id, Product_Payments__c> oldMap) {
         for(Product_Payments__c productPayment : prodPayNew){
-            Date date1 = productPayment.Payment_Posting_Date__c;
+            Date date1 = productPayment.Payment_Created__c;
             String day1 = String.valueOf(date1.Day());
             String month1 = String.valueOf(date1.Month());
             String yr = String.valueOf(date1.Year());
@@ -294,9 +294,9 @@ public class ProductPaymentsTriggerHandler{
             if(month1.length() == 1){
                 month1 = '0'+month1;
             }
-            //updating code to populate Payment Created Date instead of Payment Posting Date
-            if(productPayment.Payment_Posting_Date__c != NULL){
-                productPayment.Payment_Posting_Month__c = String.valueOf(productPayment.Payment_Posting_Date__c.Year())
+            //updating the code to populate payment posting month from Payment created instead of Payment Posting date Ticket: 4546
+            if(productPayment.Payment_Created__c != NULL){
+                productPayment.Payment_Posting_Month__c = String.valueOf(productPayment.Payment_Created__c.Year())
                     +  month1;
             }
         }
@@ -376,8 +376,6 @@ public class ProductPaymentsTriggerHandler{
                     }
                     else{
                         if(String.isNotBlank(mapProduct.get(prodPayment.CCS_Account__c).State__c)){
-                            system.debug('mapTaxMetadata'+mapTaxMetadata);
-                            system.debug('ProvinceNameFormat'+ProvinceNameFormat);
                             if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
                                 DebtorProvinceTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Province_Tax_rate__c;
                                 CanadaTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Canada_Tax_rate__c;
@@ -588,7 +586,6 @@ public class ProductPaymentsTriggerHandler{
                             if(productInstance.Collection_Agency__c != NULL){
                                 placementIdentifier = String.valueOf(Math.floor(productInstance.Collection_Agency__c));    
                             }
-                            system.debug('mapStatusProductWrapper'+mapStatusProductWrapper);
                             if(mapStatusProductWrapper.containsKey(PENDING_RECALL_PIF_CODE)){ 
                                 productWrapper prodWrap = mapStatusProductWrapper.get(PENDING_RECALL_PIF_CODE);
                                 prodWrap.productName += ',' + productInstance.Name;
@@ -688,7 +685,6 @@ productNames += productInstance.Name + ',';
                         }
                         else{
                             //payment is lesser than NSF fees
-                            //system.debug('productInstance.Current_Bal_NSF_Fees__c: '+productInstance.Current_Bal_NSF_Fees__c);
                             //Pay_NSF amount on Product Payment is amount paid towards the fees 
                             prodPayToUpdate.Pay_NSF__c = String.valueOf(totalProductPayment);
                             productInstance.Current_Bal_NSF_Fees__c -= totalProductPayment;
@@ -954,7 +950,6 @@ productNames += productInstance.Name + ',';
                     if(payProductInstance.Payment_Amount__c < 0){
                         //using to validate whether current total balance need to be updated or not
                         Boolean calflag = false;
-
                         if(mapReversedPayments.containsKey(payProductInstance.Original_Of_Payment_Reversal__c)){
                             Product_Payments__c reversedPay = mapReversedPayments.get(payProductInstance.Original_Of_Payment_Reversal__c);
                             if(reversedPay.Payment_Type__c != PAYTYPE_REGULAR){
