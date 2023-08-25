@@ -2,37 +2,22 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <apiVersion>58.0</apiVersion>
     <choices>
-        <name>Close</name>
-        <choiceText>Close</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Close</stringValue>
-        </value>
-    </choices>
-    <choices>
+        <description>Closed value</description>
         <name>Closed</name>
-        <choiceText>{!Close}</choiceText>
+        <choiceText>Closed</choiceText>
         <dataType>String</dataType>
         <value>
-            <elementReference>Close</elementReference>
-        </value>
-    </choices>
-    <choices>
-        <name>None</name>
-        <choiceText>{!--None--}</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>--None--</stringValue>
+            <elementReference>Closed</elementReference>
         </value>
     </choices>
     <description>this flow use for assignment close custom button</description>
     <dynamicChoiceSets>
         <description>This is a status picklist from Assignment</description>
-        <name>Status</name>
+        <name>Assignment_Reason</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
-        <picklistField>Status</picklistField>
+        <picklistField>Reason</picklistField>
         <picklistObject>Case</picklistObject>
     </dynamicChoiceSets>
     <environments>Default</environments>
@@ -47,7 +32,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -61,8 +46,8 @@
         <description>Updated the Assignment status</description>
         <name>Update_Assignment_Status</name>
         <label>Update Assignment Status</label>
-        <locationX>417</locationX>
-        <locationY>323</locationY>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -78,9 +63,15 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Reason</field>
+            <value>
+                <elementReference>AssignmentReason</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Status</field>
             <value>
-                <elementReference>Assignment_Status</elementReference>
+                <stringValue>Closed</stringValue>
             </value>
         </inputAssignments>
         <object>Case</object>
@@ -88,8 +79,8 @@
     <screens>
         <name>Assignment_Information</name>
         <label>Assignment Information</label>
-        <locationX>548</locationX>
-        <locationY>204</locationY>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -97,10 +88,18 @@
             <targetReference>Update_Assignment_Status</targetReference>
         </connector>
         <fields>
-            <name>Assignment_Status</name>
-            <choiceReferences>Status</choiceReferences>
+            <name>Status</name>
+            <choiceReferences>Closed</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Status</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>AssignmentReason</name>
+            <choiceReferences>Assignment_Reason</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Assignment Reason</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -115,13 +114,13 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>362</locationX>
-        <locationY>50</locationY>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Assignment_Information</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <description>Assignment Comments</description>
         <name>Comments</name>
