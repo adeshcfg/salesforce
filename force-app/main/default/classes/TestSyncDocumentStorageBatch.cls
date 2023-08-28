@@ -1,13 +1,13 @@
 /**************************************************************************************************
- *
- *  Class:   
- *
- *  @description : This class contains unit tests for validating behavior of SyncDocumentStorageBatch
- *  @author : A5E Consulting
- *  @date : 22/07/2022
- * 
- *************************************************************************************************/
-@Istest(SeeAllData=true)
+*
+*  Class:   
+*
+*  @description : This class contains unit tests for validating behavior of SyncDocumentStorageBatch
+*  @author : A5E Consulting
+*  @date : 22/07/2022
+* 
+*************************************************************************************************/
+@Istest
 public class TestSyncDocumentStorageBatch {
     @testsetup
     public static void makeData(){
