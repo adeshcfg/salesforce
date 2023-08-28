@@ -5,10 +5,9 @@
     <description>this button for close assignment</description>
     <displayType>button</displayType>
     <encodingKey>UTF-8</encodingKey>
-    <height>600</height>
     <linkType>url</linkType>
     <masterLabel>Close Assignment</masterLabel>
-    <openType>noSidebar</openType>
+    <openType>replace</openType>
     <protected>false</protected>
     <url>/flow/Assignment_close_button?recordId={!Case.Id}&amp;retURL={!$Site.CurrentSiteUrl}{!Case.Id}</url>
 </WebLink>

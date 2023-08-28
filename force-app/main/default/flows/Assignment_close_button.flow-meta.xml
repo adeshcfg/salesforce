@@ -136,4 +136,12 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
+    <variables>
+        <name>TEsting</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
 </Flow>
