@@ -1,33 +1,37 @@
+/* eslint no-console: ["error", { allow: ["error"] }] */
 ({
     doInit: function (component, event, helper) {
-        // document.getElementById("newClientSectionId").style.display = "none" ;
-        try{
-            
-      	var sPageURL = decodeURIComponent(window.location.search.substring(1)); //You get the whole decoded URL of the page.
-        var sURLVariables = sPageURL.split('&'); //Split by & so that you get the key value pairs separately in a list
-        var sParameterName;
-        var i;
-
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('='); //to split the key from the value.
-
-            if (sParameterName[0] === 'InsolvencyId') { //lets say you are looking for param name - InsolvencyId
-               
-            }
+        try {
+            var parsedUrl = new URL(window.location.href);
+            component.set("v.insolvencyId", parsedUrl.searchParams.get("InsolvencyId"));
+            component.find("recordLoader").set("v.recordId", component.get("v.insolvencyId"));
+            component.find("recordLoader").reloadRecord();
+        } catch (error) {
+            console.error(error.message);
         }
+    },
+
+    handleRecordChanged: function (component, event, helper) {
         var createRecordEvent = $A.get("e.force:createRecord");
         createRecordEvent.setParams({
             entityApiName: "Insolvency_Account__c",
-            "defaultFieldValues"    : {
-                'Insolvency__c' : sParameterName[1]
-            }  
+            defaultFieldValues: {
+                Insolvency__c: component.get("v.insolvencyId"),
+                Borrower_Primary__c: component.get("v.insolvencyRecord").Debtor__c
+            }
         });
-        createRecordEvent.fire();
-
-        }catch(e){
-            console.log(e.message);
+        switch (event.getParams().changeType) {
+            case "ERROR":
+                console.error("Error loading record data");
+                break;
+            case "LOADED":
+                createRecordEvent.fire();
+                break;
+            case "CHANGED":
+                createRecordEvent.fire();
+                break;
+            default:
+                break;
         }
-        
     }
-    
 });
