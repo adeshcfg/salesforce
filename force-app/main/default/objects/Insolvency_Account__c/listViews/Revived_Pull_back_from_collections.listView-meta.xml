@@ -4,8 +4,9 @@
     <booleanFilter>(1 OR 2) AND 3 AND 4 AND 5 AND 6</booleanFilter>
     <columns>NAME</columns>
     <columns>Insolvency__c</columns>
+    <columns>Account_Number_Without_Space__c</columns>
     <columns>Bank_Name__c</columns>
-    <columns>Primary_Account__c</columns>
+    <columns>Borrower_Primary__c</columns>
     <columns>Number_Of_Days_In_Current_Status__c</columns>
     <columns>Claim_Type__c</columns>
     <columns>Insolvency_Status__c</columns>
@@ -44,10 +45,12 @@
         <value>Unsecured</value>
     </filters>
     <label>Revived - Recall from collections</label>
+    <language>en_US</language>
     <sharedTo>
         <group>CCS_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
         <group>Insolvency_Fairstone_Users</group>
+        <group>Insolvency_Goeasy_Users</group>
         <group>Insolvency_SDA_Users</group>
         <group>Insolvency_SPL_Users</group>
         <group>Insolvency_Scotia_Users</group>

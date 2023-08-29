@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Withdrawn_Filed_New</fullName>
+    <fullName>For_Owner_Review_Easyfinancial</fullName>
     <columns>Insolvency__c</columns>
     <columns>NAME</columns>
     <columns>Bank_Name__c</columns>
@@ -19,15 +19,11 @@
     <filters>
         <field>Insolvency_Status__c</field>
         <operation>equals</operation>
-        <value>Withdrawn – Filed New</value>
+        <value>For Owner Review</value>
     </filters>
-    <label>Withdrawn – Filed New</label>
+    <label>For Owner Review</label>
+    <language>en_US</language>
     <sharedTo>
-        <group>Insolvency_CFG_BS</group>
-        <group>Insolvency_CFG_Users</group>
         <group>Insolvency_Goeasy_Users</group>
-        <group>Insolvency_SDA_Users</group>
-        <group>Insolvency_SPL_Users</group>
-        <group>Insolvency_Scotia_Users</group>
     </sharedTo>
 </ListView>
