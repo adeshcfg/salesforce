@@ -44,6 +44,13 @@
             <operator>contains</operator>
             <value>Easyfinancial</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>CUST_RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Insolvency_Account__c.Goeasy_Insolvency_Account</value>
+        </criteriaItems>
         <language>en_US</language>
     </filter>
     <format>Summary</format>
@@ -63,7 +70,7 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Insolvency_Account__c.Insolvency_Date__c</dateColumn>
-        <interval>INTERVAL_THISMONTH</interval>
+        <dateColumn>Insolvency_Account__c.Claim_Filed_Date__c</dateColumn>
+        <interval>INTERVAL_TODAY</interval>
     </timeFrameFilter>
 </Report>
