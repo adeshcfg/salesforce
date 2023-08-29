@@ -155,20 +155,20 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>Account.Products__r$CCS_Stage__c</groupingColumn>
+                <groupingColumn>Product__c.CCS_Stage__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Easyfi CCS Accounts – no pymt 60 days</header>
+                <header>Easyfinancial CCS Accts –no pymt 60 days</header>
                 <legendPosition>Bottom</legendPosition>
-                <report>Goeasy_CCS_Reports/Easyfinancial_CCS_Accts_no_pymt_60_days</report>
+                <report>Goeasy_CCS_Reports/Goeasy_CCS_Accounts_no_pymts_60_days</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
-                <title>Easyfi CCS Accounts – no pymt 60 days</title>
+                <title>Easyfinancial CCS Accts –no pymt 60 days</title>
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
             <rowIndex>8</rowIndex>
