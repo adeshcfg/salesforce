@@ -9,5 +9,5 @@
     <masterLabel>Close Assignment</masterLabel>
     <openType>replace</openType>
     <protected>false</protected>
-    <url>/flow/Assignment_close_button?recordId={!Case.Id}&amp;retURL={!$Site.CurrentSiteUrl}{!Case.Id}</url>
+    <url>https://cfgroup--psb.sandbox.lightning.force.com/flow/Assignment_close_button?recordId={!Case.Id}&amp;retURL={!$Site.CurrentSiteUrl}{!Case.Id}</url>
 </WebLink>
