@@ -23,6 +23,7 @@
     <columns>
         <field>Account.Products__r$Payment_Frequency__c</field>
     </columns>
+    <description>Easyfinancial CCS Accts to Close as PIF</description>
     <filter>
         <criteriaItems>
             <column>Account.Products__r$RecordType</column>

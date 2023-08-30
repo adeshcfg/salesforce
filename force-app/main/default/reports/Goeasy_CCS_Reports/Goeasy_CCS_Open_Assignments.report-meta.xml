@@ -38,6 +38,13 @@
             <operator>equals</operator>
             <value>Goeasy</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Case.CCS_Case</value>
+        </criteriaItems>
         <language>en_US</language>
     </filter>
     <format>Summary</format>

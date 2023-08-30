@@ -23,13 +23,13 @@
     </columns>
     <description>Goeasy CCS Accounts –no pymt 60 days</description>
     <filter>
-        <booleanFilter>(1 AND 2 AND 3 AND (4 or 5)) AND 6</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3 AND (4 OR 5) AND 6</booleanFilter>
         <criteriaItems>
             <column>CUST_RECORDTYPE</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Product__c.CCS_Account</value>
+            <value>Product__c.GoEasy_CCS_Account</value>
         </criteriaItems>
         <criteriaItems>
             <column>Product__c.CCS_Stage__c</column>
@@ -50,7 +50,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>lessThan</operator>
-            <value>3/31/2023</value>
+            <value>8/30/2023</value>
         </criteriaItems>
         <criteriaItems>
             <column>Product__c.Last_Payment_Date__c</column>
