@@ -103,8 +103,8 @@ public class TestDistressedProductProcessingBatch {
         prod.Current_Principal_Balance__c = 100;
         prod.Interest_Rate__c = 10;
         prod.Interest_Amount_Last_Calculated_Date__c = Date.newInstance(2023, 12, 19);
-        prod.Interest_Waived_Off_Start_Date__c = Date.newInstance(2023, 12, 25);
-        prod.Interest_Waived_Of_End_Date__c = Date.newInstance(2023, 12, 15);
+        prod.Interest_Waived_Off_Start_Date__c = Date.newInstance(2023, 12, 15);
+        prod.Interest_Waived_Of_End_Date__c = Date.newInstance(2023, 12, 25);
         prod.Insolvency_Date__c = null;
         prod.Deceased_Date__c = null;
         prod.Interest_Waived_Off__c = true;
