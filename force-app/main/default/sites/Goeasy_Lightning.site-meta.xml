@@ -24,7 +24,7 @@
     <referrerPolicyOriginWhenCrossOrigin>true</referrerPolicyOriginWhenCrossOrigin>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
     <serverIsDown>SNA_CCSDemo1_sf_default_cdn_fMCXU</serverIsDown>
-    <siteAdmin>adesh.ikhar@canaccede.com</siteAdmin>
+    <siteAdmin>devadminuser@canaccede.com</siteAdmin>
     <siteGuestRecordDefaultOwner>api@canaccede.com</siteGuestRecordDefaultOwner>
     <siteType>ChatterNetwork</siteType>
     <subdomain>insolvencystream</subdomain>
