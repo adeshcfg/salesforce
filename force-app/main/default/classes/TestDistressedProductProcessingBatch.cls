@@ -121,6 +121,7 @@ public class TestDistressedProductProcessingBatch {
         prod1.Interest_Rate__c = 10;
         prod1.Interest_Amount_Last_Calculated_Date__c = Date.newInstance(2023, 12, 26);
         prod1.Interest_Waived_Off_Start_Date__c = Date.newInstance(2023, 12, 25);
+        prod1.Interest_Waived_Of_End_Date__c = Date.newInstance(2023, 12, 26);
         prod1.Insolvency_Date__c = null;
         prod1.Deceased_Date__c = null;
         prod1.Interest_Waived_Off__c = true;
