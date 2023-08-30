@@ -359,7 +359,7 @@ private class TestProductTriggerHandler {
         prod3.Last_Name__c = 'xyz';
         prod3.State__c = 'MB';
         prod3.Pool_Name__c = pool1.id;
-        prod3.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
+        prod3.Collection_Sub_Status__c = 'Credit Counselling';
         prod3.Interest_Rate__c = 5;
         prod3.Insolvency_Date__c = Date.newInstance(2016, 12, 9);
         prod3.Deceased_Date__c = Date.newInstance(2016, 12, 9);
@@ -371,8 +371,11 @@ private class TestProductTriggerHandler {
         prod3.Purchase_Status__c = 'Putback Initiated';
         prod3.Purchase_Province__c='PE';
 		prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
-        prod3.Customer__c = customer1.id;
+        prod3.Customer__c = NULL;
+        prod3.Last_Name__c = 'Test';
         system.debug('prod2'+prod2);
+        
+       
         
         product__c prod4 = new product__c();
         prod4.id = prod.ID;
@@ -459,6 +462,168 @@ private class TestProductTriggerHandler {
         
   
     }
+    static testMethod void productBeforeUpdateTes1t(){
+        Application_Config_Settings__c config = new Application_Config_Settings__c();
+        config.Run_Product_Coll_Sub_Status_Validation__c = true;
+        insert config;
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+		
+        Statute_Date_Update__mdt mdt = new Statute_Date_Update__mdt();
+        mdt.Months__c = 10;
+        mdt.MasterLabel = 'Alberta';
+     
+        API_Call_Details__c  settings = new API_Call_Details__c ();
+        settings.Name = 'Agency Portal API';
+        settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
+        settings.Tenand_ID__c = '123';
+        settings.Proxy_Client_ID__c = '123';
+        settings.Client_ID__c = '1234';
+        settings.Client_Secret__c = '1234';
+        settings.PDF_API_URL__c = 'https://test.com/endpointurl';
+        settings.Scope_Prefix__c = 'scopep.com';
+        settings.Scope_Suffix__c = '/.default';
+        insert settings;
+        
+        Pool__c pool = new Pool__c();
+        pool.Placement_Agency__c = 89;
+        Insert pool;
+        
+        Pool__c pool1 = new Pool__c();
+        pool1.Placement_Agency__c = 29;
+        Insert pool1;
+        
+        /*Account customer1 = new Account(FirstName = 'FirstName', 
+                                        LastName = 'Last Name',
+                                        PersonMailingPostalCode = '998Y',
+                                        OwnerId = UserInfo.getUserId(),
+                                        PersonMailingCity = 'test',
+                                        PersonMailingStreet = 'test',
+                                        PersonMailingState = 'test',
+                                        PersonBirthdate = Date.newInstance(1976, 10,6),
+                                        PersonHomePhone = '8990-898-876',
+                                        Work_Phone__pc = '8990-898-876',
+                                        PersonOtherPhone = '8990-898-876',
+                                        Address_Last_Changed_Date__c = Date.newInstance(2022, 12, 5),
+                                        RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId()); 
+        insert customer1;*/
+        /*Account customer = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = 'Toronto', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Fidem Customer').getRecordTypeId());
+        insert customer;*/
+        Account customer1 = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = 'Toronto', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId()); 
+        insert customer1;
+
+        Product__c prod = new Product__c();
+        prod.name = '123451212';
+        prod.Payment_Setup_Status__c = 'Automated';
+        prod.Funding_Status__c = 'Released Batch';
+        prod.Funding_Type__c = 'Automated';
+        prod.Disbursement_Amount__c = 2000.00;
+        prod.Current_Balance__c = 7000;
+        prod.Current_Principal_Balance__c = 5000;
+        prod.Current_Interest_Amount__c = 2000;
+        prod.Current_Workflow__c = 'Collection Process';
+        prod.Requested_Close_Date__c = System.Today();
+        prod.Status__c = 'New Allocation - New Allocation';
+        prod.Sub_Status__c = 'Ready';
+        prod.Product_Status__c = 'Test';
+        prod.Last_Name__c = 'xyz';
+        prod.Pool_Name__c = pool.id;
+        prod.Collection_Agency__c = 30;
+        prod.Placement_Status__c = '100010';
+        prod.Purchase_Status__c = 'Buyback Initiated';
+        prod.Open_Date__c = Date.newInstance(2022, 12, 5);
+        prod.state__c = 'Alberta';
+        prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
+        prod.Purchase_Province__c='PE';
+        //prod.Customer__c = customer1.id;
+ 		insert prod;
+        
+        Product__c prod2= new Product__c();
+        List<User> systemName=[Select Name from User where Name ='System API'];
+        prod2.name = '12345';
+        prod2.Internal_Status__c = 'Active';
+        prod2.Payment_Setup_Status__c = 'Automated';
+        prod2.Funding_Status__c = 'Funded';
+        prod2.Funding_Type__c = 'Automated';
+        prod2.Disbursement_Amount__c = 3000.00;
+        prod2.Collection_Agency__c = 30;
+        prod2.Current_Balance__c = 7730;
+        prod2.Current_Principal_Balance__c = 5000;
+        prod2.Current_Interest_Amount__c = 2730;
+        prod2.product_status__C = '310000';
+        prod2.Current_Workflow__c = 'Collection Process';
+        prod2.Requested_Close_Date__c = System.Today();
+        prod2.Status__c = 'New Allocation - New Allocation';
+        prod2.Sub_Status__c = 'Ready';
+        prod2.Product_Status__c = 'Test';
+        prod2.Last_Name__c = 'xyz';
+        prod2.Placement_Status__c = '100010';
+        prod2.Credit_Counselling_Date__c =null;
+        prod2.Purchase_Status__c = 'Putback Requested';
+        prod2.Last_Payment_Date__c = Date.newInstance(2016, 12, 5);
+        prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prod2.Purchase_Province__c='PE';
+       
+        insert prod2;
+        
+        List<Product__c> prodList = new List<Product__c>();
+        
+        Map<ID, Product__c> prodMap = new Map<ID, Product__c>();
+        prodMap.put(prod.id, prod);
+        prodMap.put(prod2.id, prod2);
+   
+        product__c prod3 = new product__c();
+        prod3.Id = Prod2.Id;
+        prod3.Collection_Agency__c = 40;
+        prod3.Funding_Status__c = 'Released';
+        prod3.Product_Status__c = 'Test';
+        prod3.Status__c = 'In Process';
+        prod3.Sub_Status__c = 'Initial Letter Sent';
+        prod3.Placement_Status__c = '100010';
+        prod3.Invalid_Submission__c = true;
+        prod3.Refer_to_Legal__c = 'Approved';
+        prod3.Last_Name__c = 'xyz';
+        prod3.State__c = 'MB';
+        prod3.Pool_Name__c = pool1.id;
+        prod3.Collection_Sub_Status__c = 'Credit Counselling';
+        prod3.Interest_Rate__c = 5;
+        prod3.Insolvency_Date__c = Date.newInstance(2016, 12, 9);
+        prod3.Deceased_Date__c = Date.newInstance(2016, 12, 9);
+        prod3.Credit_Counselling_Date__c = Date.newInstance(2016, 12, 9);
+        prod3.Last_Payment_Date__c = Date.newInstance(2022, 8, 9);
+        prod3.Statute_Date__c = NULL;
+        prod3.Open_Date__c = Date.newInstance(2022, 12, 9);
+        prod3.Purchase_Status__c = 'Putback Initiated';
+        prod3.Purchase_Province__c='PE';
+		prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prod3.Customer__c = customer1.id;
+        prod3.Last_Name__c = 'Test';
+        prod3.product_status__C = '';
+        
+        product__c prod4 = new product__c();
+        prod4.id = prod.ID;
+        prod4.Disbursement_Amount__c = 1000.00;
+        prod4.Collection_Agency__c = null;
+        prod4.Purchase_Province__c='PE';
+   		prod4.Placement_Status__c = 'Testing';
+        prod4.Status__c = 'In Process';
+        prod4.Pool_Name__c = pool.id;
+        prod4.Refer_to_Legal__c = 'Declined';
+        prod4.Open_Date__c = Date.newInstance(2022, 12, 9);
+        prod4.Statute_Date__c = NULL;
+        prod4.State__c = 'Alberta';
+        prod4.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
+        prod4.Purchase_Status__c = 'Eligible for Buyback';
+        prod4.product_status__C = '';
+        prod4.Zip_Code__c = '887O';
+        prod4.Customer__c = customer1.id;
+       
+        prodList.add(prod3);
+        prodList.add(prod4);
+        ProductTriggerHandler.handleBeforeUpdate(prodList, prodMap);
+        ProductTriggerHandler.handleAfterUpdateUpdatedate(prodList,prodMap);
+        //ProductTriggerHandler.getCustomerRecord(prod.Customer__c);
+        //ProductTriggerHandler.needtoUpdateCustomer(prod3);
+    }
     
     //Test Before Insert
      static testMethod void productBeforeInsertTest(){
@@ -484,6 +649,10 @@ private class TestProductTriggerHandler {
          //pool.Name = 'Test';
          pool.Placement_Agency__c = 89;
          Insert pool;
+         
+        Statute_Date_Update__mdt mdt = new Statute_Date_Update__mdt();
+        mdt.Months__c = 10;
+        mdt.MasterLabel = 'AB';
          
         List<Product__c> prodList = new List<Product__c>();
        	
@@ -623,8 +792,17 @@ private class TestProductTriggerHandler {
         prod.Purchase_Province__c='PE';
  		prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
         prod.Customer__c = customer.id;
+        prod.State__c = 'AB';
         insert prod;
+         
+        product__c prod1 = new product__c();
+        prod1.name = '1000P8'; 
+        //prod1 = prod.clone(true);
+        prod1.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
+        insert prod1;
+         
         prodList.add(prod);
+        prodList.add(prod1);
         
         Product_Name_Details__c prodNameDetails = new Product_Name_Details__c();
         prodNameDetails.name = 'Test';
@@ -632,11 +810,228 @@ private class TestProductTriggerHandler {
         insert prodNameDetails;
         Test.startTest();
         ProductTriggerHandler.utilityMethod();
+        //System.assertEquals(true, prod.isClone());
         ProductTriggerHandler.handleBeforeInsert(prodList);
         ProductTriggerHandler.handleafterinsertdate(prodList);
         Test.stopTest();
     }
-     
+    
+    static testMethod void productAfterInsertUpdateTest1(){
+        ID ProductID ;
+        Date updatedDate ;
+        string fieldSetLabel;
+        Boolean activeVersaPayPayment;
+            
+        Product__c ProdData = new Product__c ();
+        Product__c ProdDataOld = new Product__c ();
+        
+        Account customer = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = '',PersonMailingStreet='', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Fidem Customer').getRecordTypeId());
+        insert customer;
+
+        Account customer1 = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = 'Toronto', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId());
+        insert customer1;
+
+        Product__c prod = new Product__c(Purchase_Province__c='PE',Deceased_Date__c=null,City__c = 'Toronto',Statute_Date__c = null,Insolvency_Date__c=null,Credit_Counselling_Date__c=system.today() ,First_Name__c = 'ProdFirstName', Last_Name__c = 'ProdLastName',Status__c = 'New Allocation - New Allocation',Sub_Status__c = 'Ready',Product_Status__c = 'Test', Customer__c = customer.Id, Source_System__c ='FDR', RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId());
+        List<Product__c> prodList1 = new List<Product__c>();
+        List<Product__c> prodList = new List<Product__c>();
+        prodList.add(prod);
+        
+        insert prodList;
+		prod.Collection_Sub_Status__c = 'Pending Recall';
+        //prod.Credit_Counselling_Date__c=system.today();
+        prod.Address_Line1__c = 'test';
+        prod.Date_of_Birth__c = Date.newInstance(1977, 12, 9);
+        prod.Insolvency_Date__c=system.today();
+        prod.Deceased_Date__c=system.today();
+        prod.City__c = 'Toronto';
+        prod.Last_Payment_Date__c = system.today();
+        Map<ID, Product__c> prodMap = new Map<ID, Product__c>();
+        prodMap.put(prod.id, prod);
+        system.debug('calling 1 start'+prodList);
+        ProductTriggerHandler.handleAferInsertUpdate(prodList, prodMap, true);
+        system.debug('calling 1 end');
+        Task tsk = new Task();
+        tsk.WhatId = customer.Id;
+        tsk.subject = 'Address Changes';
+        tsk.OwnerId= UserInfo.getUserId();
+        //insert tsk;
+        
+        Product__c prod1 = new Product__c(First_Name__c = 'ProdFirstName', Last_Name__c = 'ProdLastName', Customer__c = customer.Id, Source_System__c ='FDR', RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId());
+        prod1.Data_Status_Description__c = 'Test';
+        prod1.Status__c = 'New Allocation - New Allocation';
+        prod1.Sub_Status__c = 'Ready';
+        prod1.Product_Status__c = 'Test';
+        prod1.Credit_Counselling_Date__c=system.today();
+        prod1.Purchase_Province__c='PE';
+        prod1.Proposed_Payment_Amount__c = 10;
+        prod1.Total_Paid_To_Date__c = 5;
+        prod1.Accepted_Payment_Amount__c  = 19;
+        prod1.Expected_First_disbursement_date__c = system.Today().addDays(-70);
+        prod1.Proposal_Received_Date__c = system.Today().addDays(-75);
+ 		insert prod1;
+        
+        Product__c prod12 = new Product__c(First_Name__c = 'ProdFirstName', Last_Name__c = 'ProdLastName', Customer__c = customer.Id, Source_System__c ='FDR', RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId());
+        prod12.Data_Status_Description__c = 'Test';
+        prod12.Status__c = 'New Allocation - New Allocation';
+        prod12.Sub_Status__c = 'Ready';
+        prod12.Product_Status__c = 'Test';
+        prod12.Is_Future_PTP__c=true;
+        prod12.Purchase_Province__c='PE';
+        prod12.Credit_Counselling_Date__c = null;
+ 		insert prod12;
+     	prodMap.put(prod12.Id, prod12);
+        prodList.add(prod1);
+        list<product__c> prodList123 = new list<product__c>();
+       prodList123.add(prod12);
+        prodList123.add(prod1);
+        list<product__c> prodList1234 = new list<product__c>();
+       prodList1234.add(prod1);
+        prodList1234.add(prod12); 
+        //prod.First_Name__c = 'changed';
+        prod.Address_Last_Changed_Date__c = system.Today().addDays(-1);
+        prod.Phone_Other__c = '123456';
+        prod.Phone_Work__c = '123456';
+        prod.Phone_Home__c = '123456';
+        //prod.Date_of_Birth__c = system.Today().addDays(-7000);
+        prod.State__c = 'ON';
+        prod.Zip_Code__c = '123456';
+        prod.City__c = 'NYC';
+        prod.Address_Line1__c = 'Street 1';
+        prod.Status__c = 'New Allocation - New Allocation';
+        prod.Sub_Status__c = 'Ready';
+        prod.Product_Status__c = 'Test';
+        prod.Company_Name__c = 'Test';
+        update prod;
+        
+        
+         Map<ID, Product__c> prodMap1 = new Map<ID, Product__c>();
+        Product__c prodd = new Product__c(); 
+        prodd = new Product__c();        
+        prodd.name = 'Prod6';
+       // prodd.recordTypeId = recordTypeId;
+        prodd.Phone_Home__c = '12345678999';
+        prodd.Phone_Other__c = '8974563214';
+        prodd.Phone_Work__c = '27896541236';
+        prodd.Requested_Close_Date__c = null;
+        prodd.Closed_Date__c = null;
+        prodd.Payment_Due_Date__c = System.Today().addDays(20);
+        prodd.Internal_Status__c = 'Active';
+        prodd.product_status__C = '310000';
+       // prodd.Collection_Agency_Placement__c = plcgy1.id;
+        prodd.Status__c = 'New Allocation - New Allocation';
+        prodd.Sub_Status__c = 'Ready';
+        prodd.Product_Status__c = 'Test';
+        prodd.Company_Name__c = 'Test';
+        prodd.Collection_Agency__c = 20;
+        prodd.state__c ='AB';
+        prodd.Customer__c =customer1.Id;
+        prodd.City__c = 'Toronto';
+        prodd.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prodd.Purchase_Province__c='PE';
+    	insert prodd;
+       prodMap1.put (Prodd.id, prodd);
+        
+       Product__c prod2 = new Product__c(); 
+        prod2 = new Product__c();        
+        prod2.name = 'Prod7';
+       // prod2.recordTypeId = recordTypeId;
+        prod2.Phone_Home__c = '12345678999';
+        prod2.Phone_Other__c = '8974563214';
+        prod2.Phone_Work__c = '27896541236';
+        prod2.Requested_Close_Date__c = null;
+        prod2.Closed_Date__c = null;
+        prod2.Payment_Due_Date__c = System.Today().addDays(20);
+        prod2.Internal_Status__c = 'Active';
+        prod2.product_status__C = '310000';
+       // prod2.Collection_Agency_Placement__c = plcgy1.id;
+        prod2.Status__c = 'New Allocation - New Allocation';
+        prod2.Sub_Status__c = 'Ready';
+        prod2.Product_Status__c = 'Test';
+        prod2.Company_Name__c = 'Test Company';
+        prod2.Is_Future_PTP__c = true;
+        prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prodList1.add(prod2);
+        
+        
+        system.debug('calling 2 start'+prodList);
+        ProductTriggerHandler.handleAferInsertUpdate(prodList, prodMap, true);
+        system.debug('calling 2 end');
+        Application_Config_Settings__c config = new Application_Config_Settings__c();
+        config.Run_Product_Coll_Sub_Status_Validation__c = false;
+        insert config;
+        
+         
+        prodMap.put(prod1.Id, prod1);
+        ProductTriggerHandler.utilityMethod();
+        ProductTriggerHandler.handleAferInsertUpdate(prodList, prodMap, false);
+       // ProductTriggerHandler.handleAfterUpdate(prodList1,prodMap1);
+        ProductTriggerHandler.PTPFlowStep2(prodList123);
+        ProductTriggerHandler.validationRules(prodList,prodMap);
+        ProductTriggerHandler.checkInBetweenPayments(ProductID,updatedDate);
+        ProductTriggerHandler.getProductFieldsets(fieldSetLabel);
+        ProductTriggerHandler.versaPayRecords(prodList);
+        ProductTriggerHandler.createAddressChangedTask(ProdData);
+        ProductTriggerHandler.hasActiveAddressChangedTask(ProdData);
+        ProductTriggerHandler.hasProductCustomerDataChanged(ProdData,ProdDataOld);
+        ProductTriggerHandler.isActiveSORProduct(ProdData);
+        ProductTriggerHandler.isActiveMSProduct(ProdData);
+        ProductTriggerHandler.calculateDeliquency(ProdData,ProdDataOld, True);
+        ProductTriggerHandler.calculateBalanceBackdatedPayments2(prodList,prodMap);
+        ProductTriggerHandler.creatJudgment(prodd);
+        ProductTriggerHandler.nameFormat('Testting');
+        ProductTriggerHandler.PTPFlowStep2(prodList1234);
+        ProductTriggerHandler.getMatchingCustomers(prodd);
+        ProductTriggerHandler.needtoUpdateCustomer(prod);
+        ProductTriggerHandler.updateCustomerFromProduct(prod);
+        ProductTriggerHandler.handleAfterUpdate(prodList,prodMap);
+         ProductTriggerHandler.handleAfterUpdateUpdatedate(prodList,prodMap);
+        List<Product__c> newProdList = new List<Product__c>();
+        Product__c prodNew = new Product__c(); 
+        prodNew.Insolvency_Date__c = Date.newInstance(2016, 12, 9);
+        prodNew.Deceased_Date__c = Date.newInstance(2021, 2, 19);
+        prodNew.Account_Portfolio_ID__c ='Test';
+        //newProdList.add(prodNew); 
+        
+        Product__c prodOld = new Product__c();
+        prodOld.name = 'Prod60';
+       // prod2.recordTypeId = recordTypeId;
+        prodOld.Phone_Home__c = '12121212';
+        prodOld.Phone_Other__c = '8974563214';
+        prodOld.Phone_Work__c = '27896541236';
+        prodOld.Requested_Close_Date__c = null;
+        prodOld.Closed_Date__c = null;
+        prodOld.Payment_Due_Date__c = System.Today().addDays(20);
+        prodOld.Internal_Status__c = 'Active';
+        prodOld.product_status__C = '310000';
+        prodOld.Status__c = 'New Allocation - New Allocation';
+        prodOld.Sub_Status__c = 'Ready';
+        prodOld.Product_Status__c = 'Test';
+        prodOld.Company_Name__c = 'Test Company';
+        prodOld.Deceased_Date__c = Date.newInstance(2022, 2, 19);
+        prodOld.Insolvency_Date__c = Date.newInstance(2016, 12, 9);
+        prodOld.Account_Portfolio_ID__c ='Test';
+        prodold.Purchase_Province__c='PE';
+  		prodOld.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prodOld.Customer__c = customer1.id;
+        insert prodOld;
+ 
+        Map<ID, Product__c> oldprodMap = new Map<ID, Product__c>();
+        oldprodMap.put(prodOld.Id,prodOld);
+        
+        prodOld.Deceased_Date__c = Date.newInstance(2022, 2, 20);
+        update prodOld;
+        newProdList.add(prodOld);
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        ProductTriggerHandler.calculateBalanceBackdatedPayments2(newProdList,oldprodMap);
+        ProductTriggerHandler.handleBeforeInsert(newProdList);
+               ProductTriggerHandler.handleafterinsertdate(newProdList);
+ 
+        Test.stopTest(); 
+       // ProductTriggerHandler.updateCustomerFromProduct(prod);
+       // ProductTriggerHandler.needtoUpdateCustomer(prod1);
+    }
+    
     //Test After Insert Update
     static testMethod void productAfterInsertUpdateTest(){
         ID ProductID ;
@@ -647,13 +1042,13 @@ private class TestProductTriggerHandler {
         Product__c ProdData = new Product__c ();
         Product__c ProdDataOld = new Product__c ();
         
-        Account customer = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = 'Toronto', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Fidem Customer').getRecordTypeId());
+        Account customer = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = 'Toronto',PersonMailingStreet='',PersonBirthdate = Date.newInstance(1976, 12, 9), RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Fidem Customer').getRecordTypeId());
         insert customer;
 
         Account customer1 = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = 'Toronto', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId());
         insert customer1;
 
-        Product__c prod = new Product__c(Purchase_Province__c='PE',Deceased_Date__c=null,Insolvency_Date__c=null,Credit_Counselling_Date__c=null ,First_Name__c = 'ProdFirstName', Last_Name__c = 'ProdLastName',Status__c = 'New Allocation - New Allocation',Sub_Status__c = 'Ready',Product_Status__c = 'Test', Customer__c = customer.Id, Source_System__c ='FDR', RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId());
+        Product__c prod = new Product__c(Purchase_Province__c='PE',Deceased_Date__c=null,Statute_Date__c = null,Insolvency_Date__c=null,Credit_Counselling_Date__c=null ,First_Name__c = 'ProdFirstName', Last_Name__c = 'ProdLastName',Status__c = 'New Allocation - New Allocation',Sub_Status__c = 'Ready',Product_Status__c = 'Test', Customer__c = customer.Id, Source_System__c ='FDR', RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId());
         List<Product__c> prodList1 = new List<Product__c>();
         List<Product__c> prodList = new List<Product__c>();
         prodList.add(prod);
@@ -661,8 +1056,12 @@ private class TestProductTriggerHandler {
         insert prodList;
 		prod.Collection_Sub_Status__c = 'Pending Recall';
         prod.Credit_Counselling_Date__c=system.today();
+        prod.Address_Line1__c = 'test';
+        prod.Date_of_Birth__c = Date.newInstance(1977, 12, 9);
         prod.Insolvency_Date__c=system.today();
         prod.Deceased_Date__c=system.today();
+        prod.City__c = 'Toronto';
+        prod.Last_Payment_Date__c = system.today();
         Map<ID, Product__c> prodMap = new Map<ID, Product__c>();
         prodMap.put(prod.id, prod);
         system.debug('calling 1 start'+prodList);
@@ -681,6 +1080,11 @@ private class TestProductTriggerHandler {
         prod1.Product_Status__c = 'Test';
         prod1.Credit_Counselling_Date__c=null;
         prod1.Purchase_Province__c='PE';
+        prod1.Proposed_Payment_Amount__c = 10;
+        prod1.Total_Paid_To_Date__c = 5;
+        prod1.Accepted_Payment_Amount__c  = 19;
+        prod1.Expected_First_disbursement_date__c = system.Today().addDays(-70);
+        prod1.Proposal_Received_Date__c = system.Today().addDays(-75);
  		insert prod1;
         
         Product__c prod12 = new Product__c(First_Name__c = 'ProdFirstName', Last_Name__c = 'ProdLastName', Customer__c = customer.Id, Source_System__c ='FDR', RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId());
