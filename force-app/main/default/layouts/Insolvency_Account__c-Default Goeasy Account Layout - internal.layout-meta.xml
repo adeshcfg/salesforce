@@ -145,10 +145,13 @@
                 <field>Customer_CID__c</field>
             </layoutItems>
             <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Debtor_1_Alias_Name__c</field>
             </layoutItems>
-            <layoutItems>
+<layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>

@@ -183,7 +183,11 @@
                 <behavior>Required</behavior>
                 <field>Borrower_Primary__c</field>
             </layoutItems>
-                        <layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Customer_CID__c</field>
+            </layoutItems>
+            <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
@@ -544,12 +548,12 @@
     </layoutSections>
     <platformActionList>
         <actionListContext>Record</actionListContext>
-        <platformActionListItems>
+                <platformActionListItems>
             <actionName>Edit</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>0</sortOrder>
         </platformActionListItems>
-                <platformActionListItems>
+        <platformActionListItems>
             <actionName>Copy_Fields</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>2</sortOrder>
