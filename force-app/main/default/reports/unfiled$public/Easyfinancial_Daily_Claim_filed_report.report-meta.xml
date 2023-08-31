@@ -51,7 +51,6 @@
             <operator>equals</operator>
             <value>Insolvency_Account__c.Goeasy_Insolvency_Account</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>
