@@ -10,7 +10,7 @@
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>EmailToCase,Insolvency Scotia Community Case,Insolvency Goeasy Community Case,Insolvency Fairstone Community Case,Insolvency SDA Community Case,Remittance,Insolvency Case,Canaccede EmailToCase,Insolvency SPL Community Case</value>
+            <value>EmailToCase,Insolvency Scotia Community Case,Insolvency Fairstone Community Case,Insolvency SDA Community Case,Remittance,Insolvency Case,Canaccede EmailToCase,Insolvency SPL Community Case</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -57,17 +57,17 @@
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>Insolvency Goeasy Community Case</value>
+            <value>CCS Case</value>
         </criteriaItems>
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>Insolvency Case</value>
+            <value>CCS Case,Insolvency Case</value>
         </criteriaItems>
         <criteriaItems>
             <field>Assign_To__c</field>
             <operation>equals</operation>
-            <value>Goeasy</value>
+            <value>CFG,Easyfinancial</value>
         </criteriaItems>
         <criteriaItems>
             <field>Entity_Identifiers__c</field>
