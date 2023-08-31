@@ -40,21 +40,30 @@
             </criteriaItems>
         </ruleEntry>
         <ruleEntry>
-            <assignedTo>Insolvency_CFG_Queue</assignedTo>
-            <assignedToType>Queue</assignedToType>
-            <criteriaItems>
-                <field>Case.Assign_To__c</field>
-                <operation>equals</operation>
-                <value>Canaccede</value>
-            </criteriaItems>
-        </ruleEntry>
-        <ruleEntry>
             <assignedTo>Insolvency_Fairstone_Queue</assignedTo>
             <assignedToType>Queue</assignedToType>
             <criteriaItems>
                 <field>Case.Assign_To__c</field>
                 <operation>equals</operation>
                 <value>Fairstone</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Insolvency_Goeasy_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.Assign_To__c</field>
+                <operation>equals</operation>
+                <value>Goeasy</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Insolvency_CFG_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.Assign_To__c</field>
+                <operation>equals</operation>
+                <value>Canaccede</value>
             </criteriaItems>
         </ruleEntry>
     </assignmentRule>

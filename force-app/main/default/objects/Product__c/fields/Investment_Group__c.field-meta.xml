@@ -310,7 +310,7 @@
             <value>
                 <fullName>GOEASY DISTRESSED FF</fullName>
                 <default>false</default>
-                <label>GOEASY DISTRESSED FF</label>
+                <label>EASYFINANCIAL DISTRESSED FF</label>
             </value>
             <value>
                 <fullName>BMO DISTRESSED FF</fullName>
@@ -325,7 +325,7 @@
             <value>
                 <fullName>GOEASY INSOLVENT FF</fullName>
                 <default>false</default>
-                <label>GOEASY INSOLVENT FF</label>
+                <label>EASYFINANCIAL INSOLVENT FF</label>
             </value>
         </valueSetDefinition>
     </valueSet>

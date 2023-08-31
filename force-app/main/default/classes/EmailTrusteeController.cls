@@ -449,6 +449,13 @@ public class EmailTrusteeController{
                 return 'Fairstone';
             }
             
+        }else if(insolvAcc.Client_Identifier__c == 'Goeasy'){
+            if(language == 'fr'){
+                return 'Easyhome/Easyfinancial Services Ltd';
+            }else{
+                return 'Easyhome/Easyfinancial Services Ltd';
+            }
+            
         }
         
         return null;

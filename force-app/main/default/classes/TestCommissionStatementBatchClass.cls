@@ -7,9 +7,17 @@
  *  @date : 17/06/2022
  * 
  *************************************************************************************************/
-@Istest(SeeAllData=true)
+@Istest
 public class TestCommissionStatementBatchClass {
-  
+    @testsetup
+    public static void makeData() {
+        
+        API_Call_Details__c cs = new API_Call_Details__c();
+        cs.Name='Agency Portal API';
+        //cs.Other fiels values
+        insert cs;
+        
+    }
        public static testMethod void testMethod1() 
     {
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());

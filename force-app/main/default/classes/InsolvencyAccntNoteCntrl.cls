@@ -14,6 +14,7 @@ public class InsolvencyAccntNoteCntrl{
     public String newNoteLink{get;set;}
     public boolean communityUser{get;set;}
     public Boolean isCommunityReadOnlyUser {set;get;}
+    public static Boolean isLightningCommunity = false;
     //Constants
     public static final String dateFormat = 'MM/dd/yyyy h:mm a';
     public static final String lastmodified = 'MM/dd/yyyy h:mm a';
@@ -83,7 +84,10 @@ public class InsolvencyAccntNoteCntrl{
     private static string getCommunityUrl(){        
         String ntwrkId = Network.getNetworkId();
         ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
-        System.debug('comm.siteUrl' + comm.siteUrl);
+        if (comm.siteAsContainerEnabled) {
+            isLightningCommunity = true;
+        }
+        // System.debug('comm.siteUrl' + comm.siteUrl);
         return comm.siteUrl;
     } 
     
@@ -102,6 +106,9 @@ public class InsolvencyAccntNoteCntrl{
     //Utility method to create new Note link
     private static String createNewNoteLink(String BaseUrl, String insolvencyAccntId){       
         pageReference pgRef = new pageReference(BaseUrl + '/apex/CreatePublicNotes?parent_id=' + insolvencyAccntId + '&retURL=/' + insolvencyAccntId);
+        if (isLightningCommunity) {
+            pgRef.getParameters().put('isdtp', 'vw');
+        }
         pgRef.setRedirect(true);
         return pgRef.getUrl();
     }   

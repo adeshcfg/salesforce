@@ -24,6 +24,9 @@ public class InsolvencyOwnerShipController{
     
     @TestVisible
     public Boolean isFairstoneBankCommunityUser {set;get;}
+
+    @TestVisible
+    public Boolean isGoeasyBankCommunityUser {set;get;}
     
     public InsolvencyOwnerShipController(ApexPages.StandardController controller) {
     	
@@ -32,6 +35,7 @@ public class InsolvencyOwnerShipController{
         isChaseBankCommunityUser = InsolvencyUtil.isChaseBankCommunityUser(UserInfo.getProfileId());
     	isSDABankCommunityUser = InsolvencyUtil.isSDABankCommunityUser(UserInfo.getProfileId());
         isFairstoneBankCommunityUser = InsolvencyUtil.isFairstoneBankCommunityUser(UserInfo.getProfileId());
+        isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(Userinfo.getProfileId());
         
         //Eligible Insolvency Account Record Type Name 
         String eligibleInsAcctRecordType = InsolvencyUtil.getInsAccntRecordTypeProfile(Userinfo.getProfileId());
@@ -43,6 +47,7 @@ public class InsolvencyOwnerShipController{
                              SDA_Record_Owner__c,
                              Insolvency_Owner__c,
                       		 Fairstone_Record_Owner__c,
+                             Goeasy_Record_Owner__c,
                              OwnerId, Owner.Name, Insolvency_Owner_Id__c,
                              (SELECT OwnerId 
                                     FROM Insolvency_Accounts__r 
@@ -56,9 +61,6 @@ public class InsolvencyOwnerShipController{
     
     // Default method called to check and assign ownership of an Insolvency & Insolvency Account
     public void checkInsolvencyAccountOwnerShip(){
-        system.debug('inside checkInsolvencyAccountOwnerShip');
-        system.debug('user id'+UserInfo.getUserId());
-        system.debug('insolv.Insolvency_Owner_Id__c'+insolv.Insolvency_Owner_Id__c);
         // Run only if record ownership functionality is Enabled at custom settings level
         if(config.Run_Record_Ownership__c){
             if(isScotiaBankCommunityUser){
@@ -83,6 +85,12 @@ public class InsolvencyOwnerShipController{
             else if(isFairstoneBankCommunityUser){
                 if(insolv.Fairstone_Record_Owner__c == null){
                     insolv.Fairstone_Record_Owner__c = UserInfo.getUserId();
+                    InsolvencyUtil.updateOwnerShip(insolv);
+                }
+            }
+            else if(isGoeasyBankCommunityUser){
+                if(insolv.Goeasy_Record_Owner__c == null){
+                    insolv.Goeasy_Record_Owner__c = UserInfo.getUserId();
                     InsolvencyUtil.updateOwnerShip(insolv);
                 }
             }

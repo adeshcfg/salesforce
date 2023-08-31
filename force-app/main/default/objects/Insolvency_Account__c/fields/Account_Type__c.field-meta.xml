@@ -102,6 +102,21 @@
                 <default>false</default>
                 <label>Home Equity Secured Mastercard</label>
             </value>
+            <value>
+                <fullName>Unsecured Installment Loan</fullName>
+                <default>false</default>
+                <label>Unsecured Installment Loan</label>
+            </value>
+            <value>
+                <fullName>Secured Personal Installment Loan</fullName>
+                <default>false</default>
+                <label>Secured Personal Installment Loan</label>
+            </value>
+            <value>
+                <fullName>Leasing product</fullName>
+                <default>false</default>
+                <label>Leasing product</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

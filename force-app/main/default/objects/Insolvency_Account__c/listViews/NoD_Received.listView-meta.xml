@@ -31,16 +31,12 @@
         <operation>equals</operation>
         <value>0</value>
     </filters>
-    <filters>
-        <field>Review_Account__c</field>
-        <operation>equals</operation>
-        <value>0</value>
-    </filters>
     <label>NoD Received</label>
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
         <group>Insolvency_Fairstone_Users</group>
+        <group>Insolvency_Goeasy_Users</group>
         <group>Insolvency_SDA_Users</group>
         <group>Insolvency_SPL_Users</group>
         <group>Insolvency_Scotia_Users</group>

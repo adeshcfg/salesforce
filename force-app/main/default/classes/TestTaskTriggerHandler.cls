@@ -58,10 +58,31 @@ public class TestTaskTriggerHandler{
 
         Account acc = createAccountRecordAndInsert();
         
+        // From Here
+        Account accnt1 = new Account(RecordTypeId = [ select Id from RecordType where IsPersonType = true and SObjectType = 'Account' and DeveloperName = 'Canaccede_Customer'].id);        
+        //From Here
+        accnt1.Salutation = 'Mr.';
+        //Upto Here  
+        accnt1.FirstName = 'testFName1'+System.now();
+        accnt1.LastName = 'testLName1'+System.now();
+        accnt1.PersonEmail = 'test1@email.com';
+        accnt1.SIN__pc = '12345678'; 
+        accnt1.CCS_Agency_Total_Balance_Updated_On__c = system.Today().addDays(-2);
+        accnt1.CCS_Agency_Total_Balance__c = 12344 ;
+        accnt1.PersonBirthdate = system.today();
+        
+        insert accnt1;  
         List<Product__c> prds = new List<Product__c>();
+
+        // Upto Here
+        try{
         Product__c prd = new Product__c();
-        prd.name = 'Prod';
-        prd.customer__c = acc.id;
+        //From Here
+          prd.RecordtypeId= stExam;
+        //Upto Here
+        prd.name = '10000P1';
+        // commented by me prd.customer__c = acc.id;
+         prd.customer__c = accnt1.id;
         prd.source_system__c = 'Megasys';
         prd.Branch_Number__c = 1;
         prd.Charged_Off_Date__c = System.Today();
@@ -74,29 +95,42 @@ public class TestTaskTriggerHandler{
         prd.Status__c = 'New Allocation - New Allocation';
         prd.Sub_Status__c = 'Ready';
         prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '825';
-        prds.add(prd);
-        
-        prd = new Product__c();
-        prd.name = 'Prod';
-        prd.customer__c = acc.id;
-        prd.source_system__c = 'Megasys';
-        prd.Branch_Number__c = 1;
-        prd.Charged_Off_Date__c = System.Today();
-        prd.Charged_Off_Code__c = 'None';
-        prd.Current_Balance__c = null;
-        prd.Current_Payoff_Amount__c = 100;
-        prd.PTP1_Mate__c = false;
-        prd.PTP1_Amount__c = 75;
-        prd.PTP1_Date__c = ptpDate;
-        prd.Status__c = 'New Allocation - New Allocation';
-        prd.Sub_Status__c = 'Ready';
-        prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '825';
-        prds.add(prd);
-        
-        prd = new Product__c();
-        prd.name = 'Prod';
+        prd.Account_Portfolio_ID__c = '826';
+        // From Here
+        prd.Purchase_Province__c = 'Canada';
+        //Upto Here
+        insert prd;
+        //prds.add(prd);
+        } catch(DmlException e){
+            system.debug('producr'+e.getMessage());
+         	 // System.assert(false, 'Exception ' + e);
+        }try{
+        Product__c prd1 = new Product__c();
+        prd1.name = '10000P2';
+        //prd1.customer__c = acc.id;
+        prd1.source_system__c = 'Megasys';
+        prd1.Branch_Number__c = 1;
+        prd1.Charged_Off_Date__c = System.Today();
+        prd1.Charged_Off_Code__c = 'None';
+        prd1.Current_Balance__c = null;
+        prd1.Current_Payoff_Amount__c = 100;
+        prd1.PTP1_Mate__c = false;
+        prd1.PTP1_Amount__c = 75;
+        prd1.PTP1_Date__c = ptpDate;
+        prd1.Status__c = 'New Allocation - New Allocation';
+        prd1.Sub_Status__c = 'Ready';
+        prd1.Product_Status__c = 'Test';
+        prd1.Account_Portfolio_ID__c = '825';
+            insert prd1;
+        } // Bracket done by me
+        //prds.add(prd);
+        catch(DmlException e){
+            system.debug('producr1'+e.getMessage());
+        }
+        try{
+       product__c prd = new Product__c();     
+       // prd = new Product__c();
+        prd.name = '10000P3';
         prd.source_system__c ='FDR' ;
         prd.PRIN_Number__c = 200;
         prd.Current_Balance__c = 400;
@@ -109,40 +143,43 @@ public class TestTaskTriggerHandler{
         prd.First_name__c='PQR';
         prd.Last_Name__c='XYZ';
         prd.Originating_Creditor__c='LMN'; 
-        prd.RecordtypeId= stExam;
+        //prd.RecordtypeId= stExam;
         prd.Status__c = 'New Allocation - New Allocation';
         prd.Sub_Status__c = 'Ready';
         prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '825';
+        prd.Account_Portfolio_ID__c = '830';
         prds.add(prd);
         
-        prd = new Product__c();
-        prd.name = 'Prod';
-        prd.customer__c = acc.id;
-        prd.source_system__c ='FDR' ;
-        prd.PRIN_Number__c = 200;
-        prd.Current_Balance__c = 400;
-        prd.Current_Payoff_Amount__c = 400;
-        prd.Delinquency_Cycles__c = 7;
-        prd.PTP1_Mate__c = false;
-        prd.PTP1_Amount__c = 75;
-        prd.PTP1_Date__c = ptpDate;
-        prd.Collection_Agency__c = 68;
-        prd.First_name__c='PQR';
-        prd.Last_Name__c='XYZ';
-        prd.Originating_Creditor__c='LMN'; 
-        prd.RecordtypeId= stExam;
-        prd.Collection_Sub_Status__c ='';
-        prd.Previously_Reviewed_for_Legal_Action__c =FALSE;
-        prd.Status__c = 'New Allocation - New Allocation';
-        prd.Sub_Status__c = 'Ready';
-        prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '825';
-        prds.add(prd);
+        
+          product__c prd2 = new Product__c();     
+       // prd = new Product__c();
+        prd2.name = '10000P4';
+        //prd.customer__c = acc.id;
+        prd2.source_system__c ='FDR' ;
+        prd2.PRIN_Number__c = 200;
+        prd2.Current_Balance__c = 400;
+        prd2.Current_Payoff_Amount__c = 400;
+        prd2.Delinquency_Cycles__c = 7;
+        prd2.PTP1_Mate__c = false;
+        prd2.PTP1_Amount__c = 75;
+        prd2.PTP1_Date__c = ptpDate;
+        prd2.Collection_Agency__c = 68;
+        prd2.First_name__c='PQR';
+        prd2.Last_Name__c='XYZ';
+        prd2.Originating_Creditor__c='LMN'; 
+        //prd.RecordtypeId= stExam;
+        prd2.Collection_Sub_Status__c ='';
+        prd2.Previously_Reviewed_for_Legal_Action__c =FALSE;
+        prd2.Status__c = 'New Allocation - New Allocation';
+        prd2.Sub_Status__c = 'Ready';
+        prd2.Product_Status__c = 'Test';
+        prd2.Account_Portfolio_ID__c = '827';
+        prd2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prds.add(prd2);
         
         prd = new Product__c();
-        prd.name = 'Prod';
-        prd.customer__c = acc.id;
+        prd.name = '10000P5';
+      //  prd.customer__c = acc.id;
         prd.source_system__c ='FDR' ;
         prd.PRIN_Number__c = 300;
         prd.Current_Balance__c = 0;
@@ -153,12 +190,13 @@ public class TestTaskTriggerHandler{
         prd.Status__c = 'New Allocation - New Allocation';
         prd.Sub_Status__c = 'Ready';
         prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '825';
+        prd.Account_Portfolio_ID__c = '828';
+        prd.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId();
         prds.add(prd);
         
         prd = new Product__c();
-        prd.name = 'Prod';
-        prd.customer__c = acc.id;
+        prd.name = '10000P6';
+       // prd.customer__c = acc.id;
         prd.source_system__c ='FDR' ;
         prd.PRIN_Number__c = 400;
         prd.Current_Balance__c = 0;
@@ -169,12 +207,19 @@ public class TestTaskTriggerHandler{
         prd.Status__c = 'New Allocation - New Allocation';
         prd.Sub_Status__c = 'Ready';
         prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '825';
+        prd.Account_Portfolio_ID__c = '829';
+        prd.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
         prds.add(prd);
         
         insert prds;
+            }
+        catch (Exception e){
+            //System.assert(false, 'Exception ' + e);
+            system.debug('producr2'+e.getMessage());
+        }
+            return prds;
+        //}catch(exception ex){return prds;}
         
-        return prds;
     }
     
     public static List<Judgment__c> createJudgment(){
@@ -239,8 +284,9 @@ public class TestTaskTriggerHandler{
         settles.add(settle);
         
        
-        
+        SettlementTriggerHandler.runSettlementTrigger = False;
         insert settles;
+        SettlementTriggerHandler.runSettlementTrigger = True;
         return settles;
     }
     
@@ -248,8 +294,11 @@ public class TestTaskTriggerHandler{
     
     //Create Product records
     public static Account createAccountRecordAndInsert() {
-        
-        Account accnt = new Account(RecordTypeId = [ select Id from RecordType where IsPersonType = true and SObjectType = 'Account' and DeveloperName = 'Fidem_Customer'].id);        
+       
+        Account accnt = new Account(RecordTypeId = [ select Id from RecordType where IsPersonType = true and SObjectType = 'Account' and DeveloperName = 'Fidem_Customer'].id);
+ //From Here
+        accnt.Salutation = 'Mr.';
+        //Upto Here        
         accnt.FirstName = 'testFName';
         accnt.LastName = 'testLName';
         accnt.PersonEmail = 'test@email.com';

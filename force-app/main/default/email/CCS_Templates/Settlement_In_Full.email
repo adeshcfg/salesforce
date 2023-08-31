@@ -1,0 +1,35 @@
+<div style="font-family: 'Arial Unicode MS'; ">
+<br/><br/><br/> 
+{!logoVisiblity}
+<br/>
+<p style="font-family: 'Arial Unicode MS'; font-size: 11px;">Date: {!Today}
+<br/><br/>
+{!Product__r.CCS_Agency__r.Name}
+<br/>
+<br/>
+RE:  {!settleReference} <br/>
+       CCS Office File ID Number: {!Product__c.CCS_Client_ID__c} <br/>
+       Name of Customer: {!Product__r.Customer__r.Name}<br/>
+       Account Number:  {!Product__c.Name}<br/>
+<br/><br/>
+Dear Sir /Madam, 
+<br/><br/>
+As per your recent communication we confirm that our mutual customer mentioned above has settled the account in full, with a last payment of {!Product__c.Gross_Payment_Amount__c} which was received on the  {!product__c.Payment_Created__c}.<br/><br/>
+If you have any questions or concerns, please do not hesitate to contact us. 
+<br/><br/>
+Sincerely,<br/><br/>
+{!CCSPackage.CFG_Name__c}<br/>
+{!CCSPackage.CFG_Office_Name__c}<br/>
+{!servicerName}<br/>
+<br/>
+<br/><br/><br/>
+<br/><br/><br/>
+<br/><br/><br/>
+<p  style="text-align:center;">
+<b>{!CCSPackage.CFG_Office_Name__c} </b><br/>
+{!CCSPackage.CFG_Office_Address_1__c} | {!CCSPackage.CFG_Office_City__c} | {!CCSPackage.CFG_Office_Province__c} | {!CCSPackage.CFG_Office_Postal_Code__c} <br/>
+Tel: {!CCSPackage.CFG_Office_Phone_Number__c} | Fax: 
+ {!CCSPackage.CFG_Office_Fax_Number__c}<br/>
+Email: {!CCSPackage.CFG_Office_Website__c}
+</p>
+</div>

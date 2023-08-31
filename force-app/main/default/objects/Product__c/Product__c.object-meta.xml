@@ -200,7 +200,40 @@
     </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>NAME</fields>
+        <fields>Customer__c</fields>
+        <fields>Credit_Limit__c</fields>
+        <fields>Source_System__c</fields>
+        <fields>Collection_Sub_Status__c</fields>
+        <fields>Owner_Name__c</fields>
+        <fields>Collection_Agency__c</fields>
+        <fields>Collection_Agency_Formula__c</fields>
+        <fields>Current_Balance__c</fields>
+        <fields>State__c</fields>
         <profileName>System Administrator</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>NAME</fields>
+        <fields>Credit_Limit__c</fields>
+        <fields>Source_System__c</fields>
+        <fields>Collection_Sub_Status__c</fields>
+        <fields>Owner_Name__c</fields>
+        <fields>Collection_Agency__c</fields>
+        <fields>Collection_Agency_Formula__c</fields>
+        <fields>Current_Balance__c</fields>
+        <fields>State__c</fields>
+        <profileName>Goeasy Community User</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>NAME</fields>
+        <fields>Credit_Limit__c</fields>
+        <fields>Source_System__c</fields>
+        <fields>Collection_Sub_Status__c</fields>
+        <fields>Owner_Name__c</fields>
+        <fields>Collection_Agency__c</fields>
+        <fields>Collection_Agency_Formula__c</fields>
+        <fields>Current_Balance__c</fields>
+        <fields>State__c</fields>
+        <profileName>Goeasy Community User Readonly</profileName>
     </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>NAME</fields>
@@ -222,6 +255,7 @@
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
         <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <listViewButtons>Send_Bulk_SMS</listViewButtons>
         <listViewButtons>Bulk_Eligible_Update</listViewButtons>
         <listViewButtons>Buyback_Putback_Status_Update</listViewButtons>

@@ -147,4 +147,25 @@
         <shortDescription>Product Bill Email Templates</shortDescription>
         <value>D1 Payment Reminder,D10 Let Us Help,D36 Let Us Help,D55 Potential Legal</value>
     </labels>
+    <labels>
+        <fullName>Duplicate_Account_ID_Validation_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Duplicate Account ID Validation Error</shortDescription>
+        <value>Duplicate Account ID</value>
+    </labels>
+    <labels>
+        <fullName>CFG_Email_Template_Logo_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CFG Email Template Logo URL</shortDescription>
+        <value>https://c.cs45.content.force.com/servlet/servlet.ImageServer?oid=00D8A000000Mrog&id=0158A0000014yP1</value>
+    </labels>
+    <labels>
+        <fullName>Easyfinancial_Email_Template_Logo_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Easyfinancial Email Template Logo URL</shortDescription>
+        <value>https://c.cs45.content.force.com/servlet/servlet.ImageServer?oid=00D8A000000Mrog&id=0158A0000014ymy</value>
+    </labels>
 </CustomLabels>

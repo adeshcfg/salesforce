@@ -113,7 +113,27 @@ public class ProductTriggerHandler{
         }
     }
     
-    
+    // 4951 - Get existing products having same name or record type
+    public static Set<String> getMatchingProducts(List<Product__c> listNewProducts) {
+        List<Product__c> duplicateCandidates = new List<Product__c>();
+        Set<String> nameRecordTypeIdKey = new Set<String>();
+        Set<String> names = new Set<String>();
+        try {
+            for (Product__c prod : listNewProducts) {
+                names.add(prod.Name);
+            }
+            if (!names.isEmpty()) {
+                duplicateCandidates = [SELECT Name, RecordTypeId FROM Product__c WHERE Name IN :names];
+                for (Product__c product : duplicateCandidates) {
+                    nameRecordTypeIdKey.add(product.RecordTypeId + '-' + product.Name);
+                }
+            }
+        } catch (Exception ex) {
+            System.debug('Exception in getMatchingProducts ' + ex.getStackTraceString());
+        }
+        return nameRecordTypeIdKey;
+    }
+
     public static Set<String> getPlacementHistoryDetails(set<Id> setProductId){
         set<Id> setPreviousPlacedProduct = new Set<Id>();
         map<Id, Id> mapAllProductAgency = new map<Id, Id>();
@@ -176,16 +196,60 @@ public class ProductTriggerHandler{
     
     //Handle before insert
     public static void handleBeforeInsert(List<Product__c> prodNew) {
+        Boolean isCommunityUser = false;
         if(!Test.isRunningTest()){
             UtilityMethod();
         }
+        isCommunityUser = InsolvencyUtil.isCommunityUser();
+        ID productSource; 
+        for(Product__c prodData :prodNew){
+            if(prodData.isClone()){
+                productSource = prodData.getCloneSourceId();
+                if(productSource <> NULL){
+                    Product__c prodCustomer1 = [Select id,name,Customer__c,First_Name__c,Last_Name__c,Date_of_Birth__c,SIN__c,
+                                                CID_number__c,Phone_Home__c,Phone_Work__c,Phone_Other__c,Address_Line1__c,Address_Line2__c,
+                                                City__c,Zip_Code__c,Provinces__c,Country__c,Reason_for_Proposal__c,Initial_Proposal_Date__c,
+                                                Second_Proposal_Date__c,Third_Proposal_Date__c,Fourth_Proposal_Date__c
+                                                from product__c where id =: productSource];
+                    prodData.First_Name__c = prodCustomer1.First_Name__c;
+                    prodData.Last_Name__c = prodCustomer1.Last_Name__c;
+                    prodData.Date_of_Birth__c = prodCustomer1.Date_of_Birth__c;
+                    prodData.SIN__c = prodCustomer1.SIN__c;
+                    prodData.CID_number__c = prodCustomer1.CID_number__c;
+                    prodData.Phone_Home__c = prodCustomer1.Phone_Home__c;
+                    prodData.Phone_Work__c = prodCustomer1.Phone_Work__c;
+                    prodData.Phone_Other__c = prodCustomer1.Phone_Other__c;
+                    prodData.Address_Line1__c = prodCustomer1.Address_Line1__c;
+                    prodData.Address_Line2__c = prodCustomer1.Address_Line2__c;
+                    prodData.City__c = prodCustomer1.City__c;
+                    prodData.Zip_Code__c = prodCustomer1.Zip_Code__c;
+                    prodData.Provinces__c = prodCustomer1.Provinces__c;
+                    prodData.Country__c = prodCustomer1.Country__c;
+                    prodData.Reason_for_Proposal__c = prodCustomer1.Reason_for_Proposal__c;
+                    prodData.Initial_Proposal_Date__c = prodCustomer1.Initial_Proposal_Date__c;
+                    prodData.Second_Proposal_Date__c = prodCustomer1.Second_Proposal_Date__c;
+                    prodData.Third_Proposal_Date__c = prodCustomer1.Third_Proposal_Date__c;
+                    prodData.Fourth_Proposal_Date__c = prodCustomer1.Fourth_Proposal_Date__c;
+                }
+            }
+            //Comminity user cannot create new record
+            if(isCommunityUser){
+                if(!prodData.isClone()){
+                    productSource = prodData.getCloneSourceId();
+                    if(productSource == NULL){
+                        prodData.addError('Please use Clone Button to Create New Record');
+                    }
+                } 
+            }
+        }
+        
         
         // Pre load Statute Date from metadata
         StatuteDateUtilities.loadStatuteDataFromMetadata();
 
         getPlacementStatusCodes();
         Integer i = 0;
-        
+        Set<String> nameRecordTypeIdKey = ProductTriggerHandler.getMatchingProducts(prodNew);
         map<String, Decimal> mapAccountPurchaseGroupCount = new map<String, Decimal>();
         set<String> setAccountPortfolioID = new set<String>();
         List<ID> poolplacementName = new List<ID>();
@@ -194,6 +258,19 @@ public class ProductTriggerHandler{
         list<Product__c> listDistressedProduct = new list<Product__c>();
         
         for(Product__c prod : prodNew){
+            if(!nameRecordTypeIdKey.isEmpty() && nameRecordTypeIdKey.contains(prod.RecordTypeId + '-' + prod.Name)){
+                prod.addError(System.Label.Duplicate_Account_ID_Validation_Error);
+            }
+			//for Ticket 4834 - populating bank account number based on Account ID
+            if(prod.name <> NULL){
+                prod.Bank_Refence_Number__c = prod.name;
+            }
+            
+            //for Ticket 4895 - populating Payment Missed
+            if(prod.Proposed_Payment_Amount__c <> NULL && prod.Proposed_Payment_Amount__c > 0 && 
+               prod.Amount_of_payments_missed__c <> NULL){
+               prod.Payment_Missed__c = (prod.Amount_of_payments_missed__c / prod.Proposed_Payment_Amount__c );
+            }
 
             /*if( prod.Open_Date__c != null && 
                 (prod.Statute_Date__c == null || prod.Open_Date__c < prod.Statute_Date__c )
@@ -333,7 +410,8 @@ public class ProductTriggerHandler{
                 // Insolvency Product enhancements
                 system.debug('prod.RecordTypeId::'+prod.RecordTypeId);
                 system.debug('prod.Last_Name__c::'+prod.Last_Name__c);
-                if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ){
+                if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ||
+                  prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId){
                     system.debug('inside if recordtypeid');
                     if(String.isNotBlank(prod.Last_Name__c)){
                         system.debug('call matching cutomers');
@@ -421,8 +499,12 @@ public class ProductTriggerHandler{
         }
         //Fetch System Api                
         if(lrpSetting.Run_Product_Before_Trigger__c == true){
+            Set<String> nameRecordTypeIdKey = ProductTriggerHandler.getMatchingProducts(listNewProducts);
             for(Product__c prod : listNewProducts){ 
             Product__c prodOld1 = mapOldProducts.get(prod.id);
+            if((prod.Name != prodOld1.Name || prod.RecordTypeId != prodOld1.RecordTypeId) && (!nameRecordTypeIdKey.isEmpty() && nameRecordTypeIdKey.contains(prod.RecordTypeId + '-' + prod.Name))){
+                prod.addError(System.Label.Duplicate_Account_ID_Validation_Error);
+            }
                 system.debug('prodOld1:'+prodOld1);
             if(prod.Refer_to_Legal__c == 'Approved' && prodOld1.Refer_to_Legal__c != prod.Refer_to_Legal__c){ 
                 system.debug('block run');
@@ -439,7 +521,15 @@ public class ProductTriggerHandler{
                 //creatJudgment(prod);
                 }
             }
-           
+           //for Ticket 4834 - populating bank account number based on Account ID
+            if(prod.name <> NULL){
+                prod.Bank_Refence_Number__c = prod.name;
+            }
+            //for Ticket 4895 - populating Payment Missed
+            if(prod.Proposed_Payment_Amount__c <> NULL && prod.Proposed_Payment_Amount__c > 0 && 
+               prod.Amount_of_payments_missed__c <> NULL){
+               prod.Payment_Missed__c = (prod.Amount_of_payments_missed__c / prod.Proposed_Payment_Amount__c );
+            }
                 system.debug('agency:'+prod.Collection_Agency__c);
                 if (isCanaccedeAPIUser() || Test.isRunningTest()){
                     // Added record type check for Loan Account OR Credit Card Account
@@ -457,7 +547,8 @@ public class ProductTriggerHandler{
                     
                     // Check if product is Insolvency Account / Distressed_Account or not
                     //if(prodRTypeIdMap.get('Insolvency_Account') == prod.RecordTypeId || prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId)
-                    if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId){
+                    if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ||
+                      prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId){
                         if(prod.customer__c == null){
                             
                             if(oldCustomerId != null){

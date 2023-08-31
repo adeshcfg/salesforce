@@ -121,10 +121,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Delivery_Method__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Template_for_Customer_Type__c</field>
             </layoutItems>
             <layoutItems>
@@ -786,10 +782,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Collection_Agency_Formula__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Collection_Movement_Status__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

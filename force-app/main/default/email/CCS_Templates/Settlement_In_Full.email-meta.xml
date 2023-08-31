@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Settlement In Full</name>
+    <style>none</style>
+    <subject>File #:{!Product__c.Name} {!Product__r.Customer__r.Name}</subject>
+    <textOnly>{!logoVisiblity}
+
+Date: {!Today}
+
+{!Product__r.CCS_Agency__r.Name}
+
+RE:  {!settleReference}
+CCS Office File ID Number: {!Product__c.CCS_Client_ID__c}
+Name of Customer: {!Product__r.Customer__r.Name}
+Account Number:  {!Product__c.Name}
+
+
+Dear Sir /Madam,
+
+As per your recent communication we confirm that our mutual customer mentioned above has settled the account in full, with a last payment of {!Product__c.Gross_Payment_Amount__c} which was received on the  {!product__c.Payment_Created__c}.
+
+If you have any questions or concerns, please do not hesitate to contact us.
+
+Sincerely,
+
+{!CCSPackage.CFG_Name__c}
+{!CCSPackage.CFG_Office_Name__c}
+{!servicerName}
+
+
+
+
+
+
+
+
+
+
+
+{!CCSPackage.CFG_Office_Name__c}
+{!CCSPackage.CFG_Office_Address_1__c} | {!CCSPackage.CFG_Office_City__c} | {!CCSPackage.CFG_Office_Province__c} | {!CCSPackage.CFG_Office_Postal_Code__c}
+Tel: {!CCSPackage.CFG_Office_Phone_Number__c} | Fax: {!CCSPackage.CFG_Office_Fax_Number__c}
+Email: {!CCSPackage.CFG_Office_Website__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

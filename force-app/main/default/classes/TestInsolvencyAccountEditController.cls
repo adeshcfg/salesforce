@@ -13,7 +13,7 @@ public class TestInsolvencyAccountEditController{
         insert insolv;
         
         // insert insolvency account
-        Insolvency_Account__c insolvAcc = new Insolvency_Account__c(Insolvency__c = insolv.Id,Account_Number_Without_Space__c ='1234',Client_Identifier__c ='Scotia',Insolvency_Status__c ='PoC Package Generated', OwnerID = UserInfo.getUserId());
+        Insolvency_Account__c insolvAcc = new Insolvency_Account__c(Insolvency__c = insolv.Id,Account_Number_Without_Space__c ='1234',Client_Identifier__c ='Scotia',Insolvency_Status__c ='PoC Package Generated', OwnerID = UserInfo.getUserId(),Claim_Amount__c =10);
         insert insolvAcc ;    
         
         Application_Config_Settings__c appConfig = new Application_Config_Settings__c(Run_Insolvency_Status_Validations__c = true , Run_Record_Ownership__c = true,Ignore_Account_Number_for_DuplicateCheck__c = 'LINEOFCREDIT',
@@ -131,6 +131,24 @@ public class TestInsolvencyAccountEditController{
         // call the constructor
         InsolvencyAccountEditController controller = new InsolvencyAccountEditController (new ApexPages.StandardController(insolvAcc));
         controller.redirPage();
+        System.runAs(u){
+            controller.redirPage();
+        }
+        insolvAcc.Client_Identifier__c = null;
+        update insolvAcc;
+        controller.redirPage();
+    }
+
+    public testmethod static void testInsolvencyLockGE(){
+        InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+        User u = getCommunityUser('Goeasy Community User');
+        shareInsolvencyRecord(u.Id);
+        Insolvency_Account__c insolvAcc = [SELECT OwnerID FROM Insolvency_Account__c LIMIT 1];
+        insolvAcc.OwnerID= Userinfo.getUserId();
+        update insolvAcc;
+        ApexPages.currentPage().getParameters().put('id', insolvAcc.Id);
+        // call the constructor
+        InsolvencyAccountEditController controller = new InsolvencyAccountEditController (new ApexPages.StandardController(insolvAcc));
         System.runAs(u){
             controller.redirPage();
         }

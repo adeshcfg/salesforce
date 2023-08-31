@@ -1,0 +1,75 @@
+<apex:page showHeader="false" controller="LoRDemandController"  id="page" title="Servicer Notice">
+<html >
+    <head>
+    <apex:pageMessages id="msg"></apex:pageMessages>
+        <apex:slds />
+        <style>
+           
+            .my-checkbox{
+                width: 1rem;
+                height: 1rem;
+                display: inline-block;
+                vertical-align: middle;
+                border: 1px solid #d8dde6;
+                border-radius: .125rem;
+                background: #fff;
+                transition: border .1s linear,background-color .1s linear;
+            }
+            .emailMessage{
+            white-space: normal;
+            visibility: visible;
+            word-wrap:break-word;
+            overflow-wrap: break-word;
+            }
+        .slds-scope .slds-table_bordered {
+            border-collapse: separate;
+            border-top: none !important;
+            border: 1px solid #d8dde6;
+        }
+        .stripes-grey{
+            background-size: 160px 160px;background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.03) 50%, #E7E7E7 50%, #E7E7E7 75%, rgba(0, 0, 0, 0.03) 75%, rgba(0, 0, 0, 0.03) 100%, #E7E7E7 100%, #E7E7E7);
+        }
+        .via-border-corner-shapes{
+            border-radius: 0.45rem 0.45rem 0 0;
+        }
+        .via-border-bottom-corners{
+            border-radius: 0 0 0.45rem 0.45rem;
+        }
+        .via-border-radius{
+            border-radius: 0.45rem;
+            border: 1px solid #B6B6B6;
+        }
+        .error-text{
+            color: #E01933 !important;
+        }
+        </style>
+        <script>
+            function closeWindow(){
+                window.close();
+            }
+          
+        </script> 
+    </head>
+    <apex:form styleClass="slds-box">
+              <div >
+                 <div class="slds-media__body">
+                   <div >
+                        <div class="slds-p-around_medium slds-grid slds-wrap slds-truncate slds-theme--default via-border-corner-shapes">
+                           <div class="slds-p-horizontal_small slds-size_1-of-2 slds-medium-size_5-of-6 slds-large-size_10-of-12" id="messageInputDiv">
+                                <div class="slds-textarea emailMessage"> 
+                                <apex:outputText id="text-input-id-header" value="{!attachmentBody }" escape="false" />
+                            </div>
+                             </div>
+                        </div>
+                     </div>
+                     <div class="slds-col slds-align_absolute-center">
+                      <apex:commandButton action="{!reDirect}" value="Go Back" id="backBtn1" styleclass="slds-button slds-button_neutral" style="margin-right:-684px"/>
+                  </div>
+                    </div>
+                  
+                  
+                  </div>
+               
+    </apex:form>
+  </html>
+</apex:page>

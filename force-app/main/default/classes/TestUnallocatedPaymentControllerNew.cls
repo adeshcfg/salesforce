@@ -39,7 +39,7 @@ public class TestUnallocatedPaymentControllerNew{
         insert unAloccPay;
         
         Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Product_Status__c = 'Test';
         insert prod;
         
@@ -173,7 +173,7 @@ public class TestUnallocatedPaymentControllerNew{
         insert payment3;
         
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Product_Status__c = 'Test';
         insert prod1;
         
@@ -257,7 +257,7 @@ public class TestUnallocatedPaymentControllerNew{
         insert payment2;
         
 		Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Product_Status__c = 'Test';
         insert prod1;
         
@@ -365,7 +365,7 @@ public class TestUnallocatedPaymentControllerNew{
         insert payment3;
         
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Product_Status__c = 'Test';
         insert prod1;
         
@@ -474,7 +474,7 @@ public class TestUnallocatedPaymentControllerNew{
         insert payment2;
         
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Product_Status__c = 'Test';
         insert prod1;
         
@@ -575,7 +575,7 @@ public class TestUnallocatedPaymentControllerNew{
         insert payment2;
         
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Product_Status__c = 'Test';
         insert prod1;
         
@@ -820,7 +820,7 @@ public class TestUnallocatedPaymentControllerNew{
         insert payment2;
         
         Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
-        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Product_Status__c = 'Test';
         insert prod1;
         
@@ -853,4 +853,105 @@ public class TestUnallocatedPaymentControllerNew{
 		obj.prodPay.CCS_Account__C = [SELECT Id FROM Product__c LIMIT 1].Id;
         obj.prodpaysave();  
     }
+    //From Here
+    static testMethod void testController9(){
+        //Deposit Slip Record creation
+        Deposit_Slip__c ds=new Deposit_Slip__c();
+        ds.recordTypeid = [select id from RecordType where SobjectType = 'Deposit_Slip__c' and name like '%ccs%'].id;
+        insert ds;
+               
+        Remittance__c remit = new Remittance__c();
+        remit.Cheque_Payment_Reference_Number__c = '1234'; 
+        remit.Cheque_Amount__c = 12.00;
+        remit.Total_Unallocated_Amount__c = 12.00;
+        remit.Payment_Posting_Date__c = System.Today().addDays(-2);
+        remit.recordTypeId = [select id from RecordType where SobjectType = 'remittance__C' and name like '%Insolvency%'].id;
+        remit.Status__c = 'New';
+        insert remit;
+        
+        Unallocated_Payment__c unAloccPay = new Unallocated_Payment__c();
+        unAloccPay.Account_Number__c = 'unknown';
+        unAloccPay.Deposit_Slip__c=ds.id;
+        unAloccPay.Cheque_Number__c='12345';
+        unAloccPay.Is_Payment_Remitted__c=false;
+        //unAloccPay.Is_Payment_Remitted__c=True;
+        unAloccPay.Is_Payments_Reversed__c='NSF';
+        unAloccPay.Allocated__c =false;
+        unAloccPay.Remittance__c = remit.id;
+        unAloccPay.Payment_Posting_Date__c = System.Today().addDays(-2);
+        unAloccPay.Cheque_Number__c  =  '12345';
+        unAloccPay.recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%Insolvency%'].id;
+        insert unAloccPay;
+        
+        Insolvency__c insolv1 = new Insolvency__c();
+        insolv1.name = 'test';
+        insolv1.Insolvency_Status__c = 'Refused';
+        insert insolv1;
+        
+        Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Scotia_Bank_Insolvency_Account').getRecordTypeId();
+        
+        Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
+        insolAcct1.name = 'Test222';
+        insolAcct1.Insolvency_Status__c = 'New';
+        insolAcct1.Insolvency__c = insolv1.id;
+        insolAcct1.Account_Type__c = 'Line of Credit';
+        insolAcct1.Borrower_Primary__c = 'Kajal';
+        insolAcct1.Type_of_Service__c = 'Service Only';
+        insolAcct1.Claim_Type__c = 'Secured';
+        insolAcct1.Is_Duplicate_Resolved__c = false;
+        insolAcct1.RecordTypeId = scotiabank;
+        insolAcct1.Client_Identifier__c = 'Scotia Bank';
+        insert insolAcct1;
+        
+        Insolvency_Payment__c payment2 = new Insolvency_Payment__c();
+        payment2.Remittance__c = unAloccPay.Remittance__c;
+        payment2.Payment_Amount__c = 1123.00;
+        payment2.Insolvency_Account__c =insolAcct1.id;
+        payment2.Unallocated_Payment__c=unAloccPay.id;
+        payment2.Deposit_Account_Type__c = 'AAL';
+        payment2.Payment_Posting_Date__c = unAloccPay.Payment_Posting_Date__c;
+        payment2.Cheque_Payment_Reference_Number__c = unAloccPay.Cheque_Number__c;
+        insert payment2;
+        
+        Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
+        prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
+        prod1.Product_Status__c = 'Test';
+        insert prod1;
+        
+		Product_Payments__c prodPayments = new Product_Payments__c();
+        prodPayments.Dividend__c = remit.Id;
+        prodPayments.Payment_Amount__c = 1123.00;
+        prodPayments.CCS_Account__c =prod1.id;
+        prodPayments.Unallocated_Payment__c=unAloccPay.id;
+        prodPayments.Deposit_Account_Type__c = 'AAL';
+        insert prodPayments;
+        
+        ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
+        
+        remit.id = unAloccPay.Remittance__c; 
+        remit.recordTypeId = [select id from RecordType where SobjectType = 'remittance__C' and name like '%Insolvency%'].id;
+        remit.Status__c = 'New';
+        update remit;
+        
+        Unallocated_Payment__c unAloccPay2 = new Unallocated_Payment__c();
+        unAloccPay2.Account_Number__c = 'unknown';
+        unAloccPay2.Deposit_Slip__c=ds.id;
+        unAloccPay2.Cheque_Number__c='12345';
+        unAloccPay2.Is_Payment_Remitted__c=false;
+        unAloccPay2.Allocated__c =false;
+        unAloccPay2.Remittance__c = remit.id;
+        unAloccPay2.recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%Insolvency%'].id;
+        insert unAloccPay2;
+        
+        UnallocatedPaymentControllerNew obj = new UnallocatedPaymentControllerNew(new ApexPages.StandardController(unAloccPay2));
+		obj.prodPay.CCS_Account__C = [SELECT Id FROM Product__c LIMIT 1].Id;
+        obj.check();
+        obj.selected = 'FDR';
+        apexpages.currentPage().getparameters().put('check', null);
+        //obj.selected='FDR';
+        obj.prodpaysave();  
+        
+    }
+    // Upto Here
+    
 }

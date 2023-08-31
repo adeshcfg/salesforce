@@ -29,6 +29,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Goeasy</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Lendcare</fullName>
             <default>false</default>
         </values>

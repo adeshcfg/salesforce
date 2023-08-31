@@ -15,4 +15,8 @@
         <value>YESTERDAY</value>
     </filters>
     <label>Modified Yesterday</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
 </ListView>

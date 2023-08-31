@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>LOR_Demand_Template_French</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>LOR Demand Goeasy Template</name>
+    <style>none</style>
+    <subject>s.130 Notification</subject>
+    <textOnly>{!pocPackage.CFG_French_Office_Name__c}
+{!pocPackage.CFG_Office_Address_1__c}
+{!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}    t. {!pocPackage.CFG_Office_Phone_Number__c}
+f. {!pocPackage.CFG_Office_Fax_Number__c}
+{!pocPackage.CFG_Office_Website__c}
+
+
+{!TODAY()}
+
+{!insolvAcc.Trustee_Company__c} {!insolvAcc.Trustee_Office__c}
+
+Attention: Syndic d&apos;insolvabilité
+
+Objet:  Faillite de  {!insolv.Debitors}
+Actif:   {!insolvAcc.Security_Description__c}
+N.I.V:  {!Insolvency_Account__c.Vehicle_Identification_Number__c}
+Créancier Garanti:  {!pocPackage.Client_Company_Name__c}
+
+
+Cher(ère) Monsieur / Madame,
+
+Veuillez prendre note que Canaccede International Management Ltd. (« nous ») agit au nom du créancier garanti, {!pocPackage.Client_Company_Name__c}{!clientCompanyNameSuffix}, relativement au dossier susmentionnée. Le {!insolvAcc.Insolvency_Status_Last_Changed__c}, nous avons transmis à votre bureau une preuve de réclamation pour l’Actif susmentionné (l’ « Actif ») au nom de {!pocPackage.Client_Company_Name_French__c}, ainsi qu’unqu’un avis écrit exigeant que vous choisissier d’exercer votre pouvoir de rachater la garantie ou de la faire réaliser en vertu de l’article 130 de la Loi sur la faillite et l’insolvabilité.
+
+Plus de 30 jours se sont écoulés depuis le dépôt de la preuve de réclamation et de l’avis écrit. Conformément à l’article 130 de la Loi sur la faillite et l’insolvabilité, le syndic n’ayant pas indiqué dans les 30 jours suivant la demande du créancier garanti s’il entend exercer son pouvoir de rachat ou exiger la réalisation de la garantie,ce choix a été perdu et ses intérêts dans les biens compris dans la garantie qui s sont maintenant dévolus à {!pocPackage.Client_Company_Name_French__c}.
+
+Nous vous demandons de nous fournir la confirmation que le Syndicrenonce à sa participation dans les biens compris dans la garantie d’ici le {5 business days}. Si aucune réponse n’est reçue, {!pocPackage.Client_Company_Name_French__c} exercera ses droits à l’égard des biens compris dans la garantie sans autre avis ni délai. Si nous ne sommes pas en mesure de localiser lesdit biens garantis, nous communiquerons de nouveau avec votre bureau pour vérifier leuremplacement.
+
+Si vous avez des questions, n’hésitez pas à communiquer avec notre bureau.
+
+Canaccede International Management Ltd.
+Téléphone: {!pocPackage.CFG_Office_Phone_Number__c}
+Télécopieur: {!pocPackage.CFG_Office_Fax_Number__c}
+Email: {!pocPackage.CFG_Office_Email_Address__c}
+
+Sincèrement,
+Département de l&apos;insolvabilité
+Canaccede International Management Ltd.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Third_Proposal_Date</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+AND(ISCHANGED(Third_Proposal_Date__c ),Third_Proposal_Date__c &gt; TODAY()),
+
+AND(OR(ISCHANGED(Second_Proposal_Date__c),ISCHANGED(Third_Proposal_Date__c )),
+Second_Proposal_Date__c &gt;= Third_Proposal_Date__c),
+
+AND(OR(ISCHANGED(Initial_Proposal_Date__c),ISCHANGED(Third_Proposal_Date__c )),
+Initial_Proposal_Date__c&gt;= Third_Proposal_Date__c )
+
+)</errorConditionFormula>
+    <errorDisplayField>Third_Proposal_Date__c</errorDisplayField>
+    <errorMessage>The Third Proposal Date cannot be in future and should be greater than Initial Proposal Date and Second Proposal Date</errorMessage>
+</ValidationRule>

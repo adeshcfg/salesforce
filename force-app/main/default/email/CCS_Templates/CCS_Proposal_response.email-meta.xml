@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>CCS Proposal response</name>
+    <style>none</style>
+    <subject>CCS Office File #:{!Product__c.Name} {!Product__r.Customer__r.Name}– Response to CCS Proposal</subject>
+    <textOnly>Date: {!Today}
+
+{!Product__r.CCS_Agency__r.Name}
+{!Product__r.CCS_Agency__r.BillingAddress1}
+{!Product__r.CCS_Agency__r.BillingAddress2}
+{!Product__r.CCS_Agency__r.BillingAddress4}
+{!Product__r.CCS_Agency__r.BillingAddress3}
+{!Product__r.CCS_Agency__r.Fax}
+
+RE:Your Account #: {!Product__c.CCS_Client_ID__c}
+Customer Name: {!Product__r.Customer__r.Name}
+Customer Account #: {!Product__c.Name}
+Original Creditor: {!Product__c.Originating_Creditor__c}
+
+Pursuant to the notice received by the Creditor, the above customer has applied for a debt management program with your office.
+
+You are seeking the Creditor’s approval to this debt liquidation under the following proposal:
+CCS Proposed Payment Amount: {!Product__c.CCS_Proposed_Payment_Amount__c}
+Proposed Payment Amount: {!Product__c.Proposed_Payment_Amount__c}
+Payment Frequency: {!Product__c.Payment_Frequency__c}
+Proposed Donation: {!Product__c.Proposed_Donation_Rate__c}
+Expected First disbursement date: {!Product__c.Expected_First_disbursement_date__c}
+
+Upon review we can confirm that we will {!Product__c.Proposal_Status__c} the Debt Management Proposal for the customer under the following terms:
+Current Balance: {!Product__c.Current_Balance__c}
+Accepted Interest rate: {!Product__c.Accepted_Interest_rate__c}
+Accepted Payment Amount:{!Product__c.Accepted_Payment_Amount__c}
+Payment Frequency: {!Product__c.Payment_Frequency__c}
+Accepted Donation Rate: {!Product__c.Accepted_Donation_Rate__c}
+Expected First Disbursement Date: {!Product__c.Expected_First_disbursement_date__c}
+Date of last payment: {!product__c.Payment_Created__c}
+Amount of last payment: {!Product__c.Payment_Amount__c}
+Reason for Decline: {!Product__c.Proposal_Reject_Reason__c}
+
+1. If the creditor has agreed to pay your organization a donation which is set out in the terms above, then please deduct the donation per the Creditors accepted donation rate from each payment.
+2. Personal cheques from customers will not be accepted.
+3. The above noted account number must be provided on ALL payments to ensure accuracy of processing the payments.
+4. If no payments are received for 3 consecutive months, the proposed terms will be deemed to be in default and the proposal null and void.
+5. Please ensure all payments are made payable to Canaccede International Management Ltd.
+
+
+Sincerely,
+
+{!CCSPackage.CFG_Name__c}
+{!CCSPackage.CFG_Office_Name__c}
+{!servicerName}
+
+
+
+
+
+
+
+
+
+
+
+
+{!CCSPackage.CFG_Office_Name__c}
+{!CCSPackage.CFG_Office_Address_1__c} | {!CCSPackage.CFG_Office_City__c} | {!CCSPackage.CFG_Office_Province__c} | {!CCSPackage.CFG_Office_Postal_Code__c}
+Tel: {!CCSPackage.CFG_Office_Phone_Number__c} | Fax: {!CCSPackage.CFG_Office_Fax_Number__c}
+Email: {!CCSPackage.CFG_Office_Website__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

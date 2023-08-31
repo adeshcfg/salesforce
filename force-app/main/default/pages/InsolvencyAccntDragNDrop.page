@@ -743,13 +743,16 @@
                                        <tbody id="relatedListBody">
                                           <apex:repeat value="{!attList}" var="att">
                                              <tr>
-                                                <td style="display:{!IF(isCommunityReadOnlyUser, 'none;', ';')}">
+                                                <td style="display:{!IF(OR(isCommunityReadOnlyUser,isGoeasyBankCommunityUser), 'none;', ';')}">
                                                    <apex:commandButton status="spinner" styleClass="slds-button slds-button--neutral" value="Delete" onclick="deletAtt('{!att.Id}', this)"/>
                                                 </td>
                                                 <td style="max-width:250px;">
                                                    <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
-                                                      <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}">
+                                                      <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(NOT(isGoeasyBankCommunityUser), "", "none;")}'>
                                                       <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!att.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!att.Name}</a>
+                                                      </span>
+                                                      <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(isGoeasyBankCommunityUser, "", "none;")}'>
+                                                           <a href="/Goeasy/servlet/servlet.FileDownload?file={!att.Id}" target="_blank" >{!att.Name}</a>  
                                                       </span>
                                                    </li>
                                                 </td>
@@ -831,9 +834,12 @@
                                        <tr>
                                           <td style="max-width:250px;">
                                              <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
-                                                <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}">
+                                                <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(NOT(isGoeasyBankCommunityUser), "", "none;")}'>
                                                 <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!att.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!att.Name}</a>
                                                 </span>
+                                                <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(isGoeasyBankCommunityUser, "", "none;")}'>
+                                                   <a href="/Goeasy/servlet/servlet.FileDownload?file={!att.Id}" target="_blank" >{!att.Name}</a>  
+                                                 </span>
                                              </li>
                                           </td>
                                           <td>

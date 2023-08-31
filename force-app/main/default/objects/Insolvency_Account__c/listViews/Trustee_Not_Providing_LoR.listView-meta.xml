@@ -29,6 +29,7 @@
     </filters>
     <label>Trustee Not Providing LoR</label>
     <sharedTo>
+        <group>Insolvency_Goeasy_Users</group>
         <group>Insolvency_SDA_Users</group>
         <group>Insolvency_SPL_Users</group>
         <group>Insolvency_Scotia_Users</group>

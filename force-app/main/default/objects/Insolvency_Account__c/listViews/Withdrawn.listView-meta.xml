@@ -28,6 +28,11 @@
         <value>Purchased,Bulk Purchased,Duplicate Purchased,Debt Purchase</value>
     </filters>
     <filters>
+        <field>Review_Account__c</field>
+        <operation>notEqual</operation>
+        <value>1</value>
+    </filters>
+    <filters>
         <field>Reason_for_No_PoC_Required_Dropdown__c</field>
         <operation>notEqual</operation>
         <value>Account Sold,No Open Accounts,Unable to Locate Account</value>
@@ -37,15 +42,11 @@
         <operation>equals</operation>
         <value>0</value>
     </filters>
-    <filters>
-        <field>Review_Account__c</field>
-        <operation>equals</operation>
-        <value>0</value>
-    </filters>
     <label>Withdrawn</label>
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
+        <group>Insolvency_Goeasy_Users</group>
         <group>Insolvency_SDA_Users</group>
         <group>Insolvency_SPL_Users</group>
         <group>Insolvency_Scotia_Users</group>

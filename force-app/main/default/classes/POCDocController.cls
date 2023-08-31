@@ -113,7 +113,7 @@ public class POCDocController{
                                 Last_Payment_Date__c, Last_Payment_Amount__c, Interest_Rate__c, Insolvency_Status__c,Asset_Status__c,                               
                                 Insolvency__r.Debtor_1_First_Name__c, Insolvency__r.Debtor_1_Last_Name__c, Insolvency__r.Debtor_1_Middle_Name__c, 
                                 Insolvency__r.Debtor_2_First_Name__c, Insolvency__r.Debtor_2_Last_Name__c, Insolvency__r.Debtor_2_Middle_Name__c,Bank_Name__c, 
-                                Statements_Required__c, Proof_of_Claim_Required__c, Voting_Options__c ,Include_Voting_Letter__c, Amended_PoC_Created_Date__c, PoC_Created_Date__c   
+                                Statements_Required__c, Proof_of_Claim_Required__c, Voting_Options__c ,Include_Voting_Letter__c, Amended_PoC_Created_Date__c, PoC_Created_Date__c, Account_Type__c   
                                 FROM Insolvency_Account__c 
                                 WHERE Id =: ApexPages.currentPage().getParameters().get('Id')];
                                 
@@ -218,8 +218,8 @@ public class POCDocController{
                 canaccedeError = true;
                 canaccedeErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account has Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
             }
-            System.debug('A:' + insolvAcc.Vendor_Orginator__c + 'C' + insolvAcc.client_identifier__c);
-            System.debug('B:' + insolvAcc.Portfolio_Group_Name__c + 'D');
+            //System.debug('A:' + insolvAcc.Vendor_Orginator__c + 'C' + insolvAcc.client_identifier__c);
+            //System.debug('B:' + insolvAcc.Portfolio_Group_Name__c + 'D');
         
             //Check trustee is Service Nova Scotia or not for Account masking
             List<String> trusteeCheckList = new List<String>();

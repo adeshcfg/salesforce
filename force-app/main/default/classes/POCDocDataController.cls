@@ -52,7 +52,7 @@ public class POCDocDataController {
                                
                                 Insolvency__r.Debtor_1_First_Name__c, Insolvency__r.Debtor_1_Last_Name__c, Insolvency__r.Debtor_1_Middle_Name__c, 
                                 Insolvency__r.Debtor_2_First_Name__c, Insolvency__r.Debtor_2_Last_Name__c, Insolvency__r.Debtor_2_Middle_Name__c, 
-                                Statements_Required__c, Proof_of_Claim_Required__c, Voting_Options__c ,Include_Voting_Letter__c, Amended_PoC_Created_Date__c, PoC_Created_Date__c   
+                                Statements_Required__c, Proof_of_Claim_Required__c, Voting_Options__c ,Include_Voting_Letter__c, Amended_PoC_Created_Date__c, PoC_Created_Date__c, Account_Type__c  
                                 FROM Insolvency_Account__c 
                                 WHERE Id =: ApexPages.currentPage().getParameters().get('Id')];
         

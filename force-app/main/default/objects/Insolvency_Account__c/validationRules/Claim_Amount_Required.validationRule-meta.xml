@@ -4,9 +4,11 @@
     <active>true</active>
     <description>Claim_amount_required when select/update No_POC_Required</description>
     <errorConditionFormula>AND(NOT(ISNEW()),
-	$Profile.Name &lt;&gt; &apos;System Administrator&apos;,
-    $Profile.Name &lt;&gt; &apos;CFG - Insolvency User&apos;,
-	NOT(ISPICKVAL( Insolvency_Status__c , &apos;No PoC Required&apos;)), ISBLANK( Claim_Amount__c ))
-	</errorConditionFormula>
+$Profile.Name &lt;&gt; &apos;System Administrator&apos;,
+NOT(
+    ISPICKVAL( Insolvency_Status__c , &apos;No PoC Required&apos;)||
+    ISPICKVAL( Insolvency_Status__c , &apos;For Owner Review&apos;)), 
+    ISBLANK( Claim_Amount__c )
+   )</errorConditionFormula>
     <errorMessage>Please Enter the Claim Amount</errorMessage>
 </ValidationRule>

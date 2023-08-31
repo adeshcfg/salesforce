@@ -3,12 +3,11 @@
     <fullName>Bank_Name__c</fullName>
     <description>Bank Name</description>
     <externalId>false</externalId>
-    <formula>TEXT(Client_Identifier__c)</formula>
+    <formula>CASE(TEXT(Client_Identifier__c), &apos;Goeasy&apos;, &apos;Easyfinancial&apos;, TEXT(Client_Identifier__c))</formula>
     <inlineHelpText>Bank Name</inlineHelpText>
     <label>Bank Name</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
-    <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

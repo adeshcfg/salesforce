@@ -28,7 +28,8 @@ public class TestCCSEmailController {
         
         CCS_Email_Templates__c temp = new CCS_Email_Templates__c(Attachment_Template_id__c= '00X56000000y5rlEAA',
                                                                  Email_Body_Template_id__c= '00X56000000y5rmEAA',
-                                                                 Name='Product Default Template'
+                                                                 Name='Product Default Template',
+                                                                 Record_Type__c = 'CCS_Account'
                                                                 );
         insert temp;
     }
@@ -47,6 +48,9 @@ public class TestCCSEmailController {
         prod.Customer__c= customer.id;
         prod.CCS_Agency__c = customer2.id;
         prod.CCS_Client_ID__c='213546';
+        prod.Status__c = 'New Allocation - New Allocation';
+        prod.Sub_Status__c = 'Ready';
+        prod.Product_Status__c = 'Test';
         prod.RecordTypeId=rtid;
         insert prod;
         

@@ -18,6 +18,7 @@ public class AssignmentDocCntrl{
     public boolean initialLoad{get;set;}
     public boolean showOnBIorSD{get;set;}
     public Id selectedAttId {set;get;}
+    public Boolean isGoeasyBankCommunityUser {set; get;}
     public List<Attachment> attList {set;get;}
     //public boolean showOnSD = false;
         
@@ -44,6 +45,8 @@ public class AssignmentDocCntrl{
         communityUser = isCommunityUser();
         
         initialLoad = true;
+        isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
+        
     }   
     
     //Upload Attachment

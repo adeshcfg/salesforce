@@ -21,4 +21,8 @@
         <value>Miranda</value>
     </filters>
     <label>ICT - Miranda</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
 </ListView>

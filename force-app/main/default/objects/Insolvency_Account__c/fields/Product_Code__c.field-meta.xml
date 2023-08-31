@@ -187,6 +187,21 @@
                 <default>false</default>
                 <label>WMC</label>
             </value>
+            <value>
+                <fullName>UPL</fullName>
+                <default>false</default>
+                <label>UPL</label>
+            </value>
+            <value>
+                <fullName>SL</fullName>
+                <default>false</default>
+                <label>SL</label>
+            </value>
+            <value>
+                <fullName>LP</fullName>
+                <default>false</default>
+                <label>LP</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

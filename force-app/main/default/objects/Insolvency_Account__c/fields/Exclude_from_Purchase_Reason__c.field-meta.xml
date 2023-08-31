@@ -32,6 +32,11 @@
                 <default>false</default>
                 <label>Other</label>
             </value>
+            <value>
+                <fullName>Pending voting decision</fullName>
+                <default>false</default>
+                <label>Pending voting decision</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

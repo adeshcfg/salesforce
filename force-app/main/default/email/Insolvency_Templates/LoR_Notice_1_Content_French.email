@@ -1,0 +1,21 @@
+Cher(ère) Monsieur / Madame,
+
+<br/><br/>
+
+Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de {!pocPackage.BankNameWiseFrenchCompanyName}. Nos dossiers indiquent que nous vous avons envoyé une preuve de réclamation mais que nous n’avons pas encore reçu de lettre de mainlevée.
+<br/><br/>
+
+Veuillez consulter la lettre ci-jointe de {!pocPackage.BankNameWiseFrenchCompanyName} pour de plus amples renseignements.
+
+<br/><br/>
+
+Sincèrement
+
+<br/><br/>
+
+Canaccede International Management Ltd.
+
+<br/><br/>
+
+P:{!pocPackage.CFG_Office_Phone_Number__c} <br/>
+E: {!pocPackage.CFG_Office_Email_Address__c}

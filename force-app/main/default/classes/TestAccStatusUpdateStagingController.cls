@@ -108,7 +108,7 @@ public class TestAccStatusUpdateStagingController {
         DisplayAccStatusUpdateStagingController.productStagingWrapper wrapper = new DisplayAccStatusUpdateStagingController.productStagingWrapper(productStaging2,false);
         controller.isSelected = true;
         
-        wrapper.accStaging = productStaging2;
+       // wrapper.accStaging = productStaging2;
         wrapper.selected = true;
         controller.getTotalPages();
         controller.selectAll();
@@ -132,7 +132,7 @@ public class TestAccStatusUpdateStagingController {
         DisplayAccStatusUpdateStagingController.productStagingWrapper ccisw = new DisplayAccStatusUpdateStagingController.productStagingWrapper(productStaging, False);
         ccisw.selected = true;
         ccisw.disabled = true;
-        ccisw.accStaging = productStaging;
+       // ccisw.accStaging = productStaging;
         
 
         DisplayAccStatusUpdateStagingController test2 = new DisplayAccStatusUpdateStagingController();
@@ -218,11 +218,18 @@ public class TestAccStatusUpdateStagingController {
 
         PageReference myVfPage = Page.DisplayAccountStatusUpdateStaging;
         Test.setCurrentPage(myVfPage);
-        
+        Set<Product_Staging__c> psSet = new Set<Product_Staging__c>();
         Product_Staging__c prodStagingTest = [Select id, Identifier__c from Product_Staging__c limit 1];
         prodStagingTest.Identifier__c = prodStagingTest.Id;
         //prodStagingTest.Name = 'Test';
         update prodStagingTest;
+        psSet.add(prodStagingTest);
+        
+        Work_Assignment__c workAssignment = new Work_Assignment__c();
+        workAssignment.Purpose__c = 'Excel Processing';
+        workAssignment.Sub_Purpose__c = 'Account Status Update File';
+        insert workAssignment;
+        
         Document_Storage__c docAzur = new Document_Storage__c();
         docAzur.Document_Type__c = 'Selling Bill';
         docAzur.Document_URL__c = 'bill@gmail.com';
@@ -250,8 +257,16 @@ public class TestAccStatusUpdateStagingController {
 
         DisplayAccStatusUpdateStagingController instance1 = new DisplayAccStatusUpdateStagingController();
         instance1.getlistProductStagingWrapper();
-        instance1.isSelected = true;
-            
+        instance1.isSelected = false;
+             List<Product_Staging__c> listAccountStagingNew =  instance1.getAllRecords();
+        PageReference pageRef = instance1.saveAllRecords();
+        PageReference pageRef1 = instance1.saveSelectiveRecords();
+        
+        PageReference pageRef2 = instance1.Save();
+        set<string> StrList = new set<string>();
+        StrList.add('abc');
+        DisplayAccStatusUpdateStagingController.postDocumentAPIBatch(docAzur.id,psSet,workAssignment.id,1,1,StrList,StrList);
+     
         //ApexPages.StandardSetController setCon = new ApexPages.StandardSetController(prodStagingTest1);
         //instance1.SetCon();
       //setCon.setSelected(prodStagingTest1);
@@ -261,15 +276,15 @@ public class TestAccStatusUpdateStagingController {
         DisplayAccStatusUpdateStagingController.productStagingWrapper ccisw = new DisplayAccStatusUpdateStagingController.productStagingWrapper(prodStagingTest, False);
         ccisw.selected = true;
         ccisw.disabled = true;
-        ccisw.accStaging = prodStagingTest;
+        //ccisw.accStaging = prodStagingTest;
         
         DisplayAccStatusUpdateStagingController.productStagingWrapper testWrap=new DisplayAccStatusUpdateStagingController.productStagingWrapper(prodStagingTest,false); 
         testWrap.selected = true;
        
-       instance1.saveSelectiveRecords();
+     //  instance1.saveSelectiveRecords();
        instance1.isSelected= true;
 
-       instance1.saveAllRecords();
+      // instance1.saveAllRecords();
        //instance1.first();
        instance1.next();
        //instance1.last();
@@ -279,7 +294,7 @@ public class TestAccStatusUpdateStagingController {
 
 
        //instance1.postDocumentAPI();
-       instance1.save();
+      // instance1.save();
 
 
     }
@@ -367,7 +382,7 @@ public class TestAccStatusUpdateStagingController {
         DisplayAccStatusUpdateStagingController.productStagingWrapper ccisw = new DisplayAccStatusUpdateStagingController.productStagingWrapper(productStaging, False);
         ccisw.selected = true;
         ccisw.disabled = true;
-        ccisw.accStaging = productStaging;
+       // ccisw.accStaging = productStaging;
         
             
         DisplayAccStatusUpdateStagingController test2 = new DisplayAccStatusUpdateStagingController();

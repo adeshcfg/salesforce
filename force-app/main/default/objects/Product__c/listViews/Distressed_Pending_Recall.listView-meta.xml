@@ -30,4 +30,7 @@
     </filters>
     <label>Distressed - Pending Recall From Agency</label>
     <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
 </ListView>

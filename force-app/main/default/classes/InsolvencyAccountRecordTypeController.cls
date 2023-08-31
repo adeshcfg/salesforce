@@ -8,7 +8,7 @@
  
  *************************************************************************************************/
  
-public class InsolvencyAccountRecordTypeController{
+ public class InsolvencyAccountRecordTypeController{
     
     public List<SelectOption> recordTypeOptions {get;set;}  
     public String selectedrecordType {get;set;}
@@ -73,6 +73,7 @@ public class InsolvencyAccountRecordTypeController{
             workOnRecordTypeMap.put('Canaccede', 'Canaccede Insolvency Account');
             workOnRecordTypeMap.put('Fidem', 'Fidem Insolvency Account');
             workOnRecordTypeMap.put('Fairstone', 'Fairstone Insolvency Account');
+            workOnRecordTypeMap.put('Goeasy', 'Easyfinancial Insolvency Account');
             
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
             

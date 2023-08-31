@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insolvency_Assignment_Type__c</fullName>
+    <description>Insolvency Assignment Type</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Insolvency Assignment Type</inlineHelpText>
+    <label>Insolvency Assignment Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Assign_To__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Account Validation</fullName>
+                <default>false</default>
+                <label>Account Validation</label>
+            </value>
+            <value>
+                <fullName>Amend Claim</fullName>
+                <default>false</default>
+                <label>Amend Claim</label>
+            </value>
+            <value>
+                <fullName>Business Insolvency</fullName>
+                <default>false</default>
+                <label>Business Insolvency</label>
+            </value>
+            <value>
+                <fullName>Chq Stub</fullName>
+                <default>false</default>
+                <label>Chq Stub</label>
+            </value>
+            <value>
+                <fullName>Distressed Sale</fullName>
+                <default>false</default>
+                <label>Distressed Sale</label>
+            </value>
+            <value>
+                <fullName>Letter of Release Request</fullName>
+                <default>false</default>
+                <label>Letter of Release Request</label>
+            </value>
+            <value>
+                <fullName>More Information Required</fullName>
+                <default>false</default>
+                <label>More Information Required</label>
+            </value>
+            <value>
+                <fullName>Needs Documentation</fullName>
+                <default>false</default>
+                <label>Needs Documentation</label>
+            </value>
+            <value>
+                <fullName>Notice of Disallowance</fullName>
+                <default>false</default>
+                <label>Notice of Disallowance</label>
+            </value>
+            <value>
+                <fullName>Query</fullName>
+                <default>false</default>
+                <label>Query</label>
+            </value>
+            <value>
+                <fullName>Refund Request</fullName>
+                <default>false</default>
+                <label>Refund Request</label>
+            </value>
+            <value>
+                <fullName>Secured Communications</fullName>
+                <default>false</default>
+                <label>Secured Communications</label>
+            </value>
+            <value>
+                <fullName>Vehicle Pickup Request</fullName>
+                <default>false</default>
+                <label>Vehicle Pickup Request</label>
+            </value>
+            <value>
+                <fullName>Withdraw PoC</fullName>
+                <default>false</default>
+                <label>Withdraw PoC</label>
+            </value>
+            <value>
+                <fullName>Final</fullName>
+                <default>false</default>
+                <label>Final</label>
+            </value>
+            <value>
+                <fullName>OSB Request</fullName>
+                <default>false</default>
+                <label>OSB Request</label>
+            </value>
+            <value>
+                <fullName>Fax Confirmation Report</fullName>
+                <default>false</default>
+                <label>Fax Confirmation Report</label>
+            </value>
+            <value>
+                <fullName>Balance Updates</fullName>
+                <default>false</default>
+                <label>Balance Updates</label>
+            </value>
+            <value>
+                <fullName>DMP</fullName>
+                <default>false</default>
+                <label>DMP</label>
+            </value>
+            <value>
+                <fullName>Drop Notification</fullName>
+                <default>false</default>
+                <label>Drop Notification</label>
+            </value>
+            <value>
+                <fullName>PIF request</fullName>
+                <default>false</default>
+                <label>PIF request</label>
+            </value>
+            <value>
+                <fullName>Payout Request</fullName>
+                <default>false</default>
+                <label>Payout Request</label>
+            </value>
+            <value>
+                <fullName>Settlement Offer</fullName>
+                <default>false</default>
+                <label>Settlement Offer</label>
+            </value>
+            <value>
+                <fullName>Forward Request</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Forward Request</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Account Validation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Amend Claim</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Business Insolvency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <valueName>Chq Stub</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <valueName>Distressed Sale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Letter of Release Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>More Information Required</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Needs Documentation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Notice of Disallowance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Query</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Refund Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Secured Communications</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <valueName>Vehicle Pickup Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Withdraw PoC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>Final</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <controllingFieldValue>Fairstone</controllingFieldValue>
+            <controllingFieldValue>Goeasy</controllingFieldValue>
+            <valueName>OSB Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CFG</controllingFieldValue>
+            <controllingFieldValue>Scotia Bank</controllingFieldValue>
+            <controllingFieldValue>SPL</controllingFieldValue>
+            <controllingFieldValue>SDA</controllingFieldValue>
+            <controllingFieldValue>Canaccede</controllingFieldValue>
+            <valueName>Fax Confirmation Report</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

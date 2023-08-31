@@ -20,4 +20,8 @@
         <value>Product__c.Distressed_Account</value>
     </filters>
     <label>External Status Update</label>
+    <language>en_US</language>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
 </ListView>

@@ -3,16 +3,16 @@
     <fullName>PoC_Details_Provided</fullName>
     <columns>Insolvency__c</columns>
     <columns>NAME</columns>
-    <columns>Insolvency_Type__c</columns>
-    <columns>Voting_Options__c</columns>
     <columns>Bank_Name__c</columns>
-    <columns>Number_Of_Days_In_Current_Status__c</columns>
+    <columns>Statements_Requested__c</columns>
     <columns>Borrower_Primary__c</columns>
     <columns>Insolvency_Status__c</columns>
+    <columns>Number_Of_Days_In_Current_Status__c</columns>
     <columns>LAST_UPDATE</columns>
     <columns>Claim_Type__c</columns>
     <columns>Account_Type__c</columns>
     <columns>Insolvency_Account_Owner__c</columns>
+    <columns>Product_Code__c</columns>
     <columns>Claim_Amount__c</columns>
     <columns>Insolvency_Status_Last_Changed__c</columns>
     <columns>UPDATEDBY_USER</columns>
@@ -27,6 +27,7 @@
         <group>Insolvency_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
         <group>Insolvency_Fairstone_Users</group>
+        <group>Insolvency_Goeasy_Users</group>
         <group>Insolvency_SDA_Users</group>
         <group>Insolvency_SPL_Users</group>
         <group>Insolvency_Scotia_Users</group>

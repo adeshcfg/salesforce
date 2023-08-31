@@ -270,7 +270,7 @@ public class ProductPaymentProcessingController{
             }
             Boolean searchResultsFound = false;
             
-            for(Product__C productAcc : [SELECT Id, name, Agency_Company__c, Portfolio_Group_Name__c, customer__r.name, CCS_Account_Number__c, CCS_Debtor_Name__c, CCS_Agency__r.name, FairShare_Percentage__c, CCS_Client_ID__c FROM Product__C WHERE (Name LIKE : searchList OR CCS_Account_Number__c LIKE : searchList OR CCS_Client_ID__c LIKE : searchList OR customer__r.name LIKE : searchList ) and ID Not IN :listProdAccIDs and recordtype.name = 'CCS Account' ORDER BY NAME ASC LIMIT 1000]){
+            for(Product__C productAcc : [SELECT Id, name, Agency_Company__c, Portfolio_Group_Name__c, customer__r.name, CCS_Account_Number__c, CCS_Debtor_Name__c, CCS_Agency__r.name, FairShare_Percentage__c, CCS_Client_ID__c FROM Product__C WHERE (Name LIKE : searchList OR CCS_Account_Number__c LIKE : searchList OR CCS_Client_ID__c LIKE : searchList OR customer__r.name LIKE : searchList ) and ID Not IN :listProdAccIDs and (recordtype.name = 'CCS Account' OR recordtype.DeveloperName = 'GoEasy_CCS_Account') ORDER BY NAME ASC LIMIT 1000]){
 
                 if(!ProdAccIds.contains(productAcc.Id)){
                     Product_Payments__C productPayment = new Product_Payments__C();

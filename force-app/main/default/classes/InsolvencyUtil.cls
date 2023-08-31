@@ -8,7 +8,7 @@
  
  *************************************************************************************************/
  
-public without sharing class InsolvencyUtil {
+ public without sharing class InsolvencyUtil {
     public static Application_Config_Settings__c config; // = Application_Config_Settings__c.getOrgDefaults();
     
 
@@ -103,6 +103,17 @@ public without sharing class InsolvencyUtil {
     public static Boolean isFairstoneBankCommunityUser(Id profileId){
         String profileName = [Select Id,Name from Profile where Id=: profileId].Name;
         if(profileName.contains('Fairstone') ){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    //Check whether current user belong to Fairstone Bank Community User or not
+    public static Boolean isGoeasyBankCommunityUser(Id profileId){
+        String profileName = [Select Id,Name from Profile where Id=: profileId].Name;
+        if(profileName.contains('Goeasy') ){
             return true;
         }
         else{
@@ -211,7 +222,10 @@ public without sharing class InsolvencyUtil {
       }
       else if (profileName.contains('Fairstone')){
          return 'Fairstone Insolvency Account';
-      } 
+      }
+      else if (profileName.contains('Goeasy')){
+         return 'Easyfinancial Insolvency Account';
+      }
     
       return null; 
     }
@@ -322,23 +336,16 @@ public without sharing class InsolvencyUtil {
     //Get Eligible Insolvency Account Record Type Options
     public Static String getRecordTypeToWorkOn() {
         String recordTypeToWorkOn = '';
-        
         String recordToWorkOn = getRecordToWorkOn();
-        System.debug('recordToWorkOn :'+recordToWorkOn);
-        
         if(String.isNotBlank(recordToWorkOn)){
             Map<String, String> workOnRecordTypeMap = New Map<String, String>();
-            
             workOnRecordTypeMap.put('Scotia Bank', 'Scotia Bank Insolvency Account');
             workOnRecordTypeMap.put('SPL', 'SPL Insolvency Account');
             workOnRecordTypeMap.put('SDA', 'SDA Insolvency Account');
             workOnRecordTypeMap.put('Fairstone', 'Fairstone Insolvency Account');
-            
+            workOnRecordTypeMap.put('Goeasy', 'Easyfinancial Insolvency Account');
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
-            
-            System.debug('recordTypeToWorkOn :'+recordTypeToWorkOn);
         }
-        
         return recordTypeToWorkOn;
     }
     
@@ -383,6 +390,11 @@ public without sharing class InsolvencyUtil {
                 ownerId = insolv.Fairstone_Record_Owner__c;
             }
         }
+        else if(clientIdentifier == 'Goeasy'){
+            if(insolv.Goeasy_Record_Owner__c!= null){
+               ownerId = insolv.Goeasy_Record_Owner__c;
+           }
+       }
         
         return ownerId;
     }

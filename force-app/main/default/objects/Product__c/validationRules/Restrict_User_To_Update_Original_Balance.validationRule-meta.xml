@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Restrict_User_To_Update_Original_Balance</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(
+    <errorConditionFormula>AND(RecordType.DeveloperName &lt;&gt; &apos;GoEasy_CCS_Account&apos;,
 
    ISCHANGED(Original_Balance__c),
 

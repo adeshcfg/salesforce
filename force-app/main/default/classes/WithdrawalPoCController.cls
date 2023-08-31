@@ -213,6 +213,9 @@
         if(insolvAcc.Claim_Amount__c != null){
             claimAmount = '$'+String.format(insolvAcc.Claim_Amount__c.format(), args);
         }
+        if(insolvAcc.Client_Identifier__c == 'Goeasy'){
+                pocPackage.Client_Company_Name__c = pocPackage.Company_Name__c;
+        }
         Map<String, String> emailMergeFields  = new Map<String, String>{
                                                     '{!TODAY()}' => formattedDate,
                                                     '{!Insolvency__r.Trustee__r.Parent.Name}' => insolvAcc.Insolvency__r.Trustee__r.Parent.Name,
@@ -224,6 +227,7 @@
                                                     '{!insolv.Debitors}' => (insolvAcc.Insolvency__r.Debtor__c != null ? insolvAcc.Insolvency__r.Debtor__c : '') + (insolvAcc.Insolvency__r.Co_Debtor__c != null ? (insolvAcc.Insolvency__r.Debtor__c != null ? ',' : '')+insolvAcc.Insolvency__r.Co_Debtor__c : ''),
                                                     '{!Display_Text_As_Per_Bank}' => displayText(),
                                                     '{!pocPackage.Client_Company_Name__c}' => pocPackage.Client_Company_Name__c,
+                                                    '{!pocPackage.Company_Name__c}' => pocPackage.Company_Name__c,
                                                     '{!pocPackage.Client_Company_Name_French__c}' => pocPackage.Client_Company_Name_French__c,    
                                                     '{!pocPackage.CFG_Office_Phone_Number__c}' => pocPackage.CFG_Office_Phone_Number__c.replace('-','.'),
                                                     '{!pocPackage.CFG_Office_Address_1__c}'=> pocPackage.CFG_Office_Address_1__c,
@@ -265,16 +269,21 @@
         if(insolvAcc.Client_Identifier__c == 'Canaccede' && language == 'fr'){
             return 'Créancier- {!pocPackage.Client_Company_Name_French__c}, cessionnaire de \'{!insolvAcc.Originator__c}\', Numéro de compte: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Montant {!insolvAcc.Claim_Amount__c}';
         }
-        if(insolvAcc.Client_Identifier__c != 'Canaccede' && language == 'fr'){
+        if(insolvAcc.Client_Identifier__c != 'Goeasy' && insolvAcc.Client_Identifier__c != 'Canaccede' && language == 'fr'){
             return 'Créancier- {!pocPackage.Client_Company_Name_French__c}, Numéro de compte: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Montant {!insolvAcc.Claim_Amount__c}';
         }
         if(insolvAcc.Client_Identifier__c == 'Canaccede' && language != 'fr'){
             return 'Creditor- {!pocPackage.Client_Company_Name__c}, Assignee of \'{!insolvAcc.Originator__c}\', Account Number: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Amount {!insolvAcc.Claim_Amount__c}';
         }
-        if(insolvAcc.Client_Identifier__c != 'Canaccede' && language != 'fr'){
+        if(insolvAcc.Client_Identifier__c != 'Goeasy' && insolvAcc.Client_Identifier__c != 'Canaccede' && language != 'fr'){
             return 'Creditor- {!pocPackage.Client_Company_Name__c}, Account Number: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Amount {!insolvAcc.Claim_Amount__c}';
         }
-        
+        if(insolvAcc.Client_Identifier__c == 'Goeasy' && language == 'fr'){
+            return 'Créancier- {!pocPackage.Company_Name__c}, Numéro de compte: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Montant {!insolvAcc.Claim_Amount__c}';
+        }
+        if(insolvAcc.Client_Identifier__c == 'Goeasy' && language != 'fr'){
+            return 'Creditor- {!pocPackage.Company_Name__c}, Account Number: {!insolvAcc.Name},<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Amount {!insolvAcc.Claim_Amount__c}';
+        }
         return null;
     }
     

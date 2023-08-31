@@ -51,7 +51,8 @@ public class LoRDemandController{
                      LOR_Notice_1_Sent_Date__c,
                      LOR_Notice_2_Sent_Date__c,
                      LoR_Notice_1_FollowUp_Date__c,
-                     Vehicle_Identification_Number__c 
+                     Vehicle_Identification_Number__c, Account_Type__c,
+                     Bank_Name__c 
                      FROM Insolvency_Account__c 
                      WHERE Id =: ApexPages.currentPage().getParameters().get('Id')];
         invalidCriteriaMsg = '';
@@ -106,7 +107,33 @@ public class LoRDemandController{
         // Convert DateTime to Date format ex: May 01, 2018
         //String formattedDate = DateTime.newInstance(dt.year(),dt.month(),dt.day()).format('MMM dd, YYYY');
         String formattedDate = DateTime.newInstance(dateToday.year(),dateToday.month(),dateToday.day()).formatGMT('MMM dd, YYYY');
-        
+        String companyName = pocPackage.Company_Name__c;
+        String clientCompanyName = pocPackage.Client_Company_Name__c;
+        String bankNameWiseCompanyName = pocPackage.Client_Company_Name__c;
+        String bankNameWiseFrenchCompanyName = pocPackage.Client_Company_Name_French__c;
+        // Only used in French template
+        String clientCompanyNameSuffix = ' (« Banque Scotia »)';
+        if(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'){
+            pocPackage.Client_Company_Name__c = pocPackage.CFG_Office_Name_2__c;
+            clientCompanyNameSuffix = '';
+            companyName = pocPackage.CFG_Office_Name_2__c;
+            clientCompanyName = pocPackage.CFG_Office_Name_2__c.toUppercase();
+            bankNameWiseCompanyName = pocPackage.Company_Name__c;
+			bankNameWiseFrenchCompanyName = pocPackage.Company_Name__c;
+            if(languageValue == 'fr'){
+                pocPackage.Client_Company_Name_French__c = pocPackage.CFG_Office_Name_2__c;
+            }
+        }
+		if(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c != 'Leasing product'){
+            clientCompanyNameSuffix = '';
+            companyName = 'Easyfinancial';
+            clientCompanyName = companyName.toUppercase();
+            bankNameWiseCompanyName = pocPackage.Company_Name__c;
+			bankNameWiseFrenchCompanyName = pocPackage.Company_Name__c;
+            if(languageValue == 'fr'){
+                pocPackage.Client_Company_Name_French__c = 'Easyfinancial';
+            }
+        }
         // Merge fields used in email template
         Map<String, String> emailMergeFields  = new Map<String, String>{
                 '{!TODAY()}' => formattedDate,
@@ -117,6 +144,11 @@ public class LoRDemandController{
                 '{!insolvAcc.Security_Description__c}' => (insolvAcc.Security_Description__c != null ? insolvAcc.Security_Description__c : ''),
                 '{!insolvAcc.Insolvency_Status_Last_Changed__c}' => String.valueOf(insolvAcc.Insolvency_Status_Last_Changed__c.formatGMT('MMM dd, YYYY')),
                 '{!pocPackage.Client_Company_Name__c}' => pocPackage.Client_Company_Name__c.toUppercase(),
+                '{!pocPackage.Company_Name__c}' => pocPackage.Company_Name__c,
+                '{!pocPackage.CFG_Office_Name_2__c}' => pocPackage.CFG_Office_Name_2__c,
+                '{!companyName}' => companyName,
+                '{!clientCompanyName}' => clientCompanyName,
+                '{!clientCompanyNameSuffix}' => clientCompanyNameSuffix,
                 '{5 business days}'     =>  WeekdayCalculate(),
                     //'{!nextBusinessDate}' => DateTime.newInstance(nextBusinessDate.year(), nextBusinessDate.month(), nextBusinessDate.day()).formatGMT('MMM dd, YYYY'),
                 '{!pocPackage.CFG_Office_Phone_Number__c}' => pocPackage.CFG_Office_Phone_Number__c.replace('-','.'),
@@ -127,9 +159,16 @@ public class LoRDemandController{
                 '{!pocPackage.CFG_Office_Fax_Number__c}' => pocPackage.CFG_Office_Fax_Number__c.replace('-','.'),
                 '{!pocPackage.CFG_Office_Name}' => pocPackage.CFG_Office_Name__c,
                 '{!Insolvency_Account__c.Vehicle_Identification_Number__c}' => (insolvAcc.Vehicle_Identification_Number__c != null ? insolvAcc.Vehicle_Identification_Number__c : ''),
-                 '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c,
-                  '{!pocPackage.CFG_Office_Name__c}'   =>pocPackage.CFG_Office_Name__c
-                
+                '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c,
+                '{!pocPackage.CFG_Office_Name__c}'   =>pocPackage.CFG_Office_Name__c,
+                '{!pocPackage.BankNameWiseCompanyName}' => bankNameWiseCompanyName,
+                '{!pocPackage.BankNameWiseFrenchCompanyName}' => bankNameWiseFrenchCompanyName,
+                '{!pocPackage.CFG_Office_Address_1__c}'   =>pocPackage.CFG_Office_Address_1__c,
+                '{!pocPackage.CFG_Office_City__c}'   =>pocPackage.CFG_Office_City__c,
+                '{!pocPackage.CFG_Office_Province__c}'   =>pocPackage.CFG_Office_Province__c,
+                '{!pocPackage.CFG_Office_Postal_Code__c}'   =>pocPackage.CFG_Office_Postal_Code__c,
+                '{!pocPackage.CFG_Office_Website__c}'   =>pocPackage.CFG_Office_Website__c,
+                '{!pocPackage.CFG_French_Office_Name__c}'   =>pocPackage.CFG_French_Office_Name__c
                 };
         
         List<EmailTemplate> emtList = new List<EmailTemplate>();
@@ -139,16 +178,12 @@ public class LoRDemandController{
         }else{
             emtList = [SELECT Id, Name, HtmlValue, Body,Subject FROM EmailTemplate WHERE Id =: pocPackage.LoR_DemandTemplate_Id__c OR Id =: pocPackage.LoR_Notice_1_Content_Id__c];
         }
-        
-        system.debug('emtList:::'+emtList);
-        
         // Fetch LoRNotice1 email template
         for(EmailTemplate emt : emtList){
             if(emt.Id == pocPackage.LoR_DemandTemplate_Id__c || emt.Id == pocPackage.LoR_DemandTemplate_French_Id__c){
                 attachmentBody = emt.HtmlValue;
-                subject = emt.Subject;
-                emailBody = attachmentBody.stripHtmlTags();
-                system.debug('FOR LOGO' +attachmentBody );
+                // subject = emt.Subject;
+                // emailBody = attachmentBody.stripHtmlTags();
             }else if(emt.Id == pocPackage.LoR_Notice_1_Content_Id__c || emt.Id == pocPackage.LoR_Notice_1_Content_French_Id__c){
                 subject = emt.subject;
                 subject = subject.replace('{!insolv.EstateNumber}', insolvAcc.Insolvency__r.Name);
@@ -156,18 +191,12 @@ public class LoRDemandController{
                 emailBody = emt.Body;
             }
         }
-        system.debug('attachmentBody::'+attachmentBody);
-        system.debug('Suject:' + subject);
-        /*system.debug('email body:' + emailBody );
-        system.debug('attachment body:' + attachmentBody );*/
         
         // replace merge fields in email template with actual values in Insolvency Account
         if(!Test.isRunningTest()){
             for(String str : emailMergeFields.keySet()){
                 emailBody = emailBody.replace(str, emailMergeFields.get(str));
                 attachmentBody = attachmentBody.replace(str, emailMergeFields.get(str));
-                
-                system.debug('For LOGO Perpose '+attachmentBody);
             }
         }
     }
