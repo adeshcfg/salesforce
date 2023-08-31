@@ -20113,11 +20113,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Distressed_notes__c.Read_Only_Record_type</recordType>
-        <visible>false</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
         <recordType>Document_Storage__c.Distressed</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
