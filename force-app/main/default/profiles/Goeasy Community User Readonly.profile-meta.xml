@@ -20209,11 +20209,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Equipment__c.Distressed_Equipment</recordType>
-        <visible>false</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
         <recordType>Insolvency_Account__c.Canaccede_Insolvency_Account</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
