@@ -38,7 +38,8 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Goeasy</value>
+            <value>
+            </value>
         </criteriaItems>
         <criteriaItems>
             <column>Product__c.Proposal_Status__c</column>
@@ -47,7 +48,6 @@
             <operator>notEqual</operator>
             <value></value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>

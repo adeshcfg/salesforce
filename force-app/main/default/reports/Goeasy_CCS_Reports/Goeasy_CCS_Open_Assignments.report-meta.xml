@@ -45,7 +45,6 @@
             <operator>equals</operator>
             <value>Case.CCS_Case</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>

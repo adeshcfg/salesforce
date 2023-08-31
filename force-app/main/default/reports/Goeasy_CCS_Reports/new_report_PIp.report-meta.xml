@@ -41,7 +41,6 @@
             <operator>equals</operator>
             <value>In Progress (notice has been sent)</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>
