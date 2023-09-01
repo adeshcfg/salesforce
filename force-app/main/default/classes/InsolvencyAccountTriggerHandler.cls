@@ -49,6 +49,11 @@ public class InsolvencyAccountTriggerHandler {
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
             }
             //accNew.Account_Owner__c = UserInfo.getUserId();
+
+            // Populate client identifier based on record type
+            if(accNew.RecordTypeId != null && accNew.Client_Identifier__c == null){
+                accNew.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(accNew.RecordTypeId));
+            }
             
             if(accNew.Trustee_Not_Providing_LoR__c == True){
                 accNew.Review_Account__c = false;
@@ -1228,6 +1233,10 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
         for (Insolvency_Account__c insolAccnt : insolAccnts){
             
             Insolvency__c insolvency = insolvencyMap.get(insolAccnt.Insolvency__c);
+            // Populate client identifier based on record type
+            if(insolAccnt.RecordTypeId != null && insolAccnt.Client_Identifier__c == null){
+                insolAccnt.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(insolAccnt.RecordTypeId));
+            }
             
             //Check if insolvency account is Scotia and POC Details are provided
             if(insolAccnt.Insolvency_Status__c == 'POC Details Provided'
