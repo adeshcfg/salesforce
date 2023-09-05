@@ -15,7 +15,7 @@ public class DistressedProductProcessingBatch implements Database.Batchable<sObj
         return Database.getQueryLocator(
             [SELECT ID, Current_Principal_Balance__c, Interest_Rate__c, Current_Interest_Amount__c,Judgment_Rate__c, 
                     Interest_Amount_Last_Calculated_Date__c, Collection_Sub_Status__c, State__c, Current_Balance__c,
-                    Interest_Waived_Off__c, Interest_Waived_Off_Start_Date__c, Interest_Waived_Of_End_Date__c,Accruing_Interest__c
+                    Interest_Waived_Off__c, Interest_Waived_Off_Start_Date__c, Interest_Waived_Of_End_Date__c,Interest_Stopped__c
              FROM Product__c 
              WHERE RecordType.DeveloperName= 'Distressed_Account'  
              
@@ -94,7 +94,7 @@ public class DistressedProductProcessingBatch implements Database.Batchable<sObj
              || productObj.Interest_Amount_Last_Calculated_Date__c > productObj.Interest_Waived_Of_End_Date__c))){
 
                  //Ticket 4558: Interest Waiver functionality checking Accuring Interest
-                 productObj.Accruing_Interest__c = false;
+                 productObj.Interest_Stopped__c = false;
                  
                  System.debug('Current Time 4 before interest rate checks:'+System.now());
                 
@@ -195,7 +195,7 @@ public class DistressedProductProcessingBatch implements Database.Batchable<sObj
                 }    
              }else{
                  //Ticket 4558: Interest Waiver functionality checking Accuring Interest
-                 productObj.Accruing_Interest__c = True;
+                 productObj.Interest_Stopped__c = True;
             }
             
             Principal_Balance = 0;

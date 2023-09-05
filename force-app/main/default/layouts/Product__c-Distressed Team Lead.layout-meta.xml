@@ -708,8 +708,8 @@
                 <field>Deceased_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Accruing_Interest__c</field>
+                <behavior>Edit</behavior>
+                <field>Interest_Stopped__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
