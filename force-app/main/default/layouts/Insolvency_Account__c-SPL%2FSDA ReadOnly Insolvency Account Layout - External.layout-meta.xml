@@ -298,7 +298,7 @@
                 <field>Claim_Type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Claim_Amount__c</field>
             </layoutItems>
             <layoutItems>

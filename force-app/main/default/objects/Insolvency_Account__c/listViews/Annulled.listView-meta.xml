@@ -43,8 +43,7 @@
     </filters>
     <filters>
         <field>Reason_for_No_PoC_Required_Dropdown__c</field>
-        <operation>notEqual</operation>
-        <value>Account Sold,No Open Accounts,Unable to Locate Account</value>
+        <operation>equals</operation>
     </filters>
     <filters>
         <field>Back_to_Collections_Review_Completed__c</field>

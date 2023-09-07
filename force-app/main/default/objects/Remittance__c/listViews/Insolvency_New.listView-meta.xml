@@ -10,6 +10,7 @@
     <columns>RECORDTYPE</columns>
     <columns>CREATED_DATE</columns>
     <columns>Entity_Name__c</columns>
+    <columns>Email_to_Case_Link__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Status__c</field>

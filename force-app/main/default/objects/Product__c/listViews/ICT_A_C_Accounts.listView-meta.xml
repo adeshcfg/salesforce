@@ -30,4 +30,7 @@
         <value>Carly,Fiona,Miranda,Tori,Nancy,Zowie</value>
     </filters>
     <label>ICT - A-C Accounts</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
 </ListView>

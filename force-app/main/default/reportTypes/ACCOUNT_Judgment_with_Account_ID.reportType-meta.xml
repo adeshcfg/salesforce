@@ -1029,11 +1029,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Delinquency_ID__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Delinquency_Status__c</field>
             <table>Account.Products__r</table>
         </columns>
@@ -1500,11 +1495,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Term__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CCS_Debtor_Address__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>
@@ -2509,11 +2499,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Exclude_From_Purchase_Comments__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Exclude_From_Purchase__c</field>
             <table>Account.Products__r</table>
         </columns>
@@ -2809,11 +2794,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Delivery_Method__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Allocated_Amount_Total__c</field>
             <table>Account.Products__r</table>
         </columns>
@@ -2990,11 +2970,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Total_Payments__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Collection_Movement_Status__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>
@@ -3350,11 +3325,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Commission_Adjustment__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Collection_Sub_Status_last_changed__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>

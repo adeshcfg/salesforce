@@ -42,6 +42,7 @@ public class CaseTriggerHandler {
         caseRTMap.put('SDA','Insolvency_SDA_Community_Case');
         caseRTMap.put('CFG','Insolvency_Case');
         caseRTMap.put('Fairstone','Insolvency_Fairstone_Community_Case');  
+        caseRTMap.put('Goeasy','Insolvency_Goeasy_Community_Case');
         
         //Remittance
         caseRTMap.put('Remittance','Remittance');

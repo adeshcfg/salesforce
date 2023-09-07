@@ -32,6 +32,36 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Share_Goeasy_Insolvency_Accounts</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Goeasy Insolvency Accounts</description>
+        <label>Share Goeasy Insolvency Accounts</label>
+        <sharedTo>
+            <group>Insolvency_Goeasy_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Client_Identifier__c</field>
+            <operation>equals</operation>
+            <value>Easyfinancial</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Easyfinancial Insolvency Account</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>notEqual</operation>
+            <value>New</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Purchase_Export_Completed__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_SDA_Insolvency_Accounts</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share SDA Insolvency Accounts</description>

@@ -373,6 +373,10 @@ public class EmailTrusteeController{
                     emailBody = emailBody.replace('{!pocPackage.Client_Company_Name_French__c}', pocPackage.Client_Company_Name_French__c);         
                 }
                 
+                if(emailBody.contains('{!pocPackage.Client_Company_Name__c}')){       
+                    emailBody = emailBody.replace('{!pocPackage.Client_Company_Name__c}', pocPackage.Client_Company_Name__c);         
+                }
+                
                 if(emailBody.contains('{!pocPackage.CFG_Office_Fax_Number__c}')){        
                     String numberVal = pocPackage.CFG_Office_Fax_Number__c;
                     if(language == 'fr'){
@@ -428,6 +432,7 @@ public class EmailTrusteeController{
                 htmlEmailheader = htmlEmailheader.replace('{!pocPackage.CFG_Office_Address__c}', (pocPackage.CFG_Office_Address__c != null ? pocPackage.CFG_Office_Address__c : ''));
                 htmlEmailheader = htmlEmailheader.replace('{!pocPackage.CFG_Office_Province_Short_Code__c}', (pocPackage.CFG_Office_Province_Short_Code__c != null ? pocPackage.CFG_Office_Province_Short_Code__c : ''));
                 htmlEmailheader = htmlEmailheader.replace('{!pocPackage.CFG_Payment_Postal_Code__c}', (pocPackage.CFG_Payment_Postal_Code__c != null ? pocPackage.CFG_Payment_Postal_Code__c : ''));
+                htmlEmailheader = htmlEmailheader.replace('{!pocPackage.Client_Company_Name__c}', (pocPackage.Client_Company_Name__c != null ? pocPackage.Client_Company_Name__c : ''));
             }
 
             system.debug('htmlEmailheader:::'+htmlEmailheader);

@@ -3,6 +3,7 @@
     <fullName>For_Owner_Review_SDA</fullName>
     <columns>Insolvency__c</columns>
     <columns>NAME</columns>
+    <columns>Bank_Name__c</columns>
     <columns>Province_Formula__c</columns>
     <columns>Borrower_Primary__c</columns>
     <columns>Insolvency_Type__c</columns>
@@ -10,7 +11,6 @@
     <columns>Claim_Type__c</columns>
     <columns>Account_Type__c</columns>
     <columns>Insolvency_Account_Owner__c</columns>
-    <columns>Product_Code__c</columns>
     <columns>Claim_Amount__c</columns>
     <columns>Insolvency_Status__c</columns>
     <columns>Insolvency_Status_Last_Changed__c</columns>
@@ -23,7 +23,6 @@
         <value>For Owner Review</value>
     </filters>
     <label>For Owner Review</label>
-    <language>en_US</language>
     <sharedTo>
         <group>Insolvency_SDA_Users</group>
     </sharedTo>

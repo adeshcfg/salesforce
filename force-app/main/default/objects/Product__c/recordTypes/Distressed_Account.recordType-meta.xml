@@ -168,17 +168,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Collection_Movement_Status__c</picklist>
-        <values>
-            <fullName>Moved out of Collection</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Returned to Collection</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Collection_Sub_Status__c</picklist>
         <values>
             <fullName>Bankrupt Account</fullName>
@@ -1990,6 +1979,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL133</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL135</fullName>
             <default>false</default>
         </values>
@@ -2030,6 +2023,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL146</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL149</fullName>
             <default>false</default>
         </values>
@@ -2047,6 +2044,18 @@
         </values>
         <values>
             <fullName>CFL158</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL160</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL165</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL167</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2299,6 +2308,10 @@
         </values>
         <values>
             <fullName>CIH032</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CLF166</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2815,7 +2828,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Legal Score</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Profitable%2FRefusal</fullName>
             <default>false</default>
         </values>
         <values>

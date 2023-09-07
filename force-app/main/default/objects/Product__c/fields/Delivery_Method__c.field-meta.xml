@@ -12,6 +12,11 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Courier</fullName>
+                <default>false</default>
+                <label>Courier</label>
+            </value>
+            <value>
                 <fullName>Email</fullName>
                 <default>false</default>
                 <label>Email</label>
@@ -20,11 +25,6 @@
                 <fullName>Mail</fullName>
                 <default>false</default>
                 <label>Mail</label>
-            </value>
-            <value>
-                <fullName>Courier</fullName>
-                <default>false</default>
-                <label>Courier</label>
             </value>
         </valueSetDefinition>
     </valueSet>

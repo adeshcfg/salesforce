@@ -6,6 +6,52 @@
     <compactLayoutAssignment>Goeasy_Layout</compactLayoutAssignment>
     <label>CCS Case</label>
     <picklistValues>
+        <picklist>Assign_To__c</picklist>
+        <values>
+            <fullName>CFG</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Goeasy</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CCS_Assignment_Type__c</picklist>
+        <values>
+            <fullName>Balance Updates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DMP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drop Notification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Needs Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PIF request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payout Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secured Communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Offer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Form_Types__c</picklist>
         <values>
             <fullName>Balance Updates</fullName>
@@ -40,7 +86,77 @@
             <default>false</default>
         </values>
     </picklistValues>
-    
+    <picklistValues>
+        <picklist>Insolvency_Assignment_Type__c</picklist>
+        <values>
+            <fullName>Account Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Amend Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Insolvency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chq Stub</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distressed Sale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fax Confirmation Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Final</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter of Release Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>More Information Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Needs Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notice of Disallowance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OSB Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Query</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refund Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secured Communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vehicle Pickup Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Withdraw PoC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
     <picklistValues>
         <picklist>Origin</picklist>
         <values>

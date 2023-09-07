@@ -5,7 +5,7 @@
     <description>Payment Posting Month</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <inlineHelpText>Payment Posting Month</inlineHelpText>
+    <inlineHelpText>Payment Reporting Month</inlineHelpText>
     <label>Payment Reporting Month</label>
     <length>20</length>
     <required>false</required>

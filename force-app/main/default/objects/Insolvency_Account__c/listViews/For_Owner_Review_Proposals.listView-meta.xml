@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>For_Owner_Review_Proposals</fullName>
+    <columns>Borrower_Primary__c</columns>
+    <columns>Debtor_1_Date_of_Birth__c</columns>
+    <columns>NAME</columns>
+    <columns>Insolvency__c</columns>
+    <columns>Insolvency_Date__c</columns>
+    <columns>Number_Of_Days_In_Current_Status__c</columns>
+    <columns>Insolvency_Account_Owner__c</columns>
+    <columns>Claim_Amount__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Insolvency_Status__c</field>
+        <operation>equals</operation>
+        <value>For Owner Review</value>
+    </filters>
+    <filters>
+        <field>Insolvency_Type__c</field>
+        <operation>equals</operation>
+        <value>Consumer Proposal,Division 1 Proposal</value>
+    </filters>
+    <label>For Owner Review - Proposals</label>
+    <sharedTo>
+        <group>Insolvency_Goeasy_Users</group>
+    </sharedTo>
+</ListView>

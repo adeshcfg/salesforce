@@ -75,6 +75,45 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Agencies_Accounts__c</picklist>
+        <values>
+            <fullName>Canaccede Financial Group%28CFG%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Capital Recovery Service Ltd %28CBV%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EOS Canada Inc</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financial Debt Recovery%28FDR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mac Financial Recovery Inc</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PRA Group Canada Inc</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pyxis Customer Solutions Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Razor Capital</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resolve Financial Recovery %28RFR%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Asset_Status__c</picklist>
         <values>
             <fullName>Bulk Purchased</fullName>
@@ -1901,6 +1940,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL133</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL135</fullName>
             <default>false</default>
         </values>
@@ -1941,6 +1984,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL146</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL149</fullName>
             <default>false</default>
         </values>
@@ -1958,6 +2005,18 @@
         </values>
         <values>
             <fullName>CFL158</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL160</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL165</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL167</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2206,6 +2265,10 @@
         </values>
         <values>
             <fullName>CIH032</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CLF166</fullName>
             <default>false</default>
         </values>
         <values>

@@ -328,10 +328,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Delinquency_ID__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>NSF_Fee_Amount_Outstanding__c</field>
             </layoutItems>
             <layoutItems>

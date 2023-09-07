@@ -3699,6 +3699,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Portfolio_Name__c.Portfolio_Group__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Portfolio_Name__c.Purchase_Accounts__c</field>
         <readable>true</readable>
@@ -4820,17 +4825,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.Collection_Movement_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Product__c.Collection_Sub_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Collection_Sub_Status_last_changed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -401,10 +401,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Exclude_From_Purchase_Comments__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Proposed_Donation_Rate__c</field>
             </layoutItems>
             <layoutItems>

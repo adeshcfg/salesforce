@@ -22,6 +22,27 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Share_Goeasy_Insolvency</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Goeasy Insolvency</description>
+        <label>Share Goeasy Insolvency</label>
+        <sharedTo>
+            <group>Insolvency_Goeasy_Users</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Goeasy</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Staging</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_SDA_Insolvency</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share SDA Insolvency</description>

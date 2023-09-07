@@ -221,7 +221,7 @@
         <fields>Collection_Agency_Formula__c</fields>
         <fields>Current_Balance__c</fields>
         <fields>State__c</fields>
-        <profileName>Goeasy Community User</profileName>
+        <profileName>Goeasy Community User Readonly</profileName>
     </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>NAME</fields>
@@ -233,7 +233,7 @@
         <fields>Collection_Agency_Formula__c</fields>
         <fields>Current_Balance__c</fields>
         <fields>State__c</fields>
-        <profileName>Goeasy Community User Readonly</profileName>
+        <profileName>Goeasy Community User</profileName>
     </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>NAME</fields>

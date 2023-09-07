@@ -6,6 +6,7 @@
     <inlineHelpText>Insolvency Assignment Type</inlineHelpText>
     <label>Insolvency Assignment Type</label>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

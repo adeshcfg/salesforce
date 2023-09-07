@@ -572,11 +572,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.CCS_Debtor_Address__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Product__c.CCS_Debtor_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -653,11 +648,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.Disbursement_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Exclude_From_Purchase_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -862,32 +852,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.YTD_Annual_Fees_Charged__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Product__c.YTD_Average_Daily_Balance__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.YTD_Highest_Arrears__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.YTD_Highest_Balance__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.YTD_Net_Amount_Of_Purchases__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.YTD_Net_Number_Of_Purchases__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1284,6 +1249,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Deposit_Slip__c.CCS_Deposit_Slip</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>PersonAccount.CCS_Accounts</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

@@ -18,11 +18,6 @@
         <operation>equals</operation>
         <value>Product__c.Distressed_Account</value>
     </filters>
-    <filters>
-        <field>Collection_Movement_Status__c</field>
-        <operation>equals</operation>
-        <value>Moved out of Collection</value>
-    </filters>
     <label>Distressed - Moved out of Collection</label>
     <sharedTo>
         <group>Agency_Group</group>

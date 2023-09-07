@@ -10,7 +10,6 @@
     <columns>Phone_Work__c</columns>
     <columns>Collection_Agency_Formula__c</columns>
     <columns>Collection_Sub_Status__c</columns>
-    <columns>Collection_Sub_Status_last_changed__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Collection_Sub_Status__c</field>

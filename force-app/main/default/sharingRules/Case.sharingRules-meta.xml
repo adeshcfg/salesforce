@@ -10,7 +10,7 @@
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>EmailToCase,Insolvency Scotia Community Case,Insolvency Fairstone Community Case,Insolvency SDA Community Case,Remittance,Insolvency Case,Canaccede EmailToCase,Insolvency SPL Community Case</value>
+            <value>EmailToCase,Insolvency Scotia Community Case,Insolvency Fairstone Community Case,Insolvency Easyfinancial Community Case,Insolvency SDA Community Case,Remittance,Insolvency Case,Canaccede EmailToCase,Insolvency SPL Community Case</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -53,26 +53,31 @@
         <sharedTo>
             <group>Insolvency_Goeasy_Users</group>
         </sharedTo>
-        <booleanFilter>(1 OR (2 AND (3 OR 4) ) )</booleanFilter>
+        <booleanFilter>(1 OR ((2 OR 5) AND (3 OR 4)))</booleanFilter>
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>CCS Case</value>
+            <value>Insolvency Easyfinancial Community Case</value>
         </criteriaItems>
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>CCS Case,Insolvency Case</value>
+            <value>Insolvency Case</value>
         </criteriaItems>
         <criteriaItems>
             <field>Assign_To__c</field>
             <operation>equals</operation>
-            <value>CFG,Easyfinancial</value>
+            <value>Easyfinancial</value>
         </criteriaItems>
         <criteriaItems>
             <field>Entity_Identifiers__c</field>
             <operation>contains</operation>
             <value>Goeasy</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CCS Case</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

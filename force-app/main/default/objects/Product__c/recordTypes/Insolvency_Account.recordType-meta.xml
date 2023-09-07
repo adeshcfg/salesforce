@@ -161,17 +161,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Collection_Movement_Status__c</picklist>
-        <values>
-            <fullName>Moved out of Collection</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Returned to Collection</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Collection_Sub_Status__c</picklist>
         <values>
             <fullName>Bankrupt Account</fullName>
