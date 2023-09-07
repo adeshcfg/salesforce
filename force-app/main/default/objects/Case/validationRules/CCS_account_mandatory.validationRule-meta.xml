@@ -3,8 +3,7 @@
     <fullName>CCS_account_mandatory</fullName>
     <active>true</active>
     <description>CCS account field mandatory</description>
-    <errorConditionFormula>AND
-(RecordType.DeveloperName ==&apos;CCS_Case&apos;, ISBLANK( CCS_Account__c ))</errorConditionFormula>
+    <errorConditionFormula>AND($Profile.Name = &quot;Goeasy Community User&quot;, RecordType.DeveloperName ==&apos;CCS_Case&apos;, ISBLANK( CCS_Account__c ))</errorConditionFormula>
     <errorDisplayField>CCS_Account__c</errorDisplayField>
     <errorMessage>CCS account is mandatory</errorMessage>
 </ValidationRule>
