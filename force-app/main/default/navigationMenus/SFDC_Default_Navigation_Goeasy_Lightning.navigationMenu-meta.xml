@@ -32,8 +32,15 @@
         <type>SalesforceObject</type>
     </navigationMenuItem>
     <navigationMenuItem>
-        <label>CCS Accounts</label>
+        <label>Reports</label>
         <position>5</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>Report</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>CCS Accounts</label>
+        <position>6</position>
         <publiclyAvailable>false</publiclyAvailable>
         <target>Product__c</target>
         <type>SalesforceObject</type>
