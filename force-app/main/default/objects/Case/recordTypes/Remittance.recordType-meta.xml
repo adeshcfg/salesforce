@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Insolvency_Case</fullName>
+    <fullName>Remittance</fullName>
     <active>true</active>
-    <businessProcess>Insolvency Cases Process</businessProcess>
-    <compactLayoutAssignment>Goeasy_Layout</compactLayoutAssignment>
-    <description>Record type for Insolvency Cases</description>
-    <label>Insolvency Case</label>
+    <businessProcess>Remittance</businessProcess>
+    <description>Remittance</description>
+    <label>Remittance</label>
     <picklistValues>
         <picklist>Assign_To__c</picklist>
         <values>
@@ -13,15 +12,7 @@
             <default>true</default>
         </values>
         <values>
-            <fullName>Canaccede</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Fairstone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Goeasy</fullName>
             <default>false</default>
         </values>
         <values>
@@ -195,23 +186,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Recall Request</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Refund Request</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Release Letters</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Status of Insolvency Response</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Trustee Follow Up Response</fullName>
             <default>false</default>
         </values>
         <values>
@@ -273,10 +248,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>OSB Request</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Query</fullName>
             <default>false</default>
         </values>
@@ -299,6 +270,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Origin</picklist>
+        <values>
+            <fullName>Chatter</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Email</fullName>
             <default>false</default>
