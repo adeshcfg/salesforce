@@ -9,14 +9,12 @@
     <emailFooterText>Insolvency Stream</emailFooterText>
     <emailSenderAddress>SBInsolvency@canaccede.com</emailSenderAddress>
     <emailSenderName>Insolvency Stream</emailSenderName>
-    <enableApexCDNCaching>true</enableApexCDNCaching>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>false</enableDirectMessages>
     <enableExperienceBundleBasedSnaOverrideEnabled>false</enableExperienceBundleBasedSnaOverrideEnabled>
     <enableGuestChatter>false</enableGuestChatter>
     <enableGuestFileAccess>false</enableGuestFileAccess>
     <enableGuestMemberVisibility>false</enableGuestMemberVisibility>
-    <enableImageOptimizationCDN>true</enableImageOptimizationCDN>
     <enableInvitation>false</enableInvitation>
     <enableKnowledgeable>false</enableKnowledgeable>
     <enableMemberVisibility>true</enableMemberVisibility>
@@ -31,23 +29,22 @@
     <enableUpDownVote>false</enableUpDownVote>
     <forgotPasswordTemplate>Community/Password_Reset_Email</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
-    <headlessForgotPasswordTemplate>unfiled$public/CommunityHeadlessForgotPasswordTemplate</headlessForgotPasswordTemplate>
     <networkMemberGroups>
         <permissionSet>Community_Access</permissionSet>
         <profile>scotia bank community user</profile>
         <profile>scotia bank community user readonly</profile>
         <profile>scotia bank login community user readonly</profile>
         <profile>scotia bank login community user</profile>
-        <profile>spl login community user</profile>
         <profile>spl login community user readonly</profile>
-        <profile>scotia spl common community user readonly</profile>
-        <profile>spl community user</profile>
+        <profile>spl login community user</profile>
         <profile>scotia spl common login community user readonly</profile>
+        <profile>scotia spl common community user readonly</profile>
         <profile>spl community user readonly</profile>
+        <profile>spl community user</profile>
+        <profile>sda community user</profile>
+        <profile>sda login community user</profile>
         <profile>sda login community user readonly</profile>
         <profile>sda community user readonly</profile>
-        <profile>sda login community user</profile>
-        <profile>sda community user</profile>
         <profile>scotia bank login community user unallocated</profile>
     </networkMemberGroups>
     <networkPageOverrides>

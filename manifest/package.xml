@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
+    <!--types>
         <members>*</members>
         <name>ApexClass</name>
     </types>
@@ -87,6 +87,22 @@
     <types>
         <members>*</members>
         <name>ReportType</name>
+    </types-->
+    <types>
+        <members>*</members>
+        <name>SiteDotCom</name>
     </types>
-    <version>57.0</version>
+    <types>
+        <members>*</members>
+        <name>Network</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ContentAsset</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>NavigationMenu</name>
+    </types>
+    <version>54.0</version>
 </Package>

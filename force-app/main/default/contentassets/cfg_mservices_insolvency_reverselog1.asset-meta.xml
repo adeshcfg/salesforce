@@ -2,7 +2,7 @@
 <ContentAsset xmlns="http://soap.sforce.com/2006/04/metadata">
     <isVisibleByExternalUsers>false</isVisibleByExternalUsers>
     <language>en_US</language>
-    <masterLabel>cfg_STREAM_TMlogofullcolorrgb</masterLabel>
+    <masterLabel>cfg_mservices_insolvency_reverselog1</masterLabel>
     <originNetwork>Goeasy Lightning</originNetwork>
     <relationships>
         <network>
@@ -17,8 +17,8 @@
     </relationships>
     <versions>
         <version>
-            <number>3</number>
-            <pathOnClient>cfg_mservices_insolvency_reverse-logo-full-color-rgb_sm.png</pathOnClient>
+            <number>1</number>
+            <pathOnClient>cfg_mservices_insolvency_reverse-logo-full-color-rgb_lg.png</pathOnClient>
         </version>
     </versions>
 </ContentAsset>
