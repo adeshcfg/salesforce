@@ -187,7 +187,7 @@
         <searchResultsAdditionalFields>Debtor__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Debtor_1_Date_of_Birth__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Insolvency_Type__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Insolvency_Status_Formula__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Insolvency_Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Insolvency_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Asset_Status__c</searchResultsAdditionalFields>
     </searchLayouts>
