@@ -73,7 +73,7 @@
                 <br/><br/><br/><br/>
                 
                 
-                <apex:image width="50" height="55" value="{!pocPackage.Unsecured_Type_Signature__c}"/><br/><br/>
+                <apex:image width="150" height="75" value="{!pocPackage.Unsecured_Type_Signature__c}"/><br/>
                 <table style="margin-top:-20px; width:100%;">
                     <tr>
                         <!--   <td style="vertical-align:top;font-family:'Arial Unicode MS'">By:&nbsp; &nbsp;</td> -->
@@ -98,8 +98,8 @@
             <!-- <br/><br/><br/><br/><br/>  <br/>-->
             <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
                 
-                <div style="text-align:left; float:left; width:50px; ">
-                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>
+                <div style="text-align:left; float:left; width:200px; ">
+                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>
                 </div>
                 <div style='float:left;width:455px; padding-top:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "20px;", "20px;")}'>
                     <span style="float:left; padding-left:25px;font-size:13px">
@@ -164,7 +164,7 @@
                 </div>
                 <br/>
                 <div style="line-height: normal;">
-                    Je, <span  style="font-family: sans-serif; font-weight:bold;">Andy Szemenyei</span>, de la Ville de London, dans la province de l’Ontario, certifie par la présente:
+                    Je, <span  style="font-family: sans-serif; font-weight:bold;">Bryan Szemenyei</span>, de la Ville de London, dans la province de l’Ontario, certifie par la présente:
                     <br/><br/>
                     <table >
                         <tr>
@@ -255,8 +255,8 @@
             <br/>
             
             <div style='font-family: "Arial Unicode MS"; font-size:13px; '>
-                <div style="text-align:left; float:left;">
-                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>
+                <div style="text-align:left; float:left; width:200px;">
+                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>
                 </div>
                 <div style='float:left;width:455px; {!IF(insolvAcc.Claim_Type__c == "Unsecured","margin-top:20px;","margin-top:10px;")} '>
                     <span style="float:left; padding-left:25px;font-size:13px"><br/>
@@ -383,8 +383,8 @@
                 <br/><br/><br/><br/><br/>
                 <div style="clear:both; padding-left:40px;">
                     <div style="margin-left:-30px;">
-                        <div style="text-align:left; float:left;">
-                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>
+                        <div style="text-align:left; float:left; width:200px;">
+                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>
                         </div><div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
                         <div style="float:left;width:455px;">
                             <span style="float:left; padding-left:25px;font-size:13px">
@@ -438,7 +438,7 @@
                             <apex:image style="width:150px;"  value="{!pocPackage.CEO_Signature__c}"/>
                             <br/>
                             <span  style="font-family: sans-serif; font-weight:bold;">
-                                Andy Szemenyei, CEO<br/>
+                                Bryan Szemenyei, CEO<br/>
                                 {!remGroupMap.Entity_Name1__c}
                                 <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c} " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
                                 <apex:outputText value="<br/><br/>" escape="false" rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" />
@@ -474,12 +474,12 @@
                 </div></div>
         </apex:outputPanel>
         <br/><br/><br/>
-        <br/><br/><!--<br/><br/>--><br/><br/><br/><br/>
+        <br/><br/>
         <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true'}" >
             <div style=' margin:auto;padding-left:10px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
                 
-                <div style="text-align:left; float:left;">
+                <div style="text-align:left; float:left; width:200px;">
                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>
                 </div>
                 <div style='float:left;width:455px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-top:35px;", "margin-top:10px;")} '>
@@ -519,7 +519,7 @@
                 <br/>
                 <tr style="text-align:left;">
                     <td style="vertical-align:top;">1. </td>
-                    <td style="padding-left:8px;">Je, représentant du créancier dans l'affaire ci-dessus pour la somme de
+                    <td style="padding-left:8px;">Je, Bryan Szemenyei, représentant du créancier dans l'affaire ci-dessus pour la somme de
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             <apex:outputText value="{0, number, $#,##0.00}">
                                 <apex:param value="{!insolvAcc.Claim_Amount__c}" />
@@ -627,7 +627,7 @@
                         <apex:image style="width:150px; height:100px"  value="{!pocPackage.CEO_Signature__c}"/>
                         <br/>
                         <span  style="font-family: sans-serif; font-weight:bold;">
-                            Andy Szemenyei, CEO<br/>
+                            Bryan Szemenyei, CEO<br/>
                             {!remGroupMap.Entity_Name1__c}
                             <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c}" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
                             
@@ -642,14 +642,14 @@
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
                 
             </div>
-        </apex:outputPanel> <br/><br/><br/><br/>
+        </apex:outputPanel> 
         <!---------------------STATEMENT OF ACCOUNT -------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.statementOfAccount == 'true'}" >
             
             <div style='font-family: "Arial Unicode MS";clear:both; margin:auto; margin-bottom:-19px; line-height: 15px; width:100%;' class="myfont">
                 
                 
-                <div style="text-align:left; float:left;">
+                <div style="text-align:left; float:left; width:200px;">
                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" />
                 </div>
                 <div style='font-size:13px; float:left;width:455px; {!IF(($CurrentPage.parameters.proofOfClaim == "true" || $CurrentPage.parameters.votingLetter == "true"), "margin-top:50px;", "margin-top:10px;")} '>
@@ -685,7 +685,7 @@
                             {!insolvAcc.Insolvency__r.Debtor_2_First_Name__c} {!insolvAcc.Insolvency__r.Debtor_2_Last_Name__c}
                         </td>
                     </tr>
-                </table>
+                </table><br/><br/>
                 <table style="float:right;font-size:13px; clear:both;width:100%;">
                     <tr>
                         <td style="text-align:right; padding-top:0px;">
@@ -767,7 +767,7 @@
                             </td>
                         </tr>
                     </table>
-                </div>  <br/><br/>
+                </div>  <br/>
                 <div style="text-align:center;"><span  style="font-family: sans-serif; font-weight:bold;">Résumé du compte</span></div><br/><br/>
                 <table border="0" style=" text-align: left; width:600px; font-size:13px;">
                     <tr>
@@ -829,7 +829,7 @@
                         
                     </table>
                 </apex:outputText>
-            
+                <br/>
             </div>
             
             

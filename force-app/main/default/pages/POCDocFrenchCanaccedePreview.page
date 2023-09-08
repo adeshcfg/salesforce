@@ -187,8 +187,8 @@
                                         </div>
                                         </div> </td>
                                     <td><!--<div style="text-align:center;padding-top: 20px;">-->
-                                        <div style="text-align:center;padding-top: 0px;">
-                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>  
+                                        <div style="text-align:center;padding-top: 20px;">
+                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>  
                                         </div></td>
                                 </tr>
                                  </table><br/>
@@ -246,19 +246,18 @@
                         <div class="pageSeperator" style="display : {!IF(insolvAcc.Claim_Type__c == "Unsecured", 'block;', 'none;')}">
                         </div>
                         <apex:outputPanel rendered="{!form31}">
-                            <div style="font-size: 13px; margin:auto; line-height: 17px; width:90%;padding-top: 20px;">
+                            <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 20px;">
                                 <div style="padding-bottom:10px;">
-                                    <!--<div style="text-align:center; float:left; width:37%;">-->
-                                        <div style="text-align:center;float:left;padding-top: 0px;">
-                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>  
+                                    <div style="text-align:center; float:left; width:23%;padding-bottom:10px;">
+                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>  
                                     </div>
-                                    <div style="float:left;width:63%;">
+                                    <div style="float:left;width:63%;padding-left:60px">
                                         <div style="float:left; padding-left:0px;">
                                             {!remGroupMap.Entity_Name1__c}<br/>
                                             {!pocPackage.CFG_Office_Address_1__c}<br/>
                                             {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                         </div>
-                                        <div  style="float:right;">
+                                        <div  style="padding-left:280px;">
                                             t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                                             f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                                             {!pocPackage.CFG_Office_Website__c}
@@ -314,7 +313,7 @@
                                 </div>
                                 <br/>
                                 <div style="padding-left:40px;">
-                                    I, <b>Andy Szemenyei</b>, de la Ville de London, dans la province de l’Ontario, certifie par la présente:
+                                    I, <b>Bryan Szemenyei</b>, de la Ville de London, dans la province de l’Ontario, certifie par la présente:
                                     <br/><br/>
                                     <table>
                                         <tr>
@@ -405,17 +404,16 @@
                                 <div>
                                     <div style="padding-bottom:10px;">
                                         <br/>
-                                        <!--<div style="text-align:center; float:left; width:210px;">-->
-                                            <div style="text-align:center; float:left;padding-top: 0px;">
-                                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>
+                                        <div style="text-align:center; float:left; width:130px;">
+                                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
                                         </div>
-                                        <div style="float:left;width:395px;">
+                                        <div style="float:left;width:395px; padding-left:10px">
                                             <div style="float:left; padding-left:0px;">
                                                 {!remGroupMap.Entity_Name1__c}<br/>
                                                 {!pocPackage.CFG_Office_Address_1__c}<br/>
                                                 {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                             </div>
-                                            <div  style="float:right;padding-left:5px;">
+                                            <div  style="padding-left:280px;">
                                                 t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                                                 f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                                                 {!pocPackage.CFG_Office_Website__c}
@@ -508,17 +506,16 @@
                                 <div>
                                     <div style="padding-bottom:10px;">
                                         <br/><br/>
-                                        <!--<div style="text-align:center; float:left; width: 210px;">-->
-                                            <div style="text-align:center;float:left;padding-top: 0px;">
-                                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>
+                                        <div style="text-align:center; float:left; width: 130px;">
+                                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
                                         </div>
-                                        <div style="float:left;width:395px;">
+                                        <div style="float:left;width:395px;padding-left:10px">
                                             <div style="float:left;">
                                                 {!remGroupMap.Entity_Name1__c}<br/>
                                                 {!pocPackage.CFG_Office_Address_1__c}<br/>
                                                 {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                             </div>
-                                            <div  style="float:right;">
+                                            <div  style="padding-left:290px">
                                                 t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                                                 f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                                                 {!pocPackage.CFG_Office_Website__c}
@@ -558,7 +555,7 @@
                                                 <td >
                                                     <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
                                                     <br/>
-                                                    <b>Andy Szemenyei, CEO</b><br/>
+                                                    <b>Bryan Szemenyei, CEO</b><br/>
                                                     <b>{!remGroupMap.Entity_Name1__c}</b>
                                                     <apex:outputText value="<br/> <b>Servicer for The {!pocPackage.Client_Company_Name__c} </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" />(Créancier)
                                                 </td>
@@ -644,7 +641,7 @@
                                         <tr style="text-align:left;">
                                             <td style="vertical-align:top;">1. </td>
                                             <td style="padding-left:8px;">
-                                                Je, Andy Szemenyei, représentant du créancier dans l'affaire ci-dessus pour la somme de
+                                                Je, Bryan Szemenyei, représentant du créancier dans l'affaire ci-dessus pour la somme de
                                                 <b>
                                                     <apex:outputText value="{0, number, $#,##0.00}">
                                                         <apex:param value="{!insolvAcc.Claim_Amount__c}" />
@@ -738,7 +735,7 @@
                                             <td >
                                                 <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
                                                 <br/>
-                                                <b>Andy Szemenyei, CEO</b><br/>
+                                                <b>Bryan Szemenyei, CEO</b><br/>
                                                 <b>{!remGroupMap.Entity_Name1__c}</b>
                                                 <apex:outputText value="<br/> <b>Servicer for The {!pocPackage.Client_Company_Name__c} </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (Créancier) 
                                             </td>
@@ -758,16 +755,16 @@
                             <div style="font-size: 13px; margin:auto; line-height: 17px; width:90%; padding-top:20px;">
                                 <div style="padding-bottom:10px;">
                                     <br/><br/>
-                                    <div style="text-align:center; float:left; width: 210px;">
-                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>
+                                    <div style="text-align:center; float:left; width: 110px;">
+                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
                                     </div>
-                                    <div style="float:left; width: 395px;">
+                                    <div style="float:left; width: 395px; padding-left: 10px;">
                                         <div style="float:left; padding-left:0px;">
                                             {!remGroupMap.Entity_Name1__c}<br/>
                                             {!pocPackage.CFG_Office_Address_1__c}<br/>
                                             {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                         </div>
-                                        <div  style="float:right;">
+                                        <div  style="padding-left:290px">
                                             t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                                             f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                                             {!pocPackage.CFG_Office_Website__c}
