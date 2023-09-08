@@ -430,12 +430,12 @@
 
                     <tr style="width:100%;">
                         <td style=" width:200px; vertical-align:bottom; padding-right: 90px;">
-                            <apex:image style="width:170px;"  value="{!pocPackage.Witness_Signature__c}"/>
-                            Témoin<br/><br/>
+                            <apex:image style="width:170px"  value="{!pocPackage.Witness_Signature__c}"/>
+                            Témoin
                             
                         </td>
                         <td >
-                            <apex:image style="width:150px;"  value="{!pocPackage.CEO_Signature__c}"/>
+                            <apex:image style="width:150px; height:100px"  value="{!pocPackage.CEO_Signature__c}"/>
                             <br/>
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, CEO<br/>
@@ -473,8 +473,8 @@
                     
                 </div></div>
         </apex:outputPanel>
-        <br/><br/><br/>
-        <br/><br/>
+        <br/>
+        
         <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true'}" >
             <div style=' margin:auto;padding-left:10px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
@@ -516,7 +516,7 @@
                     De la Ville de <span  style="font-family: sans-serif; font-weight:bold;"> {!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}</span>, dans la province de <span  style="font-family: sans-serif; font-weight:bold;">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>et la réclamation du <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> cessionnaire de {!insolvAcc.Vendor_Orginator__c}</span> (Créancier)</apex:outputText>   
                 </div>
-                <br/>
+                
                 <tr style="text-align:left;">
                     <td style="vertical-align:top;">1. </td>
                     <td style="padding-left:8px;">Je, Bryan Szemenyei, représentant du créancier dans l'affaire ci-dessus pour la somme de
@@ -567,7 +567,7 @@
                         <apex:outputText value="{0,date, dd ' jour de '}">{!formattedDate}
                         <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> 
                     </apex:outputText>.
-                    <br/>
+                   
                     
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.voteAgainstAcceptance == 'true'}"> 
                         <apex:image value="{!$Resource.check}" width="12" />
@@ -583,7 +583,7 @@
                             <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                         </apex:outputText>.
                     </span>
-                    <br/>
+                    
                     
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.meetingOfCredits == 'true'}"> 
                         <apex:image value="{!$Resource.check}" width="12" />
@@ -634,7 +634,7 @@
                         </span>
                     </td>
                 </tr>
-                <br/> <br/>
+                <br/><br/>
                 <div style=" {!IF($CurrentPage.parameters.proofOfClaim == 'true', 'margin-top:-40px; padding-top:5px;','height:50px;margin-top:-68px;')}">&nbsp;</div>
                 <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
@@ -642,7 +642,7 @@
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
                 
             </div>
-        </apex:outputPanel> 
+        </apex:outputPanel> <br/><br/><br/>
         <!---------------------STATEMENT OF ACCOUNT -------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.statementOfAccount == 'true'}" >
             
