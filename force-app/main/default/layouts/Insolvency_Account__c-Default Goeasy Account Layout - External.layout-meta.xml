@@ -31,7 +31,7 @@
         <label>Ownership</label>
         <layoutColumns>
             <layoutItems>
-                <height>40</height>
+                <height>50</height>
                 <page>InsolvencyAccountOwnerShip</page>
                 <showLabel>false</showLabel>
                 <showScrollbars>false</showScrollbars>
