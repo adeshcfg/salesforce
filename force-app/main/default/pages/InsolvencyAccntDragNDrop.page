@@ -737,6 +737,7 @@
                                                 <th class="slds-text-heading--label slds-size--1-of-12" scope="col">View File</th>
                                                 -->
                                              <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
+                                             <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Uploader</th>
                                              <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
                                           </tr>
                                        </thead>
@@ -779,6 +780,9 @@
                                                           <apex:param value="{!att.LastModifiedDate}" />
                                                       </apex:outputText>
                                                       -->
+                                                      <apex:outputText value="{!att.owner.Name}">
+                                                     </apex:outputText>
+
                                                    <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}" >
                                                       <apex:param value="{!att.LastModifiedDate + offset}" />
                                                    </apex:outputText>
