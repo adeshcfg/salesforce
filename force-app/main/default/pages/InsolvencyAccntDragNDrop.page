@@ -730,8 +730,8 @@
                                     <table class="slds-table slds-table--bordered">
                                        <thead>
                                           <tr class="slds-no-hover">
-                                             <th class="slds-text-heading--label slds-size--1-of-12" style="display:{!IF(isCommunityUser, '; width:1%;', '; width:1%;')}" scope="col"></th>
-                                             <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Name</th>
+                                            <th class="slds-text-heading--label slds-size--1-of-12" style="display:{!IF(OR(isCommunityReadOnlyUser,isGoeasyBankCommunityUser), 'none;', ';')}" scope="col"></th>
+                                            <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Name</th>
                                              <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Type</th>
                                              <!--
                                                 <th class="slds-text-heading--label slds-size--1-of-12" scope="col">View File</th>
@@ -774,18 +774,16 @@
                                                       <apex:param value="{!att.createdDate + offset}" />
                                                    </apex:outputText>
                                                 </td>
+                                              
+                                                     <td>
+                                                        <apex:outputText value="{!att.owner.Name}">
+                                                        </apex:outputText>
+                                                     </td>
                                                 <td>
-                                                   <!--
-                                                      <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}" >
-                                                          <apex:param value="{!att.LastModifiedDate}" />
-                                                      </apex:outputText>
-                                                      -->
-                                                      <apex:outputText value="{!att.owner.Name}">
-                                                     </apex:outputText>
-
                                                    <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}" >
                                                       <apex:param value="{!att.LastModifiedDate + offset}" />
                                                    </apex:outputText>
+                                                  
                                                 </td>
                                              </tr>
                                           </apex:repeat>
