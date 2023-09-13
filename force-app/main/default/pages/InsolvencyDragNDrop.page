@@ -726,7 +726,7 @@
                                           <th class="slds-text-heading--label slds-size--1-of-12" scope="col">View File</th>
                                           -->
                                           <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
-                                          <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Uploader</th>
+                                          <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Uploaded By</th>
                                           <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
                                           
                                         </tr>
