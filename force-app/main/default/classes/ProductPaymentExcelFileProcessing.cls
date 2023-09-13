@@ -128,7 +128,7 @@ public class ProductPaymentExcelFileProcessing {
             for(Province_Tax_Rate_Mapping__mdt taxMetadata : mapTaxMetadata.values()){
                 mapProvinceAcronymTaxMetadata.put(taxMetadata.Province_Acronym__c, taxMetadata);
             }
-            
+            Decimal feeRecovery = null;
             for(PaymentRecordsWrapper wrapRecord : listPaymentRecordWrapper){
                 Product_Payments__c prodPayment = new Product_Payments__c();
                 
@@ -240,22 +240,23 @@ public class ProductPaymentExcelFileProcessing {
                 if(String.isNotBlank(wrapRecord.fee_type)){
                     prodPayment.Fee_type__c = wrapRecord.fee_type;
                 }
-                
+                Decimal newFeeRecovery = 0;
+                feeRecovery = feeRecovery == null ? mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c : feeRecovery;
                 //Calculate commission for payments if Fee recovery is 0 or less than Payment Amount
                 if(mapProduct.containsKey(prodPayment.CCS_Account__c)
                 && String.isNotBlank(prodPayment.Payment_Type__c)
                 && !FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)
                 && (mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c == 0 
                  || mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c < prodPayment.Payment_Amount__c)){
-                     
                     Decimal payCommission = 0;
                     //Payment amount on which commission will be applied
                     payCommission = prodPayment.Payment_Amount__c;
-                    
                     //IF Fee recovery is present, commission will be applied on (Payment Amount - Fee Recovery Amount)
-                    if(mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c < prodPayment.Payment_Amount__c){
-                        payCommission = prodPayment.Payment_Amount__c - mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
+                    if(feeRecovery != null && feeRecovery < prodPayment.Payment_Amount__c){
+                        payCommission = prodPayment.Payment_Amount__c - feeRecovery;
                     }
+                    newFeeRecovery = feeRecovery - prodPayment.Payment_Amount__c;
+                    feeRecovery = newFeeRecovery <= 0 ? 0 : newFeeRecovery;
                     
                     prodPayment.Pool_Lookup__c = mapProduct.get(prodPayment.CCS_Account__c).Pool_Name__c;
                     prodPayment.Value_Tier_at_Time_of_Placement__c = mapProduct.get(prodPayment.CCS_Account__c).Value_Tier_at_Time_of_Placement__c;
@@ -279,7 +280,6 @@ public class ProductPaymentExcelFileProcessing {
                             prodPayment.Commission_Rate_for_Payment__c = ComissionRate;
                         }
                     }
-                     
                     //By Agency Commission Rate
                     if(agencyCommissionrate != NULL){
                         ComissionRate = agencyCommissionrate;
@@ -384,6 +384,14 @@ public class ProductPaymentExcelFileProcessing {
                              }    
                          }
                      } 
+                }
+                else if(mapProduct.containsKey(prodPayment.CCS_Account__c)
+                && String.isNotBlank(prodPayment.Payment_Type__c)
+                && !FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)
+                && (mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c != 0 
+                 && mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c >= prodPayment.Payment_Amount__c)){
+                    newFeeRecovery = feeRecovery - prodPayment.Payment_Amount__c;
+                    feeRecovery = newFeeRecovery <= 0 ? 0 : newFeeRecovery;
                 }
                 prodPayment.Payment_Agency__c = workAssignmentPlacement;
                 
