@@ -737,7 +737,7 @@
                                                 <th class="slds-text-heading--label slds-size--1-of-12" scope="col">View File</th>
                                                 -->
                                              <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
-                                             <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Uploaded By</th>
+                                             <th class="slds-text-heading--label slds-size--3-of-12" style="display:{!IF(NOT(isEasyFinanacial), 'none;', ';')}" scope="col">Uploaded By</th>
                                              <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
                                           </tr>
                                        </thead>
@@ -775,7 +775,7 @@
                                                    </apex:outputText>
                                                 </td>
                                               
-                                                     <td>
+                                                     <td style="display:{!IF(NOT(isEasyFinanacial), 'none;', ';')}">
                                                         <apex:outputText value="{!att.owner.Name}">
                                                         </apex:outputText>
                                                      </td>
