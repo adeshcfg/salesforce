@@ -16,8 +16,9 @@ AVIS INITIAL À TOUS LES ADMINISTRATEURS D’INSOLVABILITE
 Objet: &nbsp;&nbsp;&nbsp;&nbsp; Avis que {!pocPackage.CFG_French_Office_Name},  sera le préstataire de service pour la <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; {!pocPackage.BankName}, pour la documentation de faillite et de proposition de consommateur pour les comptes d’easyfinancial
 
 </b>
-<br/>
-<br/>
+<div style="display:none;">___________________________________________________________________________________________</div>
+<hr style="border-top: 1px solid rgba(127, 125, 124, 1);"/>
+
 Nous, {!pocPackage.BankName} (le « Créancier »), vous informons par écrit que {!pocPackage.CFG_French_Office_Name__c} (Le « Gestionnaire ») administrera le traitement et le dépôt (et toutes les questions 
 connexes) de tous les nouveaux dossiers d’insolvabilité <i>en vertu de la Loi sur la faillite et l'insolvabilité (Canada)</i> en ce qui concerne nos comptes à compter du 1er septembre 2023 pour lesquels vous êtes nommé syndic de faillite ou syndic de proposition, selon le cas, pour ces clients du créancier.
 <br/><br/>
