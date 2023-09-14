@@ -90,13 +90,12 @@ global class InsolvencyAccntDragNDropController{
 
         //Checking if community user
         isCommunityUser = InsolvencyUtil.isCommunityUser();
+        system.debug('Value of isCommunityUser--->'+isCommunityUser);
         isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
+        system.debug('Value of isGoeasyBankCommunityUser--->'+isGoeasyBankCommunityUser);
         //Checking if read only community user
         isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser(); 
-        //checking if Insolvency Account is Easy Financial
-        if(insAcc.RecordType.Name=='Easyfinancial Insolvency Account'){
-            isEasyFinanacial=TRUE;
-        }
+     
     }
     
     //Utility method to return user time zone offset

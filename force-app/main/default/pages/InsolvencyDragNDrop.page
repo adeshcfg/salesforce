@@ -726,7 +726,7 @@
                                           <th class="slds-text-heading--label slds-size--1-of-12" scope="col">View File</th>
                                           -->
                                           <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
-                                          <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Uploaded By</th>
+                                          <th class="slds-text-heading--label slds-size--3-of-12" style="display:{!IF(OR(isGoeasyBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}" scope="col">Uploaded By</th>
                                           <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
                                           
                                         </tr>
@@ -762,7 +762,7 @@
                                                 </apex:outputText>
                                             </td>
                                             <td>
-                                                <apex:outputText value="{!att.owner.Name}">
+                                                <apex:outputText style="display:{!IF(OR(isGoeasyBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}" value="{!att.owner.Name}">
                                                 </apex:outputText>
                                              </td>
                                             <td> 
