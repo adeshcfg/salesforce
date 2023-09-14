@@ -84,7 +84,7 @@ global class InsolvencyAccntDragNDropController{
         insAcc = [SELECT Insolvency__c,RecordType.Name FROM Insolvency_Account__c WHERE Id =: insAcc.Id];
         
         insolvAttList = new List<Attachment>();
-        insolvAttList = [SELECT Id, Name, Description, CreatedDate, LastModifiedDate, ParentID FROM Attachment WHERE ParentID =: insAcc.Insolvency__c AND Description='Creditors Package'];
+        insolvAttList = [SELECT Id, Name,owner.name, Description, CreatedDate, LastModifiedDate, ParentID FROM Attachment WHERE ParentID =: insAcc.Insolvency__c AND Description='Creditors Package'];
         
         refreshAttList();
 
