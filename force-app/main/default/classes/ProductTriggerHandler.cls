@@ -2024,8 +2024,8 @@ public class ProductTriggerHandler{
     public static void populateAccuringInterest(List<Product__c> listNewProducts){
         system.debug('ProductTriggerHandler_populateAccuringInterest: Entered populateAccuringInterest');
         for(Product__c prodListData :listNewProducts){
-            if(prodRTypeIdMap.get('Distressed_Account') == prodListData.RecordTypeId && (prodListData.Current_Principal_Balance__c != null || prodListData.Collection_Sub_Status__c == 'Deceased' || prodListData.Collection_Sub_Status__c == 'Paid in Full Account' || prodListData.Collection_Sub_Status__c == 'Settled in Full Account' || prodListData.Collection_Sub_Status__c == 'Bankrupt Account'
-              || prodListData.Current_Principal_Balance__c <= 0 || prodListData.Interest_Rate__c == 0 || prodListData.Interest_Amount_Last_Calculated_Date__c == NULL || prodListData.Insolvency_Date__c != NULL || prodListData.Deceased_Date__c != NULL || prodListData.Collection_Sub_Status__c == 'Credit Counselling')){
+            if(prodRTypeIdMap.get('Distressed_Account') == prodListData.RecordTypeId && ((prodListData.Current_Principal_Balance__c != null && prodListData.Current_Principal_Balance__c <= 0) || prodListData.Collection_Sub_Status__c == 'Deceased' || prodListData.Collection_Sub_Status__c == 'Paid in Full Account' || prodListData.Collection_Sub_Status__c == 'Settled in Full Account' || prodListData.Collection_Sub_Status__c == 'Bankrupt Account'
+              || prodListData.Interest_Rate__c == 0 || prodListData.Interest_Amount_Last_Calculated_Date__c == NULL || prodListData.Insolvency_Date__c != NULL || prodListData.Deceased_Date__c != NULL || prodListData.Collection_Sub_Status__c == 'Credit Counselling')){
                   system.debug('ProductTriggerHandler_populateAccuringInterest: value of Accruing Interest::'+prodListData.Interest_Stopped__c);
                 	prodListData.Interest_Stopped__c = true;
               }else{
