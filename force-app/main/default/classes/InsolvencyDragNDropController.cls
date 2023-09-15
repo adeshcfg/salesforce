@@ -60,7 +60,7 @@ global class InsolvencyDragNDropController{
     }
     // Fetch all attachments related to Insolvency
     public void refreshAttList(){
-        attList = [SELECT Id, Name,Description, CreatedDate, LastModifiedDate FROM Attachment WHERE ParentId =: ApexPages.currentPage().getPArameters().get('Id') ORDER BY CreatedDate DESC];
+        attList = [SELECT Id, Name,Description,Owner.name, CreatedDate, LastModifiedDate FROM Attachment WHERE ParentId =: ApexPages.currentPage().getPArameters().get('Id') ORDER BY CreatedDate DESC];
         system.debug('===='+attList);
     }
     

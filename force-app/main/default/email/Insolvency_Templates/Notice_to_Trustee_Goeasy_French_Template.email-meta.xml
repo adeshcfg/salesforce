@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notice to Trustee Goeasy French Template</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Notice to Trustee Goeasy French Template</name>
+    <style>none</style>
+    <subject>Avis du gestionnaire-{!insolv.EstateNumber}</subject>
+    <textOnly>AVIS INITIAL À TOUS LES ADMINISTRATEURS D’INSOLVABILITE
+
+
+Objet:      Avis que {!pocPackage.CFG_French_Office_Name},  sera le préstataire de service pour la
+{!pocPackage.BankName}, pour la documentation de faillite et de proposition de consommateur pour les comptes d’easyfinancial
+
+Nous, {!pocPackage.BankName} (le « Créancier »), vous informons par écrit que {!pocPackage.CFG_French_Office_Name__c} (Le « Gestionnaire ») administrera le traitement et le dépôt (et toutes les questions connexes) de tous les nouveaux dossiers d’insolvabilité en vertu de la Loi sur la faillite et l&apos;insolvabilité (Canada) en ce qui concerne nos comptes à compter du 1er septembre 2023 pour lesquels vous êtes nommé syndic de faillite ou syndic de proposition, selon le cas, pour ces clients du créancier.
+
+Nous notons que les comptes peuvent être répertoriés comme « easyfinancial Services », « Goeasy Ltd. », « Easyfinancial Services » ou des termes similaires (goeasy Ltd. est la société mère du créancier).
+
+Nous demandons que tous les dividendes, la correspondance et la documentation, y compris, sans s&apos;y limiter, avis aux créanciers de l’Insolvabilité, renseignements relatifs aux affaires du consommateur, formulaires de votation, les demandes de documents supplémentaires et les admission/avis de rejet des réclamations, en ce qui concerne les comptes susmentionnés, être adressées au gestionnaire aux coordonnées suivantes:
+
+{!pocPackage.CFG_French_Office_Name__c}.
+{!pocPackage.CFG_Office_Address_1__c}
+{!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+
+Attention:   Insolvency Processing
+Telephone:   {!pocPackage.CFG_Office_Phone_Number__c}
+Facsimile:   {!pocPackage.CFG_Office_Fax_Number__c}
+Email:  {!pocPackage.CFG_Office_Email_Address__c}
+
+
+Si vous avez des questions, n’hésitez pas à contacter Canaccede aux coordonnées indiquées ci-dessus
+
+Votre serviteur,   Reconnu et agréé par
+{!pocPackage.BankName}    {!pocPackage.CFG_French_Office_Name__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

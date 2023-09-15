@@ -1,4 +1,4 @@
-<apex:page showHeader="false" controller="ServicerNoticeToTrusteeController" id="page" title="Servicer Notice">
+<apex:page showHeader="false" controller="ServicerNoticeToTrusteeController" id="page" title="Servicer Notice" language="{!language}">
 <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <head>
     <apex:pageMessages id="msg"></apex:pageMessages>
@@ -283,6 +283,7 @@
             <apex:ActionFunction name="attachmentSelected"  action="{!attachmentSelected}" reRender="none" status="spinner">
                 <apex:param name="attachmentSelected" value="attachmentSelected" assignTo="{!attachmentSelected}"/>
             </apex:ActionFunction>
+            <apex:ActionFunction name="changeLanguage" action="{!changeLanguage}" oncomplete="validateForm();" reRender="form" status="spinner"/>
             <apex:ActionFunction name="attachmentRemoved"  action="{!attachmentRemoved}" reRender="none" status="spinner">
                 <apex:param name="attachmentRemoved" value="attachmentRemoved" assignTo="{!attachmentSelected}"/>
             </apex:ActionFunction>
@@ -302,9 +303,26 @@
             <article class="slds-card stripes-grey slds-m-top_large">
               <div class="slds-p-around_small stripes-grey">
                  <div class="slds-media__body">
-                    <div class="via-border-radius stripes-grey via-border-corner-shapes">
+                    <div class="via-border-radius stripes-grey via-border-corner-shapes">                       
                         <div class="slds-p-around_medium slds-grid slds-wrap slds-truncate slds-theme--default via-border-corner-shapes">
-                            
+                            <div class="slds-size_1-of-2 slds-medium-size_1-of-6 slds-large-size_2-of-12 slds-p-bottom_small" style="text-align:right; {!IF((insolvAcc.Client_Identifier__c=='Goeasy'), 'display:block', 'display:none')}">
+                                <p class="slds-tile slds-size--1-of-2 slds-truncate slds-text-heading--label" style="line-height: 2rem;">Language</p>
+                                
+                            </div>
+                            <div class="slds-p-horizontal_small slds-size_1-of-2 slds-medium-size_5-of-6 slds-large-size_10-of-12" id="templateInputDiv" style="{!IF((insolvAcc.Client_Identifier__c=='Goeasy'), 'display:block', 'display:none')}">
+                                
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container">
+                                            <apex:selectList size="1" value="{!language}" styleClass="slds-select" onchange="changeLanguage()">
+                                                <apex:selectOptions value="{!languageList}" />
+                                                <apex:actionsupport event="onchange"/>
+                                            </apex:selectList>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="slds-size_1-of-2 slds-medium-size_1-of-6 slds-large-size_2-of-12 slds-p-bottom_small" style="text-align:right;">
                                <p class="slds-tile slds-size--1-of-2 slds-truncate slds-text-heading--label" style="line-height: 2rem;">To</p>
                             </div>

@@ -17,6 +17,8 @@ public class ServicerNoticeToTrusteeController{
     public String attachmentBody {set;get;}
     PoC_Package_Settings__c pocPackage;
     public Boolean  isAnyException{set;get;}
+    public List<selectOption> languageList{get;set;}
+    public string language{get;set;}
     public Boolean isActive {set;get;}
     public List<InsolvAttachments> insolvAttachList{set;get;}
     
@@ -31,10 +33,14 @@ public class ServicerNoticeToTrusteeController{
     
     // Controller loads Insolvency Account record data
     public ServicerNoticeToTrusteeController(){
+    	//Populate language list
+        languageList = new List<selectOption>();
+        languageList.add(new SelectOption('en_US', 'English'));
+        languageList.add(new SelectOption('fr', 'French'));
     
         config = [SELECT Maximum_Email_Attachments_Size_Text__c, Maximum_Email_Attachments_Size__c,
                     Run_Insolvency_Status_Validations__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
-        poulateRecord();
+        //poulateRecord();
         insolvAttachList= new List<InsolvAttachments>();
         Datetime now = Datetime.now();
         Integer offset = UserInfo.getTimezone().getOffset(now);
@@ -46,7 +52,7 @@ public class ServicerNoticeToTrusteeController{
         isActive = true;
         
         attachSizeExceptionMessage = config.Maximum_Email_Attachments_Size_Text__c;
-        
+        changeLanguage();
         // Read all attachments related to insolvacny account
         for (Attachment attchmt : [select Name,  
                             Description,
@@ -87,6 +93,7 @@ public class ServicerNoticeToTrusteeController{
                             Insolvency__r.Trustee__r.Communication_Preference__c,
                             Insolvency__r.Trustee__r.Business_Email__c,
                             Insolvency__r.Trustee__r.Fax,
+                      		Insolvency__r.Trustee__r.Preferred_Language__c,
                             Servicer_Notice_to_Trustee_Sent_Date__c,
                             Client_Identifier__c, Trustee_Office__c
                     FROM Insolvency_Account__c 
@@ -99,7 +106,10 @@ public class ServicerNoticeToTrusteeController{
         else{
             toEmail =  insolvAcc.Insolvency__r.Trustee__r.Business_Email__c;
         }
-        
+        String BankName = '';
+        if(insolvAcc.Client_Identifier__c == 'Goeasy'){
+             BankName = 'easyfinancial Services Inc.';
+        }         
         // Fetch PoC custom settings which will have critical information about the bank
         pocPackage = (PoC_Package_Settings__c)PoC_Package_Settings__c.getValues(insolvAcc.Client_Identifier__c);
         Date dateToday = System.Today();
@@ -128,10 +138,31 @@ public class ServicerNoticeToTrusteeController{
                                                     '{!pocPackage.CFG_Office_Phone_Number__c}' => pocPackage.CFG_Office_Phone_Number__c.replace('-','.'),
                                                     '{!pocPackage.CFG_Office_Fax_Number__c}' => pocPackage.CFG_Office_Fax_Number__c.replace('-','.'),
                                                     '{!pocPackage.CFG_Office_Email_Address__c}' => pocPackage.CFG_Office_Email_Address__c,
-                                                    '{!pocPackage.CFG_Office_Name_2__c}' => pocPackage.CFG_Office_Name_2__c
+                                                    '{!pocPackage.CFG_Office_Name_2__c}' => pocPackage.CFG_Office_Name_2__c,
+                                                    '{!pocPackage.CFG_French_Office_Name__c}' => pocPackage.CFG_French_Office_Name__c,
+                                                    '{!pocPackage.CFG_French_Office_Name}' => pocPackage.CFG_French_Office_Name__c.toUppercase(),
+                                                    '{!pocPackage.name}' => pocPackage.name,
+                                                    '{!pocPackage.BankName}' => BankName    
                                                     };
-        
+        system.debug('language check::'+language);
         // Fetch LoRNotice1 email template
+         if(language == 'fr'){
+             for(EmailTemplate emt :  [SELECT Id, Name, HtmlValue, Body,Subject FROM EmailTemplate WHERE Id =: pocPackage.Notice_to_Trustee_French_Template_Id__c]){
+                 if(emt.Id == pocPackage.Notice_to_Trustee_French_Template_Id__c){
+                     subject = emt.subject;
+                     subject = subject.replace('{!insolv.EstateNumber}', insolvAcc.Insolvency__r.Name);
+                     emailBody = emt.HtmlValue;
+                     emailBody = emailBody.replace('{!Insolvency_Account__c.Trustee_Company__c}', (insolvAcc.Trustee_Company__c+ ''));
+                     emailBody = emailBody.replace('{!Insolvency_Account__c.Trustee_Office__c}', (insolvAcc.Trustee_Office__c+ ''));
+                     emailBody = emailBody.replace('{!Trustee_street}', (insolvAcc.Insolvency__r.Trustee__r.BillingStreet != null? insolvAcc.Insolvency__r.Trustee__r.BillingStreet : ''));
+                     if(emailBody.contains('{!pocPackage.BankName}')){       
+                         emailBody = emailBody.replace('{!pocPackage.BankName}', BankName);         
+                     }
+                     // attachmentBody = emt.HtmlValue;
+                 }
+             } 
+         }
+         else{
         for(EmailTemplate emt :  [SELECT Id, Name, HtmlValue, Body,Subject FROM EmailTemplate WHERE Id =: pocPackage.Notice_to_Trustee_Template_Id__c]){
             if(emt.Id == pocPackage.Notice_to_Trustee_Template_Id__c){
                 subject = emt.subject;
@@ -140,9 +171,14 @@ public class ServicerNoticeToTrusteeController{
                 emailBody = emailBody.replace('{!Insolvency_Account__c.Trustee_Company__c}', (insolvAcc.Trustee_Company__c+ ''));
                 emailBody = emailBody.replace('{!Insolvency_Account__c.Trustee_Office__c}', (insolvAcc.Trustee_Office__c+ ''));
                 emailBody = emailBody.replace('{!Trustee_street}', (insolvAcc.Insolvency__r.Trustee__r.BillingStreet != null? insolvAcc.Insolvency__r.Trustee__r.BillingStreet : ''));
+                     if(emailBody.contains('{!pocPackage.BankName}')){       
+                         emailBody = emailBody.replace('{!pocPackage.BankName}', BankName);         
+                     }
+                     
                // attachmentBody = emt.HtmlValue;
             }
         }
+         }
         
         // replace merge fields in email template with actual values in Insolvency Account
         for(String str : emailMergeFields.keySet()){
@@ -313,5 +349,11 @@ public class ServicerNoticeToTrusteeController{
         public String fileDesc{set;get;}
         public DateTime fileCreatedDate {set;get;}
         public String displaySize {set;get;}
+    }
+    
+    //change the language
+    public void changeLanguage(){
+        system.debug(' language details'+language);
+        poulateRecord();
     }
 }

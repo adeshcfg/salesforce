@@ -24,7 +24,8 @@ global class InsolvencyAccntDragNDropController{
     public Boolean isCommunityReadOnlyUser {set; get;}
     public Boolean isGoeasyBankCommunityUser {set; get;}
     public Boolean isCommunityUser {set; get;}
-    
+    public Boolean isEasyFinanacial {set;get;}
+
     public static List<SelectOption> getAllDocumentOptions(){
         Schema.DescribeFieldResult insolAccDocumenttype = Insolvency_Account__c.Insolvency_Account_Document_Type__c.getDescribe();
         List<Schema.PicklistEntry> insolAccDocTypeValues = insolAccDocumenttype.getPicklistValues();
@@ -68,7 +69,7 @@ global class InsolvencyAccntDragNDropController{
    
     // Fetch all attachments related to Insolvency
     public void refreshAttList(){
-        attList = [SELECT Id, Name,Description, CreatedDate, LastModifiedDate, ParentID FROM Attachment WHERE ParentId =: ApexPages.currentPage().getPArameters().get('Id') ORDER BY CreatedDate DESC];
+        attList = [SELECT Id, Name,Description,createdbyid,owner.Name, CreatedDate, LastModifiedDate, ParentID FROM Attachment WHERE ParentId =: ApexPages.currentPage().getPArameters().get('Id') ORDER BY CreatedDate DESC];
         system.debug('---'+attList);
     }
     
@@ -80,10 +81,10 @@ global class InsolvencyAccntDragNDropController{
     // controller to load attachments
     public InsolvencyAccntDragNDropController(ApexPages.StandardController controller) {
         insAcc = (Insolvency_Account__c )controller.getRecord();
-        insAcc = [SELECT Insolvency__c FROM Insolvency_Account__c WHERE Id =: insAcc.Id];
+        insAcc = [SELECT Insolvency__c,RecordType.Name FROM Insolvency_Account__c WHERE Id =: insAcc.Id];
         
         insolvAttList = new List<Attachment>();
-        insolvAttList = [SELECT Id, Name, Description, CreatedDate, LastModifiedDate, ParentID FROM Attachment WHERE ParentID =: insAcc.Insolvency__c AND Description='Creditors Package'];
+        insolvAttList = [SELECT Id, Name,owner.name, Description, CreatedDate, LastModifiedDate, ParentID FROM Attachment WHERE ParentID =: insAcc.Insolvency__c AND Description='Creditors Package'];
         
         refreshAttList();
 
@@ -92,6 +93,7 @@ global class InsolvencyAccntDragNDropController{
         isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
         //Checking if read only community user
         isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser(); 
+     
     }
     
     //Utility method to return user time zone offset

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notice to Trustee Goeasy Template</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Notice to Trustee Goeasy Template</name>
+    <style>none</style>
+    <subject>Notice of Servicer-{!insolv.EstateNumber}</subject>
+    <textOnly>INITIAL NOTIFICATION TO ALL TRUSTEES
+
+
+Re:      Notice that {!pocPackage.CFG_French_Office_Name}  will be the Servicer for
+{!pocPackage.BankName} for Bankruptcy and Consumer Proposal Documentation for easyfinancial Accounts.
+___________________________________________________________________________________________
+We, {!pocPackage.BankName} (the &quot;Creditor&quot;), are writing to notify you that {!pocPackage.CFG_French_Office_Name__c} (the “Servicer”) will be administering the processing and filing (and all related matters thereto) of all new bankruptcy or consumer proposals under the Bankruptcy and Insolvency Act (Canada) in relation to our accounts from and after September 1, 2023 in respect of which you are appointed as bankruptcy trustee, or proposal trustee, as the case may be, for any such customers of the Creditor.
+
+We note that accounts may be listed as “easyfinancial Services”, “Goeasy Ltd. Easyfinancial Services”, or similar terms (goeasy Ltd. is the parent corporation of the Creditor).
+
+We request that all dividends, correspondence and documentation, including without limitation, creditor packages, statement of affairs, voting letters, requests for additional documentation and approvals / notice of disallowance of claims, in relation to the above noted accounts be directed to the Servicer at the following contact details:
+
+{!pocPackage.CFG_French_Office_Name__c}.
+{!pocPackage.CFG_Office_Address_1__c}
+{!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+
+Attention:   Insolvency Processing
+Telephone:   {!pocPackage.CFG_Office_Phone_Number__c}
+Facsimile:   {!pocPackage.CFG_Office_Fax_Number__c}
+Email:  {!pocPackage.CFG_Office_Email_Address__c}
+
+
+If you have any queries, please do not hesitate to contact Canaccede at the above noted contact details.
+
+Yours truly,   Acknowledged and Agreed to by
+{!pocPackage.BankName}   {!pocPackage.CFG_French_Office_Name__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

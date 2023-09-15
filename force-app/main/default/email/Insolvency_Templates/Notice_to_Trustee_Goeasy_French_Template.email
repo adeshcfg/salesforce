@@ -1,0 +1,95 @@
+<html>
+
+<div style="font-family: 'Times New Roman'; font-size: 12px; width:90%;">
+<div >
+<img src='https://c.na55.content.force.com/servlet/servlet.ImageServer?id=0153a000003R0Xg&oid=00Dj0000001ripe&lastMod=1521530673000' style="width: 100%; "/>
+</div>
+<div class="myfont">
+<div style="width:100%; text-align:center; font-family: 'Times New Roman'; font-size: 17px;">
+<b>
+AVIS INITIAL À TOUS LES ADMINISTRATEURS D’INSOLVABILITE
+</b>
+</div style="width:100%; text-align:center; font-family: 'Times New Roman'; font-size: 12px;">
+
+<b>
+<br/><br/>
+Objet: &nbsp;&nbsp;&nbsp;&nbsp; Avis que {!pocPackage.CFG_French_Office_Name},  sera le préstataire de service pour la <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; {!pocPackage.BankName}, pour la documentation de faillite et de proposition de consommateur pour les comptes d’easyfinancial
+
+</b>
+<div style="display:none;">___________________________________________________________________________________________</div>
+<hr style="border-top: 1px solid rgba(127, 125, 124, 1);"/>
+
+Nous, {!pocPackage.BankName} (le « Créancier »), vous informons par écrit que {!pocPackage.CFG_French_Office_Name__c} (Le « Gestionnaire ») administrera le traitement et le dépôt (et toutes les questions 
+connexes) de tous les nouveaux dossiers d’insolvabilité <i>en vertu de la Loi sur la faillite et l'insolvabilité (Canada)</i> en ce qui concerne nos comptes à compter du 1er septembre 2023 pour lesquels vous êtes nommé syndic de faillite ou syndic de proposition, selon le cas, pour ces clients du créancier.
+<br/><br/>
+Nous notons que les comptes peuvent être répertoriés comme « easyfinancial Services », « Goeasy Ltd. », « Easyfinancial Services » ou des termes similaires (goeasy Ltd. est la société mère du créancier).
+<br/><br/>
+Nous demandons que tous les dividendes, la correspondance et la documentation, y compris, sans s'y limiter, avis aux créanciers de l’Insolvabilité, renseignements relatifs aux affaires du consommateur, formulaires de votation, les demandes de documents supplémentaires et les admission/avis de rejet des réclamations, en ce qui concerne les comptes susmentionnés, être adressées au gestionnaire aux coordonnées suivantes: 
+<br/><br/>
+<div style="width:100%; font-family: 'Times New Roman'; font-size: 11px;">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!pocPackage.CFG_French_Office_Name__c}.
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!pocPackage.CFG_Office_Address_1__c}
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+<br/><br/>
+
+<table style="margin-left: 5px;">
+    <tr>
+    <td style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Attention: </td>
+    <td>Insolvency Processing</td>
+<td></td>
+    </tr>
+    
+    <tr>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Téléphone: </td>
+    <td>{!pocPackage.CFG_Office_Phone_Number__c}</td>
+<td></td>
+    </tr>
+
+    <tr>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Télécopieur: </td>
+    <td>{!pocPackage.CFG_Office_Fax_Number__c}</td>
+<td></td>
+    </tr>
+
+    <tr>
+    <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email:</td>
+    <td>{!pocPackage.CFG_Office_Email_Address__c}</td>
+<td></td>
+    </tr>
+</table>
+</div>
+<br/>
+Si vous avez des questions, n’hésitez pas à contacter Canaccede aux coordonnées indiquées ci-dessus
+<br/><br/>
+
+<table>
+<tr>
+<td style="width: 230px; vertical-align: text-bottom; padding-bottom: 0px;">Votre serviteur, 
+</td>
+<td class="second-column">Reconnu et agréé par
+</td>
+</tr>    
+
+<tr>
+<td style="width: 170px; vertical-align: text-bottom;"><b>{!pocPackage.BankName} </b>
+</td>
+<td class="second-column"><b>{!pocPackage.CFG_French_Office_Name__c}</b>
+</td>
+</tr>
+<tr>
+<td style="width: 230px; vertical-align: text-bottom; padding-bottom: 0px;">
+<img src='https://c.na55.content.force.com/servlet/servlet.ImageServer?id=0153a000003R0Xb&oid=00Dj0000001ripe&lastMod=1527833526000' style="width: 200px;"/> 
+</td>
+<td class="second-column">
+<img src='https://c.na55.content.force.com/servlet/servlet.ImageServer?id=0153a000003R0XW&oid=00Dj0000001ripe&lastMod=1527833526000' style="width: 200px;"/> 
+</td>
+</tr> 
+
+</table>
+<br/><br/>
+
+</div>
+</div>
+</html>

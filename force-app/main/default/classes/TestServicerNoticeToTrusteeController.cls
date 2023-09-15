@@ -37,8 +37,21 @@ public class TestServicerNoticeToTrusteeController {
                                                                          CFG_Office_Fax_Number__c = '111-111-111',
                                                                          CFG_Office_Name_2__c = 'temp',
                                                                          Notice_to_Trustee_Template_Id__c = NoTTemplate.Id,
+                                                                      	 CFG_French_Office_Name__c = 'Canaccede International Management Ltd.',
                                                                          Account_Statement_Not_Allowed__c  = '00X17000000RbO1EAK');                                                                    
         	insert poc;
+            
+            PoC_Package_Settings__c poc1 = new PoC_Package_Settings__c(Name = 'Scotia Bank', 
+                                                                         Client_Company_Name__c = 'Canaccede International ltd.', 
+                                                                         CFG_Office_Phone_Number__c = '800-800-800', 
+                                                                         CFG_Office_Name__c = 'CFG Canada Funding, LLC',
+                                                                         CFG_Office_Email_Address__c = 'test@canaccede.com',
+                                                                         CFG_Office_Fax_Number__c = '111-111-111',
+                                                                         CFG_Office_Name_2__c = 'temp',
+                                                                         Notice_to_Trustee_Template_Id__c = NoTTemplate.Id,
+                                                                       	 CFG_French_Office_Name__c = 'Canaccede International Management Ltd.',
+                                                                         Account_Statement_Not_Allowed__c  = '00X17000000RbO1EAK');                                                                    
+        	insert poc1;
         }
         //Cusomer record Insertion
         Account parentAcc = new Account(Name = 'my acc', Communication_Preference__c = 'Email', 
@@ -79,6 +92,17 @@ public class TestServicerNoticeToTrusteeController {
                                                                  Account_Number_Without_Space__c='Test-001');
                                                                    
         insert insolcAcc;
+        Insolvency_Account__c insolcAcc1 = new Insolvency_Account__c(Claim_Type__c = 'Unsecured', 
+                                                                 Proof_of_Claim_Required__c = false, 
+                                                                 Client_Identifier__c='Goeasy',
+                                                                 Insolvency__c = insolv.Id,
+                                                                 Name='Test- 001',
+                                                                 Insolvency_Status_Last_Changed__c = System.Today(),
+                                                                 Servicer_Notice_to_Trustee_Sent_Date__c = System.Today(),
+                                                                 Insolvency_Status__c = 'For Owner Review',
+                                                                 Account_Number_Without_Space__c='Test-001');
+                                                                   
+        insert insolcAcc1;
         //Attachment insertion on related Insolvency account
         Attachment attch = new Attachment(name='Sample Document', body=Blob.valueOf('test Body'), parentId=insolcAcc.id);
         insert attch;
