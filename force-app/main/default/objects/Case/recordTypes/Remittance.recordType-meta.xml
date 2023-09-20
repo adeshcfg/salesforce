@@ -70,6 +70,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Business Insolvency</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Chq Stub</fullName>
             <default>false</default>
         </values>
@@ -190,22 +194,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Vote-Voice Mail</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Voice Mail</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Business Insolvency</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Help_us_better_serve_you__c</picklist>
-        <values>
-            <fullName>Did we contact you about outstanding debt%3F</fullName>
+            <fullName>Vote-Voice Mail</fullName>
             <default>false</default>
         </values>
     </picklistValues>

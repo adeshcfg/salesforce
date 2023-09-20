@@ -28,9 +28,9 @@
     <forgotPasswordTemplate>Community/CommunityForgotPasswordEmailTemplate</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
-        <profile>admin</profile>
-        <profile>goeasy community user</profile>
-        <profile>goeasy community user readonly</profile>
+        <profile>Admin</profile>
+        <profile>Goeasy Community User</profile>
+        <profile>Goeasy Community User Readonly</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>

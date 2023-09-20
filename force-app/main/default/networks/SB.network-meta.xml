@@ -31,21 +31,21 @@
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
         <permissionSet>Community_Access</permissionSet>
-        <profile>scotia bank community user</profile>
-        <profile>scotia bank community user readonly</profile>
-        <profile>scotia bank login community user readonly</profile>
-        <profile>scotia bank login community user</profile>
-        <profile>spl login community user readonly</profile>
-        <profile>spl login community user</profile>
-        <profile>scotia spl common login community user readonly</profile>
-        <profile>scotia spl common community user readonly</profile>
-        <profile>spl community user readonly</profile>
-        <profile>spl community user</profile>
-        <profile>sda community user</profile>
-        <profile>sda login community user</profile>
-        <profile>sda login community user readonly</profile>
-        <profile>sda community user readonly</profile>
-        <profile>scotia bank login community user unallocated</profile>
+        <profile>Scotia Bank Community User</profile>
+        <profile>Scotia Bank Community User Readonly</profile>
+        <profile>Scotia Bank Login Community User Readonly</profile>
+        <profile>Scotia Bank Login Community User</profile>
+        <profile>SPL Login Community User</profile>
+        <profile>SPL Login Community User Readonly</profile>
+        <profile>Scotia SPL Common Community User Readonly</profile>
+        <profile>SPL Community User</profile>
+        <profile>Scotia SPL Common Login Community User Readonly</profile>
+        <profile>SPL Community User Readonly</profile>
+        <profile>SDA Login Community User Readonly</profile>
+        <profile>SDA Community User Readonly</profile>
+        <profile>SDA Login Community User</profile>
+        <profile>SDA Community User</profile>
+        <profile>Scotia Bank Login Community User Unallocated</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>

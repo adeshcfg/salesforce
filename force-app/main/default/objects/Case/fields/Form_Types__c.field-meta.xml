@@ -245,6 +245,12 @@
                 <label>Business Insolvency</label>
             </value>
             <value>
+                <fullName>Rogers</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Rogers</label>
+            </value>
+            <value>
                 <fullName>SDA Credit Pack</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

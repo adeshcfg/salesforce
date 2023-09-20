@@ -26,7 +26,6 @@
             <label>New</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>Populate Default Values On Product {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Populate Default Values On Product</label>
     <processMetadataValues>
