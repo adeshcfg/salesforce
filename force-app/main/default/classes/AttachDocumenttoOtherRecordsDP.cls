@@ -50,8 +50,6 @@ public class AttachDocumenttoOtherRecordsDP {
            showOnBIorSD = true;
         }
         //Added by Akanksha for 5177 to control visibility of button to users and record type.
-       system.debug('case rec type--->'+caseRec.RecordType.Name);
-       system.debug('custom label->'+System.Label.RecordType_to_Show_Parser_Button);
         if(System.Label.RecordType_to_Show_Parser_Button.contains(caseRec.RecordType.Name)){            
                      showParserBttnonRTBasis=true;
        }
