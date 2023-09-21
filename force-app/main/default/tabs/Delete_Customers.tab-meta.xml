@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This is Visualsforce Tab.
+Used to Delete the Customers (Which don&apos;t have Application and Product) - Functionality.</description>
+    <label>Delete Customers</label>
+    <motif>Custom62: Chalkboard</motif>
+    <page>DeleteCustomers</page>
+</CustomTab>
