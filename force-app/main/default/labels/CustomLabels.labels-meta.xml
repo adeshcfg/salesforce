@@ -168,4 +168,11 @@
         <shortDescription>Product Bill Email Templates</shortDescription>
         <value>D1 Payment Reminder,D10 Let Us Help,D36 Let Us Help,D55 Potential Legal</value>
     </labels>
+    <labels>
+        <fullName>RecordType_to_Show_Parser_Button</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RecordType_to_Show_Parser_Button</shortDescription>
+        <value>CCS Case,CCS Dividend</value>
+    </labels>
 </CustomLabels>

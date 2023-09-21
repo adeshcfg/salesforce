@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This permission set provide &quot;Send to Document Parser&quot; button access.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Send to Document Parser access</label>
+</PermissionSet>
