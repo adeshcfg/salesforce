@@ -1,25 +1,23 @@
 import { LightningElement } from 'lwc';
 import getAccounts from '@salesforce/apex/creditBureauClass.getcreditBureauClass';
 
-export default class CreditBureauPage extends LightningElement {
-
+export default class creditBureauClass extends LightningElement {
+    CreditBureauDisabled = false;
+    TransUnionDisabled = false;
+    EquifaxDisabled = false;
     handleClick(event){
-        disableButtonEquifax = false;
-        disableButtonTransUnion = false;
-        disableButtonCreditBureau = false;
-        window.alert('welcome');
         let labelName = event.target.label;
-        if(labelName == 'Equifax'){
-            this.disableButtonEquifax = true;
+        if(labelName == 'CreditBureau'){
             getAccounts({ batchName: labelName })
+            this.CreditBureauDisabled = true;
         }
         if(labelName == 'TransUnion'){
-            this.disableButtonTransUnion = true;
             getAccounts({ batchName: labelName })
+            this.TransUnionDisabled = true;
         }
-        if(labelName == 'CreditBureau'){
-            this.disableButtonCreditBureau = true;
+        if(labelName == 'Equifax'){
             getAccounts({ batchName: labelName })
+            this.EquifaxDisabled = true;
         }
         
     }
