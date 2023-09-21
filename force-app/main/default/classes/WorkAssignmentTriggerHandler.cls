@@ -211,7 +211,8 @@ public class WorkAssignmentTriggerHandler {
             AggregateResult[] prodGroupedResults = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
                                                 WHERE Product__c IN :setProductID 
                                                 AND Product__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified') 
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request' AND Status__c != 'Unjustified - Cease and Desist - Active') 
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Product__c];
             System.Debug('prodGroupedResults' +prodGroupedResults);
@@ -379,7 +380,8 @@ public class WorkAssignmentTriggerHandler {
             AggregateResult[] prodGroupedResults = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
                                                 WHERE Product__c IN :setProductID 
                                                 AND Product__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified')
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request' AND Status__c != 'Unjustified - Cease and Desist - Active')
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Product__c];
             System.Debug('prodGroupedResults' +prodGroupedResults);
@@ -394,6 +396,10 @@ public class WorkAssignmentTriggerHandler {
                         pr1.Id=(id)ar.get('Product__c'); 
                         pr1.Number_Of_Open_Complaint__c = 0;
                         pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt'); 
+                        System.Debug('countCHecking@@' +(decimal)ar.get('comptProductcnt'));
+                        if(newListWorkAss.Status__c == 'Closed - Unjustified - Cease and Desist Request'){
+                            pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt') - 1; 
+                        }
                         //acc.id = prodCustomer.Customer__c;
                         //acc.Number_Of_Open_Product_Complaint__c = (decimal)ar.get('comptProductcnt');
                         ProductTriggerHandler.runProductTrigger = false;
@@ -766,7 +772,8 @@ public class WorkAssignmentTriggerHandler {
             AggregateResult[] prodGroupedResults = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
                                                 WHERE Product__c IN :setProductID 
                                                 AND Product__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified')
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request' AND Status__c != 'Unjustified - Cease and Desist - Active')
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')  
                                                 GROUP BY Product__c];
             System.Debug('prodGroupedResults' +prodGroupedResults);
@@ -780,7 +787,10 @@ public class WorkAssignmentTriggerHandler {
                         Product__c pr1=new Product__c();
                         pr1.Id=(id)ar.get('Product__c'); 
                         pr1.Number_Of_Open_Complaint__c = 0;
-                        pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt'); 
+                        pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt');
+                        if(oldListWorkAss.Status__c == 'Closed - Unjustified - Cease and Desist Request'){
+                            pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt') - 1;
+                        }
                         //acc.id = prodCustomer.Customer__c;
                         //acc.Number_Of_Open_Product_Complaint__c = (decimal)ar.get('comptProductcnt');
                         ProductTriggerHandler.runProductTrigger = false;
