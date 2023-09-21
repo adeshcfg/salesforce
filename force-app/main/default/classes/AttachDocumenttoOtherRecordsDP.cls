@@ -19,6 +19,8 @@ public class AttachDocumenttoOtherRecordsDP {
     public boolean showParser{get;set;}
     public boolean communityUser{get;set;}
     public boolean showOnBIorSD{get; set;}
+    public boolean showParserBttnonRTBasis{get;set;}
+    public boolean showParserBttnonUserBasis{get;set;}
     Boolean isInsAccPresent;
     String publicGroupID;
 
@@ -27,7 +29,7 @@ public class AttachDocumenttoOtherRecordsDP {
         isInsAccPresent = false;
         String caseID = ApexPages.currentPage().getPArameters().get('Id');
         caseRec = [select id, Insolvency__c, Insolvency_Account__c, Assign_To__c, Insolvency_Assignment_Type__c, document_ID__c,
-                   Assigned_To__c,Status,Priority, Subject, Description, Type, RecordTypeId, SuppliedEmail, ParentId
+                   Assigned_To__c,Status,Priority, Subject, Description, Type, RecordTypeId, SuppliedEmail, ParentId, RecordType.Name
                    from case where id =: caseID];
                    
         publicGroupID = [select ID, name from Group where DeveloperName = 'Insolvency_CFG_Users'].id;
@@ -47,7 +49,20 @@ public class AttachDocumenttoOtherRecordsDP {
         if(caseRec.Insolvency_Assignment_Type__c == 'Business Insolvency' || caseRec.Insolvency_Assignment_Type__c == 'Secured Communications' || caseRec.Insolvency_Assignment_Type__c == 'Final'|| caseRec.Insolvency_Assignment_Type__c == 'Refund Request'){
            showOnBIorSD = true;
         }
-        
+        //Added by Akanksha for 5177 to control visibility of button to users and record type.
+       system.debug('case rec type--->'+caseRec.RecordType.Name);
+       system.debug('custom label->'+System.Label.RecordType_to_Show_Parser_Button);
+        if(System.Label.RecordType_to_Show_Parser_Button.contains(caseRec.RecordType.Name)){            
+                     showParserBttnonRTBasis=true;
+       }
+        List<PermissionSetAssignment> userIsPresentInPermissionSet = [SELECT PermissionSetId FROM PermissionSetAssignment 
+                                                                      WHERE AssigneeId= :UserInfo.getUserId() 
+                                                                      AND PermissionSet.Name = 'Send_to_Document_Parser_access'];
+        if(userIsPresentInPermissionSet.size()==1){
+        showParserBttnonUserBasis=true;
+        }
+        //Aded by Akanksha for 5177 ends here --------------->
+           
         communityUser = isCommunityUser();
         getAllDocumentOptions();
         refreshAttList();    

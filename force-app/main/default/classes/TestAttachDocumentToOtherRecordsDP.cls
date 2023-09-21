@@ -72,13 +72,18 @@ public class TestAttachDocumentToOtherRecordsDP   {
          insolvencyAccount.Name = 'test';
          INSERT insolvencyAccount;
 
+        permissionset ps=[select id from permissionset where name='Send_to_Document_Parser_access' limit 1];
+        //insert new permissionsetassignment(AssigneeId=UserInfo.getUserId(),permissionsetid=ps.id);
+        
         //Case record creation
+       id recordtypeID=schema.SObjectType.case.getRecordtypeInfosByName().get('CCS Case').getRecordTypeId();
         Case caseObj = new Case();
         caseObj.SuppliedEmail = 'abc@bankex.ca';
         caseObj.Subject = '\\"INSOL-90809\\"';
         caseObj.Assigned_To__c = UserInfo.getUserId();
         caseObj.Status = 'InProgress';
-        caseObj.Insolvency__c = insolvencyRec.Id;
+       // caseObj.Insolvency__c = insolvencyRec.Id;
+        caseObj.RecordTypeId=recordtypeID;
         INSERT caseObj;
         
         //EmailMessage record creation
