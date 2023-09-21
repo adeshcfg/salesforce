@@ -21,7 +21,12 @@ global class InsolvencyDragNDropController{
     public Boolean isCommunityUser {set; get;}
     public Boolean isCommunityReadOnlyUser {set; get;}
     public Boolean isGoeasyBankCommunityUser {set; get;}
-    public Id selectedAttId {set;get;}
+       //Added for 5195
+       public Boolean isScotiaBankCommunityUser {set; get;}
+       public Boolean isSDABankCommunityUser {set; get;}
+       public Boolean isFairstoneBankCommunityUser {set; get;}
+       //Ends 5195
+       public Id selectedAttId {set;get;}
     
     //Utility method to populate Attachment types
     public static List<SelectOption> getAllDocumentOptions() {
@@ -77,7 +82,12 @@ global class InsolvencyDragNDropController{
         //Checking if community user
         isCommunityUser = InsolvencyUtil.isCommunityUser();
         isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
-        //Check whether current user is readonly profile or not
+         //Added for 5195
+         isScotiaBankCommunityUser = InsolvencyUtil.isScotiaBankCommunityUser(UserInfo.getProfileId());
+         isSDABankCommunityUser = InsolvencyUtil.isSDABankCommunityUser(UserInfo.getProfileId());
+         isFairstoneBankCommunityUser = InsolvencyUtil.isFairstoneBankCommunityUser(UserInfo.getProfileId());
+         //Ends 5195
+          //Check whether current user is readonly profile or not
         isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser();      
     }
     

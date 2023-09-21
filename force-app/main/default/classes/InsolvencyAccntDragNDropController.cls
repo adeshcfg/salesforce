@@ -23,6 +23,11 @@ global class InsolvencyAccntDragNDropController{
     public Id selectedAttId {set;get;}
     public Boolean isCommunityReadOnlyUser {set; get;}
     public Boolean isGoeasyBankCommunityUser {set; get;}
+    //Added for 5195
+    public Boolean isScotiaBankCommunityUser {set; get;}
+    public Boolean isSDABankCommunityUser {set; get;}
+    public Boolean isFairstoneBankCommunityUser {set; get;}
+    //Ends 5195
     public Boolean isCommunityUser {set; get;}
     public Boolean isEasyFinanacial {set;get;}
 
@@ -91,6 +96,11 @@ global class InsolvencyAccntDragNDropController{
         //Checking if community user
         isCommunityUser = InsolvencyUtil.isCommunityUser();
         isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
+        //Added for 5195
+        isScotiaBankCommunityUser = InsolvencyUtil.isScotiaBankCommunityUser(UserInfo.getProfileId());
+        isSDABankCommunityUser = InsolvencyUtil.isSDABankCommunityUser(UserInfo.getProfileId());
+        isFairstoneBankCommunityUser = InsolvencyUtil.isFairstoneBankCommunityUser(UserInfo.getProfileId());
+        //Ends 5195
         //Checking if read only community user
         isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser(); 
      
