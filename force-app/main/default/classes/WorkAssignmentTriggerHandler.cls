@@ -808,7 +808,7 @@ public class WorkAssignmentTriggerHandler {
                     Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
                     cutomerId = prodCustomer1.Customer__c;
                     if(oldListWorkAss.Status__c == 'Unjustified - Cease and Desist - Active'){
-                        prodcomplaintcount=(decimal)ar.get('comptProductcnt') - 1;
+                        prodcomplaintcount=(Decimal)prdlist.get('comptProductcnt') - 1;
                     }
                     prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
                 }
