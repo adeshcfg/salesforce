@@ -241,7 +241,9 @@ public class WorkAssignmentTriggerHandler {
                 }
                 AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
                                                 WHERE (Product__c IN :custProdId AND Product__c != NULL)
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified') AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request' AND Status__c != 'Unjustified - Cease and Desist - Active') 
+                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
                 system.debug('prodGroupedResults1:'+prodGroupedResults1);
                 Id cutomerId;
                 Decimal prodcomplaintcount = 0;
@@ -396,16 +398,8 @@ public class WorkAssignmentTriggerHandler {
                         pr1.Id=(id)ar.get('Product__c'); 
                         pr1.Number_Of_Open_Complaint__c = 0;
                         pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt'); 
-                        System.Debug('countCHecking@@' +(decimal)ar.get('comptProductcnt'));
-                        if(newListWorkAss.Status__c == 'Closed - Unjustified - Cease and Desist Request'){
-                            pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt') - 1; 
-                        }
-                        //acc.id = prodCustomer.Customer__c;
-                        //acc.Number_Of_Open_Product_Complaint__c = (decimal)ar.get('comptProductcnt');
                         ProductTriggerHandler.runProductTrigger = false;
-                        update pr1;
-                        //update acc;
-                       // PortalProductProcessingAPI.processProduct(pr1.ID);   
+                        update pr1;  
                         ProductTriggerHandler.runProductTrigger = True;
 					}
                 }
@@ -417,31 +411,27 @@ public class WorkAssignmentTriggerHandler {
                 }
                 AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
                                                 WHERE (Product__c IN :custProdId AND Product__c != NULL)
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified') AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request' AND Status__c != 'Unjustified - Cease and Desist - Active') 
+                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
                 system.debug('prodGroupedResults1:'+prodGroupedResults1);
                 Id cutomerId;
                 Decimal prodcomplaintcount = 0;
                 for(AggregateResult prdlist : prodGroupedResults1){
                     Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
                     cutomerId = prodCustomer1.Customer__c;
-                    //system.debug('inside for');
                     prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
-                    //system.debug('prodcomplaintcount::'+prodcomplaintcount);
                 }
                 system.debug('prodcomplaintcount211::'+prodcomplaintcount);
-                //system.debug('cutomerId::'+cutomerId);
                 if(cutomerId != null){
-                    //system.debug('prodcomplaintcount45785:'+prodcomplaintcount);
                     Account acc = new Account();
                     acc.id = cutomerId;
                     acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
-                    //update pr1;
                     CustomerTriggerHandler.runCustomerTrigger= false;
                     update acc;     
                     CustomerTriggerHandler.runCustomerTrigger= true;
                 }
             }else{
-                system.debug('inside else update');
                 system.debug('inside setProductID::' +setProductID);
                  for(Product__c product : [SELECT ID, Name
                                      FROM Product__c
@@ -451,8 +441,7 @@ public class WorkAssignmentTriggerHandler {
                             pr1.Id=product.id; 
                             pr1.Number_Of_Open_Complaint__c=0; 
                             ProductTriggerHandler.runProductTrigger = false;
-                            update pr1;
-                           // PortalProductProcessingAPI.processProduct(pr1.ID);   
+                            update pr1;  
                             ProductTriggerHandler.runProductTrigger = True;
                 }
             }
@@ -782,21 +771,13 @@ public class WorkAssignmentTriggerHandler {
                 for (AggregateResult ar : prodGroupedResults)  {
                     if((decimal)ar.get('comptProductcnt') > 0){
                         Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)ar.get('Product__c')];
-                        //Account acc = new Account(); 
                         customerID.add(prodCustomer.Customer__c);
                         Product__c pr1=new Product__c();
                         pr1.Id=(id)ar.get('Product__c'); 
                         pr1.Number_Of_Open_Complaint__c = 0;
                         pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt');
-                        if(oldListWorkAss.Status__c == 'Closed - Unjustified - Cease and Desist Request'){
-                            pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt') - 1;
-                        }
-                        //acc.id = prodCustomer.Customer__c;
-                        //acc.Number_Of_Open_Product_Complaint__c = (decimal)ar.get('comptProductcnt');
                         ProductTriggerHandler.runProductTrigger = false;
-                        update pr1;
-                        //update acc;
-                      //  PortalProductProcessingAPI.processProduct(pr1.ID);   
+                        update pr1; 
                         ProductTriggerHandler.runProductTrigger = True;
                     }
                 }
@@ -808,31 +789,27 @@ public class WorkAssignmentTriggerHandler {
                 }
                 AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
                                                 WHERE (Product__c IN :custProdId AND Product__c != NULL)
-                                                AND (Status__c != 'Closed') AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request' AND Status__c != 'Unjustified - Cease and Desist - Active') 
+                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
                 system.debug('prodGroupedResults1:'+prodGroupedResults1);
                 Id cutomerId;
                 Decimal prodcomplaintcount = 0;
                 for(AggregateResult prdlist : prodGroupedResults1){
                     Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
                     cutomerId = prodCustomer1.Customer__c;
-                    //system.debug('inside for');
                     prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
-                    //system.debug('prodcomplaintcount::'+prodcomplaintcount);
                 }
                 system.debug('prodcomplaintcount211::'+prodcomplaintcount);
-                //system.debug('cutomerId::'+cutomerId);
                 if(cutomerId != null){
-                    //system.debug('prodcomplaintcount45785:'+prodcomplaintcount);
                     Account acc = new Account();
                     acc.id = cutomerId;
                     acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
-                    //update pr1;
                     CustomerTriggerHandler.runCustomerTrigger= false;
                     update acc;     
                     CustomerTriggerHandler.runCustomerTrigger= true;
                 }
             }else{
-                system.debug('inside else update');
                 system.debug('inside setProductID::' +setProductID);
                  for(Product__c product : [SELECT ID, Name
                                      FROM Product__c
@@ -842,8 +819,7 @@ public class WorkAssignmentTriggerHandler {
                             pr1.Id=product.id; 
                             pr1.Number_Of_Open_Complaint__c=0; 
                             ProductTriggerHandler.runProductTrigger = false;
-                            update pr1;
-                         //   PortalProductProcessingAPI.processProduct(pr1.ID);   
+                            update pr1; 
                             ProductTriggerHandler.runProductTrigger = True;
                 }
             }
