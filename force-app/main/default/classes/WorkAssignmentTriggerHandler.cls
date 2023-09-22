@@ -398,9 +398,7 @@ public class WorkAssignmentTriggerHandler {
                         pr1.Id=(id)ar.get('Product__c'); 
                         pr1.Number_Of_Open_Complaint__c = 0;
                         pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt');
-                        if(newListWorkAss.Status__c == 'Unjustified - Cease and Desist - Active'){
-                            pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt') - 1;
-                        } 
+                         
                         ProductTriggerHandler.runProductTrigger = false;
                         update pr1;  
                         ProductTriggerHandler.runProductTrigger = True;
@@ -423,9 +421,6 @@ public class WorkAssignmentTriggerHandler {
                 for(AggregateResult prdlist : prodGroupedResults1){
                     Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
                     cutomerId = prodCustomer1.Customer__c;
-                    if(newListWorkAss.Status__c == 'Unjustified - Cease and Desist - Active'){
-                        prodcomplaintcount = (Decimal)prdlist.get('comptProductcnt') - 1;
-                    }
                     prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
                 }
                 system.debug('prodcomplaintcount211::'+prodcomplaintcount);
@@ -782,9 +777,6 @@ public class WorkAssignmentTriggerHandler {
                         pr1.Id=(id)ar.get('Product__c'); 
                         pr1.Number_Of_Open_Complaint__c = 0;
                         pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt');
-                        if(oldListWorkAss.Status__c == 'Unjustified - Cease and Desist - Active'){
-                            pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt') - 1;
-                        }
                         ProductTriggerHandler.runProductTrigger = false;
                         update pr1; 
                         ProductTriggerHandler.runProductTrigger = True;
@@ -807,9 +799,6 @@ public class WorkAssignmentTriggerHandler {
                 for(AggregateResult prdlist : prodGroupedResults1){
                     Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
                     cutomerId = prodCustomer1.Customer__c;
-                    if(oldListWorkAss.Status__c == 'Unjustified - Cease and Desist - Active'){
-                        prodcomplaintcount=(Decimal)prdlist.get('comptProductcnt') - 1;
-                    }
                     prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
                 }
                 system.debug('prodcomplaintcount211::'+prodcomplaintcount);
