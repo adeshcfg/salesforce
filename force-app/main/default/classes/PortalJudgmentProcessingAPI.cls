@@ -85,7 +85,14 @@ public class PortalJudgmentProcessingAPI {
                        system.debug(bodyMap.get('ReturnMessage'));
                    }       
                 else{
-                    system.debug('Error Response');
+                    String userName = UserInfo.getName();
+                    API_Error__c apiErrorData = New API_Error__c();
+                    apiErrorData.Error__c = ex.getMessage();
+                    apiErrorData.Action__c = 'API Failed';
+                    apiErrorData.Request__c = judgmentInstance.name;
+                    listAPIErrors.add(apiErrorData);
+                    
+                    CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
                     system.debug(bodyMap.get('ReturnMessage'));
                 }
             }
