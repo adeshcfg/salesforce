@@ -111,6 +111,7 @@ public class PortalJudgmentProcessingAPI {
     //Get Access Token
     public static string getRequestToken() {
         String bodyParams = '';
+        Map<String, Object> wResp;
         try{
             system.debug('apiCallDetails: '+apiCallDetails);
             String dptenandId = apiCallDetails.Tenand_ID__c;
@@ -142,12 +143,9 @@ public class PortalJudgmentProcessingAPI {
             HttpResponse hresp = h.send(req);
             system.debug('hresp: '+hresp);
             system.debug('hresp.getBody(): '+hresp.getBody());
-            Map<String, Object> wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
+            wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
             system.debug('wResp: '+wResp.get('access_token'));
-            //Map<String, Object> resultMap = (Map<String, Object>) wResp.get('access_token');
-            //system.debug('resultMap::'+resultMap);
-            //system.debug('token'+resultMap.get('Token'));
-            return String.valueOf(wResp.get('access_token'));
+            
         }
         catch(Exception ex){
             String userName = UserInfo.getName();
@@ -159,7 +157,7 @@ public class PortalJudgmentProcessingAPI {
             CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiError.Error__c,apiError.Action__c);
         }
         insert listAPIErrors;
-        
+        return String.valueOf(wResp.get('access_token'));
     }
     
 }
