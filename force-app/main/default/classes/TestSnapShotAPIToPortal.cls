@@ -25,13 +25,18 @@ public class TestSnapShotAPIToPortal {
         docStorage.Work_Assignment__c = workAssignment.ID;
         insert docStorage;
        
+       Account customer1 = new Account(FirstName = 'FirstName', LastName = 'Last Name', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId()); 
+        insert customer1;
+       
        Product__c product = new Product__c();
         product.name = 'Test Product';
+       product.Customer__c = customer1.id;
         insert product;
          
         Product__c product2 = new Product__c();
         product2.name = 'Test Product2';
         product.name = 'Test Product';
+       product2.Customer__c = customer1.id;
         insert product2;
         
         Placement__c placement1 = new Placement__c();
@@ -75,7 +80,21 @@ public class TestSnapShotAPIToPortal {
        
        Test.startTest();
        SnapShotAPIToPortal.parse(docStorage.ID,prodIdList);
-        Test.stopTest();
+       SnapShotAPIToPortal.errorJSON errordata = new SnapShotAPIToPortal.errorJSON();
+       errordata.data = 'test';
+       errordata.isSuccess = 'test';
+       errordata.id = 'test';
+       errordata.statusCode = 'test';
+       errordata.tag = 'test';
+       SnapShotAPIToPortal.responseHolder responseHolderdata = new SnapShotAPIToPortal.responseHolder();
+       responseHolderdata.id = 'test';
+       responseHolderdata.status = 'test';
+       SnapShotAPIToPortal.documentsList documentsListdata = new SnapShotAPIToPortal.documentsList();
+       documentsListdata.id = 'test';
+       documentsListdata.placeId = 'test';
+       documentsListdata.objectType = 'test';
+       documentsListdata.fileName = 'test';
+       Test.stopTest();
    }
     
     public static testMethod void testSnapForUniDocId(){
@@ -102,15 +121,20 @@ public class TestSnapShotAPIToPortal {
        Document_Storage__c docStorage = new Document_Storage__c();
         docStorage.Work_Assignment__c = workAssignment.ID;
         insert docStorage;
-       
+        
+       Account customer1 = new Account(FirstName = 'FirstName', LastName = 'Last Name', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId()); 
+        insert customer1;
+        
        Product__c product = new Product__c();
         product.name = 'Test Product';
         product.collection_agency__c = 29;
+        product.Customer__c = customer1.id;
         insert product;
          
         Product__c product2 = new Product__c();
         product2.name = 'Test Product2';
         product2.collection_agency__c = 29;
+        product2.Customer__c = customer1.id;
         insert product2;
         
         Placement__c placement1 = new Placement__c();
@@ -161,7 +185,7 @@ public class TestSnapShotAPIToPortal {
        SnapShotAPIToPortal.parse(DocumentStorageId,prodIdList);
        Test.stopTest();
    }
-     public static testMethod void testSnapForElse(){
+    public static testMethod void testSnapForElse(){
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
        
        API_Call_Details__c  settings = new API_Call_Details__c ();
@@ -186,14 +210,19 @@ public class TestSnapShotAPIToPortal {
         docStorage.Work_Assignment__c = workAssignment.ID;
         insert docStorage;
        
+         Account customer1 = new Account(FirstName = 'FirstName', LastName = 'Last Name', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId()); 
+        insert customer1;
+         
        Product__c product = new Product__c();
         product.name = 'Test Product';
         product.collection_agency__c = 29;
+        product.Customer__c = customer1.id;
         insert product;
          
         Product__c product2 = new Product__c();
         product2.name = 'Test Product2';
         product2.collection_agency__c = 29;
+        product2.Customer__c = customer1.id;
         insert product2;
         
         Placement__c placement1 = new Placement__c();
@@ -234,9 +263,9 @@ public class TestSnapShotAPIToPortal {
         
        List<Id> prodIdList = new List<Id>();
        prodIdList.add(product.ID);
-      
        Test.startTest();
        SnapShotAPIToPortal.parse(docStorage.ID,prodIdList);
        Test.stopTest();
    }
+    
 }

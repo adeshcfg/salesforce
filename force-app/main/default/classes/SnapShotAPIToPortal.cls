@@ -4,6 +4,7 @@ public class SnapShotAPIToPortal {
     public static responseHolder listAccountRecordWrapper = new responseHolder();
     public static errorJSON dataOfErrorJSON = new errorJSON();
     public static String sJOSN;
+    public static List<API_Error__c> listAPIErrors = new List<API_Error__c>();
     public static void parse(String documentStorageId,List<Id> prodIdList){
         List<Agencies> awList  = new List<Agencies>();
         Set<String> placeId = new Set<String>();
@@ -32,7 +33,7 @@ public class SnapShotAPIToPortal {
                 snap.Allocations = awList;
                 sJOSN = JSON.serialize(snap);
                 system.debug('sJOSN::'+sJOSN); 
-            }   
+            }	
         }else{
             List<Product_Staging__c> listProdStaging = [Select Placement_Agency__c ,Identifier__c ,Data_Id__c 
                                                         From Product_Staging__c
@@ -44,7 +45,7 @@ public class SnapShotAPIToPortal {
             for(Product_Staging__c prodStaging : listProdStaging){
                 placeId.add(prodStaging.Placement_Agency__c);
                 
-            }   
+            }	
             
             snap.DocumentStorageId = documentStorageId;
             for(String place : placeId){
@@ -63,7 +64,7 @@ public class SnapShotAPIToPortal {
             sJOSN = JSON.serialize(snap);
         }
         
-        
+        List<API_Error__c> apiError = new List<API_Error__c>();
         system.debug('sJOSN::'+sJOSN);
         
         //Get access token for http request
@@ -75,34 +76,27 @@ public class SnapShotAPIToPortal {
             Http h = new Http();
             // Instantiate a new HTTP request
             HttpRequest req = new HttpRequest();
-            // system.debug('productEquipmentJSONRequest: '+productEquipmentJSONRequest);
             req.setBody(sJOSN);
-            system.debug('req body'+req.getBody());
             req.setHeader('Authorization', 'Bearer ' + accToken);
             req.setHeader('Content-Type', 'application/json;charset=UTF-8');
             apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'services');
             req.setEndpoint(apiCallDetails.PDF_API_URL__c+'snapshots');
             req.setMethod('POST');         
             system.debug('req endpoint:: '+req.getEndpoint());
-            system.debug('req body:: '+req.getBody());
-            //productEuipmentInstance.Outbound_API_Request_Body__c = req.getBody();
             system.debug('Outbound req body:: '+req.getBody());
-            system.debug('req:: '+req);
-            
-            
+                        
             try{
                 // Send the request, and return a response
                 HttpResponse res = h.send(req);
                 system.debug('res.getBody(): '+res.getBody());
                 Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                 //productEuipmentInstance.Outbound_API_Response_Body__c = res.getBody();
-                system.debug('Outbound res body::' +res.getBody());
                 
                 if(res.getStatusCode() == 202){
                     system.debug('inside before 202');
                     listAccountRecordWrapper = deSerializeJSON(res.getBody());
-                    system.debug('inside after 202');
-                   
+                    system.debug('inside after 202'+listAccountRecordWrapper);
+                    system.debug('listAccountRecordWrapper 202'+listAccountRecordWrapper.code);
                     document_storage__c docData;
                     if(!documentStorageId.contains('DS_ACC')){
                         docData = [select id,Work_Assignment__c from document_storage__c where id = :documentStorageId];
@@ -126,14 +120,11 @@ public class SnapShotAPIToPortal {
                         //Added by satyajit for ticket 4217
                         Database.executeBatch(new ErrorCSVFileGenerationBatch(documentStorageId,'Product Allocation File'),200);
                     }
-                    
-                    //system.debug(bodyMap.get('ReturnMessage'));
                 }       
                 else{
-                    system.debug('inside else 202');
                     //Error handling
                     dataOfErrorJSON = deSerializeErrorJSON(res.getBody());
-                    system.debug('inside else after 202');
+                    system.debug('inside else after 202'+dataOfErrorJSON);
                     system.debug('docData::'+documentStorageId);
                     
                     document_storage__c docData;
@@ -163,59 +154,79 @@ public class SnapShotAPIToPortal {
                     //When snapshot failed from product and from pool screen.
                     if(documentStorageId.contains('DS_ACC') ){
                         String userName = UserInfo.getName();
-                        system.debug('inside email');
                         CFG_EmailNotification.snapshotFailedEmailNotification(userName,dataOfErrorJSON.returnMessage,documentStorageId);
                         
                     }
-                    
-                    system.debug('dataOfErrorJSON::'+dataOfErrorJSON);
-                    system.debug('Error Response');
-                    system.debug(bodyMap.get('ReturnMessage'));
                 }
             }
             catch(Exception ex){
-                system.debug('exception ex: '+ex);
+                //4735:Error Handling
+                String DataIds = '';
+                String userName = UserInfo.getName();
+                for(Agencies agencyData : snap.Allocations){
+                    for(String DataId : agencyData.DataIds){
+                        DataIds += DataId +',';
+                    }
+                }
+                DataIds = DataIds.removeEnd(', ');
+                API_Error__c apiErrorData = New API_Error__c();
+                apiErrorData.Error__c = ex.getMessage();
+                apiErrorData.End_Point__c = 'Process Distressed';
+                apiErrorData.Action__c = 'API Failed';
+                apiErrorData.Request__c = DataIds;
+                listAPIErrors.add(apiErrorData);
+                
+                CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
             }
-            
+            insert listAPIErrors;
         }
-        
     }
     
     //Get Access Token
     public static string getRequestToken() {
-        system.debug('apiCallDetails: '+apiCallDetails);
-        String dptenandId = apiCallDetails.Tenand_ID__c;
-        String dpapiProxyClientId = apiCallDetails.Proxy_Client_ID__c;
-        String dpapiClientClientId = apiCallDetails.Client_ID__c;
-        String dpapiClientSecret = apiCallDetails.Client_Secret__c;
-        String authorizationtUrl =  apiCallDetails.AuthorizationtUrl__c;
-        String parsePDFApi =  apiCallDetails.PDF_API_URL__c;
-        
-        authorizationtUrl = authorizationtUrl.replace('{{tenandId}}', dptenandId);
-        system.debug('authorizationtUrl changed: '+authorizationtUrl);
-        String bodyParams =  'client_id='+dpapiClientClientId;
-        bodyParams =  bodyParams+'&client_secret='+dpapiClientSecret;
-        bodyParams =  bodyParams+'&scope='+apiCallDetails.Scope_Prefix__c+dpapiProxyClientId+apiCallDetails.Scope_Suffix__c;
-        bodyParams =  bodyParams+'&grant_type=client_credentials';
-        
-        system.debug('bodyParams: '+bodyParams);        
-        system.debug('authorizationtUrl: '+authorizationtUrl);
-        
-        Http h = new Http();
-        HttpRequest req = new HttpRequest();
-        req.setMethod('POST');
-        req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
-        req.setBody(bodyParams);
-        req.setHeader('Content-Length', String.valueOf(bodyParams.length()));
-        req.setEndpoint(authorizationtUrl);
-        
-        system.debug('req: '+req);
-        HttpResponse hresp = h.send(req);
-        system.debug('hresp: '+hresp);
-        system.debug('hresp.getBody(): '+hresp.getBody());
-        
-        Map<String, Object> wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
-        system.debug('wResp: '+wResp.get('access_token'));
+        system.debug('SnapShotAPIToPortal getRequestToken apiCallDetailsx: '+apiCallDetails);
+        Map<String, Object> wResp;
+        String bodyParams = '';
+        try{
+            String dptenandId = apiCallDetails.Tenand_ID__c;
+            String dpapiProxyClientId = apiCallDetails.Proxy_Client_ID__c;
+            String dpapiClientClientId = apiCallDetails.Client_ID__c;
+            String dpapiClientSecret = apiCallDetails.Client_Secret__c;
+            String authorizationtUrl =  apiCallDetails.AuthorizationtUrl__c;
+            String parsePDFApi =  apiCallDetails.PDF_API_URL__c;
+            
+            authorizationtUrl = authorizationtUrl.replace('{{tenandId}}', dptenandId);
+            bodyParams =  'client_id='+dpapiClientClientId;
+            bodyParams =  bodyParams+'&client_secret='+dpapiClientSecret;
+            bodyParams =  bodyParams+'&scope='+apiCallDetails.Scope_Prefix__c+dpapiProxyClientId+apiCallDetails.Scope_Suffix__c;
+            bodyParams =  bodyParams+'&grant_type=client_credentials';
+                  
+            system.debug('authorizationtUrl: '+authorizationtUrl);
+            
+            Http h = new Http();
+            HttpRequest req = new HttpRequest();
+            req.setMethod('POST');
+            req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+            req.setBody(bodyParams);
+            req.setHeader('Content-Length', String.valueOf(bodyParams.length()));
+            req.setEndpoint(authorizationtUrl);
+            
+            HttpResponse hresp = h.send(req);
+            wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
+            
+        }
+        catch(Exception ex){
+            //4735:error handling
+            String userName = UserInfo.getName();
+            API_Error__c apiError = New API_Error__c();
+            apiError.Error__c = ex.getMessage();
+            apiError.End_Point__c = 'Process Distressed';
+            apiError.Action__c = 'Access Token';
+            apiError.Response__c = bodyParams;
+            listAPIErrors.add(apiError); 
+            CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiError.Error__c,apiError.Action__c);
+        }
+        insert listAPIErrors;
         return String.valueOf(wResp.get('access_token'));
     }
     
@@ -265,5 +276,4 @@ public class SnapShotAPIToPortal {
         public String DocumentStorageId {get; set;}
         public List<Agencies> Allocations {get; set;}
     }
-    
 }
