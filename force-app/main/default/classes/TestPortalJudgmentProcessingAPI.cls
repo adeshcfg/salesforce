@@ -47,7 +47,7 @@ public class TestPortalJudgmentProcessingAPI {
         judg.Legal_Status__c='Post-Judgment';
         judg.Legal_Sub_Status__c='Dormant';
         judg.Legal_Agency__c = 'Test Agency';
-        
+        judg.name = '1234';
         insert judg;
         
         PortalJudgmentProcessingAPI.processJudgment(judg.Id); 
