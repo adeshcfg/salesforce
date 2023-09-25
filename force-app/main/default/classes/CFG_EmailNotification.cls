@@ -189,4 +189,41 @@ public class CFG_EmailNotification {
         }
         
     }
+    
+    //4735:notify to CFG App Support if snapshot failed
+    public static void snapshotFailedEmailNotifyTOCFGSupport(String userName,String exceptionMsg,String action){
+        //send mail to CFG App Support
+        //String userEmail ='appsupport@canaccede.com';
+        User activeUser;
+        if(!Test.isRunningTest()){
+            activeUser = [Select Email From User where name = : userName limit 1];
+        }
+        String userEmail ='';
+        userEmail ='sulbha.konodia@canaccede.com'+',';
+        if(!Test.isRunningTest()){
+            userEmail += activeUser.Email ;
+        }else{
+            userEmail = userName;
+        }
+        List<String> lstEmail = userEmail.split(',');
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+            
+        mail.setToAddresses(lstEmail);
+        mail.setSenderDisplayName('Salesforce Support');
+
+        mail.setSubject('Snapshot is failed');   
+        mail.setUseSignature(false);
+        
+        //mail.setPlainTextBody('For your task '+workAssigName+' '+workAssigTitle+' the allocation process is completed. \n\n\nClick to process allocation record link:\n\n\n\n Thanks');
+        mail.setHtmlBody('Snapshot is falied please find the below error and kindly contact with your technical team:<br/><br/>'+exceptionMsg+'on action'+action+'<br/><br/><br/>Thanks,<br/>CFG support');
+    
+        // Send the email you have created.
+        try{
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+        }
+        catch(Exception e){
+            system.debug('Exception::'+e.getMessage());
+        }
+        
+    }
 }
