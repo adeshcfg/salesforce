@@ -106,7 +106,7 @@ public class PortalJudgmentProcessingAPI {
                 API_Error__c apiErrorData = New API_Error__c();
                 apiErrorData.Error__c = ex.getMessage();
                 apiErrorData.Action__c = 'API Failed';
-                apiErrorData.Request__c = judgmentInstance.name;
+                //apiErrorData.Request__c = judgmentInstance.name;
                 listAPIErrors.add(apiErrorData);
                 
                 CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
