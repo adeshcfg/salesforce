@@ -85,7 +85,19 @@ public class PortalJudgmentProcessingAPI {
                        system.debug(bodyMap.get('ReturnMessage'));
                    }       
                 else{
-                    system.debug('Error Response');
+                    String userName = UserInfo.getName();
+                    API_Error__c apiErrorData = New API_Error__c();
+                    apiErrorData.Action__c = 'API Failed';
+                    apiErrorData.Request__c = judgmentInstance.name;
+                    if(res.getBody().length() > 131071){
+                                
+                        apiErrorData.Response__c =res.getBody().subString(0,131071);
+                    }else{
+                        apiErrorData.Response__c =res.getBody();
+                    }
+                    listAPIErrors.add(apiErrorData);
+                    
+                    CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
                     system.debug(bodyMap.get('ReturnMessage'));
                 }
             }
@@ -94,12 +106,14 @@ public class PortalJudgmentProcessingAPI {
                 API_Error__c apiErrorData = New API_Error__c();
                 apiErrorData.Error__c = ex.getMessage();
                 apiErrorData.Action__c = 'API Failed';
-                apiErrorData.Request__c = judgmentInstance.name;
+                //apiErrorData.Request__c = judgmentInstance.name;
                 listAPIErrors.add(apiErrorData);
                 
                 CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
             }
-            
+
+            insert listAPIErrors;
+
             if(judgmentInstance != NULL){
                 JudgmentTriggerHandler.runJudgmentTrigger = false;
                 update judgmentInstance;
