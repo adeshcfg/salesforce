@@ -20,7 +20,7 @@ public class PortalJudgmentProcessingAPI {
     @future (callout=true)
     public static void processJudgment(ID judgmentId){ 
                                  
-        String Query = 'SELECT ID, Name,Placed_Agency__c,Placed_Province__c,Writ_Renewal_Date_Formula__c,Garnishment_Renewal_Date_Formula__c,';
+        String Query = 'SELECT ID, ';
         for(Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping){
             if(fieldMappingInstance.Object_Name__c == 'Judgment'){
                 Query += fieldMappingInstance.Field_API__c + ', ';
