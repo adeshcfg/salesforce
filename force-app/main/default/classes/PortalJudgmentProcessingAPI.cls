@@ -87,9 +87,14 @@ public class PortalJudgmentProcessingAPI {
                 else{
                     String userName = UserInfo.getName();
                     API_Error__c apiErrorData = New API_Error__c();
-                    apiErrorData.Error__c = ex.getMessage();
                     apiErrorData.Action__c = 'API Failed';
                     apiErrorData.Request__c = judgmentInstance.name;
+                    if(res.getBody().length() > 131071){
+                                
+                        apiError.Response__c =res.getBody().subString(0,131071);
+                    }else{
+                        apiError.Response__c =res.getBody();
+                    }
                     listAPIErrors.add(apiErrorData);
                     
                     CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
@@ -107,6 +112,8 @@ public class PortalJudgmentProcessingAPI {
                 CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
             }
             
+            insert listAPIErrors;
+
             if(judgmentInstance != NULL){
                 JudgmentTriggerHandler.runJudgmentTrigger = false;
                 update judgmentInstance;
