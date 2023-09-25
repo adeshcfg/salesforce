@@ -434,16 +434,45 @@ public class WorkAssignmentTriggerHandler {
                 }
             }else{
                 system.debug('inside setProductID::' +setProductID);
-                 for(Product__c product : [SELECT ID, Name
+                 for(Product__c product : [SELECT ID, Name,Customer__c
                                      FROM Product__c
                                      WHERE ID IN :setProductID ]){
                                          system.debug('inside else test product' +product);
+                    customerID.add(product.Customer__c);                     
                     Product__c pr1=new Product__c();
                             pr1.Id=product.id; 
                             pr1.Number_Of_Open_Complaint__c=0; 
                             ProductTriggerHandler.runProductTrigger = false;
                             update pr1;  
                             ProductTriggerHandler.runProductTrigger = True;
+                }
+                set<Id> custProdId = new set<ID>();
+                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID];
+                system.debug('cutProdList:'+cutProdList);
+                for(Product__C custprod : cutProdList){
+                    custProdId.add(custprod.Id);
+                }
+                AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
+                                                WHERE (Product__c IN :custProdId AND Product__c != NULL)
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request') 
+                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
+                system.debug('prodGroupedResults1:'+prodGroupedResults1);
+                Id cutomerId;
+                Decimal prodcomplaintcount = 0;
+                for(AggregateResult prdlist : prodGroupedResults1){
+                    Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
+                    cutomerId = prodCustomer1.Customer__c;
+                    prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
+                }
+                system.debug('prodcomplaintcount211::'+prodcomplaintcount);
+                if(cutomerId != null){
+                    Account acc = new Account();
+                    acc.id = cutomerId;
+                    acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
+                    CustomerTriggerHandler.runCustomerTrigger= false;
+                    update acc;     
+                    CustomerTriggerHandler.runCustomerTrigger= true;
                 }
             }
         }
@@ -812,16 +841,45 @@ public class WorkAssignmentTriggerHandler {
                 }
             }else{
                 system.debug('inside setProductID::' +setProductID);
-                 for(Product__c product : [SELECT ID, Name
+                 for(Product__c product : [SELECT ID, Name,Customer__c
                                      FROM Product__c
                                      WHERE ID IN :setProductID ]){
                                          system.debug('inside else test product' +product);
+                    customerID.add(product.Customer__c);                     
                     Product__c pr1=new Product__c();
                             pr1.Id=product.id; 
                             pr1.Number_Of_Open_Complaint__c=0; 
                             ProductTriggerHandler.runProductTrigger = false;
                             update pr1; 
                             ProductTriggerHandler.runProductTrigger = True;
+                }
+                set<Id> custProdId = new set<ID>();
+                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID];
+                system.debug('cutProdList:'+cutProdList);
+                for(Product__C custprod : cutProdList){
+                    custProdId.add(custprod.Id);
+                }
+                AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
+                                                WHERE (Product__c IN :custProdId AND Product__c != NULL)
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request') 
+                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
+                system.debug('prodGroupedResults1:'+prodGroupedResults1);
+                Id cutomerId;
+                Decimal prodcomplaintcount = 0;
+                for(AggregateResult prdlist : prodGroupedResults1){
+                    Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
+                    cutomerId = prodCustomer1.Customer__c;
+                    prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
+                }
+                system.debug('prodcomplaintcount211::'+prodcomplaintcount);
+                if(cutomerId != null){
+                    Account acc = new Account();
+                    acc.id = cutomerId;
+                    acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
+                    CustomerTriggerHandler.runCustomerTrigger= false;
+                    update acc;     
+                    CustomerTriggerHandler.runCustomerTrigger= true;
                 }
             }
         }
