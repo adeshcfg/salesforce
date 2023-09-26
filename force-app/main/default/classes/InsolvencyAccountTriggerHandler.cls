@@ -1077,7 +1077,7 @@ update config;
                 ||
                 (insolAccntNew.Total_Account_Recovery__c != insolAccntOld.Total_Account_Recovery__c)
                 ||
-                ((insolAccntOld.Claim_Type__c == NULL && insolAccntNew.Claim_Type__c != NULL) || (insolAccntOld.Claim_Type__c != NULL && !insolAccntNew.Claim_Type__c.equalsIgnoreCase(insolAccntOld.Claim_Type__c)))
+                ((insolAccntOld.Claim_Type__c != NULL && insolAccntNew.Claim_Type__c == NULL) || (insolAccntOld.Claim_Type__c == NULL && insolAccntNew.Claim_Type__c != NULL) || (insolAccntOld.Claim_Type__c != NULL && !insolAccntNew.Claim_Type__c.equalsIgnoreCase(insolAccntOld.Claim_Type__c)))
                 ||
                 (!insolAccntNew.Client_Identifier__c.equalsIgnoreCase(insolAccntOld.Client_Identifier__c))
                 ||
