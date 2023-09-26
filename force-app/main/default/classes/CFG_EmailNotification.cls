@@ -226,4 +226,41 @@ public class CFG_EmailNotification {
         }
         
     }
+    
+    public static void apiFailedEmailNotifyTOCFGSupport(String userName,String exceptionMsg,String action){
+        //send mail to CFG App Support
+        //String userEmail ='appsupport@canaccede.com';
+        system.debug('inside apiFailedEmailNotifyTOCFGSupport');
+        User activeUser;
+        if(!Test.isRunningTest()){
+            activeUser = [Select Email From User where name = : userName limit 1];
+        }
+        String userEmail ='';
+        userEmail ='sulbha.konodia@canaccede.com'+',';
+        if(!Test.isRunningTest()){
+            userEmail += activeUser.Email ;
+        }else{
+            userEmail = userName;
+        }
+        List<String> lstEmail = userEmail.split(',');
+        system.debug('lstEmail'+lstEmail);
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+            
+        mail.setToAddresses(lstEmail);
+        mail.setSenderDisplayName('Salesforce Support');
+
+        mail.setSubject('API is failed');   
+        mail.setUseSignature(false);
+        
+        mail.setHtmlBody('API is falied please find the below error and kindly contact with your technical team:<br/><br/>'+exceptionMsg+'on action'+action+'<br/><br/><br/>Thanks,<br/>CFG support');
+    
+        // Send the email you have created.
+        try{
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+        }
+        catch(Exception e){
+            system.debug('Exception::'+e.getMessage());
+        }
+        
+    }
 }
