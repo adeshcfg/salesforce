@@ -97,8 +97,8 @@ public class PortalJudgmentProcessingAPI {
                     }
                     listAPIErrors.add(apiErrorData);
                     
-                    CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
-                    system.debug(bodyMap.get('ReturnMessage'));
+                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Response__c,apiErrorData.Action__c);
+                    system.debug('testing::'+bodyMap.get('ReturnMessage'));
                 }
             }
             catch(Exception ex){
@@ -112,7 +112,7 @@ public class PortalJudgmentProcessingAPI {
                 
                 listAPIErrors.add(apiErrorData);
                 
-                CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
+                CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
             }
 
             insert listAPIErrors;
@@ -171,7 +171,7 @@ public class PortalJudgmentProcessingAPI {
             apiError.Action__c = 'Access Token';
             apiError.Response__c = bodyParams;
             listAPIErrors.add(apiError); 
-            CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport(userName,apiError.Error__c,apiError.Action__c);
+            CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiError.Error__c,apiError.Action__c);
         }
         insert listAPIErrors;
         return String.valueOf(wResp.get('access_token'));
