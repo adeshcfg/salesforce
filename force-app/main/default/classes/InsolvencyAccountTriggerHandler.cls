@@ -1079,9 +1079,9 @@ update config;
                 ||
                 ((insolAccntOld.Claim_Type__c != NULL && insolAccntNew.Claim_Type__c == NULL) || (insolAccntOld.Claim_Type__c == NULL && insolAccntNew.Claim_Type__c != NULL) || (insolAccntOld.Claim_Type__c != NULL && !insolAccntNew.Claim_Type__c.equalsIgnoreCase(insolAccntOld.Claim_Type__c)))
                 ||
-                (!insolAccntNew.Client_Identifier__c.equalsIgnoreCase(insolAccntOld.Client_Identifier__c))
+                ((insolAccntOld.Client_Identifier__c != NULL && insolAccntNew.Client_Identifier__c == NULL) || (insolAccntOld.Client_Identifier__c != NULL && insolAccntNew.Client_Identifier__c == NULL) ||(insolAccntOld.Client_Identifier__c != NULL && !insolAccntNew.Client_Identifier__c.equalsIgnoreCase(insolAccntOld.Client_Identifier__c)))
                 ||
-                (!insolAccntNew.Insolvency_Status__c.equalsIgnoreCase(insolAccntOld.Insolvency_Status__c))
+                ((insolAccntOld.Insolvency_Status__c != NULL && insolAccntNew.Insolvency_Status__c == NULL) || (insolAccntOld.Insolvency_Status__c != NULL && insolAccntNew.Insolvency_Status__c == NULL) || (insolAccntOld.Insolvency_Status__c != NULL && !insolAccntNew.Insolvency_Status__c.equalsIgnoreCase(insolAccntOld.Insolvency_Status__c)))
             )
             {               
                 insolAccntsToProcess.add(insolAccntNew);
