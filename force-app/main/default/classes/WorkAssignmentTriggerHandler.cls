@@ -220,7 +220,7 @@ public class WorkAssignmentTriggerHandler {
                 if((decimal)ar.get('comptProductcnt') > 0){
                     Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)ar.get('Product__c')];
                     //Account acc = new Account();
-                    customerID.add(prodCustomer.Customer__c);
+                  if(prodCustomer.Customer__c != NULL)  customerID.add(prodCustomer.Customer__c); //added null check for #5223
                     Product__c pr1=new Product__c();
                     pr1.Id=(id)ar.get('Product__c'); 
                     pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt'); 
@@ -234,7 +234,7 @@ public class WorkAssignmentTriggerHandler {
             }
             ProductTriggerHandler.runProductTrigger = True;
                  set<Id> custProdId = new set<ID>();
-                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID];
+                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID LIMIT 50000]; //added LIMIT for #5223
                 system.debug('cutProdList:'+cutProdList);
                 for(Product__C custprod : cutProdList){
                     custProdId.add(custprod.Id);
