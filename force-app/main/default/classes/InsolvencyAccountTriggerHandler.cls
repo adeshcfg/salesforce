@@ -1077,7 +1077,7 @@ update config;
                 ||
                 (insolAccntNew.Total_Account_Recovery__c != insolAccntOld.Total_Account_Recovery__c)
                 ||
-                ((ISBLANK(insolAccntOld.Claim_Type__c) && !ISBLANK(insolAccntNew.Claim_Type__c)) || (!ISBLANK(insolAccntOld.Claim_Type__c) && !insolAccntNew.Claim_Type__c.equalsIgnoreCase(insolAccntOld.Claim_Type__c)))
+                ((ISBLANK(insolAccntOld.Claim_Type__c) && !ISBLANK(insolAccntNew.Claim_Type__c)) || (!ISBLANK(insolAccntOld.Claim_Type__c) && !insolAccntNew.Claim_Type__c.equalsIgnoreCase(insolAccntOld.Claim_Type__c))) // Added NULL  check for 5227
                 ||
                 (!insolAccntNew.Client_Identifier__c.equalsIgnoreCase(insolAccntOld.Client_Identifier__c))
                 ||
