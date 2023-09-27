@@ -91,7 +91,7 @@
                 </div><br/>
                 Yours truly,
                 <br/><br/>
-                <span style="font-weight:bold;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)}</span>
+                <span style="font-weight:bold;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)}<br/><br/></span>
                 <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}">{!pocPackage.Client_Company_Name__c}.,</span>    
                 <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA</span>
                 
@@ -106,7 +106,7 @@
                       	<td style="vertical-align:top;display:{!IF(insolvAcc.Client_Identifier__c == 'Fairstone', 'block;', 'none;')}">By:</td>
                         <td style='display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}'>
                             <br/>Robert Anderson<br/>
-                            Vice President, ScotiaHelps Canada</td>
+                            Vice President, ScotiaHelps Canada <br/><br/><br/><br/><br/><br/></td>
                         <td style='display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}'>_________________________
                             <br/>Name: Jahed Jahed<br/>
                             Title: VP Collections and Fraud Operation</td>
@@ -283,7 +283,7 @@
                 <div></div>
                 <br/><br/><!-- <br/><br/> -->
                 
-                
+                <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                 <br/>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
