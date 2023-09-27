@@ -94,19 +94,19 @@
                 <span style="font-weight:bold;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)}</span>
                 <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}">{!pocPackage.Client_Company_Name__c}.,</span>    
                 <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA</span>
-                <br/><br/>
+                
                 <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
                 <br/><br/><br/><br/>
                 </apex:outputPanel>
-                <span style="display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>
-                <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/><br/><br/></span>
+                <!-- <span style="display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span> -->
+                <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><br/><br/><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/><br/><br/></span>
                 <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c != 'Goeasy'}">
                 <table style="margin-top:-30px;">
                     <tr>
-                      	<td style="vertical-align:top;">By:</td>
-                        <td style='display:{!IF(insolvAcc.Client_Identifier__c != "Fairstone", "block;", "none;")}'>_________________________
-                            <br/>Name: Graham Anderson<br/>
-                            Title: VP, Retail &amp; Small Business Collections, Fraud and Quality Assurance</td>
+                      	<td style="vertical-align:top;display:{!IF(insolvAcc.Client_Identifier__c == 'Fairstone', 'block;', 'none;')}">By:</td>
+                        <td style='display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}'>
+                            <br/>Robert Anderson<br/>
+                            Vice President, ScotiaHelps Canada</td>
                         <td style='display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}'>_________________________
                             <br/>Name: Jahed Jahed<br/>
                             Title: VP Collections and Fraud Operation</td>
