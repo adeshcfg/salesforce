@@ -219,15 +219,15 @@
             <span style="font-weight:bold;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name_French__c)}</span>
             <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}">{!(pocPackage.Client_Company_Name__c)} </span>
             <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA</span>
-            <br/><br/>
-            <span style="display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>
-            <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>    
+            
+           <!-- <span style="display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span> -->
+            <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><br/><br/> <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>    
             <table style="margin-top:-20px;">
                 <tr>
-                    <td style="vertical-align:top;font-family:'Arial Unicode MS';display:{!IF(insolvAcc.Client_Identifier__c != "Goeasy", "block;", "none;")}">Par:</td>
-                    <td style='font-family:"Arial Unicode MS";display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}'>_________________________
-                    <br/>Nom: Graham Anderson<br/>
-                    Titre: VP, Retail &amp; Small Business Collections, Fraud and Quality Assurance</td>
+                    <td style="vertical-align:top;font-family:'Arial Unicode MS';display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}">Par:</td>
+                    <td style='font-family:"Arial Unicode MS";display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}'>
+                    <br/>Robert Anderson<br/>
+                    Vice-président, Centre de recouvrement pour le Canada</td>
                     <td style='font-family:"Arial Unicode MS";display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}'>_________________________
                     <br/>Nom: Jahed Jahed<br/>
                     Titre: VP Collections and Fraud Operation</td>
