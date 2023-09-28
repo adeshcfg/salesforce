@@ -99,7 +99,7 @@
                 <br/><br/><br/><br/>
                 </apex:outputPanel>
                 <!-- <span style="display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span> -->
-                <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><br/><br/><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/><br/><br/></span>
+                <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><br/><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/><br/><br/></span>
                 <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c != 'Goeasy'}">
                 <table style="margin-top:-30px;">
                     <tr>
