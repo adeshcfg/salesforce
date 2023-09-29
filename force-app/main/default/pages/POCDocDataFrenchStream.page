@@ -277,6 +277,7 @@
                 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Indiquez sur une feuille annexée les renseignements à l'appui de la réclamation prioritaire.)
                 <div></div>
+                <br/>
                 <!-- <br/> -->
                 <!--<br/><br/>-->
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 

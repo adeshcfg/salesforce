@@ -96,7 +96,7 @@
                 <span style="font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}">{!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA</span>
                 
                 <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
-                <br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/>
                 </apex:outputPanel>
                 <!-- <span style="display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span> -->
                 <span style="padding-left:30px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><br/><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/><br/><br/></span>
