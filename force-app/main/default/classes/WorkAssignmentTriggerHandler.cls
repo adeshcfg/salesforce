@@ -434,11 +434,13 @@ public class WorkAssignmentTriggerHandler {
                 }
             }else{
                 system.debug('inside setProductID::' +setProductID);
+                Id custId;
                  for(Product__c product : [SELECT ID, Name,Customer__c
                                      FROM Product__c
                                      WHERE ID IN :setProductID ]){
                                          system.debug('inside else test product' +product);
-                    customerID.add(product.Customer__c);                     
+                    customerID.add(product.Customer__c);
+                    custId = product.Customer__c;                 
                     Product__c pr1=new Product__c();
                             pr1.Id=product.id; 
                             pr1.Number_Of_Open_Complaint__c=0; 
@@ -446,8 +448,10 @@ public class WorkAssignmentTriggerHandler {
                             update pr1;  
                             ProductTriggerHandler.runProductTrigger = True;
                 }
+                system.debug('customerID:'+customerID);
                 set<Id> custProdId = new set<ID>();
                 List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID];
+                
                 system.debug('cutProdList:'+cutProdList);
                 for(Product__C custprod : cutProdList){
                     custProdId.add(custprod.Id);
@@ -473,6 +477,18 @@ public class WorkAssignmentTriggerHandler {
                     CustomerTriggerHandler.runCustomerTrigger= false;
                     update acc;     
                     CustomerTriggerHandler.runCustomerTrigger= true;
+                }
+                system.debug('custId::'+custId);
+                if(prodGroupedResults1.isEmpty()) { 
+                    if(custId != null){
+                        system.debug('inside custId::'+custId);
+                        Account acc = new Account();
+                        acc.id = custId;
+                        acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
+                        CustomerTriggerHandler.runCustomerTrigger= false;
+                        update acc;     
+                        CustomerTriggerHandler.runCustomerTrigger= true;
+                    }
                 }
             }
         }
@@ -840,12 +856,14 @@ public class WorkAssignmentTriggerHandler {
                     CustomerTriggerHandler.runCustomerTrigger= true;
                 }
             }else{
+                Id custId;
                 system.debug('inside setProductID::' +setProductID);
                  for(Product__c product : [SELECT ID, Name,Customer__c
                                      FROM Product__c
                                      WHERE ID IN :setProductID ]){
                                          system.debug('inside else test product' +product);
-                    customerID.add(product.Customer__c);                     
+                    customerID.add(product.Customer__c);  
+                    custId = product.Customer__c;                 
                     Product__c pr1=new Product__c();
                             pr1.Id=product.id; 
                             pr1.Number_Of_Open_Complaint__c=0; 
@@ -880,6 +898,18 @@ public class WorkAssignmentTriggerHandler {
                     CustomerTriggerHandler.runCustomerTrigger= false;
                     update acc;     
                     CustomerTriggerHandler.runCustomerTrigger= true;
+                }
+                system.debug('custId::'+custId);
+                if(prodGroupedResults1.isEmpty()) { 
+                    if(custId != null){
+                        system.debug('inside custId::'+custId);
+                        Account acc = new Account();
+                        acc.id = custId;
+                        acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
+                        CustomerTriggerHandler.runCustomerTrigger= false;
+                        update acc;     
+                        CustomerTriggerHandler.runCustomerTrigger= true;
+                    }
                 }
             }
         }
