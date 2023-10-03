@@ -52,10 +52,9 @@
                 </apex:outputText>
                 <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Fairstone' || insolvAcc.Client_Identifier__c == 'Goeasy'}"> 
                     We are writing to notify you that the account and related claim owing to us (the "Account") by the debtor (the "Debtors") described in the attached proof of
-                    claim is in the process of being purchased by {!pocPackage.CFG_Office_Name_2__c}. We understand the Debtor is subject to proceedings under the
+                    claim is in the process of being purchased by <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Fairstone'}"> {!pocPackage.CFG_Office_Name_2__c}.</apex:outputText> <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}"> {!pocPackage.CFG_Office_Name__c}.</apex:outputText> We understand the Debtor is subject to proceedings under the
                     <span style="font-family: Times New Roman; font-style:italic;">Bankruptcy and Insolvency Act </span>(Canada) in respect of which you have been appointed as bankruptcy trustee or proposal trustee, as the case may be.
                 </apex:outputText>
-                
                 <br/><br/>
                 <apex:outputText rendered="{!insolvAcc.Client_Identifier__c != 'Goeasy'}">
                 We hereby authorize {!pocPackage.CFG_Office_Name_2__c}. to file the attached proof of claim for the account described in the proof of claim in the name of {!pocPackage.CFG_Office_Name_2__c}.
