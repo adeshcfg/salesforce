@@ -15,7 +15,7 @@ public class DocumentResponseParser {
    public static Set<String> sdaBank = new Set<String>{'SDA', 'SCOTIA DEALER ADVANTAGE'};
    public static Set<String> splBank = new Set<String>{'5307', '628181'};
    public static Set<String> canaccedeBank = new Set<String>{'CANACCEDE'};
-   public static Set<String> fidemBank = new Set<String>{'AFFIRM', 'FIDEM'};
+   public static Set<String> fidemBank = new Set<String>{'FIDEM'};
    public static Set<String> fairstone = new Set<String>{'FAIRSTONE','WALMART','DUO'};
    public static Set<String> fairstoneAcc = new Set<String>{'5434','5435'};
    public static Set<String> goEasy = new Set<String>{'EASYFINANCIAL SERVICES', 'EASY FINANCIAL SERVICES', 'EASYFINANCIAL', 'EASY FINANCIAL', 'GOEASY', 'GO EASY'};//5093: 'EASYHOME', 'EASY HOME',
