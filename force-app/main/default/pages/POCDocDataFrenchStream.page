@@ -47,7 +47,8 @@
                 </table>
                 <hr style="border-color:black;"/>
                 <br/>
-                Nous vous écrivons pour vous informer que le compte et la réclamation connexe qui nous sont dus (le « compte ») par le débiteur (le « débiteur ») décrit dans la preuve de réclamation ci-jointe est en cours d’achat par {!pocPackage.CFG_Office_Name_2__c}. 
+                Nous vous écrivons pour vous informer que le compte et la réclamation connexe qui nous sont dus (le « compte ») par le débiteur (le « débiteur ») décrit dans la preuve de réclamation ci-jointe est en cours d’achat par
+                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Fairstone'}"> {!pocPackage.CFG_Office_Name_2__c}.</apex:outputText> <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}"> {!pocPackage.CFG_Office_Name__c}.</apex:outputText>
                 Nous comprenons que le débiteur est soumis à une procédures en vertu de la 
                 <span style="font-family: Times New Roman; font-style:italic;">Loi sur la faillite et l'insolvabilité </span>(Canada) à l'égard de laquelle vous avez été nommé syndic de faillite.
                 <br/><br/>

@@ -179,7 +179,7 @@
              </table>
              <hr style="border-color:black;margin: 11px 0px 18px 0px;"/>
                  Nous vous écrivons pour vous informer que le compte et la réclamation connexe qui nous sont dus (le « compte ») par le débiteur (le « débiteur ») décrit dans la preuve de réclamation ci-jointe est en cours d’achat par
-                 {!pocPackage.CFG_Office_Name_2__c}. Nous comprenons que le débiteur est soumis à une procédures en vertu de la
+                 <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Fairstone'}"> {!pocPackage.CFG_Office_Name_2__c}.</apex:outputText> <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}"> {!pocPackage.CFG_Office_Name__c}.</apex:outputText> Nous comprenons que le débiteur est soumis à une procédures en vertu de la
                  <span style=" font-style:italic;">Nous comprenons que le débiteur est soumis à une procédures en vertu de la </span>(Canada) à l'égard de laquelle vous avez été nommé syndic de faillite
             <br/><br/>
             <apex:outputText rendered="{!insolvAcc.Client_Identifier__c != 'Goeasy'}">
@@ -327,6 +327,7 @@
                                     <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> qui est l'acheteur du compte de " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
                                     <apex:outputText value="<b> {!pocPackage.Client_Company_Name_French__c},</b> qui est l'acheteur du compte de <b>{!pocPackage.Client_Company_Name_French__c}.</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}" />
                                     <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> qui est l'acheteur du compte de <b>{!pocPackage.Client_Company_Name_French__c}.</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Unsecured') && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}" />
+                                    <apex:outputText value="<b>{!pocPackage.Client_Company_Name__c}.</b>" escape="false" rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}"/>
                                     </apex:outputText>
                                     <apex:outputText value="<b> {!pocPackage.CFG_Office_Name_2__c}</b>" escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}" />.</td>
                                  </tr>
