@@ -345,7 +345,7 @@
         <object>Account</object>
     </recordUpdates>
     <startElementReference>sobjectInputCheckDecision</startElementReference>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>SObject</name>
         <dataType>SObject</dataType>
