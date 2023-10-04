@@ -184,7 +184,7 @@
                 <div style="font-weight : bold; text-align:center;padding-top:0px; font-family: sans-serif;">
                     <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}">{!pocPackage.CFG_Office_Name_2__c} C/O </apex:outputText>
                     <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">{!pocPackage.Client_Company_Name__c} C/O </apex:outputText> 
+                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">{!pocPackage.Client_Company_Name_French__c} C/O </apex:outputText> 
                     </apex:outputText>
                     {!pocPackage.CFG_French_Office_Name__c}<br/>
                     {!pocPackage.CFG_Office_Address_1__c}<br/>
