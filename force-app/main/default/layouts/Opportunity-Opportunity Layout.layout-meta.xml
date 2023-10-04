@@ -54,7 +54,8 @@
                 <field>Amount</field>
             </layoutItems>
             <layoutItems>
-                <emptySpace>true</emptySpace>
+                <behavior>Edit</behavior>
+                <field>Auction_Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Auction_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Auction Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Competitive Auction – Broker – Existing Client</fullName>
+                <default>false</default>
+                <label>Competitive Auction – Broker – Existing Client</label>
+            </value>
+            <value>
+                <fullName>Competitive Auction – Broker – New Prospect</fullName>
+                <default>false</default>
+                <label>Competitive Auction – Broker – New Prospect</label>
+            </value>
+            <value>
+                <fullName>Highly Competitive – Existing Client</fullName>
+                <default>false</default>
+                <label>Highly Competitive – Existing Client</label>
+            </value>
+            <value>
+                <fullName>Highly Competitive – New Prospect</fullName>
+                <default>false</default>
+                <label>Highly Competitive – New Prospect</label>
+            </value>
+            <value>
+                <fullName>Limited Competitive – Existing Client</fullName>
+                <default>false</default>
+                <label>Limited Competitive – Existing Client</label>
+            </value>
+            <value>
+                <fullName>Limited Competitive – New Prospect</fullName>
+                <default>false</default>
+                <label>Limited Competitive – New Prospect</label>
+            </value>
+            <value>
+                <fullName>Negotiated – Existing Client</fullName>
+                <default>false</default>
+                <label>Negotiated – Existing Client</label>
+            </value>
+            <value>
+                <fullName>Negotiated – New Prospect</fullName>
+                <default>false</default>
+                <label>Negotiated – New Prospect</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
