@@ -189,7 +189,7 @@
              Nous autorisons par la présente {!pocPackage.CFG_Office_Name__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name__c}.
             </apex:outputText>
             <br/><br/>
-            Si vous avez des questions, n'hésitez pas à contacter {!IF(insolvAcc.Client_Identifier__c == "Goeasy", "CFG Canada Funding, LLC.", "Canaccede International Management Ltd.")}  aux coordonnées suivantes:<!--{!pocPackage.CFG_Office_Name__c}-->
+            Si vous avez des questions, n'hésitez pas à contacter Canaccede International Management Ltd. aux coordonnées suivantes:<!--{!pocPackage.CFG_Office_Name__c}-->
             <br/><br/>
             <div style="padding-left:30px;">
                     Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br/>
