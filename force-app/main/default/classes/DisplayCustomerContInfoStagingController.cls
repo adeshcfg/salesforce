@@ -10,7 +10,7 @@
 *************************************************************************************************/
 public class DisplayCustomerContInfoStagingController {
     Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
-    public list<Customer_Staging__c> listCustomerContactStaging {get;set;}
+    // public list<Customer_Staging__c> listCustomerContactStaging {get;set;}
     public list<customerContactInfoStagingWrapper> listCustomerContInfoStagingWrapper {get;set;}
     public static final String PROCESSED = 'Processed';
     public static String CUSTOMER_CONTACT_INFO_UPDATE = 'Customer Contact Information Update File';
@@ -33,7 +33,7 @@ public class DisplayCustomerContInfoStagingController {
         SuccessHasRecord = false;
         FailedHasRecord = false;
         String recordIdentfier = ApexPages.currentPage().getParameters().get('id');
-        listCustomerContactStaging = [SELECT ID,Name,Address_Line1__c,Address_Line2__c,Cell_Phone__c,City__c,Country__c,
+        List<Customer_Staging__c> listCustomerContactStaging = [SELECT ID,Name,Address_Line1__c,Address_Line2__c,Cell_Phone__c,City__c,Country__c,
                                       Email_Address__c,Home_Phone__c,Postal_Code__c,State__c,Work_Phone__c,
                                       Coborrower_Address1__c,Coborrower_Address2__c,Coborrower_Cell_Phone__c,Coborrower_City__c,
                                       Coborrower_Country__c,Coborrower_Email__c,Coborrower_Home_Phone__c,Coborrower_Postal_Code__c,
@@ -83,9 +83,9 @@ public class DisplayCustomerContInfoStagingController {
         
         
         
-        for(Customer_Staging__c accStaging : listCustomerContactStaging){
-            placementAgency = accStaging.Placement_Agency__c;
-            setProdutNames.add(accStaging.ProdID__c);
+        for(customerContactInfoStagingWrapper accStaging : listCustomerContInfoStagingWrapper){
+            placementAgency = accStaging.custStaging.Placement_Agency__c;
+            setProdutNames.add(accStaging.custStaging.ProdID__c);
         }
 
         
@@ -210,7 +210,7 @@ public class DisplayCustomerContInfoStagingController {
         try{ 
         	List<Database.SaveResult> result = Database.update(listProd, false); 
             //Create Success and Error file
-            GenerateSuccessAndErrorFile(listCustomerContInfoStagingWrapper,listCustomerContactStaging[0].Document_Storage__r.Work_Assignment__c,portalSettings.Document_Storage_Default_Visibility__c,documentID);
+            GenerateSuccessAndErrorFile(listCustomerContInfoStagingWrapper,listCustomerContInfoStagingWrapper[0].custStaging.Document_Storage__r.Work_Assignment__c,portalSettings.Document_Storage_Default_Visibility__c,documentID);
             
         }Catch(exception ex){                
             txt = ex.getMessage();          
