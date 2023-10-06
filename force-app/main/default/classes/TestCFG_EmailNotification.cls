@@ -16,7 +16,7 @@ public class TestCFG_EmailNotification {
         userData.Email = 'test@gmail.com';
         userData.FirstName = 'Janet';
         userData.LastName = 'Vidhate';
-        userData.Username = 'xyzi@gmail.com';
+        userData.Username = 'xyzi@gmail.com.cfg';
         userData.Alias = 'testals';
         userData.TimeZoneSidKey = 'America/Los_Angeles';
         userData.LocaleSidKey = 'en_US';
@@ -29,7 +29,7 @@ public class TestCFG_EmailNotification {
         userData1.Email = 'test@gmail.com';
         userData1.FirstName = 'Janet';
         userData1.LastName = 'Vidhate1';
-        userData1.Username = 'xyzu@gmail.com';
+        userData1.Username = 'xyzu@gmail.com.cfg';
         userData1.Alias = 'testals';
         userData1.TimeZoneSidKey = 'America/Los_Angeles';
         userData1.LocaleSidKey = 'en_US';
