@@ -6,7 +6,7 @@
     <externalId>false</externalId>
     <inlineHelpText>Comment</inlineHelpText>
     <label>Comment</label>
-    <length>2000</length>
+    <length>131072</length>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
