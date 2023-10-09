@@ -30,7 +30,7 @@ public class DisplayProductPaymentStagingController {
     public static String productNames = '';
     public static String placementIdentifier = '';
     public static String placementStatusCode = '';
-    
+    String exceptionMessage = '';
     public boolean showButton {get;set;}
     public boolean displayPanel {get;set;}
     public boolean executeWarning {get;set;}
@@ -245,7 +245,8 @@ public class DisplayProductPaymentStagingController {
         Savepoint sp = Database.setSavepoint();
         
         try{
-            
+            Integer I = 10;
+            I = I/0;
             if(listProductPayToUpdate.size()>0){
                 update listProductPayToUpdate;
             }
@@ -275,7 +276,14 @@ public class DisplayProductPaymentStagingController {
            stopSuccessfilegenaration = false;
             
         }catch(Exception ex){
-            
+            //for ticket:5202
+            exceptionMessage = '<b>ERROR</b>-'+ex.getStackTraceString();
+            if(exceptionMessage.length() > 1500){
+                exceptionMessage = exceptionMessage.substring(0, 1500);    
+            }
+            else{
+                exceptionMessage = exceptionMessage;
+            }
             //Added by satyajit for ticket:4518
             //Database.rollback(sp);
             for(Product_Payment_Staging__c ProductPaymentStaging: listProductPaymentStaging){
@@ -283,7 +291,8 @@ public class DisplayProductPaymentStagingController {
                 if(msg.length() > 254){
                     msg = msg.substring(0,254);
                 }
-                ProductPaymentStaging.Comment__c= msg;
+                //for ticket:5202
+                ProductPaymentStaging.Comment__c= exceptionMessage;
                 ProductPaymentStaging.status__c= 'Pending';
             }
             
@@ -457,7 +466,14 @@ public class DisplayProductPaymentStagingController {
             stopSuccessfilegenaration = false;
             
         }catch(Exception ex){
-            
+            //for ticket:5202
+            exceptionMessage = '<b>ERROR</b>-'+ex.getStackTraceString();
+            if(exceptionMessage.length() > 131072){
+                exceptionMessage = exceptionMessage.substring(0, 131072);    
+            }
+            else{
+                exceptionMessage = exceptionMessage;
+            }
             //Added by satyajit for ticket: 4518
             //Database.rollback(sp);
             
@@ -466,7 +482,8 @@ public class DisplayProductPaymentStagingController {
                 if(msg.length() > 254){
                     msg = msg.substring(0,254);
                 }
-                ProductPaymentStaging.Comment__c= msg;
+                //for ticket:5202
+                ProductPaymentStaging.Comment__c= exceptionMessage;
                 ProductPaymentStaging.status__c= 'Pending';
             }
             
