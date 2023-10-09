@@ -277,7 +277,7 @@ public class DisplayProductPaymentStagingController {
             
         }catch(Exception ex){
             //for ticket:5202
-            exceptionMessage = ex.getStackTraceString();
+            exceptionMessage = '<b>ERROR</b>-'+ex.getStackTraceString();
             if(exceptionMessage.length() > 1500){
                 exceptionMessage = exceptionMessage.substring(0, 1500);    
             }
@@ -467,7 +467,7 @@ public class DisplayProductPaymentStagingController {
             
         }catch(Exception ex){
             //for ticket:5202
-            exceptionMessage = ex.getStackTraceString();
+            exceptionMessage = '<b>ERROR</b>-'+ex.getStackTraceString();
             if(exceptionMessage.length() > 131072){
                 exceptionMessage = exceptionMessage.substring(0, 131072);    
             }
