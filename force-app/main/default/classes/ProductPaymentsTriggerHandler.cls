@@ -1311,6 +1311,10 @@ productNames += productInstance.Name + ',';
                                                  ORDER BY Payment_Posting_Date__c ASC)
                                           FROM Product__c
                                           WHERE ID IN :setProductID]){
+                                            System.debug('Before fee update Non_Recoverable_Fee__c '+productInstance.Non_Recoverable_Fee__c);
+                                            System.debug('Before fee update Recoverable_Fee__c '+productInstance.Recoverable_Fee__c);
+                                            System.debug('Before fee update Current_Bal_NSF_Fees__c '+productInstance.Current_Bal_NSF_Fees__c);
+                                            System.debug('Before fee update Current_Balance__c '+productInstance.Current_Balance__c);                    
             for(Product_Payments__c prodPayment : productInstance.Product_Payments__r){
                 
                 prodPayment.Balance_Before_Payment__c = productInstance.Current_Balance__c;
