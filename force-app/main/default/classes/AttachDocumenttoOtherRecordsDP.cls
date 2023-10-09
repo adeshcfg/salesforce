@@ -41,8 +41,12 @@ public class AttachDocumenttoOtherRecordsDP {
             linkRecord = insolAccRecord[0].name;
             isInsAccPresent = true;
         }else{
+            Recordtype rectId = [select id from recordtype where developername = 'CCS_Case'];
+            if(caseRec.RecordTypeId != rectId.Id){
+                        
             showMessage = true;
             displayMessage = 'Link Insolevncy or Insolvency Account record to Assignment';
+           } 
         }
         
         showOnBIorSD = false;
