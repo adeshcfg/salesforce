@@ -1236,7 +1236,10 @@ productNames += productInstance.Name + ',';
         
         ProductTriggerHandler.runProductTrigger = false;
         ProductPaymentstriggerHandler.runProductTrigger = false;
-        
+        System.debug('Payment Non_Recoverable_Fee__c '+mapProductToAdjustInterestFinal.values()[0].Non_Recoverable_Fee__c);
+        System.debug('Payment Recoverable_Fee__c '+mapProductToAdjustInterestFinal.values()[0].Recoverable_Fee__c);
+        System.debug('Payment Current_Bal_NSF_Fees__c '+mapProductToAdjustInterestFinal.values()[0].Current_Bal_NSF_Fees__c);
+        System.debug('Payment Current_Balance__c '+mapProductToAdjustInterestFinal.values()[0].Current_Balance__c);
         //For ticket 4518 - satyajit patil     
         List<Database.SaveResult> updateResults;
         if(paymentProcessing == 'Payment Excel Processing'){                                                       
@@ -1374,7 +1377,10 @@ productNames += productInstance.Name + ',';
         ProductTriggerHandler.runProductTrigger = false;
         
         //update listProductsToUpdate;
-        
+        System.debug('Fees Non_Recoverable_Fee__c '+listProductsToUpdate[0].Non_Recoverable_Fee__c);
+        System.debug('Fees Recoverable_Fee__c '+listProductsToUpdate[0].Recoverable_Fee__c);
+        System.debug('Fees Current_Bal_NSF_Fees__c '+listProductsToUpdate[0].Current_Bal_NSF_Fees__c);
+        System.debug('Fees Current_Balance__c '+listProductsToUpdate[0].Current_Balance__c);
         //For ticket 4518 - satyajit patil 
         List<Database.SaveResult> updateResults;
          if(paymentProcessing == 'Payment Excel Processing'){
