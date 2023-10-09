@@ -77,8 +77,22 @@
                                  &apos;Core Walmart Rewards Mastercard&apos;, 0.13,
                                  &apos;Home Equity Secured Mastercard&apos;, 00.13,
                                   0), 
-                                  0), 
-
+           0), 
+&apos;Easyfinancial Insolvency Account&apos;,  
+		 CASE(Insolvency__r.Insolvency_Type__c, 
+			&apos;Bankruptcy&apos;, 
+		 CASE(Account_Type__c,
+				 &apos;Unsecured Installment Loan&apos;,  0.0182,
+                                 &apos;Secured Personal Installment Loan&apos;, 0.0182,
+                                 &apos;Leasing product&apos;,  0.0182,
+                                  0),
+                         &apos;Consumer Proposal&apos;, 
+				CASE(Account_Type__c,
+				 &apos;Unsecured Installment Loan&apos;, 0.1038,
+                                 &apos;Secured Personal Installment Loan&apos;, 0.1038,
+                                 &apos;Leasing product&apos;, 0.1038,
+                                  0),
+                                 0),
 
 	Portfolio_Name_Lookup__r.Purchase_Price_Percent__c)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
