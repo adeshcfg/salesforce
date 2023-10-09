@@ -196,12 +196,14 @@ public class ProductTriggerHandler{
     
     //Handle before insert
     public static void handleBeforeInsert(List<Product__c> prodNew) {
-        //Ticket 4558: Interest Waiver functionality checking Accuring Interest
-        populateAccuringInterest(prodNew);
         Boolean isCommunityUser = false;
         if(!Test.isRunningTest()){
             UtilityMethod();
         }
+        
+        //Ticket 4558: Interest Waiver functionality checking Accuring Interest
+        populateAccuringInterest(prodNew);
+        
         isCommunityUser = InsolvencyUtil.isCommunityUser();
         ID productSource; 
         for(Product__c prodData :prodNew){
@@ -2022,7 +2024,7 @@ public class ProductTriggerHandler{
     
     //Ticket 4558: Interest Waiver functionality_added checkes in OR conditions
     public static void populateAccuringInterest(List<Product__c> listNewProducts){
-        system.debug('ProductTriggerHandler_populateAccuringInterest: Entered populateAccuringInterest');
+        system.debug('ProductTriggerHandler_populateAccuringInterest: Entered populateAccuringInterest');        
         for(Product__c prodListData :listNewProducts){
             if(prodRTypeIdMap.get('Distressed_Account') == prodListData.RecordTypeId && (prodListData.Current_Principal_Balance__c == null || prodListData.Current_Principal_Balance__c <= 0 || prodListData.Collection_Sub_Status__c == 'Deceased' || prodListData.Collection_Sub_Status__c == 'Paid in Full Account' || prodListData.Collection_Sub_Status__c == 'Settled in Full Account' || prodListData.Collection_Sub_Status__c == 'Bankrupt Account'
               || prodListData.Interest_Rate__c == 0 || prodListData.Interest_Rate__c == NULL || prodListData.Interest_Amount_Last_Calculated_Date__c == NULL || prodListData.Insolvency_Date__c != NULL || prodListData.Deceased_Date__c != NULL || prodListData.Collection_Sub_Status__c == 'Credit Counselling')){
