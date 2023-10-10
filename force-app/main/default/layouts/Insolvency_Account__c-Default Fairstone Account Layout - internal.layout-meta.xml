@@ -373,6 +373,10 @@
                 <behavior>Readonly</behavior>
                 <field>Date_Claim_Withdrawal_Sent__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Canaccede_reviewed__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
