@@ -2024,15 +2024,32 @@ public class ProductTriggerHandler{
     
     //Ticket 4558: Interest Waiver functionality_added checkes in OR conditions
     public static void populateAccuringInterest(List<Product__c> listNewProducts){
-        system.debug('ProductTriggerHandler_populateAccuringInterest: Entered populateAccuringInterest');        
+        system.debug('ProductTriggerHandler_populateAccuringInterest: Entered populateAccuringInterest'+listNewProducts);        
         for(Product__c prodListData :listNewProducts){
-            if(prodRTypeIdMap.get('Distressed_Account') == prodListData.RecordTypeId && (prodListData.Current_Principal_Balance__c == null || prodListData.Current_Principal_Balance__c <= 0 || prodListData.Collection_Sub_Status__c == 'Deceased' || prodListData.Collection_Sub_Status__c == 'Paid in Full Account' || prodListData.Collection_Sub_Status__c == 'Settled in Full Account' || prodListData.Collection_Sub_Status__c == 'Bankrupt Account'
+            if(prodRTypeIdMap.get('Distressed_Account') == prodListData.RecordTypeId && 
+               (prodListData.Current_Principal_Balance__c == null || prodListData.Current_Principal_Balance__c <= 0 || prodListData.Collection_Sub_Status__c == 'Deceased' || prodListData.Collection_Sub_Status__c == 'Paid in Full Account' || prodListData.Collection_Sub_Status__c == 'Settled in Full Account' || prodListData.Collection_Sub_Status__c == 'Bankrupt Account'
               || prodListData.Interest_Rate__c == 0 || prodListData.Interest_Rate__c == NULL || prodListData.Interest_Amount_Last_Calculated_Date__c == NULL || prodListData.Insolvency_Date__c != NULL || prodListData.Deceased_Date__c != NULL || prodListData.Collection_Sub_Status__c == 'Credit Counselling')){
                   system.debug('ProductTriggerHandler_populateAccuringInterest: value of Accruing Interest::'+prodListData.Interest_Stopped__c);
                 	prodListData.Interest_Stopped__c = true;
-              }else{
-                  	prodListData.Interest_Stopped__c = false;
               }
+            else if(prodRTypeIdMap.get('Distressed_Account') == prodListData.RecordTypeId && (prodListData.Interest_Waived_Off__c == true && (prodListData.Interest_Amount_Last_Calculated_Date__c > prodListData.Interest_Waived_Off_Start_Date__c || prodListData.Interest_Amount_Last_Calculated_Date__c < prodListData.Interest_Waived_Of_End_Date__c)) && (prodListData.Current_Principal_Balance__c == null || prodListData.Current_Principal_Balance__c <= 0 || prodListData.Collection_Sub_Status__c == 'Deceased' || prodListData.Collection_Sub_Status__c == 'Paid in Full Account' || prodListData.Collection_Sub_Status__c == 'Settled in Full Account' || prodListData.Collection_Sub_Status__c == 'Bankrupt Account' || prodListData.Interest_Rate__c == 0 || prodListData.Interest_Rate__c == NULL || prodListData.Insolvency_Date__c != NULL || prodListData.Deceased_Date__c != NULL || prodListData.Collection_Sub_Status__c == 'Credit Counselling')){
+                  system.debug('ProductTriggerHandler_populateAccuringInterest: value of Accruing Interest::'+prodListData.Interest_Stopped__c);
+                	prodListData.Interest_Stopped__c = true;
+              }
+            else if(prodListData.Interest_Waived_Off__c == false || (prodListData.Interest_Waived_Off__c == true && (prodListData.Interest_Amount_Last_Calculated_Date__c < prodListData.Interest_Waived_Off_Start_Date__c || prodListData.Interest_Amount_Last_Calculated_Date__c > prodListData.Interest_Waived_Of_End_Date__c))){
+                     system.debug('ProductTriggerHandler_populateAccuringInterest: value of Accruing Interest::'+prodListData.Interest_Stopped__c);      
+                           prodListData.Interest_Stopped__c = false;         
+            }
+            else if(prodListData.Interest_Waived_Off__c == false
+            || (prodListData.Interest_Waived_Off__c == true
+            && (prodListData.Interest_Amount_Last_Calculated_Date__c < prodListData.Interest_Waived_Off_Start_Date__c 
+             || prodListData.Interest_Amount_Last_Calculated_Date__c > prodListData.Interest_Waived_Of_End_Date__c)) &&
+               prodRTypeIdMap.get('Distressed_Account') == prodListData.RecordTypeId && 
+               (prodListData.Current_Principal_Balance__c != null && prodListData.Current_Principal_Balance__c > 0 && prodListData.Collection_Sub_Status__c != 'Deceased' && prodListData.Collection_Sub_Status__c != 'Paid in Full Account' && prodListData.Collection_Sub_Status__c != 'Settled in Full Account' && prodListData.Collection_Sub_Status__c != 'Bankrupt Account'
+              && prodListData.Interest_Rate__c != 0 && prodListData.Interest_Rate__c != NULL && prodListData.Interest_Amount_Last_Calculated_Date__c != NULL && prodListData.Insolvency_Date__c == NULL && prodListData.Deceased_Date__c == NULL && prodListData.Collection_Sub_Status__c != 'Credit Counselling')){
+                  system.debug('ProductTriggerHandler_populateAccuringInterest: value of Accruing Interest::'+prodListData.Interest_Stopped__c);
+                	prodListData.Interest_Stopped__c = false;
+              }   	
         }
     }
 }

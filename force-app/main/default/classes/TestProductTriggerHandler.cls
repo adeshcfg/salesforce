@@ -1457,4 +1457,55 @@ private class TestProductTriggerHandler {
                 ProductTriggerHandler.calculateBalanceBackdatedPayments2(newProdList,oldprodMap);
    		test.stopTest();
     }
+    
+    static testMethod void productBeforeUpdateTest1(){
+        API_Call_Details__c  settings = new API_Call_Details__c ();
+        settings.Name = 'Agency Portal API';
+        settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
+        settings.Tenand_ID__c = '123';
+        settings.Proxy_Client_ID__c = '123';
+        settings.Client_ID__c = '1234';
+        settings.Client_Secret__c = '1234';
+        settings.PDF_API_URL__c = 'https://test.com/endpointurl';
+        settings.Scope_Prefix__c = 'scopep.com';
+        settings.Scope_Suffix__c = '/.default';
+        insert settings;
+        
+        List<Product__c> prodList = new List<Product__c>();
+        product__c prod3 = new product__c();
+        prod3.name = '12346';
+        prod3.Interest_Rate__c = 5;
+        prod3.Credit_Counselling_Date__c = Date.newInstance(2016, 12, 9);
+        prod3.Last_Payment_Date__c = Date.newInstance(2022, 8, 9);
+		prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prod3.Interest_Waived_Off__c = true;
+        prod3.Interest_Amount_Last_Calculated_Date__c = Date.newInstance(2023, 10, 5);
+        prod3.Interest_Waived_Off_Start_Date__c = Date.newInstance(2023, 10, 1);
+        prod3.Interest_Waived_Of_End_Date__c = Date.newInstance(2023, 10, 15);
+        
+        product__c prod4 = new product__c();
+        prod4.name = '12345';
+        prod4.Collection_Sub_Status__c = 'Credit Counselling';
+        prod4.Interest_Waived_Off__c = true;
+        prod4.Interest_Amount_Last_Calculated_Date__c = Date.newInstance(2023, 10, 14);
+        prod4.Interest_Waived_Off_Start_Date__c = Date.newInstance(2023, 10, 1);
+        prod4.Interest_Waived_Of_End_Date__c = Date.newInstance(2023, 10, 15);
+        prod4.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        
+        product__c prod5 = new product__c();
+        prod5.name = '12347';
+        prod5.Current_Principal_Balance__c = 1000;
+        prod5.Interest_Rate__c = 40;
+        prod5.Insolvency_Date__c = NULL;
+        prod5.Interest_Amount_Last_Calculated_Date__c = Date.newInstance(2022, 12, 15);
+        prod5.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
+        prod5.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prod5.Deceased_Date__c=NULL;
+        prod5.Interest_Waived_Off__c = false;
+        
+        prodList.add(prod3);
+        prodList.add(prod4);
+        prodList.add(prod5);
+        ProductTriggerHandler.handleBeforeInsert(prodList);
+    }
 }
