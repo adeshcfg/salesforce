@@ -100,6 +100,7 @@ public class TestTaskTriggerHandler{
         prd.Purchase_Province__c = 'Canada';
         //Upto Here
         insert prd;
+            system.debug('record created--->'+prd.recordtype.name);
         //prds.add(prd);
         } catch(DmlException e){
             system.debug('producr'+e.getMessage());
@@ -148,6 +149,7 @@ public class TestTaskTriggerHandler{
         prd.Sub_Status__c = 'Ready';
         prd.Product_Status__c = 'Test';
         prd.Account_Portfolio_ID__c = '830';
+                      prd.RecordtypeId= stExam;
         prds.add(prd);
         
         
@@ -364,7 +366,17 @@ public class TestTaskTriggerHandler{
         //t.Responsavel__c='Felipe';
         t.whatId = listProd[1].id;
         insert t;
-        
+        ContentVersion contentVersion = new ContentVersion(
+                    Title          = 'a picture',
+                    PathOnClient   = 'Pic.jpg',
+                    VersionData    = Blob.valueOf('Test Content'),
+                    IsMajorVersion = true);
+            insert contentVersion;
+List<ContentDocument> documents = [SELECT Id, Title, LatestPublishedVersionId FROM ContentDocument];       
+        ContentDocumentLink cdl=new ContentDocumentLink();
+        cdl.LinkedEntityId=t.WhatId;
+        cdl.ContentDocumentId=documents[0].id;
+        insert cdl;
         listTask.add(t);
         TaskTriggerHandler.handleAfterInsert(listTask);
         
@@ -396,7 +408,10 @@ public class TestTaskTriggerHandler{
      public static void createTask3(){
         
         List<Product__c> listProd = createProduct();
-        
+        system.debug('listPROD--->'+listProd);
+         for(Product__c p: listprod){
+             system.debug('record type name-->'+p.recordtype.name);
+         }
         List<Task> listTask = new List<Task>();
            
         listTask = new List<task>();
