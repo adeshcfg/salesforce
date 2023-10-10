@@ -19,6 +19,7 @@ public class DisplayCustomerContInfoStagingController {
     public boolean displayPanel { get; set; }
     public Id workAssignmentId { get; set; }
     public String message { get; set; }
+    public static String recordIdentfier = null;
     Id recordID;
     Id documentID;
     String success;
@@ -32,7 +33,7 @@ public class DisplayCustomerContInfoStagingController {
         displayPanel = false;
         SuccessHasRecord = false;
         FailedHasRecord = false;
-        String recordIdentfier = ApexPages.currentPage().getParameters().get('id');
+        recordIdentfier = ApexPages.currentPage().getParameters().get('id');
         listCustomerContactStaging = [
             SELECT
                 ID,
@@ -72,7 +73,7 @@ public class DisplayCustomerContInfoStagingController {
 
         Integer successCount = [
             SELECT COUNT()
-            FROM Product_Staging__c
+            FROM Customer_Staging__c
             WHERE Include_in_Processing__c = TRUE AND Identifier__c = :recordIdentfier
         ];
         Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'Total Success Records = ' + successCount));
@@ -106,6 +107,7 @@ public class DisplayCustomerContInfoStagingController {
     }
 
     public pageReference Save() {
+        transient List<customerContactInfoStagingWrapper> listCustomerContInfoStagingWrapperToUpdate = listCustomerContInfoStagingWrapper;
         list<Product__c> listProd = new List<Product__c>();
         list<Account> listPersonAcc = new List<Account>();
         map<id, Account> mapPersonAcc = new Map<id, Account>();
@@ -114,6 +116,45 @@ public class DisplayCustomerContInfoStagingController {
         Map<String, ID> accNumberCustomerID = new Map<String, ID>();
         List<Customer_Staging__c> listCustomerStaging = new List<Customer_Staging__c>();
         String placementAgency = '';
+
+        for (Customer_Staging__c customerStaging : [
+            SELECT
+                ID,
+                Name,
+                Address_Line1__c,
+                Address_Line2__c,
+                Cell_Phone__c,
+                City__c,
+                Country__c,
+                Email_Address__c,
+                Home_Phone__c,
+                Postal_Code__c,
+                State__c,
+                Work_Phone__c,
+                Coborrower_Address1__c,
+                Coborrower_Address2__c,
+                Coborrower_Cell_Phone__c,
+                Coborrower_City__c,
+                Coborrower_Country__c,
+                Coborrower_Email__c,
+                Coborrower_Home_Phone__c,
+                Coborrower_Postal_Code__c,
+                Coborrower_State__c,
+                Coborrower_Work_Phone__c,
+                Comment__c,
+                Placement_Agency__c,
+                ProdID__c,
+                Status__c,
+                Document_Storage__c,
+                Document_Storage__r.File_Processing_Status__c,
+                Document_Storage__r.Work_Assignment__c,
+                Product_ID__c,
+                Expected_Value__c
+            FROM Customer_Staging__c
+            WHERE Identifier__c = :recordIdentfier AND Include_in_Processing__c = TRUE
+        ]) {
+            listCustomerContInfoStagingWrapperToUpdate.add(new customerContactInfoStagingWrapper(customerStaging, false));
+        }
 
         for (Customer_Staging__c accStaging : listCustomerContactStaging) {
             placementAgency = accStaging.Placement_Agency__c;
@@ -143,7 +184,7 @@ public class DisplayCustomerContInfoStagingController {
 
         Decimal successRecords = 0;
         Decimal failedRecords = 0;
-        for (customerContactInfoStagingWrapper custStagingWrapper : listCustomerContInfoStagingWrapper) {
+        for (customerContactInfoStagingWrapper custStagingWrapper : listCustomerContInfoStagingWrapperToUpdate) {
             Customer_Staging__c CustStaging = custStagingWrapper.CustStaging;
 
             String comment = '';
@@ -278,10 +319,11 @@ public class DisplayCustomerContInfoStagingController {
         boolean excFlag = false;
         String txt = '';
         try {
+            System.debug('listProd ' + listProd.size());
             List<Database.SaveResult> result = Database.update(listProd, false);
             //Create Success and Error file
             GenerateSuccessAndErrorFile(
-                listCustomerContInfoStagingWrapper,
+                listCustomerContInfoStagingWrapperToUpdate,
                 listCustomerContactStaging[0].Document_Storage__r.Work_Assignment__c,
                 portalSettings.Document_Storage_Default_Visibility__c,
                 documentID
@@ -301,6 +343,7 @@ public class DisplayCustomerContInfoStagingController {
             }
         }
         if (listCustomerStaging.size() > 0) {
+            System.debug('listCustomerStaging ' + listCustomerStaging.size());
             update listCustomerStaging;
         }
 
@@ -327,6 +370,7 @@ public class DisplayCustomerContInfoStagingController {
             Customer_Staging__c CustStaging = custStagingWrapper.CustStaging;
             if (CustStaging.Status__c != PROCESSED && custStagingWrapper.selected == true) {
                 CustStaging.Status__c = PROCESSED;
+                CustStaging.Include_in_Processing__c = true;
                 success += '\n';
                 success +=
                     '\'' +
