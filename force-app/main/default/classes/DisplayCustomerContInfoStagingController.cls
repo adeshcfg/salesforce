@@ -19,7 +19,7 @@ public class DisplayCustomerContInfoStagingController {
     public boolean displayPanel { get; set; }
     public Id workAssignmentId { get; set; }
     public String message { get; set; }
-    public static String recordIdentfier = null;
+    public String recordIdentfier { get; set; }
     Id recordID;
     Id documentID;
     String success;
@@ -78,6 +78,7 @@ public class DisplayCustomerContInfoStagingController {
         ];
         Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'Total Success Records = ' + successCount));
 
+        //To check after positive scenario - Adesh
         if (listCustomerContactStaging.isEmpty()) {
             displayPanel = false;
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'There are no Customer Contact  Information  to display'));
@@ -108,6 +109,7 @@ public class DisplayCustomerContInfoStagingController {
 
     public pageReference Save() {
         transient List<customerContactInfoStagingWrapper> listCustomerContInfoStagingWrapperToUpdate = listCustomerContInfoStagingWrapper;
+        System.debug('listCustomerContInfoStagingWrapperToUpdate ' + listCustomerContInfoStagingWrapperToUpdate.size());
         list<Product__c> listProd = new List<Product__c>();
         list<Account> listPersonAcc = new List<Account>();
         map<id, Account> mapPersonAcc = new Map<id, Account>();
@@ -116,7 +118,7 @@ public class DisplayCustomerContInfoStagingController {
         Map<String, ID> accNumberCustomerID = new Map<String, ID>();
         List<Customer_Staging__c> listCustomerStaging = new List<Customer_Staging__c>();
         String placementAgency = '';
-
+        System.debug('recordIdentfier ' + recordIdentfier);
         for (Customer_Staging__c customerStaging : [
             SELECT
                 ID,
@@ -151,14 +153,16 @@ public class DisplayCustomerContInfoStagingController {
                 Product_ID__c,
                 Expected_Value__c
             FROM Customer_Staging__c
-            WHERE Identifier__c = :recordIdentfier AND Include_in_Processing__c = TRUE
+            WHERE Identifier__c = :recordIdentfier AND Include_in_Processing__c = TRUE AND Status__c != 'Processed'
         ]) {
-            listCustomerContInfoStagingWrapperToUpdate.add(new customerContactInfoStagingWrapper(customerStaging, false));
+            customerContactInfoStagingWrapper stagingWrapper = new customerContactInfoStagingWrapper(customerStaging, false);
+            stagingWrapper.selected = true;
+            listCustomerContInfoStagingWrapperToUpdate.add(stagingWrapper);
         }
-
-        for (Customer_Staging__c accStaging : listCustomerContactStaging) {
-            placementAgency = accStaging.Placement_Agency__c;
-            setProdutNames.add(accStaging.ProdID__c);
+        System.debug('listCustomerContInfoStagingWrapperToUpdate ' + listCustomerContInfoStagingWrapperToUpdate.size());
+        for (customerContactInfoStagingWrapper accStaging : listCustomerContInfoStagingWrapperToUpdate) {
+            placementAgency = accStaging.CustStaging.Placement_Agency__c;
+            setProdutNames.add(accStaging.CustStaging.ProdID__c);
         }
 
         //Get Placement ID
