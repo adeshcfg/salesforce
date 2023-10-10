@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_Waived_off_Dates_mandatory</fullName>
+    <active>true</active>
+    <description>If Interest Waived Off flag is set to true, , Interest Waived Off Dates should be entered</description>
+    <errorConditionFormula>AND(OR(ISNEW(), ISCHANGED(Interest_Waived_Off__c)),    (Interest_Waived_Off__c == True), OR(ISNULL(Interest_Waived_Off_Start_Date__c) , ISNULL(Interest_Waived_Of_End_Date__c)) )</errorConditionFormula>
+    <errorDisplayField>Interest_Waived_Off__c</errorDisplayField>
+    <errorMessage>Interest Waived Off Start Date and End Date must be entered, If Interest Waived Off flag is set</errorMessage>
+</ValidationRule>
