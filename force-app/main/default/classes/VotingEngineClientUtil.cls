@@ -69,7 +69,17 @@ public with sharing class VotingEngineClientUtil{
         public vExtendedResults vExtendedResults = null;
         
         public WebServiceResponse parse(String json) {
+            //Added try-catch blocks for #5137
+            try{
             return (WebServiceResponse) System.JSON.deserialize(json, WebServiceResponse.class);
+            }
+            catch(Exception e){
+                API_Error__c apiError=new API_Error__c();
+                apiError.Error__c=e.getMessage();
+                apiError.response__c=json;
+                insert apiError;
+               return null; 
+            }
         }
     }
     
