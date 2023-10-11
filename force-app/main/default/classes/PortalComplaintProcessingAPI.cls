@@ -9,6 +9,7 @@
 *************************************************************************************************/
 public class PortalComplaintProcessingAPI {
     public static API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
+    public static List<API_Error__c> listAPIErrors = new List<API_Error__c>();
     @future (callout=true)
     public static void processComplaint(ID workAssignmentId,String triggereve, String oldLatestComment){
         system.debug('triggereve: '+triggereve); 
@@ -42,10 +43,7 @@ public class PortalComplaintProcessingAPI {
             String escapeProdlistString = '';
             if(!String.isBlank(productsList)){
                 escapeProdlistString = productsList.escapeUnicode();
-                system.debug('escapeProdlistString::'+escapeProdlistString);
             }          
-            system.debug('Comment_Reply::'+complaintInstance.Latest_Comment__c);
-            system.debug('oldLatestComment::'+oldLatestComment);
             
             complaintJSONRequest = '{'+
                 //'"Identifier":'+workAssignmentInstance.SF_ID__c+','+
@@ -58,18 +56,15 @@ public class PortalComplaintProcessingAPI {
                 '"Requested_Date": "'+complaintInstance.Requested_Date__c+'",'+
                 '"Due_Date": "'+complaintInstance.Due_Date__c+'",'+
                 '"Next_follow_up_date": "'+complaintInstance.Next_follow_up_date__c+'",';
-                //if(oldLatestComment != complaintInstance.Latest_Comment__c) {
                     complaintJSONRequest += '"Comment_Reply": "'+(String.isnotBlank(complaintInstance.Latest_Comment__c) ? 
                     complaintInstance.Latest_Comment__c.escapeUnicode()
                    : complaintInstance.Latest_Comment__c) +'",';
-               /// }
                 complaintJSONRequest += '"Reopen_Comments": "'+complaintInstance.Reopen_Comments__c+'",'+
                 '"Complaint_Type": "'+complaintInstance.Complaint_Type__c+'",'+
                 '"Root_Cause": "'+complaintInstance.Root_Cause__c+'",'+
                '"Original_Creditor": "'+complaintInstance.Original_Creditor__c+'",'+
                 '"Resolution_By": "'+complaintInstance.Resolution_By__c+'",'+
                 '"Resolution_Date": "'+complaintInstance.Resolution_Date__c+'",'+
-               // '"Agency_Investigation_Notes": "'+complaintInstance.Agency_Investigation_Notes__c+'",'+
                 '"Result_of_Investigation": "'+complaintInstance.Agency_Investigation_Notes__c+'",'+
                 '"Source": "'+complaintInstance.Source__c+'",'+
                 '"CFG_Complaint_Analysis": "'+complaintInstance.CFG_Complaint_Analysis__c+'",'+
@@ -79,15 +74,12 @@ public class PortalComplaintProcessingAPI {
                 '"Last_Modified_By": "'+complaintInstance.Last_Modified_By__c+'",'+
                 '"Customer_Identifier": "'+complaintInstance.Customer_Identifier__c+'",'+
                 '"Customer_Name": "'+complaintInstance.Customer_Name__c+'",'+
-                //'"Judgment_Identifier": "'+complaintInstance.Judgment_Identifier__c+'",'+
                 '"Product_Identifier": "'+complaintInstance.Product_Identifier__c+'",'+
-                //'"Settlement_Identifier": "'+complaintInstance.Settlement_Identifier__c+'",'+
                 '"Complaint_Related_To_Another_Products": "'+complaintInstance.Complaint_Related_To_Another_Products__c+'",'+
                 '"Root_Cause_Other": "'+complaintInstance.Root_Cause_Other__c+'",'+
                 '"Complaint_Type_Other": "'+complaintInstance.Complaint_Type_Other__c+'",'+
                 '"Is_The_Complaint_Valid": "'+complaintInstance.Is_The_Complaint_Valid__c+'",'+
                 '"Have_You_Provided_Supporting_Media": "'+complaintInstance.Have_You_Provided_Supporting_Media__c+'",'+
-               // '"Request_To_Reopen": "'+complaintInstance.Request_To_Reopen__c+'",'+
                 '"Account_Being_CB_Reported_By_Agency": "'+complaintInstance.Account_Being_CB_Reported_By_Agency__c+'",'+
                 '"Agency_Currently_Has_Account_On_Hold": "'+complaintInstance.Agency_Currently_Has_Account_On_Hold__c+'",'+
                 '"Date_Complaint_Received_By_Agency": "'+complaintInstance.Date_Complaint_Received_By_Agency__c +'",'+
@@ -111,15 +103,12 @@ public class PortalComplaintProcessingAPI {
             HttpRequest req = new HttpRequest();
             system.debug('complaintJSONRequest: '+complaintJSONRequest);
             req.setBody(complaintJSONRequest);
-            system.debug('req body'+req.getBody());
             req.setHeader('Authorization', 'Bearer ' + accToken);
             req.setHeader('Content-Type', 'application/json;charset=UTF-8');
             apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFComplain');
             req.setEndpoint(apiCallDetails.PDF_API_URL__c+complaintInstance.Task_Number__c);
             req.setMethod('PUT');
-            //req.setEndpoint('https://paschidev-cnccd-cstprt-d.azurewebsites.net/api/'+'Customers/'+workAssignmentInstance.SF_ID__c);
             system.debug('req endpoint:: '+req.getEndpoint());
-            system.debug('req body:: '+req.getBody());
             complaintInstance.Outbound_API_Request_Body__c = req.getBody();
             system.debug('Outbound req body:: '+req.getBody());
             system.debug('req:: '+req);
@@ -137,13 +126,37 @@ public class PortalComplaintProcessingAPI {
                        system.debug(bodyMap.get('ReturnMessage'));
                    }       
                 else{
-                    system.debug('Error Response');
-                    system.debug(bodyMap.get('ReturnMessage'));
+                    String userName = UserInfo.getName();
+                    API_Error__c apiErrorData = New API_Error__c();
+                    apiErrorData.Action__c = 'API Failed';
+                    apiErrorData.Request__c = complaintInstance.Task_Number__c;
+                    if(res.getBody().length() > 131071){
+                                
+                        apiErrorData.Response__c =res.getBody().subString(0,131071);
+                    }else{
+                        apiErrorData.Response__c =res.getBody();
+                    }
+                    listAPIErrors.add(apiErrorData);
+                    
+                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Response__c,apiErrorData.Action__c);
                 }
             }
             catch(Exception ex){
                 system.debug('exception ex: '+ex);
+                String userName = UserInfo.getName();
+                API_Error__c apiErrorData = New API_Error__c();
+                apiErrorData.Error__c = ex.getMessage();
+                apiErrorData.Action__c = 'API Failed';
+                if(!Test.isRunningTest()){
+                    apiErrorData.Request__c = complaintInstance.Task_Number__c;
+                }
+                
+                listAPIErrors.add(apiErrorData);
+                
+                CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
             }
+            
+            insert listAPIErrors;
             
             if(complaintInstance != NULL){
                 WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
@@ -156,6 +169,9 @@ public class PortalComplaintProcessingAPI {
     //Get Access Token
     public static string getRequestToken() {
         system.debug('apiCallDetails: '+apiCallDetails);
+        String bodyParams = '';
+        Map<String, Object> wResp;
+        try{
         String dptenandId = apiCallDetails.Tenand_ID__c;
         String dpapiProxyClientId = apiCallDetails.Proxy_Client_ID__c;
         String dpapiClientClientId = apiCallDetails.Client_ID__c;
@@ -164,8 +180,7 @@ public class PortalComplaintProcessingAPI {
         String parsePDFApi =  apiCallDetails.PDF_API_URL__c;
         
         authorizationtUrl = authorizationtUrl.replace('{{tenandId}}', dptenandId);
-        system.debug('authorizationtUrl changed: '+authorizationtUrl);
-        String bodyParams =  'client_id='+dpapiClientClientId;
+        bodyParams =  'client_id='+dpapiClientClientId;
         bodyParams =  bodyParams+'&client_secret='+dpapiClientSecret;
         bodyParams =  bodyParams+'&scope='+apiCallDetails.Scope_Prefix__c+dpapiProxyClientId+apiCallDetails.Scope_Suffix__c;
         bodyParams =  bodyParams+'&grant_type=client_credentials';
@@ -185,11 +200,18 @@ public class PortalComplaintProcessingAPI {
         HttpResponse hresp = h.send(req);
         system.debug('hresp: '+hresp);
         system.debug('hresp.getBody(): '+hresp.getBody());
-        Map<String, Object> wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
+        wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
         system.debug('wResp: '+wResp.get('access_token'));
-        //Map<String, Object> resultMap = (Map<String, Object>) wResp.get('access_token');
-        //system.debug('resultMap::'+resultMap);
-        //system.debug('token'+resultMap.get('Token'));
+        }
+        catch(Exception ex){
+            String userName = UserInfo.getName();
+            API_Error__c apiError = New API_Error__c();
+            apiError.Error__c = ex.getMessage();
+            apiError.Action__c = 'Access Token';
+            apiError.Response__c = bodyParams;
+            listAPIErrors.add(apiError); 
+            CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiError.Error__c,apiError.Action__c);
+        }
         return String.valueOf(wResp.get('access_token'));
     }
 }
