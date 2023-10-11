@@ -15,6 +15,7 @@ public class TestSendProductEmailCntrl{
     public static void loadData(){
         
         Collection_Custom_Setting__c collCustSett = new Collection_Custom_Setting__c(
+            Distressed_Email_Templates__c = 'ICT1-Notice of Assignment,ICT2 - Payment Option,ICT4-Settlement Offer,ICT5-Final Demand',
             Credit_Card_Email_Templates__c = 'D1 Payment Reminder,D10 Let Us Help,D36 Let Us Help,D55 Potential Legal',
             Term_Loan_Email_Templates__c = 'D1 Term Loan Payment Reminder,D10 Term Loan Let Us Help,D36 Term Loan Let Us Help,D55 Potential Legal Term Loan,Day 75 Demand - Notice Before Suit (Non confirm Employment)',
             Auto_Print_Email_Template__c = 'D1 Term Loan Payment Reminder,D10 Term Loan Let Us Help,D36 Term Loan Let Us Help,D55 Potential Legal Term Loan,Day 75 Demand - Notice Before Suit (Non confirm Employment)',
