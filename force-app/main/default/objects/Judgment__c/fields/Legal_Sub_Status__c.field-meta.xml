@@ -221,6 +221,21 @@
                 <default>false</default>
                 <label>No Writ &amp; Locating Enforcement</label>
             </value>
+            <value>
+                <fullName>Claim Sent to Court</fullName>
+                <default>false</default>
+                <label>Claim Sent to Court</label>
+            </value>
+            <value>
+                <fullName>Judgment Sent to Court</fullName>
+                <default>false</default>
+                <label>Judgment Sent to Court</label>
+            </value>
+            <value>
+                <fullName>Motion For Substituted Service Filed</fullName>
+                <default>false</default>
+                <label>Motion For Substituted Service Filed</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Pre-legal</controllingFieldValue>
@@ -248,6 +263,10 @@
         <valueSettings>
             <controllingFieldValue>Pre-legal</controllingFieldValue>
             <valueName>Legal Action Rejected</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-legal</controllingFieldValue>
+            <valueName>Claim Sent to Court</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Pre-Judgment</controllingFieldValue>
@@ -294,6 +313,14 @@
         <valueSettings>
             <controllingFieldValue>Pre-Judgment</controllingFieldValue>
             <valueName>Abandonned Claim</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <valueName>Judgment Sent to Court</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Judgment</controllingFieldValue>
+            <valueName>Motion For Substituted Service Filed</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Judgment</controllingFieldValue>
