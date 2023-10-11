@@ -404,10 +404,6 @@
                 <behavior>Edit</behavior>
                 <field>Agencies_Accounts__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Canaccede_reviewed__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
