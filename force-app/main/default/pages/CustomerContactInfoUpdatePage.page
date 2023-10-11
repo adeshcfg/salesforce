@@ -1,6 +1,6 @@
 <apex:page controller="DisplayCustomerContInfoStagingController" showheader="true" standardStyleSheets="false" 
            sidebar="false" cache="false" docType="html-5.0" >
-    <apex:form id="form">
+
         <apex:slds />
         <style type="text/css">
             table{
@@ -161,30 +161,33 @@
         }
         
         </script>
-        
+        <apex:form id="form">
         <apex:pageMessages ></apex:pageMessages>
         <apex:define name="content"> 
             
             
             <apex:outputPanel rendered="{!!listCustomerContInfoStagingWrapper.Empty}" id="panel2">
                 <apex:outputPanel >
-                    <div style = "font-weight:bold;font-size:large">
+                    <div style = "font-weight:bold;font-size:large; visibility:{!showHide}">
                         Customer Contact Information Records to verify
                     </div>
                     <apex:outputPanel title="" id="pbs" >
-                        <div class="page_navigation"></div>
+                        <!-- <div class="page_navigation" style="visibility:{!showHide}"></div> -->
                         <script> 
                         var accountTableId = '{!$Component.accountTable}'; 
                         var accountTableBodyId = accountTableId + ':tb';
                         var pbsId = '{!$Component.pbs}';
                         </script>
                         
-                        <apex:datatable value="{!listCustomerContInfoStagingWrapper}" var="account" id="accountTable">
+                        <apex:datatable value="{!listCustomerContInfoStagingWrapper}" var="account" id="accountTable" style="visibility:{!showHide}">
                             <apex:column headerValue="Action" >
                                 <apex:facet name="header">
-                                    <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')">
-                                        <!--<apex:actionSupport event="onchange" />-->
+                                    <apex:inputCheckbox selected="{!isSelected}" style="visibility:{!showHideisSelected}">
+                                        <apex:actionSupport event="onchange" action="{!selectAll}" reRender="pbId,panel2"/>
                                     </apex:inputCheckbox>
+                                    <!-- <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')"> -->
+                                        <!--<apex:actionSupport event="onchange" />-->
+                                    <!-- </apex:inputCheckbox> -->
                                 </apex:facet>
                                 <apex:inputCheckbox id="inputId" value="{!account.selected}" disabled="{!account.disabled}">
                                     <!--<apex:actionSupport event="onchange" />-->
@@ -306,7 +309,7 @@
                                              status="status" oncomplete="CallWebService_JS();"/>
                    <!--     <apex:actionFunction action="{!postDocumentAPI}" name="CallWebService_JS" status="status"
                                              reRender="panel1, panel2, status, form"/> -->
-                        <div class="page_navigation"></div>
+                        <!-- <div class="page_navigation" style="visibility:{!showHide}"></div> -->
                         <div style = "Margin-left:35%;padding-top: 1%;">
                             <apex:commandButton onclick="InsertRecord_JS();return false;"
                                                 value="Process Records" id="theButtonn" 
@@ -317,12 +320,23 @@
                         
                     </apex:outputPanel>
                 </apex:outputPanel>
+            <apex:outputPanel style="text-align:center; visibility:{!showHide}" layout="block">
+                    <apex:commandButton value="First" reRender="pbId,panel2,pbId1" action="{!first}" disabled="{!NOT(hasPrevious)}" status="paginationStatus"/>
+                    <apex:commandButton value="Previous" rerender="pbId,panel2" action="{!previous}" disabled="{!NOT(hasPrevious)}" status="paginationStatus"/>&nbsp;Page {!pageNumber} of {!totalPages}&nbsp;
+                    <apex:commandButton value="Next" rerender="pbId,panel2,pbId1" action="{!next}" disabled="{!NOT(hasNext)}" status="paginationStatus"/>
+                    <apex:commandButton value="Last" rerender="pbId,panel2,pbId1" action="{!last}" disabled="{!NOT(hasNext)}" status="paginationStatus"/>
+                    <apex:actionStatus id="paginationStatus">
+                        <apex:facet name="start">
+                            Please wait...<img src="/img/loading32.gif" style="width: 18px;"/>
+                        </apex:facet>
+                    </apex:actionStatus>
+                </apex:outputPanel>
             </apex:outputPanel> 
-        </apex:define>
         <apex:outputPanel rendered="{!displayPanel}" id="panel1"> 
             Records Process Complete! <br/>
             Please check
             <apex:outputlink value="/{!workAssignmentId}"> Work Assignment </apex:outputlink>&nbsp;record
         </apex:outputPanel>
+    </apex:define>
     </apex:form>
 </apex:page>
