@@ -1236,10 +1236,7 @@ productNames += productInstance.Name + ',';
         
         ProductTriggerHandler.runProductTrigger = false;
         ProductPaymentstriggerHandler.runProductTrigger = false;
-        System.debug('Payment Non_Recoverable_Fee__c '+mapProductToAdjustInterestFinal.values()[0].Non_Recoverable_Fee__c);
-        System.debug('Payment Recoverable_Fee__c '+mapProductToAdjustInterestFinal.values()[0].Recoverable_Fee__c);
-        System.debug('Payment Current_Bal_NSF_Fees__c '+mapProductToAdjustInterestFinal.values()[0].Current_Bal_NSF_Fees__c);
-        System.debug('Payment Current_Balance__c '+mapProductToAdjustInterestFinal.values()[0].Current_Balance__c);
+        
         //For ticket 4518 - satyajit patil     
         List<Database.SaveResult> updateResults;
         if(paymentProcessing == 'Payment Excel Processing'){                                                       
@@ -1311,10 +1308,6 @@ productNames += productInstance.Name + ',';
                                                  ORDER BY Payment_Posting_Date__c ASC)
                                           FROM Product__c
                                           WHERE ID IN :setProductID]){
-                                            System.debug('Before fee update Non_Recoverable_Fee__c '+productInstance.Non_Recoverable_Fee__c);
-                                            System.debug('Before fee update Recoverable_Fee__c '+productInstance.Recoverable_Fee__c);
-                                            System.debug('Before fee update Current_Bal_NSF_Fees__c '+productInstance.Current_Bal_NSF_Fees__c);
-                                            System.debug('Before fee update Current_Balance__c '+productInstance.Current_Balance__c);                    
             for(Product_Payments__c prodPayment : productInstance.Product_Payments__r){
                 
                 prodPayment.Balance_Before_Payment__c = productInstance.Current_Balance__c;
@@ -1381,10 +1374,7 @@ productNames += productInstance.Name + ',';
         ProductTriggerHandler.runProductTrigger = false;
         
         //update listProductsToUpdate;
-        System.debug('Fees Non_Recoverable_Fee__c '+listProductsToUpdate[0].Non_Recoverable_Fee__c);
-        System.debug('Fees Recoverable_Fee__c '+listProductsToUpdate[0].Recoverable_Fee__c);
-        System.debug('Fees Current_Bal_NSF_Fees__c '+listProductsToUpdate[0].Current_Bal_NSF_Fees__c);
-        System.debug('Fees Current_Balance__c '+listProductsToUpdate[0].Current_Balance__c);
+        
         //For ticket 4518 - satyajit patil 
         List<Database.SaveResult> updateResults;
          if(paymentProcessing == 'Payment Excel Processing'){
