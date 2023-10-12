@@ -236,6 +236,11 @@
                 <default>false</default>
                 <label>Motion For Substituted Service Filed</label>
             </value>
+            <value>
+                <fullName>Enforcement of Judgment Against Land</fullName>
+                <default>false</default>
+                <label>Enforcement of Judgment Against Land</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Pre-legal</controllingFieldValue>
@@ -393,6 +398,10 @@
         <valueSettings>
             <controllingFieldValue>Post-Judgment</controllingFieldValue>
             <valueName>No Writ &amp; Locating Enforcement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Post-Judgment</controllingFieldValue>
+            <valueName>Enforcement of Judgment Against Land</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

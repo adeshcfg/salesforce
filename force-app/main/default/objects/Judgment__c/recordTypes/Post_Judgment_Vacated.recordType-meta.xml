@@ -257,6 +257,22 @@
             <fullName>Writ and Payment Arrangement</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Claim Sent to Court</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Judgment Sent to Court</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Motion For Substituted Service Filed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enforcement of Judgment Against Land</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Payment_frequency__c</picklist>
