@@ -142,10 +142,10 @@ public class PortalComplaintProcessingAPI {
                 }
             }
             catch(Exception ex){
-                system.debug('exception ex: '+ex);
+                system.debug('exception ex: '+ex.getStackTraceString());
                 String userName = UserInfo.getName();
                 API_Error__c apiErrorData = New API_Error__c();
-                apiErrorData.Error__c = ex.getMessage();
+                apiErrorData.Error__c = complaintInstance.Task_Number__c +' '+'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
                 apiErrorData.Action__c = 'API Failed';
                 if(!Test.isRunningTest()){
                     apiErrorData.Request__c = complaintInstance.Task_Number__c;
