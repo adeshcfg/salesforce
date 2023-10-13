@@ -176,7 +176,7 @@ public class CFG_EmailNotification {
         mail.setUseSignature(false);
         
         //mail.setPlainTextBody('For your task '+workAssigName+' '+workAssigTitle+' the allocation process is completed. \n\n\nClick to process allocation record link:\n\n\n\n Thanks');
-        mail.setHtmlBody('Snapshot is failed please find the below error and kindly contact with your technical team:<br/><br/>'+exceptionMsg+'<br/><br/><br/>Thanks,<br/>CFG support');
+        mail.setHtmlBody('Snapshot is failed. Please find the below error and kindly contact with your technical team:<br/><br/>'+exceptionMsg+'<br/><br/><br/>Thanks,<br/>CFG support');
     
         // Send the email you have created.
         try{
@@ -215,7 +215,7 @@ public class CFG_EmailNotification {
         mail.setUseSignature(false);
         
         //mail.setPlainTextBody('For your task '+workAssigName+' '+workAssigTitle+' the allocation process is completed. \n\n\nClick to process allocation record link:\n\n\n\n Thanks');
-        mail.setHtmlBody('Snapshot is failed please find the below error and kindly contact with your technical team:<br/><br/>'+exceptionMsg+'on action'+action+'<br/><br/><br/>Thanks,<br/>CFG support');
+        mail.setHtmlBody('Snapshot is failed. Please find the below error and kindly contact with your technical team:<br/><br/>'+exceptionMsg+' '+'on action'+' '+action+'.<br/><br/><br/>Thanks,<br/>CFG support');
     
         // Send the email you have created.
         try{

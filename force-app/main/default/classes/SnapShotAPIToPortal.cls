@@ -84,7 +84,12 @@ public class SnapShotAPIToPortal {
             req.setMethod('POST');         
             system.debug('req endpoint:: '+req.getEndpoint());
             system.debug('Outbound req body:: '+req.getBody());
-                        
+            document_storage__c docData;
+            if(!documentStorageId.contains('DS_ACC')){
+                docData = [select id,name,Work_Assignment__c from document_storage__c where id = :documentStorageId];
+                
+            }
+            
             try{
                 // Send the request, and return a response
                 HttpResponse res = h.send(req);
@@ -97,11 +102,7 @@ public class SnapShotAPIToPortal {
                     listAccountRecordWrapper = deSerializeJSON(res.getBody());
                     system.debug('inside after 202'+listAccountRecordWrapper);
                     system.debug('listAccountRecordWrapper 202'+listAccountRecordWrapper.code);
-                    document_storage__c docData;
-                    if(!documentStorageId.contains('DS_ACC')){
-                        docData = [select id,Work_Assignment__c from document_storage__c where id = :documentStorageId];
-                        
-                    }
+                    
                     Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
                     if(docData != null && !snap.Allocations.isEmpty()){
                         updateWorkAssign.id = docData.Work_Assignment__c;
@@ -126,11 +127,6 @@ public class SnapShotAPIToPortal {
                     dataOfErrorJSON = deSerializeErrorJSON(res.getBody());
                     system.debug('inside else after 202'+dataOfErrorJSON);
                     system.debug('docData::'+documentStorageId);
-                    
-                    document_storage__c docData;
-                    if(!documentStorageId.contains('DS_ACC') ){
-                        docData = [select id,Work_Assignment__c,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
-                    }
                     if(docData != null){
                         Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
                         updateWorkAssign.id = docData.Work_Assignment__c;
@@ -170,7 +166,11 @@ public class SnapShotAPIToPortal {
                 }
                 DataIds = DataIds.removeEnd(', ');
                 API_Error__c apiErrorData = New API_Error__c();
-                apiErrorData.Error__c = ex.getMessage();
+                if(docData != NULL){
+                    apiErrorData.Error__c = docData.name +' '+'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
+                }else{
+                    apiErrorData.Error__c = 'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
+                }
                 apiErrorData.End_Point__c = 'Process Distressed';
                 apiErrorData.Action__c = 'API Failed';
                 apiErrorData.Request__c = DataIds;
