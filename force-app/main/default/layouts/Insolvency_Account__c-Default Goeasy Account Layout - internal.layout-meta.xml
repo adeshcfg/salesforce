@@ -58,7 +58,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Balance_Owed__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Duplicate_Reasons_Picklist__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Customer_CID__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -139,10 +147,6 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Borrower_Primary__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Customer_CID__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -424,10 +428,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Claim_Amount__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Balance_Owed__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

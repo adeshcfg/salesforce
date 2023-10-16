@@ -79,6 +79,10 @@
                 <field>Back_to_Collections_Review_Completed__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Balance_Owed__c</field>
+            </layoutItems>
+            <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
@@ -104,6 +108,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Charge_Off_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Customer_CID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -207,10 +215,6 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Borrower_Primary__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Customer_CID__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -370,10 +374,6 @@
         <editHeading>true</editHeading>
         <label>Claim Amounts</label>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Balance_Owed__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Expected_Account_Recovery_Ratio__c</field>
