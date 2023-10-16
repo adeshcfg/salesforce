@@ -17,13 +17,9 @@ public class CustomerStagingExcelFileProcessing {
     Map<String, Integer> fieldNumberMap = new Map<String, Integer>();
 
     public CustomerStagingExcelFileProcessing(String data, String workAssignmentPlacement, ID documentId) {
-        system.debug('workAssignmentPlacement Names::::' + workAssignmentPlacement);
-        system.debug('data**' + data);
-        system.debug('class called');
         exceptionMessage = '';
         listCustomerContactInfoRecordsWrapper = deSerializeJSON(data);
         this.workAssignmentPlacement = workAssignmentPlacement;
-        system.debug('workAssignmentPlacement check::::' + this.workAssignmentPlacement);
         this.documentId = documentId;
         processExcelFileRecords();
     }
@@ -37,7 +33,6 @@ public class CustomerStagingExcelFileProcessing {
     }
 
     public void processExcelFileRecords() {
-        system.debug('workAssignmentPlacement== ' + workAssignmentPlacement);
         try {
             List<Product__c> listProductToInsert = new List<Product__c>();
 
@@ -46,7 +41,6 @@ public class CustomerStagingExcelFileProcessing {
                 wrapRecord.data_id = wrapRecord.data_id.toUppercase();
                 customerContactList.add(wrapRecord.data_id);
             }
-            system.debug('Customer List ' + customerContactList);
             list<Placement__c> listPlacements = [
                 SELECT ID
                 FROM Placement__c
@@ -72,7 +66,6 @@ public class CustomerStagingExcelFileProcessing {
                 FROM Product__C
                 WHERE name IN :customerContactList
             ];
-            system.debug('listAccount:: ' + listAccount);
 
             //map of account number to the Salesforce record ID
             Map<String, ID> mapAccountNumberID = new Map<String, ID>();
@@ -85,7 +78,6 @@ public class CustomerStagingExcelFileProcessing {
                 mapAccountNumberID.put(accountRecord.name, accountRecord.id);
                 mapProduct.put(accountRecord.id, accountRecord);
                 //setProdutID.add(accountRecord.id);
-                //system.debug('Produt List ' + accountRecord.Name);
                 setPlacementNames.add(String.valueOf(accountRecord.Collection_Agency__c));
             }
             for (String dataid : customerContactList) {
@@ -95,8 +87,6 @@ public class CustomerStagingExcelFileProcessing {
                     mapProductDup.put(String.valueOf(dataid), 1);
                 }
             }
-
-            system.debug('listCustomerContactInfoRecordsWrapper::' + listCustomerContactInfoRecordsWrapper);
 
             for (CustomerContactInfoRecordsWrapper wrapRecord : listCustomerContactInfoRecordsWrapper) {
                 Product__c prod = new Product__c();
@@ -126,8 +116,6 @@ public class CustomerStagingExcelFileProcessing {
                 listProductToInsert.add(prod);
             }
 
-            system.debug('listProductToInsert: ' + listProductToInsert);
-
             list<Customer_Staging__c> listCustStaging = validationOnRecordUpdate(
                 listProductToInsert,
                 setPlacementNames,
@@ -139,8 +127,8 @@ public class CustomerStagingExcelFileProcessing {
             );
             Database.SaveResult[] sr = database.insert(listCustStaging);
         } catch (Exception ex) {
-            exceptionMessage = String.valueOf(ex);
-            system.debug('exceptionMessage::' + exceptionMessage);
+            exceptionMessage = String.valueOf(ex.getMessage());
+            system.debug('Exception in processExcelFileRecords ::' + ex.getStackTraceString());
         }
 
         list<Document_Storage__c> listDocuments = [
@@ -148,7 +136,6 @@ public class CustomerStagingExcelFileProcessing {
             FROM Document_Storage__c
             WHERE ID = :documentID
         ];
-        system.debug('listDocuments:: ' + listDocuments);
         //Send email of File processing completion
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         if (!listDocuments.isEmpty() && listDocuments[0].Uploaded_By__c == 'External User' && String.isnotblank(listDocuments[0].Creator__c)) {
@@ -305,9 +292,7 @@ public class CustomerStagingExcelFileProcessing {
             }
              */
             if (mapProduct.containsKey(prod.Name) && mapProduct.get(prod.Name).Collection_Agency__c != null) {
-                system.debug('Collection_Agency__c inside if:::');
                 newAgency = String.valueOf(Math.floor(mapProduct.get(prod.Name).Collection_Agency__c));
-                system.debug('newAgency inside if' + newAgency);
             }
             if (mapProduct.containsKey(prod.Name) && mapProduct.get(prod.Name).Status__c != null && mapProduct.get(prod.Name).Status__c.startswith('Recall')) {
                 ERROR_MSG += '<b>WARNING</b> - Product is in Recall Status.<br/>';
@@ -321,9 +306,6 @@ public class CustomerStagingExcelFileProcessing {
                 ERROR_MSG += '<b>WARNING</b> - Account is closed.<br/>';
             }
             //this validation for valid the product from two different agency.
-            system.debug('collection agency test::' + prod.Collection_Agency__c);
-
-            system.debug('newAgency inside validation' + newAgency);
             if (String.isNotBlank(workAssignmentPlacement) && workAssignmentPlacement != newAgency) {
                 //10-Jan Pushpa : for 4178 changed Warning to Error
                 ERROR_MSG += '<b>ERROR</b> - This account is not available in this Placement.<br/>';
@@ -334,7 +316,6 @@ public class CustomerStagingExcelFileProcessing {
                 }
             }
 
-            system.debug('prod.Email_Address__c  ' + prod.Email_Address__c);
             Pattern MyPattern = Pattern.compile(emailRegex);
             Matcher MyMatcher;
             Matcher MyMatchersec;
@@ -345,27 +326,18 @@ public class CustomerStagingExcelFileProcessing {
                 MyMatchersec = MyPattern.matcher(prod.Codebtor_Email_Address__c);
             }
 
-            system.debug('MyMatcher ' + MyMatcher);
-            //system.debug('MyMatcher '+MyMatcher.matches());
             if ((MyMatcher != null && MyMatcher.matches() == false) || (MyMatchersec != null && MyMatchersec.matches() == false)) {
                 ERROR_MSG += '<b>ERROR</b> - Invalid Email Address.<br/>';
                 EXPECTED += 'Emails should have a format of xxxxx@xxxxx.xxx <br/>';
             }
 
             if (!mapProduct.containsKey(prod.Name)) {
-                system.debug('product not exists::' + prod.Name);
                 ERROR_MSG += '<b>ERROR</b> - Account not found.<br/>';
-                system.debug('product not exists ERROR_MSG::' + ERROR_MSG);
             }
-            system.debug('MapProdutDuplicate ' + mapProductDup);
-            system.debug('MapProdutDuplicate Prod ' + prod.Name);
             if (mapProductDup.containsKey(prod.Name) && mapProductDup.get(prod.Name) > 1) {
                 ERROR_MSG += '<b>ERROR</b> - A duplicate transaction was found in this File Update.<br/>';
-                system.debug('product Duplicate ERROR_MSG::' + ERROR_MSG);
             }
             customerUpdateStaging = new Customer_Staging__c();
-            system.debug('prod.Name: ' + prod.Name);
-            system.debug('ERROR_MSG check:: ' + ERROR_MSG);
             customerUpdateStaging.ProdID__c = prod.Name;
             customerUpdateStaging.Email_Address__c = prod.Email_Address__c;
             customerUpdateStaging.Address_Line1__c = prod.Address_Line1__c;
@@ -406,7 +378,6 @@ public class CustomerStagingExcelFileProcessing {
 
             ERROR_MSG = '';
         }
-        system.debug('listcustconinfoStaging: ' + listcustconinfoStaging);
         return listcustconinfoStaging;
     }
 
