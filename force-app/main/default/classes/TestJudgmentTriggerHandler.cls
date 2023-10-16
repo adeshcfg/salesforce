@@ -60,7 +60,7 @@ public class TestJudgmentTriggerHandler {
         prodInstance.Disbursement_Amount__c = 3000.00;
         prodInstance.Status__c = 'New Allocation - New Allocation';
         prodInstance.Sub_Status__c = 'Ready';
-        prodInstance.Product_Status__c = 'Test';
+        prodInstance.Product_Status__c = 'Test1';
         prodInstance.Collection_Agency__c = Decimal.valueOf(plcgy1.name);
         prodInstance.State__c = 'ON';
         prodInstance.Current_Principal_Balance__c = 5000;
