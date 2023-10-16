@@ -83,6 +83,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CCS Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Chq Stub</fullName>
             <default>false</default>
         </values>
@@ -227,7 +231,7 @@
             <default>false</default>
         </values>
     </picklistValues>
-    <picklistValues>
+        <picklistValues>
         <picklist>Insolvency_Assignment_Type__c</picklist>
         <values>
             <fullName>Account Validation</fullName>
