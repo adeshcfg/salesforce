@@ -18141,6 +18141,11 @@
         <field>Product__c.Interest_Stopped__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Staging__c.Include_in_Processing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
