@@ -61,6 +61,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
                         Include_in_Processing__c
                     FROM Customer_Staging__c
                     WHERE Identifier__c = :documentStorageId AND Status__c != 'Processed'
+                    ORDER BY Include_in_Processing__c
                 ]
             );
         } else {
