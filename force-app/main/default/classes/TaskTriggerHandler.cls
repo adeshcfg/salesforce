@@ -81,19 +81,19 @@ public class TaskTriggerHandler{
       for(Judgment__c judgeList : [select id,Collection_Agency_Identifier__c from Judgment__c where id IN: taskIdsFirstArray]){
           JudgMap.put(judgeList.id, judgeList);
       }
-      for(Account_Judgment__c AccJudgList : [select id,Judgment__c,Product__r.First_Name__c,Product__r.Last_Name__c,Product__r.Originating_Creditor__c from Account_Judgment__c where Judgment__c IN:  taskIdsFirstArray order by createddate asc]){
-          AccJudgMap.put(AccJudgList.id , AccJudgList); 
+      for(Account_Judgment__c AccJudgList : [select id,Judgment__c,Product__r.First_Name__c,Product__r.Last_Name__c,Product__r.Originating_Creditor__c from Account_Judgment__c where Judgment__c IN:  JudgMap.keyset() order by createddate asc]){
+          AccJudgMap.put(AccJudgList.Judgment__c , AccJudgList); 
       }
       for(Judgment__c judgeList1:JudgMap.values()){
-          for(Account_Judgment__c AccJudgList1:AccJudgMap.values()){
+          Account_Judgment__c AccJudgList1=AccJudgMap.get(judgeList1.id);
               for(Task t : taskNew1){
                   t.Collection_Agency__c = String.ValueOf(judgeList1.Collection_Agency_Identifier__c);
                   t.First_Name__c = String.ValueOf(AccJudgList1.Product__r.First_Name__c);
                   t.Last_Name__c = String.ValueOf(AccJudgList1.Product__r.Last_Name__c);
                   t.Seller__c = String.ValueOf(AccJudgList1.Product__r.Originating_Creditor__c);
                   
-              }
-          }
+              }            
+          
       }
       ///system.debug('LIST ACCOUNT_judgment '+AccJudgList1);
   }
@@ -109,10 +109,10 @@ if(!taskIdsSecondArray.isEmpty()){
     }
     if(!judgeIDs.isEmpty()){
         for(Account_Judgment__c AccJudgList2 : [select id,Judgment__c,Product__r.First_Name__c,Product__r.Last_Name__c,Product__r.Originating_Creditor__c from Account_Judgment__c where Judgment__c IN: judgeIDs order by createddate asc]){
-        AccJudgMap.put(AccJudgList2.id,AccJudgList2);
+        AccJudgMap.put(AccJudgList2.Judgment__c,AccJudgList2);
         }
         for(Settlement__c settleList:settleMapNew.values()){
-            for(Account_Judgment__c AccJudgList1:AccJudgMap.values()){
+           Account_Judgment__c AccJudgList1=AccJudgMap.get(settleList.Judgment__c);
         for(Task t : taskNew1){
                 if(settleList.Product__c != Null){
                     
@@ -131,13 +131,14 @@ if(!taskIdsSecondArray.isEmpty()){
                 }
             }
         }
+        
         }
     }
 }
 
         }
         
-    }
+    
 
     //Handle after insert
     public static void handleAfterInsert(List<Task> taskNew) {
