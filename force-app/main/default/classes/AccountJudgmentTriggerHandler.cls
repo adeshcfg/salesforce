@@ -129,7 +129,7 @@ public class AccountJudgmentTriggerHandler{
                 }
             }
         }
-        
+        List<Judgment__c> judgList = [SELECT Id, name,Agency_Initiated_Legal_Action__c,Agency_Initiated_Legal_Action_Lookup__c FROM Judgment__c WHERE Id IN: judgIds];
         system.debug('prodJudUpdatedToInactive v1: '+prodJudUpdatedToInactive);
         for(Account_Judgment__c prodJudg: [SELECT Id, Status__c, Product__c FROM Account_Judgment__c WHERE Judgment__c IN: judgIds]){
             prodJudg.Status__c = 'Active';
@@ -163,7 +163,7 @@ public class AccountJudgmentTriggerHandler{
             if(!prodJudUpdatedToInactive.isEmpty())
             update prodJudUpdatedToInactive;
         }
-        
+        JudgmentTriggerHandler.updateAgencyOnJudgment(judgList);
         //– fetch all active AccountJudgment records on the related product record. Update those record’s status to “Inactive” 
     } 
     

@@ -87,7 +87,50 @@ public class JudgmentTriggerHandler {
         
         //get Judgment Balance According to Product
         getJudgmentBalance(listNewJudgments);
+    }
+    //call method from AccountJudgmentTriggerHandler
+    public static void updateAgencyOnJudgment(list<Judgment__c> listNewJudgments){
+         map<ID, ID> mapActiveAccountJudgments = new map<ID, ID>();
+         Set<ID> mapProdId =new Set<ID>();
+         map<ID,Product__c> mapProd = new map<ID,Product__c>();
+        List<ID> JudId = new List<ID>(); 
+        Map<id,Judgment__c> judMapData = new Map<id,Judgment__c>();
         
+        for(Judgment__c judgmentData:listNewJudgments){
+            JudId.add(judgmentData.id);
+        }
+
+        //Get the active account judgment
+        for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c,Product__r.name
+                                               FROM Account_Judgment__c
+                                               WHERE Judgment__c IN :JudId
+                                               AND Status__c= 'Active'
+                                              ]){
+                                                  mapActiveAccountJudgments.put(accJudgment.Judgment__c , accJudgment.Product__c);
+                                                  mapProdId.add(accJudgment.Product__c);  
+                                             }
+        
+        for(Product__c prod : [SELECT ID,Name, Collection_Agency__c,Collection_Agency_Placement__c ,State__c,
+                               Status__c,Sub_Status__c,Account_Purchasing_Entity_Value__c
+                               FROM Product__c WHERE ID = :mapProdId ]){
+                                   mapProd.put(prod.id,prod);                    
+                               } 
+        
+        //Populate Agency from Product to Judgment.
+        for(Judgment__c judgment : listNewJudgments){
+            if(mapProd.containsKey(mapActiveAccountJudgments.get(judgment.ID))){
+                if(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c != NULL){
+                    judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c));                   
+                }
+                if(String.isNotBlank(judgment.Agency_Initiated_Legal_Action__c)){ 
+                    judgment.Agency_Initiated_Legal_Action_Lookup__c = collectionAgency.get(judgment.Agency_Initiated_Legal_Action__c);
+                }else{
+                    judgment.Agency_Initiated_Legal_Action_Lookup__c = Null;
+                }
+            }
+            judMapData.put(judgment.id,judgment);
+        }
+        update judMapData.values();
     }
     
     //method to update Placement Main Status and Sub STatus on Product based on Legal statuses
@@ -157,7 +200,6 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
                 //Populate Agency from Product to Judgment.
                 if(mapProd.containsKey(mapActiveAccountJudgments.get(judgment.ID))){
                     if(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c != NULL){
-                        judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c));                   
                         judgment.Placed_Agency__c = String.valueOf(Math.floor(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c));
                     }
                 }
@@ -417,13 +459,13 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
             }
             
             //Ticket-LRT#972973 - Enhancements to search results in Product Search - Display Agency Name (not number)
-            if(String.isNotBlank(String.ValueOf(judgmentObj.Agency_Initiated_Legal_Action__c))){
+            /*if(String.isNotBlank(String.ValueOf(judgmentObj.Agency_Initiated_Legal_Action__c))){
                 
                 judgmentObj.Agency_Initiated_Legal_Action_Lookup__c = collectionAgency.get(String.ValueOf(judgmentObj.Agency_Initiated_Legal_Action__c));
                 
             }else{
                 judgmentObj.Agency_Initiated_Legal_Action_Lookup__c = Null;
-            }
+            }*/
             //Refering only Lindsay validation sheet
             /*if(judgmentObj.Legal_Status__c != mapOldJudgment.get(judgmentObj.Id).Legal_Status__c){
 validationRules(listNewJudgments,mapOldJudgment);
