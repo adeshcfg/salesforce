@@ -427,7 +427,7 @@ public class DisplayCustomerContInfoStagingController {
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
         showButton = false;
         // Call batch to update the actual Product records
-        Database.executeBatch(new CFG_ProcessSuccessRecords(workAssignmentId, recordIdentfier, CUSTOMER_CONTACT_INFO_UPDATE), 200);
+        Database.executeBatch(new CFG_ProcessSuccessRecords(workAssignmentId, recordIdentfier, CUSTOMER_CONTACT_INFO_UPDATE), 1000);
         if (!listCustomerContInfoStagingWrapper.isEmpty()) {
             listCustomerContInfoStagingWrapper.clear();
         }
@@ -609,7 +609,7 @@ public class DisplayCustomerContInfoStagingController {
             ProductTriggerHandler.runProductTrigger = true;
             //Create Success and Error file
             DisplayCustomerContInfoStagingController.GenerateSuccessAndErrorFile(
-                listCustomerStagingToUpdate,
+                listCustomerStaging,
                 listCustomerStaging[0].Document_Storage__r.Work_Assignment__c,
                 portalSettings.Document_Storage_Default_Visibility__c,
                 listCustomerStaging[0].Document_Storage__c
