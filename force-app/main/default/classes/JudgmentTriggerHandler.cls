@@ -87,19 +87,20 @@ public class JudgmentTriggerHandler {
         
         //get Judgment Balance According to Product
         getJudgmentBalance(listNewJudgments);
+        //updateAgencyOnJudgment(listNewJudgments);
     }
-    //call method from AccountJudgmentTriggerHandler
+    
     public static void updateAgencyOnJudgment(list<Judgment__c> listNewJudgments){
          map<ID, ID> mapActiveAccountJudgments = new map<ID, ID>();
          Set<ID> mapProdId =new Set<ID>();
          map<ID,Product__c> mapProd = new map<ID,Product__c>();
         List<ID> JudId = new List<ID>(); 
-        Map<id,Judgment__c> judMapData = new Map<id,Judgment__c>();
-        
+        system.debug('updateAgencyOnJudgment listNewJudgments'+listNewJudgments);
         for(Judgment__c judgmentData:listNewJudgments){
             JudId.add(judgmentData.id);
-        }
 
+        }
+        system.debug('updateAgencyOnJudgment JudId'+JudId);
         //Get the active account judgment
         for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c,Product__r.name
                                                FROM Account_Judgment__c
@@ -109,30 +110,37 @@ public class JudgmentTriggerHandler {
                                                   mapActiveAccountJudgments.put(accJudgment.Judgment__c , accJudgment.Product__c);
                                                   mapProdId.add(accJudgment.Product__c);  
                                              }
-        
+        system.debug('mapProdId***'+mapProdId);
+        system.debug('mapActiveAccountJudgments***'+mapActiveAccountJudgments);
         for(Product__c prod : [SELECT ID,Name, Collection_Agency__c,Collection_Agency_Placement__c ,State__c,
                                Status__c,Sub_Status__c,Account_Purchasing_Entity_Value__c
                                FROM Product__c WHERE ID = :mapProdId ]){
                                    mapProd.put(prod.id,prod);                    
                                } 
         
+        system.debug('mapProd***'+mapProd);
+        Map<id,Judgment__c> judMapData = new Map<id,Judgment__c>();
         //Populate Agency from Product to Judgment.
         for(Judgment__c judgment : listNewJudgments){
             if(mapProd.containsKey(mapActiveAccountJudgments.get(judgment.ID))){
+                system.debug('inside product check');
                 if(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c != NULL){
+                    system.debug('inside judgment');
                     judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c));                   
                 }
-                if(String.isNotBlank(judgment.Agency_Initiated_Legal_Action__c)){ 
+                if(String.isNotBlank(judgment.Agency_Initiated_Legal_Action__c)){
+                    
                     judgment.Agency_Initiated_Legal_Action_Lookup__c = collectionAgency.get(judgment.Agency_Initiated_Legal_Action__c);
+                    
                 }else{
                     judgment.Agency_Initiated_Legal_Action_Lookup__c = Null;
                 }
             }
+            system.debug('inside judgment%%'+judgment);
             judMapData.put(judgment.id,judgment);
         }
         update judMapData.values();
     }
-    
     //method to update Placement Main Status and Sub STatus on Product based on Legal statuses
     public static void updateProductStatusesOnJudgment(list<Judgment__c> listNewJudgments, list<String> listLegalStatuses){
         system.debug('inside updated status');
@@ -200,6 +208,7 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
                 //Populate Agency from Product to Judgment.
                 if(mapProd.containsKey(mapActiveAccountJudgments.get(judgment.ID))){
                     if(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c != NULL){
+                        //judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c));                   
                         judgment.Placed_Agency__c = String.valueOf(Math.floor(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c));
                     }
                 }
@@ -218,13 +227,13 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
                         system.debug('mapAccountJudgmentCodes Check'+mapAccountJudgmentCodes);
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
                             system.debug('inside legal status sub status');
-                            product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')   product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')   product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')  product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
                         }
                         system.debug('product.Status__c'+product.Status__c);
                         system.debug('product.Sub_Status__c'+product.Sub_Status__c);
@@ -245,13 +254,13 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
                         product.ID = mapProductName.get(judgment.Product_2__c);
                         system.debug('product.ID'+product.ID);
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')   product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')   product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')   product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
                         }
                         productMap.put(product.Id,product);
                     }
@@ -268,13 +277,13 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
                         product.ID = mapProductName.get(judgment.Product_3__c);
                         system.debug('product.ID'+product.ID);
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')   product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')  product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')   product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
                         }
                         productMap.put(product.Id,product);
                     }                                      
@@ -292,13 +301,13 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
                         product.ID = mapProductName.get(judgment.Product_4__c);
                         system.debug('product.ID'+product.ID);
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')   product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')  product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')   product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
                         }
                         productMap.put(product.Id,product);
                     }                                    
@@ -317,13 +326,13 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
                         product.ID = mapProductName.get(judgment.Product_5__c);
                         system.debug('product.ID'+product.ID);
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal') product.Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal') product.Sub_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Product_Sub_status__c;    
                         }
                         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c)){
-                            product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
+                            if(!mapProd.get(product.ID).Status__c.contains('Pending Recall') && judgment.Legal_Status__c <>'Pre-legal')  product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;    
                         }
                         productMap.put(product.Id,product);
                     }                                    
@@ -380,7 +389,7 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
         list<Judgment__c> listExternalNewJudgment = new list<Judgment__c>();
         Agency_Portal_Settings__c postJudgRcodtypId = Agency_Portal_Settings__c.getOrgDefaults();
         list<String> listJudgmentStatuses = new list<String>();
-        
+
         for(Judgment__c judgmentObj : listNewJudgments){
             listJudgmentStatuses.add(judgmentObj.Legal_Status__c);
             
@@ -570,7 +579,6 @@ validationRules(listNewJudgments,mapOldJudgment);
     public static void handleAfterInsert(list<Judgment__c> judgment){
         system.debug('after insert');
         system.debug('after insert judgment' +judgment);
-        
         for(Judgment__c judgRecord : judgment){
             Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
             config.Send_Notification__c = true;  

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cannot_refer_to_legal_from_PendingRecall</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( 
+    ISCHANGED(  Refer_to_Legal__c ),
+    OR(
+ISPICKVAL(  PRIORVALUE(Status__c) , &apos;Pending Recall - Client Request&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Client Request Sale&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Consumer Proposal&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Credit Counselling&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Bankruptcy&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Deceased&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Fraud&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Insurance&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Legal&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - PIF&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - SIF&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Paid Prior&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Paid Prior To Previous Agency&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Uncollectible&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - On Hold - Disputed&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Warehouse - Disputed&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Close - Disputed&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - On Hold - Counterclaim&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Warehouse - Counterclaim&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Close - Counterclaim&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Ready to Close&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Dormant Judgment&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - On Hold - Buy Back Pending Research&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Buy Back To Seller&apos;) ,
+ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Other&apos;) 
+)
+)</errorConditionFormula>
+    <errorMessage>We cannot update Refer to Legal when Placement Main Status is Pending Recall</errorMessage>
+</ValidationRule>
