@@ -1,2 +1,15 @@
 <apex:page standardController="Product__c" extensions="UpdateAmountPastDueController">
+    <apex:slds ></apex:slds>
+    <apex:form >
+    	<apex:outputPanel rendered="{!responseMessage != ''}">
+            <div>
+               {!responseMessage} 
+            </div>
+            <br/>
+            <apex:commandButton action="{!redirectToProduct}" 
+                                    value="Back" 
+                                    reRender="panel"
+                                    styleClass="slds-button slds-button_outline-brand"/>
+        </apex:outputPanel>
+    </apex:form>
 </apex:page>
