@@ -117,6 +117,11 @@
                 <default>false</default>
                 <label>Leasing product</label>
             </value>
+            <value>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+                <label>Credit Card</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
