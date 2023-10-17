@@ -763,32 +763,27 @@ public class TestJudgmentTriggerHandler {
         
         product__c prod = new product__c();
         prod.name = '12345';
-        prod.Status__c='Pending Recall';
         prod.Current_Principal_Balance__c = 120;
         prod.Collection_Agency__c = 29;
         insert prod;
         
         product__c prod1 = new product__c();
         prod1.name = '54321';
-        prod1.Status__c='Pending Recall';
         prod1.Current_Principal_Balance__c = 120;
         insert prod1;
         
         product__c prod2 = new product__c();
         prod2.name = '67890';
-        prod2.Status__c='Pending Recall';
         prod2.Current_Principal_Balance__c = 100;
         insert prod2;
         
         product__c prod3 = new product__c();
         prod3.name = '90876';
-        prod3.Status__c='Pending Recall';
         prod3.Current_Principal_Balance__c = 140;
         insert prod3;
         
         product__c prod4 = new product__c();
         prod4.name = '45678';
-        prod4.Status__c='Pending Recall';
         prod4.Current_Principal_Balance__c = 130;
         insert prod4;
          Test.startTest(); 
