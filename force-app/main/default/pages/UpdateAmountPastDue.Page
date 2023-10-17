@@ -1,2 +1,0 @@
-<apex:page standardController="Product__c" extensions="UpdateAmountPastDueController">
-</apex:page>
