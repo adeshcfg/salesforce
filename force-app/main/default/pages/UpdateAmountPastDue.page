@@ -20,8 +20,10 @@
             var responseMes='{!responseMessage}';
             console.log('responseMes::'+responseMes);
             if(responseMes == 'SUCCESS'){
-                // window.back(); // Or elsewhere
-                document.referrer ? window.location = document.referrer : history.back();
+                window.history.back();
+				location.reload(); 
+                //window.back(); // Or elsewhere
+                //document.referrer ? window.location = document.referrer : history.back();
 
             }
         }

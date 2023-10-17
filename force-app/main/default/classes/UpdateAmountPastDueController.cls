@@ -107,6 +107,29 @@ public class UpdateAmountPastDueController {
                     system.debug('inside 500***2020:: ');
                     String accToken = AzureUtility.getRequestToken('Fidem Portal API');
                     httpresData = callAPI(accToken,sJOSN);
+                }else{
+
+                    ResponseErrorJSON responceErrorJSONData1 = (ResponseErrorJSON)JSON.deserialize(res.getBody(), ResponseErrorJSON.class);
+                    //API error log
+                    API_Error__c apiErrorData = New API_Error__c();
+                    apiErrorData.Error__c = prodData.name +' '+'Record failed due to'+' '+responceErrorJSONData1.returnMessage;
+                    apiErrorData.Action__c = 'Fidem API Failed with statusCode'+res.getStatusCode();
+                    system.debug('httpresData.requestBody--->'+httpresData.requestBody);
+                    system.debug('httpresData.requestBody.length()---->'+httpresData.requestBody.length());
+                    if(httpresData.requestBody.length() > 131071){
+                        apiErrorData.Request__c = httpresData.requestBody;
+                    }else{
+                        apiErrorData.Request__c = httpresData.requestBody;
+                    }
+                    
+                    if(res.getBody().length() > 131071){
+                        
+                        apiErrorData.Response__c =res.getBody().subString(0,131071);
+                    }else{
+                        apiErrorData.Response__c =res.getBody();
+                    }
+                    listAPIErrors.add(apiErrorData);
+                    database.insert(listAPIErrors);
                 }
             }else{
                 Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
@@ -133,7 +156,7 @@ public class UpdateAmountPastDueController {
                 
             }
         }Catch(Exception ex){
-            throw ex;
+			throw ex;
         }
         system.debug('responseMessage'+responseMessage);
         return responseMessage;
