@@ -48,9 +48,13 @@ public class AddNewJudgmentController {
         if(judgId != null){
         	Judgment__c judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c FROM Judgment__c where Id  =: judgId];
         }
-        Product__c prod = [SELECT Id,Name, Legal_Status__c,Collection_Agency__c,State__c,Account_Purchasing_Entity_Value__c
+        Product__c prod = [SELECT Id,Name, Legal_Status__c,Collection_Agency__c,State__c,Account_Purchasing_Entity_Value__c,Status__c
                            FROM Product__c WHERE Id =: prodId];
         system.debug('prod test' +prod);
+        //Added below IF loop for #4586
+        if(prod.Status__c.contains('Pending Recall')){
+            ErrorMsg='The Product is in Pending Recall Status and cannot add Judgment. Please reach out to Wendy/Visar to validate if the file should remain with CFG user, or allow the recall to proceed.';
+        }
         if(prod.State__c != NULL){
             prodProvinceName = prod.State__c;
             ProvinceNameFormat = nameFormat(prodProvinceName);
