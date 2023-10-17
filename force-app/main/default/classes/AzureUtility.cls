@@ -130,4 +130,41 @@ public class AzureUtility {
             return null;
         }
     }
+    
+    public static string getRequestToken(API_Call_Details__c apiCallDetails){
+        String dptenandId = apiCallDetails.Tenand_ID__c;
+        String dpapiProxyClientId = apiCallDetails.Proxy_Client_ID__c;
+        String dpapiClientClientId = apiCallDetails.Client_ID__c;
+        String dpapiClientSecret = apiCallDetails.Client_Secret__c;
+        String authorizationtUrl =  apiCallDetails.AuthorizationtUrl__c;
+        String parsePDFApi =  apiCallDetails.PDF_API_URL__c;
+        
+        authorizationtUrl = authorizationtUrl.replace('{{tenandId}}', dptenandId);
+        String bodyParams =  'client_id='+dpapiClientClientId;
+        bodyParams =  bodyParams+'&client_secret='+dpapiClientSecret;
+        bodyParams =  bodyParams+'&scope='+apiCallDetails.Scope_Prefix__c+dpapiProxyClientId+apiCallDetails.Scope_Suffix__c;
+        bodyParams =  bodyParams+'&grant_type=client_credentials';
+       
+        Http h = new Http();
+        HttpRequest req = new HttpRequest();
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        req.setBody(bodyParams);
+        req.setHeader('Content-Length', String.valueOf(bodyParams.length()));
+        req.setEndpoint(authorizationtUrl);
+        
+        system.debug('req: '+req);
+        HttpResponse hresp;
+
+        hresp = h.send(req);
+        Map<String, Object> wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
+        system.debug('wResp: '+wResp.get('access_token'));
+        return String.valueOf(wResp.get('access_token'));
+    }
+    
+    public static string getRequestToken(string apiName){
+        API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance(apiName);
+        
+        return getRequestToken(apiCallDetails);
+    }
 }
