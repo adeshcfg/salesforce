@@ -492,6 +492,11 @@ private class TestProductTriggerHandler {
         pool1.Placement_Agency__c = 29;
         Insert pool1;
         
+        Placement__c plcgy1 = new  Placement__c();      
+        plcgy1.Name='40';
+        plcgy1.Agency_Email__c = 'test@gmail.com';
+        insert plcgy1;
+        
         /*Account customer1 = new Account(FirstName = 'FirstName', 
                                         LastName = 'Last Name',
                                         PersonMailingPostalCode = '998Y',
@@ -831,6 +836,11 @@ private class TestProductTriggerHandler {
         Account customer1 = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = 'Toronto', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId());
         insert customer1;
 
+        Placement__c plcgy1 = new  Placement__c();      
+        plcgy1.Name='20';
+        plcgy1.Agency_Email__c = 'test@gmail.com';
+        insert plcgy1;
+        
         Product__c prod = new Product__c(Purchase_Province__c='PE',Deceased_Date__c=null,City__c = 'Toronto',Statute_Date__c = null,Insolvency_Date__c=null,Credit_Counselling_Date__c=system.today() ,First_Name__c = 'ProdFirstName', Last_Name__c = 'ProdLastName',Status__c = 'New Allocation - New Allocation',Sub_Status__c = 'Ready',Product_Status__c = 'Test', Customer__c = customer.Id, Source_System__c ='FDR', RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId());
         List<Product__c> prodList1 = new List<Product__c>();
         List<Product__c> prodList = new List<Product__c>();
@@ -1048,6 +1058,11 @@ private class TestProductTriggerHandler {
         Account customer1 = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = 'Toronto', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId());
         insert customer1;
 
+        Placement__c plcgy1 = new  Placement__c();      
+        plcgy1.Name='20';
+        plcgy1.Agency_Email__c = 'test@gmail.com';
+        insert plcgy1;
+        
         Product__c prod = new Product__c(Purchase_Province__c='PE',Deceased_Date__c=null,Statute_Date__c = null,Insolvency_Date__c=null,Credit_Counselling_Date__c=null ,First_Name__c = 'ProdFirstName', Last_Name__c = 'ProdLastName',Status__c = 'New Allocation - New Allocation',Sub_Status__c = 'Ready',Product_Status__c = 'Test', Customer__c = customer.Id, Source_System__c ='FDR', RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId());
         List<Product__c> prodList1 = new List<Product__c>();
         List<Product__c> prodList = new List<Product__c>();

@@ -1977,6 +1977,11 @@ public class ProductTriggerHandler{
              newJudgment.Plaintiff__c = prodNew.Account_Purchasing_Entity_Value__c;
              newJudgment.Legal_Agency__c = String.valueOf(Math.floor(prodNew.Collection_Agency__c));
              newJudgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prodNew.Collection_Agency__c));
+             if(String.isNotBlank(newJudgment.Agency_Initiated_Legal_Action__c)){ 
+                 newJudgment.Agency_Initiated_Legal_Action_Lookup__c = mapCollectionAgency.get(newJudgment.Agency_Initiated_Legal_Action__c).id;
+             }else{
+                 newJudgment.Agency_Initiated_Legal_Action_Lookup__c = Null;
+             }
              system.debug('newJudgment.Agency_Initiated_Legal_Action__c::'+newJudgment.Agency_Initiated_Legal_Action__c);
              //JudgmentTriggerHandler.runJudgmentTrigger = false;
              insert newJudgment;  
