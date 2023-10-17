@@ -14,7 +14,7 @@ Please see the attached letter from {!pocPackage.BankNameWiseCompanyName} for mo
 Sincerely
 
 
-{!pocPackage.CFG_Office_Name__c}
+{!pocPackage.CFG_French_Office_Name__c}
 
 P:{!pocPackage.CFG_Office_Phone_Number__c} E: {!pocPackage.CFG_Office_Email_Address__c}</textOnly>
     <type>custom</type>
