@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Insolvency_Case</fullName>
+    <fullName>Insolvency_Canadian_Tire_Community_Case</fullName>
     <active>true</active>
     <businessProcess>Insolvency Cases Process</businessProcess>
-    <compactLayoutAssignment>Goeasy_Layout</compactLayoutAssignment>
-    <description>Record type for Insolvency Cases</description>
-    <label>Insolvency Case</label>
+    <description>Used for Canadian Tire Community Case</description>
+    <label>Insolvency Canadian Tire Community Case</label>
     <picklistValues>
         <picklist>Assign_To__c</picklist>
         <values>
@@ -13,31 +12,7 @@
             <default>true</default>
         </values>
         <values>
-            <fullName>Canaccede</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Canadian Tire</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fairstone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Goeasy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SDA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SPL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Scotia Bank</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -79,6 +54,10 @@
     <picklistValues>
         <picklist>Form_Types__c</picklist>
         <values>
+            <fullName>Balance Updates</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Bulk Response</fullName>
             <default>false</default>
         </values>
@@ -99,7 +78,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>DMP</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Deficiency %2F Rejected POC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drop Notification</fullName>
             <default>false</default>
         </values>
         <values>
@@ -199,11 +186,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Needs Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>OSB Request</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PIF request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payout Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -216,6 +215,14 @@
         </values>
         <values>
             <fullName>Release Letters</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secured Communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Offer</fullName>
             <default>false</default>
         </values>
         <values>
@@ -235,7 +242,7 @@
             <default>false</default>
         </values>
     </picklistValues>
-        <picklistValues>
+    <picklistValues>
         <picklist>Insolvency_Assignment_Type__c</picklist>
         <values>
             <fullName>Account Validation</fullName>
@@ -250,23 +257,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Chq Stub</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Distressed Sale</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fax Confirmation Report</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Final</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Letter of Release Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -298,16 +289,24 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Vehicle Pickup Request</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Withdraw PoC</fullName>
             <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Origin</picklist>
+        <values>
+            <fullName>CCS Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Canaccede Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chatter</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Email</fullName>
             <default>false</default>
