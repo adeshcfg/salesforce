@@ -40,6 +40,7 @@
     </filters>
     <label>08. Other</label>
     <sharedTo>
+        <group>Insolvency_Canadian_Tire_Users</group>
         <group>Insolvency_Fairstone_Users</group>
         <group>Insolvency_Goeasy_Users</group>
         <group>Insolvency_Scotia_Users</group>
