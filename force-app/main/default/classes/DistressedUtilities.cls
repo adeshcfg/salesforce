@@ -688,7 +688,7 @@ productStaging.Include_in_Processing__c = true;
             
             Matcher MyMatcher1;
             date myDate;
-            if(String.isNotBlank(product.Status_Changed_Date__c) && product.Status_Changed_Date__c.contains('/')){
+            if(String.isNotBlank(product.Status_Changed_Date__c) && (product.Status_Changed_Date__c.contains('/') || product.Status_Changed_Date__c.contains('-'))){
                 MyMatcher1 = MyPattern1.matcher(product.Status_Changed_Date__c);  
                 Matcher MyMatcher2 = MyPattern2.matcher(product.Status_Changed_Date__c);  
                 Matcher MyMatcher3 = MyPattern3.matcher(product.Status_Changed_Date__c);
@@ -752,7 +752,7 @@ productStaging.Include_in_Processing__c = true;
             }
             //Invalid Status_Changed_Date__C
             //added validation for ticket 4469 - satyajit patil
-             if(product.Status_Changed_Date__C != null && product.Status_Changed_Date__C != '' && (!product.Status_Changed_Date__C.contains('/') || !statusChangedDate.contains('-'))){
+             if(product.Status_Changed_Date__C != null && product.Status_Changed_Date__C != '' && (!product.Status_Changed_Date__C.contains('/') || !product.Status_Changed_Date__C.contains('-'))){
                		ERROR_MSG += '<b>ERROR</b> : Invalid status changed date.<br/>';
                     EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY or MM-DD-YYYY)<br/>'; 
                
