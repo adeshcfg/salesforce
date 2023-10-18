@@ -688,7 +688,7 @@ productStaging.Include_in_Processing__c = true;
             
             Matcher MyMatcher1;
             date myDate;
-            if(String.isNotBlank(product.Status_Changed_Date__c) && product.Status_Changed_Date__c.contains('/')){
+            if(String.isNotBlank(product.Status_Changed_Date__c) && (product.Status_Changed_Date__c.contains('/') || product.Status_Changed_Date__c.contains('-'))){
                 MyMatcher1 = MyPattern1.matcher(product.Status_Changed_Date__c);  
                 Matcher MyMatcher2 = MyPattern2.matcher(product.Status_Changed_Date__c);  
                 Matcher MyMatcher3 = MyPattern3.matcher(product.Status_Changed_Date__c);
@@ -696,19 +696,37 @@ productStaging.Include_in_Processing__c = true;
                 //matching of date when entered in Text format in excel file
                 
                 if(MyMatcher1.matches() == true || Test.isRunningTest()){
-                    list<String> datelist = product.Status_Changed_Date__c.split('/');
+                    list<String> datelist =new list<String>();
+                    if(product.Status_Changed_Date__c.contains('/')){
+                        datelist = product.Status_Changed_Date__c.split('/');
+                    } 
+                    if(product.Status_Changed_Date__c.contains('-')){
+                        datelist = product.Status_Changed_Date__c.split('-');
+                    }
                     myDate = date.newInstance(Integer.valueOf(datelist[2]), Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]));
                     product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();
                 }
                 //matching of date when entered in Date format in excel file  product.Status_Changed_Date__c 
                 else if(MyMatcher2.matches() == true){
-                    list<String> datelist = product.Status_Changed_Date__c.split('/');
+                    list<String> datelist =new list<String>();
+                    if(product.Status_Changed_Date__c.contains('/')){
+                        datelist = product.Status_Changed_Date__c.split('/');
+                    } 
+                    if(product.Status_Changed_Date__c.contains('-')){
+                        datelist = product.Status_Changed_Date__c.split('-');
+                    }                    
                     myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                     //product.Status_Changed_Date__C = String.valueOf(myDate);
 					product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();                   
                 }
                 else if(MyMatcher3.matches() == true){
-                    list<String> datelist = product.Status_Changed_Date__c.split('/');
+                    list<String> datelist =new list<String>();
+                    if(product.Status_Changed_Date__c.contains('/')){
+                        datelist = product.Status_Changed_Date__c.split('/');
+                    } 
+                    if(product.Status_Changed_Date__c.contains('-')){
+                        datelist = product.Status_Changed_Date__c.split('-');
+                    }
                     myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                     //product.Status_Changed_Date__C = String.valueOf(myDate);
                    product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year(); 
@@ -724,9 +742,9 @@ productStaging.Include_in_Processing__c = true;
             //If user enters dd/mm/yyyy formate then shows the below error
             if(product.Status_Changed_Date__C != NULL && product.Status_Changed_Date__C.contains('/')){
                 String statusChangedDate = product.Status_Changed_Date__C.substring(0,2);
-                if(statusChangedDate > '12' && !statusChangedDate.contains('/')){
+                if(statusChangedDate > '12' && (!statusChangedDate.contains('/') || !statusChangedDate.contains('-'))){
                     ERROR_MSG += '<b>ERROR</b> - Invalid Status Changed date.<br/>';
-                    EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY)<br/>'; 
+                    EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY or MM-DD-YYYY)<br/>'; 
                 }
             }
             if(!mapProduct.containsKey(product.Name__c)){
@@ -734,9 +752,9 @@ productStaging.Include_in_Processing__c = true;
             }
             //Invalid Status_Changed_Date__C
             //added validation for ticket 4469 - satyajit patil
-             if(product.Status_Changed_Date__C != null && product.Status_Changed_Date__C != '' && !product.Status_Changed_Date__C.contains('/')){
+             if(product.Status_Changed_Date__C != null && product.Status_Changed_Date__C != '' && (!product.Status_Changed_Date__C.contains('/') || !product.Status_Changed_Date__C.contains('-'))){
                		ERROR_MSG += '<b>ERROR</b> : Invalid status changed date.<br/>';
-                    EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY)<br/>'; 
+                    EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY or MM-DD-YYYY)<br/>'; 
                
              }            
             if(product.Status_Changed_Date__C != NULL){
@@ -748,7 +766,7 @@ productStaging.Include_in_Processing__c = true;
             else{
                 if(String.isNotBlank(product.Status_Changed_Date_Text__c)){
                     ERROR_MSG += '<b>ERROR</b> - Invalid status changed date.<br/>';
-                    EXPECTED += 'Status changed Date should be proper format.(MM/DD/YYYY)<br/>';
+                    EXPECTED += 'Status changed Date should be proper format.(MM/DD/YYYY or MM-DD-YYYY)<br/>';
                 }
                 else{
                     ERROR_MSG += '<b>ERROR</b> - Status Changed date cannot be blank.<br/>';
