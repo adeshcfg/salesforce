@@ -125,7 +125,7 @@ public class PortalComplaintProcessingAPI {
                    && bodyMap.get('IsSuccess') == String.valueOf('true')){
                        system.debug(bodyMap.get('ReturnMessage'));
                    }       
-                else{
+                else if(res.getStatusCode() >= 200 && res.getStatusCode() < 300){
                     String userName = UserInfo.getName();
                     API_Error__c apiErrorData = New API_Error__c();
                     apiErrorData.Action__c = 'API Failed';
