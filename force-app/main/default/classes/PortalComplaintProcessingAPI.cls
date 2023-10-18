@@ -118,14 +118,17 @@ public class PortalComplaintProcessingAPI {
                 // Send the request, and return a response
                 HttpResponse res = h.send(req);
                 system.debug('res.getBody(): '+res.getBody());
+                system.debug('Status code: '+res.getStatusCode());
                 Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                 complaintInstance.Outbound_API_Response_Body__c = res.getBody();
                 system.debug('Outbound res.getBody() :: '+res.getBody());
                 if(res.getStatusCode() >= 200 && res.getStatusCode() < 300
                    && bodyMap.get('IsSuccess') == String.valueOf('true')){
-                       system.debug(bodyMap.get('ReturnMessage'));
+                    system.debug('Status code: '+res.getStatusCode());
+                    system.debug(bodyMap.get('ReturnMessage'));
                    }       
                 else if(res.getStatusCode() >= 200 && res.getStatusCode() < 300){
+                    system.debug('Status code: '+res.getStatusCode());
                     String userName = UserInfo.getName();
                     API_Error__c apiErrorData = New API_Error__c();
                     apiErrorData.Action__c = 'API Failed';
@@ -202,8 +205,9 @@ public class PortalComplaintProcessingAPI {
         system.debug('hresp.getBody(): '+hresp.getBody());
         wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
         system.debug('wResp: '+wResp.get('access_token'));
-        }
+    }
         catch(Exception ex){
+            system.debug('Exception occured :'+ex);
             String userName = UserInfo.getName();
             API_Error__c apiError = New API_Error__c();
             apiError.Error__c = ex.getMessage();
