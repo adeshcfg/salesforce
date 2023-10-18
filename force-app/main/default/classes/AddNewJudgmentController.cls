@@ -53,7 +53,7 @@ public class AddNewJudgmentController {
         system.debug('prod test' +prod);
         //Added below IF loop for #4586
         if(prod.Status__c.contains('Pending Recall')){
-ErrorMsg = System.Label.Judgment_Pending_Recall_Error_Message;
+ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
         }
         if(prod.State__c != NULL){
             prodProvinceName = prod.State__c;
