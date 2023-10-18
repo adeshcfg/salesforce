@@ -145,7 +145,6 @@ public class PortalComplaintProcessingAPI {
                 }
             }
             catch(Exception ex){
-                system.debug('Status code: '+res.getStatusCode());
                 system.debug('exception ex: '+ex.getStackTraceString());
                 String userName = UserInfo.getName();
                 API_Error__c apiErrorData = New API_Error__c();
@@ -206,10 +205,9 @@ public class PortalComplaintProcessingAPI {
         system.debug('hresp.getBody(): '+hresp.getBody());
         wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
         system.debug('wResp: '+wResp.get('access_token'));
-        system.debug('Status code: '+res.getStatusCode());
     }
         catch(Exception ex){
-            system.debug('Status code: '+res.getStatusCode());
+            system.debug('Exception occured :'+ex);
             String userName = UserInfo.getName();
             API_Error__c apiError = New API_Error__c();
             apiError.Error__c = ex.getMessage();
