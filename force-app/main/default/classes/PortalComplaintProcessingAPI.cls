@@ -121,7 +121,7 @@ public class PortalComplaintProcessingAPI {
                 Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                 complaintInstance.Outbound_API_Response_Body__c = res.getBody();
                 system.debug('Outbound res.getBody() :: '+res.getBody());
-                if(res.getStatusCode() == 200
+                if(res.getStatusCode() >= 200 && res.getStatusCode() < 300
                    && bodyMap.get('IsSuccess') == String.valueOf('true')){
                        system.debug(bodyMap.get('ReturnMessage'));
                    }       
