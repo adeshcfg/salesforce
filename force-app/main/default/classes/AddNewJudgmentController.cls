@@ -48,7 +48,7 @@ public class AddNewJudgmentController {
         if(judgId != null){
         	Judgment__c judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c FROM Judgment__c where Id  =: judgId];
         }
-        Product__c prod = [SELECT Id,Name, Legal_Status__c,Collection_Agency__c,State__c,Account_Purchasing_Entity_Value__c
+        Product__c prod = [SELECT Id,Name,Status__c, Legal_Status__c,Collection_Agency__c,State__c,Account_Purchasing_Entity_Value__c
                            FROM Product__c WHERE Id =: prodId];
         system.debug('prod test' +prod);
         //Added below IF loop for #4586
