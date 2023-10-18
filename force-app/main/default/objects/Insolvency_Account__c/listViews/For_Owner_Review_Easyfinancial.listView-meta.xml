@@ -23,8 +23,8 @@
         <value>For Owner Review</value>
     </filters>
     <label>For Owner Review</label>
-    <language>en_US</language>
     <sharedTo>
+        <group>Insolvency_Canadian_Tire_Users</group>
         <group>Insolvency_Goeasy_Users</group>
     </sharedTo>
 </ListView>
