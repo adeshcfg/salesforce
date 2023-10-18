@@ -122,13 +122,13 @@ public class PortalComplaintProcessingAPI {
                 Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                 complaintInstance.Outbound_API_Response_Body__c = res.getBody();
                 system.debug('Outbound res.getBody() :: '+res.getBody());
-                Interger StatusCode=res.getStatusCode();
-                if(StatusCode >= 200 && StatusCode < 300
+                string StatusCode=res.getStatusCode();
+                if(StatusCode.startsWith('2')
                    && bodyMap.get('IsSuccess') == String.valueOf('true')){
                     system.debug('Status code: '+StatusCode);
                     system.debug(bodyMap.get('ReturnMessage'));
                    }       
-                else if(StatusCode >= 200 && StatusCode < 300){
+                else if(StatusCode.startsWith('2')){
                     system.debug('Status code: '+StatusCode);
                     String userName = UserInfo.getName();
                     API_Error__c apiErrorData = New API_Error__c();
