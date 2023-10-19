@@ -8887,9 +8887,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Fairstone_Record_Owner__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -9762,9 +9762,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.SDA_Record_Owner__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -9772,9 +9772,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Scotia_Record_Owner__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -18216,7 +18216,7 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Insolvency Community Case - External</layout>
-        <recordType>Case.Insolvency_Fairstone_Community_Case</recordType>
+        <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Insolvency Community Case - External</layout>
@@ -18283,7 +18283,7 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>CaseClose-Insolvency Close Case - External</layout>
-        <recordType>Case.Insolvency_Fairstone_Community_Case</recordType>
+        <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>CaseClose-Insolvency Close Case - External</layout>
@@ -18441,8 +18441,8 @@
         <recordType>Insolvency_Account__c.Canaccede_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Insolvency_Account__c-Default Fairstone Account Layout - External</layout>
-        <recordType>Insolvency_Account__c.Fairstone_Insolvency_Account</recordType>
+        <layout>Insolvency_Account__c-Default Canadian Tire Account Layout - External</layout>
+        <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Insolvency_Account__c-Default Insolvency Account Layout - External</layout>
@@ -19773,7 +19773,7 @@
     <recordTypeVisibilities>
         <default>true</default>
         <personAccountDefault>true</personAccountDefault>
-        <recordType>Case.Insolvency_Fairstone_Community_Case</recordType>
+        <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
@@ -19859,7 +19859,7 @@
     <recordTypeVisibilities>
         <default>true</default>
         <personAccountDefault>true</personAccountDefault>
-        <recordType>Insolvency_Account__c.Fairstone_Insolvency_Account</recordType>
+        <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
