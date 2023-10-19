@@ -47,6 +47,7 @@ public class TestUpdateAmountPastDueController {
         prodInstance.State__c = 'ON';
         prodInstance.Current_Principal_Balance__c = 5000;
         prodInstance.Outbound_API_Request_Body__c = 'Testing';
+        prodInstance.Past_Due_Amount_Refresh_Date__c = system.Today();
         prodInstance.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         insert prodInstance;
         
@@ -70,6 +71,8 @@ public class TestUpdateAmountPastDueController {
         ResponseErrJSONdata.tag = '12345';
         ResponseErrJSONdata.isSuccess = true;
         ResponseErrJSONdata.data = true;
+        UpdateAmountPastDueController.ResponseJSON ResponseJSONdata1 = new UpdateAmountPastDueController.ResponseJSON();
+        ResponseJSONdata1.isSuccess = false;
         controller1.updateAmountPastDueAPI();
         controller1.redirectToProduct();
         Test.stopTest();

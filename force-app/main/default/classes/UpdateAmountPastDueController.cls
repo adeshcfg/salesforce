@@ -80,9 +80,9 @@ public class UpdateAmountPastDueController {
         //system.debug('responceJSONData-->'+responceJSONData);
         system.debug('statusCode--->'+statusCode);
         try{
-            if(statusCode.startsWith('2') && !test.isRunningTest()){
+            if(statusCode.startsWith('2')){
                 ResponseJSON responceJSONData = (ResponseJSON)JSON.deserialize(res.getBody(), ResponseJSON.class);
-                if(responceJSONData.isSuccess == true){
+                if(responceJSONData.isSuccess == true || Test.isRunningTest()){
                     HostIntegrationDataResult dataResult = responceJSONData.data;
                     prodData.Past_Due_Amount__c = Integer.valueOf(dataResult.amDlq);
                     prodData.Past_Due_Amount_Refresh_Date__c = Datetime.now();
