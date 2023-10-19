@@ -132,6 +132,11 @@
                 <default>false</default>
                 <label>Sourcing for Funds</label>
             </value>
+            <value>
+                <fullName>CET Offshore</fullName>
+                <default>false</default>
+                <label>CET Offshore</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -205,6 +205,10 @@
             <fullName>Previously Paid with Agency</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>CET Offshore</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Consent_To_Repayment_Offer__c</picklist>
