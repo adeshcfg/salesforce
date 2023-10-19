@@ -20,6 +20,7 @@ $Profile.Name,
 &apos;Fairstone Community User Readonly&apos;, (Fairstone_Record_Owner__c),
 &apos;Goeasy Community User&apos;, (Goeasy_Record_Owner__c),
 &apos;Goeasy Community User Readonly&apos;, (Goeasy_Record_Owner__c),
+&apos;Canadian Tire Community User&apos;, (Canadian_Tire_Record_Owner__c),
 (Owner:User.Id))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Insolvency Owner Id</label>
