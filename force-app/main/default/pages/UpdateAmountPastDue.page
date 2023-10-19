@@ -6,16 +6,40 @@
         function myJavascriptFunc()
         {
             CallApexMethod() ;
-        }
-        function done() {
-            window.history.go(-1); // Or elsewhere
+            var panelHide='{!panelHide}';
+            console.log('panelHide'+panelHide);
         }
     </script>
+    
     <apex:form >
-        <apex:actionFunction name="CallApexMethod" action="{!updateAmountPastDueAPI}" oncomplete="done()"/>
-                <apex:outputPanel style="align:center;">
+        <apex:outputPanel id="oPanel" >
+            <script>
+        
+       
+        function done() {
+            var responseMes='{!responseMessage}';
+            console.log('responseMes::'+responseMes);
+            if(responseMes == 'SUCCESS'){
+                // window.back(); // Or elsewhere
+                document.referrer ? window.location = document.referrer : history.back();
+
+            }
+        }
+        </script>
+
+        <apex:actionFunction name="CallApexMethod" action="{!updateAmountPastDueAPI}" rerender="oPanel" oncomplete="done()"/>
+                <apex:outputPanel style="align:center;" rendered="{!panelHide}">
                     <img src="/img/loading32.gif" width="25" height="25" />
                     <apex:outputLabel value="Product update is in process.... Post processing you will redirected to record page. "/>
                 </apex:outputPanel> 
+            <apex:outputPanel rendered="{!responseMessage != 'SUCCESS'}" >
+            	{!responseMessage} 
+                <br/>
+                <apex:commandButton action="{!redirectToProduct}" 
+                                    value="Back" 
+                                    reRender="{!responseMessage != 'SUCCESS'}"
+                                    styleClass="slds-button slds-button_outline-brand"/>
+            </apex:outputPanel>
+            </apex:outputPanel>
     </apex:form>
 </apex:page>

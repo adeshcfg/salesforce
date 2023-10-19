@@ -64,6 +64,12 @@ public class TestUpdateAmountPastDueController {
         ResponseJSONdata.tag = '12345';
         ResponseJSONdata.isSuccess = true;
         ResponseJSONdata.data = data;
+        UpdateAmountPastDueController.ResponseErrorJSON ResponseErrJSONdata = new UpdateAmountPastDueController.ResponseErrorJSON();
+        ResponseErrJSONdata.code = '12345';
+        ResponseErrJSONdata.statusCode = 200;
+        ResponseErrJSONdata.tag = '12345';
+        ResponseErrJSONdata.isSuccess = true;
+        ResponseErrJSONdata.data = true;
         controller1.updateAmountPastDueAPI();
         controller1.redirectToProduct();
         Test.stopTest();
