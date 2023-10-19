@@ -90,7 +90,24 @@ public class PortalAPIMockResponse implements HttpCalloutMock{
             res.setBody(jsonTokenResponse);
             res.setStatusCode(200);  
          }
-        
+		
+          if((req.getEndpoint()).contains('https://test.com/FidemAPI')){
+              // Create a fake response
+              res.setHeader('Content-Type', 'application/json');
+              String jsonTokenResponse = '{'+
+                  '"$id": "1",'+
+                  '"isSuccess": true,'+
+                  '"returnMessage": "document Record Created",'+
+                  '"data": "2775365c-3eee-4cb8-982d-3de03c5cee14 Document Created Successfully",'+
+                  '"statusCode": 0,'+
+                  '"Code": 2020,'+
+                  '"tag": null'+
+                  '}';
+              
+              res.setBody(jsonTokenResponse);
+              res.setStatusCode(500);  
+         }
+                                       
         system.debug('req.getEndpoint()1: '+req.getEndpoint());
         //mock response for access token
         if(req.getEndpoint().startsWith('https://test.com/portalapi')){

@@ -1,23 +1,16 @@
 public class UpdateAmountPastDueController {
     public static String sJOSN;
     public String productID {get;set;}
+    public static String responseMessage {get;set;}
     public static API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Fidem Portal API');
-    
-    public UpdateAmountPastDueController(ApexPages.StandardController stdController) {
-        system.debug('inside UpdateAmountPastDueController');
+    public static List<API_Error__c> listAPIErrors = new List<API_Error__c>();
+
+    public PageReference updateAmountPastDueAPI(){
         productID =  ApexPages.currentPage().getParameters().get('id');
-        updateAmountPastDue(productID);
-    }
-    
-    public static void updateAmountPastDue(ID productId){
-        updateAmountPastDueAPI(productId);
-    }
-    @future (callout=true)
-    public static void updateAmountPastDueAPI(ID productId){
         system.debug('productId'+productId);
         list<Product__c> listProduct = [SELECT ID, Name
                                                        FROM Product__c 
-                                                       WHERE ID= :productId];
+                                                       WHERE ID=: productID];
         system.debug('listProduct'+listProduct);
          Product__c prodData; 
          Payload payLoad = new Payload();
@@ -34,73 +27,140 @@ public class UpdateAmountPastDueController {
         //Get access token for http request
         String accToken;
         accToken = AzureUtility.getRequestToken('Fidem Portal API');
-system.debug('accToken&&'+accToken);
+        system.debug('accToken&&'+accToken);
+        system.debug('sJOSN-->'+sJOSN);
         if (accToken != '') {
-            // Instantiate a new http object
-            Http h = new Http();
+            ResponseJSON responceJSONData = new ResponseJSON();
+            try{
+                // Send the request, and return a response
+                HttpResponseData httpresData = callAPI(accToken,sJOSN);
+                String responseMessage = processRequest(httpresData,prodData); 
+            }
+            catch(Exception ex){
+                API_Error__c apiErrorData = New API_Error__c();
+                apiErrorData.Error__c = prodData.name +' '+'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
+                apiErrorData.Action__c = 'API Failed';
+                if(!Test.isRunningTest()){
+                    apiErrorData.Request__c = prodData.name;
+                }
+                listAPIErrors.add(apiErrorData);
+                database.insert(listAPIErrors);
+            }
+        }
+        return null;
+    }
+    public string processRequest(HttpResponseData httpresData,product__c prodData){
+        //product__c prodData = new product__c(); 
+        system.debug('httpresData--->'+httpresData);
+        prodData.Outbound_API_Request_Body__c = httpresData.requestBody;
+        HttpResponse res = httpresData.res;
+        
+        system.debug('res***:: '+res);
+        system.debug('res body***:: '+res.getBody());
+        prodData.Outbound_API_Response_Body__c = res.getBody();
+        ResponseJSON responceJSONData = (ResponseJSON)JSON.deserialize(res.getBody(), ResponseJSON.class);
+        system.debug('Outbound res body::' +res.getBody());
+        String statusCode = String.valueOf(res.getStatusCode());
+        system.debug('responceJSONData-->'+responceJSONData);
+        system.debug('statusCode--->'+statusCode);
+        if(statusCode.startsWith('2') && !test.isRunningTest()){
+            if(responceJSONData.isSuccess == true){
+                HostIntegrationDataResult dataResult = responceJSONData.data;
+                prodData.Past_Due_Amount__c = Integer.valueOf(dataResult.amDlq);
+                ProductTriggerHandler.runProductTrigger = false;
+                update prodData;
+                ProductTriggerHandler.runProductTrigger = true;
+                responseMessage = 'SUCCESS';
+            }else{
+                responseMessage = responceJSONData.returnMessage;
+            }
+        }else if(res.getStatusCode() == 500 && responceJSONData.Code == '2020'){
+            String accToken = AzureUtility.getRequestToken('Fidem Portal API');
+            httpresData = callAPI(accToken,sJOSN);
+            responseMessage = processRequest(httpresData,prodData);
+            
+        }else{
+            //API error log
+            API_Error__c apiErrorData = New API_Error__c();
+            apiErrorData.Error__c = prodData.name +' '+'Record failed due to'+' '+responceJSONData.returnMessage;
+            apiErrorData.Action__c = 'Fidem API Failed with statusCode'+res.getStatusCode();
+            system.debug('httpresData.requestBody--->'+httpresData.requestBody);
+            system.debug('httpresData.requestBody.length()---->'+httpresData.requestBody.length());
+            if(httpresData.requestBody.length() > 131071){
+                apiErrorData.Request__c = httpresData.requestBody;
+            }else{
+                apiErrorData.Request__c = httpresData.requestBody;
+            }
+            
+            if(res.getBody().length() > 131071){
+                
+                apiErrorData.Response__c =res.getBody().subString(0,131071);
+            }else{
+                apiErrorData.Response__c =res.getBody();
+            }
+            /*if(!Test.isRunningTest()){
+                apiErrorData.Request__c = httpresData.requestBody;
+            }*/
+            listAPIErrors.add(apiErrorData);
+            database.insert(listAPIErrors);
+        }
+        return responseMessage;
+    }
+    
+    public HttpResponseData callAPI(String accToken, String sJOSN){
+        HttpResponseData httpData = new HttpResponseData();
+        Http h = new Http();
             // Instantiate a new HTTP request
             HttpRequest req = new HttpRequest();
             req.setBody(sJOSN);
             req.setHeader('Authorization', 'Bearer ' + accToken);
             req.setHeader('Content-Type', 'application/json;charset=UTF-8');
-            //apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFInventoryEquipment');
-            req.setEndpoint(apiCallDetails.PDF_API_URL__c+prodData.name);
-            req.setMethod('PUT');         
-            prodData.Outbound_API_Request_Body__c = req.getBody();
+            req.setEndpoint(apiCallDetails.PDF_API_URL__c);
+            req.setMethod('POST');   
+            httpData.requestBody = req.getBody();
+            
             system.debug('Outbound req body:: '+req.getBody());
-			
-            try{
-                // Send the request, and return a response
-                HttpResponse res = h.send(req);
-                Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
-                prodData.Outbound_API_Response_Body__c = res.getBody();
-                system.debug('Outbound res body::' +res.getBody());
-                //system.debug('Outbound res body::' +res.getStatusCode().startsWith('2'));
-                String statusCode = String.valueOf(res.getStatusCode());
-                if(statusCode.startsWith('2')
-                && bodyMap.get('IsSuccess') == String.valueOf('true')){
-                    system.debug(bodyMap.get('ReturnMessage'));
-                     SuccessJSON successJSONData = new SuccessJSON();
-                     successJSONData.isSuccess = true;
-                     //successJSONData.HostIntegrationDataResult = true;
-                }       
-                else{
-                    ErrorJSON errorJSONData = new ErrorJSON();
-                    errorJSONData.isSuccess = false;
-                    errorJSONData.returnMessage = 'Error Response';
-                    errorJSONData.statusCode = res.getStatusCode();
-                    system.debug('Error Response');
-                    system.debug(bodyMap.get('ReturnMessage'));
-                }
+
+        try{
+            // Send the request, and return a response
+            HttpResponse res = h.send(req);
+            system.debug('res***:: '+res);
+            httpData.res = res;
+            system.debug('res body***:: '+res.getBody());
+            return httpData;
+            
+        }Catch(Exception ex){
+                throw ex;
             }
-            catch(Exception ex){
-                system.debug('exception ex: '+ex);
-            }
-            if(prodData != NULL){
-                ProductTriggerHandler.runProductTrigger = false;
-                update prodData;
-                ProductTriggerHandler.runProductTrigger = true;
-            }
-        }
-    }
-    public class HostIntegrationDataResult 
-    {
-        public String amDlq;
     }
     
-    public class SuccessJSON
-    {
-        public boolean isSuccess;
-        public HostIntegrationDataResult data;
+    public pageReference redirectToProduct(){
+        PageReference pageRef = new PageReference('/'+productID);
+        pageRef.setRedirect(true);
+        return pageRef;
     }
-    public class ErrorJSON
+    
+    public class HttpResponseData {
+        HttpResponse res{get; set;}
+        String requestBody{get; set;}
+    }
+    
+    public class HostIntegrationDataResult 
     {
-        public boolean isSuccess;
-        public String returnMessage;
-        public Integer statusCode;
+        public String amDlq{get; set;}
+    }
+    public class ResponseJSON
+    {
+        public boolean isSuccess{get; set;}
+        public HostIntegrationDataResult data{get; set;}
+        public String returnMessage{get; set;}
+        public String code{get; set;}
+        public Integer statusCode{get; set;}
+        public String tag{get; set;}
     }
     public class Payload
     {
-        public String acctId;
+        public String acctId{get; set;}
     }
+    
 }
