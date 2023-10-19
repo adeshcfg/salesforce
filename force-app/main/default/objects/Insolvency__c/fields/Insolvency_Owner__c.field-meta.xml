@@ -21,6 +21,7 @@ $Profile.Name,
 &apos;Fairstone Community User Readonly&apos;, (Fairstone_Record_Owner__r.FirstName + &apos; &apos; + Fairstone_Record_Owner__r.LastName),
 &apos;Goeasy Community User&apos;, (Goeasy_Record_Owner__r.FirstName + &apos; &apos; + Goeasy_Record_Owner__r.LastName),
 &apos;Goeasy Community User Readonly&apos;, (Goeasy_Record_Owner__r.FirstName + &apos; &apos; + Goeasy_Record_Owner__r.LastName),
+&apos;Canadian Tire Community User&apos;, (Canadian_Tire_Record_Owner__r.FirstName + &apos; &apos; + Canadian_Tire_Record_Owner__r.LastName),
 (Owner:User.FirstName + &apos; &apos; + Owner:User.LastName))</formula>
     <inlineHelpText>Insolvency Owner</inlineHelpText>
     <label>Insolvency Owner</label>
