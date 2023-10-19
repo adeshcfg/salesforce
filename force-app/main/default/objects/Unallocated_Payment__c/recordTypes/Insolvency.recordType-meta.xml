@@ -29,6 +29,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Canadian Tire</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Fairstone</fullName>
             <default>false</default>
         </values>
