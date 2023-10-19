@@ -8898,6 +8898,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Insolvency__c.Canadian_Tire_Record_Owner__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Insolvency__c.Follow_up_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
