@@ -7,8 +7,8 @@ public class PortalSettlementProcessingAPI {
                 String Query = 'SELECT ID,Name,Comment__c,Proposal_Total_Percent__c,Employment_Comments__c,HomeOwner_Status_Comments__c,Proposal_Principal_Percent__c,Monthly_Expenses_Comments__c,Monthly_Income_Comments__c,Total_Wealth_Comments__c,';
         for(Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping){
             if(fieldMappingInstance.Object_Name__c == 'Settlement'){
-                Query += fieldMappingInstance.Field_API__c + ', ';
-            }
+             Query += fieldMappingInstance.Field_API__c + ', ';
+                       }
             
         }
         Query = Query.removeEnd(', ');
@@ -74,8 +74,17 @@ public class PortalSettlementProcessingAPI {
             for(Agency_Portal_Fields_Mapping__c mapping : fieldMapping){
                 if(mapping.Object_Name__c == 'Settlement'){
                     if(mapping.Field_Type__c != 'DateTime'){
+                      //  settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
+                      //  settlementInstance.get(mapping.Field_API__c)+'\", ';    
+                      if(mapping.Field_API__c=='Payment_Plan_Length__c'){
+                        Integer paymentlength=Integer.valueOf(settlementInstance.Payment_Plan_Length__c);
+                        Integer paymentPlanLength=math.ROUND(paymentlength);
+                       settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
+                       paymentPlanLength+'\", ';
+                      }else{
                         settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
-                        settlementInstance.get(mapping.Field_API__c)+'\", ';    
+                        settlementInstance.get(mapping.Field_API__c)+'\", ';   
+                      }
                     }
                     else{
                         if(mapping.Field_Type__c == 'DateTime' && settlementInstance.get(mapping.Field_API__c) != NULL){
