@@ -73,6 +73,26 @@
                 <default>false</default>
                 <label>Unable to Locate</label>
             </value>
+            <value>
+                <fullName>Below Threshold</fullName>
+                <default>false</default>
+                <label>Below Threshold</label>
+            </value>
+            <value>
+                <fullName>Settled/PIF</fullName>
+                <default>false</default>
+                <label>Settled/PIF</label>
+            </value>
+            <value>
+                <fullName>Not Liable</fullName>
+                <default>false</default>
+                <label>Not Liable</label>
+            </value>
+            <value>
+                <fullName>DOB mismatch</fullName>
+                <default>false</default>
+                <label>DOB mismatch</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
