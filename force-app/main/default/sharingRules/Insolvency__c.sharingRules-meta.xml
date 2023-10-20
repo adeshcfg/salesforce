@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>Share_Canadian_Tire_Insolvency</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Canadian Tire Insolvency</description>
+        <label>Share Canadian Tire Insolvency</label>
+        <sharedTo>
+            <group>Insolvency_Canadian_Tire_Users</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Canadian Tire</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>equals</operation>
+            <value>Staging</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_Fairstone_Insolvency</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Fairstone Insolvency</description>
