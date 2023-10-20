@@ -35,6 +35,8 @@ public class TestUpdateAmountPastDueController {
         plcgy1.Agency_Email__c = 'test@gmail.com';
         insert plcgy1;
         
+        Integer counter;
+        
         Product__c prodInstance = new Product__c();
         prodInstance.Name = 'TestName';
         prodInstance.Funding_Status__c = 'Funded';
@@ -75,6 +77,7 @@ public class TestUpdateAmountPastDueController {
         ResponseJSONdata1.isSuccess = false;
         controller1.updateAmountPastDueAPI();
         controller1.redirectToProduct();
+        counter = 1;
         Test.stopTest();
     }
     
@@ -179,6 +182,12 @@ public class TestUpdateAmountPastDueController {
 		UpdateAmountPastDueController controller1 = new UpdateAmountPastDueController();
         controller1.updateAmountPastDueAPI();
         controller1.redirectToProduct();
+        UpdateAmountPastDueController.ResponseErrorJSON ResponseErrJSONdata = new UpdateAmountPastDueController.ResponseErrorJSON();
+        ResponseErrJSONdata.code = '2020';
+        ResponseErrJSONdata.statusCode = 500;
+        ResponseErrJSONdata.tag = '12345';
+        ResponseErrJSONdata.isSuccess = false;
+        ResponseErrJSONdata.data = true;
         Test.stopTest();
     }
     
