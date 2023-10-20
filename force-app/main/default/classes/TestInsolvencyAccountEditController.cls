@@ -62,7 +62,7 @@ public class TestInsolvencyAccountEditController{
         Database.SaveResult sr = Database.insert(insShare,false);
     }
     
-    /* public testmethod static void testInsolvencyLockSB(){
+    public testmethod static void testInsolvencyLockSB(){
         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
         User u = getCommunityUser('Scotia Bank Community User');
         shareInsolvencyRecord(u.Id);
@@ -118,7 +118,7 @@ public class TestInsolvencyAccountEditController{
         insolvAcc.Client_Identifier__c = null;
         update insolvAcc;
         controller.redirPage();
-    } */
+    }
     
     public testmethod static void testInsolvencyLockFS(){
         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
@@ -142,6 +142,24 @@ public class TestInsolvencyAccountEditController{
     public testmethod static void testInsolvencyLockGE(){
         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
         User u = getCommunityUser('Goeasy Community User');
+        shareInsolvencyRecord(u.Id);
+        Insolvency_Account__c insolvAcc = [SELECT OwnerID FROM Insolvency_Account__c LIMIT 1];
+        insolvAcc.OwnerID= Userinfo.getUserId();
+        update insolvAcc;
+        ApexPages.currentPage().getParameters().put('id', insolvAcc.Id);
+        // call the constructor
+        InsolvencyAccountEditController controller = new InsolvencyAccountEditController (new ApexPages.StandardController(insolvAcc));
+        System.runAs(u){
+            controller.redirPage();
+        }
+        insolvAcc.Client_Identifier__c = null;
+        update insolvAcc;
+        controller.redirPage();
+    }
+
+    public testmethod static void testInsolvencyLockCT(){
+        InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+        User u = getCommunityUser('Canadian Tire Community User');
         shareInsolvencyRecord(u.Id);
         Insolvency_Account__c insolvAcc = [SELECT OwnerID FROM Insolvency_Account__c LIMIT 1];
         insolvAcc.OwnerID= Userinfo.getUserId();
