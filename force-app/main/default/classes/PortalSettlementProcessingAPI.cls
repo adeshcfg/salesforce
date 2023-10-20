@@ -7,7 +7,14 @@ public class PortalSettlementProcessingAPI {
                 String Query = 'SELECT ID,Name,Comment__c,Proposal_Total_Percent__c,Employment_Comments__c,HomeOwner_Status_Comments__c,Proposal_Principal_Percent__c,Monthly_Expenses_Comments__c,Monthly_Income_Comments__c,Total_Wealth_Comments__c,';
         for(Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping){
             if(fieldMappingInstance.Object_Name__c == 'Settlement'){
+             //Query += fieldMappingInstance.Field_API__c + ', ';
+             //Added below IF-Else loop for #4931
+                if(fieldMappingInstance.Field_API__c=='Payment_Plan_Length__c'){
+                    Query += ROUND(fieldMappingInstance.Field_API__c,0) + ', ';
+                }
+                else{
                 Query += fieldMappingInstance.Field_API__c + ', ';
+                }
             }
             
         }
