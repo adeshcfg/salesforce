@@ -77,10 +77,10 @@ public class PortalSettlementProcessingAPI {
                       //  settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
                       //  settlementInstance.get(mapping.Field_API__c)+'\", ';    
                       if(mapping.Field_API__c=='Payment_Plan_Length__c'){
-                       // Integer paymentlength=Integer.valueOf(settlementInstance.Payment_Plan_Length__c);
-                       // Integer paymentPlanLength=ROUND(paymentlength,0);
+                        Integer paymentlength=Integer.valueOf(settlementInstance.Payment_Plan_Length__c);
+                        Integer paymentPlanLength=math.ROUND(paymentlength);
                        settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
-                       Integer.valueOf(settlementInstance.Payment_Plan_Length__c).SetScale(2)+'\", ';
+                       paymentPlanLength+'\", ';
                       }else{
                         settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
                         settlementInstance.get(mapping.Field_API__c)+'\", ';   
