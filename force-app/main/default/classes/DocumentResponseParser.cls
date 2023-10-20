@@ -1245,6 +1245,13 @@ public class DocumentResponseParser {
                insolvAccount.RecordTypeId = getCanadianTireInsolvencyRecordTypeAccountNumber(liability.accountNumber);
             }
          }
+
+         // Set default values for Canadian Tire account
+         if(String.isNotBlank(insolvAccount.RecordTypeId) && insolvAccount.RecordTypeId == insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account')){
+               insolvAccount.Claim_Type__c = 'Unsecured';
+               insolvAccount.Type_of_Service__c = 'Service Only';
+         }
+         
          // Unsecured Account
          if(liability.unsecuredDebt != NULL && getDecimalValue(liability.unsecuredDebt) > 0){
             insolvAccount.Unsecured_Asset_Amount__c = getDecimalValue(liability.unsecuredDebt);

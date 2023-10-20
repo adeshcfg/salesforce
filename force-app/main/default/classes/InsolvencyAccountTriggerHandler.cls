@@ -1240,6 +1240,12 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
                 insolAccnt.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(insolAccnt.RecordTypeId));
             }
             
+            // Set default values for Canadian Tire account
+            if(insolAccnt.Client_Identifier__c == 'Canadian Tire') {
+                insolAccnt.Claim_Type__c = String.isBlank(insolAccnt.Claim_Type__c) ? 'Unsecured' : insolAccnt.Claim_Type__c;
+                insolAccnt.Type_of_Service__c = String.isBlank(insolAccnt.Type_of_Service__c) ? 'Service Only' : insolAccnt.Type_of_Service__c;
+            }
+            
             //Check if insolvency account is Scotia and POC Details are provided
             if(insolAccnt.Insolvency_Status__c == 'POC Details Provided'
                &&((config.Eligible_for_Voting_Decision__c).contains(insolAccnt.Client_Identifier__c))){
