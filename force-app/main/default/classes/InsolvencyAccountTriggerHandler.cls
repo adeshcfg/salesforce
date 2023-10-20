@@ -39,6 +39,7 @@ public class InsolvencyAccountTriggerHandler {
         cIRTMap.put('Fidem_Insolvency_Account', 'Fidem');
         cIRTMap.put('Fairstone_Insolvency_Account', 'Fairstone'); 
         cIRTMap.put('Goeasy_Insolvency_Account', 'Goeasy');
+        cIRTMap.put('Canadian_Tire_Insolvency_Account', 'Canadian Tire');
     }
     
     //Before Insert    
@@ -250,7 +251,8 @@ public class InsolvencyAccountTriggerHandler {
                                            SDA_Record_Owner__c,
                                            Chase_Record_Owner__c,
                                            Fairstone_Record_Owner__c,
-                                           Goeasy_Record_Owner__c
+                                           Goeasy_Record_Owner__c,
+                                           Canadian_Tire_Record_Owner__c
                                            from Insolvency__c
                                            where Id IN: insolIdSet];
         

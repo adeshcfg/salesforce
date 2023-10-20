@@ -120,6 +120,17 @@
             return false;
         }
     }
+
+    //Check whether current user belong to Canadian Tire Bank Community User or not
+    public static Boolean isCanadianTireCommunityUser(Id profileId){
+        String profileName = [Select Id,Name from Profile where Id=: profileId].Name;
+        if(profileName.contains('Canadian Tire') ){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     
     //Return InsolvencyAccount Record Type Id DeveloperName Map
     public static Map <Id, String> getInsAccntRecorTypeMap(){
@@ -226,6 +237,9 @@
       else if (profileName.contains('Goeasy')){
          return 'Easyfinancial Insolvency Account';
       }
+      else if (profileName.contains('Canadian Tire')){
+        return 'Canadian Tire Insolvency Account';
+     }
     
       return null; 
     }
@@ -344,6 +358,7 @@
             workOnRecordTypeMap.put('SDA', 'SDA Insolvency Account');
             workOnRecordTypeMap.put('Fairstone', 'Fairstone Insolvency Account');
             workOnRecordTypeMap.put('Goeasy', 'Easyfinancial Insolvency Account');
+            workOnRecordTypeMap.put('Canadian Tire', 'Canadian Tire Insolvency Account');
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
         }
         return recordTypeToWorkOn;
@@ -395,6 +410,11 @@
                ownerId = insolv.Goeasy_Record_Owner__c;
            }
        }
+       else if(clientIdentifier == 'Canadian Tire'){
+        if(insolv.Canadian_Tire_Record_Owner__c!= null){
+           ownerId = insolv.Canadian_Tire_Record_Owner__c;
+       }
+   }
         
         return ownerId;
     }

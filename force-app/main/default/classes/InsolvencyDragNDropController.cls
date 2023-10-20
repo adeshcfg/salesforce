@@ -21,6 +21,7 @@ global class InsolvencyDragNDropController{
     public Boolean isCommunityUser {set; get;}
     public Boolean isCommunityReadOnlyUser {set; get;}
     public Boolean isGoeasyBankCommunityUser {set; get;}
+    public Boolean isCanadianTireCommunityUser {set; get;}
        //Added for 5195
        public Boolean isScotiaBankCommunityUser {set; get;}
        public Boolean isSDABankCommunityUser {set; get;}
@@ -86,6 +87,7 @@ global class InsolvencyDragNDropController{
          isScotiaBankCommunityUser = InsolvencyUtil.isScotiaBankCommunityUser(UserInfo.getProfileId());
          isSDABankCommunityUser = InsolvencyUtil.isSDABankCommunityUser(UserInfo.getProfileId());
          isFairstoneBankCommunityUser = InsolvencyUtil.isFairstoneBankCommunityUser(UserInfo.getProfileId());
+         isCanadianTireCommunityUser = InsolvencyUtil.isCanadianTireCommunityUser(UserInfo.getProfileId());
          //Ends 5195
           //Check whether current user is readonly profile or not
         isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser();      
