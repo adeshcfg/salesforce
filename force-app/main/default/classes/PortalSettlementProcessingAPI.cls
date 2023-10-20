@@ -140,7 +140,7 @@ public class PortalSettlementProcessingAPI {
                     String userName = UserInfo.getName();
                     API_Error__c apiErrorData = New API_Error__c();
                     apiErrorData.Action__c = 'API Failed';
-                    apiErrorData.Request__c = req;             
+                    apiErrorData.Request__c = req.getBody();             
                     apiErrorData.Response__c =res.getBody();                
                     listAPIErrors.add(apiErrorData);
                     
@@ -154,9 +154,9 @@ public class PortalSettlementProcessingAPI {
                   String userName = UserInfo.getName();
                   API_Error__c apiErrorData = New API_Error__c();
                   apiErrorData.Action__c = 'API Failed';
-                  apiErrorData.Request__c = req;     
+                  apiErrorData.Request__c = req.getBody();     
                   apiErrorData.Error__c=settlementInstance.Settlement_Number__c +' '+'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();        
-                  apiErrorData.Response__c =res.getBody();                
+                 // apiErrorData.Response__c =res.getBody();                
                   listAPIErrors.add(apiErrorData);
                   
                   CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Response__c,apiErrorData.Action__c);
