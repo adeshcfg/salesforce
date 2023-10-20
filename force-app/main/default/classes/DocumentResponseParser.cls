@@ -18,6 +18,8 @@ public class DocumentResponseParser {
    public static Set<String> fidemBank = new Set<String>{'FIDEM'};
    public static Set<String> fairstone = new Set<String>{'FAIRSTONE','WALMART','DUO'};
    public static Set<String> fairstoneAcc = new Set<String>{'5434','5435'};
+   public static Set<String> canadianTire = new Set<String>{'CANADIAN TIRE BANK', 'CANADIAN TIRE', 'OPTIONS MASTERCARD', 'BANQUE CANADIAN TIRE', 'CANADIANTIRE'};
+   public static Set<String> canadianTireBins = new Set<String>{'525995', '544612', '544614', '544618', '544629', '544644'};
    public static Set<String> goEasy = new Set<String>{'EASYFINANCIAL SERVICES', 'EASY FINANCIAL SERVICES', 'EASYFINANCIAL', 'EASY FINANCIAL', 'GOEASY', 'GO EASY'};//5093: 'EASYHOME', 'EASY HOME',
    //public static Set<String> fairstoneExcludeAcc = new Set<String>{'676'};
    //public static Set<String> fairstoneExcludeAccData = new Set<String>{'6030'};
@@ -1148,6 +1150,12 @@ public class DocumentResponseParser {
             return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
          }
       }
+
+      for(String str: canadianTire){
+         if(creditorName.contains(str)){
+            return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
+         }
+      }
       
       return null;
     }
@@ -1171,6 +1179,16 @@ public class DocumentResponseParser {
       }
       return null;
     }
+   
+   // Read Insolvency Record types based on account number starts with specific sequence as defined
+   public static Id getCanadianTireInsolvencyRecordTypeAccountNumber(String creditorAccountNumber){
+      for(String str: canadianTireBins){
+        if(creditorAccountNumber.startsWith(str)){
+           return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
+        }
+     }
+     return null;
+   } 
 
     // Create Insolvency Account from creditor information from JSON
     public static void createInsolvencyAccounts(List<Liabilities> liabilities, Insolvency__c insolv, List<Insolvency_Account__c> insolvAccounts,  List<Creditor_Account__c> creditorAccounts){
@@ -1224,6 +1242,7 @@ public class DocumentResponseParser {
             if(insolvAccount.RecordTypeId == NULL){
                insolvAccount.RecordTypeId = getInsolvencyRecordTypeAccountNumber(liability.accountNumber);
                insolvAccount.RecordTypeId = getFairstoneInsolvencyRecordTypeAccNumber(liability.accountNumber);
+               insolvAccount.RecordTypeId = getCanadianTireInsolvencyRecordTypeAccountNumber(liability.accountNumber);
             }
          }
          // Unsecured Account
