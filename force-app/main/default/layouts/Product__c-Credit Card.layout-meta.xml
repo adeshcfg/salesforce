@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customButtons>Update_Amount_Past_Due</customButtons>
     <excludeButtons>ChangeOwnerOne</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
     <excludeButtons>Clone</excludeButtons>
@@ -381,6 +382,10 @@
                 <field>Past_Due_Amount__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Past_Due_Amount_Refresh_Date__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>CTD_Unpaid__c</field>
             </layoutItems>
@@ -400,6 +405,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>PTP1_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Transactions_Last_30_Days__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

@@ -3220,6 +3220,10 @@
         <apexClass>updateSettlementStatusBatch</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>UpdateAmountPastDueController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
@@ -18136,6 +18140,11 @@
         <field>Work_Assignment__c.Write_Off_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product__c.Past_Due_Amount_Refresh_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
@@ -19745,6 +19754,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>pdfdocs</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>UpdateAmountPastDue</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>

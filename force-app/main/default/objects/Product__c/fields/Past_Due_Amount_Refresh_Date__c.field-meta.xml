@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Past_Due_Amount_Refresh_Date__c</fullName>
+    <description>timestamp when the Past Due amount was last fetched</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>timestamp when the Past Due amount was last fetched</inlineHelpText>
+    <label>Past Due Amount Refresh Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>
