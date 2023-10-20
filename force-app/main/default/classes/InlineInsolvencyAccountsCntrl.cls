@@ -188,6 +188,11 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                 if(insolvAcc.RecordTypeId != null ){
                     insolvAcc.Client_Identifier__c = cIRTMap.get(recordTypeName);
                 }
+
+                // Set default values for Canadian Tire account
+                if(insolvAcc.Client_Identifier__c == 'Canadian Tire') {
+                    insolvAcc.Type_of_Service__c = 'Service Only';
+                }
                 
                 // Check whether bank type should check for duplicate
                 for(string bankElig : bankEligList){
