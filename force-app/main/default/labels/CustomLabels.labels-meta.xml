@@ -36,6 +36,13 @@
         <value>EmailTrustee_Subject</value>
     </labels>
     <labels>
+        <fullName>Fidem_API_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fidem API Error Message</shortDescription>
+        <value>You hit the snap.... please wait for a few minutes before you try again. If the issue still persists please get in touch with your System Administrator. Click the back button to redirect to the product record page.</value>
+    </labels>
+    <labels>
         <fullName>InsolvencyAccountInline_Account_Number</fullName>
         <language>en_US</language>
         <protected>false</protected>

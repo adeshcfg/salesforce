@@ -32,7 +32,7 @@
         <apex:actionFunction name="CallApexMethod" action="{!updateAmountPastDueAPI}" rerender="oPanel" oncomplete="done()"/>
                 <apex:outputPanel style="align:center;" rendered="{!panelHide}">
                     <img src="/img/loading32.gif" width="25" height="25" />
-                    <apex:outputLabel value="Product update is in process.... Post processing you will redirected to record page. "/>
+                    <apex:outputLabel value="Product update is in process.... Post processing you will be redirected to record page. Kindly refresh it."/>
                 </apex:outputPanel> 
             <apex:outputPanel rendered="{!responseMessage != 'SUCCESS'}" >
             	{!responseMessage} 
