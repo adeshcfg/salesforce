@@ -15954,6 +15954,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product__c.Past_Due_Amount_Refresh_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product__c.Payment_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>

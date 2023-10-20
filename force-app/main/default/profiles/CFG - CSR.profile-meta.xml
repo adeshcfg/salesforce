@@ -18143,7 +18143,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Past_Due_Amount_Refresh_Date__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
