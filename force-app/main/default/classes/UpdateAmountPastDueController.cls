@@ -3,6 +3,7 @@ public class UpdateAmountPastDueController {
     public String productID {get;set;}
     public String responseMessage {get;set;}
     public boolean panelHide{get;set;}
+    public Integer counter = 1;
     public static API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Fidem Portal API');
     public static List<API_Error__c> listAPIErrors = new List<API_Error__c>();
     
@@ -61,7 +62,7 @@ public class UpdateAmountPastDueController {
             }
         }
         //Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO,'Processing is completed'));
-        system.debug('responseMessage@@@@'); 
+ 
         //responseMessage = message;
         return null;
     }
@@ -79,6 +80,7 @@ public class UpdateAmountPastDueController {
         String statusCode = String.valueOf(res.getStatusCode());
         //system.debug('responceJSONData-->'+responceJSONData);
         system.debug('statusCode--->'+statusCode);
+        //Integer counter = 1;
         try{
             if(statusCode.startsWith('2')){
                 ResponseJSON responceJSONData = (ResponseJSON)JSON.deserialize(res.getBody(), ResponseJSON.class);
@@ -100,16 +102,26 @@ public class UpdateAmountPastDueController {
                 system.debug('inside 500***:: ');
                 ResponseErrorJSON responceErrorJSONData = (ResponseErrorJSON)JSON.deserialize(res.getBody(), ResponseErrorJSON.class);
                 system.debug('outside 500***2020:: ');
+                system.debug('outside 500***2020 responceErrorJSONData::'+responceErrorJSONData);
                 //responseMessage = processRequest(httpresData,prodData);
                 responseMessage = system.label.Fidem_API_Error_Message;
                 panelHide = false;
                 if(responceErrorJSONData.Code == '2020'){
+                    counter = counter+1;
+                    system.debug('counter check'+counter);
                     system.debug('inside 500***2020:: ');
-                    String accToken = AzureUtility.getRequestToken('Fidem Portal API');
-                    httpresData = callAPI(accToken,sJOSN);
+                    if(counter <=2){
+                        system.debug('counter check@@'+counter);
+                        String accToken = AzureUtility.getRequestToken('Fidem Portal API');
+                        httpresData = callAPI(accToken,sJOSN);
+                        processRequest(httpresData,prodData);
+                    }else{
+                        APIErrorLog(res,httpresData,prodData.name);
+                    }
+                    
                 }else{
-
-                    ResponseErrorJSON responceErrorJSONData1 = (ResponseErrorJSON)JSON.deserialize(res.getBody(), ResponseErrorJSON.class);
+					APIErrorLog(res,httpresData,prodData.name);
+                    /*ResponseErrorJSON responceErrorJSONData1 = (ResponseErrorJSON)JSON.deserialize(res.getBody(), ResponseErrorJSON.class);
                     //API error log
                     API_Error__c apiErrorData = New API_Error__c();
                     apiErrorData.Error__c = prodData.name +' '+'Record failed due to'+' '+responceErrorJSONData1.returnMessage;
@@ -129,10 +141,11 @@ public class UpdateAmountPastDueController {
                         apiErrorData.Response__c =res.getBody();
                     }
                     listAPIErrors.add(apiErrorData);
-                    database.insert(listAPIErrors);
+                    database.insert(listAPIErrors);*/
                 }
             }else{
-                Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
+                APIErrorLog(res,httpresData,prodData.name);
+                /*Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                 //API error log
                 API_Error__c apiErrorData = New API_Error__c();
                 apiErrorData.Error__c = prodData.name +' '+'Record failed due to'+' '+bodyMap.get('ReturnMessage');
@@ -152,10 +165,11 @@ public class UpdateAmountPastDueController {
                     apiErrorData.Response__c =res.getBody();
                 }
                 listAPIErrors.add(apiErrorData);
-                database.insert(listAPIErrors);
+                database.insert(listAPIErrors);*/
                 
             }
         }Catch(Exception ex){
+            system.debug('inside exception'+ex);
 			throw ex;
         }
         system.debug('responseMessage'+responseMessage);
@@ -195,6 +209,31 @@ public class UpdateAmountPastDueController {
         return pageRef;
     }
     
+    public void APIErrorLog(HttpResponse res,HttpResponseData httpresData,String prodDataName){
+        ResponseErrorJSON responceErrorJSONData1 = (ResponseErrorJSON)JSON.deserialize(res.getBody(), ResponseErrorJSON.class);
+        //API error log
+        API_Error__c apiErrorData = New API_Error__c();
+        apiErrorData.Error__c = prodDataName +' '+'Record failed due to'+' '+responceErrorJSONData1.returnMessage;
+        apiErrorData.Action__c = 'Fidem API Failed with statusCode'+res.getStatusCode();
+        system.debug('httpresData.requestBody--->'+httpresData.requestBody);
+        system.debug('httpresData.requestBody.length()---->'+httpresData.requestBody.length());
+        if(httpresData.requestBody.length() > 131071){
+            apiErrorData.Request__c = httpresData.requestBody;
+        }else{
+            apiErrorData.Request__c = httpresData.requestBody;
+        }
+        
+        if(res.getBody().length() > 131071){
+            
+            apiErrorData.Response__c =res.getBody().subString(0,131071);
+        }else{
+            apiErrorData.Response__c =res.getBody();
+        }
+        listAPIErrors.add(apiErrorData);
+        database.insert(listAPIErrors);
+        responseMessage = system.label.Fidem_API_Error_Message;
+       
+    }
     public class HttpResponseData {
         HttpResponse res{get; set;}
         String requestBody{get; set;}
