@@ -1,7 +1,7 @@
 public class PortalSettlementProcessingAPI {
      public static API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
      static List<Agency_Portal_Fields_Mapping__c> fieldMapping = Agency_Portal_Fields_Mapping__c.getall().values();
-    
+     public static List<API_Error__c> listAPIErrors = new List<API_Error__c>();
     @future (callout=true)
     public static void processSettlement(ID settlementId){ 
                 String Query = 'SELECT ID,Name,Comment__c,Proposal_Total_Percent__c,Employment_Comments__c,HomeOwner_Status_Comments__c,Proposal_Principal_Percent__c,Monthly_Expenses_Comments__c,Monthly_Income_Comments__c,Total_Wealth_Comments__c,';
@@ -136,10 +136,35 @@ public class PortalSettlementProcessingAPI {
                 else{
                     system.debug('Error Response');
                     system.debug(bodyMap.get('ReturnMessage'));
+                    //Added by Nagendra - #4931
+                    String userName = UserInfo.getName();
+                    API_Error__c apiErrorData = New API_Error__c();
+                    apiErrorData.Action__c = 'API Failed';
+                    apiErrorData.Request__c = req.getBody();             
+                    apiErrorData.Response__c =res.getBody();                
+                    listAPIErrors.add(apiErrorData);
+                    
+                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Response__c,apiErrorData.Action__c);
+              //4931 - changes end
                 }
             }
             catch(Exception ex){
                 system.debug('exception ex: '+ex);
+                  //Added by Nagendra - #4931
+                  String userName = UserInfo.getName();
+                  API_Error__c apiErrorData = New API_Error__c();
+                  apiErrorData.Action__c = 'API Failed';
+                  apiErrorData.Request__c = req.getBody();     
+                  apiErrorData.Error__c=settlementInstance.Settlement_Number__c +' '+'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();        
+                 // apiErrorData.Response__c =res.getBody();                
+                  listAPIErrors.add(apiErrorData);
+                  
+                  CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Response__c,apiErrorData.Action__c);
+            //4931 - changes end
+            }
+            //Added if loop by Nagendra - #4931
+            if(!listAPIErrors.isEmpty()){
+                insert listAPIErrors;
             }
             
             if(settlementInstance != NULL){
