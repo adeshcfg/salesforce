@@ -726,7 +726,7 @@
                                           <th class="slds-text-heading--label slds-size--1-of-12" scope="col">View File</th>
                                           -->
                                           <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
-                                          <th class="slds-text-heading--label slds-size--3-of-12" style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}" scope="col">Uploaded By</th>
+                                          <th class="slds-text-heading--label slds-size--3-of-12" style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isCanadianTireCommunityUser,NOT(isCommunityUser)), ';', 'none;')}" scope="col">Uploaded By</th>
                                           <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
                                           
                                         </tr>
@@ -761,7 +761,7 @@
                                                     <apex:param value="{!att.createdDate + offset}" /> 
                                                 </apex:outputText>
                                             </td>
-                                            <td style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}">
+                                            <td style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isCanadianTireCommunityUser,NOT(isCommunityUser)), ';', 'none;')}">
                                                 <apex:outputText value="{!att.owner.Name}">
                                                 </apex:outputText>
                                              </td>
