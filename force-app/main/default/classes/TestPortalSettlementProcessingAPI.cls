@@ -75,7 +75,9 @@ public class TestPortalSettlementProcessingAPI {
         Sttlmnt.Monthly_Expenses_Comments__c = 'test';
          Sttlmnt.Monthly_Income_Comments__c = 'test';
          Sttlmnt.Total_Wealth_Comments__c = 'test';
-      
+      Sttlmnt.Comment__c='testing';
+         Sttlmnt.Employment_Comments__c='testing\n\r\\sclass';
+             Sttlmnt.HomeOwner_Status_Comments__c='testing\n\r\\sclass';
         
         insert Sttlmnt;
         
