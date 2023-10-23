@@ -90,6 +90,9 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         obj.Borrower_Primary__c = insolv.Debtor__c;
         obj.Borrower_Coborrower_1__c = insolv.Co_Debtor__c;
         obj.RecordTypeId = rType;
+        if(insAccntRecorTypeMap.get(rType) == 'Canadian_Tire_Insolvency_Account') {
+            obj.Claim_Type__c = 'Unsecured';
+        }
         Wrapper wrap = new Wrapper();
         wrap.key = String.valueOf(Math.abs(Crypto.getRandomInteger()));
         wrap.insolvAcc = obj;
