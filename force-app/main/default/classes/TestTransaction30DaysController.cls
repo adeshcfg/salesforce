@@ -16,6 +16,7 @@ public class TestTransaction30DaysController {
         prod.Product_Status__c = 'Test';
         prod.OwnerId= UserInfo.getUserId();
         prod.Data_Status_Description__c='Warehouse:';
+        prod.Transactions_Last_30_Days__c = 'before amt test';
         ProductTriggerHandler.runProductTrigger = False;
         insert prod;
         ProductTriggerHandler.runProductTrigger = True;
