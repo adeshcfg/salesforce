@@ -24,7 +24,6 @@
     </filters>
     <label>For Owner Review</label>
     <sharedTo>
-        <group>Insolvency_Canadian_Tire_Users</group>
         <group>Insolvency_Goeasy_Users</group>
     </sharedTo>
 </ListView>
