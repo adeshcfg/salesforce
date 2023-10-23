@@ -116,7 +116,7 @@
         </values>
         <values>
             <fullName>Unsecured</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -2565,7 +2565,7 @@
         <picklist>Type_of_Service__c</picklist>
         <values>
             <fullName>Service Only</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Service and Sale</fullName>
