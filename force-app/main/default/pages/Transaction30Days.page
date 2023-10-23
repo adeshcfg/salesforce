@@ -1,0 +1,28 @@
+<!--<apex:page standardController="Product__c" extensions="Transaction30DaysController">
+  {!TransactionData}
+<table>
+        <tr>
+        	<apex:outputField value="{!Product__c.Transactions_Last_30_Days__c}"/>
+<apex:outputText escape="false" value="{!TransactionData}" ></apex:outputText>
+        </tr>
+    </table>
+
+    
+
+    <table>
+    <tr><apex:outputField value="{!Product__c.Transactions_Last_30_Days__c}"/></tr>
+    </table>
+ 
+</apex:page>-->
+
+
+<apex:page standardController="Product__c" extensions="Transaction30DaysController" rendered="true" sidebar="true" lightningStylesheets="true" applyHtmlTag="true" doctype="html-5.0">
+    <style>
+        
+    </style>
+    <html>
+         
+      <textarea readonly="readonly" richtext="true" cols="50" rows="5" required="true" style="width:100%;"> {!Product__c.Transactions_Last_30_Days__c} </textarea>
+        
+    </html>
+</apex:page>
