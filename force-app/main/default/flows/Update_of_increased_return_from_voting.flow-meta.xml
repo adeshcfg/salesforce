@@ -87,7 +87,7 @@
             <targetReference>Check_previous_expected_account_recovery</targetReference>
         </connector>
         <object>Insolvency_Account__c</object>
-        <recordTriggerType>Update</recordTriggerType>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
