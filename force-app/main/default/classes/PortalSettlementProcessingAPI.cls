@@ -140,11 +140,11 @@ public class PortalSettlementProcessingAPI {
                 system.debug('Outbound res body:: '+res.getBody());
                 system.debug('Response Status code==>'+res.getStatusCode());
                 system.debug('Is Success?===?'+  bodyMap.get('IsSuccess'));
-                if(res.getStatusCode() == 200
+                if(String.valueOf(res.getStatusCode()).startsWith('2')
                 && bodyMap.get('IsSuccess') == String.valueOf('true')){
                     system.debug(bodyMap.get('ReturnMessage'));
                 }       
-                else{
+                else if(!String.valueOf(res.getStatusCode()).startsWith('2')){
                     system.debug('Error Response');
                     system.debug(bodyMap.get('ReturnMessage'));
                     //Added by Nagendra - #4931
