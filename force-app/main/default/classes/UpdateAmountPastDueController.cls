@@ -11,7 +11,7 @@ public class UpdateAmountPastDueController {
         panelHide = true;
         responseMessage = 'SUCCESS';
     }
- 
+ 	
     public pageReference updateAmountPastDueAPI(){
         responseMessage = '';
         panelHide = true;
@@ -175,9 +175,18 @@ public class UpdateAmountPastDueController {
         system.debug('responseMessage'+responseMessage);
         return responseMessage;
     }
-    
+    public static Object processResponse(List<String> labels, Object state){
+        HttpResponse response = Continuation.getResponse(labels[0]);
+        // Set the result variable
+        String result = response.getBody();
+        return result;
+    }
     public HttpResponseData callAPI(String accToken, String sJOSN){
         HttpResponseData httpData = new HttpResponseData();
+        Continuation continuation = new Continuation(14000);
+        continuation.continuationMethod='processResponse';
+        continuation.state='Update Payment';
+        
         Http h = new Http();
             // Instantiate a new HTTP request
             HttpRequest req = new HttpRequest();
@@ -187,7 +196,7 @@ public class UpdateAmountPastDueController {
             req.setEndpoint(apiCallDetails.PDF_API_URL__c);
             req.setMethod('POST');   
             httpData.requestBody = req.getBody();
-            
+            continuation.addHttpRequest(req);
             system.debug('Outbound req body:: '+req.getBody());
 
         try{
@@ -250,7 +259,7 @@ public class UpdateAmountPastDueController {
         public String returnMessage{get; set;}
         public String code{get; set;}
         public Integer statusCode{get; set;}
-        public String tag{get; set;}
+        public List<String> tag{get; set;}
     }
     public class ResponseErrorJSON
     {
@@ -259,7 +268,7 @@ public class UpdateAmountPastDueController {
         public String returnMessage{get; set;}
         public String code{get; set;}
         public Integer statusCode{get; set;}
-        public String tag{get; set;}
+        public List<String> tag{get; set;}
     }
     public class Payload
     {
