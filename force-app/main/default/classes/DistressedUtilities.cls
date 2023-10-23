@@ -761,7 +761,7 @@ productStaging.Include_in_Processing__c = true;
             }
             //Invalid Status_Changed_Date__C
             //added validation for ticket 4469 - satyajit patil
-             if((product.Status_Changed_Date__C != null && product.Status_Changed_Date__C != '') && ((!product.Status_Changed_Date__C.contains('/') || !product.Status_Changed_Date__C.contains('-')))){
+             if((product.Status_Changed_Date__C != null && product.Status_Changed_Date__C != '') || (!product.Status_Changed_Date__C.contains('/') || !product.Status_Changed_Date__C.contains('-'))){
                 system.debug('If loop9--->'+product.Status_Changed_Date__C);
                 system.debug('Incorrect Date');
                 ERROR_MSG += '<b>ERROR</b> : Invalid status changed date.<br/>';
