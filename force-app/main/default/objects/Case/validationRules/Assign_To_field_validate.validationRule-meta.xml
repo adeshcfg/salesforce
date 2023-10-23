@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assign_To_field_validate</fullName>
+    <active>true</active>
+    <description>restrict picklist values based on insolvency account record type</description>
+    <errorConditionFormula>AND 
+( 
+Insolvency_Account__c != null, 
+
+OR( 
+AND( 
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;Scotia Bank&apos;), 
+AND( 
+NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;Scotia Bank&apos;)) 
+) 
+), 
+AND( 
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;SPL&apos;), 
+AND( 
+NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;SPL&apos;)) 
+) 
+), 
+AND( 
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;SDA&apos;), 
+AND( 
+NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;SDA&apos;)) 
+) 
+), 
+AND( 
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;Canaccede&apos;), 
+AND( 
+NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;Canaccede&apos;)) 
+) 
+),
+AND( 
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;Fairstone&apos;), 
+AND( 
+NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;Fairstone&apos;)) 
+) 
+),
+AND(
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;Goeasy&apos;),
+AND(
+NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;Goeasy&apos;))
+)
+),
+AND(
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;Canadian Tire&apos;),
+AND(
+NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;Canadian Tire&apos;))
+)
+)
+) 
+)</errorConditionFormula>
+    <errorDisplayField>Assign_To__c</errorDisplayField>
+    <errorMessage>Wrong Assign To for given Insolvency Account</errorMessage>
+</ValidationRule>
