@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportFolder xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>adesh.ikhar@canaccede.com</sharedTo>
+        <sharedToType>User</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>Canadian_Tire_Manager_Access_Report_And</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
+    <name>Canadian Tire Management Reports</name>
+</ReportFolder>
