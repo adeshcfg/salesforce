@@ -144,6 +144,16 @@
                 <label>Withdraw PoC</label>
             </value>
             <value>
+                <fullName>No Match</fullName>
+                <default>false</default>
+                <label>No Match</label>
+            </value>
+            <value>
+                <fullName>Sent on File</fullName>
+                <default>false</default>
+                <label>Sent on File</label>
+            </value>
+            <value>
                 <fullName>Claim Established</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
