@@ -55,11 +55,7 @@ public class InsolvencyAccountTriggerHandler {
             if(accNew.RecordTypeId != null && accNew.Client_Identifier__c == null){
                 accNew.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(accNew.RecordTypeId));
             }
-            // Set default values for Canadian Tire account
-            if(accNew.Client_Identifier__c == 'Canadian Tire') {
-                accNew.Claim_Type__c = 'Unsecured';
-                accNew.Type_of_Service__c = 'Service Only';
-            }
+            
             if(accNew.Trustee_Not_Providing_LoR__c == True){
                 accNew.Review_Account__c = false;
             }
@@ -1243,7 +1239,6 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
             if(insolAccnt.RecordTypeId != null && insolAccnt.Client_Identifier__c == null){
                 insolAccnt.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(insolAccnt.RecordTypeId));
             }
-            
             
             //Check if insolvency account is Scotia and POC Details are provided
             if(insolAccnt.Insolvency_Status__c == 'POC Details Provided'
