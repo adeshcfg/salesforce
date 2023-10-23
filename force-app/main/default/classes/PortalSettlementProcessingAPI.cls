@@ -138,11 +138,13 @@ public class PortalSettlementProcessingAPI {
                 Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                 settlementInstance.Outbound_API_Response_Body__c = res.getBody();
                 system.debug('Outbound res body:: '+res.getBody());
-                if(res.getStatusCode() == 200
+                system.debug('Response Status code==>'+res.getStatusCode());
+                system.debug('Is Success?===?'+  bodyMap.get('IsSuccess'));
+                if(String.valueOf(res.getStatusCode()).startsWith('2')
                 && bodyMap.get('IsSuccess') == String.valueOf('true')){
                     system.debug(bodyMap.get('ReturnMessage'));
                 }       
-                else{
+                else if(!String.valueOf(res.getStatusCode()).startsWith('2')){
                     system.debug('Error Response');
                     system.debug(bodyMap.get('ReturnMessage'));
                     //Added by Nagendra - #4931
