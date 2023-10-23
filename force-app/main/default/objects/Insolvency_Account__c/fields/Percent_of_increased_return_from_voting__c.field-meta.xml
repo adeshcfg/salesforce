@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Percent_of_increased_return_from_voting__c</fullName>
+    <defaultValue>0</defaultValue>
     <externalId>false</externalId>
     <label>% of increased return from voting</label>
     <precision>12</precision>
