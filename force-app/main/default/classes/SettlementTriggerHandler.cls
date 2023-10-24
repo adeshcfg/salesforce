@@ -56,7 +56,7 @@ PortalSettlementProcessingAPI.processSettlement(settlement.ID);
                                     FROM Settlement__c 
                                     WHERE ((Judgment__c IN :setJudgmentID AND Judgment__c != NULL)
                                     OR (Product__c IN :setProductID AND Product__c != NULL))
-                                    AND (Status__c != 'Rejected' AND Status__c  != 'Withdraw') ]){
+                                    AND (Status__c != 'Rejected' AND Status__c  != 'Withdraw' AND Status__c  != 'Not completed') ]){//Added Status != Not completed as part of #5145
              system.debug('newSettle: '+newSettle);
              if(newSettle.Judgment__c != NULL && mapJudgmentSettlements.containsKey(newSettle.Judgment__c)) {
                  //system.debug('Judgment Block 1 run::::');

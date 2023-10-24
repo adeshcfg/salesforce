@@ -55,6 +55,11 @@
                 <default>false</default>
                 <label>Acknowledged by agency</label>
             </value>
+            <value>
+                <fullName>Not completed</fullName>
+                <default>false</default>
+                <label>Not completed</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
