@@ -353,8 +353,10 @@ global class CCSEmailController {
             Attachment attach = new Attachment();
             attach.ParentId = emailmsg.Id;
             attach.name = attachmentName;
-            attach.body = Blob.toPDF(attachmentBody);
-            attach.Description = '';
+           // attach.body = Blob.toPDF(attachmentBody);
+            //Task 5422: Commented above line and added below line
+            attach.body = Blob.toPDF(EncodingUtil.urlEncode(attachmentBody,'UTF-8'));
+           attach.Description = '';
             emailMsgAttachments.add(attach);
 
             if (emailMsgAttachments.size() > 0) {
