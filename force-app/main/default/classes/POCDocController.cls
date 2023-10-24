@@ -57,6 +57,7 @@ public class POCDocController{
     
     
     public POCDocController(){
+        system.debug('pageName@@'+pageName);
         isAnyException = false;
         canaccedeError = false;
         canaccedeErrorMsg = '';
@@ -240,6 +241,7 @@ public class POCDocController{
             }
         }
         Catch(Exception ex){
+            system.debug('exception'+ex.getStackTraceString());
             isAnyException = true;
         }
     }
@@ -269,6 +271,16 @@ public class POCDocController{
         }
         else if(insolvAcc.Client_Identifier__c =='Fidem'){
             pdf = Page.POCDocDataAffirm; 
+        }
+        else if(insolvAcc.Client_Identifier__c =='Canadian Tire'){
+            if(language == 'en_US'){
+                system.debug('pdf in english');
+                pdf = Page.POCDocDataCanadianTire;     
+            }
+            if(language == 'fr'){
+                system.debug('pdf in french');
+                pdf = Page.POCDocDataFrenchCanadianTire;     
+            }
         }
         else{
             system.debug('Scotia Bank');
@@ -423,6 +435,10 @@ public class POCDocController{
                 pageRef = new PageReference('/apex/POCDocFrenchCanaccedePreview?Id='+insolvAcc.Id);
                 pageRef.setRedirect( true ); 
             }
+            else if(pageName == 'CanadianTire'){
+                pageRef = new PageReference('/apex/POCDocFrenchCanadianTirePreview?Id='+insolvAcc.Id);
+                pageRef.setRedirect( true ); 
+            }
             else{
                  system.debug('here');
                  pageRef = new PageReference('/apex/POCDocFrenchStreamPreview?Id='+insolvAcc.Id);
@@ -436,6 +452,10 @@ public class POCDocController{
             PageReference pageRef;
             if(pageName == 'Canaccede'){
                 pageRef = new PageReference('/apex/POCDocCanaccede?Id='+insolvAcc.Id);
+                pageRef.setRedirect( true ); 
+            }
+            else if(pageName == 'CanadianTire'){
+                pageRef = new PageReference('/apex/POCDocCanadianTire?Id='+insolvAcc.Id);
                 pageRef.setRedirect( true ); 
             }
             else{
