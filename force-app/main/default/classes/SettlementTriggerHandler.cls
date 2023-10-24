@@ -51,12 +51,12 @@ PortalSettlementProcessingAPI.processSettlement(settlement.ID);
         }
         system.debug('setProductID::::' +setProductID);
         system.debug('setJudgmentID::::' +setJudgmentID);
-        
+        //Added Status != Not completed in below SOQL Query as part of #5145
         for(Settlement__c newSettle: [SELECT Id, Status__c ,Product__c, Judgment__c
                                     FROM Settlement__c 
                                     WHERE ((Judgment__c IN :setJudgmentID AND Judgment__c != NULL)
                                     OR (Product__c IN :setProductID AND Product__c != NULL))
-                                    AND (Status__c != 'Rejected' AND Status__c  != 'Withdraw' AND Status__c  != 'Not completed') ]){//Added Status != Not completed as part of #5145
+                                    AND (Status__c != 'Rejected' AND Status__c  != 'Withdraw' AND Status__c  != 'Not completed') ]){
              system.debug('newSettle: '+newSettle);
              if(newSettle.Judgment__c != NULL && mapJudgmentSettlements.containsKey(newSettle.Judgment__c)) {
                  //system.debug('Judgment Block 1 run::::');
