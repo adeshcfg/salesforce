@@ -332,7 +332,9 @@ global class CCSEmailController {
         efa.setFileName(attachmentName);
         if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
            && selectedTempalteName != 'Missed Payment Followup') {
-            efa.setBody(Blob.toPDF(attachmentBody));
+           // efa.setBody(Blob.toPDF(attachmentBody));
+           //Task 5422: Commented above line and added below line
+           efa.setBody(Blob.toPDF(EncodingUtil.urlEncode(attachmentBody,'UTF-8')));
         }
 
         fileAttachments.add(efa);
