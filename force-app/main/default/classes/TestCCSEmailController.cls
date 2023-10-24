@@ -52,7 +52,19 @@ public class TestCCSEmailController {
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
         prod.RecordTypeId=rtid;
-        insert prod;
+        prod.Expected_First_disbursement_date__c=system.today();
+        prod.CCS_Proposed_Payment_Amount__c=23;
+        prod.Monthly_Payment_Amount__c=23;
+        prod.Settlement_Manual_Date__c=system.today();
+        prod.CCS_Proposal_Date__c=system.today();
+                prod.Proposal_Received_Date__c=system.today();
+                prod.Last_Payment_Date__c=system.today();
+insert prod;
+             id pprtid=[Select id from RecordType where name = 'CCS Dividend Payment'].id;
+   Product_Payments__c pp=new Product_Payments__c();
+        pp.CCS_Account__c=prod.id;
+        pp.RecordTypeId=pprtid;
+        insert pp;
         
         Attachment att = new Attachment(Name = 'testAtt', Description = ' Document', Body = Blob.valueOf('Test'), parentId = prod.Id);
         insert att; 
