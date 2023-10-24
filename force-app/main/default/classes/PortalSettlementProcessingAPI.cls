@@ -75,7 +75,8 @@ public class PortalSettlementProcessingAPI {
                 if(mapping.Object_Name__c == 'Settlement'){
                     if(mapping.Field_Type__c != 'DateTime'){
                       //  settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
-                      //  settlementInstance.get(mapping.Field_API__c)+'\", ';    
+                      //  settlementInstance.get(mapping.Field_API__c)+'\", ';
+                      //Bug-4931: Commented above two lines and added below IF-Else loop to resolve sending Payment_Plan_Length__c value in decimals to API     
                       if(mapping.Field_API__c=='Payment_Plan_Length__c'){
                         Integer paymentlength=Integer.valueOf(settlementInstance.Payment_Plan_Length__c);
                         Integer paymentPlanLength=math.ROUND(paymentlength);
@@ -138,15 +139,13 @@ public class PortalSettlementProcessingAPI {
                 Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                 settlementInstance.Outbound_API_Response_Body__c = res.getBody();
                 system.debug('Outbound res body:: '+res.getBody());
-                system.debug('Response Status code==>'+res.getStatusCode());
-                system.debug('Is Success?===?'+  bodyMap.get('IsSuccess'));
+          
                 if(String.valueOf(res.getStatusCode()).startsWith('2')
                 && bodyMap.get('IsSuccess') == String.valueOf('true')){
                     system.debug(bodyMap.get('ReturnMessage'));
                 }       
                 else if(!String.valueOf(res.getStatusCode()).startsWith('2')){
-                    system.debug('Error Response');
-                    system.debug(bodyMap.get('ReturnMessage'));
+                
                     //Added by Nagendra - #4931
                     String userName = UserInfo.getName();
                     API_Error__c apiErrorData = New API_Error__c();
