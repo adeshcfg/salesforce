@@ -18830,9 +18830,9 @@
     <layoutAssignments>
         <layout>Task-Scotia Bank Insolvency Task - External</layout>
     </layoutAssignments>
-    <layoutAssignments>
+    <!-- <layoutAssignments>
         <layout>TimeSlot-Time Slot Layout</layout>
-    </layoutAssignments>
+    </layoutAssignments> -->
     <layoutAssignments>
         <layout>Unallocated_Payment__c-Unallocated  Payment external user</layout>
     </layoutAssignments>
