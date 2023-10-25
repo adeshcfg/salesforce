@@ -445,6 +445,14 @@
                 <field>Trustee_Fax_Formula__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Trustee_Address__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Trustee_Postal_Code__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Response_From_Missing_Payment_Follow_up__c</field>
             </layoutItems>
