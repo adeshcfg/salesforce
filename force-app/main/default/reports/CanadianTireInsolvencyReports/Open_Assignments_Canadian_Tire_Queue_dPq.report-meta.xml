@@ -88,7 +88,7 @@
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>BucketField_3299469</field>
-        <sortOrder>Asc</sortOrder>
+        <sortOrder>Desc</sortOrder>
     </groupingsDown>
     <name>Open Assignments – Canadian Tire Queue</name>
     <params>
