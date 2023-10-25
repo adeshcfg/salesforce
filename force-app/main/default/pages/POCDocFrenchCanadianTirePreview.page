@@ -220,12 +220,12 @@
                                   <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>  
                               </div>
                               <div style="float:left;width:63%;padding-left:60px">
-                                  <div style="float:left; padding-left:0px;">
+                                  <div style="float:left; padding-left:30px;">
                                       {!remGroupMap.Entity_Name1__c}<br/>
                                       {!pocPackage.CFG_Office_Address_1__c}<br/>
                                       {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                   </div>
-                                  <div  style="padding-left:280px;">
+                                  <div  style="padding-left:288px;">
                                       t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                                       f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                                       {!pocPackage.CFG_Office_Website__c}
@@ -383,12 +383,12 @@
                                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
                                 </div>
                                 <div style="float:left;width:395px; padding-left:10px">
-                                    <div style="float:left; padding-left:0px;">
+                                    <div style="float:left; padding-left:80px;">
                                         {!remGroupMap.Entity_Name1__c}<br/>
                                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                     </div>
-                                    <div  style="padding-left:280px;">
+                                    <div  style="padding-left:293px;">
                                         t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                                         f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                                         {!pocPackage.CFG_Office_Website__c}
@@ -428,7 +428,7 @@
                               et dont les détails sont mentionnés ci-après:
                               <br/>
                               (Donnez des renseignements complets au sujet de la garantie, y compris la date à laquelle elle a été donnée et la valeur que vous lui attribuez, et annexez une copie des documents relatifs à la garantie.)
-                              <br/>
+                              <br/><br/> 
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimByFarmers}"/>
                               &nbsp;&nbsp;D. RÉCLAMATION D'UN AGRICULTEUR, D'UN PÊCHEUR OU D'UN AQUICULTEUR AU MONTANT DE      $ 
                               <BR/>
@@ -489,12 +489,12 @@
                                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
                                 </div>
                                 <div style="float:left;width:395px;padding-left:10px">
-                                    <div style="float:left;">
+                                    <div style="float:left;padding-left:70px">
                                         {!remGroupMap.Entity_Name1__c}<br/>
                                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                     </div>
-                                    <div  style="padding-left:290px">
+                                    <div  style="padding-left:293px">
                                         t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                                         f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                                         {!pocPackage.CFG_Office_Website__c}
@@ -577,7 +577,7 @@
                   <apex:outputPanel rendered="{!form37}" >
                      <div style="font-size: 13px; margin:auto; padding-top:20px; line-height: 17px; width:90%;">
                          <div style="padding-bottom:10px;">
-                             <div style="text-align:center; float:left; width: 235px;">
+                             <div style="padding-left:35px; float:left; width: 235px;">
                                  <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>
                              </div>
                              <div style="float:left;width:375px;">
@@ -742,12 +742,12 @@
                                  <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
                              </div>
                              <div style="float:left; width: 395px; padding-left: 10px;">
-                                 <div style="float:left; padding-left:0px;">
+                                 <div style="float:left; padding-left:80px;">
                                      {!remGroupMap.Entity_Name1__c}<br/>
                                      {!pocPackage.CFG_Office_Address_1__c}<br/>
                                      {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                  </div>
-                                 <div  style="padding-left:290px">
+                                 <div  style="padding-left:293px">
                                      t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                                      f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                                      {!pocPackage.CFG_Office_Website__c}
