@@ -161,6 +161,6 @@ public class BulkDataloadQueueableTest {
         System.enqueueJob(new BulkDataloadQueueable('INSERT_DATA', csvStringList, 0, documentStorage));
         Test.stopTest();
         List<Product_Staging__c> prodStagingList = [SELECT Id FROM Product_Staging__c];
-        //System.assertEquals(2, prodStagingList.size(), 'Success');
+        System.assertEquals(2, prodStagingList.size(), 'Success');
     }
 }
