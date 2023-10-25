@@ -93,7 +93,10 @@ public class BulkDataloadQueueable implements Queueable {
             for (Integer i = startingIndex; i < endingIndex; i++) {
                 // Split comma separated string of data into an array
                 List<String> csvData = recordListString[i].split(',');
+                //Bug 4932: Added below if loop to avoid Product Staging record creation for CSV header values
+                if(startingIndex!=0){
                 recordsToInsert.add(createRecallRecord(csvData, documentStorage.Id));
+                }
             }
         }
         system.debug('recordsToInsert::'+recordsToInsert);
