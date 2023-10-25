@@ -2,7 +2,6 @@
 public class TestTransaction30DaysController {
 	@isTest
     static void TestMethod1(){
-        
         Product__C prod = new Product__c();
         string recrdid= [SELECT id from RecordType where sobjecttype='product__c' 
                          AND RecordType.Name='Distressed Account'].id;
@@ -21,7 +20,7 @@ public class TestTransaction30DaysController {
         insert prod;
         ProductTriggerHandler.runProductTrigger = True;
         
-         ApexPages.currentPage().getParameters().put('id', prod.Id);
+        ApexPages.currentPage().getParameters().put('id', prod.Id);
         ApexPages.StandardController sc = new ApexPages.standardController(prod);
         Transaction30DaysController controller1 = new Transaction30DaysController(sc);
     }

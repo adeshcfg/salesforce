@@ -3217,6 +3217,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Transaction30DaysController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>updateSettlementStatusBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -18247,6 +18251,11 @@
         <field>Insolvency_Account__c.Percent_of_increased_return_from_voting__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product__c.Transactions_Last_30_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
@@ -20306,6 +20315,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>pdfdocs</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>Transaction30Days</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>

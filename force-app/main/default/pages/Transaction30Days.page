@@ -5,7 +5,6 @@
         }
     </style>
     <html>
-        
       <apex:pageBlock >
 		<apex:repeat value="{!transactionValue}" var="stringstr" id="theRepeat">
             <apex:outputText styleClass="txtFont" value="{!stringstr}" escape="false" /> <br/>
