@@ -12,7 +12,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CFG Email Template Logo URL</shortDescription>
-        <value>https://c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003QzIP&amp;oid=00Dj0000001ripe&amp;lastMod=1516013885000</value>
+        <value>https://cfgroup.file.force.com/servlet/servlet.ImageServer?id=0153a000003QzIP&oid=00Dj0000001ripe&lastMod=1693451831000</value>
     </labels>
     <labels>
         <fullName>Duplicate_Account_ID_Validation_Error</fullName>
@@ -26,7 +26,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Easyfinancial Email Template Logo URL</shortDescription>
-        <value>https://c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003QzIU&amp;oid=00Dj0000001ripe&amp;lastMod=1516013885000</value>
+        <value>https://cfgroup.file.force.com/servlet/servlet.ImageServer?id=0153a000003QzIU&oid=00Dj0000001ripe&lastMod=1693451899000</value>
     </labels>
     <labels>
         <fullName>EmailTrustee_Subject</fullName>

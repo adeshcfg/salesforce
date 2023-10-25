@@ -332,9 +332,7 @@ global class CCSEmailController {
         efa.setFileName(attachmentName);
         if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
            && selectedTempalteName != 'Missed Payment Followup') {
-           // efa.setBody(Blob.toPDF(attachmentBody));
-           //Task 5422: Commented above line and added below line
-           efa.setBody(Blob.toPDF(EncodingUtil.urlEncode(attachmentBody,'UTF-8')));
+            efa.setBody(Blob.toPDF(attachmentBody));
         }
 
         fileAttachments.add(efa);
@@ -353,10 +351,8 @@ global class CCSEmailController {
             Attachment attach = new Attachment();
             attach.ParentId = emailmsg.Id;
             attach.name = attachmentName;
-           // attach.body = Blob.toPDF(attachmentBody);
-            //Task 5422: Commented above line and added below line
-            attach.body = Blob.toPDF(EncodingUtil.urlEncode(attachmentBody,'UTF-8'));
-           attach.Description = '';
+            attach.body = Blob.toPDF(attachmentBody);
+            attach.Description = '';
             emailMsgAttachments.add(attach);
 
             if (emailMsgAttachments.size() > 0) {
