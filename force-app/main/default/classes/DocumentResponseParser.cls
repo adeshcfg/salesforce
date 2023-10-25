@@ -1102,7 +1102,7 @@ public class DocumentResponseParser {
     }
 
     // Read all Insolvency Record types and return
-    public static Id getInsolvencyRecordType(String creditorName,String creditorAccountNumber){
+    public static Id getInsolvencyRecordType(String creditorName,String creditorAccountNumber, String creditorAddress){
       creditorName = creditorName.toUpperCase();
       for(String str: scotiaBank){
          if(creditorName.contains(str)){
@@ -1146,8 +1146,14 @@ public class DocumentResponseParser {
       }
 
       for(String str: fidemBank){
+         String address = String.isNotBlank(creditorAddress) ? creditorAddress.toUpperCase() : '';
          if(creditorName.contains(str)){
-            return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+            if(str != 'AFFIRM') {
+               return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+            }
+            else if(str == 'AFFIRM' && address == System.Label.Affirm_Doc_Parser_Address) {
+               return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+            }
          }
       }
 
@@ -1210,7 +1216,7 @@ public class DocumentResponseParser {
 
          if(liability.creditor != NULL){
             insolvAccount.Creditor_Name__c = liability.creditor;
-            insolvAccount.RecordTypeId = getInsolvencyRecordType(liability.creditor,liability.accountNumber);
+            insolvAccount.RecordTypeId = getInsolvencyRecordType(liability.creditor,liability.accountNumber,liability.creditorAddress);
          }
          if(liability.creditorAddress != NULL){
             insolvAccount.Address_of_Creditor__c = liability.creditorAddress;
