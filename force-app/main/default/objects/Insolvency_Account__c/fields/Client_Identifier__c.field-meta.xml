@@ -45,6 +45,11 @@
                 <default>false</default>
                 <label>Easyfinancial</label>
             </value>
+            <value>
+                <fullName>Canadian Tire</fullName>
+                <default>false</default>
+                <label>Canadian Tire</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
