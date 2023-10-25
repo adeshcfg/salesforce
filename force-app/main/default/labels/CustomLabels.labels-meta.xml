@@ -189,4 +189,11 @@
         <shortDescription>RecordType_to_Show_Parser_Button</shortDescription>
         <value>CCS Case,CCS Dividend</value>
     </labels>
+    <labels>
+        <fullName>Affirm_Doc_Parser_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Affirm Doc Parser Address</shortDescription>
+        <value>PO BOX 53, STATION B LONDON, ONTARIO,CANADA, N6A 4V3</value>
+    </labels>
 </CustomLabels>

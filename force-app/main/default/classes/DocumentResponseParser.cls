@@ -15,7 +15,7 @@ public class DocumentResponseParser {
    public static Set<String> sdaBank = new Set<String>{'SDA', 'SCOTIA DEALER ADVANTAGE'};
    public static Set<String> splBank = new Set<String>{'5307', '628181'};
    public static Set<String> canaccedeBank = new Set<String>{'CANACCEDE'};
-   public static Set<String> fidemBank = new Set<String>{'FIDEM'};
+   public static Set<String> fidemBank = new Set<String>{'AFFIRM', 'FIDEM'};
    public static Set<String> fairstone = new Set<String>{'FAIRSTONE','WALMART','DUO'};
    public static Set<String> fairstoneAcc = new Set<String>{'5434','5435'};
    public static Set<String> canadianTire = new Set<String>{'CANADIAN TIRE BANK', 'CANADIAN TIRE', 'OPTIONS MASTERCARD', 'BANQUE CANADIAN TIRE', 'CANADIANTIRE'};
@@ -1102,7 +1102,7 @@ public class DocumentResponseParser {
     }
 
     // Read all Insolvency Record types and return
-    public static Id getInsolvencyRecordType(String creditorName,String creditorAccountNumber){
+    public static Id getInsolvencyRecordType(String creditorName,String creditorAccountNumber, String creditorAddress){
       creditorName = creditorName.toUpperCase();
       for(String str: scotiaBank){
          if(creditorName.contains(str)){
@@ -1146,8 +1146,14 @@ public class DocumentResponseParser {
       }
 
       for(String str: fidemBank){
+         String address = String.isNotBlank(creditorAddress) ? creditorAddress.toUpperCase() : '';
          if(creditorName.contains(str)){
-            return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+            if(str != 'AFFIRM') {
+               return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+            }
+            else if(str == 'AFFIRM' && address == System.Label.Affirm_Doc_Parser_Address) {
+               return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+            }
          }
       }
 
@@ -1210,7 +1216,7 @@ public class DocumentResponseParser {
 
          if(liability.creditor != NULL){
             insolvAccount.Creditor_Name__c = liability.creditor;
-            insolvAccount.RecordTypeId = getInsolvencyRecordType(liability.creditor,liability.accountNumber);
+            insolvAccount.RecordTypeId = getInsolvencyRecordType(liability.creditor,liability.accountNumber,liability.creditorAddress);
          }
          if(liability.creditorAddress != NULL){
             insolvAccount.Address_of_Creditor__c = liability.creditorAddress;
