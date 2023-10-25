@@ -1,28 +1,16 @@
-<!--<apex:page standardController="Product__c" extensions="Transaction30DaysController">
-  {!TransactionData}
-<table>
-        <tr>
-            <apex:outputField value="{!Product__c.Transactions_Last_30_Days__c}"/>
-<apex:outputText escape="false" value="{!TransactionData}" ></apex:outputText>
-        </tr>
-    </table>
-
-    
-
-    <table>
-    <tr><apex:outputField value="{!Product__c.Transactions_Last_30_Days__c}"/></tr>
-    </table>
- 
-</apex:page>-->
-
-
 <apex:page standardController="Product__c" extensions="Transaction30DaysController" rendered="true" sidebar="true" lightningStylesheets="true" applyHtmlTag="true" doctype="html-5.0">
-    
+    <style>
+        .txtFont {
+            	font-family:Courier New; /* Adjust the value as per your needs */
+        }
+    </style>
     <html>
-       <span style="font-family:Courier New">{!transactionHeader}</span>
-       <br/>
-       <span style="font-family:Courier New">{!transactionValue}</span>  
-      
         
+      <apex:pageBlock >
+		<apex:repeat value="{!transactionValue}" var="stringstr" id="theRepeat">
+            <apex:outputText styleClass="txtFont" value="{!stringstr}" escape="false" /> <br/>
+        </apex:repeat> 
+
+      </apex:pageBlock>
     </html>
 </apex:page>
