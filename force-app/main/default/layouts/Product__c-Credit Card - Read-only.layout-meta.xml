@@ -387,6 +387,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Past_Due_Amount_Refresh_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>CTD_Unpaid__c</field>
             </layoutItems>
         </layoutColumns>
