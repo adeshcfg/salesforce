@@ -7893,6 +7893,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Insolvency_Account__c.Trustee_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Trustee_Postal_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Trustee_Fees__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10119,6 +10129,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Trustee_Fax_Formula__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Trustee_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Trustee_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -18778,9 +18798,9 @@
     <layoutAssignments>
         <layout>Task-Task Layout</layout>
     </layoutAssignments>
-    <layoutAssignments>
+    <!-- <layoutAssignments>
         <layout>TimeSlot-Time Slot Layout</layout>
-    </layoutAssignments>
+    </layoutAssignments> -->
     <layoutAssignments>
         <layout>Unallocated_Payment__c-CCS Unallocated Payment Layout</layout>
         <recordType>Unallocated_Payment__c.CCS</recordType>
