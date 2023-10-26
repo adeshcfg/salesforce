@@ -81,7 +81,7 @@ public class InsolvencyAccntNoteCntrl{
     }    
     
     //Utility method that constructs community url
-    private static string getCommunityUrl(){        
+    public static string getCommunityUrl(){        
         String ntwrkId = Network.getNetworkId();
         ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
         if (comm.siteAsContainerEnabled) {
