@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Plan_Length_accepts_only_numeric</fullName>
+    <active>true</active>
+    <errorConditionFormula>CONTAINS(TEXT(Payment_Plan_Length__c), &apos;.&apos;)</errorConditionFormula>
+    <errorDisplayField>Payment_Plan_Length__c</errorDisplayField>
+    <errorMessage>Payment Plan Length accepts only numericals. Please do not enter decimals</errorMessage>
+</ValidationRule>
