@@ -51,10 +51,10 @@ public class RecallProductProcessing {
                     //list<String> datelist = productStaging.Status_Changed_Date__c.split('/');
                     //Bug:5438 - Commented above line and changes Starts
                     list<String> datelist =new list<string>();
-                    if(product.Status_Changed_Date__c.contains('/')){
+                    if(productStaging.Status_Changed_Date__c.contains('/')){
                         datelist = productStaging.Status_Changed_Date__c.split('/');
                     } 
-                    if(product.Status_Changed_Date__c.contains('-')){
+                    if(productStaging.Status_Changed_Date__c.contains('-')){
                         datelist = productStaging.Status_Changed_Date__c.split('-');
                     }
                     //Bug:5438 Changes Ends
