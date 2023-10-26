@@ -48,7 +48,16 @@ public class RecallProductProcessing {
                 Matcher MyMatcher1;
                 date myDate;
                 if(String.isNotBlank(productStaging.Status_Changed_Date__c)){
-                    list<String> datelist = productStaging.Status_Changed_Date__c.split('/');
+                    //list<String> datelist = productStaging.Status_Changed_Date__c.split('/');
+                    //Bug:5438 - Commented above line and changes Starts
+                    list<String> datelist =new list<string>();
+                    if(product.Status_Changed_Date__c.contains('/')){
+                        datelist = productStaging.Status_Changed_Date__c.split('/');
+                    } 
+                    if(product.Status_Changed_Date__c.contains('-')){
+                        datelist = productStaging.Status_Changed_Date__c.split('-');
+                    }
+                    //Bug:5438 Changes Ends
                     MyMatcher1 = MyPattern1.matcher(productStaging.Status_Changed_Date__c);  
                     Matcher MyMatcher2 = MyPattern2.matcher(productStaging.Status_Changed_Date__c);  
                     Matcher MyMatcher3 = MyPattern3.matcher(productStaging.Status_Changed_Date__c);
