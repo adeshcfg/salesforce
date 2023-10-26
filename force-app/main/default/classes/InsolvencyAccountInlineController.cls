@@ -22,7 +22,7 @@ public with sharing class InsolvencyAccountInlineController {
     public String profileName;
     public boolean isViewPage{get;set;}
     public string insolAccountId{get; set;}
-    public boolean isGoeasyCommunityUser {get; set;}
+    public boolean isLightningCommunity{get;set;}
     public boolean runDuplicateCheckForProfile = false;
     public boolean runDuplicateCheckForBank = false;
     
@@ -63,13 +63,14 @@ public with sharing class InsolvencyAccountInlineController {
        
        //Check whether current user is readonly profile or not
        isCommunityReadOnly = InsolvencyUtil.isCommunityReadOnlyUser();
-       isGoeasyCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
+    //    isGoeasyCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
        //get the Profile name of current login user
         profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
         
         // Check whether current user is commnity user or not and set URL
         if(profileName.contains('Community User')){
-            baseUrl = getCommunityUrl();
+            baseUrl = InsolvencyAccntNoteCntrl.getCommunityUrl();
+            isLightningCommunity = InsolvencyAccntNoteCntrl.isLightningCommunity;
         }
         else{
             baseUrl = URL.getSalesforceBaseUrl().toExternalForm();
