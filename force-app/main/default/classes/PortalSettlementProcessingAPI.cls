@@ -74,18 +74,8 @@ public class PortalSettlementProcessingAPI {
             for(Agency_Portal_Fields_Mapping__c mapping : fieldMapping){
                 if(mapping.Object_Name__c == 'Settlement'){
                     if(mapping.Field_Type__c != 'DateTime'){
-                      //  settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
-                      //  settlementInstance.get(mapping.Field_API__c)+'\", ';
-                      //Bug-4931: Commented above two lines and added below IF-Else loop to resolve sending Payment_Plan_Length__c value in decimals to API     
-                      if(mapping.Field_API__c=='Payment_Plan_Length__c'){
-                        Integer paymentlength=Integer.valueOf(settlementInstance.Payment_Plan_Length__c);
-                        Integer paymentPlanLength=math.ROUND(paymentlength);
-                       settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
-                       paymentPlanLength+'\", ';
-                      }else{
                         settlemntJSONRequest += '\"'+mapping.Field_JSON_Tag__c+ '\":"'+
-                        settlementInstance.get(mapping.Field_API__c)+'\", ';   
-                      }
+                        settlementInstance.get(mapping.Field_API__c)+'\", ';                  
                     }
                     else{
                         if(mapping.Field_Type__c == 'DateTime' && settlementInstance.get(mapping.Field_API__c) != NULL){
