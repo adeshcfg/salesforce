@@ -80,11 +80,12 @@ public class PortalJudgmentProcessingAPI {
                 Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                 judgmentInstance.Outbound_API_Response_Body__c = res.getBody();
                 system.debug('Outbound res body:: '+res.getBody());
-                if(res.getStatusCode() == 200
+                String statusCode = String.valueOf(res.getStatusCode());
+                if(statusCode.startsWith('2')
                    && bodyMap.get('IsSuccess') == String.valueOf('true')){
                        system.debug(bodyMap.get('ReturnMessage'));
                    }       
-                else{
+                else if(!statusCode.startsWith('2')){
                     String userName = UserInfo.getName();
                     API_Error__c apiErrorData = New API_Error__c();
                     apiErrorData.Action__c = 'API Failed';
