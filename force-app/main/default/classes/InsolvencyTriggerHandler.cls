@@ -476,12 +476,27 @@ public class InsolvencyTriggerHandler {
                 mapProdList.put(prod.Id, prod);
             }
         }*/
-        
+        List<Id> insolvIdsToUpdateAccounts = new List<Id>();
         for(Id insolvId : insolvNewMap.keySet()){
             
             Insolvency__c newIns =  insolvNewMap.get(insolvId);
             Insolvency__c oldIns =  insolvOldMap.get(insolvId);
             
+            // Add Insolvency whose any of the below field is updated
+            if (
+                newIns.Total_Unsecured_Liabilities_Clc__c != oldIns.Total_Unsecured_Liabilities_Clc__c ||
+                newIns.Insolvency_Type__c != oldIns.Insolvency_Type__c ||
+                newIns.Expected_Discharge_Month__c != oldIns.Expected_Discharge_Month__c ||
+                newIns.Payment_Amount__c != oldIns.Payment_Amount__c ||
+                newIns.Number_of_Payments__c != oldIns.Number_of_Payments__c ||
+                newIns.Bulk_Payment_Amount__c != oldIns.Bulk_Payment_Amount__c ||
+                newIns.Trustee_Fees__c != oldIns.Trustee_Fees__c ||
+                newIns.Previous_Offer_Amount__c != oldIns.Previous_Offer_Amount__c ||
+                newIns.Previous_Trustee_Fees__c != oldIns.Previous_Trustee_Fees__c
+            ) {
+                insolvIdsToUpdateAccounts.add(insolvId);
+            }
+
             // Replace Insolvency Status from 'New' to 'For Owner Review'
             if(newIns.Insolvency_Status__c == 'For Owner Review' && oldIns.Insolvency_Status__c == 'Staging'){
                 insolvIdsForOwnerReview.add(insolvId);
@@ -566,6 +581,11 @@ public class InsolvencyTriggerHandler {
         //update listProductToUpdate;
         
         List<Insolvency_Account__c > insolvAccList = new List<Insolvency_Account__c >();
+        List<Insolvency_Account__c > insolvAccsToUpdateForFlow = new List<Insolvency_Account__c >();
+        for(Insolvency_Account__c insolvAcc : [SELECT Id From Insolvency_Account__c Where Insolvency__c In :insolvIdsToUpdateAccounts]) {
+            insolvAccsToUpdateForFlow.add(insolvAcc);
+        }
+
         //for(Insolvency_Account__c insolvAcc : [SELECT Id, Insolvency__c, Insolvency_Status__c FROM Insolvency_Account__c WHERE /*Insolvency_Status__c = 'New' AND */ Insolvency__c IN: insolvIdsForOwnerReview or Insolvency__c IN: insolvIdsCopy] )
         for(Insolvency_Account__c insolvAcc : [SELECT Id, 
                                                Insolvency__c, Insolvency_Status__c, Insolvency__r.Revival_Date__c 
@@ -707,6 +727,17 @@ public class InsolvencyTriggerHandler {
             }
             catch(Exception ex){
                 system.debug('ex Message :'+ex.getMessage());
+            }
+        }
+
+        if(!insolvAccsToUpdateForFlow.isEmpty()) {
+            try {
+                InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+                update insolvAccsToUpdateForFlow;
+                InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
+            }
+            catch(DmlException ex) {
+                System.debug('DML Exception in update ' + ex.getDmlMessage(0));
             }
         }
         
