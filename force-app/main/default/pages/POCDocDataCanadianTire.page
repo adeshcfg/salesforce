@@ -94,7 +94,7 @@
                 </div>
                 <div style='float:left;width:455px; padding-top:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "20px;", "20px;")}'>
                     <span style="float:left; padding-left:25px;font-size:13px">
-                        {!remGroupMap.Entity_Name1__c}<br/>
+                        Canaccede International Management Ltd.<br/>
                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
@@ -254,7 +254,7 @@
                 </div>
                 <div style='float:left;width:455px; {!IF(insolvAcc.Claim_Type__c == "Unsecured","margin-top:20px;","margin-top:10px;")} '>
                     <span style="float:left; padding-left:25px;font-size:13px"><br/>
-                        {!remGroupMap.Entity_Name1__c}<br/>
+                        Canaccede International Management Ltd.<br/>
                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
@@ -383,7 +383,7 @@
                         <div style="float:left;width:455px;">
                             <span style="float:left; padding-left:25px;font-size:13px">
                                 
-                                {!remGroupMap.Entity_Name1__c}<br/>
+                                Canaccede International Management Ltd.<br/>
                                 {!pocPackage.CFG_Office_Address_1__c}<br/>
                                 {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                             </span>
@@ -477,7 +477,7 @@
                 </div>
                 <div style='float:left;width:455px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-top:35px;", "margin-top:10px;")} '>
                     <span style="float:left; padding-left:25px;font-size:13px">
-                        {!remGroupMap.Entity_Name1__c}<br/>
+                        Canaccede International Management Ltd.<br/>
                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
@@ -487,7 +487,7 @@
                         {!pocPackage.CFG_Office_Website__c}
                     </span>
                 </div>
-                
+                <br/><br/>
                 <div style="line-height:15px;float:left;">
                     
                     District of: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br/>
@@ -651,7 +651,7 @@
                 </div>
                 <div style='font-size:13px; float:left;width:455px; {!IF(($CurrentPage.parameters.proofOfClaim == "true" || $CurrentPage.parameters.votingLetter == "true"), "margin-top:50px;", "margin-top:10px;")} '>
                     <span style="float:left; padding-left:25px;">
-                        {!remGroupMap.Entity_Name1__c}<br/>
+                        Canaccede International Management Ltd.<br/>
                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
@@ -829,7 +829,7 @@
                 </apex:outputText> 
             </div>
             
-            <br/><br/>
+            <br/><br/><br/><br/>
             <div style='font-family: "Arial Unicode MS"; font-size:13px;'>
                 <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/><br/></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
