@@ -274,13 +274,13 @@
                            Et la reclamation de 
                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><b> {!pocPackage.CFG_Office_Name__c}</b> (Créancier)</apex:outputText>
                             
-                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c}</b> (Créancier)</apex:outputText>        
+                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> {!pocPackage.Client_Company_Name__c} {!pocPackage.Client_Company_Creditor_Name__c}</b> (Créancier)</apex:outputText>        
                            
                             <br/><br/>
                            <i>Tous les avis ou correspondances concernant cette réclamation doivent être envoyés à l'adresse suivante:</i>
                         </div>
                         <div style="font-weight : bold; text-align:center;padding-top:10px;">
-                           <apex:outputText >{!pocPackage.Client_Company_Name_French__c} C/O </apex:outputText>
+                           <apex:outputText >{!pocPackage.Client_Company_Name__c} C/O </apex:outputText>
                            Canaccede International Management Ltd.<br/>
                            {!pocPackage.CFG_Office_Address_1__c}<br/>
                            {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
