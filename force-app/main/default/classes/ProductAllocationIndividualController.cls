@@ -113,49 +113,10 @@ public with sharing class ProductAllocationIndividualController {
         
         try{
             ProductTriggerHandler.runProductTrigger = false;
-            update product;
-            system.debug('inside allocateWithWarning'+product.Allocated_Amount_Fees__c);
-            system.debug('inside allocateWithWarning'+product.Allocated_Amount_Principal__c);
-            system.debug('inside allocateWithWarning'+product.Allocated_Amount_Interest__c);
-            
+            update product;            
             listProduct.add(product);
             
             DistressedUtilities.createPlacementHistory(listProduct,oldPlacementID,placement.Commission_Rate__c);
-            
-            //product.Allocated_Amount_Fees__c + product.Allocated_Amount_Principal__c + product.Allocated_Amount_Interest__c;
-            /*Placement_History__c placementHistory = new Placement_History__c();
-            placementHistory.Product__c = product.id;
-            placementHistory.Placement__c =  oldPlacementID;    
-            //placementHistory.Placement_Recall_Date__c = Date.today();
-            placementHistory.Placement_Date__c = product.Assignment_Date__c;
-            placementHistory.Placement_Status__c = product.Placement_Status__c;
-            placementHistory.Placement_Status_Description__c = placementStatusMap.get( placementHistory.Placement_Status__c).Description__c;
-            placementHistory.Current_Principal_Balance__c = product.Current_Principal_Balance__c;
-            placementHistory.Current_Interest_Balance__c = product.Current_Interest_Amount__c;
-            placementHistory.Interest_Rate__c = product.Interest_Rate__c;
-            placementHistory.NSF_Fees__c = product.Current_Bal_NSF_Fees__c;
-            placementHistory.Current_Bal_Attorney_Fees__c = product.Current_Bal_Attorney_Fees__c;
-            placementHistory.Current_Bal_General_Fees__c = product.Current_Bal_General_Fees__c;
-            placementHistory.Current_Bal_Other_Fees__c = product.Current_Bal_Other_Fees__c;
-            placementHistory.Current_Bal_Court_Fees__c = product.Current_Bal_Court_Fees__c;
-            // placementHistory.Commission_Rate__c = product.Collection_Agency_Placement__r.Commission_Rate__c;
-            placementHistory.Commission_Rate__c = placement.Commission_Rate__c;
-            placementHistory.Pool_Commission_Rate__c = product.Pool_Name__r.Commission_Rate__c;
-            placementHistory.Product_Commission_Rate__c = product.Commission_Rate__c;
-            placementHistory.Pool_ID__c = product.Pool_Name__r.Name;
-            system.debug('inside allocateWithWarning'+product.Allocated_Amount_Total__c);
-            //placementHistory.Allocated_Balance__c = product.Allocated_Amount_Total__c;
-            placementHistory.Allocated_Balance__c = product.Allocated_Amount_Fees__c + product.Allocated_Amount_Principal__c + product.Allocated_Amount_Interest__c;
-               placementHistory.Placed_Commission_Rate__c = product.Commission_Rate_at_Time_of_Placement__c;
-                placementHistory.Value_Tier_at_Placement__c = product.Value_Tier_at_Time_of_Placement__c;
-                placementHistory.Placed_Settlement_Rate__c = product.Placed_Settlement_Rate__c;
-                placementHistory.Recoverable_fee_balance__c = product.Recoverable_Fee__c;
-                placementHistory.Non_recoverable_fee_balance__c = product.Non_Recoverable_Fee__c;
-                placementHistory.Placement_Status_at_time_of_recall__c = placeStatus;
-                 placementHistory.Total_Balance_at_Placement__c = product.Current_Balance__c;
-            insert placementHistory;*/
-            /*PortalProductStatusBulkAPI.processBulkProducts(product.Name, NEW_ALLOCATION_READY, ALLOCATED, String.valueOf(Date.today()), 
-                                                           'Allocation',placement.Name, product.Pool_Name__r.Name);*/
             
             //Added by satyajit
             Map<Id,String> placeStatus = new Map<Id,String>();
@@ -163,6 +124,24 @@ public with sharing class ProductAllocationIndividualController {
             
             List<Id> prodListId = new List<Id>();
             prodListId.add(product.Id);
+            //5198:product reallocated to agency then judgment should be visible to respective agency
+			map<ID, ID> mapActiveAccountJudgments = new map<ID, ID>();
+        	map<ID, Judgment__c> updateJudgments = new map<ID, Judgment__c>();
+            for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c,Product__r.name
+                                                   FROM Account_Judgment__c
+                                                   WHERE Product__c= :productID
+                                                   AND Status__c= 'Active'
+                                                  ]){
+                                                      mapActiveAccountJudgments.put(accJudgment.Product__c,accJudgment.Judgment__c);                             
+                                                  }
+
+            Judgment__c judgment = new Judgment__c();
+            if(mapActiveAccountJudgments.containsKey(product.id) && mapActiveAccountJudgments.get(product.id) != NULL){
+                judgment.id = mapActiveAccountJudgments.get(product.id);
+                judgment.Placed_Agency__c = placement.Name;
+                updateJudgments.put(judgment.id,judgment);
+            }
+            update updateJudgments.values();
             
             //Commented by satyajit
             //PortalProductProcessingAPI.processProduct(product.ID);
@@ -176,6 +155,7 @@ public with sharing class ProductAllocationIndividualController {
         }
         catch(Exception ex){
             ERROR_MSG = ex.getMessage();
+            system.debug('exception message'+ex.getStackTraceString());
         }
             
         return null;
@@ -183,7 +163,6 @@ public with sharing class ProductAllocationIndividualController {
     
     //Allocate Product
     public PageReference allocateProduct(){
-        system.debug('placement::'+ product.Collection_Agency_Placement__c);
         NewPlacementAgency = product.Collection_Agency_Placement__c;  
         if(String.isBlank(NewPlacementAgency)){
             Blank_Agency = 'Please enter agency to allocate';
@@ -198,7 +177,6 @@ public with sharing class ProductAllocationIndividualController {
             if(product.Recoverable_Fee__c == NULL){
                 product.Recoverable_Fee__c = 0;
             }
-            //product.Allocated_Amount_Fees__c = product.Fee_Recovery__c + product.Current_Bal_NSF_Fees__c;
           
             product.Allocated_Amount_Fees__c = product.Recoverable_Fee__c + product.Current_Bal_NSF_Fees__c; 
             //satyajit Comments the below line based on Ankur discussion.       
@@ -233,47 +211,29 @@ public with sharing class ProductAllocationIndividualController {
             
                 DistressedUtilities.createPlacementHistory(listProduct,oldPlacementID,placement.Commission_Rate__c);
                 
-               /* Placement_History__c placementHistory = new Placement_History__c();
-                placementHistory.Product__c = product.id;
-                placementHistory.Placement__c =  product.Collection_Agency_Placement__c;  
-                placementHistory.Placement_Date__c = Date.today();
-                //placementHistory.Placement_Date__c = product.Assignment_Date__c;
-                placementHistory.Placement_Status__c = product.Placement_Status__c;
-                placementHistory.Placement_Status_Description__c = placementStatusMap.get( placementHistory.Placement_Status__c).Description__c;
-                placementHistory.Current_Principal_Balance__c = product.Current_Principal_Balance__c;
-                placementHistory.Current_Interest_Balance__c = product.Current_Interest_Amount__c;
-                placementHistory.Interest_Rate__c = product.Interest_Rate__c;
-                placementHistory.NSF_Fees__c = product.Current_Bal_NSF_Fees__c;
-                placementHistory.Current_Bal_Attorney_Fees__c = product.Current_Bal_Attorney_Fees__c;
-                placementHistory.Current_Bal_General_Fees__c = product.Current_Bal_General_Fees__c;
-                placementHistory.Current_Bal_Other_Fees__c = product.Current_Bal_Other_Fees__c;
-                placementHistory.Current_Bal_Court_Fees__c = product.Current_Bal_Court_Fees__c;
-               // placementHistory.Commission_Rate__c = product.Collection_Agency_Placement__r.Commission_Rate__c;
-                placementHistory.Commission_Rate__c = placement.Commission_Rate__c;
-                placementHistory.Pool_Commission_Rate__c = product.Pool_Name__r.Commission_Rate__c;
-                placementHistory.Product_Commission_Rate__c = product.Commission_Rate__c;
-                placementHistory.Pool_ID__c = product.Pool_Name__r.Name;
-                system.debug('inside allocateProduct'+product.Allocated_Amount_Total__c);
-                //placementHistory.Allocated_Balance__c = product.Allocated_Amount_Total__c;
-                placementHistory.Allocated_Balance__c = product.Allocated_Amount_Fees__c + product.Allocated_Amount_Principal__c + product.Allocated_Amount_Interest__c;
-                placementHistory.Placed_Commission_Rate__c = product.Commission_Rate_at_Time_of_Placement__c;
-                placementHistory.Value_Tier_at_Placement__c = product.Value_Tier_at_Time_of_Placement__c;
-                placementHistory.Placed_Settlement_Rate__c = product.Placed_Settlement_Rate__c;
-                placementHistory.Recoverable_fee_balance__c = product.Recoverable_Fee__c;
-                placementHistory.Non_recoverable_fee_balance__c = product.Non_Recoverable_Fee__c;
-                placementHistory.Placement_Status_at_time_of_recall__c = placeStatus;
-                 placementHistory.Total_Balance_at_Placement__c = product.Current_Balance__c;
-                insert placementHistory;*/
-                
-                /*PortalProductStatusBulkAPI.processBulkProducts(product.Name, NEW_ALLOCATION_READY, ALLOCATED, String.valueOf(Date.today()), 
-                                           'Allocation',placement.Name, product.Pool_Name__r.Name);*/
-                
                 //Added by satyajit
                 Map<Id,String> placeStatus = new Map<Id,String>();
                 placeStatus.put(product.id,product.Placement_Status__c);
                 
                 List<Id> prodListId = new List<Id>();
                 prodListId.add(product.Id);
+                //5198:product reallocated to agency then judgment should be visible to respective agency
+                map<ID, ID> mapActiveAccountJudgments = new map<ID, ID>();
+                map<ID, Judgment__c> updateJudgments = new map<ID, Judgment__c>();
+                for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c,Product__r.name
+                                                       FROM Account_Judgment__c
+                                                       WHERE Product__c= :productID
+                                                       AND Status__c= 'Active'
+                                                      ]){
+                                                          mapActiveAccountJudgments.put(accJudgment.Product__c,accJudgment.Judgment__c);                             
+                                                      }
+                Judgment__c judgment = new Judgment__c();
+                if(mapActiveAccountJudgments.containsKey(product.id) && mapActiveAccountJudgments.get(product.id) != NULL){
+                    judgment.id = mapActiveAccountJudgments.get(product.id);
+                    judgment.Placed_Agency__c = placement.Name;
+                    updateJudgments.put(judgment.id,judgment);
+                }
+                update updateJudgments.values();
                 
                 //Commented by satyajit
                 //PortalProductProcessingAPI.processProduct(product.ID);
@@ -281,7 +241,6 @@ public with sharing class ProductAllocationIndividualController {
                 //Added by satyajit
                 Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Product Allocation File'), 200);
                 
-                system.debug('product::'+product);
                 getSnapshortRecords(new List<Product__c>{product});
                 ProductTriggerHandler.runProductTrigger = true;
                 ERROR_MSG = 'Product Allocated to Agency : ' +placement.Name + ' - ' + placement.Agency_Name__c;
@@ -311,7 +270,7 @@ public with sharing class ProductAllocationIndividualController {
                      FROM Placement__c 
                      WHERE ID= :newPlacement
                      ][0];
-        system.debug('newPlacement:: '+newPlacement);
+        
         //Get Placement History for new Distressed Products for last 6months
         list<Placement_History__c> placementHistory = [SELECT ID, Placement__c, Product__c, Product__r.Name
                                                      FROM Placement_History__c
@@ -330,9 +289,7 @@ public with sharing class ProductAllocationIndividualController {
         mapProvinceNames.put('AB',  'Alberta');
         mapProvinceNames.put('NL', 'Newfoundland and Labrador');
         mapProvinceNames.put('QC', 'Quebec');
-        mapProvinceNames.put('ON', 'Ontario');
-            
-        system.debug('product.Name: '+product.Name);      
+        mapProvinceNames.put('ON', 'Ontario');  
         
         ERROR_MSG = '';
         
