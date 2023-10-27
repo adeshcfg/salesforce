@@ -1154,8 +1154,7 @@ public class ProductTriggerHandler{
         config.Run_Product_Coll_Sub_Status_Validation__c = true; 
         update config;
         list<id> prodIds=new list<id>();
-        map<ID, ID> mapActiveAccountJudgments = new map<ID, ID>();
-        map<ID, Judgment__c> updateJudgments = new map<ID, Judgment__c>();
+
         for(Product__c product: listNewProducts){
             //call API
             system.debug('runProductAPI:: '+runProductAPI);
@@ -1167,28 +1166,7 @@ public class ProductTriggerHandler{
                 prodIds.add(product.ID);
             }
         }
-        for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c,Product__r.name
-                                               FROM Account_Judgment__c
-                                               WHERE Product__c IN :prodIds
-                                               AND Status__c= 'Active'
-                                              ]){
-                                                  mapActiveAccountJudgments.put(accJudgment.Product__c,accJudgment.Judgment__c);                             
-                                              }
-        Judgment__c judgment;
-        for(Product__c productData: listNewProducts){
-            system.debug('inside listNewProducts');
-            Product__c prodOld = mapOldProducts.get(productData.Id);
-            if(productData.Collection_Agency__c != prodOld.Collection_Agency__c){
-                system.debug('old new  Collection_Agency__c not equal');
-                if(mapActiveAccountJudgments.containsKey(productData.id)){
-                    system.debug('product has active judg');
-                    judgment.id = mapActiveAccountJudgments.get(productData.id);
-                    judgment.Placed_Agency__c = String.valueOf(productData.Collection_Agency__c);
-                    updateJudgments.put(judgment.id,judgment);
-                }
-            }
-        }
-        update updateJudgments.values();
+        
         if(runProductAPITrigger){
         PortalProductProcessingAPI.processProductBulkBatch(prodIds);
         }
