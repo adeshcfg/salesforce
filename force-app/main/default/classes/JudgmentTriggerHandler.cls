@@ -139,7 +139,9 @@ public class JudgmentTriggerHandler {
             system.debug('inside judgment%%'+judgment);
             judMapData.put(judgment.id,judgment);
         }
+        JudgmentTriggerHandler.runJudgmentTrigger = False;
         update judMapData.values();
+        JudgmentTriggerHandler.runJudgmentTrigger = True;
     }
     //method to update Placement Main Status and Sub STatus on Product based on Legal statuses
     public static void updateProductStatusesOnJudgment(list<Judgment__c> listNewJudgments, list<String> listLegalStatuses){
@@ -584,7 +586,9 @@ validationRules(listNewJudgments,mapOldJudgment);
             config.Send_Notification__c = true;  
             //call API
             if(!Test.isRunningTest()){
-                PortalJudgmentProcessingAPI.processJudgment(judgRecord.ID);
+                if(judgRecord.Agency_Initiated_Legal_Action__c != NULL && judgRecord.Placed_Agency__c != NULL){
+                	PortalJudgmentProcessingAPI.processJudgment(judgRecord.ID);
+                }
             }
             system.debug('judgRecord.Placed_Agency__c::'+judgRecord.Legal_Agency__c);
             if(judgRecord.Legal_Agency__c != null &&
@@ -1629,7 +1633,10 @@ productToUpdateMap.put(productInstance.id,productInstance);
 }*/
             if(config.Run_Judgment_Update_API_For_Portal__c){ 
                 //call API
-                PortalJudgmentProcessingAPI.processJudgment(judgment.ID); 
+                if(judgment.Agency_Initiated_Legal_Action__c != NULL && judgment.Placed_Agency__c != NULL){
+                    PortalJudgmentProcessingAPI.processJudgment(judgment.ID); 
+                }
+                
                 /*if(judgment.Legal_Agency__c != null &&
                    judgment.Name == mapOldJudgments.get(judgment.ID).Name &&
                    judgment.Legal_Status__c != null &&
