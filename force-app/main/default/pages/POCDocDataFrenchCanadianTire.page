@@ -38,13 +38,13 @@
                         <td style="vertical-align:top;"><span style="font-family: Times New Roman; font-weight:bold;">Objet:</span></td>
                         <td style="padding-left:40px;display:{!IF(AND(insolvAcc.Client_Identifier__c != "Fairstone",insolvAcc.Client_Identifier__c != "Goeasy"), "block;", "none;")}"><span style="font-family: Times New Roman; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} à {!UPPER(pocPackage.CFG_Office_Name_2__c)}.</span> </td>
                         <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><span style="font-family: Times New Roman; font-weight:bold;">Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} BANK OF CANADA (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>
-                        <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!pocPackage.Client_Company_Name__c}. (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name__c)} (“CFG CANADA”).</span> </td>    
+                        <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!pocPackage.Client_Company_Name__c}. (“Vendeur”) à {!UPPER(pocPackage.Client_Company_Name__c)} (“CFG CANADA”).</span> </td>    
                     </tr>
                 </table>
                 <hr style="border-color:black;"/>
                 <br/>
                 Nous vous écrivons pour vous informer que le compte et la réclamation connexe qui nous sont dus (le « compte ») par le débiteur (le « débiteur ») décrit dans la preuve de réclamation ci-jointe est en cours d’achat par
-                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Fairstone'}"> {!pocPackage.CFG_Office_Name_2__c}.</apex:outputText> <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}"> {!pocPackage.CFG_Office_Name__c}.</apex:outputText>
+                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Fairstone'}"> {!pocPackage.CFG_Office_Name_2__c}.</apex:outputText> <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}"> {!pocPackage.Client_Company_Name__c}.</apex:outputText>
                 Nous comprenons que le débiteur est soumis à une procédures en vertu de la 
                 <span style="font-family: Times New Roman; font-style:italic;">Loi sur la faillite et l'insolvabilité </span>(Canada) à l'égard de laquelle vous avez été nommé syndic de faillite.
                 <br/><br/>
@@ -52,7 +52,7 @@
                 Nous autorisons par la présente {!pocPackage.CFG_Office_Name_2__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name_2__c}.
                 </apex:outputText>
                 <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
-                Nous autorisons par la présente {!pocPackage.CFG_Office_Name__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name__c}.
+                Nous autorisons par la présente {!pocPackage.Client_Company_Name__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.Client_Company_Name__c}.
                 </apex:outputText>
                 <br/><br/>
                 Si vous avez des questions, n'hésitez pas à contacter Canaccede International Management Ltd. aux coordonnées suivantes:
@@ -165,14 +165,14 @@
                     De la Ville de <span style="font-weight : bold;font-family: sans-serif; ">{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</span>, dans la province de <span style="font-weight : bold;font-family: sans-serif; ">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>
                     Et la reclamation de 
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name__c}</span></apex:outputText>
+                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.Client_Company_Name__c}</span></apex:outputText>
                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.Client_Company_Name__c} {!pocPackage.Client_Company_Creditor_Name__c}</span> </apex:outputText> (Créancier)          
                     <br/><br/>
                     <span style="font-family: sans-serif; font-style:italic;">Tous les avis ou correspondances concernant cette réclamation doivent être envoyés à l'adresse suivante:</span>
                 </div>
                 
                 <div style="font-weight : bold; text-align:center;padding-top:0px; font-family: sans-serif;">
-                    <apex:outputText >{!pocPackage.CFG_Office_Name__c} C/O </apex:outputText>
+                    <apex:outputText >{!pocPackage.Client_Company_Name__c} C/O </apex:outputText>
                     {!pocPackage.CFG_French_Office_Name__c}<br/>
                     {!pocPackage.CFG_Office_Address_1__c}<br/>
                     {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
@@ -185,7 +185,7 @@
                         <tr>
                             <td style="vertical-align:top;"><b>1.</b></td>
                             <td style="padding-left:10px;">Que je suis le président de <span style="font-family: sans-serif; font-weight:bold;">{!pocPackage.CFG_French_Office_Name__c}</span> prestataire de services pour 
-                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.CFG_Office_Name__c}.</span> </apex:outputText>
+                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.Client_Company_Name__c}.</span> </apex:outputText>
                             </td>   
                         </tr>
                         <tr>
@@ -468,7 +468,7 @@
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, Président<br/>
                                 {!pocPackage.CFG_French_Office_Name__c}<br/>
-                                <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" />
+                                <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" />
                                 <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name__c} (Créancier)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured')}" />
                             </span>
                         </td>
@@ -546,7 +546,7 @@
                     <br/>
                     De la Ville de <span  style="font-family: sans-serif; font-weight:bold;"> {!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</span>, dans la province de <span  style="font-family: sans-serif; font-weight:bold;">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>Et la reclamation de 
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name__c}</span></apex:outputText> 
+                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.Client_Company_Name__c}</span></apex:outputText> 
                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.Client_Company_Name__c} {!pocPackage.Client_Company_Creditor_Name__c}</span> (Créancier)</apex:outputText>   
                 </div>
                 <br/>
@@ -658,7 +658,7 @@
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, Président<br/>
                             {!pocPackage.CFG_French_Office_Name__c}<br/>
-                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier) </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" />
+                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name__c} (Créancier) </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" />
                             <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured')}" /> 
                         </span>
                     </td>
