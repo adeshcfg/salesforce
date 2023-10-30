@@ -461,6 +461,13 @@ public class EmailTrusteeController{
                 return 'Easyhome/Easyfinancial Services Ltd';
             }
             
+        }else if(insolvAcc.Client_Identifier__c == 'Canadian Tire'){
+            if(language == 'fr'){
+                return 'la Banque Canadian Tire';
+            }else{
+                return 'Canadian Tire Bank';
+            }
+            
         }
         
         return null;
