@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>ADDITIONAL_INFORMATION_REQUIRE_CANADIAN_TIRE_French</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Additional Information Required</name>
+    <style>none</style>
+    <subject>Canaccede - En ce qui concerne le Numéro du Surintendant &quot;{!Insolvency__r.Name}&quot; et Numéro de compte &quot;{!Insolvency_Account__c.Secured_Name__c}&quot;</subject>
+    <textOnly>{!pocPackage.CFG_Office_Name__c}
+{!pocPackage.CFG_Office_Address_1__c}
+{!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}    t. {!pocPackage.CFG_Office_Phone_Number__c}
+f. {!pocPackage.CFG_Office_Fax_Number__c}
+{!pocPackage.CFG_Office_Website__c}
+
+Cher (ère) Monsieur / Madame:
+
+Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de {!pocPackage.Client_Company_Name_French__c}.
+
+Veuillez noter que Banque Canadian Tire n’est pas en mesure de trouver le débiteur. Auriez-vous l’obligeance de nous fournir le numéro de compte, le NIV ou le NAS.
+
+Si des erreurs se sont produites dans la transmission de la pièce jointe, veuillez communiquer avec Canaccede à:
+Email: {!pocPackage.CFG_Office_Email_Address__c}
+Télécopieur: 844.827.9220
+Téléphone: 844.827. 9222
+
+Merci,
+Canaccede Traitement de l&apos;insolvabilité</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
