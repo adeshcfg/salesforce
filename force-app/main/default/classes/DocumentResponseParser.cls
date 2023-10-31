@@ -1147,14 +1147,21 @@ public class DocumentResponseParser {
 
       for(String str: fidemBank){
          String address = String.isNotBlank(creditorAddress) ? creditorAddress.toUpperCase() : '';
-         if(creditorName.contains(str)){
-            if(str != 'AFFIRM') {
-               return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+            if (creditorName.contains(str)) {
+                if (str != 'AFFIRM') {
+                    return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+                } else if (
+                    str == 'AFFIRM' &&
+                    (address.contains('PO BOX 53') &&
+                    (address.contains('STATION B') || address.contains('STN B')) &&
+                    address.contains('LONDON') &&
+                    (address.contains('ONTARIO') || address.contains('ON')) &&
+                    (address.contains('CANADA') || address.contains('CA')) &&
+                    address.contains('N6A 4V3'))
+                ) {
+                    return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
+                }
             }
-            else if(str == 'AFFIRM' && address == System.Label.Affirm_Doc_Parser_Address) {
-               return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
-            }
-         }
       }
 
       for(String str: canadianTire){
