@@ -1,0 +1,142 @@
+<messaging:emailTemplate subject="PTP agreement e-mail" recipientType="User" relatedToType="PTP_Information__c">
+    <messaging:htmlEmailBody >
+
+        <html>
+            <style>
+                {
+                    font-family: Calibri, Arial;
+                    font-size: 11pt;
+                    width: 100%;
+                    text-align: left;
+                    color: rgba(23, 29, 35, 0.74);
+                    margin: auto;
+                    padding: 20px
+                }
+            </style>
+            <body>
+            <div style="text-align: right; padding-right:5px;">
+                <img src="https://c.na103.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmRe&oid=00Dj0000001ripe&lastMod=1554095987000" />
+            </div>
+
+            <p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+            <p class="MsoNormal">P.O. Box 53 | Station B | London | Ontario | N6A 4V3</p>
+
+            <hr style="border-top: 2px solid blue;"></hr>
+            <br/>
+            <div style="text-align: right;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!CASE(MONTH(TODAY()),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")} {!TEXT(DAY(TODAY()))}, {!TEXT(YEAR(TODAY()))}
+            </div>
+            <br/>
+            <br/>
+            <br/> Sir / Madam:
+            <br/>
+            <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem Term Loan',true,false)}">
+            <br/> RE: Account No.:{!relatedTo.Product_Name__c}
+            </apex:outputText>
+            <br/>
+            <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem Term Loan',true,false)}">
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Balance Due: 
+            <apex:outputText value=" ${0,number,00.00}">
+             <apex:param value="{!relatedTo.Product_Current_Balance__c}" />
+             </apex:outputText>
+             </apex:outputText>
+           <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem MasterCard',true,false)}" >
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Balance: 
+            <apex:outputText value=" ${0,number,00.00}">
+             <apex:param value="{!relatedTo.Product_Current_Balance__c}" />
+             </apex:outputText>
+             </apex:outputText>
+            <br/>
+            <br/>
+            <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem MasterCard',true,false)}" >
+<hr style="border-top: 1px solid black;"></hr>
+ </apex:outputText>
+            <h2 style="text-align: center;">    <b> 
+    <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c ='Fidem Term Loan',true,false)}" >
+                <div style="font-size: 22px;">
+               <u> Payment Agreement</u>
+                </div>
+                </apex:outputText>
+                <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem MasterCard',true,false)}" >
+                <div style="font-size: 22px;">
+    <u>Thank you for your payment agreement</u></div>
+                </apex:outputText>
+
+                </b>
+            </h2>
+            <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c ='Fidem Term Loan',true,false)}" >
+            <br/> As per our conversation today, this is the agreement for repayment of your delinquent account.
+            </apex:outputText>
+              <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem MasterCard',true,false)}">
+              <br/> As per our conversation today, this is the agreement for repayment of your delinquent Fidem Mastercard®.   
+            </apex:outputText>
+            <br/>
+            <br/> Payment of 
+            <apex:outputText value=" ${0,number,00.00}">
+             <apex:param value="{!relatedTo.PTP_Amount__c}" />
+             </apex:outputText>
+             is due by 
+             <apex:outputText value="{0, DATE, dd'/'MM'/' yyyy}">
+             <apex:param value="{!relatedTo.Payment_Date__c}"/>
+              </apex:outputText>
+             
+            <br/>
+            <br/>
+            <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c ='Fidem Term Loan',true,false)}">
+            Please note, if funds are not received by the agreed date(s) then further action could be taken to recover the delinquent amount.
+            </apex:outputText>
+            <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem MasterCard',true,false)}">
+            Please note, if payment is not made by the agreed upon date then further action could be taken to recover the delinquent amount.
+            </apex:outputText>
+            <br/>
+             <br/>
+            <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c ='Fidem Term Loan',true,false)}">
+           If you are unable to pay as agreed, then you are to contact our office immediately at 1.855.266.3131.
+              </apex:outputText>
+              <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem MasterCard',true,false)}">
+            If you are unable to pay as agreed, please contact our office immediately at 1.855.266.3131.
+            </apex:outputText>
+            <br/>
+            <br/>
+            <br/> Warmest Regards,
+            <br/>
+            <br/>
+            <br/> Fidem Finance Inc.
+            <br/> 1.855.266.3131
+            <br/>
+            <br/>
+            <br/>
+            <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem Term Loan',true,false)}">
+             <div style="font-size: 11px;">
+                Please see your Term Loan Agreement for the full terms on your account.
+              </div>
+            
+
+            <br/>
+            
+            <div style="text-align: center; background-color: #115995; color: #115995;font-size: 10px;padding: 4px;">
+                 <table></table>
+            </div>
+            
+            </apex:outputText>
+            <apex:outputText rendered="{!IF(relatedTo.Product_Type_Display_Name__c = 'Fidem MasterCard', true,false)}">
+
+                <div style="font-size: 11px;">
+                    Note that payments made using non-guaranteed funds may not create available credit on your account for up to 7 days to allow the payment to clear. Please see your Cardholder Agreement for the full terms on your account. You are receiving this letter as per the agreed upon terms in your Cardholder Agreement.
+                </div>
+                <br/>
+
+                <div style="text-align: center; background-color: #115995; color: #dbe3eb;font-size: 10px;padding: 4px;">
+                    Fidem Mastercard® is issued by Peoples Trust Company under licence from Mastercard International Incorporated.
+                    <br/> Mastercard is a registered trademark, and the circles design is a trademark of Mastercard International Incorporated.
+                    <br/>
+                </div>
+                <br/>
+            </apex:outputText>
+
+            <br/>
+            <br/>
+            </body>
+            </html>
+            </messaging:htmlEmailBody>
+</messaging:emailTemplate>

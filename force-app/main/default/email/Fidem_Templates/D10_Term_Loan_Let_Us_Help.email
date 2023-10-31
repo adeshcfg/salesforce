@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<style>
+body{
+	font-family:Calibri, Arial;
+	font-size: 11pt;
+	width: 100%;
+	text-align: left;
+    color:rgba(23, 29, 35, 0.74);
+    margin: auto;
+    padding: 20px
+}
+td{
+    padding-left: 20px !important;
+}
+.imageClass{
+	padding-top:10px;
+}
+.tdText{
+	padding-left: 20px;
+}
+</style>
+	<body>
+<div style="text-align: right; padding-right:5px;">
+<img src='https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmRe&oid=00Dj0000001ripe&lastMod=1493805474000'/></div>
+<br/>
+		Dear {!Product__c.First_Name__c},
+		<br><br>
+		We know you take your credit seriously, however your Affirm Term Loan account is currently past due. 
+		<br><br>
+		The minimum payment required is <strong> {!Product__c.Past_Due_Amount__c}</strong>.
+		<br/><br/>
+		<strong>
+		Choose one of our convenient payment options listed below:
+		</strong>
+		<br><br>
+		<table style="padding-left:10px;margin-top:4px">
+			<tr>
+				<td class="imageClass">
+					<img src="https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmPA&oid=00Dj0000001ripe&lastMod=1493803763000" alt="Company Logo" height="40" width="40"/>
+				</td>
+<td>&nbsp;</td>
+				<td class="tdText">Set up a onetime bill payment through your online banking if you bank with BMO, TD, BNS, Credit Unions or Tangerine. Just add Payee: "Affirm Financial". Account number {!LPAD(Product__c.Name, 8, '0')}. Or pay directly at your local bank.</td>
+			</tr>
+			<tr>
+				<td class="imageClass"> <img src="https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmPC&oid=00Dj0000001ripe&lastMod=1493803763000" alt="Company Logo" height="40" width="40"/>
+				</td>
+<td>&nbsp;</td>
+				<td class="tdText">Contact Affirm Financial to set up a new Pre Authorized withdrawl against your account provided.</td>
+			</tr>
+			<tr>
+				<td class="imageClass"><img src="https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmP9&oid=00Dj0000001ripe&lastMod=1493803763000" alt="Company Logo" height="40" width="40"/></td>
+<td>&nbsp;</td>
+				<td class="tdText">Mail a cheque to: Affirm Financial Services, PO Box 53, Station B, London, Ontario, N6A 4V3</td>
+			</tr>
+		</table>
+		<br>
+		If you are experiencing payment difficulties, we will gladly talk with you about payment options.
+		<br><br>
+		To discuss payment arrangements, please contact us at <strong>1-855-266-3131</strong>. Hours of operation are as follows:
+		<br><br>
+		<div style="text-align: center;">
+			Monday-Thursday 8:00 AM-7:00 PM EST <br>
+			Friday 8:00 AM-6:00 PM EST<br>
+			Saturday 9:00 AM-5:00 PM EST<br>
+		</div>
+		<br>
+Making consistent on time minimum payments is very important to your credit score. A past due payment will have a negative impact on your credit rating and your ability to obtain future credit.
+<br><br>
+		Sincerely,
+		<br><br>
+		Affirm Financial Services <br>
+		1-855-266-3131<br>
+		<br><br>
+		<div style="font-size: 11px;">
+			If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account. Please note that payments made using non-guaranteed funds may take up to 7 days for the payment to clear.
+		</div>
+	</body>
+</html>

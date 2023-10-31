@@ -1,0 +1,25 @@
+Canaccede is sending this notice since we have not received the Security Letter of Release or acknowledgement of previous communication.
+
+<br/><br/><br/>
+
+Dear Sir/Madam.
+
+<br/><br/>
+
+As you are aware, {!pocPackage.CFG_Office_Name} is processing {!pocPackage.Client_Company_Name} insolvent accounts.
+
+<br/><br/>
+
+Our records show that we have sent a proof of claim and a request for the release of security and have not received a response. As such please see the attached letter from {!pocPackage.Client_Company_Name} for more information.
+
+<br/><br/>
+
+Sincerely
+
+<br/><br/><br/>
+
+{!pocPackage.CFG_Office_Name}
+
+<br/><br/>
+
+P:{!pocPackage.CFG_Office_Phone_Number__c} E: {!pocPackage.CFG_Office_Email_Address__c}

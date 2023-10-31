@@ -1,0 +1,19 @@
+<html>
+
+<table>
+<tr>
+<td style=""width:200px;""><img src=""https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000003BfuF&oid=00Dj0000001ripe"" width=""180px""/></td>
+<td style=""padding-left:50px; width:300px;"">
+Canaccede International Management Ltd<br/>
+                            {!pocPackage.CFG_Office_Address__c}<br/>
+                            {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province_Short_Code__c} | {!pocPackage.CFG_Payment_Postal_Code__c}
+</td>
+<td style=""width:100px; text-align: right;"">
+  t. 844-202-6780<br/>
+                             f. 855-914-7653<br/>
+                             www.canaccede.com
+</td>
+</tr>
+</table>
+<body></body>
+</html>

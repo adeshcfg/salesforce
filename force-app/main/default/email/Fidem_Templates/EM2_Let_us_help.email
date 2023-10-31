@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<style>
+body{
+	font-family:Calibri, Arial;
+	font-size: 11pt;
+	width: 100%;
+	text-align: left;
+    color:rgba(23, 29, 35, 0.74);
+    margin: auto;
+    padding: 20px
+}
+td{
+    padding-left: 15px !important;
+}
+.imageClass{
+	padding-top:10px;
+}
+.tdText{
+	padding-left: 10px;
+}
+p{
+    font-family:Calibri, Arial;
+	font-size: 18pt;
+	text-align: center;
+ }
+
+</style>
+	<body>
+<div style="text-align: right; padding-right:5px;">
+<img src='https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmRe&oid=00Dj0000001ripe&lastMod=1493805474000'/>
+</div>
+<br/>
+		Dear {!Product__c.First_Name__c},<br>
+		
+	<h2 style="text-align: center;">	<b><u>  <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm Term Loan", 'initial;', 'none;')}" >
+                <div style="font-size: 22px;">
+                Overdue Account
+                </div>
+                </span>
+                <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+                <div style="font-size: 22px;">
+Credit Card Suspended </div>
+                </span>
+                
+                </b></u> </h2>
+		<br>
+		<span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm Term Loan", 'initial;', 'none;')}" >
+                <div style="font-size: 14px;">
+We know you take your credit seriously, however your Affirm Term Loan account is still showing as past due.
+</div>
+                </span>
+                <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+                <div style="font-size: 14px;">
+We know you take your credit seriously, however your Affirm Mastercard® account is still showing as past due. Your credit card charging privileges have now been suspended until a payment is received.  </div>
+                </span>
+		<br>
+		The minimum payment required is <strong> {!Product__c.Product_Payment_Amount__c}. </strong>
+		<br/><br/>
+		<strong>
+		Choose one of our convenient payment options listed below:
+		</strong>
+		<br>
+		<table style="padding-left:10px;margin-top:4px">
+			<tr>
+				<td class="imageClass">
+					<img src="https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmPA&oid=00Dj0000001ripe&lastMod=1493803763000" alt="Company Logo" height="40" width="40"/>
+				</td>
+<td>&nbsp;</td>
+				<td class="tdText"><span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+                                 Set up a one-time bill payment through your online banking. Just add Payee: “Affirm Mastercard” or pay directly at your local bank.
+                                 </span>
+                                 <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm Term Loan", 'initial;', 'none;')}" >
+                                Set up a onetime bill payment through your online banking if you bank with BMO, TD, BNS, Credit Unions or Tangerine. Just add Payee: “Affrim Financial”. Account number 000{!Product__c.Name} Or pay directly at your local bank.
+                                 </span></td>
+			</tr>
+			<tr><tr>
+				<td class="imageClass"> <img src="https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmPC&oid=00Dj0000001ripe&lastMod=1493803763000" alt="Company Logo" height="40" width="40"/>
+				</td>
+<td>&nbsp;</td>
+                                <td class="tdText">
+				<span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+                                 Visit a Western Union with a Western Union Quick Collect (WUQC). Use “Affirm Canada” for code city, “BC” for code Province.
+                                 </span>
+                                 <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm Term Loan", 'initial;', 'none;')}" >
+                                 Contact Affirm Financial to set up a new Pre Authorized withdrawal against your account provided.
+                                 </span>
+                                 </td>
+			</tr>
+			<tr>
+				<td class="imageClass"><img src="https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmP9&oid=00Dj0000001ripe&lastMod=1493803763000" alt="Company Logo" height="40" width="40"/></td>
+<td>&nbsp;</td>
+				<td class="tdText">
+                                <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+                                 Mail a cheque to: Affirm Card, PO Box 48235, Vancouver, BC, V7X 1A1.
+                                 </span>
+                                 <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm Term Loan", 'initial;', 'none;')}" >
+                                 Mail a cheque to: Affirm Financial Services, PO Box 53, Station B, London, Ontario, N6A 4V3
+                                 </span>
+                                 </td>
+			</tr>
+                        
+			<tr>
+				<td class="imageClass">
+<span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+<img src="https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmPB&oid=00Dj0000001ripe&lastMod=1493803763000" alt="Company Logo" height="40" width="40"/></span></td>
+<td>&nbsp;</td>
+				<td class="tdText">
+<span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+                                 Pay online using TelPay at TelPay.ca.
+                                 </span></td>
+			</tr>
+		</table>
+<br>
+		If you are experiencing payment difficulties, we will gladly talk with you about payment options that may allow you to use your card. To discuss payment arrangements, please contact us at <strong>1-855-266-3131.</strong> Hours of operation are as follows:
+		<br><br>
+		
+		<div style="text-align: center;">
+			Monday-Thursday 8:00 AM-7:00 PM EST <br>
+			Friday 8:00 AM-6:00 PM EST<br>
+			Saturday 9:00 AM-5:00 PM EST<br>
+		</div><br><br>
+        Making consistent on time minimum payments is very important to your credit score. A past due payment will have a negative impact on your credit rating and your ability to obtain future credit.
+		<br><br>
+		<br>
+		Sincerely,
+		<br><br>
+        Customer Experience Team<br>
+		Affirm Financial Services <br>
+		1-855-266-3131<br>
+		<br><br>
+		
+                <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm Term Loan", 'initial;', 'none;')}" >
+                <div style="font-size: 11px;">
+			If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account. Please see your Term Loan Agreement for the full terms on your account.
+		</div>
+<br/>
+<div style="text-align: center; background-color: #115995; color: #dbe3eb;font-size: 10px;padding: 4px;">
+		</div>
+		</span>
+		<span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+		
+			<div style="font-size: 11px;">
+				If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account. Note that payments made using non-guaranteed funds may not create available credit on your account for up to 7 days to allow the payment to clear. Please see your Cardholder Agreement for the full terms on your account. You are receiving this email as per the agreed upon terms in your Cardholder Agreement.
+			</div>
+			<br>		
+		
+			<div style="text-align: center; background-color: #115995; color: #dbe3eb;font-size: 10px;padding: 4px;">
+				Affirm Mastercard®. This card is issued by Peoples Trust Company under licence from Mastercard International.
+				<br>
+				®/TM Mastercard is a registered trademark, and the circles design is a trademark of Mastercard International Incorporated.
+			</div>	
+		</span>
+	</body>
+</html>

@@ -1,0 +1,13 @@
+The following SFDC Issue is ready for testing. Please go ahead and test the feature/request to see if this issue has been fixed. If you approve of the fix, please mark this issue as "Tested and Approved" otherwise mark the issue as "Tested and Rejected" and indicate the reason for rejection on this issue. 
+
+Follow Up Comments: {!SFDC_Issue__c.Follow_up_Comments__c} 
+
+Link: {!SFDC_Issue__c.Link} 
+
+ID : {!SFDC_Issue__c.Name} 
+Status: {!SFDC_Issue__c.Status__c} 
+Issue Category: {!SFDC_Issue__c.Issue_Category__c} 
+Application Area: {!SFDC_Issue__c.Application_Area__c} 
+Subject: {!SFDC_Issue__c.Subject__c} 
+Description: {!SFDC_Issue__c.Description__c} 
+Created By: {!SFDC_Issue__c.OwnerFirstName}

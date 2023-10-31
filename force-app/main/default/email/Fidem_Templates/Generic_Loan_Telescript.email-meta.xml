@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Generic Loan Telescript</name>
+    <style>none</style>
+    <subject>General Loan Telescrip</subject>
+    <textOnly>TERM LOAN DISCLOSURE STATEMENT for: {Customer Name}
+
+Loan Number: {AFI Number}    Consent: YES
+
+Before I proceed I must advise you that this call will be monitored and recorded.
+
+Confirm following Information: Verifying Questions
+
+I’m showing your name as: {First Name}{Middle Name}{Last Name}
+
+What is your current mailing address?{Address} (wait for response) (PO Box not acceptable)
+
+What is your home telephone number?{HomeNumber}
+
+What is your date of birth?{BOD}
+
+What is your e - mail address that you wish to be contacted at?{emailID}
+
+
+
+The following is a summary of certain key terms of your Loan Agreement and other important information that will apply to your Loan Account (your “Account”) issued and administered by Affirm Financial Services. All the terms of your Loan Agreement as well as your Disclosure Statement will be provided to you in writing as well. Make sure you read them carefully.
+
+I REQUIRE A CLEAR “I Agree” AFTER EACH STATEMENT
+
+1. Affirm Financial is loaning you the amount of ${loanAmount} do you agree? (wait for response)
+
+2. Your annual interest rate on your Affirm loan is {InterestRate}%, is calculated at the annual interest rate calculated daily and compounded monthly, not in advance, do you agree? (wait for response)
+
+3. The term of your loan is {Term} months and is an open term, do you agree? (wait for response)
+
+4. Your Affirm loan will be advanced to you on or about {LoanStartDate}, do you agree? (wait for response)
+
+5. Your monthly payments on your Affirm loan are ${RegularPayment} except for the first payment, which will be ${FirstPayment} and is payable on day {PAyDay} of every month by pre - authorized withdrawal, beginning {LoanStartDate}, do you agree? (wait for answer)
+
+6. Your total cost of borrowing is ${TotalPayment}, but can be paid out early for less with no penalty to you, and will greatly reduce the owed amount.
+
+7. The amortization period will differ from the term only when prepayments are made, do you agree?(wait for response)
+
+8. You may repay a greater portion of the loan than required in any given period without incurring penalty charges for the prepayment of the loan. Prepayment will change the amortization of your loan but not it’s terms, do you agree? (wait for answer).
+
+9. There are no prepayment charges on your Affirm loan; however a returned payment fee of {NSFFee} occurs for every NSF, do you agree? (wait for answer)
+
+10. If you are in default, we can require you to pay the costs reasonably incurred for legal services retained by us to collect or attempt to collect payment from you, do you agree? (wait for response)
+
+11. Affirm may declare the full principal amount owing and interest payable immediately if you are in default of this agreement.
+
+12. You consent to receive at the e-mail address provided all your Term Loan documents such as your loan agreement, your Disclosure Statement and our Privacy Policy? (wait for an answer)
+
+**Saskatchewan we require written consent**
+
+13. By signing and returning a signed copy of of your loan agreement or by making any payment in connection to it, whichever occurs first, you agree to the terms and conditions above. If you do not sign and return your Loan Agreement to us, and your first payment is returned by your bank, your Loan Agreement will become null and void and you must repay by cash, certified cheque or money order all amounts advanced by the Lender within 10 days.
+
+
+Remember that timely monthly payments help to build a positive credit history on your Account. We thank you for your interest in working with Affirm Financial Services and we look forward to a long and mutually beneficial relationship. For any additional information regarding the terms of your loan, please do not hesitate to contact us at 1-855-220-7531.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

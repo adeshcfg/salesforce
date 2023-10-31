@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<style>
+body{
+	font-family:Calibri, Arial;
+	font-size: 11pt;
+	width: 100%;
+	text-align: left;
+    color:rgba(23, 29, 35, 0.74);
+    margin: auto;
+    padding: 20px
+}
+td{
+    padding-left: 20px !important;
+}
+.imageClass{
+	padding-top:10px;
+}
+.tdText{
+	padding-left: 20px;
+}
+p{ 
+     font-family:Calibri, Arial;
+     font-size: 18pt;
+     text-align: center;
+ } 
+
+</style>
+	<body>
+<div style="text-align: right; padding-right:5px;">
+<img src='https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmRe&oid=00Dj0000001ripe&lastMod=1493805474000'/>
+</div>
+<br/>
+		Dear {!Product__c.First_Name__c},<br>
+		
+		<p><b><u> Immediate Action Required</b></u></P
+		<br><br>Our records indicate that your account with Affirm Financial is past due and you have now missed 2  
+                             minimum payments. 		
+		<br><br>
+		We have made several attempts to get in touch with you but have not been successful. We ask that you 
+                remit payment <br>immediately or contact us at <b>1-855-266-3131 </b>to make payment arrangements if necessary.
+		<br><br>
+		Failure to make payment may further negatively impact your credit rating with the possibility of being denied future credit. 
+<br><br>
+  
+  Failure to make payment may further negatively impact your credit rating with the possibility of being denied future credit. <br><br>
+
+Please give us a call as soon as possible at<b> 1-855-266-3131</b> or reply to this email. 
+
+		<br/><br/>
+		
+		<br>
+		Sincerely,
+		<br><br>
+		Customer Experience Team<br>
+		Affirm Financial Services <br>
+		1-855-266-3131<br>
+		<br><br>
+		<div style="font-size: 11px;">
+			If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account. Note that payments made using non-guaranteed funds may not create available credit on your account for up to 7 days to allow the payment to clear. Please see your Cardholder Agreement for the full terms on your account. You are receiving this email as per the agreed upon terms in your Cardholder Agreement.
+		</div>
+		<br>
+		<div style="text-align: center; background-color: #115995; color: #dbe3eb;font-size: 10px;padding: 4px;">
+			Affirm Mastercard®. This card is issued by Peoples Trust Company under licence from Mastercard International.
+			<br>
+			®/TM Mastercard is a registered trademark, and the circles design is a trademark of Mastercard International Incorporated.
+		</div>
+	</body>
+</html>

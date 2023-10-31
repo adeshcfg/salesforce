@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notice_Received_to_Prove_Claim_French</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Notice Received to Prove Claim</name>
+    <style>none</style>
+    <subject>Avis exigeant la production d&apos;une preuve de réclamation pour Numéro du Surintendant “{!Insolvency__r.Name}” et Numéro de compte &quot;{!Insolvency_Account__c.Secured_Name__c}</subject>
+    <textOnly>Cher(ère) Monsieur / Madame,
+
+Nous avons récemment reçu votre demande exigeant la production d’une preuve de réclamation.
+
+La raison pour laquelle nous n&apos;avons pas déposé une réclamation au nom de {!pocPackage.Client_Company_Name_French__c} est “{!Insolvency_Account__c.Reason_for_No_PoC_Required_Dropdown__c}, {!Insolvency_Account__c.Reason_for_No_PoC_Required__c}” 
+
+
+Si des erreurs se sont produites dans la transmission de la pièce jointe, veuillez communiquer avec Canaccede à:
+Email: {!pocPackage.CFG_Office_Email_Address__c} 
+Télécopieur: {!pocPackage.CFG_Office_Fax_Number__c} 
+Téléphone: {!pocPackage.CFG_Office_Phone_Number__c} 
+
+Merci,
+Canaccede Traitement de l&apos;insolvabilité</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

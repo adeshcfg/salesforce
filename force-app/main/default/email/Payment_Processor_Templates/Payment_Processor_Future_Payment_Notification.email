@@ -1,0 +1,15 @@
+<h1 style="text-align:center;color:Darkblue;font-family: 'PT Serif'">Payment Reminder</h1>
+<hr width="60%" style="height:4px;border-width:0;color:blue;background-color:LightBlue" ></hr>
+
+This is just to remind you that your next payment on account {!Payment_Transaction__c.Product__c} will occur on {!Payment_Transaction__c.Next_Payment_Date__c}.<br/><br/>
+We look forward to receiving your payment. If you have any questions regarding your account, please contact us toll-free at 1-888-316-2369, or myaccountmanagement@canaccede.com.<br/><br/>
+
+Regards,<br/><br/>
+
+MyAccount Management Team
+
+<br/><br/>
+
+<hr width="60%" style="height:4px;border-width:0;color:blue;background-color:LightBlue" ></hr>
+
+<div style = "font-size:12px;text-align:left">If you wish to unsubscribe from receiving all further commercial electronic messages from MyAccount, please click <a href="https://www.mycanaccede.com/unsubscribe?{!Payment_Transaction__c.Customer_Id__c}"> here </a> or go to the following web address <a href="https://www.mycanaccede.com/unsubscribe/">https://www.mycanaccede.com/unsubscribe/</a> . You can also email us at myaccountmanagement@canaccede.ca. It is your responsibility to always login to check the status of your account. You may still receive some electronic messages where permitted by law.</div>

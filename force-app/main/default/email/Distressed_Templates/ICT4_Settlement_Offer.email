@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<style>
+body{
+	font-family:Calibri, Arial;
+	font-size: 11pt;
+	width: 100%;
+	text-align: left;
+    color:rgba(23, 29, 35, 0.74);
+    margin: auto;
+    padding: 20px
+}
+td{
+    padding-left: 15px !important;
+}
+.imageClass{
+	padding-top:10px;
+}
+.tdText{
+	padding-left: 10px;
+}
+p{
+    font-family:Calibri, Arial;
+	font-size: 11pt;
+	text-align: center;
+ }
+
+</style>
+	<body>
+<div style="text-align:center; padding-right:5px;">
+<img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=015f1000003BfuF&oid=00Dj0000001ripe&lastMod=1516013885000"  width="200" height="50" class="logo logo-dark logo-wide" alt="Logo"/>
+</div>
+<br/>
+		<div style="font-size: 11pt;">
+        <div style="text-align:right ; padding-right:70px;font-size: 11pt;">
+{!CASE(MONTH(TODAY()),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")} {!TEXT(DAY(TODAY()))}, {!TEXT(YEAR(TODAY()))}
+</div><br>
+           
+{!Product__c.First_Name__c} {!Product__c.Last_Name__c} <br>
+{!Product__c.Address_Line1__c} {!Product__c.Address_Line2__c}<br> 
+{!Product__c.City__c}, {!Product__c.State__c} <br>
+{!Product__c.Zip_Code__c} <br>
+<br>
+Delivery Method: Regular mail
+
+<br><br>
+
+<table style="width:100%">
+<tr>
+       <td><strong>RE: Reference Number.{!Product__c.Name}</strong></td>
+       <td align = "right"><strong> Original Creditor:  {!Product__c.Originating_Creditor__c} - {!Product__c.Product_Type__c}</strong></td>
+</tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <strong>
+Current Balance: {!Product__c.Current_Balance__c}    </strong></td></tr>
+</table>
+<hr></hr>
+
+  <center><b><u><h2 align="center">SETTLEMENT OFFER</h2></b></u><br></center>
+We note that your account is in a seriously delinquent status, and your balance remains unpaid. If your account continues to be neglected in this manner we will need to review for further action against you <br><br>
+
+This is your last opportunity to resolve this matter and clear your account balance owed to {!Product__c.Account_Purchasing_Entity__c} .  <br><br>
+
+To that end, Canaccede Financial  is prepared to discount the balance, on a limited time basis, and accept the sum of<strong> 
+{!Product__c.Product_Current_Balance__c}
+ </strong>, to close your account as settled in full. This represents a savings of {!Product__c.Product_Current_Balance_2__c}
+. <br><br>
+
+Payment <strong>MUST</strong> be <strong>received</strong> on or before <strong>{!TODAY()+14}</strong> , to complete this settlement. Once these funds are received the account will be closed as settled and your credit report will be updated to reflect a settlement has been reached. A Release letter will be issued upon request and confirmation of receipt of funds. <br><br>
+
+Please note, if funds are not received by the <strong>{!TODAY()+14}</strong> the settlement offer will be considered null and void and the full balance will become due immediately (Including all principal and interest).<br><br>
+
+<strong>Choose one of our convenient payment options listed below:</strong><br>
+<table style="padding-left:10px;margin-top:4px">
+			<tr>
+				<td class="imageClass">
+					<img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.FileDownload?file=015f1000001YmPA&oid=00Dj0000001ripe" alt="Company Logo" height="40" width="40"/>
+				</td>
+<td>&nbsp;</td>
+
+				<td class="tdText">Set us up as bill payment through your online banking. Just add Payee: “Canaccede
+Financial Group” or pay directly at your local bank (<strong>ensure you quote ({!Product__c.Name}))</strong>
+</td>
+			</tr>
+			
+			<tr>
+				<td class="imageClass"><img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.FileDownload?file=015f1000001YmP9&oid=00Dj0000001ripe" alt="Company Logo" height="40" width="40"/></td>
+<td>&nbsp;</td>
+				<td class="tdText">Mail a cheque payable to:Canaccede Financial Group, P.O. Box 9, Station B, London, Ontario, N6A 4V3</td>
+			</tr>
+		
+		</table><br><br>
+        If you wish to take advantage of this opportunity, you are to contact our office immediately at <strong>1-844-827-9221 </strong>to make arrangements to close this account as settled in full. 
+
+		<br><br>
+		Regards,
+                <br><br>
+		{!Product__c.Account_Purchasing_Entity__c} 
+
+<br>
+		
+		<br><br>
+		
+		<div style="text-align: center;">
+			Canaccede Financial Group, P.O. Box 9, Station B, London, Ontario, N6A 4V3 <br>
+			*{!Product__c.Account_Purchasing_Entity__c} is a subsidiary of Canaccede Financial Group<br>
+		</div>
+
+	</body>
+</html>

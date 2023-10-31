@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>CO1 - Assignment to Collection Agency</name>
+    <style>none</style>
+    <subject>Assignment to Collection Agency</subject>
+    <textOnly>P.O. Box 53 | Station B | London | Ontario | N6A 4V3
+
+
+{!CASE(MONTH(TODAY()),1, &quot;January&quot;,2, &quot;February&quot;,3, &quot;March&quot;, 4, &quot;April&quot;, 5, &quot;May&quot;, 6,&quot;June&quot;,7, &quot;July&quot;,8, &quot;August&quot;,9, &quot;September&quot;,10, &quot;October&quot;,11, &quot;November&quot;,12, &quot;December&quot;,&quot;None&quot;)} {!TEXT(DAY(TODAY()))}, {!TEXT(YEAR(TODAY()))}
+
+
+
+{!Product__c.Address_Line1__c}, {!Product__c.Address_Line2__c}
+{!Product__c.City__c}, {!Product__c.State__c}.
+{!Product__c.Zip_Code__c}
+
+Sir / Madam:
+RE: {!Product__c.Name}:
+Balance Due: {!Product__c.Current_Balance__c}
+
+Assignment to Collection Agency
+As you have failed to respond to numerous attempts to contact you, we will be assigning your account to a collection agency and reported on your credit file as an R9.
+If you would like to settle this matter prior to it being sent to an agency, then you will need to call us today at 1.855.266.3131.
+
+Regards,
+Affirm Financial
+1.855.266.3131</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

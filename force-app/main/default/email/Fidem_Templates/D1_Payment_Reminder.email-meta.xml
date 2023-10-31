@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>D1 Payment Reminder</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>D1 Payment Reminder</name>
+    <style>none</style>
+    <subject>Affirm Financial Payment Reminder</subject>
+    <textOnly>Dear {!Product__c.First_Name__c},
+
+We know you take your credit seriously, so we are sending you this email as a reminder that payment on your Affirm Mastercard® is past due. We suspect this payment has been overlooked, please contact Affirm to rectify your past due payment today. If you’ve already made arrangements for payment of this account, please disregard this email.
+
+The amount required to bring your account into good standing is  {!Product__c.Minimum_Payment_Amount__c}.
+
+Choose one of our convenient payment options listed below:
+
+Set up a one-time bill payment through your online banking. Just add Payee: “Affirm Mastercard” or pay directly at your local bank.
+Visit a Western Union with a Western Union Quick Collect (WUQC). Use “Affirm Canada” for code city, “BC” for code Province.
+Mail a cheque to: Affirm Card, PO Box 48235, Vancouver, BC, V7X 1A1.
+Pay online using TelPay at TelPay.ca.
+
+
+Making consistent on time minimum payments is very important to your credit score. A past due payment will have a negative impact on your credit rating and your ability to obtain future credit.
+
+To discuss payment arrangements, please contact us at 1-855-266-3131. Hours of operation are as follows:
+
+Monday-Thursday 8:00 AM-7:00 PM EST
+Friday 8:00 AM-6:00 PM EST
+Saturday 9:00 AM-5:00 PM EST
+
+Sincerely,
+
+Affirm Financial Services
+1-855-266-3131
+
+
+Please note that payments made using non-guaranteed funds may not create available credit on your account for up to 7 days to allow the payment to clear. Please see your Cardholder Agreement for the full terms on your account. You are receiving this email as per the agreed upon terms in your Cardholder Agreement
+
+Affirm Mastercard®. This card is issued by Peoples Trust Company under licence from Mastercard International.
+®/TM Mastercard is a registered trademark, and the circles design is a trademark of Mastercard International Incorporated.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

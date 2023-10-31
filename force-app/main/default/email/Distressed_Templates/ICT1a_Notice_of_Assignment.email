@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+        font-family: Calibri, Arial;
+        font-size: 11pt;
+        width: 100%;
+        text-align: left;
+        color: rgba(23, 29, 35, 0.74);
+        margin: auto;
+        padding: 20px
+    }
+    
+    td {
+        padding-left: 15px !important;
+    }
+    
+    .imageClass {
+        padding-top: 10px;
+    }
+    
+    .tdText {
+        padding-left: 10px;
+    }
+    
+    p {
+        font-family: Calibri, Arial;
+        font-size: 18pt;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div style="text-align:center; ">
+        <img align:center; src="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=015f1000003BfuF&oid=00Dj0000001ripe&lastMod=1516013885000"  width="200" height="40"  alt="Logo" />
+    </div>
+    <br/>
+
+    <center>
+        <h3 align="center">NOTICE OF ASSIGNMENT</h3></center>
+    <br>{!CASE(MONTH(TODAY()),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")} {!TEXT(DAY(TODAY()))}, {!TEXT(YEAR(TODAY()))}
+    <br>
+    <br>
+    <div style="font-size: 11pt;">
+        {!Product__c.First_Name__c} {!Product__c.Last_Name__c}
+        <br> {!Product__c.Address_Line1__c}
+         <br> {!Product__c.Address_Line2__c}
+        <br> {!Product__c.City__c}, {!Product__c.State__c}
+        <br> {!Product__c.Zip_Code__c}
+        <br>
+        <br> Dear Sir/Madam: {!Product__c.First_Name__c}
+        <br>
+        <br>
+        <strong>Re: Notice of Assignment of Account by Affirm Financial to Canaccede Financial
+         <br>
+         <br>
+         Our Reference Number : {!Product__c.Name}
+
+       </strong>
+        <br>
+        <hr color="black">
+        <br> We are writing to let you know that, as of {!CASE(MONTH(Product__c.Charged_Off_Date__c),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")} {!TEXT(DAY(Product__c.Charged_Off_Date__c))}, {!TEXT(YEAR(Product__c.Charged_Off_Date__c))}, Affirm Financial has assigned the following accounts to Canaccede Financial for recovery.
+        <br>
+        
+<ul>
+<li>
+<div style="text-align:left;">
+ Former Account Number : {!Product__c.Previous_Primary_Account_Number__c}
+<span style="float:right;">Outstanding Balance: {!Product__c.Current_Balance__c}</span>
+</div>
+</li>
+</ul>
+
+        
+        <br>
+        <br> Upon receipt of this notice please remint full balance or contact us at <strong>1-844-827-9221 </strong>to make arrangements to pay.
+        
+        <br/> <strong>Choose one of our convenient payment options listed below:</strong>
+        <br>
+        <br>
+        <table style="padding-left:10px;margin-top:4px">
+            <tr>
+                <td class="imageClass">
+                    <img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.FileDownload?file=015f1000001YmPA&oid=00Dj0000001ripe" alt="Company Logo" height="40" width="40" />
+                </td>
+                <td>&nbsp;</td>
+                <td class="tdText">Set us up as bill payment through your online banking. Just add Payee: “Canaccede Financial Group” or pay directly at your local bank (<strong>ensure you quote ({!Product__c.Name})</strong>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="imageClass"><img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.FileDownload?file=015f1000001YmP9&oid=00Dj0000001ripe" alt="Company Logo" height="40" width="40" /></td>
+                <td>&nbsp;</td>
+                <td class="tdText">Mail a cheque payable to: Canaccede Financial Group, P.O. Box 9, Station B, London, Ontario, N6A 4V3</td>
+            </tr>
+
+        </table>
+        <br>
+        <br> Should you have any questions or would like further information regarding the current amount of your debt or the amount of your debt when it was first due and payable and, if applicable, would like a breakdown of the difference between those amounts, please contact our office at the number below as this information is available upon request.
+        <br>
+        <br> Sincerely,
+        <br>
+        <br> Canaccede Financial
+        <br>Toll Free: 1-844-827-9221
+        <br>
+        <br>
+        <br>
+
+        <div style="text-align: center;">
+            Canaccede Financial Group, P.O. Box 9, Station B, London, Ontario, N6A 4V3
+            <br> 
+            
+        </div>
+        <br>
+
+</body>
+
+</html>

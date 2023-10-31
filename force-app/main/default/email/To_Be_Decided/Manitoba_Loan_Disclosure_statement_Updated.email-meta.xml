@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Manitoba Loan Disclosure statement Updated</name>
+    <style>none</style>
+    <subject>Manitoba Loan Disclosure Statement</subject>
+    <textOnly>TERM LOAN DISCLOSURE STATEMENT (MANITOBA RESIDENTS)
+
+{First Name} {Middle Name} {Last Name}- {Megasys Loan Number}
+
+****AGREEMENT VALID ONLY ONCE VERIFICATION OF IDENTITY IS COMPLETED AND PASSED****
+
+The following is a summary of certain key terms of your Loan Agreement and other important information that will apply to your Loan Account (your “Account”) issued and administered by Affirm Financial Services Inc. Services Financier Affirm Inc. (“Affirm Financial Services”).
+
+This is high-cost credit product as defined in the Consumer Protection Amendment Act (High-Cost Credit Product)
+
+Principal Amount
+
+${Full Loan Amount} CAD
+
+Annual Interest Rate
+
+{APR}% Interest is calculated at the annual interest rate calculated daily and compounded monthly, not in advance. On each regular loan payment date, we re-calculate the amount of interest you owe. We take the principal amount owing, plus interest if your payments are not up to date, from the previous payment date until this payment date. We add this interest amount to the principal amount owing. Then we use this new amount to calculate the interest owing on your next loan payment date. This is called compound interest.
+
+Annual Percentage Rate
+
+The Annual Percentage Rate does not differ from the Annual Interest Rate.
+
+Term
+
+Loan term is {Term} months. Our term is open.
+
+Date of Advance
+
+The Principal amount of the loan is to be advanced on or about {Open Date}. Interest is to begin to be charged on that same date.
+
+Advance of Funds
+
+The funds will be advanced to the account you provide on your Pre-Authorized Debit Form or as otherwise directed by you.
+
+Grace Period
+
+There is no grace period
+
+Payments
+
+Each monthly consecutive payment will be in the amount of ${Reg Pmt Amt}, except for the first payment which will be in the amount of ${First Pmt Amt} and is payable on day {Pay Day} of every month starting XXDateXX. Each regular payment you make pays the interest costs for the loan and repays part of the principal amount borrowed. Each payment will be applied first to interest then to principal. The principal amount of the loan decreases with each regular payment and the portion of your payments needed to cover interest costs also decreases. Over time, when your payments are made on time, an increasingly larger proportion of each regular payment goes toward repaying the principal amount you borrowed.
+
+6
+
+Total Cost of Credit
+
+Princpal of ${Full Loan Amount} and interest of ${Total Interest}
+
+Amortization Period
+
+The amortization period will differ from the term only when prepayments are made.
+
+Prepayment Privilege
+
+You may repay a greater portion of the loan than required in any given period without incurring penalty charges for the prepayment of the loan. Prepayment may change the amortization of , the total cost of credit and/or the number of payments, but it will not change the interest rate, the monthly payment amount or any other terms.
+
+Prepayment Charges
+
+No prepayment charges
+
+Other Fees
+
+Returned payment Fee: ${NSF Fee} per occurrence
+
+Consent
+
+We confirm that any consent to a personal investigation as defined in The Personal Investigations Act must be given in writing, including by electronic means, but not orally.
+
+Right of Cancellation
+
+You have the right to cancel this Agreement within 48 hours - excluding Sundays and other holidays - after entering into this Agreement. In order to exercise this 48-hour cancellation right the Borrower must provide written notice to Affirm Financial Services. We will accept written notice by way of:
+Email: compliance@affirmfinancial.ca
+Toll Free Fax: 1 866 807 6699
+Mail/Courier: Affirm Financial Services
+Station B, P.O. Box 53
+London, ON, N6A 4V3
+An example of an acceptable written notice of cancellation is attached as Schedule &quot;A&quot; to your High-Cost Credit Agreement.
+
+Right to Receive
+
+You have the right to receive:
+(a) The Initial Disclosure Documents,
+(b) A copy of the High-Cost Credit Agreement before entering into it,
+(c) A copy of the completed High-Cost Credit Agreement after entering into it,
+and the right to have reasonable time to review each document or copy and to ask questions
+
+OTHER IMPORTANT INFORMATION
+
+If you are in default, we can require you to pay the costs reasonably incurred for legal services retained by us to collect or attempt to collect payment from you.
+
+TLDSMB2016-02
+
+7</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

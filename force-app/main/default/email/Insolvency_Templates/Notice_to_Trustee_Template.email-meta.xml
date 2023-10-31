@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notice to Trustee Template</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Notice to Trustee Template</name>
+    <style>none</style>
+    <subject>Notice of Servicer-{!insolv.EstateNumber}</subject>
+    <textOnly>{!TODAY()}
+
+DUPLICATE
+IMPORTANT NOTICE:  Change to Servicer
+
+
+Dear Sirs/Mesdames:
+
+Re:      Notice that {!pocPackage.CFG_Office_Name__c}. will be the Servicer for
+{!pocPackage.Client_Company_Name__c} for Bankruptcy and Consumer Proposal Documentation
+___________________________________________________________________________________________
+
+We, {!pocPackage.Client_Company_Name} (the &quot;Creditor&quot;), are writing to notify you that {!pocPackage.CFG_Office_Name} (the &quot;Servicer&quot;) will be administering the processing and filing (and all related matters thereto) of all new bankruptcy or consumer proposals under the  Bankruptcy and Insolvency Act (Canada) from and after March 1, 2018 in respect of which you are appointed as bankruptcy trustee for any customers of the Creditor (including customers of the Creditor’s affiliates and customers of the Creditor under the Scotiabank PrivateLabel Cards, each as listed on Schedule A attached hereto).
+
+We request that all correspondence and documentation, including without limitation, creditor packages, statement of affairs, voting letters, requests for additional documentation and approvals / notice of disallowance of claims, in relation to the above noted accounts be directed to the Servicer at the following contact details:
+
+{!pocPackage.CFG_Office_Name}.
+{!pocPackage.CFG_Office_Address_1__c}
+{!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+
+Attention:   Insolvency Processing
+Telephone:   {!pocPackage.CFG_Office_Phone_Number__c}
+Facsimile:   {!pocPackage.CFG_Office_Fax_Number__c}
+Email:  {!pocPackage.CFG_Office_Email_Address__c}
+
+
+If you have any queries, please do not hesitate to contact Canaccede at the above noted contact details.
+
+Yours truly,   Acknowledged and Agreed to by
+{!pocPackage.Client_Company_Name__c}    {!pocPackage.CFG_Office_Name_2__c}
+
+
+
+
+Schedule A - List of Scotiabank affiliates and Scotiabank Private Label Cards
+
+
+Scotia Mortgage Corporation
+National Trust Company
+Maple Financial Group Inc.
+Montreal Trust Company of Canada
+Trade Freedom Securities Inc.
+
+Scotiabank Credit Card Products:“Scotia Private Label” are credit cards with the following branding
+
+Private Label Credit Card Product  - credit card number starting with 6281 81xx &amp; 5307 86xx
+Scotia Momentum Mastercard - credit card number starting with 5307 85xx
+
+Scotia Dealer Advantage – NEW
+
+
+
+Notice that {!pocPackage.CFG_Office_Name__c}. will be the Servicer for
+{!pocPackage.Client_Company_Name__c} for Bankruptcy and Consumer Proposal Documentation
+
+Please sign and return this acknowledgment page to Canaccede by fax or email;
+
+{!pocPackage.CFG_Office_Name}.
+{!pocPackage.CFG_Office_Address_1__c}
+{!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+
+Attention:  Insolvency Processing
+Fascimile:  {!pocPackage.CFG_Office_Fax_Number__c}
+Email:  {!pocPackage.CFG_Office_Email_Address__c}
+
+
+
+Acknowledgment
+
+{!Insolvency_Account__c.Trustee_Company__c}
+{!Trustee_street}
+{!Insolvency_Account__c.Trustee_Office__c}
+
+
+
+By:    ______________________________
+Name:
+Title:</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

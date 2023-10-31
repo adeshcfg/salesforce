@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Misdirected_Payments_Template_French</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Misdirected Payments Template</name>
+    <style>none</style>
+    <subject>Numéro du Surintendant:{!Insolvency__r.Name} ; Débiteur: {!Insolvency__r.Debtor__c} ; Numéro de compte: {!Insolvency_Account__c.Secured_Name__c}</subject>
+    <textOnly>Cher(ère) Monsieur / Madame,
+
+Nous avons récemment reçu un paiement de dividende pour le compte susmentionné qui nous a été transmis par xxxxxxxxxxxxxxx.
+
+Veuillez noter que ce compte a été acheté par Canaccede et nous vous prions de mettre à jour vos dossiers pour indiquer Canaccede Credit LP en tant que créancier enregistré pour ce compte et de vous assurer que tous les paiements futurs et autres correspondances sont envoyés à:
+
+Canaccede Credit LP. 
+{!pocPackage.CFG_Office_Address__c}
+{!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province_Short_Code__c}
+{!pocPackage.CFG_Payment_Postal_Code__c} 
+Insolvency@canaccede.com 
+
+Si des erreurs se sont produites dans la transmission de la pièce jointe, veuillez communiquer avec Canaccede à:
+Email: Insolvency@canaccede.com 
+Télécopieur: {!pocPackage.CFG_Office_Fax_Number__c}	
+Téléphone: {!pocPackage.CFG_Office_Phone_Number__c}
+
+Merci,
+Canaccede Traitement de l&apos;insolvabilité</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

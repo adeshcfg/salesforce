@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>D55 - Potential Legal Term Loan</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>D55 Term Loan Potential Legal</name>
+    <style>none</style>
+    <subject>Affirm Financial Term Loan Potential Legal</subject>
+    <textOnly>RE: Affirm Term Loan Number {!Product__c.Name}
+
+Outstanding debt of  {!Product__c.Current_Payoff_Amount__c}  due immediately.  Full amount
+
+Dear {!Product__c.First_Name__c},
+
+According to our records, you have failed to make a payment on your Affirm Term Loan for the above mentioned outstanding debt. Due to not complying with the previous payment requests, we are now considering assigning your account to a collection agency and/or legal action to recover the above amount.
+
+Immediate payment is now required – contact us immediately at 1-855-266-3131 to make your payment arrangement.
+
+Failure to make payment will further negatively impact your credit rating with the possibility of being denied future credit.
+
+
+Alternatively, you can make your payment using the convenient options listed below:
+
+Set up a onetime bill payment through your online banking if you bank with BMO, TD, BNS, Credit Unions or Tangerine. Just add Payee: &quot;Affirm Financial&quot;. Account number {!LPAD(Product__c.Name, 8, &apos;0&apos;)}. Or pay directly at your local bank.
+Contact Affirm Financial to set up a new Pre Authorized withdrawal against your account provided.
+Mail a cheque to: Affirm Financial Services, PO Box 53, Station B, London, Ontario, N6A 4V3
+
+
+
+
+Please conduct yourself accordingly.
+
+Affirm Financial Services
+1-855-266-3131
+
+
+If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account. Please note that payments made using non-guaranteed funds may take up to 7 days for the payment to clear.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

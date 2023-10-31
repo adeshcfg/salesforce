@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email Template for future payment transaction notification</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Payment Processor Future Payment Notification</name>
+    <style>none</style>
+    <subject>Payment Reminder</subject>
+    <textOnly>This is just to remind you that your next payment on account {!Payment_Transaction__c.Product__c} will occur on {!Payment_Transaction__c.Next_Payment_Date__c}.
+
+We look forward to receiving your payment. If you have any questions regarding your account, please contact us toll-free at 1-844-827-9221, or collections@canaccede.com. Regards,
+
+Canaccede International Management Ltd.
+
+Please click here to update your email preferences.
+
+If you wish to unsubscribe from receiving all further commercial electronic messages from MyAccount, please click here or go to the following web address https://CFGmyaccount.ca/unsubscribe/ . You can also email us at myaccountmanagement@canaccede.ca. It is your responsibility to always login to check the status of your account. You may still receive some electronic messages where permitted by law.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

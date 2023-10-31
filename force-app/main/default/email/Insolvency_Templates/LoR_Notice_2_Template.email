@@ -1,0 +1,64 @@
+<div style="font-family: 'Arial Unicode MS'; font-size: 10px;">
+<br/><br/><br/>
+<div style="width:100%; text-align:center;">
+<img src='https://c.na103.content.force.com/servlet/servlet.ImageServer?id=015j0000000vIjk&oid=00Dj0000001ripe&lastMod=1433979584000' style="width: 200px;"/>
+</div>
+<div class="myfont">
+<b> {!TODAY()} </b>
+<br/><br/>
+<b>
+<div class="view-font">{!insolvAcc.Trustee_Company__c} {!insolvAcc.Trustee_Office__c}</div>
+<br/><br/>
+Attn: Estate Trustee</b>
+<br/><br/>
+Dear Madam/Sir: 
+<br/><br/><br/>
+<b>
+<table style="width: 100%; ">
+    <tr>
+    <td style=" width:20%; vertical-align: text-bottom; padding-bottom: 10px;">Re: Bankruptcy of</td>
+    <td class="second-column"> {!insolv.Debitors}
+    </td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+    
+    <tr>
+    <td style="padding-bottom: 10px;">Security Type: </td>
+    <td>{!insolvAcc.Security_Type__c}</td>
+<td></td>
+    </tr>
+    
+    <tr>
+    <td style="padding-bottom: 10px;">Security Description:</td>
+    <td>{!insolvAcc.Security_Description__c}</td>
+<td></td>
+    </tr>
+    
+    <tr>
+    <td style="padding-bottom: 10px;">Secured Creditor:</td>
+    <td>{!pocPackage.Client_Company_Name__c}</td>
+<td></td>
+    </tr>
+</table>
+</b>
+    <br/>
+Further to our letter dated {!insolvAcc.LOR_Notice_1_Sent_Date__c}, we have not received any response from your office. Given we have not received a response from you and given that you did not elect to exercise the trustees power of redemption or requiring the Security to be realized you have lost your entitlement to exercise these rights.
+   
+<br/><br/>
+
+All equity of redemption and any other interest in the property comprised in the Security that was vested in the trustees has now vested in the creditor as stipulated by section 130 of the Bankruptcy and Insolvency Act.
+
+<br/><br/>
+
+Our client, <b>{!pocPackage.Client_Company_Name__c}</b>, now intends to exercise its rights with respect to the security, being <b>{!insolvAcc.Security_Description__c}</b>. Should we be unable to locate the Security, we will be in contact with your office again to ascertain the location of same.
+<br/><br/>
+Should you disagree with the above, we invite you to provide us with your comments in writing.
+
+<br/><br/>
+
+Should you have any questions or require further information, please do not hesitate to contact <b>Phone: {!pocPackage.CFG_Office_Phone_Number__c} Email:{!pocPackage.CFG_Office_Email_Address__c}</b>.
+
+<br/><br/><br/>
+   Encl.
+</div>
+</div>

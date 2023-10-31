@@ -1,0 +1,11 @@
+<p>Hi, <br/>
+
+A new web lead has been created: <br/>
+
+Name: <a href={!Lead.Link}>{!Lead.Name}</a>  <br/>
+
+Message: {!Lead.Description}<br/><br/>
+
+Thanks,<br/>
+Marketing Team
+</p>

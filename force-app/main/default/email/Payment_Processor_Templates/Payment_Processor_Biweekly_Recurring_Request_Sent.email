@@ -1,0 +1,26 @@
+<h1 style="text-align:center;color:Darkblue;">Payment Arrangement Confirmation</h1>
+<hr width="60%" style="height:4px;border-width:0;color:blue;background-color:LightBlue" ></hr>
+
+Hello {!Payment_Transaction__c.Customer_First_Name__c}, <br/>
+
+As per our recent conversation, please see the below payment information for {!Payment_Transaction__c.Product__c}. 
+The current balance on the account is {!Payment_Transaction__c.Current_Balance_on_Product__c}. <br/><br/>
+
+<div  id = "weekly">
+      As agreed, {!Payment_Transaction__c.Amount__c} to be paid every {!Payment_Transaction__c.Day_Of_Week__c} until {!Payment_Transaction__c.End_Date_Format__c}.
+</div><br/>
+
+To make your payment, please click the Payment link below: <br/>
+<a href="{!Payment_Transaction__c.Site_ConnectURL__c}" class="button">Initiate Transaction</a><br/><br/>
+
+Once the balance has been paid you will be sent a full and final release showing the account has been paid and is no longer outstanding.
+If you have any questions or concerns, or are unable to make a payment as agreed, contact 1-888-316-2369, or myaccountmanagement@canaccede.com.<br/><br/>
+
+
+Sincerely, <br/>
+MyAccount Management Team <br/>
+Account Owner
+
+<hr width="60%" style="height:4px;border-width:0;color:blue;background-color:LightBlue" ></hr>
+
+<div style = "font-size:12px;text-align:left">If you wish to unsubscribe from receiving all further commercial electronic messages from MyAccount, please click <a href="https://www.mycanaccede.com/unsubscribe?{!Payment_Transaction__c.Customer_Id__c}"> here </a> or go to the following web address <a href="https://www.mycanaccede.com/unsubscribe/">https://www.mycanaccede.com/unsubscribe/</a> . You can also email us at myaccountmanagement@canaccede.ca. It is your responsibility to always login to check the status of your account. You may still receive some electronic messages where permitted by law.</div>

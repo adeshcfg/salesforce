@@ -1,0 +1,6 @@
+An error occurred when user tried to {!Insolvency_Error__c.Action__c}. 
+
+Please click on the below link for more details. 
+Link: {!Insolvency_Error__c.Link} 
+
+Error Message: {!Insolvency_Error__c.Error__c}

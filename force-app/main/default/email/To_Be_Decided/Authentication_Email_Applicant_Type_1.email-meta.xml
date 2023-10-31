@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email Template for Internal User to Send Authentication</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Authentication Email Applicant Type 1</name>
+    <style>none</style>
+    <subject>Congratulations! Your recent credit application has now been APPROVED!</subject>
+    <textOnly>Congratulations!
+Your credit application has been approved.
+
+Hi {!Application__c.First_Name__c},
+
+You recently applied to us for credit, and received a message that your application required further review and that we&apos;d be back to you shortly. We&apos;ve now completed that review, and we&apos;re delighted to inform you that your application for credit has been approved in the amount of {!Application__c.Lender_Approved_Amount__c}.  
+
+Only one more step is needed! For your protection, we simply need to verify your identity.  
+
+You can do this right now, online. You will be asked a few simple questions based on your credit bureau information. The answers you provide will be compared to, and must match, the information in your credit bureau file, thus verifying your identity.  
+
+After you have successfully verified your identity, your application will be finalized and you can get the credit you applied for.  
+
+CLICK HERE -- {!$Setup.Application_Form_Settings__c.Email_Authentication_URL__c}/?et={!Application__c.Email_Auth_Token__c} -- to verify your identity.
+
+If you have any other questions, please call us at 1-855-220-7531. You can also visit AffirmFinancial.ca to learn more about our products and services.
+
+Thanks for your application. We look forward to welcoming you as an Affirm client!
+
+Sincerely,
+
+Scott Coffin,
+President
+You are receiving this email from Affirm Financial Services (AffirmFinancial.ca), Station B, Box 53, London, Ontario N6A 4V3 because you have recently completed a credit application with Affirm Financial. Note that this email was sent to {!Application__c.Email_Address__c}. If you received this email at a different address, this email message was forwarded. If you do not wish to receive emails from us about products, services or offers, please click here -- https://www.affirmfinancial.ca/unsubscribe/ -- to unsubscribe.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

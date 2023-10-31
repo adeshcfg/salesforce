@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>ICT5-Final Demand</name>
+    <style>none</style>
+    <subject>Final Demand</subject>
+    <textOnly>{!CASE(MONTH(TODAY()),1, &quot;January&quot;,2, &quot;February&quot;,3, &quot;March&quot;, 4, &quot;April&quot;, 5, &quot;May&quot;, 6,&quot;June&quot;,7, &quot;July&quot;,8, &quot;August&quot;,9, &quot;September&quot;,10, &quot;October&quot;,11, &quot;November&quot;,12, &quot;December&quot;,&quot;None&quot;)} {!TEXT(DAY(TODAY()))}, {!TEXT(YEAR(TODAY()))}
+
+
+{!Product__c.First_Name__c} {!Product__c.Last_Name__c}
+{!Product__c.Address_Line1__c} {!Product__c.Address_Line2__c},
+{!Product__c.City__c}, {!Product__c.State__c}
+{!Product__c.Zip_Code__c}
+
+Delivery Method: Regular mail  FINAL DEMAND
+
+RE:  Reference Number.: {!Product__c.Name} Original Creditor: {!Product__c.Originating_Creditor__c}
+Current Balance : {!Product__c.Current_Balance__c}
+
+As you have already been made aware, your account is seriously delinquent. Despite our attempts to contact you to resolve this your account balance remains outstanding.
+
+This letter is to advise that if payment in full is not received in our office within 10 days we will be reviewing your file for legal action to recover the full balance owing.
+
+Choose one of our convenient payment options listed below:
+
+Set us up as bill payment through your online banking. Just add Payee: “Canaccede Financial Group” or pay directly at your local bank (ensure you quote ({!Product__c.Name}))
+Mail a cheque payable to: Canaccede Financial Group, P.O. Box 9, Station B, London, Ontario, N6A 4V3
+
+
+
+Please be advised that if a Claim is required to be issued against you we will be seeking all costs and applicable interest. Once the anticipated Judgment is obtained we may immediately report to your credit file and commence enforcement proceedings with no further notice. Additional enforcement can include any one or a combination of the following:
+
+Writ of Seizure of Sale of Lands for any property you own now or in the future.
+Garnishment of wages at the prescribed rate (currently up to 20% of someone’s wages can garnished under the Wages Act in Ontario) and / or up to 100% of your bank account until the Judgment has been satisfied.
+
+
+
+Please conduct yourself appropriately,
+
+{!Product__c.Account_Purchasing_Entity__c}
+Toll Free: 1-844-827-9221
+
+
+Canaccede Financial Group, P.O. Box 9, Station B, London, Ontario, N6A 4V3
+*{!Product__c.Account_Purchasing_Entity__c} is a subsidiary of Canaccede Financial Group</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

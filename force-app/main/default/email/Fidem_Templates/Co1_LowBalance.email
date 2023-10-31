@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<style>
+body{
+	font-family:Calibri, Arial;
+	font-size: 11pt;
+	width: 100%;
+	text-align: left;
+    color:rgba(23, 29, 35, 0.74);
+    margin: auto;
+    padding: 20px
+}
+</style>
+<div style="text-align: right; padding-right:5px;">
+<img src="https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmRe&oid=00Dj0000001ripe&lastMod=1493805474000"  alt=""  width="200" height="100"/> 
+</div>
+
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal">P.O. Box 53 | Station B | London | Ontario | N6A 4V3</p>
+
+<hr style="border-top: 2px solid blue;">
+<br/>
+<div style="text-align: right;">
+{!CASE(MONTH(TODAY()),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")} {!TEXT(DAY(TODAY()))}, {!TEXT(YEAR(TODAY()))}
+</div>
+<br/><br/><br/>
+{!Product__c.First_Name__c} {!Product__c.Last_Name__c}<br/>
+ {!Product__c.Address_Line1__c}, {!Product__c.Address_Line2__c} <br/>
+{!Product__c.City__c}, {!Product__c.State__c} <br/>
+{!Product__c.Zip_Code__c}<br/><br/>
+
+Sir / Madam: {!Product__c.First_Name__c}<br/><br/>
+
+RE: Account No. : {!Product__c.Name}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Balance Due: {!Product__c.Current_Balance__c}
+<br><br>
+<hr style="border-top: 2px solid;">
+<h2 style="text-align: center;"><u>Assignment to Collection Agency</u></h2>
+<span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm Term Loan", 'initial;', 'none;')}" >
+                <div style="font-size: 14px;">
+			As you have failed to respond to numerous attempts to contact you, we will be assigning your account to a collection agency and reported on your credit file as an I9.
+		</div>
+        </span>
+        <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+                <div style="font-size: 14px;">
+			As you have failed to respond to numerous attempts to contact you, we will be assigning your account to a collection agency and reported on your credit file as an R9.
+		</div>
+        </span>
+ <br/><br/>
+If you would like to settle this matter prior to it being sent to an agency, then you will need to <strong>call us today</strong> at <strong>1.855.266.3131</strong>.<br/><br/>
+Regards,<br/><br></br>
+Affirm Financial<br/>
+1.855.266.3131<br/><br/>
+
+                <span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm Term Loan", 'initial;', 'none;')}" >
+                <div style="font-size: 11px;">
+			If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account Please see your Term Loan Agreement for the full terms on your account.
+		</div>
+        <br>
+<div style="text-align: center; background-color: #115995; color: #dbe3eb;font-size: 10px;padding: 4px;">
+		</div>
+		</span>
+		<span style="display: {!IF(Product__c.Product_Type_Display_Name__c == "Affirm MasterCard", 'initial;', 'none;')}" >
+		
+			<div style="font-size: 11px;">
+				If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account. Note that payments made using non-guaranteed funds may not create available credit on your account for up to 7 days to allow the payment to clear. Please see your Cardholder Agreement for the full terms on your account. You are receiving this email as per the agreed upon terms in your Cardholder Agreement.
+			</div>
+			<br>
+            		
+			<div style="text-align: center; background-color: #115995; color: #dbe3eb;font-size: 10px;padding: 4px;">
+				Affirm Mastercard®. This card is issued by Peoples Trust Company under licence from Mastercard International.
+				<br>
+				®/TM Mastercard is a registered trademark, and the circles design is a trademark of Mastercard International Incorporated.
+			</div>	
+		</span>
+</body>
+</html>

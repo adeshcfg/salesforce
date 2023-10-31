@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notice Received to Prove Claim</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Notice Received to Prove Claim</name>
+    <style>none</style>
+    <subject>Notice to prove claim for Estate Number “{!Insolvency__r.Name}” and Account Number  &quot;{!Insolvency_Account__c.Secured_Name__c}&quot;</subject>
+    <textOnly>Dear Sir / Madam,
+
+We recently received your notice to prove claim.
+
+The reason that we have not filed a claim on behalf of {!pocPackage.Company_Name__c} is “{!Insolvency_Account__c.Reason_for_No_PoC_Required_Dropdown__c}, {!Insolvency_Account__c.Reason_for_No_PoC_Required__c}” 
+
+
+If any errors occurred in the transmission of the attachment, please contact Canaccede at;
+Email: {!pocPackage.CFG_Office_Email_Address__c} 
+Facsimile: {!pocPackage.CFG_Office_Fax_Number__c} 
+Telephone: {!pocPackage.CFG_Office_Phone_Number__c} 
+
+Thank You,
+Canaccede Insolvency Processing</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

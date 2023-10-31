@@ -1,0 +1,58 @@
+<div style="font-family: 'Arial Unicode MS'; font-size: 10px;">
+<br/><br/><br/>
+<div style="width:100%; text-align:center;">
+<img src='https://c.na103.content.force.com/servlet/servlet.ImageServer?id=015j0000000vIjk&oid=00Dj0000001ripe&lastMod=1433979584000' style="width: 200px;height:50px"/>
+</div>
+<div class="myfont">
+<b> {!TODAY()} </b>
+<br/><br/>
+<b>
+<div class="view-font">
+{!insolvAcc.Trustee_Company__c} {!insolvAcc.Trustee_Office__c}
+</div>
+<br/><br/>
+Attn: Estate Trustee</b>
+<br/><br/>
+Dear Madam/Sir: 
+<br/><br/><br/>
+<b>
+<table style="width: 100%; ">
+    <tr>
+    <td style=" width:20%; vertical-align: text-bottom; padding-bottom: 10px;">Re: Bankruptcy of</td>
+    <td class="second-column"> {!insolv.Debitors}
+    </td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+    
+    <tr>
+    <td style="padding-bottom: 10px;">Security Type: </td>
+    <td>{!insolvAcc.Security_Type__c}</td>
+<td></td>
+    </tr>
+    
+    <tr>
+    <td style="padding-bottom: 10px;">Security Description:</td>
+    <td>{!insolvAcc.Security_Description__c}</td>
+<td></td>
+    </tr>
+    
+    <tr>
+    <td style="padding-bottom: 10px;">Secured Creditor:</td>
+    <td>{!pocPackage.Client_Company_Name__c}</td>
+<td></td>
+    </tr>
+</table>
+</b>
+    <br/>
+Please be advised that we act on behalf of the secured creditor, <b>{!pocPackage.Client_Company_Name__c}</b> with respect to the above noted matter. On <b>{!insolvAcc.Insolvency_Status_Last_Changed__c}</b>, we forwarded to your office a proof of claim for security along with the Bankruptcy and Insolvency Act Section 130 request for trustee election on behalf of <b>{!pocPackage.Client_Company_Name__c}.</b>
+<br/><br/>
+It has been more than 30 days since the proof of claim and the request for election were filed and we have not received the trustee’s release of interest in this matter. As your office has not indicated that it would be exercising the right of redemption or the requirement for realization of the security, we request that you provide us with a release of trustee’s interest in the Security. As per section 130 of the Bankruptcy and Insolvency Act, because the trustee has not indicated within 30 days of the request by the secured creditor to exercise its power of redemption or the requirement of realization, the election has been lost and any interest in the security has now vested with <b>{!pocPackage.Client_Company_Name__c}</b> to any other prior security interests.
+   
+<br/><br/>
+
+We request that you provide us with a response by the close of business <b>{!nextBusinessDate}</b>. Should you have any questions or require further information, please do not hesitate to contact, <b>Phone: {!pocPackage.CFG_Office_Phone_Number__c} Email:{!pocPackage.CFG_Office_Email_Address__c}</b>.
+
+   <br/><br/>
+
+   Encl.
+</div></div>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Loan Disclosure Satement Generic</name>
+    <style>none</style>
+    <subject>LOAN DISCLOSURE STATEMENT 022616 - TLDS2016-01</subject>
+    <textOnly>TERM LOAN DISCLOSURE STATEMENT {Full Customer Name} – {Megasys Loan Number}
+
+
+The following is a summary of certain key terms of your Loan Agreement and other important information that will apply to your Loan Account (your “Account”) issued and administered by Affirm Financial Services*.
+
+Principal Amount
+
+${Full Loan Amount} CAD
+
+Annual Interest Rate
+
+{APR}% Interest is calculated at the annual interest rate calculated daily and compounded monthly, not in advance. On each regular loan payment date, we re-calculate the amount of interest you owe.  We take the principal amount owing, plus interest if your payments are not up to date, from the previous payment date until this payment date.  We add this interest amount to the principal amount owing.  Then we use this new amount to calculate the interest owing on your next loan payment date.  This is called compound interest.
+
+
+Annual Percentage Rate
+
+The Annual Percentage Rate does not differ from the Annual Interest Rate.
+
+Term
+
+Loan term is {Term} months.  Our term is open.
+
+Date of Advance
+
+The Principal amount of the loan is to be advanced on or about {Open Date}
+
+Interest is to begin to be charged on that same date.
+
+Payments
+
+
+
+
+
+
+
+
+
+
+Total Cost of Credit
+
+Each monthly consecutive payment will be in the amount of ${Reg Pmt Amt}, except for the first payment which will be in the amount of ${First Pmt Amt} and is payable on {Pay Date} day of every month starting {First Pmt Date}. Each regular payment you make pays the interest costs for the loan and repays part of the principal amount borrowed. Each payment will be applied first to interest then to principal. The principal amount of the loan decreases with each regular payment and the portion of your payments needed to cover interest costs also decreases.  Over time, when your payments are made on time, an increasingly larger proportion of each regular payment goes toward repaying the principal amount you borrowed.
+
+
+{Full Amount Paid Back} (ie All Payments added up)
+
+Amortization Period
+
+The amortization period will differ from the term only when prepayments are made.
+
+
+Prepayment Privilege
+
+You may repay a greater portion of the loan than required in any given period without incurring penalty charges for the prepayment of the loan. Prepayment will change the amortization of your loan but not its terms.
+
+Prepayment Charges
+
+No prepayment charges
+
+Other Fees
+
+Returned payment Fee: {NSF Fee} per occurrence
+
+
+
+AFFIRM FINANCIAL SERVICES* (the “Lender”) {Full Customer Name} (the “Borrower”) _______________________________________                     ___________________________________
+
+
+OTHER IMPORTANT INFORMATION
+
+
+If you are in default, we can require you to pay the costs reasonably incurred for legal services retained by us to collect or attempt to collect payment from you.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

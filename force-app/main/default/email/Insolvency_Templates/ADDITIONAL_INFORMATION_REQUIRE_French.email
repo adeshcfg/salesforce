@@ -1,0 +1,37 @@
+<html>
+
+<table>
+<tr>
+<td style=""width:200px;""><img src=""https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000003BfuF&oid=00Dj0000001ripe&lastMod=1516013885000"" width=""180px""/></td>
+<td style=""padding-left:50px; width:300px;"">
+{!pocPackage.CFG_Office_Name__c}<br/>
+                            {!pocPackage.CFG_Office_Address_1__c}<br/>
+                            {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+</td>
+<td style=""width:100px; text-align: right;"">
+  t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+                             f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                             {!pocPackage.CFG_Office_Website__c}
+</td>
+</tr>
+</table>
+<body>
+<p>Cher (ère) Monsieur / Madame:&nbsp;
+    <br />
+    <br />Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de la Banque de Nouvelle-Écosse.&nbsp;
+    <br />
+    <br />Nous avons reçu  l’avis d’insolvabilité ci-joint et a demandé des renseignements supplémentaires sur le compte indiqué ci-dessus.&nbsp;
+    <br />
+    <br />Veuillez noter que la Banque de Nouvelle-Écosse n’est pas en mesure de trouver le débiteur. Auriez-vous l’obligeance de nous fournir le numéro de compte, le NIV ou le NAS.&nbsp;
+    <br />
+    <br />Si des erreurs se sont produites dans la transmission de la pièce jointe, veuillez communiquer avec Canaccede à:&nbsp;
+    <br />Email:&nbsp;<a href=""mailto:SBInsolvency@Canaccede.com"">SBInsolvency@Canaccede.com</a>&nbsp;
+    <br />Télécopieur: 844-827.9220&nbsp;
+    <br />Téléphone: 844-827. 9222&nbsp;
+    <br />
+    <br />Merci,&nbsp;
+    <br />Canaccede Traitement de l'insolvabilité</p>
+</body>
+
+
+</html>

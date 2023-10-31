@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>EM 4-Final Notice</name>
+    <style>none</style>
+    <subject>Final Notice</subject>
+    <textOnly>Dear {!Product__c.First_Name__c},
+
+Overdue Account
+
+
+
+Our records indicate that your account with Affirm Financial is past due and you have now missed 2 minimum payments.
+
+We have made several attempts to get in touch with you but have not been successful.   We ask that you remit payment immediately or contact us to make payment arrangements if necessary.   Failure to make payment may further negatively impact your credit rating with the possibility of being denied future credit.
+
+The amount required to bring your account into good standing is  {!Product__c.Minimum_Payment_Amount__c}.
+
+Choose one of our convenient payment options listed below:
+
+Set up a one-time bill payment through your online banking. Just add Payee: “Affirm Mastercard” or pay directly at your local bank.
+Visit a Western Union with a Western Union Quick Collect (WUQC). Use “Affirm Canada” for code city, “BC” for code Province.
+Mail a cheque to: Affirm Card, PO Box 48235, Vancouver, BC, V7X 1A1.
+Pay online using TelPay at TelPay.ca.
+
+
+To discuss payment arrangements, please contact us at 1-855-266-3131. Hours of operation are as follows:
+
+Monday-Thursday 8:00 AM-7:00 PM EST
+Friday 8:00 AM-6:00 PM EST
+Saturday 9:00 AM-5:00 PM EST
+
+Sincerely,
+
+Affirm Financial Services
+1-855-266-3131
+
+
+Please note that payments made using non-guaranteed funds may not create available credit on your account for up to 7 days to allow the payment to clear. Please see your Cardholder Agreement for the full terms on your account. You are receiving this email as per the agreed upon terms in your Cardholder Agreement
+
+Affirm Mastercard®. This card is issued by Peoples Trust Company under licence from Mastercard International.
+®/TM Mastercard is a registered trademark, and the circles design is a trademark of Mastercard International Incorporated.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email template to send Monthly Recurring Request funds to initiate transaction</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Payment Processor Monthly Recurring Request Sent</name>
+    <style>none</style>
+    <subject>Payment Arrangement Confirmation</subject>
+    <textOnly>Request Funds form received from Canaccede
+
+
+Hi there,
+
+You have received a Request Funds form from Canaccede
+
+Initiate Transaction
+
+Canaccede
+
+Please click here  to update your email preferences.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

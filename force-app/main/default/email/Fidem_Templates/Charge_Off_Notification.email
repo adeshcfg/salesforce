@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<style>
+body{
+	font-family:Calibri, Arial;
+	font-size: 11pt;
+	width: 100%;
+	text-align: left;
+    color:rgba(23, 29, 35, 0.74);
+    margin: auto;
+    padding: 20px
+}
+</style>
+<div style="text-align: right; padding-right:5px;">
+<img src="https://c.na103.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmRe&oid=00Dj0000001ripe&lastMod=1554095987000"  alt=""  width="200" height="100"/> 
+</div>
+
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal">P.O. Box 53 | Station B | London | Ontario | N6A 4V3</p>
+
+<hr style="border-top: 2px solid blue;">
+<br/>
+<div style="text-align: right;">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!CASE(MONTH(TODAY()),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")} {!TEXT(DAY(TODAY()))}, {!TEXT(YEAR(TODAY()))}
+</div>
+<br/><br/><br/>
+{!Product__c.First_Name__c} {!Product__c.Last_Name__c} 
+<br>
+ {!Product__c.Address_Line1__c}, {!Product__c.Address_Line2__c} <br/>
+{!Product__c.City__c}, {!Product__c.State__c}. <br/>
+{!Product__c.Zip_Code__c}<br/><br/>
+
+Sir / Madam:<br/><br/>
+
+RE: Account No.:{!Product__c.Name}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Balance Due: {!Product__c.Current_Balance__c}
+<br/>
+<hr style="border-top: 2px solid;"><br/>
+<h2 style="text-align: center;"><u>Assignment to Collection Agency</u></h2><br/>
+
+As you have failed to respond to numerous attempts to contact you, we will be assigning your account to a collection agency and reported on your credit file as an R9. <br/><br/>
+If you would like to settle this matter prior to it being sent to an agency, then you will need to <strong>call us today</strong> at <strong>1.855.266.3131</strong>.<br/><br/>
+Regards,<br/><br/>
+Affirm Financial<br/>
+1.855.266.3131
+
+</body>
+</html>

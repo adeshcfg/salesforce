@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>AMENDED_PROOF_OF_CLAIM_French</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Amended Proof of Claim</name>
+    <style>none</style>
+    <subject>Canaccede - {!Insolvency_Account__c.Insolvency_Type__c} Pour Numéro du Surintendant &quot;{!Insolvency__r.Name}&quot; et Numéro de compte &quot;{!Insolvency_Account__c.Secured_Name__c}&quot;</subject>
+    <textOnly>Cher (ère) Monsieur / Madame,
+
+Veuillez trouver ci-joint une preuve de réclamation modifiée pour le compte susmentionné.
+
+Si vous avez des questions, n’hésitez pas à communiquer avec notre bureau.
+
+Si des erreurs se sont produites dans la transmission de la pièce jointe, veuillez communiquer avec Canaccede à:
+Email: {!pocPackage.CFG_Office_Email_Address__c} 
+Télécopieur: {!pocPackage.CFG_Office_Fax_Number__c} 
+Téléphone: {!pocPackage.CFG_Office_Phone_Number__c} 
+
+Merci,
+Canaccede Traitement de l&apos;insolvabilité</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

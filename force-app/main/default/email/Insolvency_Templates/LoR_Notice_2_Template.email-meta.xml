@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>LoR Notice 2 Template</name>
+    <style>none</style>
+    <subject>s.130 Notification</subject>
+    <textOnly>{!TODAY()}
+
+
+{!insolvAcc.Trustee_Company__c} {!insolvAcc.Trustee_Office__c}
+
+Attn: Estate Trustee
+
+Dear Madam/Sir:
+
+
+Re: Bankruptcy of   {!insolv.Debitors}
+Security Type:   {!insolvAcc.Security_Type__c}
+Security Description:  {!insolvAcc.Security_Description__c}
+Secured Creditor:  {!pocPackage.Client_Company_Name__c}
+
+
+Further to our letter dated {!insolvAcc.LOR_Notice_1_Sent_Date__c}, we have not received any response from your office. Given we have not received a response from you and given that you did not elect to exercise the trustees power of redemption or requiring the Security to be realized you have lost your entitlement to exercise these rights.
+
+All equity of redemption and any other interest in the property comprised in the Security that was vested in the trustees has now vested in the creditor as stipulated by section 130 of the Bankruptcy and Insolvency Act.
+
+Our client, {!pocPackage.Client_Company_Name__c}, now intends to exercise its rights with respect to the security, being {!insolvAcc.Security_Description__c} bearing vehicle identification number (V.I.N.). Should we be unable to locate the Security, we will be in contact with your office again to ascertain the location of same.  Should you disagree with the above, we invite you to provide us with your comments in writing.
+
+Should you have any questions or require further information, please do not hesitate to contact {!pocPackage.Client_Company_Name__c}.
+
+
+Encl.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

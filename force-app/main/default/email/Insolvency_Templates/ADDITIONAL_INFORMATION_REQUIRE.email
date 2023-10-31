@@ -1,0 +1,37 @@
+<html>
+
+<table>
+<tr>
+<td style="width:200px;"><img src="https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003PeHo&oid=00Dj0000001ripe&lastMod=1634276221000" width="110px" height="105"/></td>
+<td style="padding-left:50px; width:300px;">
+{!pocPackage.CFG_Office_Name__c}<br/>
+                            {!pocPackage.CFG_Office_Address_1__c}<br/>
+                            {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+</td>
+<td style="width:100px; text-align: right;">
+  t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+                             f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                             {!pocPackage.CFG_Office_Website__c}
+</td>
+</tr>
+</table><br/>
+<body>
+<p>Sir / Madam,&nbsp;
+    <br />
+    <br />As you are aware, Canaccede International Management Ltd is processing Bank of Nova Scotia insolvent accounts.&nbsp;
+    <br />
+    <br />We have received your package and Bank of Nova Scotia has requested some additional information on the account listed.&nbsp;
+    <br />
+    <br />Please be advised that BNS is not able to locate the debtor, please provide us with the account #, VIN and/or SIN #.&nbsp;
+    <br />
+    <br />If any errors occurred in the transmission of the attachment, please contact Canaccede at;&nbsp;
+    <br />Email:&nbsp;<a href="mailto:SBInsolvency@Canaccede.com">SBInsolvency@Canaccede.com</a>&nbsp;
+    <br />Facsimile: 844-827.9220&nbsp;
+    <br />Telephone: 844-827. 9222&nbsp;
+    <br />
+    <br />Thank You,&nbsp;
+    <br />Canaccede Insolvency Processing</p>
+</body>
+
+
+</html>

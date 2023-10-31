@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Manitoba Loan Disclosure statement</name>
+    <style>none</style>
+    <subject>Manitoba Loan Disclosure Statement</subject>
+    <textOnly>TERM LOAN DISCLOSURE STATEMENT (MANITOBA RESIDENTS)
+
+_John Smith___________________(Customer Name) - _12345___ (AFI #) ****AGREEMENT VALID ONLY ONCE VERIFICATION OF IDENTITY IS COMPLETED AND PASSED****
+
+The following is a summary of certain key terms of your Loan Agreement and other important information that will apply to your Loan Account (your “Account”) issued and administered by Affirm Financial Services Inc. Services Financier Affirm Inc. (“Affirm Financial Services”).
+
+Principal Amount $5,000.00 CAD
+
+Annual Interest Rate 39.90% Interest is calculated at the annual interest rate calculated daily and compounded monthly, not in advance. On each regular loan payment date, we re-calculate the amount of interest you owe. We take the principal amount owing, plus interest if your payments are not up to date, from the previous payment date until this payment date. We add this interest amount to the principal amount owing. Then we use this new amount to calculate the interest owing on your next loan payment date. This is called compound interest.
+
+Annual Percentage Rate The Annual Percentage Rate does not differ from the Annual Interest Rate.
+
+Term Loan term is 60 months. Our term is open.
+
+Date of Advance The Principal amount of the loan is to be advanced on or about 07/11/2016. Interest is to begin to be charged on that same date.
+
+Payments
+
+Total Cost of Credit Each monthly consecutive payment will be in the amount of $193.43, except for the first payment which will be in the amount of $222.06 and is payable on day 16 of every month starting 08/16/2016. Each regular payment you make pays the interest costs for the loan and repays part of the principal amount borrowed. Each payment will be applied first to interest then to principal. The principal amount of the loan decreases with each regular payment and the portion of your payments needed to cover interest costs also decreases. Over time, when your payments are made on time, an increasingly larger proportion of each regular payment goes toward repaying the principal amount you borrowed. $11,634.43
+
+Amortization Period The amortization period will differ from the term only when prepayments are made.
+
+Prepayment Privilege You may repay a greater portion of the loan than required in any given period without incurring penalty charges for the prepayment of the loan. Prepayment may change the amortization, the total cost of credit and/or the number of payments, but it will not change the interest rate, the monthly payment amount or any other terms.
+
+Prepayment Charges No prepayment charges
+
+Other Fees Returned payment Fee: $45.00 per occurrence
+
+OTHER IMPORTANT INFORMATION
+
+If you are in default, we can require you to pay the costs reasonably incurred for legal services retained by us to collect or attempt to collect payment from you.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

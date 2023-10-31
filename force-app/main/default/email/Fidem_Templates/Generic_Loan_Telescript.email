@@ -1,0 +1,31 @@
+<Strong><p style=" font-family: Times; font-size: 11pt;">TERM LOAN DISCLOSURE STATEMENT for: <span style="background-color: #FFFF00">{First Name} {Middle Name} {Last Name}</span></p>
+<p style=" font-family: Times; font-size: 11pt;">Application Number: {AFI Number}   </p>
+<p style=" font-family: Times; font-size: 11pt;"><u>Before I proceed I must advise you that this call will be monitored and recorded</u>.</p>
+<p style=" font-family: Times; font-size: 11pt;">Confirm following Information: Verifying Questions</Strong></p>
+<p style=" font-family: Times; font-size: 11pt;"> I’m showing your name as: <span style="background-color: #FFFF00">{First Name} {Middle Name} {Last Name}</span><br/>
+What is your current mailing address?<span style="background-color: #FFFF00"> {Address}, {City}, {Province}, {Postal Code}</span><br/>
+<Strong>(wait for response)</Strong> (PO Box not acceptable)<br/>
+What is your home telephone number?<span style="background-color: #FFFF00"> {HomeNumber}</span><br/>
+What is your date of birth?<span style="background-color: #FFFF00"> {BOD}</span><br/>
+What is your e - mail address that you wish to be contacted at?<span style="background-color: #FFFF00"> {emailID}</span>
+</p>
+<p style=" font-family: Times; font-size: 11pt;">The following is a summary of certain key terms of your Loan Agreement and other important information that will apply to your Loan Account (your “Account”) issued and administered by Affirm Financial Services. All the terms of your Loan Agreement as well as your Disclosure Statement will be provided to you in writing as well. Make sure you
+read them carefully.</P>
+<p style=" font-family: Times; font-size: 11pt;"> I REQUIRE A CLEAR “I Agree” AFTER EACH STATEMENT</p>
+<ol>
+<li style=" font-family: Times; font-size: 11pt;">Affirm Financial is loaning you the amount of <span style="background-color: #FFFF00">${loanAmount}</span> do you agree?<Strong> (wait for response)</Strong></li>
+<li style=" font-family: Times; font-size: 11pt;">Your annual interest rate on your Affirm loan is <span style="background-color: #FFFF00">{InterestRate}%</span>, is calculated at the annual interest rate calculated daily and compounded monthly, not in advance, do you agree?<Strong> (wait for response)</Strong></li>
+<li style=" font-family: Times; font-size: 11pt;">The term of your loan is <span style="background-color: #FFFF00">{Term}</span> months and is an open term, do you agree?<Strong> (wait for response)</Strong></li>
+<li style=" font-family: Times; font-size: 11pt;">Your Affirm loan will be advanced to you on or about <span style="background-color: #FFFF00">{LoanStartDate}</span>, do you agree?<Strong> (wait for response)</Strong></li>
+<li style=" font-family: Times; font-size: 11pt;">Your monthly payments on your Affirm loan are <span style="background-color: #FFFF00">${RegularPayment}</span> except for the first payment, which will be<span style="background-color: #FFFF00"> ${FirstPayment}</span> and is payable on day <span style="background-color: #FFFF00">{PayDay}</span> of every month by pre - authorized withdrawal, beginning <span style="background-color: #FFFF00">{FirstPaymentDate}</span>, do you agree? <Strong>(wait for answer)</Strong></li>
+<li style=" font-family: Times; font-size: 11pt;">Your total cost of borrowing is <span style="background-color: #FFFF00">${TotalPayment}</span>, but can be paid out early for less with no penalty to you, and will greatly reduce the owed amount.</li>
+<li style=" font-family: Times; font-size: 11pt;">The amortization period will differ from the term only when prepayments are made, do you agree?<strong>(wait for response)</strong></li>
+<li style=" font-family: Times; font-size: 11pt;">You may repay a greater portion of the loan than required in any given period without incurring penalty charges for the prepayment of the loan. Prepayment will change the amortization of your loan but not it’s terms, do you agree? <strong>(wait for answer)</strong>.</li>
+<li style=" font-family: Times; font-size: 11pt;">There are no prepayment charges on your Affirm loan; however a returned payment fee of <span style="background-color: #FFFF00">${NSFFee}</span> occurs for every NSF, do you agree? <strong>(wait for answer)</strong></li>
+<li style=" font-family: Times; font-size: 11pt;">If you are in default, we can require you to pay the costs reasonably incurred for legal services retained by us to collect or attempt to collect payment from you, do you agree? <strong>(wait for response)</strong></li>
+<li style=" font-family: Times; font-size: 11pt;">Affirm may declare the full principal amount owing and interest payable immediately if you are in default of this agreement.</li>
+<li style=" font-family: Times; font-size: 11pt;">You consent to receive at the e-mail address provided all your Term Loan documents such as your loan agreement, your Disclosure Statement and our Privacy Policy? <strong>(wait for an answer)</strong><br/> **Saskatchewan we require written consent**</p></li>
+<li style=" font-family: Times; font-size: 11pt;">By signing and returning a signed copy of of your loan agreement or by making any payment in connection to it, whichever occurs first, you agree to the terms and conditions above. If you do not sign and return your Loan Agreement to us, and your first payment is returned by your bank, your Loan Agreement will become null and void and you must repay by cash, certified cheque or money order all amounts advanced by the Lender within 10 days.</li>
+</ol>
+<p style=" font-family: Times; font-size: 11pt;">Remember that timely monthly payments help to build a positive credit history on your Account. We thank you for your interest in working with Affirm Financial Services and we look forward to a long and mutually beneficial relationship. For any additional information regarding the terms of your loan, please do not hesitate to contact us at 1-888-866-8077.</p>
+<p style=" font-family: Times; font-size: 11pt;">TLTS2016-01</p>

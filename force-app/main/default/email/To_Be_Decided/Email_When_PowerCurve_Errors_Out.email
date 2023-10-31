@@ -1,0 +1,5 @@
+An error occurred when submiting to PowerCurve,  Please click on the below link for more details.
+
+Link: {!Power_Curve_Error__c.Link}
+
+Error Message: {!Power_Curve_Error__c.Error__c}

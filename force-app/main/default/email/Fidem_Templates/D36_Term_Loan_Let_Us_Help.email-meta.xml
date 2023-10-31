@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>D36 -Term Loan Let Us Help</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>D36 Term Loan Let Us Help</name>
+    <style>none</style>
+    <subject>Affirm Financial Term Loan Let Us Help</subject>
+    <textOnly>Dear {!Product__c.First_Name__c},
+
+According to our records, your Affirm Term Loan account is currently past due and in collections. To avoid further collection activities and further negatively impacting your credit, it is imperative that a payment is made immediately.
+
+The amount required to bring your account into good standing is  {!Product__c.Past_Due_Amount__c}.
+
+Make your payments using the options listed below:
+
+Set up a onetime bill payment through your online banking if you bank with BMO, TD, BNS, Credit Unions or Tangerine. Just add Payee: &quot;Affirm Financial&quot;. Account number {!LPAD(Product__c.Name, 8, &apos;0&apos;)}. Or pay directly at your local bank.
+Contact Affirm Financial to set up a new Pre Authorized withdrawl against your account provided.
+Mail a cheque to: Affirm Financial Services, PO Box 53, Station B, London, Ontario, N6A 4V3
+
+
+
+
+If you have failed to contact us simply because you cannot pay the amount owing, it is possible we can work with you to determine payment options. Please contact us at 1-855-266-3131 to discuss your situation. Hours of operation are as follows:
+
+Monday-Thursday 8:00 AM-7:00 PM EST
+Friday 8:00 AM-6:00 PM EST
+Saturday 9:00 AM-5:00 PM EST
+
+
+Sincerely,
+
+Affirm Financial Services
+1-855-266-3131
+
+
+If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account. Please note that payments made using non-guaranteed funds may take up to 7 days for the payment to clear.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>AMENDED PROOF OF CLAIM</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Amended Proof of Claim</name>
+    <style>none</style>
+    <subject>Canaccede - {!Insolvency_Account__c.Insolvency_Type__c} for Estate Number &quot;{!Insolvency__r.Name}&quot; and Account Number &quot;{!Insolvency_Account__c.Secured_Name__c}&quot;</subject>
+    <textOnly>Sir / Madam,
+
+Please find enclosed an amended proof of claim for the above noted account.
+
+If you have any questions, please do not hesitate to contact our office.
+
+If any errors occurred in the transmission of the attachment, please contact Canaccede at;
+Email: {!pocPackage.CFG_Office_Email_Address__c} 
+Facsimile: {!pocPackage.CFG_Office_Fax_Number__c} 
+Telephone: {!pocPackage.CFG_Office_Phone_Number__c} 
+
+Thank You,
+Canaccede Insolvency Processing</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,227 @@
+<html>
+
+<div style="font-family: 'Times New Roman'; font-size: 12px; width:90%;">
+<div style="width:100%; text-align:center;">
+<img src='https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000001fMb2&oid=00Dj0000001ripe&lastMod=1521530673000' style="width: 200px;"/>
+</div>
+<div class="myfont">
+<b> {!TODAY()} </b>
+<br/><br/>
+<div style="width:100%; text-align:center; font-family: 'Times New Roman'; font-size: 17px;">
+<u>
+DUPLICATE
+</u>
+</div style="width:100%; text-align:center; font-family: 'Times New Roman'; font-size: 12px;">
+<div style="width:100%; text-align:center; font-family: 'Times New Roman'; font-size: 17px;">
+<u>
+IMPORTANT NOTICE:  Change to Servicer
+</u>
+</div style="width:100%; text-align:center; font-family: 'Times New Roman'; font-size: 12px;">
+<br/><br/>
+Dear Sirs/Mesdames:
+<br/><br/>
+<b>
+Re: &nbsp;&nbsp;&nbsp;&nbsp; Notice that {!pocPackage.CFG_Office_Name__c}. will be the Servicer for <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; {!pocPackage.Client_Company_Name__c} for Bankruptcy and Consumer Proposal Documentation
+
+</b>
+<br/>
+<div style="display:none;">___________________________________________________________________________________________</div>
+<hr style="border-top: 1px solid rgba(127, 125, 124, 1);"/>
+
+<br/>
+We, {!pocPackage.Client_Company_Name} (the "Creditor"), are writing to notify you that {!pocPackage.CFG_Office_Name} (the "Servicer") will be administering the processing and filing (and all related matters thereto) of all new bankruptcy or consumer proposals under the <i> Bankruptcy and Insolvency Act </i>(Canada) from and after March 1, 2018 in respect of which you are appointed as bankruptcy trustee for any customers of the Creditor (including customers of the Creditor’s affiliates and customers of the Creditor under the Scotiabank PrivateLabel Cards, each as listed on Schedule A attached hereto). 
+<br/><br/>
+We request that all correspondence and documentation, including without limitation, creditor packages, statement of affairs, voting letters, requests for additional documentation and approvals / notice of disallowance of claims, in relation to the above noted accounts be directed to the Servicer at the following contact details:
+<br/><br/>
+<div style="width:100%; font-family: 'Times New Roman'; font-size: 11px;">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!pocPackage.CFG_Office_Name}.
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!pocPackage.CFG_Office_Address_1__c}
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+
+<table style="margin-left: 5px;">
+    <tr>
+    <td style="width:200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Attention: </td>
+    <td>Insolvency Processing</td>
+<td></td>
+    </tr>
+    
+    <tr>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telephone: </td>
+    <td>{!pocPackage.CFG_Office_Phone_Number__c}</td>
+<td></td>
+    </tr>
+
+    <tr>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Facsimile: </td>
+    <td>{!pocPackage.CFG_Office_Fax_Number__c}</td>
+<td></td>
+    </tr>
+
+    <tr>
+    <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email:</td>
+    <td>{!pocPackage.CFG_Office_Email_Address__c}</td>
+<td></td>
+    </tr>
+</table>
+</div>
+<br/>
+If you have any queries, please do not hesitate to contact Canaccede at the above noted contact details.
+<br/><br/>
+
+<table>
+<tr>
+<td style="width: 230px; vertical-align: text-bottom; padding-bottom: 0px;">Yours truly, 
+</td>
+<td class="second-column">Acknowledged and Agreed to by
+</td>
+</tr>    
+<b>
+<tr>
+<td style="width: 170px; vertical-align: text-bottom;"><b>{!pocPackage.Client_Company_Name__c} </b>
+</td>
+<td class="second-column"><b>{!pocPackage.CFG_Office_Name_2__c}</b>
+</td>
+</tr>
+</b>
+
+<tr>
+<td style="width: 230px; vertical-align: text-bottom; padding-bottom: 0px;">
+<img src='https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000003DHND&oid=00Dj0000001ripe&lastMod=1527833526000' style="width: 200px;"/> 
+</td>
+<td class="second-column">
+<img src='https://c.na55.content.force.com/servlet/servlet.ImageServer?id=015f1000003DHNC&oid=00Dj0000001ripe&lastMod=1527833526000' style="width: 200px;"/> 
+</td>
+</tr> 
+
+</table>
+<br/><br/><br/>
+<b>
+<div style="width:100%; text-align:center;">
+Schedule A - List of Scotiabank affiliates and Scotiabank Private Label Cards
+</div>
+</b>
+<br/><br/>
+<ul style="padding-left: 20px;">
+<li style="list-style: initial;">Scotia Mortgage Corporation</li>
+<li style="list-style: initial;">National Trust Company</li>
+<li style="list-style: initial;">Maple Financial Group Inc.</li>
+<li style="list-style: initial;">Montreal Trust Company of Canada</li>
+<li style="list-style: initial;">Trade Freedom Securities Inc.<br/>
+</li>
+<br/>
+
+Scotiabank Credit Card Products:“Scotia Private Label” are credit cards with the following branding
+<br/><br/>
+<li style="list-style: initial;">Private Label Credit Card Product 
+&nbsp;&nbsp;&nbsp;&nbsp; 
+- credit card number starting with 6281 81xx & 5307 86xx</li>
+<li style="list-style: initial;">Scotia Momentum Mastercard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+- credit card number starting with 5307 85xx</li>
+
+<br/>
+
+<b>
+<li style="list-style: initial;">
+Scotia Dealer Advantage – NEW
+</li>
+</b>
+
+</ul>
+
+<br/><br/>
+
+<b>
+Notice that {!pocPackage.CFG_Office_Name__c}. will be the Servicer for <br/>{!pocPackage.Client_Company_Name__c} for Bankruptcy and Consumer Proposal Documentation
+</b>
+<br/><br/>
+<div style="font-family: 'Arial Unicode MS'; font-size: 11px; width:80%;">
+<b>
+Please sign and return this acknowledgment page to Canaccede by fax or email;
+</b>
+</div>
+<br/>
+
+<div>
+{!pocPackage.CFG_Office_Name}.
+<br/>
+{!pocPackage.CFG_Office_Address_1__c}
+<br/>
+{!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+<br/>
+
+<table>
+<tr>
+<td>Attention:</td>
+<td>Insolvency Processing</td>
+</tr>
+<tr>
+<td>Fascimile:</td>
+<td>{!pocPackage.CFG_Office_Fax_Number__c}</td>
+</tr>
+<tr>
+<td>Email:</td>
+<td>{!pocPackage.CFG_Office_Email_Address__c}</td>
+<tr/>
+</table>
+</div>
+<br/><br/>
+<div style="font-family: 'Arial Unicode MS'; font-size: 9px; width:80%;">
+<b>
+Acknowledgment
+</b>
+</div>
+<br/>
+
+<table>
+<tr>
+<td>
+{!Insolvency_Account__c.Trustee_Company__c}
+</td>
+</tr>
+<tr>
+<td>
+{!Trustee_street}
+</td>
+</tr>
+<tr>
+<td>
+{!Insolvency_Account__c.Trustee_Office__c} 
+</td>
+</tr>
+</table>
+<br/><br/>
+
+<table>
+<tr>
+<td>
+By: &nbsp;&nbsp;
+</td>
+<td>
+______________________________
+</td>
+</tr>
+
+<tr>
+<td>
+&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+<td>
+Name:
+</td>
+</tr>
+
+<tr>
+<td>
+&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+<td>
+Title:
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+</html>

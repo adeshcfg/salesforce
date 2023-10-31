@@ -1,0 +1,7 @@
+<p>Hi,<br>
+A new customer request has been received:<br>
+Assignment Number: <a href={!Case.Link}>{!Case.CaseNumber}</a>  <br/>
+Message: {!Case.Description}<br/><br/>
+
+Thanks,<br>
+Marketing Team<br>

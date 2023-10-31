@@ -1,0 +1,5 @@
+An error occurred when submiting to {!API_Error__c.End_Point__c}. Please click on the below link for more details.
+
+Link: {!API_Error__c.Link}
+
+Error Message: {!API_Error__c.Error__c}

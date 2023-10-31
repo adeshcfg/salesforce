@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>LoR Notice 1 Template</name>
+    <style>none</style>
+    <subject>Request for release of security</subject>
+    <textOnly>{!TODAY()}
+
+{!insolvAcc.Trustee_Company__c} {!insolvAcc.Trustee_Office__c}
+
+
+Attn: Estate Trustee
+
+Dear Madam/Sir:
+
+
+Re: Bankruptcy of   {!insolv.Debitors}
+Security Type:   {!insolvAcc.Security_Type__c}
+Security Description:  {!insolvAcc.Security_Description__c}
+Secured Creditor:  {!pocPackage.Client_Company_Name__c}
+
+
+Please be advised that we act on behalf of the secured creditor, {!pocPackage.Client_Company_Name__c} with respect to the above noted matter. On {!insolvAcc.Insolvency_Status_Last_Changed__c}, we forwarded to your office a proof of claim for security along with the Bankruptcy and Insolvency Act Section 130 request for trustee election on behalf of {!pocPackage.Client_Company_Name__c}.
+
+It has been more than 30 days since the proof of claim and the request for election were filed and we have not received the trustee’s release of interest in this matter. As your office has not indicated that it would be exercising the right of redemption or the requirement for realization of the security, we request that you provide us with a release of trustee’s interest in the Security. As per section 130 of the Bankruptcy and Insolvency Act, because the trustee has not indicated within 30 days of the request by the secured creditor to exercise its power of redemption or the requirement of realization, the election has been lost and any interest in the security has now vested with {!pocPackage.Client_Company_Name__c} to any other prior security interests.
+
+We request that you provide us with a response by the close of business {!nextBusinessDate}. Should you have any questions or require further information, please do not hesitate to contact, Phone: {!pocPackage.CFG_Office_Phone_Number__c} Email: {!pocPackage.CFG_Office_Email_Address__c}.
+
+Encl.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,7 @@
+An application is created.
+
+First: {!Application__c.First_Name__c}
+Last: {!Application__c.Last_Name__c}
+Requested Amount: {!Application__c.Requested_Credit_Limit__c}
+
+To view this Application in salesforce go to the the following link: {!Application__c.Link}

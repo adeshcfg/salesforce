@@ -1,0 +1,11 @@
+The following SFDC Issue has been created. 
+
+Link: {!SFDC_Issue__c.Link} 
+
+ID : {!SFDC_Issue__c.Name} 
+Status: {!SFDC_Issue__c.SFDCIssue_Status__c} 
+Issue Category: {!SFDC_Issue__c.Issue_Category__c}
+Application Area: {!SFDC_Issue__c.Application_Area__c}
+Subject: {!SFDC_Issue__c.Subject__c}
+Description:{!SFDC_Issue__c.Description__c}
+Created By: {!SFDC_Issue__c.CreatedBy}

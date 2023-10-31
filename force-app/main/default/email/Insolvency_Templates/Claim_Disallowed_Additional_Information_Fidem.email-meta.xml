@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Claim Disallowed – Additional Information Fidem</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Claim Disallowed – Additional Information</name>
+    <style>none</style>
+    <subject>Fidem - In the Matter of Estate Number &quot;{!Insolvency__r.Name}&quot;</subject>
+    <textOnly>Dear Sir / Madam,
+
+Attached is a record of transactions showing the balance owing as of the date of Insolvency as requested for supporting documentation to our POC.
+
+Please confirm this meets your requirements to admitting the claim into the estate
+
+If any errors occurred in the transmission of the attachment, please contact Fidem at;
+Email: {!pocPackage.CFG_Office_Email_Address__c} 
+Facsimile: {!pocPackage.CFG_Office_Fax_Number__c} 
+Telephone: {!pocPackage.CFG_Office_Phone_Number__c} 
+
+Thank You,
+Fidem Insolvency Processing</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Demand - Notice Before Suit (Non confirm Employment)</name>
+    <style>none</style>
+    <subject>Without Prejudice</subject>
+    <textOnly>P.O. Box 53 | Station B | London | Ontario | N6A 4V3
+{!CASE(MONTH(TODAY()),1, &quot;January&quot;,2, &quot;February&quot;,3, &quot;March&quot;, 4, &quot;April&quot;, 5, &quot;May&quot;, 6,&quot;June&quot;,7, &quot;July&quot;,8, &quot;August&quot;,9, &quot;September&quot;,10, &quot;October&quot;,11, &quot;November&quot;,12, &quot;December&quot;,&quot;None&quot;)} {!TEXT(DAY(TODAY()))}, {!TEXT(YEAR(TODAY()))}
+
+
+{!Product__c.First_Name__c} {!Product__c.Last_Name__c}
+{!Product__c.Address_Line1__c}, {!Product__c.Address_Line2__c}
+{!Product__c.City__c}, {!Product__c.State__c}
+{!Product__c.Zip_Code__c}
+
+Delivery Method:  Regular mail, cc email
+
+Without Prejudice
+
+
+RE:      Affirm Term Loan Number - {!Product__c.Name}
+Current Balance: {!Product__c.Current_Payoff_Amount__c}
+
+As you have already been made aware, your Affirm Term Loan is in a seriously delinquent status. Despite our attempts to contact you to resolve this, you have not made a recent payment and your account balance remains outstanding.
+
+This letter is to advise that if payment in full is not received in our office within 10 days we will be initiating legal proceedings to recover the full balance owing. Please be advised that if a Claim is required to be issued against you we will be seeking all costs and applicable interest. Once the anticipated Judgment is obtained we will immediately report to your credit file and commence enforcement proceedings with no further notice.Additional enforcement can include any one or a combination of the following:
+
+– Registration of the Judgment against property you may own now or in the future.
+
+– Garnishment of up to 100% of your bank account until the Judgment has been satisfied.
+
+– A Debtor Examination where you will be required to appear in Court and compelled to disclose all relevant personal financial information.
+
+Please conduct yourself appropriately.
+
+Affirm Financial Services
+1-855-266-3131
+
+
+If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account. Please note that payments made using non-guaranteed funds may take up to 7 days for the payment to clear.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

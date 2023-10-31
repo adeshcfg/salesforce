@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<style>
+body{
+	font-family:Calibri, Arial;
+	width: 100%;
+	text-align: left;
+    color:rgba(23, 29, 35, 0.74);
+    margin: auto;
+    padding: 20px
+}
+td{
+    padding-left: 20px !important;
+}
+.tdText{
+	padding-left: 20px;
+}
+ul.no_bullet {
+list-style-type: none;
+padding: 0;
+margin: 0;
+}
+</style>
+	<body>
+<div style="text-align: right; padding-right:5px;">
+<img src='https://c.cs42.content.force.com/servlet/servlet.ImageServer?id=015f1000001YmRe&oid=00D56000000D0pk&lastMod=1551090273000'/>
+</div>
+<br/>
+		<br>
+
+		<div style="text-align:right ; padding-right:70px;font-size: 11pt;">
+{!CASE(MONTH(TODAY()),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")} {!TEXT(DAY(TODAY()))}, {!TEXT(YEAR(TODAY()))}
+</div>
+		<br><br>
+		<div style="font-size: 11pt;">
+{!Product__c.First_Name__c} {!Product__c.Last_Name__c} <br>
+			{!Product__c.Address_Line1__c}, {!Product__c.Address_Line2__c} <br>
+			{!Product__c.City__c}, {!Product__c.State__c} <br>
+			{!Product__c.Zip_Code__c} <br>
+		</div>
+		<br>
+		<span style="font-size: 11pt;">Delivery Method:  Regular mail, cc email</span>
+		<br><br>
+		<div style="text-align:center; text-decoration:underline; margin-left:-24%;">Without Prejudice</div>
+		<br><br>
+		<strong>
+		<span style="font-size: 11pt;"">RE: &nbsp;&nbsp;&nbsp;&nbsp; Fidem Term Loan Number - {!Product__c.Name} <span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Current Balance: {!Product__c.Current_Payoff_Amount__c}
+        </strong>
+		<br><br>
+		
+			As you have already been made aware, your Fidem Term Loan is in a seriously delinquent. Despite our attempts to contact you to resolve this, you have not made a payment since {!Product__c.Last_Payment_Date__c} and your account balance remains outstanding.
+		</div>
+       		<br>
+                <h3 style="text-align: center;"><strong><u>Legal Proceedings Pending</u></strong></h3>
+		<div style="width:96%;  font-size: 11pt;">
+			This letter is to advise that if payment in full is not received in our office <strong>within 10 days</strong> we may initiate legal proceedings to recover the full balance owing. Please be advised that if a Claim is required to be issued against you we will be seeking all costs and applicable interest. Once the anticipated Judgment is obtained we will immediately report to your credit file and commence enforcement proceedings with no further notice.
+		</div>
+		<br>
+		<div style="width:96%;  font-size: 11pt;">
+			As we have confirmed you are currently employed at <strong>{!Product__c.Employer_Name__c}, </strong> we will be issuing a Notice of Garnishment against your wages. Additional enforcement can include any one or a combination of the following:<br><br>
+			<div style="width:95%; font-size: 11pt; padding-left:4%;">
+				– <strong>Registration</strong> of the Judgment against property you may own now or in the future.<br><br>
+				– <strong>Garnishment</strong> of up to 100% of your bank account until the Judgment has been satisfied.<br><br>
+
+– <strong>A Debtor Examination</strong> where you will be required to appear in Court and compelled to disclose all relevant personal financial information.
+			<div>
+</div>
+		</div><br>
+		<span style=" font-size: 11pt;">Please conduct yourself appropriately,</span>
+		<br>
+		<div>
+		<img src='https://c.cs42.content.force.com/servlet/servlet.ImageServer?id=015f1000002kf5h&oid=00D56000000D0pk&lastMod=1500029798000' style="width: 135px;padding-right: 15px;"/>
+		</div>
+                <div>
+		Fidem Finance Inc. <br>
+		1-855-266-3131<br>
+                </div>
+		<br><br>
+		<div style="font-size: 11px;">
+			If your records reflect that you paid this payment prior to the date of this email please contact us so that the discrepancy can be resolved and any necessary corrections made on your account. Please see your Term Loan Agreement for the full terms on your account.
+		</div>
+		<br><br>
+                <div style="text-align: center; background-color: #115995; color: #dbe3eb;font-size: 10px;padding: 4px;">
+
+
+	</body>
+</html>
