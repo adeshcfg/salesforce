@@ -86,7 +86,8 @@ public class LoRNotice1Controller{
                                                     '{!pocPackage.CFG_Office_Phone_Number__c}' => pocPackage.CFG_Office_Phone_Number__c.replace('-','.'),
                                                     '{!pocPackage.CFG_Office_Name__c}' => pocPackage.CFG_Office_Name__c,
                                                     '{!pocPackage.CFG_Office_Email_Address__c}' => pocPackage.CFG_Office_Email_Address__c,
-                                                    '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c
+                                                    '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c,
+                                                    '{!imageURL}' => LoRDemandController.getImageUrl('Canaccede_Logo')
                                                     };
         
         // Fetch LoRNotice1 email template
