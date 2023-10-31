@@ -5168,6 +5168,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Customer_Staging__c.Include_in_Processing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Customer_Staging__c.Placement_Agency_Lookup__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6852,7 +6857,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Account_Number_Without_Space__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6862,7 +6867,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Accounts_Validation_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6887,9 +6892,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Insolvency_Account__c.Agencies_Accounts__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6917,7 +6922,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Asset_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6957,7 +6962,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Borrower_Details_Verified__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6977,13 +6982,23 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Business_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.CFG_Open_Cases__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Canaccede_reviewed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Canadian_Tire_Sub_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6997,7 +7012,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Claim_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7037,12 +7052,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Control_Group__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.CreatedBy_Alias_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7057,7 +7072,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Creditor_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7072,7 +7087,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Customer_CID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7107,7 +7122,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Date_POC_filed_as_Secured__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7144,20 +7159,20 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_Employer_Street__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_Estate_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_Last_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7237,7 +7252,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Documents_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7302,7 +7317,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Include_Voting_Letter__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7332,7 +7347,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Insolvency_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7342,7 +7357,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Insolvency_Last_Payment_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7377,7 +7392,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Insolvency_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7387,7 +7402,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Interest_Rate__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7407,12 +7422,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Is_Duplicate_Resolved__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.LastModifiedBy_Alias_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7447,7 +7462,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Liabilities_Type_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7492,7 +7507,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.New_Offer_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7562,12 +7577,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Open_Cases__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Open_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7577,7 +7592,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Original_Offer_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7592,13 +7607,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Payment_Remittance_Reference__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Payment_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Percent_of_increased_return_from_voting__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7612,7 +7632,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.PoC_Details_Provided_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7647,7 +7667,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Preferred_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7657,7 +7677,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Previous_Account_Reference__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7672,7 +7692,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Previously_Secured_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7712,7 +7732,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Purchase_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7762,7 +7782,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Putback_Buyback_amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7827,7 +7847,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Secondary_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7842,7 +7862,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Security_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7902,7 +7922,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Statements_Requested__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7942,13 +7962,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Total_Paid_To_Date_On_Interim__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Total_Remittance_count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Trustee_Address__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7973,21 +7998,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Insolvency_Account__c.Trustee_Address__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Insolvency_Account__c.Trustee_Postal_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Insolvency_Account__c.Trustee_Fees__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Trustee_Followup_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8013,11 +8028,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Insolvency_Account__c.Trustee_Postal_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Trustee_Variable_Fees__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Type_of_Service__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8027,7 +8047,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Unsecured_Asset_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8042,7 +8062,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Vehicle_Identification_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8062,7 +8082,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Voting_Details_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8533,6 +8553,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency__c.Canadian_Tire_Record_Owner__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency__c.Car_Lease_Payments_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8979,11 +9004,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency__c.Fairstone_Record_Owner__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency__c.Canadian_Tire_Record_Owner__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10192,6 +10212,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Trustee_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency__c.Trustee_Comments_Notes__c</field>
         <readable>true</readable>
@@ -10218,16 +10243,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Insolvency__c.Trustee_Address__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Insolvency__c.Trustee_Postal_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Insolvency__c.Trustee_Fees__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10239,6 +10254,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Trustee_Phone_Number_Formula__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Trustee_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -11763,6 +11783,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>MetroFlatFileData__c.Sort_Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>MetroFlatFileData__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -11819,6 +11844,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Open_Assignment_Insolvency__c.Number_of_Open_Assignments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Auction_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -15472,6 +15502,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Product__c.Interest_Stopped__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.Interest_Waived_Of_End_Date__c</field>
         <readable>true</readable>
@@ -15973,12 +16008,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.Past_Due_Amount__c</field>
+        <field>Product__c.Past_Due_Amount_Refresh_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.Past_Due_Amount_Refresh_Date__c</field>
+        <field>Product__c.Past_Due_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -16094,16 +16129,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.Previous_Ownership__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Previous_Payment_Amount__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Previous_Payment_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -16604,6 +16629,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.TransUnion_Reported_As_Complete_Count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product__c.Transactions_Last_30_Days__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -18246,41 +18276,6 @@
         <field>Work_Assignment__c.Write_Off_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Product__c.Interest_Stopped__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency_Account__c.Canaccede_reviewed__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Opportunity.Auction_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Customer_Staging__c.Include_in_Processing__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency_Account__c.Percent_of_increased_return_from_voting__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Transactions_Last_30_Days__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency_Account__c.Canadian_Tire_Sub_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
@@ -18358,6 +18353,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Insolvency Case</layout>
+        <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Insolvency Case</layout>
         <recordType>Case.Insolvency_Case</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -18390,6 +18389,50 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Web To Case</layout>
+        <recordType>Case.Web_To_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.CCS_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.CCS_Dividend</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.Canaccede_EmailToCase</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.EmailToCase</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.Insolvency_Fairstone_Community_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.Insolvency_Goeasy_Community_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.Insolvency_SDA_Community_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.Insolvency_SPL_Community_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
+        <recordType>Case.Remittance</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CaseClose-Close Case Layout</layout>
         <recordType>Case.Web_To_Case</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -18553,6 +18596,10 @@
     <layoutAssignments>
         <layout>Insolvency_Account__c-Canaccede Insolvency Account Layout</layout>
         <recordType>Insolvency_Account__c.Canaccede_Insolvency_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Insolvency_Account__c-Default Canadian Tire Account Layout - internal</layout>
+        <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Insolvency_Account__c-Default Fairstone Account Layout - internal</layout>
@@ -18923,9 +18970,6 @@
     <layoutAssignments>
         <layout>Task-Task Layout</layout>
     </layoutAssignments>
-    <!-- <layoutAssignments>
-        <layout>TimeSlot-Time Slot Layout</layout>
-    </layoutAssignments> -->
     <layoutAssignments>
         <layout>Unallocated_Payment__c-CCS Unallocated Payment Layout</layout>
         <recordType>Unallocated_Payment__c.CCS</recordType>
@@ -20358,7 +20402,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Agency_User__c.Portal_User</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20374,7 +20417,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Application__c.Fidem_Finance_MasterCard</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20396,6 +20438,11 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Case.EmailToCase</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
@@ -20460,24 +20507,22 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
+        <default>false</default>
         <recordType>Document_Storage__c.Distressed</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Document_Storage__c.Fidem</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Document_Storage__c.Insolvency</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>EFT_Files__c.CCS_EFT</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20489,6 +20534,11 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Insolvency_Account__c.Canaccede_Insolvency_Account</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
@@ -20524,7 +20574,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Insolvency_Payment__c.Insolvency_Payment</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20535,20 +20584,19 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Insolvency__c.Insolvency</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Internal_Note__c.Private</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
+        <default>true</default>
+        <personAccountDefault>true</personAccountDefault>
         <recordType>Judgment__c.Judgment</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
@@ -20557,7 +20605,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>PTP_Information__c.Canaccede_PTP</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20568,7 +20615,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Payment_Transaction__c.One_time_Payment</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20599,7 +20645,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Placement__c.Collection_Agency</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20630,7 +20675,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Product_Payments__c.Distressed_Product_Payment</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20641,7 +20685,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Product__c.Credit_Card_Account</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20662,7 +20705,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Remittance__c.CCS_Dividend</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20688,7 +20730,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Unallocated_Payment__c.Insolvency</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -20714,7 +20755,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Work_Assignment__c.CFG</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
