@@ -6913,6 +6913,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.Canaccede_reviewed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Canadian_Tire_Sub_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Account__c.Charge_Off_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7527,6 +7537,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Percent_of_increased_return_from_voting__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Percentage_Of_Unsecured_Debt__c</field>
         <readable>true</readable>
@@ -7878,6 +7893,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Insolvency_Account__c.Trustee_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Trustee_Communication_Preference__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7894,16 +7914,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Trustee_Fax__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Insolvency_Account__c.Trustee_Address__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Insolvency_Account__c.Trustee_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7934,6 +7944,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Trustee_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Trustee_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8458,6 +8473,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency__c.Canadian_Tire_Record_Owner__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency__c.Car_Lease_Payments_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8904,11 +8924,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Fairstone_Record_Owner__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Insolvency__c.Canadian_Tire_Record_Owner__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10117,6 +10132,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Trustee_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency__c.Trustee_Comments_Notes__c</field>
         <readable>true</readable>
@@ -10143,16 +10163,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Insolvency__c.Trustee_Address__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Insolvency__c.Trustee_Postal_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Insolvency__c.Trustee_Fees__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10164,6 +10174,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Trustee_Phone_Number_Formula__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Trustee_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -16018,16 +16033,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Product__c.Previous_Payment_Amount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Product__c.Previous_Payment_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Product__c.Previous_Primary_Account_Number__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -18166,16 +18171,6 @@
         <field>Work_Assignment__c.Write_Off_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency_Account__c.Canaccede_reviewed__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency_Account__c.Canadian_Tire_Sub_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
@@ -18239,6 +18234,10 @@
     <layoutAssignments>
         <layout>Case-CCS Case Open</layout>
         <recordType>Case.CCS_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Case Layout</layout>
+        <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Email to Case Layout</layout>
@@ -18488,6 +18487,10 @@
     <layoutAssignments>
         <layout>Insolvency_Account__c-Canaccede Insolvency Account Layout</layout>
         <recordType>Insolvency_Account__c.Canaccede_Insolvency_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Insolvency_Account__c-Default Canadian Tire Account Layout - internal</layout>
+        <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Insolvency_Account__c-Default Fairstone Account Layout - internal</layout>
@@ -18858,9 +18861,6 @@
     <layoutAssignments>
         <layout>Task-Scotia Bank Insolvency Task</layout>
     </layoutAssignments>
-    <!--layoutAssignments>
-        <layout>TimeSlot-Time Slot Layout</layout>
-    </layoutAssignments-->
     <layoutAssignments>
         <layout>Unallocated_Payment__c-CCS Unallocated Payment Layout</layout>
         <recordType>Unallocated_Payment__c.CCS</recordType>
@@ -20062,6 +20062,10 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>POCDocCanadianTire</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>POCDocData</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -20328,6 +20332,11 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <default>true</default>
         <personAccountDefault>true</personAccountDefault>
         <recordType>Case.Insolvency_Case</recordType>
@@ -20419,6 +20428,11 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Insolvency_Account__c.Canaccede_Insolvency_Account</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

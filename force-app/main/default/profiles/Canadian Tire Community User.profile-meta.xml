@@ -6907,6 +6907,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Canaccede_reviewed__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Canadian_Tire_Sub_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Charge_Off_Date__c</field>
         <readable>true</readable>
@@ -19536,6 +19546,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>POCDocCanadianTire</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>POCDocData</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
@@ -19803,7 +19817,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -19899,7 +19912,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
