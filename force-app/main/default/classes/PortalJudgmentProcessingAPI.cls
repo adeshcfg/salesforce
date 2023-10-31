@@ -19,8 +19,8 @@ public class PortalJudgmentProcessingAPI {
 
     @future (callout=true)
     public static void processJudgment(ID judgmentId){ 
-                                 
-        String Query = 'SELECT ID, ';
+                            
+        String Query = 'SELECT ID,Name,Writ_Renewal_Date_Formula__c,Garnishment_Renewal_Date_Formula__c, ';
         for(Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping){
             if(fieldMappingInstance.Object_Name__c == 'Judgment'){
                 Query += fieldMappingInstance.Field_API__c + ', ';
@@ -42,9 +42,11 @@ public class PortalJudgmentProcessingAPI {
             system.debug('judgmentInstance '+judgmentInstance);
             for(Agency_Portal_Fields_Mapping__c agencyFieldData : mapAgencyField.values()){
                 if(agencyFieldData.Object_Name__c == 'Judgment'){
-                    mapAgencyJudgFieldData.put(agencyFieldData.Field_JSON_Tag__c, judgmentInstance.get(agencyFieldData.Field_API__c));
+                    mapAgencyJudgFieldData.put(agencyFieldData.Field_JSON_Tag__c, judgmentInstance.get(agencyFieldData.Field_API__c)); 
                 }
             }
+            mapAgencyJudgFieldData.put('Writ_Renewal_Date', judgmentInstance.get('Writ_Renewal_Date_Formula__c'));
+            mapAgencyJudgFieldData.put('Garnishment_Renewal_Date', judgmentInstance.get('Garnishment_Renewal_Date_Formula__c'));
             JudgmentJSONRequest = JSON.serialize(mapAgencyJudgFieldData);
             
         }
