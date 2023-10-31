@@ -85,10 +85,10 @@ public class LoRDemandController{
         
     }
 
-    public String getImageUrl(String fileName) {
+    public static String getImageUrl(String fileName) {
         Document[] d = [SELECT LastModifiedDate FROM Document WHERE DeveloperName = :fileName];
         if (d.isEmpty()) {
-            return null;
+            return '';
         } else {
             return Url.getSalesforceBaseUrl().toExternalForm() +
                 '/servlet/servlet.ImageServer?id=' +

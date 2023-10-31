@@ -1,7 +1,7 @@
 <div style="font-family: 'Arial Unicode MS'; font-size: 10px;">
 <br/><br/><br/>
 <div style="width:100%; text-align:center;">
-<img src='https://c.na103.content.force.com/servlet/servlet.ImageServer?id=015j0000000vIjk&oid=00Dj0000001ripe&lastMod=1433979584000' style="width: 200px;"/>
+<img src='{!imageURL}' style="width: 200px;"/>
 </div>
 <div class="myfont">
 <b> {!TODAY()} </b>

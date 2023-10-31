@@ -83,7 +83,8 @@ public class LoRNotice2Controller{
                                                     '{!pocPackage.CFG_Office_Email_Address__c}' => pocPackage.CFG_Office_Email_Address__c,
                                                     '{!pocPackage.Client_Company_Name}' => pocPackage.Client_Company_Name__c,
                                                     '{!pocPackage.CFG_Office_Name}' => pocPackage.CFG_Office_Name__c,
-                                                    '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c
+                                                    '{!Insolvency_Account__c.Secured_Name__c}' => insolvAcc.Secured_Name__c,
+                                                    '{!imageURL}' => LoRDemandController.getImageUrl('Canaccede_Logo')
                                                     };
         
         // Fetch LoRNotice1 email template
