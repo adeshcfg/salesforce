@@ -20062,10 +20062,6 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>POCDocCanadianTire</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>POCDocData</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -20281,6 +20277,22 @@
         <apexPage>pdfdocs</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
+    <pageAccesses>
+        <apexPage>POCDocCanadianTire</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>POCDocDataCanadianTire</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>POCDocDataFrenchCanadianTire</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>POCDocFrenchCanadianTirePreview</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Agency_User__c.Agency_Contact</recordType>
@@ -20334,7 +20346,7 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
@@ -20350,7 +20362,7 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Case.Insolvency_Goeasy_Community_Case</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
