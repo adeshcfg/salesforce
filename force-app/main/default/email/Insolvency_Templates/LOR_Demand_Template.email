@@ -1,7 +1,7 @@
 <div style="font-family": 'Arial Unicode MS'; font-size: 10px;">
 <br/><br/><br/>
 <div style="text-align:center;">
-<img src='https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003PeHp&oid=00Dj0000001ripe&lastMod=1634276221000' style="width:100px; height:100px"/>
+<img src='{!imageURL}' style="width:100px; height:100px"/>
 </div>
 <div style="font-size: 9.5px;" >
 <b>{!TODAY()}</b></div><br/>

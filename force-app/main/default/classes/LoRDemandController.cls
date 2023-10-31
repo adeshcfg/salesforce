@@ -84,9 +84,23 @@ public class LoRDemandController{
         WeekdayCalculate();
         
     }
+
+    public String getImageUrl(String fileName) {
+        Document[] d = [SELECT LastModifiedDate FROM Document WHERE DeveloperName = :fileName];
+        if (d.isEmpty()) {
+            return null;
+        } else {
+            return Url.getSalesforceBaseUrl().toExternalForm() +
+                '/servlet/servlet.ImageServer?id=' +
+                d[0].Id +
+                '&oid=' +
+                UserInfo.getOrganizationId() +
+                '&lastMod=' +
+                d[0].LastModifiedDate.getTime();
+        }
+    }
     
     public void poulateRecord(String languageValue){
-        
         subject = '';
         emailBody = '';
         attachmentBody = '';
@@ -168,7 +182,8 @@ public class LoRDemandController{
                 '{!pocPackage.CFG_Office_Province__c}'   =>pocPackage.CFG_Office_Province__c,
                 '{!pocPackage.CFG_Office_Postal_Code__c}'   =>pocPackage.CFG_Office_Postal_Code__c,
                 '{!pocPackage.CFG_Office_Website__c}'   =>pocPackage.CFG_Office_Website__c,
-                '{!pocPackage.CFG_French_Office_Name__c}'   =>pocPackage.CFG_French_Office_Name__c
+                '{!pocPackage.CFG_French_Office_Name__c}'   =>pocPackage.CFG_French_Office_Name__c,
+                '{!imageURL}' => getImageUrl('CFG_Logo_Temp1')
                 };
         
         List<EmailTemplate> emtList = new List<EmailTemplate>();

@@ -1,7 +1,7 @@
 <table style="font-family: 'Arial Unicode MS';font-size: 9px;">
 <tr>
 <td style="width:80px">
-<img src='https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003PeHp&oid=00Dj0000001ripe&lastMod=1634276221000' /> 
+<img src='{!imageURL}' /> 
 </td>
 <td style="padding-left:50px; width:300px;">
 {!pocPackage.CFG_French_Office_Name__c}<br/>
