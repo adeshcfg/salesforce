@@ -20459,7 +20459,7 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
