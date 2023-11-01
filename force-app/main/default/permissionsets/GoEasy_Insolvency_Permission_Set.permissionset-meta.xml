@@ -3045,7 +3045,7 @@
     </pageAccesses>
     <recordTypeVisibilities>
         <recordType>Case.Insolvency_Goeasy_Community_Case</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Insolvency_Account__c.Goeasy_Insolvency_Account</recordType>
