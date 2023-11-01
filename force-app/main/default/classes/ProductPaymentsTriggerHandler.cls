@@ -168,7 +168,8 @@ public class ProductPaymentsTriggerHandler{
 
             Decimal ComissionRate;
             map<String, Decimal> mapValueTierCommissionRate = getCommissionRateValues();
-            
+            Decimal feeRecovery = null;
+            Map<String, Decimal> productFeeRecoveryMap = new Map<String, Decimal>();
             for(Product_Payments__c productPayment : listNewProductPayments){
                
                 if(prodRTypeIdMap.get('Distressed_Product_Payment') == productPayment.RecordTypeId){
@@ -194,20 +195,27 @@ public class ProductPaymentsTriggerHandler{
                         if(mapProducts.get(productPayment.CCS_Account__c).Current_Bal_NSF_Fees__c == NULL) mapProducts.get(productPayment.CCS_Account__c).Current_Bal_NSF_Fees__c=0;             
                     }
                     
+                    Decimal newFeeRecovery = 0;
+                    if(!productFeeRecoveryMap.containsKey(productPayment.CCS_Account__c)) {
+                        productFeeRecoveryMap.put(productPayment.CCS_Account__c, mapProducts.get(productPayment.CCS_Account__c).Fee_Recovery__c);
+                    }
+                    feeRecovery = productFeeRecoveryMap.get(productPayment.CCS_Account__c);
+
                     if(calculateCommissionAmount() 
                     && mapProducts.containsKey(productPayment.CCS_Account__c)
                     && String.isNotBlank(productPayment.Payment_Type__c)
                     && !FEE_TRANSACION_CODES.contains(productPayment.Payment_Type__c)
-                    && (mapProducts.get(productPayment.CCS_Account__c).Fee_Recovery__c == 0 
-                    || mapProducts.get(productPayment.CCS_Account__c).Fee_Recovery__c < productPayment.Payment_Amount__c
+                    && ((feeRecovery == 0 || feeRecovery < productPayment.Payment_Amount__c)
                     || mapProducts.get(productPayment.CCS_Account__c).Current_Bal_NSF_Fees__c <> 0)){ 
                         //Payment amount on which commission will be applied
                         Decimal payCommission = productPayment.Payment_Amount__c;
                                 
                         //IF Fee recovery is present, commission will be applied on (Payment Amount - Fee Recovery Amount)
-                        if(mapProducts.get(productPayment.CCS_Account__c).Fee_Recovery__c < productPayment.Payment_Amount__c){
-                            payCommission = productPayment.Payment_Amount__c - mapProducts.get(productPayment.CCS_Account__c).Fee_Recovery__c;
+                        if(feeRecovery < productPayment.Payment_Amount__c){
+                            payCommission = productPayment.Payment_Amount__c - feeRecovery;
                         }
+                        newFeeRecovery = feeRecovery - productPayment.Payment_Amount__c;
+                        productFeeRecoveryMap.put(productPayment.CCS_Account__c, newFeeRecovery <= 0 ? 0 : newFeeRecovery);
                         
                         //By product Commission Rate
                         if(mapProducts.containsKey(productPayment.CCS_Account__c)
@@ -270,6 +278,15 @@ public class ProductPaymentsTriggerHandler{
                                 }       
                             }
                          ComissionRate = null;
+                    }
+                    else if(calculateCommissionAmount() 
+                    && mapProducts.containsKey(productPayment.CCS_Account__c)
+                    && String.isNotBlank(productPayment.Payment_Type__c)
+                    && !FEE_TRANSACION_CODES.contains(productPayment.Payment_Type__c)
+                    && ((feeRecovery != 0 && feeRecovery >= productPayment.Payment_Amount__c)
+                    || mapProducts.get(productPayment.CCS_Account__c).Current_Bal_NSF_Fees__c == 0)){
+                        newFeeRecovery = feeRecovery - productPayment.Payment_Amount__c;
+                        productFeeRecoveryMap.put(productPayment.CCS_Account__c, newFeeRecovery <= 0 ? 0 : newFeeRecovery);
                     }
                 }
                 // 4578 - Link appropriate placement history with payment
