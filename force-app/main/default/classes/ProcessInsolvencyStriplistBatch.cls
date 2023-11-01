@@ -71,10 +71,11 @@ public Class ProcessInsolvencyStriplistBatch implements Database.Batchable<Strip
                 if(wrapRecord.accountNumber != null){
                     setAccountNumbers.add(wrapRecord.accountNumber.deleteWhitespace().remove('BNSBK'));
                 }
-                //IF condition added by Nagendra part of #5430
+              /*  //IF condition added by Nagendra part of #5430
                 if(wrapRecord.debtorName != null){
                     listDebtorNames.add(wrapRecord.debtorName.deleteWhitespace().remove('BNSBK'));
                 }
+                */
                  //IF condition added by Nagendra part of #5430
                  if(wrapRecord.estateNumber != null){
                     listEstateNumbers.add(wrapRecord.estateNumber.deleteWhitespace().remove('BNSBK'));
@@ -90,7 +91,7 @@ public Class ProcessInsolvencyStriplistBatch implements Database.Batchable<Strip
                                                        FROM Insolvency_Account__c 
                                                        WHERE (Account_No_without_Prefix__c IN :setAccountNumbers
                                                        OR (Previous_Account_Reference__c != NULL and Previous_Account_Reference__c IN : setAccountNumbers))
-                                                       AND Debtor_Name_Formula__c IN: listDebtorNames
+                                                      // AND Debtor_Name_Formula__c IN: listDebtorNames
                                                        AND (Debtor_1_Estate_Number__c IN : listEstateNumbers || Debtor_2_Estate_Number__c IN : listEstateNumbers)
                                                        /*AND (Asset_Status__c = 'Purchased'
                                                        OR Asset_Status__c = 'De-securitized by Seller'

@@ -74,11 +74,12 @@ public class StriplistInsolPaymentUploadController {
                     Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR,'Account Number cannot be blank. Please check the file headers and upload valid file.'));
                     return null;
                 }
-                //IF condition added by Nagendra part of #5430
+               /* //IF condition added by Nagendra part of #5430
                 if(String.isBlank(payInstance.debtorName)){
                     Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR,'Debtor Name cannot be blank. Please check the file headers and upload valid file.'));
                     return null;
                 }
+                */
                   //IF condition added by Nagendra part of #5430
                   if(String.isBlank(payInstance.estateNumber)){
                     Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR,'Estate Number cannot be blank. Please check the file headers and upload valid file.'));
