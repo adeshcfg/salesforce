@@ -92,7 +92,7 @@ public Class ProcessInsolvencyStriplistBatch implements Database.Batchable<Strip
                                                        WHERE (Account_No_without_Prefix__c IN :setAccountNumbers
                                                        OR (Previous_Account_Reference__c != NULL and Previous_Account_Reference__c IN : setAccountNumbers))
                                                       // AND Debtor_Name_Formula__c IN: listDebtorNames
-                                                       AND (Debtor_1_Estate_Number__c IN : listEstateNumbers || Debtor_2_Estate_Number__c IN : listEstateNumbers)
+                                                       AND (Debtor_1_Estate_Number__c IN : listEstateNumbers OR Debtor_2_Estate_Number__c IN : listEstateNumbers)
                                                        /*AND (Asset_Status__c = 'Purchased'
                                                        OR Asset_Status__c = 'De-securitized by Seller'
                                                        OR Asset_Status__c = 'Debt Purchase'
