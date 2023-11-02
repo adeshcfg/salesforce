@@ -62,6 +62,7 @@ public class TestInsolvencyStriplistParsing {
         insolvencyAccount.Insolvency__c = insolv1.Id;
         insolvencyAccount.Account_Number_Without_Space__c = '4537049889659';
         insolvencyAccount.Portfolio_Group_Name__c = 'CCL001';
+       insolvencyAccount.Previous_Account_Reference__c='111';
         //insolvencyAccount.Investment_Group__c = 'AFFIRM';
         //insolvencyAccount.Portfolio_Name_Lookup__c = portfolioName.id;
         insolvencyAccount.Debtor_1_Estate_Number__c = '00-000001';
@@ -86,11 +87,24 @@ public class TestInsolvencyStriplistParsing {
         
         //account no null
         testOutputJSON = '[{'+
-            '"AccountNumber":null,'+
+            '"AccountNumber":,'+
             '"ClientID":254801.0,'+
             '"ClientName":"LEBLANC, JUSTIN ",'+
             '"EstateNumber":00-000001,'+
-            '"Amount":390.0,'+
+            '"Amount":39.0,'+
+        '}]';
+        controller = new StriplistInsolPaymentUploadController(sc);
+        controller.outputJSON = testOutputJSON; 
+        controller.fileUploadStatus = 'success';
+        controller.importDatatoApex();
+        
+           //EstateNumber null
+        testOutputJSON = '[{'+
+            '"AccountNumber":"4537049889659",'+
+            '"ClientID":254801.0,'+
+            '"DebtorName":"LEBLANC JUSTIN ",'+
+            '"EstateNumber":,'+
+            '"Amount":null,'+
         '}]';
         controller = new StriplistInsolPaymentUploadController(sc);
         controller.outputJSON = testOutputJSON; 
@@ -116,8 +130,22 @@ public class TestInsolvencyStriplistParsing {
         testOutputJSON = '['+
           '{'+
             '"EstateNumber": "00-000001",'+
-            '"DebtorName": "WHALEN, BERNARD",'+
+            '"DebtorName": "WHALENBERNARD",'+
             '"Amount": 245.94,'+
+            '"accountID":"1234",'+
+            '"AccountNumber": "477666559659"'+
+          '},'+
+                '{'+
+            '"EstateNumber": "0",'+
+            '"DebtorName": "WHALEN, BERNARDY",'+
+            '"Amount": 89,'+
+                       '"accountID":"1234",'+
+              '"AccountNumber": "4537049889659"'+
+          '},'+
+                 '{'+
+            '"EstateNumber": "00-000001",'+
+            '"DebtorName": "WHALEN, BERNARDY",'+
+            '"Amount": "",'+
             '"AccountNumber": "4537049889659"'+
           '},'+
           '{'+
@@ -126,6 +154,7 @@ public class TestInsolvencyStriplistParsing {
             '"Amount": 67.59,'+
             '"AccountNumber": "438930122025"'+
           '}'+
+            
         ']';
         controller = new StriplistInsolPaymentUploadController(sc);
         controller.outputJSON = testOutputJSON; 
@@ -138,6 +167,9 @@ public class TestInsolvencyStriplistParsing {
         controller = new StriplistInsolPaymentUploadController(sc);
         controller.showAllocatedProductPayments();
         controller.ShowUnallocatedProductPayments();   
+        controller.showallocated=true;
+        controller.showunallocated=true;
+        controller.postingDate='1234';
     }
     
     public static testMethod void testProcessBatch(){
