@@ -315,10 +315,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>New</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>No Match</fullName>
             <default>false</default>
         </values>
