@@ -45,10 +45,10 @@
         <value>Unsecured</value>
     </filters>
     <label>Revived - Recall from collections</label>
-    <language>en_US</language>
     <sharedTo>
         <group>CCS_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
+        <group>Insolvency_Canadian_Tire_Users</group>
         <group>Insolvency_Fairstone_Users</group>
         <group>Insolvency_Goeasy_Users</group>
         <group>Insolvency_SDA_Users</group>
