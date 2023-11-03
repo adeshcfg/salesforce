@@ -199,7 +199,8 @@ public class CFG_EmailNotification {
             activeUser = [Select Email From User where name = : userName limit 1];
         }
         String userEmail ='';
-        userEmail ='sulbha.konodia@canaccede.com'+',';
+      //bug 5504 : Nagendra replaced sulbha.konodia@canaccede.com with sf-it@canaccede.com  
+        userEmail ='sf-it@canaccede.com'+',';
         if(!Test.isRunningTest()){
             userEmail += activeUser.Email ;
         }else{
@@ -236,7 +237,8 @@ public class CFG_EmailNotification {
             activeUser = [Select Email From User where name = : userName limit 1];
         }
         String userEmail ='';
-        userEmail ='sulbha.konodia@canaccede.com'+',';
+        //bug 5504 : Nagendra replaced sulbha.konodia@canaccede.com with sf-it@canaccede.com  
+        userEmail ='sf-it@canaccede.com'+',';
         if(!Test.isRunningTest()){
             userEmail += activeUser.Email ;
         }else{
