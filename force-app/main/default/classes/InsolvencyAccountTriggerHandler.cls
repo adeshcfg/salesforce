@@ -431,6 +431,25 @@ public class InsolvencyAccountTriggerHandler {
                 getDistressedProductData(accNew);
             }
             //accNew.Alias_Name__c = accNew.Last_Modify_User_Alias__c;
+            //CTB Automation: set insolvency account processing status and sub-status
+            if(accNew.Insolvency_Status__c == 'For Owner Review'){
+                accNew.CTB_Status_Update_Code__c = '';
+                accNew.Insolvency_Sub_Status__c = 'Pending File';
+            }
+            if(accNew.Insolvency_Status__c == 'Discharged'){
+                accNew.CTB_Status_Update_Code__c = 'PCOM';
+                accNew.Insolvency_Sub_Status__c = 'Pending File';
+            }
+            if(accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused'
+              || accNew.Insolvency_Status__c == 'Withdrawn'){
+                accNew.CTB_Status_Update_Code__c = 'RREV';
+                accNew.Insolvency_Sub_Status__c = 'Pending File';
+            }
+            if(accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c != insolAccntOld.Insolvency__r.Revival_Date__c
+              && accNew.Insolvency__r.Revival_Date__c != NULL){
+                accNew.CTB_Status_Update_Code__c = '';
+                accNew.Insolvency_Sub_Status__c = 'Pending File';
+            }
         }
         
         set<Id> insolIdSet = new set<Id>();
