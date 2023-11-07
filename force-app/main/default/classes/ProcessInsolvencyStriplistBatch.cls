@@ -78,21 +78,22 @@ public Class ProcessInsolvencyStriplistBatch implements Database.Batchable<Strip
                 */
                  //IF condition added by Nagendra part of #5430
                  if(wrapRecord.estateNumber != null){
-                    listEstateNumbers.add(wrapRecord.estateNumber.deleteWhitespace().remove('BNSBK'));
+                    listEstateNumbers.add(wrapRecord.estateNumber.deleteWhitespace());
                 }
             }
             system.debug('setAccountNumbers: '+setAccountNumbers);
+            system.debug('listEstateNumbers: '+listEstateNumbers);
             
             //Fetch Insolvency Accounts with matching Account Number,Estate Number and Debtor Name
             //Ticket#944 -Remove Asset Status criteria from Insolvency Account Matching in Striplist Payment Processing
-            //Task #5430 - Updated the SOQL query to include Debtor_Name_Formula__c,Debtor_1_Estate_Number__c and Debtor_2_Estate_Number__c while fetching Insolvency Accounts
+            //Task #5430 - Updated the SOQL query to include Insolvency__r.Name while fetching Insolvency Accounts
             List<Insolvency_Account__c> listAccount = [SELECT id, Name, Debtor_1_Estate_Number__c, Debtor_Name_Formula__c, 
                                                        		  Account_Number_Without_Space__c, Account_No_without_Prefix__c,Previous_Account_Reference__c
                                                        FROM Insolvency_Account__c 
                                                        WHERE (Account_No_without_Prefix__c IN :setAccountNumbers
                                                        OR (Previous_Account_Reference__c != NULL and Previous_Account_Reference__c IN : setAccountNumbers))
                                                       // AND Debtor_Name_Formula__c IN: listDebtorNames
-                                                       AND (Debtor_1_Estate_Number__c IN : listEstateNumbers OR Debtor_2_Estate_Number__c IN : listEstateNumbers)
+                                                       AND (Insolvency__r.Name IN : listEstateNumbers)
                                                        /*AND (Asset_Status__c = 'Purchased'
                                                        OR Asset_Status__c = 'De-securitized by Seller'
                                                        OR Asset_Status__c = 'Debt Purchase'
