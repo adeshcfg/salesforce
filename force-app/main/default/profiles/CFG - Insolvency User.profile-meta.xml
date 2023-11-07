@@ -18432,6 +18432,10 @@
         <recordType>Document_Storage__c.Insolvency</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Document_Storage__c-CTB Layout</layout>
+        <recordType>Document_Storage__c.CTB</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>DuplicateRecordSet-Duplicate Record Set Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -20425,6 +20429,11 @@
         <default>false</default>
         <recordType>Document_Storage__c.Insolvency</recordType>
         <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Document_Storage__c.CTB</recordType>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>

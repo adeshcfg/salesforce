@@ -32,6 +32,16 @@
                 <default>false</default>
                 <label>Processed</label>
             </value>
+            <value>
+                <fullName>Failed</fullName>
+                <default>false</default>
+                <label>Failed</label>
+            </value>
+            <value>
+                <fullName>Successful</fullName>
+                <default>false</default>
+                <label>Successful</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
