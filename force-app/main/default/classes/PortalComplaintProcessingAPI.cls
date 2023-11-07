@@ -43,8 +43,22 @@ public class PortalComplaintProcessingAPI {
             String escapeProdlistString = '';
             if(!String.isBlank(productsList)){
                 escapeProdlistString = productsList.escapeUnicode();
-            }          
-            
+            } 
+            //Bug 5520: Changes Starts
+            //Agency_Investigation_Notes__c
+            String agencyInvestigationNotes = complaintInstance.Agency_Investigation_Notes__c;
+            String escapeagencyInvestigationNotes = '';
+            if(!String.isBlank(agencyInvestigationNotes)){
+                escapeagencyInvestigationNotes = agencyInvestigationNotes.escapeUnicode();
+            }      
+            //CFG_Complaint_Analysis__c  
+               String cfgComplaintAnalysis = complaintInstance.CFG_Complaint_Analysis__c;
+               String escapecfgComplaintAnalysis = '';
+               if(!String.isBlank(cfgComplaintAnalysis)){
+                escapecfgComplaintAnalysis = cfgComplaintAnalysis.escapeUnicode();
+               }   
+            //Bug 5520: Changes Ends
+            //Bug 5520: Updated below JSON for long text area fields with escapeagencyInvestigationNotes,escapecfgComplaintAnalysis
             complaintJSONRequest = '{'+
                 //'"Identifier":'+workAssignmentInstance.SF_ID__c+','+
                 '"Name": "'+complaintInstance.Name+'",'+
@@ -65,9 +79,9 @@ public class PortalComplaintProcessingAPI {
                '"Original_Creditor": "'+complaintInstance.Original_Creditor__c+'",'+
                 '"Resolution_By": "'+complaintInstance.Resolution_By__c+'",'+
                 '"Resolution_Date": "'+complaintInstance.Resolution_Date__c+'",'+
-                '"Result_of_Investigation": "'+complaintInstance.Agency_Investigation_Notes__c+'",'+
+                '"Result_of_Investigation": "'+escapeagencyInvestigationNotes+'",'+
                 '"Source": "'+complaintInstance.Source__c+'",'+
-                '"CFG_Complaint_Analysis": "'+complaintInstance.CFG_Complaint_Analysis__c+'",'+
+                '"CFG_Complaint_Analysis": "'+escapecfgComplaintAnalysis+'",'+
                 '"Assign_To": "'+UserInfo.getName()+'",'+
                 '"Assign_To_Agency_User": "'+complaintInstance.Assigned_To_Agency_User_Email__c+'",'+
                 '"Assigned_To_User_Name": "'+complaintInstance.Assigned_To_User_Name__c+'",'+
