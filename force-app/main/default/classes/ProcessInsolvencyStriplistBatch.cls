@@ -65,9 +65,8 @@ public Class ProcessInsolvencyStriplistBatch implements Database.Batchable<Strip
             list<String> listEstateNumbers = new list<String>();
             list<String> listDebtorNames = new list<String>();
             //list of accounts in a list to query data
-            //Set<String> setAccountNumbers = new Set<String>();
-            //5430: commented above line and added below line to allow to store multiple(duplicate) account numbers
-            list<String> setAccountNumbers = new list<String>();
+            Set<String> setAccountNumbers = new Set<String>();
+        
             for(StriplistUtil.paymentRecordsWrapper wrapRecord : wrapList){
                 if(wrapRecord.accountNumber != null){
                     setAccountNumbers.add(wrapRecord.accountNumber.deleteWhitespace().remove('BNSBK'));
