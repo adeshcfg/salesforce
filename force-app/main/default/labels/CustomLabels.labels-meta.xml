@@ -40,7 +40,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Easyfinancial Email Template Logo URL</shortDescription>
-        <value>https://c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003QzIU&amp;oid=00Dj0000001ripe&amp;lastMod=1693451899000</value>
+        <value>https://c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003QzIU&oid=00Dj0000001ripe&lastMod=1693451899000</value>
     </labels>
     <labels>
         <fullName>EmailTrustee_Subject</fullName>
