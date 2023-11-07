@@ -200,7 +200,7 @@ public class CFG_EmailNotification {
         }
         String userEmail ='';
       //bug 5504 : Nagendra replaced sulbha.konodia@canaccede.com with sf-it@canaccede.com  
-        userEmail ='sf-it@canaccede.com'+',';
+        userEmail =System.Label.API_Failed_Email;
         if(!Test.isRunningTest()){
             userEmail += activeUser.Email ;
         }else{
@@ -238,7 +238,7 @@ public class CFG_EmailNotification {
         }
         String userEmail ='';
         //bug 5504 : Nagendra replaced sulbha.konodia@canaccede.com with sf-it@canaccede.com  
-        userEmail ='sf-it@canaccede.com'+',';
+        userEmail =System.Label.API_Failed_Email;
         if(!Test.isRunningTest()){
             userEmail += activeUser.Email ;
         }else{
