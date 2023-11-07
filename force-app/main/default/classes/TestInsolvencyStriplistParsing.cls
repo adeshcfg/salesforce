@@ -65,7 +65,7 @@ public class TestInsolvencyStriplistParsing {
        insolvencyAccount.Previous_Account_Reference__c='111';
         //insolvencyAccount.Investment_Group__c = 'AFFIRM';
         //insolvencyAccount.Portfolio_Name_Lookup__c = portfolioName.id;
-        insolvencyAccount.Debtor_1_Estate_Number__c = '00-000001';
+        insolvencyAccount.Debtor_1_Estate_Number__c = '12456780';
         
         insert insolvencyAccount;
     }
