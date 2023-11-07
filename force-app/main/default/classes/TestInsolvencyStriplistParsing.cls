@@ -39,7 +39,7 @@ public class TestInsolvencyStriplistParsing {
         
         //Insolvency Record
         Insolvency__c insolv1 = new Insolvency__c();
-        insolv1.Name = '12456780';
+        insolv1.Name = '00-000001';
         insolv1.Client_Identifiers__c = 'Scotia Bank';
         insolv1.Sent_For_Owner_Review_Date__c = System.today();
         insolv1.Trustee__c=Trusoff.id;
@@ -65,7 +65,7 @@ public class TestInsolvencyStriplistParsing {
        insolvencyAccount.Previous_Account_Reference__c='111';
         //insolvencyAccount.Investment_Group__c = 'AFFIRM';
         //insolvencyAccount.Portfolio_Name_Lookup__c = portfolioName.id;
-        insolvencyAccount.Debtor_1_Estate_Number__c = '12456780';
+        insolvencyAccount.Debtor_1_Estate_Number__c = '00-000001';
         
         insert insolvencyAccount;
     }
@@ -129,7 +129,7 @@ public class TestInsolvencyStriplistParsing {
         //success
         testOutputJSON = '['+
           '{'+
-            '"EstateNumber": "00-000001",'+
+            '"EstateNumber": "12456780",'+
             '"DebtorName": "WHALENBERNARD",'+
             '"Amount": 245.94,'+
             '"accountID":"1234",'+
