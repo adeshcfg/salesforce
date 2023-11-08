@@ -6,10 +6,9 @@
     <externalId>false</externalId>
     <inlineHelpText>Reopen Comments</inlineHelpText>
     <label>Reopen Comments</label>
-    <length>255</length>
-    <required>false</required>
+    <length>131072</length>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
 </CustomField>
