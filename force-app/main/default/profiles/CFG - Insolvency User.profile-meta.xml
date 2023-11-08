@@ -18278,6 +18278,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CTB_Staging__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Payment__c.Payment_Posting_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -19054,6 +19059,14 @@
     <layoutAssignments>
         <layout>Work_Assignment__c-Work Assignment - CFG</layout>
         <recordType>Work_Assignment__c.CFG</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CTB_Staging__c-Insolvency Account Layout</layout>
+        <recordType>CTB_Staging__c.Insolvency_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CTB_Staging__c-Insolvency Payment Layout</layout>
+        <recordType>CTB_Staging__c.Insolvency_Payment</recordType>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -20825,6 +20838,16 @@
         <default>false</default>
         <recordType>Work_Assignment__c.CFG_Media</recordType>
         <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>CTB_Staging__c.Insolvency_Account</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>CTB_Staging__c.Insolvency_Payment</recordType>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <userLicense>Salesforce</userLicense>
     <userPermissions>
