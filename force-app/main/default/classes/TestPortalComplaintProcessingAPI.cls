@@ -68,13 +68,34 @@ public class TestPortalComplaintProcessingAPI {
        // workAgt.Root_Cause__c = 'Verbal';
         workAgt.Original_Creditor__c = 'Test';
         workAgt.Product__c= prod.id;
+        workAgt.Agency_Investigation_Notes__c='test';
+        workAgt.CFG_Complaint_Analysis__c='test';
+        workAgt.Reopen_Comments__c='test';
         // workAgt.Settlement__c =stmt.id;
         workAgt.Placement_Agency__c= plcgy.id;
         // workAgt.Judgment__c= jud.id;
         //workAgt.Customer__c = Acc.id;
         insert workAgt;
-        
+            Work_Assignment__c workAgt1 = new Work_Assignment__c();       
+        //workAgt.Title__c = 'Test';
+        workAgt1.Description__c = 'test';
+        workAgt1.Products_List__c = 'test';
+        workAgt1.Status__c = 'Requested';
+       // workAgt.Complaint_Type__c = 'Ministry';
+       // workAgt.Root_Cause__c = 'Verbal';
+        workAgt1.Original_Creditor__c = 'Test';
+        workAgt1.Product__c= prod.id;
+        workAgt1.Agency_Investigation_Notes__c='test';
+        workAgt1.CFG_Complaint_Analysis__c='test';
+        workAgt1.Reopen_Comments__c='test';
+        workAgt1.Latest_Comment__c='test';
+        // workAgt.Settlement__c =stmt.id;
+        workAgt1.Placement_Agency__c= plcgy.id;
+        // workAgt.Judgment__c= jud.id;
+        //workAgt.Customer__c = Acc.id;
+        insert workAgt1;
         PortalComplaintProcessingAPI.processComplaint(workAgt.Id,'Abc','testing','test'); 
+        PortalComplaintProcessingAPI.processComplaint(workAgt1.Id,'Abc','testing','test'); 
     }
 
 }
