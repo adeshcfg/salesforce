@@ -192,7 +192,7 @@ public class WorkAssignmentTriggerHandler {
             AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
                                                 WHERE Customer__c IN :setCustomerID 
                                                 AND Customer__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Customer__c];
             System.Debug('custGroupedResults' +custGroupedResults);
@@ -355,7 +355,7 @@ public class WorkAssignmentTriggerHandler {
  			AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
                                                 WHERE Customer__c IN :setCustomerID 
                                                 AND Customer__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Customer__c];
       
@@ -780,7 +780,7 @@ public class WorkAssignmentTriggerHandler {
             AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
                                                 WHERE Customer__c IN :setCustomerID 
                                                 AND Customer__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Customer__c];
       
