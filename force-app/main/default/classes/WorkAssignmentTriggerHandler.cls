@@ -193,7 +193,6 @@ public class WorkAssignmentTriggerHandler {
                                                 WHERE Customer__c IN :setCustomerID 
                                                 AND Customer__c != NULL
                                                 AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request') 
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Customer__c];
             System.Debug('custGroupedResults' +custGroupedResults);
@@ -357,7 +356,6 @@ public class WorkAssignmentTriggerHandler {
                                                 WHERE Customer__c IN :setCustomerID 
                                                 AND Customer__c != NULL
                                                 AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request')
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Customer__c];
       
@@ -783,7 +781,6 @@ public class WorkAssignmentTriggerHandler {
                                                 WHERE Customer__c IN :setCustomerID 
                                                 AND Customer__c != NULL
                                                 AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request')
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Customer__c];
       
