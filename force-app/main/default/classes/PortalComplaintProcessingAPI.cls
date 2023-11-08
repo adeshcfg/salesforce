@@ -59,8 +59,8 @@ public class PortalComplaintProcessingAPI {
                }   
             //Bug 5520: Changes Ends
             //Bug 5554: Changes Starts
-              //CFG_Complaint_Analysis__c  
-              String reopenComments = complaintInstance.CFG_Complaint_Analysis__c;
+              //Reopen_Comments__c  
+              String reopenComments = complaintInstance.Reopen_Comments__c;
               String escapereopenComments = '';
               if(!String.isBlank(reopenComments)){
                 escapereopenComments = reopenComments.escapeUnicode();
