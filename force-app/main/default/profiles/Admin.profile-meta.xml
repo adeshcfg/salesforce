@@ -18303,6 +18303,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.CTB_Date_of_Birth__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.CTB_Reject_Reason_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CTB_Staging__c.Debtor_1_First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18359,6 +18369,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>CTB_Staging__c.Claim_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CTB_Staging__c.CTB_Date_of_Birth__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CTB_Staging__c.CTB_Reject_Reason_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
