@@ -74,7 +74,7 @@ public class TestPortalComplaintProcessingAPI {
         //workAgt.Customer__c = Acc.id;
         insert workAgt;
         
-        PortalComplaintProcessingAPI.processComplaint(workAgt.Id,'Abc','testing'); 
+        PortalComplaintProcessingAPI.processComplaint(workAgt.Id,'Abc','testing','test'); 
     }
 
 }
