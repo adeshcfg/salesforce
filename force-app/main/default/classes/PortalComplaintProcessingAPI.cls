@@ -82,7 +82,7 @@ public class PortalComplaintProcessingAPI {
                     complaintInstance.Latest_Comment__c.escapeUnicode()
                    : complaintInstance.Latest_Comment__c) +'",';
                    //Bug: 5554 - Updated below JSON for long text area field escapereopenComments
-                complaintJSONRequest += '"Reopen_Comments": "'+'escapereopenComments'+'",'+
+                complaintJSONRequest += '"Reopen_Comments": "'+escapereopenComments+'",'+
                 '"Complaint_Type": "'+complaintInstance.Complaint_Type__c+'",'+
                 '"Root_Cause": "'+complaintInstance.Root_Cause__c+'",'+
                '"Original_Creditor": "'+complaintInstance.Original_Creditor__c+'",'+
