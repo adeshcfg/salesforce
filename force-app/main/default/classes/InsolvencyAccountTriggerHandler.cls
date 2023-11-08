@@ -431,25 +431,8 @@ public class InsolvencyAccountTriggerHandler {
                 getDistressedProductData(accNew);
             }
             //accNew.Alias_Name__c = accNew.Last_Modify_User_Alias__c;
-            //CTB Automation: set insolvency account processing status and sub-status
-            if(accNew.Insolvency_Status__c == 'For Owner Review'){
-                accNew.CTB_Status_Update_Code__c = '';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
-            if(accNew.Insolvency_Status__c == 'Discharged'){
-                accNew.CTB_Status_Update_Code__c = 'PCOM';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
-            if(accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused'
-              || accNew.Insolvency_Status__c == 'Withdrawn'){
-                accNew.CTB_Status_Update_Code__c = 'RREV';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
-            if(accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c != insolAccntOld.Insolvency__r.Revival_Date__c
-              && accNew.Insolvency__r.Revival_Date__c != NULL){
-                accNew.CTB_Status_Update_Code__c = '';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
+            //Added by Tejal To Handle updating Processing Sub Status for CTB Automation
+            updateProcessingSubStatus(accNew,insolAccntOld);
         }
         
         set<Id> insolIdSet = new set<Id>();
@@ -1691,5 +1674,34 @@ insDetails.add(insDetail);
             }
             
         }
+    }
+    
+    /**
+        method name : updateProcessingSubStatus - created for CTB Automation to update Processing Sub Status
+        parameters : accNew - insolvency record updated
+                     oldAccRecord - old insolvency record
+        return - void
+        author - Tejal Vidhate
+    */
+    public static void updateProcessingSubStatus(Insolvency_Account__c accNew , Insolvency_Account__c oldAccRecord){
+        //CTB Automation: set insolvency account processing status and sub-status
+            if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency_Status__c == 'For Owner Review'){
+                accNew.CTB_Status_Update_Code__c = '';
+                accNew.Insolvency_Sub_Status__c = 'Pending File';
+            }
+            if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency_Status__c == 'Discharged'){
+                accNew.CTB_Status_Update_Code__c = 'PCOM';
+                accNew.Insolvency_Sub_Status__c = 'Pending File';
+            }
+            if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && (accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused'
+              || accNew.Insolvency_Status__c == 'Withdrawn')){
+                accNew.CTB_Status_Update_Code__c = 'RREV';
+                accNew.Insolvency_Sub_Status__c = 'Pending File';
+            }
+            if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldAccRecord.Insolvency__r.Revival_Date__c
+              && accNew.Insolvency__r.Revival_Date__c != NULL){
+                accNew.CTB_Status_Update_Code__c = '';
+                accNew.Insolvency_Sub_Status__c = 'Pending File';
+            }
     }
 }
