@@ -192,7 +192,8 @@ public class WorkAssignmentTriggerHandler {
             AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
                                                 WHERE Customer__c IN :setCustomerID 
                                                 AND Customer__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified') 
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request') 
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Customer__c];
             System.Debug('custGroupedResults' +custGroupedResults);
@@ -275,6 +276,12 @@ public class WorkAssignmentTriggerHandler {
     //Method to handle after update of record
     public static void handleAfterUpdate(list<Work_Assignment__c> listNewWorkAssignments, map<ID, Work_Assignment__c> mapOldWorkAssignment){
         Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
+       //Bug: 5555 - Changes Starts
+       map<ID, Work_Assignment__c> mapNewWorkAssignment = new map<ID, Work_Assignment__c>();
+       for(Work_Assignment__c workAssignment: listNewWorkAssignments){
+        mapNewWorkAssignment.put(workAssignment.id,workAssignment);
+       }
+       //Bug: 5555 - Changes Ends
         if (config.Run_WorkAssignment_API_for_Portal__c){
             system.debug('listNewWorkAssignment check**'+listNewWorkAssignments);
                 system.debug('mapOldWorkAssignment check**'+mapOldWorkAssignment);
@@ -294,7 +301,8 @@ public class WorkAssignmentTriggerHandler {
                     system.debug('workAssignment.RecordTypeId ' +workAssignment.RecordTypeId);
                     system.debug('config');
                     if(!Test.isRunningTest()){
-                       PortalComplaintProcessingAPI.processComplaint(workAssignment.ID, 'after update', mapOldWorkAssignment.get(workAssignment.Id).Latest_Comment__c);
+                        //Bug: 5555 - Added 4th parameter
+                       PortalComplaintProcessingAPI.processComplaint(workAssignment.ID, 'after update', mapOldWorkAssignment.get(workAssignment.Id).Latest_Comment__c,mapNewWorkAssignment.get(workAssignment.Id).Latest_Comment__c);
                     }
                     if(workAssignment.Agency_Currently_Has_Account_On_Hold__c != NULL &&
                       mapOldWorkAssignment.get(workAssignment.Id).Agency_Currently_Has_Account_On_Hold__c != NULL){
@@ -348,7 +356,8 @@ public class WorkAssignmentTriggerHandler {
  			AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
                                                 WHERE Customer__c IN :setCustomerID 
                                                 AND Customer__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified')
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request')
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Customer__c];
       
@@ -773,7 +782,8 @@ public class WorkAssignmentTriggerHandler {
             AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
                                                 WHERE Customer__c IN :setCustomerID 
                                                 AND Customer__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified')
+                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request')
                                                 AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                                 GROUP BY Customer__c];
       

@@ -11,7 +11,7 @@ public class PortalComplaintProcessingAPI {
     public static API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
     public static List<API_Error__c> listAPIErrors = new List<API_Error__c>();
     @future (callout=true)
-    public static void processComplaint(ID workAssignmentId,String triggereve, String oldLatestComment){
+    public static void processComplaint(ID workAssignmentId,String triggereve, String oldLatestComment,String newLatestComment){
         system.debug('triggereve: '+triggereve); 
         list<Work_Assignment__c> listWorkAssignment = [SELECT ID, Name, Task_Number__c, Description__c, Priority__c,Status__c, Source__c,
                                                        Requested_Date__c, Due_Date__c,Latest_Comment__c, Created_By__c, Last_Modified_By__c,
@@ -78,9 +78,12 @@ public class PortalComplaintProcessingAPI {
                 '"Requested_Date": "'+complaintInstance.Requested_Date__c+'",'+
                 '"Due_Date": "'+complaintInstance.Due_Date__c+'",'+
                 '"Next_follow_up_date": "'+complaintInstance.Next_follow_up_date__c+'",';
-                    complaintJSONRequest += '"Comment_Reply": "'+(String.isnotBlank(complaintInstance.Latest_Comment__c) ? 
+               //Bug: 5555 - Added if condition 
+                if(oldLatestComment <> newLatestComment){   
+                complaintJSONRequest += '"Comment_Reply": "'+(String.isnotBlank(complaintInstance.Latest_Comment__c) ? 
                     complaintInstance.Latest_Comment__c.escapeUnicode()
                    : complaintInstance.Latest_Comment__c) +'",';
+                }
                    //Bug: 5554 - Updated below JSON for long text area field escapereopenComments
                 complaintJSONRequest += '"Reopen_Comments": "'+escapereopenComments+'",'+
                 '"Complaint_Type": "'+complaintInstance.Complaint_Type__c+'",'+
