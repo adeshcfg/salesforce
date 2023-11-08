@@ -58,6 +58,14 @@ public class PortalComplaintProcessingAPI {
                 escapecfgComplaintAnalysis = cfgComplaintAnalysis.escapeUnicode();
                }   
             //Bug 5520: Changes Ends
+            //Bug 5554: Changes Starts
+              //CFG_Complaint_Analysis__c  
+              String reopenComments = complaintInstance.CFG_Complaint_Analysis__c;
+              String escapereopenComments = '';
+              if(!String.isBlank(reopenComments)){
+                escapereopenComments = reopenComments.escapeUnicode();
+              }   
+           //Bug 5554: Changes Ends
             //Bug 5520: Updated below JSON for long text area fields with escapeagencyInvestigationNotes,escapecfgComplaintAnalysis
             complaintJSONRequest = '{'+
                 //'"Identifier":'+workAssignmentInstance.SF_ID__c+','+
@@ -73,7 +81,7 @@ public class PortalComplaintProcessingAPI {
                     complaintJSONRequest += '"Comment_Reply": "'+(String.isnotBlank(complaintInstance.Latest_Comment__c) ? 
                     complaintInstance.Latest_Comment__c.escapeUnicode()
                    : complaintInstance.Latest_Comment__c) +'",';
-                complaintJSONRequest += '"Reopen_Comments": "'+complaintInstance.Reopen_Comments__c+'",'+
+                complaintJSONRequest += '"Reopen_Comments": "'+escapereopenComments+'",'+
                 '"Complaint_Type": "'+complaintInstance.Complaint_Type__c+'",'+
                 '"Root_Cause": "'+complaintInstance.Root_Cause__c+'",'+
                '"Original_Creditor": "'+complaintInstance.Original_Creditor__c+'",'+
