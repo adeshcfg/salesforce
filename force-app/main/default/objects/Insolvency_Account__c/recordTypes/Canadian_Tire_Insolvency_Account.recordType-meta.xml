@@ -26,7 +26,7 @@
         <picklist>Agencies_Accounts__c</picklist>
         <values>
             <fullName>NA</fullName>
-            <default>true</default>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
