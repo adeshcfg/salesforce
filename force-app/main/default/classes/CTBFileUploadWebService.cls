@@ -14,6 +14,12 @@ global with sharing class CTBFileUploadWebService {
      **/
     @HttpPost
     global static String handleCTBFileTransmission() {
+        Map<Integer, String> codeStatusMap = new Map<Integer, String>{
+            0 => 'Success',
+            2020 => 'Unable to read file from Salesforce',
+            2025 => 'Unable to store file in Azure Blob Storage',
+            2030 => 'Unable to publish the file - cannot confirm file was delivered to the destination'
+        };
         switch on RestContext.request.requestURI.substringAfterLast('/') {
             when 'SFUpload' {
                 System.debug('SFUpload API called');
