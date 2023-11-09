@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Last_Payment_Amount__c</fullName>
-    <description>The last payment amount (1) for this account</description>
+    <fullName>Last_Payment_Amount_3__c</fullName>
+    <description>The last payment amount (3) for this account</description>
     <externalId>false</externalId>
-    <inlineHelpText>The last payment amount (1) for this account</inlineHelpText>
-    <label>Last Payment Amount (1)</label>
+    <inlineHelpText>The last payment amount (3) for this account</inlineHelpText>
+    <label>Last Payment Amount (3)</label>
     <precision>12</precision>
     <required>false</required>
     <scale>2</scale>
