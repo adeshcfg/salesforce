@@ -2,7 +2,7 @@
  * @description       : Class for CTB File creation callouts
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 11-08-2023
+ * @last modified on  : 11-09-2023
  * @last modified by  : adeshi@a5econsulting.net
  **/
 @RestResource(urlMapping='/CTBFileUploadWebService/*')
@@ -36,7 +36,7 @@ global with sharing class CTBFileUploadWebService {
      * @param uploadStatus
      **/
     public static void processSFUpload(String fileName, String uploadStatus) {
-        String accountStatusToUpdate = uploadStatus == 'SUCCESS' ? '' : 'Pending to sent on File';
+        String accountStatusToUpdate = uploadStatus == 'SUCCESS' ? 'Delivered' : 'Pending to sent on File';
         String docStorageStatusToUpdate = uploadStatus == 'SUCCESS' ? 'Successful' : 'Failed';
         Insolvency_Account__c[] accountsToUpdate = new List<Insolvency_Account__c>();
         // Update document storage status associated to the file
@@ -49,13 +49,49 @@ global with sharing class CTBFileUploadWebService {
             acc.Canadian_Tire_Sub_Status__c = accountStatusToUpdate;
             accountsToUpdate.add(acc);
         }
-        if (!accountsToUpdate.isEmpty()) {
-            try {
+        try {
+            if (!accountsToUpdate.isEmpty()) {
                 update accountsToUpdate;
-                update docStorageToUpdate;
-            } catch (DmlException ex) {
-                System.debug('DMLException in processSFUpload ' + ex.getDmlMessage(0));
             }
+            if (!docStorageToUpdate.isEmpty()) {
+                update docStorageToUpdate;
+            }
+        } catch (DmlException ex) {
+            System.debug('DMLException in processSFUpload ' + ex.getDmlMessage(0));
         }
     }
+
+    public static void processFTPUpload(String documentId, String fileName, String docId) {
+        // Create document storage status associated to the file
+        Document_Storage__c docInfo = new Document_Storage__c();
+        docInfo.Document_Type__c = getFileIdentifier(documentId);
+        // docInfo.Work_Assignment__c = 'a3LS0000000h6NCMAY';
+        // docInfo.Document_URL__c = parsedResponse.docUrl;
+        docInfo.Document_Extension__c = 'csv';
+        docInfo.Document_Name__c = fileName;
+        docInfo.Document_Id__c = docId;
+        docInfo.File_Processing_Status__c = 'Pending';
+        docInfo.RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('CTB').getRecordTypeId();
+        try {
+            DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
+            insert docInfo;
+            DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+        } catch (DmlException ex) {
+            System.debug('DMLException in processSFUpload ' + ex.getDmlMessage(0));
+        }
+    }
+
+    public static String getFileIdentifier(String documentId) {
+        Document fileToProccess = [SELECT Id, Body FROM Document WHERE Id = :documentId];
+        String csvContents = fileToProccess.Body.toString();
+        String csvHeader = csvContents.split('\n', 2)[0];
+        System.debug(csvHeader);
+        List<String> headerData = csvHeader.split(',');
+        System.debug(headerData);
+        // Add DRN Identifier conditions to get file identifier
+        /* if (headerData[7] == '') {
+         } */
+        return 'Insolvency Daily Update';
+    }
 }
+// CTBFileUploadWebService.getFileIdentifier('015S0000001pmO8IAI');
