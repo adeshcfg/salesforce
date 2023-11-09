@@ -80,7 +80,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Balance_Owed__c</field>
+                <field>Customer_CID__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -111,7 +111,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Customer_CID__c</field>
+                <field>Balance_Owed__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
