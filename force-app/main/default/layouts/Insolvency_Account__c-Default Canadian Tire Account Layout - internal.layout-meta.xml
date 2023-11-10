@@ -686,6 +686,10 @@
                 <behavior>Edit</behavior>
                 <field>CTB_Update_File_Timestamp__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Additional_Info__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

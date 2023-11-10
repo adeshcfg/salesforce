@@ -18248,6 +18248,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.Additional_Info__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CTB_Staging__c.Debtor_1_First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18364,6 +18369,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>CTB_Staging__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CTB_Staging__c.Additional_Info__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CTB_Staging__c.Previous_Account_Reference__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
