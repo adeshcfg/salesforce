@@ -18383,6 +18383,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CTB_Staging__c.CTB_Update_Filename__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Payment__c.Payment_Posting_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
