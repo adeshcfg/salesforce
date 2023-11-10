@@ -29,6 +29,34 @@
         <value>https://c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003QzIP&oid=00Dj0000001ripe&lastMod=1693451831000</value>
     </labels>
     <labels>
+        <fullName>CTB_Insolvency_Account</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTB Insolvency Account</shortDescription>
+        <value>Insolvency Account</value>
+    </labels>
+    <labels>
+        <fullName>CTB_Payment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTB Payment</shortDescription>
+        <value>Payment</value>
+    </labels>
+    <labels>
+        <fullName>CTB_Processed_Payment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTB Processed Payment</shortDescription>
+        <value>Processed Payment</value>
+    </labels>
+    <labels>
+        <fullName>CTB_Statement</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTB Statement</shortDescription>
+        <value>Statement</value>
+    </labels>
+    <labels>
         <fullName>Duplicate_Account_ID_Validation_Error</fullName>
         <language>en_US</language>
         <protected>false</protected>
