@@ -19,15 +19,15 @@ public class TestJudgmentTrigger {
         config.Run_JudgmentTrigger__c = true;  
         insert config;
         
-        Judgment__C judg= new Judgment__C();
+        Judgment__C judg1= new Judgment__C();
         string recrdid=[SELECT id from RecordType where sobjecttype='Judgment__C' AND RecordType.Name='Judgment'].id;
-        judg.RecordTypeId=recrdid;
-        judg.Legal_Status__c='Post-Judgment';
-        judg.Legal_Sub_Status__c='Dormant';
-        judg.Legal_Agency__c = 'Test Agency';
-        insert judg;
-        judg.Legal_Sub_Status__c='Writ Filed';
-        Update judg;
+        judg1.RecordTypeId=recrdid;
+        judg1.Legal_Status__c='Post-Judgment';
+        judg1.Legal_Sub_Status__c='Dormant';
+        judg1.Legal_Agency__c = 'Test Agency';
+        insert judg1;
+        judg1.Legal_Sub_Status__c='Writ Filed';
+        Update judg1;
         
         
         
