@@ -163,7 +163,8 @@ public class AccountJudgmentTriggerHandler{
             if(!prodJudUpdatedToInactive.isEmpty())
             update prodJudUpdatedToInactive;
         }
-        JudgmentTriggerHandler.updateAgencyOnJudgment(judgList);
+        //Bug: 5564 - Commented below line
+        //JudgmentTriggerHandler.updateAgencyOnJudgment(judgList);
         //– fetch all active AccountJudgment records on the related product record. Update those record’s status to “Inactive” 
     } 
     
@@ -294,9 +295,11 @@ public class AccountJudgmentTriggerHandler{
         }
         system.debug('judgList==='+judgList);
         if(judgList.size() > 0){
+            //JudgmentTriggerHandler.runJudgmentTrigger = False;
             configSetting.Send_Notification__c = false;
             update judgList;
             configSetting.Send_Notification__c = true;
+            //JudgmentTriggerHandler.runJudgmentTrigger = True;
         }
     }
     

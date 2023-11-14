@@ -581,6 +581,8 @@ validationRules(listNewJudgments,mapOldJudgment);
     public static void handleAfterInsert(list<Judgment__c> judgment){
         system.debug('after insert');
         system.debug('after insert judgment' +judgment);
+        //Added below line part od Bug-5564
+        updateAgencyOnJudgment(judgment);
         for(Judgment__c judgRecord : judgment){
             Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
             config.Send_Notification__c = true;  
@@ -2310,5 +2312,102 @@ judg.addError('Suit amount is not equal all Product suit amount');
         JudgmentTriggerHandler.runJudgmentTrigger = False;
         update judgMap.values();
         JudgmentTriggerHandler.runJudgmentTrigger = True;
+    }
+    //Bug: 5564 - Nagendra added below method
+     //To Populate the Placement Ids on Judgment
+     public static void populateJudgmentWithPlacement(List<Judgment__C> prodJudgList){
+        
+        Map <Id, String> placementIDMap = new Map<Id, String>();
+        Set<ID> judgmentSet = new Set<ID>();
+        Set<ID> productSet = new Set<ID>();
+        Map<ID, Judgment__C> judgmentMap = new Map<ID, Judgment__C>();
+        Map<ID, Product__C> ProductMap = new Map<Id, Product__C>();
+        
+        for(Judgment__C prodJudg : prodJudgList){
+            judgmentSet.add(prodJudg.Judgment__C);
+            productSet.add(prodJudg.Product__c);
+        }
+        
+        //Fetch all related products
+        //List<Product__c> listProduct = [select id, Collection_Agency__C from Product__C where id in :productSet];
+        //Fetch all accounts judgments related to Judgments
+        List<Account_Judgment__c> listAccountJudgment = [select id, Judgment__C, Product__c from Account_Judgment__c where Judgment__C in :judgmentSet];
+        
+        for(Account_Judgment__c prodJudg : listAccountJudgment ){
+            judgmentSet.add(prodJudg.Judgment__C);
+            productSet.add(prodJudg.Product__c);
+        }
+        
+        List<Product__c> listProduct = [select id, Collection_Agency__C from Product__C where id in :productSet];
+        
+        for(Account_Judgment__c prodJudg : listAccountJudgment){
+           
+           for(Product__C prod : listProduct){
+               if(prod.id == prodJudg.Product__C){
+                   productMap.put(prodJudg.id, prod);
+               }
+           }
+        }
+        
+        //recalculate the Collection agency identifer for all related judgmets
+        Map<ID, String> judgmentUpdate = new Map<Id, String>();
+        Map<ID, String> judgmentExternalIdentifierUpdate = new Map<Id, String>();
+        String collectionAgencyidentifier = '';
+        String externalCollectionAgency = '';
+        for(Account_Judgment__c prodJudg : listAccountJudgment){
+            Product__c prod = productMap.get(prodJudg.id);
+            if(null == prod)
+                continue;
+            if(null == prod.Collection_Agency__C){
+                collectionAgencyidentifier = SEPARATOR + UNPLACED + SEPARATOR;
+            }else{
+                collectionAgencyidentifier = SEPARATOR + prod.Collection_Agency__C + SEPARATOR;
+                //populate External Collection Agency identifier
+                if(prod.Collection_Agency__C != 6 && prod.Collection_Agency__C != 68){
+                    externalCollectionAgency = SEPARATOR + prod.Collection_Agency__C + SEPARATOR;
+                }
+            }
+            
+            system.debug('externalCollectionAgency: '+externalCollectionAgency);
+            String IdentifierList = '';
+            //String ExternalIdentifierList = '';
+            IdentifierList = judgmentUpdate.get(prodJudg.Judgment__c);
+            //ExternalIdentifierList = judgmentExternalIdentifierUpdate.get(prodJudg.Judgment__c);
+            if(String.isBlank(IdentifierList)){
+                IdentifierList = collectionAgencyidentifier;
+                judgmentUpdate.put(prodJudg.Judgment__c, IdentifierList);
+            }else if((IdentifierList).contains(collectionAgencyidentifier)){
+                //Do Nothing
+            }else{
+                IdentifierList += collectionAgencyidentifier;
+                judgmentUpdate.put(prodJudg.Judgment__c, IdentifierList);
+            }
+            //system.debug('ExternalIdentifierList: '+ExternalIdentifierList);
+            if(String.isNotBlank(externalCollectionAgency)){
+                judgmentExternalIdentifierUpdate.put(prodJudg.Judgment__c, externalCollectionAgency);
+            }
+        }
+        
+        system.debug('judgmentExternalIdentifierUpdate: '+judgmentExternalIdentifierUpdate);
+        //Save the Judgments
+        List<Judgment__C> listJudgment = new List<Judgment__c>();
+        if(judgmentUpdate.size() > 0){
+            for(ID judgmentID : judgmentUpdate.keySet()){
+                Judgment__c judge = new Judgment__c();
+                
+                judge.Collection_Agency_Identifier__c = judgmentUpdate.get(judgmentID);
+                //populate External Collection Agency identifier
+                judge.External_Collection_Agency_Identifier__c = judgmentExternalIdentifierUpdate.get(judgmentID);
+                judge.id = judgmentID;
+                if(null != judge.id){
+                    listJudgment.add(judge);
+                }
+            }
+           JudgmentTriggerHandler.runJudgmentTrigger = false;
+          // configSetting.Send_Notification__c = false;
+           update listJudgment;
+          // configSetting.Send_Notification__c = true;
+            JudgmentTriggerHandler.runJudgmentTrigger = true;
+        }
     }    
 }
