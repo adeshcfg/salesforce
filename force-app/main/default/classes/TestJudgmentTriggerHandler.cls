@@ -227,7 +227,6 @@ public class TestJudgmentTriggerHandler {
         system.debug('mapNewJudgment test class' +mapNewJudgment);
         system.debug('mapOldJudgment test class' +mapOldJudgment);
 		        JudgmentTriggerHandler.populateJudgmentWithPlacement(judgList);
-                JudgmentTriggerHandler.updateAmountsOnJudgment(judgList);
                              JudgmentTriggerHandler.recalculateDisbursmentFees(new set<id>{prodInstance.Id});
         JudgmentTriggerHandler.updateProductLegalStatus(mapNewJudgment,mapOldJudgment);
         JudgmentTriggerHandler.updateProductStatusesOnJudgment(judgList1,listJudgmentStatuses);
