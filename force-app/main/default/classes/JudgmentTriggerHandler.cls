@@ -2412,5 +2412,83 @@ judg.addError('Suit amount is not equal all Product suit amount');
           // configSetting.Send_Notification__c = true;
             JudgmentTriggerHandler.runJudgmentTrigger = true;
         }
-    }    
+    }  
+    //Bug:5564 - Added below method
+    public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
+        Set<Id> judgmentIds = new Set<Id>();
+        for(Account_Judgment__c prodJudg: prodJudgList ){
+            system.debug('prodJudg.Judgment__c '+prodJudg.id);
+            if(prodJudg.id != NULL){
+              judgmentIds.add(prodJudg.id);
+            }
+        }
+        
+        Map<Id, String> judgmentIdCompanyNameMap = new  Map<Id, String>();
+        Map<Id, String> judgmentIdPurchaseEntityMap = new  Map<Id, String>();
+        for(Account_Judgment__c accJudgList : [SELECT Judgment__c, Product__r.Company_Name__c, Product__r.Account_Purchasing_Entity_Value__c FROM Account_Judgment__c WHERE  
+                                                 /*(Judgment__r.Company_Name__c  = NULL OR Judgment__r.Plaintiff__c = NULL)*/
+                                                /*Product__r.Company_Name__c != NULL
+                                              AND */ judgment__c IN: judgmentIds
+                                              ORDER BY Product__r.LastModifiedDate DESC]){
+            if(!judgmentIdCompanyNameMap.containsKey(accJudgList.Judgment__c) && accJudgList.Product__r.Company_Name__c != NULL)
+            judgmentIdCompanyNameMap.put(accJudgList.Judgment__c, accJudgList.Product__r.Company_Name__c);
+            
+            if(!judgmentIdPurchaseEntityMap.containsKey(accJudgList.Judgment__c) && accJudgList.Product__r.Account_Purchasing_Entity_Value__c != NULL)
+            judgmentIdPurchaseEntityMap.put(accJudgList.Judgment__c, accJudgList.Product__r.Account_Purchasing_Entity_Value__c);
+
+            
+                                                  
+                                                  system.debug(accJudgList.Judgment__c+'==='+accJudgList.Product__r.Company_Name__c);
+        }
+        
+        AggregateResult[] groupedResults  = [SELECT SUM(Product__r.Current_Principal_Balance__c)  currentPrincipalBalance, 
+                                                 SUM(Product__r.Current_Interest_Amount__c) currentInterestBalance,
+                                                 Judgment__c  
+                                              FROM 
+                                                 Account_Judgment__c
+                                               WHERE 
+                                                 Judgment__c IN: judgmentIds AND Status__c = 'Active'
+                                             GROUP BY 
+                                                 Judgment__c];
+        List<Judgment__c> judgList = new List<Judgment__c>();
+        List<Id> judgUpdate = new List<Id>();
+        system.debug('groupedResults'+groupedResults);
+        for(AggregateResult aggRes: groupedResults){
+            system.debug('groupedResults'+aggRes.get('Judgment__c'));
+            if((Id)aggRes.get('Judgment__c')!= NULL){
+                Judgment__c judg = new Judgment__c();
+                judg.Current_Principal_Balance__c = (Decimal)aggRes.get('currentPrincipalBalance');
+                judg.Current_Interest_Balance__c  = (Decimal)aggRes.get('currentInterestBalance');
+                judg.Id = (Id)aggRes.get('Judgment__c');
+
+                system.debug('judgmentIdCompanyNameMap.containsKey(judg.Id) '+judgmentIdCompanyNameMap.containsKey(judg.Id));
+                if(judgmentIdCompanyNameMap.containsKey(judg.Id)){
+                    judg.Company_Name__c = judgmentIdCompanyNameMap.get(judg.Id);
+                }
+                if(judgmentIdPurchaseEntityMap.containsKey(judg.Id)){
+                    judg.Plaintiff__c = judgmentIdPurchaseEntityMap.get(judg.Id);
+                }
+                judgUpdate.add(judg.Id);
+                judgList.add(judg);
+            }
+
+        }
+        judgmentIds.removeAll(judgUpdate);
+        
+        for(Id judgId: judgmentIds){
+            Judgment__c judg = new Judgment__c();
+            judg.Id = judgId;
+            judg.Current_Principal_Balance__c = null;
+            judg.Current_Interest_Balance__c = null;
+            judgList.add(judg);
+        }
+        system.debug('judgList==='+judgList);
+        if(judgList.size() > 0){
+            //JudgmentTriggerHandler.runJudgmentTrigger = False;
+            configSetting.Send_Notification__c = false;
+            update judgList;
+            configSetting.Send_Notification__c = true;
+            //JudgmentTriggerHandler.runJudgmentTrigger = True;
+        }
+    }  
 }
