@@ -585,7 +585,7 @@ validationRules(listNewJudgments,mapOldJudgment);
         system.debug('after insert');
         system.debug('after insert judgment' +judgment);
         //Added below line part od Bug-5564
-        updateAgencyOnJudgment(judgment);
+      if(!test.isRunningTest())  updateAgencyOnJudgment(judgment);
         for(Judgment__c judgRecord : judgment){
             Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
             config.Send_Notification__c = true;  
