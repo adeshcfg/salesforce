@@ -16,7 +16,10 @@ public class JudgmentTriggerHandler {
     public static map<String, Province_Tax_Rate_Mapping__mdt> mapTaxMetadata = Province_Tax_Rate_Mapping__mdt.getAll();
     public static map<String, Province_Tax_Rate_Mapping__mdt> mapProvinceAcronymTaxMetadata = new map<String, Province_Tax_Rate_Mapping__mdt>();
     public static boolean runJudgmentTrigger = true;
-    
+   //Bug: 5564 Changes Starts
+    public static string SEPARATOR = 'A';
+    public static string UNPLACED = 'unplaced';
+    //Bug: 5564 Changes Ends
     static{
         for(Placement__c place : [select id, Name, Agency_Name__c from Placement__c]){
             collectionAgency.put(place.Name, place.Id);
@@ -2324,8 +2327,8 @@ judg.addError('Suit amount is not equal all Product suit amount');
         Map<ID, Product__C> ProductMap = new Map<Id, Product__C>();
         
         for(Judgment__C prodJudg : prodJudgList){
-            judgmentSet.add(prodJudg.Judgment__C);
-            productSet.add(prodJudg.Product__c);
+            judgmentSet.add(prodJudg.ID);
+           // productSet.add(prodJudg.Product__c);
         }
         
         //Fetch all related products
