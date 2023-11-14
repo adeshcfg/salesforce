@@ -19,6 +19,7 @@ public class JudgmentTriggerHandler {
    //Bug: 5564 Changes Starts
     public static string SEPARATOR = 'A';
     public static string UNPLACED = 'unplaced';
+    public static Agency_Portal_Settings__c configSetting = Agency_Portal_Settings__c.getOrgDefaults();
     //Bug: 5564 Changes Ends
     static{
         for(Placement__c place : [select id, Name, Agency_Name__c from Placement__c]){
@@ -2416,7 +2417,7 @@ judg.addError('Suit amount is not equal all Product suit amount');
     //Bug:5564 - Added below method
     public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
         Set<Id> judgmentIds = new Set<Id>();
-        for(Account_Judgment__c prodJudg: prodJudgList ){
+        for(Judgment__c prodJudg: prodJudgList ){
             system.debug('prodJudg.Judgment__c '+prodJudg.id);
             if(prodJudg.id != NULL){
               judgmentIds.add(prodJudg.id);
