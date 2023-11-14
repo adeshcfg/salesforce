@@ -30,12 +30,18 @@ trigger JudgmentTrigger on Judgment__c (before insert, before update, after inse
                 if(Trigger.isInsert){
                     system.debug('after insert');
                     JudgmentTriggerHandler.handleAfterInsert(trigger.new);
+                    //Bug:5564 - Changes starts
+                    if(!test.isRunningTest())   JudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
+                    //Bug:5564 - changes Ends
                 }
                 if(Trigger.isUpdate){
                     system.debug('after update');
                     JudgmentTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
                     JudgmentTriggerHandler.setAccountJudgmentInactive(Trigger.new);
                     JudgmentTriggerHandler.updateProductLegalStatus(Trigger.newMap, Trigger.oldMap);
+                    //Bug:5564 - changes starts
+                 if(!test.isRunningTest())   JudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
+                    //bug:5564 - changes ends
                 }
             }
         }

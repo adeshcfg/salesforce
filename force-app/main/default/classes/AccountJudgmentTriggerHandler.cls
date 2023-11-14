@@ -163,7 +163,8 @@ public class AccountJudgmentTriggerHandler{
             if(!prodJudUpdatedToInactive.isEmpty())
             update prodJudUpdatedToInactive;
         }
-        JudgmentTriggerHandler.updateAgencyOnJudgment(judgList);
+        //Bug: 5564 - Commented below line
+        //JudgmentTriggerHandler.updateAgencyOnJudgment(judgList);
         //– fetch all active AccountJudgment records on the related product record. Update those record’s status to “Inactive” 
     } 
     
@@ -223,7 +224,8 @@ public class AccountJudgmentTriggerHandler{
             configSetting.Send_Notification__c = TRUE;
         }
     }
-    
+        //Bug: 5564 Commented below method
+
     public static void updateAmountsOnJudgment(List<Account_Judgment__c> prodJudgList){
         Set<Id> judgmentIds = new Set<Id>();
         for(Account_Judgment__c prodJudg: prodJudgList ){
@@ -294,14 +296,17 @@ public class AccountJudgmentTriggerHandler{
         }
         system.debug('judgList==='+judgList);
         if(judgList.size() > 0){
+            //JudgmentTriggerHandler.runJudgmentTrigger = False;
             configSetting.Send_Notification__c = false;
             update judgList;
             configSetting.Send_Notification__c = true;
+            //JudgmentTriggerHandler.runJudgmentTrigger = True;
         }
     }
     
+    //Bug: 5564 Commented below method
     //To Populate the Placement Ids on Judgment
-    public static void populateJudgmentWithPlacement(List<Account_Judgment__c> prodJudgList){
+  /*  public static void populateJudgmentWithPlacement(List<Account_Judgment__c> prodJudgList){
         
         Map <Id, String> placementIDMap = new Map<Id, String>();
         Set<ID> judgmentSet = new Set<ID>();
@@ -396,7 +401,7 @@ public class AccountJudgmentTriggerHandler{
             JudgmentTriggerHandler.runJudgmentTrigger = true;
         }
     }
-    
+    */
     //When we create judgment on product then we are populating product1,2,3,4,5 on judgment
     public static void populateProductNameOnJudgment(list<Account_Judgment__c> listAccJudgment){
         system.debug('populateProductNameOnJudgment');

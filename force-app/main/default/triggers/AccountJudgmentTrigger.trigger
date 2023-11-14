@@ -11,7 +11,8 @@ trigger AccountJudgmentTrigger on Account_Judgment__c (after insert, after updat
                     Utilities.runAccountJudgmentTrigger = FALSE;
                     AccountJudgmentTriggerHandler.updateActiveAccountJudgmentRecord(Trigger.new);
                     AccountJudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
-                    AccountJudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
+                   //Bug:5564- Commented below line
+                    // AccountJudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
                 }
                 
                 if(Trigger.isUpdate && Utilities.runAccountJudgmentTrigger){
@@ -20,7 +21,8 @@ trigger AccountJudgmentTrigger on Account_Judgment__c (after insert, after updat
                     AccountJudgmentTriggerHandler.updateActiveAccountJudgmentRecord(Trigger.newMap, Trigger.oldMap);
                     AccountJudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
                     //AccountJudgmentTriggerHandler.updateActiveAccountJudgmentRecord(Trigger.new);
-                    AccountJudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
+                    //Bug:5564- Commented below line
+                    //AccountJudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
                 }
             }    
         }
