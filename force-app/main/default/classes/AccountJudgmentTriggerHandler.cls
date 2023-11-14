@@ -302,9 +302,9 @@ public class AccountJudgmentTriggerHandler{
             //JudgmentTriggerHandler.runJudgmentTrigger = True;
         }
     }
-    
+    //Bug: 5564 Commented below method
     //To Populate the Placement Ids on Judgment
-    public static void populateJudgmentWithPlacement(List<Account_Judgment__c> prodJudgList){
+  /*  public static void populateJudgmentWithPlacement(List<Account_Judgment__c> prodJudgList){
         
         Map <Id, String> placementIDMap = new Map<Id, String>();
         Set<ID> judgmentSet = new Set<ID>();
@@ -399,7 +399,7 @@ public class AccountJudgmentTriggerHandler{
             JudgmentTriggerHandler.runJudgmentTrigger = true;
         }
     }
-    
+    */
     //When we create judgment on product then we are populating product1,2,3,4,5 on judgment
     public static void populateProductNameOnJudgment(list<Account_Judgment__c> listAccJudgment){
         system.debug('populateProductNameOnJudgment');
