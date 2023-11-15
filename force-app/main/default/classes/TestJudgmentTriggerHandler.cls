@@ -54,7 +54,7 @@ public class TestJudgmentTriggerHandler {
         insert plcgy1;
                 
         Product__c prodInstance = new Product__c();
-        prodInstance.Name = 'TestName';
+        prodInstance.Name = 'Testing';
         prodInstance.Funding_Status__c = 'Funded';
         prodInstance.Funding_Type__c = 'Automated';
         prodInstance.Disbursement_Amount__c = 3000.00;
