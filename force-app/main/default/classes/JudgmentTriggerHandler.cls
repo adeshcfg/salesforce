@@ -106,17 +106,21 @@ public class JudgmentTriggerHandler {
             if(judgment.Product_1__c != NULL){
                 prodNames.add(judgment.Product_1__c);
             }
-            if(judgment.Product_2__c != NULL){
+            else if(judgment.Product_2__c != NULL){
                 prodNames.add(judgment.Product_2__c);
             }
-            if(judgment.Product_3__c != NULL){
+            else if(judgment.Product_3__c != NULL){
                 prodNames.add(judgment.Product_3__c);
             }
-            if(judgment.Product_4__c != NULL){
+            else if(judgment.Product_4__c != NULL){
                 prodNames.add(judgment.Product_4__c);
             }
-            if(judgment.Product_5__c != NULL){
+            else if(judgment.Product_5__c != NULL){
                 prodNames.add(judgment.Product_5__c);
+            }
+            if(prodNames.size()==0){
+                judgment.addError('There should be atleast one product on Judgment');
+                return;
             }       
     }
         system.debug('updateAgencyOnJudgment JudId'+JudId);
