@@ -2445,7 +2445,7 @@ for(product__c p:prodList){
 for(Judgment__c judgment : listNewJudgments){
 for(decimal pAgency:prodAgency2){
     for(decimal ProductAgency:prodAgency3){
-    system.debug('Product Name :'+pName);
+    system.debug('Product Name :'+pAgency);
 if(ProductAgency <> pAgency){
     system.debug('Before Update validation error');
     judgment.addError('All Products in the Judgment should be in same agency.');
