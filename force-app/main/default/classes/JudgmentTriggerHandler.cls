@@ -2435,15 +2435,21 @@ judg.addError('Suit amount is not equal all Product suit amount');
     }
     if(prodNames.size()>1){
         system.debug('Before Update multiple products');
+        list<decimal> prodAgency2=new list<decimal>();
+        list<decimal> prodAgency3=new list<decimal>();
 list<Product__c> prodList=[select id,Collection_Agency__c from product__c where name IN: (prodNames)];
+for(product__c p:prodList){
+    prodAgency2.add(p.Collection_Agency__C);
+    prodAgency3.add(p.Collection_Agency__C);
+}
 for(Judgment__c judgment : listNewJudgments){
-for(integer i=0;i<prodList.size();i++){
-    integer j=i++;
-    system.debug('Product Name :'+prodList[i].Collection_Agency__c);
-    system.debug('Product Name :'+prodList[j].Collection_Agency__c);
-if(prodList[i].Collection_Agency__c!=prodList[j].Collection_Agency__c){
+for(decimal pAgency:prodAgency2){
+    for(decimal ProductAgency:prodAgency3){
+    system.debug('Product Name :'+pAgency);
+if(ProductAgency <> pAgency){
     system.debug('Before Update validation error');
     judgment.addError('All Products in the Judgment should be in same agency.');
+}
 }
 }
 
