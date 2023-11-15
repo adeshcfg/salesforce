@@ -2421,20 +2421,16 @@ judg.addError('Suit amount is not equal all Product suit amount');
       
         for(Judgment__c judgment : listNewJudgments){
             system.debug('Before Update for loop');
-            if(judgment.Product_1__c <> mapOldJudgments.get(judgment.id).Product_1__c && judgment.Product_1__c != NULL){
-                prodNames.add(judgment.Product_1__c);
-            }
-            if(judgment.Product_2__c <> mapOldJudgments.get(judgment.id).Product_2__c && judgment.Product_2__c != NULL){
-                prodNames.add(judgment.Product_2__c);
-            }
-            if(judgment.Product_3__c <> mapOldJudgments.get(judgment.id).Product_3__c && judgment.Product_3__c != NULL){
-                prodNames.add(judgment.Product_3__c);
-            }
-            if(judgment.Product_4__c <> mapOldJudgments.get(judgment.id).Product_4__c && judgment.Product_4__c != NULL){
-                prodNames.add(judgment.Product_4__c);
-            }
-            if(judgment.Product_5__c <> mapOldJudgments.get(judgment.id).Product_5__c && judgment.Product_5__c != NULL){
-                prodNames.add(judgment.Product_5__c);
+            if(judgment.Product_1__c <> mapOldJudgments.get(judgment.id).Product_1__c ||
+            judgment.Product_2__c <> mapOldJudgments.get(judgment.id).Product_2__c || 
+            judgment.Product_3__c <> mapOldJudgments.get(judgment.id).Product_3__c ||
+            judgment.Product_4__c <> mapOldJudgments.get(judgment.id).Product_4__c ||
+            judgment.Product_5__c <> mapOldJudgments.get(judgment.id).Product_5__c){
+            if(judgment.Product_1__c != NULL) prodNames.add(judgment.Product_1__c);
+            if(judgment.Product_2__c != NULL) prodNames.add(judgment.Product_2__c);
+            if(judgment.Product_3__c != NULL) prodNames.add(judgment.Product_3__c);
+            if(judgment.Product_4__c != NULL) prodNames.add(judgment.Product_4__c);
+            if(judgment.Product_5__c != NULL) prodNames.add(judgment.Product_5__c);          
             }       
     }
     if(prodNames.size()>1){
