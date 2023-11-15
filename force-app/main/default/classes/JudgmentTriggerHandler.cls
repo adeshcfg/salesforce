@@ -102,7 +102,7 @@ public class JudgmentTriggerHandler {
         list<string> prodNames=new list<string>();
         for(Judgment__c judgment : listNewJudgments){
             system.debug('Before Insert for loop');
-            JudId.add(judgmentData.id);
+            JudId.add(judgment.id);
             if(judgment.Product_1__c != NULL){
                 prodNames.add(judgment.Product_1__c);
             }
