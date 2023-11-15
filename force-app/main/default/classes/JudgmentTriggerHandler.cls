@@ -2449,4 +2449,39 @@ judgment.addError('All Products in the Judgment should be in same agency.');
     }
 }
         //Bug: 5476 changes ends
+        //Bug: 5476 changes starts
+    public static void validationRuleonProductAgencies(list<Judgment__c> listNewJudgments){
+        set<String> prodNames = new set<String>();
+      
+        for(Judgment__c judgment : listNewJudgments){
+           if(judgment.Product_1__c != NULL){
+                prodNames.add(judgment.Product_1__c);
+            }
+            if(judgment.Product_2__c != NULL){
+                prodNames.add(judgment.Product_2__c);
+            }
+            if(judgment.Product_3__c != NULL){
+                prodNames.add(judgment.Product_3__c);
+            }
+            if(judgment.Product_4__c != NULL){
+                prodNames.add(judgment.Product_4__c);
+            }
+            if(judgment.Product_5__c != NULL){
+                prodNames.add(judgment.Product_5__c);
+            }       
+    }
+    if(prodNames.size()>1){
+list<Product__c> prodList=[select id,Collection_Agency__c from product__c where name IN: (prodNames)];
+for(Judgment__c judgment : listNewJudgments){
+for(integer i=0;i<prodList.size();i++){
+    integer j=i++;
+if(prodList[i].Collection_Agency__c!=prodList[j].Collection_Agency__c){
+judgment.addError('All Products in the Judgment should be in same agency.');
+}
+}
+
+}
+    }
+}
+        //Bug: 5476 changes ends
 }
