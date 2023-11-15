@@ -97,19 +97,32 @@ public class JudgmentTriggerHandler {
     }
     //Bug: 5564 - Updated the below method to remove reference of AccountJudgment records
     public static void updateAgencyOnJudgment(list<Judgment__c> listNewJudgments){
-         map<ID, ID> mapActiveAccountJudgments = new map<ID, ID>();
-         Set<ID> mapProdId =new Set<ID>();
         List<ID> JudId = new List<ID>(); 
         system.debug('updateAgencyOnJudgment listNewJudgments'+listNewJudgments);
-        for(Judgment__c judgmentData:listNewJudgments){
+        list<string> prodNames=new list<string>();
+        for(Judgment__c judgment : listNewJudgments){
+            system.debug('Before Insert for loop');
             JudId.add(judgmentData.id);
-            mapProdId.add(judgmentData.Product_1__c);  
-        }
+            if(judgment.Product_1__c != NULL){
+                prodNames.add(judgment.Product_1__c);
+            }
+            if(judgment.Product_2__c != NULL){
+                prodNames.add(judgment.Product_2__c);
+            }
+            if(judgment.Product_3__c != NULL){
+                prodNames.add(judgment.Product_3__c);
+            }
+            if(judgment.Product_4__c != NULL){
+                prodNames.add(judgment.Product_4__c);
+            }
+            if(judgment.Product_5__c != NULL){
+                prodNames.add(judgment.Product_5__c);
+            }       
+    }
         system.debug('updateAgencyOnJudgment JudId'+JudId);
-           system.debug('mapProdId***'+mapProdId);
         Product__c prod = [SELECT ID,Name, Collection_Agency__c,Collection_Agency_Placement__c ,State__c,
                                Status__c,Sub_Status__c,Account_Purchasing_Entity_Value__c
-                               FROM Product__c WHERE ID = :mapProdId LIMIT 1]; 
+                               FROM Product__c WHERE Name IN :prodNames LIMIT 1]; 
         
         JudgmentTriggerHandler.runJudgmentTrigger = False;
         //Populate Agency from Product to Judgment.
@@ -2397,7 +2410,7 @@ judg.addError('Suit amount is not equal all Product suit amount');
             JudgmentTriggerHandler.runJudgmentTrigger = true;
         }
     }  
-    //Bug: 5476 changes starts
+  /*  //Bug: 5476 changes starts
     public static void validationRuleonProductAgencies(list<Judgment__c> listNewJudgments, Map<Id, Judgment__c> mapOldJudgments){
       system.debug('Before Update');
         set<String> prodNames = new set<String>();
@@ -2480,4 +2493,5 @@ judgment.addError('All Products in the Judgment should be in same agency.');
     }
 }
         //Bug: 5476 changes ends
+        */
 }
