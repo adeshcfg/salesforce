@@ -2416,10 +2416,12 @@ judg.addError('Suit amount is not equal all Product suit amount');
     }  
     //Bug: 5476 changes starts
     public static void validationRuleonProductAgencies(list<Judgment__c> listNewJudgments, Map<Id, Judgment__c> mapOldJudgments){
+      system.debug('Before Update');
         set<String> prodNames = new set<String>();
       
         for(Judgment__c judgment : listNewJudgments){
-           if(judgment.Product_1__c <> mapOldJudgments.get(judgment.id).Product_1__c && judgment.Product_1__c != NULL){
+            system.debug('Before Update for loop');
+            if(judgment.Product_1__c <> mapOldJudgments.get(judgment.id).Product_1__c && judgment.Product_1__c != NULL){
                 prodNames.add(judgment.Product_1__c);
             }
             if(judgment.Product_2__c <> mapOldJudgments.get(judgment.id).Product_2__c && judgment.Product_2__c != NULL){
@@ -2436,12 +2438,16 @@ judg.addError('Suit amount is not equal all Product suit amount');
             }       
     }
     if(prodNames.size()>1){
+        system.debug('Before Update multiple products');
 list<Product__c> prodList=[select id,Collection_Agency__c from product__c where name IN: (prodNames)];
 for(Judgment__c judgment : listNewJudgments){
 for(integer i=0;i<prodList.size();i++){
     integer j=i++;
+    system.debug('Product Name :'+prodList[i].Collection_Agency__c);
+    system.debug('Product Name :'+prodList[j].Collection_Agency__c);
 if(prodList[i].Collection_Agency__c!=prodList[j].Collection_Agency__c){
-judgment.addError('All Products in the Judgment should be in same agency.');
+    system.debug('Before Update validation error');
+    judgment.addError('All Products in the Judgment should be in same agency.');
 }
 }
 
@@ -2452,9 +2458,10 @@ judgment.addError('All Products in the Judgment should be in same agency.');
         //Bug: 5476 changes starts
     public static void validationRuleonProductAgencies(list<Judgment__c> listNewJudgments){
         set<String> prodNames = new set<String>();
-      
+        system.debug('Before Insert');
         for(Judgment__c judgment : listNewJudgments){
-           if(judgment.Product_1__c != NULL){
+            system.debug('Before Insert for loop');
+            if(judgment.Product_1__c != NULL){
                 prodNames.add(judgment.Product_1__c);
             }
             if(judgment.Product_2__c != NULL){
@@ -2471,11 +2478,15 @@ judgment.addError('All Products in the Judgment should be in same agency.');
             }       
     }
     if(prodNames.size()>1){
+        system.debug('Before Insert multiple products');
 list<Product__c> prodList=[select id,Collection_Agency__c from product__c where name IN: (prodNames)];
 for(Judgment__c judgment : listNewJudgments){
 for(integer i=0;i<prodList.size();i++){
     integer j=i++;
+    system.debug('Product Name :'+prodList[i].Collection_Agency__c);
+    system.debug('Product Name :'+prodList[j].Collection_Agency__c);
 if(prodList[i].Collection_Agency__c!=prodList[j].Collection_Agency__c){
+    system.debug('Before Insert Error');
 judgment.addError('All Products in the Judgment should be in same agency.');
 }
 }
