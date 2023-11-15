@@ -95,7 +95,7 @@ public class JudgmentTriggerHandler {
                 //Added below line part od Bug-5564
       if(!test.isRunningTest())  updateAgencyOnJudgment(judgment);
     }
-    
+    //Bug: 5564 - Updated the below method to remove reference of AccountJudgment records
     public static void updateAgencyOnJudgment(list<Judgment__c> listNewJudgments){
          map<ID, ID> mapActiveAccountJudgments = new map<ID, ID>();
          Set<ID> mapProdId =new Set<ID>();
