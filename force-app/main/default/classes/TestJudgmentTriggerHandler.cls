@@ -54,7 +54,7 @@ public class TestJudgmentTriggerHandler {
         insert plcgy1;
                 
         Product__c prodInstance = new Product__c();
-        prodInstance.Name = 'TestName';
+        prodInstance.Name = 'Testing';
         prodInstance.Funding_Status__c = 'Funded';
         prodInstance.Funding_Type__c = 'Automated';
         prodInstance.Disbursement_Amount__c = 3000.00;
@@ -163,6 +163,7 @@ public class TestJudgmentTriggerHandler {
         judgList.add(judgmetInstance);
         Test.startTest();
         JudgmentTriggerHandler.handleBeforeInsert(judgList);
+        JudgmentTriggerHandler.validationRuleonProductAgencies(judgList);
          Test.stopTest(); 
         Judgment__C judInstance = new Judgment__C();
         judInstance.Legal_Status__c='Judgment';
@@ -231,7 +232,7 @@ public class TestJudgmentTriggerHandler {
         JudgmentTriggerHandler.updateProductLegalStatus(mapNewJudgment,mapOldJudgment);
         JudgmentTriggerHandler.updateProductStatusesOnJudgment(judgList1,listJudgmentStatuses);
         JudgmentTriggerHandler.handleBeforeUpdate(judgList1,mapOldJudgment);
-     
+        JudgmentTriggerHandler.validationRuleonProductAgencies(judgList1,mapOldJudgment);     
         judInstance.Superior_Court__c = supCourt.Id;
         judInstance.Small_Claims_Court__c = smCourt.Id;
         judInstance.Enforcement_County__c = enCourt.Id;

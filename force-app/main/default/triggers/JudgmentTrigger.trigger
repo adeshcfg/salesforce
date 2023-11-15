@@ -18,10 +18,14 @@ trigger JudgmentTrigger on Judgment__c (before insert, before update, after inse
                 if(Trigger.isInsert){
                     system.debug('after insert');
                     JudgmentTriggerHandler.handleBeforeInsert(trigger.new);
+                        //Added below line part of bug: #5476
+                        JudgmentTriggerHandler.validationRuleonProductAgencies(trigger.new);
                 }
                 if(Trigger.isUpdate){
                     system.debug('before update');
                     JudgmentTriggerHandler.handleBeforeUpdate(trigger.new, trigger.oldMap);
+                   //Added below line part of bug: #5476
+                    JudgmentTriggerHandler.validationRuleonProductAgencies(trigger.new, trigger.oldMap);
                 }
                 
             }
