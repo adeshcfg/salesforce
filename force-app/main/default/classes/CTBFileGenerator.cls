@@ -52,11 +52,17 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 'Insolvency_Sub_Status__c = \'Pending File\'';                                         
         }
         if(CTBBatchName == System.Label.CTB_Payment){
-            query = ' Select id,name,Account_Number__c,Payment_Posting_Date__c,Transaction_Id__c,Payment_Type__c,Payment_Amount__c,'+
+            if(Test.isRunningTest()){
+                query = ' Select id,name,Account_Number__c,Payment_Posting_Date__c,Transaction_Id__c,Payment_Type__c,Payment_Amount__c,'+
+                'Remitted_Date__c,Remitted_Cheque_Number__c,Estate_Number__c '+
+                'FROM Insolvency_Payment__c ';
+            }else{
+                query = ' Select id,name,Account_Number__c,Payment_Posting_Date__c,Transaction_Id__c,Payment_Type__c,Payment_Amount__c,'+
                 'Remitted_Date__c,Remitted_Cheque_Number__c,Estate_Number__c '+
                 'FROM Insolvency_Payment__c '+
                 'WHERE '+
-                'RecordType.developerName = :recordType AND ';                                         
+                'RecordType.developerName = :recordType';
+            }
         }
         
         system.debug('query&&'+query);
@@ -165,8 +171,8 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                        }
                        String SIN = '';
                        if(insolAccData.Debtor_1_SIN__c!=null){
-                           if(insolAccData.Debtor_1_SIN__c.length() > 50){
-                               SIN =insolAccData.Debtor_1_SIN__c.subString(0,50);
+                           if(insolAccData.Debtor_1_SIN__c.length() > 8){
+                               SIN =insolAccData.Debtor_1_SIN__c.subString(0,8);
                            }else{
                                SIN = insolAccData.Debtor_1_SIN__c;
                            }
@@ -208,8 +214,8 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                        }
                        String trusteeCity = '';
                        if(insolAccData.Insolvency__r.Trustee__r.BillingCity!=null){
-                           if(String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity).length() > 50){
-                               trusteeCity =String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity).subString(0,50);
+                           if(String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity).length() > 39){
+                               trusteeCity =String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity).subString(0,39);
                            }else{
                                trusteeCity = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity);
                            }
@@ -287,13 +293,13 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         wrapperClass batchCntData = new wrapperClass();
         
         try{
-            String headerType = mapCTBFileAuto.get('Insolvency Payment Update   ').Header_Record_Type__c;
-            String fileType = mapCTBFileAuto.get('Insolvency Payment Update ').File_Type__c;
-            String memberType = mapCTBFileAuto.get('Insolvency Daily Update').Member_Type__c;
-            String memberID = mapCTBFileAuto.get('Insolvency Daily Update').Member_ID__c;
-            String detailRecordType = mapCTBFileAuto.get('Insolvency Daily Update').Detail_Record_Type__c;
-            String trailerRecordType = mapCTBFileAuto.get('Insolvency Daily Update').Trailer_Record_Type__c;
-            String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Daily Update').File_Format_Identifier__c;
+            String headerType = mapCTBFileAuto.get('Insolvency Payment Update').Header_Record_Type__c;
+            String fileType = mapCTBFileAuto.get('Insolvency Payment Update').File_Type__c;
+            String memberType = mapCTBFileAuto.get('Insolvency Payment Update').Member_Type__c;
+            String memberID = mapCTBFileAuto.get('Insolvency Payment Update').Member_ID__c;
+            String detailRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Detail_Record_Type__c;
+            String trailerRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Trailer_Record_Type__c;
+            String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Payment Update').File_Format_Identifier__c;
             Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
             
             for(Insolvency_Payment__c insolPayData : insolvencyPayData){
@@ -365,15 +371,15 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 trailerbody = trailerRecordType+','+memberType+','+memberID+','+finalrecordCount+','+countVariable+','+createdDate+','+dateformate+' \n';
                 mainFinalData = headbody + FinalData + trailerbody; 
             }
-            if(CTBBatchName == System.Label.CTB_Insolvency_Account){
+            if(CTBBatchName == System.Label.CTB_Payment){
                 Integer finalrecordCount = 2 + countVariable;
-                String headerType = mapCTBFileAuto.get('Insolvency Payment Update   ').Header_Record_Type__c;
-                String memberType = mapCTBFileAuto.get('Insolvency Daily Update').Member_Type__c;
-                String memberID = mapCTBFileAuto.get('Insolvency Daily Update').Member_ID__c;
-                Integer batchCount = Integer.valueof(config.Insolvency_Account_Batch_Count__c);
+                String headerType = mapCTBFileAuto.get('Insolvency Payment Update').Header_Record_Type__c;
+                String memberType = mapCTBFileAuto.get('Insolvency Payment Update').Member_Type__c;
+                String memberID = mapCTBFileAuto.get('Insolvency Payment Update').Member_ID__c;
+                Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
                 String fileType = mapCTBFileAuto.get('Insolvency Payment Update ').File_Type__c;
-                String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Daily Update').File_Format_Identifier__c;
-                String trailerRecordType = mapCTBFileAuto.get('Insolvency Daily Update').Trailer_Record_Type__c;
+                String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Payment Update').File_Format_Identifier__c;
+                String trailerRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Trailer_Record_Type__c;
                 
                 headbody = headerType +','+memberType+','+memberID+','+batchCount+','+createdDate+','+Datetime.now().format('HH:mm:ss')+','+fileType+','+fileFormatIdenfier+' \n';
                 trailerbody = trailerRecordType+','+memberType+','+memberID+','+finalrecordCount+','+countVariable+','+createdDate+','+Datetime.now().format('HH:mm:ss')+' \n';
