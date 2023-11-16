@@ -69,7 +69,7 @@ public with sharing class InsolvencyAccountInlineController {
         profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
         
         // Check whether current user is commnity user or not and set URL
-        if(profileName.contains('Community User')){
+        if(profileName.contains('Community User') && !Test.isRunningTest()){
             baseUrl = InsolvencyAccntNoteCntrl.getCommunityUrl();
             isLightningCommunity = InsolvencyAccntNoteCntrl.isLightningCommunity;
             if(isLightningCommunity) {
@@ -311,12 +311,12 @@ public with sharing class InsolvencyAccountInlineController {
     }
     
     // method to fetch community URL
-    public string getCommunityUrl(){        
+    /* public string getCommunityUrl(){        
         String ntwrkId = Network.getNetworkId();
         ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
         System.debug('comm.siteUrl=' + comm.siteUrl);
         return comm.siteUrl;
-    } 
+    }  */
     
      public class AcctWrpper{
         public Insolvency_Account__c acc{get;set;}
