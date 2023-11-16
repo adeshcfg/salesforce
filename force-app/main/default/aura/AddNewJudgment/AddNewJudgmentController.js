@@ -152,6 +152,23 @@
 		var createNew = component.get("v.createNewJudgment");
         if(createNew){
             component.set("v.selectedRecord", ""); 
+            //bug:5476 changes starts
+            var prodId = component.get("v.recordId");
+            component.set("v.prodId", prodId);
+            var action = component.get("c.getProductName");
+            action.setParams({
+                'prodId' : prodId
+            });
+            action.setCallback(this, function(response) {
+                var state = response.getState();
+                //console.log('response::',response.getReturnValue());
+                if (state === "SUCCESS") {
+                    component.set("v.productName", response.getReturnValue());
+                    console.log();
+                }
+            });
+            $A.enqueueAction(action);
+            //bug:5476 changes ends
         }
     },
     doInit: function(component, event, helper){
