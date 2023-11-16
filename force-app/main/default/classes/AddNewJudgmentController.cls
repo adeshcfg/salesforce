@@ -6,6 +6,13 @@ public class AddNewJudgmentController {
             mapProvinceAcronymTaxMetadata.put(taxMetadata.Province_Acronym__c, taxMetadata);
         }
     }
+//bug:5476 changes starts
+    @AuraEnabled
+    public static string getProductName(Id prodId){
+product__c prod=[select id,name from product__c where ID=:prodId];
+return prod.name;
+    }
+    //bug:5476 changes ends
     @AuraEnabled
     public static void linkRecords(Id prodId, Id judgId){
         Account_Judgment__c prodJudg = new Account_Judgment__c();
