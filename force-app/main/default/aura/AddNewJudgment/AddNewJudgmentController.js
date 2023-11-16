@@ -151,20 +151,23 @@
     isNewJudgment:function(component, event, helper){
 		var createNew = component.get("v.createNewJudgment");
         if(createNew){
+            console.log('create new checkbox checked');
             component.set("v.selectedRecord", ""); 
             //bug:5476 changes starts
             var prodId = component.get("v.recordId");
             component.set("v.prodId", prodId);
             var action = component.get("c.getProductName");
+            console.log('calling apex method');
             action.setParams({
                 'prodId' : prodId
             });
             action.setCallback(this, function(response) {
+                console.log('set call back');
                 var state = response.getState();
                 //console.log('response::',response.getReturnValue());
                 if (state === "SUCCESS") {
                     component.set("v.productName", response.getReturnValue());
-                    console.log();
+                    console.log('success');
                 }
             });
             $A.enqueueAction(action);
