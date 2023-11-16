@@ -23,6 +23,7 @@ public with sharing class InsolvencyAccountInlineController {
     public boolean isViewPage{get;set;}
     public string insolAccountId{get; set;}
     public boolean isLightningCommunity{get;set;}
+    public String urlPathPrefix{get;set;}
     public boolean runDuplicateCheckForProfile = false;
     public boolean runDuplicateCheckForBank = false;
     
@@ -68,9 +69,12 @@ public with sharing class InsolvencyAccountInlineController {
         profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
         
         // Check whether current user is commnity user or not and set URL
-        if(profileName.contains('Community User')){
+        if(profileName.contains('Community User') && !Test.isRunningTest()){
             baseUrl = InsolvencyAccntNoteCntrl.getCommunityUrl();
             isLightningCommunity = InsolvencyAccntNoteCntrl.isLightningCommunity;
+            if(isLightningCommunity) {
+                urlPathPrefix = InsolvencyAccntNoteCntrl.isProduction ? '/s' : '/' + InsolvencyAccntNoteCntrl.urlPathPrefix + '/s';
+            }
         }
         else{
             baseUrl = URL.getSalesforceBaseUrl().toExternalForm();
@@ -307,12 +311,12 @@ public with sharing class InsolvencyAccountInlineController {
     }
     
     // method to fetch community URL
-    public string getCommunityUrl(){        
+    /* public string getCommunityUrl(){        
         String ntwrkId = Network.getNetworkId();
         ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
         System.debug('comm.siteUrl=' + comm.siteUrl);
         return comm.siteUrl;
-    } 
+    }  */
     
      public class AcctWrpper{
         public Insolvency_Account__c acc{get;set;}

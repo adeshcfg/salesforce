@@ -14,7 +14,7 @@
         <apex:messages />
             <apex:pageBlockButtons rendered="{!!isCommunityReadOnly}">
                 <apex:commandButton style="margin-left:0%;" value="{!$Label.InsolvencyAccountInline_New_Insolvency_Account}" id="NewInsolAcc" onclick="window.top.location='{!newInsolAccLink}'; return false" reRender="form" rendered="{!!isLightningCommunity}"/>
-                <apex:commandButton style="margin-left:0%;" value="{!$Label.InsolvencyAccountInline_New_Insolvency_Account}" id="NewInsolAccGoeasy" onclick="window.open('/s/record-create?InsolvencyId={!Insolvency__c.id}', '_blank');" reRender="form" rendered="{!isLightningCommunity}"/>
+                <apex:commandButton style="margin-left:0%;" value="{!$Label.InsolvencyAccountInline_New_Insolvency_Account}" id="NewInsolAccGoeasy" onclick="window.open('{!urlPathPrefix}/record-create?InsolvencyId={!Insolvency__c.id}', '_blank');" reRender="form" rendered="{!isLightningCommunity}"/>
                                                                                                                                                                                                                                                                                   
                 <apex:commandButton id="saveButton" value="{!$Label.Button_Save}" action="{!save}" style="display: none;" onclick="validate();">
                 <apex:commandButton value="{!$Label.InsolvencyAccountInline_View}" onclick="newPage();" rendered="{!!isViewPage}" reRender="form"/>
