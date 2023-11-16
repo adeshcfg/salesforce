@@ -43,7 +43,7 @@
                 <field>Duplicate_Reasons_Picklist__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Claim_Type__c</field>
             </layoutItems>
             <layoutItems>
