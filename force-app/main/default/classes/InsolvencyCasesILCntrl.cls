@@ -104,7 +104,8 @@ public with sharing class InsolvencyCasesILCntrl{
     }
     
     public String createCaseLink(String BaseUrl, String insolvencyID, String insolvencyName){       
-        pageReference pgRef = new pageReference(BaseUrl + '/500/e?' + config.Insolvency_Case_Field_ID__c + '=' + insolvencyName + '&' + config.Insolvency_Case_Field_ID__c + '_lkid=' + insolvencyID + '&retURL=' + insolvencyID);
+        String insolvencyRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('Insolvency_Case').getRecordTypeId();
+        pageReference pgRef = new pageReference(BaseUrl + '/500/e?' + config.Insolvency_Case_Field_ID__c + '=' + insolvencyName + '&' + config.Insolvency_Case_Field_ID__c + '_lkid=' + insolvencyID + '&RecordType=' + insolvencyRecordTypeId + '&retURL=' + insolvencyID);
         pgRef.setRedirect(true);
         return pgRef.getUrl();
     }
