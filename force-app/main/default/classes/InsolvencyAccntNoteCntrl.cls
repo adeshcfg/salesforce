@@ -15,6 +15,8 @@ public class InsolvencyAccntNoteCntrl{
     public boolean communityUser{get;set;}
     public Boolean isCommunityReadOnlyUser {set;get;}
     public static Boolean isLightningCommunity = false;
+    public static String urlPathPrefix = '';
+    public static Boolean isProduction = true;
     //Constants
     public static final String dateFormat = 'MM/dd/yyyy h:mm a';
     public static final String lastmodified = 'MM/dd/yyyy h:mm a';
@@ -86,6 +88,10 @@ public class InsolvencyAccntNoteCntrl{
         ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
         if (comm.siteAsContainerEnabled) {
             isLightningCommunity = true;
+            urlPathPrefix = comm.urlPathPrefix;
+            if(comm.siteUrl.contains('sandbox')) {
+                isProduction = false;
+            }
         }
         // System.debug('comm.siteUrl' + comm.siteUrl);
         return comm.siteUrl;

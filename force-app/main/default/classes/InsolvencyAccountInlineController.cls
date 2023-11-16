@@ -23,6 +23,7 @@ public with sharing class InsolvencyAccountInlineController {
     public boolean isViewPage{get;set;}
     public string insolAccountId{get; set;}
     public boolean isLightningCommunity{get;set;}
+    public String urlPathPrefix{get;set;}
     public boolean runDuplicateCheckForProfile = false;
     public boolean runDuplicateCheckForBank = false;
     
@@ -71,6 +72,9 @@ public with sharing class InsolvencyAccountInlineController {
         if(profileName.contains('Community User')){
             baseUrl = InsolvencyAccntNoteCntrl.getCommunityUrl();
             isLightningCommunity = InsolvencyAccntNoteCntrl.isLightningCommunity;
+            if(isLightningCommunity) {
+                urlPathPrefix = InsolvencyAccntNoteCntrl.isProduction ? '/s' : '/' + InsolvencyAccntNoteCntrl.urlPathPrefix + '/s';
+            }
         }
         else{
             baseUrl = URL.getSalesforceBaseUrl().toExternalForm();
