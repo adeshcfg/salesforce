@@ -41,6 +41,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public static final String productType = 'Distressed Account';
     public static final String K1Segment = '                                ';
     public static map<ID, ID> mapProductJudgmentClaimIssuedID;
+    public static final String defReportAddress = '                                                                                                ';
+    public static final String defReportTelPhoneNum = '          ';
     
         
     // Start Method
@@ -211,6 +213,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         String ZAP = metro2TransUnion.ZAP__c;
         String identificationNumber = metro2TransUnion.Identification_Number__c;
         String accountType = metro2TransUnion.Account_Type__c;
+        String reporterAddress = metro2TransUnion.Reporter_Address__c;
+        String reporterPhone = metro2TransUnion.Reporter_Phone__c;
         
         // Code for Date of LastmodifiedDate  Right Padding upon dynamic values in less
         //String LastModifiedBydate= '00000000';
@@ -228,8 +232,31 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             createdDate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(System.today());
         }
         
+        String repAddress = defReportAddress;
+        if(reporterAddress != null) {
+            if(reporterAddress.length() < 96) {
+                integer num = 96 - reporterAddress.length();
+                Integer num2 = num + reporterAddress.length();
+                repAddress = reporterAddress.rightPad(num2);
+            } 
+            else if(reporterAddress.length() == 96) {
+                repAddress = reporterAddress;
+            }
+        }
+
+        String repPhone = defReportTelPhoneNum;
+        if(reporterPhone != null) {
+            if(reporterPhone.length() < 10) {
+                integer num = 10 - reporterPhone.length();
+                Integer num2 = num + reporterPhone.length();
+                repPhone = reporterPhone.rightPad(num2);
+            } 
+            else if(reporterPhone.length() == 10) {
+                repPhone = reporterPhone;
+            }
+        }
         // Code to generate Header record
-        string headbody = maxRowslength + headerCust + '                           ' + TransUnionIdentifier +'   '+ lastModifiedBydate + createdDate + '       ' + '         ' + canaFinGrp + '              ';
+        string headbody = maxRowslength + headerCust + '                           ' + TransUnionIdentifier +'   '+ lastModifiedBydate + createdDate + '       ' + '         ' + canaFinGrp + repAddress+repPhone;
         
         Integer countheader = 460 - headbody.length();
         Integer countheader2 = countheader + headbody.length();
