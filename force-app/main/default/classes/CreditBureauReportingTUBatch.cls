@@ -775,7 +775,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         //insert metroFileDataK1Seg;
         
         if(metro2TransUnion.Do_Not_Increase_Count__c == FALSE){
+            ProductTriggerHandler.runProductTrigger = false;
             update updateProduct;//to be uncommented before final file generation
+            ProductTriggerHandler.runProductTrigger = true;
         }
         
         
