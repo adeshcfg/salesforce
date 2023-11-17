@@ -23,6 +23,7 @@
                                                                        'Judgment_Date__c',
                                                                        'Legal_Sub_Status__c',
                                                                        'Filing_Date__c',
+                                                                       'Product_1__c',
                                                                        'Judgment_Amount__c',
                                                                        'Suit_Amount_1__c',
                                                                        'Suit_Amount__c',
@@ -129,13 +130,17 @@
                            
                             <aura:set attribute="else">
                                 <!--<lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c'}"/>-->
-                            	<lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c'
+                                <!--Bug : 5476 - changes starts -->
+                            <aura:if isTrue="{!item!='Product_1__c' }">
+                                <lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c'
                                                                                                                                                    || item=='Product_1__c' || item=='Product_2__c' || item=='Product_3__c'
                                                                                                                                                    || item=='Product_4__c' || item=='Product_5__c'}" />
                                
-                               <!--Bug : 5476 - Commented above line and changes starts-->
-                            <lightning:inputField  fieldName="Product_1__c" disabled="true" value="{!v.productName}"></lightning:inputField>
-                        <!--Bug: 5476 - changes ends-->
+                            </aura:if>
+                               <aura:if isTrue="{!item=='Product_1__c' }">
+                                   <lightning:inputField  fieldName="Product_1__c" disabled="true" value="{!v.productName}"></lightning:inputField>
+                               </aura:if>
+                               <!--Bug: 5476 - changes ends-->
                         </aura:set>
                             
                         </aura:if>
