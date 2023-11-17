@@ -14,7 +14,7 @@
     public Note noteRecord{get;set;}
     public String baseUrl{get;set;}
     public String profileName;
-    String sobjectType;
+    public String sObjectType{get;set;}
     id parentID;
     
     List<sObject> listParentRecord{get;set;}   
@@ -37,7 +37,7 @@
         listParentRecord = database.query(queryStr);//[select Id  FROM sobjectType WHERE Id=:parentID];*/
         
         //get SObjectType from ID
-        sobjectType = (noteRecord.parentID).getSObjectType().getDescribe().getName();
+        sObjectType = parentID.getSObjectType().getDescribe().getName();
         //sobjectType = Insolvency__c.getSObjectType().getDescribe().getName();
         
         // Check whether current user is commnity user or not and set URL
