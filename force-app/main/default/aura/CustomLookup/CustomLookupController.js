@@ -1,7 +1,6 @@
 ({
     // To prepopulate the seleted value pill if value attribute is filled
 	doInit : function( component, event, helper ) {
-        getProdName( component, event, helper);
     	$A.util.toggleClass(component.find('resultsDiv'),'slds-is-open');
 		if( !$A.util.isEmpty(component.get('v.value')) ) {
 			helper.searchRecordsHelper( component, event, helper, component.get('v.value') );
@@ -32,6 +31,7 @@
             component.set('v.selectedRecord',selectedRecord);
             component.set('v.value',selectedRecord.value);
             //bug:5476 changes starts
+            getProdName(component, event, helper);
             var action = component.get("c.getJudgmentDetails");
             console.log('calling apex method');
             console.log('selectedRecord--->'+selectedRecord);
