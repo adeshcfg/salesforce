@@ -81,6 +81,7 @@ public class SnapShotAPIToPortal {
             req.setHeader('Content-Type', 'application/json;charset=UTF-8');
             apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'services');
             req.setEndpoint(apiCallDetails.PDF_API_URL__c+'snapshots');
+            req.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
             req.setMethod('POST');         
             system.debug('req endpoint:: '+req.getEndpoint());
             system.debug('Outbound req body:: '+req.getBody());
