@@ -31,7 +31,9 @@
             component.set('v.selectedRecord',selectedRecord);
             component.set('v.value',selectedRecord.value);
             //bug:5476 changes starts
-            getProdName(component, event, helper);
+            console.log('before helper');
+            helper.getProdName(component, event, helper);
+            console.log('after helper');
             var action = component.get("c.getJudgmentDetails");
             console.log('calling apex method');
             console.log('selectedRecord--->'+selectedRecord);
@@ -89,26 +91,5 @@
     // To close the dropdown if clicked outside the dropdown.
     blurEvent : function( component, event, helper ){
     	$A.util.removeClass(component.find('resultsDiv'),'slds-is-open');
-    },
-          //bug:5476 changes starts
-          getProdName: function(component, event, helper) { 
-            var prodId = component.get("v.recordId");
-            component.set("v.prodId", prodId);
-            var action = component.get("c.getProductName");
-            console.log('calling apex method');
-            action.setParams({
-                'prodId' : prodId
-            });
-            action.setCallback(this, function(response) {
-                console.log('set call back');
-                var state = response.getState();
-                //console.log('response::',response.getReturnValue());
-                if (state === "SUCCESS") {
-                    component.set("v.productNameExisting", response.getReturnValue());
-                    console.log('success');
-                }
-            });
-            $A.enqueueAction(action);
-          }
-            //bug:5476 changes ends
+    }
 })

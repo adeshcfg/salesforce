@@ -47,5 +47,27 @@
         	$A.util.addClass(component.find("Spinner"), "slds-hide");
         });
         $A.enqueueAction(action);
-	}
+	},
+     //bug:5476 changes starts
+     getProdName: function(component, event, helper) { 
+        console.log('entered into helper');
+        var prodId = component.get("v.recordId");
+        component.set("v.prodId", prodId);
+        var action = component.get("c.getProductName");
+        console.log('calling apex method');
+        action.setParams({
+            'prodId' : prodId
+        });
+        action.setCallback(this, function(response) {
+            console.log('set call back');
+            var state = response.getState();
+            //console.log('response::',response.getReturnValue());
+            if (state === "SUCCESS") {
+                component.set("v.productNameExisting", response.getReturnValue());
+                console.log('success');
+            }
+        });
+        $A.enqueueAction(action);
+      }
+        //bug:5476 changes ends
 })
