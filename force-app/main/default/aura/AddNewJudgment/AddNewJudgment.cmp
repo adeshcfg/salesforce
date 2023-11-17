@@ -12,6 +12,11 @@
     <aura:attribute name="ObjectMap" type="Map" default="{}" />
     <!--Bug : 5476 added below line-->
     <aura:attribute name="productName" type="String" default="" />
+    <aura:attribute name="prodName2Flag" type="Boolean" default=""/>
+    <aura:attribute name="productNameExisting" type="String" default="" />
+    <aura:attribute name="prodName3Flag" type="Boolean" default=""/>
+    <aura:attribute name="prodName4Flag" type="Boolean" default=""/>
+    <aura:attribute name="prodName5Flag" type="Boolean" default=""/>
     <!--<aura:attribute name="truthy" type="Boolean" default="false" />
     <aura:attribute name="accJudgment" type="Boolean" default="false" />-->
 
@@ -103,7 +108,12 @@
                             selectedRecord="{!v.selectedRecord}" 
                             excludeIds="{!v.excludeIds}"
                             whereClauseField="{!v.whereClauseField}"
-                            whereClauseValue = "{!v.whereClauseValue}"/>
+                            whereClauseValue = "{!v.whereClauseValue}"
+                            prodName2Flag="{!v.prodName2Flag}"
+                            prodName3Flag="{!v.prodName3Flag}"
+                            prodName4Flag="{!v.prodName4Flag}"
+                            prodName5Flag="{!v.prodName5Flag}"
+                            productNameExisting="{!v.productNameExisting}"/>
         </aura:if>
         
         <lightning:recordEditForm aura:id="recordViewForm"
@@ -131,15 +141,27 @@
                             <aura:set attribute="else">
                                 <!--<lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c'}"/>-->
                                 <!--Bug : 5476 - changes starts -->
-                            <aura:if isTrue="{!item!='Product_1__c' }">
+                            <aura:if isTrue="{!item!='Product_1__c' || !(v.prodName2Flag) || !(v.prodName3Flag) || !(v.prodName4Flag) || !(v.prodName5Flag) }">
                                 <lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c'
                                                                                                                                                    || item=='Product_1__c' || item=='Product_2__c' || item=='Product_3__c'
                                                                                                                                                    || item=='Product_4__c' || item=='Product_5__c'}" />
                                
                             </aura:if>
-                               <aura:if isTrue="{!item=='Product_1__c' }">
+                               <aura:if isTrue="{!item=='Product_1__c'}">
                                    <lightning:inputField  fieldName="Product_1__c" disabled="true" value="{!v.productName}"></lightning:inputField>
                                </aura:if>
+                               <aura:if isTrue="{!v.prodName2Flag}">
+                                <lightning:inputField  fieldName="Product_2__c" disabled="true" value="{!v.productNameExisting}"></lightning:inputField>
+                            </aura:if>
+                            <aura:if isTrue="{!v.prodName3Flag}">
+                                <lightning:inputField  fieldName="Product_3__c" disabled="true" value="{!v.productNameExisting}"></lightning:inputField>
+                            </aura:if>
+                            <aura:if isTrue="{!v.prodName4Flag}">
+                                <lightning:inputField  fieldName="Product_4__c" disabled="true" value="{!v.productNameExisting}"></lightning:inputField>
+                            </aura:if>
+                            <aura:if isTrue="{!v.prodName5Flag}">
+                                <lightning:inputField  fieldName="Product_5__c" disabled="true" value="{!v.productNameExisting}"></lightning:inputField>
+                            </aura:if>
                                <!--Bug: 5476 - changes ends-->
                         </aura:set>
                             

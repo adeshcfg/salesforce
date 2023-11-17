@@ -38,4 +38,31 @@ public with sharing class CustomLookupController {
         @AuraEnabled public String label {get;set;}
         @AuraEnabled public String value {get;set;}
     }
+    //bug:5476 changes starts
+    @AuraEnabled
+    public static Judgment__c getJudgmentDetails(Id JudgmentId){
+        Judgment__c judg=[select id,name from Judgment__c where ID=:JudgmentId];
+      return judg;
+        /*  if(judg.Product_2__c==''){
+            return true;
+        }
+        else  if(judg.Product_3__c==''){
+            return true;
+        }
+        else  if(judg.Product_4__c==''){
+            return true;
+        }
+        else  if(judg.Product_5__c==''){
+            return true;
+        }
+        */
+    }
+    //bug:5476 changes ends
+    //bug:5476 changes starts
+    @AuraEnabled
+    public static string getProductName(Id prodId){
+product__c prod=[select id,name from product__c where ID=:prodId];
+return prod.name;
+    }
+    //bug:5476 changes ends
 }
