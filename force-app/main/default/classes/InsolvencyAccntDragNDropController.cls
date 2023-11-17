@@ -101,7 +101,7 @@ global class InsolvencyAccntDragNDropController{
             InsolvencyAccntNoteCntrl.getCommunityUrl();
             isLightningCommunity = InsolvencyAccntNoteCntrl.isLightningCommunity;
             if(isLightningCommunity) {
-                urlPathPrefix = InsolvencyAccntNoteCntrl.isProduction ? '/s' : '/' + InsolvencyAccntNoteCntrl.urlPathPrefix + '/s';
+                urlPathPrefix = InsolvencyAccntNoteCntrl.isProduction ? '/' : '/' + InsolvencyAccntNoteCntrl.urlPathPrefix + '/';
             }
         }
         isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
