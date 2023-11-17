@@ -41,7 +41,7 @@ public with sharing class CustomLookupController {
     //bug:5476 changes starts
     @AuraEnabled
     public static Judgment__c getJudgmentDetails(Id JudgmentId){
-        Judgment__c judg=[select id,name from Judgment__c where ID=:JudgmentId];
+        Judgment__c judg=[select id,name,Product_1__c,Product_2__c,Product_3__c,Product_4__c,Product_5__c from Judgment__c where ID=:JudgmentId];
       return judg;
         /*  if(judg.Product_2__c==''){
             return true;

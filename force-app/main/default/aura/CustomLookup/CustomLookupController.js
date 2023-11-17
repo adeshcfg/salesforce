@@ -46,8 +46,8 @@
                 var state = response.getState();
                 //console.log('response::',response.getReturnValue());
                 if (state === "SUCCESS") {
-                    console.log('Response--->'+response.getReturnValue());
-                    component.set("v.judgmentRecord", response.getReturnValue());
+                    console.log('Response--->'+JSON.stringify(response.getReturnValue()));
+                    component.set("v.judgmentRecord", JSON.stringify(response.getReturnValue()));
                     var judgment=response.getReturnValue();
                     if(judgment.product_2__c==NULL)
                     {
