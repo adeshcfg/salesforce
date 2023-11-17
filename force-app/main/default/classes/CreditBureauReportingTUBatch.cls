@@ -580,19 +580,41 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 }
             }
             
-            // Set default Account status to ZA
+            // Set default Account status to 13
             /*******Need To Discuss***********/
             String accountStatus =defAccountStatus;
-            if(String.isNotBlank(prodct.CCS_Stage__c)){
-                accountStatus = CustomerProcessingBatchHelper.getAccountStatus(prodct.CCS_Stage__c.toUpperCase());
-                //metro2reco.Staus = accountStatus; //Need to update this 
-                if(String.isBlank(accountStatus)){
-                    accountStatus = 'ZA';
+            if(String.isNotBlank(prodct.Product_Status__c)){
+                list<string> accountStatusClosedList = new list<string>();
+                string acctStatusClosed = metro2TransUnion.Account_Status_Close_List__c;
+                if(acctStatusClosed != Null){
+                    accountStatusClosedList = acctStatusClosed.split(',');   
                 }
-                metroobj2.Status__c = accountStatus;
+                list<string> accountStatusOpenList = new list<string>();
+                string acctStatusOpen = metro2TransUnion.Account_Status_Open_List__c;
+                if(acctStatusOpen != Null){
+                    accountStatusOpenList = acctStatusOpen.split(',');   
+                }
+                list<string> accountStatusOpenUnpaidList = new list<string>();
+                string acctStatusOpenUnpaid = metro2TransUnion.Account_Status_Open_Unpaid_List__c;
+                if(acctStatusOpenUnpaid != Null){
+                    accountStatusOpenUnpaidList = acctStatusOpenUnpaid.split(',');   
+                }
+                //set account status to 13
+                if(accountStatusClosedList.contains(prodct.Product_Status__c)){
+                    accountStatus = metro2TransUnion.Account_Status_Close__c;
+                }
+                else if(accountStatusOpenList.contains(prodct.Product_Status__c)){
+                    accountStatus = metro2TransUnion.Account_Status_Open__c;
+                }
+                else if(accountStatusOpenUnpaidList.contains(prodct.Product_Status__c)){
+                    accountStatus = metro2TransUnion.Account_Status_Open_Unpaid__c;
+                }
+                else{
+                    accountStatus = '13';
+                }
             }
             else{
-                accountStatus = 'ZA';
+                accountStatus = '13';
             }
             
             ////Code for populating Payment history profile for last 24 months
