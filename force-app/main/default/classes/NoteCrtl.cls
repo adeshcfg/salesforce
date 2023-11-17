@@ -10,6 +10,7 @@
  public class NoteCrtl {
     
     public id parentRecordID{get;set;}
+    public Boolean isCommunityUser{get;set;}
     public Note noteRecord{get;set;}
     public String baseUrl{get;set;}
     public String profileName;
@@ -38,26 +39,17 @@
         //get SObjectType from ID
         sobjectType = (noteRecord.parentID).getSObjectType().getDescribe().getName();
         //sobjectType = Insolvency__c.getSObjectType().getDescribe().getName();
-
-        //get the Profile name of current login user
-        profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
         
         // Check whether current user is commnity user or not and set URL
-        if(profileName.contains('Community User')){
-            baseUrl = getCommunityUrl();
+        isCommunityUser = InsolvencyUtil.isCommunityUser();
+        if(isCommunityUser){
+            baseUrl = InsolvencyAccntNoteCntrl.getCommunityUrl();
         }
         else{
             baseUrl = URL.getSalesforceBaseUrl().toExternalForm();
         }
     }
     }
-    // method to fetch community URL
-    public string getCommunityUrl(){        
-        String ntwrkId = Network.getNetworkId();
-        ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
-        return comm.siteUrl;
-    } 
-    
     
      public pageReference Edit(){
          
