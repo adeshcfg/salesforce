@@ -30,6 +30,44 @@
             //console.log(JSON.stringify(selectedRecord));
             component.set('v.selectedRecord',selectedRecord);
             component.set('v.value',selectedRecord.value);
+            //bug:5476 changes starts
+            var action = component.get("c.getJudgmentDetails");
+            console.log('calling apex method');
+            action.setParams({
+                'JudgmentId' : selectedRecord.value
+            });
+            action.setCallback(this, function(response) {
+                console.log('set call back');
+                var state = response.getState();
+                //console.log('response::',response.getReturnValue());
+                if (state === "SUCCESS") {
+                    component.set("v.judgmentRecord", response.getReturnValue());
+                    var judgment=response.getReturnValue();
+                    if(judgment.product_2__c==NULL)
+                    {
+                        component.set('v.prodName2Flag',true);
+                    }
+                    else  if(judgment.product_3__c==NULL)
+                    {
+                        component.set('v.prodName3Flag',true);
+                    }
+                    else  if(judgment.product_4__c==NULL)
+                    {
+                        component.set('v.prodName4Flag',true);
+                    }
+                    else  if(judgment.product_5__c==NULL)
+                    {
+                        component.set('v.prodName5Flag',true);
+                    }
+                  //  component.set("v.prodName2Flag", response.getReturnValue());
+                   // component.set("v.prodName3Flag", response.getReturnValue());
+                   // component.set("v.prodName4Flag", response.getReturnValue());
+                   // component.set("v.prodName5Flag", response.getReturnValue());
+                    console.log('success');
+                }
+            });
+            $A.enqueueAction(action);
+            //bug:5476 changes ends
             $A.util.removeClass(component.find('resultsDiv'),'slds-is-open');
         }
 	},
@@ -48,4 +86,25 @@
     blurEvent : function( component, event, helper ){
     	$A.util.removeClass(component.find('resultsDiv'),'slds-is-open');
     },
+          //bug:5476 changes starts
+          getProdName: function(component, event, helper) { 
+            var prodId = component.get("v.recordId");
+            component.set("v.prodId", prodId);
+            var action = component.get("c.getProductName");
+            console.log('calling apex method');
+            action.setParams({
+                'prodId' : prodId
+            });
+            action.setCallback(this, function(response) {
+                console.log('set call back');
+                var state = response.getState();
+                //console.log('response::',response.getReturnValue());
+                if (state === "SUCCESS") {
+                    component.set("v.productNameExisting", response.getReturnValue());
+                    console.log('success');
+                }
+            });
+            $A.enqueueAction(action);
+          }
+            //bug:5476 changes ends
 })
