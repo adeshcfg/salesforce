@@ -19,6 +19,8 @@ global class InsolvencyDragNDropController{
     public List<Attachment> attList {set;get;}
     public Insolvency__c insAcc{set;get;}
     public Boolean isCommunityUser {set; get;}
+    public String urlPathPrefix {get;set;}
+    public Boolean isLightningCommunity {get;set;}
     public Boolean isCommunityReadOnlyUser {set; get;}
     public Boolean isGoeasyBankCommunityUser {set; get;}
     public Boolean isCanadianTireCommunityUser {set; get;}
@@ -82,6 +84,13 @@ global class InsolvencyDragNDropController{
         
         //Checking if community user
         isCommunityUser = InsolvencyUtil.isCommunityUser();
+        if(isCommunityUser) {
+            InsolvencyAccntNoteCntrl.getCommunityUrl();
+            isLightningCommunity = InsolvencyAccntNoteCntrl.isLightningCommunity;
+            if(isLightningCommunity) {
+                urlPathPrefix = InsolvencyAccntNoteCntrl.isProduction ? '/' : '/' + InsolvencyAccntNoteCntrl.urlPathPrefix + '/';
+            }
+        }
         isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
          //Added for 5195
          isScotiaBankCommunityUser = InsolvencyUtil.isScotiaBankCommunityUser(UserInfo.getProfileId());
