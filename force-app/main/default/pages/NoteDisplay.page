@@ -3,7 +3,7 @@
     <apex:form >
         <apex:pageBlock title="New Public Note">
             <apex:pageblockButtons >
-                 <apex:commandButton id="Edit" value="Edit" action="{!edit}"/>
+                 <apex:commandButton rendered="{!!isCommunityUser}" id="Edit" value="Edit" action="{!edit}"/>
                 <apex:commandButton id="cancel" value="Cancel" action="{!Cancel}"/>
             </apex:pageblockButtons>
             
