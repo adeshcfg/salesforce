@@ -72,7 +72,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
 		//String listname = ['833P1016','833P1080'];
         //List<String> productNames = new List<String>{'833P1016','833P1080'};
         //Query to fetch all the eligible records with the recordtype as CCS Account
-        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Open_Date__c, Closed_Date__C, Createddate,LastModifieddate,Original_Balance__c, Original_Credit_Amount__c,Payment_Frequency__c,Monthly_Payment_Amount__c,FairShare_Percentage__c,Last_Payment_Amount__c,Current_Balance__c,Past_Due_Amount__c,Last_Delinquency_Date__c,CCS_Stage_Last_Changed__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Provinces__c,Zip_Code__c, CCS_Stage__c, Purchase_Date__c, Charged_Off_Amount__c, Original_Date_of_Delinquency__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
+        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Open_Date__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c, Original_Credit_Amount__c,Payment_Frequency__c,Monthly_Payment_Amount__c,FairShare_Percentage__c,Last_Payment_Amount__c,Current_Balance__c,Past_Due_Amount__c,Last_Delinquency_Date__c,CCS_Stage_Last_Changed__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Provinces__c,Zip_Code__c, CCS_Stage__c, Purchase_Date__c, Charged_Off_Amount__c, Original_Date_of_Delinquency__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
                                         'WHERE '+ 
                                         'RecordType.Name =: productType AND '+ 
 										'Product_Status__c NOT IN :excludeProdStatusList AND '+
@@ -580,19 +580,41 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 }
             }
             
-            // Set default Account status to ZA
+            // Set default Account status to 13
             /*******Need To Discuss***********/
             String accountStatus =defAccountStatus;
-            if(String.isNotBlank(prodct.CCS_Stage__c)){
-                accountStatus = CustomerProcessingBatchHelper.getAccountStatus(prodct.CCS_Stage__c.toUpperCase());
-                //metro2reco.Staus = accountStatus; //Need to update this 
-                if(String.isBlank(accountStatus)){
-                    accountStatus = 'ZA';
+            if(String.isNotBlank(prodct.Product_Status__c)){
+                list<string> accountStatusClosedList = new list<string>();
+                string acctStatusClosed = metro2TransUnion.Account_Status_Close_List__c;
+                if(acctStatusClosed != Null){
+                    accountStatusClosedList = acctStatusClosed.split(',');   
                 }
-                metroobj2.Status__c = accountStatus;
+                list<string> accountStatusOpenList = new list<string>();
+                string acctStatusOpen = metro2TransUnion.Account_Status_Open_List__c;
+                if(acctStatusOpen != Null){
+                    accountStatusOpenList = acctStatusOpen.split(',');   
+                }
+                list<string> accountStatusOpenUnpaidList = new list<string>();
+                string acctStatusOpenUnpaid = metro2TransUnion.Account_Status_Open_Unpaid_List__c;
+                if(acctStatusOpenUnpaid != Null){
+                    accountStatusOpenUnpaidList = acctStatusOpenUnpaid.split(',');   
+                }
+                //set account status to 13
+                if(accountStatusClosedList.contains(prodct.Product_Status__c)){
+                    accountStatus = metro2TransUnion.Account_Status_Close__c;
+                }
+                else if(accountStatusOpenList.contains(prodct.Product_Status__c)){
+                    accountStatus = metro2TransUnion.Account_Status_Open__c;
+                }
+                else if(accountStatusOpenUnpaidList.contains(prodct.Product_Status__c)){
+                    accountStatus = metro2TransUnion.Account_Status_Open_Unpaid__c;
+                }
+                else{
+                    accountStatus = '13';
+                }
             }
             else{
-                accountStatus = 'ZA';
+                accountStatus = '13';
             }
             
             ////Code for populating Payment history profile for last 24 months
