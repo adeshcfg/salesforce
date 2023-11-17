@@ -3,7 +3,7 @@
     <apex:form >
         <apex:pageBlock title="New Public Note">
             <apex:pageblockButtons >
-                 <apex:commandButton rendered="{!!isCommunityUser}" id="Edit" value="Edit" action="{!edit}"/>
+                 <apex:commandButton rendered="{!AND(!isCommunityUser, sObjectType != 'Insolvency__c')}" id="Edit" value="Edit" action="{!edit}"/>
                 <apex:commandButton id="cancel" value="Cancel" action="{!Cancel}"/>
             </apex:pageblockButtons>
             
