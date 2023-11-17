@@ -2,8 +2,8 @@
 public class TestSnapShotAPIToPortal {
    public static testMethod void testSnapShotApi(){
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
-       
-       API_Call_Details__c  settings = new API_Call_Details__c ();
+
+        API_Call_Details__c settings = new API_Call_Details__c();
         settings.Name = 'Agency Portal API';
         settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
         settings.Tenand_ID__c = '123';
@@ -12,9 +12,9 @@ public class TestSnapShotAPIToPortal {
         settings.Client_Secret__c = '1234';
         settings.PDF_API_URL__c = 'https://test.com/api/services/';
         settings.Scope_Prefix__c = 'scopep.com';
+        settings.API_Request_Timeout__c = 90000;
         settings.Scope_Suffix__c = '/.default';
         insert settings;
-       
        
         Work_Assignment__c workAssignment = new Work_Assignment__c();
         workAssignment.Purpose__c = 'Excel Processing';
@@ -99,8 +99,8 @@ public class TestSnapShotAPIToPortal {
     
     public static testMethod void testSnapForUniDocId(){
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
-       
-       API_Call_Details__c  settings = new API_Call_Details__c ();
+
+        API_Call_Details__c settings = new API_Call_Details__c();
         settings.Name = 'Agency Portal API';
         settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
         settings.Tenand_ID__c = '123';
@@ -109,9 +109,9 @@ public class TestSnapShotAPIToPortal {
         settings.Client_Secret__c = '1234';
         settings.PDF_API_URL__c = 'https://test.com/api/services/';
         settings.Scope_Prefix__c = 'scopep.com';
+        settings.API_Request_Timeout__c = 90000;
         settings.Scope_Suffix__c = '/.default';
         insert settings;
-       
        
         Work_Assignment__c workAssignment = new Work_Assignment__c();
         workAssignment.Purpose__c = 'Excel Processing';
@@ -187,8 +187,8 @@ public class TestSnapShotAPIToPortal {
    }
     public static testMethod void testSnapForElse(){
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
-       
-       API_Call_Details__c  settings = new API_Call_Details__c ();
+
+        API_Call_Details__c settings = new API_Call_Details__c();
         settings.Name = 'Agency Portal API';
         settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
         settings.Tenand_ID__c = '123';
@@ -197,9 +197,9 @@ public class TestSnapShotAPIToPortal {
         settings.Client_Secret__c = '1234';
         settings.PDF_API_URL__c = 'https://test1.com/api/services/';
         settings.Scope_Prefix__c = 'scopep.com';
+        settings.API_Request_Timeout__c = 90000;
         settings.Scope_Suffix__c = '/.default';
         insert settings;
-       
        
         Work_Assignment__c workAssignment = new Work_Assignment__c();
         workAssignment.Purpose__c = 'Excel Processing';
