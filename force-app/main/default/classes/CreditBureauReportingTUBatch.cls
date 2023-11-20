@@ -39,7 +39,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public static final String defCustomerInformationIndicator = '  ';
     public static final String bureauTypeTransUnion = 'TransUnion';
     public static final String productType = 'Distressed Account';
-    public static final String K1Segment = '                                ';
+    public static final String K1Segment = '                              ';
     public static map<ID, ID> mapProductJudgmentClaimIssuedID;
     public static final String defReportAddress = '                                                                                                ';
     public static final String defReportTelPhoneNum = '          ';
