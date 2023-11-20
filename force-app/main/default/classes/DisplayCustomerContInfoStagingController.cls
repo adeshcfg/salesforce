@@ -440,12 +440,13 @@ public class DisplayCustomerContInfoStagingController {
     }
 
     // Update values from excel to acyual Product records
-    public static void processRecords(List<Customer_Staging__c> listCustomerStaging) {
+    public static List<Id> processRecords(List<Customer_Staging__c> listCustomerStaging) {
         List<Customer_Staging__c> listCustomerStagingToUpdate = new List<Customer_Staging__c>();
         Set<String> setProdutNames = new Set<String>();
         list<Product__c> listProd = new List<Product__c>();
         Map<String, ID> mapAccountNumberID = new Map<String, ID>();
         Map<String, ID> accNumberCustomerID = new Map<String, ID>();
+        List<Id> productIdsToUpdate = new List<Id>();
         String placementAgency = '';
         String placementID = '';
         for (Customer_Staging__c custStaging : listCustomerStaging) {
@@ -495,6 +496,7 @@ public class DisplayCustomerContInfoStagingController {
                 Product__c prod = new Product__c();
                 if (mapAccountNumberID.ContainsKey(CustStaging.ProdID__c)) {
                     prod.Id = mapAccountNumberID.get(CustStaging.ProdID__c);
+                    productIdsToUpdate.add(prod.Id);
                 }
 
                 if (!nospacenull.contains(CustStaging.Email_Address__c))
@@ -628,6 +630,7 @@ public class DisplayCustomerContInfoStagingController {
         if (listCustomerStagingToUpdate.size() > 0) {
             update listCustomerStagingToUpdate;
         }
+        return productIdsToUpdate;
     }
 
     // Generate success and error excel sheets for successful and failed records

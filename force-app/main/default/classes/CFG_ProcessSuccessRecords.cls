@@ -117,7 +117,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             //Call product recall update class. developer - satyajit patil
             prodIds = RecallProductProcessing.recallProducts(scope, workAssignmentId);
         } else if (docType == DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
-            DisplayCustomerContInfoStagingController.processRecords(scope);
+            prodIds = DisplayCustomerContInfoStagingController.processRecords(scope);
         }
         if (Test.isRunningTest()) {
             prodIds = RecallProductProcessing.recallProducts(scope, workAssignmentId);
@@ -133,6 +133,9 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
         //Call the portal API Batch. Developer: satyajit patil
         if (docType != DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
             Database.executeBatch(new CFG_ProductBulkApiProcess(documentStorageId, docType), 200);
+        }
+        else {
+            PortalProductProcessingAPI.processProductBulkBatch(prodIds);
         }
 
         List<id> successfailedRecord = new List<id>();
