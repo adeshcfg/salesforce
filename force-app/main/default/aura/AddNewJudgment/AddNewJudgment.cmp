@@ -12,6 +12,7 @@
     <aura:attribute name="ObjectMap" type="Map" default="{}" />
     <!--Bug : 5476 added below line-->
     <aura:attribute name="productName" type="String" default="" />
+    <aura:attribute name="productId" type="String" default="" />
     <aura:attribute name="prodName2Flag" type="Boolean" default=""/>
     <aura:attribute name="productNameExisting" type="String" default="" />
     <aura:attribute name="prodName3Flag" type="Boolean" default=""/>
@@ -113,7 +114,8 @@
                             prodName3Flag="{!v.prodName3Flag}"
                             prodName4Flag="{!v.prodName4Flag}"
                             prodName5Flag="{!v.prodName5Flag}"
-                            productNameExisting="{!v.productNameExisting}"/>
+                            productNameExisting="{!v.productNameExisting}"
+                            productId="{!v.recordId}"/>
         </aura:if>
         
         <lightning:recordEditForm aura:id="recordViewForm"

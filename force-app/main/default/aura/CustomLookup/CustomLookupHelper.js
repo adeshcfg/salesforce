@@ -50,9 +50,9 @@
 	},
      //bug:5476 changes starts
      getProdName: function(component, event, helper) { 
-        console.log('entered into helper');
-        var prodId = component.get("v.recordId");
-        component.set("v.prodId", prodId);
+       var prodId = component.get("v.productId");
+       console.log('entered into helper and product id-->'+prodId);
+       component.set("v.prodId", prodId);
         var action = component.get("c.getProductName");
         console.log('calling apex method from helper');
         action.setParams({
