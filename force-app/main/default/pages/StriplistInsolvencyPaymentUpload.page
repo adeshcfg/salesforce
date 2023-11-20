@@ -91,6 +91,7 @@
             //url: 'https://cfg-prd-etl.canadaeast.cloudapp.azure.com/FileProcessor.ashx',
             url: 'https://cfg-prd-etl.canaccede.com/FileProcessor.ashx',
             data: formData ,
+            timeout: 60000,
             xhr: function () {  // Custom XMLHttpRequest
                 var myXhr = $.ajaxSettings.xhr();
      	           if (myXhr.upload) { // Check if upload property exists
