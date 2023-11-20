@@ -261,7 +261,7 @@
       });
       $A.enqueueAction(action);
     },
-    handleComponentEvent : function(component, event) {
+ /*   handleComponentEvent : function(component, event) {
        component.set('prodName2Flag',event.getParam("prodName2Flag"));
        component.set('prodName3Flag',event.getParam("prodName3Flag"));
        component.set('prodName4Flag',event.getParam("prodName4Flag"));
@@ -272,6 +272,42 @@
      console.log('prodName4Flag--->'+component.get('v.prodName4Flag'));
      console.log('prodName5Flag--->'+component.get('v.prodName5Flag'));
      console.log('productNameExisting--->'+component.get('v.productNameExisting'));
+    },*/
+            //bug:5476 changes ends
+            handleOnLoad :  function(component, event){
+                console.log('handle on load');
+                var judgData={};
+                var prodId = component.get("v.recordId");
+            component.set("v.prodId", prodId);
+            var action = component.get("c.getProductName");
+            console.log('calling apex method');
+            action.setParams({
+                'prodId' : prodId
+            });
+            action.setCallback(this, function(response) {
+                console.log('set call back');
+                var state = response.getState();
+                //console.log('response::',response.getReturnValue());
+                if (state === "SUCCESS") {
+                    component.set("v.productName", response.getReturnValue());
+                    console.log('success');
+                    for(i=0;i<6;i++){
+                        if(judgment['product_'+i+'__c']){
+                            console.log('Judgment product'+i+'is blank');
+                            judgData['product_'+i+'__c']=judgment['product_'+i+'__c'];
+                        }
+                        else{
+                            console.log('Judgment product is not blank');
+                            judgData['product_'+i+'__c']=response.getReturnValue();
+                            break;
+                        }
+                    }
+                }
+            });
+        component.set('v.allproducts',judgData);
+        console.log('Judgment Product data--->'+judgData);
+        console.log('products data--->'+component.set('v.allproducts'));
+        $A.enqueueAction(action);
     }
       //bug:5476 changes ends
 })
