@@ -291,7 +291,7 @@
                 if (state === "SUCCESS") {
                     component.set("v.productName", response.getReturnValue());
                     console.log('success');
-                    for(i=0;i<6;i++){
+                    for(let i=0;i<6;i++){
                         if(judgment['product_'+i+'__c']){
                             console.log('Judgment product'+i+'is blank');
                             judgData['product_'+i+'__c']=judgment['product_'+i+'__c'];
