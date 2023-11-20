@@ -61,7 +61,7 @@ public with sharing class CustomLookupController {
     //bug:5476 changes starts
     @AuraEnabled
     public static string getProductName(Id prodId){
-        system.debug('method entry');
+        system.debug('method entry and product ID--->'+prodId);
 product__c prod=[select id,name from product__c where ID=:prodId];
 system.debug('name of product--->'+prod.name);
 return prod.name;
