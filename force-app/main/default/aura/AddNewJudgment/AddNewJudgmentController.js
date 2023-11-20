@@ -261,20 +261,13 @@
       });
       $A.enqueueAction(action);
     },
- /*   handleComponentEvent : function(component, event) {
-       component.set('prodName2Flag',event.getParam("prodName2Flag"));
-       component.set('prodName3Flag',event.getParam("prodName3Flag"));
-       component.set('prodName4Flag',event.getParam("prodName4Flag"));
-       component.set('prodName5Flag',event.getParam("prodName5Flag"));
-       component.set('productNameExisting',event.getParam("productNameExisting"));
-     console.log('prodName2Flag--->'+component.get('v.prodName2Flag'));
-     console.log('prodName3Flag--->'+component.get('v.prodName3Flag'));
-     console.log('prodName4Flag--->'+component.get('v.prodName4Flag'));
-     console.log('prodName5Flag--->'+component.get('v.prodName5Flag'));
-     console.log('productNameExisting--->'+component.get('v.productNameExisting'));
-    },*/
+   handleComponentEvent : function(component, event) {
+       component.set('judgment',event.getParam("judgmentId"));
+     console.log('judgment--->'+component.get('v.judgment')); 
+    },
             //bug:5476 changes ends
             handleOnLoad :  function(component, event){
+             var judgment=component.get('v.judgment');
                 console.log('handle on load');
                 var judgData={};
                 var prodId = component.get("v.recordId");
@@ -291,7 +284,7 @@
                 if (state === "SUCCESS") {
                     component.set("v.productName", response.getReturnValue());
                     console.log('success');
-                    for(let i=0;i<6;i++){
+                    for(var i=0;i<6;i++){
                         if(judgment['product_'+i+'__c']){
                             console.log('Judgment product'+i+'is blank');
                             judgData['product_'+i+'__c']=judgment['product_'+i+'__c'];
