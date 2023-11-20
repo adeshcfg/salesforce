@@ -63,7 +63,7 @@
             var state = response.getState();
             //console.log('response::',response.getReturnValue());
             if (state === "SUCCESS") {
-                component.set("v.productNameExisting", response.getReturnValue());
+                component.set('v.productNameExisting', response.getReturnValue());
                 console.log('success');
             }
         });
