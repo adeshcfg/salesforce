@@ -284,19 +284,19 @@
                 if (state === "SUCCESS") {
                     component.set("v.productName", response.getReturnValue());
                     console.log('success');
-                    for(var i=1;i<6;i++){
-                        if(judgment['product_'+i+'__c']){
-                            console.log('Judgment product'+i+'is blank');
-                            judgData['product_'+i+'__c']=judgment['product_'+i+'__c'];
-                        }
-                        else{
-                            console.log('Judgment product is not blank');
-                            judgData['product_'+i+'__c']=response.getReturnValue();
-                            break;
-                        }
-                    }
                 }
             });
+            for(var i=1;i<6;i++){
+                if(judgment['product_'+i+'__c']){
+                    console.log('Judgment product'+i+'is blank');
+                    judgData['product_'+i+'__c']=judgment['product_'+i+'__c'];
+                }
+                else{
+                    console.log('Judgment product is not blank');
+                    judgData['product_'+i+'__c']=response.getReturnValue();
+                    break;
+                }
+            }
         component.set('v.allproducts',judgData);
         console.log('Judgment Product data--->'+judgData);
         console.log('products data--->'+component.set('v.allproducts'));
