@@ -65,6 +65,22 @@
                     {
                         component.set('v.prodName5Flag',true);
                     }
+                    if(judgment.product_2__c)
+                    {
+                        component.set('v.productNameExisting',judgment.product_2__c);
+                    }
+                    else  if(judgment.product_3__c)
+                    {
+                        component.set('v.productNameExisting',judgment.product_2__c);
+                    }
+                    else  if(judgment.product_4__c)
+                    {
+                        component.set('v.productNameExisting',judgment.product_2__c);
+                    }
+                    else  if(judgment.product_5__c)
+                    {
+                        component.set('v.productNameExisting',judgment.product_2__c);
+                    }
                   //  component.set("v.prodName2Flag", response.getReturnValue());
                    // component.set("v.prodName3Flag", response.getReturnValue());
                    // component.set("v.prodName4Flag", response.getReturnValue());
