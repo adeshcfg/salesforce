@@ -88,6 +88,15 @@
                    // component.set("v.prodName4Flag", response.getReturnValue());
                    // component.set("v.prodName5Flag", response.getReturnValue());
                     console.log('success');
+                    var cmpEvent = component.getEvent("cmpEvent");
+        cmpEvent.setParams({
+            prodName2Flag : component.get('v.prodName2Flag'),
+            prodName3Flag : component.get('v.prodName3Flag'),
+            prodName4Flag : component.get('v.prodName4Flag'),
+            prodName5Flag : component.get('v.prodName5Flag'),
+            productNameExisting:component.get('v.productNameExisting')
+        });
+        cmpEvent.fire();
                 }
             });
             $A.enqueueAction(action);

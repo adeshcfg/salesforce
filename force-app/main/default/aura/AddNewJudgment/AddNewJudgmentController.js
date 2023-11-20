@@ -240,5 +240,38 @@
             obj[fieldAPIName] = fieldValue;
             component.set('v.ObjectMap',obj);
         }
+    },
+      //bug:5476 changes starts
+      getProdName: function(component, event, helper) { 
+      var prodId = component.get("v.recordId");
+      component.set("v.prodId", prodId);
+      var action = component.get("c.getProductName");
+      console.log('calling apex method');
+      action.setParams({
+          'prodId' : prodId
+      });
+      action.setCallback(this, function(response) {
+          console.log('set call back');
+          var state = response.getState();
+          //console.log('response::',response.getReturnValue());
+          if (state === "SUCCESS") {
+              component.set("v.productName", response.getReturnValue());
+              console.log('success');
+          }
+      });
+      $A.enqueueAction(action);
+    },
+    handleComponentEvent : function(component, event) {
+       component.set('prodName2Flag',event.getParam("prodName2Flag"));
+       component.set('prodName3Flag',event.getParam("prodName3Flag"));
+       component.set('prodName4Flag',event.getParam("prodName4Flag"));
+       component.set('prodName5Flag',event.getParam("prodName5Flag"));
+       component.set('productNameExisting',event.getParam("productNameExisting"));
+     console.log('prodName2Flag--->'+component.get('v.prodName2Flag'));
+     console.log('prodName3Flag--->'+component.get('v.prodName3Flag'));
+     console.log('prodName4Flag--->'+component.get('v.prodName4Flag'));
+     console.log('prodName5Flag--->'+component.get('v.prodName5Flag'));
+     console.log('productNameExisting--->'+component.get('v.productNameExisting'));
     }
+      //bug:5476 changes ends
 })
