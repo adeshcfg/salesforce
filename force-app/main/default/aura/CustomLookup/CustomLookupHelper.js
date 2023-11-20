@@ -54,17 +54,18 @@
         var prodId = component.get("v.recordId");
         component.set("v.prodId", prodId);
         var action = component.get("c.getProductName");
-        console.log('calling apex method');
+        console.log('calling apex method from helper');
         action.setParams({
             'prodId' : prodId
         });
         action.setCallback(this, function(response) {
-            console.log('set call back');
+            console.log('set call back from helper');
             var state = response.getState();
+            console.log('state of Apex class from helper--->'+response.getState());
             //console.log('response::',response.getReturnValue());
             if (state === "SUCCESS") {
                 component.set('v.productNameExisting', response.getReturnValue());
-                console.log('success');
+                console.log('success from helper');
             }
         });
         $A.enqueueAction(action);
