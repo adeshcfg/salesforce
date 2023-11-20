@@ -62,6 +62,7 @@
             console.log('set call back from helper');
             var state = response.getState();
             console.log('state of Apex class from helper--->'+response.getState());
+            console.log('return value of Apex class from helper--->'+response.getReturnValue());
             //console.log('response::',response.getReturnValue());
             if (state === "SUCCESS") {
                 component.set('v.productNameExisting', response.getReturnValue());
