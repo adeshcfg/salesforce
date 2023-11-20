@@ -65,7 +65,7 @@
                     {
                         component.set('v.prodName5Flag',true);
                     }
-                    console.log('Product name--->'+component.get(v.productNameExisting));
+                    console.log('Product name--->'+component.get('v.productNameExisting'));
                  /*   if(judgment.product_2__c)
                     {
                         component.set('v.productNameExisting',judgment.product_2__c);
