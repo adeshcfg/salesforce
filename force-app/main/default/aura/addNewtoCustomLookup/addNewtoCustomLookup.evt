@@ -1,0 +1,7 @@
+<aura:event type="COMPONENT">
+    <aura:attribute name="prodName2Flag" type="Boolean" default=""/>
+    <aura:attribute name="prodName3Flag" type="Boolean" default=""/>
+    <aura:attribute name="prodName4Flag" type="Boolean" default=""/>
+    <aura:attribute name="prodName5Flag" type="Boolean" default=""/>
+	<aura:attribute name="productNameExisting" type="String" default="" />
+</aura:event>

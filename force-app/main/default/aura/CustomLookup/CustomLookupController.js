@@ -30,7 +30,7 @@
             //console.log(JSON.stringify(selectedRecord));
             component.set('v.selectedRecord',selectedRecord);
             component.set('v.value',selectedRecord.value);
-            //bug:5476 changes starts
+          /*  //bug:5476 changes starts
             console.log('before helper');
             helper.getProdName(component, event, helper);
             console.log('after helper');
@@ -87,11 +87,20 @@
                    // component.set("v.prodName3Flag", response.getReturnValue());
                    // component.set("v.prodName4Flag", response.getReturnValue());
                    // component.set("v.prodName5Flag", response.getReturnValue());
-                    console.log('success');
+                 /*   console.log('success');
+                    var cmpEvent = component.getEvent("cmpEvent");
+        cmpEvent.setParams({
+            prodName2Flag : component.get('v.prodName2Flag'),
+            prodName3Flag : component.get('v.prodName3Flag'),
+            prodName4Flag : component.get('v.prodName4Flag'),
+            prodName5Flag : component.get('v.prodName5Flag'),
+            productNameExisting:component.get('v.productNameExisting')
+        });
+        cmpEvent.fire();
                 }
             });
             $A.enqueueAction(action);
-            //bug:5476 changes ends
+            //bug:5476 changes ends*/
             $A.util.removeClass(component.find('resultsDiv'),'slds-is-open');
         }
 	},
