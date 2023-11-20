@@ -49,19 +49,19 @@
                     console.log('Response--->'+JSON.stringify(response.getReturnValue()));
                     component.set("v.judgmentRecord", JSON.stringify(response.getReturnValue()));
                     var judgment=response.getReturnValue();
-                    if(judgment.product_2__c==NULL)
+                    if(judgment.product_2__c=='')
                     {
                         component.set('v.prodName2Flag',true);
                     }
-                    else  if(judgment.product_3__c==NULL)
+                    else  if(judgment.product_3__c=='')
                     {
                         component.set('v.prodName3Flag',true);
                     }
-                    else  if(judgment.product_4__c==NULL)
+                    else  if(judgment.product_4__c=='')
                     {
                         component.set('v.prodName4Flag',true);
                     }
-                    else  if(judgment.product_5__c==NULL)
+                    else  if(judgment.product_5__c=='')
                     {
                         component.set('v.prodName5Flag',true);
                     }
