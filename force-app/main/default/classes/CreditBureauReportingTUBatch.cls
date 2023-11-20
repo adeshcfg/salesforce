@@ -692,9 +692,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     pastval = pastval.leftPad(9, '0');
                 }
             }
-            
+            system.debug('K1Segment'+K1Segment);
             //K1 Segment
             String K1SegmentLine = K1Segment;
+            
+            system.debug('K1SegmentLine'+K1SegmentLine);
+            system.debug('K1SegmentLine length'+K1SegmentLine.length());
             if(prodct.Seller__r.name != null) {
                 if(String.valueOf(prodct.Seller__r.name).length() < 30) {
                     integer number1 = 30 - String.valueOf(prodct.Seller__r.name).length();
@@ -707,7 +710,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     K1SegmentLine = K1SegmentLine.toUpperCase();
                 }
             }
-            
+            system.debug('K1SegmentLine'+K1SegmentLine);
+            system.debug('K1SegmentLine length'+K1SegmentLine.length());
             //Body record
             string headbody2 = maxRowslength + '1              0'+identificationNumber+'          ' + '  ' + productname + 'O'+ accountType + Dateopened + '000000000' + orignalCreditAmt + '001' + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + '        ' + lastdelinquencydate + dateclosed + lastpaymentdate + CurrencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + '1' + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine;
             system.debug('heaser@@@'+headbody2);
