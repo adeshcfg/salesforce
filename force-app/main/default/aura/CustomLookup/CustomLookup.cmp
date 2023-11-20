@@ -18,9 +18,9 @@
     <aura:attribute name="prodName5Flag" type="Boolean" default=""/>
 	<aura:attribute name="productNameExisting" type="String" default="" />
 	<aura:attribute name="judgmentRecord" type="Object"/>
-	<aura:attribute name="productId" type="String" default="" />
+	<aura:attribute name="productId" type="String" default="" /-->
 	<aura:registerEvent name="cmpEvent" type="c:addNewtoCustomLookup"/>
-	<Bug:5476 changes ends-->
+	<!--Bug:5476 changes ends-->
 	<!-- Internal Use Attributes -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:attribute name="searchString" type="string" default="" description="String to search"/>

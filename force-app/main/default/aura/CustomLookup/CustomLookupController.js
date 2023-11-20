@@ -30,8 +30,14 @@
             //console.log(JSON.stringify(selectedRecord));
             component.set('v.selectedRecord',selectedRecord);
             component.set('v.value',selectedRecord.value);
-          /*  //bug:5476 changes starts
-            console.log('before helper');
+            //bug:5476 changes starts
+           var cmpEvent = cmp.getEvent("cmpEvent");
+        cmpEvent.setParams({
+            "judgmentId" : selectedRecord
+        });
+        cmpEvent.fire();
+    
+          /*  console.log('before helper');
             helper.getProdName(component, event, helper);
             console.log('after helper');
             var action = component.get("c.getJudgmentDetails");
