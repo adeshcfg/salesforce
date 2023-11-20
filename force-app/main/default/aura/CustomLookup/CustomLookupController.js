@@ -65,7 +65,8 @@
                     {
                         component.set('v.prodName5Flag',true);
                     }
-                    if(judgment.product_2__c)
+                    console.log('Product name--->'+component.get(v.productNameExisting));
+                 /*   if(judgment.product_2__c)
                     {
                         component.set('v.productNameExisting',judgment.product_2__c);
                     }
@@ -81,6 +82,7 @@
                     {
                         component.set('v.productNameExisting',judgment.product_2__c);
                     }
+                    */
                   //  component.set("v.prodName2Flag", response.getReturnValue());
                    // component.set("v.prodName3Flag", response.getReturnValue());
                    // component.set("v.prodName4Flag", response.getReturnValue());
