@@ -20,7 +20,6 @@
 	<aura:attribute name="judgmentRecord" type="Object"/>
 	<aura:attribute name="productId" type="String" default="" /-->
 	<!--aura:registerEvent name="cmpEvent" type="c:addNewtoCustomLookup"/-->
-	<aura:attribute name="message" type="String" />
 	<aura:method name="sendMessage" action="{!v.selectItem}" />
 	<!--Bug:5476 changes ends-->
 	<!-- Internal Use Attributes -->
