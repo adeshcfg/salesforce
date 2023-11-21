@@ -83,6 +83,13 @@
             <componentInstance>
                 <componentName>FileUploadComponent</componentName>
                 <identifier>c_FileUploadComponent</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Record_Type_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Distressed_Account</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
