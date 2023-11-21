@@ -106,18 +106,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         map<String, Credit_Bureau_Reporting_Periods__mdt> mapCreditBureauRepPeriods = Credit_Bureau_Reporting_Periods__mdt.getAll();
         map<String, Credit_Bureau_Reporting_Periods__mdt> mapProvinceAcronymCBRepPeriods = new map<String, Credit_Bureau_Reporting_Periods__mdt>();
         
-        
         for(Credit_Bureau_Reporting_Periods__mdt metaData : mapCreditBureauRepPeriods.values()){
             mapProvinceAcronymCBRepPeriods.put(metaData.Province_Name__c,metaData);
         }
-        
-        /*Datetime prodPaymentDate; // LAST ACTIVITY DATE
-        prodPaymentDate = [SELECT Id, Payment_Created__c 
-                           FROM Product_Payments__c 
-                           WHERE (RecordTYpe.Name = 'Distressed Product Payment') 
-                           AND Payment_Created__c!=NULL
-                           ORDER BY Payment_Created__c 
-                           DESC limit 1].Payment_Created__c;*/
         
         List<ID> productID = new List<ID>();
         for(Product__c prodRec: scope){
@@ -203,8 +194,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         String finalHeadBody2 = ''; 
         String finalK1HeadBody2 = ''; 
         
-        //Metro2 File Custom Setting
-        //Metro2_TransUnion__c obj = [select MaxRowsCount__c, Canaccede_Financial_Group__c, TransUnionIdentifier__c, HEADER__c, CA__c, ZAP__c from Metro2_TransUnion__c limit 1];
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
         String maxRowslength = metro2TransUnion.MaxRowsCount__c;
         String canaFinGrp = metro2TransUnion.Canaccede_Financial_Group__c;
@@ -299,7 +288,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         
         Metro__c metroheaderrecsetiing  = Metro__c.getInstance('Header');
 
-        
         if(metroheaderrecsetiing.HeaderCheck__c == false) {
             MetroFlatFileData__c metroobj24 = new MetroFlatFileData__c();
             metroobj24.RowData1__c = headbody + String.fromCharArray(trimmedArray2);
@@ -440,16 +428,14 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             // Code for Adding First_Name__c Right Padding upon dynamic values in less
             String firstname = defFirstName;
-            
             if(prodct.First_Name__c != null) {
-                system.debug('first name length'+prodct.First_Name__c.length());
                 if(prodct.First_Name__c.length() <= 20) {
-                    String firstNameValue = prodct.First_Name__c;//.replace(' ','-');
+                    String firstNameValue = prodct.First_Name__c;
                     firstname = firstNameValue.rightPad(20);
                     firstname = firstname.toUpperCase();
                 } 
                 else if(prodct.First_Name__c.length() > 20) {
-                    firstname = prodct.First_Name__c;//.replace(' ','-');
+                    firstname = prodct.First_Name__c;
                     firstname = firstname.left(20);
                     firstname = firstname.toUpperCase();
                 }
@@ -458,12 +444,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             String lastname = defLastName;
             if(prodct.Last_Name__c != null) {
                 if(prodct.Last_Name__c.length() <= 25) {
-                    String lastNameValue = prodct.Last_Name__c;//.replace(' ','-');
+                    String lastNameValue = prodct.Last_Name__c;
                     lastname = lastNameValue.rightPad(25);
                     lastname = lastname.toUpperCase();
                 } 
                 else if(prodct.Last_Name__c.length() > 25) {
-                    lastname = prodct.Last_Name__c;//.replace(' ','-');
+                    lastname = prodct.Last_Name__c;
                     lastname = lastname.left(25);
                     lastname = lastname.toUpperCase();
                 }
@@ -472,12 +458,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             String middlename = defMiddleName;
             if(prodct.Middle_Name__c != null) {
                 if(prodct.Middle_Name__c.length() <= 20) {
-                    String middleNameValue = prodct.Middle_Name__c;//.replace(' ','-');
+                    String middleNameValue = prodct.Middle_Name__c;
                     middlename = middleNameValue.rightPad(20);
                     middlename = middlename.toUpperCase();
                 } 
                 else if(prodct.Middle_Name__c.length() > 20) {
-                    middlename = prodct.Middle_Name__c;//.replace(' ','-');
+                    middlename = prodct.Middle_Name__c;
                     middlename = middlename.left(20);
                     middlename = middlename.toUpperCase();
                 }
@@ -623,6 +609,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 accountStatus = metro2TransUnion.Account_Status_Close__c;
             }
             
+            metroobj2.Status__c = accountStatus;
+            
             ////Code for populating Payment history profile for last 24 months
             /*******Need To Discuss***********/
             String paymentHistoryProfile = defNumberOfPayments;
@@ -763,7 +751,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         
         if(metro2TransUnion.Do_Not_Increase_Count__c == FALSE){
             ProductTriggerHandler.runProductTrigger = false;
-            //update updateProduct;//to be uncommented before final file generation
+            update updateProduct;//to be uncommented before final file generation
             ProductTriggerHandler.runProductTrigger = true;
         }
         
@@ -784,18 +772,16 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             Rowscount = (Integer)aggr.get('metroFlatFileDatacnt');
         }
         system.debug('Rowscount after'+Rowscount);
-        //Integer Rowscount = metrolstcount.size();
  		 
         Integer  RowscountLength = String.valueOf(Rowscount).length();
 		system.debug('RowscountLength'+RowscountLength);
-        //Integer TooalphoneCount;
+
         String FinalSINCOUNT = '000000000';
         String FinalDOBCOunt = '000000000';
         String FinalPhoneocuntNet = '000000000';
         String FinalSTATUS13COUNT = '000000000';
         String FinalSTATUS93COUNT = '000000000';
         String FinalSTATUS97COUNT = '000000000';
-        String FinalSTATUSZACOUNT = '000000000';
         
 
         Integer FinalPhoneocunt = [select PhoneNumber__c from MetroFlatFileData__c where PhoneNumber__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
@@ -804,56 +790,27 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         //Final SIN Count
         List<MetroFlatFileData__c> metroobj = new List<MetroFlatFileData__c>();
         Integer SINCOUNT = [select SIN__c from MetroFlatFileData__c where SIN__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY].size();
-        
-   
-        //Integer SINCOUNT = metroObj.size();
-
         FinalSINCOUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(SINCOUNT);
         
         //DOB Count
         List<MetroFlatFileData__c> metroobj2 = new List<MetroFlatFileData__c>();
         Integer DOBCOUNT = [select Dateofbirth__c from MetroFlatFileData__c where Dateofbirth__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
-        
-
-        //Integer DOBCOUNT = metroObj2.size();
- 
         FinalDOBCOunt = CustomerProcessingBatchHelper.getStringWithZeroPadding(DOBCOUNT);
         
         //Status 13 Count
         List<MetroFlatFileData__c> metroobjStatus13 = new List<MetroFlatFileData__c>();
         Integer STATUS13COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '13' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
-        
-
-        //Integer STATUS13COUNT = metroObjStatus13.size();
-
         FinalSTATUS13COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS13COUNT);
         
         //Status 93 Count
         List<MetroFlatFileData__c> metroobjStatus93 = new List<MetroFlatFileData__c>();
         Integer STATUS93COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '93' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
-        
-
-        //Integer STATUS93COUNT = metroObjStatus93.size();
-
         FinalSTATUS93COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS93COUNT);
         
         //Status 97 Count
         List<MetroFlatFileData__c> metroobjStatus97 = new List<MetroFlatFileData__c>();
         Integer STATUS97COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '97' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
-        
- 
-        //Integer STATUS97COUNT = metroObjStatus97.size();
- 
         FinalSTATUS97COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS97COUNT);
-        
-        //Status ZA Count
-        List<MetroFlatFileData__c> metroobjStatusZA = new List<MetroFlatFileData__c>();
-        Integer STATUSZACOUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = 'ZA' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
-        
-
-        //Integer STATUSZACOUNT = metroObjStatusZA.size();
-   
-        FinalSTATUSZACOUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUSZACOUNT);
         
         String rowscountwithzero;
         if(RowscountLength < 9) {
@@ -867,7 +824,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         }
         
   
-        
         String Trailerrec = maxRowslength+'TRAILER' + rowscountwithzero + '                  000000000000000000000000000000000000000000000000000000' + FinalSTATUS13COUNT + '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + FinalSTATUS93COUNT + '000000000' + '000000000' + '000000000' + FinalSTATUS97COUNT + '000000000000000000'+ rowscountwithzero +'000000000000000000000000000000000000' + FinalSINCOUNT + FinalSINCOUNT + '000000000000000000' + FinalDOBCOunt + FinalDOBCOunt + '000000000000000000' + FinalPhoneocuntNet + '    ';
         
   
