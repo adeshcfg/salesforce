@@ -26,8 +26,8 @@ public class CustomerProcessingBatchHelper {
                                                                 };
     public static Map<String, String> distressedSpecialCommentMapping =  new Map<String, String>{
                                                                     '906000' => 'AC',
-                                                                    '907000' =>'AU'
-                                                                    
+                                                                    '907000' =>'AU',
+                                                                    'DEFAULT' => '  '
                                                                 }; 
     public static Map<String, String> termFrequencyMapping =  new Map<String, String>{
                                                                     'MONTHLY' => 'M',
@@ -75,16 +75,18 @@ public class CustomerProcessingBatchHelper {
     
     // Check account status and return mapped value for special comments
     public static String getSpecialComments(String accountStatus){
-        if(distressedSpecialCommentMapping.containsKey(accountStatus)){
-            return distressedSpecialCommentMapping.get(accountStatus);
+        if(specialCommentMapping.containsKey(accountStatus)){
+            return specialCommentMapping.get(accountStatus);
         }else{
-            return distressedSpecialCommentMapping.get('DEFAULT');
+            return specialCommentMapping.get('DEFAULT');
         }
     }
     // Check account status and return mapped value for Distressed special comments
     public static String getDistressedSpecialComments(String accStatus){
-        if(specialCommentMapping.containsKey(accStatus)){
-            return specialCommentMapping.get(accStatus);
+        if(distressedSpecialCommentMapping.containsKey(accStatus)){
+            return distressedSpecialCommentMapping.get(accStatus);
+        }else{
+            return distressedSpecialCommentMapping.get('DEFAULT');
         }
     }
     // Check payment frequency and return mapped value for Term Frequency
