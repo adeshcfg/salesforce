@@ -32,7 +32,7 @@
             component.set('v.value',selectedRecord.value);
             //bug:5476 changes starts
        //    var cmpEvent = component.getEvent("cmpEvent");
-       var eventFire=$A.getEvt("cmpEvent");
+       var eventFire=$A.getEvt("c:cmpEvent");
        eventFire.setParams({
             "judgmentId" : selectedRecord
         });
