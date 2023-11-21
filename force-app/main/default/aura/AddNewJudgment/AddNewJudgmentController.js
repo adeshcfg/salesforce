@@ -261,7 +261,15 @@
       });
       $A.enqueueAction(action);
     },
+    handleMessage: function(component, event, helper) {
+        var message = event.get("message");
+        console.log("Message received from child component: " + message);
+        console.log('data in event--->'+event.get("judgmentId"));
+        component.set('judgment',message);
+      console.log('judgment--->'+component.get('v.judgment')); 
+    },
    handleComponentEvent : function(component, event) {
+    console.log('data in event--->'+event.getParam("judgmentId"));
        component.set('judgment',event.getParam("judgmentId"));
      console.log('judgment--->'+component.get('v.judgment')); 
     },

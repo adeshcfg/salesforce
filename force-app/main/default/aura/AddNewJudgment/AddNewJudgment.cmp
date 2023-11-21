@@ -20,7 +20,8 @@
     <aura:attribute name="prodName3Flag" type="Boolean" default=""/>
     <aura:attribute name="prodName4Flag" type="Boolean" default=""/>
     <aura:attribute name="prodName5Flag" type="Boolean" default=""/-->
-    <aura:handler name="cmpEvent" event="c:addNewtoCustomLookup" action="{!c.handleComponentEvent}"/>
+    <!--aura:handler name="cmpEvent" event="c:addNewtoCustomLookup" action="{!c.handleComponentEvent}"/-->
+    <aura:method name="handleMessage" action="{!v.handleMessage}" />
     <aura:attribute name="truthy" type="Boolean" default="false" />
     <aura:attribute name="accJudgment" type="Boolean" default="false" />>
 
