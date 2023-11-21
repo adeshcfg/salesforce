@@ -31,8 +31,8 @@
             component.set('v.selectedRecord',selectedRecord);
             component.set('v.value',selectedRecord.value);
             var message = component.get("v.message");
-        var parentComponent = component.get("v.AddNewJudgment");
-        parentComponent.call("handleMessage", { message: selectedRecord });
+        var parentComponent = component.find("v.AddNewJudgment");
+        parentComponent.handleMessage(message);
             //bug:5476 changes starts
        //    var cmpEvent = component.getEvent("cmpEvent");
     /*   var eventFire=$A.getEvt("c:cmpEvent");
