@@ -30,14 +30,17 @@
             //console.log(JSON.stringify(selectedRecord));
             component.set('v.selectedRecord',selectedRecord);
             component.set('v.value',selectedRecord.value);
+            var message = component.get("v.message");
+        var parentComponent = component.get("v.AddNewJudgment");
+        parentComponent.call("handleMessage", { message: selectedRecord });
             //bug:5476 changes starts
        //    var cmpEvent = component.getEvent("cmpEvent");
-       var eventFire=$A.getEvt("c:cmpEvent");
+    /*   var eventFire=$A.getEvt("c:cmpEvent");
        eventFire.setParams({
             "judgmentId" : selectedRecord
         });
         eventFire.fire();
-    
+    */
           /*  console.log('before helper');
             helper.getProdName(component, event, helper);
             console.log('after helper');
