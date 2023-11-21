@@ -43,6 +43,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public static map<ID, ID> mapProductJudgmentClaimIssuedID;
     public static final String defReportAddress = '                                                                                                ';
     public static final String defReportTelPhoneNum = '          ';
+    public static final String defCanaFinGrp = '                                        ';
+    public static final String defIdentificationNumber = '                    ';
+    public static final String defBureauIdentifier = '          ';
     
         
     // Start Method
@@ -72,7 +75,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
 		//String listname = ['833P1016','833P1080'];
         //List<String> productNames = new List<String>{'833P1016','833P1080'};
         //Query to fetch all the eligible records with the recordtype as CCS Account
-        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Open_Date__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Payment_Frequency__c,Monthly_Payment_Amount__c,Last_Payment_Amount__c,Current_Balance__c,Past_Due_Amount__c,Last_Delinquency_Date__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Provinces__c,Zip_Code__c, CCS_Stage__c, Purchase_Date__c, Charged_Off_Amount__c, Original_Date_of_Delinquency__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
+        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Open_Date__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Monthly_Payment_Amount__c,Current_Balance__c,Last_Delinquency_Date__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Provinces__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c, Original_Date_of_Delinquency__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
                                         'WHERE '+ 
                                         'RecordType.Name =: productType AND '+ 
 										'Product_Status__c NOT IN :excludeProdStatusList AND '+
@@ -83,7 +86,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                         'First_Name__c != null AND '+ 
                                         'Name !=null AND '+ 
                                         'Open_Date__c != null AND '+ 
-										'Payment_Frequency__c != null AND '+
 										'Monthly_Payment_Amount__c != null AND '+
 										'Current_Balance__c != null AND '+ 
                                         'Difference_Greater_Than_N_Years__c = False AND ' + 
@@ -109,13 +111,13 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             mapProvinceAcronymCBRepPeriods.put(metaData.Province_Name__c,metaData);
         }
         
-        Datetime prodPaymentDate; // LAST ACTIVITY DATE
+        /*Datetime prodPaymentDate; // LAST ACTIVITY DATE
         prodPaymentDate = [SELECT Id, Payment_Created__c 
                            FROM Product_Payments__c 
                            WHERE (RecordTYpe.Name = 'Distressed Product Payment') 
                            AND Payment_Created__c!=NULL
                            ORDER BY Payment_Created__c 
-                           DESC limit 1].Payment_Created__c;
+                           DESC limit 1].Payment_Created__c;*/
         
         List<ID> productID = new List<ID>();
         for(Product__c prodRec: scope){
@@ -170,10 +172,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         }
   
         Map<String, AggregateResult> productSumTotal = new Map<String, AggregateResult>();
-        AggregateResult[] prodPayment = [SELECT CCS_Account__C ccsAcc, sum(gross_Payment_Amount__c) grossPay
+        AggregateResult[] prodPayment = [SELECT CCS_Account__C ccsAcc, sum(Payment_Amount__c) grossPay
                                     FROM Product_Payments__c 
                                     WHERE 
-                                    CCS_Account__C IN :productID AND Payment_Created__c = LAST_MONTH
+                                    CCS_Account__C IN :productID
                                     AND (RecordTYpe.Name = 'Distressed Product Payment') 
                                     AND (Payment_Type__c= '1000' OR Payment_Type__c ='1001' OR Payment_Type__c='1002') 
                                     AND Is_Payment_Reversed__c = False 
@@ -197,7 +199,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             productTotal.put((String)aggr.get('ccsAcc'), aggr);
         }
         
-        //String currencyTypeCode = '                 ';
         String currencyTypeCode = '                 ';
         String finalHeadBody2 = ''; 
         String finalK1HeadBody2 = ''; 
@@ -215,21 +216,51 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         String accountType = metro2TransUnion.Account_Type__c;
         String reporterAddress = metro2TransUnion.Reporter_Address__c;
         String reporterPhone = metro2TransUnion.Reporter_Phone__c;
+        String portfolioType = metro2TransUnion.Portfolio_Type__c;
+        String termsDuration = metro2TransUnion.Terms_Duration__c;
         
         // Code for Date of LastmodifiedDate  Right Padding upon dynamic values in less
-        //String LastModifiedBydate= '00000000';
         String lastModifiedBydate= defLastModifiedBydate;
-        if(prodpaymentdate != null) {
-            //LastModifiedBydate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(date.newinstance(prodpaymentdate.year(), prodpaymentdate.month(), prodpaymentdate.day()));
-            
-            LastModifiedBydate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY((System.today()).toStartofMonth().addDays(-1));
-        }
+        lastModifiedBydate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY((System.today()).toStartofMonth().addDays(-1));
         
         // Code for Date of CreatedDate  Right Padding upon dynamic values in less
-        //String Createddate = '00000000';
         String createdDate = defCreateddate;
         if(System.today() != null) {
             createdDate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(System.today());
+        }
+        String bureaIdentifier = defBureauIdentifier;
+        if(TransUnionIdentifier != null) {
+            if(TransUnionIdentifier.length() < 10) {
+                integer num = 10 - TransUnionIdentifier.length();
+                Integer num2 = num + TransUnionIdentifier.length();
+                bureaIdentifier = TransUnionIdentifier.rightPad(num2);
+            } 
+            else if(TransUnionIdentifier.length() == 10) {
+                bureaIdentifier = TransUnionIdentifier;
+            }
+        }
+        
+        String idenfificationNum = defIdentificationNumber;
+        if(identificationNumber != null) {
+            if(identificationNumber.length() < 20) {
+                integer num = 20 - identificationNumber.length();
+                Integer num2 = num + identificationNumber.length();
+                idenfificationNum = identificationNumber.rightPad(num2);
+            } 
+            else if(identificationNumber.length() == 20) {
+                idenfificationNum = identificationNumber;
+            }
+        }        
+        String canaccedeFinGrp = defCanaFinGrp;
+        if(canaFinGrp != null) {
+            if(canaFinGrp.length() < 40) {
+                integer num = 40 - canaFinGrp.length();
+                Integer num2 = num + canaFinGrp.length();
+                canaccedeFinGrp = canaFinGrp.rightPad(num2);
+            } 
+            else if(canaFinGrp.length() == 40) {
+                canaccedeFinGrp = canaFinGrp;
+            }
         }
         
         String repAddress = defReportAddress;
@@ -255,8 +286,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 repPhone = reporterPhone;
             }
         }
+
         // Code to generate Header record
-        string headbody = maxRowslength + headerCust + '                           ' + TransUnionIdentifier +'   '+ lastModifiedBydate + createdDate + '       ' + '         ' + canaFinGrp + repAddress+repPhone;
+        string headbody = maxRowslength + headerCust + '                           ' + bureaIdentifier + lastModifiedBydate + createdDate + '       ' + '         ' + canaccedeFinGrp + repAddress + repPhone;
         
         Integer countheader = 460 - headbody.length();
         Integer countheader2 = countheader + headbody.length();
@@ -301,14 +333,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             // Code for Adding Accname Right Padding upon dynamic values in less
             String productname = defProductName;
-   
             if(prodct.name.length() < 30) {
                 integer num = 30 - prodct.name.length();
                 Integer num2 = num + prodct.name.length();
-      
                 productname = prodct.name.rightPad(num2);
-                //productname = productname.toUpperCase();
-           
             } 
             else if(prodct.name.length() == 30) {
                 productname = prodct.name;
@@ -317,7 +345,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             // Code for Adding Original_Balance__c Left Padding upon dynamic values in less
             String orignalCreditAmt = defOrignalCreditAmt;
             if(String.valueOf(prodct.Original_Balance__c) != null) {
-   
                 //Code to prevent negative values. if value is negative show 0's
                 if(prodct.Original_Balance__c >= 0){
                     orignalCreditAmt  =  String.valueOf(prodct.Original_Balance__c.setScale(0)).leftPad(9, '0');
@@ -332,22 +359,14 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             //Set payment frquency default D(i.e Deferred)
             paymentfrequency = metro2TransUnion.Payment_Frequency__c;
 
-            
             // Code for Adding Actual Payment Amount  Right Padding upon dynamic values in less
-            //String Finalactualpayplan  = '         ';
-            String Finalactualpayplan  = defFinalactualpayplan;
-            Decimal actualAmt;
-                                    
-            Integer LastMonthValue = ((System.today()).toStartofMonth().addDays(-1)).month();
-            
+            String Finalactualpayplan  = defFinalactualpayplan;                       
             //Populate Finalactualpayplan only if last payment date is in month same as Activity date
-            Finalactualpayplan = defFinalactualpayplan;
             if(null != prodct.Last_Payment_Date__c){
                 AggregateResult grossPaySum = productSumTotal.get(prodct.id);
                 Decimal actualGrossPay = 0.00;
                 if(null != grossPaySum){
-                    actualGrossPay = (Decimal)grossPaySum.get('grossPay');
-                                        
+                    actualGrossPay = (Decimal)grossPaySum.get('grossPay');                 
                     //negative amount to be reported as zero
                     if(actualGrossPay!=null && actualGrossPay > 0){
                         Finalactualpayplan = String.valueOf(actualGrossPay.setScale(0));
@@ -362,7 +381,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 //Code to prevent negative values. if value is negative show 0's
                 if(prodct.Current_Balance__c >= 0){        
                     currentplanval = String.valueOf(prodct.Current_Balance__c.setScale(0));
-                    currentplanval = currentplanval.leftPad(9, '0'); //changed 25-03-2020
+                    currentplanval = currentplanval.leftPad(9, '0');
                 }
                 else if(prodct.Current_Balance__c < 0){
                     currentplanval = defCurrentPlanval;
@@ -567,7 +586,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             }
             
             // Set default Account status to 13
-            /*******Need To Discuss***********/
             String accountStatus =defAccountStatus;
             if(String.isNotBlank(prodct.Product_Status__c)){
                 list<string> accountStatusClosedList = new list<string>();
@@ -612,12 +630,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 paymentHistoryProfile = CustomerProcessingBatchHelper.getNumberOfPayments(firstPaymentDate);
             }
             
-            //Code for populating Payment rating field-21/10/2020
-            /*******Need To Discuss***********/
+            //Code for populating Payment rating
             String paymentRating = defPaymentRating;
             if(accountStatus == '13'){
-                paymentRating = 'Y';
-                currentplanval = defCurrentPlanval;
+                paymentRating = 'G';
             }
             
             // Code for Last_Delinquency_Date__c Amount  Right Padding upon dynamic values in less
@@ -627,14 +643,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             }
             
             //set special comments value for records Product_Status__c
-            /*******Need To Discuss***********/
             String specialComments = defSpecialComments;
             if(String.isNotBlank(prodct.Product_Status__c)){
                 specialComments = CustomerProcessingBatchHelper.getDistressedSpecialComments(prodct.Product_Status__c);
             }
             
             // Code for Charged_Off_Amount__c  Amount  Right Padding upon dynamic values in less
-            /*******Need To Discuss***********/
             String chargeffamount = defChargeOffAmount;
             if(null != prodct.Charged_Off_Amount__c){
                 chargeffamount = String.valueOf((prodct.Charged_Off_Amount__c).setScale(0));
@@ -649,22 +663,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 pastval = defPastVal;
             }
             
-            // Code for Adding Monthly_Payment_Amount__c Right Padding upon dynamic values in less
-            String monthpayplan = defMonthPayPlan;
-            if(accountStatus == '13'){//Scheduled Payment Amount to be set to default when status is 13.- 21st Dec 2021
-                monthpayplan = defMonthPayPlan;
-            }else if(prodct.Monthly_Payment_Amount__c != null) {
-                decimal monthlyplandec = prodct.Monthly_Payment_Amount__c.setScale(0);
-                
-                if(monthlyplandec >= 0){
-                    monthpayplan = CustomerProcessingBatchHelper.getCalculatedPaymentAmount(paymentfrequency, monthlyplandec );
-                    monthpayplan = monthpayplan.leftPad(9, '0');
-                }
-                else if(monthlyplandec < 0){
-                    monthpayplan = defMonthPayPlan;
-                }
-            }
-            
             //Past Due Amount when Account Status is 97
              if(accountStatus == '97'){
                 if(prodct.Current_Balance__c == null || prodct.Current_Balance__c <=0){
@@ -674,6 +672,15 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     pastval = pastval.leftPad(9, '0');
                 }
             }
+            
+            // Code for Deceased Date
+            String deceasedDate  = ' ';
+            if(prodct.Deceased_Date__c != null) {
+                deceasedDate = 'D';
+            }else{
+                deceasedDate = '1';
+            }
+            
             system.debug('K1Segment'+K1Segment);
             //K1 Segment
             String K1SegmentLine = K1Segment;
@@ -695,26 +702,21 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             system.debug('K1SegmentLine'+K1SegmentLine);
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
             //Body record
-            string headbody2 = maxRowslength + '1              0'+identificationNumber+'          ' + '  ' + productname + 'O'+ accountType + Dateopened + '000000000' + orignalCreditAmt + '001' + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + '        ' + lastdelinquencydate + dateclosed + lastpaymentdate + CurrencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + '1' + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine;
+            string headbody2 = maxRowslength + '1              0'+idenfificationNum+ '  ' + productname + portfolioType + accountType + Dateopened + '000000000' + orignalCreditAmt + termsDuration + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + '        ' + lastdelinquencydate + dateclosed + lastpaymentdate + currencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + deceasedDate + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine;
             system.debug('heaser@@@'+headbody2);
             system.debug('heaser length'+headbody2.length());
             Integer Stringcount2 = 460 - headbody2.length();
             system.debug('Stringcount2'+Stringcount2);
             Integer Stringcountheadercount = Stringcount2 + headbody2.length();
 
-            
             finalheadbody2 = finalheadbody2 + headbody2.rightPad(Stringcountheadercount) + '\r\n';
 
-            
             integer [] trimmedArray = new integer [Stringcount2];
             for (integer i = 0; i < Stringcount2; i ++){
                 trimmedArray[i] = 160;
             }
        
-            
             metroobj2.RowData1__c = headbody2 + String.fromCharArray(trimmedArray);
-            
-            //ProductID
             metroobj2.ProductId__c = prodct.Id;
             metroobj2.Product__c = prodct.id;
             metroobj2.Bureau_Type__c = bureauTypeTransUnion;
@@ -730,7 +732,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 else{
                     prodct.TransUnion_Reported_As_Complete_Count__c += 1;
                 }
-                
                 updateProduct.add(prodct);
             }
             
@@ -762,7 +763,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         
         if(metro2TransUnion.Do_Not_Increase_Count__c == FALSE){
             ProductTriggerHandler.runProductTrigger = false;
-            update updateProduct;//to be uncommented before final file generation
+            //update updateProduct;//to be uncommented before final file generation
             ProductTriggerHandler.runProductTrigger = true;
         }
         
