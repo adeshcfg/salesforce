@@ -268,7 +268,7 @@
             //bug:5476 changes ends
             handleOnLoad :  function(component, event){
              var judgment=component.get('v.judgment');
-                console.log('handle on load');
+                console.log('handle on load--->'+judgment);
                 var judgData={};
                 var prodId = component.get("v.recordId");
             component.set("v.prodId", prodId);
