@@ -262,6 +262,7 @@
       $A.enqueueAction(action);
     },
    handleComponentEvent : function(component, event) {
+    console.log('data in event--->'+event.getParam("judgmentId"));
        component.set('judgment',event.getParam("judgmentId"));
      console.log('judgment--->'+component.get('v.judgment')); 
     },
