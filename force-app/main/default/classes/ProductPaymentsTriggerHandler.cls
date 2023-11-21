@@ -173,8 +173,10 @@ public class ProductPaymentsTriggerHandler{
             for(Product_Payments__c productPayment : listNewProductPayments){
                
                 if(prodRTypeIdMap.get('Distressed_Product_Payment') == productPayment.RecordTypeId){
-                    Date date1 = productPayment.Payment_Created__c;
-                    String day1 = String.valueOf(date1.Day());
+                   // Date date1 = productPayment.Payment_Created__c;
+                   //bug:5355 - changes : commented above line and added below line to Populate Payment_Posting_Date_Text with Payment Posting Date
+                   Date date1 = productPayment.Payment_Posting_Date__c;
+                   String day1 = String.valueOf(date1.Day());
                     String month1 = String.valueOf(date1.Month());
                     String yr = String.valueOf(date1.Year());
                     
