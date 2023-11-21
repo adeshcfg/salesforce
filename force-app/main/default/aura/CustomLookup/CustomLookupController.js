@@ -31,11 +31,12 @@
             component.set('v.selectedRecord',selectedRecord);
             component.set('v.value',selectedRecord.value);
             //bug:5476 changes starts
-           var cmpEvent = cmp.getEvent("cmpEvent");
-        cmpEvent.setParams({
+       //    var cmpEvent = component.getEvent("cmpEvent");
+       var eventFire=$A.getEvt("cmpEvent");
+       eventFire.setParams({
             "judgmentId" : selectedRecord
         });
-        cmpEvent.fire();
+        eventFire.fire();
     
           /*  console.log('before helper');
             helper.getProdName(component, event, helper);
