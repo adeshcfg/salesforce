@@ -181,6 +181,7 @@ public class ProductPaymentsTriggerHandler{
                     String yr = String.valueOf(date1.Year());
                     
                     productPayment.Payment_Posting_Date_Text__c = month1 + '/'+day1 + '/'+yr;
+                    system.debug('productPayment.Payment_Posting_Date_Text__c--->'+productPayment.Payment_Posting_Date_Text__c);
                     if(month1.length() == 1){
                         month1 = '0'+month1;
                     }
@@ -1484,6 +1485,10 @@ productNames += productInstance.Name + ',';
                                           FROM Product_Payments__c
                                           WHERE CCS_Account__c IN :mapProduct.keySet()]){
             String payAmount = String.valueOf(oldPay.Payment_Amount__c);
+            system.debug('oldPay.Payment_Posting_Date_Text__c--->'+oldPay.Payment_Posting_Date_Text__c);
+            system.debug('oldPay.Payment_Type__c--->'+oldPay.Payment_Type__c);
+            system.debug('oldPay.CCS_Account__c--->'+oldPay.CCS_Account__c);
+
             setOldTransaction.put(payAmount + oldPay.Payment_Type__c + oldPay.Payment_Posting_Date_Text__c +
                                     oldPay.CCS_Account__c, oldPay.ID);                                          
         }
@@ -2393,7 +2398,10 @@ productNames += productInstance.Name + ',';
                                                 prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)
                     && !setOldTransaction.containsKey(payAmount + PAYTYPE_SETTLED_IN_FULL + 
                                                 prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)){
-                        ERROR_MSG += '<b>ERROR - </b>A corresponding Payment was not found for this reversal.<br/>';
+                                                    system.debug('prodPayment.Payment_Posting_Date_Text__c--->'+prodPayment.Payment_Posting_Date_Text__c);
+                                                    system.debug('prodPayment.Payment_Type__c--->'+prodPayment.Payment_Type__c);
+                                                    system.debug('prodPayment.CCS_Account__c--->'+prodPayment.CCS_Account__c);
+                                         ERROR_MSG += '<b>ERROR - </b>A corresponding Payment was not found for this reversal.<br/>';
                         prodPayment.addError('ERROR - A corresponding Payment was not found for this reversal.');
                     }
                     else{
