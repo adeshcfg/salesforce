@@ -1,18 +1,20 @@
-<aura:component implements ="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes" controller="AddNewJudgmentController">
+<aura:component
+    implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes"
+    controller="AddNewJudgmentController">
     <aura:attribute name="selectedRecord" type="Object" default="" description="selected Record Details" />
-    <aura:attribute name="recordId" type="String" default=""/>
-    <aura:attribute name="serverRespose" type="Object"/>
+    <aura:attribute name="recordId" type="String" default="" />
+    <aura:attribute name="serverRespose" type="Object" />
     <aura:attribute name="showSpinner" type="Boolean" default="false" />
     <aura:attribute name="createNewJudgment" type="Boolean" default="false" />
-    <aura:attribute name="excludeIds" type="String[]" default="[]"/>
-    <aura:attribute name="whereClauseField" type="String" default="Legal_Sub_Status__c"/>
-    <aura:attribute name="whereClauseValue" type="String" default="Vacated"/>
-    <aura:attribute name="recordTypeId" type="Id" default="0123a0000000NDtAAM"/> 
+    <aura:attribute name="excludeIds" type="String[]" default="[]" />
+    <aura:attribute name="whereClauseField" type="String" default="Legal_Sub_Status__c" />
+    <aura:attribute name="whereClauseValue" type="String" default="Vacated" />
+    <aura:attribute name="recordTypeId" type="Id" default="0123a0000000NDtAAM" />
     <aura:attribute name="diableButton" type="Boolean" default="false" />
     <aura:attribute name="ObjectMap" type="Map" default="{}" />
     <!--Bug : 5476 added below line-->
     <aura:attribute name="allProductFields" type="Map" default="{}" />
-    <aura:attribute name="judgment" type="Object"/>
+    <aura:attribute name="judgment" type="Object" />
     <aura:attribute name="productName" type="String" default="" />
     <aura:attribute name="productId" type="String" default="" />
     <!--aura:attribute name="prodName2Flag" type="Boolean" default=""/>
@@ -21,13 +23,13 @@
     <aura:attribute name="prodName4Flag" type="Boolean" default=""/>
     <aura:attribute name="prodName5Flag" type="Boolean" default=""/-->
     <!--aura:handler name="cmpEvent" event="c:addNewtoCustomLookup" action="{!c.handleComponentEvent}"/-->
-    <aura:method name="handleMessage" action="{!v.handleMessage}" />
+    <!-- <aura:method name="handleMessage" action="{!v.handleMessage}" /> -->
     <aura:attribute name="truthy" type="Boolean" default="false" />
     <aura:attribute name="accJudgment" type="Boolean" default="false" />>
 
-    
-    <lightning:notificationsLibrary aura:id="notificationsLibrary"/>
-    
+
+    <lightning:notificationsLibrary aura:id="notificationsLibrary" />
+
     <aura:attribute name="legalDetailSection" type="String[]" default="[
                                                                        'Legal_Status__c',
                                                                        'Judgment_Date__c',
@@ -79,23 +81,24 @@
                                                                        '',
                                                                        'Agency_Initiated_Legal_Action__c',
                                                                     ]" />
-   
 
-    <aura:attribute name="productRecord" type="Object"/>
-    <force:recordData aura:id="forceRecord"
-                      recordId="{!v.recordId}"
-                      fields="Id,Name"
-                      targetFields="{!v.productRecord}"
-                      />
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    
-    <c:errorHandling aura:id="errorHandling" serverRespose="{!v.serverRespose}" showSpinner="{!v.showSpinner}"/>
+
+    <aura:attribute name="productRecord" type="Object" />
+    <force:recordData aura:id="forceRecord" recordId="{!v.recordId}" fields="Id,Name"
+        targetFields="{!v.productRecord}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <c:errorHandling aura:id="errorHandling" serverRespose="{!v.serverRespose}" showSpinner="{!v.showSpinner}" />
     <c:QuickAction header="Add Judgment" showSpinner="{!v.showSpinner}">
-        
+
         <div class="slds-clearfix">
             <div class="slds-float_right">
                 <tr>
-                    <td><ui:inputCheckbox class="slds-float_right" labelClass="slds-m-right_xx-small" aura:id="create-new" label="Create new Judgment" change="{!c.isNewJudgment}" value="{!v.createNewJudgment}"/></td>
+                    <td>
+                        <ui:inputCheckbox class="slds-float_right" labelClass="slds-m-right_xx-small"
+                            aura:id="create-new" label="Create new Judgment" change="{!c.isNewJudgment}"
+                            value="{!v.createNewJudgment}" />
+                    </td>
                 </tr>
             </div>
             <!--<aura:if isTrue="{!v.truthy}">
@@ -104,33 +107,24 @@
             <aura:if isTrue="{!v.accJudgment}">
             	<p class="slds-text-color_success">Note: Active judgment is present on this account</p>
         	</aura:if>-->
-            </div> 
+        </div>
         <aura:if isTrue="{! not(v.createNewJudgment) }">
-            <c:CustomLookup objectName="Judgment__c" 
-                            fieldName="Name" 
-                            recordCount="5" 
-                            label="Judgment" 
-                            selectedRecord="{!v.selectedRecord}" 
-                            excludeIds="{!v.excludeIds}"
-                            whereClauseField="{!v.whereClauseField}"
-                            whereClauseValue = "{!v.whereClauseValue}"
-                            />
+            <c:CustomLookup objectName="Judgment__c" fieldName="Name" recordCount="5" label="Judgment"
+                selectedRecord="{!v.selectedRecord}" excludeIds="{!v.excludeIds}"
+                whereClauseField="{!v.whereClauseField}" whereClauseValue="{!v.whereClauseValue}" />
         </aura:if>
-        
-        <lightning:recordEditForm aura:id="recordViewForm"
-                                  recordId="{!v.selectedRecord.value}"
-                                  objectApiName="Judgment__c"
-                                  recordTypeId ="{!v.recordTypeId}"
-                                  onsuccess="{!c.handleOnSuccess}"
-                                  onerror="{!c.handleOnError}">
-            <lightning:messages/>
-            
-            <h3 class="slds-section__title slds-theme--shade primaryPaletteBorder slds-m-top_x-small" >
+
+        <lightning:recordEditForm aura:id="recordViewForm" recordId="{!v.selectedRecord.value}"
+            objectApiName="Judgment__c" recordTypeId="{!v.recordTypeId}" onsuccess="{!c.handleOnSuccess}" onload="{!c.handleOnLoad}"
+            onerror="{!c.handleOnError}">
+            <lightning:messages />
+
+            <h3 class="slds-section__title slds-theme--shade primaryPaletteBorder slds-m-top_x-small">
                 <span class="section-header-title slds-p-horizontal--small slds-truncate">Legal Details</span>
             </h3>
             <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-2">
-                    <lightning:outputField fieldName="Name" disabled ="true"/>
+                    <lightning:outputField fieldName="Name" disabled="true" />
                 </div>
                 <div class="slds-col slds-size_1-of-2">
                 </div>
@@ -138,38 +132,35 @@
                     <div class="slds-col slds-size_1-of-2 slds-p-right_small">
                         <aura:if isTrue="{! not(v.createNewJudgment) }">
                             <lightning:outputField onchange="{!c.textChange}" fieldName="{!item}" />
-                           
                             <aura:set attribute="else">
                                 <!--<lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c'}"/>-->
                                 <!--Bug : 5476 - changes starts -->
-                            <aura:if isTrue="{!item!='Product_1__c'}">
-                                <lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c'
-                                                                                                                                                   || item=='Product_1__c' || item=='Product_2__c' || item=='Product_3__c'
-                                                                                                                                                   || item=='Product_4__c' || item=='Product_5__c'}" />
-                               
-                            </aura:if>
-                                   <lightning:inputField  fieldName="Product_1__c" disabled="true" value="{!v.allProductFields.Product_1__c}"></lightning:inputField>
-                                <lightning:inputField  fieldName="Product_2__c" disabled="true" value="{!v.allProductFields.Product_2__c}"></lightning:inputField>
-                                <lightning:inputField  fieldName="Product_3__c" disabled="true" value="{!v.allProductFields.Product_3__c}"></lightning:inputField>
-                                <lightning:inputField  fieldName="Product_4__c" disabled="true" value="{!v.allProductFields.Product_4__c}"></lightning:inputField>
-                                <lightning:inputField  fieldName="Product_5__c" disabled="true" value="{!v.allProductFields.Product_5__c}"></lightning:inputField>
-                               <!--Bug: 5476 - changes ends-->
-                        </aura:set>
-                            
+                                <aura:if isTrue="{!item!='Product_1__c'}">
+                                    <lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"
+                                        disabled="{!item=='Country__c'}"
+                                        readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c' || item=='Product_1__c' || item=='Product_2__c' || item=='Product_3__c' || item=='Product_4__c' || item=='Product_5__c'}" />
+                                </aura:if>
+                                <lightning:inputField fieldName="Product_1__c" disabled="true"
+                                    value="{!v.allProductFields.Product_1__c}" />
+                                <lightning:inputField fieldName="Product_2__c" disabled="true"
+                                    value="{!v.allProductFields.Product_2__c}" />
+                                <lightning:inputField fieldName="Product_3__c" disabled="true"
+                                    value="{!v.allProductFields.Product_3__c}" />
+                                <lightning:inputField fieldName="Product_4__c" disabled="true"
+                                    value="{!v.allProductFields.Product_4__c}" />
+                                <lightning:inputField fieldName="Product_5__c" disabled="true"
+                                    value="{!v.allProductFields.Product_5__c}" />
+                                <!--Bug: 5476 - changes ends-->
+                            </aura:set>
                         </aura:if>
                     </div>
                 </aura:iteration>
             </div>
-           
-           
-        </lightning:recordEditForm> 
+        </lightning:recordEditForm>
         <aura:set attribute="save">
-            <lightning:button aura:id="submit" 
-                              type="submit" 
-                              label="Save" 
-                              class="slds-button_brand" 
-                              disabled="{! or((not(v.selectedRecord) &amp;&amp; not(v.createNewJudgment)), diableButton)}"
-                              onclick="{!c.saveJudgment}"/>
+            <lightning:button aura:id="submit" type="submit" label="Save" class="slds-button_brand"
+                disabled="{! or((not(v.selectedRecord) &amp;&amp; not(v.createNewJudgment)), diableButton)}"
+                onclick="{!c.saveJudgment}" />
         </aura:set>
     </c:QuickAction>
 </aura:component>
