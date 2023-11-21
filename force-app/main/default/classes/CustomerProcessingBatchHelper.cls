@@ -23,6 +23,11 @@ public class CustomerProcessingBatchHelper {
                                                                     'COMPLETED / PAID IN FULL' => 'B ',
                                                                     'SETTLED' =>'AU',
                                                                     'DEFAULT' => 'B '
+                                                                };
+    public static Map<String, String> distressedSpecialCommentMapping =  new Map<String, String>{
+                                                                    '906000' => 'AC',
+                                                                    '907000' =>'AU'
+                                                                    
                                                                 }; 
     public static Map<String, String> termFrequencyMapping =  new Map<String, String>{
                                                                     'MONTHLY' => 'M',
@@ -70,13 +75,18 @@ public class CustomerProcessingBatchHelper {
     
     // Check account status and return mapped value for special comments
     public static String getSpecialComments(String accountStatus){
-        if(specialCommentMapping.containsKey(accountStatus)){
-            return specialCommentMapping.get(accountStatus);
+        if(distressedSpecialCommentMapping.containsKey(accountStatus)){
+            return distressedSpecialCommentMapping.get(accountStatus);
         }else{
-            return specialCommentMapping.get('DEFAULT');
+            return distressedSpecialCommentMapping.get('DEFAULT');
         }
     }
-    
+    // Check account status and return mapped value for Distressed special comments
+    public static String getDistressedSpecialComments(String accStatus){
+        if(specialCommentMapping.containsKey(accStatus)){
+            return specialCommentMapping.get(accStatus);
+        }
+    }
     // Check payment frequency and return mapped value for Term Frequency
     public static String getPaymentFrequency(String paymentFrequency){
         if(termFrequencyMapping.containsKey(paymentFrequency)){
