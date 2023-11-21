@@ -620,7 +620,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             //Code for populating Payment rating
             String paymentRating = defPaymentRating;
-            if(accountStatus == '13'){
+            //if account status is 13 then set payment rating to G
+            if(accountStatus == metro2TransUnion.Account_Status_Close__c){
                 paymentRating = 'G';
             }
             
@@ -647,12 +648,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             String customerInformationIndicator = '  ';
             
             //Past Due Amount
-            if(accountStatus == '13'){
+            if(accountStatus == metro2TransUnion.Account_Status_Close__c){
                 pastval = defPastVal;
             }
             
             //Past Due Amount when Account Status is 97
-             if(accountStatus == '97'){
+             if(accountStatus == metro2TransUnion.Account_Status_Open_Unpaid__c){
                 if(prodct.Current_Balance__c == null || prodct.Current_Balance__c <=0){
                     pastval = defPastVal;
                 }else{
@@ -690,7 +691,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             system.debug('K1SegmentLine'+K1SegmentLine);
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
             //Body record
-            string headbody2 = maxRowslength + '1              0'+idenfificationNum+ '  ' + productname + portfolioType + accountType + Dateopened + '000000000' + orignalCreditAmt + termsDuration + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + '        ' + lastdelinquencydate + dateclosed + lastpaymentdate + currencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + deceasedDate + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine;
+            string headbody2 = maxRowslength + '1              0'+idenfificationNum+ '  ' + productname + portfolioType + accountType + Dateopened + '000000000' + orignalCreditAmt + termsDuration + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + '        ' + lastdelinquencydate + dateclosed + lastpaymentdate + currencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + deceasedDate + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine+'  ';
             system.debug('heaser@@@'+headbody2);
             system.debug('heaser length'+headbody2.length());
             Integer Stringcount2 = 460 - headbody2.length();
@@ -713,7 +714,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             metroFileData.add(metroobj2);
             
             //increment counter if records to be considered as out of CCS
-            if(accountStatus <> 'ZA'){
+            if(accountStatus <> metro2TransUnion.Account_Status_Close__c){
                 if(null == prodct.TransUnion_Reported_As_Complete_Count__c){
                     prodct.TransUnion_Reported_As_Complete_Count__c = 1;
                 }
