@@ -122,7 +122,7 @@
                                   objectApiName="Judgment__c"
                                   recordTypeId ="{!v.recordTypeId}"
                                   onsuccess="{!c.handleOnSuccess}"
-                                  onerror="{!c.handleOnError}"/>
+                                  onerror="{!c.handleOnError}">
             <lightning:messages/>
             
             <h3 class="slds-section__title slds-theme--shade primaryPaletteBorder slds-m-top_x-small" >
