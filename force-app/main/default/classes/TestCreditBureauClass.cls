@@ -16,6 +16,8 @@ public class TestCreditBureauClass {
         metro2File.Number_of_Days_After_Reporting__c = 45;
         metro2File.Payment_Frequency__c = 'D';
         metro2File.Account_Status_Close__c = '13';
+        metro2File.Portfolio_Type__c = 'O';
+        metro2File.Terms_Duration__c = '001';
         insert metro2File;
         
         Metro2_File__c metro2File1 = Metro2_File__c.getOrgDefaults();
@@ -201,6 +203,8 @@ public class TestCreditBureauClass {
         metro2File.Number_of_Days_After_Reporting__c = 45;
         metro2File.Payment_Frequency__c = 'D';
         metro2File.Account_Status_Close__c = '13';
+        metro2File.Portfolio_Type__c = 'O';
+        metro2File.Terms_Duration__c = '001';
         insert metro2File;
         
         Metro2_File__c metro2File1 = Metro2_File__c.getOrgDefaults();
