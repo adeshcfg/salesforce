@@ -23,6 +23,11 @@ public class CustomerProcessingBatchHelper {
                                                                     'COMPLETED / PAID IN FULL' => 'B ',
                                                                     'SETTLED' =>'AU',
                                                                     'DEFAULT' => 'B '
+                                                                };
+    public static Map<String, String> distressedSpecialCommentMapping =  new Map<String, String>{
+                                                                    '906000' => 'AC',
+                                                                    '907000' =>'AU',
+                                                                    'DEFAULT' => '  '
                                                                 }; 
     public static Map<String, String> termFrequencyMapping =  new Map<String, String>{
                                                                     'MONTHLY' => 'M',
@@ -76,7 +81,14 @@ public class CustomerProcessingBatchHelper {
             return specialCommentMapping.get('DEFAULT');
         }
     }
-    
+    // Check account status and return mapped value for Distressed special comments
+    public static String getDistressedSpecialComments(String accStatus){
+        if(distressedSpecialCommentMapping.containsKey(accStatus)){
+            return distressedSpecialCommentMapping.get(accStatus);
+        }else{
+            return distressedSpecialCommentMapping.get('DEFAULT');
+        }
+    }
     // Check payment frequency and return mapped value for Term Frequency
     public static String getPaymentFrequency(String paymentFrequency){
         if(termFrequencyMapping.containsKey(paymentFrequency)){
