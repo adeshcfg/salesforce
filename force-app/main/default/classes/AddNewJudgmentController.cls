@@ -472,4 +472,10 @@ ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
             }
         return listError;
     }
+
+    @AuraEnabled
+    public static Judgment__c getProductJudgmentDetails(Id judgmentId) {
+        Judgment__c judg = [SELECT id, name, Product_1__c, Product_2__c, Product_3__c, Product_4__c, Product_5__c FROM Judgment__c WHERE ID = :JudgmentId];
+        return judg;
+    }
 }

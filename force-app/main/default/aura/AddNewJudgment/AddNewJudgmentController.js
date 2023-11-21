@@ -142,27 +142,7 @@
     isNewJudgment: function (component, event, helper) {
         var createNew = component.get("v.createNewJudgment");
         if (createNew) {
-            console.log('create new checkbox checked');
             component.set("v.selectedRecord", "");
-            //bug:5476 changes starts
-            var prodId = component.get("v.recordId");
-            component.set("v.prodId", prodId);
-            var action = component.get("c.getProductName");
-            console.log('calling apex method');
-            action.setParams({
-                'prodId': prodId
-            });
-            action.setCallback(this, function (response) {
-                console.log('set call back');
-                var state = response.getState();
-                //console.log('response::',response.getReturnValue());
-                if (state === "SUCCESS") {
-                    component.set("v.productName", response.getReturnValue());
-                    console.log('success');
-                }
-            });
-            $A.enqueueAction(action);
-            //bug:5476 changes ends
         }
     },
     doInit: function (component, event, helper) {
@@ -180,6 +160,22 @@
             }
         });
         $A.enqueueAction(action);
+        var getProductName = component.get("c.getProductName");
+        getProductName.setParams({
+            'prodId': prodId
+        });
+        getProductName.setCallback(this, function (response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                component.set("v.productName", response.getReturnValue());
+            } else if (state === "ERROR") {
+                var error = response.getError();
+                if (error) {
+                    console.error(error);
+                }
+            }
+        });
+        $A.enqueueAction(getProductName);
     },
     handleOnError: function (component, event, helper) {
         var btn = event.getSource();
@@ -229,28 +225,32 @@
         console.log('judgment--->' + component.get('v.judgment'));
     }, */
     //bug:5476 changes ends
-    handleOnLoad: function (component, event) {
-        var judgmentRecordData = event.getParam('record');
-        var judgData = {};
-        var prodId = component.get("v.recordId");
-        var action = component.get("c.getProductName");
+    onSelectedRecordChange: function (component, event) {
+        var selectedJudgment = event.getParam("value");
+        var judgData = { 'Product_1__c': '', 'Product_2__c': '', 'Product_3__c': '', 'Product_4__c': '', 'Product_5__c': '' };
+        if (!selectedJudgment) {
+            component.set("v.allProductFields", judgData);
+            return;
+        }
+        var action = component.get("c.getProductJudgmentDetails");
         action.setParams({
-            'prodId': prodId
+            'judgmentId': selectedJudgment.value
         });
         action.setCallback(this, function (response) {
             var state = response.getState();
             if (state === "SUCCESS") {
+                var judgmentRecord = response.getReturnValue();
                 for (var i = 1; i < 6; i++) {
                     var fieldApiName = 'Product_' + i + '__c';
-                    if (judgmentRecordData[fieldApiName]) {
-                        judgData[fieldApiName] = judgmentRecordData[fieldApiName];
+                    if (judgmentRecord[fieldApiName]) {
+                        judgData[fieldApiName] = judgmentRecord[fieldApiName];
                     }
                     else {
-                        judgData[fieldApiName] = response.getReturnValue();
+                        judgData[fieldApiName] = component.get("v.productName");
                         break;
                     }
                 }
-                component.set('v.allproducts', judgData);
+                component.set("v.allProductFields", judgData);
             } else if (state === "ERROR") {
                 var error = response.getError();
                 if (error) {

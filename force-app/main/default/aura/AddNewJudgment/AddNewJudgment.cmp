@@ -25,7 +25,7 @@
     <!--aura:handler name="cmpEvent" event="c:addNewtoCustomLookup" action="{!c.handleComponentEvent}"/-->
     <!-- <aura:method name="handleMessage" action="{!v.handleMessage}" /> -->
     <aura:attribute name="truthy" type="Boolean" default="false" />
-    <aura:attribute name="accJudgment" type="Boolean" default="false" />>
+    <aura:attribute name="accJudgment" type="Boolean" default="false" />
 
 
     <lightning:notificationsLibrary aura:id="notificationsLibrary" />
@@ -84,6 +84,7 @@
 
 
     <aura:attribute name="productRecord" type="Object" />
+    <aura:handler name="change" value="{!v.selectedRecord}" action="{!c.onSelectedRecordChange}" />
     <force:recordData aura:id="forceRecord" recordId="{!v.recordId}" fields="Id,Name"
         targetFields="{!v.productRecord}" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -108,14 +109,14 @@
             	<p class="slds-text-color_success">Note: Active judgment is present on this account</p>
         	</aura:if>-->
         </div>
-        <aura:if isTrue="{! not(v.createNewJudgment) }">
+        <aura:if isTrue="{!not(v.createNewJudgment) }">
             <c:CustomLookup objectName="Judgment__c" fieldName="Name" recordCount="5" label="Judgment"
                 selectedRecord="{!v.selectedRecord}" excludeIds="{!v.excludeIds}"
                 whereClauseField="{!v.whereClauseField}" whereClauseValue="{!v.whereClauseValue}" />
         </aura:if>
 
         <lightning:recordEditForm aura:id="recordViewForm" recordId="{!v.selectedRecord.value}"
-            objectApiName="Judgment__c" recordTypeId="{!v.recordTypeId}" onsuccess="{!c.handleOnSuccess}" onload="{!c.handleOnLoad}"
+            objectApiName="Judgment__c" recordTypeId="{!v.recordTypeId}" onsuccess="{!c.handleOnSuccess}"
             onerror="{!c.handleOnError}">
             <lightning:messages />
 
@@ -130,27 +131,46 @@
                 </div>
                 <aura:iteration items="{!v.legalDetailSection}" var="item">
                     <div class="slds-col slds-size_1-of-2 slds-p-right_small">
-                        <aura:if isTrue="{! not(v.createNewJudgment) }">
-                            <lightning:outputField onchange="{!c.textChange}" fieldName="{!item}" />
+                        <!-- For existing judgment -->
+                        <aura:if isTrue="{!not(v.createNewJudgment)}">
+                            <aura:if
+                                isTrue="{!not(item=='Product_1__c' || item=='Product_2__c' || item=='Product_3__c' || item=='Product_4__c' || item=='Product_5__c')}">
+                                <lightning:outputField onchange="{!c.textChange}" fieldName="{!item}" />
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!item=='Product_1__c'}">
+                                        <lightning:inputField fieldName="{!item}" readonly="true"
+                                            value="{!v.allProductFields.Product_1__c}" />
+                                    </aura:if>
+                                    <aura:if isTrue="{!item=='Product_2__c'}">
+                                        <lightning:inputField fieldName="{!item}" readonly="true"
+                                            value="{!v.allProductFields.Product_2__c}" />
+                                    </aura:if>
+                                    <aura:if isTrue="{!item=='Product_3__c'}">
+                                        <lightning:inputField fieldName="{!item}" readonly="true"
+                                            value="{!v.allProductFields.Product_3__c}" />
+                                    </aura:if>
+                                    <aura:if isTrue="{!item=='Product_4__c'}">
+                                        <lightning:inputField fieldName="{!item}" readonly="true"
+                                            value="{!v.allProductFields.Product_4__c}" />
+                                    </aura:if>
+                                    <aura:if isTrue="{!item=='Product_5__c'}">
+                                        <lightning:inputField fieldName="{!item}" readonly="true"
+                                            value="{!v.allProductFields.Product_5__c}" />
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                            <!-- For new judgment -->
                             <aura:set attribute="else">
-                                <!--<lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"  disabled ="{! item=='Country__c'}" readonly="{!item=='Plaintiff__c'}"/>-->
                                 <!--Bug : 5476 - changes starts -->
                                 <aura:if isTrue="{!item!='Product_1__c'}">
                                     <lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"
                                         disabled="{!item=='Country__c'}"
                                         readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c' || item=='Product_1__c' || item=='Product_2__c' || item=='Product_3__c' || item=='Product_4__c' || item=='Product_5__c'}" />
+                                    <aura:set attribute="else">
+                                        <lightning:inputField fieldName="Product_1__c" readonly="true"
+                                            value="{!v.productName}" />
+                                    </aura:set>
                                 </aura:if>
-                                <lightning:inputField fieldName="Product_1__c" disabled="true"
-                                    value="{!v.allProductFields.Product_1__c}" />
-                                <lightning:inputField fieldName="Product_2__c" disabled="true"
-                                    value="{!v.allProductFields.Product_2__c}" />
-                                <lightning:inputField fieldName="Product_3__c" disabled="true"
-                                    value="{!v.allProductFields.Product_3__c}" />
-                                <lightning:inputField fieldName="Product_4__c" disabled="true"
-                                    value="{!v.allProductFields.Product_4__c}" />
-                                <lightning:inputField fieldName="Product_5__c" disabled="true"
-                                    value="{!v.allProductFields.Product_5__c}" />
-                                <!--Bug: 5476 - changes ends-->
                             </aura:set>
                         </aura:if>
                     </div>
