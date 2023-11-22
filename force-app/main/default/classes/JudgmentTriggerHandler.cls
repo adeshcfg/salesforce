@@ -92,6 +92,8 @@ public class JudgmentTriggerHandler {
         //get Judgment Balance According to Product
         getJudgmentBalance(listNewJudgments);
         //updateAgencyOnJudgment(listNewJudgments);
+                //Added below line part od Bug-5564
+      if(!test.isRunningTest())  updateAgencyOnJudgment(listNewJudgments);
     }
     //Bug: 5564 - Updated the below method to remove reference of AccountJudgment records
     public static void updateAgencyOnJudgment(list<Judgment__c> listNewJudgments){
@@ -126,27 +128,24 @@ public class JudgmentTriggerHandler {
                                Status__c,Sub_Status__c,Account_Purchasing_Entity_Value__c
                                FROM Product__c WHERE Name IN :prodNames LIMIT 1]; 
         
+        JudgmentTriggerHandler.runJudgmentTrigger = False;
         //Populate Agency from Product to Judgment.
-        list<Judgment__c> updateJudgments=new list<Judgment__c>();
         for(Judgment__c judgment : listNewJudgments){
                 system.debug('inside product check');
-                Judgment__c judgmentToUpdate=judgment;
                 if(prod.Collection_Agency__c != NULL){
                     system.debug('inside judgment');
-                    judgmentToUpdate.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prod.Collection_Agency__c));                   
+                    judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prod.Collection_Agency__c));                   
                 }
-                if(String.isNotBlank(judgmentToUpdate.Agency_Initiated_Legal_Action__c)){
+                if(String.isNotBlank(judgment.Agency_Initiated_Legal_Action__c)){
                     
-                    judgmentToUpdate.Agency_Initiated_Legal_Action_Lookup__c = collectionAgency.get(judgmentToUpdate.Agency_Initiated_Legal_Action__c);
+                    judgment.Agency_Initiated_Legal_Action_Lookup__c = collectionAgency.get(judgment.Agency_Initiated_Legal_Action__c);
                     
                 }else{
-                    judgmentToUpdate.Agency_Initiated_Legal_Action_Lookup__c = Null;
+                    judgment.Agency_Initiated_Legal_Action_Lookup__c = Null;
                 }
-                updateJudgments.add(judgmentToUpdate);
-            system.debug('inside judgment%%'+judgmentToUpdate);
+            
+            system.debug('inside judgment%%'+judgment);
         }
-        JudgmentTriggerHandler.runJudgmentTrigger = False;
-        if(!updateJudgments.isEmpty()) update updateJudgments;
         JudgmentTriggerHandler.runJudgmentTrigger = True;
     }
     
@@ -588,8 +587,7 @@ validationRules(listNewJudgments,mapOldJudgment);
     public static void handleAfterInsert(list<Judgment__c> judgment){
         system.debug('after insert');
         system.debug('after insert judgment' +judgment);
-          //Added below line part od Bug-5564
-          if(!test.isRunningTest())  updateAgencyOnJudgment(judgment);
+
         for(Judgment__c judgRecord : judgment){
             Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
             config.Send_Notification__c = true;  
