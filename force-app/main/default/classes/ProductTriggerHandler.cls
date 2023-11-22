@@ -204,6 +204,9 @@ public class ProductTriggerHandler{
         //Ticket 4558: Interest Waiver functionality checking Accuring Interest
         populateAccuringInterest(prodNew);
         
+        //Ticket 4758: Populate Closed date on Distressed product based on product status
+        calculateClosedDateOnDistressedProduct(prodNew);
+        
         isCommunityUser = InsolvencyUtil.isCommunityUser();
         ID productSource; 
         for(Product__c prodData :prodNew){
@@ -463,6 +466,10 @@ public class ProductTriggerHandler{
         UtilityMethod();
         //Ticket 4558: Interest Waiver functionality checking Accuring Interest
         populateAccuringInterest(listNewProducts);
+        
+        //Ticket 4758: Populate Closed date on Distressed product based on product status
+        calculateClosedDateOnDistressedProduct(listNewProducts);
+        
         // Pre load Statute Date from metadata
         StatuteDateUtilities.loadStatuteDataFromMetadata();
         
@@ -2048,6 +2055,23 @@ public class ProductTriggerHandler{
                   system.debug('ProductTriggerHandler_populateAccuringInterest: value of Accruing Interest::'+prodListData.Interest_Stopped__c);
                 	prodListData.Interest_Stopped__c = false;
               }   	
+        }
+    }
+    
+    //4758: Populate Closed date on Distressed product based on product status
+    public static void calculateClosedDateOnDistressedProduct(List<Product__c> listNewProducts){
+        map<String, Data_Status_Mapping__c> mapDataStatusMapping = Data_Status_Mapping__c.getAll();
+        map<String, Data_Status_Mapping__c> mapDataStatus = new map<String, Data_Status_Mapping__c>();
+        
+        for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
+            mapDataStatus.put(metaData.name,metaData);
+        }
+        
+        for(Product__c prodData :listNewProducts){
+            if(prodRTypeIdMap.get('Distressed_Account') == prodData.RecordTypeId && mapDataStatus.containskey(prodData.Product_Status__c) && 
+               mapDataStatus.get(prodData.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
+               prodData.Closed_Date__c = Date.today(); 
+            }
         }
     }
 }
