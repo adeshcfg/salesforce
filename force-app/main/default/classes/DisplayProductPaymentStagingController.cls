@@ -191,7 +191,8 @@ public class DisplayProductPaymentStagingController {
                    }
                    prodPayment.Payment_Provided_Agency__c = placementID;
                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;
-                  //Bug : 5354 changes starts
+                   prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
+                   //Bug : 5354 changes starts
                    prodPayment.Agency_Submitted_Payment__c = placementID;
                    prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c; prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
                   //Bug: 5354 changes ends
