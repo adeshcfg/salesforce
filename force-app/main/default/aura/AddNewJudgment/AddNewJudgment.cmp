@@ -167,7 +167,7 @@
                                         disabled="{!item=='Country__c'}"
                                         readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c' || item=='Product_1__c' || item=='Product_2__c' || item=='Product_3__c' || item=='Product_4__c' || item=='Product_5__c'}" />
                                     <aura:set attribute="else">
-                                        <lightning:inputField fieldName="Product_1__c" readonly="true"
+                                        <lightning:inputField fieldName="{!item}" readonly="true"
                                             value="{!v.productName}" />
                                     </aura:set>
                                 </aura:if>

@@ -251,6 +251,7 @@
                     }
                 }
                 component.set("v.allProductFields", judgData);
+                component.set('v.ObjectMap', judgData);
             } else if (state === "ERROR") {
                 var error = response.getError();
                 if (error) {
