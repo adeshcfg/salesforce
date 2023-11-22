@@ -92,8 +92,6 @@ public class JudgmentTriggerHandler {
         //get Judgment Balance According to Product
         getJudgmentBalance(listNewJudgments);
         //updateAgencyOnJudgment(listNewJudgments);
-                //Added below line part od Bug-5564
-      if(!test.isRunningTest())  updateAgencyOnJudgment(listNewJudgments);
     }
     //Bug: 5564 - Updated the below method to remove reference of AccountJudgment records
     public static void updateAgencyOnJudgment(list<Judgment__c> listNewJudgments){
@@ -128,24 +126,27 @@ public class JudgmentTriggerHandler {
                                Status__c,Sub_Status__c,Account_Purchasing_Entity_Value__c
                                FROM Product__c WHERE Name IN :prodNames LIMIT 1]; 
         
-        JudgmentTriggerHandler.runJudgmentTrigger = False;
         //Populate Agency from Product to Judgment.
+        list<Judgment__c> updateJudgments=new list<Judgment__c>();
         for(Judgment__c judgment : listNewJudgments){
                 system.debug('inside product check');
+                Judgment__c judgmentToUpdate=judgment;
                 if(prod.Collection_Agency__c != NULL){
                     system.debug('inside judgment');
-                    judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prod.Collection_Agency__c));                   
+                    judgmentToUpdate.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prod.Collection_Agency__c));                   
                 }
-                if(String.isNotBlank(judgment.Agency_Initiated_Legal_Action__c)){
+                if(String.isNotBlank(judgmentToUpdate.Agency_Initiated_Legal_Action__c)){
                     
-                    judgment.Agency_Initiated_Legal_Action_Lookup__c = collectionAgency.get(judgment.Agency_Initiated_Legal_Action__c);
+                    judgmentToUpdate.Agency_Initiated_Legal_Action_Lookup__c = collectionAgency.get(judgmentToUpdate.Agency_Initiated_Legal_Action__c);
                     
                 }else{
-                    judgment.Agency_Initiated_Legal_Action_Lookup__c = Null;
+                    judgmentToUpdate.Agency_Initiated_Legal_Action_Lookup__c = Null;
                 }
-            
-            system.debug('inside judgment%%'+judgment);
+                updateJudgments.add(judgmentToUpdate);
+            system.debug('inside judgment%%'+judgmentToUpdate);
         }
+        JudgmentTriggerHandler.runJudgmentTrigger = False;
+        if(!updateJudgments.isEmpty()) update updateJudgments;
         JudgmentTriggerHandler.runJudgmentTrigger = True;
     }
     
@@ -587,7 +588,8 @@ validationRules(listNewJudgments,mapOldJudgment);
     public static void handleAfterInsert(list<Judgment__c> judgment){
         system.debug('after insert');
         system.debug('after insert judgment' +judgment);
-
+          //Added below line part od Bug-5564
+          if(!test.isRunningTest())  updateAgencyOnJudgment(listNewJudgments);
         for(Judgment__c judgRecord : judgment){
             Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
             config.Send_Notification__c = true;  
@@ -2415,4 +2417,93 @@ judg.addError('Suit amount is not equal all Product suit amount');
             JudgmentTriggerHandler.runJudgmentTrigger = true;
         }
     }  
+    //Bug: 5476 changes starts
+    public static void validationRuleonProductAgencies(list<Judgment__c> listNewJudgments, Map<Id, Judgment__c> mapOldJudgments){
+      system.debug('Before Update');
+        set<String> prodNames = new set<String>();
+      
+        for(Judgment__c judgment : listNewJudgments){
+            system.debug('Before Update for loop');
+            if(judgment.Product_1__c <> mapOldJudgments.get(judgment.id).Product_1__c ||
+            judgment.Product_2__c <> mapOldJudgments.get(judgment.id).Product_2__c || 
+            judgment.Product_3__c <> mapOldJudgments.get(judgment.id).Product_3__c ||
+            judgment.Product_4__c <> mapOldJudgments.get(judgment.id).Product_4__c ||
+            judgment.Product_5__c <> mapOldJudgments.get(judgment.id).Product_5__c){
+            if(judgment.Product_1__c != NULL) prodNames.add(judgment.Product_1__c);
+            if(judgment.Product_2__c != NULL) prodNames.add(judgment.Product_2__c);
+            if(judgment.Product_3__c != NULL) prodNames.add(judgment.Product_3__c);
+            if(judgment.Product_4__c != NULL) prodNames.add(judgment.Product_4__c);
+            if(judgment.Product_5__c != NULL) prodNames.add(judgment.Product_5__c);          
+            }       
+    }
+    if(prodNames.size()>1){
+        system.debug('Before Update multiple products');
+        list<decimal> prodAgency2=new list<decimal>();
+        list<decimal> prodAgency3=new list<decimal>();
+list<Product__c> prodList=[select id,Collection_Agency__c from product__c where name IN: (prodNames)];
+for(product__c p:prodList){
+    prodAgency2.add(p.Collection_Agency__C);
+    prodAgency3.add(p.Collection_Agency__C);
+}
+for(Judgment__c judgment : listNewJudgments){
+for(decimal pAgency:prodAgency2){
+    for(decimal ProductAgency:prodAgency3){
+    system.debug('Product Name :'+pAgency);
+if(ProductAgency <> pAgency){
+    system.debug('Before Update validation error');
+    judgment.addError('All Products in the Judgment should be in same agency.');
+}
+}
+}
+
+}
+    }
+}
+        //Bug: 5476 changes ends
+        //Bug: 5476 changes starts
+    public static void validationRuleonProductAgencies(list<Judgment__c> listNewJudgments){
+        set<String> prodNames = new set<String>();
+        system.debug('Before Insert');
+        for(Judgment__c judgment : listNewJudgments){
+            system.debug('Before Insert for loop');
+            if(judgment.Product_1__c != NULL){
+                prodNames.add(judgment.Product_1__c);
+            }
+            if(judgment.Product_2__c != NULL){
+                prodNames.add(judgment.Product_2__c);
+            }
+            if(judgment.Product_3__c != NULL){
+                prodNames.add(judgment.Product_3__c);
+            }
+            if(judgment.Product_4__c != NULL){
+                prodNames.add(judgment.Product_4__c);
+            }
+            if(judgment.Product_5__c != NULL){
+                prodNames.add(judgment.Product_5__c);
+            }       
+    }
+    if(prodNames.size()>1){
+        system.debug('Before Update multiple products');
+        list<decimal> prodAgency2=new list<decimal>();
+        list<decimal> prodAgency3=new list<decimal>();
+list<Product__c> prodList=[select id,Collection_Agency__c from product__c where name IN: (prodNames)];
+for(product__c p:prodList){
+    prodAgency2.add(p.Collection_Agency__C);
+    prodAgency3.add(p.Collection_Agency__C);
+}
+for(Judgment__c judgment : listNewJudgments){
+for(decimal pAgency:prodAgency2){
+    for(decimal ProductAgency:prodAgency3){
+    system.debug('Product Name :'+pAgency);
+if(ProductAgency <> pAgency){
+    system.debug('Before Update validation error');
+    judgment.addError('All Products in the Judgment should be in same agency.');
+}
+}
+}
+
+}
+    }
+}
+        //Bug: 5476 changes ends
 }
