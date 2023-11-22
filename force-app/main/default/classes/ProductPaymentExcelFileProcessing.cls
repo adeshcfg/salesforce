@@ -566,8 +566,8 @@ public class ProductPaymentExcelFileProcessing {
         set<Id> setProductNames = new set<Id>();
         set<String> setPlacementNames = new set<String>();                                   
         for(Product_Payments__c prodPayment:prodPayNew){
-            //productAgencyIds.add(prodPayment.Payment_Provided_Agency__c);
-           //Bug:5354 - Commented above line and added below line
+            productAgencyIds.add(prodPayment.Payment_Provided_Agency__c);
+           //Bug:5354 - Added below line
             productAgencyIds.add(prodPayment.Agency_Submitted_Payment__c);
             if(mapProductNameAmount.containsKey(String.valueOf(prodPayment.Payment_Amount__c) + prodPayment.Payment_Type__c + 
                                           prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)){
@@ -1045,8 +1045,8 @@ public class ProductPaymentExcelFileProcessing {
                         if(lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)){
                             //if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
                                 if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c != NULL){
-                                    //prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
-                                     //Bug:5354 - Commented above line and added below line
+                                    prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
+                                     //Bug:5354 - added below line
                                      prodPayment.Agency_Submitted_Payment__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
                                 }
                                 if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != NULL){
@@ -1076,8 +1076,8 @@ public class ProductPaymentExcelFileProcessing {
                     prodPayment.Tax_Amount__c = 0;
                     if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)){
                         if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != NULL){
-                            //prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
-                             //Bug:5354 - Commented above line and added below line
+                            prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
+                             //Bug:5354 - added below line
                              prodPayment.Agency_Submitted_Payment__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
                         }
                         if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != NULL){
@@ -1091,15 +1091,15 @@ public class ProductPaymentExcelFileProcessing {
                 && (productAgency != '9999' && String.isNotBlank(productAgency))){
                     //This account is recalled before 15 days 
                     if(prodPayment.Payment_Agency__c == productAgency){
-                        //prodPayment.Payment_Provided_Agency__c = productAgencyID;
-                        //Bug:5354 - Commented above line and added below line
+                        prodPayment.Payment_Provided_Agency__c = productAgencyID;
+                        //Bug:5354 - added below line
                          prodPayment.Agency_Submitted_Payment__c = productAgencyID;
                         prodPayment.Payment_Agency__c = productAgency;
                     }
                     else{
                         if(!mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                           // prodPayment.Payment_Provided_Agency__c = productAgencyID;
-                            //Bug:5354 - Commented above line and added below line 
+                           prodPayment.Payment_Provided_Agency__c = productAgencyID;
+                            //Bug:5354 - added below line 
                            prodPayment.Agency_Submitted_Payment__c = productAgencyID;
                             prodPayment.Payment_Agency__c = productAgency;
                             if(prodPayment.Pay_Due__c != NULL){
@@ -1111,8 +1111,8 @@ public class ProductPaymentExcelFileProcessing {
                         }
                         else if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) 
                                 && mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) > 15){
-                                   // prodPayment.Payment_Provided_Agency__c = productAgencyID;
-                                    //Bug:5354 - Commented above line and added below line 
+                                   prodPayment.Payment_Provided_Agency__c = productAgencyID;
+                                    //Bug:5354 - added below line 
                                    prodPayment.Agency_Submitted_Payment__c = productAgencyID;
                                     prodPayment.Payment_Agency__c = productAgency;
                                     
@@ -1204,8 +1204,8 @@ public class ProductPaymentExcelFileProcessing {
                                             if(lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)){
                                                 //if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
                                                     if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c != NULL){
-                                                       // prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
-                                                        //Bug:5354 - Commented above line and added below line 
+                                                       prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
+                                                        //Bug:5354 - added below line 
                                                        prodPayment.Agency_Submitted_Payment__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
                                                     }
                                                     if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != NULL){
@@ -1231,8 +1231,8 @@ public class ProductPaymentExcelFileProcessing {
                                             prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                                             if(lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)){  
                                                 if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != NULL){
-                                                   // prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c; 
-                                                    //Bug:5354 - Commented above line and added below line 
+                                                   prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c; 
+                                                    //Bug:5354 - added below line 
                                                    prodPayment.Agency_Submitted_Payment__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c; 
                                                     prodPayment.Payment_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c; 
                                                     if(prodPayment.Pay_Due__c != NULL){
@@ -1416,8 +1416,8 @@ public class ProductPaymentExcelFileProcessing {
                         
                         if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)){
                             if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != NULL){
-                              //  prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
-                               //Bug:5354 - Commented above line and added below line 
+                              prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
+                               //Bug:5354 - added below line 
                               prodPayment.Agency_Submitted_Payment__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
                             }
                             if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != NULL){
@@ -1445,8 +1445,8 @@ public class ProductPaymentExcelFileProcessing {
                     prodPayment.Tax_Amount__c = 0;
                     if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)){
                         if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != NULL){
-                           // prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
-                           //Bug:5354 - Commented above line and added below line
+                           prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
+                           //Bug:5354 - added below line
                            prodPayment.Agency_Submitted_Payment__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
                         }
                         if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != NULL){
@@ -1460,16 +1460,16 @@ public class ProductPaymentExcelFileProcessing {
                 && (productAgency != '9999' && String.isNotBlank(productAgency))){
                     //This account is recalled before 15 days 
                     if(!mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                       // prodPayment.Payment_Provided_Agency__c = productAgencyID;
-                      //Bug:5354 - Commented above line and added below line
+                       prodPayment.Payment_Provided_Agency__c = productAgencyID;
+                      //Bug:5354 - added below line
                        prodPayment.Agency_Submitted_Payment__c = productAgencyID;
                         prodPayment.Payment_Agency__c = productAgency;
                         
                     }
                     else if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) 
                     && mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) > 15){
-                       // prodPayment.Payment_Provided_Agency__c = productAgencyID;
-                       //Bug:5354 - Commented above line and added below line
+                       prodPayment.Payment_Provided_Agency__c = productAgencyID;
+                       //Bug:5354 - added below line
                        prodPayment.Agency_Submitted_Payment__c = productAgencyID;
                         prodPayment.Payment_Agency__c = productAgency;
                         if(prodPayment.Pay_Due__c != NULL){
@@ -1558,8 +1558,8 @@ public class ProductPaymentExcelFileProcessing {
                                     prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                                      if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)){
                                          if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != NULL){
-                                           //  prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
-                                          //Bug:5354 - Commented above line and added below line 
+                                           prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
+                                          //Bug:5354 - added below line 
                                            prodPayment.Agency_Submitted_Payment__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
                                          }
                                          if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != NULL){
@@ -1575,8 +1575,8 @@ public class ProductPaymentExcelFileProcessing {
                                     prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                                      if(mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)){
                                          if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != NULL){
-                                            // prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
-                                           //Bug:5354 - Commented above line and added below line
+                                            prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
+                                           //Bug:5354 - added below line
                                             prodPayment.Agency_Submitted_Payment__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c; 
                                          }
                                          if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != NULL){
@@ -1666,8 +1666,8 @@ public class ProductPaymentExcelFileProcessing {
             
             if(payStaging.Payment_Source__c == '2'
             || payStaging.Payment_Source__c == '3' || payStaging.Payment_Source__c == '1'){
-                //payStaging.Product_Payment_Agency__c = prodPayment.Payment_Provided_Agency__c;
-                //Bug:5354 - Commented above line and added below line
+                payStaging.Product_Payment_Agency__c = prodPayment.Payment_Provided_Agency__c;
+                //Bug:5354 - added below line
                 payStaging.Product_Payment_Agency__c = prodPayment.Agency_Submitted_Payment__c;
             }
             payStaging.Payment_Type__c = prodPayment.Payment_Type__c;
