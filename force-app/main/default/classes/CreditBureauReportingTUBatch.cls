@@ -46,7 +46,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public static final String defCanaFinGrp = '                                        ';
     public static final String defIdentificationNumber = '                    ';
     public static final String defBureauIdentifier = '          ';
-    
+    public static map<String, Data_Status_Mapping__c> mapDataStatusMapping = Data_Status_Mapping__c.getAll();
+    public static map<String, Data_Status_Mapping__c> mapDataStatus = new map<String, Data_Status_Mapping__c>();
         
     // Start Method
     public Database.Querylocator start(Database.BatchableContext BC) {
@@ -574,35 +575,22 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             // Set default Account status to 13
             String accountStatus =defAccountStatus;
             if(String.isNotBlank(prodct.Product_Status__c)){
-                list<string> accountStatusClosedList = new list<string>();
-                string acctStatusClosed = metro2TransUnion.Account_Status_Close_List__c;
-                if(acctStatusClosed != Null){
-                    accountStatusClosedList = acctStatusClosed.split(',');   
+                system.debug('mapDataStatusMapping'+mapDataStatusMapping.values());
+                for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
+                    mapDataStatus.put(metaData.name,metaData);
                 }
-                list<string> accountStatusOpenList = new list<string>();
-                string acctStatusOpen = metro2TransUnion.Account_Status_Open_List__c;
-                if(acctStatusOpen != Null){
-                    accountStatusOpenList = acctStatusOpen.split(',');   
-                }
-                list<string> accountStatusOpenUnpaidList = new list<string>();
-                string acctStatusOpenUnpaid = metro2TransUnion.Account_Status_Open_Unpaid_List__c;
-                if(acctStatusOpenUnpaid != Null){
-                    accountStatusOpenUnpaidList = acctStatusOpenUnpaid.split(',');   
-                }
-                //set account status to 13
-                if(accountStatusClosedList.contains(prodct.Product_Status__c)){
-                    accountStatus = metro2TransUnion.Account_Status_Close__c;
-                }
-                else if(accountStatusOpenList.contains(prodct.Product_Status__c)){
-                    accountStatus = metro2TransUnion.Account_Status_Open__c;
-                }
-                else if(accountStatusOpenUnpaidList.contains(prodct.Product_Status__c)){
-                    accountStatus = metro2TransUnion.Account_Status_Open_Unpaid__c;
-                }
-                else{
-                    //set account status to 13
-                    accountStatus = metro2TransUnion.Account_Status_Close__c;
-                }
+                system.debug('mapDataStatus'+mapDataStatus);
+                if(mapDataStatus.containskey(prodct.Product_Status__c))  {
+                   if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
+                       accountStatus = metro2TransUnion.Account_Status_Close__c; // set account status 13
+                   }
+                   if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
+                       accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
+                   } 
+                   if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open Unpaied'){
+                       accountStatus = metro2TransUnion.Account_Status_Open_Unpaid__c; // set account status 97
+                   }
+                 }
             }
             else{
                 //set account status to 13
