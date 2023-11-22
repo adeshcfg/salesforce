@@ -660,7 +660,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             //K1 Segment
             String K1SegmentLine = K1Segment;
             
-            system.debug('K1SegmentLine'+K1SegmentLine);
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
             if(prodct.Seller__r.name != null) {
                 if(String.valueOf(prodct.Seller__r.name).length() < 30) {
