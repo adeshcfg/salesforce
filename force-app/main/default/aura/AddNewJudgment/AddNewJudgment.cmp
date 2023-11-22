@@ -90,7 +90,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
     <c:errorHandling aura:id="errorHandling" serverRespose="{!v.serverRespose}" showSpinner="{!v.showSpinner}" />
-    <c:QuickAction header="Add Judgment" showSpinner="{!v.showSpinner}">
+    <c:QuickAction header="Add Judgment" showSpinner="{!v.showSpinner}" showFooter="false">
 
         <div class="slds-clearfix">
             <div class="slds-float_right">
@@ -117,7 +117,7 @@
 
         <lightning:recordEditForm aura:id="recordViewForm" recordId="{!v.selectedRecord.value}"
             objectApiName="Judgment__c" recordTypeId="{!v.recordTypeId}" onsuccess="{!c.handleOnSuccess}"
-            onerror="{!c.handleOnError}">
+            onerror="{!c.handleOnError}" onsubmit="{!c.handleSubmit}">
             <lightning:messages />
 
             <h3 class="slds-section__title slds-theme--shade primaryPaletteBorder slds-m-top_x-small">
@@ -162,10 +162,10 @@
                             <!-- For new judgment -->
                             <aura:set attribute="else">
                                 <!--Bug : 5476 - changes starts -->
-                                <aura:if isTrue="{!item!='Product_1__c'}">
+                                <aura:if isTrue="{!not(item=='Product_1__c')}">
                                     <lightning:inputField onchange="{!c.textChange}" fieldName="{!item}"
                                         disabled="{!item=='Country__c'}"
-                                        readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c' || item=='Product_1__c' || item=='Product_2__c' || item=='Product_3__c' || item=='Product_4__c' || item=='Product_5__c'}" />
+                                        readonly="{!item=='Plaintiff__c' || item=='Agency_Initiated_Legal_Action__c' || item=='Product_2__c' || item=='Product_3__c' || item=='Product_4__c' || item=='Product_5__c'}" />
                                     <aura:set attribute="else">
                                         <lightning:inputField fieldName="{!item}" readonly="true"
                                             value="{!v.productName}" />
@@ -176,11 +176,11 @@
                     </div>
                 </aura:iteration>
             </div>
+            <footer class="slds-modal__footer">
+                <lightning:button name="Cancel" label="Cancel" onclick="{!c.handleCancel}" />
+                <lightning:button type="submit" label="Save" class="slds-button_brand"
+                    disabled="{!or((not(v.selectedRecord) &amp;&amp; not(v.createNewJudgment)), diableButton)}" />
+            </footer>
         </lightning:recordEditForm>
-        <aura:set attribute="save">
-            <lightning:button aura:id="submit" type="submit" label="Save" class="slds-button_brand"
-                disabled="{! or((not(v.selectedRecord) &amp;&amp; not(v.createNewJudgment)), diableButton)}"
-                onclick="{!c.saveJudgment}" />
-        </aura:set>
     </c:QuickAction>
 </aura:component>

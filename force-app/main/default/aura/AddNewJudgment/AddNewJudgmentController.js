@@ -55,7 +55,9 @@
         });
         $A.enqueueAction(action);
     },
-    saveJudgment: function (component, event, helper) {
+    handleSubmit: function (component, event, helper) {
+        event.preventDefault();       // stop the form from submitting
+        var fields = event.getParam('fields');
         var btn = event.getSource();
         btn.set("v.disabled", true);
 
@@ -89,7 +91,8 @@
                     else {
                         //alert('Inside match');
                         component.set("v.showSpinner", true);
-                        component.find("recordViewForm").submit();
+                        fields.Product_1__c = component.get("v.productName");
+                        component.find("recordViewForm").submit(fields);
                     }
                 }
             });
@@ -129,7 +132,7 @@
                     else {
                         //alert('Inside match');
                         component.set("v.showSpinner", true);
-                        component.find("recordViewForm").submit();
+                        component.find("recordViewForm").submit(fields);
                     }
                 }
             });
@@ -142,6 +145,7 @@
     isNewJudgment: function (component, event, helper) {
         var createNew = component.get("v.createNewJudgment");
         if (createNew) {
+            component.set('v.ObjectMap', { 'Product_1__c': component.get("v.productName") });
             component.set("v.selectedRecord", "");
         }
     },
@@ -212,19 +216,7 @@
         });
         $A.enqueueAction(action);
     },
-    /* handleMessage: function (component, event, helper) {
-        var message = event.get("message");
-        console.log("Message received from child component: " + message);
-        console.log('data in event--->' + event.get("judgmentId"));
-        component.set('judgment', message);
-        console.log('judgment--->' + component.get('v.judgment'));
-    },
-    handleComponentEvent: function (component, event) {
-        console.log('data in event--->' + event.getParam("judgmentId"));
-        component.set('judgment', event.getParam("judgmentId"));
-        console.log('judgment--->' + component.get('v.judgment'));
-    }, */
-    //bug:5476 changes ends
+
     onSelectedRecordChange: function (component, event) {
         var selectedJudgment = event.getParam("value");
         var judgData = { 'Product_1__c': '', 'Product_2__c': '', 'Product_3__c': '', 'Product_4__c': '', 'Product_5__c': '' };
@@ -260,6 +252,12 @@
             }
         });
         $A.enqueueAction(action);
+    },
+
+    handleCancel: function (component, event, helper) {
+        if ($A.get("e.force:closeQuickAction ")) {
+            $A.get('e.force:refreshView').fire();
+            $A.get('e.force:closeQuickAction ').fire();
+        }
     }
-    //bug:5476 changes ends
 })
