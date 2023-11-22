@@ -2511,8 +2511,8 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
     list<string> prodNames=new list<string>();
     list<string> prodActiveNames=new list<string>();
     map<id,id> prodJudgmap=new map<id,id>();
-    for(Judgment__c prodJudg: prodJudgList ){
-        system.debug('prodJudg.Judgment__c '+prodJudg.ID);
+    for(Judgment__c judgment: prodJudgList ){
+        system.debug('judgment.Judgment__c '+judgment.ID);
           judgmentIds.add(prodJudg.ID);
           if(judgment.Product_1__c != NULL){
             prodNames.add(judgment.Product_1__c);
