@@ -18,6 +18,14 @@ public class CustomerProcessingBatchHelper {
                                                                     'DROPPED NOTIFICATION'=>'P ',
                                                                     'DEFAULT' => '  '
                                                                 }; 
+    public static Map<String, String> customerMailingCountry =  new Map<String, String>{
+                                                                    'CA' => 'CA',
+                                                                    'Canada'=>'CA',
+                                                                    'US'=>'US',
+                                                                    'United States'=>'US',
+                                                                    'USA'=>'US',
+                                                                    'DEFAULT' => '  '
+                                                                };                                                                
                                                                 
     public static Map<String, String> specialCommentMapping =  new Map<String, String>{
                                                                     'COMPLETED / PAID IN FULL' => 'B ',
@@ -61,6 +69,15 @@ public class CustomerProcessingBatchHelper {
             return customerInformationIndicator.get(customerStage);
         }else{
             return customerInformationIndicator.get('DEFAULT');
+        }
+    }
+    
+    // Check Mailing Country and return mapped value
+    public static String getMailingCountry(String mailingCountry){
+        if(customerMailingCountry.containsKey(mailingCountry)){
+            return customerMailingCountry.get(mailingCountry);
+        }else{
+            return customerMailingCountry.get('DEFAULT');
         }
     }
 
