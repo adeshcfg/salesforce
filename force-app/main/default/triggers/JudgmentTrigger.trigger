@@ -37,7 +37,7 @@ trigger JudgmentTrigger on Judgment__c (before insert, before update, after inse
                     //Bug:5564 - Changes starts
                     if(!test.isRunningTest())   JudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
                     JudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
-                     //Bug:5564 - changes Ends
+                    //Bug:5564 - changes Ends
                 }
                 if(Trigger.isUpdate){
                     system.debug('after update');
@@ -47,7 +47,7 @@ trigger JudgmentTrigger on Judgment__c (before insert, before update, after inse
                     //Bug:5564 - changes starts
                  if(!test.isRunningTest())   JudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
                  JudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
-                 //bug:5564 - changes ends
+                    //bug:5564 - changes ends
                 }
             }
         }
