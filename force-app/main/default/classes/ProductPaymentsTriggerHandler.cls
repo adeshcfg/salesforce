@@ -210,7 +210,7 @@ public class ProductPaymentsTriggerHandler{
                     && ((feeRecovery == 0 || feeRecovery < productPayment.Payment_Amount__c)
                     || mapProducts.get(productPayment.CCS_Account__c).Current_Bal_NSF_Fees__c <> 0)){ 
                         //Payment amount on which commission will be applied
-                        Decimal payCommission = productPayment.Payment_Amount__c;
+                        Decimal payCommission = 0;
                                 
                         //IF Fee recovery is present, commission will be applied on (Payment Amount - Fee Recovery Amount)
                         if(feeRecovery < productPayment.Payment_Amount__c){
