@@ -13668,6 +13668,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Payments__c.Agency_Submitted_Payment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Payments__c.Payment_Reversed__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18777,9 +18782,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Task-Task Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>TimeSlot-Time Slot Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Unallocated_Payment__c-CCS Unallocated Payment Layout</layout>
