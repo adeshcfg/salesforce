@@ -575,11 +575,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             // Set default Account status to 13
             String accountStatus =defAccountStatus;
             if(String.isNotBlank(prodct.Product_Status__c)){
-                system.debug('mapDataStatusMapping'+mapDataStatusMapping.values());
                 for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
                     mapDataStatus.put(metaData.name,metaData);
                 }
-                system.debug('mapDataStatus'+mapDataStatus);
                 if(mapDataStatus.containskey(prodct.Product_Status__c))  {
                    if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
                        accountStatus = metro2TransUnion.Account_Status_Close__c; // set account status 13
@@ -679,7 +677,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             system.debug('K1SegmentLine'+K1SegmentLine);
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
             //Body record
-            string headbody2 = maxRowslength + '1              0'+idenfificationNum+ '  ' + productname + portfolioType + accountType + Dateopened + '000000000' + orignalCreditAmt + termsDuration + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + '        ' + lastdelinquencydate + dateclosed + lastpaymentdate + currencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + deceasedDate + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine+'  ';
+            string headbody2 = maxRowslength + '1              0'+idenfificationNum+ '  ' + productname + portfolioType + accountType + Dateopened + '000000000' + orignalCreditAmt + termsDuration + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + '        ' + lastdelinquencydate + dateclosed + lastpaymentdate + currencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + deceasedDate + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine;
             system.debug('heaser@@@'+headbody2);
             system.debug('heaser length'+headbody2.length());
             Integer Stringcount2 = 460 - headbody2.length();

@@ -33,6 +33,8 @@ public with sharing class ProductRecallIndividualController {
     public Product__c product {get;set;}
     public Placement__c placement;
     String oldPlacementID;
+    Public map<String, Data_Status_Mapping__c> mapDataStatusMapping = Data_Status_Mapping__c.getAll();
+    Public map<String, Data_Status_Mapping__c> mapDataStatusMap = new map<String, Data_Status_Mapping__c>();
     //String oldPlacementStatusCode = '';
     
     public ProductRecallIndividualController(ApexPages.StandardController stdController) {
@@ -102,6 +104,9 @@ public with sharing class ProductRecallIndividualController {
             
         }
         
+		for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
+            mapDataStatusMap.put(metaData.name,metaData);
+        }        
         system.debug('placementStatusMap::'+placementStatusMap);
     }
     
@@ -164,6 +169,11 @@ public with sharing class ProductRecallIndividualController {
             product.Collection_Agency_Placement__c = placement.id;
             product.Status_Changed_Date__c = Date.today();
             product.Invalid_Submission_Initiated_By__c = null;
+            //4758: Populate Closed date on Distressed product based on product status
+            if(mapDataStatusMap.containskey(product.Product_Status__c) && 
+               mapDataStatusMap.get(product.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){    
+               product.Closed_Date__c = Date.today(); 
+            }
             placementIdentifier = String.valueOf(product.Collection_Agency__c);
         }
         else if(selectedValueAction == 'Pending Allocation'){
@@ -353,7 +363,11 @@ public with sharing class ProductRecallIndividualController {
                 product.Status_Changed_Date__c = Date.today();
                 product.Status_Changed_Date__c = Date.today();
                 product.Invalid_Submission_Initiated_By__c = null;
-                
+                //4758: Populate Closed date on Distressed product based on product status
+                if(mapDataStatusMap.containskey(product.Product_Status__c) && 
+                   mapDataStatusMap.get(product.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
+                       product.Closed_Date__c = Date.today(); 
+                }
                 placementIdentifier = String.valueOf(product.Collection_Agency__c);
             }
             else if(selectedValueAction == 'Pending Allocation'){
