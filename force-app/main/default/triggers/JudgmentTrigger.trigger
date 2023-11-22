@@ -17,11 +17,15 @@ trigger JudgmentTrigger on Judgment__c (before insert, before update, after inse
             if(Trigger.IsBefore){
                 if(Trigger.isInsert){
                     system.debug('after insert');
+                    //Added below line part of bug: #5476
+                    JudgmentTriggerHandler.validationRuleonProductAgencies(trigger.new);
                     JudgmentTriggerHandler.handleBeforeInsert(trigger.new);
                 }
                 if(Trigger.isUpdate){
                     system.debug('before update');
-                    JudgmentTriggerHandler.handleBeforeUpdate(trigger.new, trigger.oldMap);
+                   //Added below line part of bug: #5476
+                   JudgmentTriggerHandler.validationRuleonProductAgencies(trigger.new, trigger.oldMap);
+                   JudgmentTriggerHandler.handleBeforeUpdate(trigger.new, trigger.oldMap);
                 }
                 
             }
@@ -32,7 +36,8 @@ trigger JudgmentTrigger on Judgment__c (before insert, before update, after inse
                     JudgmentTriggerHandler.handleAfterInsert(trigger.new);
                     //Bug:5564 - Changes starts
                     if(!test.isRunningTest())   JudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
-                    //Bug:5564 - changes Ends
+                    JudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
+                     //Bug:5564 - changes Ends
                 }
                 if(Trigger.isUpdate){
                     system.debug('after update');
@@ -41,7 +46,8 @@ trigger JudgmentTrigger on Judgment__c (before insert, before update, after inse
                     JudgmentTriggerHandler.updateProductLegalStatus(Trigger.newMap, Trigger.oldMap);
                     //Bug:5564 - changes starts
                  if(!test.isRunningTest())   JudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
-                    //bug:5564 - changes ends
+                 JudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
+                 //bug:5564 - changes ends
                 }
             }
         }

@@ -225,7 +225,7 @@ public class AccountJudgmentTriggerHandler{
         }
     }
         //Bug: 5564 Commented below method
-
+/*
     public static void updateAmountsOnJudgment(List<Account_Judgment__c> prodJudgList){
         Set<Id> judgmentIds = new Set<Id>();
         for(Account_Judgment__c prodJudg: prodJudgList ){
@@ -240,7 +240,7 @@ public class AccountJudgmentTriggerHandler{
         for(Account_Judgment__c accJudgList : [SELECT Judgment__c, Product__r.Company_Name__c, Product__r.Account_Purchasing_Entity_Value__c FROM Account_Judgment__c WHERE  
                                                  /*(Judgment__r.Company_Name__c  = NULL OR Judgment__r.Plaintiff__c = NULL)*/
                                                 /*Product__r.Company_Name__c != NULL
-                                              AND */ judgment__c IN: judgmentIds
+                                              AND */ /*judgment__c IN: judgmentIds
                                               ORDER BY Product__r.LastModifiedDate DESC]){
             if(!judgmentIdCompanyNameMap.containsKey(accJudgList.Judgment__c) && accJudgList.Product__r.Company_Name__c != NULL)
             judgmentIdCompanyNameMap.put(accJudgList.Judgment__c, accJudgList.Product__r.Company_Name__c);
@@ -303,7 +303,7 @@ public class AccountJudgmentTriggerHandler{
             //JudgmentTriggerHandler.runJudgmentTrigger = True;
         }
     }
-    
+  */  
     //Bug: 5564 Commented below method
     //To Populate the Placement Ids on Judgment
   /*  public static void populateJudgmentWithPlacement(List<Account_Judgment__c> prodJudgList){

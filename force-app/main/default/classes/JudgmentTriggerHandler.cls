@@ -2503,5 +2503,100 @@ if(ProductAgency <> pAgency){
 }
     }
 }
+public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
+    Set<Id> judgmentIds = new Set<Id>();
+    Set<Id> judgmentActiveIds = new Set<Id>();
+    Map<Id, String> judgmentIdCompanyNameMap = new  Map<Id, String>();
+    Map<Id, String> judgmentIdPurchaseEntityMap = new  Map<Id, String>();
+    list<string> prodNames=new list<string>();
+    list<string> prodActiveNames=new list<string>();
+    map<id,id> prodJudgmap=new map<id,id>();
+    for(Judgment__c prodJudg: prodJudgList ){
+        system.debug('prodJudg.Judgment__c '+prodJudg.ID);
+          judgmentIds.add(prodJudg.ID);
+          if(judgment.Product_1__c != NULL){
+            prodNames.add(judgment.Product_1__c);
+        }
+        if(judgment.Product_2__c != NULL){
+            prodNames.add(judgment.Product_2__c);
+        }
+        if(judgment.Product_3__c != NULL){
+            prodNames.add(judgment.Product_3__c);
+        }
+        if(judgment.Product_4__c != NULL){
+            prodNames.add(judgment.Product_4__c);
+        }
+        if(judgment.Product_5__c != NULL){
+            prodNames.add(judgment.Product_5__c);
+        }       
+    }
+    if(!prodNames.isEmpty()){
+        system.debug('Product Names before loop-->'+prodNames);
+        for(Account_Judgment__c accJudgList : [SELECT Judgment__c,Status__c,Product__r.Company_Name__c, Product__r.Account_Purchasing_Entity_Value__c,Product__r.name from Account_Judgment__c where Judgment__c IN: judgmentIds ORDER BY Product__r.LastModifiedDate DESC]){
+           if(accJudgList.Status__c=='InActive'){
+            prodNames.remove(accJudgList.Product__r.name);
+           }
+           if(accJudgList.Status__c=='Active'){
+            judgmentActiveIds.add(accJudgList.Judgment__c);
+            prodJudgmap.put(accJudgList.Product__r.name,accJudgList.Judgment__c);
+           }
+           if(!judgmentIdCompanyNameMap.containsKey(accJudgList.Judgment__c) && accJudgList.Product__r.Company_Name__c != NULL)
+           judgmentIdCompanyNameMap.put(accJudgList.Judgment__c, accJudgList.Product__r.Company_Name__c);
+           
+           if(!judgmentIdPurchaseEntityMap.containsKey(accJudgList.Judgment__c) && accJudgList.Product__r.Account_Purchasing_Entity_Value__c != NULL)
+           judgmentIdPurchaseEntityMap.put(accJudgList.Judgment__c, accJudgList.Product__r.Account_Purchasing_Entity_Value__c);       
+                                                 
+           system.debug(accJudgList.Judgment__c+'==='+accJudgList.Product__r.Company_Name__c);
+        }
+        prodActiveNames.addAll(prodNames);
+    }
+        system.debug('Product Names after loop-->'+prodActiveNames);
+        if(!prodActiveNames.isEmpty()){
+            AggregateResult[] groupedResults  = [SELECT SUM(Current_Principal_Balance__c)  currentPrincipalBalance, 
+            SUM(Current_Interest_Amount__c) currentInterestBalance,Name
+            FROM product__c WHERE Name IN: prodActiveNames GROUP BY Name];
+            List<Judgment__c> judgList = new List<Judgment__c>();
+            List<Id> judgUpdate = new List<Id>();
+            system.debug('groupedResults'+groupedResults);
+            if(!judgmentActiveIds.isEmpty()){
+            for(AggregateResult aggRes: groupedResults){
+                system.debug('groupedResults'+aggRes.get('Judgment__c'));
+                Judgment__c judg = new Judgment__c();
+                    judg.Current_Principal_Balance__c = (Decimal)aggRes.get('currentPrincipalBalance');
+                    judg.Current_Interest_Balance__c  = (Decimal)aggRes.get('currentInterestBalance');
+                    judg.Id = prodJudgmap.get(aggRes.get('Name'));
+    
+                    system.debug('judgmentIdCompanyNameMap.containsKey(judg.Id) '+judgmentIdCompanyNameMap.containsKey(judg.Id));
+                    if(judgmentIdCompanyNameMap.containsKey(judg.Id)){
+                        judg.Company_Name__c = judgmentIdCompanyNameMap.get(judg.Id);
+                    }
+                    if(judgmentIdPurchaseEntityMap.containsKey(judg.Id)){
+                        judg.Plaintiff__c = judgmentIdPurchaseEntityMap.get(judg.Id);
+                    }
+                    judgUpdate.add(judg.Id);
+                    judgList.add(judg);                
+    
+            }
+        }
+            judgmentIds.removeAll(judgUpdate);
+            for(Id judgId: judgmentIds){
+                Judgment__c judg = new Judgment__c();
+                judg.Id = judgId;
+                judg.Current_Principal_Balance__c = null;
+                judg.Current_Interest_Balance__c = null;
+                judgList.add(judg);
+            }
+            system.debug('judgList==='+judgList);
+            if(judgList.size() > 0){
+                //JudgmentTriggerHandler.runJudgmentTrigger = False;
+                configSetting.Send_Notification__c = false;
+                update judgList;
+                configSetting.Send_Notification__c = true;
+                //JudgmentTriggerHandler.runJudgmentTrigger = True;
+            }
+        }
+
+}
+
         //Bug: 5476 changes ends
 }
