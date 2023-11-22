@@ -191,11 +191,11 @@ public class DisplayProductPaymentStagingController {
                    }
                    prodPayment.Payment_Provided_Agency__c = placementID;
                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;
-                   prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
                    //Bug : 5354 changes starts
                    prodPayment.Agency_Submitted_Payment__c = placementID;
-                   prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c; prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
+                   prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;
                   //Bug: 5354 changes ends
+                  prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
                    prodPayment.Pay_Due__c = payStaging.Commission_Amount__c;
                    prodPayment.Tax_Amount__c = payStaging.Tax_Amount__c;
                    prodPayment.Tax_Type__c = payStaging.Tax_Type__c;
