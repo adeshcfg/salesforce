@@ -55,6 +55,7 @@ public class TestCreditBureauClass {
         Judgment__c judg = new Judgment__c();
         judg.Legal_Status__c = 'Judgment';
         judg.Legal_Sub_Status__c = 'Vacated';
+        judg.Legal_Agency__c = '68';
         insert judg;
         
         List<Product__c> prodList = new List<Product__c>();
@@ -96,7 +97,7 @@ public class TestCreditBureauClass {
                                         CCS_Stage__c = 'Completed',
                                         Investment_Group__c = 'BNS CCS 1',
                                         Purchase_Date__c = SYSTEM.Today(),
-            							Charged_Off_Date__c = SYSTEM.Today().addDays(-1)
+            							Charged_Off_Date__c = SYSTEM.Today().addDays(+1)
                                         );
         prodList.add(prod);
 

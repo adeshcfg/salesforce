@@ -309,7 +309,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         List<MetroFlatFileData__c> metroFileDataK1Seg = new List<MetroFlatFileData__c>();
         
         for(Product__c prodct :scope) {
-            //if(!mapProductExcluse.containsKey(prodct.id)){
+            if(!mapProductExcluse.containsKey(prodct.id)){
                 
             MetroFlatFileData__c metroobj2 = new MetroFlatFileData__c();
             
@@ -660,7 +660,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             //K1 Segment
             String K1SegmentLine = K1Segment;
             
-            system.debug('K1SegmentLine'+K1SegmentLine);
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
             if(prodct.Seller__r.name != null) {
                 if(String.valueOf(prodct.Seller__r.name).length() < 30) {
@@ -700,7 +699,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             metroFileData.add(metroobj2);
             
             //increment counter if records to be considered as out of CCS
-            if(accountStatus <> metro2TransUnion.Account_Status_Close__c){
+            if(accountStatus == metro2TransUnion.Account_Status_Close__c){
                 if(null == prodct.TransUnion_Reported_As_Complete_Count__c){
                     prodct.TransUnion_Reported_As_Complete_Count__c = 1;
                 }
@@ -730,7 +729,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             metroFlatData.Bureau_Type__c = bureauTypeTransUnion;
             metroFlatData.Product_Type__c = productType;
             metroFileDataK1Seg.add(metroFlatData);*/
-            //}// if condition
+          }// if condition
         }// for loop
         
         insert metroFileData;
