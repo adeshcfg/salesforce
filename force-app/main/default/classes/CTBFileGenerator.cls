@@ -377,7 +377,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String memberType = mapCTBFileAuto.get('Insolvency Payment Update').Member_Type__c;
                 String memberID = mapCTBFileAuto.get('Insolvency Payment Update').Member_ID__c;
                 Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
-                String fileType = mapCTBFileAuto.get('Insolvency Payment Update ').File_Type__c;
+                String fileType = mapCTBFileAuto.get('Insolvency Payment Update').File_Type__c;
                 String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Payment Update').File_Format_Identifier__c;
                 String trailerRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Trailer_Record_Type__c;
                 
