@@ -81,7 +81,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
+                                <componentName>runtime_sales_activities:activityPanel</componentName>
                 <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
@@ -106,6 +106,13 @@
             <componentInstance>
                 <componentName>FileUploadToAzure</componentName>
                 <identifier>c_FileUploadToAzure</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Record_Type_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Distressed_Account</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-d5107d7a-6d0e-4b1f-accb-80d9f2c036cf</name>
