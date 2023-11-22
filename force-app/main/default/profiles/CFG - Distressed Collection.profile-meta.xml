@@ -13668,6 +13668,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Payments__c.Agency_Submitted_Payment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Payments__c.Payment_Reversed__c</field>
         <readable>true</readable>
     </fieldPermissions>

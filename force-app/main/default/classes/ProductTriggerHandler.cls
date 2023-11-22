@@ -2066,7 +2066,7 @@ public class ProductTriggerHandler{
         for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
             mapDataStatus.put(metaData.name,metaData);
         }
-        
+        system.debug('mapDataStatus'+mapDataStatus);
         for(Product__c prodData :listNewProducts){
             if(prodRTypeIdMap.get('Distressed_Account') == prodData.RecordTypeId && mapDataStatus.containskey(prodData.Product_Status__c) && 
                mapDataStatus.get(prodData.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){

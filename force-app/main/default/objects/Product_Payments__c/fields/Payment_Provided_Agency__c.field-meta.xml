@@ -5,7 +5,7 @@
     <description>Placement agency associated with Payment</description>
     <externalId>false</externalId>
     <inlineHelpText>Placement agency associated with Payment</inlineHelpText>
-    <label>Payment Provided Agency</label>
+    <label>Commission Paid To</label>
     <referenceTo>Placement__c</referenceTo>
     <relationshipLabel>Product Payments</relationshipLabel>
     <relationshipName>Product_Payments</relationshipName>

@@ -147,6 +147,10 @@
                 <behavior>Readonly</behavior>
                 <field>Bank_Account_Number__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Agency_Submitted_Payment__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
