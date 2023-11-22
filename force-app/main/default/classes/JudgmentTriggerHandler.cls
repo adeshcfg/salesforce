@@ -2508,12 +2508,12 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
     Set<Id> judgmentActiveIds = new Set<Id>();
     Map<Id, String> judgmentIdCompanyNameMap = new  Map<Id, String>();
     Map<Id, String> judgmentIdPurchaseEntityMap = new  Map<Id, String>();
-    list<string> prodNames=new list<string>();
-    list<string> prodActiveNames=new list<string>();
+    set<string> prodNames=new set<string>();
+    set<string> prodActiveNames=new set<string>();
     map<id,id> prodJudgmap=new map<id,id>();
     for(Judgment__c judgment: prodJudgList ){
         system.debug('judgment.Judgment__c '+judgment.ID);
-          judgmentIds.add(prodJudg.ID);
+          judgmentIds.add(judgment.ID);
           if(judgment.Product_1__c != NULL){
             prodNames.add(judgment.Product_1__c);
         }
@@ -2564,7 +2564,7 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
                 Judgment__c judg = new Judgment__c();
                     judg.Current_Principal_Balance__c = (Decimal)aggRes.get('currentPrincipalBalance');
                     judg.Current_Interest_Balance__c  = (Decimal)aggRes.get('currentInterestBalance');
-                    judg.Id = prodJudgmap.get(aggRes.get('Name'));
+                    judg.Id = prodJudgmap.get((ID)aggRes.get('Name'));
     
                     system.debug('judgmentIdCompanyNameMap.containsKey(judg.Id) '+judgmentIdCompanyNameMap.containsKey(judg.Id));
                     if(judgmentIdCompanyNameMap.containsKey(judg.Id)){
