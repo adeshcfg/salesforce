@@ -92,7 +92,9 @@ public class DisplayProductPaymentStagingController {
             placementAgency = listProductPayStaging[0].Placement_Agency__c;
        //bug:5354 added if loop
             if(listProductPayStaging[0].Document_Storage__r.Placement_Agency__c != NULL){
+                system.debug('listProductPayStaging[0].Document_Storage__r.Placement_Agency__c'+listProductPayStaging[0].Document_Storage__r.Placement_Agency__c);
             docStorplacementAgency=listProductPayStaging[0].Document_Storage__r.Placement_Agency__c;
+            system.debug('docStorplacementAgency-->'+docStorplacementAgency);
         }
              documentID = listProductPayStaging[0].Document_Storage__c;
             if(showButton == false){
@@ -150,10 +152,13 @@ public class DisplayProductPaymentStagingController {
          //Get Placement ID
          list<Placement__c> listdocStorPlacements =new list<Placement__c>();
         if(docStorplacementAgency != NULL){
+            system.debug('docStorplacementAgency-->'+docStorplacementAgency);
              listdocStorPlacements = [SELECT ID FROM Placement__c  WHERE Name= :docStorplacementAgency];
-         }
+            system.debug('listdocStorPlacements--->'+listdocStorPlacements);
+            }
           Id docStorplacementID;
               if(!listdocStorPlacements.isEmpty()){
+                system.debug('docStorplacementID--->'+docStorplacementID);
                   docStorplacementID = listdocStorPlacements[0].ID;
               }
              
@@ -209,7 +214,11 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Payment_Provided_Agency__c = placementID;
                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;
                    //Bug : 5354 changes starts
-                  if(docStorplacementID != NULL) prodPayment.Agency_Submitted_Payment__c = docStorplacementID;
+                  if(docStorplacementID != NULL){
+                    system.debug('docStorplacementID--->'+docStorplacementID);
+                    prodPayment.Agency_Submitted_Payment__c = docStorplacementID;
+                    system.debug('prodPayment.Agency_Submitted_Payment__c--->'+docStorplacementID);
+                  } 
                   // prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;
                   //Bug: 5354 changes ends
                   prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
