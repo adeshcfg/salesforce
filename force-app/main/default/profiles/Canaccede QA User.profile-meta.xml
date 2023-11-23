@@ -337,10 +337,6 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Small_Claims_Court__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>TCI_Job__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
