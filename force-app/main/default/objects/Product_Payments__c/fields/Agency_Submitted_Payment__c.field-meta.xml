@@ -4,6 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Placement agency associated with Payment.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Placement agency associated with Payment.</inlineHelpText>
     <label>Agency Submitted Payment</label>
     <referenceTo>Placement__c</referenceTo>
     <relationshipLabel>Product Payments (Agency Submitted Payment)</relationshipLabel>
