@@ -148,21 +148,6 @@ public class DisplayProductPaymentStagingController {
                 mapProducts.put(productInstance.ID, productInstance);
             }
         }
-       //bug: 5354 changes starts 
-         //Get Placement ID
-         list<Placement__c> listdocStorPlacements =new list<Placement__c>();
-        if(docStorplacementAgency != NULL){
-            system.debug('docStorplacementAgency-->'+docStorplacementAgency);
-             listdocStorPlacements = [SELECT ID FROM Placement__c  WHERE Name= :docStorplacementAgency];
-            system.debug('listdocStorPlacements--->'+listdocStorPlacements);
-            }
-          Id docStorplacementID;
-              if(!listdocStorPlacements.isEmpty()){
-                system.debug('docStorplacementID--->'+docStorplacementID);
-                  docStorplacementID = listdocStorPlacements[0].ID;
-              }
-             
-         //bug: 5354 changes starts 
         //Get Placement ID
         list<Placement__c> listPlacements = [SELECT ID 
                                              FROM Placement__c 
@@ -214,10 +199,10 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Payment_Provided_Agency__c = placementID;
                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;
                    //Bug : 5354 changes starts
-                  if(docStorplacementID != NULL){
-                    system.debug('docStorplacementID--->'+docStorplacementID);
-                    prodPayment.Agency_Submitted_Payment__c = docStorplacementID;
-                    system.debug('prodPayment.Agency_Submitted_Payment__c--->'+docStorplacementID);
+                  if(docStorplacementAgency != NULL){
+                    system.debug('docStorplacementAgency--->'+docStorplacementAgency);
+                    prodPayment.Agency_Submitted_Payment__c = docStorplacementAgency;
+                    system.debug('prodPayment.Agency_Submitted_Payment__c--->'+docStorplacementAgency);
                   } 
                   // prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;
                   //Bug: 5354 changes ends
