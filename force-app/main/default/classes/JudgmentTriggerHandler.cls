@@ -94,7 +94,6 @@ public class JudgmentTriggerHandler {
         //updateAgencyOnJudgment(listNewJudgments);
                 //Added below line part od Bug-5564
       if(!test.isRunningTest())  updateAgencyOnJudgment(listNewJudgments);
-      updateAmountsOnJudgment(listNewJudgments);
     }
     //Bug: 5564 - Updated the below method to remove reference of AccountJudgment records
     public static void updateAgencyOnJudgment(list<Judgment__c> listNewJudgments){
