@@ -217,7 +217,7 @@ public class DisplayProductPaymentStagingController {
                   if(docStorplacementID != NULL){
                     system.debug('docStorplacementID--->'+docStorplacementID);
                     prodPayment.Agency_Submitted_Payment__c = docStorplacementID;
-                    system.debug('prodPayment.Agency_Submitted_Payment__c--->'+)docStorplacementID;
+                    system.debug('prodPayment.Agency_Submitted_Payment__c--->'+docStorplacementID);
                   } 
                   // prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;
                   //Bug: 5354 changes ends
