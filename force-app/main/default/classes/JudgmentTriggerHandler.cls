@@ -158,7 +158,7 @@ public class JudgmentTriggerHandler {
                     }
                 }
                 judgment.Collection_Agency_Identifier__c=collectionAgencyidentifier;
-                judge.External_Collection_Agency_Identifier__c = externalCollectionAgency;
+                judgment.External_Collection_Agency_Identifier__c = externalCollectionAgency;
             system.debug('inside judgment%%'+judgment);
         }
         JudgmentTriggerHandler.runJudgmentTrigger = True;
