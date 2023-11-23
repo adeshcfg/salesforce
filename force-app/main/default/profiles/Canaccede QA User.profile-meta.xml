@@ -149,10 +149,6 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>CTB_Staging__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Court__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
