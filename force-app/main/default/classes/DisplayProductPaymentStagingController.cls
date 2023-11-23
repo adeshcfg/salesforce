@@ -148,12 +148,16 @@ public class DisplayProductPaymentStagingController {
         }
        //bug: 5354 changes starts 
          //Get Placement ID
-         list<Placement__c> listdocStorPlacements = [SELECT ID FROM Placement__c  WHERE Name= :docStorplacementAgency];
+         list<Placement__c> listdocStorPlacements =new list<Placement__c>();
+        if(docStorplacementAgency != NULL){
+             listdocStorPlacements = [SELECT ID FROM Placement__c  WHERE Name= :docStorplacementAgency];
+         }
           Id docStorplacementID;
-            if(!listdocStorPlacements.isEmpty()){
-                docStorplacementID = listdocStorPlacements[0].ID;
-            }
-            //bug: 5354 changes starts 
+              if(!listdocStorPlacements.isEmpty()){
+                  docStorplacementID = listdocStorPlacements[0].ID;
+              }
+             
+         //bug: 5354 changes starts 
         //Get Placement ID
         list<Placement__c> listPlacements = [SELECT ID 
                                              FROM Placement__c 
