@@ -39,7 +39,7 @@ public class DisplayProductPaymentStagingController {
     Decimal failedRecords;
     String placementAgency = '';
     //bug : 5354 added below line
-    String docStorplacementAgency = '';
+    ID docStorplacementAgency = '';
     String success;
     String failed;
     Id documentID;
