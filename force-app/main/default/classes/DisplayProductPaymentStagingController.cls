@@ -193,7 +193,7 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;
                    //Bug : 5354 changes starts
                    prodPayment.Agency_Submitted_Payment__c = placementID;
-                   prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;
+                  // prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;
                   //Bug: 5354 changes ends
                   prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
                    prodPayment.Pay_Due__c = payStaging.Commission_Amount__c;
@@ -402,7 +402,7 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Payment_Agency__c = payStaging.Placement_Agency__c;
                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;    
                    //Bug: 5354 - Added below line
-                   prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;    
+                   //prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;    
                    
                    prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
                    prodPayment.Pool_Lookup__c = payStaging.Pool_Lookup__c;
