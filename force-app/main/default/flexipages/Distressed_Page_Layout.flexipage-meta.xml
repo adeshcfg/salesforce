@@ -73,6 +73,13 @@
             <componentInstance>
                 <componentName>FileUploadToAzure</componentName>
                 <identifier>c_FileUploadToAzure</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Record_Type_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Distressed_Account</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-8d9ebb53-0df2-44b5-886c-e7801b378cc4</name>
