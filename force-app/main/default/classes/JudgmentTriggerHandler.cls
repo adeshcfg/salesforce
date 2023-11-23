@@ -94,6 +94,7 @@ public class JudgmentTriggerHandler {
         //updateAgencyOnJudgment(listNewJudgments);
                 //Added below line part od Bug-5564
       if(!test.isRunningTest())  updateAgencyOnJudgment(listNewJudgments);
+      updateAmountsOnJudgment(listNewJudgments);
     }
     //Bug: 5564 - Updated the below method to remove reference of AccountJudgment records
     public static void updateAgencyOnJudgment(list<Judgment__c> listNewJudgments){
@@ -2604,11 +2605,11 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
             }
             system.debug('judgList==='+judgList);
             if(judgList.size() > 0){
-                //JudgmentTriggerHandler.runJudgmentTrigger = False;
+                JudgmentTriggerHandler.runJudgmentTrigger = False;
                 configSetting.Send_Notification__c = false;
                 update judgList;
                 configSetting.Send_Notification__c = true;
-                //JudgmentTriggerHandler.runJudgmentTrigger = True;
+                JudgmentTriggerHandler.runJudgmentTrigger = True;
             }
         }
 
