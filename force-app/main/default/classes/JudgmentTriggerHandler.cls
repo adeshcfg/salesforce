@@ -2604,11 +2604,11 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
             }
             system.debug('judgList==='+judgList);
             if(judgList.size() > 0){
-                //JudgmentTriggerHandler.runJudgmentTrigger = False;
+                JudgmentTriggerHandler.runJudgmentTrigger = false;
                 configSetting.Send_Notification__c = false;
                 update judgList;
                 configSetting.Send_Notification__c = true;
-                //JudgmentTriggerHandler.runJudgmentTrigger = True;
+                JudgmentTriggerHandler.runJudgmentTrigger = true;
             }
         }
 
