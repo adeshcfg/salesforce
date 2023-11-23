@@ -151,7 +151,7 @@ public class DisplayProductPaymentStagingController {
          list<Placement__c> listdocStorPlacements = [SELECT ID FROM Placement__c  WHERE Name= :docStorplacementAgency];
           Id docStorplacementID;
             if(!listdocStorPlacements.isEmpty()){
-                docStorplacementID = listPlacements[0].ID;
+                docStorplacementID = listdocStorPlacements[0].ID;
             }
             //bug: 5354 changes starts 
         //Get Placement ID
