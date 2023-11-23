@@ -1,37 +1,18 @@
+/**
+ * @description       : Class to hold all validation methods for CTB Staging processing
+ * @author            : adeshi@a5econsulting.net
+ * @group             :
+ * @last modified on  : 11-23-2023
+ * @last modified by  : adeshi@a5econsulting.net
+ **/
 public with sharing class CTBFileValidationUtility {
-    /* public static void validateInsolvencyAccountRecords(String fileName) {
-        CTB_Staging__c[] listSuccessStagingRecords = [
-            SELECT
-                Debtor_1_First_Name__c,
-                Debtor_1_Last_Name__c,
-                CTB_Date_of_Birth__c,
-                Correlation_ID__c,
-                CTB_Reject_Reason_Code__c,
-                CTB_Update_Filename__c,
-                Open_Date__c,
-                Balance_Owed__c,
-                Claim_Amount__c,
-                Accounts_Validation_Date__c,
-                Interest_Rate__c,
-                Last_Payment_Date__c,
-                Last_Payment_Amount__c,
-                Last_Payment_Date_2__c,
-                Last_Payment_Amount_2__c,
-                Last_Payment_Date_3__c,
-                Last_Payment_Amount_3__c,
-                Last_Statement_Date__c,
-                Last_Statement_Amount__c,
-                Last_Statement_Date_2__c,
-                Last_Statement_Amount_2__c,
-                Last_Statement_Date_3__c,
-                Last_Statement_Amount_3__c,
-                Previous_Account_Reference__c,
-                Additional_Info__c
-            FROM CTB_Staging__c
-        ];
-    } */
-
-    public static CTB_Staging__c validateCTBStagingRecord(List<String> csvColumns) {
+    /**
+     * @description : Map and validate fields from csv to CTB Staging for Insolvency Account
+     * @author adeshi@a5econsulting.net | 11-23-2023
+     * @param csvColumns
+     * @return CTB_Staging__c
+     **/
+    public static CTB_Staging__c validateAccountCTBStagingRecord(List<String> csvColumns) {
         CTB_Staging__c stagingRecord = new CTB_Staging__c();
         stagingRecord.Error_Message__c = '';
         System.debug(csvColumns[26]);
@@ -72,6 +53,34 @@ public with sharing class CTBFileValidationUtility {
         return stagingRecord;
     }
 
+    /**
+     * @description : Map and validate fields from csv to CTB Staging for Insolvency Payment
+     * @author adeshi@a5econsulting.net | 11-23-2023
+     * @param csvColumns
+     * @return CTB_Staging__c
+     **/
+    public static CTB_Staging__c validatePaymentCTBStagingRecord(List<String> csvColumns) {
+        CTB_Staging__c stagingRecord = new CTB_Staging__c();
+        stagingRecord.Error_Message__c = '';
+        stagingRecord.Name = csvColumns[3];
+        stagingRecord.Payment_Posting_Date__c = parseDateString(csvColumns[6], 'Payment_Posting_Date__c', stagingRecord);
+        stagingRecord.Transaction_Id__c = csvColumns[7];
+        stagingRecord.Payment_Type__c = csvColumns[8];
+        stagingRecord.Payment_Amount__c = parseDoubleString(csvColumns[9], 'Payment_Amount__c', stagingRecord);
+        stagingRecord.Remitted_Date__c = parseDateString(csvColumns[10], 'Remitted_Date__c', stagingRecord);
+        stagingRecord.Remitted_Cheque_Number__c = csvColumns[11];
+        System.debug(stagingRecord);
+        return stagingRecord;
+    }
+
+    /**
+     * @description : Parse String to Date, return null and populate error message for invalid Date
+     * @author adeshi@a5econsulting.net | 11-23-2023
+     * @param input
+     * @param fieldName
+     * @param stagingRecord
+     * @return Date
+     **/
     public static Date parseDateString(String input, String fieldName, CTB_Staging__c stagingRecord) {
         if (String.isBlank(input)) {
             return null;
@@ -85,6 +94,14 @@ public with sharing class CTBFileValidationUtility {
         }
     }
 
+    /**
+     * @description : Parse String to DateTime, return null and populate error message for invalid DateTime
+     * @author adeshi@a5econsulting.net | 11-23-2023
+     * @param input
+     * @param fieldName
+     * @param stagingRecord
+     * @return DateTime
+     **/
     public static DateTime parseDateTimeString(String input, String fieldName, CTB_Staging__c stagingRecord) {
         if (String.isBlank(input)) {
             return null;
@@ -98,6 +115,14 @@ public with sharing class CTBFileValidationUtility {
         }
     }
 
+    /**
+     * @description : Parse String to Double, return null and populate error message for invalid Double
+     * @author adeshi@a5econsulting.net | 11-23-2023
+     * @param input
+     * @param fieldName
+     * @param stagingRecord
+     * @return Double
+     **/
     public static Double parseDoubleString(String input, String fieldName, CTB_Staging__c stagingRecord) {
         if (String.isBlank(input)) {
             return null;
