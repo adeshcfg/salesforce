@@ -1138,6 +1138,12 @@ public class DocumentResponseParser {
             return insolvencyRecordTypeMap.get('Goeasy_Insolvency_Account');
          }
       }
+
+      for(String str: canadianTire){
+         if(creditorName.contains(str)){
+            return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
+         }
+      }
         
       for(String str: canaccedeBank){
          if(creditorName.contains(str)){
@@ -1162,12 +1168,6 @@ public class DocumentResponseParser {
                     return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
                 }
             }
-      }
-
-      for(String str: canadianTire){
-         if(creditorName.contains(str)){
-            return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
-         }
       }
       
       return null;
@@ -1253,9 +1253,9 @@ public class DocumentResponseParser {
 
             // Check if this is SPL or Fairstone account
             if(insolvAccount.RecordTypeId == NULL){
+               insolvAccount.RecordTypeId = getCanadianTireInsolvencyRecordTypeAccountNumber(liability.accountNumber);
                insolvAccount.RecordTypeId = getInsolvencyRecordTypeAccountNumber(liability.accountNumber);
                insolvAccount.RecordTypeId = getFairstoneInsolvencyRecordTypeAccNumber(liability.accountNumber);
-               insolvAccount.RecordTypeId = getCanadianTireInsolvencyRecordTypeAccountNumber(liability.accountNumber);
             }
          }
 
