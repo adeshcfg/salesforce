@@ -153,10 +153,6 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Credit_Bureau</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Creditor_Account__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
