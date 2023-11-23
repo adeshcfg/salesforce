@@ -38,6 +38,8 @@ public class DisplayProductPaymentStagingController {
     Decimal successRecords;
     Decimal failedRecords;
     String placementAgency = '';
+    //bug : 5354 added below line
+    String docStorplacementAgency = '';
     String success;
     String failed;
     Id documentID;
@@ -51,7 +53,7 @@ public class DisplayProductPaymentStagingController {
         String recordIdentfier = ApexPages.currentPage().getParameters().get('id');
         listProductPayStaging = [SELECT ID,CCS_Account__c, Cheque_Number__c, Comment__c, Document_Storage__c, Document_Storage__r.File_Processing_Status__c,
                                  Document_Storage__r.Work_Assignment_Identifier__c, Commission_Rate_for_Payment__c,
-                                 Commission_Amount__c,Payment_Type__c, Payment_posting_Date__c,Product_ID__c,Pool_Lookup__c,
+                                 Document_Storage__r.Placement_Agency__c,Commission_Amount__c,Payment_Type__c, Payment_posting_Date__c,Product_ID__c,Pool_Lookup__c,
                                  Interest_Payment_Amount__c, Pay_Attorney__c, Pay_Court__c, Pay_Fees__c,Tax_Amount__c,
                                  Pay_NSF__c, Pay_Other__c, Principal_Payment_Amount__c,Agency_Calculated_Comm__c,
                                  Payment_Amount__c, Payment_Source__c, Placement_Agency__c, Status__c, Expected_Value__c,
@@ -88,7 +90,11 @@ public class DisplayProductPaymentStagingController {
                 }
             }
             placementAgency = listProductPayStaging[0].Placement_Agency__c;
-            documentID = listProductPayStaging[0].Document_Storage__c;
+       //bug:5354 added if loop
+            if(listProductPayStaging[0].Document_Storage__r.Placement_Agency__c != NULL){
+            docStorplacementAgency=listProductPayStaging[0].Document_Storage__r.Placement_Agency__c;
+        }
+             documentID = listProductPayStaging[0].Document_Storage__c;
             if(showButton == false){
                 if(listProductPayStaging[0].Document_Storage__r.File_Processing_Status__c == PROCESSED){
                     //showButton = false;
@@ -140,7 +146,14 @@ public class DisplayProductPaymentStagingController {
                 mapProducts.put(productInstance.ID, productInstance);
             }
         }
-        
+       //bug: 5354 changes starts 
+         //Get Placement ID
+         list<Placement__c> listdocStorPlacements = [SELECT ID FROM Placement__c  WHERE Name= :docStorplacementAgency];
+          Id docStorplacementID;
+            if(!listdocStorPlacements.isEmpty()){
+                docStorplacementID = listPlacements[0].ID;
+            }
+            //bug: 5354 changes starts 
         //Get Placement ID
         list<Placement__c> listPlacements = [SELECT ID 
                                              FROM Placement__c 
@@ -192,7 +205,7 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Payment_Provided_Agency__c = placementID;
                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;
                    //Bug : 5354 changes starts
-                   prodPayment.Agency_Submitted_Payment__c = placementID;
+                  if(docStorplacementID != NULL) prodPayment.Agency_Submitted_Payment__c = docStorplacementID;
                   // prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;
                   //Bug: 5354 changes ends
                   prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
