@@ -97,7 +97,12 @@ public class JudgmentTriggerHandler {
     }
     //Bug: 5564 - Updated the below method to remove reference of AccountJudgment records
     public static void updateAgencyOnJudgment(list<Judgment__c> listNewJudgments){
-        List<ID> JudId = new List<ID>(); 
+        List<ID> JudId = new List<ID>();
+        //recalculate the Collection agency identifer for all related judgmets
+        Map<ID, String> judgmentUpdate = new Map<Id, String>();
+        Map<ID, String> judgmentExternalIdentifierUpdate = new Map<Id, String>();
+        String collectionAgencyidentifier = '';
+        String externalCollectionAgency = '';
         system.debug('updateAgencyOnJudgment listNewJudgments'+listNewJudgments);
         list<string> prodNames=new list<string>();
         for(Judgment__c judgment : listNewJudgments){
@@ -143,7 +148,17 @@ public class JudgmentTriggerHandler {
                 }else{
                     judgment.Agency_Initiated_Legal_Action_Lookup__c = Null;
                 }
-            
+                if(null == prod.Collection_Agency__C){
+                    collectionAgencyidentifier = SEPARATOR + UNPLACED + SEPARATOR;
+                }else{
+                    collectionAgencyidentifier = SEPARATOR + prod.Collection_Agency__C + SEPARATOR;
+                    //populate External Collection Agency identifier
+                    if(prod.Collection_Agency__C != 6 && prod.Collection_Agency__C != 68){
+                        externalCollectionAgency = SEPARATOR + prod.Collection_Agency__C + SEPARATOR;
+                    }
+                }
+                judgment.Collection_Agency_Identifier__c=collectionAgencyidentifier;
+                judgment.External_Collection_Agency_Identifier__c = externalCollectionAgency;
             system.debug('inside judgment%%'+judgment);
         }
         JudgmentTriggerHandler.runJudgmentTrigger = True;
@@ -2504,6 +2519,7 @@ if(ProductAgency <> pAgency){
     }
 }
 public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
+    system.debug('updateAmountsOnJudgment');
     Set<Id> judgmentIds = new Set<Id>();
     Set<Id> judgmentActiveIds = new Set<Id>();
     Map<Id, String> judgmentIdCompanyNameMap = new  Map<Id, String>();
