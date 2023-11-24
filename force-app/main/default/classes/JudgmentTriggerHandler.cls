@@ -2618,7 +2618,7 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
                 configSetting.Send_Notification__c = false;
                 update judgList;
                 configSetting.Send_Notification__c = true;
-                JudgmentTriggerHandler.runJudgmentTrigger = true;
+                // JudgmentTriggerHandler.runJudgmentTrigger = true;
             }
         }
 
