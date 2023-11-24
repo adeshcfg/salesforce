@@ -785,7 +785,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Canaccede,Fairstone</value>
+            <value>Fairstone</value>
         </criteriaItems>
     </filter>
     <format>Matrix</format>
