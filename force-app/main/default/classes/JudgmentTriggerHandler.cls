@@ -229,12 +229,12 @@ product.Placement_Status__c = mapAccountJudgmentCodes.get(judgment.Legal_Status_
 }*/
                 
                 //Populate Agency from Product to Judgment.
-                if(mapProd.containsKey(mapActiveAccountJudgments.get(judgment.ID))){
+                /* if(mapProd.containsKey(mapActiveAccountJudgments.get(judgment.ID))){
                     if(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c != NULL){
                         //judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c));                   
                         judgment.Placed_Agency__c = String.valueOf(Math.floor(mapProd.get(mapActiveAccountJudgments.get(judgment.ID)).Collection_Agency__c));
                     }
-                }
+                } */
                 
                 system.debug('judgment.Product_1__c***'+judgment.Product_1__c);
                 if(mapProd.containsKey(mapActiveAccountJudgments.get(judgment.ID))){
@@ -2329,9 +2329,9 @@ judg.addError('Suit amount is not equal all Product suit amount');
                                         judgMap.put(judg.id,judg);       
                                     }
         system.debug('judgMap Check**'+judgMap);
-        JudgmentTriggerHandler.runJudgmentTrigger = False;
+        JudgmentTriggerHandler.runJudgmentTrigger = false;
         update judgMap.values();
-        JudgmentTriggerHandler.runJudgmentTrigger = True;
+        JudgmentTriggerHandler.runJudgmentTrigger = true;
     }
     //Bug: 5564 - Nagendra added below method
      //To Populate the Placement Ids on Judgment
@@ -2527,6 +2527,7 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
     set<string> prodNames=new set<string>();
     set<string> prodActiveNames=new set<string>();
     map<String,String> prodJudgmap=new map<String,String>();
+    List<Product__c> activeProducts = new List<Product__c>();
     for(Judgment__c judgment: prodJudgList ){
         system.debug('judgment.ID '+judgment.ID);
           judgmentIds.add(judgment.ID);
@@ -2548,7 +2549,7 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
     }
     if(!prodNames.isEmpty()){
         system.debug('Product Names before loop-->'+prodNames);
-        for(Account_Judgment__c accJudgList : [SELECT Judgment__c,Status__c,Product__r.Company_Name__c, Product__r.Account_Purchasing_Entity_Value__c,Product__r.name from Account_Judgment__c where Judgment__c IN: judgmentIds ORDER BY Product__r.LastModifiedDate DESC]){
+        for(Account_Judgment__c accJudgList : [SELECT Judgment__c,Status__c,Product__r.Company_Name__c, Product__r.Account_Purchasing_Entity_Value__c,Product__r.name, Product__r.Collection_Agency__c from Account_Judgment__c where Judgment__c IN: judgmentIds ORDER BY Product__r.LastModifiedDate DESC]){
            if(accJudgList.Status__c=='InActive'){
             prodNames.remove(accJudgList.Product__r.name);
            }
@@ -2568,9 +2569,12 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
     }
         system.debug('Product Names after loop-->'+prodActiveNames);
         if(!prodActiveNames.isEmpty()){
+            activeProducts = [SELECT Collection_Agency__c, State__c FROM Product__c WHERE Name IN: prodActiveNames AND Collection_Agency__c != null AND State__c != null LIMIT 1];
             AggregateResult[] groupedResults  = [SELECT SUM(Current_Principal_Balance__c)  currentPrincipalBalance, 
             SUM(Current_Interest_Amount__c) currentInterestBalance,Name
             FROM product__c WHERE Name IN: prodActiveNames GROUP BY Name];
+            String placedAgency = String.valueOf(activeProducts[0].Collection_Agency__c);
+            String province = mapProvinceAcronymTaxMetadata.get(activeProducts[0].State__c).Province_Name__c;
             List<Judgment__c> judgList = new List<Judgment__c>();
             List<Id> judgUpdate = new List<Id>();
             system.debug('groupedResults'+groupedResults);
@@ -2580,6 +2584,9 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
                 Judgment__c judg = new Judgment__c();
                     judg.Current_Principal_Balance__c = (Decimal)aggRes.get('currentPrincipalBalance');
                     judg.Current_Interest_Balance__c  = (Decimal)aggRes.get('currentInterestBalance');
+                    judg.Placed_Agency__c = placedAgency;
+                    judg.Judgment_Province__c = province; 
+                    judg.Placed_Province__c = province;
                     judg.Id = prodJudgmap.get((String)aggRes.get('Name'));
     
                     system.debug('judgmentIdCompanyNameMap.containsKey(judg.Id) '+judgmentIdCompanyNameMap.containsKey(judg.Id));
@@ -2590,7 +2597,7 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
                         judg.Plaintiff__c = judgmentIdPurchaseEntityMap.get(judg.Id);
                     }
                     judgUpdate.add(judg.Id);
-                    judgList.add(judg);                
+                    // judgList.add(judg);                
     
             }
         }
@@ -2598,6 +2605,9 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
             for(Id judgId: judgmentIds){
                 Judgment__c judg = new Judgment__c();
                 judg.Id = judgId;
+                judg.Placed_Agency__c = placedAgency;
+                judg.Judgment_Province__c = province; 
+                judg.Placed_Province__c = province;
                 judg.Current_Principal_Balance__c = null;
                 judg.Current_Interest_Balance__c = null;
                 judgList.add(judg);
