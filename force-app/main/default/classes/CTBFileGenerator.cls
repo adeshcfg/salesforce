@@ -12,6 +12,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     public String CTBBatchName;
     public static final String recordType = 'Canadian_Tire_Insolvency_Account';
+    public static final String clientIdentifier = 'Canadian Tire';
     String FinalData = '';
     List<sObject> queryData = new List<sObject>();
     String createdDate = '';
@@ -61,7 +62,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 'Remitted_Date__c,Remitted_Cheque_Number__c,Estate_Number__c '+
                 'FROM Insolvency_Payment__c '+
                 'WHERE '+
-                'RecordType.developerName = :recordType';
+                'Insolvency_Account__r.Client_Identifier__c = :clientIdentifier';
             }
         }
         
@@ -287,7 +288,6 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     }
     
     public static wrapperClass getInsolvencyPaymentFile (map<String, CTB_File_Automation__mdt> mapCTBFileAuto , List<Insolvency_Payment__c> insolvencyPayData,String createdDate, String dateformate ) {
-    
         string mainbody = '';
         Integer counter=0;
         wrapperClass batchCntData = new wrapperClass();
@@ -400,7 +400,11 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
             
             if(!Test.isRunningTest()) {
+                if(CTBBatchName == System.Label.CTB_Insolvency_Account){
                 parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss')+'.csv', 'account');
+                }else if(CTBBatchName == System.Label.CTB_Payment){
+                    parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'DRN_PaymentUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss')+'.csv', 'payment');
+                }
                 system.debug('parsedResponse in controller: '+parsedResponse);
             }else{
                 parsedResponse.docUrl = 'Test';
@@ -408,11 +412,19 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             }
             //To DO : We do not need to create Document Storage and in place of it we have to update each insolvency account with CTB Update File Name and CTB Update File Timestamp on rach insolvency account records.
             Document_Storage__c docInfo = new Document_Storage__c();
+            if(CTBBatchName == System.Label.CTB_Insolvency_Account){
             docInfo.Document_Type__c = 'Insolvency Daily Update';
+            }else if(CTBBatchName == System.Label.CTB_Payment){
+                docInfo.Document_Type__c = 'Insolvency Payment Update';
+            }
             docInfo.Work_Assignment__c = 'a3LS0000000h6NCMAY';    
             docInfo.Document_URL__c = parsedResponse.docUrl;
             docInfo.Document_Extension__c = 'csv';
+            if(CTBBatchName == System.Label.CTB_Insolvency_Account){
             docInfo.Document_Name__c = 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss')+'.csv';
+            }else if(CTBBatchName == System.Label.CTB_Payment){
+                docInfo.Document_Name__c = 'DRN_PaymentUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss')+'.csv';
+            }
             docInfo.Document_Id__c = parsedResponse.docId;
             docInfo.File_Processing_Status__c = 'Pending';
             docInfo.RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('CTB').getRecordTypeId();
