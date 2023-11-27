@@ -35,8 +35,10 @@ public class EmailMessageTriggerHandler {
                            listCase.recordType.DeveloperName == 'CCS_Dividend' ){
                            //Do nothing
                         }else if(listCase.status == 'Completed'|| listCase.status == 'Closed'){
+                            if (em.status == 'New') { // Check the Email Message status
                             listCase.Is_Email_to_Case__c = True;
                             listCase.status = 'New';
+                            }
                         }
                         listCaseUpdate.add(listCase);
                     }
