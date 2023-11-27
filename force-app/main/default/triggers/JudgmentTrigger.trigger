@@ -36,7 +36,7 @@ trigger JudgmentTrigger on Judgment__c (before insert, before update, after inse
                     JudgmentTriggerHandler.handleAfterInsert(trigger.new);
                     //Bug:5564 - Changes starts
                   //  if(!test.isRunningTest())   JudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
-                    JudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
+                    // JudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
                     //Bug:5564 - changes Ends
                 }
                 if(Trigger.isUpdate){
@@ -45,8 +45,8 @@ trigger JudgmentTrigger on Judgment__c (before insert, before update, after inse
                     JudgmentTriggerHandler.setAccountJudgmentInactive(Trigger.new);
                     JudgmentTriggerHandler.updateProductLegalStatus(Trigger.newMap, Trigger.oldMap);
                     //Bug:5564 - changes starts
-                 if(!test.isRunningTest())   JudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
-                 JudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
+                 /* if(!test.isRunningTest())   JudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
+                 JudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new); */
                     //bug:5564 - changes ends
                 }
             }

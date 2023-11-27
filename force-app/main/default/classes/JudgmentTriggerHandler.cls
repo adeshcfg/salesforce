@@ -602,7 +602,7 @@ validationRules(listNewJudgments,mapOldJudgment);
     public static void handleAfterInsert(list<Judgment__c> judgment){
         system.debug('after insert');
         system.debug('after insert judgment' +judgment);
-
+        JudgmentTriggerHandler.updateAmountsOnJudgment(judgment);
         for(Judgment__c judgRecord : judgment){
             Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
             config.Send_Notification__c = true;  
@@ -1310,6 +1310,8 @@ Accure Interest from curDate (last payment's postoing date) to Today
         set<String> prodName = new set<String>();
         Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
         config.Send_Notification__c = true;
+        JudgmentTriggerHandler.populateJudgmentWithPlacement(listNewJudgments);
+        JudgmentTriggerHandler.updateAmountsOnJudgment(listNewJudgments);
         system.debug('inside after update');
         //Get active judgments related to product
         for(Judgment__c judgment : listNewJudgments){
