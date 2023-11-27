@@ -605,17 +605,17 @@ public class DisplayCustomerContInfoStagingController {
         }
         //Code modified to Show Exception and avoiding not to generate Success and Failure file 27-Dec-2022: Rasmitha
         try {
-            Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
+            // Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
             ProductTriggerHandler.runProductTrigger = false;
             List<Database.SaveResult> result = Database.update(listProd, false);
             ProductTriggerHandler.runProductTrigger = true;
             //Create Success and Error file
-            DisplayCustomerContInfoStagingController.GenerateSuccessAndErrorFile(
+            /* DisplayCustomerContInfoStagingController.GenerateSuccessAndErrorFile(
                 listCustomerStaging,
                 listCustomerStaging[0].Document_Storage__r.Work_Assignment__c,
                 portalSettings.Document_Storage_Default_Visibility__c,
                 listCustomerStaging[0].Document_Storage__c
-            );
+            ); */
         } catch (exception ex) {
             system.debug('exception Customer file catch--+--' + ex.getStackTraceString());
             for (Customer_Staging__c customerStaging : listCustomerStagingToUpdate) {
