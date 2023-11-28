@@ -997,7 +997,7 @@ public class WorkAssignmentTriggerHandler {
             }else{
                 prodData.Number_Of_Open_Complaint__c = customercomplaintcount;
             }
-            prodList.add(prodData);
+            prodList.addAll(prodData);
         }
 
         ProductTriggerHandler.runProductTrigger = false;
