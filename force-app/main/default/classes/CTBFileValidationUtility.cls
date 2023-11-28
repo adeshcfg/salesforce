@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 11-23-2023
+ * @last modified on  : 11-28-2023
  * @last modified by  : adeshi@a5econsulting.net
  **/
 public with sharing class CTBFileValidationUtility {
@@ -16,10 +16,12 @@ public with sharing class CTBFileValidationUtility {
         CTB_Staging__c stagingRecord = new CTB_Staging__c();
         stagingRecord.Error_Message__c = '';
         System.debug(csvColumns[26]);
+        // If correlation Id is null
         if (String.isBlank(csvColumns[26])) {
             stagingRecord.Error_Message__c = 'No Correlation Id provided';
             stagingRecord.Status__c = 'Error';
         }
+        // If Current Balance owed is null
         if (String.isBlank(csvColumns[30])) {
             stagingRecord.Error_Message__c += ' No Current Balance owed provided';
             stagingRecord.Status__c = 'Error';

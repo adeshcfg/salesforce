@@ -2,7 +2,7 @@
  * @description       : Class for CTB File creation callouts
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 11-09-2023
+ * @last modified on  : 11-28-2023
  * @last modified by  : adeshi@a5econsulting.net
  **/
 @RestResource(urlMapping='/CTBFileUploadWebService/*')
@@ -21,14 +21,17 @@ global with sharing class CTBFileUploadWebService {
             2030 => 'Unable to publish the file - cannot confirm file was delivered to the destination'
         };
         switch on RestContext.request.requestURI.substringAfterLast('/') {
+            // Executed when SFUpload API is called to return status of file upload from salesforce to ftp
             when 'SFUpload' {
                 System.debug('SFUpload API called');
                 // processSFUpload('', '');
             }
+            // Executed when FTPUpload API is called to give information of file uploaded to ftp
             when 'FTPUpload' {
                 System.debug('FTPUpload API called');
             }
         }
+        // TODO: Add error logic, currently returning only successful response
         Map<String, Object> stringMap = new Map<String, Object>();
         stringMap.put('success', true);
         PortalDocumentStorageProcessor.createResponse(JSON.serialize(stringMap, true), 200);
@@ -36,12 +39,13 @@ global with sharing class CTBFileUploadWebService {
     }
 
     /**
-     * @description : Update Insolvency accounts based on the status received
+     * @description : Method to update Insolvency accounts/payments and document storage based on the status received
      * @author adeshi@a5econsulting.net | 11-08-2023
      * @param fileName
      * @param uploadStatus
      **/
     public static void processSFUpload(String fileName, String uploadStatus) {
+        // TODO: Add Insolvency payment update logic
         String accountStatusToUpdate = uploadStatus == 'SUCCESS' ? 'Delivered' : 'Pending to sent on File';
         String docStorageStatusToUpdate = uploadStatus == 'SUCCESS' ? 'Successful' : 'Failed';
         Insolvency_Account__c[] accountsToUpdate = new List<Insolvency_Account__c>();
@@ -67,7 +71,15 @@ global with sharing class CTBFileUploadWebService {
         }
     }
 
+    /**
+     * @description : Method to create document storage record and queue processing of staging records validation and creation
+     * @author adeshi@a5econsulting.net | 11-28-2023
+     * @param documentId
+     * @param fileName
+     * @param docId
+     **/
     public static void processFTPUpload(String documentId, String fileName, String docId) {
+        // TODO: Add queueable method call to actually process staging records after document storage record creation
         // Create document storage status associated to the file
         Document_Storage__c docInfo = new Document_Storage__c();
         docInfo.Document_Type__c = getFileIdentifier(documentId);
@@ -87,6 +99,12 @@ global with sharing class CTBFileUploadWebService {
         }
     }
 
+    /**
+     * @description : Method to get type of file based on header value in csv file
+     * @author adeshi@a5econsulting.net | 11-28-2023
+     * @param documentId
+     * @return String
+     **/
     public static String getFileIdentifier(String documentId) {
         Document fileToProccess = [SELECT Id, Body FROM Document WHERE Id = :documentId];
         String csvContents = fileToProccess.Body.toString();
