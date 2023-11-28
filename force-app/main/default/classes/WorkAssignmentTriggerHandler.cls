@@ -938,7 +938,7 @@ public class WorkAssignmentTriggerHandler {
         if(setCustomerID == NULL && setProductID != NULL){
             Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id IN: setProductID]; 
             if(prodCustomer.Customer__c != NULL){
-                customerID = prodCustomer.Customer__c;
+                customerID.add(prodCustomer.Customer__c);
             }else{
                 return;
             }
