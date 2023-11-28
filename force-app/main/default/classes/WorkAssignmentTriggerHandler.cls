@@ -988,7 +988,7 @@ public class WorkAssignmentTriggerHandler {
         
         //step 5: loop all the product of customer
         prodData=new Product__c();
-        List<product__c> prodList = new List<product__c>();
+        Map<id,product__c> prodMap = new Map<id,product__c>();
         for(Product__c prodDlist : listProdData){
             prodData.id = prodDlist.Id;
             if(mapProdCompCount.containsKey(prodDlist.id)){
@@ -997,11 +997,11 @@ public class WorkAssignmentTriggerHandler {
             }else{
                 prodData.Number_Of_Open_Complaint__c = customercomplaintcount;
             }
-            prodList.addAll(prodData);
+            prodMap.put(prodData.id,prodData);
         }
 
         ProductTriggerHandler.runProductTrigger = false;
-        update prodList;
+        update prodMap.values();
         ProductTriggerHandler.runProductTrigger = true;
 
         if(customerID != NULL){
