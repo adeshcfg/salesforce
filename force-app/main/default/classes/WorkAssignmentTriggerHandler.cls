@@ -965,7 +965,7 @@ public class WorkAssignmentTriggerHandler {
         }
          
         //step 2: get all product associated to customer
-        List<ID> listProdData = [Select id from product__c where Customer__c =: customerID].id; 
+        List<ID> listProdData = [Select id from product__c where Customer__c =: customerID]; 
         
         //step 3: get all complaint based on product retrive in step 2
         AggregateResult[] prodGroupedResults = [select Product__c prodId, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
@@ -987,9 +987,10 @@ public class WorkAssignmentTriggerHandler {
         }
         
         //step 5: loop all the product of customer
-        prodData=new Product__c();
+        
         Map<id,product__c> prodMap = new Map<id,product__c>();
         for(Product__c prodDlist : listProdData){
+            prodData=new Product__c();
             prodData.id = prodDlist.Id;
             if(mapProdCompCount.containsKey(prodDlist.id)){
                 AggregateResult prodCompTotalCount = mapProdCompCount.get(prodDlist.id);
