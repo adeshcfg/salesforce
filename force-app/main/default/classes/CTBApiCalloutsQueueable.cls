@@ -6,9 +6,13 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
     public string fileNameFormat = '';
     
     public CTBApiCalloutsQueueable(Id cvID,List<sObject> Data,string CTBBatchName,string fileName) {
+        //ContentVersion ID
         contentVersionDataID = cvID;
+        //Retrive Data
         listData = Data;
+        //Batch Name
         batchName = CTBBatchName;
+        //File Name
         fileNameFormat = fileName;
     }
     
@@ -16,6 +20,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
        system.debug('inside CTBApiCalloutsQueueable');
         List<insolvency_account__c> insolAccList = new List<insolvency_account__c>();
         String JSONRequest;
+        //bild JSON to send the portal
         if(!listData.isEmpty()){
             //Create JSON request for customer update
             if(batchName == System.Label.CTB_Insolvency_Account){
@@ -51,6 +56,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                     if(statusCode.startsWith('2')
                        && bodyMap.get('IsSuccess') == true){
                            if(batchName == System.Label.CTB_Insolvency_Account){
+                            //if we get success response then update insolvency account fields
                                insolvency_account__c newInsolAccRec = new insolvency_account__c(); 
                                for(insolvency_account__c insolAccData : (List<insolvency_account__c>)listData){
                                    newInsolAccRec.id = insolAccData.id;
@@ -62,6 +68,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                            }
                        }       
                     else if(!statusCode.startsWith('2')){
+                        //if we get error response then maintain error log
                         String response = '';
                         if(res.getBody().length() > 131071){
                             
@@ -76,7 +83,9 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                 catch(Exception ex){
                     system.debug('Exception class'+ex);
                     system.debug('exceptionline::'+ex.getStackTraceString());
+                    //Add Insolvency Error log in backend database
                     CTBFileGenerator.exceptionHandling(ex.getMessage(),ex.getStackTraceString(),NULL);
+                    // Notify to user via Email
                     CFG_EmailNotification.apiFailedEmailNotify(ex.getMessage(),'API Failed');
                 }
                 try{
@@ -84,7 +93,9 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                         update insolAccList;
                     }
                 }catch(DMLException dmlEx){
+                    //Add Insolvency Error log in backend database
                     CTBFileGenerator.exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0)); 
+                    // Notify to user via Email
                     CFG_EmailNotification.apiFailedEmailNotify(dmlEx.getDMLMessage(0),'Record update Failed');
                 }
             }
@@ -131,7 +142,9 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
         system.debug('wResp: '+wResp.get('access_token'));
     }
         catch(Exception ex){
+            //Add Insolvency Error log in backend database
             CTBFileGenerator.exceptionHandling(ex.getMessage(),ex.getStackTraceString(),NULL);
+            // Notify to user via Email
             CFG_EmailNotification.apiFailedEmailNotify(ex.getMessage(),'Access Token');
         }
         return String.valueOf(wResp.get('access_token'));
