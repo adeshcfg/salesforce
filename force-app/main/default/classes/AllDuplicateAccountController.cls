@@ -344,11 +344,11 @@ public with sharing class AllDuplicateAccountController {
         for( Schema.PicklistEntry ple : ples){
             system.debug('5653 picklist value '+ple.getValue());
             system.debug('5653 picklist label'+ple.getLabel());
-            if('Unknown' != ple.getLabel() && ple.getValue()!='Easyfinancial'){
+            if('Unknown' != ple.getLabel() && ple.getValue()!='Goeasy'){
                 types.add(new SelectOption(ple.getLabel(), ple.getValue()));   
             }
             // 5653 set value for goeasy as there is a difference between the api name and lable name of Esyfinancial (Client_Identifier__c)//
-            else if (ple.getValue()=='Easyfinancial') {
+            else if (ple.getValue()=='Goeasy') {
                 types.add(new SelectOption('Goeasy','Goeasy')); 
             } {
                 
