@@ -23,8 +23,9 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     Integer tejalcounter=0;
     
     public CTBFileGenerator(String batchName){
+        //get Batch Name from Scheduler
         CTBBatchName = batchName;
-        
+        // get value from CTB File Automation custom metadata
         for(CTB_File_Automation__mdt metaData : mapCTBFileAutomation.values()){
             mapCTBFileAuto.put(metaData.MasterLabel,metaData);
         }
@@ -35,7 +36,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public Database.Querylocator start(Database.BatchableContext BC) {
         //List<String> listNames = new List<String>{'101010','010101'};
         String query = '';
-        
+        //fetch records based on batchName
         if(CTBBatchName == System.Label.CTB_Insolvency_Account){
             query = ' Select id,name,Insolvency_Received_Date__c,Insolvency__r.Insolvency_Type__c,Debtor_1_First_Name__c,'+
                 'Debtor_1_Last_Name__c,Province_Formula__c,Insolvency__r.Debtor_1_Mailing_Country__c,Debtor_1_Mailing_Postal_Code__c,'+
@@ -70,11 +71,12 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         return Database.getQueryLocator(query);
     }
     
-    //Execute Method
+    //Execute Method: based on batch name call respective method 
     public void execute(Database.BatchableContext BC, List<sObject> query) {
         if(CTBBatchName == System.Label.CTB_Insolvency_Account){
             queryData = query;
             wrapperClass batchCnt = new wrapperClass();
+            // build insolvency daily update file body
             batchCnt = getInsolvencyAccountFile(mapCTBFileAuto,query,createdDate,dateformate);
             FinalData += batchCnt.finalDetailBody;
             countVariable += batchCnt.batchCountDetail;
@@ -82,13 +84,14 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         if(CTBBatchName == System.Label.CTB_Payment){
             queryData = query;
             wrapperClass batchCnt = new wrapperClass();
+            // build insolvency payment update file body
             batchCnt = getInsolvencyPaymentFile(mapCTBFileAuto,query,createdDate,dateformate);
             FinalData += batchCnt.finalDetailBody;
             countVariable += batchCnt.batchCountDetail;
         }
     }
     
-
+    // Build body for Insolvency Daily Update file generation
     public static wrapperClass getInsolvencyAccountFile (map<String, CTB_File_Automation__mdt> mapCTBFileAuto , List<Insolvency_Account__c> insolvencyAccData,String createdDate, String dateformate) {
         Integer counter=0;
         string mainbody = '';
@@ -98,7 +101,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         Map<id,Insolvency_Account__c> insolvAcctErrorListMap = new Map<id,Insolvency_Account__c>(); 
         
         try{
-            
+            //retrive data from CTB File Automation custom metadata
             String headerType = mapCTBFileAuto.get('Insolvency Daily Update').Header_Record_Type__c;
             String fileType = mapCTBFileAuto.get('Insolvency Daily Update').File_Type__c;
             String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Daily Update').File_Format_Identifier__c;
@@ -237,7 +240,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                                trusteePostalCode = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingPostalCode);
                            }
                        }
-                        
+                       // buld final body data 
                        mainbody += detailRecordType+','+memberType+','+memberID+','+openDate+','+insolAccData.name+','+insolAccData.Insolvency__r.Insolvency_Type__c+','+
                            productDesc+','+DebtorFirstName+','+DebtorLaseName+','+addressLine1+','+''+','+DebtorMailingCity+','+province+','+
                            mailingCountry+','+mailingPostalCode+','+SIN+','+dateOfBirth+','+insolvencyDate+','+estateNumber+','+DRNTrusteeID+','+trusteeCompany+','+trusteeAddress+','+''+','+
@@ -263,9 +266,10 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             /*******************************************Body Data Ends*************************************************/
             
             try{
+                //Batch count is assigned SEQUENTIAL batch number, starting at 1.  Each batch number must be one number greater than the last received regardless if the file is test or production.  This will ensure files aren’t accidentally sent twice or missed
                 config.Insolvency_Account_Batch_Count__c = config.Insolvency_Account_Batch_Count__c + 1;
 				Update config; 
-                
+                //if any error occur while file build then update status on insolvency account to "File Error Parsing Record"
                 if(insolvAcctErrorListMap != NULL){
                     update insolvAcctErrorListMap.values();
                 } 
@@ -286,13 +290,15 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         batchCntData.batchCountDetail = counter;
         return batchCntData;
     }
-    
+
+    // Build body for Insolvency Daily Update file generation
     public static wrapperClass getInsolvencyPaymentFile (map<String, CTB_File_Automation__mdt> mapCTBFileAuto , List<Insolvency_Payment__c> insolvencyPayData,String createdDate, String dateformate ) {
         string mainbody = '';
         Integer counter=0;
         wrapperClass batchCntData = new wrapperClass();
         
         try{
+            //retrive data from CTB File Automation custom metadata
             String headerType = mapCTBFileAuto.get('Insolvency Payment Update').Header_Record_Type__c;
             String fileType = mapCTBFileAuto.get('Insolvency Payment Update').File_Type__c;
             String memberType = mapCTBFileAuto.get('Insolvency Payment Update').Member_Type__c;
@@ -301,7 +307,8 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             String trailerRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Trailer_Record_Type__c;
             String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Payment Update').File_Format_Identifier__c;
             Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
-            
+
+            /*******************************************Body Data*************************************************/
             for(Insolvency_Payment__c insolPayData : insolvencyPayData){
                 if(headerType != NULL && memberType != NULL && memberID != NULL && batchCount != NULL && createdDate != NULL && fileType != NULL && fileFormatIdenfier != NULL
                    && detailRecordType != NULL && insolPayData.Account_Number__c != NULL && insolPayData.Payment_Posting_Date__c != NULL && insolPayData.Payment_Type__c != NULL
@@ -323,7 +330,9 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     
                 }
             }
+            /*******************************************Body Data Ends*************************************************/
             try{
+                //Batch count is assigned SEQUENTIAL batch number, starting at 1.  Each batch number must be one number greater than the last received regardless if the file is test or production.  This will ensure files aren’t accidentally sent twice or missed
                 config.Payment_Batch_Count__c = config.Payment_Batch_Count__c + 1;
 				Update config; 
                  
@@ -366,9 +375,11 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String fileType = mapCTBFileAuto.get('Insolvency Daily Update').File_Type__c;
                 String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Daily Update').File_Format_Identifier__c;
                 String trailerRecordType = mapCTBFileAuto.get('Insolvency Daily Update').Trailer_Record_Type__c;
-                
+                //build heder body data
                 headbody = headerType +','+memberType+','+memberID+','+batchCount+','+createdDate+','+dateformate+','+fileType+','+fileFormatIdenfier+' \n';
+                //build trailer body data
                 trailerbody = trailerRecordType+','+memberType+','+memberID+','+finalrecordCount+','+countVariable+','+createdDate+','+dateformate+' \n';
+                //build final string to parse
                 mainFinalData = headbody + FinalData + trailerbody; 
             }
             if(CTBBatchName == System.Label.CTB_Payment){
@@ -380,9 +391,11 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String fileType = mapCTBFileAuto.get('Insolvency Payment Update').File_Type__c;
                 String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Payment Update').File_Format_Identifier__c;
                 String trailerRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Trailer_Record_Type__c;
-                
+                //build heder body data
                 headbody = headerType +','+memberType+','+memberID+','+batchCount+','+createdDate+','+Datetime.now().format('HH:mm:ss')+','+fileType+','+fileFormatIdenfier+' \n';
+                //build trailer body data
                 trailerbody = trailerRecordType+','+memberType+','+memberID+','+finalrecordCount+','+countVariable+','+createdDate+','+Datetime.now().format('HH:mm:ss')+' \n';
+                //build final string to parse
                 mainFinalData = headbody + FinalData + trailerbody; 
             }
             Blob fileBlob = Blob.valueOf(mainFinalData);
@@ -396,9 +409,10 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             insert contentVersionData;
             
             System.enqueueJob(new CTBApiCalloutsQueueable(contentVersionData.id,queryData,CTBBatchName,Filename));*/
-            
+
+            /**********************Temparory Purpase Added*******************************/
             DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
-            
+            //parse string and get response
             if(!Test.isRunningTest()) {
                 if(CTBBatchName == System.Label.CTB_Insolvency_Account){
                 parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss')+'.csv', 'account');
@@ -431,12 +445,13 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
             insert docInfo;
             DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+            /**********************Temparory Purpase Added Ends*******************************/
         }catch(Exception ex){
             system.debug('Exception msg&&'+ex.getStackTraceString());
             CFG_EmailNotification.apiFailedEmailNotify(ex.getMessage(),'content Version Creation');
         }
     }
-    
+    //handle any exception occur while file generation and create Insolvency Error record.
     public static void exceptionHandling(string errorMsg,string stackTrace,string dataId){
         system.debug('inside exceptionHandling method');
         List<Insolvency_Error__c> listInsolErrors = new List<Insolvency_Error__c>();
