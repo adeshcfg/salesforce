@@ -109,6 +109,7 @@ public with sharing class AllDuplicateAccountController {
         List<String> accountNames = new List<String>();       
         String accQry = 'Select id, Account_Number_Without_Space__c from Insolvency_Account__c where Insolvency__c!=null';
         
+        system.debug('5653 selectedBanksName '+selectedBankName);  
         //Bnk Names
         if(String.isNotBlank(selectedBankName) && selectedBankName!='All'){
             //accQry += ' AND Client_Identifier__c =:selectedBankName';
@@ -344,7 +345,9 @@ public with sharing class AllDuplicateAccountController {
             if('Unknown' != ple.getLabel()){
                 types.add(new SelectOption(ple.getLabel(), ple.getValue()));    
             }
-        }      
+            
+        }   
+        system.debug('5653 types'+types);  
         return types;
     }
     
