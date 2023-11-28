@@ -139,7 +139,8 @@ public class JudgmentTriggerHandler {
                 system.debug('inside product check');
                 if(prod.Collection_Agency__c != NULL){
                     system.debug('inside judgment');
-                    judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prod.Collection_Agency__c));                   
+                    judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prod.Collection_Agency__c));
+                    judgment.Placed_Agency__c = judgment.Agency_Initiated_Legal_Action__c;                   
                 }
                 if(String.isNotBlank(judgment.Agency_Initiated_Legal_Action__c)){
                     
@@ -2575,7 +2576,6 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
             AggregateResult[] groupedResults  = [SELECT SUM(Current_Principal_Balance__c)  currentPrincipalBalance, 
             SUM(Current_Interest_Amount__c) currentInterestBalance,Name
             FROM product__c WHERE Name IN: prodActiveNames GROUP BY Name];
-            String placedAgency = !activeProducts.isEmpty() ? String.valueOf(activeProducts[0].Collection_Agency__c) : '';
             String province = !activeProducts.isEmpty() ? mapProvinceAcronymTaxMetadata.get(activeProducts[0].State__c).Province_Name__c : '';
             String plaintiff = !activeProducts.isEmpty() ? activeProducts[0].Account_Purchasing_Entity_Value__c : '';
             List<Judgment__c> judgList = new List<Judgment__c>();
@@ -2587,7 +2587,6 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
                 Judgment__c judg = new Judgment__c();
                     judg.Current_Principal_Balance__c = (Decimal)aggRes.get('currentPrincipalBalance');
                     judg.Current_Interest_Balance__c  = (Decimal)aggRes.get('currentInterestBalance');
-                    judg.Placed_Agency__c = placedAgency;
                     judg.Judgment_Province__c = province; 
                     judg.Placed_Province__c = province;
                     judg.Id = prodJudgmap.get((String)aggRes.get('Name'));
@@ -2607,7 +2606,6 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
             for(Id judgId: judgmentIds){
                 Judgment__c judg = new Judgment__c();
                 judg.Id = judgId;
-                judg.Placed_Agency__c = placedAgency;
                 judg.Judgment_Province__c = province; 
                 judg.Placed_Province__c = province;
                 judg.Plaintiff__c = plaintiff;
