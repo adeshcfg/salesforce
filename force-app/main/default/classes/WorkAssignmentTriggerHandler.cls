@@ -967,11 +967,14 @@ public class WorkAssignmentTriggerHandler {
         }
          
         //step 2: get all product associated to customer
-        List<ID> listProdData = [Select id from product__c where Customer__c IN: customerID]; 
-        
+        List<product__c> listProdData = [Select id,Product__c,Number_Of_Open_Complaint__c from product__c where Customer__c IN: customerID]; 
+        List<ID> prodListIds = new List<ID>();
+        for(product__c prodIDList: listProdData){
+            prodListIds.add(prodIDList.id);
+        }
         //step 3: get all complaint based on product retrive in step 2
         AggregateResult[] prodGroupedResults = [select Product__c prodId, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
-                                            WHERE Product__c IN :listProdData 
+                                            WHERE Product__c IN :prodListIds 
                                             AND Product__c != NULL
                                             AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
                                             AND Status__c != 'Closed - Unjustified - Cease and Desist Request')
