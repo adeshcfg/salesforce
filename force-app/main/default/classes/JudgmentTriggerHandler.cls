@@ -602,7 +602,7 @@ validationRules(listNewJudgments,mapOldJudgment);
     public static void handleAfterInsert(list<Judgment__c> judgment){
         system.debug('after insert');
         system.debug('after insert judgment' +judgment);
-
+        JudgmentTriggerHandler.updateAmountsOnJudgment(judgment);
         for(Judgment__c judgRecord : judgment){
             Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
             config.Send_Notification__c = true;  
@@ -1310,6 +1310,8 @@ Accure Interest from curDate (last payment's postoing date) to Today
         set<String> prodName = new set<String>();
         Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
         config.Send_Notification__c = true;
+        JudgmentTriggerHandler.populateJudgmentWithPlacement(listNewJudgments);
+        JudgmentTriggerHandler.updateAmountsOnJudgment(listNewJudgments);
         system.debug('inside after update');
         //Get active judgments related to product
         for(Judgment__c judgment : listNewJudgments){
@@ -2573,8 +2575,8 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
             AggregateResult[] groupedResults  = [SELECT SUM(Current_Principal_Balance__c)  currentPrincipalBalance, 
             SUM(Current_Interest_Amount__c) currentInterestBalance,Name
             FROM product__c WHERE Name IN: prodActiveNames GROUP BY Name];
-            String placedAgency = String.valueOf(activeProducts[0].Collection_Agency__c);
-            String province = mapProvinceAcronymTaxMetadata.get(activeProducts[0].State__c).Province_Name__c;
+            String placedAgency = !activeProducts.isEmpty() ? String.valueOf(activeProducts[0].Collection_Agency__c) : '';
+            String province = !activeProducts.isEmpty() ? mapProvinceAcronymTaxMetadata.get(activeProducts[0].State__c).Province_Name__c : '';
             String plaintiff = !activeProducts.isEmpty() ? activeProducts[0].Account_Purchasing_Entity_Value__c : '';
             List<Judgment__c> judgList = new List<Judgment__c>();
             List<Id> judgUpdate = new List<Id>();
