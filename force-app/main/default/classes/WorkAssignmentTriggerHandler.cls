@@ -932,6 +932,8 @@ public class WorkAssignmentTriggerHandler {
         Account cust;
         Product__c prodData;
         Map<String, AggregateResult> mapProdCompCount = new Map<String, AggregateResult>();
+        System.Debug('setProductID**'+setProductID);
+        System.Debug('setCustomerID**'+setCustomerID);
 
         if(setProductID == NULL && setCustomerID == NULL){
             return;
