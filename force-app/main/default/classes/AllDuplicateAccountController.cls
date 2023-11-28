@@ -342,8 +342,12 @@ public with sharing class AllDuplicateAccountController {
         List<Schema.PicklistEntry> ples = fieldResult.getPicklistValues();
                 
         for( Schema.PicklistEntry ple : ples){
-            if('Unknown' != ple.getLabel()){
+            if('Unknown' != ple.getLabel() && ple.getValue()!='Easyfinancial'){
                 types.add(new SelectOption(ple.getLabel(), ple.getValue()));    
+            }else if (ple.getValue()=='Easyfinancial') {
+                types.add(new SelectOption('Goeasy','Goeasy')); 
+            } {
+                
             }
             
         }   
