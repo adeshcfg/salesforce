@@ -924,11 +924,12 @@ public class WorkAssignmentTriggerHandler {
         }
     }
     public static void getComplaintCountOnProductAndCustomer(set<ID> setProductID,set<ID> setCustomerID){
-        Id customerID;
+        Set<Id> customerID = new Set<Id>();
+        Id custId;
         Decimal prodcomplaintcount = 0;
         Decimal customercomplaintcount = 0;
         Account cust;
-        Product prodData;
+        Product__c prodData;
         Map<String, AggregateResult> mapProdCompCount = new Map<String, AggregateResult>();
 
         if(setProductID == NULL && setCustomerID == NULL){
@@ -958,6 +959,7 @@ public class WorkAssignmentTriggerHandler {
             if(custGroupedResults != NULL && !custGroupedResults.isEmpty()){
                 for (AggregateResult arr : custGroupedResults)  {
                     if((decimal)arr.get('comptCustomercnt') > 0){ 
+                        custId = (id)arr.get('Customer__c');
                         customercomplaintcount = (decimal)arr.get('comptCustomercnt');
                     }
                 }
@@ -965,7 +967,7 @@ public class WorkAssignmentTriggerHandler {
         }
          
         //step 2: get all product associated to customer
-        List<ID> listProdData = [Select id from product__c where Customer__c =: customerID]; 
+        List<ID> listProdData = [Select id from product__c where Customer__c IN: customerID]; 
         
         //step 3: get all complaint based on product retrive in step 2
         AggregateResult[] prodGroupedResults = [select Product__c prodId, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
@@ -1005,9 +1007,9 @@ public class WorkAssignmentTriggerHandler {
         update prodMap.values();
         ProductTriggerHandler.runProductTrigger = true;
 
-        if(customerID != NULL){
+        if(custId != NULL){
             cust=new Account();
-            cust.id = customerID;
+            cust.id = custId;
             cust.Number_Of_Open_Complaint__c = customercomplaintcount;
             cust.Number_Of_Open_Product_Complaint__c = prodcomplaintcount;
             CustomerTriggerHandler.runCustomerTrigger= false;
