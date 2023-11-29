@@ -341,13 +341,9 @@ public with sharing class AllDuplicateAccountController {
         List<Schema.PicklistEntry> ples = fieldResult.getPicklistValues();
                 
         for( Schema.PicklistEntry ple : ples){
-            if('Unknown' != ple.getLabel() /*&& ple.getValue()!='Goeasy'*/){
-                types.add(new SelectOption(ple.getValue(), ple.getValue()));   
+            if('Unknown' != ple.getLabel()){
+                types.add(new SelectOption(ple.getValue(), ple.getLabel()));   
             }
-            // 5653 set value for goeasy as there is a difference between the api name and lable name of Esyfinancial (Client_Identifier__c)date-29-11-2023//
-           /*else if (ple.getValue()=='Goeasy') {
-                types.add(new SelectOption('Goeasy','Goeasy')); 
-            } */
         }   
             return types;
     }
