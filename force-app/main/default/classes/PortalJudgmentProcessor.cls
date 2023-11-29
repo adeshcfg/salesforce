@@ -35,7 +35,7 @@ global class PortalJudgmentProcessor {
                                           Judgment_Number__c,Legal_Status__c,Legal_Sub_Status__c,Suit_Amount_3__c,Suit_Amount_2__c,
                                           Suit_Amount_4__c,Suit_Amount_5__c,Suit_Amount_1__c,Judgment_Date__c,Interest_Rate_two__c,
                                           Balance_two__c,Interest_Rate_three__c,Balance_three__c,Interest_Rate_four__c,Balance_four__c,
-                                          Interest_Rate_five__c,Balance_five__c
+                                          Interest_Rate_five__c,Balance_five__c,Writ_Renewal_Date_Formula__c,Garnishment_Renewal_Date_Formula__c
                                           FROM Judgment__c 
                                           WHERE Judgment_Number__c =: mapParameters.get('Judgment_Number')
                                           //AND RecordType.Developername= :'Agency'

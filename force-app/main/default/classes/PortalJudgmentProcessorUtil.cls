@@ -39,8 +39,8 @@ public class PortalJudgmentProcessorUtil {
             mapJudgment.put(judgmentnew.id,judgmentnew);
         }
 
-        writRenewalDate = judgment.Writ_Renewal_Date__c;
-        garnishmentDate = judgment.Garnishment_Date__c;
+        writRenewalDate = judgment.Writ_Renewal_Date_Formula__c;
+        garnishmentDate = judgment.Garnishment_Renewal_Date_Formula__c;
         judgmentDate = judgment.Judgment_Date__c;
         LegalStatus = judgment.Legal_Status__c;
         LegalSubStatus = judgment.Legal_Sub_Status__c;
@@ -78,8 +78,8 @@ public class PortalJudgmentProcessorUtil {
             }
             else{
                 update judgment;
-                writRenewalDate = judgment.Writ_Renewal_Date__c;
-        		garnishmentDate = judgment.Garnishment_Date__c;
+                writRenewalDate = judgment.Writ_Renewal_Date_Formula__c;
+        		garnishmentDate = judgment.Garnishment_Renewal_Date_Formula__c;
                 if(writRenewalDate != null && garnishmentDate != null){
                    if(writRenewalDate != Date.valueOf(paramMap.get('Date_Writ_Issued')) || garnishmentDate != Date.valueOf(paramMap.get('Garnishment_Date'))){
                         PortalJudgmentProcessingAPI.processJudgment(judgment.id);
