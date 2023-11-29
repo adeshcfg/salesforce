@@ -109,7 +109,6 @@ public with sharing class AllDuplicateAccountController {
         List<String> accountNames = new List<String>();       
         String accQry = 'Select id, Account_Number_Without_Space__c from Insolvency_Account__c where Insolvency__c!=null';
         
-        system.debug('5653 selectedBanksName '+selectedBankName);  
         //Bnk Names
         if(String.isNotBlank(selectedBankName) && selectedBankName!='All'){
             //accQry += ' AND Client_Identifier__c =:selectedBankName';
@@ -342,18 +341,15 @@ public with sharing class AllDuplicateAccountController {
         List<Schema.PicklistEntry> ples = fieldResult.getPicklistValues();
                 
         for( Schema.PicklistEntry ple : ples){
-            system.debug('5653 picklist value '+ple.getValue());
-            system.debug('5653 picklist label'+ple.getLabel());
             if('Unknown' != ple.getLabel() /*&& ple.getValue()!='Goeasy'*/){
                 types.add(new SelectOption(ple.getValue(), ple.getValue()));   
             }
-            // 5653 set value for goeasy as there is a difference between the api name and lable name of Esyfinancial (Client_Identifier__c)//
+            // 5653 set value for goeasy as there is a difference between the api name and lable name of Esyfinancial (Client_Identifier__c)date-29-11-2023//
            /*else if (ple.getValue()=='Goeasy') {
                 types.add(new SelectOption('Goeasy','Goeasy')); 
             } */
         }   
-        system.debug('5653 types'+types);  
-        return types;
+            return types;
     }
     
     //Insolvency Type Dropdown
