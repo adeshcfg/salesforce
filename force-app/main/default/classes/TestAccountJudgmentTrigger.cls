@@ -22,6 +22,7 @@ public class TestAccountJudgmentTrigger {
         judg.RecordTypeId=recordid;
         judg.Legal_Status__c='Post-Judgment';
         judg.Legal_Sub_Status__c='Dormant';
+        judg.Legal_Agency__c = '29';
         insert judg;
          ////Account-Judgment Record Creation
         Account_Judgment__c accjudg=new Account_Judgment__c();
