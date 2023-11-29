@@ -78,8 +78,10 @@ public class PortalJudgmentProcessorUtil {
             }
             else{
                 update judgment;
-                writRenewalDate = judgment.Writ_Renewal_Date_Formula__c;
-        		garnishmentDate = judgment.Garnishment_Renewal_Date_Formula__c;
+                // Re query formula fields to get updated value
+                Judgment__c updatedJudgment = [SELECT Writ_Renewal_Date_Formula__c, Garnishment_Renewal_Date_Formula__c FROM Judgment__c WHERE Id = :judgment.Id];
+                writRenewalDate = updatedJudgment.Writ_Renewal_Date_Formula__c;
+        		garnishmentDate = updatedJudgment.Garnishment_Renewal_Date_Formula__c;
                 if(writRenewalDate != null && garnishmentDate != null){
                    if(writRenewalDate != Date.valueOf(paramMap.get('Date_Writ_Issued')) || garnishmentDate != Date.valueOf(paramMap.get('Garnishment_Date'))){
                         PortalJudgmentProcessingAPI.processJudgment(judgment.id);
