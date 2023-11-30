@@ -55,11 +55,17 @@ public class PortalJudgmentProcessorUtil {
 
         // Loop over reponse JSON from portal and populate correct Judgment fields
         for (String fieldName : paramMap.keySet()) {
-            if (String.isNotBlank(paramMap.get(fieldName)) && fieldNameMappingMap.containsKey(fieldName)) {
+            if (fieldNameMappingMap.containsKey(fieldName)) {
                 if (fieldNameMappingMap.get(fieldName).Field_Type__c == 'Currency') {
-                    judgment.put(fieldNameMappingMap.get(fieldName).Field_API__c, Decimal.valueOf(paramMap.get(fieldName)));
+                    judgment.put(
+                        fieldNameMappingMap.get(fieldName).Field_API__c,
+                        String.isNotBlank(paramMap.get(fieldName)) ? Decimal.valueOf(paramMap.get(fieldName)) : null
+                    );
                 } else if (fieldNameMappingMap.get(fieldName).Field_Type__c == 'Date') {
-                    judgment.put(fieldNameMappingMap.get(fieldName).Field_API__c, Date.valueOf(paramMap.get(fieldName)));
+                    judgment.put(
+                        fieldNameMappingMap.get(fieldName).Field_API__c,
+                        String.isNotBlank(paramMap.get(fieldName)) ? Date.valueOf(paramMap.get(fieldName)) : null
+                    );
                 } else {
                     judgment.put(fieldNameMappingMap.get(fieldName).Field_API__c, paramMap.get(fieldName));
                 }
