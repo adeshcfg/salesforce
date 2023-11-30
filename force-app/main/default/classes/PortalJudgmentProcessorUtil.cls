@@ -55,7 +55,7 @@ public class PortalJudgmentProcessorUtil {
 
         // Loop over reponse JSON from portal and populate correct Judgment fields
         for (String fieldName : paramMap.keySet()) {
-            if (String.isNotBlank(paramMap.get(fieldName))) {
+            if (String.isNotBlank(paramMap.get(fieldName)) && fieldNameMappingMap.containsKey(fieldName)) {
                 if (fieldNameMappingMap.get(fieldName).Field_Type__c == 'Currency') {
                     judgment.put(fieldNameMappingMap.get(fieldName).Field_API__c, Decimal.valueOf(paramMap.get(fieldName)));
                 } else if (fieldNameMappingMap.get(fieldName).Field_Type__c == 'Date') {
