@@ -84,8 +84,8 @@
                 <field>Garnishment_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Garnishment_Renewal_Date__c</field>
+                <behavior>Readonly</behavior>
+                <field>Garnishment_Renewal_Date_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
