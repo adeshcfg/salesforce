@@ -33,7 +33,7 @@ global class PortalJudgmentProcessor {
         //Process the Customer based on Identfier in portal request
         system.debug('param'+mapParameters.get('Identifier'));
         String judgmentNumber = mapParameters.get('Judgment_Number');
-        String Query = 'SELECT Id,Name, ';
+        String Query = 'SELECT Id,Name,Writ_Renewal_Date_Formula__c,Garnishment_Renewal_Date_Formula__c, ';
         for(Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping){
             if(fieldMappingInstance.Object_Name__c == 'Judgment'){
                 Query += fieldMappingInstance.Field_API__c + ', ';
