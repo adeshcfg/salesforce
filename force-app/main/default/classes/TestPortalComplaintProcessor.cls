@@ -161,7 +161,7 @@ public class TestPortalComplaintProcessor {
         Work_Assignment__c testWorkAssignment = new Work_Assignment__c(
             Complaint_Type__c = 'new Complaint',
             Product_Identifier__c = testProduct.Id,
-            Customer_Identifier__c = testCustomer.Id,
+            Customer_Identifier__c = testCustomer.SF_ID__c,
             Status__c = 'close'
         );
         insert testWorkAssignment;

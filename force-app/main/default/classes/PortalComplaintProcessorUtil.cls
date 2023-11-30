@@ -228,7 +228,7 @@ public class PortalComplaintProcessorUtil {
         system.debug('listWorkAssignments:::' +listWorkAssignments);
         Work_Assignment__c newListWorkAss = listWorkAssignments.get(0);
         set<String> setProductIDs = new set<String>();
-        String setCustomerIDs;
+        String setCustomerIDs = '';
         
         for(Work_Assignment__c wrkAss : listWorkAssignments){
             setProductIDs.add(wrkAss.Product_Identifier__c);
@@ -246,14 +246,14 @@ public class PortalComplaintProcessorUtil {
         
         if(newListWorkAss.Complaint_Type__c != null){
             
-            if(setProductIDs == NULL && setCustomerIDs == NULL){
+            if(setProductIDs.isEmpty() && setCustomerIDs == null){
                 return;
             }
-            if(setCustomerIDs == NULL && setProductIDs != NULL){
+            if(setCustomerIDs == null && !setProductIDs.isEmpty()){
                 if(!Test.isRunningTest()){
-                	Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.SF_ID__c,Customer__r.Number_Of_Open_Complaint__c from product__c where name IN: setProductIDs];     
-                    if(prodCustomer.Customer__r.SF_ID__c != NULL){
-                        customerID = prodCustomer.Customer__r.SF_ID__c;
+                	List<Product__c> prodCustomerList = [Select id,name,Customer__c,Customer__r.SF_ID__c,Customer__r.Number_Of_Open_Complaint__c from product__c where name IN: setProductIDs Limit 1];     
+                    if(!prodCustomerList.isEmpty() && prodCustomerList[0].Customer__r.SF_ID__c != null){
+                        customerID = prodCustomerList[0].Customer__r.SF_ID__c;
                     }else{
                         return;
                     }
@@ -323,11 +323,12 @@ public class PortalComplaintProcessorUtil {
             ProductTriggerHandler.runProductTrigger = true;
             
             cust=new Account();
-            if(custId != NULL){
+            if(custId != null){
                 cust.id = custId;
             }
-            if(customerID != NULL){
-                cust.id = customerID;
+            if(customerID != null){
+                List<Account> customerDetails = [SELECT Id FROM Account WHERE SF_ID__c = :customerID LIMIT 1];
+                cust.id = customerDetails[0].Id;
             }
             cust.Number_Of_Open_Complaint__c = customercomplaintcount;
             cust.Number_Of_Open_Product_Complaint__c = prodcomplaintcount;
