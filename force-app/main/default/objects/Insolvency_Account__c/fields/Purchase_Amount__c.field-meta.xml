@@ -4,8 +4,8 @@
     <description>Purchase Amount</description>
     <externalId>false</externalId>
     <inlineHelpText>Purchase Amount</inlineHelpText>
-    <label>Purchase Amount</label>
-    <precision>14</precision>
+    <label>Acquired Purchase Amount</label>
+    <precision>12</precision>
     <required>false</required>
     <scale>2</scale>
     <trackHistory>false</trackHistory>
