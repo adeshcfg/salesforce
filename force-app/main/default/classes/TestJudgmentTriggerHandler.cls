@@ -170,7 +170,7 @@ public class TestJudgmentTriggerHandler {
         Judgment__C judInstance = new Judgment__C();
         judInstance.Legal_Status__c = 'Judgment';
         judInstance.Legal_Sub_Status__c = 'Granted';
-        judInstance.Product_1__c = '201';
+        judInstance.Product_1__c = 'Testing';
         judInstance.Interest_Rate_one__c = 21;
         judInstance.Balance_one__c = 99;
         judInstance.Judgment_Amount__c = null;
