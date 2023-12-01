@@ -519,8 +519,11 @@ public class ProductTriggerHandler{
             }
                 system.debug('prodOld1:'+prodOld1);
             if(prod.Refer_to_Legal__c == 'Approved' && prodOld1.Refer_to_Legal__c != prod.Refer_to_Legal__c){ 
-                system.debug('block run');
-                creatJudgment(prod);
+                Application_Config_Settings__c config = [SELECT Run_Product_Coll_Sub_Status_Validation__c FROM Application_Config_Settings__c FOR UPDATE];
+                config.Run_Product_Coll_Sub_Status_Validation__c = false; 
+                update config;
+                prod.Collection_Sub_Status__c = 'Legal';
+                prod.Previously_Reviewed_for_Legal_Action__c = true;
             }
             
             if(prodOld1.Status__c!=null){
@@ -1163,11 +1166,12 @@ public class ProductTriggerHandler{
         list<id> prodIds=new list<id>();
 
         for(Product__c product: listNewProducts){
+            Product__c prodOld = mapOldProducts.get(product.id);
+            // Create Judgment records if refer to legal approved
+            if(product.Refer_to_Legal__c == 'Approved' && prodOld.Refer_to_Legal__c != product.Refer_to_Legal__c){ 
+                creatJudgment(product);
+            }
             //call API
-            system.debug('runProductAPI:: '+runProductAPI);
-            system.debug('runProductTrigger:: '+runProductTrigger);
-            system.debug('check record id:: '+product.RecordTypeId);
-            system.debug('check**'+prodRTypeIdMap.get('Distressed_Account'));
             if(agencyPortalSettings.Run_Product_API__c == true && prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId){
                 system.debug('Product API called');
                 prodIds.add(product.ID);
@@ -1996,11 +2000,6 @@ public class ProductTriggerHandler{
              insert accJudg1;
              //accJudgID.add(accJudg1.ID);
              AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
-             Application_Config_Settings__c config = [SELECT Run_Product_Coll_Sub_Status_Validation__c FROM Application_Config_Settings__c FOR UPDATE];
-             config.Run_Product_Coll_Sub_Status_Validation__c = false; 
-             update config;
-             prodNew.Collection_Sub_Status__c = 'Legal';
-             prodNew.Previously_Reviewed_for_Legal_Action__c = TRUE;
              
              PortalAccountJudgmentProcessingAPI.processAccountJudgment(accJudg1.ID);
          }else{
