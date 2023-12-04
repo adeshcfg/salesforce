@@ -78,19 +78,19 @@ global with sharing class PortalSnapshotCompletionProcessor {
             set<string> docIDs=new set<string>();
             map<id,document_storage__c> docMap=new map<id,document_storage__c>();
             document_storage__c docStorageData = [select id,Work_Assignment__c,Work_Assignment__r.Created_By__c ,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
+            if(docStorageData.Work_Assignment__c!=NULL){
             for(AllocationsClass result:prResponse.Allocations){
                 docIDs.add(result.DocumentStorageNumber);
             }
             list<document_storage__c> docStoragetoUpdate = [select id,Work_Assignment__c from document_storage__c where Document_Storage_Number__c IN :docIDs];
             for(document_storage__c document:docStoragetoUpdate){
-                if(docStorageData.Work_Assignment__c!=NULL){
                 document.Work_Assignment__c=docStorageData.Work_Assignment__c;
                 docMap.put(document.id,document);
-                }
             }
             if(!docMap.keySet().isEmpty()){
             update docMap.values();
             }
+           }
             //Bug:4459 changes ends
             //Add and update comment on product staging record based on the parsed response.
             if(!documentStorageId.contains('DS_ACC')){
