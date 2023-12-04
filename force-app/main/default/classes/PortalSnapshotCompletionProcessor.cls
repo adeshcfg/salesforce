@@ -73,9 +73,23 @@ global with sharing class PortalSnapshotCompletionProcessor {
       
         if(prResponse.Allocations != null){
             documentStorageId = prResponse.DocumentStorageId;
-            
             dataIDs = getDataIds(prResponse);
-            
+            //Bug:4459 changes starts
+            set<id> docIDs=new set<id>();
+            map<id,document_storage__c> docMap=new map<id,document_storage__c>();
+            document_storage__c docStorageData = [select id,Work_Assignment__c,Work_Assignment__r.Created_By__c ,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
+            for(AllocationsClass result:prResponse.Allocations){
+                docIDs.add(result.DocumentStorageNumber);
+            }
+            list<document_storage__c> docStoragetoUpdate = [select id,Work_Assignment__c from document_storage__c where id IN :docIDs];
+            for(document_storage__c document:docStoragetoUpdate){
+                document.Work_Assignment__c=docStorageData.Work_Assignment__c;
+                docMap.put(document.id,document);
+            }
+            if(!docMap.keySet().isEmpty()){
+            update docMap.values();
+            }
+            //Bug:4459 changes ends
             //Add and update comment on product staging record based on the parsed response.
             if(!documentStorageId.contains('DS_ACC')){
                 updateProductStagings( dataIDs, documentStorageId );
@@ -155,6 +169,8 @@ global with sharing class PortalSnapshotCompletionProcessor {
     
     public class AllocationsClass{
         public string Agency {get;set;}
+        //Added below line part of bug-4459
+        public string DocumentStorageNumber{get;set;}
         public ErrorsClass[]Errors ;
     }
     
