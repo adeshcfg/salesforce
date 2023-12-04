@@ -282,7 +282,7 @@ public class PortalComplaintProcessorUtil {
             }
             
             //step 2: get all product associated to customer
-            List<product__c> listProdData = [Select id,name,Number_Of_Open_Complaint__c from product__c where Customer__c =: customerID]; 
+            List<product__c> listProdData = [Select id,name,Number_Of_Open_Complaint__c from product__c where Customer__r.SF_ID__c =: customerID]; 
             List<String> prodListIds = new List<String>();
             for(product__c prodIDList: listProdData){
                 prodListIds.add(prodIDList.name);
