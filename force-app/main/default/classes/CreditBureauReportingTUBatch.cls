@@ -87,11 +87,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                         'First_Name__c != null AND '+ 
                                         'Name !=null AND '+ 
                                         'Open_Date__c != null AND '+ 
-										'Monthly_Payment_Amount__c != null AND '+
 										'Current_Balance__c != null AND '+ 
                                         'Difference_Greater_Than_N_Years__c = False AND ' + 
-                                        'Last_Payment_Date__c <> null AND ' + 
-                                        'Original_Date_of_Delinquency__c <> null AND ' + 
+                                        'Last_Payment_Date__c <> null AND ' +  
                                         '(TransUnion_Reported_As_Complete_Count__c = null OR ' +  
                                         'TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)');
         
