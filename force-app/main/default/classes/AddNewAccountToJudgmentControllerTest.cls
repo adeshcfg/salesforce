@@ -45,7 +45,7 @@ public class AddNewAccountToJudgmentControllerTest{
         
         
         
-        AddNewAccountToJudgmentController.saveAccountJudgmentRecord( [SELECT ID FROM Product__c] ,judg.Id);
+        AddNewAccountToJudgmentController.saveAccountJudgmentRecord( [SELECT ID, Name FROM Product__c] ,judg.Id);
         AddNewAccountToJudgmentController.fetchLinkedAccounts(judg.Id);
         
         Account_Judgment__c accJudg = [SELECT Id, Judgment__c, Status__c, Product__c FROM Account_Judgment__c LIMIT 1];
