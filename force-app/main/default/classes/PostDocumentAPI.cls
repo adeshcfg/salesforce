@@ -79,7 +79,7 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
                    failedDocStorage.Document_Type__C = 'Payment Processing File';
                }else if(DocType == 'Customer Contact Information Update File'){
                    failedDocStorage.Document_Name__c = 'Customer Contact Information Failed.xls';
-                   failedDocStorage.Document_Type__C = 'Payment Processing File';
+                   failedDocStorage.Document_Type__C = 'Customer Contact Information Processing File';
                }else if(DocType == 'Account Status (having Judgment) Update File'){
                    failedDocStorage.Document_Name__c = 'Account Judgment Failed.xls';
                    failedDocStorage.Document_Type__C = 'Account Judgment Processing File';
@@ -111,7 +111,7 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
                    SuccessDocStorage.Document_Type__C = 'Payment Processing File';
                }else if(DocType == 'Customer Contact Information Update File'){
                    SuccessDocStorage.Document_Name__c = 'Customer Contact Information Success.xls';
-                   SuccessDocStorage.Document_Type__C = 'Payment Processing File';
+                   SuccessDocStorage.Document_Type__C = 'Customer Contact Information Processing File';
                }else if(DocType == 'Account Status (having Judgment) Update File'){
                    SuccessDocStorage.Document_Name__c = 'Account Judgment Success.xls';
                    SuccessDocStorage.Document_Type__C = 'Account Judgment Processing File';
