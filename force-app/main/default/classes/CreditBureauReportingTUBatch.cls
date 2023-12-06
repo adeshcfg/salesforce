@@ -91,8 +91,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
 										'Assignment_Date__c <: dayBefore45 AND '+
                                         '(NOT First_Name__c LIKE \'_\') AND ' + 
                                         '(NOT Last_Name__c LIKE \'_\') AND ' +
-                                        'Charged_Off_Date__c <> null AND ' +
-                                        'Last_Payment_Date_Prior_to_CO__c <> null AND ' +
+                                        '(Charged_Off_Date__c <> null OR ' +
+                                        'Last_Payment_Date_Prior_to_CO__c <> null) AND ' +
                                         'Difference_Greater_Than_N_Years__c = False AND ' + 
                                         '(TransUnion_Reported_As_Complete_Count__c = null OR ' +  
                                         'TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)');
@@ -641,8 +641,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     string sellerName = String.valueOf(prodct.Seller__r.name) + canaccede;
                     system.debug('sellerName length'+sellerName.length());
                     integer number1 = 30 - sellerName.length();
-                    Integer number2 = number1 + String.valueOf(prodct.Seller__r.name).length();
-                    K1SegmentLine = String.valueOf(prodct.Seller__r.name).rightPad(number2);
+                    Integer number2 = number1 + sellerName.length();
+                    K1SegmentLine = sellerName.rightPad(number2);
                     K1SegmentLine = K1SegmentLine.toUpperCase();
                     //K1SegmentLine = K1SegmentLine + canaccede;
                 } 
