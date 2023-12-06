@@ -124,6 +124,12 @@ public class CustomerProcessingBatchHelper {
         }
     }
     
+    public static boolean getValidPhoneNumber(String phoneHome){
+        string phoneRegex = '\\+{0,1}[0-9]{10,12}';
+        Pattern MyPattern1 = Pattern.compile(phoneRegex);
+        Matcher MyMatcher1 = MyPattern1.matcher(phoneHome);
+        return MyMatcher1.matches();
+    }
     //This method will accept integers and return string with 0 paddings
     public static String getStringWithZeroPadding(Integer numberCount){
         
