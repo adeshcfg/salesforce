@@ -214,7 +214,8 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                        if((insolvAcc.Name != InsolAccNameListOld.get(insolvAcc.Id) || insolvAcc.RecordTypeId != InsolAccRTypeListOld.get(insolvAcc.Id)) && !ignoreAcctNameList.contains(insolvAcc.Account_Number_Without_Space__c.toUpperCase())){
 
                            if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c == null){
-                                if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
+                            //bug: 5593 - Added client_identifier in below if loop to consider bank for duplicate insolvency accounts   
+                            if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c,insolvAcc.Client_Identifier__c)){
                                     msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
                                     ApexPages.addMessage(msg);
                                     mssg = 'NA';
@@ -232,15 +233,16 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                 processedNewNumber.add(checkKey);
                                 isNewAccDup = false;
                             }
-                        
-                        if((dupAccCheckList(insolvAcc.id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolv.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c) || isNewAccDup) ){
+                        //bug: 5593 - Added client_identifier in below if loop to consider bank for duplicate insolvency accounts
+                        if((dupAccCheckList(insolvAcc.id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolv.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c,insolvAcc.Client_Identifier__c) || isNewAccDup) ){
                             msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name );
                             ApexPages.addMessage(msg);
                             mssg = 'NA';
                         }
                         
                         if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c != null){
-                            if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
+                           //bug: 5593 - Added client_identifier in below if loop to consider bank for duplicate insolvency accounts
+                            if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c, insolvAcc.Client_Identifier__c)){
                                 msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
                                 ApexPages.addMessage(msg);
                                 mssg = 'NA';
@@ -290,13 +292,13 @@ public with sharing class InlineInsolvencyAccountsCntrl {
     }
     
     //check if Duplicate available
-    public boolean dupAccCheckList(Id accId, Id accRTId, string alphaNum, Id insolId, list<string> ignoreAcctNameList, String dupReason){
+    public boolean dupAccCheckList(Id accId, Id accRTId, string alphaNum, Id insolId, list<string> ignoreAcctNameList, String dupReason,string clientIdentifier){
 
         boolean dupFound=false;
         string numberWithoutSpace = alphaNum.deleteWhitespace();
         numberWithoutSpace = alphaNum.replaceAll( '\\s+', '');
         List<Insolvency_Account__c> insolAcctDBList = new List<Insolvency_Account__c>();
-        
+        //bug: 5593 - Added Client_Identifier__c=:clientIdentifier in below 2 SOQL queries to consider bank name to identify the duplicates
         if(dupReason != null){
             insolAcctDBList = [Select Id, Name 
                                                        from Insolvency_Account__c
@@ -304,14 +306,16 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                                        AND RecordTypeID =: accRTId
                                                        and Insolvency__c =: insolId
                                                        and Account_Number_Without_Space__c =: numberWithoutSpace
-                                                       and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList];
+                                                       and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList
+                                                       and Client_Identifier__c=:clientIdentifier];
         }else if(dupReason == null){
             insolAcctDBList = [Select Id, Name 
                                                        from Insolvency_Account__c
                                                        where Id !=: accId
                                                        AND RecordTypeID =: accRTId
                                                        and Account_Number_Without_Space__c =: numberWithoutSpace
-                                                       and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList];
+                                                       and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList
+                                                       and Client_Identifier__c=:clientIdentifier];
         }
         
         if(insolAcctDBList.size()>0){
