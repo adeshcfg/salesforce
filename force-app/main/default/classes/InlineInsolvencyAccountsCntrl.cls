@@ -219,7 +219,8 @@ public with sharing class InlineInsolvencyAccountsCntrl {
 
                            if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c == null){
                                 if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
-                                  if(!insolAcctList.isEmpty()){
+                                  //bug: 5593 - changes starts
+                                    if(!insolAcctList.isEmpty()){
                                     for(Insolvency_Account__c insAcct:insolAcctList){
                                         if(insAcct.RecordTypeID!=insolvAcc.RecordTypeID){
                                             noDuplicates=true;
@@ -230,7 +231,8 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                         ApexPages.addMessage(msg);
                                         mssg = 'NA';
                                        }
-                                  }                                
+                                  }
+                                  //bug: 5593 changes ends                                
                                 }
                             }
                         } 
@@ -247,6 +249,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                             }
                         
                         if((dupAccCheckList(insolvAcc.id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolv.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c) || isNewAccDup) ){
+                            //bug:5593 -changes starts
                             if(!insolAcctList.isEmpty()){
                                 for(Insolvency_Account__c insAcct:insolAcctList){
                                     if(insAcct.RecordTypeID!=insolvAcc.RecordTypeID){
@@ -259,10 +262,12 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                     mssg = 'NA';
                                    }
                               }
+                              //bug:5593 changes ends
                         }
                         
                         if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c != null){
                             if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
+                               //bug: 5593 - changes starts
                                 if(!insolAcctList.isEmpty()){
                                     for(Insolvency_Account__c insAcct:insolAcctList){
                                         if(insAcct.RecordTypeID!=insolvAcc.RecordTypeID){
@@ -275,6 +280,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                         mssg = 'NA';
                                        }
                                   }
+                                  //bug:5593 - changes ends
                             }
                         }
                     }
