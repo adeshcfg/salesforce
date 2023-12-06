@@ -27,6 +27,10 @@ public with sharing class InlineInsolvencyAccountsCntrl {
     Set<String> processedNewNumber;
     public Map <String, String> cIRTMap = new Map<String, String>(); // Client Identifier
     public Map <Id, String> insAccntRecorTypeMap;
+    //Bug:5593 changes starts
+    List<Insolvency_Account__c> insolAcctList = new List<Insolvency_Account__c>();
+    Boolean duplicates=true;
+    //Bug:5593 changees ends
     
     // Custom setting for specific functionality check
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
@@ -215,15 +219,18 @@ public with sharing class InlineInsolvencyAccountsCntrl {
 
                            if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c == null){
                                 if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
-                                  //bug: 5593 added below if loop
-                                    if(recordTypeName=='Scotia Bank'){
-                                    insolvAcc.RecordTypeId= Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Canaccede_Insolvency_Account').getRecordTypeId();
-                                  }
-                                  else{
-                                    msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
-                                    ApexPages.addMessage(msg);
-                                    mssg = 'NA';
-                                  }
+                                  if(!insolAcctList.isEmpty()){
+                                    for(Insolvency_Account__c insAcct:insolAcctList){
+                                        if(insAcct.RecordTypeID!=insolvAcc.RecordTypeID){
+                                            duplicates=false;
+                                        }
+                                    }
+                                    if(duplicates){ 
+                                        msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
+                                        ApexPages.addMessage(msg);
+                                        mssg = 'NA';
+                                       }
+                                  }                                
                                 }
                             }
                         } 
@@ -240,28 +247,34 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                             }
                         
                         if((dupAccCheckList(insolvAcc.id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolv.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c) || isNewAccDup) ){
-                            //bug: 5593 added below if loop
-                            if(recordTypeName=='Scotia Bank'){
-                                insolvAcc.RecordTypeId= Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Canaccede_Insolvency_Account').getRecordTypeId();
+                            if(!insolAcctList.isEmpty()){
+                                for(Insolvency_Account__c insAcct:insolAcctList){
+                                    if(insAcct.RecordTypeID!=insolvAcc.RecordTypeID){
+                                        duplicates=false;
+                                    }
+                                }
+                                if(duplicates){ 
+                                    msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
+                                    ApexPages.addMessage(msg);
+                                    mssg = 'NA';
+                                   }
                               }
-                           else{
-                            msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name );
-                            ApexPages.addMessage(msg);
-                            mssg = 'NA';
-                           }
                         }
                         
                         if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c != null){
                             if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
-                                //bug: 5593 added below if loop
-                                if(recordTypeName=='Scotia Bank'){
-                                    insolvAcc.RecordTypeId= Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Canaccede_Insolvency_Account').getRecordTypeId();
+                                if(!insolAcctList.isEmpty()){
+                                    for(Insolvency_Account__c insAcct:insolAcctList){
+                                        if(insAcct.RecordTypeID!=insolvAcc.RecordTypeID){
+                                            duplicates=false;
+                                        }
+                                    }
+                                    if(duplicates){ 
+                                        msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
+                                        ApexPages.addMessage(msg);
+                                        mssg = 'NA';
+                                       }
                                   }
-                                else{
-                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
-                                ApexPages.addMessage(msg);
-                                mssg = 'NA';
-                                }
                             }
                         }
                     }
@@ -319,7 +332,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
             insolAcctDBList = [Select Id, Name 
                                                        from Insolvency_Account__c
                                                        where Id !=: accId
-                                                       AND RecordTypeID =: accRTId
+                                                     //  AND RecordTypeID =: accRTId
                                                        and Insolvency__c =: insolId
                                                        and Account_Number_Without_Space__c =: numberWithoutSpace
                                                        and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList];
@@ -327,12 +340,13 @@ public with sharing class InlineInsolvencyAccountsCntrl {
             insolAcctDBList = [Select Id, Name 
                                                        from Insolvency_Account__c
                                                        where Id !=: accId
-                                                       AND RecordTypeID =: accRTId
+                                                      // AND RecordTypeID =: accRTId
                                                        and Account_Number_Without_Space__c =: numberWithoutSpace
                                                        and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList];
         }
         
         if(insolAcctDBList.size()>0){
+            insolAcctList.addAll(insolAcctDBList);
             dupFound = true;
         }
         return dupFound;
