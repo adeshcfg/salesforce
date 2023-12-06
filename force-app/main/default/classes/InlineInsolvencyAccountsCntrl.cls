@@ -215,8 +215,9 @@ public with sharing class InlineInsolvencyAccountsCntrl {
 
                            if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c == null){
                                 if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
-                                  if(recordTypeName=='Scotia Bank'){
-                                    insolvAcc.RecordTypeId= Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede_Insolvency_Account').getRecordTypeId();
+                                  //bug: 5593 added below if loop
+                                    if(recordTypeName=='Scotia Bank'){
+                                    insolvAcc.RecordTypeId= Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Canaccede_Insolvency_Account').getRecordTypeId();
                                   }
                                   else{
                                     msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
@@ -239,8 +240,9 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                             }
                         
                         if((dupAccCheckList(insolvAcc.id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolv.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c) || isNewAccDup) ){
+                            //bug: 5593 added below if loop
                             if(recordTypeName=='Scotia Bank'){
-                                insolvAcc.RecordTypeId= Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede_Insolvency_Account').getRecordTypeId();
+                                insolvAcc.RecordTypeId= Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Canaccede_Insolvency_Account').getRecordTypeId();
                               }
                            else{
                             msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name );
@@ -251,8 +253,9 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                         
                         if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c != null){
                             if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
+                                //bug: 5593 added below if loop
                                 if(recordTypeName=='Scotia Bank'){
-                                    insolvAcc.RecordTypeId= Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede_Insolvency_Account').getRecordTypeId();
+                                    insolvAcc.RecordTypeId= Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Canaccede_Insolvency_Account').getRecordTypeId();
                                   }
                                 else{
                                 msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
