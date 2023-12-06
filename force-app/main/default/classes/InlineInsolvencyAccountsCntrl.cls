@@ -29,7 +29,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
     public Map <Id, String> insAccntRecorTypeMap;
     //Bug:5593 changes starts
     List<Insolvency_Account__c> insolAcctList = new List<Insolvency_Account__c>();
-    Boolean duplicates=true;
+    Boolean noDuplicates=false;
     //Bug:5593 changees ends
     
     // Custom setting for specific functionality check
@@ -222,10 +222,10 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                   if(!insolAcctList.isEmpty()){
                                     for(Insolvency_Account__c insAcct:insolAcctList){
                                         if(insAcct.RecordTypeID!=insolvAcc.RecordTypeID){
-                                            duplicates=false;
+                                            noDuplicates=true;
                                         }
                                     }
-                                    if(duplicates){ 
+                                    if(!noDuplicates){ 
                                         msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
                                         ApexPages.addMessage(msg);
                                         mssg = 'NA';
@@ -250,10 +250,10 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                             if(!insolAcctList.isEmpty()){
                                 for(Insolvency_Account__c insAcct:insolAcctList){
                                     if(insAcct.RecordTypeID!=insolvAcc.RecordTypeID){
-                                        duplicates=false;
+                                        noDuplicates=true;
                                     }
                                 }
-                                if(duplicates){ 
+                                if(!noDuplicates){ 
                                     msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
                                     ApexPages.addMessage(msg);
                                     mssg = 'NA';
@@ -266,10 +266,10 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                 if(!insolAcctList.isEmpty()){
                                     for(Insolvency_Account__c insAcct:insolAcctList){
                                         if(insAcct.RecordTypeID!=insolvAcc.RecordTypeID){
-                                            duplicates=false;
+                                            noDuplicates=true;
                                         }
                                     }
-                                    if(duplicates){ 
+                                    if(!noDuplicates){ 
                                         msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
                                         ApexPages.addMessage(msg);
                                         mssg = 'NA';
