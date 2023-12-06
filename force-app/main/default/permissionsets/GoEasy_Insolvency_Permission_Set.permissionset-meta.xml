@@ -76,6 +76,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Acquired_Purchase_Face_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Acquired_Purchase_Factor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Active_Status__c</field>
         <readable>true</readable>
@@ -178,6 +188,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.CFG_Open_Cases__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Canadian_Tire_Sub_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1038,6 +1053,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Total_Paid_To_Date_On_Interim__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Trustee_Address__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3043,7 +3063,7 @@
         <apexPage>InsolvencyView</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
-    <recordTypeVisibilities>
+<recordTypeVisibilities>
         <recordType>Case.Insolvency_Goeasy_Community_Case</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
