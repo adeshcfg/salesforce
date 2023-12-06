@@ -97,6 +97,8 @@ public class TestCreditBureauClass {
                                         CCS_Stage__c = 'Completed',
                                         Investment_Group__c = 'BNS CCS 1',
                                         Purchase_Date__c = SYSTEM.Today(),
+            							Previous_Primary_Account_Number__c ='123458965',
+            							Last_Payment_Date_Prior_to_CO__c = SYSTEM.Today(),
             							Charged_Off_Date__c = SYSTEM.Today().addDays(+1)
                                         );
         prodList.add(prod);
