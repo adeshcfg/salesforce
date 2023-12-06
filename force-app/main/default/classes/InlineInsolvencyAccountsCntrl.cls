@@ -333,7 +333,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         string numberWithoutSpace = alphaNum.deleteWhitespace();
         numberWithoutSpace = alphaNum.replaceAll( '\\s+', '');
         List<Insolvency_Account__c> insolAcctDBList = new List<Insolvency_Account__c>();
-        
+        //bug: 5593 - commented the RecordTypeID =: accRTId from below 2 SOQL queries
         if(dupReason != null){
             insolAcctDBList = [Select Id, Name 
                                                        from Insolvency_Account__c
@@ -352,6 +352,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         }
         
         if(insolAcctDBList.size()>0){
+            //bug: 5593 - Added below line
             insolAcctList.addAll(insolAcctDBList);
             dupFound = true;
         }
