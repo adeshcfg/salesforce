@@ -55,10 +55,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
         list<string> excludeProdStatusList = new list<string>();
         string prodStatus = metro2TransUnion.Product_Status_Excluded__c;
+        //product status excluded from bureau reporting fetch from Metro2_File__c custom setting
         if(prodStatus != Null){
             excludeProdStatusList = prodStatus.split(',');   
         }
         list<Decimal> includeAgencyList = new list<Decimal>();
+        //Only ICT and LRT agencies inclued in bureau reporting
         string agencyList = metro2TransUnion.Agency_Included__c;
         List<String> splitDoubleValues = agencyList.split(',');
         Decimal strToDec = 0;
@@ -73,10 +75,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         Integer noOfTimesToReport = Integer.valueOf(metro2TransUnion.Number_of_Times_To_Report__c);
         Integer noOfDaysAfterReport = Integer.valueOf(metro2TransUnion.Number_of_Days_After_Reporting__c);
         Date dayBefore45 = System.today().addDays(-noOfDaysAfterReport);
-		//String listname = ['833P1016','833P1080'];
-        //List<String> productNames = new List<String>{'833P1016','833P1080'};
         //Query to fetch all the eligible records with the recordtype as CCS Account
-        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Previous_Primary_Account_Number__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Provinces__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c,Last_Payment_Date_Prior_to_CO__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
+        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Previous_Primary_Account_Number__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c,Last_Payment_Date_Prior_to_CO__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
                                         'WHERE '+ 
                                         'RecordType.Name =: productType AND '+ 
 										'Product_Status__c NOT IN :excludeProdStatusList AND '+
@@ -118,6 +118,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             productID.add(prodRec.id);
             mapProduct.put(prodRec.ID, prodRec);
         }
+        //check active judgment present on product
 		List<Account_Judgment__c> accountJudgment = [SELECT ID, Name, Product__c, Judgment__c,
                                                    Judgment__r.Legal_Status__c, Judgment__r.Legal_Sub_Status__c
                                                    FROM Account_Judgment__c
@@ -129,12 +130,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 mapProductJudgmentClaimIssuedID.put(accountJudgmentData.Product__c, accountJudgmentData.Judgment__c);
             }
         }
-
+		//if product has active judgment then add TU_Judgment_Period__c years in Charged_Off_Date__c else add TU_Collection_Period__c years
         for(Product__c prodRecData: scope){
             if(mapProductJudgmentClaimIssuedID.containsKey(prodRecData.id)){
                 Integer numberOfPeriods;
                 if(prodRecData.State__c != NULL && mapProvinceAcronymCBRepPeriods.containskey(prodRecData.State__c) 
-                   && mapProvinceAcronymCBRepPeriods.get(prodRecData.State__c).TU_Collection_Period__c != NULL){
+                   && mapProvinceAcronymCBRepPeriods.get(prodRecData.State__c).TU_Judgment_Period__c != NULL){
                      numberOfPeriods = Integer.valueOf(mapProvinceAcronymCBRepPeriods.get(prodRecData.State__c).TU_Judgment_Period__c);  
                 }
                 
@@ -164,9 +165,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 }
             }
         }
-  
+  		//Get sum of product payment amount of product
         Map<String, AggregateResult> productSumTotal = new Map<String, AggregateResult>();
-        AggregateResult[] prodPayment = [SELECT CCS_Account__C ccsAcc, sum(Payment_Amount__c) grossPay
+        AggregateResult[] prodPayment = [SELECT CCS_Account__C ccsAcc, sum(Payment_Amount__c) grossPay, Min(Payment_Created__c) firstPaymentDate
                                     FROM Product_Payments__c 
                                     WHERE 
                                     CCS_Account__C IN :productID
@@ -178,25 +179,11 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         for(AggregateResult aggr : prodPayment){
             productSumTotal.put((String)aggr.get('ccsAcc'), aggr);
         }
-        Map<String, AggregateResult> productTotal = new Map<String, AggregateResult>();
-        
-        AggregateResult[] prodPayData = [SELECT CCS_Account__c ccsAcc, Min(Payment_Created__c) firstPaymentDate, 
-                                    Max(Payment_Created__c) lastPaymentDate 
-                                    from product_payments__C 
-                                    where CCS_Account__c IN :productID 
-                                    AND (RecordTYpe.Name = 'Distressed Product Payment') 
-                                    AND (Payment_Type__c= '1000' OR Payment_Type__c ='1001' OR Payment_Type__c='1002') 
-                                    AND Is_Payment_Reversed__c = False
-                                    group by CCS_Account__c];
-        
-        for(AggregateResult aggr : prodPayData){
-            productTotal.put((String)aggr.get('ccsAcc'), aggr);
-        }
         
         String currencyTypeCode = '                 ';
         String finalHeadBody2 = ''; 
         String finalK1HeadBody2 = ''; 
-        
+        //Fetch custom value records from Metro2_File__c custom setting 
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
         String maxRowslength = metro2TransUnion.MaxRowsCount__c;
         String canaFinGrp = metro2TransUnion.Canaccede_Financial_Group__c;
@@ -335,15 +322,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             // Code for Adding Original_Balance__c Left Padding upon dynamic values in less
             String orignalCreditAmt = defOrignalCreditAmt;
-            /*if(String.valueOf(prodct.Original_Balance__c) != null) {
-                //Code to prevent negative values. if value is negative show 0's
-                if(prodct.Original_Balance__c >= 0){
-                    orignalCreditAmt  =  String.valueOf(prodct.Original_Balance__c.setScale(0)).leftPad(9, '0');
-    
-                }else if(prodct.Original_Balance__c < 0){
-                    orignalCreditAmt = defOrignalCreditAmt;
-                }
-            }*/
             
             // Code for Adding Payment Frequency Right Padding upon dynamic values in less
             String paymentfrequency = defPaymentFrequency;
@@ -353,8 +331,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             // Code for Adding Actual Payment Amount  Right Padding upon dynamic values in less
             String Finalactualpayplan  = defFinalactualpayplan;                       
             //Populate Finalactualpayplan only if last payment date is in month same as Activity date
+            AggregateResult grossPaySum = productSumTotal.get(prodct.id);
             if(null != prodct.Last_Payment_Date__c){
-                AggregateResult grossPaySum = productSumTotal.get(prodct.id);
                 Decimal actualGrossPay = 0.00;
                 if(null != grossPaySum){
                     actualGrossPay = (Decimal)grossPaySum.get('grossPay');                 
@@ -391,15 +369,18 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     pastval = defPastVal;
                 }        
             }
-                
-            AggregateResult paymentValues = productTotal.get(prodct.id);    
+                   
             Date firstPaymentDate = null;    
-            if(null != paymentValues){
-                firstPaymentDate = (Date)paymentValues.get('firstPaymentDate');
+            if(null != grossPaySum){
+                firstPaymentDate = (Date)grossPaySum.get('firstPaymentDate');
             }
             
+            //Code for populating Payment history profile for last 24 months
+            String paymentHistoryProfile = defNumberOfPayments;
+            if(null != firstPaymentDate){
+                paymentHistoryProfile = CustomerProcessingBatchHelper.getNumberOfPayments(firstPaymentDate);
+            }
             // Code for date closed Right Padding upon dynamic values in less
-            /******Need To discuss*****/
             String dateclosed = defDateClosed;             
             if(prodct.Closed_Date__C != null){
                 dateclosed = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(date.newinstance(prodct.Closed_Date__C.year(), prodct.Closed_Date__C.month(), prodct.Closed_Date__C.day()));
@@ -553,7 +534,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 if(String.valueOf(ZipAddresWithoutSpaces).length() < 9) {
                     integer num = 9 - String.valueOf(ZipAddresWithoutSpaces).length();
                     Integer num2 = num + String.valueOf(ZipAddresWithoutSpaces).length();
-                    ZipAddres = String.valueOf(ZipAddresWithoutSpaces).rightPad(num2); //.rightPad(num2);//chnaged25-03-2020
+                    ZipAddres = String.valueOf(ZipAddresWithoutSpaces).rightPad(num2);
                 } 
                 else if(String.valueOf(prodct.Zip_Code__c).length() == 9) {
                     ZipAddres = String.valueOf(ZipAddresWithoutSpaces);
@@ -585,12 +566,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             metroobj2.Status__c = accountStatus;
             
-            ////Code for populating Payment history profile for last 24 months
-            /*******Need To Discuss***********/
-            String paymentHistoryProfile = defNumberOfPayments;
-            if(null != firstPaymentDate){
-                paymentHistoryProfile = CustomerProcessingBatchHelper.getNumberOfPayments(firstPaymentDate);
-            }
+            
             
             //Code for populating Payment rating
             String paymentRating = defPaymentRating;
@@ -601,6 +577,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             // Code for Last_Delinquency_Date__c Amount  Right Padding upon dynamic values in less
             String lastdelinquencydate = defLastDelinquencyDate;
+            //Use Charged_Off_Date__c, or if that is not available use Last_Payment_Date_Prior_to_CO__c
             if(prodct.Charged_Off_Date__c != NULL){
             	lastdelinquencydate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Charged_Off_Date__c);   
             }else{
@@ -631,7 +608,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 deceasedDate = '1';
             }
             
-            system.debug('K1Segment'+K1Segment);
             //K1 Segment
             String K1SegmentLine = K1Segment;
             String canaccede = '/Canaccede';
@@ -644,7 +620,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     Integer number2 = number1 + sellerName.length();
                     K1SegmentLine = sellerName.rightPad(number2);
                     K1SegmentLine = K1SegmentLine.toUpperCase();
-                    //K1SegmentLine = K1SegmentLine + canaccede;
                 } 
                 else if(String.valueOf(prodct.Seller__r.name).length() == 30) {
                     K1SegmentLine = String.valueOf(prodct.Seller__r.name);
@@ -655,6 +630,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
             //Body record
             string headbody2 = maxRowslength + '1              0'+idenfificationNum+ '  ' + productname + portfolioType + accountType + Dateopened + '000000000' + orignalCreditAmt + termsDuration + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + '        ' + lastdelinquencydate + dateclosed + lastpaymentdate + currencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + deceasedDate + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine;
+            
             system.debug('heaser@@@'+headbody2);
             system.debug('heaser length'+headbody2.length());
             Integer Stringcount2 = 460 - headbody2.length();
@@ -687,8 +663,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 updateProduct.add(prodct);
             }
             
-            
-            
             /*String K1Segment = 'K1'+K1SegmentLine;
             Integer StringK1count = 34 - K1Segment.length();
             Integer StringK1countheadercount = StringK1count + K1Segment.length();
@@ -715,7 +689,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         
         if(metro2TransUnion.Do_Not_Increase_Count__c == FALSE){
             ProductTriggerHandler.runProductTrigger = false;
-            update updateProduct;//to be uncommented before final file generation
+            update updateProduct;
             ProductTriggerHandler.runProductTrigger = true;
         }
         
