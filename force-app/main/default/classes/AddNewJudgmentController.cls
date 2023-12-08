@@ -55,7 +55,7 @@ return prod.name;
         if(judgId != null){
         	Judgment__c judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c FROM Judgment__c where Id  =: judgId];
         //Added below IF loop for bug #5631
-        if(string.isBlank(judgment.Legal_Status__c) || string.isBlank(judgment.Legal_Sub_Status__c) || string.isEmpty(judgment.Legal_Status__c) || string.isEmpty(judgment.Legal_Sub_Status__c) || judgment.Legal_Status__c == NULL || judgment.Legal_Sub_Status__c == NULL){
+        if(string.isBlank(judgment.Legal_Status__c) || string.isBlank(judgment.Legal_Sub_Status__c)){
             ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';
         }
         }
