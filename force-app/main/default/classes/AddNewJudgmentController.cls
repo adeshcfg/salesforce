@@ -54,6 +54,10 @@ return prod.name;
         
         if(judgId != null){
         	Judgment__c judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c FROM Judgment__c where Id  =: judgId];
+        //Added below IF loop for bug #5631
+        if(judgment.Legal_Status__c == NULL && judgment.Legal_Sub_Status__c == NULL){
+            ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for egal Status, Legal SubStatus fields';
+        }
         }
         Product__c prod = [SELECT Id,Name,Status__c, Legal_Status__c,Collection_Agency__c,State__c,Account_Purchasing_Entity_Value__c
                            FROM Product__c WHERE Id =: prodId];
