@@ -7,20 +7,23 @@
 *  @date : 08/03/2022
 
 *************************************************************************************************/
-public class CustomerStagingExcelFileProcessing {
+public class CustomerStagingExcelFileProcessing implements Queueable, Database.AllowsCallouts {
     public ID documentId;
     public final String dataDocuments;
     String exceptionMessage;
     String workAssignmentPlacement;
+    String documentURL = '';
     List<customerContactInfoRecordsWrapper> listCustomerContactInfoRecordsWrapper = new List<customerContactInfoRecordsWrapper>();
-
     Map<String, Integer> fieldNumberMap = new Map<String, Integer>();
 
-    public CustomerStagingExcelFileProcessing(String data, String workAssignmentPlacement, ID documentId) {
+    public CustomerStagingExcelFileProcessing(String documentURL, String workAssignmentPlacement, Id documentId) {
         exceptionMessage = '';
-        listCustomerContactInfoRecordsWrapper = deSerializeJSON(data);
         this.workAssignmentPlacement = workAssignmentPlacement;
         this.documentId = documentId;
+        this.documentURL = documentURL;
+    }
+
+    public void execute(QueueableContext context) {
         processExcelFileRecords();
     }
 
@@ -34,8 +37,9 @@ public class CustomerStagingExcelFileProcessing {
 
     public void processExcelFileRecords() {
         try {
+            String docDetails = DocumentAPIClient.getDocumentJSON(documentURL);
+            listCustomerContactInfoRecordsWrapper = deSerializeJSON(docDetails);
             List<Product__c> listProductToInsert = new List<Product__c>();
-
             List<String> customerContactList = new List<String>();
             for (CustomerContactInfoRecordsWrapper wrapRecord : listCustomerContactInfoRecordsWrapper) {
                 wrapRecord.data_id = wrapRecord.data_id.toUppercase();
@@ -112,11 +116,9 @@ public class CustomerStagingExcelFileProcessing {
                 prod.Codebtor_Phone_Work__c = wrapRecord.sec_wphone;
                 prod.Codebtor_Phone_Home__c = wrapRecord.sec_hphone;
                 prod.Codebtor_Phone_Other__c = wrapRecord.sec_cphone;
-
                 listProductToInsert.add(prod);
             }
-
-            list<Customer_Staging__c> listCustStaging = validationOnRecordUpdate(
+            list<SObject> listCustStaging = validationOnRecordUpdate(
                 listProductToInsert,
                 setPlacementNames,
                 mapAccountNumberID,
@@ -125,49 +127,37 @@ public class CustomerStagingExcelFileProcessing {
                 mapProduct,
                 mapProductDup
             );
-            Database.SaveResult[] sr = database.insert(listCustStaging);
+            if (!Test.isRunningTest()) {
+                System.enqueueJob(new BulkDmlQueueable(listCustStaging, 0));
+            }
         } catch (Exception ex) {
-            exceptionMessage = String.valueOf(ex.getMessage());
-            system.debug('Exception in processExcelFileRecords ::' + ex.getStackTraceString());
+            exceptionMessage = String.isBlank(exceptionMessage) ? String.valueOf(ex.getMessage()) : exceptionMessage;
+            System.debug('Exception in processExcelFileRecords ::' + ex.getStackTraceString());
+            updateDocumentStorage(documentId, exceptionMessage);
         }
+    }
 
+    /**
+     * @description : Method to updated document storage fields with/without exception
+     * @author adeshi@a5econsulting.net | 12-11-2023
+     * @param documentId
+     * @param exceptionMessage
+     **/
+    public static void updateDocumentStorage(String documentId, String exceptionMessage) {
         list<Document_Storage__c> listDocuments = [
             SELECT ID, Creator__c, Work_Assignment__c, Uploaded_By__c
             FROM Document_Storage__c
             WHERE ID = :documentID
         ];
-        //Send email of File processing completion
-        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-        if (!listDocuments.isEmpty() && listDocuments[0].Uploaded_By__c == 'External User' && String.isnotblank(listDocuments[0].Creator__c)) {
-            message.toAddresses = new List<String>{ listDocuments[0].Creator__c };
-        } else {
-            message.setTargetObjectId(UserInfo.getUserId());
-        }
-        message.setSaveAsActivity(false);
-        message.optOutPolicy = 'FILTER';
-        message.subject = 'Customer Contact Information Upload Status';
         String processingLink = '';
         String processingStatus = '';
         Boolean stagingCreated = false;
 
         if (String.isBlank(exceptionMessage)) {
-            message.plainTextBody =
-                'Please click the link below to review Customer Contact Information: \n' +
-                URL.getSalesforceBaseUrl().toExternalForm() +
-                '/apex/CustomerContactInfoUpdatePage?id=' +
-                documentId;
             processingLink = URL.getSalesforceBaseUrl().toExternalForm() + '/apex/CustomerContactInfoUpdatePage?id=' + documentId;
             stagingCreated = true;
             processingStatus = 'Staging Table Created';
         } else {
-            message.plainTextBody =
-                'failed! \nReason: ' +
-                exceptionMessage +
-                '\n\n' +
-                'Please click the link below to view page :\n' +
-                URL.getSalesforceBaseUrl().toExternalForm() +
-                '/apex/CustomerContactInfoUpdatePage?id=' +
-                documentId;
             if (exceptionMessage.length() > 250) {
                 exceptionMessage = exceptionMessage.substring(0, 250);
             } else {
@@ -176,21 +166,10 @@ public class CustomerStagingExcelFileProcessing {
             stagingCreated = false;
             processingStatus = 'Staging Table Creation Failed';
         }
-        /*  if(!Test.isRunningTest()){
-            Messaging.SingleEmailMessage[] messages = 
-                new List<Messaging.SingleEmailMessage> {message};
-                    Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
-            if (results[0].success) {
-                System.debug('The email was sent successfully.');
-            } else {
-                System.debug('The email failed to send: '
-                             + results[0].errors[0].message);
-            }    
-        }*/
 
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
         Document_Storage__c doc = new Document_Storage__c(
-            ID = listDocuments[0].ID,
+            ID = listDocuments[0].Id,
             File_Processing_Link__c = processingLink,
             File_Processing_Date__c = Date.today(),
             File_processing_Error__c = exceptionMessage,
@@ -216,7 +195,7 @@ public class CustomerStagingExcelFileProcessing {
         String emailRegex = '^[a-zA-Z0-9._|\\\\%#~`=?&/$^*!}{+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$';
         String phoneNumberRegex = '[0-9]{3}[-][0-9]{3}[-][0-9]{4}';
 
-        list<Customer_Staging__c> listcustconinfoStaging = new List<Customer_Staging__c>();
+        list<SObject> listcustconinfoStaging = new List<SObject>();
         Customer_Staging__c customerUpdateStaging = new Customer_Staging__c();
 
         for (Product__c prod : [

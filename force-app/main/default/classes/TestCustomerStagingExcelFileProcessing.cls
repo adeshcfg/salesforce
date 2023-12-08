@@ -5,14 +5,14 @@ private class TestCustomerStagingExcelFileProcessing {
         API_Call_Details__c apiCallDetails = new API_Call_Details__c();
         apiCallDetails.name = 'Agency Portal API';
         apiCallDetails.API_Request_Timeout__c = 90000;
-        apiCallDetails.PDF_API_URL__c = 'https://api-agencies-uat.canaccede.com/api/Document/';
-        apiCallDetails.AuthorizationtUrl__c = 'https://login.microsoftonline.com/{{tenandId}}/oauth2/v2.0/token';
-        apiCallDetails.Client_ID__c = 'f647baee-683f-4e34-95f0-611a3482baae';
-        apiCallDetails.Client_Secret__c = '.uE7Q~glV.Ks.SacXYsRRRnWbXAT~2dxHkiPW';
-        apiCallDetails.Proxy_Client_ID__c = 'd4849d4d-eb42-4933-9403-7c512af05dd5';
-        apiCallDetails.Scope_Prefix__c = 'https://canaccedeb2ctestdev.onmicrosoft.com/';
+        apiCallDetails.PDF_API_URL__c = 'https://test.com/customerstaging/';
+        apiCallDetails.Tenand_ID__c = '123';
+        apiCallDetails.Proxy_Client_ID__c = '123';
+        apiCallDetails.Client_ID__c = '1234';
+        apiCallDetails.Client_Secret__c = '1234';
+        apiCallDetails.AuthorizationtUrl__c = 'https://test.com/endpointurl';
+        apiCallDetails.Scope_Prefix__c = 'scopep.com';
         apiCallDetails.Scope_Suffix__c = '/.default';
-        apiCallDetails.Tenand_ID__c = '3724313f-5b9b-496f-b8e9-411e00dd3e02';
         insert apiCallDetails;
 
         Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
@@ -61,7 +61,8 @@ private class TestCustomerStagingExcelFileProcessing {
         Document_storage__c documentstoragecObj = new Document_storage__c(
             Creator__c = 'test value',
             Uploaded_By__c = 'Internal User',
-            Work_Assignment__c = wrkAss.Id
+            Work_Assignment__c = wrkAss.Id,
+            Document_URL__c = 'task/testing'
         );
         insert documentstoragecObj;
     }
@@ -69,8 +70,12 @@ private class TestCustomerStagingExcelFileProcessing {
     @isTest
     static void testNegative() {
         Placement__c placementcObj = [SELECT Name FROM Placement__c LIMIT 1];
-        Document_storage__c documentstoragecObj = [SELECT Id FROM Document_storage__c LIMIT 1];
-        new CustomerStagingExcelFileProcessing(
+        Document_storage__c documentstoragecObj = [SELECT Id, Document_URL__c FROM Document_storage__c LIMIT 1];
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        System.enqueueJob(new CustomerStagingExcelFileProcessing(documentstoragecObj.Document_URL__c, '32', documentstoragecObj.Id));
+        Test.stopTest();
+        /* new CustomerStagingExcelFileProcessing(
             '[{"data_id":"2500P316","pri_email":"test@email.com","pri_add1":"TEST 7607 172 ST NW A408","pri_add2":"TEST APT A408","pri_municipality":"TEST Edmonton","pri_province":"ON","pri_postcode":"T5T2P2","pri_country":"CAN","pri_hphone":"780-999-0548","pri_wphone":"780-433-4729","pri_cphone":"519-555-1212","sec_email":"test@email.com","sec_add1":"TEST sec addy1","sec_add2":"TEST sec addy2","sec_municipality":"TEST mun","sec_province":"TEST prov","sec_postcode":"T5T2P2","sec_country":"CAN","sec_hphone":"780-999-0548","sec_wphone":"780-433-4729","sec_cphone":"519-555-1212"}]',
             placementcObj.Name,
             documentstoragecObj.Id
@@ -89,6 +94,6 @@ private class TestCustomerStagingExcelFileProcessing {
             '[{"data_id":"0000000","pri_email":"test@email.com","pri_add1":"TEST 7607 172 ST NW A408","pri_add2":"TEST APT A408","pri_municipality":"TEST Edmonton","pri_province":"ON","pri_postcode":"T5T2P2","pri_country":"CAN","pri_hphone":"780-999-0548","pri_wphone":"780-433-4729","pri_cphone":"519-555-1212","sec_email":"test@email.com","sec_add1":"TEST sec addy1","sec_add2":"TEST sec addy2","sec_municipality":"TEST mun","sec_province":"TEST prov","sec_postcode":"T5T2P2","sec_country":"CAN","sec_hphone":"780-999-0548","sec_wphone":"780-433-4729","sec_cphone":"519-555-1212"}]',
             placementcObj.Name,
             documentstoragecObj.Id
-        );
+        ); */
     }
 }
