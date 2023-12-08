@@ -62,10 +62,14 @@ return prod.name;
         if(prod.Status__c.contains('Pending Recall')){
 ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
         }
-        //Added below IF condition for Bug #5631
-        if(string.isBlank(judgMap.get('Legal_Status__c')) || string.isBlank(judgMap.get('Legal_Sub_Status__c'))){
+        //Bug: 5631 changes starts
+        if(!judgMap.containsKey('Legal_Status__c')){
+            ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';      
+        }
+        else if(string.isBlank(judgMap.get('Legal_Status__c')) || string.isBlank(judgMap.get('Legal_Sub_Status__c'))){
           ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';
         }
+        //Bug:5631 changes ends
         if(prod.State__c != NULL){
             prodProvinceName = prod.State__c;
             ProvinceNameFormat = nameFormat(prodProvinceName);
