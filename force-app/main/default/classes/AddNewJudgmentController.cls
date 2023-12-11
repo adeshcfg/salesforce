@@ -54,10 +54,6 @@ return prod.name;
         
         if(judgId != null){
         	Judgment__c judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c FROM Judgment__c where Id  =: judgId];
-        //Added below IF loop for bug #5631
-        if(string.isBlank(judgment.Legal_Status__c) || string.isBlank(judgment.Legal_Sub_Status__c)){
-            ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';
-        }
         }
         Product__c prod = [SELECT Id,Name,Status__c, Legal_Status__c,Collection_Agency__c,State__c,Account_Purchasing_Entity_Value__c
                            FROM Product__c WHERE Id =: prodId];
@@ -66,6 +62,14 @@ return prod.name;
         if(prod.Status__c.contains('Pending Recall')){
 ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
         }
+        //Bug: 5631 changes starts
+        if(!judgMap.containsKey('Legal_Status__c')){
+            ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';      
+        }
+        else if(string.isBlank(judgMap.get('Legal_Status__c')) || string.isBlank(judgMap.get('Legal_Sub_Status__c'))){
+          ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';
+        }
+        //Bug:5631 changes ends
         if(prod.State__c != NULL){
             prodProvinceName = prod.State__c;
             ProvinceNameFormat = nameFormat(prodProvinceName);
