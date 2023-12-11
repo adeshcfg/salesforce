@@ -68,32 +68,21 @@ private class TestCustomerStagingExcelFileProcessing {
     }
 
     @isTest
-    static void testNegative() {
+    static void testPositive() {
         Placement__c placementcObj = [SELECT Name FROM Placement__c LIMIT 1];
         Document_storage__c documentstoragecObj = [SELECT Id, Document_URL__c FROM Document_storage__c LIMIT 1];
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         System.enqueueJob(new CustomerStagingExcelFileProcessing(documentstoragecObj.Document_URL__c, '32', documentstoragecObj.Id));
         Test.stopTest();
-        /* new CustomerStagingExcelFileProcessing(
-            '[{"data_id":"2500P316","pri_email":"test@email.com","pri_add1":"TEST 7607 172 ST NW A408","pri_add2":"TEST APT A408","pri_municipality":"TEST Edmonton","pri_province":"ON","pri_postcode":"T5T2P2","pri_country":"CAN","pri_hphone":"780-999-0548","pri_wphone":"780-433-4729","pri_cphone":"519-555-1212","sec_email":"test@email.com","sec_add1":"TEST sec addy1","sec_add2":"TEST sec addy2","sec_municipality":"TEST mun","sec_province":"TEST prov","sec_postcode":"T5T2P2","sec_country":"CAN","sec_hphone":"780-999-0548","sec_wphone":"780-433-4729","sec_cphone":"519-555-1212"}]',
-            placementcObj.Name,
-            documentstoragecObj.Id
-        );
-        new CustomerStagingExcelFileProcessing(
-            '[{"data_id":"2500P316","pri_email":"testwrongemail.com","pri_add1":"TEST 7607 172 ST NW A408","pri_add2":"TEST APT A408","pri_municipality":"TEST Edmonton","pri_province":"ON","pri_postcode":"T5T2P2","pri_country":"CAN","pri_hphone":"780-999-05480","pri_wphone":"780-433-4729","pri_cphone":"519-555-1212","sec_email":"test@email.com","sec_add1":"TEST sec addy1","sec_add2":"TEST sec addy2","sec_municipality":"TEST mun","sec_province":"TEST prov","sec_postcode":"T5T2P2","sec_country":"CAN","sec_hphone":"780-999-0548","sec_wphone":"780-433-4729","sec_cphone":"519-555-1212"}]',
-            placementcObj.Name,
-            documentstoragecObj.Id
-        );
-        new CustomerStagingExcelFileProcessing(
-            '[{"pri_email":"test@email.com","pri_add1":"TEST 7607 172 ST NW A408","pri_add2":"TEST APT A408","pri_municipality":"TEST Edmonton","pri_province":"ON","pri_postcode":"T5T2P2","pri_country":"CAN","pri_hphone":"780-999-0548","pri_wphone":"780-433-4729","pri_cphone":"519-555-1212","sec_email":"test@email.com","sec_add1":"TEST sec addy1","sec_add2":"TEST sec addy2","sec_municipality":"TEST mun","sec_province":"TEST prov","sec_postcode":"T5T2P2","sec_country":"CAN","sec_hphone":"780-999-0548","sec_wphone":"780-433-4729","sec_cphone":"519-555-1212"}]',
-            placementcObj.Name,
-            documentstoragecObj.Id
-        );
-        new CustomerStagingExcelFileProcessing(
-            '[{"data_id":"0000000","pri_email":"test@email.com","pri_add1":"TEST 7607 172 ST NW A408","pri_add2":"TEST APT A408","pri_municipality":"TEST Edmonton","pri_province":"ON","pri_postcode":"T5T2P2","pri_country":"CAN","pri_hphone":"780-999-0548","pri_wphone":"780-433-4729","pri_cphone":"519-555-1212","sec_email":"test@email.com","sec_add1":"TEST sec addy1","sec_add2":"TEST sec addy2","sec_municipality":"TEST mun","sec_province":"TEST prov","sec_postcode":"T5T2P2","sec_country":"CAN","sec_hphone":"780-999-0548","sec_wphone":"780-433-4729","sec_cphone":"519-555-1212"}]',
-            placementcObj.Name,
-            documentstoragecObj.Id
-        ); */
+    }
+
+    @isTest
+    static void testUpdateDocumentStorage() {
+        Document_storage__c documentstoragecObj = [SELECT Id FROM Document_storage__c LIMIT 1];
+        Test.startTest();
+        CustomerStagingExcelFileProcessing.updateDocumentStorage(documentstoragecObj.Id, '');
+        CustomerStagingExcelFileProcessing.updateDocumentStorage(documentstoragecObj.Id, 'Test Exceptionn message');
+        Test.stopTest();
     }
 }
