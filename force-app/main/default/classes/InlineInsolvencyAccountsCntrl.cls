@@ -220,8 +220,8 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                 if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
                                     //Bug : 5593 Added below lines
                                     insolAccIDs=insolvMap.keyset();
-                                    list<id> insolAccIDList=new list<id>{insolAccIDs};
-                                    //Bug : 5593 Added 'with Asset Status ' to the error message
+                                    list<id> insolAccIDList=new list<id>();
+                                    insolAccIDList.addAll(insolAccIDs);                                    //Bug : 5593 Added 'with Asset Status ' to the error message
                                     msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]));
                                     ApexPages.addMessage(msg);
                                     mssg = 'NA';
@@ -241,10 +241,10 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                             }
                         
                         if((dupAccCheckList(insolvAcc.id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolv.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c) || isNewAccDup) ){
-                             //Bug : 5593 Added below line
+                             //Bug : 5593 Added below lines
                              insolAccIDs=insolvMap.keyset();
-                             list<id> insolAccIDList=new list<id>{insolAccIDs};
-                            //Bug : 5593 Added 'with Asset Status' to the error message
+                             list<id> insolAccIDList=new list<id>();
+                             insolAccIDList.addAll(insolAccIDs);                            //Bug : 5593 Added 'with Asset Status' to the error message
                             msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]));
                             ApexPages.addMessage(msg);
                             mssg = 'NA';
@@ -252,9 +252,10 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                         
                         if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c != null){
                             if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
-                                //Bug : 5593 Added below line
+                                //Bug : 5593 Added below lines
                                 insolAccIDs=insolvMap.keyset();   
-                                list<id> insolAccIDList=new list<id>{insolAccIDs};
+                                list<id> insolAccIDList=new list<id>();
+                                insolAccIDList.addAll(insolAccIDs);
                                 //Bug : 5593 Added 'with Asset Status' to the error message
                                 msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]));
                                 ApexPages.addMessage(msg);
