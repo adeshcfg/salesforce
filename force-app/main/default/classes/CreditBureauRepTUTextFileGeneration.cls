@@ -23,10 +23,12 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable {
         String userName = UserInfo.getUserName();
         User activeUser;
         activeUser = [Select Email From User where Username = : userName limit 1];
+        system.debug('activeUser'+activeUser);
         String userEmail =activeUser.Email;
-         
+        system.debug('userEmail'+userEmail); 
         Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
         String[] toAddresses = userEmail.split(':', 0);
+        system.debug('toAddresses'+toAddresses); 
         email.setSubject( 'Credit Bureau Rep Generation');
         email.setToAddresses( toAddresses );
         email.setPlainTextBody( 'Generating text file for credit bureau .');
