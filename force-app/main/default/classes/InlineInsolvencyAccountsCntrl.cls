@@ -27,7 +27,8 @@ public with sharing class InlineInsolvencyAccountsCntrl {
     Set<String> processedNewNumber;
     public Map <String, String> cIRTMap = new Map<String, String>(); // Client Identifier
     public Map <Id, String> insAccntRecorTypeMap;
-    
+    //Added below line part of bug:5593
+    map<id,string> insolvMap = new map<id,string>();
     // Custom setting for specific functionality check
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     
@@ -216,7 +217,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                            if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c == null){
                                 if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
                                     //Bug : 5593 Added 'with Asset Status ' to the error message
-                                    msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +'with Asset Status '+insolvAcc.Asset_Status__c);
+                                    msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolvAcc.id));
                                     ApexPages.addMessage(msg);
                                     mssg = 'NA';
                                 }
@@ -236,7 +237,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                         
                         if((dupAccCheckList(insolvAcc.id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolv.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c) || isNewAccDup) ){
                             //Bug : 5593 Added 'with Asset Status' to the error message
-                            msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name +'with Asset Status '+insolvAcc.Asset_Status__c);
+                            msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolvAcc.id));
                             ApexPages.addMessage(msg);
                             mssg = 'NA';
                         }
@@ -244,7 +245,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                         if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c != null){
                             if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
                                 //Bug : 5593 Added 'with Asset Status' to the error message
-                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +'with Asset Status '+insolvAcc.Asset_Status__c);
+                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolvAcc.id));
                                 ApexPages.addMessage(msg);
                                 mssg = 'NA';
                             }
@@ -301,7 +302,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         List<Insolvency_Account__c> insolAcctDBList = new List<Insolvency_Account__c>();
         
         if(dupReason != null){
-            insolAcctDBList = [Select Id, Name 
+            insolAcctDBList = [Select Id, Name,Asset_Status__c 
                                                        from Insolvency_Account__c
                                                        where Id !=: accId
                                                        AND RecordTypeID =: accRTId
@@ -309,7 +310,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                                        and Account_Number_Without_Space__c =: numberWithoutSpace
                                                        and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList];
         }else if(dupReason == null){
-            insolAcctDBList = [Select Id, Name 
+            insolAcctDBList = [Select Id, Name,Asset_Status__c
                                                        from Insolvency_Account__c
                                                        where Id !=: accId
                                                        AND RecordTypeID =: accRTId
@@ -318,6 +319,10 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         }
         
         if(insolAcctDBList.size()>0){
+            //Added for loop part of bug:5593
+            for(Insolvency_Account__c insAcc:insolAcctDBList){
+                insolvMap.put(insAcc.id,insAcc.Asset_Status__c);
+            }
             dupFound = true;
         }
         return dupFound;
