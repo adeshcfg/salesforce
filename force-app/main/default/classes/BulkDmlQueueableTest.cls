@@ -46,4 +46,44 @@ public class BulkDmlQueueableTest {
         System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0));
         Test.stopTest();
     }
+
+    @isTest
+    public static void testPositiveBulk() {
+        Document_Storage__c docStorage = [SELECT Id FROM Document_Storage__c LIMIT 1];
+        List<SObject> recordsToInsert = new List<SObject>();
+        for (Integer i = 0; i < 12000; i++) {
+            Customer_Staging__c custStaging = new Customer_Staging__c();
+            custStaging.Comment__c = 'SUCCESS';
+            custStaging.ProdID__c = '656P178' + String.valueOf(i);
+            custStaging.Placement_Agency__c = '68';
+            custStaging.Status__c = 'Pending';
+            custStaging.Document_Storage__c = docStorage.Id;
+            custStaging.Include_in_Processing__c = true;
+            recordsToInsert.add(custStaging);
+        }
+        Test.startTest();
+        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0));
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void testNegative() {
+        Document_Storage__c docStorage = [SELECT Id FROM Document_Storage__c LIMIT 1];
+        List<SObject> recordsToInsert = new List<SObject>();
+        Customer_Staging__c custStaging = new Customer_Staging__c();
+        custStaging.Comment__c = 'SUCCESS';
+        custStaging.ProdID__c = '656P178';
+        custStaging.Placement_Agency__c = '68';
+        custStaging.Status__c = 'Test';
+        custStaging.Document_Storage__c = docStorage.Id;
+        custStaging.Include_in_Processing__c = true;
+        recordsToInsert.add(custStaging);
+        Test.startTest();
+        try {
+            System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0));
+        } catch (DmlException ex) {
+            System.assert(true, 'Insert failed');
+        }
+        Test.stopTest();
+    }
 }
