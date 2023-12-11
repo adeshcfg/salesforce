@@ -215,8 +215,8 @@ public with sharing class InlineInsolvencyAccountsCntrl {
 
                            if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c == null){
                                 if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
-                                    //Bug : 5593 Added 'with Asset Status Purchased' to the error message
-                                    msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +'with Asset Status Purchased');
+                                    //Bug : 5593 Added 'with Asset Status ' to the error message
+                                    msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +'with Asset Status '+insolvAcc.Asset_Status__c);
                                     ApexPages.addMessage(msg);
                                     mssg = 'NA';
                                 }
@@ -235,16 +235,16 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                             }
                         
                         if((dupAccCheckList(insolvAcc.id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolv.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c) || isNewAccDup) ){
-                            //Bug : 5593 Added 'with Asset Status Purchased' to the error message
-                            msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name + 'with Asset Status Purchased');
+                            //Bug : 5593 Added 'with Asset Status' to the error message
+                            msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name +'with Asset Status '+insolvAcc.Asset_Status__c);
                             ApexPages.addMessage(msg);
                             mssg = 'NA';
                         }
                         
                         if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c != null){
                             if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
-                                //Bug : 5593 Added 'with Asset Status Purchased' to the error message
-                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +'with Asset Status Purchased');
+                                //Bug : 5593 Added 'with Asset Status' to the error message
+                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +'with Asset Status '+insolvAcc.Asset_Status__c);
                                 ApexPages.addMessage(msg);
                                 mssg = 'NA';
                             }
@@ -301,24 +301,20 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         List<Insolvency_Account__c> insolAcctDBList = new List<Insolvency_Account__c>();
         
         if(dupReason != null){
-            //Bug:5593 Added Asset_Status__c='Purchased' to below SOQL Query
             insolAcctDBList = [Select Id, Name 
                                                        from Insolvency_Account__c
                                                        where Id !=: accId
                                                        AND RecordTypeID =: accRTId
                                                        and Insolvency__c =: insolId
                                                        and Account_Number_Without_Space__c =: numberWithoutSpace
-                                                       and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList
-                                                       and Asset_Status__c='Purchased'];
+                                                       and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList];
         }else if(dupReason == null){
-            //Bug:5593 Added Asset_Status__c='Purchased' to below SOQL Query
             insolAcctDBList = [Select Id, Name 
                                                        from Insolvency_Account__c
                                                        where Id !=: accId
                                                        AND RecordTypeID =: accRTId
                                                        and Account_Number_Without_Space__c =: numberWithoutSpace
-                                                       and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList
-                                                       and Asset_Status__c='Purchased'];
+                                                       and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList];
         }
         
         if(insolAcctDBList.size()>0){
