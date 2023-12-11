@@ -164,7 +164,7 @@
                         <tr>
                             <td style="vertical-align:top;"><b>1.</b></td>
                             <td style="padding-left:10px;">That I am the President of <span style="font-family: sans-serif; font-weight:bold;">Canaccede International Management Ltd.,</span> servicer for 
-                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.Client_Company_Name__c},</span> </apex:outputText>
+                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.Client_Company_Name__c}</span> </apex:outputText>
                             </td>
                         </tr>
                         <tr>
@@ -366,7 +366,7 @@
                     6. That the following are the payments that I have received from, and the credits that I have allowed to, and the transfers at undervalue within the meaning of subsection 2(1) of the Act that I have been privy to or a party to with the debtor within the three months (or, if the creditor and the debtor are related within the meaning of section 4 of the Act, within the 12 months) immediately before the date of the initial bankruptcy event within the meaning of Section 2 of the Act: <span  style="font-family: sans-serif; font-style:italic;">(Provide details of payments, credits and transfers at undervalue.)</span> 
                     <br/><span style="padding-left:25px;">Please see Schedule A for details </span>
                     <br/><br/><br/><br/>
-                    <br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/>
                     
                     <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
                     {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
