@@ -906,7 +906,7 @@ public class ProductPaymentExcelFileProcessing {
                                                                           WHERE Is_Payment_Reversed__c = false
                                                                           AND ID NOT IN :alreadyReversedPayments 
                                                                           AND CCS_Account__c = :prodPayment.CCS_Account__c
-                                                                          AND Payment_Type__c = :'1000'
+                                                                          AND Payment_Type__c = '1000'
                                                                           AND Payment_Amount__C = :payAMountReversed
                                                                           AND Payment_Posting_Date_Text__c = :prodPayment.Payment_Posting_Date_Text__c
                                                                           LIMIT 1];
