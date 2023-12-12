@@ -2,12 +2,12 @@
  * @description       : Queueable class to insert more than 10000 records to avoid DML limit, can be modified for other DML operations and generalized more
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 12-11-2023
+ * @last modified on  : 12-12-2023
  * @last modified by  : adeshi@a5econsulting.net
  **/
 public class BulkDmlQueueable implements Queueable {
-    // Max number of records to be inserted in a single job
-    public static final Integer MAX_NUMBER_OF_RECORDS_PER_JOB = 10000;
+    // Max number of records to be inserted in a single job, not 10000 as we have a update DML after records insertion
+    public static final Integer MAX_NUMBER_OF_RECORDS_PER_JOB = 9999;
     // Max number of records that can be inserted overall, after this limit it will stop enqueueing jobs
     public static final Integer MAX_RECORD_LIMIT = 50000;
     public List<SObject> recordList = new List<SObject>();
