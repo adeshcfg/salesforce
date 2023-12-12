@@ -542,15 +542,18 @@ public class ProductPaymentExcelFileProcessing {
 
                                                     
         for(Product_Payments__c oldPay : [SELECT ID, CCS_Account__r.Name, Payment_Type__c, Payment_Amount__c, Payment_Posting_Date__c,
-                                                 Payment_Posting_Date_Text__c
+                                                 Payment_Posting_Date_Text__c, Is_Payment_Reversed__c
                                           FROM Product_Payments__c
                                           WHERE CCS_Account__c IN :mapProduct.keySet()]){
             String payAmount = '';
             if(oldPay.Payment_Amount__c!= NULL){
                 oldPay.Payment_Amount__c = oldPay.Payment_Amount__c.setScale(2, RoundingMode.HALF_UP);
                 payAmount = String.valueOf(oldPay.Payment_Amount__c);
-            }  
-            
+            }
+            // Add Ids of already reversed payments so that duplicate reversal is not created  
+            if(oldPay.Is_Payment_Reversed__c) {
+                alreadyReversedPayments.add(oldPay.Id);
+            }            
             setOldTransaction.put(oldPay.Payment_Amount__c + ''+oldPay.Payment_Type__c + oldPay.Payment_Posting_Date_Text__c +
                                     oldPay.CCS_Account__c, oldPay.ID);                                                
         }
