@@ -9658,11 +9658,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Insolvency__c.Previous_Payment_Amount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Insolvency__c.Previous_Trustee_Fees_Formula__c</field>
         <readable>false</readable>
     </fieldPermissions>
