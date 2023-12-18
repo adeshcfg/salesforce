@@ -45,6 +45,18 @@ public class TestInlineInsolvencyAccountsCntrl{
         insolAcct.RecordTypeId = scotiabank;
         insolAcct.Client_Identifier__c = 'Scotia Bank';
         insert insolAcct;
+        Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
+        insolAcct1.name = 'Test111';
+        insolAcct1.Insolvency_Status__c = 'New';
+        insolAcct1.Insolvency__c = insolv.id;
+        insolAcct1.Account_Type__c = 'Line of Credit';
+        insolAcct1.Borrower_Primary__c = 'Kajal';
+        insolAcct1.Type_of_Service__c = 'Service Only';
+        insolAcct1.Claim_Type__c = 'Secured';
+        insolAcct1.Is_Duplicate_Resolved__c = false;
+        insolAcct1.RecordTypeId = scotiabank;
+        insolAcct1.Client_Identifier__c = 'Scotia Bank';
+        insert insolAcct1;
         
         ApexPages.currentPage().getParameters().put('id', insolv.Id);
         InlineInsolvencyAccountsCntrl obj = new InlineInsolvencyAccountsCntrl(new ApexPages.StandardController(insolv) );
