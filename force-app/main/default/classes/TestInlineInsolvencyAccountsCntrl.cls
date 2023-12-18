@@ -52,10 +52,10 @@ public class TestInlineInsolvencyAccountsCntrl{
         insolAcct2.Account_Type__c = 'Line of Credit';
         insolAcct2.Borrower_Primary__c = 'Kajal';
         insolAcct2.Type_of_Service__c = 'Service Only';
-        insolAcct2.Claim_Type__c = 'Secured';
+        insolAcct2.Claim_Type__c = 'Unsecured';
         insolAcct2.Is_Duplicate_Resolved__c = false;
         insolAcct2.RecordTypeId = scotiabank;
-        insolAcct2.Client_Identifier__c = 'Scotia Bank';
+        insolAcct2.Client_Identifier__c = 'Canadian Tire';
         insert insolAcct2;
         
         ApexPages.currentPage().getParameters().put('id', insolv.Id);
