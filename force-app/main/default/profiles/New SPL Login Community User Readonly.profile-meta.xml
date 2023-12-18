@@ -9,11 +9,11 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Case</tab>
+        <tab>standard-case</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Dashboard</tab>
+        <tab>standard-dashboard</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>    
     <classAccesses>
