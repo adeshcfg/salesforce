@@ -130,6 +130,14 @@ public class CustomerProcessingBatchHelper {
         Matcher MyMatcher1 = MyPattern1.matcher(phoneHome);
         return MyMatcher1.matches();
     }
+    
+    public static boolean getValidCustomerName(String custName){
+        string nameRegex = '^[a-z A-Z]*$';
+        Pattern MyPattern1 = Pattern.compile(nameRegex);
+        Matcher MyMatcher1 = MyPattern1.matcher(custName);
+        return MyMatcher1.matches();
+    }
+    
     //This method will accept integers and return string with 0 paddings
     public static String getStringWithZeroPadding(Integer numberCount){
         
