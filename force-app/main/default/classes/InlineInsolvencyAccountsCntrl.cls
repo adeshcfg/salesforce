@@ -28,7 +28,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
     public Map <String, String> cIRTMap = new Map<String, String>(); // Client Identifier
     public Map <Id, String> insAccntRecorTypeMap;
     //bug:5593 Starts
-    map<id,string> insolvMap = new map<id,string>();
+    map<id,Insolvency_Account__c> insolvMap = new map<id,Insolvency_Account__c>();
     set<id> insolAccIDs = new set<id>();
     //bug:5593 ends
     // Custom setting for specific functionality check
