@@ -84,7 +84,7 @@ public class TestInlineInsolvencyAccountsCntrl{
         obj.save();
         
         obj.dupAccCheckList(null, null, '1234',insolv.Id, new list<string>(), 'reason');
-        obj.dupAccCheckList(null, scotiabank, '1234',insolv.Id, new list<string>(), 'reason');
+        obj.dupAccCheckList(null, scotiabank, '1234',insolv.Id, new list<string>{'789','567'}, 'reason');
 
 
         obj.addMore();   
