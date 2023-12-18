@@ -1,4 +1,9 @@
 public class CreditBureauRepTUTextFileGeneration implements Queueable {
+    private string batchNum;
+    
+    public CreditBureauRepTUTextFileGeneration(String bachNumber) {
+        batchNum = bachNumber;
+    }
     public void execute(QueueableContext context) {
         String csvString = '';
         
@@ -6,7 +11,7 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable {
         for(MetroFlatFileData__c prodData:[SELECT RowData1__c   
                     FROM MetroFlatFileData__c
                     WHERE Bureau_Type__c = 'TransUnion' AND Product_Type__c = 'Distressed Account' 
-                    AND CreatedDate = TODAY  ORDER BY Sort_Order__c ASC]){
+                    AND Batch_Number__c =: batchNum AND CreatedDate = TODAY  ORDER BY Sort_Order__c ASC]){
             String recordStr = prodData.RowData1__c ;
             if(recordStr!=null && recordStr!='' && recordStr.length()==460){
             csvString +=recordStr+'\n';
