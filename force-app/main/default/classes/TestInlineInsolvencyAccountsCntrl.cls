@@ -84,16 +84,20 @@ public class TestInlineInsolvencyAccountsCntrl{
         obj.save();
         
         obj.dupAccCheckList(null, null, '1234',insolv.Id, new list<string>(), 'reason');
-        obj.dupAccCheckList(null, scotiabank, '1234',insolv.Id, new list<string>{'789','567'}, 'reason');
+        obj.dupAccCheckList(insolv.Id, scotiabank, '1234',insolv.Id, new list<string>{'789','567'}, 'reason');
 
 
         obj.addMore();   
+       
         
         //Insolvency 
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'insolv123';
         insolAcct.Claim_Type__c = 'Unsecured';
+        insolv1.Insolvency_Status__c='Active';
         insert insolv1;    
+        obj.rType='';
+        obj.addMore();
         ApexPages.currentPage().getParameters().put('id', insolv1.Id);
         InlineInsolvencyAccountsCntrl obj1 = new InlineInsolvencyAccountsCntrl(new ApexPages.StandardController(insolv) );
         obj.recordTypeSelected();
