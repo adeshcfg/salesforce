@@ -15988,11 +15988,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Product__c.Previous_Data_Status__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Product__c.Previous_Interest_Rate__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -20059,7 +20054,7 @@
         <recordType>Work_Assignment__c.CFG_Media</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
-    <userLicense>Customer Community Plus Login</userLicense>
+    <userLicense>Customer Community Plus</userLicense>
     <userPermissions>
         <enabled>true</enabled>
         <name>ActivitiesAccess</name>
