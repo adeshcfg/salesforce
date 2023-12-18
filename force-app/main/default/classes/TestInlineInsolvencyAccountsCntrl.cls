@@ -34,7 +34,7 @@ public class TestInlineInsolvencyAccountsCntrl{
 
  
         Insolvency_Account__c insolAcct = new Insolvency_Account__c();
-        insolAcct.name = 'Test111';
+        insolAcct.name = '1234';
         insolAcct.Insolvency_Status__c = 'New';
         insolAcct.Insolvency__c = insolv.id;
         insolAcct.Account_Type__c = 'Line of Credit';
@@ -45,6 +45,18 @@ public class TestInlineInsolvencyAccountsCntrl{
         insolAcct.RecordTypeId = scotiabank;
         insolAcct.Client_Identifier__c = 'Scotia Bank';
         insert insolAcct;
+        Insolvency_Account__c insolAcct2 = new Insolvency_Account__c();
+        insolAcct2.name = '1234';
+        insolAcct2.Insolvency_Status__c = 'New';
+        insolAcct2.Insolvency__c = insolv.id;
+        insolAcct2.Account_Type__c = 'Line of Credit';
+        insolAcct2.Borrower_Primary__c = 'Kajal';
+        insolAcct2.Type_of_Service__c = 'Service Only';
+        insolAcct2.Claim_Type__c = 'Unsecured';
+        insolAcct2.Is_Duplicate_Resolved__c = false;
+        insolAcct2.RecordTypeId = scotiabank;
+        insolAcct2.Client_Identifier__c = 'Canadian Tire';
+        insert insolAcct2;
         
         ApexPages.currentPage().getParameters().put('id', insolv.Id);
         InlineInsolvencyAccountsCntrl obj = new InlineInsolvencyAccountsCntrl(new ApexPages.StandardController(insolv) );
@@ -72,6 +84,7 @@ public class TestInlineInsolvencyAccountsCntrl{
         obj.save();
         
         obj.dupAccCheckList(null, null, '1234',insolv.Id, new list<string>(), 'reason');
+        obj.dupAccCheckList(null, scotiabank, '1234',insolv.Id, new list<string>(), 'reason');
 
 
         obj.addMore();   

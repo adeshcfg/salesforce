@@ -28,7 +28,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
     public Map <String, String> cIRTMap = new Map<String, String>(); // Client Identifier
     public Map <Id, String> insAccntRecorTypeMap;
     //bug:5593 Starts
-    map<id,string> insolvMap = new map<id,string>();
+    map<id,Insolvency_Account__c> insolvMap = new map<id,Insolvency_Account__c>();
     set<id> insolAccIDs = new set<id>();
     //bug:5593 ends
     // Custom setting for specific functionality check
@@ -222,9 +222,20 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                     insolAccIDs=insolvMap.keyset();
                                     list<id> insolAccIDList=new list<id>();
                                     insolAccIDList.addAll(insolAccIDs);  
-                                    system.debug('insolvMap.get(insolAccIDList[0])--->'+insolvMap.get(insolAccIDList[0]));
+                                    system.debug('insolvMap.get(insolAccIDList[0])--->'+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
                                     //Bug : 5593 Added 'with Asset Status ' to the error message
-                                    msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]));
+                                    //Bug : 5593 changes starts
+                                    if(insolAccIDList.size()==1){
+                                        msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
+                                    }
+                                    else if(insolAccIDList.size()>1){
+                                        string errorMsg='';
+                                        for(Integer i=0;i<insolAccIDList.size();i++){
+                                         errorMsg= insolvMap.get(insolAccIDList[i]).Name +' with Asset Status '+insolvMap.get(insolAccIDList[i]).Asset_Status__c+',';
+                                       }
+                                       msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for '+ errorMsg);
+                                    }
+                                    //bug: 5593 changes ends
                                     ApexPages.addMessage(msg);
                                     mssg = 'NA';
                                 }
@@ -247,10 +258,21 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                              insolAccIDs=insolvMap.keyset();
                              list<id> insolAccIDList=new list<id>();
                              insolAccIDList.addAll(insolAccIDs);   
-                             system.debug('insolvMap.get(insolAccIDList[0])--->'+insolvMap.get(insolAccIDList[0]));                         
+                             system.debug('insolvMap.get(insolAccIDList[0])--->'+insolvMap.get(insolAccIDList[0]).Asset_Status__c);                         
                              //Bug : 5593 Added 'with Asset Status' to the error message
-                            msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]));
-                            ApexPages.addMessage(msg);
+                             //Bug : 5593 changes starts
+                            if(insolAccIDList.size()==1){
+                               msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
+                            }
+                            else if(insolAccIDList.size()>1){
+                             string errorMsg='';
+                               for(Integer i=0;i<insolAccIDList.size();i++){
+                                  errorMsg= insolvMap.get(insolAccIDList[i]).Name +' with Asset Status '+insolvMap.get(insolAccIDList[i]).Asset_Status__c+',';
+                                }
+                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for '+ errorMsg);
+                            }
+                              //bug: 5593 changes ends  
+                              ApexPages.addMessage(msg);
                             mssg = 'NA';
                         }
                         
@@ -260,9 +282,20 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                 insolAccIDs=insolvMap.keyset();   
                                 list<id> insolAccIDList=new list<id>();
                                 insolAccIDList.addAll(insolAccIDs);
-                                system.debug('insolvMap.get(insolAccIDList[0])--->'+insolvMap.get(insolAccIDList[0]));
+                                system.debug('insolvMap.get(insolAccIDList[0])--->'+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
                                 //Bug : 5593 Added 'with Asset Status' to the error message
-                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]));
+                                //Bug : 5593 changes starts
+                            if(insolAccIDList.size()==1){
+                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
+                             }
+                             else if(insolAccIDList.size()>1){
+                              string errorMsg='';
+                                for(Integer i=0;i<insolAccIDList.size();i++){
+                                   errorMsg= insolvMap.get(insolAccIDList[i]).Name +' with Asset Status '+insolvMap.get(insolAccIDList[i]).Asset_Status__c+',';
+                                 }
+                                 msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for '+ errorMsg);
+                             }
+                               //bug: 5593 changes ends  
                                 ApexPages.addMessage(msg);
                                 mssg = 'NA';
                             }
@@ -341,7 +374,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
             for(Insolvency_Account__c insAcc:insolAcctDBList){
                 system.debug('ID of Insolvency Acc--->'+insAcc.ID);
                 system.debug('Status of Insolvency Acc--->'+insAcc.Asset_Status__c);
-                insolvMap.put(insAcc.id,insAcc.Asset_Status__c);
+                insolvMap.put(insAcc.id,insAcc);
             }
             dupFound = true;
         }
