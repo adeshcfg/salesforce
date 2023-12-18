@@ -814,7 +814,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyAccountEditController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyAccountInlineController</apexClass>
@@ -826,7 +826,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyAccountOwnerShipController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyAccountPopupMessage</apexClass>
@@ -870,7 +870,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyEditController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyLockUnlockController</apexClass>
@@ -882,7 +882,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyOwnerShipController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyPaymentProcessingController</apexClass>
@@ -918,7 +918,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyUtil</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>InsolvencyViewController</apexClass>
@@ -3178,7 +3178,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VotingEngineClient</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>VotingEngineClientMockResponse</apexClass>
@@ -3186,11 +3186,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VotingEngineClientUtil</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>VotingEngineFutureCall</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>WithdrawalPoCController</apexClass>
@@ -4832,7 +4832,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Case.Assign_To__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4852,7 +4852,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Case.Insolvency_Assignment_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6757,12 +6757,12 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Account_Details_Verified__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Account_Is_Putback__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6777,7 +6777,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Account_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6797,7 +6797,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Active_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6817,7 +6817,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Amended_Claim_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6847,42 +6847,42 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Balance_Owed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Bank_Name__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Borrower_Coborrower_1__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Borrower_Coborrower_2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Borrower_Coborrower_3__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Borrower_Coborrower_4__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Borrower_Details_Verified__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Borrower_Primary__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6902,14 +6902,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.CFG_Open_Cases__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Charge_Off_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6917,12 +6917,12 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Claim_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Claim_Amounts_Validated__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6937,12 +6937,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Claim_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Client_Identifier__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6952,7 +6952,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Co_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6999,12 +6999,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Data_ID__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Data_Status__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -7012,22 +7012,22 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Date_Final_Demand_Issued_to_Trustee__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Date_LOR_received_for_Secured__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Date_NOD_received__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Date_POC_filed_as_Secured__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7039,10 +7039,10 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.DebtNext_Purchase_Price__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debt_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7067,17 +7067,17 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_Estate_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_Last_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7112,17 +7112,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_2_Estate_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_2_First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_2_Last_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7137,7 +7137,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7157,7 +7157,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Documents_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7222,7 +7222,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Include_Voting_Letter__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7232,7 +7232,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Insolvency_Account_Mail__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7252,7 +7252,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Insolvency_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7282,12 +7282,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Insolvency_Status_Last_Changed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Insolvency_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7297,27 +7297,27 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Insolvency_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Insolvency__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Interest_Rate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Investment_Group_Name__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Investment_Group__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7329,7 +7329,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Is_Duplicate_Resolved__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -7342,22 +7342,22 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Last_Payment_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Last_Payment_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Last_Statement_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Last_Statement_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7379,12 +7379,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Line_of_Credit__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.LoR_Notice_1_FollowUp_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7482,14 +7482,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Open_Cases__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Open_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7504,7 +7504,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Originator__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7524,7 +7524,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Percentage_Of_Unsecured_Debt__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -7554,7 +7554,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Portfolio_Group_Name__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7577,7 +7577,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Previous_Account_Reference__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7592,17 +7592,17 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Previously_Secured_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Primary_Account__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Product_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7612,7 +7612,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Proof_of_Claim_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7624,7 +7624,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Province_Formula__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7634,7 +7634,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Purchase_Amount__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -7647,17 +7647,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Purchase_Eligible__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Purchase_Export_Completed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Purchase_Export_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7697,14 +7697,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Reason_for_No_PoC_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Reasons_for_Duplicate_Account_Number__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7712,7 +7712,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Required_Documents_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7737,7 +7737,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Scotia_Open_Cases__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7749,10 +7749,10 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Secondary_Account__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Secured_Asset_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7762,22 +7762,22 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Security_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Security_Details_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Security_Review_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Security_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7812,9 +7812,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Servicer_Notice_to_Trustee_Sent_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7827,14 +7827,14 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Statements_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Statute_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7904,7 +7904,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Trustee_Fees__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -7937,7 +7937,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Type_of_Service__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7962,7 +7962,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Vehicle_Identification_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7974,7 +7974,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Vendor__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7982,27 +7982,27 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Voting_Details_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Voting_Instructions_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Voting_Instructions__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Voting_Letter_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Voting_Options__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8017,69 +8017,69 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Detail__c.Bank_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Detail__c.Number_of_Accounts_Needing_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Detail__c.Number_of_Secured_Accounts__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Detail__c.Number_of_Unsecured_Accounts__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Detail__c.Secured_Claim_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Detail__c.Unsecured_Claim_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Error__c.Action__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Error__c.Error__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Error__c.Insolvency_Account_Name__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Error__c.Insolvency_Account__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Error__c.Insolvency_Name__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Error__c.Insolvency__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Payment__c.Account_Number__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -8087,14 +8087,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Cheque_Payment_Reference_Number__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Client_Identifier__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -8114,7 +8114,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Payment__c.Debtor_Name__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -8139,7 +8139,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Payment__c.Estate_Number__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -8147,24 +8147,24 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Payment_Amount__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Payment_Created__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Payment_Posting_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Payment_Posting_Month__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -8192,14 +8192,14 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Payment_Source__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Payment_Type__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -8212,9 +8212,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Remittance__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -8227,9 +8227,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency_Payment__c.Remitted_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -8239,12 +8239,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Payment__c.Transaction_Id__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Payment__c.Trustee_Name__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -8297,7 +8297,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Acceleration_Clause__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8332,7 +8332,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Alcohol_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8342,7 +8342,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Allowances_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8357,7 +8357,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Available_Monthly_Income_Of_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8367,7 +8367,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Available_Monthly_Income_Of_Family__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8392,17 +8392,17 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Bulk_Payment_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Bulk_Payment_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.CFG_Open_Cases__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8422,12 +8422,12 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Cable_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Calculated_Proposal__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8452,12 +8452,12 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Car_Lease_Payments_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Case_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8467,32 +8467,32 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Child_Tax_Benefit_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Child_Tax_Benefit_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Child_Tax_Benefit_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Client_Identifiers__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Clothing_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Co_Debtor_Deceased__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8517,22 +8517,22 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Court_District_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Court_Division_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Court_Province_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Court_Province__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8552,7 +8552,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Death_Clause__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8562,237 +8562,237 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Alias_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Court_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Date_of_Birth__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Employer_City__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Employer_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Employer_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Employer_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Employer_State_Province__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Employer_Street__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Gender__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Last_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Mailing_City__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Mailing_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Mailing_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Mailing_State_Province__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Mailing_Street__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Marital_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Middle_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Occupation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_SIN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_1_Spouse_CommonLaw_Partner_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Alias_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Court_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Date_of_Birth__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Employer_City__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Employer_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Employer_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Employer_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Employer_State_Province__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Employer_Street__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Estate_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Gender__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Last_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Mailing_City__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Mailing_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Mailing_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Mailing_State_Province__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Mailing_Street__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Marital_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Middle_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Occupation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_SIN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_2_Spouse_CommonLaw_Partner_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8802,7 +8802,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_Deceased__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8812,7 +8812,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Debtor_Portion_Of_Monthly_Income__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8822,12 +8822,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Dental_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Dining_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8837,7 +8837,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Disposition__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8847,12 +8847,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Eligible_For_Voting_Decision__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Entertainment_Sports_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8877,7 +8877,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Expected_Discharge_Month__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8892,7 +8892,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8907,17 +8907,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Food_Grocery_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Furniture_Contents_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Furniture_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8927,7 +8927,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Gifts_Charitable_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8937,37 +8937,37 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Grooming_Toiletries_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Gross_Self_Employment_Income__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Heating_Gas_Oil_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Home_Assets__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.House_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Hydro_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Income__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8977,22 +8977,22 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Insolvency_Annulled_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Insolvency_Created_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Insolvency_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Insolvency_Discharged_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9002,7 +9002,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Insolvency_Expected_Discharged_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9027,7 +9027,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Insolvency_Received_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9042,17 +9042,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Insolvency_Status_Last_Changed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Insolvency_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Insolvency_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9067,7 +9067,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Is_Record_Locked__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9077,32 +9077,32 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Laundry_Dry_Cleaning_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Life_Insurance_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Maint_Payments_Or_Relinquishing__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Manual_Approved_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Manual_Reject_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Manual_Review_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9147,52 +9147,52 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Missing_payment_Follow_Up_Sent_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Child_Care_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Child_Care_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Child_Care_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Child_Support_Payments_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Child_Support_Payments_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Child_Support_Payments_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Debts_Stay_Lifted_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Debts_Stay_Lifted_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Debts_Stay_Lifted_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9202,172 +9202,172 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Discretionary_Expenses_Of_Family__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Expenses_Empl_Cond_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Expenses_Empl_Cond_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Expenses_Empl_Cond_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Fines_Imposed_Court_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Fines_Imposed_Court_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Fines_Imposed_Court_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Health_Condition_Expenses_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Health_Condition_Expenses_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Health_Condition_Expenses_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Child_Support_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Child_Support_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Child_Support_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Empl_Ins_Benefits_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Empl_Ins_Benefits_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Empl_Ins_Benefits_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Employment_Income_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Employment_Income_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Employment_Income_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Pension_Annuities_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Pension_Annuities_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Pension_Annuities_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Social_Assistance_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Social_Assistance_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Social_Assistance_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Spoucal_Support_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Spoucal_Support_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Net_Spoucal_Support_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Other_Expenses_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Other_Expenses_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Other_Expenses_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Spousal_Support_Payments_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Spousal_Support_Payments_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Spousal_Support_Payments_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9377,22 +9377,22 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Monthly_Surplus_Deficit_Of_Family__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Net_Self_Employment_Income_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Net_Self_Employment_Income_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Net_Self_Employment_Income_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9402,12 +9402,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.No_Of_Secured_Accounts__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.No_Of_Unsecured_Accounts__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9462,17 +9462,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Number_Of_Persons_In_Household_Below_17__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Number_Of_Persons_In_Household__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Number_of_Accounts_Needing_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9487,7 +9487,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Number_of_Payments__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9532,7 +9532,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Open_Cases__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9544,10 +9544,10 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Original_Voting_Decision__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Assets__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9557,87 +9557,87 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Housing_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Insurance_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Living_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Medical_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Net_Income_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Net_Income_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Net_Income_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Payments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_Personal_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Other_TransportationExpenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Payment_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Payment_Frequency__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Payment_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Payment_To_Secured_Creditor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Payments_Other_Than_Mortgage_Vehicle__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Payments_To_Proposal__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Prescriptions_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9655,11 +9655,6 @@
         <editable>false</editable>
         <field>Insolvency__c.Previous_Offer_Amount__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Insolvency__c.Previous_Payment_Amount__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -9687,12 +9682,12 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Property_Taxes_Condo_Fees_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Proposal_Percent__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9719,15 +9714,15 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Public_Transportation_Expenses__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Reason_For_Individual_Becoming_Insolvent__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9737,12 +9732,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Record_Locked_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Refused_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9752,17 +9747,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Rent_Mortgage_Hypothec_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Repair_Maintenance_Gas_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Response_From_Missing_Payment_Follow_up__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9777,7 +9772,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Scotia_Open_Cases__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9807,12 +9802,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Secured_Debt__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Secured_Debts_Unsecured_Portion__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9847,12 +9842,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Set_to_Discharged_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Set_to_Discharged_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9877,7 +9872,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Smoking_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9897,12 +9892,12 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Telephone_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Assets__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9912,17 +9907,17 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Claim_Recovered__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Estimated_Dollar_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Estimated_Realizable_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9937,17 +9932,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Insolvency_Preferred_Liabilities__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Insolvency_Secured_Liabilities__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Insolvency_Unsecured_Liabilities__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9957,7 +9952,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Liabilities__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9972,7 +9967,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Monthly_Income_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9982,7 +9977,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Monthly_Income_Of_Family__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9992,7 +9987,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Monthly_Income_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10002,7 +9997,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Monthly_Income_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10027,22 +10022,22 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Non_Discretionary_Expenses_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Non_Discretionary_Expenses_Family__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Non_Discretionary_Expenses_Other__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Non_Discretionary_Expenses_Spouse__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10057,7 +10052,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Preferred_Liabilities_Clc__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10067,7 +10062,7 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Secured_Amount_Or_Liens__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10077,14 +10072,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Secured_Claims__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Secured_Liabilities_Clc__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -10092,14 +10087,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Unsecured_Claims__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Total_Unsecured_Liabilities_Clc__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -10107,7 +10102,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Trustee_Comments_Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10167,7 +10162,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Trustee__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10192,12 +10187,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Unsecured_Debt__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Updated_Today__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10207,17 +10202,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Vehicle_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Voting_Decision_Time_Stamp__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Voting_Decision__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10227,12 +10222,12 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Voting_Request__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Voting_Response__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10247,7 +10242,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Water_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10337,9 +10332,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Internal_Note__c.Body__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -11717,22 +11712,22 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Open_Assignment_Insolvency_Account__c.Assign_To_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Open_Assignment_Insolvency_Account__c.Number_of_Open_Assignments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Open_Assignment_Insolvency__c.Assign_To_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Open_Assignment_Insolvency__c.Number_of_Open_Assignments__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18427,6 +18422,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Insolvency_Account__c-Default Insolvency Account Layout - External</layout>
+        <recordType>Insolvency_Account__c.SDA_Insolvency_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Insolvency_Account__c-Default ReadOnly Insolvency Account Layout - External</layout>
         <recordType>Insolvency_Account__c.Scotia_Bank_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -18434,11 +18433,7 @@
         <recordType>Insolvency_Account__c.Fidem_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Insolvency_Account__c-SPL%2FSDA Insolvency Account Layout - External</layout>
-        <recordType>Insolvency_Account__c.SDA_Insolvency_Account</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Insolvency_Account__c-SPL%2FSDA Insolvency Account Layout - External</layout>
+        <layout>Insolvency_Account__c-SPL%2FSDA ReadOnly Insolvency Account Layout - External</layout>
         <recordType>Insolvency_Account__c.SPL_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -18462,10 +18457,10 @@
         <layout>Insolvency_Snapshot__c-Insolvency Snapshot Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Insolvency__c-Default Insolvency Layout - External</layout>
+        <layout>Insolvency__c-Default ReadOnly Insolvency Layout - External</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Insolvency__c-Default Insolvency Layout - External</layout>
+        <layout>Insolvency__c-Default ReadOnly Insolvency Layout - External</layout>
         <recordType>Insolvency__c.Insolvency</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -18851,27 +18846,27 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
+        <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
-        <allowEdit>true</allowEdit>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Insolvency_Account__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Insolvency_Detail__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
+        <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
-        <allowEdit>true</allowEdit>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Insolvency_Error__c</object>
@@ -18889,25 +18884,25 @@
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
-        <allowEdit>true</allowEdit>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Insolvency__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Open_Assignment_Insolvency_Account__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Open_Assignment_Insolvency__c</object>
@@ -19287,7 +19282,7 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>InsolvencyAccountCreate</apexPage>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>InsolvencyAccountDataValidation</apexPage>
@@ -19311,7 +19306,7 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>InsolvencyAccountOwnerShip</apexPage>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>InsolvencyAccountPopup</apexPage>
@@ -19319,7 +19314,7 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>InsolvencyAccountRecordType</apexPage>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>InsolvencyAccountToCreditorAccount</apexPage>
@@ -19367,7 +19362,7 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>InsolvencyOwnerShip</apexPage>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>InsolvencyPaymentListView</apexPage>
@@ -19611,7 +19606,7 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>ServicerNoticeToTrustee</apexPage>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>ShowImage</apexPage>
@@ -19755,15 +19750,15 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
+        <default>false</default>
         <recordType>Case.Insolvency_SDA_Community_Case</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
+        <default>true</default>
+        <personAccountDefault>true</personAccountDefault>
         <recordType>Case.Insolvency_SPL_Community_Case</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
@@ -19846,15 +19841,15 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
+        <default>false</default>
         <recordType>Insolvency_Account__c.SDA_Insolvency_Account</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
+        <default>true</default>
+        <personAccountDefault>true</personAccountDefault>
         <recordType>Insolvency_Account__c.SPL_Insolvency_Account</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>

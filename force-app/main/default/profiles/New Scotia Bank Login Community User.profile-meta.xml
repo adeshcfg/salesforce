@@ -4849,7 +4849,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Form_Types__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -6959,7 +6959,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Control_Group__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -7049,7 +7049,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_Alias_Name__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7084,22 +7084,22 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_Mailing_City__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_Mailing_Postal_Code__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_Mailing_Street__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Debtor_1_SIN__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7219,7 +7219,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Gender_Formula__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -7702,7 +7702,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Insolvency_Account__c.Reasons_for_Duplicate_Account_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8427,7 +8427,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Calculated_Proposal__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8457,7 +8457,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Case_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8537,9 +8537,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Insolvency__c.Created_By_Doc_Parser__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -8837,7 +8837,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Disposition__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8892,7 +8892,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8967,7 +8967,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Income__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9542,9 +9542,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Insolvency__c.Original_Voting_Decision__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -9658,11 +9658,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Insolvency__c.Previous_Payment_Amount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Insolvency__c.Previous_Trustee_Fees_Formula__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -9692,7 +9687,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Proposal_Percent__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9717,17 +9712,17 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Insolvency__c.Public_Transportation_Expenses__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Insolvency__c.Reason_For_Individual_Becoming_Insolvent__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency__c.Reason_For_Individual_Becoming_Insolvent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Insolvency__c.Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9742,7 +9737,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Refused_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10197,7 +10192,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Updated_Today__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18427,19 +18422,19 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Insolvency_Account__c-Default Insolvency Account Layout - External</layout>
+        <recordType>Insolvency_Account__c.SDA_Insolvency_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Insolvency_Account__c-Default Insolvency Account Layout - External</layout>
+        <recordType>Insolvency_Account__c.SPL_Insolvency_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Insolvency_Account__c-Default Insolvency Account Layout - External</layout>
         <recordType>Insolvency_Account__c.Scotia_Bank_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Insolvency_Account__c-Fidem Insolvency Account Layout - Internal</layout>
         <recordType>Insolvency_Account__c.Fidem_Insolvency_Account</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Insolvency_Account__c-SPL%2FSDA Insolvency Account Layout - External</layout>
-        <recordType>Insolvency_Account__c.SDA_Insolvency_Account</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Insolvency_Account__c-SPL%2FSDA Insolvency Account Layout - External</layout>
-        <recordType>Insolvency_Account__c.SPL_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Insolvency_Detail__c-Insolvency Detail Layout</layout>
@@ -19755,10 +19750,9 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
+        <default>false</default>
         <recordType>Case.Insolvency_SDA_Community_Case</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
@@ -19766,9 +19760,10 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
+        <default>true</default>
+        <personAccountDefault>true</personAccountDefault>
         <recordType>Case.Insolvency_Scotia_Community_Case</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
@@ -19846,10 +19841,9 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
+        <default>false</default>
         <recordType>Insolvency_Account__c.SDA_Insolvency_Account</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
@@ -19857,9 +19851,10 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
+        <default>true</default>
+        <personAccountDefault>true</personAccountDefault>
         <recordType>Insolvency_Account__c.Scotia_Bank_Insolvency_Account</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
