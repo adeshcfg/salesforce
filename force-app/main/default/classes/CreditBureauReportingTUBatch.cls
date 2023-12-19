@@ -78,7 +78,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         Integer noOfDaysAfterReport = Integer.valueOf(metro2TransUnion.Number_of_Days_After_Reporting__c);
         Date dayBefore45 = System.today().addDays(-noOfDaysAfterReport);
         //Query to fetch all the eligible records with the recordtype as CCS Account
-        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Assignment_Date__c,Purchase_Face_Value__c,Previous_Primary_Account_Number__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c,Last_Payment_Date_Prior_to_CO__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
+        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Assignment_Date__c,Last_Payment_Amount__c,Purchase_Face_Value__c,Previous_Primary_Account_Number__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c,Last_Payment_Date_Prior_to_CO__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
                                         'WHERE '+ 
                                         'RecordType.Name =: productType AND '+ 
 										'Product_Status__c NOT IN :excludeProdStatusList AND '+
@@ -355,7 +355,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     actualGrossPay = (Decimal)grossPaySum.get('grossPay');                 
                     //negative amount to be reported as zero
                     if(actualGrossPay!=null && actualGrossPay > 0){
-                        Finalactualpayplan = String.valueOf(actualGrossPay);
+                        Finalactualpayplan = String.valueOf(prodct.Last_Payment_Amount__c);
                         Finalactualpayplan = Finalactualpayplan.subString(0,Finalactualpayplan.indexOf('.'));
                         Finalactualpayplan = Finalactualpayplan.leftPad(9, '0');  
                     }
