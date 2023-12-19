@@ -496,6 +496,7 @@ public class ProductPaymentsTriggerHandler {
 
         map<Id, Product__c> mapProductToAdjustInterestFinal = new Map<Id, Product__c>();
         list<Product_Payments__c> listProdPaymentToUpdate = new List<Product_Payments__c>();
+        list<Product_Payments__c> listProdPaymentReversal = new List<Product_Payments__c>();
         set<ID> setProductID = new Set<ID>();
         list<ID> setProductIDToReverse = new List<ID>();
         set<ID> setSettledInFullPayments = new Set<ID>();
@@ -537,6 +538,7 @@ public class ProductPaymentsTriggerHandler {
                     Product_Status_Desc_on_Product__c,
                     Pay_Due__c,
                     Tax_Amount__c,
+                	Is_Payment_Reversed__c,
                     Tax_type__c,
                     Payment_Type__c,
                     Balance_Before_Payment__c,
@@ -1085,6 +1087,7 @@ public class ProductPaymentsTriggerHandler {
                         Boolean calflag = false;
                         if (mapReversedPayments.containsKey(payProductInstance.Original_Of_Payment_Reversal__c)) {
                             Product_Payments__c reversedPay = mapReversedPayments.get(payProductInstance.Original_Of_Payment_Reversal__c);
+                            reversedPay.Is_Payment_Reversed__c = true; 
                             if (reversedPay.Payment_Type__c != PAYTYPE_REGULAR) {
                                 //revert the statuses
                                 productInstance.Placement_Status__c = reversedPay.Pay_Placedetail_Status__c;
@@ -1267,6 +1270,7 @@ public class ProductPaymentsTriggerHandler {
                             if (reversedPay.Payment_Type__c == PAYTYPE_SETTLED_IN_FULL || reversedPay.Payment_Type__c == PAYTYPE_PAID_IN_FULL) {
                                 setProductIDToReverse.add(productInstance.ID);
                             }
+                            listProdPaymentReversal.add(reversedPay);
                         }
 
                         //Payment after balances
@@ -1405,7 +1409,8 @@ public class ProductPaymentsTriggerHandler {
         }
 
         update listProdPaymentToUpdate;
-
+		update listProdPaymentReversal;
+        
         if (!setProductIDToReverse.isEmpty()) {
             PortalProductProcessingAPI.processProductBulkBatch(setProductIDToReverse);
         }
