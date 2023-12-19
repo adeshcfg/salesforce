@@ -1178,7 +1178,7 @@ public class ProductTriggerHandler{
             }
         }
         
-        if(runProductAPITrigger){
+        if(runProductAPITrigger && !system.isBatch()){
         PortalProductProcessingAPI.processProductBulkBatch(prodIds);
         }
         //PortalProductProcessingAPI.processProductBulkBatch(prodIds);
