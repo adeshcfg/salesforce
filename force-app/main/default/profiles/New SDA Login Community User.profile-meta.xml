@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+     <tabVisibilities>
+        <tab>Insolvency_Account__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Insolvency__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>standard-case</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>standard-dashboard</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>    
     <classAccesses>
         <apexClass>AccountInitiateController</apexClass>
         <enabled>false</enabled>
