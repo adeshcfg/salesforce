@@ -18784,9 +18784,6 @@
         <layout>Task-Task Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>TimeSlot-Time Slot Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Unallocated_Payment__c-CCS Unallocated Payment Layout</layout>
         <recordType>Unallocated_Payment__c.CCS</recordType>
     </layoutAssignments>
