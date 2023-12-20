@@ -19315,6 +19315,10 @@
         <recordType>Work_Assignment__c.CFG</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Work_Assignment__c-Bulk Media Work Assignment</layout>
+        <recordType>Work_Assignment__c.Bulk_Media_Request</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CTB_Staging__c-Insolvency Account Layout</layout>
         <recordType>CTB_Staging__c.Insolvency_Account</recordType>
     </layoutAssignments>

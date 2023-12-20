@@ -18876,6 +18876,10 @@
         <layout>Work_Assignment__c-CS - Work Assignment - CFG</layout>
         <recordType>Work_Assignment__c.CFG</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Work_Assignment__c-Bulk Media Work Assignment</layout>
+        <recordType>Work_Assignment__c.Bulk_Media_Request</recordType>
+    </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
