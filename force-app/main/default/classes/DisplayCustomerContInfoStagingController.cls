@@ -292,6 +292,9 @@ public class DisplayCustomerContInfoStagingController {
             showHide = 'hidden';
             displayPanel = false;
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'There are no error or warning records to display '));
+            if (successCount > 0) {
+                showButton = true;
+            }
         } else {
             workAssignmentId = listCustomerContactStaging[0].Document_Storage__r.Work_Assignment__c;
             placementAgency = listCustomerContactStaging[0].Placement_Agency__c;
