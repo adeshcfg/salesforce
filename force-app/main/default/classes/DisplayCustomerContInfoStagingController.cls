@@ -384,7 +384,7 @@ public class DisplayCustomerContInfoStagingController {
     public pageReference Save() {
         transient List<Customer_Staging__c> customerAllRec = getAllRecords();
         // If select all checkbox is checked include all warning records to be selected for processing
-        if (isSelected) {
+        if (isSelected == true) {
             Customer_Staging__c custStaging = new Customer_Staging__c();
             for (Customer_Staging__c custStagingWrapper : customerAllRec) {
                 if (custStagingWrapper.Comment__c != null && !custStagingWrapper.Comment__c.contains('ERROR')) {
@@ -643,6 +643,7 @@ public class DisplayCustomerContInfoStagingController {
         String visiblity,
         Id documentID
     ) {
+        List<Customer_Staging__c> processedStagingRecords = new List<Customer_Staging__c>();
         String success;
         String failed;
         Integer successRecords = 0;
@@ -654,6 +655,7 @@ public class DisplayCustomerContInfoStagingController {
         for (Customer_Staging__c CustStaging : listCustomerStagingToUpdate) {
             if (CustStaging.Status__c != PROCESSED && CustStaging.Include_in_Processing__c == true) {
                 CustStaging.Status__c = PROCESSED;
+                processedStagingRecords.add(CustStaging);
                 success += '\n';
                 success +=
                     '\'' +
@@ -758,7 +760,13 @@ public class DisplayCustomerContInfoStagingController {
                 failedRecords = failedRecords + 1;
             }
         }
-
+        if (!processedStagingRecords.isEmpty()) {
+            try {
+                Database.update(processedStagingRecords);
+            } catch (DmlException ex) {
+                System.debug(ex.getDmlMessage(0));
+            }
+        }
         system.enqueueJob(
             new PostDocumentAPI(CUSTOMER_CONTACT_INFO_UPDATE, failed, success, failedRecords, successRecords, workAssignmentId, visiblity, documentID)
         );
