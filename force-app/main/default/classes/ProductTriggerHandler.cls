@@ -1177,7 +1177,7 @@ public class ProductTriggerHandler{
                 prodIds.add(product.ID);
             }
         }
-        
+        //Bug: 5142 - Added !system.isBatch() to below IF loop
         if(runProductAPITrigger && !system.isBatch()){
             system.debug('Calling product portal api');
         PortalProductProcessingAPI.processProductBulkBatch(prodIds);
