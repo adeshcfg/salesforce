@@ -11,7 +11,7 @@
 public class DisplayCustomerContInfoStagingController {
     Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
     public list<Customer_Staging__c> listCustomerContactStaging { get; set; }
-    public list<customerContactInfoStagingWrapper> listCustomerContInfoStagingWrapper;
+    public List<customerContactInfoStagingWrapper> listCustomerContInfoStagingWrapper = new List<customerContactInfoStagingWrapper>();
     public static final String PROCESSED = 'Processed';
     public static final String INPROGRESS = 'In Progress';
     public static String CUSTOMER_CONTACT_INFO_UPDATE = 'Customer Contact Information Update File';
@@ -21,8 +21,8 @@ public class DisplayCustomerContInfoStagingController {
     public Id workAssignmentId { get; set; }
     public String recordIdentfier = ApexPages.currentPage().getParameters().get('Id');
     public Id documentID;
-    String success;
-    String failed;
+    String success = '';
+    String failed = '';
     String placementAgency = '';
     public static final Integer PAGE_SIZE = 20;
     public Integer pageNumber { get; set; }
