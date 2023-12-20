@@ -303,7 +303,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         List<MetroFlatFileData__c> metroFileData = new List<MetroFlatFileData__c>();
         List<MetroFlatFileData__c> metroFileDataK1Seg = new List<MetroFlatFileData__c>();
         Boolean nameValidationCheck = false;
-        //map<Id,Boolean> nameValidationMap = new map<Id,Boolean>();
+
         for(Product__c prodct :scope) {
             nameValidationCheck = false;
             if(!mapProductExcluse.containsKey(prodct.id)){
@@ -429,12 +429,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 if(checkFirstNameValid == true){
                     if(nameExcludeList.contains(prodct.First_Name__c)){
                         firstname = defFirstName;
-                        //nameValidationMap.put(prodct.id,true);
                         nameValidationCheck = true;
                     }else if(prodct.First_Name__c.toUpperCase() == INC || 
                              prodct.First_Name__c.toUpperCase().contains(spaceINC) ){
                         firstname = defFirstName;
-                        //nameValidationMap.put(prodct.id,true);
                         nameValidationCheck = true;  
                                  system.debug('prodct.First_Name__c'+prodct.First_Name__c.toUpperCase());
                     }else{
@@ -448,8 +446,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                             firstname = firstname.left(20);
                             firstname = firstname.toUpperCase();
                         }
-                        //nameValidationMap.put(prodct.id,false);
                     }
+                }else{
+                    nameValidationCheck = true;
                 }
             }
                 system.debug('prodct.Last_Name__c before'+prodct.Last_Name__c);
@@ -461,13 +460,11 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 if(checkLastNameValid == true){
                     if(nameExcludeList.contains(prodct.Last_Name__c)){
                         lastname = defLastName;
-                        //nameValidationMap.put(prodct.id,true);
                         nameValidationCheck = true;         
                     }else if(prodct.Last_Name__c.toUpperCase() == INC || 
                              prodct.Last_Name__c.toUpperCase().contains(spaceINC) ){
                         lastname = defLastName;
-                                 system.debug('prodct.Last_Name__c'+prodct.Last_Name__c.toUpperCase());
-                        //nameValidationMap.put(prodct.id,true);         
+                                 system.debug('prodct.Last_Name__c'+prodct.Last_Name__c.toUpperCase());        
                         nameValidationCheck = true;                  
                     }else{
                         if(prodct.Last_Name__c.length() <= 25) {
@@ -480,9 +477,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                             lastname = lastname.left(25);
                             lastname = lastname.toUpperCase();
                         }     
-                        //nameValidationMap.put(prodct.id,false);
-                    }
-                    
+                    } 
+                }else{
+                    nameValidationCheck = true;
                 }
             }
                 system.debug('nameValidationCheck@@3'+nameValidationCheck);
