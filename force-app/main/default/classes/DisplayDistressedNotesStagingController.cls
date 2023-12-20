@@ -143,7 +143,7 @@ public class DisplayDistressedNotesStagingController {
         DistressedNotesTriggerHandler.runDistressedNotesTrigger = true;
         
          //Added for ticket: 4232 by satyajit
-        Database.executeBatch(new DistressedNotesAPIBatch(listDistNotes),200);
+        Database.executeBatch(new DistressedNotesAPIBatch(listDistNotes),50);
         list<Work_Assignment__c> listWorkAssignmentToUpsert = new list<Work_Assignment__c>();
         
         //Create Task record and assign it to Agency
