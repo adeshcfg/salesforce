@@ -302,8 +302,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         // List created to bulk insert the metro2 data. 
         List<MetroFlatFileData__c> metroFileData = new List<MetroFlatFileData__c>();
         List<MetroFlatFileData__c> metroFileDataK1Seg = new List<MetroFlatFileData__c>();
-        
+        Boolean nameValidationCheck = false;
+        //map<Id,Boolean> nameValidationMap = new map<Id,Boolean>();
         for(Product__c prodct :scope) {
+            nameValidationCheck = false;
             if(!mapProductExcluse.containsKey(prodct.id)){
                 
             MetroFlatFileData__c metroobj2 = new MetroFlatFileData__c();
@@ -418,7 +420,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
            if(nameExluded != Null){
                 nameExcludeList = nameExluded.split(',');   
            }
-            
+            system.debug('nameValidationCheck@@1'+nameValidationCheck);
+                system.debug('prodct.First_Name__c'+prodct.First_Name__c);
             // Code for Adding First_Name__c Right Padding upon dynamic values in less
             String firstname = defFirstName;
             if(prodct.First_Name__c != null) {
@@ -426,9 +429,14 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 if(checkFirstNameValid == true){
                     if(nameExcludeList.contains(prodct.First_Name__c)){
                         firstname = defFirstName;
-                    }else if(prodct.First_Name__c.toUpperCase() != INC || 
+                        //nameValidationMap.put(prodct.id,true);
+                        nameValidationCheck = true;
+                    }else if(prodct.First_Name__c.toUpperCase() == INC || 
                              prodct.First_Name__c.toUpperCase().contains(spaceINC) ){
                         firstname = defFirstName;
+                        //nameValidationMap.put(prodct.id,true);
+                        nameValidationCheck = true;  
+                                 system.debug('prodct.First_Name__c'+prodct.First_Name__c.toUpperCase());
                     }else{
                         if(prodct.First_Name__c.length() <= 20) {
                             String firstNameValue = prodct.First_Name__c;
@@ -440,9 +448,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                             firstname = firstname.left(20);
                             firstname = firstname.toUpperCase();
                         }
+                        //nameValidationMap.put(prodct.id,false);
                     }
                 }
             }
+                system.debug('prodct.Last_Name__c before'+prodct.Last_Name__c);
+                system.debug('nameValidationCheck@@2'+nameValidationCheck);
             // Code for Adding Last_Name__c Right Padding upon dynamic values in less
             String lastname = defLastName;
             if(prodct.Last_Name__c != null) {
@@ -450,9 +461,14 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 if(checkLastNameValid == true){
                     if(nameExcludeList.contains(prodct.Last_Name__c)){
                         lastname = defLastName;
-                    }else if(prodct.Last_Name__c.toUpperCase() != INC || 
+                        //nameValidationMap.put(prodct.id,true);
+                        nameValidationCheck = true;         
+                    }else if(prodct.Last_Name__c.toUpperCase() == INC || 
                              prodct.Last_Name__c.toUpperCase().contains(spaceINC) ){
                         lastname = defLastName;
+                                 system.debug('prodct.Last_Name__c'+prodct.Last_Name__c.toUpperCase());
+                        //nameValidationMap.put(prodct.id,true);         
+                        nameValidationCheck = true;                  
                     }else{
                         if(prodct.Last_Name__c.length() <= 25) {
                             String lastNameValue = prodct.Last_Name__c;
@@ -463,11 +479,13 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                             lastname = prodct.Last_Name__c;
                             lastname = lastname.left(25);
                             lastname = lastname.toUpperCase();
-                        }        
+                        }     
+                        //nameValidationMap.put(prodct.id,false);
                     }
                     
                 }
             }
+                system.debug('nameValidationCheck@@3'+nameValidationCheck);
             // Code for Adding Middle_Name__c Right Padding upon dynamic values in less
             String middlename = defMiddleName;
             if(prodct.Middle_Name__c != null) {
@@ -697,8 +715,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             metroobj2.Bureau_Type__c = bureauTypeTransUnion;
             metroobj2.Product_Type__c = productType;
             metroobj2.Sort_Order__c = 2;
-            metroobj2.Batch_Number__c = batchNumber;   
-            metroFileData.add(metroobj2);
+            metroobj2.Batch_Number__c = batchNumber;
+                system.debug('nameValidationCheck##'+nameValidationCheck);
+            if(nameValidationCheck == false){
+               metroFileData.add(metroobj2);     
+            }
+            system.debug('metroFileData@@'+metroFileData);
             
             //increment counter if records to be considered as out of CCS
             if(accountStatus == metro2TransUnion.Account_Status_Close__c){
