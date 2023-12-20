@@ -90,7 +90,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
 
             // Get Insolvency Account related to Account
             List<Insolvency_Account__c> insolvencyAccounts = insolvency.Insolvency_Accounts__r;
-            
+            system.debug('insolvencyAccounts===>'+insolvencyAccounts);
             if(!insolvencyAccounts.isEmpty()){
                 
                 system.debug(' === '+trustee.Number_Of_Emails_Sent_Today__c);
