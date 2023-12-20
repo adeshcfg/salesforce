@@ -420,16 +420,22 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
            if(nameExluded != Null){
                 nameExcludeList = nameExluded.split(',');   
            }
+           system.debug('nameExcludeList'+nameExcludeList);
             system.debug('nameValidationCheck@@1'+nameValidationCheck);
                 system.debug('prodct.First_Name__c'+prodct.First_Name__c);
+                if(prodct.name == '1901P1434' || prodct.name == '1901P1426'){
+                    system.debug('First_Name__c'+prodct.First_Name__c);
+                    system.debug('Last_Name__c'+prodct.Last_Name__c);
+                }
             // Code for Adding First_Name__c Right Padding upon dynamic values in less
             String firstname = defFirstName;
             if(prodct.First_Name__c != null) {
                 Boolean checkFirstNameValid = CustomerProcessingBatchHelper.getValidCustomerName(prodct.First_Name__c);
                 if(checkFirstNameValid == true){
-                    if(nameExcludeList.contains(prodct.First_Name__c)){
+                    if(nameExcludeList.contains(prodct.First_Name__c.toUpperCase())){
                         firstname = defFirstName;
                         nameValidationCheck = true;
+                        system.debug('nameExcludeList line'+prodct.name);
                     }else if(prodct.First_Name__c.toUpperCase() == INC || 
                              prodct.First_Name__c.toUpperCase().contains(spaceINC) ){
                         firstname = defFirstName;
@@ -458,9 +464,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             if(prodct.Last_Name__c != null) {
                 Boolean checkLastNameValid = CustomerProcessingBatchHelper.getValidCustomerName(prodct.Last_Name__c);
                 if(checkLastNameValid == true){
-                    if(nameExcludeList.contains(prodct.Last_Name__c)){
+                    if(nameExcludeList.contains(prodct.Last_Name__c.toUpperCase())){
                         lastname = defLastName;
-                        nameValidationCheck = true;         
+                        nameValidationCheck = true;   
+                        system.debug('nameExcludeList last line'+prodct.name);      
                     }else if(prodct.Last_Name__c.toUpperCase() == INC || 
                              prodct.Last_Name__c.toUpperCase().contains(spaceINC) ){
                         lastname = defLastName;
