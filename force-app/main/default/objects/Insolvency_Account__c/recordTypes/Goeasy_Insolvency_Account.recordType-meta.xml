@@ -284,6 +284,14 @@
     <picklistValues>
         <picklist>Insolvency_Status__c</picklist>
         <values>
+            <fullName>Pending Assignment to Collection Agency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent to Collections</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Annulled</fullName>
             <default>false</default>
         </values>
