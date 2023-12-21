@@ -131,7 +131,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                         'Difference_Greater_Than_N_Years__c = False AND ' +
                                         'Exclude_for_Reporting__c = False AND ' +
                                         '(TransUnion_Reported_As_Complete_Count__c = null OR ' +  
-                                        'TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)) OR (Id IN :productIds AND TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport))' );
+                                        'TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)) OR (Id IN :productIds AND (TransUnion_Reported_As_Complete_Count__c = null OR TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)))' );
                                        	
         
     }
