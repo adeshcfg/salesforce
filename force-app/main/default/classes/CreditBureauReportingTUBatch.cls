@@ -33,7 +33,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public static final String defCityAddress = '                    ';
     public static final String defStateAddress = '  ';
     public static final String defZipAddres= '         ';
-    public static final String defAccountStatus = '';
+    public static final String defAccountStatus = '  ';
     public static final String defPaymentRating = ' ';
     public static final String defSpecialComments = ' ';
     public static final String defCustomerInformationIndicator = '  ';
@@ -51,10 +51,43 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public static final String INC = 'INC';
     public static final String spaceINC = ' INC';
     public string batchNumber = string.valueOf(DateTime.now());
+    public static final String canaccede = 'CANACCEDE';
+    public Set<ID> productIds = new Set<ID>();
+    
+    public CreditBureauReportingTUBatch(){
+        Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
+        list<String> includeAgencyList = new list<String>();
+        //Only ICT and LRT agencies inclued in bureau reporting
+        string agencyList = metro2TransUnion.Agency_Included__c;
+        List<String> splitDoubleValues = agencyList.split(',');
+        Decimal strToDec = 0;
+        for(String s : splitDoubleValues){
+            if(agencyList != Null){
+                includeAgencyList.add(s);   
+            }
+        }
+        Set<String> placementStatus = new Set<String>();
         
+        for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
+            if(metaData.Bureau_Reporting_Account_Status__c == 'Closed'){
+                placementStatus.add(metaData.name);
+            }
+        }
+                
+        List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c
+                                                         FROM Placement_History__c
+                                                         WHERE Placement__r.Name IN :includeAgencyList 
+                                                         AND Placement_Recall_Date__c <> NULL
+                                                         AND Placement_Status__c IN :placementStatus];
+        for(Placement_History__c placeHistory : placementHistory){
+            productIds.add(placeHistory.Product__c);
+        }
+        system.debug('productIds check'+productIds);
+    }  
+    
     // Start Method
     public Database.Querylocator start(Database.BatchableContext BC) {
-        
+        system.debug('productIds check start'+productIds);
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
         list<string> excludeProdStatusList = new list<string>();
         string prodStatus = metro2TransUnion.Product_Status_Excluded__c;
@@ -80,7 +113,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         //Query to fetch all the eligible records with the recordtype as CCS Account
         return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Assignment_Date__c,Last_Payment_Amount__c,Purchase_Face_Value__c,Previous_Primary_Account_Number__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c,Last_Payment_Date_Prior_to_CO__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
                                         'WHERE '+ 
-                                        'RecordType.Name =: productType AND '+ 
+                                        '((RecordType.Name =: productType AND '+ 
 										'Product_Status__c NOT IN :excludeProdStatusList AND '+
 										'Collection_Agency__c IN :includeAgencyList AND '+ 
 										'(Number_Of_Open_Complaint__c = 0 OR Number_Of_Open_Complaint__c = NULL) AND '+ 
@@ -98,7 +131,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                         'Difference_Greater_Than_N_Years__c = False AND ' +
                                         'Exclude_for_Reporting__c = False AND ' +
                                         '(TransUnion_Reported_As_Complete_Count__c = null OR ' +  
-                                        'TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)');
+                                        'TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)) OR Id IN :productIds)' );
+                                       	
         
     }
     
@@ -724,6 +758,13 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     K1SegmentLine = String.valueOf(prodct.Seller__r.name);
                     K1SegmentLine = K1SegmentLine.substring(0, 30);
                 }
+            }else{
+                	string sellerName = canaccede;
+                    system.debug('sellerName length'+sellerName.length());
+                    integer number1 = 30 - sellerName.length();
+                    Integer number2 = number1 + sellerName.length();
+                    K1SegmentLine = sellerName.rightPad(number2);
+                    K1SegmentLine = K1SegmentLine.toUpperCase();
             }
             system.debug('K1SegmentLine'+K1SegmentLine);
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
