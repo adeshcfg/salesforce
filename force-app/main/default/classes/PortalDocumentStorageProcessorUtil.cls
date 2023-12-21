@@ -69,7 +69,7 @@ public class PortalDocumentStorageProcessorUtil {
                 if((documentStorage.Document_Type__c == 'Product Payment Upload File'
                   /*|| documentStorage.Document_Type__c == 'Account Status Update File'*/
                   || documentStorage.Document_Type__c == 'Account Status (having Judgment) Update File'
-                  || documentStorage.Document_Type__c == 'Customer Contact Information Update File'
+                //   || documentStorage.Document_Type__c == 'Customer Contact Information Update File'
                   /*|| documentStorage.Document_Type__c == 'Product Allocation File'*/
                   || documentStorage.Document_Type__c == 'Product Recall File'
                   || documentStorage.Document_Type__c == 'Product Bulk Pool Update File')
@@ -79,6 +79,11 @@ public class PortalDocumentStorageProcessorUtil {
                    )){
                    DocumentStorageTriggerHandler.exceltoJSONService(documentStorage.Document_Id__c, documentStorage.Placement_Identifier__c, documentStorage.ID,
                                   documentStorage.Document_Type__c, documentStorage.Document_URL__c);
+                }
+                if(documentStorage.Document_Type__c == 'Customer Contact Information Update File' && documentStorage.Document_Id__c != null && documentStorage.File_Processing_Status__c != 'Processed'){
+                    if(!Test.isRunningTest()){
+                        System.enqueueJob(new CustomerStagingExcelFileProcessing(documentStorage.Document_URL__c, documentStorage.Work_Assignment_Placement__c, documentStorage.Id));
+                    }
                 }
                if(documentStorage.Document_Type__c == 'Account Status Update File'){
                     system.debug('documentStorage.id::'+documentStorage.Id);
