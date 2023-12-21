@@ -222,6 +222,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             else if(TransUnionIdentifier.length() == 10) {
                 bureaIdentifier = TransUnionIdentifier;
             }
+            else if(TransUnionIdentifier.length() > 10){
+                bureaIdentifier = TransUnionIdentifier;
+                bureaIdentifier = bureaIdentifier.substring(0, 10);
+            }
         }
         
         String idenfificationNum = defIdentificationNumber;
@@ -234,6 +238,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             else if(identificationNumber.length() == 20) {
                 idenfificationNum = identificationNumber;
             }
+            else if(identificationNumber.length() > 20){
+                idenfificationNum = identificationNumber;
+                idenfificationNum = idenfificationNum.substring(0, 20);
+            }
         }        
         String canaccedeFinGrp = defCanaFinGrp;
         if(canaFinGrp != null) {
@@ -244,6 +252,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             } 
             else if(canaFinGrp.length() == 40) {
                 canaccedeFinGrp = canaFinGrp;
+            }
+            else if(canaFinGrp.length() > 40){
+                canaccedeFinGrp = canaFinGrp;
+                canaccedeFinGrp = canaccedeFinGrp.substring(0, 40);
             }
         }
         
@@ -257,6 +269,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             else if(reporterAddress.length() == 96) {
                 repAddress = reporterAddress;
             }
+            else if(reporterAddress.length() > 96){
+                repAddress = reporterAddress;
+                repAddress = repAddress.substring(0, 96);
+            }
         }
 
         String repPhone = defReportTelPhoneNum;
@@ -268,6 +284,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             } 
             else if(reporterPhone.length() == 10) {
                 repPhone = reporterPhone;
+            }
+            else if(reporterPhone.length() > 10){
+                repPhone = reporterAddress;
+                repPhone = repPhone.substring(0, 10);
             }
         }
 
@@ -327,6 +347,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             else if(prodct.Name.length() == 30) {
                 productname = prodct.Name;
             }
+            else if(prodct.Name.length() > 30){
+                productname = prodct.Name;
+                productname = productname.substring(0, 30);
+            }
             
             // Code for Adding Purchase_Face_Value__c Left Padding upon dynamic values in less
             String orignalCreditAmt = defOrignalCreditAmt;
@@ -351,17 +375,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             String Finalactualpayplan  = defFinalactualpayplan;                       
             //Populate Finalactualpayplan only if last payment date is in month same as Activity date
             AggregateResult grossPaySum = productSumTotal.get(prodct.id);
-            if(null != prodct.Last_Payment_Date__c){
-                Decimal actualGrossPay = 0.00;
-                if(null != grossPaySum){
-                    actualGrossPay = (Decimal)grossPaySum.get('grossPay');                 
-                    //negative amount to be reported as zero
-                    if(actualGrossPay!=null && actualGrossPay > 0){
-                        Finalactualpayplan = String.valueOf(prodct.Last_Payment_Amount__c);
-                        Finalactualpayplan = Finalactualpayplan.subString(0,Finalactualpayplan.indexOf('.'));
-                        Finalactualpayplan = Finalactualpayplan.leftPad(9, '0');  
-                    }
-                }
+            if(null != prodct.Last_Payment_Amount__c){              
+                Finalactualpayplan = String.valueOf(prodct.Last_Payment_Amount__c);
+                Finalactualpayplan = Finalactualpayplan.subString(0,Finalactualpayplan.indexOf('.'));
+                Finalactualpayplan = Finalactualpayplan.leftPad(9, '0');  
             }
             
             // Code for Adding current Amount  Right Padding upon dynamic values in less
@@ -420,13 +437,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
            if(nameExluded != Null){
                 nameExcludeList = nameExluded.split(',');   
            }
-           system.debug('nameExcludeList'+nameExcludeList);
-            system.debug('nameValidationCheck@@1'+nameValidationCheck);
-                system.debug('prodct.First_Name__c'+prodct.First_Name__c);
-                if(prodct.name == '1901P1434' || prodct.name == '1901P1426'){
-                    system.debug('First_Name__c'+prodct.First_Name__c);
-                    system.debug('Last_Name__c'+prodct.Last_Name__c);
-                }
+
             // Code for Adding First_Name__c Right Padding upon dynamic values in less
             String firstname = defFirstName;
             if(prodct.First_Name__c != null) {
@@ -435,12 +446,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     if(nameExcludeList.contains(prodct.First_Name__c.toUpperCase())){
                         firstname = defFirstName;
                         nameValidationCheck = true;
-                        system.debug('nameExcludeList line'+prodct.name);
                     }else if(prodct.First_Name__c.toUpperCase() == INC || 
                              prodct.First_Name__c.toUpperCase().contains(spaceINC) ){
                         firstname = defFirstName;
                         nameValidationCheck = true;  
-                                 system.debug('prodct.First_Name__c'+prodct.First_Name__c.toUpperCase());
                     }else{
                         if(prodct.First_Name__c.length() <= 20) {
                             String firstNameValue = prodct.First_Name__c;
@@ -457,8 +466,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     nameValidationCheck = true;
                 }
             }
-                system.debug('prodct.Last_Name__c before'+prodct.Last_Name__c);
-                system.debug('nameValidationCheck@@2'+nameValidationCheck);
+
             // Code for Adding Last_Name__c Right Padding upon dynamic values in less
             String lastname = defLastName;
             if(prodct.Last_Name__c != null) {
@@ -466,12 +474,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 if(checkLastNameValid == true){
                     if(nameExcludeList.contains(prodct.Last_Name__c.toUpperCase())){
                         lastname = defLastName;
-                        nameValidationCheck = true;   
-                        system.debug('nameExcludeList last line'+prodct.name);      
+                        nameValidationCheck = true;      
                     }else if(prodct.Last_Name__c.toUpperCase() == INC || 
                              prodct.Last_Name__c.toUpperCase().contains(spaceINC) ){
-                        lastname = defLastName;
-                                 system.debug('prodct.Last_Name__c'+prodct.Last_Name__c.toUpperCase());        
+                        lastname = defLastName;       
                         nameValidationCheck = true;                  
                     }else{
                         if(prodct.Last_Name__c.length() <= 25) {
@@ -489,7 +495,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     nameValidationCheck = true;
                 }
             }
-                system.debug('nameValidationCheck@@3'+nameValidationCheck);
+
             // Code for Adding Middle_Name__c Right Padding upon dynamic values in less
             String middlename = defMiddleName;
             if(prodct.Middle_Name__c != null) {
@@ -549,6 +555,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     AddressLine = String.valueOf(prodct.Address_Line1__c);
                     AddressLine = AddressLine.toUpperCase();
                 }
+                else if(String.valueOf(prodct.Address_Line1__c).length() > 32){
+                    AddressLine = String.valueOf(prodct.Address_Line1__c);
+                    AddressLine = AddressLine.substring(0, 32);
+                }
             }
             
             // Code for Address Line 2 Right Padding upon dynamic values in less
@@ -563,6 +573,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 else if(String.valueOf(prodct.Address_Line2__c).length() == 32) {
                     AddressLine2 = String.valueOf(prodct.Address_Line2__c);
                     AddressLine2 = AddressLine2.toUpperCase();
+                }
+                else if(String.valueOf(prodct.Address_Line2__c).length() > 32){
+                    AddressLine2 = String.valueOf(prodct.Address_Line2__c);
+                    AddressLine2 = AddressLine2.substring(0, 32);
                 }
             }
             
@@ -579,19 +593,27 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     cityaddress = String.valueOf(prodct.City__c);
                     cityaddress = cityaddress.toUpperCase();
                 }
+                else if(String.valueOf(prodct.City__c).length() > 20){
+                    cityaddress = String.valueOf(prodct.City__c);
+                    cityaddress = cityaddress.substring(0, 20);
+                }
             }
             
             // Code for state Right Padding upon dynamic values in less
             String stateaddress = defStateAddress;
             String provinceCode = prodct.State__c;
             if(provinceCode != null) {
-                if(String.valueOf(provinceCode).length() < 2) {
+                if(provinceCode.length() < 2) {
                     integer num = 2 - provinceCode.length();
                     Integer num2 = num + provinceCode.length();
                     stateaddress = provinceCode.rightPad(num2);
                 }
                 else if(provinceCode.length() == 2) {
                     stateaddress = provinceCode;
+                }
+                else if(provinceCode.length() > 2){
+                    stateaddress = provinceCode;
+                    stateaddress = stateaddress.substring(0, 2);
                 }
             }
             
@@ -600,13 +622,17 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 //Code to remove space from Zipcode
                 String ZipAddresWithoutSpaces = prodct.Zip_Code__c.replaceAll( '\\s+', '');
                 
-                if(String.valueOf(ZipAddresWithoutSpaces).length() < 9) {
-                    integer num = 9 - String.valueOf(ZipAddresWithoutSpaces).length();
-                    Integer num2 = num + String.valueOf(ZipAddresWithoutSpaces).length();
-                    ZipAddres = String.valueOf(ZipAddresWithoutSpaces).rightPad(num2);
+                if(ZipAddresWithoutSpaces.length() < 9) {
+                    integer num = 9 - ZipAddresWithoutSpaces.length();
+                    Integer num2 = num + ZipAddresWithoutSpaces.length();
+                    ZipAddres = ZipAddresWithoutSpaces.rightPad(num2);
                 } 
                 else if(String.valueOf(prodct.Zip_Code__c).length() == 9) {
-                    ZipAddres = String.valueOf(ZipAddresWithoutSpaces);
+                    ZipAddres = ZipAddresWithoutSpaces;
+                }
+                else if(String.valueOf(prodct.Zip_Code__c).length() > 9){
+                    ZipAddres = ZipAddresWithoutSpaces;
+                    ZipAddres = ZipAddres.substring(0, 9);
                 }
             }
             
@@ -694,6 +720,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     K1SegmentLine = String.valueOf(prodct.Seller__r.name);
                     K1SegmentLine = K1SegmentLine.toUpperCase();
                 }
+                else if(String.valueOf(prodct.Seller__r.name).length() > 30){
+                    K1SegmentLine = String.valueOf(prodct.Seller__r.name);
+                    K1SegmentLine = K1SegmentLine.substring(0, 30);
+                }
             }
             system.debug('K1SegmentLine'+K1SegmentLine);
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
@@ -737,29 +767,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 updateProduct.add(prodct);
             }
             
-            /*String K1Segment = 'K1'+K1SegmentLine;
-            Integer StringK1count = 34 - K1Segment.length();
-            Integer StringK1countheadercount = StringK1count + K1Segment.length();
-            
-            finalK1HeadBody2 = finalK1HeadBody2 + K1Segment.rightPad(StringK1countheadercount) + '\r\n';
-            
-            integer [] K1trimmedArray = new integer [StringK1count];
-            for (integer i = 0; i < StringK1count; i ++){
-                K1trimmedArray[i] = 160;
-            }
-            
-            MetroFlatFileData__c metroFlatData = new MetroFlatFileData__c();
-            metroFlatData.RowData1__c = K1Segment + String.fromCharArray(K1trimmedArray);
-            metroFlatData.ProductId__c = prodct.Id;
-            metroFlatData.Product__c = prodct.id;
-            metroFlatData.Bureau_Type__c = bureauTypeTransUnion;
-            metroFlatData.Product_Type__c = productType;
-            metroFileDataK1Seg.add(metroFlatData);*/
           }// if condition
         }// for loop
         
         insert metroFileData;
-        //insert metroFileDataK1Seg;
         
         if(metro2TransUnion.Do_Not_Increase_Count__c == FALSE){
             ProductTriggerHandler.runProductTrigger = false;
