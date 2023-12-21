@@ -107,7 +107,11 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
                     }
                 } else {
                     DateTime PreviousDate = findMaxDate(PTP_L.PTP_Date__c, prod.Delinquency_Days__c);
-
+                     system.debug('prod.Last_Payment_Date__c--->'+prod.Last_Payment_Date__c);
+                     system.debug('prod.Last_Payment_Amount__c--->'+prod.Last_Payment_Amount__c);
+                     system.debug('PreviousDate--->'+(PreviousDate).date());
+                     system.debug('(PTP_N.PTP_Date__c).date()--->'+(PTP_N.PTP_Date__c).date());
+                     system.debug('PTP_N.PTP_Amount__c--->'+PTP_N.PTP_Amount__c);
                     if (
                         prod.Last_Payment_Date__c >= (PreviousDate).date() &&
                         prod.Last_Payment_Date__c <= (PTP_N.PTP_Date__c).date() &&
