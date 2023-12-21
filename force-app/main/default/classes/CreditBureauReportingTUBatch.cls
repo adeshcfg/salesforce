@@ -409,10 +409,15 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             String Finalactualpayplan  = defFinalactualpayplan;                       
             //Populate Finalactualpayplan only if last payment date is in month same as Activity date
             AggregateResult grossPaySum = productSumTotal.get(prodct.id);
-            if(null != prodct.Last_Payment_Amount__c){              
-                Finalactualpayplan = String.valueOf(prodct.Last_Payment_Amount__c);
-                Finalactualpayplan = Finalactualpayplan.subString(0,Finalactualpayplan.indexOf('.'));
-                Finalactualpayplan = Finalactualpayplan.leftPad(9, '0');  
+            if(null != prodct.Last_Payment_Amount__c){
+                if(prodct.Last_Payment_Amount__c >= 0){
+                    Finalactualpayplan = String.valueOf(prodct.Last_Payment_Amount__c);
+                    Finalactualpayplan = Finalactualpayplan.subString(0,Finalactualpayplan.indexOf('.'));
+                    Finalactualpayplan = Finalactualpayplan.leftPad(9, '0');  
+                }
+                else if(prodct.Last_Payment_Amount__c < 0){
+                    Finalactualpayplan  = defFinalactualpayplan; 
+                }
             }
             
             // Code for Adding current Amount  Right Padding upon dynamic values in less
@@ -829,7 +834,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         String maxRowslength = metro2TransUnion.MaxRowsCount__c;
         
         List<MetroFlatFileData__c> metrolstcount = new List<MetroFlatFileData__c>();
-        AggregateResult[] metrolstcountData = [Select count(id) metroFlatFileDatacnt FROM MetroFlatFileData__c where HeaderCheck__c = false and FooterCheck__c = false and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY];
+        AggregateResult[] metrolstcountData = [Select count(id) metroFlatFileDatacnt FROM MetroFlatFileData__c where HeaderCheck__c = false and FooterCheck__c = false and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber];
         Integer Rowscount = 0;
         system.debug('Rowscount before'+Rowscount);
         for(AggregateResult aggr : metrolstcountData){
@@ -848,32 +853,32 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         String FinalSTATUS97COUNT = '000000000';
         
 
-        Integer FinalPhoneocunt = [select PhoneNumber__c from MetroFlatFileData__c where PhoneNumber__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
+        Integer FinalPhoneocunt = [select PhoneNumber__c from MetroFlatFileData__c where PhoneNumber__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
         FinalPhoneocuntNet = CustomerProcessingBatchHelper.getStringWithZeroPadding(FinalPhoneocunt);
         
         //Final SIN Count
         List<MetroFlatFileData__c> metroobj = new List<MetroFlatFileData__c>();
-        Integer SINCOUNT = [select SIN__c from MetroFlatFileData__c where SIN__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY].size();
+        Integer SINCOUNT = [select SIN__c from MetroFlatFileData__c where SIN__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber].size();
         FinalSINCOUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(SINCOUNT);
         
         //DOB Count
         List<MetroFlatFileData__c> metroobj2 = new List<MetroFlatFileData__c>();
-        Integer DOBCOUNT = [select Dateofbirth__c from MetroFlatFileData__c where Dateofbirth__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
+        Integer DOBCOUNT = [select Dateofbirth__c from MetroFlatFileData__c where Dateofbirth__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
         FinalDOBCOunt = CustomerProcessingBatchHelper.getStringWithZeroPadding(DOBCOUNT);
         
         //Status 13 Count
         List<MetroFlatFileData__c> metroobjStatus13 = new List<MetroFlatFileData__c>();
-        Integer STATUS13COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '13' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
+        Integer STATUS13COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '13' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
         FinalSTATUS13COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS13COUNT);
         
         //Status 93 Count
         List<MetroFlatFileData__c> metroobjStatus93 = new List<MetroFlatFileData__c>();
-        Integer STATUS93COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '93' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
+        Integer STATUS93COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '93' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
         FinalSTATUS93COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS93COUNT);
         
         //Status 97 Count
         List<MetroFlatFileData__c> metroobjStatus97 = new List<MetroFlatFileData__c>();
-        Integer STATUS97COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '97' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY limit 49000].size();
+        Integer STATUS97COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '97' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
         FinalSTATUS97COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS97COUNT);
         
         String rowscountwithzero;
