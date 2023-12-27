@@ -3224,6 +3224,10 @@
         <apexClass>updateSettlementStatusBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <tabVisibilities>
+        <tab>Credit_Bureau</tab>
+        <visibility>DefaultOff</visibility>
+    </tabVisibilities>
     <custom>false</custom>
     <customSettingAccesses>
         <enabled>true</enabled>
