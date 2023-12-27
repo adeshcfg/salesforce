@@ -597,6 +597,7 @@ public class InsolvencyPaymentProcessingController{
         
     List<Unallocated_Payment__c> unAllocPaymentToSave;  
     public Boolean saveUnAllocatedAmount(){ 
+        String recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%insolvency%'].id;
         Decimal totalUnAllocAmount = 0.00;  
         unAllocPaymentToSave = new List<Unallocated_Payment__c>();  
         for(Unallocated_Payment__c unAlloc : unAllocPaymentList){   
@@ -618,7 +619,7 @@ public class InsolvencyPaymentProcessingController{
             if(unAlloc.Unallocated_Amount__c != null && unAlloc.Unallocated_Amount__c > 0 ){    
                     
                 totalUnAllocAmount += unAlloc.Unallocated_Amount__c;    
-                unalloc.recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%insolvency%'].id;    
+                unalloc.recordTypeId = recordTypeId;
                 //payment postin date on Unallocated payment is Today's date when payment is posted 
                 unalloc.Payment_Posting_Date__c=system.today(); 
                 unAllocPaymentToSave.add(unAlloc);  
