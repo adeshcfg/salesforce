@@ -669,7 +669,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     mapDataStatus.put(metaData.name,metaData);
                 }
                 if(mapDataStatus.containskey(prodct.Product_Status__c))  {
-                    if(Integer.valueOf(prodct.Collection_Agency_Placement__c) == 9999){
+                    if(prodct.Collection_Agency__c == 9999){
                         if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
                             accountStatus = metro2TransUnion.Account_Status_Close__c; // set account status 62
                         }else{
