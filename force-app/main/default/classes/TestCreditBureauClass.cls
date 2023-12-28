@@ -20,6 +20,7 @@ public class TestCreditBureauClass {
         metro2File.Terms_Duration__c = '001';
         metro2File.Reporter_Address__c = 'Reporter_AddressReporter';
         metro2File.Reporter_Phone__c = '12345634';
+        metro2File.Days_Diff_for_Delinquency__c = 240;
         insert metro2File;
         
         Metro__c metroheaderrecsetiing  = Metro__c.getOrgDefaults();
@@ -109,6 +110,7 @@ public class TestCreditBureauClass {
         metro2File.Terms_Duration__c = '001';
         metro2File.Reporter_Address__c = 'Reporter_AddressReporter_AddressReporter_AddressReporter_AddressReporter_AddressReporter_Address';
         metro2File.Reporter_Phone__c = '1234563456';
+        metro2File.Days_Diff_for_Delinquency__c = 240;
         insert metro2File;
         
         Data_Status_Mapping__c metaData = Data_Status_Mapping__c.getOrgDefaults();
