@@ -112,7 +112,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         Integer noOfDaysAfterReport = Integer.valueOf(metro2TransUnion.Number_of_Days_After_Reporting__c);
         Date dayBefore45 = System.today().addDays(-noOfDaysAfterReport);
         //Query to fetch all the eligible records with the recordtype as CCS Account
-        return Database.getQueryLocator('SELECT Id, Name,Collection_Agency__c,RecordType.Name,Assignment_Date__c,Last_Payment_Amount__c,Purchase_Face_Value__c,Previous_Primary_Account_Number__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
+        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Collection_Agency__c,Assignment_Date__c,Last_Payment_Amount__c,Portfolio_Name_Lookup__r.CIML_Reporting_Name__c,Purchase_Face_Value__c,Previous_Primary_Account_Number__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
                                         'WHERE '+ 
                                         '((RecordType.Name =: productType AND '+ 
 										'Product_Status__c NOT IN :excludeProdStatusList AND '+
@@ -130,6 +130,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                         'Charged_Off_Date__c <> null AND ' +
                                         'Difference_Greater_Than_N_Years__c = False AND ' +
                                         'Exclude_for_Reporting__c = False AND ' +
+                                        'Portfolio_Name_Lookup__c <> null AND ' +
                                         '(TransUnion_Reported_As_Complete_Count__c = null OR ' +  
                                         'TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)) OR (Id IN :productIds AND (TransUnion_Reported_As_Complete_Count__c = null OR TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)))' );
                                        	
@@ -753,21 +754,21 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             //K1 Segment
             String K1SegmentLine = K1Segment;
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
-            if(prodct.Seller__r.name != null) {
-                if(String.valueOf(prodct.Seller__r.name).length() < 30) {
-                    string sellerName = String.valueOf(prodct.Seller__r.name);
+            if(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c != null) {
+                if(String.valueOf(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c).length() < 30) {
+                    string sellerName = String.valueOf(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c);
                     system.debug('sellerName length'+sellerName.length());
                     integer number1 = 30 - sellerName.length();
                     Integer number2 = number1 + sellerName.length();
                     K1SegmentLine = sellerName.rightPad(number2);
                     K1SegmentLine = K1SegmentLine.toUpperCase();
                 } 
-                else if(String.valueOf(prodct.Seller__r.name).length() == 30) {
-                    K1SegmentLine = String.valueOf(prodct.Seller__r.name);
+                else if(String.valueOf(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c).length() == 30) {
+                    K1SegmentLine = String.valueOf(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c);
                     K1SegmentLine = K1SegmentLine.toUpperCase();
                 }
-                else if(String.valueOf(prodct.Seller__r.name).length() > 30){
-                    K1SegmentLine = String.valueOf(prodct.Seller__r.name);
+                else if(String.valueOf(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c).length() > 30){
+                    K1SegmentLine = String.valueOf(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c);
                     K1SegmentLine = K1SegmentLine.substring(0, 30);
                 }
             }else{

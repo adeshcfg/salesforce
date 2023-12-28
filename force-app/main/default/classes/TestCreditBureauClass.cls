@@ -45,6 +45,11 @@ public class TestCreditBureauClass {
         judg.Legal_Agency__c = '68';
         insert judg;
         
+        Portfolio_Name__c protfolio =  new Portfolio_Name__c ();
+        protfolio.Name = 'MBNA24';
+        protfolio.Account_Purchasing_Entity_ID__c = 'test';
+        Insert protfolio;
+        
         List<Product__c> prodList = new List<Product__c>();
         Product__c prod = new Product__c(
                                         Name='1111',
@@ -52,6 +57,7 @@ public class TestCreditBureauClass {
 										Product_Status__c = '207000',
             							seller__c = acc.id,
 										Collection_Agency__c= 68,
+            							Portfolio_Name_Lookup__c = protfolio.ID,
 										Number_Of_Open_Complaint__c = 0,
 										Last_Name__c = 'last name',
 										Assignment_Date__c = SYSTEM.Today().addDays(-50),
@@ -123,6 +129,11 @@ public class TestCreditBureauClass {
         metroheaderrecsetiing.HeaderCheck__c = false;
         insert metroheaderrecsetiing;
         
+        Portfolio_Name__c protfolio =  new Portfolio_Name__c ();
+        protfolio.Name = 'MBNA24';
+        protfolio.Account_Purchasing_Entity_ID__c = 'test';
+        Insert protfolio;
+        
 		Credit_Bureau_Reporting_Periods__mdt creditmetadata = new Credit_Bureau_Reporting_Periods__mdt();
         creditmetadata.Province_Name__c = 'AB';
         creditmetadata.TU_Collection_Period__c = 8;
@@ -141,6 +152,7 @@ public class TestCreditBureauClass {
 										Product_Status__c = '207000',
             							seller__c = acc.id,
 										Collection_Agency__c= 68,
+            							Portfolio_Name_Lookup__c = protfolio.ID,
 										Number_Of_Open_Complaint__c = 0,
 										Last_Name__c = 'last namelast namelast name',
 										Assignment_Date__c = SYSTEM.Today().addDays(-50),
