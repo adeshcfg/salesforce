@@ -8,7 +8,7 @@
     <subject>Canaccede - In the Matter of Estate Number &quot;{!Insolvency__r.Name}&quot; and Account Number: &quot;{!Insolvency_Account__c.Name}&quot;</subject>
     <textOnly>Sir / Madam,
 
-As you are aware, Canaccede International Management Ltd is processing {!pocPackage.Client_Company_Name__c} insolvent accounts.
+{!Additional_Info_Text}.
 
 Please be advised that {!pocPackage.Client_Company_Name__c} is not able to locate the debtor, please provide us with the account #, VIN and/or SIN #.
 
