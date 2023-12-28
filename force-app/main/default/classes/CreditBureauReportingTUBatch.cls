@@ -66,19 +66,20 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 includeAgencyList.add(s);   
             }
         }
-        Set<String> placementStatus = new Set<String>();
+        /*Set<String> placementStatus = new Set<String>();
         
         for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
             if(metaData.Bureau_Reporting_Account_Status__c == 'Closed'){
                 placementStatus.add(metaData.name);
             }
-        }
+        }*/
                 
         List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c
                                                          FROM Placement_History__c
                                                          WHERE Placement__r.Name IN :includeAgencyList 
                                                          AND Placement_Recall_Date__c <> NULL
-                                                         AND Placement_Status__c IN :placementStatus];
+                                                         /*AND Placement_Status__c IN :placementStatus*/
+                                                      	 AND Placement_Recall_Date__c = LAST_MONTH];
         for(Placement_History__c placeHistory : placementHistory){
             productIds.add(placeHistory.Product__c);
         }
@@ -111,7 +112,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         Integer noOfDaysAfterReport = Integer.valueOf(metro2TransUnion.Number_of_Days_After_Reporting__c);
         Date dayBefore45 = System.today().addDays(-noOfDaysAfterReport);
         //Query to fetch all the eligible records with the recordtype as CCS Account
-        return Database.getQueryLocator('SELECT Id, Name,RecordType.Name,Assignment_Date__c,Last_Payment_Amount__c,Purchase_Face_Value__c,Previous_Primary_Account_Number__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
+        return Database.getQueryLocator('SELECT Id, Name,Collection_Agency__c,RecordType.Name,Assignment_Date__c,Last_Payment_Amount__c,Purchase_Face_Value__c,Previous_Primary_Account_Number__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Purchase_Date__c, Charged_Off_Amount__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c '+
                                         'WHERE '+ 
                                         '((RecordType.Name =: productType AND '+ 
 										'Product_Status__c NOT IN :excludeProdStatusList AND '+
@@ -420,20 +421,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 }
             }
             
-            // Code for Adding current Amount  Right Padding upon dynamic values in less
-            String currentplanval = defCurrentPlanval;
-            if(prodct.Current_Balance__c != null) {
-                //Code to prevent negative values. if value is negative show 0's
-                if(prodct.Current_Balance__c >= 0){        
-                    currentplanval = String.valueOf(prodct.Current_Balance__c);
-                    currentplanval = currentplanval.subString(0,currentplanval.indexOf('.'));
-                    currentplanval = currentplanval.leftPad(9, '0');
-                }
-                else if(prodct.Current_Balance__c < 0){
-                    currentplanval = defCurrentPlanval;
-                }        
-            }
-            
             // Code for Adding past Amount  Right Padding upon dynamic values in less
             String pastval = defPastVal;
             if(prodct.Current_Balance__c != null) {
@@ -682,15 +669,20 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     mapDataStatus.put(metaData.name,metaData);
                 }
                 if(mapDataStatus.containskey(prodct.Product_Status__c))  {
-                   if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
-                       accountStatus = metro2TransUnion.Account_Status_Close__c; // set account status 13
-                   }
-                   if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
-                       accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
-                   } 
-                   if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open Unpaied'){
-                       accountStatus = metro2TransUnion.Account_Status_Open_Unpaid__c; // set account status 97
-                   }
+                    if(prodct.Collection_Agency__c == 9999){
+                        if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
+                            accountStatus = metro2TransUnion.Account_Status_Close__c; // set account status 62
+                        }else{
+                             accountStatus = metro2TransUnion.Account_Status_Recalled__c;
+                        }
+                    }else{
+                        if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
+                            accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
+                        } 
+                        if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open Unpaied'){
+                            accountStatus = metro2TransUnion.Account_Status_Open_Unpaid__c; // set account status 97
+                        }
+                    }
                  }
             }
             else{
@@ -700,7 +692,23 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             metroobj2.Status__c = accountStatus;
             
-            
+            // Code for Adding current Amount  Right Padding upon dynamic values in less
+            String currentplanval = defCurrentPlanval;
+            if(prodct.Current_Balance__c != null) {
+                if(accountStatus != metro2TransUnion.Account_Status_Close__c){
+                    //Code to prevent negative values. if value is negative show 0's
+                    if(prodct.Current_Balance__c >= 0){        
+                        currentplanval = String.valueOf(prodct.Current_Balance__c);
+                        currentplanval = currentplanval.subString(0,currentplanval.indexOf('.'));
+                        currentplanval = currentplanval.leftPad(9, '0');
+                    }
+                    else if(prodct.Current_Balance__c < 0){
+                        currentplanval = defCurrentPlanval;
+                    } 
+                }else{
+                    currentplanval = defCurrentPlanval;
+                }       
+            }
             
             //Code for populating Payment rating
             String paymentRating = defPaymentRating;
@@ -850,6 +858,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         String FinalSTATUS13COUNT = '000000000';
         String FinalSTATUS93COUNT = '000000000';
         String FinalSTATUS97COUNT = '000000000';
+        String FinalSTATUSDACOUNT = '000000000';
         
 
         Integer FinalPhoneocunt = [select PhoneNumber__c from MetroFlatFileData__c where PhoneNumber__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
@@ -866,19 +875,20 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         FinalDOBCOunt = CustomerProcessingBatchHelper.getStringWithZeroPadding(DOBCOUNT);
         
         //Status 13 Count
-        List<MetroFlatFileData__c> metroobjStatus13 = new List<MetroFlatFileData__c>();
-        Integer STATUS13COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '13' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
+        Integer STATUS13COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '62' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
         FinalSTATUS13COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS13COUNT);
         
         //Status 93 Count
-        List<MetroFlatFileData__c> metroobjStatus93 = new List<MetroFlatFileData__c>();
         Integer STATUS93COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '93' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
         FinalSTATUS93COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS93COUNT);
         
         //Status 97 Count
-        List<MetroFlatFileData__c> metroobjStatus97 = new List<MetroFlatFileData__c>();
         Integer STATUS97COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '97' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
         FinalSTATUS97COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS97COUNT);
+        
+        //Status DA Count
+        Integer STATUSDACOUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = 'DA' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
+        FinalSTATUSDACOUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS13COUNT);
         
         String rowscountwithzero;
         if(RowscountLength < 9) {
@@ -892,7 +902,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         }
         
   
-        String Trailerrec = maxRowslength+'TRAILER' + rowscountwithzero + '                  000000000000000000000000000000000000000000000000000000' + FinalSTATUS13COUNT + '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + FinalSTATUS93COUNT + '000000000' + '000000000' + '000000000' + FinalSTATUS97COUNT + '000000000000000000'+ rowscountwithzero +'000000000000000000000000000000000000' + FinalSINCOUNT + FinalSINCOUNT + '000000000000000000' + FinalDOBCOunt + FinalDOBCOunt + '000000000000000000' + FinalPhoneocuntNet + '    ';
+        String Trailerrec = maxRowslength+'TRAILER' + rowscountwithzero + '                  000000000000000000000000000000000000000000000000000000' + FinalSTATUS13COUNT + '000000000'+ FinalSTATUSDACOUNT +'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + FinalSTATUS93COUNT + '000000000' + '000000000' + '000000000' + FinalSTATUS97COUNT + '000000000000000000'+ rowscountwithzero +'000000000000000000000000000000000000' + FinalSINCOUNT + FinalSINCOUNT + '000000000000000000' + FinalDOBCOunt + FinalDOBCOunt + '000000000000000000' + FinalPhoneocuntNet + '    ';
         
   
         Integer Stringcount4 = 426 - Trailerrec.length();
