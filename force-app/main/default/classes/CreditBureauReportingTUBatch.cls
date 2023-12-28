@@ -415,7 +415,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 if(actualGrossPay!=null && actualGrossPay > 0){
                     Finalactualpayplan = String.valueOf(actualGrossPay.setScale(0));
                     Finalactualpayplan = Finalactualpayplan.leftPad(9, '0');  
-                }else{
+                }else if(actualGrossPay < 0){
                     Finalactualpayplan  = defFinalactualpayplan;
                 }
             }
