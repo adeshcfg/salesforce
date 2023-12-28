@@ -18,7 +18,7 @@
 <body>
 <p>Sir / Madam,&nbsp;
     <br />
-    <br />As you are aware, Canaccede International Management Ltd is processing {!pocPackage.Client_Company_Name__c} insolvent accounts.&nbsp;
+    <br />{!Additional_Info_Text}&nbsp;
     <br />
     <br />Please be advised that {!pocPackage.Client_Company_Name__c} is not able to locate the debtor, please provide us with the account #, VIN and/or SIN #.&nbsp;
     <br />

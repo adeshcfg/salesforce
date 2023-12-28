@@ -400,7 +400,16 @@ public class EmailTrusteeController{
                    }else{
                        emailBody = emailBody.replace('The reason that we have not filed a claim on behalf of Scotiabank is','The reason Canaccede has not filed a claim is');        
                    }
-                }  
+                }
+
+                if(emailName == 'Additional Information Required'){
+                    if(insolvAcc.Client_Identifier__c == 'Canaccede') {
+                        emailBody = emailBody.replace('{!Additional_Info_Text}','We have received your package and we are requesting some additional information on the account listed.');
+                    }
+                    else {
+                        emailBody = emailBody.replace('{!Additional_Info_Text}','As you are aware, Canaccede International Management Ltd is processing '+ pocPackage.Client_Company_Name__c + 'insolvent accounts.');
+                    }
+                }
                 
                 if(emailName == 'Creditor Package Request'){
                     if(insolvAcc.Client_Identifier__c == 'Canaccede'){  
