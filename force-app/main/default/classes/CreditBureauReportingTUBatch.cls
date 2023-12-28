@@ -406,17 +406,17 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             paymentfrequency = metro2TransUnion.Payment_Frequency__c;
 
             // Code for Adding Actual Payment Amount  Right Padding upon dynamic values in less
-            String Finalactualpayplan  = defFinalactualpayplan;                       
-            //Populate Finalactualpayplan only if last payment date is in month same as Activity date
+            String Finalactualpayplan  = defFinalactualpayplan;    
             AggregateResult grossPaySum = productSumTotal.get(prodct.id);
-            if(null != prodct.Last_Payment_Amount__c){
-                if(prodct.Last_Payment_Amount__c >= 0){
-                    Finalactualpayplan = String.valueOf(prodct.Last_Payment_Amount__c);
-                    Finalactualpayplan = Finalactualpayplan.subString(0,Finalactualpayplan.indexOf('.'));
+            Decimal actualGrossPay = 0.00;
+            if(null != grossPaySum){
+                actualGrossPay = (Decimal)grossPaySum.get('grossPay'); 
+                //negative amount to be reported as zero
+                if(actualGrossPay!=null && actualGrossPay > 0){
+                    Finalactualpayplan = String.valueOf(actualGrossPay.setScale(0));
                     Finalactualpayplan = Finalactualpayplan.leftPad(9, '0');  
-                }
-                else if(prodct.Last_Payment_Amount__c < 0){
-                    Finalactualpayplan  = defFinalactualpayplan; 
+                }else if(actualGrossPay < 0){
+                    Finalactualpayplan  = defFinalactualpayplan;
                 }
             }
             
