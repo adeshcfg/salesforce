@@ -772,12 +772,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     K1SegmentLine = K1SegmentLine.substring(0, 30);
                 }
             }else{
-                	string sellerName = canaccede;
-                    system.debug('sellerName length'+sellerName.length());
-                    integer number1 = 30 - sellerName.length();
-                    Integer number2 = number1 + sellerName.length();
-                    K1SegmentLine = sellerName.rightPad(number2);
-                    K1SegmentLine = K1SegmentLine.toUpperCase();
+                    K1SegmentLine = K1Segment;
+
             }
             system.debug('K1SegmentLine'+K1SegmentLine);
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
