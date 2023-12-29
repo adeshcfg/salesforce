@@ -266,7 +266,7 @@ public with sharing class ProductAllocationIndividualController {
         Set<String> setProductAgencyName = new Set<String>();
         Map<String, String> mapProvinceNames = new Map<String, String>();
         
-        placement = [SELECT ID, Name, Agency_Name__c, Serviceable_Province__c,Commission_Rate__c
+        placement = [SELECT ID, Name, Agency_Name__c, Serviceable_Province__c,Commission_Rate__c,Active__c
                      FROM Placement__c 
                      WHERE ID= :newPlacement
                      ][0];
@@ -359,6 +359,10 @@ public with sharing class ProductAllocationIndividualController {
                 || dataStatus.contains('Insolvent')){
                     ERROR_MSG += '<b>ERROR</b> - '+'Product is Insolveny Status'+'<br/>';    
                 } 
+            }
+
+            if(placement.Active__c == False){
+                ERROR_MSG += '<b>ERROR</b> - Allocate Agency is not Active <br/>';
             }
         }
         system.debug('ERROR_MSG:: '+ERROR_MSG);

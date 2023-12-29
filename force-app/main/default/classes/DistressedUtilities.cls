@@ -328,7 +328,7 @@ public class DistressedUtilities {
                 mapProductNameAmount.put(String.valueOf(prodList.Data_Id__c), 1);
             }
         }                                    
-        for(Placement__c placement : [Select ID, Name, Serviceable_Province__c From Placement__c]){
+        for(Placement__c placement : [Select ID, Name, Serviceable_Province__c,Active__c From Placement__c]){
             mapPlacement.put(placement.Name, placement);
         }
         
@@ -380,7 +380,10 @@ public class DistressedUtilities {
             }
             if((String.isNotBlank(newAgency) && !mapPlacement.containsKey(newAgency))){
                 ERROR_MSG = '<b>ERROR</b>-Invalid Agency Number.'+'<br/>';
-            }  
+            }
+            if(mapPlacement.containsKey(newAgency) && mapPlacement.get(newAgency).Active__c == False){
+                ERROR_MSG += '<b>ERROR</b> - Allocate Agency is not Active <br/>';
+            }
             if( String.isBlank(newAgency)){
                 ERROR_MSG = '<b>ERROR</b>- Enter Agency Number to allocate.'+'<br/>';
             }
