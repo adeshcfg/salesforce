@@ -224,7 +224,37 @@ public class TestInsolvencyPaymentProcessCntrl {
         obj.getwrapListWithZeroAmountNotEmpty();
         obj.getAttachIsNotEmpty();
     }
+    static testMethod void testController1() {
+        Remittance__c remit = [SELECT Id, Cheque_Amount__c FROM Remittance__c WHERE Cheque_Amount__c = 145.25 LIMIT 1];
 
+        Insolvency_Payment__c insolPayment = [SELECT id, Payment_Amount__c FROM Insolvency_Payment__c WHERE remittance__C = :remit.id];
+        insolPayment.Payment_Amount__c = 145.25;
+        update insolPayment;
+
+        Remittance__c remit3 = [SELECT Id, Cheque_Amount__c FROM Remittance__c WHERE Cheque_Amount__c = 1183.0 LIMIT 1];
+        Unallocated_Payment__c unAloccPay1 = [
+            SELECT id, Estate_Number__c, Bank_Name__c, Account_Number__c
+            FROM Unallocated_Payment__c
+            WHERE remittance__C = :remit3.id
+        ];
+        PageReference pageRef = Page.RemittanceInline;
+        Test.setCurrentPage(pageRef);
+        pageRef.getParameters().put('id', remit.Id);
+        InsolvencyPaymentProcessingController.assignBankInformation(remit.id);
+        ApexPages.StandardController sc = new ApexPages.StandardController(remit);
+        InsolvencyPaymentProcessingController obj = new InsolvencyPaymentProcessingController(sc);
+        obj.showViewButton = true;
+        obj.errorMsgTrustee = 'test';
+        obj.saveInsolveyncyPayments();
+        //obj.setProdAcc();
+        //obj.getproductAcc();
+        obj.addUnallocatedPayment();
+        obj.isDuplicateWithInsolvnecyPayment(unAloccPay1);
+        Remittance__c remit1 = remit;
+        remit1.Cheque_Amount__c = 0;
+        update remit1;
+        ApexPages.StandardController sc1 = new ApexPages.StandardController(remit1);
+    }
     static testMethod void testNullConditions() {
         Remittance__c remit = [SELECT Id, Cheque_Amount__c FROM Remittance__c WHERE Trustee_Name__c = NULL LIMIT 1];
         PageReference pageRef = Page.RemittanceInline;
