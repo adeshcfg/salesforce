@@ -42,6 +42,7 @@ public class TestProductAllocationIndividualContr {
         //list<Pool__c> poolList = new list<Pool__c>();
         Placement__c plcmnt= new Placement__c();      
         plcmnt.Name= '89'; 
+        plcmnt.Active__c= True; 
         plcmnt.Serviceable_Province__c = 'Nova Scotia';
         plcmnt.Agency_Name__c = 'CCS Agency';
         insert plcmnt;   
@@ -127,6 +128,7 @@ public class TestProductAllocationIndividualContr {
         Placement__c plcmnt= new Placement__c();      
         plcmnt.Name= '89'; 
         plcmnt.Serviceable_Province__c = 'Nova Scotia';
+        plcmnt.Active__c= True; 
         plcmnt.Agency_Name__c = 'CCS Agency';
         insert plcmnt;  
         
