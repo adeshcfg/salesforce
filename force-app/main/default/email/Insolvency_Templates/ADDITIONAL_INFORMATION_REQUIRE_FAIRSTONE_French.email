@@ -18,7 +18,7 @@
 <body>
 <p>Cher (ère) Monsieur / Madame:&nbsp;
     <br />
-    <br />Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de {!pocPackage.Client_Company_Name__c}.&nbsp;
+    <br />{!Additional_Info_Text}&nbsp;
     <br />
     <br />Veuillez noter que {!pocPackage.Client_Company_Name__c}n’est pas en mesure de trouver le débiteur. Auriez-vous l’obligeance de nous fournir le numéro de compte, le NIV ou le NAS.&nbsp;
     <br />
