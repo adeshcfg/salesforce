@@ -404,10 +404,16 @@ public class EmailTrusteeController{
 
                 if(emailName == 'Additional Information Required'){
                     if(insolvAcc.Client_Identifier__c == 'Canaccede') {
-                        emailBody = emailBody.replace('{!Additional_Info_Text}','We have received your package and we are requesting some additional information on the account listed');
+                        emailBody = emailBody.replace('{!Additional_Info_Text}', System.Label.Canaccede_Additional_Info_Text);
+                        if(language == 'fr') {
+                            emailBody = emailBody.replace('{!Additional_Info_Text}', System.Label.Canaccede_Additional_Info_French_Text);
+                        }
                     }
                     else {
                         emailBody = emailBody.replace('{!Additional_Info_Text}','As you are aware, Canaccede International Management Ltd is processing '+ pocPackage.Client_Company_Name__c + ' insolvent accounts');
+                        if(language == 'fr') {
+                            emailBody = emailBody.replace('{!Additional_Info_Text}', 'Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de ' + pocPackage.Client_Company_Name__c);
+                        }
                     }
                 }
                 

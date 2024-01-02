@@ -231,4 +231,18 @@
         <shortDescription>RecordType_to_Show_Parser_Button</shortDescription>
         <value>CCS Case,CCS Dividend</value>
     </labels>
+    <labels>
+        <fullName>Canaccede_Additional_Info_French_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Canaccede_Additional_Info_French_Text</shortDescription>
+        <value>Nous avons reçu votre avis d'insolvabilité et nous demandons des informations supplémentaires sur le compte indiqué.</value>
+    </labels>
+    <labels>
+        <fullName>Canaccede_Additional_Info_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Canaccede_Additional_Info_Text</shortDescription>
+        <value>We have received your package and we are requesting some additional information on the account listed</value>
+    </labels>
 </CustomLabels>
