@@ -14,8 +14,8 @@ Please be advised that {!pocPackage.Client_Company_Name__c} is not able to locat
 
 If any errors occurred in the transmission of the attachment, please contact Canaccede at;
 Email: {!pocPackage.CFG_Office_Email_Address__c}
-Facsimile: 844-827.9220
-Telephone: 844-827. 9222
+Facsimile: {!pocPackage.CFG_Office_Fax_Number__c}
+Telephone: {!pocPackage.CFG_Office_Phone_Number__c}
 
 Thank You,
 Canaccede Insolvency Processing</textOnly>

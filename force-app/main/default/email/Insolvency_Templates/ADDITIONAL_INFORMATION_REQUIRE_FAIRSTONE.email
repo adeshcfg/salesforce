@@ -24,8 +24,8 @@
     <br />
     <br />If any errors occurred in the transmission of the attachment, please contact Canaccede at;&nbsp;
     <br />Email:&nbsp;<a href="mailto:{!pocPackage.CFG_Office_Email_Address__c}">{!pocPackage.CFG_Office_Email_Address__c}</a>&nbsp;
-    <br />Facsimile: 844-827.9220&nbsp;
-    <br />Telephone: 844-827. 9222&nbsp;
+    <br />Facsimile: {!pocPackage.CFG_Office_Fax_Number__c}&nbsp;
+    <br />Telephone: {!pocPackage.CFG_Office_Phone_Number__c}&nbsp;
     <br />
     <br />Thank You,&nbsp;
     <br />Canaccede Insolvency Processing</p>
