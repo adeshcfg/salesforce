@@ -16,8 +16,8 @@ Please be advised that BNS is not able to locate the debtor, please provide us w
 
 If any errors occurred in the transmission of the attachment, please contact Canaccede at;
 Email: SBInsolvency@Canaccede.com
-Facsimile: 844-827.9220
-Telephone: 844-827. 9222
+Facsimile: {!pocPackage.CFG_Office_Fax_Number__c}
+Telephone: {!pocPackage.CFG_Office_Phone_Number__c}
 
 Thank You,
 Canaccede Insolvency Processing</textOnly>
