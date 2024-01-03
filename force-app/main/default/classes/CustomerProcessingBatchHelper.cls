@@ -132,7 +132,7 @@ public class CustomerProcessingBatchHelper {
     }
     
     public static boolean getValidCustomerName(String custName){
-        string nameRegex = '^[a-z A-Z]*$';
+        string nameRegex = '^[a-zA-Z\\s-]*$';
         Pattern MyPattern1 = Pattern.compile(nameRegex);
         Matcher MyMatcher1 = MyPattern1.matcher(custName);
         return MyMatcher1.matches();
