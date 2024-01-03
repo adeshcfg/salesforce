@@ -157,9 +157,41 @@ public class TestInsolvencyPaymentProcessCntrl {
             Is_Payment_Remitted__c = false,
             Payment_Posting_Date__c = System.today(),
             Remittance__c = remittance3.Id,
-            Unallocated_Amount__c = 1000
+            Unallocated_Amount__c = 1000,
+            Estate_Number__c = '111'
         );
         insert unallocatedPayment;
+        Unallocated_Payment__c unallocatedPayment1 = new Unallocated_Payment__c(
+            Account_Number__c = null,
+            Actioned__c = false,
+            Allocated__c = false,
+            Allocated_To__c = 'Insolvency',
+            Bank_Name__c = 'Auto Capital',
+            Created_by_EFT_Processing__c = false,
+            Created_by_Striplist_Parsing__c = false,
+            Is_Payment_Remitted__c = false,
+            Payment_Posting_Date__c = System.today(),
+            Remittance__c = remittance3.Id,
+            Unallocated_Amount__c = 1000,
+            Estate_Number__c = '111'
+        );
+        insert unallocatedPayment1;
+        Unallocated_Payment__c unallocatedPayment2 = new Unallocated_Payment__c(
+            Account_Number__c = null,
+            Actioned__c = false,
+            Allocated__c = false,
+            Allocated_To__c = 'Insolvency',
+            Bank_Name__c = 'Auto Capital',
+            Created_by_EFT_Processing__c = false,
+            Created_by_Striplist_Parsing__c = false,
+            Is_Payment_Remitted__c = false,
+            Payment_Posting_Date__c = System.today(),
+            Remittance__c = remittance3.Id,
+            Unallocated_Amount__c = null,
+            Estate_Number__c = '111',
+            Debtor_Name__c = null
+        );
+        insert unallocatedPayment2;
 
         //Custom setting //
         Deposit_Accounts__c depAcc = new Deposit_Accounts__c();
@@ -191,6 +223,14 @@ public class TestInsolvencyPaymentProcessCntrl {
         insert depAcc3;
         remittance3.Deposit_Account_Name__c = 'CIH';
         update remittance3;
+
+        Deposit_Accounts__c depAcc4 = new Deposit_Accounts__c();
+        depAcc4.Name = 'CFL';
+        depAcc4.Account_Number__c = '768';
+        depAcc4.Bank_Name__c = 'CFL';
+        depAcc4.Entity_Name__c = 'Canaccede Assets Ltd';
+        depAcc4.Transit_Number__c = '03489';
+        insert depAcc4;
     }
 
     //Test Controller//
@@ -231,11 +271,10 @@ public class TestInsolvencyPaymentProcessCntrl {
         insolPayment.Payment_Amount__c = 145.25;
         update insolPayment;
 
-        Remittance__c remit3 = [SELECT Id, Cheque_Amount__c FROM Remittance__c WHERE Cheque_Amount__c = 1183.0 LIMIT 1];
         Unallocated_Payment__c unAloccPay1 = [
             SELECT id, Estate_Number__c, Bank_Name__c, Account_Number__c
             FROM Unallocated_Payment__c
-            WHERE remittance__C = :remit3.id
+            LIMIT 1
         ];
         PageReference pageRef = Page.RemittanceInline;
         Test.setCurrentPage(pageRef);
@@ -246,8 +285,6 @@ public class TestInsolvencyPaymentProcessCntrl {
         obj.showViewButton = true;
         obj.errorMsgTrustee = 'test';
         obj.saveInsolveyncyPayments();
-        //obj.setProdAcc();
-        //obj.getproductAcc();
         obj.addUnallocatedPayment();
         obj.isDuplicateWithInsolvnecyPayment(unAloccPay1);
         Remittance__c remit1 = remit;
@@ -267,5 +304,77 @@ public class TestInsolvencyPaymentProcessCntrl {
         obj.searchInsolvencyAccounts();
         obj.saveInsolveyncyPayments();
         InsolvencyPaymentProcessingController.assignBankInformation(remit.id);
+        remit.Status__c = 'Processed';
+        update remit;
+        obj.searchInsolvencyAccounts();
+    }
+
+    static testMethod void testSaveUnAllocatedAmount() {
+        Remittance__c remit = [SELECT Id, Cheque_Amount__c FROM Remittance__c WHERE Cheque_Amount__c = 1183.0 LIMIT 1];
+        PageReference pageRef = Page.RemittanceInline;
+        Test.setCurrentPage(pageRef);
+        pageRef.getParameters().put('id', remit.Id);
+
+        ApexPages.StandardController sc = new ApexPages.StandardController(remit);
+        InsolvencyPaymentProcessingController obj = new InsolvencyPaymentProcessingController(sc);
+        obj.saveUnAllocatedAmount();
+    }
+
+    static testMethod void testAssignBankInformation() {
+        Insolvency_Account__c acc = [SELECT Id FROM Insolvency_Account__c WHERE Account_Number_Without_Space__c = 'Test-002'];
+        acc.Portfolio_Group_Name__c = 'CFL';
+        update acc;
+        Remittance__c remit = [SELECT Id, Cheque_Amount__c FROM Remittance__c WHERE Cheque_Amount__c = 1183.0 LIMIT 1];
+        PageReference pageRef = Page.RemittanceInline;
+        Test.setCurrentPage(pageRef);
+        pageRef.getParameters().put('id', remit.Id);
+        ApexPages.StandardController sc = new ApexPages.StandardController(remit);
+        InsolvencyPaymentProcessingController.assignBankInformation(remit.id);
+        acc.Portfolio_Group_Name__c = 'AFL';
+        update acc;
+        InsolvencyPaymentProcessingController.assignBankInformation(remit.id);
+        acc.Portfolio_Group_Name__c = 'ABC';
+        update acc;
+        InsolvencyPaymentProcessingController.assignBankInformation(remit.id);
+        Remittance__c remit1 = [SELECT Id, Cheque_Amount__c FROM Remittance__c WHERE Cheque_Amount__c = 123.0 LIMIT 1];
+        pageRef.getParameters().put('id', remit1.Id);
+        ApexPages.StandardController sc1 = new ApexPages.StandardController(remit1);
+        Insolvency_Account__c acc1 = [SELECT Id FROM Insolvency_Account__c WHERE Account_Number_Without_Space__c = 'Test-001'];
+        acc1.Portfolio_Group_Name__c = 'CFL';
+        update acc1;
+        InsolvencyPaymentProcessingController.assignBankInformation(remit1.id);
+    }
+
+    static testMethod void testAssignBankInformation1() {
+        PageReference pageRef = Page.RemittanceInline;
+        Test.setCurrentPage(pageRef);
+        String insolvencyId = [SELECT Id FROM Insolvency__c LIMIT 1].Id;
+        Remittance__c remit1 = [SELECT Id, Cheque_Amount__c FROM Remittance__c WHERE Cheque_Amount__c = 123.0 LIMIT 1];
+        Insolvency_Account__c insAcc2 = new Insolvency_Account__c();
+        insAcc2.Insolvency_Status__c = 'For Owner Review';
+        insAcc2.Client_Identifier__c = 'Scotia Bank';
+        insAcc2.Claim_Type__c = 'Unsecured';
+        insAcc2.Insolvency__c = insolvencyId;
+        insAcc2.Name = 'Test- 003';
+        insAcc2.Account_Number_Without_Space__c = 'Test-003';
+        insAcc2.Portfolio_Group_Name__c = 'CCL';
+        insert insAcc2;
+        Insolvency_Payment__c payment1 = new Insolvency_Payment__c();
+        payment1.Remittance__c = remit1.Id;
+        payment1.Payment_Amount__c = 1123.00;
+        payment1.Insolvency_Account__c = insAcc2.Id;
+        insert payment1;
+        pageRef.getParameters().put('id', remit1.Id);
+        ApexPages.StandardController sc1 = new ApexPages.StandardController(remit1);
+        Insolvency_Account__c acc1 = [SELECT Id FROM Insolvency_Account__c WHERE Account_Number_Without_Space__c = 'Test-001'];
+        acc1.Portfolio_Group_Name__c = 'CFL';
+        update acc1;
+        InsolvencyPaymentProcessingController.assignBankInformation(remit1.id);
+        acc1.Portfolio_Group_Name__c = 'CIH';
+        update acc1;
+        InsolvencyPaymentProcessingController.assignBankInformation(remit1.id);
+        acc1.Portfolio_Group_Name__c = 'CAL';
+        update acc1;
+        InsolvencyPaymentProcessingController.assignBankInformation(remit1.id);
     }
 }
