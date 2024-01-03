@@ -856,6 +856,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         String FinalSTATUS93COUNT = '000000000';
         String FinalSTATUS97COUNT = '000000000';
         String FinalSTATUSDACOUNT = '000000000';
+        String FinalSTATUS62COUNT = '000000000';
         
 
         Integer FinalPhoneocunt = [select PhoneNumber__c from MetroFlatFileData__c where PhoneNumber__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
@@ -885,7 +886,11 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         
         //Status DA Count
         Integer STATUSDACOUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = 'DA' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
-        FinalSTATUSDACOUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS13COUNT);
+        FinalSTATUSDACOUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUSDACOUNT);
+        
+        //Status 62 Count
+        Integer STATUS62COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '62' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
+        FinalSTATUS62COUNT = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS62COUNT);
         
         String rowscountwithzero;
         if(RowscountLength < 9) {
@@ -899,7 +904,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         }
         
   
-        String Trailerrec = maxRowslength+'TRAILER' + rowscountwithzero + '                  000000000000000000000000000000000000000000000000000000' + FinalSTATUS13COUNT + '000000000'+ FinalSTATUSDACOUNT +'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + FinalSTATUS93COUNT + '000000000' + '000000000' + '000000000' + FinalSTATUS97COUNT + '000000000000000000'+ rowscountwithzero +'000000000000000000000000000000000000' + FinalSINCOUNT + FinalSINCOUNT + '000000000000000000' + FinalDOBCOunt + FinalDOBCOunt + '000000000000000000' + FinalPhoneocuntNet + '    ';
+        String Trailerrec = maxRowslength+'TRAILER' + rowscountwithzero + '                  000000000000000000000000000'+FinalSTATUSDACOUNT+'000000000000000000' + FinalSTATUS13COUNT + '000000000'+ FinalSTATUS62COUNT +'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + FinalSTATUS93COUNT + '000000000' + '000000000' + '000000000' + FinalSTATUS97COUNT + '000000000000000000'+ rowscountwithzero +'000000000000000000000000000000000000' + FinalSINCOUNT + FinalSINCOUNT + '000000000000000000' + FinalDOBCOunt + FinalDOBCOunt + '000000000000000000' + FinalPhoneocuntNet + '    ';
         
   
         Integer Stringcount4 = 426 - Trailerrec.length();
