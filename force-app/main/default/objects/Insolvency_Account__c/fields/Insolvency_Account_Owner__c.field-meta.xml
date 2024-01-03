@@ -6,11 +6,13 @@
     <formula>CASE( 
 Owner:User.Profile.Name , 
 &apos;Scotia Bank Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName , 
-&apos;Scotia Bank Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,  
+&apos;Scotia Bank Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
+&apos;New Scotia Bank Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,  
 &apos;SPL Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
 &apos;SPL Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
 &apos;SDA Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
 &apos;SDA Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
+&apos;New SDA Login Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
 &apos;Goeasy Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
 &apos;Canadian Tire Community User&apos;, Owner:User.FirstName + &apos; &apos; +  Owner:User.LastName ,
 &apos;&apos;)</formula>
