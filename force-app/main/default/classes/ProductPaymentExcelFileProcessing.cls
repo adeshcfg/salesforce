@@ -177,6 +177,10 @@ public class ProductPaymentExcelFileProcessing {
 
                 prodPayment.CCS_Account__c = mapAccountNumberID.get(wrapRecord.data_id);
                 prodPayment.CCS_Account_Name__c = wrapRecord.data_id;
+                // If no product exists with the given data_id skip to the next product
+                if (String.isBlank(prodPayment.CCS_Account__c)) {
+                    continue;
+                }
 
                 if (String.isNotBlank(wrapRecord.tran_amount)) {
                     // && wrapRecord.tran_amount.isNumeric() == true
