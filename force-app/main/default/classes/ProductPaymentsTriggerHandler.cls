@@ -125,6 +125,8 @@ public class ProductPaymentsTriggerHandler {
         set<Id> setProductId = new Set<Id>();
         set<ID> setPlacementID = new Set<ID>();
         Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
+        String monthInt = '';
+        String currentMonth;
         Map<String, List<Placement_History__c>> mapProductIdPlacementHistoryList = new Map<String, List<Placement_History__c>>();
 
         for (RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product_Payments__c' AND ID != NULL LIMIT 10]) {
@@ -204,12 +206,18 @@ public class ProductPaymentsTriggerHandler {
                     String yr = String.valueOf(date1.Year());
 
                     productPayment.Payment_Posting_Date_Text__c = month1 + '/' + day1 + '/' + yr;
-                    if (month1.length() == 1) {
-                        month1 = '0' + month1;
+                    
+                    //Ticket 5865: Payment Reporting Month calculated based on Payment Reporting Date
+                    monthInt = String.valueOf(productPayment.Payment_Created__c.month());
+                    if(monthInt.length() == 1){
+                        currentMonth = '0' + String.valueOf(productPayment.Payment_Created__c.month());
+                    }else{
+                        currentMonth = String.valueOf(productPayment.Payment_Created__c.month()); 
                     }
+                    
                     //updating the code to populate payment posting month from Payment created instead of Payment Posting date Ticket: 4546
                     if (productPayment.Payment_Created__c != null) {
-                        productPayment.Payment_Posting_Month__c = String.valueOf(productPayment.Payment_Created__c.Year()) + month1;
+                        productPayment.Payment_Posting_Month__c = String.valueOf(productPayment.Payment_Created__c.Year()) + currentMonth;
                     }
                     if (mapProducts.containsKey(productPayment.CCS_Account__c)) {
                         productPayment.Product_Agency__c = mapProducts.get(productPayment.CCS_Account__c).Collection_Agency_Placement__c;
