@@ -445,7 +445,7 @@ public class ProductPaymentExcelFileProcessing {
             );
             Database.SaveResult[] sr = database.insert(listpayStaging);
         } catch (Exception ex) {
-            exceptionMessage = String.valueOf(ex.getStackTraceString());
+            exceptionMessage = String.valueOf(ex.getMessage()) + ' ' + String.valueOf(ex.getStackTraceString());
         }
 
         String processingLink = '';
