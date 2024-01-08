@@ -35,6 +35,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Insolvency_Process_Software__c</field>
+            </layoutItems>            
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exclude_From_Missing_Payment_Mail_List__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
