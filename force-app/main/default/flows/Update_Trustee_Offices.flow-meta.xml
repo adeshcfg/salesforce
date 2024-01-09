@@ -74,7 +74,7 @@
             <field>Record_Type_Name__c</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Trustee Office</stringValue>
+                <stringValue>Trustee_Office</stringValue>
             </value>
         </filters>
         <filters>
@@ -115,7 +115,7 @@
             <field>Record_Type_Name__c</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Trustee Company</stringValue>
+                <stringValue>Trustee_Company</stringValue>
             </value>
         </filters>
         <object>Account</object>
