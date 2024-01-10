@@ -12,7 +12,7 @@ public class BulkDmlQueueable implements Queueable {
     public static final Integer MAX_RECORD_LIMIT = 50000;
     public List<SObject> recordList = new List<SObject>();
     public Integer startingIndex = 0;
-    public String operation = 'Insert';
+    public String operation = 'Update';
 
     public BulkDmlQueueable(List<SObject> recordList, Integer startingIndex, String operation) {
         this.recordList = recordList;
@@ -33,32 +33,34 @@ public class BulkDmlQueueable implements Queueable {
             when 'CustomerStagingExcelProcessing' {
                 customerStagingExcelProcessing(recordsToInsert, endingIndex, recordList);
             }
-            when 'Insert' {
-                insertHelper(recordsToInsert, endingIndex, recordList);
+            when 'Update' {
+                updateHelper(recordsToInsert, endingIndex, recordList);
             }
         }
     }
 
     /**
-     * @description : Helper method to insert records
+     * @description : Helper method to update records
      * @author adeshi@a5econsulting.net | 01-10-2024
-     * @param recordsToInsert
+     * @param recordsToUpdate
      * @param endingIndex
      **/
-    public static void insertHelper(List<SObject> recordsToInsert, Integer endingIndex, List<SObject> recordList) {
+    public static void updateHelper(List<SObject> recordsToUpdate, Integer endingIndex, List<SObject> recordList) {
         try {
-            if (!recordsToInsert.isEmpty()) {
+            if (!recordsToUpdate.isEmpty()) {
                 ProductTriggerHandler.runProductTrigger = false;
-                Database.insert(recordsToInsert);
+                Database.update(recordsToUpdate);
                 ProductTriggerHandler.runProductTrigger = true;
             }
         } catch (DmlException de) {
             System.debug('Exception during record insertion ' + de.getDmlMessage(0));
+            Insolvency_Error__c error = new Insolvency_Error__c(Error__c = de.getDmlMessage(0));
+            insert error;
         }
         // If end index is >= MAX_RECORD_LIMIT or equal to the input record list we have inserted all records, can call final method
         if (!(endingIndex >= MAX_RECORD_LIMIT || endingIndex == recordList.size())) {
             if (!Test.isRunningTest()) {
-                System.enqueueJob(new BulkDmlQueueable(recordList, endingIndex, 'Insert'));
+                System.enqueueJob(new BulkDmlQueueable(recordList, endingIndex, 'Update'));
             }
         }
     }
