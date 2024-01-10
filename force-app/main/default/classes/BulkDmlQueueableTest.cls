@@ -44,7 +44,6 @@ public class BulkDmlQueueableTest {
         }
         Test.startTest();
         System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'CustomerStagingExcelProcessing'));
-        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'Insert'));
         Test.stopTest();
     }
 
@@ -64,7 +63,6 @@ public class BulkDmlQueueableTest {
         }
         Test.startTest();
         System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'CustomerStagingExcelProcessing'));
-        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'Insert'));
         Test.stopTest();
     }
 
@@ -86,6 +84,17 @@ public class BulkDmlQueueableTest {
         } catch (DmlException ex) {
             System.assert(true, 'Insert failed');
         }
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void testUpdate() {
+        Document_Storage__c docStorage = [SELECT Id FROM Document_Storage__c LIMIT 1];
+        docStorage.Document_Name__c = 'Test.csv';
+        List<SObject> recordsToInsert = new List<SObject>();
+        recordsToInsert.add(docStorage);
+        Test.startTest();
+        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'Update'));
         Test.stopTest();
     }
 }
