@@ -128,7 +128,7 @@ public class CustomerStagingExcelFileProcessing implements Queueable, Database.A
                 mapProductDup
             );
             if (!Test.isRunningTest()) {
-                System.enqueueJob(new BulkDmlQueueable(listCustStaging, 0));
+                System.enqueueJob(new BulkDmlQueueable(listCustStaging, 0, 'CustomerStagingExcelProcessing'));
             }
         } catch (Exception ex) {
             exceptionMessage = String.isBlank(exceptionMessage) ? String.valueOf(ex.getMessage()) : exceptionMessage;

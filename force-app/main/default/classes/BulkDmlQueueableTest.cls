@@ -43,7 +43,8 @@ public class BulkDmlQueueableTest {
             recordsToInsert.add(custStaging);
         }
         Test.startTest();
-        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0));
+        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'CustomerStagingExcelProcessing'));
+        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'Insert'));
         Test.stopTest();
     }
 
@@ -62,7 +63,8 @@ public class BulkDmlQueueableTest {
             recordsToInsert.add(custStaging);
         }
         Test.startTest();
-        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0));
+        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'CustomerStagingExcelProcessing'));
+        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'Insert'));
         Test.stopTest();
     }
 
@@ -80,7 +82,7 @@ public class BulkDmlQueueableTest {
         recordsToInsert.add(custStaging);
         Test.startTest();
         try {
-            System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0));
+            System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'CustomerStagingExcelProcessing'));
         } catch (DmlException ex) {
             System.assert(true, 'Insert failed');
         }

@@ -213,8 +213,7 @@ public class PortalProductStatusBulkProcessingUtil {
                 //commented line 188 for CPU Time Limit
                 //update listProductsToUpdate;
                 //added below for CPU Time Limit
-                BulkProductUpdates job = new BulkProductUpdates(listProductsToUpdate);
-                database.executeBatch(job, 200);
+                System.enqueueJob(new BulkDmlQueueable(listProductsToUpdate, 0, 'Insert'));
                 //end CPU Time Limit
                 ProductTriggerHandler.runProductTrigger = true;
                 return 'Success';
