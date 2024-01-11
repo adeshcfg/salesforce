@@ -7,7 +7,7 @@
  *  @date : 08/03/2022
  /**************************************************************************************************/
 
-public class ProductPaymentExcelFileProcessing {
+ public class ProductPaymentExcelFileProcessing {
     //balance adjustment transaction type codes
     static final String FEE_TRANSACION_CODES = '3000,3400,4000,4001,4002,4003,5000,5001,5002,5003,7000,7001';
 
@@ -634,7 +634,9 @@ public class ProductPaymentExcelFileProcessing {
         map<Id, Decimal> mapProductPaymentAmount = new Map<ID, Decimal>();
         //set hacing product name and payment amount
         map<String, Decimal> mapProductNameAmount = new Map<String, Decimal>();
-
+		Integer regularPaymentCount = 0;
+        Integer feesPaymentCount = 0;
+        
         validPaymentTypes = portalSettings.Valid_Payment_Types__c.split(',');
         set<Id> setProductNames = new Set<Id>();
         set<String> setPlacementNames = new Set<String>();
@@ -666,7 +668,16 @@ public class ProductPaymentExcelFileProcessing {
                     1
                 );
             }
-
+            
+            if(prodPayment.Payment_Type__c <> NULL){
+                if(prodPayment.Payment_Type__c == '1000'){
+                    regularPaymentCount ++;
+                }
+                if(prodPayment.Payment_Type__c == '4000'){
+                    feesPaymentCount ++;
+                }  
+            }
+                 
             if (mapProductPaymentAmount.containsKey(prodPayment.CCS_Account__c)) {
                 Decimal payAmount = mapProductPaymentAmount.get(prodPayment.CCS_Account__c);
                 if (payAmount != null && prodPayment.Payment_Amount__c != null && prodPayment.Payment_Amount__c > 0) {
@@ -794,7 +805,11 @@ public class ProductPaymentExcelFileProcessing {
             if (prodPayment.Payment_Amount__C != null) {
                 prodPayment.Payment_Amount__C = prodPayment.Payment_Amount__C.setScale(2, RoundingMode.HALF_UP);
             }
-
+			if (regularPaymentCount >= 1 && feesPaymentCount >= 1) {
+                if(prodPayment.Payment_Type__c == '4000'){
+                    ERROR_MSG += '<b>ERROR</b> - 1000 and 4000 payment type can not process together.<br/>';
+                }  
+            }
             if (
                 setOldTransaction.containsKey(
                     prodPayment.Payment_Amount__c + '' + prodPayment.Payment_Type__c + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
