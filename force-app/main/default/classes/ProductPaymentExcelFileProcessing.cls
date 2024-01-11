@@ -634,13 +634,12 @@ public class ProductPaymentExcelFileProcessing {
         map<Id, Decimal> mapProductPaymentAmount = new Map<ID, Decimal>();
         //set hacing product name and payment amount
         map<String, Decimal> mapProductNameAmount = new Map<String, Decimal>();
-		Integer regularPaymentCount = 0;
-        Integer feesPaymentCount = 0;
+		Map<String, Decimal> mapRegularPayment = new Map<String, Decimal>();
+        Map<String, Decimal> mapFeesPayment = new Map<String, Decimal>();
         
         validPaymentTypes = portalSettings.Valid_Payment_Types__c.split(',');
         set<Id> setProductNames = new Set<Id>();
         set<String> setPlacementNames = new Set<String>();
-        
         for (Product_Payments__c prodPayment : prodPayNew) {
             productAgencyIds.add(prodPayment.Payment_Provided_Agency__c);
             if (
@@ -670,15 +669,24 @@ public class ProductPaymentExcelFileProcessing {
                 );
             }
             
-            if(prodPayment.Payment_Type__c <> NULL){
+            if (mapRegularPayment.containsKey(String.valueOf(prodPayment.Payment_Type__c))) {
                 if(prodPayment.Payment_Type__c == '1000'){
-                    regularPaymentCount ++;
+                  mapRegularPayment.put(String.valueOf(prodPayment.Payment_Type__c), mapRegularPayment.get(prodPayment.Payment_Type__c) + 1);  
                 }
-                if(prodPayment.Payment_Type__c == '4000'){
-                    feesPaymentCount ++;
-                }  
+ 
+            } else {
+                mapRegularPayment.put(String.valueOf(prodPayment.Payment_Type__c), 1);
             }
-                 
+            
+            if (mapFeesPayment.containsKey(String.valueOf(prodPayment.Payment_Type__c))) {
+                if(prodPayment.Payment_Type__c == '4000'){
+                  mapFeesPayment.put(String.valueOf(prodPayment.Payment_Type__c), mapFeesPayment.get(prodPayment.Payment_Type__c) + 1);  
+                }
+ 
+            } else {
+                mapFeesPayment.put(String.valueOf(prodPayment.Payment_Type__c), 1);
+            }
+            
             if (mapProductPaymentAmount.containsKey(prodPayment.CCS_Account__c)) {
                 Decimal payAmount = mapProductPaymentAmount.get(prodPayment.CCS_Account__c);
                 if (payAmount != null && prodPayment.Payment_Amount__c != null && prodPayment.Payment_Amount__c > 0) {
@@ -806,7 +814,8 @@ public class ProductPaymentExcelFileProcessing {
             if (prodPayment.Payment_Amount__C != null) {
                 prodPayment.Payment_Amount__C = prodPayment.Payment_Amount__C.setScale(2, RoundingMode.HALF_UP);
             }
-			if (regularPaymentCount >= 1 && feesPaymentCount >= 1) {
+			if (mapRegularPayment.containsKey(prodPayment.Payment_Type__c) && mapRegularPayment.get(prodPayment.Payment_Type__c) >= 1 
+               && mapFeesPayment.containsKey(prodPayment.Payment_Type__c) && mapFeesPayment.get(prodPayment.Payment_Type__c) >= 1) {
                 if(prodPayment.Payment_Type__c == '4000'){
                     ERROR_MSG += '<b>ERROR</b> - 1000 and 4000 payment type can not process together.<br/>';
                 }  
