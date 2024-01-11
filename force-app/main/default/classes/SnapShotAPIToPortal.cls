@@ -165,12 +165,12 @@ public class SnapShotAPIToPortal {
                         DataIds += DataId +',';
                     }
                 }
-                DataIds = DataIds.removeEnd(', ');
+                DataIds = DataIds.removeEnd(',');
                 API_Error__c apiErrorData = New API_Error__c();
                 if(docData != NULL){
                     apiErrorData.Error__c = docData.name +' '+'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
                 }else{
-                    apiErrorData.Error__c = 'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
+                    apiErrorData.Error__c = DataIds+' Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
                 }
                 apiErrorData.End_Point__c = 'Process Distressed';
                 apiErrorData.Action__c = 'API Failed';
