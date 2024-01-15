@@ -1015,8 +1015,8 @@ public class InsolvencyPaymentProcessingController{
         remit.Entity_Name__c = depositAcc.Entity_Name__c;   
         remit.Deposit_Account_Name__c = depositAcc.Name;    
             
-        Application_Config_Settings__c acs = Application_Config_Settings__c.getOrgDefaults();   
-            
+        //Application_Config_Settings__c acs = Application_Config_Settings__c.getOrgDefaults();   
+        Application_Config_Settings__c acs=[select id,Run_Remittance_Validation__c from Application_Config_Settings__c FOR UPDATE];
         acs.Run_Remittance_Validation__c = False;   
         update acs; 
             
