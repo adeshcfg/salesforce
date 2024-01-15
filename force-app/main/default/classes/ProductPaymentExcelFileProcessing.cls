@@ -7,7 +7,7 @@
  *  @date : 08/03/2022
  /**************************************************************************************************/
 
- public class ProductPaymentExcelFileProcessing {
+public class ProductPaymentExcelFileProcessing {
     //balance adjustment transaction type codes
     static final String FEE_TRANSACION_CODES = '3000,3400,4000,4001,4002,4003,5000,5001,5002,5003,7000,7001';
 
@@ -177,10 +177,6 @@
 
                 prodPayment.CCS_Account__c = mapAccountNumberID.get(wrapRecord.data_id);
                 prodPayment.CCS_Account_Name__c = wrapRecord.data_id;
-                // If no product exists with the given data_id skip to the next product
-                if (String.isBlank(prodPayment.CCS_Account__c)) {
-                    continue;
-                }
 
                 if (String.isNotBlank(wrapRecord.tran_amount)) {
                     // && wrapRecord.tran_amount.isNumeric() == true
@@ -280,12 +276,13 @@
                     prodPayment.Fee_type__c = wrapRecord.fee_type;
                 }
                 Decimal newFeeRecovery = 0;
-                if (!productFeeRecoveryMap.containsKey(prodPayment.CCS_Account__c)) {
+                if (String.isNotBlank(prodPayment.CCS_Account__c) && !productFeeRecoveryMap.containsKey(prodPayment.CCS_Account__c)) {
                     productFeeRecoveryMap.put(prodPayment.CCS_Account__c, mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c);
                 }
-                feeRecovery = productFeeRecoveryMap.get(prodPayment.CCS_Account__c);
+                feeRecovery = String.isNotBlank(prodPayment.CCS_Account__c) ? productFeeRecoveryMap.get(prodPayment.CCS_Account__c) : 0;
                 //Calculate commission for payments if Fee recovery is 0 or less than Payment Amount
                 if (
+                    String.isNotBlank(prodPayment.CCS_Account__c) &&
                     mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                     String.isNotBlank(prodPayment.Payment_Type__c) &&
                     !FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c) &&
@@ -422,6 +419,7 @@
                         }
                     }
                 } else if (
+                    String.isNotBlank(prodPayment.CCS_Account__c) &&
                     mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                     String.isNotBlank(prodPayment.Payment_Type__c) &&
                     !FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c) &&
