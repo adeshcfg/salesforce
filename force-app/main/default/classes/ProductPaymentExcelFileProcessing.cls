@@ -285,6 +285,7 @@ public class ProductPaymentExcelFileProcessing {
                     String.isNotBlank(prodPayment.CCS_Account__c) &&
                     mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                     String.isNotBlank(prodPayment.Payment_Type__c) &&
+                    prodPayment.Payment_Amount__c != null &&
                     !FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c) &&
                     (feeRecovery == 0 ||
                     feeRecovery < prodPayment.Payment_Amount__c)
@@ -421,6 +422,7 @@ public class ProductPaymentExcelFileProcessing {
                 } else if (
                     String.isNotBlank(prodPayment.CCS_Account__c) &&
                     mapProduct.containsKey(prodPayment.CCS_Account__c) &&
+                    prodPayment.Payment_Amount__c != null &&
                     String.isNotBlank(prodPayment.Payment_Type__c) &&
                     !FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c) &&
                     (feeRecovery != 0 &&
