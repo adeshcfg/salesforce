@@ -600,6 +600,15 @@ public class ProductPaymentExcelFileProcessing {
         map<id, Placement__c> mapPlacementData = new Map<id, Placement__c>();
         list<Product_Payment_Staging__c> listProdPayStaging = new List<Product_Payment_Staging__c>();
         Product_Payment_Staging__c payStaging = new Product_Payment_Staging__c();
+        Set<String> invalidJudgments = new Set<String>();
+
+        for (Account_Judgment__c accJudgment : [
+            SELECT Id, Product__c
+            FROM Account_Judgment__c
+            WHERE Product__c IN :mapProduct.keySet() AND Judgment__r.Legal_Agency__c = null
+        ]) {
+            invalidJudgments.add(accJudgment.Product__c);
+        }
 
         for (Product_Payments__c oldPay : [
             SELECT ID, CCS_Account__r.Name, Payment_Type__c, Payment_Amount__c, Payment_Posting_Date__c, Payment_Posting_Date_Text__c, Is_Payment_Reversed__c
@@ -803,6 +812,10 @@ public class ProductPaymentExcelFileProcessing {
             }
 
             //------------------------Common Validation Starts--------------------------//
+
+            if (String.isNotBlank(prodPayment.CCS_Account__c) && invalidJudgments.contains(prodPayment.CCS_Account__c)) {
+                ERROR_MSG += '<b>ERROR</b> - Legal agency for one of the Judgments related to the Product is blank.<br/>';
+            }
 
             if (prodPayment.Payment_Amount__C != null) {
                 prodPayment.Payment_Amount__C = prodPayment.Payment_Amount__C.setScale(2, RoundingMode.HALF_UP);
