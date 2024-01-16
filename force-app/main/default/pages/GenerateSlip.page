@@ -545,7 +545,7 @@
             </apex:outputPanel>
             <!--CIML records -->
             <apex:outputPanel rendered="{! totalCIML > 0.0}">
-                Test Adesh {!totalCIML}
+                
                 <table style="margin:auto; border-collapse: collapse; width:600px;">
                     
                     <tr>

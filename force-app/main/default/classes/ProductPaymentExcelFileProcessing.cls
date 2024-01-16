@@ -600,6 +600,7 @@ public class ProductPaymentExcelFileProcessing {
         list<Product_Payment_Staging__c> listProdPayStaging = new List<Product_Payment_Staging__c>();
         Product_Payment_Staging__c payStaging = new Product_Payment_Staging__c();
         Set<String> invalidJudgments = new Set<String>();
+        map<String, Product_Payments__c> mapPayment = new map<String, Product_Payments__c>();
 
         for (Account_Judgment__c accJudgment : [
             SELECT Id, Product__c
@@ -610,10 +611,11 @@ public class ProductPaymentExcelFileProcessing {
         }
 
         for (Product_Payments__c oldPay : [
-            SELECT ID, CCS_Account__r.Name, Payment_Type__c, Payment_Amount__c, Payment_Posting_Date__c, Payment_Posting_Date_Text__c, Is_Payment_Reversed__c
+            SELECT ID, CCS_Account__r.Name, Payment_Type__c, Payment_Amount__c, Payment_Posting_Date__c, Payment_Posting_Date_Text__c, Is_Payment_Reversed__c,Pay_Due__c
             FROM Product_Payments__c
             WHERE CCS_Account__c IN :mapProduct.keySet()
         ]) {
+            mapPayment.put(oldPay.ID,oldPay);
             String payAmount = '';
             if (oldPay.Payment_Amount__c != null) {
                 oldPay.Payment_Amount__c = oldPay.Payment_Amount__c.setScale(2, RoundingMode.HALF_UP);
@@ -817,7 +819,7 @@ public class ProductPaymentExcelFileProcessing {
             //------------------------Common Validation Starts--------------------------//
 
             if (String.isNotBlank(prodPayment.CCS_Account__c) && invalidJudgments.contains(prodPayment.CCS_Account__c)) {
-                ERROR_MSG += '<b>ERROR</b> - Legal agency for one of the Judgments related to the Product is blank.<br/>';
+                ERROR_MSG += '<b>ERROR</b> - Legal agency is blank on the Judgment associated to the Product.<br/>';
             }
 
             if (prodPayment.Payment_Amount__C != null) {
@@ -1225,7 +1227,13 @@ public class ProductPaymentExcelFileProcessing {
                         mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(Date.today()) > 15
                     ) {
                         ERROR_MSG += '<b>WARINING</b> - The account was recalled more than 15 days ago and is currently warehoused.<br/>';
-                        EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
+                        if(prodPayment.Payment_Type__c == '1003'){
+                            if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c != NULL){
+                                EXPECTED += 'Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1+' on this payment. ' + '<br/>'; 
+                            }
+                        }else{
+                            EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
+                        }
                         prodPayment.Pay_Due__c = 0;
                         prodPayment.Tax_Amount__c = 0;
                         if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
@@ -1606,7 +1614,13 @@ public class ProductPaymentExcelFileProcessing {
                     mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(Date.today()) > 15 || Test.isRunningTest()
                 ) {
                     ERROR_MSG += '<b>WARINING</b> - The account was recalled more than 15 days ago and is currently warehoused.<br/>';
-                    EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
+                    if(prodPayment.Payment_Type__c == '1003'){
+                        if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c != NULL){
+                            EXPECTED += 'Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1+' on this payment. ' + '<br/>'; 
+                        }
+                    }else{
+                        EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
+                    }
                     prodPayment.Pay_Due__c = 0;
                     prodPayment.Tax_Amount__c = 0;
                     if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
