@@ -1228,7 +1228,7 @@ public class ProductPaymentExcelFileProcessing {
                     ) {
                         ERROR_MSG += '<b>WARINING</b> - The account was recalled more than 15 days ago and is currently warehoused.<br/>';
                         if(prodPayment.Payment_Type__c == '1003'){
-                            if(mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c != NULL){
+                            if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c != NULL){
                                 EXPECTED += 'Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1+' on this payment. ' + '<br/>'; 
                             }
                         }else{
@@ -1615,7 +1615,7 @@ public class ProductPaymentExcelFileProcessing {
                 ) {
                     ERROR_MSG += '<b>WARINING</b> - The account was recalled more than 15 days ago and is currently warehoused.<br/>';
                     if(prodPayment.Payment_Type__c == '1003'){
-                        if(mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c != NULL){
+                        if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c != NULL){
                             EXPECTED += 'Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1+' on this payment. ' + '<br/>'; 
                         }
                     }else{
