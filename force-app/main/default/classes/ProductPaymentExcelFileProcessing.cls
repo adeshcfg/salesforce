@@ -445,9 +445,8 @@ public class ProductPaymentExcelFileProcessing {
             );
             Database.SaveResult[] sr = database.insert(listpayStaging);
         } catch (Exception ex) {
-            exceptionMessage = ex.getMessage().contains('null')
-                ? 'Please check the file for empty cells'
-                : ex.getMessage() + ' ' + String.valueOf(ex.getStackTraceString());
+            exceptionMessage = ex.getMessage().contains('null') ? 'Please check the file for empty cells' : ex.getMessage();
+            exceptionMessage = exceptionMessage + ' ' + String.valueOf(ex.getStackTraceString());
         }
 
         String processingLink = '';
