@@ -1,4 +1,4 @@
-<apex:page controller="GenerateDepositSlipController" showHeader="false" renderAs="pdf">
+<apex:page controller="GenerateDepositSlipController" showHeader="false" renderAs="pdf" readOnly="true">
     <div>
         <apex:outputPanel rendered="{! type != 'Canaccede_Account_Perticulars' && type != 'Affirm_Account_Perticulars'}">
             <table style="margin:auto; border-collapse: collapse; width:600px;">
@@ -545,6 +545,7 @@
             </apex:outputPanel>
             <!--CIML records -->
             <apex:outputPanel rendered="{! totalCIML > 0.0}">
+                Test Adesh {!totalCIML}
                 <table style="margin:auto; border-collapse: collapse; width:600px;">
                     
                     <tr>
