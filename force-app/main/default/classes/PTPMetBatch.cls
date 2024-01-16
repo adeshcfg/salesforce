@@ -51,11 +51,7 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
 
         for (Product__c prod : prodList) {
             Map<DateTime, PTP_Information__c> mapPTPProd = new Map<DateTime, PTP_Information__c>();
-            PTP_Information__c PTP_N = new PTP_Information__C();
-            DateTime PTP_N_Date = null;
             List<DateTime> listDate = new List<DateTime>();
-            DateTime PTP_L_Date = null;
-            PTP_Information__c PTP_L = new PTP_Information__c();
 
             for (PTP_Information__c ptp : listPTPGreater) {
                 if (prod.id == ptp.Product__r.id) {
@@ -65,14 +61,16 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
             }
 
             listDate.sort();
-
+            PTP_Information__c PTP_N = new PTP_Information__C();
+            DateTime PTP_N_Date = null;
             if (listDate.size() > 0) {
                 PTP_N_Date = listDate[0];
                 PTP_N = mapPTPProd.get(PTP_N_Date);
             } else {
                 PTP_N = null;
             }
-
+            DateTime PTP_L_Date = null;
+            PTP_Information__c PTP_L = new PTP_Information__c();
         
             if (null <> PTP_N) {
                 mapPTPProd = new Map<DateTime, PTP_Information__c>();
@@ -129,10 +127,26 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
         }
 
         PTPInformationTriggerHandler.runPTPTrigger = false;
+        //Bug: 5141 changes starts
+       // update toUpdatePTP;
+        list<API_Error__c> PTPinfoErrors=new list<API_Error__c>();
         Database.saveResult[] updatePTPRecs=Database.update(toUpdatePTP,false);
+        for(Database.saveResult res:updatePTPRecs){
+           if(!res.isSuccess()){
+            for(Database.Error err : upsertResult.getErrors()) {
+                API_Error__c apierror=new API_Error__c();
+                apierror.Error__c=err.getMessage();
+                PTPinfoErrors.add(apierror);
+            }
+           }
+        }
+        if(!PTPinfoErrors.isEmpty()){
+           insert PTPinfoErrors;
+        }
+        //Bug: 5141 changes ends
         PTPInformationTriggerHandler.runPTPTrigger = true;
         ProductTriggerHandler.runProductTrigger = false;
-        Database.saveResult[] updateprodList=Database.update(prodList,false);
+        update prodList;
         ProductTriggerHandler.runProductTrigger = true;
     }
 
