@@ -644,7 +644,8 @@ public class ProductPaymentExcelFileProcessing {
         map<Id, Decimal> mapProductPaymentAmount = new Map<ID, Decimal>();
         //set hacing product name and payment amount
         map<String, Decimal> mapProductNameAmount = new Map<String, Decimal>();
-		Integer regularPaymentCount = 0;
+		Integer regular4000PaymentCount = 0;
+        Integer regular5000PaymentCount = 0;
         Integer feesPaymentCount = 0;
         
         validPaymentTypes = portalSettings.Valid_Payment_Types__c.split(',');
@@ -681,11 +682,14 @@ public class ProductPaymentExcelFileProcessing {
             
             if(prodPayment.Payment_Type__c <> NULL){
                 if(prodPayment.Payment_Type__c == '1000'){
-                    regularPaymentCount ++;
+                    regular4000PaymentCount ++;
                 }
                 if(prodPayment.Payment_Type__c == '4000'){
                     feesPaymentCount ++;
-                }  
+                }
+                if(prodPayment.Payment_Type__c == '5000'){
+                    regular5000PaymentCount ++;
+                }
             }
                  
             if (mapProductPaymentAmount.containsKey(prodPayment.CCS_Account__c)) {
@@ -819,9 +823,14 @@ public class ProductPaymentExcelFileProcessing {
             if (prodPayment.Payment_Amount__C != null) {
                 prodPayment.Payment_Amount__C = prodPayment.Payment_Amount__C.setScale(2, RoundingMode.HALF_UP);
             }
-			if (regularPaymentCount >= 1 && feesPaymentCount >= 1) {
+			if (regular4000PaymentCount >= 1 && feesPaymentCount >= 1) {
                 if(prodPayment.Payment_Type__c == '4000'){
                     ERROR_MSG += '<b>ERROR</b> - 1000 and 4000 payment type can not process together.<br/>';
+                }  
+            }
+            if (regular5000PaymentCount >= 1 && feesPaymentCount >= 1) {
+                if(prodPayment.Payment_Type__c == '5000'){
+                    ERROR_MSG += '<b>ERROR</b> - 1000 and 5000 payment type can not process together.<br/>';
                 }  
             }
             if (
