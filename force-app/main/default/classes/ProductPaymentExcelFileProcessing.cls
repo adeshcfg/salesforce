@@ -817,7 +817,7 @@ public class ProductPaymentExcelFileProcessing {
             //------------------------Common Validation Starts--------------------------//
 
             if (String.isNotBlank(prodPayment.CCS_Account__c) && invalidJudgments.contains(prodPayment.CCS_Account__c)) {
-                ERROR_MSG += '<b>ERROR</b> - Legal agency for one of the Judgments related to the Product is blank.<br/>';
+                ERROR_MSG += '<b>ERROR</b> - Legal agency is blank on the Judgment associated to the Product.<br/>';
             }
 
             if (prodPayment.Payment_Amount__C != null) {
