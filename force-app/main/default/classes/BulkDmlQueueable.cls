@@ -18,7 +18,7 @@ public class BulkDmlQueueable implements Queueable {
         this.recordList = recordList;
         this.startingIndex = startingIndex;
         this.operation = operation;
-        this.maxNumberOfRecordsPerJob = operation == 'Update' ? 80 : this.maxNumberOfRecordsPerJob;
+        this.maxNumberOfRecordsPerJob = operation == 'Update' ? 2000 : this.maxNumberOfRecordsPerJob;
     }
 
     public void execute(QueueableContext context) {
