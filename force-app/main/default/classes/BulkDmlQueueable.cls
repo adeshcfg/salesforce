@@ -2,7 +2,7 @@
  * @description       : Queueable class to insert more than 10000 records to avoid DML limit, can be modified for other DML operations and generalized more
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 01-15-2024
+ * @last modified on  : 01-17-2024
  * @last modified by  : adeshi@a5econsulting.net
  **/
 public class BulkDmlQueueable implements Queueable {
@@ -18,7 +18,7 @@ public class BulkDmlQueueable implements Queueable {
         this.recordList = recordList;
         this.startingIndex = startingIndex;
         this.operation = operation;
-        this.maxNumberOfRecordsPerJob = operation == 'Update' ? 10 : this.maxNumberOfRecordsPerJob;
+        this.maxNumberOfRecordsPerJob = operation == 'Update' ? 80 : this.maxNumberOfRecordsPerJob;
     }
 
     public void execute(QueueableContext context) {
