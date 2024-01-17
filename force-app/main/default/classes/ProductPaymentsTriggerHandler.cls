@@ -1621,6 +1621,7 @@ public class ProductPaymentsTriggerHandler {
         map<String, List<Id>> setOldTransaction = new Map<String, List<Id>>();
         list<Product_Payments__c> listProductPayToUpdate = new List<Product_Payments__c>();
         map<ID, Placement__c> mapPlacement = new Map<ID, Placement__c>();
+        map<String, Product_Payments__c> mapPayment = new map<String, Product_Payments__c>();
         for (Placement__c placement : [SELECT ID, Name FROM Placement__c WHERE ID IN :setPlacementID]) {
             mapPlacement.put(placement.ID, placement);
         }
@@ -1657,10 +1658,11 @@ public class ProductPaymentsTriggerHandler {
         }
 
         for (Product_Payments__c oldPay : [
-            SELECT ID, CCS_Account__r.Name, Payment_Type__c, Payment_Amount__c, Payment_Posting_Date__c, Payment_Posting_Date_Text__c, Is_Payment_Reversed__c
+            SELECT ID, CCS_Account__r.Name, Payment_Type__c, Payment_Amount__c, Payment_Posting_Date__c, Payment_Posting_Date_Text__c, Is_Payment_Reversed__c,Pay_Due__c
             FROM Product_Payments__c
             WHERE CCS_Account__c IN :mapProduct.keySet()
         ]) {
+            mapPayment.put(oldPay.ID,oldPay);
             String payAmount = String.valueOf(oldPay.Payment_Amount__c);
             // Add non reversed payment Ids which will be used to check for valid reversals later
             // There can be multiple payments with same amount, type, date and account so create a list of same payments so that we don't reverse the same payment for multiple reversals
@@ -1903,6 +1905,37 @@ public class ProductPaymentsTriggerHandler {
                     }
                 }
             }
+            
+            //Payment being reversed must exist (same pmt amount (but negative) and pmt date as original payment)
+            //12-Feb-2023 Payment can only be negative for Payment Reversal
+            if (
+                (prodPayment.Payment_Type__c == PAYTYPE_REVERSAL && prodPayment.Payment_Amount__c < 0) &&
+                !FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)
+            ) {
+                if (prodPayment.Payment_Amount__c <= 0) {
+                    Decimal payAmount = prodPayment.Payment_Amount__c * -1;
+                    payAmount = payAmount.setScale(2, RoundingMode.HALF_UP);
+                    // Check if we have a valid payment to reverse for 1000, 1001 and 1002 payment types
+                    for (String paymentType : paymentTypes) {
+                        if (
+                            setOldTransaction.containsKey(payAmount + paymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c) &&
+                            !setOldTransaction.get(payAmount + paymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c).isEmpty()
+                        ) {
+                            originalPaymentType = paymentType;
+                            break;
+                        }
+                    }
+                    if (String.isBlank(originalPaymentType)) {
+                        ERROR_MSG += '<b>ERROR - </b>A corresponding Payment was not found for this reversal.<br/>';
+                    } else {
+                        prodPayment.Original_Of_Payment_Reversal__c = setOldTransaction.get(
+                            payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
+                        )[0];
+                        setOldTransaction.get(payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)
+                            .remove(0);
+                    }
+                }
+            }
 
             //Account must not be closed
             //Ticket 4129 - if account in warehouse Internal user able to post payment
@@ -2070,10 +2103,17 @@ public class ProductPaymentsTriggerHandler {
                         mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) > 15
                     ) {
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled more than 15 days ago and is currently warehoused.<br/>';
-                        EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
+                        //Ticket 5190: Commission Given on Payments That Should Not Have Commission
+                        if(prodPayment.Payment_Type__c == '1003'){
+                            if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c != NULL){
+                                EXPECTED += 'Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1+' on this payment. ' + '<br/>'; 
+                            }
+                        }else{
+                            EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
+                        }
                         if (prodPayment.Ignore_Warning__c == false) {
                             prodPayment.addError(
-                                'WARNING - Account was recalled more than 15 days ago and is currently warehoused. Commission Amount paid will be 0'
+                                'WARNING - Account was recalled more than 15 days ago and is currently warehoused. Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1
                             );
                         }
 
@@ -2438,10 +2478,17 @@ public class ProductPaymentsTriggerHandler {
                     mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) > 15
                 ) {
                     ERROR_MSG += '<b>WARINING</b> - Account was recalled more than 15 days ago and is currently warehoused.<br/>';
-                    EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
+                    //Ticket 5190: Commission Given on Payments That Should Not Have Commission
+                    if(prodPayment.Payment_Type__c == '1003'){
+                        if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c != NULL){
+                            EXPECTED += 'Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1+' on this payment. ' + '<br/>'; 
+                        }
+                    }else{
+                        EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
+                    }
                     if (prodPayment.Ignore_Warning__c == false) {
                         prodPayment.addError(
-                            'WARNING - Account was recalled more than 15 days ago and is currently warehoused. Commission Amount paid will be 0'
+                            'WARNING - Account was recalled more than 15 days ago and is currently warehoused. Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1
                         );
                     }
 
@@ -2659,36 +2706,7 @@ public class ProductPaymentsTriggerHandler {
                     prodPayment.addError('Amount can not be negative for payment type(1002) Settled in Full.');
                 }
             }
-            //Payment being reversed must exist (same pmt amount (but negative) and pmt date as original payment)
-            //12-Feb-2023 Payment can only be negative for Payment Reversal
-            if (
-                (prodPayment.Payment_Type__c == PAYTYPE_REVERSAL && prodPayment.Payment_Amount__c < 0) &&
-                !FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)
-            ) {
-                if (prodPayment.Payment_Amount__c <= 0) {
-                    Decimal payAmount = prodPayment.Payment_Amount__c * -1;
-                    payAmount = payAmount.setScale(2, RoundingMode.HALF_UP);
-                    // Check if we have a valid payment to reverse for 1000, 1001 and 1002 payment types
-                    for (String paymentType : paymentTypes) {
-                        if (
-                            setOldTransaction.containsKey(payAmount + paymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c) &&
-                            !setOldTransaction.get(payAmount + paymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c).isEmpty()
-                        ) {
-                            originalPaymentType = paymentType;
-                            break;
-                        }
-                    }
-                    if (String.isBlank(originalPaymentType)) {
-                        ERROR_MSG += '<b>ERROR - </b>A corresponding Payment was not found for this reversal.<br/>';
-                    } else {
-                        prodPayment.Original_Of_Payment_Reversal__c = setOldTransaction.get(
-                            payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
-                        )[0];
-                        setOldTransaction.get(payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)
-                            .remove(0);
-                    }
-                }
-            }
+            
 
             //Account is currently in Recalled status.
             if (

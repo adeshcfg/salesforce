@@ -348,7 +348,7 @@ private class TestProductPaymentExcelFileProcessing{
 
     }
     
-    /*@isTest static void testMethod4(){
+    @isTest static void testMethod4(){
         Document_storage__c documentstoragecObj2 = new Document_storage__c (
             Document_Name__c = 'Product Payment Upload File', 
             Document_Type__c = 'Product Payment Upload File', 
@@ -414,7 +414,7 @@ private class TestProductPaymentExcelFileProcessing{
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
             CCS_Account_Name__c = 'test',
-            Pay_Due__c =  null,
+            Pay_Due__c =  20,
             Payment_Source__c = '2'
             );
         
@@ -424,7 +424,7 @@ private class TestProductPaymentExcelFileProcessing{
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
             CCS_Account_Name__c = 'test',
-            Pay_Due__c =  null,
+            Pay_Due__c =  20,
             Payment_Source__c = '2',
             Payment_Posting_Date__c = Date.newInstance(2023, 10, 30)
             );
@@ -445,7 +445,7 @@ private class TestProductPaymentExcelFileProcessing{
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
             CCS_Account_Name__c = 'test',
-            Pay_Due__c =  -20,
+            Pay_Due__c = -20,
             Payment_Source__c = '2',
             Original_Of_Payment_Reversal__c = 'a0DS000000EMBvAMAX',
             Payment_Posting_Date__c = Date.newInstance(2023, 10, 30)
@@ -479,7 +479,7 @@ private class TestProductPaymentExcelFileProcessing{
         instance.processExcelFileRecords();
         instance.validationOnRecordUpdate(prodList,productmap,documentstoragecObj2,mapAccountPrimaryNumber,mapPlacementIDs);
 
-    }*/
+    }
     
     @isTest static void testMethod5(){
 		Placement__c plcmnt = new Placement__c();
