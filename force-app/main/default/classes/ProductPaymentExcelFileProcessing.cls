@@ -683,11 +683,13 @@ public class ProductPaymentExcelFileProcessing {
             }
             
             if(prodPayment.Payment_Type__c <> NULL){
-                if(prodPayment.Payment_Type__c == '1000'){
-                    regular4000PaymentCount ++;
+                if(prodPayment.Payment_Type__c == '1000' || prodPayment.Payment_Type__c == '1001'
+                  || prodPayment.Payment_Type__c == '1002' || prodPayment.Payment_Type__c == '1003'
+                  || prodPayment.Payment_Type__c == '3000' || prodPayment.Payment_Type__c == '8000'){
+                    feesPaymentCount ++;
                 }
                 if(prodPayment.Payment_Type__c == '4000'){
-                    feesPaymentCount ++;
+                    regular4000PaymentCount ++;
                 }
                 if(prodPayment.Payment_Type__c == '5000'){
                     regular5000PaymentCount ++;
@@ -827,12 +829,12 @@ public class ProductPaymentExcelFileProcessing {
             }
 			if (regular4000PaymentCount >= 1 && feesPaymentCount >= 1) {
                 if(prodPayment.Payment_Type__c == '4000'){
-                    ERROR_MSG += '<b>ERROR</b> - 1000 and 4000 payment type can not process together.<br/>';
+                    ERROR_MSG += '<b>ERROR</b> - 1000 series payment type cannot be club with any other payment type (3000, 4000, 5000, 8000).<br/>';
                 }  
             }
             if (regular5000PaymentCount >= 1 && feesPaymentCount >= 1) {
                 if(prodPayment.Payment_Type__c == '5000'){
-                    ERROR_MSG += '<b>ERROR</b> - 1000 and 5000 payment type can not process together.<br/>';
+                    ERROR_MSG += '<b>ERROR</b> - 1000 series payment type cannot be club with any other payment type (3000, 4000, 5000, 8000).<br/>';
                 }  
             }
             if (
