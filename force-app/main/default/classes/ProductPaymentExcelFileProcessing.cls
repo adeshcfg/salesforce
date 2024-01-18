@@ -706,8 +706,9 @@ public class ProductPaymentExcelFileProcessing {
                     mapProductPaymentAmount.put(prodPayment.CCS_Account__c, prodPayment.Payment_Amount__c);
                 }
             }
-
-            setProductNames.add(prodPayment.CCS_Account__c);
+            if(String.isNotBlank(prodPayment.CCS_Account__c)) {
+                setProductNames.add(prodPayment.CCS_Account__c);
+            }
             setPlacementNames.add(prodPayment.Payment_Agency__c);
         }
 
