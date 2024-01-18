@@ -133,7 +133,7 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
         Database.saveResult[] updatePTPRecs=Database.update(toUpdatePTP,false);
         for(Database.saveResult res:updatePTPRecs){
            if(!res.isSuccess()){
-            for(Database.Error err : upsertResult.getErrors()) {
+            for(Database.Error err : res.getErrors()) {
                 API_Error__c apierror=new API_Error__c();
                 apierror.Error__c=err.getMessage();
                 PTPinfoErrors.add(apierror);
