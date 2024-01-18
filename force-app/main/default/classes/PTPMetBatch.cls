@@ -31,6 +31,9 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
 
     public void execute(Database.BatchableContext BC, List<Product__c> prodList) {
         List<ID> prodIDList = new List<ID>();
+        List<PTP_Information__C> toUpdatePTP = new List<PTP_Information__c>();
+        DateTime defaultDate = (System.now()).addDays(-(Integer.valueOf(31)));
+
         for (Product__C prod : prodList) {
             prodIDList.add(prod.id);
         }
@@ -40,20 +43,16 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
             WHERE PTP_Date__c >= YESTERDAY AND Product__r.id IN :prodIDList
         ];
 
-        DateTime defaultDate = (System.now()).addDays(-(Integer.valueOf(31)));
-
         List<PTP_Information__c> listPTPLess = [
             SELECT id, name, PTP_Method__c, PTP_Amount__c, PTP_Date__c, PTP_Mate__c, Product__r.id, createdDate
             FROM PTP_Information__C
             WHERE PTP_Date__c < YESTERDAY AND PTP_Date__C > :defaultDate AND Product__r.id IN :prodIDList
         ];
 
-        List<PTP_Information__C> toUpdatePTP = new List<PTP_Information__c>();
-
         for (Product__c prod : prodList) {
             Map<DateTime, PTP_Information__c> mapPTPProd = new Map<DateTime, PTP_Information__c>();
-
             List<DateTime> listDate = new List<DateTime>();
+
             for (PTP_Information__c ptp : listPTPGreater) {
                 if (prod.id == ptp.Product__r.id) {
                     mapPTPProd.put(ptp.PTP_Date__c, ptp);
@@ -62,7 +61,6 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
             }
 
             listDate.sort();
-
             PTP_Information__c PTP_N = new PTP_Information__C();
             DateTime PTP_N_Date = null;
             if (listDate.size() > 0) {
@@ -71,10 +69,9 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
             } else {
                 PTP_N = null;
             }
-
             DateTime PTP_L_Date = null;
             PTP_Information__c PTP_L = new PTP_Information__c();
-
+        
             if (null <> PTP_N) {
                 mapPTPProd = new Map<DateTime, PTP_Information__c>();
                 listDate = new List<DateTime>();
@@ -130,7 +127,23 @@ public class PTPMetBatch implements Database.Batchable<sObject> {
         }
 
         PTPInformationTriggerHandler.runPTPTrigger = false;
-        update toUpdatePTP;
+        //Bug: 5141 changes starts
+       // update toUpdatePTP;
+        list<API_Error__c> PTPinfoErrors=new list<API_Error__c>();
+        Database.saveResult[] updatePTPRecs=Database.update(toUpdatePTP,false);
+        for(Database.saveResult res:updatePTPRecs){
+           if(!res.isSuccess()){
+            for(Database.Error err : res.getErrors()) {
+                API_Error__c apierror=new API_Error__c();
+                apierror.Error__c=err.getMessage();
+                PTPinfoErrors.add(apierror);
+            }
+           }
+        }
+        if(!PTPinfoErrors.isEmpty()){
+           insert PTPinfoErrors;
+        }
+        //Bug: 5141 changes ends
         PTPInformationTriggerHandler.runPTPTrigger = true;
         ProductTriggerHandler.runProductTrigger = false;
         update prodList;
