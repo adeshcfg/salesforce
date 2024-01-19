@@ -1299,11 +1299,12 @@ public class ProductPaymentExcelFileProcessing {
                                         CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Pool_Commission_Rate__c;
                                     }
                                     if (CommissionRate != null) {
+                                        Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
                                         //if commission adjustment is added to product, adjust Commission Rate
                                         if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                             CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                         }
-                                        if (prodPayment.Payment_Amount__c != null) {
+                                        if (prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)) {
                                             prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
                                         }
 
@@ -1419,6 +1420,7 @@ public class ProductPaymentExcelFileProcessing {
 
                                     if (!lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
                                         Decimal CommRate = mapProduct.get(prodPayment.CCS_Account__c).Commission_Rate__c;
+                                        Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
                                         if (CommRate == null) {
                                             CommRate = mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__r.Commission_Rate__c;
                                         }
@@ -1428,7 +1430,7 @@ public class ProductPaymentExcelFileProcessing {
                                         if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                             CommRate = CommRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                         }
-                                        if (prodPayment.Payment_Amount__c != null) {
+                                        if (prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)) {
                                             prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommRate) / 100;
                                         }
                                     }
