@@ -1650,7 +1650,8 @@ public class ProductPaymentsTriggerHandler {
                 Collection_Agency_Placement__r.Tolerance_of_Total_Balance__c,
                 Collection_Agency_Placement__r.Tolerance_Amount__c,
                 Purchase_Status__c,
-                Commission_Rate__c
+                Commission_Rate__c,
+                Fee_Recovery__c
             FROM Product__C
             WHERE ID IN :setProductID
         ]) {
@@ -2165,11 +2166,14 @@ public class ProductPaymentsTriggerHandler {
                                     CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Pool_Commission_Rate__c;
                                 }
                                 if (CommissionRate != null) {
+                                    Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
                                     //if commission adjustment is added to product, adjust Commission Rate
                                     if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                         CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                     }
-                                    prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                                    if (prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)) {
+                                        prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                                    }
                                     //Tax Amount calculation:
                                     //calculate tax amount
                                     DebtorProvinceTaxRate = 0;
@@ -2270,6 +2274,7 @@ public class ProductPaymentsTriggerHandler {
                                 }
                                 if (!lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
                                     Decimal CommRate = mapProduct.get(prodPayment.CCS_Account__c).Commission_Rate__c;
+                                    Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
                                     if (CommRate == null) {
                                         CommRate = mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__r.Commission_Rate__c;
                                     }
@@ -2279,7 +2284,7 @@ public class ProductPaymentsTriggerHandler {
                                     if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                         CommRate = CommRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                     }
-                                    if (prodPayment.Payment_Amount__c != null) {
+                                    if (prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)) {
                                         prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommRate) / 100;
                                     }
                                 }
