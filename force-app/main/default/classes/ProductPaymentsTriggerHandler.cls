@@ -2727,7 +2727,7 @@ public class ProductPaymentsTriggerHandler {
                 }
             }
 
-            if (prodPayment.Payment_Amount__c == null) {
+            if (prodPayment.Payment_Amount__c == null || prodPayment.Payment_Amount__c == 0) {
                 ERROR_MSG += '<b>ERROR</b> - Invalid Payment Amount<br/>';
                 prodPayment.addError('Invalid Payment Amount.');
             }
