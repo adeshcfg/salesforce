@@ -2069,7 +2069,7 @@ public class ProductTriggerHandler{
         system.debug('mapDataStatus'+mapDataStatus);
         for(Product__c prodData :listNewProducts){
             if(prodRTypeIdMap.get('Distressed_Account') == prodData.RecordTypeId && mapDataStatus.containskey(prodData.Product_Status__c) && 
-               mapDataStatus.get(prodData.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
+               mapDataStatus.get(prodData.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed' && prodData.Closed_Date__c == NULL){
                prodData.Closed_Date__c = Date.today(); 
             }
         }

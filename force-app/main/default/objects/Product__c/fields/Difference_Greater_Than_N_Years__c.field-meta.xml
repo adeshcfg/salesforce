@@ -4,8 +4,8 @@
     <externalId>false</externalId>
     <formula>IF(RecordType.DeveloperName = &apos;Distressed_Account&apos;,
 IF(NOT(ISBLANK(Charged_Off_Date__c)),
-IF( TODAY() - Charged_Off_Date__c &gt; 2192, True, False),
-IF( TODAY() - Last_Payment_Date_Prior_to_CO__c &gt; 2192, True, False)),
+IF(TODAY() - Charged_Off_Date__c &gt; 2192, True, False),
+False),
 IF(NOT(ISBLANK(Last_Payment_Date__c)),
 IF( TODAY() - Last_Payment_Date__c &gt; 2192, True, False),
 IF( TODAY() - Disbursement_Date__c &gt; 2192, True, False)
