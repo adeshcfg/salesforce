@@ -39,10 +39,16 @@ public class TestCreditBureauClass {
         acc.RecordTypeId = Schema.SObjectType.Account .getRecordTypeInfosByName().get('Seller').getRecordTypeId();
         insert acc;
         
+        Placement__c plcgy1 = new  Placement__c();      
+        plcgy1.Name='68';
+        plcgy1.Agency_Email__c = 'test@gmail.com';
+        insert plcgy1;
+        
         Judgment__c judg = new Judgment__c();
         judg.Legal_Status__c = 'Judgment';
         judg.Legal_Sub_Status__c = 'Vacated';
         judg.Legal_Agency__c = '68';
+        judg.Legal_Agency_Placement__c = plcgy1.id;
         insert judg;
         
         Portfolio_Name__c protfolio =  new Portfolio_Name__c ();
@@ -67,6 +73,7 @@ public class TestCreditBureauClass {
                                         TransUnion_Reported_As_Complete_Count__c = null,                         
                                         Original_Balance__c = 123.00,
                                         Middle_Name__c = 'middle',
+            							Purchase_Face_Value__c = 10.45,
                                         SIN__c = '123',
                                         Phone_Home__c = '12345654',
                                         Date_of_Birth__c = SYSTEM.Today(),
@@ -161,6 +168,7 @@ public class TestCreditBureauClass {
                                         Last_Payment_Date__c = SYSTEM.Today(),
                                         TransUnion_Reported_As_Complete_Count__c = null,                         
                                         Original_Balance__c = 123.00,
+            							Purchase_Face_Value__c = -10.45,
                                         Middle_Name__c = 'middle namemiddle name',
                                         SIN__c = '123456789',
                                         Phone_Home__c = '12345654',
@@ -196,5 +204,4 @@ public class TestCreditBureauClass {
         creditBureauClass.getcreditBureauClass('CreditBureau');
         Test.stopTest();
     }
-    
 }
