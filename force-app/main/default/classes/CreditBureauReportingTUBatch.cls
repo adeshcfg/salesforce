@@ -27,7 +27,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public static final String defSinNumber = '000000000';
     public static final String defDateOfbirth = '00000000';
     public static final String defPhoneNumber = '0000000000';
-    public static final String defNumberOfPayments = 'BBBBBBBBBBBBBBBBBBBBBBBB';
+    //public static final String defNumberOfPayments = 'BBBBBBBBBBBBBBBBBBBBBBBB';
+    public static final String defNumberOfPayments = '                       B';
     public static final String defAddressLine = '                                ';
     public static final String defAddressLine2 = '                                ';
     public static final String defCityAddress = '                    ';
@@ -479,9 +480,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             //Code for populating Payment history profile for last 24 months
             String paymentHistoryProfile = defNumberOfPayments;
-            if(null != firstPaymentDate){
+            /*if(null != firstPaymentDate){
                 paymentHistoryProfile = CustomerProcessingBatchHelper.getNumberOfPayments(firstPaymentDate);
-            }
+            }*/
             // Code for date closed Right Padding upon dynamic values in less
             String dateclosed = defDateClosed;             
             if(prodct.Closed_Date__C != null){
