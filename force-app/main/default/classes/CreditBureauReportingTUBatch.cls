@@ -75,7 +75,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             }
         }*/
                 
-        List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c,Placement_Recall_Date__c
+        List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c,Placement_Recall_Date__c,
+                                                       Current_Total_Bal_at_time_of_Recall__c
                                                          FROM Placement_History__c
                                                          WHERE Placement__r.Name IN :includeAgencyList 
                                                          AND Placement_Recall_Date__c <> NULL
@@ -470,20 +471,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     }
                 }    
             }
-            
-            // Code for Adding past Amount  Right Padding upon dynamic values in less
-            String pastval = defPastVal;
-            if(prodct.Current_Balance__c != null) {
-                //Code to prevent negative values. if value is negative show 0's
-                if(prodct.Current_Balance__c >= 0){        
-                    pastval = String.valueOf(prodct.Current_Balance__c);
-                    pastval = pastval.subString(0,pastval.indexOf('.'));
-                    pastval = pastval.leftPad(9, '0');
-                }
-                else if(prodct.Current_Balance__c < 0){
-                    pastval = defPastVal;
-                }        
-            }
                    
             Date firstPaymentDate = null;    
             if(null != grossPaySum){
@@ -745,20 +732,64 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             // Code for Adding current Amount  Right Padding upon dynamic values in less
             String currentplanval = defCurrentPlanval;
-            if(prodct.Current_Balance__c != null) {
+            if(placementHistoryMap.containsKey(prodct.id)){
                 if(accountStatus != metro2TransUnion.Account_Status_Close__c){
                     //Code to prevent negative values. if value is negative show 0's
-                    if(prodct.Current_Balance__c >= 0){        
-                        currentplanval = String.valueOf(prodct.Current_Balance__c);
+                    if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c >= 0){        
+                        currentplanval = String.valueOf(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c);
                         currentplanval = currentplanval.subString(0,currentplanval.indexOf('.'));
                         currentplanval = currentplanval.leftPad(9, '0');
                     }
-                    else if(prodct.Current_Balance__c < 0){
+                    else if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c < 0){
                         currentplanval = defCurrentPlanval;
                     } 
                 }else{
                     currentplanval = defCurrentPlanval;
-                }       
+                }     
+            }
+            else{
+                if(prodct.Current_Balance__c != null) {
+                    if(accountStatus != metro2TransUnion.Account_Status_Close__c){
+                        //Code to prevent negative values. if value is negative show 0's
+                        if(prodct.Current_Balance__c >= 0){        
+                            currentplanval = String.valueOf(prodct.Current_Balance__c);
+                            currentplanval = currentplanval.subString(0,currentplanval.indexOf('.'));
+                            currentplanval = currentplanval.leftPad(9, '0');
+                        }
+                        else if(prodct.Current_Balance__c < 0){
+                            currentplanval = defCurrentPlanval;
+                        } 
+                    }else{
+                        currentplanval = defCurrentPlanval;
+                    }       
+                }    
+            }
+            
+            // Code for Adding past Amount  Right Padding upon dynamic values in less
+            String pastval = defPastVal;
+            if(placementHistoryMap.containsKey(prodct.id)){
+                //Code to prevent negative values. if value is negative show 0's
+                if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c >= 0){        
+                    pastval = String.valueOf(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c);
+                    pastval = pastval.subString(0,pastval.indexOf('.'));
+                    pastval = pastval.leftPad(9, '0');
+                }
+                else if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c < 0){
+                    pastval = defCurrentPlanval;
+                } 
+            }
+            else{
+                if(prodct.Current_Balance__c != null) {
+                    //Code to prevent negative values. if value is negative show 0's
+                    if(prodct.Current_Balance__c >= 0){        
+                        pastval = String.valueOf(prodct.Current_Balance__c);
+                        pastval = pastval.subString(0,pastval.indexOf('.'));
+                        pastval = pastval.leftPad(9, '0');
+                    }
+                    else if(prodct.Current_Balance__c < 0){
+                        pastval = defCurrentPlanval;
+                    }      
+                }    
             }
             
             //Code for populating Payment rating

@@ -18181,6 +18181,11 @@
         <field>Portfolio_Name__c.CIML_Reporting_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Placement_History__c.Current_Total_Bal_at_time_of_Recall__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
