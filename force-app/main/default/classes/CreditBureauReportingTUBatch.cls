@@ -55,6 +55,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public static final String canaccede = 'CANACCEDE';
     public Set<ID> productIds = new Set<ID>();
     public Map<ID,Placement_History__c> placementHistoryMap = new Map<ID,Placement_History__c>();
+    public static final String defDateOfAccountInformationDate = '00000000';
     
     public CreditBureauReportingTUBatch(){
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
@@ -241,7 +242,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             //calculate Actual Payment Amount : sum of ONLY the payments that came in the reporting period up to (and including) the recall date
             if(prodPay.Payment_Created__c >= FirstOfLastMonth && prodPay.Payment_Created__c <= LastDayOfLastMonth &&
-               placementHistoryMap.containsKey(prodPay.CCS_Account__C) && prodPay.Payment_Created__c <= placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c){
+               placementHistoryMap.containsKey(prodPay.CCS_Account__C) && prodPay.Payment_Created__c != NULL &&
+               placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c != NULL &&
+               prodPay.Payment_Created__c <= placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c){
                    if (mapProductPaymentAmount.containsKey(prodPay.CCS_Account__c)) {
                        Decimal payAmount = mapProductPaymentAmount.get(prodPay.CCS_Account__c);
                        if (payAmount != null && prodPay.Payment_Amount__c != null) {
@@ -254,7 +257,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                    }
                }
 
-            if(prodPay.Payment_Created__c <= LastDayOfLastMonth && placementHistoryMap.containsKey(prodPay.CCS_Account__C) && prodPay.Payment_Created__c <= placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c){
+            if(prodPay.Payment_Created__c <= LastDayOfLastMonth && placementHistoryMap.containsKey(prodPay.CCS_Account__C) && 
+               prodPay.Payment_Created__c != NULL && placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c != NULL && 
+               prodPay.Payment_Created__c <= placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c){
                 mapProductPaymentsData.put(prodPay.CCS_Account__c, new List<Product_Payments__c>{ prodPay });   
             }
         }
@@ -792,6 +797,11 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     }      
                 }    
             }
+            //code for populating Date of Account Information
+            String acctInformationDate = defDateOfAccountInformationDate;
+            if(placementHistoryMap.containsKey(prodct.id) && placementHistoryMap.get(prodct.id).Placement_Recall_Date__c != NULL){
+               acctInformationDate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(placementHistoryMap.get(prodct.id).Placement_Recall_Date__c);      
+            }
             
             //Code for populating Payment rating
             String paymentRating = defPaymentRating;
@@ -860,7 +870,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             system.debug('K1SegmentLine'+K1SegmentLine);
             system.debug('K1SegmentLine length'+K1SegmentLine.length());
             //Body record
-            string headbody2 = maxRowslength + '1              0'+idenfificationNum+ '  ' + productname + portfolioType + accountType + Dateopened + '000000000' + orignalCreditAmt + termsDuration + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + '        ' + lastdelinquencydate + dateclosed + lastpaymentdate + currencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + deceasedDate + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine;
+            string headbody2 = maxRowslength + '1              0'+idenfificationNum+ '  ' + productname + portfolioType + accountType + Dateopened + '000000000' + orignalCreditAmt + termsDuration + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + acctInformationDate + lastdelinquencydate + dateclosed + lastpaymentdate + currencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + deceasedDate + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine;
             
             system.debug('heaser@@@'+headbody2);
             system.debug('heaser length'+headbody2.length());
