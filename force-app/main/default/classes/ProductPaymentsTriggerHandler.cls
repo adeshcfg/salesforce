@@ -2012,7 +2012,9 @@ public class ProductPaymentsTriggerHandler {
                                 if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                     CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                 }
-                                prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                                if(prodPayment.Payment_Amount__c != NULL){
+                                    prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                                }
                                 prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
 
                                 //Tax Amount calculation:
@@ -2395,7 +2397,9 @@ public class ProductPaymentsTriggerHandler {
                             if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                 CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                             }
-                            prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                            if(prodPayment.Payment_Amount__c != NULL){
+                                prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                            }
                             prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                             //Tax Amount calculation:
                             //calculate tax amount
@@ -2538,7 +2542,10 @@ public class ProductPaymentsTriggerHandler {
                                 if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                     CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                 }
-                                prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                                if(prodPayment.Payment_Amount__c != NULL){
+                                    prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                                }
+                                
                                 prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                                 //Tax Amount calculation:
                                 //calculate tax amount
