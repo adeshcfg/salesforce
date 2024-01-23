@@ -75,6 +75,7 @@ public class TestCreditBureauClass {
                                         Middle_Name__c = 'middle',
             							Purchase_Face_Value__c = 10.45,
                                         SIN__c = '123',
+            							Charged_Off_Amount__c = 100,
                                         Phone_Home__c = '12345654',
                                         Date_of_Birth__c = SYSTEM.Today(),
                                         Address_Line1__c = 'add',
