@@ -1682,7 +1682,7 @@ public class ProductPaymentExcelFileProcessing {
                                 if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                     CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                 }
-                                if(prodPayment.Payment_Amount__c != NULL){
+                                if(prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)){
                                     prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
                                 }
                                 //Tax Amount calculation:
