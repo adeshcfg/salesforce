@@ -35,7 +35,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public static final String defZipAddres= '         ';
     public static final String defAccountStatus = '  ';
     public static final String defPaymentRating = ' ';
-    public static final String defSpecialComments = ' ';
+    public static final String defSpecialComments = '  ';
     public static final String defCustomerInformationIndicator = '  ';
     public static final String bureauTypeTransUnion = 'TransUnion';
     public static final String productType = 'Distressed Account';
@@ -75,11 +75,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             }
         }*/
                 
-        List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c
+        List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c,Placement_Recall_Date__c
                                                          FROM Placement_History__c
                                                          WHERE Placement__r.Name IN :includeAgencyList 
                                                          AND Placement_Recall_Date__c <> NULL
-                                                         /*AND Placement_Status__c IN :placementStatus*/
                                                       	 AND Placement_Recall_Date__c = LAST_MONTH];
         for(Placement_History__c placeHistory : placementHistory){
             productIds.add(placeHistory.Product__c);
@@ -252,7 +251,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                        }
                    }
                }
-            if(placementHistoryMap.containsKey(prodPay.CCS_Account__C) && prodPay.Payment_Created__c <= placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c){
+
+            if(prodPay.Payment_Created__c <= LastDayOfLastMonth && placementHistoryMap.containsKey(prodPay.CCS_Account__C) && prodPay.Payment_Created__c <= placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c){
                 mapProductPaymentsData.put(prodPay.CCS_Account__c, new List<Product_Payments__c>{ prodPay });   
             }
         }
