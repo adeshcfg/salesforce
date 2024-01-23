@@ -1134,11 +1134,14 @@ public class ProductPaymentExcelFileProcessing {
                                 CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Pool_Commission_Rate__c;
                             }
                             if (CommissionRate != null && prodPayment.Payment_Amount__c != null) {
+                                Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
                                 //if commission adjustment is added to product, adjust Commission Rate
                                 if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                     CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                 }
-                                prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                                if(feeRecovery == null || feeRecovery == 0) {
+                                    prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                                }
                                 prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                                 //Tax Amount calculation:
                                 //calculate tax amount
@@ -1532,11 +1535,12 @@ public class ProductPaymentExcelFileProcessing {
                             CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Pool_Commission_Rate__c;
                         }
                         if (CommissionRate != null) {
+                            Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
                             //if commission adjustment is added to product, adjust Commission Rate
                             if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                 CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                             }
-                            if(prodPayment.Payment_Amount__c != NULL){
+                            if(prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)){
                                 prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
                             }
                             prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
@@ -1673,6 +1677,7 @@ public class ProductPaymentExcelFileProcessing {
                                 CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Pool_Commission_Rate__c;
                             }
                             if (CommissionRate != null) {
+                                Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
                                 //if commission adjustment is added to product, adjust Commission Rate
                                 if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                     CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
@@ -1680,7 +1685,6 @@ public class ProductPaymentExcelFileProcessing {
                                 if(prodPayment.Payment_Amount__c != NULL){
                                     prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
                                 }
-                                
                                 //Tax Amount calculation:
                                 //calculate tax amount
                                 DebtorProvinceTaxRate = 0;
@@ -1864,7 +1868,7 @@ public class ProductPaymentExcelFileProcessing {
             payStaging.Interest_Payment_Amount__c = prodPayment.Interest_Payment_Amount__c;
             payStaging.Principal_Payment_Amount__c = prodPayment.Principal_Payment_Amount__c;
             payStaging.Commission_Rate_for_Payment__c = prodPayment.Commission_Rate_for_Payment__c;
-            payStaging.Commission_Amount__c = prodPayment.Pay_Due__c;
+            payStaging.Commission_Amount__c = prodPayment.Pay_Due__c == null ? 0 : prodPayment.Pay_Due__c;
             payStaging.Tax_Amount__c = prodPayment.Tax_Amount__c;
             payStaging.Tax_Type__c = prodPayment.Tax_Type__c;
             payStaging.Tax_Province__c = prodPayment.Tax_Province__c;
