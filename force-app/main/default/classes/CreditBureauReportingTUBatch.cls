@@ -246,8 +246,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                     order by Payment_Created__c  desc ];
         
         map<Id, Decimal> mapProductPaymentAmount = new Map<ID, Decimal>();
+        //Date lastPaymentDateBeforeRecall;
         Map<Id, List<Product_Payments__c>> mapProductPaymentsData = new Map<Id, List<Product_Payments__c>>();
         for(Product_Payments__c prodPay : prodPaymentData){
+            
             //calculate Actual Payment Amount : sum of ONLY the payments that came in the reporting period up to (and including) the recall date
             if(prodPay.Payment_Created__c >= FirstOfLastMonth && prodPay.Payment_Created__c <= LastDayOfLastMonth &&
                placementHistoryMap.containsKey(prodPay.CCS_Account__C) && prodPay.Payment_Created__c != NULL &&
@@ -381,7 +383,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
 
         // Code to generate Header record
         string headbody = maxRowslength + headerCust + '                           ' + bureaIdentifier + lastModifiedBydate + createdDate + '       ' + '         ' + canaccedeFinGrp + repAddress + repPhone;
-
+        
         Integer countheader = Integer.valueOf(maxRowslength) - headbody.length();
         Integer countheader2 = countheader + headbody.length();
         integer [] trimmedArray2 = new integer [countheader];
@@ -942,7 +944,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
 
         String FinalSINCOUNT = '000000000';
         String FinalDOBCOunt = '000000000';
-        String FinalPhonecountNet = '000000000';
+        String FinalPhoneocuntNet = '000000000';
         String FinalSTATUS13COUNT = '000000000';
         String FinalSTATUS93COUNT = '000000000';
         String FinalSTATUS97COUNT = '000000000';
@@ -951,7 +953,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         
 
         Integer FinalPhoneocunt = [select PhoneNumber__c from MetroFlatFileData__c where PhoneNumber__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
-        FinalPhonecountNet = CustomerProcessingBatchHelper.getStringWithZeroPadding(FinalPhoneocunt);
+        FinalPhoneocuntNet = CustomerProcessingBatchHelper.getStringWithZeroPadding(FinalPhoneocunt);
         
         //Final SIN Count
         List<MetroFlatFileData__c> metroobj = new List<MetroFlatFileData__c>();
@@ -991,10 +993,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         }
         
   
-        String Trailerrec = maxRowslength+'TRAILER' + rowscountwithzero + '                  000000000000000000000000000'+FinalSTATUSDACOUNT+'000000000000000000' + FinalSTATUS13COUNT + '000000000'+ FinalSTATUS62COUNT +'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + FinalSTATUS93COUNT + '000000000' + '000000000' + '000000000' + FinalSTATUS97COUNT + '000000000000000000'+ rowscountwithzero +'000000000000000000000000000000000000' + FinalSINCOUNT + FinalSINCOUNT + '000000000000000000' + FinalDOBCOunt + FinalDOBCOunt + '000000000000000000' + FinalPhonecountNet + '    ';
-     
+        String Trailerrec = maxRowslength+'TRAILER' + rowscountwithzero + '                  000000000000000000000000000'+FinalSTATUSDACOUNT+'000000000000000000' + FinalSTATUS13COUNT + '000000000'+ FinalSTATUS62COUNT +'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + FinalSTATUS93COUNT + '000000000' + '000000000' + '000000000' + FinalSTATUS97COUNT + '000000000000000000'+ rowscountwithzero +'000000000000000000000000000000000000' + FinalSINCOUNT + FinalSINCOUNT + '000000000000000000' + FinalDOBCOunt + FinalDOBCOunt + '000000000000000000' + FinalPhoneocuntNet + '    ';
+        
         Integer Trailcount2 = Integer.valueOf(maxRowslength) - Trailerrec.length();
-
         integer [] trimmedArray = new integer [Trailcount2];
         for (integer i = 0; i < Trailcount2; i ++){
             trimmedArray[i] = 160;   
