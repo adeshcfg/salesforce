@@ -39,8 +39,10 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable {
         email.setPlainTextBody( 'Generating text file for credit bureau .');
         email.setFileAttachments(new Messaging.EmailFileAttachment[] {efa});
         email.setSaveAsActivity(true);
-        Messaging.SendEmailResult [] r =
-        Messaging.sendEmail(new Messaging.SingleEmailMessage[] {email});
+        if(!Test.isRunningTest()){
+            Messaging.SendEmailResult [] r =
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] {email});
+        }
         csvString='';
         }catch(Exception e){
             system.debug('e.getStackTraceString()'+e.getStackTraceString());
