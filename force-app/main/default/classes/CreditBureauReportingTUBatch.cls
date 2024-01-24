@@ -56,10 +56,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public Set<ID> productIds = new Set<ID>();
     public Map<ID,Placement_History__c> placementHistoryMap = new Map<ID,Placement_History__c>();
     public static final String defDateOfAccountInformationDate = '00000000';
+    public list<String> includeAgencyList = new list<String>();
     
     public CreditBureauReportingTUBatch(){
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
-        list<String> includeAgencyList = new list<String>();
         //Only ICT and LRT agencies inclued in bureau reporting
         string agencyList = metro2TransUnion.Agency_Included__c;
         List<String> splitDoubleValues = agencyList.split(',');
@@ -69,18 +69,14 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 includeAgencyList.add(s);   
             }
         }
-        /*Set<String> placementStatus = new Set<String>();
+		Integer noOfDaysAfterReport = Integer.valueOf(metro2TransUnion.Number_of_Days_After_Reporting__c);
+        Date placementDateBefore45 = System.today().addDays(-noOfDaysAfterReport);
         
-        for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
-            if(metaData.Bureau_Reporting_Account_Status__c == 'Closed'){
-                placementStatus.add(metaData.name);
-            }
-        }*/
-                
         List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c,Placement_Recall_Date__c,
                                                        Current_Total_Bal_at_time_of_Recall__c
                                                          FROM Placement_History__c
                                                          WHERE Placement__r.Name IN :includeAgencyList 
+                                                       	 AND Placement_Date__c <: placementDateBefore45
                                                          AND Placement_Recall_Date__c <> NULL
                                                       	 AND Placement_Recall_Date__c = LAST_MONTH];
         for(Placement_History__c placeHistory : placementHistory){
@@ -88,11 +84,13 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             placementHistoryMap.put(placeHistory.Product__c,placeHistory);
         }
         system.debug('productIds check'+productIds);
+        system.debug('placementHistoryMap checking'+placementHistoryMap);
     }  
     
     // Start Method
     public Database.Querylocator start(Database.BatchableContext BC) {
         system.debug('productIds check start'+productIds);
+        system.debug('includeAgencyList check'+includeAgencyList);
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
         list<string> excludeProdStatusList = new list<string>();
         string prodStatus = metro2TransUnion.Product_Status_Excluded__c;
@@ -100,7 +98,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         if(prodStatus != Null){
             excludeProdStatusList = prodStatus.split(',');   
         }
-        list<Decimal> includeAgencyList = new list<Decimal>();
+		list<Decimal> includeAgencyList = new list<Decimal>();
         //Only ICT and LRT agencies inclued in bureau reporting
         string agencyList = metro2TransUnion.Agency_Included__c;
         List<String> splitDoubleValues = agencyList.split(',');
@@ -149,11 +147,25 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         map<String, Credit_Bureau_Reporting_Periods__mdt> mapCreditBureauRepPeriods = Credit_Bureau_Reporting_Periods__mdt.getAll();
         map<String, Credit_Bureau_Reporting_Periods__mdt> mapProvinceAcronymCBRepPeriods = new map<String, Credit_Bureau_Reporting_Periods__mdt>();
         List<ID> productID = new List<ID>();
+        Date minPlacementDate = null;
+        Date maxRecallDate = null;
         
         for(Credit_Bureau_Reporting_Periods__mdt metaData : mapCreditBureauRepPeriods.values()){
             mapProvinceAcronymCBRepPeriods.put(metaData.Province_Name__c,metaData);
         }
+
+        AggregateResult[] placeHistory = [SELECT product__c ccsAcc, Min(Placement_Date__c) firstPlacementDate,  Max(Placement_Recall_Date__c) lastRecallDate
+                                    FROM Placement_History__c 
+                                    WHERE 
+                                    Placement__r.Name IN :includeAgencyList 
+                                    AND Placement_Recall_Date__c <> NULL
+                                    AND Placement_Recall_Date__c = LAST_MONTH
+                                         GROUP BY product__c];
         
+        for(AggregateResult arrResult : placeHistory){
+            minPlacementDate = (Date)arrResult.get('firstPlacementDate');
+            maxRecallDate = (Date)arrResult.get('lastRecallDate');
+        }
         //check active judgment present on product
 		List<Account_Judgment__c> accountJudgment = [SELECT ID, Name, Product__c, Judgment__c,
                                                    Judgment__r.Legal_Status__c, Judgment__r.Legal_Sub_Status__c
@@ -233,6 +245,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                     AND (RecordTYpe.Name = 'Distressed Product Payment') 
                                     AND (Payment_Type__c= '1000' OR Payment_Type__c ='1001' OR Payment_Type__c='1002') 
                                     AND Is_Payment_Reversed__c = False 
+                                    AND Payment_Created__c >= :minPlacementDate 
+                                    AND Payment_Created__c <= :maxRecallDate                 
                                     order by Payment_Created__c  desc ];
         
         map<Id, Decimal> mapProductPaymentAmount = new Map<ID, Decimal>();
@@ -499,8 +513,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             if(mapProductPaymentsData.containsKey(prodct.id)){
                lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(mapProductPaymentsData.get(prodct.id)[0].Payment_Created__c); 
             }else{
-                if(prodct.Last_Payment_Date__c != null) {
-                    lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
+                if(!placementHistoryMap.containsKey(prodct.id)){
+                    if(prodct.Last_Payment_Date__c != null) {
+                        lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
+                    }
                 }
             }
        		
@@ -845,11 +861,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             //K1 Segment
             String K1SegmentLine = K1Segment;
-            system.debug('K1SegmentLine length'+K1SegmentLine.length());
             if(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c != null) {
                 if(String.valueOf(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c).length() < 30) {
                     string sellerName = String.valueOf(prodct.Portfolio_Name_Lookup__r.CIML_Reporting_Name__c);
-                    system.debug('sellerName length'+sellerName.length());
                     integer number1 = 30 - sellerName.length();
                     Integer number2 = number1 + sellerName.length();
                     K1SegmentLine = sellerName.rightPad(number2);
@@ -865,17 +879,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 }
             }else{
                     K1SegmentLine = K1Segment;
-
             }
-            system.debug('K1SegmentLine'+K1SegmentLine);
-            system.debug('K1SegmentLine length'+K1SegmentLine.length());
             //Body record
             string headbody2 = maxRowslength + '1              0'+idenfificationNum+ '  ' + productname + portfolioType + accountType + Dateopened + '000000000' + orignalCreditAmt + termsDuration + paymentfrequency + '         ' + Finalactualpayplan + accountStatus + paymentRating + paymentHistoryProfile + specialComments + '  ' + currentplanval + pastval + chargeffamount + acctInformationDate + lastdelinquencydate + dateclosed + lastpaymentdate + currencyTypeCode + ' ' + lastname + firstname + middlename + ' ' + SInnumber + Dateofbirth + Phonenumber + deceasedDate + customerInformationIndicator + CA + AddressLine + AddressLine2 + cityaddress + stateaddress + ZipAddres+'  '+'K1'+K1SegmentLine;
             
-            system.debug('heaser@@@'+headbody2);
-            system.debug('heaser length'+headbody2.length());
+
             Integer Stringcount2 = 460 - headbody2.length();
-            system.debug('Stringcount2'+Stringcount2);
             Integer Stringcountheadercount = Stringcount2 + headbody2.length();
 
             finalheadbody2 = finalheadbody2 + headbody2.rightPad(Stringcountheadercount) + '\r\n';
@@ -892,11 +901,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             metroobj2.Product_Type__c = productType;
             metroobj2.Sort_Order__c = 2;
             metroobj2.Batch_Number__c = batchNumber;
-                system.debug('nameValidationCheck##'+nameValidationCheck);
+
             if(nameValidationCheck == false){
                metroFileData.add(metroobj2);     
             }
-            system.debug('metroFileData@@'+metroFileData);
             
             //increment counter if records to be considered as out of CCS
             if(accountStatus == metro2TransUnion.Account_Status_Close__c){
@@ -932,14 +940,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         List<MetroFlatFileData__c> metrolstcount = new List<MetroFlatFileData__c>();
         AggregateResult[] metrolstcountData = [Select count(id) metroFlatFileDatacnt FROM MetroFlatFileData__c where HeaderCheck__c = false and FooterCheck__c = false and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber];
         Integer Rowscount = 0;
-        system.debug('Rowscount before'+Rowscount);
+
         for(AggregateResult aggr : metrolstcountData){
             Rowscount = (Integer)aggr.get('metroFlatFileDatacnt');
         }
-        system.debug('Rowscount after'+Rowscount);
  		 
         Integer  RowscountLength = String.valueOf(Rowscount).length();
-		system.debug('RowscountLength'+RowscountLength);
 
         String FinalSINCOUNT = '000000000';
         String FinalDOBCOunt = '000000000';
