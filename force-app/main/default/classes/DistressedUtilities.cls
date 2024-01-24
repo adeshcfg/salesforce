@@ -12,16 +12,19 @@ public class DistressedUtilities {
     public static map<String, Placement_Status_Mapping__c> placementStatusMap = Placement_Status_Mapping__c.getAll(); 
     
     public static Map<Id, String>  placementHistoryIDMap;
+    public static Map<Id, Decimal>  productIDMap;
     public static Map<Id, String> settlementIDMap;
     public static Map<String, ID> mapProductJudgment = new Map<String, ID>();
     // Fetching and updating Placement History Map
     public static void loadPlacementHistoryIDMap(List<id> prodIdList){
         placementHistoryIDMap = new Map<Id, String>();
+        productIDMap = new Map<Id, Decimal>();
         
         // Iterate and push statute date values to a map
-        for(Placement_history__c m :[Select id,name,Product__c from Placement_history__c where Product__c in: prodIdList AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC]){
+        for(Placement_history__c m :[Select id,name,Product__c,Product__r.Current_Balance__c from Placement_history__c where Product__c in: prodIdList AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC]){
             if(!placementHistoryIDMap.containsKey(m.Product__c)){
                 placementHistoryIDMap.put(m.Product__c, m.id);
+                productIDMap.put(m.Product__c,m.Product__r.Current_Balance__c);
             }
         }
     }
@@ -246,13 +249,16 @@ public class DistressedUtilities {
     public static void updatePlacementHistory(id product, String placeStatus){  
         List<ID> prodID = new List<ID>();
         prodID.add(product);
-        Placement_history__c placeHistory = [Select id,name from Placement_history__c where Product__c =: product AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC limit 1 ];
+        Placement_history__c placeHistory = [Select id,name,Product__r.Current_Balance__c from Placement_history__c where Product__c =: product AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC limit 1 ];
         Placement_history__c updatePlaceHistory = new Placement_history__c();
         updatePlaceHistory.Id = placeHistory.Id;
         updatePlaceHistory.Placement_Recall_Date__c = Date.today();
         updatePlaceHistory.Placement_Status__c = placeStatus;
         updatePlaceHistory.Placement_Status_Description__c = placementStatusMap.get(placeStatus).Description__c;
         updatePlaceHistory.Placement_Status_at_time_of_recall__c = placeStatus;
+        if(placeHistory.Product__r.Current_Balance__c != NULL){
+           updatePlaceHistory.Current_Total_Bal_at_time_of_Recall__c = placeHistory.Product__r.Current_Balance__c; 
+        }
         
         Update updatePlaceHistory;
         
@@ -276,6 +282,9 @@ public class DistressedUtilities {
                     updatePlaceHistory.Placement_Status_Description__c = placementStatusMap.get(updatePlaceHistory.Placement_Status__c).Description__c;
                 }
                 updatePlaceHistory.Placement_Status_at_time_of_recall__c = placeStatus.get(pid);//placeStatus;
+                if(productIDMap.containsKey(pid) && productIDMap.get(pid) != NULL){
+                    updatePlaceHistory.Current_Total_Bal_at_time_of_Recall__c = productIDMap.get(pid);
+                }
                 lstUpdateHis.add(updatePlaceHistory);
                 //Update updatePlaceHistory;
             }

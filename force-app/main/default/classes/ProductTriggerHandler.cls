@@ -1133,6 +1133,9 @@ public class ProductTriggerHandler{
                        if(String.isBlank(newAgency) || Test.isRunningTest()){
                            placementHistory.Placement_Recall_Date__c = Date.today();
                            placementHistory.Placement_Date__c = product.Assignment_Date__c;
+                           if(product.Current_Balance__c != NULL){
+                              placementHistory.Current_Total_Bal_at_time_of_Recall__c = product.Current_Balance__c; 
+                           }
                            //Set Product Recalled Date
                            product.Recalled_Date__c = Date.today();
                        }
