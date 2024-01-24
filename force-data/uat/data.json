@@ -1,0 +1,37 @@
+{
+	"apexCode": "//Fetch details for Voting Automation Engine API Call\r\nAPI_Call_Details__c docStorageAPI = [\r\n    SELECT\r\nAuthorizationtUrl__c,\r\nClient_ID__c,\r\nClient_Secret__c,\r\nProxy_Client_ID__c,\r\nPDF_API_URL__c,\r\nTenand_ID__c,\r\nScope_Prefix__c,\r\nScope_Suffix__c,\r\nAPI_Request_Timeout__c\r\n    FROM API_Call_Details__c\r\n    WHERE Name = 'Agency Portal API'\r\n];\r\n\r\nString tenandId = docStorageAPI.Tenand_ID__c;\r\nString apiID = docStorageAPI.Proxy_Client_ID__c;\r\nString clientId = docStorageAPI.Client_ID__c;\r\nString clientSecret = docStorageAPI.Client_Secret__c;\r\nString authorizationtUrl = docStorageAPI.AuthorizationtUrl__c;\r\nString apiURL = docStorageAPI.PDF_API_URL__c;\r\n\r\n//generate autherization URL and parameters\r\nauthorizationtUrl = authorizationtUrl.replace('{{tenandId}}', tenandId);\r\nString bodyParams = 'client_id=' + clientId;\r\nbodyParams = bodyParams + '&client_secret=' + clientSecret;\r\nbodyParams = bodyParams + '&scope=' + docStorageAPI.Scope_Prefix__c + apiID + docStorageAPI.Scope_Suffix__c;\r\n//bodyParams =  bodyParams+'&scope='+docStorageAPI.Scope_Prefix__c + apiID + docStorageAPI.Scope_Suffix__c;\r\nbodyParams = bodyParams + '&grant_type=client_credentials';\r\nString accessToken;\r\n\r\n// Get access token by authenticating using key parameters\r\nHttp http = new Http();\r\nHttpRequest req = new HttpRequest();\r\nreq.setMethod('POST');\r\nreq.setHeader('Content-Type', 'application/x-www-form-urlencoded');\r\nreq.setBody(bodyParams);\r\nreq.setHeader('Content-Length', String.valueOf(bodyParams.length()));\r\nreq.setEndpoint(authorizationtUrl);\r\nHTTPResponse res = http.send(req);\r\nMap<String, Object> resJson = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());\r\naccessToken = (String) resJson.get('access_token');\r\nSystem.debug(accessToken);",
+	"dml": {
+		"update": [
+			{
+				"objectName": "API_Call_Details__c",
+				"recordVariableName": "apiDetails",
+				"fields": [
+					{
+						"fieldApiName": "Id",
+						"fieldValue": "'a26S0000001qitWIAQ'"
+					},
+					{
+						"fieldApiName": "Client_ID__c",
+						"fieldValue": "'67'"
+					}
+				]
+			}
+		],
+		"insert": [
+			{
+				"objectName": "API_Call_Details__c",
+				"recordVariableName": "apiDetails1",
+				"fields": [
+					{
+						"fieldApiName": "Name",
+						"fieldValue": "'testAdesh'"
+					},
+					{
+						"fieldApiName": "Client_ID__c",
+						"fieldValue": "'test1'"
+					}
+				]
+			}
+		]
+	}
+}

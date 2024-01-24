@@ -1,6 +1,9 @@
 # Unique name for this workflow
 name: Deploy uat_psb branch to Production org
 
+env:
+  target: prod
+
 # Definition when the workflow should run
 on:
     pull_request:
@@ -8,7 +11,8 @@ on:
             - closed
         branches: [production]
         paths:
-            - "force-app/**"
+          - 'force-app/**'
+          - 'force-data/**'
 
 # Jobs to be executed
 jobs:
@@ -21,11 +25,25 @@ jobs:
               with:
                   node-version: "16"
 
+            # Install mustache
+            - name: 'Install mustache'
+              run: npm install -g mustache
+
             # Checkout the source code
             - name: "Checkout source code"
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
+
+            # Check which folder has changes - metadata or scripts
+            - uses: dorny/paths-filter@v2
+              id: changes
+              with:
+                filters: |
+                  metadata:
+                    - 'force-app/**'
+                  script:
+                    - 'force-data/**'
 
             # Install Salesforce CLI
             - name: "Install Salesforce CLI"
@@ -48,11 +66,20 @@ jobs:
               run: |
                   echo ${{secrets.SFDX_PROD_URL}} > ./SFDX_PROD_URL.txt
 
+            # Merge json data with apex script template using mustache
+            - name: 'Generate Apex Script'
+              if: steps.changes.outputs.script == 'true'
+              run: |
+                echo Generate apex script by merging data json with template
+                mustache ./force-data/${{env.target}}/data.json ./force-data/apexScript.apex > ./force-data/generatedApexScript.apex
+                cat ./force-data/generatedApexScript.apex
+
             # Authenticate to org
             - name: "Authenticate to Production Org"
               run: sfdx auth:sfdxurl:store -f ./SFDX_PROD_URL.txt -s -a integration
 
             - name: "Create delta packages for new, modified or deleted metadata"
+              if: steps.changes.outputs.metadata == 'true'
               run: |
                   mkdir changed-sources
                   sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
@@ -63,8 +90,14 @@ jobs:
 
             # If the env variable equals all, we run all tests
             - name: "Deploy delta changes - run all tests"
+              if: steps.changes.outputs.metadata == 'true'
               run: |
                   sfdx force:source:deploy -p "changed-sources/force-app" --testlevel RunLocalTests  --json
 
             - name: "Deploy destructive changes (if any) to Integration org"
+              if: steps.changes.outputs.metadata == 'true'
               run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings
+
+            - name: 'Execute Apex Script'
+              if: steps.changes.outputs.script == 'true'
+              run: sfdx force:apex:execute -f ./force-data/generatedApexScript.apex

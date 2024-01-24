@@ -1,6 +1,9 @@
 # Unique name for this workflow
 name: Validate PR on Development branch
 
+env:
+  target: dev
+
 # Definition when the workflow should run
 on:
     # The workflow will run whenever an event happens on a pull request
@@ -16,7 +19,8 @@ on:
         # root directory of the sfdx project. This prevents the job from running
         # when changing non-salesforce files (like this yml file).
         paths:
-            - "force-app/**"
+          - 'force-app/**'
+          - 'force-data/**'
 
 # Jobs to be executed when the above conditions are met
 jobs:
@@ -34,6 +38,10 @@ jobs:
               with:
                   node-version: "16"
 
+            # Install mustache
+            - name: 'Install mustache'
+              run: npm install -g mustache
+
             # The idea is that the VM can access your remote repository
             # because your repository is an sfdx project.
             # This is a default action that allows us to enter the root
@@ -50,6 +58,16 @@ jobs:
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
+
+            # Check which folder has changes - metadata or scripts
+            - uses: dorny/paths-filter@v2
+              id: changes
+              with:
+                filters: |
+                  metadata:
+                    - 'force-app/**'
+                  script:
+                    - 'force-data/**'
 
             # Now, we need a way to let the developer specify which tests to run, which
             # could be all tests or just the tests relevant to their deployment.
@@ -133,25 +151,39 @@ jobs:
             # this allows us to deploy only those changes, as opposed to deploying the entire branch.
             # This helps reducing deployment times
             - name: "Create delta packages for new, modified or deleted metadata"
+              if: steps.changes.outputs.metadata == 'true'
               run: |
                   mkdir changed-sources
                   sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
+
+            # Merge json data with apex script template using mustache
+            - name: 'Generate Apex Script'
+              if: steps.changes.outputs.script == 'true'
+              run: |
+                echo Generate apex script by merging data json with template
+                mustache ./force-data/${{env.target}}/data.json ./force-data/validateApexScript.apex > ./force-data/generatedApexScript.apex
+                cat ./force-data/generatedApexScript.apex
 
             # We do a check-only deploy and we only run the tests specified in the PR
             # If the env variable does equals 'RunSpecifiedTests', we know that there is a list of
             # tests that can be run
 
             - name: "Check-only deploy delta changes - run specified tests"
-              if: ${{ env.APEX_TESTS != 'all' }}
+              if: ${{ (env.APEX_TESTS != 'all') && (steps.changes.outputs.metadata == 'true') }}
               run: |
                   echo ${{env.APEX_TESTS}}
                   sfdx force:source:deploy -p "changed-sources/force-app" --checkonly --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} --json
 
             # If the env variable equals all, we run all tests
             - name: "Check-only deploy delta changes - run all tests"
-              if: ${{ env.APEX_TESTS == 'all' }}
+              if: ${{ (env.APEX_TESTS == 'all') && (steps.changes.outputs.metadata == 'true') }}
               run: |
                   sfdx force:source:deploy -p "changed-sources/force-app" --checkonly --testlevel RunLocalTests  --json
 
             - name: "Deploy destructive changes (if any)"
+              if: steps.changes.outputs.metadata == 'true'
               run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings
+
+            - name: 'Validate Apex Script'
+              if: steps.changes.outputs.script == 'true'
+              run: sfdx force:apex:execute -f ./force-data/generatedApexScript.apex
