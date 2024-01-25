@@ -2266,7 +2266,7 @@ public class ProductPaymentsTriggerHandler {
             if (
                 mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                 String.isNotBlank(productAgency) &&
-                productAgency == '9999' &&
+               // productAgency == '9999' && // Commented part of bug #4547
                 mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c != null &&
                 prodPayment.Payment_Posting_Date__c != null &&
                 mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) > 60
