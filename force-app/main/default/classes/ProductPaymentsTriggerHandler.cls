@@ -2262,11 +2262,12 @@ public class ProductPaymentsTriggerHandler {
                 prodPayment.addError('WARNING - This account is not available in this Placement.');
             }
 
+            /* Commented the below IF condition part of bug #4547
             //Account is currently warehoused  and recalled more than 60 days ago, OR account has had subsequent placements
             if (
                 mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                 String.isNotBlank(productAgency) &&
-               // productAgency == '9999' && // Commented part of bug #4547
+               // productAgency == '9999' && 
                 mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c != null &&
                 prodPayment.Payment_Posting_Date__c != null &&
                 mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) > 60
@@ -2275,7 +2276,7 @@ public class ProductPaymentsTriggerHandler {
                 EXPECTED += 'Account cannot not be in Warehouse.<br/>';
                 prodPayment.addError('Invalid current account status. Account should not be in Warehouse.');
             }
-
+            */
             //Payment exceeds total outstanding balance
             if (
                 mapProduct.containsKey(prodPayment.CCS_Account__c) &&
