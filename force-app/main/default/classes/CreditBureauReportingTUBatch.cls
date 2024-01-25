@@ -269,7 +269,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
 
             if(prodPay.Payment_Created__c <= LastDayOfLastMonth && placementHistoryMap.containsKey(prodPay.CCS_Account__C) && 
                prodPay.Payment_Created__c != NULL && placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c != NULL && 
-               prodPay.Payment_Created__c <= placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c){
+               prodPay.Payment_Created__c <= placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c && !mapProductPaymentsData.containsKey(prodPay.CCS_Account__c)){
                 mapProductPaymentsData.put(prodPay.CCS_Account__c, new List<Product_Payments__c>{ prodPay });   
             }
         }
