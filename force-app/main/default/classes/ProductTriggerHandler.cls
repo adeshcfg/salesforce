@@ -1958,7 +1958,7 @@ public class ProductTriggerHandler{
             prodNameID.put(prodNew.Name, prodNew.ID);
        
         List<Account_Judgment__c> accJudg = [Select id,name,status__c,product__C, judgment__c from Account_Judgment__c where product__c IN: prodID AND Status__C = 'Active'];
-        system.debug('accJudg::'+accJudg);
+    
          if(accJudg.isEmpty()){
              Judgment__c newJudgment = new Judgment__C();
              newJudgment.Legal_Status__c = 'Pre-Legal';
@@ -1971,30 +1971,27 @@ public class ProductTriggerHandler{
                  if(mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)){
                      newJudgment.Judgment_Province__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Name__c; 
                      newJudgment.Placed_Province__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Name__c;
-                     system.debug('newJudgment.Placed_Province__c::'+newJudgment.Placed_Province__c);
                  }else if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
                      newJudgment.Judgment_Province__c = ProvinceNameFormat; 
                      newJudgment.Placed_Province__c = ProvinceNameFormat;
                  }
              }
-             //newJudgment.Placed_Province__c = prodNew.State__c;
-             system.debug('prodNew.State__c::'+prodNew.State__c);
-             //newJudgment.Judgment_Province__c = prodNew.State__c;
-             system.debug('newJudgment.Judgment_Province__c::'+newJudgment.Judgment_Province__c);
              newJudgment.Product_1__c = prodNew.Name;
              newJudgment.Plaintiff__c = prodNew.Account_Purchasing_Entity_Value__c;
              newJudgment.Legal_Agency__c = String.valueOf(Math.floor(prodNew.Collection_Agency__c));
+             if(String.isNotBlank(newJudgment.Legal_Agency__c)){ 
+                 newJudgment.Legal_Agency_Placement__c = mapCollectionAgency.get(newJudgment.Legal_Agency__c).id;
+             }else{
+                 newJudgment.Legal_Agency_Placement__c = Null;
+             }
              newJudgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prodNew.Collection_Agency__c));
              if(String.isNotBlank(newJudgment.Agency_Initiated_Legal_Action__c)){ 
                  newJudgment.Agency_Initiated_Legal_Action_Lookup__c = mapCollectionAgency.get(newJudgment.Agency_Initiated_Legal_Action__c).id;
              }else{
                  newJudgment.Agency_Initiated_Legal_Action_Lookup__c = Null;
              }
-             system.debug('newJudgment.Agency_Initiated_Legal_Action__c::'+newJudgment.Agency_Initiated_Legal_Action__c);
-             //JudgmentTriggerHandler.runJudgmentTrigger = false;
              insert newJudgment;  
-             //JudgmentTriggerHandler.runJudgmentTrigger = true;
-             //PortalJudgmentProcessingAPI.processJudgment(newJudgment.Id);
+
              Account_Judgment__c accJudg1 = new Account_Judgment__c();
              accJudg1.Product__c = prodNameID.get(newJudgment.Product_1__c);
              accJudg1.Judgment__c = newJudgment.ID;
@@ -2002,7 +1999,6 @@ public class ProductTriggerHandler{
              accJudg1.Judgment_Identifier__c = newJudgment.name;
              AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
              insert accJudg1;
-             //accJudgID.add(accJudg1.ID);
              AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
              
              PortalAccountJudgmentProcessingAPI.processAccountJudgment(accJudg1.ID);
