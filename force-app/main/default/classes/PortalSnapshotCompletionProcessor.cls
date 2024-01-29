@@ -104,8 +104,7 @@ global with sharing class PortalSnapshotCompletionProcessor {
     }
     
     // Updating Product Staging records
-    public static void updateProductStagings(Map<String, String> dataIDs, String documentStorageId ){
-        
+    public static void updateProductStagings(Map<String, String> dataIDs, String documentStorageId ){   
         List<Product_Staging__c> pstgs = [SELECT Id, Identifier__c, Comment__c, 
                                           Document_Storage__r.Work_Assignment__c,
                                           Document_Storage__r.Document_Id__c,
@@ -132,13 +131,13 @@ global with sharing class PortalSnapshotCompletionProcessor {
             }
             else{
                 //pstg.Comment__c = '<b>ERROR</b>- '+ dataIDs.get(pstg.Data_Id__c)+';'+pstg.Comment__c;
-                msg = '<b>ERROR</b>- '+ dataIDs.get(pstg.Data_Id__c)+';'+pstg.Comment__c;
+                msg = '<b>ERROR</b>- '+ dataIDs.get(pstg.Data_Id__c)+' in snapshot;'+pstg.Comment__c;
             }
             
             if(msg.length() > 254){
                 msg = msg.substring(0,254);
             }
-            
+
             pstg.Comment__c = msg;
             pstg.Include_in_Processing__c = false;
         }
