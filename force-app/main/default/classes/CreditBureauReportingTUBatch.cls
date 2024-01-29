@@ -386,16 +386,16 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         
         Integer countheader = Integer.valueOf(maxRowslength) - headbody.length();
         Integer countheader2 = countheader + headbody.length();
-        integer [] trimmedArray2 = new integer [countheader];
+        /* integer [] trimmedArray2 = new integer [countheader];
         
         for (integer i = 0; i < countheader; i ++)
-            trimmedArray2[i] = 160;
+            trimmedArray2[i] = 160; */
         
         Metro__c metroheaderrecsetiing  = Metro__c.getInstance('Header');
 
         if(metroheaderrecsetiing.HeaderCheck__c == false) {
             MetroFlatFileData__c metroobj24 = new MetroFlatFileData__c();
-            metroobj24.RowData1__c = headbody + String.fromCharArray(trimmedArray2);
+            metroobj24.RowData1__c = headbody/*  + String.fromCharArray(trimmedArray2) */;
             metroobj24.HeaderCheck__c = true;
             metroobj24.Bureau_Type__c = bureauTypeTransUnion;
             metroobj24.Product_Type__c = productType;
@@ -884,12 +884,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
 
             finalheadbody2 = finalheadbody2 + headbody2.rightPad(Stringcountheadercount) + '\r\n';
 
-            integer [] trimmedArray = new integer [Stringcount2];
+            /* integer [] trimmedArray = new integer [Stringcount2];
             for (integer i = 0; i < Stringcount2; i ++){
                 trimmedArray[i] = 160;
-            }
+            } */
        
-            metroobj2.RowData1__c = headbody2 + String.fromCharArray(trimmedArray);
+            metroobj2.RowData1__c = headbody2/*  + String.fromCharArray(trimmedArray) */;
             metroobj2.ProductId__c = prodct.Id;
             metroobj2.Product__c = prodct.id;
             metroobj2.Bureau_Type__c = bureauTypeTransUnion;
@@ -996,12 +996,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         String Trailerrec = maxRowslength+'TRAILER' + rowscountwithzero + '                  000000000000000000000000000'+FinalSTATUSDACOUNT+'000000000000000000' + FinalSTATUS13COUNT + '000000000'+ FinalSTATUS62COUNT +'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + FinalSTATUS93COUNT + '000000000' + '000000000' + '000000000' + FinalSTATUS97COUNT + '000000000000000000'+ rowscountwithzero +'000000000000000000000000000000000000' + FinalSINCOUNT + FinalSINCOUNT + '000000000000000000' + FinalDOBCOunt + FinalDOBCOunt + '000000000000000000' + FinalPhoneocuntNet + '    ';
         
         Integer Trailcount2 = Integer.valueOf(maxRowslength) - Trailerrec.length();
-        integer [] trimmedArray = new integer [Trailcount2];
+        /* integer [] trimmedArray = new integer [Trailcount2];
         for (integer i = 0; i < Trailcount2; i ++){
             trimmedArray[i] = 160;   
-        }
+        } */
         MetroFlatFileData__c metroobj4 = new MetroFlatFileData__c();
-        metroobj4.RowData1__c = Trailerrec + String.fromCharArray(trimmedArray);
+        metroobj4.RowData1__c = Trailerrec/*  + String.fromCharArray(trimmedArray) */;
         metroobj4.FooterCheck__c = true;
         metroobj4.Bureau_Type__c = bureauTypeTransUnion;
         metroobj4.Product_Type__c = productType;
