@@ -2115,11 +2115,12 @@ public class ProductPaymentsTriggerHandler {
                         }else{
                             EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
                         }
-                        if (prodPayment.Ignore_Warning__c == false) {
+                        // Commented as condition is not needed
+                        /* if (prodPayment.Ignore_Warning__c == false) {
                             prodPayment.addError(
                                 'WARNING - Account was recalled more than 15 days ago and is currently warehoused. Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1
                             );
-                        }
+                        } */
 
                         prodPayment.Pay_Due__c = 0;
                         prodPayment.Tax_Amount__c = 0;
