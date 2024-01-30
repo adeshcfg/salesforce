@@ -297,7 +297,8 @@ public class ProductPaymentExcelFileProcessing {
                     if (feeRecovery < prodPayment.Payment_Amount__c) {
                         payCommission = prodPayment.Payment_Amount__c - feeRecovery;
                     }
-                    newFeeRecovery = feeRecovery - prodPayment.Payment_Amount__c;
+                    // Don't subtract if payment is a reversal otherwise it will increase the fee recovery
+                    newFeeRecovery = prodPayment.Payment_Type__c != '1003' ? feeRecovery - prodPayment.Payment_Amount__c : feeRecovery;
                     productFeeRecoveryMap.put(prodPayment.CCS_Account__c, newFeeRecovery <= 0 ? 0 : newFeeRecovery);
 
                     prodPayment.Pool_Lookup__c = mapProduct.get(prodPayment.CCS_Account__c).Pool_Name__c;
@@ -428,7 +429,7 @@ public class ProductPaymentExcelFileProcessing {
                     (feeRecovery != 0 &&
                     feeRecovery >= prodPayment.Payment_Amount__c)
                 ) {
-                    newFeeRecovery = feeRecovery - prodPayment.Payment_Amount__c;
+                    newFeeRecovery = prodPayment.Payment_Type__c != '1003' ? feeRecovery - prodPayment.Payment_Amount__c : feeRecovery;
                     productFeeRecoveryMap.put(prodPayment.CCS_Account__c, newFeeRecovery <= 0 ? 0 : newFeeRecovery);
                 }
                 prodPayment.Payment_Agency__c = workAssignmentPlacement;
