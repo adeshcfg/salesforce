@@ -165,8 +165,11 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             oldComments = workAssignment.Comments_History__c;
         }
         workAssignment.Latest_Comment__c = workAssignment.Comment_Reply__c;
-        workAssignment.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
-        
+        //workAssignment.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+        //Bug: 4743 - Commented above line and changes starts
+            user systemUser=[SELECT ID,Name from User where name='System API' LIMIT 1];
+            workAssignment.Comments_History__c = UsystemUser.Name + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+        //Bug: 4743 - changes ends
         if(oldComments != null){
             workAssignment.Comments_History__c += oldComments;
         }
