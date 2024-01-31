@@ -1022,7 +1022,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         else if(RowscountLength == 9) {
             rowscountwithzero  = '00000000' + String.valueOf(Rowscount);
         }
-        
   
         String Trailerrec = maxRowslength+'TRAILER' + rowscountwithzero + '                  000000000000000000000000000'+FinalSTATUSDACOUNT+'000000000000000000' + FinalSTATUS13COUNT + '000000000'+ FinalSTATUS62COUNT +'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + FinalSTATUS93COUNT + '000000000' + '000000000' + '000000000' + FinalSTATUS97COUNT + '000000000000000000'+ rowscountwithzero +'000000000000000000000000000000000000' + FinalSINCOUNT + FinalSINCOUNT + '000000000000000000' + FinalDOBCOunt + FinalDOBCOunt + '000000000000000000' + FinalPhoneocuntNet + '    ';
         
