@@ -29,6 +29,7 @@ public class ProductPaymentExcelFileProcessing {
     string prodProvinceName;
     string ProvinceNameFormat;
     String provinceAcronymFormat;
+    String warehouseAgencyId = '';
 
     list<Document_Storage__c> listDocuments;
     List<paymentRecordsWrapper> listPaymentRecordWrapper = new List<paymentRecordsWrapper>();
@@ -80,6 +81,11 @@ public class ProductPaymentExcelFileProcessing {
             map<id, Placement__c> mapPlacementIDs = new Map<id, Placement__c>();
             mapProductJudgmentClaimIssuedID = new Map<ID, ID>();
             map<String, Decimal> mapValueTierCommissionRate = getCommissionRateValues();
+
+            List<Placement__c> warehouse = [SELECT Id From Placement__c Where Name = '9999' Limit 1];
+            if(!warehouse.isEmpty()) {
+                warehouseAgencyId = warehouse[0].Id;
+            }
 
             for (PaymentRecordsWrapper wrapRecord : listPaymentRecordWrapper) {
                 if (wrapRecord.data_id != null) {
@@ -1243,10 +1249,12 @@ public class ProductPaymentExcelFileProcessing {
                         }
                         prodPayment.Pay_Due__c = 0;
                         prodPayment.Tax_Amount__c = 0;
+                        prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
                         if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                            if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
+                            // Commission paid to field should be populated with warehouse placement record, no need to populate with previous placed agency
+                            /* if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
                                 prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
-                            }
+                            } */
                             if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
                                 prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                             }

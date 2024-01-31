@@ -35,6 +35,7 @@ public class ProductPaymentsTriggerHandler {
     public static string prodProvinceName;
     public static string ProvinceNameFormat;
     public static String provinceAcronymFormat;
+    public static String warehouseAgencyId = '';
 
     //balance adjustment transaction type codes
     static final String FEE_TRANSACION_CODES = '3000,3400,4000,4001,4002,4003,5000,5001,5002,5003,7000,7001';
@@ -1626,6 +1627,11 @@ public class ProductPaymentsTriggerHandler {
             mapPlacement.put(placement.ID, placement);
         }
 
+        List<Placement__c> warehouse = [SELECT Id From Placement__c Where Name = '9999' Limit 1];
+        if(!warehouse.isEmpty()) {
+            warehouseAgencyId = warehouse[0].Id;
+        }
+
         for (Product__C product : [
             SELECT
                 ID,
@@ -2121,13 +2127,14 @@ public class ProductPaymentsTriggerHandler {
                                 'WARNING - Account was recalled more than 15 days ago and is currently warehoused. Commission Amount paid will be '+mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c * -1
                             );
                         } */
-
+                        prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
                         prodPayment.Pay_Due__c = 0;
                         prodPayment.Tax_Amount__c = 0;
                         if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                            if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
+                            // Commission paid to field should be populated with warehouse placement record, no need to populate with previous placed agency
+                            /* if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
                                 prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
-                            }
+                            } */
                             if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
                                 prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                             }
