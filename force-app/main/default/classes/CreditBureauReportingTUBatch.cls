@@ -57,6 +57,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     public Map<ID,Placement_History__c> placementHistoryMap = new Map<ID,Placement_History__c>();
     public static final String defDateOfAccountInformationDate = '00000000';
     public list<String> includeAgencyList = new list<String>();
+    public Map<ID,ID> previousAllocatedAgency = new Map<ID,ID>();
+    public Map<ID,ID> previousRecalledAgency = new Map<ID,ID>();
+    public Map<ID,ID> preAllocatedAgency = new Map<ID,ID>();
     
     public CreditBureauReportingTUBatch(){
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
@@ -73,7 +76,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         Date placementDateBefore45 = System.today().addDays(-noOfDaysAfterReport);
         
         List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c,Placement_Recall_Date__c,
-                                                       Current_Total_Bal_at_time_of_Recall__c
+                                                       Current_Total_Bal_at_time_of_Recall__c,Placement__c
                                                          FROM Placement_History__c
                                                          WHERE Placement__r.Name IN :includeAgencyList 
                                                        	 AND Placement_Date__c <: placementDateBefore45
@@ -82,7 +85,29 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         for(Placement_History__c placeHistory : placementHistory){
             productIds.add(placeHistory.Product__c);
             placementHistoryMap.put(placeHistory.Product__c,placeHistory);
+            previousRecalledAgency.put(placeHistory.Product__c,placeHistory.Placement__c);
         }
+        
+        List<Placement_History__c> allocatedPlacementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c,Placement_Recall_Date__c,
+                                                       Current_Total_Bal_at_time_of_Recall__c,Placement__c
+                                                         FROM Placement_History__c
+                                                         WHERE Placement__r.Name IN :includeAgencyList 
+                                                       	 AND Product__c IN :productIds
+                                                         AND Placement_Recall_Date__c = NULL
+                                                         AND Placement_Date__c <> NULL
+                                                      	 AND Placement_Date__c = LAST_MONTH];
+        
+        for(Placement_History__c allocatedPlaceHistory : allocatedPlacementHistory){
+            preAllocatedAgency.put(allocatedPlaceHistory.Product__c,allocatedPlaceHistory.Placement__c);
+
+            if(previousRecalledAgency.get(allocatedPlaceHistory.Product__c) == preAllocatedAgency.get(allocatedPlaceHistory.Product__c)){
+                productIds.add(allocatedPlaceHistory.Product__c);
+                previousAllocatedAgency.put(allocatedPlaceHistory.Product__c,allocatedPlaceHistory.Placement__c);
+                //placementHistoryMap.remove(allocatedPlaceHistory.Product__c);
+            }
+        }
+        system.debug('productIds check::'+productIds);
+        system.debug('placementHistoryMap check::'+placementHistoryMap);
     }  
     
     // Start Method
@@ -422,7 +447,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             // Code for Adding Date Opened Right Padding upon dynamic values in less
             String Dateopened = defDateOpened;
-            if(placementHistoryMap.containsKey(prodct.id) && placementHistoryMap.get(prodct.id).Placement_Date__c <> NULL){
+            if((placementHistoryMap.containsKey(prodct.id) && placementHistoryMap.get(prodct.id).Placement_Date__c <> NULL) 
+              || previousAllocatedAgency.containsKey(prodct.id)){
                  Dateopened = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(placementHistoryMap.get(prodct.id).Placement_Date__c);
                  metroobj2.Open_Date__c = Dateopened;   
             }else{
@@ -471,7 +497,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             String Finalactualpayplan  = defFinalactualpayplan;    
             AggregateResult grossPaySum = productSumTotal.get(prodct.id);
             Decimal actualGrossPay = 0.00;
-            if(mapProductPaymentAmount.containsKey(prodct.id)){
+            if(mapProductPaymentAmount.containsKey(prodct.id) && !previousAllocatedAgency.containsKey(prodct.id)){
                 Finalactualpayplan = String.valueOf(mapProductPaymentAmount.get(prodct.id).setScale(0));
                 Finalactualpayplan = Finalactualpayplan.leftPad(9, '0');  
             }
@@ -506,10 +532,15 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             // Code for date of last payment  Right Padding upon dynamic values in less
             String lastpaymentdate  = defLastPaymentDate;
-            if(mapProductPaymentsData.containsKey(prodct.id)){
+            if(mapProductPaymentsData.containsKey(prodct.id) && !previousAllocatedAgency.containsKey(prodct.id)){
                lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(mapProductPaymentsData.get(prodct.id)[0].Payment_Created__c); 
             }else{
                 if(!placementHistoryMap.containsKey(prodct.id)){
+                    if(prodct.Last_Payment_Date__c != null) {
+                        lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
+                    }
+                }
+                if(previousAllocatedAgency.containsKey(prodct.id)){
                     if(prodct.Last_Payment_Date__c != null) {
                         lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
                     }
@@ -750,7 +781,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             // Code for Adding current Amount  Right Padding upon dynamic values in less
             String currentplanval = defCurrentPlanval;
-            if(placementHistoryMap.containsKey(prodct.id)){
+            if(placementHistoryMap.containsKey(prodct.id) && !previousAllocatedAgency.containsKey(prodct.id)){
                 if(accountStatus != metro2TransUnion.Account_Status_Close__c){
                     //Code to prevent negative values. if value is negative show 0's
                     if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c >= 0){        
@@ -785,7 +816,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             // Code for Adding past Amount  Right Padding upon dynamic values in less
             String pastval = defPastVal;
-            if(placementHistoryMap.containsKey(prodct.id)){
+            if(placementHistoryMap.containsKey(prodct.id) && !previousAllocatedAgency.containsKey(prodct.id)){
                 //Code to prevent negative values. if value is negative show 0's
                 if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c >= 0){        
                     pastval = String.valueOf(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c);
