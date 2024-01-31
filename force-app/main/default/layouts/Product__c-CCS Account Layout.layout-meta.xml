@@ -45,10 +45,6 @@
                 <behavior>Edit</behavior>
                 <field>Type_of_Service__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Portfolio_Name__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -276,10 +272,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Portfolio_Group_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Investment_Group__c</field>
             </layoutItems>
             <layoutItems>
@@ -299,14 +291,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Charged_Off_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Purchase_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Purchase_Factor_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

@@ -97,10 +97,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Portfolio_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Stmt_Hold_Flag__c</field>
             </layoutItems>
             <layoutItems>
