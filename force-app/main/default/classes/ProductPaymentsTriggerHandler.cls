@@ -2315,16 +2315,18 @@ public class ProductPaymentsTriggerHandler {
             if (
                 mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                 String.isNotBlank(productAgency) &&
-                productAgency == '9999' &&
+                productAgency == '9999' && 
                 mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c != null &&
                 prodPayment.Payment_Posting_Date__c != null &&
                 mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) > 60
             ) {
                 ERROR_MSG += '<b>ERROR</b> - Invalid current account status.<br/> ';
                 EXPECTED += 'Account cannot not be in Warehouse.<br/>';
+                //Added the below IF condition part of bug #4547
+                if (prodPayment.Ignore_Warning__c == false) {
                 prodPayment.addError('Invalid current account status. Account should not be in Warehouse.');
+                }
             }
-
             //Payment exceeds total outstanding balance
             if (
                 mapProduct.containsKey(prodPayment.CCS_Account__c) &&
