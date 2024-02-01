@@ -193,7 +193,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         String finalK1HeadBody2 = ''; 
         String maxRowslength = '';
         String canaFinGrp = '';
-        String TransUnionIdentifier '';
+        String TransUnionIdentifier = '';
         String headerCust = '';
         String CA = '';
         String ZAP = '';
@@ -229,7 +229,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             maxRecallDate = (Date)arrResult.get('lastRecallDate');
         }
         for(Product__c prodData: scope){
-            mapProduct.put(prodRecData.ID, prodRecData);
+            mapProduct.put(prodData.ID, prodData);
         }
         //check active judgment present on product
 		List<Account_Judgment__c> accountJudgment = [SELECT ID, Name, Product__c, Judgment__c,
