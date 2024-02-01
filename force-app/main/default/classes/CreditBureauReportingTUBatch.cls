@@ -289,7 +289,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                     CCS_Account__C IN :listOfProductIds
                                     AND (RecordTYpe.DeveloperName = 'Distressed_Product_Payment') 
                                     AND Payment_Created__c = LAST_MONTH
-                                    AND (Payment_Type__c= PAYTYPE_REGULAR OR Payment_Type__c = PAYTYPE_PAID_IN_FULL OR Payment_Type__c= PAYTYPE_SETTLED_IN_FULL) 
+                                    AND (Payment_Type__c=: PAYTYPE_REGULAR OR Payment_Type__c =: PAYTYPE_PAID_IN_FULL OR Payment_Type__c=: PAYTYPE_SETTLED_IN_FULL) 
                                     AND Is_Payment_Reversed__c = False 
                                     GROUP BY CCS_Account__C];
         
@@ -307,7 +307,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                     WHERE 
                                     CCS_Account__C IN :listOfProductIds
                                     AND (RecordTYpe.DeveloperName = 'Distressed_Product_Payment') 
-                                    AND (Payment_Type__c= PAYTYPE_REGULAR OR Payment_Type__c = PAYTYPE_PAID_IN_FULL OR Payment_Type__c= PAYTYPE_SETTLED_IN_FULL) 
+                                    AND (Payment_Type__c=: PAYTYPE_REGULAR OR Payment_Type__c =: PAYTYPE_PAID_IN_FULL OR Payment_Type__c=: PAYTYPE_SETTLED_IN_FULL) 
                                     AND Is_Payment_Reversed__c = False 
                                     AND Payment_Created__c >= :minPlacementDate 
                                     AND Payment_Created__c <= :maxRecallDate                 
