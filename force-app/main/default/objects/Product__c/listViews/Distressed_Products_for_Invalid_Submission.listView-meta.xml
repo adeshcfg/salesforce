@@ -2,13 +2,15 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Distressed_Products_for_Invalid_Submission</fullName>
     <columns>LAST_UPDATE</columns>
-    <columns>Timestamp_Of_Invalid_Submission__c</columns>
     <columns>NAME</columns>
     <columns>First_Name__c</columns>
     <columns>Last_Name__c</columns>
     <columns>Collection_Agency__c</columns>
     <columns>Collection_Agency_Formula__c</columns>
+    <columns>Timestamp_Of_Invalid_Submission__c</columns>
     <columns>Invalid_Submission_Reason__c</columns>
+    <columns>Invalid_Submission_Initiated_By__c</columns>
+    <columns>Invalid_Submission__c</columns>
     <columns>Pool_Name__c</columns>
     <columns>Email_Address__c</columns>
     <columns>Phone_Home__c</columns>
