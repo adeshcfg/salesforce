@@ -2141,7 +2141,8 @@ judg.addError('Suit amount is not equal all Product suit amount');
                                                  Judgment__r.Product_3__c,Judgment__r.Product_4__c,
                                                  Judgment__r.Product_5__c
                                                  FROM Account_Judgment__c
-                                                 WHERE Product__c IN:productId];
+                                                 WHERE Product__c IN:productId
+                                                 AND Status__c = 'Active' ];
         system.debug('accJudgment**'+accJudgment);
         for(Account_Judgment__c accJud: accJudgment){
             if(accJud.Judgment__r.Product_1__c != NULL){
@@ -2166,6 +2167,7 @@ judg.addError('Suit amount is not equal all Product suit amount');
                                     FROM Account_Judgment__c 
                                     WHERE 
                                     Product__r.Name IN :prodId
+                                    AND Status__c = 'Active'
                                     GROUP BY Judgment__c]){
                                         system.debug('aggr check::'+aggr);
                                         system.debug('totalNonRecov'+(decimal)aggr.get('totalNonRecov'));
