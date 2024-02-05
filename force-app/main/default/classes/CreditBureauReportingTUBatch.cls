@@ -1001,14 +1001,14 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     
     // Finish Method to generate TAILER record
     public void finish(Database.BatchableContext BC) {
-        String FinalSINCount = blankString.leftPad(9, '0');
-        String FinalDOBCount = blankString.leftPad(9, '0');
-        String FinalPhoneCountNet = blankString.leftPad(9, '0');
-        String FinalStatus13Count = blankString.leftPad(9, '0');
-        String FinalStatus93Count = blankString.leftPad(9, '0');
-        String FinalStatus97Count = blankString.leftPad(9, '0');
-        String FinalStatusDACount = blankString.leftPad(9, '0');
-        String FinalStatus62Count = blankString.leftPad(9, '0');
+        String finalSINCount = blankString.leftPad(9, '0');
+        String finalDOBCount = blankString.leftPad(9, '0');
+        String finalPhoneCountNet = blankString.leftPad(9, '0');
+        String finalStatus13Count = blankString.leftPad(9, '0');
+        String finalStatus93Count = blankString.leftPad(9, '0');
+        String finalStatus97Count = blankString.leftPad(9, '0');
+        String finalStatusDACount = blankString.leftPad(9, '0');
+        String finalStatus62Count = blankString.leftPad(9, '0');
         String extra18Spaces = blankString.leftPad(18);
         String extra4Spaces = blankString.leftPad(4);
         String extra27Zeros = blankString.leftPad(27, '0');
@@ -1032,31 +1032,31 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
 
         //Phone Count
         Integer FinalPhoneCount = [select PhoneNumber__c from MetroFlatFileData__c where PhoneNumber__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
-        FinalPhoneCountNet = CustomerProcessingBatchHelper.getStringWithZeroPadding(FinalPhoneCount);
+        finalPhoneCountNet = CustomerProcessingBatchHelper.getStringWithZeroPadding(FinalPhoneCount);
         
         //SIN Count
         Integer SINCOUNT = [select SIN__c from MetroFlatFileData__c where SIN__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber].size();
-        FinalSINCount = CustomerProcessingBatchHelper.getStringWithZeroPadding(SINCOUNT);
+        finalSINCount = CustomerProcessingBatchHelper.getStringWithZeroPadding(SINCOUNT);
         
         //DOB Count
         Integer DOBCOUNT = [select Dateofbirth__c from MetroFlatFileData__c where Dateofbirth__c != null and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
-        FinalDOBCount = CustomerProcessingBatchHelper.getStringWithZeroPadding(DOBCOUNT);
+        finalDOBCount = CustomerProcessingBatchHelper.getStringWithZeroPadding(DOBCOUNT);
         
         //Status 93 Count
         Integer STATUS93COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '93' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
-        FinalStatus93Count = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS93COUNT);
+        finalStatus93Count = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS93COUNT);
         
         //Status 97 Count
         Integer STATUS97COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '97' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
-        FinalStatus97Count = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS97COUNT);
+        finalStatus97Count = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS97COUNT);
         
         //Status DA Count
         Integer STATUSDACOUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = 'DA' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
-        FinalStatusDACount = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUSDACOUNT);
+        finalStatusDACount = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUSDACOUNT);
         
         //Status 62 Count
         Integer STATUS62COUNT = [select Status__c from MetroFlatFileData__c where Status__c != null and Status__c = '62' and Bureau_Type__c =: bureauTypeTransUnion and Product_Type__c =: productType and createddate = TODAY and Batch_Number__c =: batchNumber limit 49000].size();
-        FinalStatus62Count = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS62COUNT);
+        finalStatus62Count = CustomerProcessingBatchHelper.getStringWithZeroPadding(STATUS62COUNT);
         
         String rowsCountWithZero;
         if(RowsCountLength < STATIC_INTEGER_9) {
@@ -1069,7 +1069,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             rowsCountWithZero  = extra8Zeros + String.valueOf(RowsCount);
         }
 
-        String TrailerRec = maxRowsLength+'TRAILER' + rowsCountWithZero + extra18Spaces + extra27Zeros +FinalStatusDACount+extra18Zeros + FinalStatus13Count + extra9Zeros + FinalStatus62Count + extra99Zeros + FinalStatus93Count + extra27Zeros + FinalStatus97Count + extra18Zeros + rowscountwithzero + extra27Zeros + extra9Zeros + FinalSINCount + FinalSINCount + extra18Zeros + FinalDOBCount + FinalDOBCount + extra18Zeros + FinalPhoneCountNet + extra4Spaces;
+        String TrailerRec = maxRowsLength+'TRAILER' + rowsCountWithZero + extra18Spaces + extra27Zeros +finalStatusDACount+extra18Zeros + finalStatus13Count + extra9Zeros + finalStatus62Count + extra99Zeros + finalStatus93Count + extra27Zeros + finalStatus97Count + extra18Zeros + rowscountwithzero + extra27Zeros + extra9Zeros + finalSINCount + finalSINCount + extra18Zeros + finalDOBCount + finalDOBCount + extra18Zeros + finalPhoneCountNet + extra4Spaces;
        
         MetroFlatFileData__c metroObj4 = new MetroFlatFileData__c();
         metroObj4.RowData1__c = TrailerRec;
