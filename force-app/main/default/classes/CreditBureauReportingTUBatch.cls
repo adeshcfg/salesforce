@@ -1001,14 +1001,14 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
     
     // Finish Method to generate TAILER record
     public void finish(Database.BatchableContext BC) {
-        String FinalSINCount = '000000000';
-        String FinalDOBCount = '000000000';
-        String FinalPhoneCountNet = '000000000';
-        String FinalStatus13Count = '000000000';
-        String FinalStatus93Count = '000000000';
-        String FinalStatus97Count = '000000000';
-        String FinalStatusDACount = '000000000';
-        String FinalStatus62Count = '000000000';
+        String FinalSINCount = blankString.leftPad(9, '0');
+        String FinalDOBCount = blankString.leftPad(9, '0');
+        String FinalPhoneCountNet = blankString.leftPad(9, '0');
+        String FinalStatus13Count = blankString.leftPad(9, '0');
+        String FinalStatus93Count = blankString.leftPad(9, '0');
+        String FinalStatus97Count = blankString.leftPad(9, '0');
+        String FinalStatusDACount = blankString.leftPad(9, '0');
+        String FinalStatus62Count = blankString.leftPad(9, '0');
         String extra18Spaces = blankString.leftPad(18);
         String extra4Spaces = blankString.leftPad(4);
         String extra27Zeros = blankString.leftPad(27, '0');
