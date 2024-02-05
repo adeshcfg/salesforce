@@ -1631,10 +1631,11 @@ public class ProductPaymentExcelFileProcessing {
                     }
                     prodPayment.Pay_Due__c = 0;
                     prodPayment.Tax_Amount__c = 0;
+                    prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
                     if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                        if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
+                        /* if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
                             prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
-                        }
+                        } */
                         if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
                             prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                         }
