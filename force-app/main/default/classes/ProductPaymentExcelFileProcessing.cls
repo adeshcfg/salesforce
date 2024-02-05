@@ -1596,11 +1596,11 @@ public class ProductPaymentExcelFileProcessing {
                             //calculate tax amount ends
                             //prodPayment.Product_Agency__c = mapProduct.get(prodPayment.CCS_Account__c).COllection_Agency_placement__c;
                         }
-
+                        prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
                         if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                            if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
+                            /* if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
                                 prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
-                            }
+                            } */
                             if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
                                 prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                             }
