@@ -29,6 +29,7 @@ public class ProductPaymentExcelFileProcessing {
     string prodProvinceName;
     string ProvinceNameFormat;
     String provinceAcronymFormat;
+    @testVisible
     String warehouseAgencyId = '';
 
     list<Document_Storage__c> listDocuments;
