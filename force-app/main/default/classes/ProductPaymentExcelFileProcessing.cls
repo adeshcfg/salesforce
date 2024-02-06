@@ -567,7 +567,7 @@ public class ProductPaymentExcelFileProcessing {
     public map<ID, Placement_History__c> getLastAgencyRecallDate(set<ID> setProductNames, set<String> setPlacementNames) {
         map<ID, Placement_History__c> lastAgencyRecallDate = new Map<ID, Placement_History__c>();
         // Get agency names for all payment's products
-        for (Product__c product : [SELECT Id, Collection_Agency__c FROM Product__c WHERE Name IN :setProductNames]) {
+        for (Product__c product : [SELECT Id, Collection_Agency__c FROM Product__c WHERE Id IN :setProductNames]) {
             setPlacementNames.add(String.valueOf(product.Collection_Agency__c));
         }
 
