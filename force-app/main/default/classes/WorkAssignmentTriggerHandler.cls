@@ -78,10 +78,13 @@ public class WorkAssignmentTriggerHandler {
             workAssig.Created_By__c =  UserInfo.getName();
             String commReply = '';
             if(workAssig.Comment_Reply__c != null){
+                user systemUser=[SELECT ID,Name from User where name='System API' LIMIT 1];
                 commReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
                 workAssig.Latest_Comment__c = commReply;
-                workAssig.Comments_History__c = 'System Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commReply;
+                //bug:4743 : changes starts
+                workAssig.Comments_History__c = systemUser.name+' '+'Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commReply;
                 workAssig.Comment_Reply__c = '';
+                //bug:4743 : changes ends
             }
             
             /*if(workAssig.Statements__c == True && workAssig.Start_Month__c == null){
@@ -502,7 +505,10 @@ public class WorkAssignmentTriggerHandler {
             if(workAssig.Comment_Reply__c != null && workAssig.Comment_Reply__c != wrkAssgnsOld.Comment_Reply__c){
                try{
                    commentReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
-                   workAssig.Comments_History__c = 'System Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
+                   //bug:4743 changes starts
+                   user systemUser=[SELECT ID,Name from User where name='System API' LIMIT 1];
+                   workAssig.Comments_History__c = systemUser.name+' '+'Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
+                   //bug:4743 changes ends
                    workAssig.Latest_Comment__c = commentReply;
                    system.debug('ABC');
                    workAssig.Comment_Reply__c = '';
