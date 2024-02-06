@@ -570,7 +570,7 @@ public class ProductPaymentExcelFileProcessing {
         for (Product__c product : [SELECT Id, Collection_Agency__c FROM Product__c WHERE Id IN :setProductNames]) {
             setPlacementNames.add(String.valueOf(product.Collection_Agency__c));
         }
-
+        setPlacementNames.remove('9999');
         for (Placement_History__c placementHistory : [
             SELECT
                 ID,
