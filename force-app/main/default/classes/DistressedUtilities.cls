@@ -1134,7 +1134,7 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
                                             //bug:4743 : changes starts
                                            user systemUser=[SELECT ID,Name from User where name='System API' LIMIT 1];
                                            workAssignment.Comments_History__c = systemUser.name+' '+'Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
-                                            //bug:4743 : changes starts
+                                            //bug:4743 : changes ends
                                            if(oldComments != null){
                                                workAssignment.Comments_History__c += oldComments;
                                            }
