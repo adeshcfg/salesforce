@@ -564,40 +564,6 @@ public class ProductPaymentExcelFileProcessing {
         return previouslyPlaced;
     }
 
-    public map<ID, Placement_History__c> getLastAgencyRecallDate(set<ID> setProductNames, set<String> setPlacementNames) {
-        map<ID, Placement_History__c> lastAgencyRecallDate = new Map<ID, Placement_History__c>();
-        // Get agency names for all payment's products
-        for (Product__c product : [SELECT Id, Collection_Agency__c FROM Product__c WHERE Id IN :setProductNames]) {
-            setPlacementNames.add(String.valueOf(product.Collection_Agency__c));
-        }
-        setPlacementNames.remove('9999');
-        for (Placement_History__c placementHistory : [
-            SELECT
-                ID,
-                Placement__r.Name,
-                Product__c,
-                Product__r.Name,
-                Placement_Recall_Date__c,
-                Agency_Id__c,
-                Placement__c,
-                Product_Commission_Rate__c,
-                Commission_Rate__c,
-                Pool_Commission_Rate__c
-            FROM Placement_History__c
-            WHERE
-                Product__c IN :setProductNames
-                AND Placement_Recall_Date__c = LAST_N_DAYS:60
-                AND Placement_Recall_Date__c != NULL
-                AND Agency_Id__c IN :setPlacementNames
-            ORDER BY CreatedDate DESC
-        ]) {
-            if (!lastAgencyRecallDate.containsKey(placementHistory.Product__c)) {
-                lastAgencyRecallDate.put(placementHistory.Product__c, placementHistory);
-            }
-        }
-        return lastAgencyRecallDate;
-    }
-
     //Validation method to be called  before update
     public list<Product_Payment_Staging__c> validationOnRecordUpdate(
         List<Product_Payments__c> prodPayNew,
@@ -744,7 +710,6 @@ public class ProductPaymentExcelFileProcessing {
         map<ID, Placement_History__c> lastAgencyRecallDate = new Map<ID, Placement_History__c>();
         if (docStorage.Document_Type__c == 'Direct Payment Upload File' || docStorage.Document_Type__c == 'Product Payment Upload File') {
             mapProductPreviouslyPlaced = getDirectPlacementHistoryDetails(setProductNames);
-            lastAgencyRecallDate = getLastAgencyRecallDate(setProductNames, setPlacementNames);
         }
 
         String prodPayStatus = '';
@@ -1200,13 +1165,13 @@ public class ProductPaymentExcelFileProcessing {
                                 //prodPayment.Product_Agency__c = mapProduct.get(prodPayment.CCS_Account__c).COllection_Agency_placement__c;
                             }
 
-                            if (lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
-                                //if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
-                                if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c != null) {
-                                    prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
+                            if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
+                                //if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
+                                if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
+                                    prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
                                 }
-                                if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
-                                    prodPayment.Payment_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c;
+                                if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
+                                    prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                                 }
 
                                 //}
@@ -1369,13 +1334,13 @@ public class ProductPaymentExcelFileProcessing {
 
                                         //calculate tax amount ends
                                         prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
-                                        if (lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
-                                            //if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
-                                            if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c != null) {
-                                                prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
+                                        if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
+                                            //if(mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
+                                            if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
+                                                prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
                                             }
-                                            if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
-                                                prodPayment.Payment_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c;
+                                            if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
+                                                prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                                             }
 
                                             if (prodPayment.Pay_Due__c != null) {
@@ -1401,10 +1366,10 @@ public class ProductPaymentExcelFileProcessing {
                                         prodPayment.Pay_Due__c = null;
 
                                         prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
-                                        if (lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
-                                            if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
-                                                prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
-                                                prodPayment.Payment_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c;
+                                        if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
+                                            if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
+                                                prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
+                                                prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                                                 if (prodPayment.Pay_Due__c != null) {
                                                     prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
                                                     EXPECTED +=
@@ -1422,7 +1387,7 @@ public class ProductPaymentExcelFileProcessing {
                                         }
                                     }
 
-                                    if (!lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
+                                    if (!mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                                         Decimal CommRate = mapProduct.get(prodPayment.CCS_Account__c).Commission_Rate__c;
                                         Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
                                         if (CommRate == null) {
