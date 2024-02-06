@@ -80,7 +80,7 @@ public class WorkAssignmentTriggerHandler {
             if(workAssig.Comment_Reply__c != null){
                 commReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
                 workAssig.Latest_Comment__c = commReply;
-                workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commReply;
+                workAssig.Comments_History__c = 'System Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commReply;
                 workAssig.Comment_Reply__c = '';
             }
             
@@ -502,7 +502,7 @@ public class WorkAssignmentTriggerHandler {
             if(workAssig.Comment_Reply__c != null && workAssig.Comment_Reply__c != wrkAssgnsOld.Comment_Reply__c){
                try{
                    commentReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
-                   workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
+                   workAssig.Comments_History__c = 'System Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
                    workAssig.Latest_Comment__c = commentReply;
                    system.debug('ABC');
                    workAssig.Comment_Reply__c = '';
