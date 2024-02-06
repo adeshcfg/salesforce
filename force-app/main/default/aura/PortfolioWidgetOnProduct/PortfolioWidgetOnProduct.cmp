@@ -105,17 +105,10 @@
                     <td
                         class="slds-truncate"
                         style="word-wrap: break-word; padding: 1% 1% 1%;"
-<<<<<<< HEAD
-                        data-label="Purchase ID"
-                        title="Purchase ID" 
-                        >
-                        {!draftValue.Purchase_Date__c}
-=======
                         data-label="Purchase Date"
                         title="Purchase Date" 
                         >
-                        {!draftValue.Purchase_Date__}
->>>>>>> 7f3495ada15e90b7b3217ff1e25de0cc30e13e21
+                        {!draftValue.Purchase_Date__c}
                     </td>
                 </tr>
             </aura:iteration>
