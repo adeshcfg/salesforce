@@ -22,6 +22,7 @@ public class TestPortalJudgmentProcessingAPI {
         settings.PDF_API_URL__c = 'https://test.com/endpointurl';
         settings.Scope_Prefix__c = 'scopep.com';
         settings.Scope_Suffix__c = '/.default';
+        settings.API_Request_Timeout__c = 90;
         insert settings;
         
         Agency_Portal_Fields_Mapping__c FieldMap = new Agency_Portal_Fields_Mapping__c();
