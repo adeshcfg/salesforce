@@ -326,8 +326,9 @@ public class DisplayProductPaymentStagingController {
                 oldComments = workAssignmentData.Comments_History__c;
             }
             workAssignmentData.Latest_Comment__c =workAssignmentData.Comment_Reply__c;
-            workAssignmentData.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' +workAssignmentData.Comment_Reply__c + '\n' + '\n';
-            
+            //bug:4743 : changes starts
+            workAssignmentData.Comments_History__c = 'System Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' +workAssignmentData.Comment_Reply__c + '\n' + '\n';
+            //bug:4743 : changes ends
             if(oldComments != null){
                 workAssignmentData.Comments_History__c += oldComments;
             }
@@ -518,8 +519,9 @@ public class DisplayProductPaymentStagingController {
                 oldComments = workAssignmentData.Comments_History__c;
             }
             workAssignmentData.Latest_Comment__c = workAssignmentData.Comment_Reply__c;
-            workAssignmentData.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' +workAssignmentData.Comment_Reply__c + '\n' + '\n';
-            
+            //bug:4743 : changes starts
+            workAssignmentData.Comments_History__c = 'System Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' +workAssignmentData.Comment_Reply__c + '\n' + '\n';
+            //bug:4743 changes ends
             if(oldComments != null){
                 workAssignmentData.Comments_History__c += oldComments;
             }

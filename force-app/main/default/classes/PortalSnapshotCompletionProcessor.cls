@@ -51,8 +51,9 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 oldComments = updateWorkAssign.Comments_History__c;
             }
             updateWorkAssign.Latest_Comment__c = updateWorkAssign.Comment_Reply__c;
-            updateWorkAssign.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + updateWorkAssign.Comment_Reply__c + '\n' + '\n';
-            
+            //bug:4743 : changes starts
+            updateWorkAssign.Comments_History__c = 'System Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + updateWorkAssign.Comment_Reply__c + '\n' + '\n';
+            //bug:4743 : changes ends
             if(oldComments != null){
                 updateWorkAssign.Comments_History__c += oldComments;
             }
