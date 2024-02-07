@@ -2315,7 +2315,10 @@ public class ProductPaymentsTriggerHandler {
             ) {
                 ERROR_MSG += '<b>WARNING</b> - This account is not available in this Placement.<br/>';
                 //EXPECTED += 'Account Agency: ' + mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency__c +'<br/>';
-                prodPayment.addError('WARNING - This account is not available in this Placement.');
+                // Don't throw error if Ignore warning checkbox is checked while posting payment
+                if (prodPayment.Ignore_Warning__c == false) {
+                    prodPayment.addError('WARNING - This account is not available in this Placement.');
+                }
             }
 
             //Account is currently warehoused  and recalled more than 60 days ago, OR account has had subsequent placements
