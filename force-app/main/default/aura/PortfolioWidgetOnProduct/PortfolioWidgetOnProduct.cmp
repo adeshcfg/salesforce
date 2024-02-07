@@ -108,7 +108,7 @@
                         data-label="Purchase Date"
                         title="Purchase Date" 
                         >
-                        {!draftValue.Purchase_Date__c}
+                        {!draftValue.Purchase_date__c}
                     </td>
                 </tr>
             </aura:iteration>
