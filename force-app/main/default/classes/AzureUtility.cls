@@ -5,6 +5,7 @@
 * @description : get access token and call the allocation and account status update API based on document type.  
 * @author : A5E Consulting
 * @date : 10/03/2023
+* Test Class: TestDisplayProductAllocStagController,TestPortalJudgmentProcessingAPI,TestUpdateAmountPastDueController
 
 *************************************************************************************************/
 public class AzureUtility {
@@ -12,11 +13,12 @@ public class AzureUtility {
     public static String accTokenBulk;
 	public static String allocate = 'Product Allocation File';
     public static String recall = 'Account Status Update File';
+    public static List<API_Error__c> ErrorList = new List<API_Error__c>();
     
     //Call allocation/account status update API based in document type.
     public static String apiCall(List<String> listProductJSONRequest1, string docType){
         accTokenBulk = getRequestToken();
-        List<API_Error__c> ErrorList = new List<API_Error__c>();
+        
         for(String ProductJSONRequest : listProductJSONRequest1){
             //Get access token for http request
             if (accTokenBulk != '') {
@@ -144,7 +146,7 @@ public class AzureUtility {
         bodyParams =  bodyParams+'&client_secret='+dpapiClientSecret;
         bodyParams =  bodyParams+'&scope='+apiCallDetails.Scope_Prefix__c+dpapiProxyClientId+apiCallDetails.Scope_Suffix__c;
         bodyParams =  bodyParams+'&grant_type=client_credentials';
-       
+        system.debug('bodyParams'+bodyParams);
         Http h = new Http();
         HttpRequest req = new HttpRequest();
         req.setMethod('POST');
@@ -157,7 +159,8 @@ public class AzureUtility {
         HttpResponse hresp;
 
         hresp = h.send(req);
-        Map<String, Object> wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
+        system.debug('hresp: '+hresp);
+        Map<String, Object> wResp = (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
         system.debug('wResp: '+wResp.get('access_token'));
         return String.valueOf(wResp.get('access_token'));
     }
@@ -167,4 +170,84 @@ public class AzureUtility {
         
         return getRequestToken(apiCallDetails);
     }
+    
+    public static String apiCallToPortal(string apiName,List<String> JSONRequestList, string replacePdfApiUrl,
+                                        List<sobject> objectInstance, string portalApiCall){
+       Judgment__c judInstanceData;
+       String name ='';     
+       String endPoint = '';                                     
+       if(portalApiCall == 'Judgment'){
+           for(Judgment__c judInstance : (List<Judgment__c>)objectInstance){
+               name = judInstance.name;
+               endPoint = judInstance.Judgment_Number__c;
+               judInstance.Outbound_API_Request_Body__c = JSONRequestList[0];
+               judInstanceData = judInstance;
+           }                                 
+       }                                          
+       String accToken = getRequestToken(apiName); 
+        // Instantiate a new http object
+        for(String JSONRequest : JSONRequestList){
+            Http h = new Http();
+            // Instantiate a new HTTP request
+            HttpRequest req = new HttpRequest();
+            req.setBody(JSONRequest);
+            req.setHeader('Authorization', 'Bearer ' + accToken);
+            req.setHeader('Content-Type', 'application/json;charset=UTF-8');
+            apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', replacePdfApiUrl);
+            req.setEndpoint(apiCallDetails.PDF_API_URL__c+endPoint);
+            req.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
+            req.setMethod('PUT');
+            
+            system.debug('outbbound request'+req.getBody());
+            try{
+                // Send the request, and return a response
+                HttpResponse res = h.send(req);
+                Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
+                if(portalApiCall == 'Judgment'){
+                    judInstanceData.Outbound_API_Response_Body__c = res.getBody();
+                }
+                
+                String statusCode = String.valueOf(res.getStatusCode());
+                if(statusCode.startsWith('2')
+                   && bodyMap.get('IsSuccess') == String.valueOf('true')){
+                   }       
+                else if(!statusCode.startsWith('2')){
+                    String userName = UserInfo.getName();
+                    API_Error__c apiErrorData = New API_Error__c();
+                    apiErrorData.Action__c = 'API Failed';
+                    apiErrorData.Request__c = name;
+                    if(res.getBody().length() > 131071){
+                        
+                        apiErrorData.Response__c =res.getBody().subString(0,131071);
+                    }else{
+                        apiErrorData.Response__c =res.getBody();
+                    }
+                    ErrorList.add(apiErrorData);
+                    
+                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Response__c,apiErrorData.Action__c);
+                }
+            }
+            catch(Exception ex){
+                String userName = UserInfo.getName();
+                API_Error__c apiErrorData = New API_Error__c();
+                apiErrorData.Error__c = ex.getMessage();
+                apiErrorData.Action__c = 'API Failed';
+                if(!Test.isRunningTest()){
+                    apiErrorData.Request__c = name;
+                }
+                ErrorList.add(apiErrorData);
+                
+                CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
+            }
+            
+            insert ErrorList;
+            if(judInstanceData != NULL){
+                JudgmentTriggerHandler.runJudgmentTrigger = false;
+                update judInstanceData;
+                JudgmentTriggerHandler.runJudgmentTrigger = true;
+            }
+        }
+        return null;
+    }
+    
 }
