@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Filing_date_greater_than_judgment_date</fullName>
+    <active>true</active>
+    <description>Filing date should always be less than Judgement date</description>
+    <errorConditionFormula>ISNEW() &amp;&amp; (Filing_Date__c &gt; Judgment_Date__c)</errorConditionFormula>
+    <errorMessage>Filing date should always be less than Judgement date</errorMessage>
+</ValidationRule>
