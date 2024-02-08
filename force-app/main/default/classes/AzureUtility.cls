@@ -146,7 +146,7 @@ public class AzureUtility {
         bodyParams =  bodyParams+'&client_secret='+dpapiClientSecret;
         bodyParams =  bodyParams+'&scope='+apiCallDetails.Scope_Prefix__c+dpapiProxyClientId+apiCallDetails.Scope_Suffix__c;
         bodyParams =  bodyParams+'&grant_type=client_credentials';
-        system.debug('bodyParams'+bodyParams);
+
         Http h = new Http();
         HttpRequest req = new HttpRequest();
         req.setMethod('POST');
@@ -157,7 +157,6 @@ public class AzureUtility {
         
         system.debug('req: '+req);
         HttpResponse hresp;
-
         hresp = h.send(req);
         system.debug('hresp: '+hresp);
         Map<String, Object> wResp = (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
