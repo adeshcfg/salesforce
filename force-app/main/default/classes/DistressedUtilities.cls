@@ -1132,7 +1132,7 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
                                            }
                                            workAssignment.Latest_Comment__c = workAssignment.Comment_Reply__c;
                                             //bug:4743 : changes starts
-                                           workAssignment.Comments_History__c = 'System Generated Comment on behalf off' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+                                           workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
                                             //bug:4743 : changes ends
                                            if(oldComments != null){
                                                workAssignment.Comments_History__c += oldComments;
