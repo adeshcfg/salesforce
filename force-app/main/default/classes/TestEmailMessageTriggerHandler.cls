@@ -73,6 +73,7 @@
         EmailMessage email1 = new EmailMessage();
         email1.Subject='Test1';
         email1.RelatedToId=c1.Id;
+        email1.createdDate=system.now();
         listEmailMessage.add(email1);
         
         EmailMessage email2 = new EmailMessage();
