@@ -33,7 +33,7 @@ public class EmailMessageTriggerHandler {
                     if(em.relatedToId == listCase.id){
                         listCase.New_Email_on_Case__c = true;
                         system.debug('CAse Status : ' + listCase.status);
-                        if(em.CreatedDate == system.now() && listCase.recordType.DeveloperName == 'Remittance' && listCase.recordType.DeveloperName == 'CCS_Dividend' && (listCase.status == 'Completed'|| listCase.status == 'Closed')){
+                        if(em.CreatedDate == system.now() && listCase.recordType.DeveloperName != 'Remittance' && listCase.recordType.DeveloperName != 'CCS_Dividend' && (listCase.status == 'Completed'|| listCase.status == 'Closed')){
                             listCase.Is_Email_to_Case__c = True;
                             listCase.status = 'New';                            
                         }
