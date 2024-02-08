@@ -7,7 +7,7 @@
  *  @date : 24/04/2019
  
  *************************************************************************************************/
-  @isTest(SeeAllData=true)
+  @isTest
   public class TestEmailMessageTriggerHandler {
     @isTest
     static void testData(){
@@ -15,7 +15,7 @@
         //Custom setting 
         Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
         config.Run_EmailMessage_Trigger__c = true;
-        update config; 
+        insert config; 
         
         List<ID> listID = new List<ID>();
         Map<ID,EmailMessage> oldmap=new Map<ID,EmailMessage>();
@@ -80,6 +80,9 @@
         email2.RelatedToId=c2.Id;
         listEmailMessage.add(email2);
         insert listEmailMessage;
+        for(EmailMessage e:listEmailMessage){
+          Test.setCreatedDate(e.Id, system.now());
+        }
         
         listID.add(email1.Id);
         listID.add(email2.Id);

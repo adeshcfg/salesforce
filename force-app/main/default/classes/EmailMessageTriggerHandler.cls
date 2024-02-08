@@ -17,16 +17,16 @@ public class EmailMessageTriggerHandler {
         List<ID> listID = new List<ID>();
         List<Case> listCases=new list<case>();
         for(EmailMessage em : emailMessageNew){
-            if((em.relatedToId <> null && em.createdDate == System.now()) || test.isRunningTest()){
+            if(em.relatedToId <> null && em.createdDate == System.now()){
                 listID.add(em.relatedToId);
             }
         }
-        if(!listID.isEmpty() || test.isRunningTest()){
+        if(!listID.isEmpty()){
         listCases = [select id, subject, status, New_Email_on_Case__c, recordType.DeveloperName 
                                 from Case where id in :listID];
         }
         List<Case> listCaseUpdate = new List<Case>();
-      if(!listCases.isEmpty() || test.isRunningTest()){
+      if(!listCases.isEmpty()){
         for(EmailMessage em : emailMessageNew){
             if(em.relatedToId <> null){
                 for(Case listCase : listCases){
