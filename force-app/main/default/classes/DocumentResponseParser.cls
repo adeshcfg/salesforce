@@ -20,7 +20,7 @@ public class DocumentResponseParser {
    public static Set<String> fairstoneAcc = new Set<String>{'5434','5435'};
    public static Set<String> canadianTire = new Set<String>{'CANADIAN TIRE BANK', 'CANADIAN TIRE', 'OPTIONS MASTERCARD', 'BANQUE CANADIAN TIRE', 'CANADIANTIRE'};
    public static Set<String> canadianTireBins = new Set<String>{'525995', '544612', '544614', '544618', '544629', '544644'};
-   public static Set<String> goEasy = new Set<String>{'EASYFINANCIAL SERVICES', 'EASY FINANCIAL SERVICES', 'EASYFINANCIAL', 'EASY FINANCIAL', 'GOEASY', 'GO EASY'};//5093: 'EASYHOME', 'EASY HOME',
+   public static Set<String> goEasy = new Set<String>{'EASYFINANCIAL SERVICES', 'EASY FINANCIAL SERVICES', 'EASYFINANCIAL', 'EASY FINANCIAL', 'GOEASY', 'GO EASY', 'EASY-HOME', 'EASY HOME'};//5093: 'EASYHOME', 'EASY HOME',
    //public static Set<String> fairstoneExcludeAcc = new Set<String>{'676'};
    //public static Set<String> fairstoneExcludeAccData = new Set<String>{'6030'};
       
