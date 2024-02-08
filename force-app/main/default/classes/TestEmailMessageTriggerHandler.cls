@@ -80,10 +80,8 @@
         email2.RelatedToId=c2.Id;
         listEmailMessage.add(email2);
         insert listEmailMessage;
-        for(EmailMessage e:listEmailMessage){
-          Test.setCreatedDate(e.Id, DateTime.now());
-        }
-        
+        Test.setCreatedDate(listEmailMessage[0].Id, DateTime.now());
+        Test.setCreatedDate(listEmailMessage[1].Id, DateTime.now());
         listID.add(email1.Id);
         listID.add(email2.Id);
         
