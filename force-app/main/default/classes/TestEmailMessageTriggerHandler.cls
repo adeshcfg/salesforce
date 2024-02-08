@@ -81,7 +81,7 @@
         listEmailMessage.add(email2);
         insert listEmailMessage;
         for(EmailMessage e:listEmailMessage){
-          Test.setCreatedDate(e.Id, system.now());
+          Test.setCreatedDate(e.Id, DateTime.now());
         }
         
         listID.add(email1.Id);
