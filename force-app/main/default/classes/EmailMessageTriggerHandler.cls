@@ -15,38 +15,36 @@ public class EmailMessageTriggerHandler {
     //After new Case is created
     public static void handleAfterInsert(List<EmailMessage> emailMessageNew) {
         List<ID> listID = new List<ID>();
+        List<Case> listCases=new list<case>();
         for(EmailMessage em : emailMessageNew){
-            if(em.relatedToId <> null){
+            if(em.relatedToId <> null && em.createdDate == System.now()){
                 listID.add(em.relatedToId);
             }
         }
-        
-        List<Case> listCases = [select id, subject, status, New_Email_on_Case__c, recordType.DeveloperName 
+        if(!listID.isEmpty()){
+        listCases = [select id, subject, status, New_Email_on_Case__c, recordType.DeveloperName 
                                 from Case where id in :listID];
+        }
         List<Case> listCaseUpdate = new List<Case>();
-        
+      if(!listCases.isEmpty()){
         for(EmailMessage em : emailMessageNew){
             if(em.relatedToId <> null){
                 for(Case listCase : listCases){
                     if(em.relatedToId == listCase.id){
                         listCase.New_Email_on_Case__c = true;
                         system.debug('CAse Status : ' + listCase.status);
-                        if(listCase.recordType.DeveloperName == 'Remittance' ||
-                           listCase.recordType.DeveloperName == 'CCS_Dividend' ){
-                           //Do nothing
-                        }else if(listCase.status == 'Completed'|| listCase.status == 'Closed'){
-                            if (em.status == 'New') { // Check the Email Message status
+                        if(em.CreatedDate == system.now() && listCase.recordType.DeveloperName == 'Remittance' && listCase.recordType.DeveloperName == 'CCS_Dividend' && (listCase.status == 'Completed'|| listCase.status == 'Closed')){
                             listCase.Is_Email_to_Case__c = True;
-                            listCase.status = 'New';
-                            }
+                            listCase.status = 'New';                            
                         }
                         listCaseUpdate.add(listCase);
                     }
                 }
             }
         }
+      }
         
-        update listCaseUpdate;
+       if(!listCaseUpdate.isEmpty()) update listCaseUpdate;
     }
     
     public static void handleAfterUpdate(List<EmailMessage> emailMessageNew, Map<Id, EmailMessage> oldMap) { 
