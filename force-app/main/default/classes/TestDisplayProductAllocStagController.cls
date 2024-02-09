@@ -202,6 +202,7 @@ public class TestDisplayProductAllocStagController {
         test2.success = 'Test';
         test2.failedRecords = 1;
         test2.successRecords = 2;
+        id jobid = database.executeBatch(new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'Product Allocation File')); 
         Test.stopTest();
     }
     
