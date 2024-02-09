@@ -93,6 +93,8 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
             rawObj1 = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse1.response);
         }
         
+        Document_Storage__c docData = [select id,Visibility__c from Document_Storage__c where id =: documentStorageId limit 1];
+        
         //Create Failed CSV Document Storage
         Document_Storage__c  failedDocStorage = new Document_Storage__c();
         DocumentStorageTriggerHandler.runDocumentStorageTrigger=false;
@@ -107,7 +109,9 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
             
             failedDocStorage.Document_Extension__c = 'xls';
             failedDocStorage.Document_ID__c = parsedResponse.docId;
-            failedDocStorage.Visibility__c = 'CFG Only';
+            //failedDocStorage.Visibility__c = 'CFG Only';
+            //Ticket 4097: visibility should be same as uploaded document
+            failedDocStorage.Visibility__c = docData.Visibility__c;
             failedDocStorage.Document_URL__c = parsedResponse.DocUrl;
             failedDocStorage.Uploaded_By__c = 'Internal User';
             failedDocStorage.Creator__c = UserInfo.getName();
@@ -127,7 +131,9 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
             SuccessDocStorage.Document_Type__C = 'Account Status Update File';
             SuccessDocStorage.Document_Extension__c = 'xls';
             SuccessDocStorage.Document_ID__c = parsedResponse1.docId;
-            SuccessDocStorage.Visibility__c = 'CFG Only';
+            //SuccessDocStorage.Visibility__c = 'CFG Only';
+            //Ticket 4097: visibility should be same as uploaded document
+            SuccessDocStorage.Visibility__c = docData.Visibility__c;
             SuccessDocStorage.Document_URL__c = parsedResponse1.DocUrl;
             SuccessDocStorage.Uploaded_By__c = 'Internal User';
             SuccessDocStorage.Creator__c = UserInfo.getName();
