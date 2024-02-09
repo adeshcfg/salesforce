@@ -8,6 +8,7 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
     Id documentID;
     String DocType;
     public static Boolean stopSuccessfilegenaration = true;
+    public static Document_Storage__c docData;
     
     public PostDocumentAPI(String DocType,String failed,String success,Integer failedRecords,Integer successRecords,Id workAssignmentId,String visiblity,Id documentID) {
         system.debug('run bacth');
@@ -19,6 +20,8 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         this.visiblity = visiblity;
         this.documentID = documentID;
         this.DocType = DocType;
+
+        docData = [select id,Visibility__c from Document_Storage__c where id =: documentID];
     }
     public void execute(QueueableContext context) {
         //Database.executeBatch(new ErrorCSVFileGenerationBatch(DocType,failed,success,failedRecords,successRecords,workAssignmentId,visiblity,documentID),2000);                                              
@@ -89,7 +92,9 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
                }
             failedDocStorage.Document_Extension__c = 'xls';
             failedDocStorage.Document_ID__c = parsedResponse.docId;
-            failedDocStorage.Visibility__c = visiblity;
+            //failedDocStorage.Visibility__c = visiblity;
+            //Ticket 4097: visibility should be same as uploaded document
+            failedDocStorage.Visibility__c = docData.Visibility__c;
             failedDocStorage.Document_URL__c = parsedResponse.DocUrl;
             failedDocStorage.Uploaded_By__c = 'Internal User';
             failedDocStorage.Creator__c = UserInfo.getName();
@@ -121,7 +126,9 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
                }
             SuccessDocStorage.Document_Extension__c = 'xls';
             SuccessDocStorage.Document_ID__c = parsedResponse1.docId;
-            SuccessDocStorage.Visibility__c = visiblity;
+            //SuccessDocStorage.Visibility__c = visiblity;
+            //Ticket 4097: visibility should be same as uploaded document
+            SuccessDocStorage.Visibility__c = docData.Visibility__c;
             SuccessDocStorage.Document_URL__c = parsedResponse1.DocUrl;
             SuccessDocStorage.Uploaded_By__c = 'Internal User';
             SuccessDocStorage.Creator__c = UserInfo.getName();
