@@ -72,15 +72,6 @@ public class TestDisplayProductAllocStagController {
         workAssignment1.Purpose__c = 'Excel Processing';
         workAssignment1.Sub_Purpose__c = 'Product Payment Upload File';
         insert workAssignment1;
-
-        Work_Assignment__c workAssignment2 = new Work_Assignment__c();
-        workAssignment2.Purpose__c = 'Excel Processing';
-        workAssignment2.Sub_Purpose__c = 'Product Allocation File';
-        insert workAssignment2;
-
-        Document_Storage__c docStorage2 = new Document_Storage__c();
-        docStorage2.Work_Assignment__c = workAssignment2.ID;
-        insert docStorage2;
         
         Document_Storage__c docStorage = new Document_Storage__c();
         docStorage.Work_Assignment__c = workAssignment.ID;
@@ -343,7 +334,7 @@ public class TestDisplayProductAllocStagController {
         test2.success = 'Test';
         test2.failedRecords = 0;
         test2.successRecords = 0;
-       // CFG_ProcessSuccessRecords obj = new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'Product Allocation File'); 
+       id jobid = database.executeBatch(new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'Product Allocation File')); 
         // CFG_ProcessSuccessRecords obj1 = new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'allocate'); 
        // obj.execute(null,listprg);
         //CFG_ProductBulkApiProcess.successErrorfileAccStatusUpdate(docStorage.id,'Account Status Update File');
