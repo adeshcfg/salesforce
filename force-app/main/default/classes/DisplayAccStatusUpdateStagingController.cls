@@ -731,6 +731,7 @@
                 workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
             }            
             //bug:4743 : changes starts
+            DateTime dT = System.now();
             workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
             //bug:4743 : changes ends             
             Database.executeBatch(new PortalProductStatusBulkAPIBatch(documentID,accountStagingSet, 
