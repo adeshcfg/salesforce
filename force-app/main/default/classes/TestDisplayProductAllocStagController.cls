@@ -395,5 +395,6 @@ public class TestDisplayProductAllocStagController {
         list<Product_Staging__c>  listprg = new list<Product_Staging__c>() ;  
         listprg.add(productStaging);
         RecallProductProcessing.recallProducts(listprg, 'workAssignmentId');
+        AllocationProductProcessing.allocateProducts(listprg, 'workAssignmentId');
     }
 }
