@@ -21,12 +21,12 @@
                 listID.add(em.relatedToId);
             }
         }
-        if(!listID.isEmpty() || test.isRunningTest()){
+        if(!listID.isEmpty()){
         listCases = [select id, subject, status, New_Email_on_Case__c, recordType.DeveloperName 
                                 from Case where id in :listID];
         }
         List<Case> listCaseUpdate = new List<Case>();
-      if(!listCases.isEmpty() || test.isRunningTest()){
+      if(!listCases.isEmpty()){
         for(EmailMessage em : emailMessageNew){
             if(em.relatedToId <> null){
                 for(Case listCase : listCases){
