@@ -17,9 +17,9 @@
         List<ID> listID = new List<ID>();
         List<Case> listCases=new list<case>();
         for(EmailMessage em : emailMessageNew){
-            system.debug('Createdate of record-->'+em.createdDate);
-            system.debug('System time now--->'+system.now());
-            if((em.relatedToId <> null && em.createdDate == System.now()) || test.isRunningTest()){
+            String createdDate = String.valueOf(em.createdDate);
+            String systemDate = String.valueOf(System.now());
+            if((em.relatedToId <> null && createdDate == systemDate()) || test.isRunningTest()){
                 listID.add(em.relatedToId);
             }
         }
