@@ -8,7 +8,7 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
     Id documentID;
     String DocType;
     public static Boolean stopSuccessfilegenaration = true;
-    public static Document_Storage__c docData;
+    public Document_Storage__c docData;
     
     public PostDocumentAPI(String DocType,String failed,String success,Integer failedRecords,Integer successRecords,Id workAssignmentId,String visiblity,Id documentID) {
         system.debug('run bacth');
@@ -27,13 +27,12 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         //Database.executeBatch(new ErrorCSVFileGenerationBatch(DocType,failed,success,failedRecords,successRecords,workAssignmentId,visiblity,documentID),2000);                                              
         Map<String,Object> rawObj;
         Map<String,Object> rawObj1;
-        
+
         //Failed CSV API Call
-        system.debug('failed: '+failed);
         DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
-        System.debug('@@base64Data '+failed);
+
         Blob fileBlob = Blob.valueOf(failed);
-        system.debug('fileBlob::'+fileBlob);
+
         if(failedRecords > 0){
             if(String.isNotBlank(DocType)){
                 if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
@@ -54,7 +53,7 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         //Success CSV API Call
         DocumentAPIClientUtil.ParsedResponse parsedResponse1 = new DocumentAPIClientUtil.ParsedResponse();
         Blob fileBlobSuccess = Blob.valueOf(success);
-        system.debug('fileBlobSuccess::'+fileBlobSuccess.size());
+
         if(successRecords > 0){
             if(String.isNotBlank(DocType)){
                 if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File'||
