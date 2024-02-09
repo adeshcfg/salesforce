@@ -19,7 +19,7 @@
         for(EmailMessage em : emailMessageNew){
             String createdDate = String.valueOf(em.createdDate);
             String systemDate = String.valueOf(System.now());
-            if((em.relatedToId <> null && createdDate == systemDate()) || test.isRunningTest()){
+            if((em.relatedToId <> null && createdDate == systemDate) || test.isRunningTest()){
                 listID.add(em.relatedToId);
             }
         }
