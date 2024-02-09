@@ -196,7 +196,6 @@ public class TestDisplayProductAllocStagController {
         controller.pageNumber = 2;
         controller.showHide = 'hidden';
         controller.recordIdentfier=String.valueOf(docStorage.Id);
-        controller.docType='Product Allocation File';
         controller.SaveRecords();
         
         set<string> successStringSet = new set<string>();
