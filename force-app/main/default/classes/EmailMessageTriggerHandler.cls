@@ -17,6 +17,8 @@ public class EmailMessageTriggerHandler {
         List<ID> listID = new List<ID>();
         List<Case> listCases=new list<case>();
         for(EmailMessage em : emailMessageNew){
+            system.debug('createdDate--->'+em.createdDate);
+            system.debug('system time--->'+system.now());
             if(em.relatedToId <> null && em.createdDate == System.now()){
                 listID.add(em.relatedToId);
             }
@@ -33,7 +35,7 @@ public class EmailMessageTriggerHandler {
                     if(em.relatedToId == listCase.id){
                         listCase.New_Email_on_Case__c = true;
                         system.debug('CAse Status : ' + listCase.status);
-                        if(em.CreatedDate == system.now() && listCase.recordType.DeveloperName != 'Remittance' && listCase.recordType.DeveloperName != 'CCS_Dividend' && (listCase.status == 'Completed'|| listCase.status == 'Closed')){
+                        if(listCase.recordType.DeveloperName != 'Remittance' && listCase.recordType.DeveloperName != 'CCS_Dividend' && (listCase.status == 'Completed'|| listCase.status == 'Closed')){
                             listCase.Is_Email_to_Case__c = True;
                             listCase.status = 'New';                            
                         }
