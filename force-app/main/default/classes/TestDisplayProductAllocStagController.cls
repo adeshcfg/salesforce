@@ -72,6 +72,15 @@ public class TestDisplayProductAllocStagController {
         workAssignment1.Purpose__c = 'Excel Processing';
         workAssignment1.Sub_Purpose__c = 'Product Payment Upload File';
         insert workAssignment1;
+
+        Work_Assignment__c workAssignment2 = new Work_Assignment__c();
+        workAssignment2.Purpose__c = 'Excel Processing';
+        workAssignment2.Sub_Purpose__c = 'Product Allocation File';
+        insert workAssignment2;
+
+        Document_Storage__c docStorage2 = new Document_Storage__c();
+        docStorage2.Work_Assignment__c = workAssignment2.ID;
+        insert docStorage2;
         
         Document_Storage__c docStorage = new Document_Storage__c();
         docStorage.Work_Assignment__c = workAssignment.ID;
