@@ -442,6 +442,7 @@
             //bug:4743 : changes starts
             DateTime dT = System.now();
             workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+            WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
             //bug:4743 : changes ends       
             update workAssignment;        
             
@@ -734,6 +735,7 @@
             //bug:4743 : changes starts
             DateTime dT = System.now();
             workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+            WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
             //bug:4743 : changes ends             
             Database.executeBatch(new PortalProductStatusBulkAPIBatch(documentID,accountStagingSet, 
                                              workAssignmentID,successRecords,failedRecords,failedStringSet,

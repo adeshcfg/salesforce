@@ -179,6 +179,7 @@ public class DisplayBuybackPutbackStagingController {
         //bug:4743 : changes starts
         DateTime dT = System.now();
         workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+        WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
         //bug:4743 : changes ends           
         update workAssignment;
         system.debug('workAssignment: '+workAssignment);
