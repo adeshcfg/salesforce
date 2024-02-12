@@ -202,6 +202,7 @@ public class TestDisplayProductAllocStagController {
         test2.success = 'Test';
         test2.failedRecords = 1;
         test2.successRecords = 2;
+        id jobid = database.executeBatch(new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'Product Allocation File')); 
         Test.stopTest();
     }
     
@@ -334,7 +335,7 @@ public class TestDisplayProductAllocStagController {
         test2.success = 'Test';
         test2.failedRecords = 0;
         test2.successRecords = 0;
-       // CFG_ProcessSuccessRecords obj = new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'Product Allocation File'); 
+       id jobid = database.executeBatch(new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'Product Allocation File')); 
         // CFG_ProcessSuccessRecords obj1 = new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'allocate'); 
        // obj.execute(null,listprg);
         //CFG_ProductBulkApiProcess.successErrorfileAccStatusUpdate(docStorage.id,'Account Status Update File');
@@ -394,5 +395,6 @@ public class TestDisplayProductAllocStagController {
         list<Product_Staging__c>  listprg = new list<Product_Staging__c>() ;  
         listprg.add(productStaging);
         RecallProductProcessing.recallProducts(listprg, 'workAssignmentId');
+        AllocationProductProcessing.allocateProducts(listprg, 'workAssignmentId');
     }
 }
