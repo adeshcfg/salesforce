@@ -69,7 +69,7 @@ private class TestCaseTriggerHandler{
         cases.add(cseIAL1);
         cases.add(cseIAL2);
         
-        cseIAL1.status ='Closed';
+        cseIAL1.status = 'Closed';
         update cseIAL1;  
                 
         //Test Insert   
