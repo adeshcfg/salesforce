@@ -445,7 +445,7 @@
             WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
             //bug:4743 : changes ends       
             update workAssignment;        
-            
+            WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;//Added part of bug #4743
             ProductTriggerHandler.runProductAPI = false;
             List<Product_Staging__c> accStagingLists = new List<Product_Staging__c>(accountStagingSet);
             if(accStagingLists.size()>0){
@@ -765,7 +765,7 @@
            
             //WorkAssignmentTriggerHandler.runWorkAssignmentTrigger=false;
             update workAssignment;        
-            
+            WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;//Added part of #4743
            // update new Work_Assignment__c(Id = listAccountStaging[0].Document_Storage__r.Work_Assignment__c, 
             //                              Status__c = 'Completed');
             

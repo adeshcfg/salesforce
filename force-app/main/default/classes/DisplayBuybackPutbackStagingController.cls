@@ -182,6 +182,7 @@ public class DisplayBuybackPutbackStagingController {
         WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
         //bug:4743 : changes ends           
         update workAssignment;
+        WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;//Added part of bug #4743
         system.debug('workAssignment: '+workAssignment);
         //workAssignmentId = workAssignment.Id;
         //WorkAssignmenttriggerHandler.runWorkAssignmentTrigger = false;

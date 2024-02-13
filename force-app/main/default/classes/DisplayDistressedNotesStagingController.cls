@@ -168,6 +168,7 @@ public class DisplayDistressedNotesStagingController {
         WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
         //bug:4743 : changes ends       
         update workAssignment;
+        WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;
         system.debug('workAssignment: '+workAssignment);
         upsert listWorkAssignmentToUpsert;
          
