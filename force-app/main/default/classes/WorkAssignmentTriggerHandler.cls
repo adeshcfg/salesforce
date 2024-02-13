@@ -9,7 +9,7 @@
 *************************************************************************************************/
 public class WorkAssignmentTriggerHandler {
     public static boolean updateCommentHistoryField = TRUE;
-    public static boolean runWorkAssignmentTrigger = TRUE;
+    public static boolean runWorkAssignmentTrigger = true;
     public static Map <String, Id> WorkAssRecTypeMap;
     //public static Id CFG_Complaint = '0127g000001QgFEAA0';
    //  public static Id Agency_Complaint = '0127g000001QgFDAA0';
