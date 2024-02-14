@@ -89,9 +89,6 @@
             excelFile = excelFile.substring(dataStart);
             processExcelFile(excelFile);
             disableInput();
-            document.getElementById("f_UploadExcel").value = null;
-            var my_path = "ExcelRepo/" + status;
-            $("#myUploadedImg").attr("src", my_path);
         };
         console.log("exit send file");
     }
