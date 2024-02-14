@@ -148,8 +148,16 @@ public class AllocationProductProcessing {
                 workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
             }
             //bug:4743 : changes starts
+            WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;
+            String oldComments = '';
+            if(workAssignment.Comments_History__c !=null){
+            oldComments = workAssignment.Comments_History__c;
+            }
             DateTime dT = System.now();
             workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+            if(oldComments != null){
+                workAssignment.Comments_History__c += oldComments;
+            }
             WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
             //bug:4743 : changes ends             
             Set<Product_Staging__c> prstg = new Set<Product_Staging__c>(listProductStaging);
