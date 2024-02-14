@@ -80,95 +80,28 @@
     }  
     function sendFile(file) {
         console.log('file value: ',file);
-        console.log("enter send file");
-        fileName = file.name;
-        
-        var formData = new FormData();
-        console.log('files of 0',$('#f_UploadExcel')[0].files[0]);
-        formData.append('file', $('#f_UploadExcel')[0].files[0]);
-        $.ajax({
-            type: 'POST',
-            //url: 'https://cfg-prd-etl.canadaeast.cloudapp.azure.com/FileProcessor.ashx',
-            url: 'https://cfg-prd-etl.canaccede.com/FileProcessor.ashx',
-            data: formData ,
-            timeout: 60000,
-            xhr: function () {  // Custom XMLHttpRequest
-                var myXhr = $.ajaxSettings.xhr();
-     	           if (myXhr.upload) { // Check if upload property exists
-                    //update progressbar percent complete
-                    $('#statustxt').html('0%');
-                    // For handling the progress of the upload
-                    myXhr.upload.addEventListener('progress', progressHandlingFunction, false);
-
-                }
-                return myXhr;
-            },
-
-            success: function (req) {
-                
-                if (status != 'error') {
-                    
-                    uploadstatus = status;
-                    console.log('success status', uploadstatus);
-                    excelToJSONServiceResponse = req.responseText;
-                	console.log('repsonse : ',req.responseText);
-                    //postingDate = document.getElementById('postingDateVal').value;
-                    //console.log('postingDate',postingDate);
-                    //shortUrl = document.getElementById('shortUrlVal').value;
-                    disableInput();
-                    document.getElementById("f_UploadExcel").value = null;
-                    var my_path = "ExcelRepo/" + status;
-                    $("#myUploadedImg").attr("src", my_path);
-                }
-                
-            },
-            processData: false,
-            contentType: false,
-            error: function (req, status, error) {
-                uploadstatus = 'error';
-                //alert("Err: something went wrong! " + error);
-                console.log("Err: something went wrong! " + req.responseText);
-                console.log("Err: something went wrong! " + status);
-                console.log("Err: something went wrong! " + error);
-            },
-
-            complete: function (req) {
-                excelToJSONServiceResponse = req.responseText;
-                console.log(req.responseText);
-                fileName = fileName.replace('.xlsx','');
-                fileName = fileName.replaceAll(',','');
-                console.log('fileName: ',fileName);
-                console.log('status in complete :',uploadstatus);
-                passStringToController(excelToJSONServiceResponse,uploadstatus);
-                
-            }
-        });
-
+        var reader = new FileReader();
+        reader.readAsDataURL($('#f_UploadExcel')[0].files[0]);
+        reader.onload = function(){
+            var excelFile = reader.result;
+            var base64Mark = 'base64,';  
+            var dataStart = excelFile.indexOf(base64Mark) + base64Mark.length;  
+            excelFile = excelFile.substring(dataStart);
+            processExcelFile(excelFile);
+            disableInput();
+            document.getElementById("f_UploadExcel").value = null;
+            var my_path = "ExcelRepo/" + status;
+            $("#myUploadedImg").attr("src", my_path);
+        };
         console.log("exit send file");
-        
     }
-
-
-
-    function progressHandlingFunction(e) {
-        if (e.lengthComputable) {
-            var percentage = Math.floor((e.loaded / e.total) * 100);
-            //update progressbar percent complete
-            $('#statustxt').html(percentage + '%');
-            console.log("Value = " + e.loaded + " :: Max =" + e.total);
-            
-        }
-    }
-
 
     //var _URL = window.URL || window.webkitURL;
     $("#f_UploadExcel").on('change', function () {
-        
         var file;
         console.log('---length' ,this.value);
         if ((file = this.files[0])) {
             console.log("sending file");
-            
             sendFile(file);
             console.log("end sending file");
             
@@ -229,11 +162,16 @@
   		
    </div>
   </apex:outputPanel>
-        <apex:actionFunction action="{!importDatatoApex}" name="passStringToController"
+        <!-- <apex:actionFunction action="{!importDatatoApex}" name="passStringToController"
                              rerender="outputData,form,page1, paymentBtns,pageStatus"
                              oncomplete="disableInput();">
             <apex:param assignTo="{!outputJSON}" name="excelToJSONServiceResponse" value=""/>
             <apex:param assignTo="{!fileUploadStatus}" name="uploadstatus" value=""/>
+        </apex:actionFunction> -->
+        <apex:actionFunction action="{!processExcelFile}" name="processExcelFile"
+                             rerender="outputData,form,page1, paymentBtns,pageStatus"
+                             oncomplete="disableInput();">
+            <apex:param assignTo="{!excelFile}" name="excelFile" value=""/>
         </apex:actionFunction>
     </apex:outputPanel>
 </apex:form>
