@@ -181,6 +181,21 @@ public class PortalAPIMockResponse implements HttpCalloutMock{
             res.setBody(jsonTokenResponse);
             res.setStatusCode(200);  
          }
+        if(req.getEndpoint() == 'https://exceltojson.com/ccs'){
+            // Create a fake response
+            res.setHeader('Content-Type', 'application/json');
+            String jsonTokenResponse =
+            '[{' +
+            '"AccountNumber":null,' +
+            '"ClientID":254801.0,' +
+            '"ClientName":"LEBLANC, JUSTIN ",' +
+            '"NetPayment":390.0,' +
+            '"FairSharePayment":110.0,' +
+            '"GrossPayment":500.0' +
+            '}]';
+            res.setBody(jsonTokenResponse);
+            res.setStatusCode(200);  
+        }
         system.debug('req.getEndpoint()2'+req.getEndpoint());
         return res;
     }
