@@ -288,6 +288,7 @@ public class TestInsolvencyStriplistParsing {
         remittanceInstance.Status__c = 'Payment Reversed';
         update remittanceInstance;
         controller = new StriplistInsolPaymentUploadController(sc);
+        StriplistInsolPaymentUploadController.insertApiError('responseBody', 'endPoint', 'error');
         //upload error
     }
 
