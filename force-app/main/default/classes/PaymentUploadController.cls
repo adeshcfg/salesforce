@@ -44,9 +44,9 @@ public class PaymentUploadController {
     }
 
     /**
-    * @description : Method to convert and process file uploaded from VF page
-    * @author adesh.ikhar@canaccede.com | 02-15-2024 
-    **/
+     * @description : Method to convert and process file uploaded from VF page
+     * @author adesh.ikhar@canaccede.com | 02-15-2024
+     **/
     public void processExcelFile() {
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         String accessToken = AzureUtility.getRequestToken(apiCallDetails);
@@ -63,12 +63,30 @@ public class PaymentUploadController {
             HttpResponse response = new Http().send(documentApiReq);
             if (response.getStatusCode() == 200 && String.isNotBlank(response.getBody())) {
                 importDatatoApex(response.getBody());
-                return;
+            } else {
+                StriplistInsolPaymentUploadController.insertApiError(
+                    response.getBody(),
+                    apiCallDetails.PDF_API_URL__c + 'converters/excel',
+                    response.getStatus()
+                );
+                Apexpages.addMessage(
+                    new ApexPages.message(
+                        Apexpages.Severity.ERROR,
+                        'Error during API callout, Response status code ' +
+                            String.valueOf(response.getStatusCode()) +
+                            ' Response status ' +
+                            response.getStatus()
+                    )
+                );
             }
-            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR, 'Error during API callout, please contact System admin'));
         } catch (Exception ex) {
             System.debug(ex.getMessage());
             System.debug(ex.getStackTraceString());
+            StriplistInsolPaymentUploadController.insertApiError(
+                String.valueOf(ex.getCause()),
+                apiCallDetails.PDF_API_URL__c + 'converters/excel',
+                ex.getMessage()
+            );
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR, 'Error during API callout, please contact System admin'));
         }
     }
