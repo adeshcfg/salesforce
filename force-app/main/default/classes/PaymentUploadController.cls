@@ -50,15 +50,8 @@ public class PaymentUploadController {
     public void processExcelFile() {
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         String accessToken = AzureUtility.getRequestToken(apiCallDetails);
-        HttpRequest documentApiReq = new HttpRequest();
-        documentApiReq.setEndpoint(apiCallDetails.PDF_API_URL__c + 'converters/excel');
-        documentApiReq.setMethod('POST');
-        documentApiReq.setHeader('Accept', 'application/json');
-        documentApiReq.setHeader('Content-Type', 'application/octet-stream');
-        documentApiReq.setHeader('x-ms-blob-type', 'BlockBlob');
-        documentApiReq.setHeader('Authorization', 'Bearer ' + accessToken);
+        HttpRequest documentApiReq = StriplistInsolPaymentUploadController.getExcelToJsonRequest(apiCallDetails);
         documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
-        documentApiReq.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
         try {
             HttpResponse response = new Http().send(documentApiReq);
             if (response.getStatusCode() == 200 && String.isNotBlank(response.getBody())) {

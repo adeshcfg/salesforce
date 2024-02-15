@@ -57,16 +57,12 @@
 </div>
 </body>
 <script>
-
-        var excelToJSONServiceResponse = null;
-		var uploadstatus = '';
-        var fileName;
-        var postingDate;
-        var shortUrl;
+    var fileName;
+    var postingDate;
+    var shortUrl;
                 
 	$( document ).ready(function() {
     	console.log( "ready!" );
-        console.log('--', {!showButtons});
         if({!showButtons} == true){
         	console.log('--', {!showButtons});
             disableInput();
@@ -75,105 +71,40 @@
 	});
       
     function disableInput(){
-        console.log('called');
         document.getElementById("postingDateVal").value ='{!postingDate}';
-        console.log('--',document.getElementById("postingDateVal").innerHTML);
         document.getElementById("shortUrlVal").value ="{!eftInstance.Text_URL__c}";
         document.getElementById("f_UploadExcel").disabled =true;
         document.getElementById("postingDateVal").disabled =true;
-        document.getElementById("shortUrlVal").disabled =true;
-        
-    }  
+        document.getElementById("shortUrlVal").disabled =true; 
+    }
+
     function sendFile(file) {
         console.log('file value: ',file);
-        console.log("enter send file");
         fileName = file.name;
-        //alert("enter send file");
-        var formData = new FormData();
-        console.log('files of 0',$('#f_UploadExcel')[0].files[0]);
-        formData.append('file', $('#f_UploadExcel')[0].files[0]);
-        $.ajax({
-            type: 'POST',
-            //url: 'https://cfg-prd-etl.canadaeast.cloudapp.azure.com/FileProcessor.ashx',
-            url: 'https://cfg-prd-etl.canaccede.com/FileProcessor.ashx',
-            data: formData,
-            xhr: function () {  // Custom XMLHttpRequest
-                var myXhr = $.ajaxSettings.xhr();
-                if (myXhr.upload) { // Check if upload property exists
-                    //update progressbar percent complete
-                    $('#statustxt').html('0%');
-                    // For handling the progress of the upload
-                    myXhr.upload.addEventListener('progress', progressHandlingFunction, false);
-
-                }
-                return myXhr;
-            },
-
-            success: function (req) {
-                if (status != 'error') {
-                    uploadstatus = status;
-                    console.log(status);
-                    excelToJSONServiceResponse = req.responseText;
-                	console.log('repsonse : ',req.responseText);
-	                postingDate = document.getElementById('postingDateVal').value;
-    	            console.log('postingDate',postingDate);
-        	        shortUrl = document.getElementById('shortUrlVal').value;
-                    disableInput();
-                    document.getElementById("f_UploadExcel").value = null;
-                    //var my_path = "ExcelRepo/" + status;
-                    //$("#myUploadedImg").attr("src", my_path);
-                }
-            },
-            processData: false,
-            contentType: false,
-            error: function (req, status, error) {
-                uploadstatus = 'error';
-                //alert("Err: something went wrong! " + error);
-                console.log("Err: something went wrong! " + req.responseText);
-                console.log("Err: something went wrong! " + status);
-                console.log("Err: something went wrong! " + error);
-            },
-
-            complete: function (req) {
-                excelToJSONServiceResponse = req.responseText;
-                console.log(req.responseText);
-                console.log('status in complete :',uploadstatus);
-                fileName = fileName.replace('.xlsx','');
-                fileName = fileName.replaceAll(',','');
-                passStringToController(excelToJSONServiceResponse,postingDate,shortUrl,uploadstatus,fileName);
-                
-                //alert(req.responseText);
-            }
-        });
-
+        var reader = new FileReader();
+        reader.readAsDataURL($('#f_UploadExcel')[0].files[0]);
+        reader.onload = function(){
+            var excelFile = reader.result;
+            var base64Mark = 'base64,';  
+            var dataStart = excelFile.indexOf(base64Mark) + base64Mark.length;  
+            excelFile = excelFile.substring(dataStart);
+            postingDate = document.getElementById('postingDateVal').value;
+            shortUrl = document.getElementById('shortUrlVal').value;
+            fileName = fileName.replace('.xlsx','');
+            fileName = fileName.replaceAll(',','');
+            processExcelFile(excelFile, postingDate, shortUrl ,fileName);
+            disableInput();
+        };
         console.log("exit send file");
-        //alert("exit send file");
     }
 
-
-
-    function progressHandlingFunction(e) {
-        if (e.lengthComputable) {
-            var percentage = Math.floor((e.loaded / e.total) * 100);
-            //update progressbar percent complete
-            $('#statustxt').html(percentage + '%');
-            console.log("Value = " + e.loaded + " :: Max =" + e.total);
-            //alert("Value = " + e.loaded + " :: Max =" + e.total);
-        }
-    }
-
-
-    //var _URL = window.URL || window.webkitURL;
     $("#f_UploadExcel").on('change', function () {
-        //alert("onchange");
         var file;
         console.log('---length' ,this.value);
         if ((file = this.files[0])) {
             console.log("sending file");
-            //alert("sending file");
             sendFile(file);
             console.log("end sending file");
-            //alert("end sending file");
         }
     });
 </script>
@@ -227,13 +158,12 @@
   		
    </div>
   </apex:outputPanel>
-        <apex:actionFunction action="{!importDatatoApex}" name="passStringToController"
+        <apex:actionFunction action="{!processExcelFile}" name="processExcelFile"
                              rerender="outputData,form, paymentBtns,page1,pageStatus"
                              oncomplete="disableInput();">
-            <apex:param assignTo="{!outputJSON}" name="excelToJSONServiceResponse" value=""/>
+            <apex:param assignTo="{!excelFile}" name="excelFile" value=""/>
             <apex:param assignTo="{!postingDate}" name="postingDate" value=""/>
             <apex:param assignTo="{!eftInstance.Text_URL__c}" name="shortUrl" value=""/>
-            <apex:param assignTo="{!fileUploadStatus}" name="uploadstatus" value=""/>
             <apex:param assignTo="{!eftInstance.Cheque_Number__c}" name="fileName" value=""/>
         </apex:actionFunction>
     </apex:outputPanel>

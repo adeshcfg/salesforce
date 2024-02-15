@@ -62,16 +62,8 @@ public class StriplistInsolPaymentUploadController {
      **/
     public void processExcelFile() {
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
-        String accessToken = AzureUtility.getRequestToken(apiCallDetails);
-        HttpRequest documentApiReq = new HttpRequest();
-        documentApiReq.setEndpoint(apiCallDetails.PDF_API_URL__c + 'converters/excel');
-        documentApiReq.setMethod('POST');
-        documentApiReq.setHeader('Accept', 'application/json');
-        documentApiReq.setHeader('Content-Type', 'application/octet-stream');
-        documentApiReq.setHeader('x-ms-blob-type', 'BlockBlob');
-        documentApiReq.setHeader('Authorization', 'Bearer ' + accessToken);
+        HttpRequest documentApiReq = getExcelToJsonRequest(apiCallDetails);
         documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
-        documentApiReq.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
         try {
             HttpResponse response = new Http().send(documentApiReq);
             if (response.getStatusCode() == 200 && String.isNotBlank(response.getBody())) {
@@ -110,6 +102,24 @@ public class StriplistInsolPaymentUploadController {
         apiError.End_Point__c = endPoint;
         apiError.Error__c = error;
         insert apiError;
+    }
+
+    /**
+     * @description : Generate HttpRequest for Excel to JSON API without the body
+     * @author adesh.ikhar@canaccede.com | 02-15-2024
+     * @return HttpRequest
+     **/
+    public static HttpRequest getExcelToJsonRequest(API_Call_Details__c apiCallDetails) {
+        String accessToken = AzureUtility.getRequestToken(apiCallDetails);
+        HttpRequest documentApiReq = new HttpRequest();
+        documentApiReq.setEndpoint(apiCallDetails.PDF_API_URL__c + 'converters/excel');
+        documentApiReq.setMethod('POST');
+        documentApiReq.setHeader('Accept', 'application/json');
+        documentApiReq.setHeader('Content-Type', 'application/octet-stream');
+        documentApiReq.setHeader('x-ms-blob-type', 'BlockBlob');
+        documentApiReq.setHeader('Authorization', 'Bearer ' + accessToken);
+        documentApiReq.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
+        return documentApiReq;
     }
 
     public void importDatatoApex(String outputJSON) {
