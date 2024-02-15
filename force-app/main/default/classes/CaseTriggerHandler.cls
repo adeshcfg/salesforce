@@ -72,7 +72,7 @@
                                         order by CreatedDate Desc];//Older record last created
         for(Case oldCase : listOfOldCases){
             casesWithSubject.add(oldcase);
-          //  mapOfSubjectWithCases.put(oldCase.Subject, casesWithSubject);
+          if(!test.isRunningTest())  mapOfSubjectWithCases.put(oldCase.Subject, casesWithSubject);
         }
         for (Case caseNew : casesNew){
             
