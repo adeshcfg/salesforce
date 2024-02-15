@@ -352,7 +352,7 @@ public class WorkAssignmentTriggerHandler {
             Boolean identifierRemovalFlag = false;
             Work_Assignment__c wrkAssgnsOld = oldMap.get(workAssig.id);
             workAssig.Last_Modified_By__c = UserInfo.getName();
-             
+             system.debug('wrkAssgnsOld--->'+wrkAssgnsOld);
             System.debug('Block Run1'+workAssig);
             System.debug('workAssig.Status__c :'+workAssig.Status__c);
             System.debug('wrkAssgnsOld.Status__c :'+wrkAssgnsOld.Status__c);
@@ -501,10 +501,8 @@ public class WorkAssignmentTriggerHandler {
             system.debug('commentReply::'+commentReply);
             if(workAssig.Comment_Reply__c != null && workAssig.Comment_Reply__c != wrkAssgnsOld.Comment_Reply__c){
                try{
-                if(updateCommentHistoryField==TRUE){
                    commentReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
-                   workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
-                }
+                   if(updateCommentHistoryField==TRUE) workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
                    workAssig.Latest_Comment__c = commentReply;
                    system.debug('ABC');
                    workAssig.Comment_Reply__c = '';
