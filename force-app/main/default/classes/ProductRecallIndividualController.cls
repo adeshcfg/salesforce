@@ -76,7 +76,7 @@ public with sharing class ProductRecallIndividualController {
         else{
             //ERROR_MSG = 'Product is already Recalled.';
         }
-        system.debug('111');
+
         profileNameUserInfo = [SELECT Name FROM Profile WHERE Id =: UserInfo.getProfileId()].Name;
         System.debug('Profile name with User info in Query: ' + profileNameUserInfo);
         
@@ -88,9 +88,8 @@ public with sharing class ProductRecallIndividualController {
                                                                   //where Parent_Status__c = :PENDING_RECALL 
                                                                   //OR Parent_Status__c
                                                                   ORDER BY Status__c ASC NULLS LAST];  
-        system.debug('222');
+
         listRecallReasonOptions = new list<SelectOption>();
-        system.debug('listStatusCodes: '+listStatusCodes);
         
         for(Placement_Status_Code_Mapping__c mapping : listStatusCodes){
             if(mapping.Parent_Status__c == PENDING_RECALL && mapping.Include_in_Recall__c == TRUE){
@@ -218,7 +217,7 @@ public with sharing class ProductRecallIndividualController {
         }
         if(product.Collection_Agency__c == 9999){
             if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
-                && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+                && placement.Name != NewPlacementAgency){
                 // Assign System API to Owner
                 if(!systemName.isEmpty()){
                     product.OwnerId = systemName[0].Id;      
@@ -377,7 +376,7 @@ public with sharing class ProductRecallIndividualController {
             }
             if(product.Collection_Agency__c == 9999){
                 if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
-                    && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+                    && placement.Name != NewPlacementAgency){
                     // Assign System API to Owner
                     if(!systemName.isEmpty()){
                         product.OwnerId = systemName[0].Id;      
