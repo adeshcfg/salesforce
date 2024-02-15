@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CFG_Ownership</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF( Collection_Agency__c  = 9999 &amp;&amp; ISCHANGED( OwnerId) &amp;&amp;  Owner_Name__c  &lt;&gt; &apos;System API&apos; , true, false)</errorConditionFormula>
+    <errorDisplayField>OwnerId</errorDisplayField>
+    <errorMessage>A warehouse account cannot be owned by a CFG staff member.</errorMessage>
+</ValidationRule>
