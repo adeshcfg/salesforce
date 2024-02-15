@@ -216,7 +216,7 @@ public with sharing class ProductRecallIndividualController {
             product.Placement_Status__c = null;
             placementIdentifier = String.valueOf(product.Collection_Agency__c);
         }
-        if(product.Collection_Agency__c = 9999){
+        if(product.Collection_Agency__c == 9999){
             if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
                 && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
                 // Assign System API to Owner
@@ -375,7 +375,7 @@ public with sharing class ProductRecallIndividualController {
                 product.Placement_Status__c = null;
                 placementIdentifier = String.valueOf(product.Collection_Agency__c);
             }
-            if(product.Collection_Agency__c = 9999){
+            if(product.Collection_Agency__c == 9999){
                 if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
                     && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
                     // Assign System API to Owner
