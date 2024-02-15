@@ -499,10 +499,10 @@ public class WorkAssignmentTriggerHandler {
            system.debug('ABC1');
             String commentReply = '';
             system.debug('commentReply::'+commentReply);
-            if(updateCommentHistoryField==TRUE && workAssig.Comment_Reply__c != null && workAssig.Comment_Reply__c != wrkAssgnsOld.Comment_Reply__c){
+            if(workAssig.Comment_Reply__c != null && workAssig.Comment_Reply__c != wrkAssgnsOld.Comment_Reply__c){
                try{
                    commentReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
-                   workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
+                   if(updateCommentHistoryField==TRUE) workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
                    workAssig.Latest_Comment__c = commentReply;
                    system.debug('ABC');
                    workAssig.Comment_Reply__c = '';
