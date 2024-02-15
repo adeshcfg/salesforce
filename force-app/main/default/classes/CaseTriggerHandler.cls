@@ -69,7 +69,7 @@
         List<Case> listOfOldCases = [select id from Case where Subject in : listOfSubject 
                                         and Status != 'Closed' 
                                         and Status != 'Completed'
-                                        order by CreatedDate Desc];//Older record last
+                                        order by CreatedDate Desc];//Older record last created
         for(Case oldCase : listOfOldCases){
             casesWithSubject.add(oldcase);
             mapOfSubjectWithCases.put(oldCase.Subject, casesWithSubject);
