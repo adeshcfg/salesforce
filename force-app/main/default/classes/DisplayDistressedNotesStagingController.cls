@@ -163,16 +163,22 @@ public class DisplayDistressedNotesStagingController {
             workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
         }        
         //bug:4743 : changes starts
+        system.debug('workAssignment--->'+workAssignment);
         String oldComments = '';
         if(workAssignment.Comments_History__c !=null){
+            system.debug('workAssignment.Comments_History__c--->'+workAssignment.Comments_History__c);
             oldComments = workAssignment.Comments_History__c;
         }
         DateTime dT = System.now();
+        system.debug('workAssignment--->'+workAssignment);
         workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
         if(oldComments != null){
+            system.debug('workAssignment--->'+workAssignment);
             workAssignment.Comments_History__c += oldComments;
         }
+        system.debug('workAssignment.Comments_History__c--->'+workAssignment.Comments_History__c);
         WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
+        system.debug('workAssignment: '+workAssignment);
         //bug:4743 : changes ends       
         update workAssignment;
         WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;//Added part of bug #4743
