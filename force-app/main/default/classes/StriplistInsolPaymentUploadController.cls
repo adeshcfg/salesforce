@@ -57,9 +57,9 @@ public class StriplistInsolPaymentUploadController {
     }
 
     /**
-    * @description : Method to convert and process file uploaded from VF page
-    * @author adesh.ikhar@canaccede.com | 02-14-2024 
-    **/
+     * @description : Method to convert and process file uploaded from VF page
+     * @author adesh.ikhar@canaccede.com | 02-14-2024
+     **/
     public void processExcelFile() {
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         String accessToken = AzureUtility.getRequestToken(apiCallDetails);
@@ -76,14 +76,40 @@ public class StriplistInsolPaymentUploadController {
             HttpResponse response = new Http().send(documentApiReq);
             if (response.getStatusCode() == 200 && String.isNotBlank(response.getBody())) {
                 importDatatoApex(response.getBody());
-                return;
+            } else {
+                insertApiError(response.getBody(), apiCallDetails.PDF_API_URL__c + 'converters/excel', response.getStatus());
+                Apexpages.addMessage(
+                    new ApexPages.message(
+                        Apexpages.Severity.ERROR,
+                        'Error during API callout, Response status code ' +
+                            String.valueOf(response.getStatusCode()) +
+                            ' Response status ' +
+                            response.getStatus()
+                    )
+                );
             }
-            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR, 'Error during API callout, please contact System admin'));
         } catch (Exception ex) {
             System.debug(ex.getMessage());
             System.debug(ex.getStackTraceString());
+            insertApiError(String.valueOf(ex.getCause()), apiCallDetails.PDF_API_URL__c + 'converters/excel', ex.getMessage());
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR, 'Error during API callout, please contact System admin'));
         }
+    }
+
+    /**
+     * @description : Method to create API Error record
+     * @author adesh.ikhar@canaccede.com | 02-15-2024
+     * @param responseBody
+     * @param endPoint
+     * @param error
+     **/
+    public static void insertApiError(String responseBody, String endPoint, String error) {
+        API_Error__c apiError = new API_Error__c();
+        apiError.Action__c = 'API Failed';
+        apiError.Response__c = responseBody;
+        apiError.End_Point__c = endPoint;
+        apiError.Error__c = error;
+        insert apiError;
     }
 
     public void importDatatoApex(String outputJSON) {
