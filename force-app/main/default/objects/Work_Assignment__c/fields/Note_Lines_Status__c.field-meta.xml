@@ -6,7 +6,7 @@
     <inlineHelpText>Note Lines Status</inlineHelpText>
     <label>Note Lines Status</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
