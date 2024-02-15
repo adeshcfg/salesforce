@@ -24,6 +24,9 @@ public with sharing class ProductAllocationIndividualController {
     public List<Product__c> listProduct = new List<Product__c>();
     public Placement__c placement;
     public String placeStatus;
+    public List<User> systemName= new list<User>();
+    public Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
+    public Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
     
     public ProductAllocationIndividualController(ApexPages.StandardController stdController) {
         productID =  ApexPages.currentPage().getParameters().get('id');
@@ -33,7 +36,7 @@ public with sharing class ProductAllocationIndividualController {
                           Current_Bal_Court_Fees__c,Collection_Agency_Placement__r.Commission_Rate__c,
                           Collection_Sub_Status__c, Data_Status_Description__c,Commission_Rate__c,Pool_Name__r.Commission_Rate__c,
                           Placement_Status__c, Pool_Name__r.Name, RecordTypeID,Allocated_Amount_Total__c,Commission_Rate_at_Time_of_Placement__c,Value_Tier_at_Time_of_Placement__c,
-                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c,Purchase_Status__c
+                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c,Purchase_Status__c,OwnerId,Previous_Ownership__c
                    FROM Product__c WHERE ID= :productID];
         system.debug('product: '+product);
         if(product.Collection_Agency_Placement__c == NULL || product.Collection_Agency__c == 9999){
@@ -52,13 +55,17 @@ public with sharing class ProductAllocationIndividualController {
                                                                   ORDER BY Status__c ASC NULLS LAST];
         mapRecallCodeStatus = new map<String, Placement_Status_Code_Mapping__c>();
         for(Placement_Status_Code_Mapping__c mapping : listStatusCodes){
-            system.debug('mapping.Status__c: '+mapping.Status__c);
-            system.debug('mapping.Sub_Status__c: '+mapping.Sub_Status__c);
-            system.debug('mapping.Placement_Status_Code__c: '+mapping.Placement_Status_Code__c);
             mapRecallCodeStatus.put(mapping.Placement_Status_Code__c, mapping);
         }
-        
-        system.debug('placementStatusMap::'+placementStatusMap);
+
+        //Fetch System Api
+        if(lrpSetting.Canaccede_API_User__c != NULL){
+            systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
+        }
+        //Fetch Product RecordType
+        for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product__c' ]){
+            prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
+        }
     }
     
     public static void getSnapshortRecords(List<Product__c> prodNew){
@@ -81,6 +88,16 @@ public with sharing class ProductAllocationIndividualController {
     }
     
     public PageReference allocateWithWarning(){
+        if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
+            && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+            // Assign System API to Owner
+                if(!systemName.isEmpty()){
+                    product.OwnerId = systemName[0].Id;      
+                }
+            
+            //Also Assign the last owner to the previous ownership field
+            product.Previous_Ownership__c = product.OwnerId;
+        }
         if(product.Current_Bal_NSF_Fees__c == NULL){
             product.Current_Bal_NSF_Fees__c = 0;
         }
@@ -177,7 +194,17 @@ public with sharing class ProductAllocationIndividualController {
             if(product.Recoverable_Fee__c == NULL){
                 product.Recoverable_Fee__c = 0;
             }
-          
+
+            if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
+                && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+                // Assign System API to Owner
+                if(!systemName.isEmpty()){
+                    product.OwnerId = systemName[0].Id;      
+                }
+                //Also Assign the last owner to the previous ownership field
+                product.Previous_Ownership__c = product.OwnerId;
+            }
+
             product.Allocated_Amount_Fees__c = product.Recoverable_Fee__c + product.Current_Bal_NSF_Fees__c; 
             //satyajit Comments the below line based on Ankur discussion.       
             //product.Allocated_Amount_Fees__c = product.Fee_Recovery__c;

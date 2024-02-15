@@ -35,7 +35,9 @@ public with sharing class ProductRecallIndividualController {
     String oldPlacementID;
     Public map<String, Data_Status_Mapping__c> mapDataStatusMapping = Data_Status_Mapping__c.getAll();
     Public map<String, Data_Status_Mapping__c> mapDataStatusMap = new map<String, Data_Status_Mapping__c>();
-    //String oldPlacementStatusCode = '';
+    public List<User> systemName= new list<User>();
+    public Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
+    public Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
     
     public ProductRecallIndividualController(ApexPages.StandardController stdController) {
          placement = [SELECT ID, Name
@@ -49,7 +51,7 @@ public with sharing class ProductRecallIndividualController {
                    Current_Bal_Attorney_Fees__c,Current_Bal_General_Fees__c,Current_Bal_Other_Fees__c,External_Status_Current__c,
                    Current_Bal_Court_Fees__c,Collection_Agency_Placement__r.Commission_Rate__c, Product_Status__c,
                    Commission_Rate__c,Pool_Name__r.Commission_Rate__c,Allocated_Amount_Total__c,Commission_Rate_at_Time_of_Placement__c,Value_Tier_at_Time_of_Placement__c,
-                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c
+                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c,OwnerId,Previous_Ownership__c
                    FROM Product__c WHERE ID= :productID];
         system.debug('product: '+product);
         
@@ -106,8 +108,15 @@ public with sharing class ProductRecallIndividualController {
         
 		for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
             mapDataStatusMap.put(metaData.name,metaData);
+        }
+        //Fetch System Api
+        if(lrpSetting.Canaccede_API_User__c != NULL){
+            systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
+        }
+        //Fetch Product RecordType
+        for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product__c' ]){
+            prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
         }        
-        system.debug('placementStatusMap::'+placementStatusMap);
     }
     
     public PageReference recallWithWarning(){
@@ -118,7 +127,7 @@ public with sharing class ProductRecallIndividualController {
         product.Timestamp_Of_Invalid_Submission__c = null;
         product.Invalid_Submission_Reason__c = null;
         product.Invalid_Submission_Initiated_By__c = null;
-        system.debug('selectedValueAction:: '+selectedValueAction);
+
         String mainStatus = mapRecallCodeStatus.get(selectedRecallReason).Status__c;
         String subStatus = mapRecallCodeStatus.get(selectedRecallReason).Sub_Status__c;
         map<String, String> mapDataStatus = new map<String, String>();
@@ -207,6 +216,17 @@ public with sharing class ProductRecallIndividualController {
             product.Placement_Status__c = null;
             placementIdentifier = String.valueOf(product.Collection_Agency__c);
         }
+        if(product.Collection_Agency__c = 9999){
+            if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
+                && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+                // Assign System API to Owner
+                if(!systemName.isEmpty()){
+                    product.OwnerId = systemName[0].Id;      
+                }
+                //Also Assign the last owner to the previous ownership field
+                product.Previous_Ownership__c = product.OwnerId;
+            }
+        }
          List<Id> prodId =new List<Id>();
             prodId.add(product.id);
         try{
@@ -216,45 +236,9 @@ public with sharing class ProductRecallIndividualController {
             ProductTriggerHandler.runProductTrigger = false;
             update product;
             
-            if(selectedValueAction == 'Pending Allocation' 
-            || selectedValueAction == 'Send To Warehouse'){
-            
-            //system.debug('placeStatus::'+placeStatus);
-            DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0,1), '9'));
-                /* Placement_History__c placementHistory = new Placement_History__c();
-                placementHistory.Product__c = product.id;
-                placementHistory.Placement__c =  oldPlacementID;    
-                placementHistory.Placement_Recall_Date__c = Date.today();
-                placementHistory.Placement_Date__c = product.Assignment_Date__c;
-                placementHistory.Placement_Status__c = product.Placement_Status__c;
-                system.debug('placementHistory.Placement_Status__c::'+placementHistory.Placement_Status__c);
-                if(placementStatusMap.containsKey( placementHistory.Placement_Status__c)){
-                    placementHistory.Placement_Status_Description__c = placementStatusMap.get( placementHistory.Placement_Status__c).Description__c;    
-                }
-                placementHistory.Current_Principal_Balance__c = product.Current_Principal_Balance__c;
-                placementHistory.Current_Interest_Balance__c = product.Current_Interest_Amount__c;
-                placementHistory.Interest_Rate__c = product.Interest_Rate__c;
-                placementHistory.NSF_Fees__c = product.Current_Bal_NSF_Fees__c;
-                placementHistory.Current_Bal_Attorney_Fees__c = product.Current_Bal_Attorney_Fees__c;
-                placementHistory.Current_Bal_General_Fees__c = product.Current_Bal_General_Fees__c;
-                placementHistory.Current_Bal_Other_Fees__c = product.Current_Bal_Other_Fees__c;
-                placementHistory.Current_Bal_Court_Fees__c = product.Current_Bal_Court_Fees__c;
-                placementHistory.Commission_Rate__c = product.Collection_Agency_Placement__r.Commission_Rate__c;
-                placementHistory.Pool_Commission_Rate__c = product.Pool_Name__r.Commission_Rate__c;
-                placementHistory.Product_Commission_Rate__c = product.Commission_Rate__c;
-                placementHistory.Allocated_Balance__c = product.Allocated_Amount_Total__c;
-                placementHistory.Pool_ID__c = product.Pool_Name__r.Name;
-                placementHistory.Placed_Commission_Rate__c = product.Commission_Rate_at_Time_of_Placement__c;
-                placementHistory.Value_Tier_at_Placement__c = product.Value_Tier_at_Time_of_Placement__c;
-                placementHistory.Placed_Settlement_Rate__c = product.Placed_Settlement_Rate__c;
-                placementHistory.Recoverable_fee_balance__c = product.Recoverable_Fee__c;
-                placementHistory.Non_recoverable_fee_balance__c = product.Non_Recoverable_Fee__c;
-                placementHistory.Placement_Status_at_time_of_recall__c = placeStatus;
-                placementHistory.Total_Balance_at_Placement__c = product.Current_Balance__c;
-                insert placementHistory;*/
+            if(selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse'){
+                DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0,1), '9'));
             }
-            
-            //if(selectedValueAction == PENDING_RECALL){
             
             //Added by satyajit
             Map<Id,String> placeStatus = new Map<Id,String>();
@@ -270,7 +254,6 @@ public with sharing class ProductRecallIndividualController {
             Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Account Status Update File'), 200);
             //Database.BatchProcessForProdScreen.processProductRecallBulk(prodListId,placeStatus,'Account Status Update File');
             
-            //}
             ProductTriggerHandler.runProductTrigger = true;
         }
         catch(Exception ex){
@@ -283,14 +266,9 @@ public with sharing class ProductRecallIndividualController {
     
     //Recall Product  
     public PageReference recallProduct(){
-        system.debug('placement::'+ product.Collection_Agency_Placement__c);
         String updateType = RECALL;
         String placementIdentifier = '';
         Boolean error = validationOnRecordUpdate(product, NewPlacementAgency);
-        system.debug('mapRecallCodeStatusLL'+mapRecallCodeStatus);
-        
-        system.debug('product.Placement_Status__c:'+product.Placement_Status__c);
-        system.debug('selectedRecallReason: '+selectedRecallReason);
         String mainStatus = mapRecallCodeStatus.get(selectedRecallReason).Status__c;
         String subStatus = mapRecallCodeStatus.get(selectedRecallReason).Sub_Status__c;
         map<String, String> mapDataStatus = new map<String, String>();
@@ -303,12 +281,9 @@ public with sharing class ProductRecallIndividualController {
             mapProductStatusCodes.put(dataStatusMapping.Description1__c + 
                                       ( dataStatusMapping.Description2__c!= null ?  dataStatusMapping.Description2__c : '') 
                                      , dataStatusMapping);  
-            system.debug('map::'+dataStatusMapping.Description1__c+dataStatusMapping.Description2__c);
         }
         
         
-        
-        system.debug('mapProductStatusCodes::'+mapProductStatusCodes);
         if(error == false){
             product.Invalid_Submission__c = false;
             product.Timestamp_Of_Invalid_Submission__c = null;
@@ -400,7 +375,17 @@ public with sharing class ProductRecallIndividualController {
                 product.Placement_Status__c = null;
                 placementIdentifier = String.valueOf(product.Collection_Agency__c);
             }
-            
+            if(product.Collection_Agency__c = 9999){
+                if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
+                    && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+                    // Assign System API to Owner
+                    if(!systemName.isEmpty()){
+                        product.OwnerId = systemName[0].Id;      
+                    }
+                    //Also Assign the last owner to the previous ownership field
+                    product.Previous_Ownership__c = product.OwnerId;
+                }
+            }
             //Remove Pool from Product on Recall
             product.Pool_Name__c = null;
             List<Id> prodId =new List<Id>();
@@ -410,47 +395,11 @@ public with sharing class ProductRecallIndividualController {
                 ProductTriggerHandler.runProductTrigger = false;
                 update product;
                 
-                if(selectedValueAction == 'Pending Allocation' 
-                   || selectedValueAction == 'Send To Warehouse'){
-                   
-                   system.debug('placeStatus::'+placeStatus);
-                    DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0,1), '9'));
-                      /* Placement_History__c placementHistory = new Placement_History__c();
-                       placementHistory.Product__c = product.id;
-                       placementHistory.Placement__c =  oldPlacementID;    
-                       placementHistory.Placement_Recall_Date__c = Date.today();
-                       placementHistory.Placement_Date__c = product.Assignment_Date__c;
-                       placementHistory.Placement_Status__c = product.Placement_Status__c;
-                       
-                       system.debug('placementHistory.Placement_Status__c::'+placementHistory.Placement_Status__c);
-                       if(placementStatusMap.containsKey( placementHistory.Placement_Status__c)){
-                        placementHistory.Placement_Status_Description__c = placementStatusMap.get( placementHistory.Placement_Status__c).Description__c;    
-                       }
-                       placementHistory.Current_Principal_Balance__c = product.Current_Principal_Balance__c;
-                       placementHistory.Current_Interest_Balance__c = product.Current_Interest_Amount__c;
-                       placementHistory.Interest_Rate__c = product.Interest_Rate__c;
-                       placementHistory.NSF_Fees__c = product.Current_Bal_NSF_Fees__c;
-                       placementHistory.Current_Bal_Attorney_Fees__c = product.Current_Bal_Attorney_Fees__c;
-                       placementHistory.Current_Bal_General_Fees__c = product.Current_Bal_General_Fees__c;
-                       placementHistory.Current_Bal_Other_Fees__c = product.Current_Bal_Other_Fees__c;
-                       placementHistory.Current_Bal_Court_Fees__c = product.Current_Bal_Court_Fees__c;
-                       placementHistory.Commission_Rate__c = product.Collection_Agency_Placement__r.Commission_Rate__c;
-                       placementHistory.Pool_Commission_Rate__c = product.Pool_Name__r.Commission_Rate__c;
-                       placementHistory.Product_Commission_Rate__c = product.Commission_Rate__c;
-                       placementHistory.Allocated_Balance__c = product.Allocated_Amount_Total__c;
-                       placementHistory.Pool_ID__c = product.Pool_Name__r.Name;
-                        placementHistory.Placed_Commission_Rate__c = product.Commission_Rate_at_Time_of_Placement__c;
-                      placementHistory.Value_Tier_at_Placement__c = product.Value_Tier_at_Time_of_Placement__c;
-                placementHistory.Placed_Settlement_Rate__c = product.Placed_Settlement_Rate__c;
-                placementHistory.Recoverable_fee_balance__c = product.Recoverable_Fee__c;
-                placementHistory.Non_recoverable_fee_balance__c = product.Non_Recoverable_Fee__c;
-                placementHistory.Placement_Status_at_time_of_recall__c = placeStatus;
-                 placementHistory.Total_Balance_at_Placement__c = product.Current_Balance__c;
-                       insert placementHistory;*/
-                   }
-                system.debug('placementIdentifier::'+placementIdentifier);
+            if(selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse'){
+                DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0,1), '9'));        
+            }
                 
-                //Added by satyajit
+            //Added by satyajit
             Map<Id,String> placeStatus = new Map<Id,String>();
             placeStatus.put(product.id,product.Placement_Status__c);
             
