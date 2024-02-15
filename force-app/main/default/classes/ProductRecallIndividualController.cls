@@ -51,7 +51,7 @@ public with sharing class ProductRecallIndividualController {
                    Current_Bal_Attorney_Fees__c,Current_Bal_General_Fees__c,Current_Bal_Other_Fees__c,External_Status_Current__c,
                    Current_Bal_Court_Fees__c,Collection_Agency_Placement__r.Commission_Rate__c, Product_Status__c,
                    Commission_Rate__c,Pool_Name__r.Commission_Rate__c,Allocated_Amount_Total__c,Commission_Rate_at_Time_of_Placement__c,Value_Tier_at_Time_of_Placement__c,
-                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c,OwnerId,Previous_Ownership__c
+                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c,OwnerId,Previous_Ownership__c,RecordTypeId
                    FROM Product__c WHERE ID= :productID];
         system.debug('product: '+product);
         
