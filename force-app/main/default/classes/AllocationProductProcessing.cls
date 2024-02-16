@@ -12,6 +12,9 @@ public class AllocationProductProcessing {
 
     public static decimal successRecords = 0;
     public static decimal failedRecords = 0;
+    public static List<User> systemName= new list<User>();
+    public static Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
+    public static Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
     
     //Allocate product to agency.
     public static void allocateProducts(List<Product_Staging__c> prodStagingList,String workAssignmentId){  
@@ -24,6 +27,14 @@ public class AllocationProductProcessing {
             String ALLOCATED_DATA_STATUS_CODE = '300000';
             String NEW_ALLOCATION_READY = '100000';
             String PROCESSED = 'Processed';
+            //Fetch System Api
+            if(lrpSetting.Canaccede_API_User__c != NULL){
+                systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
+            }
+            //Fetch Product RecordType
+            for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product__c' ]){
+                prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
+            }
             
             list<Placement_History__c> listPlacementHistory = new list<Placement_History__c>();
             list<Pool__c> listPoolUpdate = new list<Pool__c>();
@@ -68,7 +79,7 @@ public class AllocationProductProcessing {
                                                                        Current_Bal_General_Fees__c, Current_Bal_Other_Fees__c,
                                                                        Current_Bal_Court_Fees__c, Collection_Agency_Placement__r.Commission_Rate__c,Pool_name__r.Commission_rate__c,
                                                                        Allocated_Amount_Total__c,Pool_Name__r.Name,Commission_Rate__c,Allocated_Amount_Fees__c,Allocated_Amount_Principal__c,
-                                                                       Allocated_Amount_Interest__c,Recoverable_Fee__c,Non_Recoverable_Fee__c
+                                                                       Allocated_Amount_Interest__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Collection_Agency__c,OwnerId
                                                                        FROM Product__c WHERE ID IN :setProductIDs]);
             
             for(Product_Staging__c productStaging : prodStagingList){
@@ -110,6 +121,17 @@ public class AllocationProductProcessing {
                     product.Allocated_Amount_Fees__c = productStaging1.Fees__c;
                     product.Allocated_Amount_Principal__c = productStaging1.Current_Principal_Balance__c;
                     product.Allocated_Amount_Interest__c = productStaging1.Current_Interest_Balance__c;
+                    if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
+                       && Decimal.valueOf(productStaging1.Placement_Agency__c) != mapProduct.get(productStaging1.Product_ID__c).Collection_Agency__c){
+                           // Assign System API to Owner
+                           if(!systemName.isEmpty()){
+                               product.OwnerId = systemName[0].Id;      
+                           }
+                           //Also Assign the last owner to the previous ownership field
+                           if(mapProduct.get(productStaging1.Product_ID__c).OwnerId <> NULL){
+                               product.Previous_Ownership__c = mapProduct.get(productStaging1.Product_ID__c).OwnerId;
+                           }
+                    }
                     productNames += productStaging1.Name__c + ',';
                     if(productStaging1.Product_ID__c!=null) {
                         prodIdList.add(productStaging1.Product_ID__c);
