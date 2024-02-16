@@ -508,12 +508,14 @@ public class WorkAssignmentTriggerHandler {
                try{
                    commentReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
                    system.debug('workAssig--->'+workAssig);
+                   //bug: 4743 changes starts
                    if(updateCommentHistoryField==TRUE) {
                    workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
                    } 
                    else if (updateCommentHistoryField==FALSE){
                     workAssig.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
                    }
+                   //bug : 4743 changes ends
                    workAssig.Latest_Comment__c = commentReply;
                    system.debug('ABC');
                    workAssig.Comment_Reply__c = '';
