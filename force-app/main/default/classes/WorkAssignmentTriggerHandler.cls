@@ -197,6 +197,8 @@ public class WorkAssignmentTriggerHandler {
     }
     //Method to handle after update of record
     public static void handleAfterUpdate(list<Work_Assignment__c> listNewWorkAssignments, map<ID, Work_Assignment__c> mapOldWorkAssignment){
+        system.debug('listNewWorkAssignments--->'+listNewWorkAssignments);
+        system.debug('mapOldWorkAssignment--->'+mapOldWorkAssignment.values());
         Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
        //Bug: 5555 - Changes Starts
        map<ID, Work_Assignment__c> mapNewWorkAssignment = new map<ID, Work_Assignment__c>();
@@ -280,6 +282,8 @@ public class WorkAssignmentTriggerHandler {
    
     //this inner method populate the comment, comment history and user name.
     public static void handleBeforeUpdate(List<Work_Assignment__c> wrkAssgns, Map<Id, Work_Assignment__c> oldMap) {
+        system.debug('wrkAssgns--->'+wrkAssgns);
+        system.debug('oldMap--->'+oldMap.values());
         list<Work_Assignment__c> listInternalNewWorkAssignment = new list<Work_Assignment__c>();
         list<Work_Assignment__c> listExternalNewWorkAssignment = new list<Work_Assignment__c>();
         Date dT = System.Today();
@@ -352,7 +356,7 @@ public class WorkAssignmentTriggerHandler {
             Boolean identifierRemovalFlag = false;
             Work_Assignment__c wrkAssgnsOld = oldMap.get(workAssig.id);
             workAssig.Last_Modified_By__c = UserInfo.getName();
-             
+             system.debug('wrkAssgnsOld--->'+wrkAssgnsOld);
             System.debug('Block Run1'+workAssig);
             System.debug('workAssig.Status__c :'+workAssig.Status__c);
             System.debug('wrkAssgnsOld.Status__c :'+wrkAssgnsOld.Status__c);
@@ -499,17 +503,20 @@ public class WorkAssignmentTriggerHandler {
            system.debug('ABC1');
             String commentReply = '';
             system.debug('commentReply::'+commentReply);
+            system.debug('workAssig--->'+workAssig);
             if(workAssig.Comment_Reply__c != null && workAssig.Comment_Reply__c != wrkAssgnsOld.Comment_Reply__c){
                try{
                    commentReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
+                   system.debug('workAssig--->'+workAssig);
                    if(updateCommentHistoryField==TRUE) workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
                    workAssig.Latest_Comment__c = commentReply;
                    system.debug('ABC');
                    workAssig.Comment_Reply__c = '';
-                    if(wrkAssgnsOld.Comments_History__c !=null){
+                   system.debug('workAssig--->'+workAssig);
+                   if(wrkAssgnsOld.Comments_History__c !=null){
                          workAssig.Comments_History__c += wrkAssgnsOld.Comments_History__c;
                     }
-                   
+                    system.debug('workAssig--->'+workAssig);
                 }catch(exception e){
                }
             }else{
