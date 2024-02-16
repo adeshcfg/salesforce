@@ -92,6 +92,16 @@ public class InsolvencyPaymentUploadController {
         try {
             listPaymentRecordWrapper = eftUtilInstance.deSerializeJSON(outputJSON);
             for (EFTUtil.paymentRecordsWrapper payInstance : listPaymentRecordWrapper) {
+                // Ignore empty row
+                if (
+                    String.isBlank(payInstance.netPayment) &&
+                    String.isBlank(payInstance.fairsharePayment) &&
+                    String.isBlank(payInstance.paymentSource) &&
+                    String.isBlank(payInstance.paymentType) &&
+                    String.isBlank(payInstance.accountNumber)
+                ) {
+                    continue;
+                }
                 if (
                     (String.isNotBlank(payInstance.netPayment) ||
                     (String.isNotBlank(payInstance.fairsharePayment)) ||

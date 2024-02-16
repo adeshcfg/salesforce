@@ -91,6 +91,16 @@ public class PaymentUploadController {
             String outputJSON1 = outputJSON.replaceAll('ClientName', 'DebtorName');
             listPaymentRecordWrapper = eftUtilInstance.deSerializeJSON(outputJSON1);
             for (EFTUtil.paymentRecordsWrapper payInstance : listPaymentRecordWrapper) {
+                // Ignore empty row
+                if (
+                    String.isBlank(payInstance.netPayment) &&
+                    String.isBlank(payInstance.fairsharePayment) &&
+                    String.isBlank(payInstance.paymentSource) &&
+                    String.isBlank(payInstance.paymentType) &&
+                    String.isBlank(payInstance.accountNumber)
+                ) {
+                    continue;
+                }
                 if (
                     (String.isNotBlank(payInstance.netPayment) ||
                     (String.isNotBlank(payInstance.fairsharePayment)) ||
