@@ -132,6 +132,15 @@ public class StriplistInsolPaymentUploadController {
             listPaymentRecordWrapper = striplistUtilInstance.deSerializeJSON(outputJSON1);
             for (StriplistUtil.paymentRecordsWrapper payInstance : listPaymentRecordWrapper) {
                 if (
+                    String.isBlank(payInstance.amount) &&
+                    String.isBlank(payInstance.accountID) &&
+                    String.isBlank(payInstance.debtorName) &&
+                    String.isBlank(payInstance.estateNumber) &&
+                    String.isBlank(payInstance.accountNumber)
+                ) {
+                    continue;
+                }
+                if (
                     (String.isNotBlank(payInstance.amount) ||
                     (String.isNotBlank(payInstance.accountID)) ||
                     String.isNotBlank(payInstance.debtorName) ||
