@@ -164,7 +164,7 @@ public class DisplayDistressedNotesStagingController {
         }        
         //bug:4743 : changes starts
         system.debug('workAssignment--->'+workAssignment);
-        String oldComments = '';
+       /* String oldComments = '';
         if(workAssignment.Comments_History__c !=null){
             system.debug('workAssignment.Comments_History__c--->'+workAssignment.Comments_History__c);
             oldComments = workAssignment.Comments_History__c;
@@ -177,6 +177,7 @@ public class DisplayDistressedNotesStagingController {
             workAssignment.Comments_History__c += oldComments;
         }
         system.debug('workAssignment.Comments_History__c--->'+workAssignment.Comments_History__c);
+      */
         WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
         system.debug('workAssignment: '+workAssignment);
         //bug:4743 : changes ends       
