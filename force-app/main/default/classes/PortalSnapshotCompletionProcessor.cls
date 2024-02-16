@@ -31,10 +31,8 @@ global with sharing class PortalSnapshotCompletionProcessor {
         //Added for ticket 4458.
         productError prodErr;
         if(prResponse.Allocations == null || Test.isRunningTest()){
-            //String replaceIllegal= jsonString.replaceAll('\n','').replaceAll('\r','');
             DateTime dT = System.now();
             String oldComments = '';
-            system.debug('replaceIllegal::'+replaceIllegal);
             prodErr = (productError)JSON.deserialize(replaceIllegal, productError.class); 
             documentStorageId = prodErr.DocumentStorageId;
             document_storage__c docData = [select id,Work_Assignment__c,Work_Assignment__r.Created_By__c ,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
@@ -64,9 +62,7 @@ global with sharing class PortalSnapshotCompletionProcessor {
             WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
             update updateWorkAssign;
             WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
-            
-            // String userName = UserInfo.getUserName();
-            system.debug('docData.Work_Assignment__r.Created_By__c::'+docData.Work_Assignment__r.Created_By__c);
+           
             //send failed error file notification.
             CFG_EmailNotification.snapshotFailedEmailNotification(docData.Work_Assignment__r.Created_By__c,prodErr.Error,documentStorageId);
         }
@@ -78,7 +74,7 @@ global with sharing class PortalSnapshotCompletionProcessor {
             //Bug:4459 changes starts
             set<string> docIDs=new set<string>();
             map<id,document_storage__c> docMap=new map<id,document_storage__c>();
-          if(documentStorageId!=NULL) {
+          if(documentStorageId!=NULL && !documentStorageId.contains('DS_ACC')) {
            document_storage__c docStorageData = [select id,Work_Assignment__c,Work_Assignment__r.Created_By__c ,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
             if(docStorageData.Work_Assignment__c!=NULL){
             for(AllocationsClass result:prResponse.Allocations){
