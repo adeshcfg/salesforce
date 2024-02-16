@@ -12,14 +12,27 @@ public class RecallProductProcessing {
     
     public static decimal successRecords = 0;
     public static decimal failedRecords = 0;
+    public static List<User> systemName= new list<User>();
+    public static Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
+    public static Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
     
     //Recall/Account status update of product.
     public static List<Id> recallProducts(List<Product_Staging__c> prodStagingList,String workAssignmentId){  
-        
         List<Product__c> prodList = new List<Product__c>();
         Map<String,Id> PlacementMap = new Map<String,Id>();
         Map<Id,String> PlacementStatusMap = new Map<Id,String>();
         List<Id> prodIds = new List<Id>();
+        set<id> setProductIDs = new set<id>();
+        
+        //Fetch System Api
+        if(lrpSetting.Canaccede_API_User__c != NULL){
+            systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
+        }
+        //Fetch Product RecordType
+        for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product__c' ]){
+            prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
+        }
+        
         List<Product_Staging__c> listproductstaging = new List<Product_Staging__c>();
         map<String, Placement_Status_Code_Mapping__c> codeMapping = new map<String, Placement_Status_Code_Mapping__c>();
         for(Placement_Status_Code_Mapping__c mapping : [SELECT ID, Name, Data_Status_Code__c, Data_Status_Description__C
@@ -30,6 +43,13 @@ public class RecallProductProcessing {
         for(Placement__c placeList : [SELECT id,name from Placement__c]){
             PlacementMap.put(placeList.name, placeList.Id);
         }
+        
+        for(Product_Staging__c productStaging : prodStagingList){
+            setProductIDs.add(productStaging.Product_ID__c);
+        }
+        
+        map<ID, Product__c> mapProduct = new Map<ID, Product__c> ([SELECT ID, Name, RecordTypeId,OwnerId,Collection_Agency__c
+                                                                       FROM Product__c WHERE ID IN :setProductIDs]);
         try {
             for(Product_Staging__c productStaging : prodStagingList){
                 //Regex to check MM/DD/YYYY (text format in excel)
@@ -128,7 +148,21 @@ public class RecallProductProcessing {
                         if(prod.Collection_Agency__c == 9999){
                             prodIds.add(Prod.Id);
                             PlacementStatusMap.put(Prod.Id, productStaging.Placement_Status_Code__c);
+                            if(prodRTypeIdMap.get('Distressed_Account') == mapProduct.get(productStaging.Product_ID__c).RecordTypeId
+                               && prod.Collection_Agency__c != mapProduct.get(productStaging.Product_ID__c).Collection_Agency__c){
+                                   // Assign System API to Owner
+                                   if(!systemName.isEmpty()){
+                                       prod.OwnerId = systemName[0].Id;      
+                                   }
+                                   //Also Assign the last owner to the previous ownership field
+                                   if(mapProduct.get(productStaging.Product_ID__c).OwnerId <> NULL){
+                                       prod.Previous_Ownership__c = mapProduct.get(productStaging.Product_ID__c).OwnerId;
+                                   }
+                           }
                         }
+                    
+                           
+                 
                     }else{
                         failedRecords = failedRecords + 1;
                     }
