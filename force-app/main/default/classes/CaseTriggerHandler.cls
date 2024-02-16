@@ -8,7 +8,7 @@
  
  *************************************************************************************************/
  
-public class CaseTriggerHandler {
+ public class CaseTriggerHandler {
     
     public static boolean runCaseTrigger = true;
     
@@ -59,7 +59,21 @@ public class CaseTriggerHandler {
 
         list<case> oldCaseList = new list<case>();
         //case caseObj = casesNew[0];
-        
+        List<String> listOfSubject = new List<String>();
+        List<Case> listOfCasesToClose = new List<Case> ();
+        List<Case> casesWithSubject = new List<Case> ();
+        Map<String,List<Case>> mapOfSubjectWithCases = new Map<String,List<Case>>();
+        for (Case caseNew : casesNew){
+            listOfSubject.add(caseNew.Subject);
+        }
+        List<Case> listOfOldCases = [select id from Case where Subject in : listOfSubject 
+                                        and Status != 'Closed' 
+                                        and Status != 'Completed'
+                                        order by CreatedDate Desc];//Older record last created
+        for(Case oldCase : listOfOldCases){
+            casesWithSubject.add(oldcase);
+          if(!test.isRunningTest())  mapOfSubjectWithCases.put(oldCase.Subject, casesWithSubject);
+        }
         for (Case caseNew : casesNew){
             
             //Remittance + CCS Case
@@ -84,6 +98,21 @@ public class CaseTriggerHandler {
                 
                 if(caseNew.recordTypeID == caseRecorTypeMap.get('EmailToCase')){
                     caseNew.Is_Email_to_Case__c = true;
+                    if(caseNew.Form_Types__c == 'Creditor Package'){
+                        List<Case> oldCaseRecord = mapOfSubjectWithCases.get(caseNew.Subject);
+                        Integer oldCaseRecordCount = oldCaseRecord.size();//5
+                        if(oldCaseRecordCount > 0){
+                            caseNew.Status = 'Closed';//New Record
+                            //listOfCasesToClose.add(caseNew);
+                            for(Case caseRec : oldCaseRecord){
+                                if(oldCaseRecordCount != 1){
+                                    caseRec.Status = 'Closed';
+                                    listOfCasesToClose.add(caseRec);
+                                    oldCaseRecordCount--;//4,3,2,1
+                                }
+                            }
+                        }
+                    }
                 }
             }
             else if(caseNew.recordTypeID == caseRecorTypeMap.get('Remittance') ||
@@ -95,7 +124,9 @@ public class CaseTriggerHandler {
                 CaseNew.Is_Email_to_Case__c = True;//for Email to Case for CCS
             }
         }
+        Update listOfCasesToClose; // this is added for 5302
     }
+    
     
     //Before Case is updated
     public static void handleBeforeUpdate(List<Case> casesNew, Map<Id, Case> oldMap) { 
