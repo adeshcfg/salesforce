@@ -35,34 +35,35 @@ global with sharing class PortalSnapshotCompletionProcessor {
             String oldComments = '';
             prodErr = (productError)JSON.deserialize(replaceIllegal, productError.class); 
             documentStorageId = prodErr.DocumentStorageId;
-            document_storage__c docData = [select id,Work_Assignment__c,Work_Assignment__r.Created_By__c ,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
-            
-            Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
-            updateWorkAssign.id = docData.Work_Assignment__c;
-            
-            if(prodErr.Error != null && prodErr.Error.length() > 1200){
-                updateWorkAssign.Comment_Reply__c = prodErr.Error.subString(0,1199);
-            }else{
-                updateWorkAssign.Comment_Reply__c = prodErr.Error;
+            if(!documentStorageId.contains('DS_ACC')){
+                document_storage__c docData = [select id,Work_Assignment__c,Work_Assignment__r.Created_By__c ,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
+                
+                Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
+                updateWorkAssign.id = docData.Work_Assignment__c;
+                
+                if(prodErr.Error != null && prodErr.Error.length() > 1200){
+                    updateWorkAssign.Comment_Reply__c = prodErr.Error.subString(0,1199);
+                }else{
+                    updateWorkAssign.Comment_Reply__c = prodErr.Error;
+                }
+                if(updateWorkAssign.Comments_History__c !=null){
+                    oldComments = updateWorkAssign.Comments_History__c;
+                }
+                updateWorkAssign.Latest_Comment__c = updateWorkAssign.Comment_Reply__c;
+                //bug:4743 : changes starts
+                updateWorkAssign.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + updateWorkAssign.Comment_Reply__c + '\n' + '\n';
+                //bug:4743 : changes ends
+                if(oldComments != null){
+                    updateWorkAssign.Comments_History__c += oldComments;
+                }
+                
+                updateWorkAssign.Comment_Reply__c = '';
+                
+                updateWorkAssign.Status__c = 'Completed';
+                WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
+                update updateWorkAssign;
+                WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
             }
-            if(updateWorkAssign.Comments_History__c !=null){
-                oldComments = updateWorkAssign.Comments_History__c;
-            }
-            updateWorkAssign.Latest_Comment__c = updateWorkAssign.Comment_Reply__c;
-            //bug:4743 : changes starts
-            updateWorkAssign.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + updateWorkAssign.Comment_Reply__c + '\n' + '\n';
-            //bug:4743 : changes ends
-            if(oldComments != null){
-                updateWorkAssign.Comments_History__c += oldComments;
-            }
-            
-            updateWorkAssign.Comment_Reply__c = '';
-            
-            updateWorkAssign.Status__c = 'Completed';
-            WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
-            update updateWorkAssign;
-            WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
-           
             //send failed error file notification.
             CFG_EmailNotification.snapshotFailedEmailNotification(docData.Work_Assignment__r.Created_By__c,prodErr.Error,documentStorageId);
         }
@@ -94,6 +95,10 @@ global with sharing class PortalSnapshotCompletionProcessor {
             //Add and update comment on product staging record based on the parsed response.
             if(!documentStorageId.contains('DS_ACC')){
                 updateProductStagings( dataIDs, documentStorageId );
+            }
+            if(dataIDs.size() > 1){
+                //send failed error file notification.
+                CFG_EmailNotification.snapshotFailedEmailNotification(docData.Work_Assignment__r.Created_By__c,prodErr.Error,documentStorageId);
             }
         }
         

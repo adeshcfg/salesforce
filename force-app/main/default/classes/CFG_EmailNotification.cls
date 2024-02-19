@@ -160,8 +160,9 @@ public class CFG_EmailNotification {
         }
         system.debug('activeUser::'+activeUser);
         String userEmail ='';
+        userEmail =System.Label.API_Failed_Email+',';
         if(!Test.isRunningTest()){
-            userEmail = activeUser.Email;
+            userEmail += activeUser.Email;
         }else{
             userEmail = userName;
         }
