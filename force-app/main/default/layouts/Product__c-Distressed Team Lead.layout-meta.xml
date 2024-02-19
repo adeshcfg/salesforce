@@ -234,6 +234,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Purchase_Factor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Purchase_Price__c</field>
             </layoutItems>
             <layoutItems>
