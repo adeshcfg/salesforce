@@ -89,6 +89,7 @@ public class PaymentUploadController {
         EFTUtil eftUtilInstance = new EFTUtil();
         try {
             String outputJSON1 = outputJSON.replaceAll('ClientName', 'DebtorName');
+            outputJSON1 = outputJSON1.replaceAll('FairShareAmount', 'FairSharePayment');
             listPaymentRecordWrapper = eftUtilInstance.deSerializeJSON(outputJSON1);
             for (EFTUtil.paymentRecordsWrapper payInstance : listPaymentRecordWrapper) {
                 // Ignore empty row
