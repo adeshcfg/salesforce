@@ -154,11 +154,11 @@ public class CFG_EmailNotification {
     //When snapshot is failed from product and pool allocation then send exception email.
     public static void snapshotFailedEmailNotification(String userName,String exceptionMsg,String documentStorage){
         User activeUser;
-        system.debug('userName::'+userName);
-        if(!Test.isRunningTest()){
+  
+        if(!Test.isRunningTest() && userName != NULL){
             activeUser = [Select Email From User where name = : userName limit 1];
         }
-        system.debug('activeUser::'+activeUser);
+
         String userEmail ='';
         userEmail =System.Label.API_Failed_Email+',';
         if(!Test.isRunningTest()){

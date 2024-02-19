@@ -65,7 +65,7 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
             }
             //send failed error file notification.
-            CFG_EmailNotification.snapshotFailedEmailNotification(docData.Work_Assignment__r.Created_By__c,prodErr.Error,documentStorageId);
+            CFG_EmailNotification.snapshotFailedEmailNotification(null,prodErr.Error,documentStorageId);
         }
         
       
@@ -98,7 +98,7 @@ global with sharing class PortalSnapshotCompletionProcessor {
             }
             if(dataIDs.size() > 1){
                 //send failed error file notification.
-                CFG_EmailNotification.snapshotFailedEmailNotification(docData.Work_Assignment__r.Created_By__c,prodErr.Error,documentStorageId);
+                CFG_EmailNotification.snapshotFailedEmailNotification(null,prodErr.Error,documentStorageId);
             }
         }
         
