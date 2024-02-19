@@ -62,6 +62,8 @@
         List<String> listOfSubject = new List<String>();
         List<Case> listOfCasesToClose = new List<Case> ();
         List<Case> casesWithSubject = new List<Case> ();
+        DateTime currentDateTime = System.Now();
+        DateTime tenMinutesLessThanNow = currentDateTime.addMinutes(-10);
         Map<String,List<Case>> mapOfSubjectWithCases = new Map<String,List<Case>>();
         for (Case caseNew : casesNew){
             listOfSubject.add(caseNew.Subject);
@@ -69,6 +71,7 @@
         List<Case> listOfOldCases = [select id from Case where Subject in : listOfSubject 
                                         and Status != 'Closed' 
                                         and Status != 'Completed'
+                                        and CreatedDate >= tenMinutesLessThanNow
                                         order by CreatedDate Desc];//Older record last created
         for(Case oldCase : listOfOldCases){
             casesWithSubject.add(oldcase);
