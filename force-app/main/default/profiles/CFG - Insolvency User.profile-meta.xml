@@ -3202,7 +3202,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>portfolioWidgetOnProductController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>savePortalAccStatusUpdateFileBatch</apexClass>
