@@ -23,10 +23,20 @@ global with sharing class PortalSnapshotCompletionProcessor {
         string documentStorageId ;
         Map<String, String> dataIDs = new Map<String,String>();
         String replaceIllegal= jsonString.replaceAll('\n','').replaceAll('\r','');
-        
+        Set<String> prodIds = new Set<String>();
         ProductStagingResponse prResponse;
         prResponse = (ProductStagingResponse)JSON.deserialize(replaceIllegal, ProductStagingResponse.class); 
         system.debug('prResponse::'+prResponse);
+        
+        dataIDs = getDataIds(prResponse);
+        
+        for (String key : dataIDs.keySet()) {
+            prodIds.add(key);
+        }
+        Product__c productData = [select id,name,lastmodifiedBy.name from Product__c where name IN: prodIds];
+        
+        String ErrMsg = '';
+        ErrMsg = dataIDs.get(productData.Name);
         
         //Added for ticket 4458.
         productError prodErr;
@@ -63,9 +73,13 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
                 update updateWorkAssign;
                 WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+                if(docData != NULL){
+                    CFG_EmailNotification.snapshotFailedEmailNotification(docData.Work_Assignment__r.Created_By__c,prodErr.Error,documentStorageId);
+                }
             }
-            //send failed error file notification.
-            CFG_EmailNotification.snapshotFailedEmailNotification(null,prodErr.Error,documentStorageId);
+
+                //send failed error file notification.
+                CFG_EmailNotification.snapshotFailedEmailNotification(productData.lastmodifiedBy.name,ErrMsg,documentStorageId);
         }
         
       
@@ -96,9 +110,10 @@ global with sharing class PortalSnapshotCompletionProcessor {
             if(!documentStorageId.contains('DS_ACC')){
                 updateProductStagings( dataIDs, documentStorageId );
             }
-            if(dataIDs.size() > 1){
+
+            if(dataIDs.size() >= 1){
                 //send failed error file notification.
-                CFG_EmailNotification.snapshotFailedEmailNotification(null,prodErr.Error,documentStorageId);
+                CFG_EmailNotification.snapshotFailedEmailNotification(productData.lastmodifiedBy.name,ErrMsg,documentStorageId);
             }
         }
         
