@@ -676,6 +676,13 @@ productStaging.Include_in_Processing__c = true;
         
         Map<String, Placement_Status_Code_Mapping__c> settings = Placement_Status_Code_Mapping__c.getAll();
         
+        //Ticket 5081
+        for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c, Product__r.Name FROM Account_Judgment__c
+                                                  WHERE Product__r.name IN :mapProduct.keySet()
+                                                  AND Status__c = 'Active']){
+                mapProductJudgment.put(accJudgment.Product__r.Name, accJudgment.Judgment__c);
+        }
+        
         for(Product_Staging__c product : batchScope){
             Boolean error = false;
             String ERROR_MSG = '';
@@ -796,10 +803,11 @@ productStaging.Include_in_Processing__c = true;
                 /*ERROR_MSG += '<b>ERROR</b> : Incorrect status date format\n';
 EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             } 
-            
-            if(docStorage != NULL && docStorage.Uploaded_By__c == 'External User' && mapProductJudgment.containsKey(product.Name__c)){
+                
+			//Ticket 5081: User cannot update status if product with judgment
+            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c)){
                 ERROR_MSG += '<b>ERROR</b> : Can\'t change account in Legal status<br/>';
-                EXPECTED += 'Agency user cannot update the status on Product with Judgment<br/>';
+                EXPECTED += 'User cannot update the status on Product with Judgment<br/>';
             }
             if(mapProduct.containsKey(product.Name__c)
                && mapProduct.get(product.Name__c).Collection_Agency__c != NULL){
