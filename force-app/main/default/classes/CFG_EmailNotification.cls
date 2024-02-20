@@ -167,10 +167,11 @@ public class CFG_EmailNotification {
             userEmail = userName;
         }
         system.debug('userEmail::'+userEmail);
+        List<String> lstEmail = userEmail.split(',');
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        String[] toAddresses = new String[] {userEmail}; 
-            
-        mail.setToAddresses(toAddresses);
+        //String[] toAddresses = new String[] {userEmail}; 
+        mail.setToAddresses(lstEmail);    
+        //mail.setToAddresses(toAddresses);
         mail.setSenderDisplayName('Salesforce Support');
 
         mail.setSubject('Snapshot is failed');   
