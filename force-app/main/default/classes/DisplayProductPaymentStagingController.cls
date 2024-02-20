@@ -580,7 +580,7 @@ public class DisplayProductPaymentStagingController {
                                                                    DocumentType = 'Balance Adjustment Upload File';
                                                                    success += '\n';
                                                                    success += payStaging.CCS_Account__c
-                                                                       +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '')
+                                                                       +'\t' + (payStaging.Direct_Payment_Type__c!= null ? payStaging.Direct_Payment_Type__c : '')
                                                                        +'\t'+payStaging.Payment_Type__c
                                                                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
                                                                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
@@ -629,7 +629,7 @@ public class DisplayProductPaymentStagingController {
                                                                    DocumentType = 'Balance Adjustment Upload File';
                                                                    failed += '\n';
                                                                    failed += payStaging.CCS_Account__c
-                                                                       +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '')
+                                                                       +'\t' + (payStaging.Direct_Payment_Type__c!= null ? payStaging.Direct_Payment_Type__c : '')
                                                                        +'\t'+payStaging.Payment_Type__c
                                                                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
                                                                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
