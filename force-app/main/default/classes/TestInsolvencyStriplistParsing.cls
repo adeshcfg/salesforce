@@ -263,12 +263,17 @@ public class TestInsolvencyStriplistParsing {
         Test.setCurrentPageReference(new PageReference('DisplayStriplistUnallocatedPayments'));
         System.currentPageReference().getParameters().put('id', remittanceInstance.Id);
         DisplayStriplistInsolUnallocController controller = new DisplayStriplistInsolUnallocController();
-        controller.paymentRecordListInner[0].insolvencyAccInstance.Insolvency_Account__c = insoAccount.Id;
+        Remittance__c dividendInstance = new Remittance__c(Insolvency_Account__c = insoAccount.Id);
+        StriplistUtil.paymentRecordsWrapper wrapper = new StriplistUtil.paymentRecordsWrapper();
+        wrapper.insolvencyAccInstance = dividendInstance;
+        wrapper.amount = '1000';
+        List<StriplistUtil.paymentRecordsWrapper> listUnallocatedPayment = new List<StriplistUtil.paymentRecordsWrapper>{wrapper};
+        controller.wrapperMap.put(0, wrapper);
         controller.Save();
         controller.Cancel();
 
         InsertUnallocatedPaymentsStriplistBatch batch2 = new InsertUnallocatedPaymentsStriplistBatch(
-            controller.listUnallocatedPayment,
+            listUnallocatedPayment,
             remittanceInstance,
             'Insolvency'
         );
