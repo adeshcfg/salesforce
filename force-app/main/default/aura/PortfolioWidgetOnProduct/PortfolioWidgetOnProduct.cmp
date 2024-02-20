@@ -108,7 +108,7 @@
                         data-label="Purchase Date"
                         title="Purchase Date" 
                         >
-                        <ui:outputDate format="dd/MM/yyyy" value = "{!draftValue.Purchase_date__c}"/>
+                        <ui:outputDate format="MM/dd/yyyy" value = "{!draftValue.Purchase_date__c}"/>
                     </td>
                 </tr>
             </aura:iteration>
@@ -236,7 +236,7 @@
                                         data-label="Purchase date"
                                         title="Purchase date" 
                                         >
-                                        <ui:outputDate format="dd/MM/yyyy" value = "{!draftValue.Purchase_date__c}"/>
+                                        <ui:outputDate format="MM/dd/yyyy" value = "{!draftValue.Purchase_date__c}"/>
                                     </td>
                                     <td
                                         class="slds-truncate"
