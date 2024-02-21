@@ -78,6 +78,10 @@
                 <behavior>Readonly</behavior>
                 <field>Current_Workflow__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Portfolio_Name__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

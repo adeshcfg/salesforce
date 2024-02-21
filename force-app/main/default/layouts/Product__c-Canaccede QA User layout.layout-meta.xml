@@ -100,6 +100,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Portfolio_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Portfolio_Name_Lookup_Formula__c</field>
             </layoutItems>
             <layoutItems>
@@ -324,6 +328,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Purchase_Factor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Purchase_Price__c</field>
             </layoutItems>
             <layoutItems>
@@ -336,10 +344,18 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Purchase_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Account_Purchasing_Entity_Value__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Portfolio_Group_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

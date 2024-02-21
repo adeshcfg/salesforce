@@ -47,6 +47,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Type_of_Service__c</field>
+            </layoutItems>            
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Portfolio_Name__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -272,6 +276,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Portfolio_Name_Lookup__c</field>
+            </layoutItems>            
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Portfolio_Group_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -294,6 +302,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Charged_Off_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Purchase_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Purchase_Factor_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
