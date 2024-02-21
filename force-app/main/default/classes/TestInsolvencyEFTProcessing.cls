@@ -226,12 +226,16 @@ public class TestInsolvencyEFTProcessing {
 
         Test.setCurrentPageReference(new PageReference('DisplayInsolvencyUnallocatedPayments'));
         System.currentPageReference().getParameters().put('id', eft.Id);
+        EFT_Files__c eftInstance = new EFT_Files__c(Insolvency_Account__c = insoAccount.Id);
+        EFTUtil.paymentRecordsWrapper wrapper = new EFTUtil.paymentRecordsWrapper();
+        wrapper.prodLookup = eftInstance;
+        List<EFTUtil.paymentRecordsWrapper> listUnallocatedPayment = new List<EFTUtil.paymentRecordsWrapper>{ wrapper };
         DisplayInsolUnAllocatedPaymentController controller = new DisplayInsolUnAllocatedPaymentController();
-        controller.paymentRecordListInner[0].prodLookup.Insolvency_Account__c = insoAccount.Id;
+        controller.wrapperMap.put(0, wrapper);
         controller.Save();
         controller.Cancel();
 
-        InsertUnallocatedPaymentsBatch batch2 = new InsertUnallocatedPaymentsBatch(controller.listUnallocatedPayment, eft, 'Insolvency');
+        InsertUnallocatedPaymentsBatch batch2 = new InsertUnallocatedPaymentsBatch(listUnallocatedPayment, eft, 'Insolvency');
         database.executeBatch(batch2);
     }
 

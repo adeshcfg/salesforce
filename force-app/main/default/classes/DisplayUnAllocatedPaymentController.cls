@@ -53,6 +53,7 @@ public class DisplayUnAllocatedPaymentController {
             if (paymentRecordList.isEmpty()) {
                 showTable = false;
                 Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'There are no Unallocated Product Payments to display!'));
+                return;
             }
             for (List<EFTUtil.paymentRecordsWrapper> payWrap : paymentRecordList) {
                 paymentRecordListInner.addAll(payWrap);
