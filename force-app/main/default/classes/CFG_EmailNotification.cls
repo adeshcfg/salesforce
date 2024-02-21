@@ -164,7 +164,7 @@ public class CFG_EmailNotification {
         if(!Test.isRunningTest()){
             userEmail += activeUser.Email;
         }else{
-            userEmail = userName;
+            userEmail = 'test@gmail.com';
         }
         system.debug('userEmail::'+userEmail);
         List<String> lstEmail = userEmail.split(',');

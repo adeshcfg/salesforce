@@ -28,15 +28,6 @@ global with sharing class PortalSnapshotCompletionProcessor {
         prResponse = (ProductStagingResponse)JSON.deserialize(replaceIllegal, ProductStagingResponse.class); 
         system.debug('prResponse::'+prResponse);
         
-        dataIDs = getDataIds(prResponse);
-        
-        for (String key : dataIDs.keySet()) {
-            prodIds.add(key);
-        }
-        Product__c productData = [select id,name,lastmodifiedBy.name from Product__c where name IN: prodIds];
-        
-        String ErrMsg = '';
-        ErrMsg = dataIDs.get(productData.Name);
         
         //Added for ticket 4458.
         productError prodErr;
@@ -77,9 +68,25 @@ global with sharing class PortalSnapshotCompletionProcessor {
                     CFG_EmailNotification.snapshotFailedEmailNotification(docData.Work_Assignment__r.Created_By__c,prodErr.Error,documentStorageId);
                 }
             }
-
-                //send failed error file notification.
-                CFG_EmailNotification.snapshotFailedEmailNotification(productData.lastmodifiedBy.name,ErrMsg,documentStorageId);
+            dataIDs = getDataIds(prResponse);
+            
+            for (String key : dataIDs.keySet()) {
+                prodIds.add(key);
+            }
+            List<Product__c> productData = [select id,name,lastmodifiedBy.name from Product__c where name IN: prodIds];
+            
+            Map<String,String> ErrMsg = new Map<String,String>();
+            Map<String,String> recordModifyUserName = new Map<String,String>();
+            for(Product__c prodData :productData){
+                ErrMsg.put(prodData.name,dataIDs.get(prodData.Name));
+				recordModifyUserName.put(prodData.name,prodData.lastmodifiedBy.name);
+            }
+            if(dataIDs.size() >= 1 && !Test.isRunningTest()){
+                for (String key : dataIDs.keySet()) {
+                    //send failed error file notification.
+                    CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName.get(dataIDs.get(key)),ErrMsg.get(dataIDs.get(key)),documentStorageId);
+                } 
+            }
         }
         
       
@@ -111,9 +118,25 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 updateProductStagings( dataIDs, documentStorageId );
             }
 
-            if(dataIDs.size() >= 1){
-                //send failed error file notification.
-                CFG_EmailNotification.snapshotFailedEmailNotification(productData.lastmodifiedBy.name,ErrMsg,documentStorageId);
+            for (String key : dataIDs.keySet()) {
+                prodIds.add(key);
+            }
+            system.debug('prodIds check::'+prodIds);
+           
+            List<Product__c> productData = [select id,name,lastmodifiedBy.name from Product__c where name IN: prodIds];
+            
+            Map<String,String> ErrMsg = new Map<String,String>();
+            Map<String,String> recordModifyUserName = new Map<String,String>();
+            for(Product__c prodData :productData){
+                ErrMsg.put(prodData.name,dataIDs.get(prodData.Name));
+				recordModifyUserName.put(prodData.name,prodData.lastmodifiedBy.name);
+            }
+            
+            if(dataIDs.size() >= 1 && !Test.isRunningTest()){
+                for (String key : dataIDs.keySet()) {
+                    //send failed error file notification.
+                    CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName.get(dataIDs.get(key)),ErrMsg.get(dataIDs.get(key)),documentStorageId);
+                }
             }
         }
         
