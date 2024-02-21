@@ -101,6 +101,10 @@
                 <behavior>Edit</behavior>
                 <field>Reason_for_Legal__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Portfolio_Name__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
