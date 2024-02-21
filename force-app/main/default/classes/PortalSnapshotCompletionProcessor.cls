@@ -74,17 +74,16 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 prodIds.add(key);
             }
             List<Product__c> productData = [select id,name,lastmodifiedBy.name from Product__c where name IN: prodIds];
-            
-            Map<String,String> ErrMsg = new Map<String,String>();
+
             Map<String,String> recordModifyUserName = new Map<String,String>();
             for(Product__c prodData :productData){
-                ErrMsg.put(prodData.name,dataIDs.get(prodData.Name));
 				recordModifyUserName.put(prodData.name,prodData.lastmodifiedBy.name);
             }
             if(dataIDs.size() >= 1 && !Test.isRunningTest()){
                 for (String key : dataIDs.keySet()) {
+                    String exceptionMsg = key +' Exception: '+dataIDs.get(key);
                     //send failed error file notification.
-                    CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName.get(dataIDs.get(key)),ErrMsg.get(dataIDs.get(key)),documentStorageId);
+                    CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName.get(dataIDs.get(key)),exceptionMsg,documentStorageId);
                 } 
             }
         }
@@ -125,17 +124,17 @@ global with sharing class PortalSnapshotCompletionProcessor {
            
             List<Product__c> productData = [select id,name,lastmodifiedBy.name from Product__c where name IN: prodIds];
             
-            Map<String,String> ErrMsg = new Map<String,String>();
             Map<String,String> recordModifyUserName = new Map<String,String>();
             for(Product__c prodData :productData){
-                ErrMsg.put(prodData.name,dataIDs.get(prodData.Name));
 				recordModifyUserName.put(prodData.name,prodData.lastmodifiedBy.name);
             }
-            
+            system.debug('dataIDs'+dataIDs.keySet());
+            system.debug('recordModifyUserName'+recordModifyUserName);
             if(dataIDs.size() >= 1 && !Test.isRunningTest()){
                 for (String key : dataIDs.keySet()) {
+                    String exceptionMsg = key +' Exception: '+ dataIDs.get(key);
                     //send failed error file notification.
-                    CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName.get(dataIDs.get(key)),ErrMsg.get(dataIDs.get(key)),documentStorageId);
+                    CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName.get(key),exceptionMsg,documentStorageId);
                 }
             }
         }
