@@ -169,12 +169,16 @@ public class TestCCSEFTProcessing {
 
         Test.setCurrentPageReference(new PageReference('DisplayCCSUnAllocatedPayments'));
         System.currentPageReference().getParameters().put('id', eft.Id);
+        EFT_Files__c eftInstance = new EFT_Files__c(Product_Custom__c = CCSAccount.Id);
+        EFTUtil.paymentRecordsWrapper wrapper = new EFTUtil.paymentRecordsWrapper();
+        wrapper.prodLookup = eftInstance;
+        List<EFTUtil.paymentRecordsWrapper> listUnallocatedPayment = new List<EFTUtil.paymentRecordsWrapper>{ wrapper };
         DisplayUnAllocatedPaymentController controller = new DisplayUnAllocatedPaymentController();
-        controller.paymentRecordListInner[0].prodLookup.Product_Custom__c = CCSAccount.Id;
+        controller.wrapperMap.put(0, wrapper);
         controller.Save();
         controller.Cancel();
 
-        InsertUnallocatedPaymentsBatch batch2 = new InsertUnallocatedPaymentsBatch(controller.listUnallocatedPayment, eft, 'CCS');
+        InsertUnallocatedPaymentsBatch batch2 = new InsertUnallocatedPaymentsBatch(listUnallocatedPayment, eft, 'CCS');
         database.executeBatch(batch2);
     }
 
