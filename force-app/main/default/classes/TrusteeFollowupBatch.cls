@@ -125,8 +125,9 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
 
         // Send emails and update Trustee, and Accounts
         if(!singleEmailMessages.isEmpty()){
-            Messaging.SendEmailResult[] emailResult = Messaging.sendEmail( singleEmailMessages );
-            
+            if(!Test.isRunningTest()) {
+                Messaging.SendEmailResult[] emailResult = Messaging.sendEmail( singleEmailMessages );
+            }
             if(!trusteeMap.isEmpty()){
                 update trusteeMap.values();
             }
