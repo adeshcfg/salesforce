@@ -64,6 +64,8 @@ public class StriplistInsolPaymentUploadController {
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         HttpRequest documentApiReq = getExcelToJsonRequest(apiCallDetails);
         documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
+        // Free up view state
+        excelFile = '';
         try {
             HttpResponse response = new Http().send(documentApiReq);
             if (response.getStatusCode() == 200 && String.isNotBlank(response.getBody())) {

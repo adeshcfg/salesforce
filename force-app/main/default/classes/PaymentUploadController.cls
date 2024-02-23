@@ -52,6 +52,8 @@ public class PaymentUploadController {
         String accessToken = AzureUtility.getRequestToken(apiCallDetails);
         HttpRequest documentApiReq = StriplistInsolPaymentUploadController.getExcelToJsonRequest(apiCallDetails);
         documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
+        // Free up view state
+        excelFile = '';
         try {
             HttpResponse response = new Http().send(documentApiReq);
             if (response.getStatusCode() == 200 && String.isNotBlank(response.getBody())) {
