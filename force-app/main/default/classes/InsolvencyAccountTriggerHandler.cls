@@ -11,7 +11,7 @@
 public class InsolvencyAccountTriggerHandler {
     
     public static boolean runInsolvencyAccountTrigger = true; 
-    
+    public static List<Insolvency_Account__c> accountsToUpdate = new List<Insolvency_Account__c>();
     public static String errorMessageOwnerReview {set;get;} 
     
     public static Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
@@ -50,9 +50,6 @@ public class InsolvencyAccountTriggerHandler {
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
             }
             //accNew.Account_Owner__c = UserInfo.getUserId();
-            accNew.Percent_of_increased_return_from_voting__c = accNew.Previous_Expected_Account_Recovery__c == null || accNew.Previous_Expected_Account_Recovery__c == 0
-                ? 0
-                : accNew.Expected_Account_Recovery__c / accNew.Previous_Expected_Account_Recovery__c;
             // Populate client identifier based on record type
             if(accNew.RecordTypeId != null && accNew.Client_Identifier__c == null){
                 accNew.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(accNew.RecordTypeId));
@@ -422,9 +419,6 @@ public class InsolvencyAccountTriggerHandler {
             if(accNew.Name != insolAccntOld.Name){
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
             }
-            accNew.Percent_of_increased_return_from_voting__c = accNew.Previous_Expected_Account_Recovery__c == null || accNew.Previous_Expected_Account_Recovery__c == 0
-                ? 0
-                : accNew.Expected_Account_Recovery__c / accNew.Previous_Expected_Account_Recovery__c;
             if(insolAccntOld.Trustee_Not_Providing_LoR__c == False && accNew.Trustee_Not_Providing_LoR__c == True){
                 accNew.Review_Account__c = false;
             }
@@ -1067,7 +1061,7 @@ update listInsolvency;
     
     //After Update
     public static void handleAfterUpdate(List<Insolvency_Account__c> insolAccntsNew, Map<Id, Insolvency_Account__c> oldMap) {
-        
+
         /*
 config.Run_Insolvency_Status_Validations__c = runValidationRule;
 update config;
@@ -1077,7 +1071,9 @@ update config;
         List <Insolvency_Account__c> insolAccntsToProcess = new List <Insolvency_Account__c>();
         ID oldInsolvencyID;
         for(Insolvency_Account__c insolAccntNew : insolAccntsNew){
-            
+            if(insAccntRecorTypeMap.get(insolAccntNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
+                accountsToUpdate.add(updatePercentageOfIncreasedReturn(insolAccntNew));
+            }
             Insolvency_Account__c insolAccntOld = oldMap.get(insolAccntNew.id);
             oldInsolvencyID = insolAccntOld.Insolvency__c;
             if(
@@ -1096,7 +1092,6 @@ update config;
             }
 
         }
-        
         handleAfterInsertUpdate(insolAccntsToProcess,oldInsolvencyID);
     }  
     
@@ -1107,6 +1102,9 @@ update config;
         /*Calculate Total Claim Amount*/
         set<ID> setInsolvencyClaimFailedID = new set<ID>();
         for(Insolvency_Account__c insolAccnt : insolAccnts){
+            if(insAccntRecorTypeMap.get(insolAccnt.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
+                accountsToUpdate.add(updatePercentageOfIncreasedReturn(insolAccnt));
+            }
             insolvenciesIds.add(insolAccnt.Insolvency__c);
             //condition code is commented here and taken care of in calculateTotalAmount
             //if(insolAccnt.Insolvency_Status__c == 'Claim Filed'){
@@ -1574,6 +1572,11 @@ insDetails.add(insDetail);
         if(insDetails.size() > 0){
             upsert insDetails;
         }   
+        if(!accountsToUpdate.isEmpty()) {
+            InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+            update accountsToUpdate;
+            InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
+        }
     }
     
     //Utility method to fetch Insolvency records for Insolvency Accounts
@@ -1707,5 +1710,26 @@ insDetails.add(insDetail);
                 accNew.CTB_Status_Update_Code__c = '';
                 accNew.Insolvency_Sub_Status__c = 'Pending File';
             }
+    }
+
+    /**
+     * @description : Calculate percentage of increased return
+     * @author adesh.ikhar@canaccede.com | 02-23-2024
+     * @param acc
+     * @return Insolvency_Account__c
+     **/
+    public static Insolvency_Account__c updatePercentageOfIncreasedReturn(Insolvency_Account__c acc) {
+        if (
+            acc.Percent_of_increased_return_from_voting__c != 0 &&
+            (acc.Previous_Expected_Account_Recovery__c == null ||
+            acc.Previous_Expected_Account_Recovery__c == 0)
+        ) {
+            return new Insolvency_Account__c(Id = acc.Id, Percent_of_increased_return_from_voting__c = 0);
+        } else {
+            return new Insolvency_Account__c(
+                Id = acc.Id,
+                Percent_of_increased_return_from_voting__c = acc.Expected_Account_Recovery__c / acc.Previous_Expected_Account_Recovery__c
+            );
+        }
     }
 }
