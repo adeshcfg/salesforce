@@ -1071,9 +1071,6 @@ update config;
         List <Insolvency_Account__c> insolAccntsToProcess = new List <Insolvency_Account__c>();
         ID oldInsolvencyID;
         for(Insolvency_Account__c insolAccntNew : insolAccntsNew){
-            if(insAccntRecorTypeMap.get(insolAccntNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
-                accountsToUpdate.add(updatePercentageOfIncreasedReturn(insolAccntNew));
-            }
             Insolvency_Account__c insolAccntOld = oldMap.get(insolAccntNew.id);
             oldInsolvencyID = insolAccntOld.Insolvency__c;
             if(
