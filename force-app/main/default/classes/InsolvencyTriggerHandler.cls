@@ -582,8 +582,12 @@ public class InsolvencyTriggerHandler {
         
         List<Insolvency_Account__c > insolvAccList = new List<Insolvency_Account__c >();
         List<Insolvency_Account__c > insolvAccsToUpdateForFlow = new List<Insolvency_Account__c >();
-        for(Insolvency_Account__c insolvAcc : [SELECT Id From Insolvency_Account__c Where Insolvency__c In :insolvIdsToUpdateAccounts]) {
-            insolvAccsToUpdateForFlow.add(insolvAcc);
+        for (Insolvency_Account__c insolvAcc : [
+            SELECT Id, Percent_of_increased_return_from_voting__c, Previous_Expected_Account_Recovery__c, Expected_Account_Recovery__c
+            FROM Insolvency_Account__c
+            WHERE Insolvency__c IN :insolvIdsToUpdateAccounts AND RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account'
+        ]) {
+            insolvAccsToUpdateForFlow.add(InsolvencyAccountTriggerHandler.updatePercentageOfIncreasedReturn(insolvAcc));
         }
 
         //for(Insolvency_Account__c insolvAcc : [SELECT Id, Insolvency__c, Insolvency_Status__c FROM Insolvency_Account__c WHERE /*Insolvency_Status__c = 'New' AND */ Insolvency__c IN: insolvIdsForOwnerReview or Insolvency__c IN: insolvIdsCopy] )
