@@ -50,7 +50,9 @@ public class InsolvencyAccountTriggerHandler {
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
             }
             //accNew.Account_Owner__c = UserInfo.getUserId();
-
+            accNew.Percent_of_increased_return_from_voting__c = accNew.Previous_Expected_Account_Recovery__c == null || accNew.Previous_Expected_Account_Recovery__c == 0
+                ? 0
+                : accNew.Expected_Account_Recovery__c / accNew.Previous_Expected_Account_Recovery__c;
             // Populate client identifier based on record type
             if(accNew.RecordTypeId != null && accNew.Client_Identifier__c == null){
                 accNew.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(accNew.RecordTypeId));
@@ -420,7 +422,9 @@ public class InsolvencyAccountTriggerHandler {
             if(accNew.Name != insolAccntOld.Name){
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
             }
-            
+            accNew.Percent_of_increased_return_from_voting__c = accNew.Previous_Expected_Account_Recovery__c == null || accNew.Previous_Expected_Account_Recovery__c == 0
+                ? 0
+                : accNew.Expected_Account_Recovery__c / accNew.Previous_Expected_Account_Recovery__c;
             if(insolAccntOld.Trustee_Not_Providing_LoR__c == False && accNew.Trustee_Not_Providing_LoR__c == True){
                 accNew.Review_Account__c = false;
             }
