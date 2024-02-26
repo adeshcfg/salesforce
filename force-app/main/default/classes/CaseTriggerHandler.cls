@@ -68,11 +68,14 @@
         for (Case caseNew : casesNew){
             listOfSubject.add(caseNew.Subject);
         }
-        List<Case> listOfOldCases = [select id from Case where Subject in : listOfSubject 
+        System.debug('currentDateTime:: '+currentDateTime);
+        System.debug('tenMinutesLessThanNow:: '+tenMinutesLessThanNow);
+        List<Case> listOfOldCases = [select id,Subject from Case where Subject in : listOfSubject 
                                         and Status != 'Closed' 
                                         and Status != 'Completed'
-                                        and CreatedDate =:tenMinutesLessThanNow
+                                        and CreatedDate >: tenMinutesLessThanNow
                                         order by CreatedDate Desc];//Older record last created
+        System.debug('listOfOldCases:: '+listOfOldCases);
         for(Case oldCase : listOfOldCases){
             casesWithSubject.add(oldcase);
           if(!test.isRunningTest())  mapOfSubjectWithCases.put(oldCase.Subject, casesWithSubject);
@@ -101,21 +104,23 @@
                 
                 if(caseNew.recordTypeID == caseRecorTypeMap.get('EmailToCase')){
                     caseNew.Is_Email_to_Case__c = true;
-                    if(caseNew.Form_Types__c == 'Creditor Package'){
+                    //if(caseNew.Form_Types__c == 'Creditor Package'){
                         List<Case> oldCaseRecord = mapOfSubjectWithCases.get(caseNew.Subject);
                         Integer oldCaseRecordCount = oldCaseRecord.size();//5
+                        System.debug('oldCaseRecordCount:: '+oldCaseRecordCount);
                         if(oldCaseRecordCount > 0){
-                            caseNew.Status = 'Closed';//New Record
+                            caseNew.Status = 'Closed';
+                            caseNew.Status = 'Duplicate';//New Record
                             //listOfCasesToClose.add(caseNew);
-                            for(Case caseRec : oldCaseRecord){
+                            /*for(Case caseRec : oldCaseRecord){
                                 if(oldCaseRecordCount != 1){
                                     caseRec.Status = 'Closed';
                                     listOfCasesToClose.add(caseRec);
                                     oldCaseRecordCount--;//4,3,2,1
                                 }
-                            }
+                            }*/
                         }
-                    }
+                    //}
                 }
             }
             else if(caseNew.recordTypeID == caseRecorTypeMap.get('Remittance') ||
