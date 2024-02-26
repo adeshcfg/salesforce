@@ -97,7 +97,7 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
         set<String> setPlacementNames = new set<String>();
         Map<String ,Pool__C> mapPoolName =new Map<String,Pool__C>();
         List<String> accountNumberList = new List<String>();
-        List<Product__c> prodList = [Select Id, Name,Collection_Agency__c,Pool_Name_Text__c,Commission_Rate__c,Commission_Rate_at_Time_of_Placement__c,
+        List<Product__c> prodList = [Select Id,Placement_Status__c, Name,Collection_Agency__c,Pool_Name_Text__c,Commission_Rate__c,Commission_Rate_at_Time_of_Placement__c,
                                      Settlement_Rate__c,Placed_Settlement_Rate__c,Placement_Status__c,Status__c,Data_Status_Description__c,
                                      Value_Tier_at_Time_of_Placement__c,State__c,Assignment_Date__c,Recalled_Date__c,Product_Status__c,Refer_to_Legal__c From Product__c
                                      where Name In: (productNameList)];
@@ -108,7 +108,7 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
         }
         
         system.debug('==='+mapPoolName.size());
-        for(Product__C accountRecord : [SELECT ID, Name, Collection_Agency__c,Collection_Sub_Status__c,State__c,Current_Principal_Balance__c,
+        for(Product__C accountRecord : [SELECT ID,Placement_Status__c, Name, Collection_Agency__c,Collection_Sub_Status__c,State__c,Current_Principal_Balance__c,
                                         Current_Interest_Amount__c,Fee_Recovery__c,Assignment_Date__c,Collection_Agency_Placement__r.Serviceable_Province__c,
                                         Data_Status_Description__c, Pool_Name__r.Name,RecordTypeId,Commission_Rate_at_Time_of_Placement__c,
                                         Commission_Rate__c,Value_Tier_at_Time_of_Placement__c,Settlement_Rate__c,Current_Bal_NSF_Fees__c,
