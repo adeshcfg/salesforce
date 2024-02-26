@@ -443,8 +443,20 @@ private class TestInsolvencyAccountTriggerHandler {
         ia2.Claim_Amount__c = 300;
         ia2.Insolvency__c = insolv.id;
         insert ia2;
+
+        Insolvency_Account__c ia3 = new Insolvency_Account__c();
+        ia3.RecordTypeId = recordTypeList[0].Id;
+        ia3.name = 'testAccount1';
+        ia3.Insolvency_Status__c = 'New';
+        ia3.Claim_Type__c = 'Unsecured';
+        ia3.Claim_Amount__c = 200;
+        ia3.Client_Identifier__c = 'Scotia Bank';
+        ia3.Insolvency__c = insolv.id;
+        ia3.Insolvency_Status__c = 'Claim Filed';
+        insert ia3;
         iaRecords.add(ia1);
         iaRecords.add(ia2);
+        iaRecords.add(ia3);
         InsolvencyAccountTriggerHandler.handleAfterInsert(iaRecords);
         InsolvencyAccountTriggerHandler.handleAfterInsertUpdate(iaRecords, insolv.id);
     }
