@@ -587,7 +587,10 @@ public class InsolvencyTriggerHandler {
             FROM Insolvency_Account__c
             WHERE Insolvency__c IN :insolvIdsToUpdateAccounts AND RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account'
         ]) {
-            insolvAccsToUpdateForFlow.add(InsolvencyAccountTriggerHandler.updatePercentageOfIncreasedReturn(insolvAcc));
+            Insolvency_Account__c updatedAcc = InsolvencyAccountTriggerHandler.updatePercentageOfIncreasedReturn(insolvAcc);
+            if(updatedAcc != null) {
+                insolvAccsToUpdateForFlow.add(updatedAcc);
+            }
         }
 
         //for(Insolvency_Account__c insolvAcc : [SELECT Id, Insolvency__c, Insolvency_Status__c FROM Insolvency_Account__c WHERE /*Insolvency_Status__c = 'New' AND */ Insolvency__c IN: insolvIdsForOwnerReview or Insolvency__c IN: insolvIdsCopy] )

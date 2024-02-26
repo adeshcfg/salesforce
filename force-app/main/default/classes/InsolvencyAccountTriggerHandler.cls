@@ -1100,7 +1100,10 @@ update config;
         set<ID> setInsolvencyClaimFailedID = new set<ID>();
         for(Insolvency_Account__c insolAccnt : insolAccnts){
             if(insAccntRecorTypeMap.get(insolAccnt.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
-                accountsToUpdate.add(updatePercentageOfIncreasedReturn(insolAccnt));
+                Insolvency_Account__c updatedAcc = updatePercentageOfIncreasedReturn(insolAccnt);
+                if(updatedAcc != null) {
+                    accountsToUpdate.add(updatePercentageOfIncreasedReturn(insolAccnt));
+                }
             }
             insolvenciesIds.add(insolAccnt.Insolvency__c);
             //condition code is commented here and taken care of in calculateTotalAmount
@@ -1722,6 +1725,8 @@ insDetails.add(insDetail);
             acc.Previous_Expected_Account_Recovery__c == 0)
         ) {
             return new Insolvency_Account__c(Id = acc.Id, Percent_of_increased_return_from_voting__c = 0);
+        } else if (acc.Expected_Account_Recovery__c == null || acc.Previous_Expected_Account_Recovery__c == null) {
+            return null;
         } else {
             return new Insolvency_Account__c(
                 Id = acc.Id,
