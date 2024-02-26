@@ -234,7 +234,9 @@ public class AgencyPoolAllocationController {
                 if(product.Current_Bal_NSF_Fees__c == NULL){
                     product.Current_Bal_NSF_Fees__c = 0;
                 }
-                
+                if(product.Recoverable_Fee__c == NULL){
+                    product.Recoverable_Fee__c = 0;
+                }
                 product.Allocated_Amount_Fees__c = product.Recoverable_Fee__c + product.Current_Bal_NSF_Fees__c; 
                 //satyajit Comments the below line based on Ankur discussion 
                 //product.Allocated_Amount_Fees__c = product.Fee_Recovery__c;
