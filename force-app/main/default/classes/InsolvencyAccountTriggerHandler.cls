@@ -1720,13 +1720,12 @@ insDetails.add(insDetail);
      **/
     public static Insolvency_Account__c updatePercentageOfIncreasedReturn(Insolvency_Account__c acc) {
         if (
-            acc.Percent_of_increased_return_from_voting__c != 0 &&
-            (acc.Previous_Expected_Account_Recovery__c == null ||
-            acc.Previous_Expected_Account_Recovery__c == 0)
+            acc.Previous_Expected_Account_Recovery__c == null ||
+            acc.Previous_Expected_Account_Recovery__c == 0 ||
+            acc.Expected_Account_Recovery__c == 0 ||
+            acc.Expected_Account_Recovery__c == null
         ) {
             return new Insolvency_Account__c(Id = acc.Id, Percent_of_increased_return_from_voting__c = 0);
-        } else if (acc.Expected_Account_Recovery__c == null || acc.Previous_Expected_Account_Recovery__c == null) {
-            return null;
         } else {
             return new Insolvency_Account__c(
                 Id = acc.Id,
