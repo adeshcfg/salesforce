@@ -36,7 +36,7 @@ global with sharing class PortalSnapshotCompletionProcessor {
             String oldComments = '';
             prodErr = (productError)JSON.deserialize(replaceIllegal, productError.class); 
             documentStorageId = prodErr.DocumentStorageId;
-            if(!documentStorageId.contains('DS_ACC')){
+            if(!documentStorageId.contains('DS_ACC')){//From UI
                 document_storage__c docData = [select id,Work_Assignment__c,Work_Assignment__r.Created_By__c ,File_Processing_Status__c from document_storage__c where id = :documentStorageId];
                 
                 Work_Assignment__c updateWorkAssign  = new Work_Assignment__c();
@@ -67,7 +67,7 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 if(docData != NULL){
                     CFG_EmailNotification.snapshotFailedEmailNotification(docData.Work_Assignment__r.Created_By__c,prodErr.Error,documentStorageId);
                 }
-            }else{
+            }else{//From Portal
                 dataIDs = getDataIds(prResponse);
                 
                 for (String key : dataIDs.keySet()) {
@@ -75,16 +75,15 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 }
                 List<Product__c> productData = [select id,name,lastmodifiedBy.name from Product__c where name IN: prodIds];
                 
-                Map<String,String> recordModifyUserName = new Map<String,String>();
+                string recordModifyUserName = '';
                 for(Product__c prodData :productData){
-                    recordModifyUserName.put(prodData.name,prodData.lastmodifiedBy.name);
+                    recordModifyUserName = prodData.lastmodifiedBy.name;
                 }
+
                 if(dataIDs.size() >= 1 && !Test.isRunningTest()){
-                    for (String key : dataIDs.keySet()) {
-                        String exceptionMsg = key +' Exception: '+dataIDs.get(key);
-                        //send failed error file notification.
-                        CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName.get(dataIDs.get(key)),exceptionMsg,documentStorageId);
-                    } 
+                    String exceptionMsg = 'Exception: '+prResponse;
+                    //send failed error file notification.
+                    CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName,exceptionMsg,documentStorageId);
                 }
             }
             
@@ -125,18 +124,15 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 
                 List<Product__c> productData = [select id,name,lastmodifiedBy.name from Product__c where name IN: prodIds];
                 
-                Map<String,String> recordModifyUserName = new Map<String,String>();
+                string recordModifyUserName = '';
                 for(Product__c prodData :productData){
-                    recordModifyUserName.put(prodData.name,prodData.lastmodifiedBy.name);
+                    recordModifyUserName = prodData.lastmodifiedBy.name;
                 }
-                system.debug('dataIDs'+dataIDs.keySet());
-                system.debug('recordModifyUserName'+recordModifyUserName);
+
                 if(dataIDs.size() >= 1 && !Test.isRunningTest()){
-                    for (String key : dataIDs.keySet()) {
-                        String exceptionMsg = key +' Exception: '+ dataIDs.get(key);
+                        String exceptionMsg = 'Exception: '+prResponse;
                         //send failed error file notification.
-                        CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName.get(key),exceptionMsg,documentStorageId);
-                    }
+                        CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName,exceptionMsg,documentStorageId);
                 }
             }
         }
