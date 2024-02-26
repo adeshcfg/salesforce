@@ -15,6 +15,7 @@ public class DisplayDistressedNotesStagingController {
     public static final String PROCESSED = 'Processed';
     public static final String ERROR = 'ERROR';
     public boolean showButton { get; set; }
+    public boolean showRecords { get; set; }
     public boolean displayPanel { get; set; }
     public Id workAssignmentId { get; set; }
     public String message { get; set; }
@@ -31,6 +32,7 @@ public class DisplayDistressedNotesStagingController {
 
     public DisplayDistressedNotesStagingController() {
         //ShowOk = false;
+        showRecords = false;
         showButton = true;
         displayPanel = false;
         SuccessHasRecord = false;
@@ -61,9 +63,10 @@ public class DisplayDistressedNotesStagingController {
         ];
         if (listDistressedNotesStaging.isEmpty()) {
             //showButton = false;
+            displayPanel = false;
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'There are no Distressed Notes Information  to display'));
         } else {
-            displayPanel = true;
+            showRecords = true;
             Integer i = 0;
             recordMap = new Map<Integer, distressedNotesStagingWrapper>();
             for (Distressed_Note_Staging__c distStaging : listDistressedNotesStaging) {
@@ -184,8 +187,10 @@ public class DisplayDistressedNotesStagingController {
         WorkAssignmentTriggerHandler.updateCommentHistoryField = true; //Added part of bug #4743
         upsert listWorkAssignmentToUpsert;
 
-        showButton = true;
-        displayPanel = false;
+        showButton = false;
+        // Free up view state and don't show any record after processing
+        recordMap.clear();
+        displayPanel = true;
         return null;
     }
 

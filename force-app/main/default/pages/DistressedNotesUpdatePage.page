@@ -166,7 +166,7 @@
         <apex:define name="content"> 
             
             
-            <apex:outputPanel rendered="{!displayPanel}" id="panel2">
+            <apex:outputPanel rendered="{!showRecords}" id="panel2">
                 <apex:outputPanel >
                     <div style = "font-weight:bold;font-size:large">
                         Distressed Notes Records to verify
