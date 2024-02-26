@@ -61,9 +61,9 @@ public class DisplayDistressedNotesStagingController {
         ];
         if (listDistressedNotesStaging.isEmpty()) {
             //showButton = false;
-            displayPanel = false;
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'There are no Distressed Notes Information  to display'));
         } else {
+            displayPanel = true;
             Integer i = 0;
             recordMap = new Map<Integer, distressedNotesStagingWrapper>();
             for (Distressed_Note_Staging__c distStaging : listDistressedNotesStaging) {
