@@ -166,7 +166,7 @@
         <apex:define name="content"> 
             
             
-            <apex:outputPanel rendered="{!!listDistressedNotesStagingWrapper.Empty}" id="panel2">
+            <apex:outputPanel rendered="{!displayPanel}" id="panel2">
                 <apex:outputPanel >
                     <div style = "font-weight:bold;font-size:large">
                         Distressed Notes Records to verify
@@ -179,43 +179,43 @@
                         var pbsId = '{!$Component.pbs}';
                         </script>
                         
-                        <apex:datatable value="{!listDistressedNotesStagingWrapper}" var="account" id="accountTable">
+                        <apex:datatable value="{!recordMap}" var="account" id="accountTable">
                             <apex:column headerValue="Action" >
                                 <apex:facet name="header">
                                     <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')">
                                         <!--<apex:actionSupport event="onchange" />-->
                                     </apex:inputCheckbox>
                                 </apex:facet>
-                                <apex:inputCheckbox id="inputId" value="{!account.selected}" disabled="{!account.disabled}">
+                                <apex:inputCheckbox id="inputId" value="{!recordMap[account].selected}" disabled="{!recordMap[account].disabled}">
                                     <!--<apex:actionSupport event="onchange" />-->
                                 </apex:inputCheckbox>
                             </apex:column>
                             
                             <apex:column >
                                 <apex:facet name="header"><apex:outputText value="Product" /></apex:facet>
-                                <apex:outputLink value="/{!account.distStaging.Product_Id__c}" target="_blank">
-                               {!account.distStaging.ProdID__c}
+                                <apex:outputLink value="/{!recordMap[account].distStaging.Product_Id__c}" target="_blank">
+                               {!recordMap[account].distStaging.ProdID__c}
                                 </apex:outputLink>
                             </apex:column>
                             <apex:column >
                                 <apex:facet name="header"> Title </apex:facet>
-                                <apex:outputField value="{!account.distStaging.Title__c}"/>
+                                <apex:outputField value="{!recordMap[account].distStaging.Title__c}"/>
                             </apex:column>            
                             <apex:column >                    
                                 <apex:facet name="header"> Body </apex:facet>
-                                <apex:outputText value="{!account.distStaging.body__c}"/>
+                                <apex:outputText value="{!recordMap[account].distStaging.body__c}"/>
                             </apex:column>
                             <apex:column >
                                 <apex:facet name="header"> Comment</apex:facet>
-                                <apex:outputText value="{!account.distStaging.Comment__c}" escape="false"></apex:outputText>
+                                <apex:outputText value="{!recordMap[account].distStaging.Comment__c}" escape="false"></apex:outputText>
                             </apex:column>
                             <apex:column style="width:14%;vertical-align:baseline">
                                 <apex:facet name="header">Expected Result</apex:facet>
-                                <apex:outputText value="{!account.distStaging.Expected_Value__c}" escape="false"></apex:outputText>
+                                <apex:outputText value="{!recordMap[account].distStaging.Expected_Value__c}" escape="false"></apex:outputText>
                             </apex:column>
                             <apex:column >
                                 <apex:facet name="header"> Status</apex:facet>
-                                <apex:outputfield value="{!account.distStaging.Status__c}"></apex:outputfield>
+                                <apex:outputfield value="{!recordMap[account].distStaging.Status__c}"></apex:outputfield>
                             </apex:column>
                             
                         </apex:datatable>
