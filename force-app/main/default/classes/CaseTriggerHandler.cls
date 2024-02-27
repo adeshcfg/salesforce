@@ -91,30 +91,27 @@
             if(caseNew.recordTypeID != caseRecorTypeMap.get('Remittance') &&
                caseNew.recordTypeID != caseRecorTypeMap.get('CCS_Case') &&
                caseNew.recordTypeID != caseRecorTypeMap.get('CCS_Dividend')){         
-            System.debug('in side loop 1');
+            
                 if(String.isNotBlank(caseNew.Assign_To__c)){
-                    System.debug('in side loop 2 ');
-                    caseNew.Entity_Identifiers__c = caseNew.Assign_To__c;   
+                   caseNew.Entity_Identifiers__c = caseNew.Assign_To__c;   
                 }  
                 
                 //Update Record Type based on Client Identifier
                 //caseNew.RecordTypeID = caseRecorTypeMap.get(caseRTMap.get(caseNew.Assign_To__c));  
                 if(caseNew.Assign_To__c != 'CFG' && caseNew.Assign_To__c != 'Canaccede'){
-                    System.debug('in side loop 3');
                     caseNew.RecordTypeID = caseRecorTypeMap.get(caseRTMap.get(caseNew.Assign_To__c));  
                 }
                 
                 if(caseNew.recordTypeID == caseRecorTypeMap.get('EmailToCase')){
-                    System.debug('in side loop 4');
                     caseNew.Is_Email_to_Case__c = true;
-                    //if(caseNew.Form_Types__c == 'Creditor Package'){
-                        System.debug('map value'+mapOfSubjectWithCases);
-                        List<Case> oldCaseRecord = mapOfSubjectWithCases.get(caseNew.Subject);
+                    List<Case> oldCaseRecord = new List<Case>();
+                    if(mapOfSubjectWithCases.size() > 0){
+                        oldCaseRecord = mapOfSubjectWithCases.get(caseNew.Subject);
+                    }
+                        
                         Integer oldCaseRecordCount = oldCaseRecord.size();//5
-                        System.debug('oldCaseRecordCount:: '+oldCaseRecordCount);
-                        if(oldCaseRecordCount > 0){
-                            System.debug('in side loop 5');
-                            caseNew.Status = 'Closed';
+                          if(oldCaseRecordCount > 0){
+                              caseNew.Status = 'Closed';
                             caseNew.Reason = 'Duplicate';//New Record
                             //listOfCasesToClose.add(caseNew);
                             /*for(Case caseRec : oldCaseRecord){
@@ -131,17 +128,13 @@
             else if(caseNew.recordTypeID == caseRecorTypeMap.get('Remittance') ||
                     caseNew.recordTypeID == caseRecorTypeMap.get('CCS_Dividend')){//Modified - Chetan Gaikwad 1/4/19
                 caseNew.status = 'Closed';
-                System.debug('in side loop 6');
             }
             else if(caseNew.recordTypeID == caseRecorTypeMap.get('CCS_Case')){
-                System.debug('in side loop 7');
-                CaseNew.Is_Email_to_Case__c = True;//for Email to Case for CCS
+                    CaseNew.Is_Email_to_Case__c = True;//for Email to Case for CCS
             }
         }
-        System.debug('in side loop before updated');
-        Update listOfCasesToClose; // this is added for 5302
-        System.debug('in side loop after updated');
-    }
+         Update listOfCasesToClose; // this is added for 5302
+        }
     
     
     //Before Case is updated
