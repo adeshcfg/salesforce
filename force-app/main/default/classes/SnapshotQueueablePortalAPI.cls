@@ -8,11 +8,12 @@ public class SnapshotQueueablePortalAPI implements Queueable, Database.AllowsCal
         this.workAssignmentId = workAssignmentId;
     }
     public void execute(QueueableContext context) {
-        system.debug('inside SnapshotQueueablePortalAPI');
         for(Document_Storage__c documentStorage : this.listOfDocumentStorage){
             PortalDocumentStorageProcessingAPI.processDocumentStorage2(documentStorage.Id);
         }
-        
-       system.enqueueJob(new CFG_ProcessWorkAssignment(workAssignmentId));
+        if(!Test.isRunningTest()){
+           system.enqueueJob(new CFG_ProcessWorkAssignment(workAssignmentId)); 
+        }
+       
     }
 }
