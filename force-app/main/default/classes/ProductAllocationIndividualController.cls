@@ -89,14 +89,16 @@ public with sharing class ProductAllocationIndividualController {
     
     public PageReference allocateWithWarning(){
         if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
-            && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
-            // Assign System API to Owner
-                if(!systemName.isEmpty()){
-                    product.OwnerId = systemName[0].Id;      
-                }
-            
-            //Also Assign the last owner to the previous ownership field
-            product.Previous_Ownership__c = product.OwnerId;
+           && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+               Id oldOwnerId = product.OwnerId;
+               // Assign System API to Owner
+               if(!systemName.isEmpty()){
+                   product.OwnerId = systemName[0].Id;      
+               }
+               //Also Assign the last owner to the previous ownership field
+               if(oldOwnerId != product.OwnerId && product.OwnerId != NULL){
+                   product.Previous_Ownership__c = oldOwnerId;
+               }
         }
         if(product.Current_Bal_NSF_Fees__c == NULL){
             product.Current_Bal_NSF_Fees__c = 0;
@@ -197,12 +199,15 @@ public with sharing class ProductAllocationIndividualController {
 
             if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
                 && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+                Id oldOwnerId = product.OwnerId;
                 // Assign System API to Owner
                 if(!systemName.isEmpty()){
                     product.OwnerId = systemName[0].Id;      
                 }
                 //Also Assign the last owner to the previous ownership field
-                product.Previous_Ownership__c = product.OwnerId;
+                if(oldOwnerId != product.OwnerId && product.OwnerId != NULL){
+                    product.Previous_Ownership__c = oldOwnerId;
+                }
             }
 
             product.Allocated_Amount_Fees__c = product.Recoverable_Fee__c + product.Current_Bal_NSF_Fees__c; 

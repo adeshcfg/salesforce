@@ -150,13 +150,14 @@ public class RecallProductProcessing {
                             PlacementStatusMap.put(Prod.Id, productStaging.Placement_Status_Code__c);
                             if(prodRTypeIdMap.get('Distressed_Account') == mapProduct.get(productStaging.Product_ID__c).RecordTypeId
                                && prod.Collection_Agency__c != mapProduct.get(productStaging.Product_ID__c).Collection_Agency__c){
+                                   ID oldOwnerId = mapProduct.get(productStaging.Product_ID__c).OwnerId;
                                    // Assign System API to Owner
                                    if(!systemName.isEmpty()){
                                        prod.OwnerId = systemName[0].Id;      
                                    }
                                    //Also Assign the last owner to the previous ownership field
-                                   if(mapProduct.get(productStaging.Product_ID__c).OwnerId <> NULL){
-                                       prod.Previous_Ownership__c = mapProduct.get(productStaging.Product_ID__c).OwnerId;
+                                   if(oldOwnerId <> NULL && oldOwnerId <> prod.OwnerId){
+                                       prod.Previous_Ownership__c = oldOwnerId;
                                    }
                            }
                         }

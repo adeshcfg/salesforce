@@ -123,13 +123,14 @@ public class AllocationProductProcessing {
                     product.Allocated_Amount_Interest__c = productStaging1.Current_Interest_Balance__c;
                     if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
                        && Decimal.valueOf(productStaging1.Placement_Agency__c) != mapProduct.get(productStaging1.Product_ID__c).Collection_Agency__c){
+                           Id oldOwnerId = mapProduct.get(productStaging1.Product_ID__c).OwnerId;
                            // Assign System API to Owner
                            if(!systemName.isEmpty()){
                                product.OwnerId = systemName[0].Id;      
                            }
                            //Also Assign the last owner to the previous ownership field
-                           if(mapProduct.get(productStaging1.Product_ID__c).OwnerId <> NULL){
-                               product.Previous_Ownership__c = mapProduct.get(productStaging1.Product_ID__c).OwnerId;
+                           if(oldOwnerId <> NULL && oldOwnerId <> product.OwnerId){
+                               product.Previous_Ownership__c = oldOwnerId;
                            }
                     }
                     productNames += productStaging1.Name__c + ',';

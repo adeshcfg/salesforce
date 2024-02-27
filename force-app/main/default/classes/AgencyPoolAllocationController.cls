@@ -35,6 +35,10 @@ public class AgencyPoolAllocationController {
     public String oldPlacementID;
     public String placeStatus;
     list<Placement_History__c> placementHistoryList = new list<Placement_History__c>(); 
+    public List<User> systemName= new list<User>();
+    public Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
+    public Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
+    
     public AgencyPoolAllocationController(ApexPages.StandardController stdController){
         poolId = ApexPages.CurrentPage().getParameters().get('Id'); 
         poolRecord = [Select id,Name,Placement_agency_lookup__c,Placement_Agency__c from Pool__c Where id=:poolId];
@@ -58,7 +62,7 @@ public class AgencyPoolAllocationController {
                     Current_Bal_Attorney_Fees__c,Current_Bal_General_Fees__c,Current_Bal_Other_Fees__c,Allocated_Amount_Total__c,Pool_Name__r.Name,
                     Current_Bal_Court_Fees__c,Collection_Agency_Placement__r.Commission_Rate__c,Commission_Rate__c,Pool_Name__r.Commission_Rate__c,
                     Commission_Rate_at_Time_of_Placement__c,Value_Tier_at_Time_of_Placement__c,
-                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c                                       
+                    Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,OwnerId,Previous_Ownership__c,RecordTypeId                                       
                     from Product__C
                     WHERE Pool_Name__c =: poolId AND (Collection_Agency__c = NULL OR Collection_Agency__c = 9999)]; 
         if(poolRecord.Placement_Agency__c == 9999){
@@ -91,7 +95,16 @@ public class AgencyPoolAllocationController {
             poolRecord.Placement_agency_lookup__c = null;
         }
   
-        placement = new Placement__c();        
+        placement = new Placement__c();   
+        
+        //Fetch System Api
+        if(lrpSetting.Canaccede_API_User__c != NULL){
+            systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
+        }
+        //Fetch Product RecordType
+        for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product__c' ]){
+            prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
+        }
     }
     
     public static void getSnapshortRecords(List<Product__c> prodNew){
@@ -170,6 +183,18 @@ public class AgencyPoolAllocationController {
                 }
                 if(product.Allocated_Amount_Interest__c == NULL){
                     product.Allocated_Amount_Interest__c = 0;
+                }
+                if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
+                   && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+                       Id oldOwnerId = product.OwnerId;
+                       // Assign System API to Owner
+                       if(!systemName.isEmpty()){
+                           product.OwnerId = systemName[0].Id;      
+                       }
+                       //Also Assign the last owner to the previous ownership field
+                       if(oldOwnerId != product.OwnerId && oldOwnerId != NULL){
+                           product.Previous_Ownership__c = oldOwnerId;
+                       }
                 }
             }
         }
@@ -269,6 +294,18 @@ public class AgencyPoolAllocationController {
                 }
                 if(product.Allocated_Amount_Interest__c == NULL){
                     product.Allocated_Amount_Interest__c = 0;
+                }
+                if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
+                   && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
+                       Id oldOwnerId = product.OwnerId;
+                       // Assign System API to Owner
+                       if(!systemName.isEmpty()){
+                           product.OwnerId = systemName[0].Id;      
+                       }
+                       //Also Assign the last owner to the previous ownership field
+                       if(oldOwnerId != product.OwnerId && oldOwnerId != NULL){
+                       		product.Previous_Ownership__c = oldOwnerId;
+                       }
                 }
             }
         }
