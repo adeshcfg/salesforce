@@ -603,13 +603,16 @@ public class ProductTriggerHandler{
             
                 if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId
                  && prod.Collection_Agency__c != mapOldProducts.get(prod.Id).Collection_Agency__c){
+                    Id oldOwnerId = mapOldProducts.get(prod.Id).OwnerId;
                     // Assign System API to Owner
                      if(!systemName.isEmpty()){
                         prod.OwnerId = systemName[0].Id;      
                      }
                    
                     //Also Assign the last owner to the previous ownership field
-                    prod.Previous_Ownership__c = mapOldProducts.get(prod.Id).OwnerId;
+                     if(oldOwnerId != prod.OwnerId && oldOwnerId !=NULL){
+                         prod.Previous_Ownership__c = oldOwnerId;
+                     }
                 }
             
                 if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId){

@@ -218,12 +218,15 @@ public with sharing class ProductRecallIndividualController {
         if(product.Collection_Agency__c == 9999){
             if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
                 && placement.Name != NewPlacementAgency){
+                Id oldOwnerId = product.OwnerId;
                 // Assign System API to Owner
                 if(!systemName.isEmpty()){
                     product.OwnerId = systemName[0].Id;      
                 }
                 //Also Assign the last owner to the previous ownership field
-                product.Previous_Ownership__c = product.OwnerId;
+                if(oldOwnerId != product.OwnerId && oldOwnerId != NULL){
+                	product.Previous_Ownership__c = oldOwnerId;
+                }
             }
         }
          List<Id> prodId =new List<Id>();
@@ -377,12 +380,15 @@ public with sharing class ProductRecallIndividualController {
             if(product.Collection_Agency__c == 9999){
                 if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
                     && placement.Name != NewPlacementAgency){
+                    Id oldOwnerId = product.OwnerId;
                     // Assign System API to Owner
                     if(!systemName.isEmpty()){
                         product.OwnerId = systemName[0].Id;      
                     }
                     //Also Assign the last owner to the previous ownership field
-                    product.Previous_Ownership__c = product.OwnerId;
+                    if(oldOwnerId != product.OwnerId && oldOwnerId != NULL){
+                    	product.Previous_Ownership__c = oldOwnerId;
+                    }
                 }
             }
             //Remove Pool from Product on Recall
