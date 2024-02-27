@@ -115,8 +115,13 @@
                         System.debug('oldCaseRecordCount:: '+oldCaseRecord.size());
                         if(oldCaseRecord.size() > 0){
                             System.debug('in side loop 5');
+<<<<<<< HEAD
                             caseNew.Status = 'Closed';
                             caseNew.Reason = 'Duplicate';//New Record
+=======
+                           // caseNew.Status = 'Closed';
+                            caseNew.Status = 'Duplicate';//New Record
+>>>>>>> 5ed2938da49004d982f3850a1c33a78a156619e4
                             //listOfCasesToClose.add(caseNew);
                             /*for(Case caseRec : oldCaseRecord){
                                 if(oldCaseRecordCount != 1){
