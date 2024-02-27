@@ -95,7 +95,7 @@ public class DisplayDistressedNotesStagingController {
     public pageReference Save() {
         list<Distressed_notes__c> listDistNotes = new List<Distressed_notes__c>();
         success = 'data_id' + '\t' + 'title' + '\t' + 'body' + '\t' + 'visibility';
-        failed = 'data_id' + '\t' + 'title' + '\t' + 'body' + '\t' + 'visibility' + '\t' + 'error';
+        failed = 'data_id' + '\t' + 'title' + '\t' + 'body' + '\t' + 'visibility' + '\t' + 'error' + '\n';
         successRecords = 0;
         failedRecords = 0;
         String monthInt = '';
@@ -140,7 +140,6 @@ public class DisplayDistressedNotesStagingController {
                 SuccessHasRecord = true;
                 successRecords = successRecords + 1;
             } else {
-                failed += '\n';
                 failed +=
                     distStaging.ProdID__c +
                     '\t' +
@@ -150,9 +149,7 @@ public class DisplayDistressedNotesStagingController {
                     '\t' +
                     (distStaging.Visibility__c != null ? distStaging.Visibility__c : '') +
                     '\t' +
-                    '"' +
-                    (distStaging.Comment__c != null ? distStaging.Comment__c.stripHtmlTags() : '') +
-                    '"';
+                    (distStaging.Comment__c != null ? distStaging.Comment__c.stripHtmlTags() : '');
                 FailedHasRecord = true;
                 failedRecords = failedRecords + 1;
             }
