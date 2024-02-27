@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distressed_Notes_Read_Only</fullName>
+    <active>true</active>
+    <label>Distressed Notes Read Only</label>
+    <picklistValues>
+        <picklist>Visibility__c</picklist>
+        <values>
+            <fullName>CFG %2B All Agencies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFG %2B Requesting Agency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFG only</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>
