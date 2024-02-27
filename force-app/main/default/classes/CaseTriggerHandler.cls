@@ -115,7 +115,7 @@
                         if(oldCaseRecordCount > 0){
                             System.debug('in side loop 5');
                             caseNew.Status = 'Closed';
-                            caseNew.Status = 'Duplicate';//New Record
+                            caseNew.Reason = 'Duplicate';//New Record
                             //listOfCasesToClose.add(caseNew);
                             /*for(Case caseRec : oldCaseRecord){
                                 if(oldCaseRecordCount != 1){
