@@ -5242,11 +5242,6 @@
         <editable>true</editable>
         <field>Product__c.Portfolio_Name__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Previous_Data_Status__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
