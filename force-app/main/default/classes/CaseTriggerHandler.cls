@@ -110,12 +110,13 @@
                     //if(caseNew.Form_Types__c == 'Creditor Package'){
                         System.debug('map value'+mapOfSubjectWithCases);
                         List<Case> oldCaseRecord = mapOfSubjectWithCases.get(caseNew.Subject);
-                        Integer oldCaseRecordCount = oldCaseRecord.size();//5
-                        System.debug('oldCaseRecordCount:: '+oldCaseRecordCount);
-                        if(oldCaseRecordCount > 0){
+                        if(!oldCaseRecord.isEmpty()){
+                       // Integer oldCaseRecordCount = oldCaseRecord.size();//5
+                        System.debug('oldCaseRecordCount:: '+oldCaseRecord.size());
+                        if(oldCaseRecord.size() > 0){
                             System.debug('in side loop 5');
                             caseNew.Status = 'Closed';
-                            caseNew.Status = 'Duplicate';//New Record
+                            caseNew.Reason = 'Duplicate';//New Record
                             //listOfCasesToClose.add(caseNew);
                             /*for(Case caseRec : oldCaseRecord){
                                 if(oldCaseRecordCount != 1){
@@ -124,6 +125,10 @@
                                     oldCaseRecordCount--;//4,3,2,1
                                 }
                             }*/
+                          }
+                        }
+                        else {
+                            caseNew.Status = 'New';
                         }
                     //}
                 }
