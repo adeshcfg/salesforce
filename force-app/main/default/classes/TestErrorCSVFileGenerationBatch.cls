@@ -23,7 +23,7 @@ public class TestErrorCSVFileGenerationBatch {
     @isTest
     static void testbatch(){
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
-       
+       List<Document_Storage__c> listOfDocumentStorage = new List<Document_Storage__c>();
        API_Call_Details__c api = testDocumentAPI();
         
         Work_Assignment__c wrkAss3 = new Work_Assignment__c();
@@ -33,6 +33,7 @@ public class TestErrorCSVFileGenerationBatch {
         Document_Storage__c d=new Document_Storage__c();
         d.Work_Assignment__c=wrkAss3.id;
         insert d;
+        listOfDocumentStorage.add(d);
        Product_Staging__c productStaging = new Product_Staging__c();
        // productStaging.Product_ID__c = product.ID;
         productStaging.Document_Storage__c = d.ID;
@@ -83,6 +84,8 @@ public class TestErrorCSVFileGenerationBatch {
         //Test.setMock(HttpCalloutMock.class, multiCalloutMock);
         ErrorCSVFileGenerationBatch e=new ErrorCSVFileGenerationBatch(abc,docType);
         database.executeBatch(e);
+        SnapshotQueueablePortalAPI first = new SnapshotQueueablePortalAPI(listOfDocumentStorage,wrkAss3.id);
+        first.execute(null);
         test.stopTest();
     }
        Static String mockWebServiceAuthenticationString(){

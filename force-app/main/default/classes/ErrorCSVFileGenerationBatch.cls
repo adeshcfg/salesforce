@@ -93,23 +93,23 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
             rawObj1 = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse1.response);
         }
         
-        Document_Storage__c docData = [select id,Visibility__c from Document_Storage__c where id =: documentStorageId limit 1];
-        
+        Document_Storage__c docData = [select id,Visibility__c,Placement_Agency__c,Placement_Agency__r.name from Document_Storage__c where id =: documentStorageId limit 1];
+        Work_Assignment__c workAssignment = [select id,name,title__c,Task_Number__c,Created_By__c,Status__c,Latest_Comment__c,Comments_History__c,Comment_Reply__c from Work_Assignment__c where id = : workAssignmentID];
         //Create Failed CSV Document Storage
         Document_Storage__c  failedDocStorage = new Document_Storage__c();
+        List<Document_Storage__c>  successAndfailedDocStorage = new List<Document_Storage__c>();
         DocumentStorageTriggerHandler.runDocumentStorageTrigger=false;
         if(null != parsedResponse && failedRecords > 0){
             failedDocStorage.Work_Assignment__c = workAssignmentID;
             failedDocStorage.Document_Name__c = 'Product Failed.xls';
             if(documentType == recall){
-                failedDocStorage.Document_Type__C = 'Account Status Update File';
+                failedDocStorage.Document_Type__C = recall;
             }else if(documentType == allocate){
                failedDocStorage.Document_Type__C = allocate; 
             }
             
             failedDocStorage.Document_Extension__c = 'xls';
             failedDocStorage.Document_ID__c = parsedResponse.docId;
-            //failedDocStorage.Visibility__c = 'CFG Only';
             //Ticket 4097: visibility should be same as uploaded document
             failedDocStorage.Visibility__c = docData.Visibility__c;
             failedDocStorage.Document_URL__c = parsedResponse.DocUrl;
@@ -119,19 +119,30 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
             failedDocStorage.File_Processed_By__c = UserInfo.getName();
             failedDocStorage.File_Processing_Date__c = Date.today();
             failedDocStorage.File_Processing_Status__c = 'Processed';
-            insert failedDocStorage;
+            failedDocStorage.Placement_Agency__c = docData.Placement_Agency__c;
+            failedDocStorage.Placement_Identifier__c = docData.Placement_Agency__r.name;
+            failedDocStorage.Work_Assignment_Identifier__c = workAssignment.Task_Number__c;
+            successAndfailedDocStorage.add(failedDocStorage);
+            //insert failedDocStorage;
         }
-        
+        //API call to portal to visisble failure file on portal
+        /*if(documentType == recall ){
+            system.enqueueJob(new SnapshotQueueablePortalAPI(failedDocStorage.Id));
+            //PortalDocumentStorageProcessingAPI.processDocumentStorage(failedDocStorage.ID); 
+        }*/
         //Create Success CSV Document Storage
         Document_Storage__c  SuccessDocStorage = new Document_Storage__c();
         
         if(null != parsedResponse1 && successRecords > 0){
             SuccessDocStorage.Work_Assignment__c = workAssignmentID;
             SuccessDocStorage.Document_Name__c = 'Product Success.xls';
-            SuccessDocStorage.Document_Type__C = 'Account Status Update File';
+            if(documentType == recall){
+                SuccessDocStorage.Document_Type__C = recall;
+            }else if(documentType == allocate){
+               SuccessDocStorage.Document_Type__C = allocate; 
+            }
             SuccessDocStorage.Document_Extension__c = 'xls';
             SuccessDocStorage.Document_ID__c = parsedResponse1.docId;
-            //SuccessDocStorage.Visibility__c = 'CFG Only';
             //Ticket 4097: visibility should be same as uploaded document
             SuccessDocStorage.Visibility__c = docData.Visibility__c;
             SuccessDocStorage.Document_URL__c = parsedResponse1.DocUrl;
@@ -141,8 +152,21 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
             SuccessDocStorage.File_Processed_By__c = UserInfo.getName();
             SuccessDocStorage.File_Processing_Date__c = Date.today();
             SuccessDocStorage.File_Processing_Status__c = 'Processed';
-            insert SuccessDocStorage;
+            SuccessDocStorage.Placement_Agency__c = docData.Placement_Agency__c;
+            SuccessDocStorage.Placement_Identifier__c = docData.Placement_Agency__r.name;
+            SuccessDocStorage.Work_Assignment_Identifier__c = workAssignment.Task_Number__c;
+            successAndfailedDocStorage.add(SuccessDocStorage);
+            //insert SuccessDocStorage;
         }
+        if(successAndfailedDocStorage.size() > 0){
+            insert successAndfailedDocStorage;
+        }
+        //API call to portal to visisble failure file on portal
+        /*if(documentType == recall){
+            System.debug('Call Queueable');
+            system.enqueueJob(new SnapshotQueueablePortalAPI(successAndfailedDocStorage));
+            //PortalDocumentStorageProcessingAPI.processDocumentStorage2(SuccessDocStorage.ID); 
+        }*/
         
         Document_Storage__c docStorageToUpdate = new Document_Storage__c(ID= documentStorageId, File_Processing_Status__c = 'Processed');
         update docStorageToUpdate;
@@ -150,7 +174,7 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
         DateTime dT = System.now();
         String oldComments = '';
         system.debug('workAssignmentID%%%'+workAssignmentID);
-        Work_Assignment__c workAssignment = [select id,name,title__c,Created_By__c,Status__c,Latest_Comment__c,Comments_History__c,Comment_Reply__c from Work_Assignment__c where id = : workAssignmentID];
+        
         workAssignment.Status__c = 'Completed';
         if(failedRecords > 0){
             workAssignment.Comment_Reply__c = 'No. of Records Failed: '+ failedRecords +'\n';
@@ -187,11 +211,11 @@ public class ErrorCSVFileGenerationBatch implements Database.Batchable<sObject>,
         DocumentStorageTriggerHandler.runDocumentStorageTrigger=true; 
         
         //Added by satyajit for ticket: 4424
-        if(documentType == recall) {
+        if(documentType == recall && !Test.isRunningTest()) {
             // Database.executeBatch(new CFG_ProcessWorkAssignment(workAssignmentId),200);
-            
+            system.enqueueJob(new SnapshotQueueablePortalAPI(successAndfailedDocStorage,workAssignment.Id));
             // Call the work Assignment API to update portal.
-            system.enqueueJob(new CFG_ProcessWorkAssignment(workAssignment.Id));
+            //system.enqueueJob(new CFG_ProcessWorkAssignment(workAssignment.Id));
         }
         
         Document_Storage__c docStorage = [select id,name,uploaded_By__c,Created_By__c from Document_Storage__c where id = : documentStorageId];

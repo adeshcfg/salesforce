@@ -3220,6 +3220,10 @@
         <apexClass>updateSettlementStatusBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>SnapshotQueueablePortalAPI</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
