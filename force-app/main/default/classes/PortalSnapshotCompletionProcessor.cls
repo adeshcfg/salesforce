@@ -81,7 +81,7 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 }
 
                 if(dataIDs.size() >= 1 && !Test.isRunningTest()){
-                    String exceptionMsg = 'Exception: '+prResponse;
+                    String exceptionMsg = 'Exception: '+dataIDs;
                     //send failed error file notification.
                     CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName,exceptionMsg,documentStorageId);
                 }
@@ -130,7 +130,7 @@ global with sharing class PortalSnapshotCompletionProcessor {
                 }
 
                 if(dataIDs.size() >= 1 && !Test.isRunningTest()){
-                        String exceptionMsg = 'Exception: '+prResponse;
+                        String exceptionMsg = 'Exception: '+dataIDs;
                         //send failed error file notification.
                         CFG_EmailNotification.snapshotFailedEmailNotification(recordModifyUserName,exceptionMsg,documentStorageId);
                 }
