@@ -6,7 +6,7 @@
 				"recordVariableName": "metro2File",
 				"fields": [
 					{
-						"fieldApiName": "Province",
+						"fieldApiName": "Province__c",
 						"fieldValue": "'AB,BC,MB,NS,ON,SK'"
 					}
 				]
