@@ -1,6 +1,6 @@
 {
 	"dml": {
-		"insert": [
+		"update": [
 			{
 				"objectName": "Metro2_File__c",
 				"recordVariableName": "metro2File",
@@ -12,5 +12,6 @@
 				]
 			}
 		]
+		
 	}
 }
