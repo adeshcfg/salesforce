@@ -1025,8 +1025,10 @@ public class InsolvencyPaymentProcessingController{
         Database.SaveResult remitUpdateResult=Database.update(remit,False);  
         if(!remitUpdateResult.isSuccess()){
             List<String> lstEmail = new list<string>();
+            string email=System.Label.API_Failed_Email;
+            lstEmail.add(email);
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();                
-            mail.setToAddresses(lstEmail.add((string)System.Label.API_Failed_Email));    
+            mail.setToAddresses(lstEmail);    
             mail.setSubject('Remittance Update is failed and ID of Remittance is :'+remit.ID);   
             mail.setPlainTextBody('Remittance Update is failed and ID of Remittance is : '+remit.ID +'and due to an error : '+ remitUpdateResult.getErrors().get(0));
             // Send the email you have created.
