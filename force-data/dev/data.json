@@ -7,7 +7,7 @@
 				"fields": [
 					{
 						"fieldApiName": "Province__c",
-						"fieldValue": "'AB,BC,MB,NS,ON,SK'"
+						"fieldValue": "'AB'"
 					}
 				]
 			}
