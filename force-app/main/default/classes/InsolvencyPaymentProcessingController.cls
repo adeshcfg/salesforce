@@ -1029,10 +1029,9 @@ public class InsolvencyPaymentProcessingController{
             mail.setToAddresses(lstEmail);    
             mail.setSubject('Remittance Update is failed and ID of Remittance is :'+remit.ID);   
           if(!remitUpdateResult.getErrors().isEmpty())  mail.setPlainTextBody('Remittance Update is failed and ID of Remittance is : '+remit.ID +'and due to an error : '+ remitUpdateResult.getErrors().get(0));
-          if(remitUpdateResult.getErrors().isEmpty())  mail.setPlainTextBody('Remittance Update is failed and ID of Remittance is : '+remit.ID +'and due to an error');
             
           // Send the email you have created.
-            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+           if(mail.setPlainTextBody!='') Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
         }
         RemittanceTriggerHandler.runRemittanceTrigger=True;
        // acs.Run_Remittance_Validation__c = True;    
