@@ -13,6 +13,7 @@ trigger RemittanceTrigger on Remittance__c (before insert, before update, before
 	//On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Remittance_Trigger__c;
+    
     if(runTrigger){   
         if(!Test.isRunningTest()){
             if(RemittanceTriggerHandler.runRemittanceTrigger){

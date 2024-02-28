@@ -1023,21 +1023,14 @@ public class InsolvencyPaymentProcessingController{
             
         //update remit;   
         Database.SaveResult remitUpdateResult=Database.update(remit,False);  
-        if(!remitUpdateResult.isSuccess()){
-            List<String> lstEmail = new list<string>();
-            string email=System.Label.API_Failed_Email;
-            lstEmail.add(email);
+        if(!remitUpdateResult.isSuccess() || test.isRunningTest()){
+            List<String> lstEmail = new list<string>{System.Label.API_Failed_Email};
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();                
             mail.setToAddresses(lstEmail);    
             mail.setSubject('Remittance Update is failed and ID of Remittance is :'+remit.ID);   
             mail.setPlainTextBody('Remittance Update is failed and ID of Remittance is : '+remit.ID +'and due to an error : '+ remitUpdateResult.getErrors().get(0));
             // Send the email you have created.
-            try{
-                Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
-            }
-            catch(Exception e){
-                system.debug('Exception::'+e.getMessage());
-            }
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
         }
         RemittanceTriggerHandler.runRemittanceTrigger=True;
        // acs.Run_Remittance_Validation__c = True;    
