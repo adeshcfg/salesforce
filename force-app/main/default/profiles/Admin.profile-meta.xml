@@ -21128,6 +21128,11 @@
         <recordType>Distressed_notes__c.Distressed_Notes_Read_Only</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <defaultRecordType>Master</defaultRecordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>
