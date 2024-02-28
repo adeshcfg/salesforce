@@ -18920,6 +18920,10 @@
         <layout>Work_Assignment__c-Work Assignment - CFG</layout>
         <recordType>Work_Assignment__c.CFG</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Distressed_notes__c-Distressed Notes Read Only Layout</layout>
+        <recordType>Distressed_notes__c.Distressed_Notes_Read_Only</recordType>
+    </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -20141,6 +20145,11 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Work_Assignment__c.CFG_Media</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Distressed_notes__c.Distressed_Notes_Read_Only</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
     <userLicense>Salesforce</userLicense>
