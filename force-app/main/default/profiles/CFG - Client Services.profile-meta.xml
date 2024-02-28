@@ -20304,6 +20304,7 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
+        <defaultRecordType>Master</defaultRecordType>
         <recordType>Distressed_notes__c.Distressed_Notes_Read_Only</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
