@@ -21,6 +21,7 @@ public class TestCreditBureauClass {
         metro2File.Reporter_Address__c = 'Reporter_AddressReporter';
         metro2File.Reporter_Phone__c = '12345634';
         metro2File.Days_Diff_for_Delinquency__c = 240;
+        metro2File.Province__c = 'AB,BC,MB,NS,ON';
         insert metro2File;
         
         Metro__c metroheaderrecsetiing  = Metro__c.getOrgDefaults();
@@ -125,6 +126,7 @@ public class TestCreditBureauClass {
         metro2File.Reporter_Address__c = 'Reporter_AddressReporter_AddressReporter_AddressReporter_AddressReporter_AddressReporter_Address';
         metro2File.Reporter_Phone__c = '1234563456';
         metro2File.Days_Diff_for_Delinquency__c = 240;
+        metro2File.Province__c = 'AB,BC,MB,NS,ON';
         insert metro2File;
         
         Data_Status_Mapping__c metaData = Data_Status_Mapping__c.getOrgDefaults();
@@ -227,6 +229,7 @@ public class TestCreditBureauClass {
         metro2File.Reporter_Address__c = 'Reporter_AddressReporter_AddressReporter_AddressReporter_AddressReporter_AddressReporter_Address';
         metro2File.Reporter_Phone__c = '1234563456';
         metro2File.Days_Diff_for_Delinquency__c = 240;
+        metro2File.Province__c = 'AB,BC,MB,NS,ON';
         insert metro2File;
         
         Data_Status_Mapping__c metaData = Data_Status_Mapping__c.getOrgDefaults();

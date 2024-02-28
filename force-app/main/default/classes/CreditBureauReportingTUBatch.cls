@@ -95,7 +95,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             placementDateBefore45 = System.today().addDays(-noOfDaysAfterReport);
         }
         
-        
         List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c,Placement_Recall_Date__c,
                                                        Current_Total_Bal_at_time_of_Recall__c,Placement__c
                                                          FROM Placement_History__c
@@ -153,7 +152,15 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             strToDec = decimal.valueOf(s);
             includeAgencyList.add(strToDec);   
         }
-
+		String province = '';
+        if(metro2TransUnion.Province__c <> NULL){
+            province = metro2TransUnion.Province__c;
+        }
+        List<String> splitProvinceValues = new list<string>();
+        if(province <> NULL){
+            splitProvinceValues = province.split(',');
+        }
+        
         Integer noOfTimesToReport = Integer.valueOf(metro2TransUnion.Number_of_Times_To_Report__c);
         Integer noOfDaysAfterReport = Integer.valueOf(metro2TransUnion.Number_of_Days_After_Reporting__c);
         Date dayBefore45;
@@ -179,6 +186,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                         'Difference_Greater_Than_N_Years__c = False AND ' +
                                         'Exclude_for_Reporting__c = False AND ' +
                                         'Portfolio_Name_Lookup__c <> null AND ' +
+                                        'State__c IN :splitProvinceValues AND '+ 
                                         '(TransUnion_Reported_As_Complete_Count__c = null OR ' +  
                                         'TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)) OR (Id IN :productIds AND (TransUnion_Reported_As_Complete_Count__c = null OR TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)))' );
                                        	
