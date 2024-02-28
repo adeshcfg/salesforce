@@ -19349,6 +19349,10 @@
         <layout>CTB_Staging__c-Insolvency Payment Layout</layout>
         <recordType>CTB_Staging__c.Insolvency_Payment</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Distressed_notes__c-Distressed Notes Read Only Layout</layout>
+        <recordType>Distressed_notes__c.Distressed_Notes_Read_Only</recordType>
+    </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -21127,6 +21131,11 @@
         <default>false</default>
         <recordType>CTB_Staging__c.Insolvency_Payment</recordType>
         <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Distressed_notes__c.Distressed_Notes_Read_Only</recordType>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <userLicense>Salesforce</userLicense>
     <userPermissions>
