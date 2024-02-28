@@ -1019,7 +1019,7 @@ public class InsolvencyPaymentProcessingController{
         //Application_Config_Settings__c acs=[select id,Run_Remittance_Validation__c from Application_Config_Settings__c FOR UPDATE];
        // acs.Run_Remittance_Validation__c = False;   
         //update acs; 
-        RemittanceTrigger.runRemittanceTrigger=False;
+        RemittanceTriggerHandler.runRemittanceTrigger=False;
             
         //update remit;   
         Database.SaveResult remitUpdateResult=Database.update(remit,False);  
@@ -1039,7 +1039,7 @@ public class InsolvencyPaymentProcessingController{
                 system.debug('Exception::'+e.getMessage());
             }
         }
-        RemittanceTrigger.runRemittanceTrigger=True;
+        RemittanceTriggerHandler.runRemittanceTrigger=True;
        // acs.Run_Remittance_Validation__c = True;    
         //update acs; 
             
