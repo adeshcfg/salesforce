@@ -1015,27 +1015,15 @@ public class InsolvencyPaymentProcessingController{
         remit.Entity_Name__c = depositAcc.Entity_Name__c;   
         remit.Deposit_Account_Name__c = depositAcc.Name;    
             
-       // Application_Config_Settings__c acs = Application_Config_Settings__c.getOrgDefaults();   
-        //Application_Config_Settings__c acs=[select id,Run_Remittance_Validation__c from Application_Config_Settings__c FOR UPDATE];
-       // acs.Run_Remittance_Validation__c = False;   
-        //update acs; 
-        RemittanceTriggerHandler.runRemittanceTrigger=False;
+       //Application_Config_Settings__c acs = Application_Config_Settings__c.getOrgDefaults();   
+        Application_Config_Settings__c acs=[select id,Run_Remittance_Validation__c from Application_Config_Settings__c FOR UPDATE];
+        acs.Run_Remittance_Validation__c = False;   
+        update acs; 
             
-        //update remit;   
-        Database.SaveResult remitUpdateResult=Database.update(remit,False);  
-        if(!remitUpdateResult.isSuccess() || test.isRunningTest()){
-            List<String> lstEmail = new list<string>{System.Label.API_Failed_Email};
-            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();                
-            mail.setToAddresses(lstEmail);    
-            mail.setSubject('Remittance Update is failed and ID of Remittance is :'+remit.ID);   
-          if(!remitUpdateResult.getErrors().isEmpty())  mail.setPlainTextBody('Remittance Update is failed and ID of Remittance is : '+remit.ID +'and due to an error : '+ remitUpdateResult.getErrors().get(0));
+        update remit;   
             
-          // Send the email you have created.
-           if(!test.isRunningTest()) Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
-        }
-        RemittanceTriggerHandler.runRemittanceTrigger=True;
-       // acs.Run_Remittance_Validation__c = True;    
-        //update acs; 
+        acs.Run_Remittance_Validation__c = True;    
+        update acs; 
             
         if(remit.Deposit_Account_Name__c <> 'CIML' && remit.Deposit_Account_Name__c <> 'AFSI'){ 
                 
