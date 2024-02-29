@@ -89,6 +89,15 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         for(String s : splitDoubleValues){
             includeAgencyList.add(s);   
         }
+        
+        String province = '';
+        if(metro2TransUnion.Province__c <> NULL){
+            province = metro2TransUnion.Province__c;
+        }
+        List<String> splitProvinceValues = new list<string>();
+        if(province <> NULL){
+            splitProvinceValues = province.split(',');
+        }
 		Integer noOfDaysAfterReport = Integer.valueOf(metro2TransUnion.Number_of_Days_After_Reporting__c);
         Date placementDateBefore45;
         if(noOfDaysAfterReport != 0){
@@ -101,6 +110,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                                          WHERE Placement__r.Name IN :includeAgencyList 
                                                        	 AND Placement_Date__c <: placementDateBefore45
                                                          AND Placement_Recall_Date__c <> NULL
+                                                         AND Product__r.State__c IN :splitProvinceValues
                                                       	 AND Placement_Recall_Date__c = LAST_MONTH];
         for(Placement_History__c placeHistory : placementHistory){
             productIds.add(placeHistory.Product__c);
@@ -115,6 +125,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                                        	 AND Product__c IN :productIds
                                                          AND Placement_Recall_Date__c = NULL
                                                          AND Placement_Date__c <> NULL
+                                                         AND Product__r.State__c IN :splitProvinceValues
                                                       	 AND Placement_Date__c = LAST_MONTH];
         
         for(Placement_History__c allocatedPlaceHistory : allocatedPlacementHistory){
