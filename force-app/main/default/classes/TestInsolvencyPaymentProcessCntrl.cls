@@ -11,6 +11,7 @@
 public class TestInsolvencyPaymentProcessCntrl {
     @testSetup
     static void testData() {
+        InsolvencyPaymentProcessingController.stopDuplicateScreenCheck=false;
         Application_Config_Settings__c config = new Application_Config_Settings__c(
             Run_Remittance_Validation__c = false,
             Run_Remittance_Trigger__c = true,
@@ -285,7 +286,6 @@ public class TestInsolvencyPaymentProcessCntrl {
         obj.errorMsgTrustee = 'test';
         obj.saveInsolveyncyPayments();
         obj.addUnallocatedPayment();
-        obj.stopDuplicateScreenCheck=false;
         obj.isDuplicateWithInsolvnecyPayment(unAloccPay1);
         Remittance__c remit1 = remit;
         remit1.Cheque_Amount__c = 0;
