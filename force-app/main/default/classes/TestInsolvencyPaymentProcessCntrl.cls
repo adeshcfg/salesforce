@@ -63,6 +63,7 @@ public class TestInsolvencyPaymentProcessCntrl {
         remittance2.recordTypeid = [SELECT id FROM RecordType WHERE DeveloperName = 'Insolvency_Dividend' AND sobjecttype = 'Remittance__C'].Id;
         remittance2.Status__c = 'New';
         remittance2.Trustee_name__c = acc.Id;
+        remittance2.Cheque_Amount__c = 123.00;
         remittance2.Deposit_Account_Name__c = 'CAL';
         insert remittance2;
 
