@@ -91,13 +91,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         }
         
         String province = '';
+        List<String> splitProvinceValues = new list<string>();
         if(metro2TransUnion.Province__c <> NULL){
             province = metro2TransUnion.Province__c;
-        }
-        List<String> splitProvinceValues = new list<string>();
-        if(province <> NULL){
             splitProvinceValues = province.split(',');
         }
+        
 		Integer noOfDaysAfterReport = Integer.valueOf(metro2TransUnion.Number_of_Days_After_Reporting__c);
         Date placementDateBefore45;
         if(noOfDaysAfterReport != 0){
@@ -164,11 +163,9 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             includeAgencyList.add(strToDec);   
         }
 		String province = '';
+        List<String> splitProvinceValues = new list<string>();
         if(metro2TransUnion.Province__c <> NULL){
             province = metro2TransUnion.Province__c;
-        }
-        List<String> splitProvinceValues = new list<string>();
-        if(province <> NULL){
             splitProvinceValues = province.split(',');
         }
         
