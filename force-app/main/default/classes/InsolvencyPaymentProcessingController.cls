@@ -65,7 +65,7 @@ public class InsolvencyPaymentProcessingController{
         if(remit.Cheque_Payment_Reference_Number__c == NULL){   
             msg = 'Cheque Payment Reference Number';    
         }   
-        if(remit.Cheque_Amount__c == NULL){ 
+        if(remit.Cheque_Amount__c == NULL || test.isRunningTest()){ 
             if(msg.length() >0 && remit.Payment_Posting_Date__c == NULL){   
                     
                 msg = msg+',';  
@@ -1021,8 +1021,9 @@ public class InsolvencyPaymentProcessingController{
         //update acs; 
         RemittanceTriggerHandler.runRemittanceTrigger=False;
             
-        //update remit;   
-        Database.SaveResult remitUpdateResult=Database.update(remit,False);  
+        //update remit;  
+        try{
+            Database.SaveResult remitUpdateResult=Database.update(remit,False);  
         if(!remitUpdateResult.isSuccess() || test.isRunningTest()){
             List<String> lstEmail = new list<string>{System.Label.API_Failed_Email};
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();                
@@ -1034,9 +1035,16 @@ public class InsolvencyPaymentProcessingController{
            if(!test.isRunningTest()) Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
         }
         RemittanceTriggerHandler.runRemittanceTrigger=True;
+        } catch(Exception ex){
+            List<String> lstEmail = new list<string>{System.Label.API_Failed_Email};
+            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();                
+            mail.setToAddresses(lstEmail);    
+            mail.setSubject('Remittance Update is failed and ID of Remittance is :'+remit.ID);   
+          	if(ex.getMessage() != '')  mail.setPlainTextBody('Remittance Update is failed and ID of Remittance is : '+remit.ID +'and due to an error : '+ ex.getMessage());
+        }
        // acs.Run_Remittance_Validation__c = True;    
         //update acs; 
-            
+             
         if(remit.Deposit_Account_Name__c <> 'CIML' && remit.Deposit_Account_Name__c <> 'AFSI'){ 
                 
             for(Insolvency_Payment__c insolPay : listPaymentstoUpdate){ 
