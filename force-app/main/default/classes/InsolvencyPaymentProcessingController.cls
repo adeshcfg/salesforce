@@ -1030,7 +1030,7 @@ public class InsolvencyPaymentProcessingController{
             mail.setSubject('Remittance Update is failed and ID of Remittance is :'+remit.ID);   
           if(!remitUpdateResult.getErrors().isEmpty())  mail.setPlainTextBody('Remittance Update is failed and ID of Remittance is : '+remit.ID +'and due to an error : '+ remitUpdateResult.getErrors().get(0));
             
-          // Send the email you have created.
+          // Send the email
            if(!test.isRunningTest()) Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
         }
         RemittanceTriggerHandler.runRemittanceTrigger=True;
