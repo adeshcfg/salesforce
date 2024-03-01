@@ -808,10 +808,10 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             Legal_Status_Codes__c lrpSetting = Legal_Status_Codes__c.getOrgDefaults();
             String statusCodes=lrpSetting.status_codes__c;
             String placementStatus;
-            if (mapProduct.get(product.Name__c).Placement_Status__c!=''){
+            if (mapProduct.get(product.Name__c).Placement_Status__c!=NULL && mapProduct.get(product.Name__c).Placement_Status__c!=''){
                 placementStatus=mapProduct.get(product.Name__c).Placement_Status__c;
             }
-            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && placementStatus!='' && statusCodes.contains(placementStatus)){
+            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && (placementStatus!=NULL && placementStatus!='') && statusCodes.contains(placementStatus)){
                 ERROR_MSG += '<b>ERROR</b> : Can\'t change account in Legal status<br/>';
                 EXPECTED += 'User cannot update the status on Product with Judgment<br/>';
             }
