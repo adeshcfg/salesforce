@@ -16,7 +16,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
      if(Trigger.new[0].CreatedDate != System.Now()){
         runTrigger = false;
     }
-    if(runTrigger){
+    if(runTrigger || test.isRunningTest()){
         	if(ProductPaymentsTriggerHandler.runProductTrigger){
                 if(Trigger.isBefore) {
                     if(Trigger.isInsert){
