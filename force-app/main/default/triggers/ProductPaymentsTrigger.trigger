@@ -13,7 +13,9 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
     //On-Off switch for trigger
     Loan_ReEngineering__c lrpSettings = Loan_ReEngineering__c.getOrgDefaults();
     Boolean runTrigger = lrpSettings.Run_Product_Payment_Trigger__c;
-    
+     if(Trigger.new[0].CreatedDate != System.Now()){
+        runTrigger = false;
+    }
     if(runTrigger){
         	if(ProductPaymentsTriggerHandler.runProductTrigger){
                 if(Trigger.isBefore) {
