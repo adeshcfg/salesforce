@@ -15,6 +15,8 @@ public class DistressedUtilities {
     public static Map<Id, Decimal>  productIDMap;
     public static Map<Id, String> settlementIDMap;
     public static Map<String, ID> mapProductJudgment = new Map<String, ID>();
+    public static Map<String,Provice_Name_Map_with_Abbreviations__mdt> mapProviceAbbreviations = Provice_Name_Map_with_Abbreviations__mdt.getAll();
+    public static Map<String, String> mapProvinceAcronym = new Map<String, String>();
     // Fetching and updating Placement History Map
     public static void loadPlacementHistoryIDMap(List<id> prodIdList){
         placementHistoryIDMap = new Map<Id, String>();
@@ -319,7 +321,6 @@ public class DistressedUtilities {
         Map<String ,Placement__c> mapPlacement =new Map<String,Placement__c>();
         Map<String ,Pool__c> mapPool =new Map<String,Pool__c>();                                                
         Map<Id ,Product_Payments__c> mapProductPayment =new Map<Id,Product_Payments__c>();
-        Map<String, String> mapProvinceNames = new Map<String, String>();
         list<Product_Staging__c> listProductAllocateStaging = new list<Product_Staging__c>();
         set<String> setPreviousPlacedProductNames = getPlacementHistoryDetails(mapProductName.keySet());
         map<String, Decimal> mapProductNameAmount = new map<String, Decimal>(); 
@@ -343,19 +344,11 @@ public class DistressedUtilities {
         
         for(Pool__c pool : [SELECT ID, Name,Placement_Agency__c FROM Pool__c ]){
             mapPool.put(pool.Name, pool);
-        }                                                                            
-        
+        }   
         //Fill provice name map with abbriviations
-        mapProvinceNames.put('NS', 'Nova Scotia');
-        mapProvinceNames.put('NB', 'New Brunswick');
-        mapProvinceNames.put('MB', 'Manitoba');
-        mapProvinceNames.put('BC', 'British Columbia');
-        mapProvinceNames.put('PE', 'Prince Edward Island');
-        mapProvinceNames.put('SK', 'Saskatchewan');
-        mapProvinceNames.put('AB',  'Alberta');
-        mapProvinceNames.put('NL', 'Newfoundland and Labrador');
-        mapProvinceNames.put('QC', 'Quebec');
-        mapProvinceNames.put('ON', 'Ontario');
+        for(Provice_Name_Map_with_Abbreviations__mdt metaData : mapProviceAbbreviations.values()){
+            mapProvinceAcronym.put(metaData.Province_Acronym__c,metaData.Province_Name__c);
+        }
         
         String newAgency = '';
         String oldAgency;
@@ -414,8 +407,8 @@ public class DistressedUtilities {
                && String.isNotBlank(AgencyProvince)
                && mapProductName.containsKey(product.Data_Id__c)
                && String.isNotBlank(mapProductName.get(product.Data_Id__c).State__c)
-               && ( (!mapProvinceNames.containsKey(mapProductName.get(product.Data_Id__c).State__c) && !AgencyProvince.contains(mapProductName.get(product.Data_Id__c).State__c))
-                   ||   (mapProvinceNames.containsKey(mapProductName.get(product.Data_Id__c).State__c)  &&!AgencyProvince.contains(mapProvinceNames.get(mapProductName.get(product.Data_Id__c).State__c))))){
+               && ( (!mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).State__c) && !AgencyProvince.contains(mapProductName.get(product.Data_Id__c).State__c))
+                   ||   (mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).State__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(mapProductName.get(product.Data_Id__c).State__c))))){
                        ERROR_MSG += '<b>ERROR</b>- '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
                        EXPECTED += 'Product Province - ' + mapProductName.get(product.Data_Id__c).State__c +'<br/>';
                    }
