@@ -85,15 +85,13 @@ public class ProductTriggerHandler{
     public static map<String, Province_Tax_Rate_Mapping__mdt> mapProvinceAcronymTaxMetadata = new map<String, Province_Tax_Rate_Mapping__mdt>();
     //map of Placement Status and Placement Code
     public static Agency_Portal_Settings__c agencyPortalSettings;
-        
+    
     public static void UtilityMethod(){
         //fill Collection Agency Map
         list<Placement__c> list1 = [select id, Name, Agency_Name__c, Serviceable_Province__c from Placement__c];
-        system.debug('list1::'+list1.size());
         for(Placement__c place :list1){            
             mapCollectionAgency.put(place.Name, place);
         }
-        system.debug('mapCollectionAgency ' +mapCollectionAgency);
         //Get profile Name
         profileName = Utilities.getUserProfile();
         
@@ -186,7 +184,6 @@ public class ProductTriggerHandler{
                 if(String.isBlank(reasons.Sub_Status__c)){
                     reasons.Sub_Status__c = '';
                 }
-                //system.debug('reasons.Complete_Status__c:'+reasons.Complete_Status__c);
                 mapPlacementStatus.put(reasons.Complete_Status__c, reasons.Placement_Status_Code__c);   
             }           
         }
@@ -261,7 +258,6 @@ public class ProductTriggerHandler{
         set<String> setAccountPortfolioID = new set<String>();
         List<ID> poolplacementName = new List<ID>();
         map<ID, Pool__c> mapPool = new map<ID, Pool__c>();
-        //map<String, Integer> mapPortfolioNamesCounter = new Map<String, Integer>();
         list<Product__c> listDistressedProduct = new list<Product__c>();
         
         for(Product__c prod : prodNew){
@@ -279,13 +275,7 @@ public class ProductTriggerHandler{
                prod.Payment_Missed__c = (prod.Amount_of_payments_missed__c / prod.Proposed_Payment_Amount__c );
             }
 
-            /*if( prod.Open_Date__c != null && 
-                (prod.Statute_Date__c == null || prod.Open_Date__c < prod.Statute_Date__c )
-            ){
-                prod.Statute_Date__c = StatuteDateUtilities.getStatueDate(prod.Last_Payment_Date__c,prod.Open_Date__c,prod.Open_Date__c,prod.Statute_Date__c,prod.State__c);
-            }*/
             prod.Statute_Date__c = StatuteDateUtilities.getStatueDate(prod.Last_Payment_Date__c,prod.Open_Date__c,prod.Charged_Off_Date__c,prod.Statute_Date__c,prod.Purchase_Province__c);
-            System.debug('DDDD '+prod.Statute_Date__c);
             if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId && lrpSetting.EnableNewAccountNameCreationLogic__c == true){
                 if(prod.Account_Portfolio_ID__c != NULL){
                     setAccountPortfolioID.add(prod.Account_Portfolio_ID__c);
@@ -309,20 +299,17 @@ public class ProductTriggerHandler{
         for(Pool__c pool :  [Select id,Name,Placement_Agency__c from Pool__c where id IN: poolplacementName] ){               
             mapPool.put(pool.id,pool);
         }
-        //system.debug('setAccountPortfolioID::'+setAccountPortfolioID);
-        system.debug('mapPortfolioNamesCounter:: '+mapPortfolioNamesCounter);
+
         Map<String, ID> mapProducNameIDS = new Map<String, ID>();
         for(Product_Name_Details__c prodName : [Select Id, Name, Last_Product_Number_in_the_Group__c From Product_Name_Details__c WHERE Name IN :setAccountPortfolioID]){
             mapProductNameDetails.put(prodName.Name, prodName.Last_Product_Number_in_the_Group__c);
             mapProducNameIDS.put(prodName.Name, prodName.ID);
         }
-        system.debug('mapProductNameDetails::'+mapProductNameDetails);
         
         for(Product__c prod : prodNew){
             if(mapPool.containsKey(prod.Pool_Name__c)){
                 prod.Pool_Name_Text__c = mapPool.get(prod.Pool_Name__c).Name;  
             }
-            system.debug('prodNew recordtypeid::'+prod.RecordTypeId);
             if(String.isNotBlank(prod.Placement_Status__c) && mapPlacementCodeStatus.containsKey(prod.Placement_Status__c)){
                 prod.Status__c =  mapPlacementCodeStatus.get(prod.Placement_Status__c).Parent_Status__c +' - ' +mapPlacementCodeStatus.get(prod.Placement_Status__c).Status__c;
                 prod.Sub_Status__c = mapPlacementCodeStatus.get(prod.Placement_Status__c).Sub_Status__c;
@@ -333,7 +320,6 @@ public class ProductTriggerHandler{
                  prod.Placement_Status__c =  mapPlacementStatus.get(prod.Status__c+prod.Sub_Status__c);
             }
             if(lrpSetting.Run_Product_Before_Trigger__c == true){
-                system.debug('prod.RecordTypeId:'+prod.RecordTypeId);
                 if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || 
                    prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId){
                        prod.Run_Identifier_Check_On__c = Date.today(); 
@@ -367,10 +353,9 @@ public class ProductTriggerHandler{
                     if(agencyPortalSettings.Run_Product_Name_Logic__c == true){
                         String purchaseGroup = '';
                         if(prod.Account_Portfolio_ID__c != NULL){
-                            //purchaseGroup = String.valueOf(Math.floor(prod.Account_Portfolio_ID__c));
                             purchaseGroup = String.valueOf(prod.Account_Portfolio_ID__c);
                         }
-                        system.debug('purchaseGroup::'+purchaseGroup);
+
                         Integer counterlength;
                         if(String.isNotBlank(purchaseGroup)){
                             if(mapPortfolioNamesCounter.get(purchaseGroup) != null){
@@ -379,15 +364,11 @@ public class ProductTriggerHandler{
                             if(mapProductNameDetails.containsKey(purchaseGroup)){
                                 Decimal counter = mapProductNameDetails.get(purchaseGroup);
                                 Decimal Name1 = Math.floor(counter + 1);
-                                system.debug('Name1::'+Name1);
-                                //Integer leadingZero = 5 - String.valueOf(Integer.valueOf(Name1)).length();  
-                                //system.debug('leadingZero:: '+leadingZero);
                                 if(lrpSetting.EnableNewAccountNameCreationLogic__c == true){
                                     prod.Name = purchaseGroup + 'P' + String.valueOf(Name1).leftPad(counterlength, '0');
                                 }
                                 prod.DebtNext_Data_ID__c = prod.Name;
                                 mapProductNameDetails.put(purchaseGroup, Name1);
-                                //purchaseGroup = String.valueOf(Math.floor(prod.Account_Purchase_Group__c)); 
                             }
                             else{
                                 mapProductNameDetails.put(purchaseGroup, 1);
@@ -403,37 +384,30 @@ public class ProductTriggerHandler{
                 }
             }
             
-            //if(!Test.isRunningTest()){
-                // Added record type check for Loan Account OR Credit Card Account
-                if(prodRTypeIdMap.get('Loan_Account') == prod.RecordTypeId || 
-                   prodRTypeIdMap.get('Credit_Card_Account') == prod.RecordTypeId ||
-                   prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId){
-                       //Format Phone Numbers
-                       prod.Phone_Home__c = Utilities.formatPhone(prod.Phone_Home__c);
-                       prod.Phone_Other__c = Utilities.formatPhone(prod.Phone_Other__c);
-                       prod.Phone_Work__c = Utilities.formatPhone(prod.Phone_Work__c);
-                   }
+            // Added record type check for Loan Account OR Credit Card Account
+            if(prodRTypeIdMap.get('Loan_Account') == prod.RecordTypeId || 
+               prodRTypeIdMap.get('Credit_Card_Account') == prod.RecordTypeId ||
+               prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId){
+                   //Format Phone Numbers
+                   prod.Phone_Home__c = Utilities.formatPhone(prod.Phone_Home__c);
+                   prod.Phone_Other__c = Utilities.formatPhone(prod.Phone_Other__c);
+                   prod.Phone_Work__c = Utilities.formatPhone(prod.Phone_Work__c);
+               }
                 
-                // Insolvency Product enhancements
-                system.debug('prod.RecordTypeId::'+prod.RecordTypeId);
-                system.debug('prod.Last_Name__c::'+prod.Last_Name__c);
-                if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ||
-                  prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId){
-                    system.debug('inside if recordtypeid');
-                    if(String.isNotBlank(prod.Last_Name__c)){
-                        system.debug('call matching cutomers');
-                        List <Account> matchingCustomers = getMatchingCustomers(prod);
-                        system.debug('matchingCustomers:: '+matchingCustomers);
-                        if(matchingCustomers != null && matchingCustomers.size() > 0){ 
-                            if(matchingCustomers.size() > 1){
-                                prod.Needs_Manual_Review__c = true;
-                                prod.Manual_Review_Reason__c = MANUAL_REVIEW_REASON;
-                            }
-                            prod.customer__c = matchingCustomers.get(0).Id;
-                        }
-                    }
-                } 
-            //}
+            // Insolvency Product enhancements
+            if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ||
+               prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId){
+                   if(String.isNotBlank(prod.Last_Name__c)){
+                       List <Account> matchingCustomers = getMatchingCustomers(prod);
+                       if(matchingCustomers != null && matchingCustomers.size() > 0){ 
+                           if(matchingCustomers.size() > 1){
+                               prod.Needs_Manual_Review__c = true;
+                               prod.Manual_Review_Reason__c = MANUAL_REVIEW_REASON;
+                           }
+                           prod.customer__c = matchingCustomers.get(0).Id;
+                       }
+                   }
+               } 
         }
         
         list<Product_Name_Details__c> listProductNameToUpsert = new list<Product_Name_Details__c>();
@@ -475,7 +449,6 @@ public class ProductTriggerHandler{
         
         getPlacementStatusCodes();
         
-        system.debug('listNewProducts:: '+listNewProducts.size());
         Id DistressedProductRecordTypeId = prodRTypeIdMap.get('Distressed_Account');
         set<Id> setPreviousPlacedProduct = new set<Id>();
         set<Id> setRecalledProducts = new set<Id>();
@@ -483,23 +456,8 @@ public class ProductTriggerHandler{
         set<String> setPreviousPlacedProductNames = new set<String>();
         list<Placement_History__c> listPlacementHistory = new list<Placement_History__c>();
         list<Product__c> listProductToUpdateBalance = new list<Product__c>();
-        Map<String, String> mapProvinceNames = new Map<String, String>();
         Map<id, Decimal> mapPoolAgency = new Map<id, Decimal>();
         Map<id, Pool__c> mapPool = new Map<id, Pool__c>();
-        
-        //Fill provice name map with abbriviations
-        mapProvinceNames.put('NS', 'Nova Scotia');
-        mapProvinceNames.put('NB', 'New Brunswick');
-        mapProvinceNames.put('MB', 'Manitoba');
-        mapProvinceNames.put('BC', 'British Columbia');
-        mapProvinceNames.put('PE', 'Prince Edward Island');
-        mapProvinceNames.put('SK', 'Saskatchewan');
-        mapProvinceNames.put('AB',  'Alberta');
-        mapProvinceNames.put('NL', 'Newfoundland and Labrador');
-        mapProvinceNames.put('QC', 'Quebec');
-        mapProvinceNames.put('ON', 'Ontario');
-        
-       // String poolplacementName = '' ;
         List<ID> poolplacementName = new List<ID>();
         Decimal checkCollectionAgency = null;
         
@@ -517,7 +475,7 @@ public class ProductTriggerHandler{
             if((prod.Name != prodOld1.Name || prod.RecordTypeId != prodOld1.RecordTypeId) && (!nameRecordTypeIdKey.isEmpty() && nameRecordTypeIdKey.contains(prod.RecordTypeId + '-' + prod.Name))){
                 prod.addError(System.Label.Duplicate_Account_ID_Validation_Error);
             }
-                system.debug('prodOld1:'+prodOld1);
+
             if(prod.Refer_to_Legal__c == 'Approved' && prodOld1.Refer_to_Legal__c != prod.Refer_to_Legal__c){ 
                 Application_Config_Settings__c config = [SELECT Run_Product_Coll_Sub_Status_Validation__c FROM Application_Config_Settings__c FOR UPDATE];
                 config.Run_Product_Coll_Sub_Status_Validation__c = false; 
@@ -531,9 +489,7 @@ public class ProductTriggerHandler{
                    && prod.Status__c != prodOld1.Status__c) || (prodOld1.Refer_to_Legal__c =='For Review' && prod.Status__c != prodOld1.Status__c)
                    || (prodOld1.Status__c.startsWith('Pre - Legal')
                    && prod.Sub_Status__c != prodOld1.Sub_Status__c)){ 
-                    system.debug('block run');
                     prod.addError('Status can not change if refer to legal is in For review/placement status is in Pre-Legal.');
-                //creatJudgment(prod);
                 }
             }
            //for Ticket 4834 - populating bank account number based on Account ID
@@ -545,7 +501,7 @@ public class ProductTriggerHandler{
                prod.Amount_of_payments_missed__c <> NULL){
                prod.Payment_Missed__c = (prod.Amount_of_payments_missed__c / prod.Proposed_Payment_Amount__c );
             }
-                system.debug('agency:'+prod.Collection_Agency__c);
+
                 if (isCanaccedeAPIUser() || Test.isRunningTest()){
                     // Added record type check for Loan Account OR Credit Card Account
                     if(prodRTypeIdMap.get('Loan_Account') == prod.RecordTypeId || 
@@ -565,7 +521,6 @@ public class ProductTriggerHandler{
                     if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId || prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ||
                       prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId){
                         if(prod.customer__c == null){
-                            
                             if(oldCustomerId != null){
                                 prod.customer__c = oldCustomerId;
                             }
@@ -587,10 +542,6 @@ public class ProductTriggerHandler{
                 if(prod.Pool_Name__c != NULL){
                     poolplacementName.add(prod.Pool_Name__c);    
                 }
-                
-               // mapPoolAgency.put(prod.Pool_Name__c,prod.Pool_Name__r.Placement_Agency__c);
-                system.debug('poolplacementName '+poolplacementName);
-
                 
                 //check if collection agency is changed for Distressed or recordtype is changed to CCS Account
                 if((prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId
@@ -642,69 +593,50 @@ public class ProductTriggerHandler{
                if(String.isNotBlank(prod.Placement_Status__c) 
                 && mapOldProducts.get(prod.ID).Placement_Status__c != prod.Placement_Status__c
                 && mapPlacementCodeStatus.containsKey(prod.Placement_Status__c)){
-                   // prod.Status__c = mapPlacementCodeStatus.get(prod.Placement_Status__c).Status__c;
                    //Updated the prod.Status__c for ticket 2877
                     prod.Status__c = mapPlacementCodeStatus.get(prod.Placement_Status__c).Parent_Status__c +' - ' +mapPlacementCodeStatus.get(prod.Placement_Status__c).Status__c;
                     prod.Sub_Status__c = mapPlacementCodeStatus.get(prod.Placement_Status__c).Sub_Status__c;
                 }
               
-                system.debug('mapOldProducts'+mapOldProducts.get(prod.ID).Collection_agency__c);
-                system.debug('prod.Status__c'+prod.Status__c);
                 //if status and sub status is updated, update placement status code
                if(mapOldProducts.get(prod.ID).Status__c != prod.Status__c 
                 || mapOldProducts.get(prod.ID).Sub_Status__c != prod.Sub_Status__c){
                     String placeStatus = prod.Status__c;
-                    system.debug('prod.Status__c: '+prod.Status__c);
-                    system.debug('prod.Sub_Status__c update:'+prod.Sub_Status__c);
                     if(String.isNotBlank(prod.Sub_Status__c)){
                         placeStatus += ' - ' + prod.Sub_Status__c;    
                     }
-                    system.debug('placeStatus:: '+placeStatus);
-                    system.debug('prod.Sub_Status__c:: '+prod.Sub_Status__c);
                     if(String.isNotBlank(placeStatus)
                     && mapPlacementStatus.containsKey(placeStatus)){
                          prod.Placement_Status__c =  mapPlacementStatus.get(placeStatus);
                     }    
-                    system.debug('prod.Placement_Status__c:'+prod.Placement_Status__c);
-                    system.debug('prod.Invalid_Submission__c:'+prod.Invalid_Submission__c);
                     if(prod.Placement_Status__c == ACCEPTED_BY_AGENCY_PLACEMENT_CODE
                     && prod.Invalid_Submission__c == true){
                         prod.Invalid_Submission__c = false;
                         prod.Timestamp_Of_Invalid_Submission__c = null;
                         prod.Invalid_Submission_Reason__c = null;
-                       // prod.Invalid_Submission_Initiated_By__c = null;
                     }
                 }
-                
                
                 //Recall Collection agency if status is back/put back and sale categories: agency portal change
                 if(prod.Collection_Sub_Status__c == 'Buy back/put back and sale categories'){
-                    
                     prod.Collection_Agency__c  = null;
                 }
                 
                 if(prod.RecordTypeId == DistressedProductRecordTypeId){
-                    //system.debug('warning:'+prod.Ignore_Warning__c);
                     //Check if Placement Agency on Product is updated
-                    if(prod.Collection_Agency__c != NULL
-                       && mapOldProducts.get(prod.Id).Collection_Agency__c != NULL
-                       && prod.Collection_Agency__c != mapOldProducts.get(prod.Id).Collection_Agency__c
-                       //&& prod.Ignore_Warning__c == false
-                       ){
-                           system.debug('agency updated');
+                    if(prod.Collection_Agency__c != NULL && mapOldProducts.get(prod.Id).Collection_Agency__c != NULL
+                       && prod.Collection_Agency__c != mapOldProducts.get(prod.Id).Collection_Agency__c){
                            setPreviousPlacedProduct.add(prod.Id);
                        }
                     //Check if agency is recalled
-                    if(prod.Collection_Agency__c == NULL
-                       && mapOldProducts.get(prod.Id).Collection_Agency__c != NULL){
-                           setRecalledProducts.add(prod.Id);
-                       }
+                    if(prod.Collection_Agency__c == NULL && mapOldProducts.get(prod.Id).Collection_Agency__c != NULL){
+                        setRecalledProducts.add(prod.Id);
+                    }
                 }
                 
                 //process builder 'Refer to legal' convert into code for agency portal changes
                 if((prod.Refer_to_Legal__c != mapOldProducts.get(prod.Id).Refer_to_Legal__c && 
-                   prod.Refer_to_Legal__c == 'For Review')){
-                    
+                   prod.Refer_to_Legal__c == 'For Review')){ 
                     prod.Sent_for_Review_by__c = UserInfo.getName();
                     prod.Sent_to_Review_Date__c =  System.now();
                     prod.Placement_Status__c = '210000';
@@ -712,8 +644,7 @@ public class ProductTriggerHandler{
                     prod.Sub_Status__c = 'Recommended for Legal Action';
                     
                 }else if(prod.Refer_to_Legal__c != mapOldProducts.get(prod.Id).Refer_to_Legal__c 
-                && (prod.Refer_to_Legal__c == 'Approved' 
-                /*|| prod.Refer_to_Legal__c == 'Declined'*/)){
+                && (prod.Refer_to_Legal__c == 'Approved')){
                     prod.Legal_Decision_Date__c = System.now();
                     prod.Legal_Decision_by__c = UserInfo.getUserId();
                     prod.Placement_Status__c = '210010';
@@ -730,20 +661,12 @@ public class ProductTriggerHandler{
                 
                 Product__c prodOld = mapOldProducts.get(prod.Id);
                 
-                //validation check method for agency portal
-                if(prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId && prod.Collection_Sub_Status__c != prodOld.Collection_Sub_Status__c){
-                    //validationRules(listNewProducts, mapOldProducts);
-                }
-                if(prod.Current_Principal_Balance__c != NULL && prod.Current_Interest_Amount__c != NUll){
-                    //prod.Current_Balance__c = prod.Current_Principal_Balance__c + prod.Current_Interest_Amount__c;    
-                }
              //Interest Rate on Product changed to 0% when updating insolvency information
              //RemoveprodOld.Insolvency_Date__c == null && prod.Insolvency_Date__c != null for ticket 4599
                 if(prodOld.Deceased_Date__c == null && prod.Deceased_Date__c != null){
                     if(prod.Interest_Rate__c != 0){
                         prod.Previous_Interest_Rate__c = prod.Interest_Rate__c;
                         prod.Interest_Rate__c = 0;
-        
                     }
                     if(prod.Deceased_Date__c != null){
                         prod.Collection_Sub_Status__c = 'Deceased';
@@ -754,126 +677,7 @@ public class ProductTriggerHandler{
                 && (prodOld.Interest_Rate__c <> prod.Interest_Rate__c)){
                     prod.Previous_Interest_Rate__c = prodOld.Interest_Rate__c;
                     prod.Collection_Sub_Status__c = 'Credit Counselling';
-                    //prod.Interest_Rate__c = 0;
-                }
-                
-               /* //When a debtor goes into a Credit Counselling.
-                if(prod.Collection_Sub_Status__c == 'Credit Counselling' && prodOld.Collection_Sub_Status__c != 'Credit Counselling'){
-                    system.debug('Block run 4');
-                    prod.Previous_Interest_Rate__c = prodOld.Interest_Rate__c;
-                   
-                    Date currentDate = date.today();
-                    Date newCreditConDate = prod.Credit_Counselling_Date__c;
-                    Integer noOfdays = newCreditConDate.daysBetween(currentDate);
-                    system.debug('noOfdays:: '+noOfdays);
-                    system.debug('prod.Previous_Interest_Rate__c:: '+prod.Previous_Interest_Rate__c);
-                    Decimal revisedInterestAmount = (prod.Current_Principal_Balance__c * noOfdays * prod.Previous_Interest_Rate__c)/100/365;
-                   
-                    system.debug('revisedInterestAmount:: ' +revisedInterestAmount);
-                    prod.Current_Interest_Amount__c = prod.Current_Interest_Amount__c - revisedInterestAmount;
-                    
-                    prod.Current_Balance__c = prod.Current_Balance__c - revisedInterestAmount;
-
-                    prod.Interest_Amount_Last_Calculated_Date__c = System.Today();
-                   
-                }
-               //When a debtor is into a Credit Counselling and interest rate changed then calculate interest Amount.
-               //if(prod.Collection_Sub_Status__c == 'Credit Counselling' && prod.Interest_Rate__c != prodOld.Interest_Rate__c){
-               if(prod.Credit_Counselling_Date__c != null && prod.Interest_Rate__c != prodOld.Interest_Rate__c){
-                    system.debug('Block run5::');
-                    Date currentDate = Date.today();
-                    Date CreditConDate = prod.Credit_Counselling_Date__c;
-                    Integer noOfdays = CreditConDate.daysBetween(currentDate);
-                    system.debug('noOfdays::'+noOfdays);
-                    system.debug('prodOld.Interest_Rate__:: '+prodOld.Interest_Rate__c);
-                    Decimal revisedInterestAmount = (prod.Current_Principal_Balance__c * noOfdays * prodOld.Interest_Rate__c)/100/365;
-                   
-                    system.debug('revisedInterestAmount:: ' +revisedInterestAmount);
-                    Decimal updateCurrentInterestAmount = prod.Current_Interest_Amount__c - revisedInterestAmount;
-                    
-                    Decimal updateCurrentBalance = prod.Current_Balance__c - revisedInterestAmount;
-                    system.debug('prod.Interest_Rate__c:: '+prod.Interest_Rate__c);
-                    Decimal revisedInterestAmount1 = (prod.Current_Principal_Balance__c * noOfdays * prod.Interest_Rate__c)/100/365;
-                   
-                    system.debug('revisedInterestAmount1:: ' +revisedInterestAmount1);
-                    prod.Current_Interest_Amount__c = updateCurrentInterestAmount + revisedInterestAmount1;
-                    
-                    prod.Current_Balance__c = updateCurrentBalance + revisedInterestAmount1;
-                    prod.Interest_Amount_Last_Calculated_Date__c = System.Today();
-                    
-                }
-                //Credit counselling  date is changed to backward then calculate interest amount.
-                if(prod.Credit_Counselling_Date__c != Null 
-                   && prodOld.Credit_Counselling_Date__c != prod.Credit_Counselling_Date__c 
-                   && prodOld.Credit_Counselling_Date__c > prod.Credit_Counselling_Date__c){
-                       
-                    system.debug('Block run6::');
-                       
-                    Date oldCreditConDate = prodOld.Credit_Counselling_Date__c;
-                    Date newCreditConDate = prod.Credit_Counselling_Date__c;
-                    Integer noOfdays = newCreditConDate.daysBetween(oldCreditConDate);
-                    system.debug('noOfdays:: '+noOfdays);
-                    
-                    Decimal revisedInterestAmount = (prod.Current_Principal_Balance__c * noOfdays * prod.Interest_Rate__c)/100/365;
-                   
-                    system.debug('revisedInterestAmount:: ' +revisedInterestAmount);
-                    prod.Current_Interest_Amount__c = prod.Current_Interest_Amount__c - revisedInterestAmount;
-                    
-                    prod.Current_Balance__c = prod.Current_Balance__c - revisedInterestAmount;
-
-                    prod.Interest_Amount_Last_Calculated_Date__c = System.Today();
-                    
-                }//Credit counselling  date is changed to forward then calculate interest amount.
-                else if(prod.Credit_Counselling_Date__c != Null 
-                        && prodOld.Credit_Counselling_Date__c != prod.Credit_Counselling_Date__c 
-                        && prodOld.Credit_Counselling_Date__c < prod.Credit_Counselling_Date__c){
-                            
-                    system.debug('Block run7::');
-                    Date oldCreditConDate = prodOld.Credit_Counselling_Date__c;
-                    Date newCreditConDate = prod.Credit_Counselling_Date__c;
-                    Integer noOfdays = oldCreditConDate.daysBetween(newCreditConDate);
-                    system.debug('noOfdays:: '+noOfdays);
-                    
-                    Decimal revisedInterestAmount1 = (prod.Current_Principal_Balance__c * noOfdays * prod.Interest_Rate__c)/100/365;
-                   
-                    system.debug('revisedInterestAmount1:: ' +revisedInterestAmount1);
-                    prod.Current_Interest_Amount__c = prod.Current_Interest_Amount__c + revisedInterestAmount1;
-                    
-                    prod.Current_Balance__c = prod.Current_Balance__c + revisedInterestAmount1;
-                    system.debug('Current_Interest_Amount__c:: '+prod.Current_Interest_Amount__c);
-                    system.debug('Current_Balance__c:: '+prod.Current_Balance__c);
-                    prod.Interest_Amount_Last_Calculated_Date__c = System.Today();
-                    
-                }
-                //Collection sub status is changed 'Credit Counselling' to any other excluding product criteria then calculate interest amount.
-                if(prodOld.Collection_Sub_Status__c == 'Credit Counselling' && prodOld.Collection_Sub_Status__c != prod.Collection_Sub_Status__c
-                  && prod.Collection_Sub_Status__c != 'Bankrupt Account' && prod.Collection_Sub_Status__c != 'Deceased'
-                  && prod.Collection_Sub_Status__c != 'Paid in Full Account'){
-                      
-                     system.debug('Block run8::');
-                     
-                    Date currentDate = Date.today();
-                    Date CreditConDate = prod.Credit_Counselling_Date__c;
-                    Integer noOfdays = CreditConDate.daysBetween(currentDate);
-                    system.debug('noOfdays::'+noOfdays);
-                    Decimal revisedInterestAmount = (prod.Current_Principal_Balance__c * noOfdays * prod.Interest_Rate__c)/100/365;
-                      
-                    system.debug('revisedInterestAmount:: ' +revisedInterestAmount);
-                    Decimal updateCurrentInterestAmount = prod.Current_Interest_Amount__c - revisedInterestAmount;
-                    
-                    Decimal updateCurrentBalance = prod.Current_Balance__c - revisedInterestAmount;
-                    system.debug('prod.Previous_Interest_Rate__c:: '+prod.Previous_Interest_Rate__c);
-                    system.debug('prodOld.Previous_Interest_Rate__c:: '+prodOld.Previous_Interest_Rate__c);
-                    Decimal revisedInterestAmount1 = (prod.Current_Principal_Balance__c * noOfdays * prodOld.Previous_Interest_Rate__c)/100/365;
-                      
-                    system.debug('revisedInterestAmount1:: ' +revisedInterestAmount1);
-                    prod.Current_Interest_Amount__c = updateCurrentInterestAmount + revisedInterestAmount1;
-                    
-                    prod.Current_Balance__c = updateCurrentBalance + revisedInterestAmount1;
-                    prod.Interest_Amount_Last_Calculated_Date__c = System.Today();
-                    prod.Interest_Rate__c = prodOld.Previous_Interest_Rate__c;
-                }*/
-                
+                }                
             }
             
             for(Pool__c pool :  [Select id,Name,Placement_Agency__c from Pool__c where id IN: poolplacementName] ){
@@ -886,18 +690,12 @@ public class ProductTriggerHandler{
                 setPreviousPlacedProductNames = getPlacementHistoryDetails(setPreviousPlacedProduct); 
             }
             
-            
-            
-            system.debug('setPreviousPlacedProductNames: '+setPreviousPlacedProductNames);
             String newAgency;
             String oldAgency;
-            system.debug('listNewProducts:::: '+listNewProducts.size());
+
             for(Product__c product : listNewProducts){
             // Last Payment Date Changed
-                if( //product.Last_Payment_Date__c != null && 
-                    product.Last_Payment_Date__c != mapOldProducts.get(product.Id).Last_Payment_Date__c 
-                    //&& (product.Statute_Date__c == null || product.Last_Payment_Date__c < product.Statute_Date__c )
-                    ){
+                if(product.Last_Payment_Date__c != mapOldProducts.get(product.Id).Last_Payment_Date__c){
                         product.Statute_Date__c= StatuteDateUtilities.getStatueDate(product.Last_Payment_Date__c,
                                                                                     product.Open_Date__c,
                                                                                     product.Charged_Off_Date__c,
@@ -919,15 +717,12 @@ public class ProductTriggerHandler{
                                                                                     product.Charged_Off_Date__c,
                                                                                     product.Statute_Date__c,product.Purchase_Province__c);  
                 }
-                system.debug('==@@@@=='+product.Statute_Date__c);
-                system.debug('agency:'+product .Collection_Agency__c); 
-                system.debug('mapPoolAgency.get(product.Pool_Name__c):: '+mapPoolAgency.get(product.Pool_Name__c));
                 if(mapPool.containsKey(product.Pool_Name__c)){
                    product.Pool_Name_Text__c = mapPool.get(product.Pool_Name__c).Name;  
                 }
                 
                 Product__c prodOld = mapOldProducts.get(product.id);
-                //system.debug('+ '+prodOld);
+
                 if(mapPoolAgency.containsKey(product.Pool_Name__c) 
                 && mapPoolAgency.get(product.Pool_Name__c) != NULL
                 && prodOld.Pool_Name__c <> product.Pool_Name__c
@@ -968,56 +763,15 @@ public class ProductTriggerHandler{
                    product.Collection_Agency__c != NULL && product.Collection_Agency__c != 9999){
                        product.addError('Buyback status is approved.You cannot assign agency ');
                 }
-                system.debug('product Name'+product.name+'purchase status'+product.Purchase_Status__c);
                 if(product.Purchase_Status__c == 'Putback Approved' && 
                    product.Collection_Agency__c != NULL && product.Collection_Agency__c != 9999){
                        product.addError('Putback status is approved.You cannot assign agency ');
                 }
-                /*if(product.Purchase_Date__c.daysBetween(Date.today()) > product.Putback_Provision_Days__c){
-                    if(product.Ignore_Warning__c == false){
-                        product.addError('WARNING - Cannot Process Putback. putback provision days exceed');
-                    } 
-                }*/
-                system.debug('product.Collection_Agency__c'+product.Collection_Agency__c);
-                system.debug('product.Purchase_Status__c'+product.Purchase_Status__c);
                 if((product.Collection_Agency__c != null && product.Collection_Agency__c != 9999) 
                    && ((product.Purchase_Status__c != NULL) && (product.Purchase_Status__c != 'Buyback Rejected' &&
                             product.Purchase_Status__c != 'Putback Rejected'))){
                        product.addError('Please initiated recall process');
                 } 
-                /*if(mapPoolAgency.containsKey(product.Pool_Name__c) 
-                && (mapPoolAgency.get(product.Pool_Name__c) == NULL || mapPoolAgency.get(product.Pool_Name__c) != NULL)
-                && product.Collection_Agency__c == 9999
-                && (prodOld.Pool_Name__c == null || product.Pool_Name__c != prodOld.Pool_Name__c)){
-                     product.addError('Pool cannot be allocated since collection agency is set to Warehouse');
-                }*/
-                
-                /*if(product.Collection_Agency__c != NULL
-                && (product.Pool_Name__c != NULL &&  prodOld.Pool_Name__c == NULL)){
-                    product.addError('Product is already allocated to agency');
-                }*/
-                
-                /*set<Id> poolID = new set<Id>();
-                poolID.add(product.Pool_Name__c);
-                for(Product__c prodt : [Select Id,name,Pool_Name__c,Collection_Agency__c from Product__c where Pool_Name__c =: poolID LIMIT 1]){      
-                    if(product.Collection_Agency__c != 9999 && product.Collection_Agency__c != null ){
-                        if(mapPoolAgency.containsKey(product.Pool_Name__c) 
-                           && mapPoolAgency.get(product.Pool_Name__c) == NULL 
-                           && (prodt.Collection_Agency__c != product.Collection_Agency__c)
-                           && (prodOld.Pool_Name__c == null || product.Pool_Name__c != prodOld.Pool_Name__c)){
-                               product.addError('Collection agency is not Same');
-                           }  
-                    }
-                    
-                }*/
-                
-                //invalid submission initiated by name
-              /*  if(product.Invalid_Submission__c == true){
-                    product.Invalid_Submission_Initiated_By__c = UserInfo.getName();
-                }else{
-                     product.Invalid_Submission_Initiated_By__c = null;
-                }*/
-
                 if(product.Collection_Agency__c != NULL){
                     newAgency = String.valueOf(Math.floor(product.Collection_Agency__c));    
                 }
@@ -1027,108 +781,15 @@ public class ProductTriggerHandler{
                 
                 String errorMessage = '';
                 Boolean errorAdded = false;
-                
-                //Check Ignore warning flag for Product
-                //system.debug('product.Ignore_Warning__c::'+product.Ignore_Warning__c); 
-                
-                /*-----AGENCY ALLOCATION CHECKS-----*/  
-                /*
-                if(product.RecordTypeID == DistressedProductRecordTypeId
-                && String.isNotBlank(newAgency)
-                   && newAgency != oldAgency){
-                       //Check WARNINGS
-                       if(product.Ignore_Warning__c == false){
-                           //check if Product was placed with Agency in last 6 months
-                           system.debug('ProductAgency Name:'+ product.Name+ newAgency);
-                           if(setPreviousPlacedProductNames.contains(product.Name+ newAgency)){
-                               errorMessage = 'WARNING: '+ 'Product is placed with the agency in last 6 months';
-                               //product.addError('Product is placed with the agency in last 6 months');
-                               //errorAdded = true;
-                               system.debug('previously placed');
-                           }
-                           //Additional Warning checks will be here
-                       }
-                       
-                       //CHECK VALIDATIONS
-                       system.debug('validation check for allocation');
-                       //Check if account province matches Placement Serviceable Province
-                       String AgencyProvince;
-                       
-                       if(String.isNotBlank(newAgency)
-                          && mapCollectionAgency.containsKey(newAgency)
-                          && String.isNotBlank(mapCollectionAgency.get(newAgency).Serviceable_Province__c)){
-                              AgencyProvince = mapCollectionAgency.get(newAgency).Serviceable_Province__c; 
-                          }
-                       
-                       system.debug('AgencyProvince: '+AgencyProvince);
-                       system.debug('mapProvinceNames:::'+mapProvinceNames);
-                       if(product.Collection_Agency__c != NULL
-                          && (String.isNotBlank(AgencyProvince)
-                          && String.isNotBlank(product.State__c) 
-                          && mapProvinceNames != NULL
-                          && !mapProvinceNames.keySet().isEmpty()
-                          && ((!mapProvinceNames.containsKey(product.State__c) && !AgencyProvince.contains(product.State__c))
-                          || (mapProvinceNames.containsKey(product.State__c)  
-                          &&!AgencyProvince.contains(mapProvinceNames.get(product.State__c)))))){
-                                      system.debug('error');
-                                      errorMessage += ' VALIDATION: '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency';
-                                      //product.addError('Product cannot be placed with agency as Product Province is Non Serviceable for Agency');
-                                      errorAdded = true;
-                                      system.debug('province error');
-                                  }
-                          
-                       
-                       if(String.isNotBlank(oldAgency) 
-                       && newAgency != '9999'
-                       && oldAgency != '9999'){
-                           //errorMessage += ' VALIDATION: '+'Product is already placed with another agency:'+oldAgency;
-                           product.addError('Product is already placed with Agency');
-                           //errorAdded = true;
-                           system.debug('already placed error');
-                       }
-                   }
-                */
-                /*-----AGENCY ALLOCATION CHECKS ENDS-----*/
-                
-                /*-----AGENCY RECALL CHECKS-----*/  
-                //check if agency is being recalled and check validation and warning for agency recall
-                /*
-                if(String.isBlank(newAgency)
-                   && newAgency != oldAgency){
-                       system.debug('agency recall check');
-                       //Check recall warnings
-                       if(product.Ignore_Warning__c == false){
-                           if(String.isNotBlank(product.Collection_Sub_Status__c) && product.Collection_Sub_Status__c=='Legal' ){
-                               system.debug('recall warning::');
-                               errorMessage = 'WARNING: Cannot recall agency as Product is in Legal Status';
-                               //product.addError('Cannot recall agency as Product is in Legal Status');
-                               //errorAdded = true;
-                           }    
-                       }
-                       //Additional warning checks will be added here
-                       
-                       //Check Recall Validations
-                       if(setRecentlyPaidProducts.contains(product.Id)){
-                           errorMessage = ' VALIDATION: Cannot recall agency as Account had a recent payment in last 2 months';
-                           //product.addError('Cannot recall agency as Product is in Legal Status');
-                           errorAdded = true;
-                       }
-                       
-                   }
-                */
-                /*-----AGENCY RECALL CHECKS ENDS-----*/  
+
                 if(errorAdded == true){
                     product.addError(errorMessage);
                 }
                 
                 //create PlacementHistory record, if agency updated or recalled (No error added for product)
-                system.debug('errorAdded:'+errorAdded);
-                if(errorAdded == false
-                   && newAgency != oldAgency){
-                       system.debug('placement history creation');
+                if(errorAdded == false && newAgency != oldAgency){
                        Placement_History__c placementHistory = new Placement_History__c();
                        placementHistory.Product__c = product.Id;
-                       system.debug('prod agency::'+String.valueOf(oldAgency));
                        if(mapCollectionAgency.containsKey(oldAgency)){
                            placementHistory.Placement__c = 
                                mapCollectionAgency.get(oldAgency).ID;    
@@ -1150,15 +811,11 @@ public class ProductTriggerHandler{
                    }
                 
                 //Set Ignore Warning to false after all checks
-                //product.Ignore_Warning__c = false;
                 errorAdded = false;
             }
             //insert placement history list
             insert listPlacementHistory;
-            system.debug('placementhistory created');
         }
-        //runProductTrigger = false;
-
     }   
     
     public static void handleAfterUpdate(List<Product__c> listNewProducts, map<ID, Product__c> mapOldProducts){
@@ -1179,81 +836,68 @@ public class ProductTriggerHandler{
             }
             //call API
             if(agencyPortalSettings.Run_Product_API__c == true && prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId){
-                system.debug('Product API called');
                 prodIds.add(product.ID);
             }
         }
         //Bug: 5142 - Added !system.isBatch() to below IF loop
         if(runProductAPITrigger && !system.isBatch()){
-            system.debug('Calling product portal api');
-        PortalProductProcessingAPI.processProductBulkBatch(prodIds);
+        	PortalProductProcessingAPI.processProductBulkBatch(prodIds);
         }
-        //PortalProductProcessingAPI.processProductBulkBatch(prodIds);
         calculateBalanceBackdatedPayments2(listNewProducts, mapOldProducts);
     }
     
     public static void handleAfterUpdateUpdatedate(List<Product__c> listNewProducts, map<ID, Product__c> mapOldProducts){
-    
-     List<Product__c> ProductList = new List<Product__c>();
-                     Product__c pd = new Product__c();
-      // map<String, Statute_Date_Update__mdt> mapstatueMetadata = Statute_Date_Update__mdt.getAll();
-      List<Statute_Date_Update__mdt> mtData = [Select Id, MasterLabel, Months__c From Statute_Date_Update__mdt];
-                       
-                   for(Product__c prod : listNewProducts){ 
-                   Product__c prodOld12 = mapOldProducts.get(prod.Id);
-                
-                    if((prod.Last_Payment_Date__c !=null && prod.Last_Payment_Date__c != prodOld12.Last_Payment_Date__c) ||(prod.Open_Date__c !=null && (prod.Open_Date__c != prodOld12.Open_Date__c)) )
-
-        {
-        if((prod.Statute_Date__c==null)||(prod.Statute_Date__c!=null && prod.Statute_Date__c > prod.Date_for_Stat_Barred_calculations__c)){
-                    
-                            Map<String, Statute_Date_Update__mdt> mtdMap = new Map<String, Statute_Date_Update__mdt>();
-                           for(Statute_Date_Update__mdt m:mtData){
-                            mtdMap.put(m.MasterLabel, m);
-                        }
-                    
-                     system.debug('mtdMap## ' + mtdMap);
         
-            if(mtdMap.containsKey(prod.State__c)){
-              Integer i= Integer.valueof(mtdMap.get(prod.State__c).Months__c);
-                pd.Id = prod.Id;
-             pd.Statute_Date__c = prod.Date_for_Stat_Barred_calculations__c.addMonths(i);
-                ProductList.add(pd);
+        List<Product__c> ProductList = new List<Product__c>();
+        Product__c pd = new Product__c();
+        List<Statute_Date_Update__mdt> mtData = [Select Id, MasterLabel, Months__c From Statute_Date_Update__mdt];
+        
+        for(Product__c prod : listNewProducts){ 
+            Product__c prodOld12 = mapOldProducts.get(prod.Id);
+            
+            if((prod.Last_Payment_Date__c !=null && prod.Last_Payment_Date__c != prodOld12.Last_Payment_Date__c) ||(prod.Open_Date__c !=null && (prod.Open_Date__c != prodOld12.Open_Date__c)) ) {
+                if((prod.Statute_Date__c==null)||(prod.Statute_Date__c!=null && prod.Statute_Date__c > prod.Date_for_Stat_Barred_calculations__c)){
+                    Map<String, Statute_Date_Update__mdt> mtdMap = new Map<String, Statute_Date_Update__mdt>();
+                    for(Statute_Date_Update__mdt m:mtData){
+                        mtdMap.put(m.MasterLabel, m);
+                    }
+                    
+                    if(mtdMap.containsKey(prod.State__c)){
+                        Integer i= Integer.valueof(mtdMap.get(prod.State__c).Months__c);
+                        pd.Id = prod.Id;
+                        pd.Statute_Date__c = prod.Date_for_Stat_Barred_calculations__c.addMonths(i);
+                        ProductList.add(pd);
+                    }
+                }
             }
-        
         }
-        }
-        }
-        system.debug('@@ProductList@@'+ProductList);
         if(!ProductList.isEmpty()){
             update ProductList;
         }
     }
     
     public static void handleafterinsertdate(List<Product__c> listNewProducts){
-    runProductTrigger = true;
-     List<Product__c> ProductList = new List<Product__c>();
-      Map<String, Statute_Date_Update__mdt> mtdMap = new Map<String, Statute_Date_Update__mdt>();
+        runProductTrigger = true;
+        List<Product__c> ProductList = new List<Product__c>();
+        Map<String, Statute_Date_Update__mdt> mtdMap = new Map<String, Statute_Date_Update__mdt>();
         List<Statute_Date_Update__mdt> mtData = [Select Id, MasterLabel, Months__c From Statute_Date_Update__mdt];
-                system.debug('mtData## ' + mtData);
-                        for(Statute_Date_Update__mdt m:mtData){
-                            mtdMap.put(m.MasterLabel, m);
-                        }
-                    
-                     system.debug('mtdMap## ' + mtdMap);
-            for(Product__c prod:listNewProducts){ 
-            if((prod.Last_Payment_Date__c !=null) ||(prod.Open_Date__c !=null)){
-            if(mtdMap.containskey(prod.State__c)){
-                Product__c pd = new Product__c();
-                Integer i= Integer.valueof(mtdMap.get(prod.State__c).Months__c);
-                pd.Id = prod.Id;
-                
-             pd.Statute_Date__c = prod.Date_for_Stat_Barred_calculations__c.addMonths(i);
-                ProductList.add(pd);
-            }
-           }          
+        for(Statute_Date_Update__mdt m:mtData){
+            mtdMap.put(m.MasterLabel, m);
         }
-       
+        
+        for(Product__c prod:listNewProducts){ 
+            if((prod.Last_Payment_Date__c !=null) ||(prod.Open_Date__c !=null)){
+                if(mtdMap.containskey(prod.State__c)){
+                    Product__c pd = new Product__c();
+                    Integer i= Integer.valueof(mtdMap.get(prod.State__c).Months__c);
+                    pd.Id = prod.Id;
+                    
+                    pd.Statute_Date__c = prod.Date_for_Stat_Barred_calculations__c.addMonths(i);
+                    ProductList.add(pd);
+                }
+            }          
+        }
+        
         if(!ProductList.isEmpty()){
             update ProductList;
         }
@@ -1290,7 +934,6 @@ public class ProductTriggerHandler{
                     }    
                 }
                 
-                system.debug('customerIds::'+customerIds);
                 //Fetching all Active Products of Customers
                 if(!customerIds.isEmpty()){
                     for(Product__c customerOldProduct : [SELECT First_Name__c, Last_Name__c, Customer__c FROM Product__c WHERE ((Source_System__c ='FDR' AND External_Status_Current__c = null AND Closed_Date__c = null) OR (Source_System__c = 'Megasys' AND Internal_Status__c='Active' AND Closed_Date__c = null)) AND Customer__c IN: customerIds]){
@@ -1312,7 +955,6 @@ public class ProductTriggerHandler{
                             // If FDR or Megasys product is Active or Not
                             if(isActiveSORProduct(prod)){ 
                                 
-                                system.debug('Active verified');
                                 if((isInsert) || (!isInsert && hasProductCustomerDataChanged(prod, oldMap.get(prod.Id)))){
                                     
                                     //If any existing Products, more than 1
@@ -1320,12 +962,9 @@ public class ProductTriggerHandler{
                                         
                                         // Address fields are changed
                                         if(!hasActiveAddressChangedTask(prod)){ 
-                                            system.debug('no active task ');
                                             
                                             // Address fields values from Product is different Customer Address fields values
                                             if(needtoUpdateCustomer(prod)){ 
-                                                
-                                                system.debug('accotun fields diff from prod verified');
                                                 
                                                 // Update Customer Address fields
                                                 updateCustomerFromProduct(prod); 
@@ -1337,7 +976,6 @@ public class ProductTriggerHandler{
                                     }
                                     //Only one active SOR Products
                                     else{ 
-                                        system.debug('has no exisinting prod verified');
                                         if(needtoUpdateCustomer(prod)){                            
                                             updateCustomerFromProduct(prod);
                                         }                                                               
@@ -1350,7 +988,6 @@ public class ProductTriggerHandler{
                 if(!tasksList.isEmpty()){
                     // Inserting Tasks for CSR Role Group
                     insert tasksList;
-                    system.debug('Task Created == '+tasksList);
                 }           
             }
         }         
@@ -1390,47 +1027,15 @@ public class ProductTriggerHandler{
                                                             WHERE Product__c IN: prodIds 
                                                             AND Status__c = 'Active'
                                                             AND Judgment__c != NULL];
-                system.debug('activeAccJudgments===='+activeAccJudgments);
                if(!activeAccJudgments.isEmpty()){
                     AccountJudgmentTriggerHandler.updateAmountsOnJudgment(activeAccJudgments);    
                }    
             }
         }
-
-
-        //! Agency snapshot processor
-        /*if(isInsert){
-            System.debug('$$ Inside..filter for snapshot.');
-            Map<Id, List<Id>> agencyTo_ProductIdsMap = new Map<Id, List<Id>>();
-            Id distressedAccountId = [Select Id From RecordType where sobjecttype = 'Product__c' and DeveloperName = 'Distressed_Account'].id;
-            for(Product__c prod : prodNew){
-                // filter distressed accounts
-                if( prod.RecordTypeId == distressedAccountId ){
-                    List<Id> productIds = new List<Id>();
-                    if( prod.Collection_Agency_Placement__c != null){ 
-                        if(agencyTo_ProductIdsMap.containsKey(prod.Collection_Agency_Placement__c)){
-                            productIds = agencyTo_ProductIdsMap.get(prod.Collection_Agency_Placement__c);
-                        }
-                        productIds.add(prod.Id);
-                        agencyTo_ProductIdsMap.put( prod.Collection_Agency_Placement__c, productIds );
-                    }
-                }
-            }
-
-            if( !agencyTo_ProductIdsMap.isEmpty() ){
-                for(Id agencyId : agencyTo_ProductIdsMap.keySet()){
-                    System.debug('$$ calling snapshot...');
-                    SnapshotProcessor.createSnapshotFile(agencyTo_ProductIdsMap.get(agencyId), agencyId);
-                }
-            }
-        }*/
-        
     }
     
     // Validates if there is any existing Active Tasks for Customer
     public static Boolean hasActiveAddressChangedTask(Product__c currentProd){
-        system.debug('---'+currentProd.Customer__c);
-        system.debug('==='+activeAddressChangedTask);
         if(activeAddressChangedTask.containsKey(currentProd.Customer__c)){
             return true;
         }
@@ -1465,7 +1070,6 @@ public class ProductTriggerHandler{
         customer.PersonOtherPhone = currentProd.Phone_Other__c;
         customer.FirstName = currentProd.First_Name__c;
         customer.LastName = currentProd.Last_Name__c;
-        //customer.Language__pc = currentProd.Primary_Debtor_Language_Text__c;
         customer.Address_Last_Changed_Date__c = currentProd.Address_Last_Changed_Date__c;
         
         if(!customersLockedForUpdate.contains(currentProd.Customer__c)){
@@ -1487,7 +1091,6 @@ public class ProductTriggerHandler{
         if(customer.PersonMailingCity != currentProd.City__c){
             needToUpdate = true;
         }
-        //else if((currentProd.Address_Line1__c != null && (customer.PersonMailingStreet).contains(currentProd.Address_Line1__c)) && (currentProd.Address_Line2__c != null && (customer.PersonMailingStreet).contains(currentProd.Address_Line2__c))){
         else if((String.isBlank(customer.PersonMailingStreet)&&((String.isNotBlank(currentProd.Address_Line1__c))||(String.isNotBlank(currentProd.Address_Line2__c)))) 
                 || 
                 (
@@ -1516,9 +1119,6 @@ public class ProductTriggerHandler{
         else if(customer.PersonOtherPhone != currentProd.Phone_Other__c){
             needToUpdate = true;
         }
-        //else if(customer.Address_Last_Changed_Date__c != currentProd.Address_Last_Changed_Date__c){
-        //needToUpdate = true;
-        //} //TO DO Feild is not there under Account
         else if(customer.FirstName != currentProd.First_Name__c){
             needToUpdate = true;
         }
@@ -1530,8 +1130,6 @@ public class ProductTriggerHandler{
     
     //Return count of total Active FDR, Megasys Products using Customer record Id
     public static Integer getNumberOfActiveSORProducts(Id customerId){
-        system.debug('Customer Id = '+customerId);
-        system.debug('Customer old prod = '+customerWithOldProductsMap);
         return customerWithOldProductsMap.get(customerId).size();
     }
     
@@ -1562,18 +1160,10 @@ public class ProductTriggerHandler{
     
     //Deliquency cycle and Deliquency days
     public static void calculateDeliquency(Product__c prod, Product__c prodOld, Boolean activeVersaPayPayment){
-        
-        System.debug('prod.recordTypeId :'+prod.recordTypeId);
         if(prod.recordTypeId != null){
-            
-            //String recordTypeDevName = Utilities.getProdRecorTypeName(prod.recordTypeId);
             String recordTypeDevName = prodRecorTypeMap.get(prod.recordTypeId);
-            System.debug('ProductTriggerHandler recordTypeDevName :'+recordTypeDevName);
-            
             if(String.isNotBlank(recordTypeDevName)){
                 if(recordTypeDevName.equalsIgnoreCase('Loan_Account')){
-                    System.debug('isActiveMSProduct(prod) :'+isActiveMSProduct(prod));
-                    System.debug('prod.Payment_Due_Date__c :'+prod.Payment_Due_Date__c);
                     if(isActiveMSProduct(prod)){
                         if(prod.Payment_Due_Date__c !=null){
                             prod.Delinquency_Days__c = Utilities.getNumberOfDaysDelinquent(prod.Payment_Due_Date__c);
@@ -1616,21 +1206,12 @@ public class ProductTriggerHandler{
     
     //Returns all application object field sets 
     public static Map<String, String> getProductFieldsets(string fieldSetLabel){
-        
-        system.debug('In fieldset function');
         Map<String, String> fieldsNameLabel = new Map<String, String>();
-        
         Map<String, Schema.FieldSet> productFieldsSets = Schema.SObjectType.Product__c.fieldSets.getMap();
-        
         List<Schema.FieldSet> listProductFieldSets = productFieldsSets.values();
         
-        system.debug('list of fields in fieldset' + listProductFieldSets);
         for(Schema.FieldSet productFieldSet : listProductFieldSets){
-            
-            system.debug('fieldSetLabel :' +fieldSetLabel );
-            system.debug('productFieldSet.getLabel() : ' + productFieldSet.getLabel());
-            if(fieldSetLabel == productFieldSet.getLabel()){
-                
+            if(fieldSetLabel == productFieldSet.getLabel()){ 
                 for(Schema.FieldSetMember field : productFieldSet.getFields()) {    
                     fieldsNameLabel.put(field.getFieldPath(), field.getLabel());
                 }               
@@ -1646,8 +1227,6 @@ public class ProductTriggerHandler{
         
         //Customer Separation
         Map<String, Business_Separator_Settings__c> businessSeparatorValues = Business_Separator_Settings__c.getall();
-        system.debug('Record Type :: ' + prod.recordTypeID);
-        //system.debug('Record Type values :: ' + prodRTypeIdNameMap);
         String recordTypeNameValue = prodRTypeIdNameMap.get(prod.recordTypeID);
         String customerRecordType ;
         if(!Test.isRunningTest()){
@@ -1695,33 +1274,18 @@ public class ProductTriggerHandler{
     }
     
     //validation check method for agency portal
-    public static void validationRules(list<Product__c> listProduct, Map<Id, Product__c> mapOldProducts){
-        
+    public static void validationRules(list<Product__c> listProduct, Map<Id, Product__c> mapOldProducts){ 
         for(Product__c prod : listProduct){
-            
-            Product__c prodOld= mapOldProducts.get(prod.id);
-            
-            /*if(prod.Collection_Agency__c == null){
-                
-                prod.addError('Contact does not have permission to this account');
-            }*/
-            
+            Product__c prodOld= mapOldProducts.get(prod.id);            
             if(prod.Collection_Sub_Status__c != 'Recalled' && prodOld.Collection_Sub_Status__c == 'Pending Recall'){
-                
                 prod.addError('A status change is not permitted');
             }
-            
             if(prod.Product_Status__c == null){
-                
                 prod.addError('The Status Code provided was not found');
             }
-            
         }
-        
     }
-    
-    
-    
+
     public static boolean checkInBetweenPayments(ID ProductID, Date updatedDate){
         Boolean hasInBetweenPayments = false;
         list<product_Payments__c> listProductPayments = new List<product_Payments__c>();
@@ -1737,19 +1301,14 @@ public class ProductTriggerHandler{
         Date oldestDate;
         map<ID, Product__c> mapProducts = new map<ID, Product__c>();
         list<Product__c> listProductWithCreditCounselling = new list<Product__c>();
-        system.debug('listNewProducts:'+listNewProducts);
-        system.debug('mapOldproducts:'+mapOldproducts);
+
         //get the Date from which interest needs to be reversed
         for(Product__c product : listNewProducts){
             mapProducts.put(product.ID, product);
             Product__c prodOld = mapOldproducts.get(product.ID);
-            system.debug('oldestDate before::'+oldestDate);
-            system.debug('Deceased_Date__c old::'+prodOld.Deceased_Date__c);
-            system.debug('Deceased_Date__c old::'+product.Deceased_Date__c);
             if(prodOld.Insolvency_Date__c == null && product.Insolvency_Date__c != null ){
                 if(oldestDate == NULL || (oldestDate != NULL && oldestDate > prodOld.Insolvency_Date__c)){
                     oldestDate = product.Insolvency_Date__c;    
-                    system.debug('oldestDate:::'+oldestDate);
                 }
                 mapProductIDPayDate.put(product.ID, product.Insolvency_Date__c);
             }
@@ -1761,19 +1320,12 @@ public class ProductTriggerHandler{
                 listProductWithCreditCounselling.add(product);
             }
             else if(prodOld.Deceased_Date__c == null && product.Deceased_Date__c != null ){
-                system.debug('oldestDate after date added:'+oldestDate);
                 if(oldestDate == NULL || (oldestDate != NULL && oldestDate > prodOld.Deceased_Date__c)){
                     oldestDate = product.Deceased_Date__c;   
                 }
                 mapProductIDPayDate.put(product.ID, product.Deceased_Date__c);
             }
-            //if map doesnt contain productid as key, fill the map
-                    
-            
-            system.debug('oldestDate:: '+oldestDate);
-            
         }
-        system.debug('mapProductIDPayDate:: '+mapProductIDPayDate);
         
         map<ID, list<Product_Payments__c>> mapProductIDPaymentsToAdjustBalances = new map<ID, list<Product_Payments__c>>();
         if(!mapProductIDPayDate.keySet().isEmpty()){
@@ -1792,11 +1344,9 @@ public class ProductTriggerHandler{
                                           WHERE ID IN :mapProductIDPayDate.keySet()]){
                 //If there are no payments available, add the product to map to reverse balance
                 if(productInstance.Product_Payments__r.isEmpty()){
-                    system.debug('mapProductIDPaymentsToAdjustBalances::'+mapProductIDPaymentsToAdjustBalances);
                     mapProductIDPaymentsToAdjustBalances.put(productInstance.ID, null);
                 }
                 for(Product_Payments__c prodPay : productInstance.Product_Payments__r){
-                    system.debug('prodPay:: '+prodPay);
                     //get the payments for product whose posting date >= oldest payment date in lot
                     if(prodPay.Payment_Posting_Date__c >= mapProductIDPayDate.get(prodPay.CCS_Account__c)){
                         if(!mapProductIDPaymentsToAdjustBalances.containsKey(prodPay.CCS_Account__c)){
@@ -1814,13 +1364,9 @@ public class ProductTriggerHandler{
                 }
             }    
         }
-        
-        
-        system.debug('mapProductIDPaymentsToAdjustBalances:: '+mapProductIDPaymentsToAdjustBalances);
+
         //map to store product id and instance with updated principal balance and interet amount
         map<ID, Product__c> mapProductsToReverseBalances = new map<ID, Product__c>();
-        
-        //list<Product_payments__c> listProdPayToConsider = new  list<Product_payments__c>();
         
         //Get Principal Balance and Interest Balance from history in descending order to get latest histry for the day first
         if(!mapProductIDPaymentsToAdjustBalances.keySet().isEmpty() || Test.isRunningTest()){
@@ -1832,7 +1378,6 @@ public class ProductTriggerHandler{
                                                     OR Field= :'Current_Balance__c')
                                                AND CreatedDate >= :oldestDate
                                                ORDER BY CreatedDate DESC]){
-                system.debug('productHistory:'+productHistory.OldValue + ' : ' + productHistory.CreatedDate + ' : '+productHistory.Field);
                 //Fill in the mapProductsToReverseBalances map, if neither if balances is added or only one of them is added
                 if(!mapProductsToReverseBalances.containsKey(productHistory.parentId)
                 || (mapProductsToReverseBalances.get(productHistory.parentId).Current_Interest_Amount__c == NULL 
@@ -1841,17 +1386,12 @@ public class ProductTriggerHandler{
                     
                     String oldestDateHistory = String.valueOf(mapProductIDPayDate.get(productHistory.parentId));
                     String createdDateHistory = String.valueOf(productHistory.CreatedDate).substring(0,10);
-                    system.debug('oldestDateHistory: '+oldestDateHistory);
-                    system.debug('createdDateHistory: '+createdDateHistory.substring(0,10));
                     //check if history created date is oldest posting date of payment in new list of payments for product
-                    if(productHistory.CreatedDate != Date.Today() 
-                    //&& productHistory.CreatedDate == mapProductIDPayDate.get(productHistory.parentId)
-                    && createdDateHistory == oldestDateHistory
+                    if(productHistory.CreatedDate != Date.Today() && createdDateHistory == oldestDateHistory
                     //check if current principal balance to be reversed is not considered in product update
                     && (!mapProductsToReverseBalances.containsKey(productHistory.parentId) 
                     || mapProductsToReverseBalances.get(productHistory.parentId).Current_Principal_Balance__c == NULL)
                     && productHistory.Field == 'Current_Principal_Balance__c'){
-                        system.debug('productHistory.Field::'+productHistory.Field);
                         //create product instance with principal balance to be reversed to
                         Product__c productToUpdate = new Product__c();
                         //if interest amount is already taken, put it in instance
@@ -1865,20 +1405,15 @@ public class ProductTriggerHandler{
                         }
                         
                         productToUpdate.ID = productHistory.parentId;
-                        productToUpdate.Current_Principal_Balance__c = Double.valueOf(productHistory.OldValue);
-                        /*if(productToUpdate.Current_Principal_Balance__c != NULL && productToUpdate.Current_Interest_Amount__c != NULL){
-                            productToUpdate.Current_Balance__c = productToUpdate.Current_Principal_Balance__c + productToUpdate.Current_Interest_Amount__c;
-                        }*/
+                        productToUpdate.Current_Principal_Balance__c = Double.valueOf(productHistory.OldValue);         
                         mapProductsToReverseBalances.put(productHistory.ParentId, productToUpdate);
                      }
                     //check if history created date is oldest posting date of payment in new list of payments for product
                     if(createdDateHistory == oldestDateHistory
-                       //productHistory.CreatedDate == mapProductIDPayDate.get(productHistory.parentId) 
                        //check if current principal balance to be reversed is not considered in product update
                        && (!mapProductsToReverseBalances.containsKey(productHistory.parentId) 
                            || mapProductsToReverseBalances.get(productHistory.parentId).Current_Interest_Amount__c == NULL)
                        && productHistory.Field == 'Current_Interest_Amount__c'){
-                           system.debug('productHistory.Field2:: '+productHistory.Field);
                            //create product instance with principal balance to be reversed to
                            Product__c productToUpdate = new Product__c();
                            //if interest amount is already taken, put it in instance
@@ -1892,10 +1427,6 @@ public class ProductTriggerHandler{
                            }
                            productToUpdate.ID = productHistory.parentId;
                            productToUpdate.Current_Interest_Amount__c = Double.valueOf(productHistory.OldValue);
-                           
-                           /*if(productToUpdate.Current_Principal_Balance__c != NULL && productToUpdate.Current_Interest_Amount__c != NULL){
-                               productToUpdate.Current_Balance__c = productToUpdate.Current_Principal_Balance__c + productToUpdate.Current_Interest_Amount__c;
-                           }*/
                            mapProductsToReverseBalances.put(productHistory.ParentId, productToUpdate);
                        }
                         
@@ -1906,7 +1437,6 @@ public class ProductTriggerHandler{
                        && (!mapProductsToReverseBalances.containsKey(productHistory.parentId) 
                            || mapProductsToReverseBalances.get(productHistory.parentId).Current_Balance__c == NULL)
                        && productHistory.Field == 'Current_Balance__c'){
-                           system.debug('productHistory.Field2:: '+productHistory.Field);
                            //create product instance with principal balance to be reversed to
                            Product__c productToUpdate = new Product__c();
                            //if interest amount is already taken, put it in instance
@@ -1920,10 +1450,6 @@ public class ProductTriggerHandler{
                            }
                            productToUpdate.ID = productHistory.parentId;
                            productToUpdate.Current_Balance__c = Double.valueOf(productHistory.OldValue);
-                           
-                           /*if(productToUpdate.Current_Principal_Balance__c != NULL && productToUpdate.Current_Interest_Amount__c != NULL){
-                               productToUpdate.Current_Balance__c = productToUpdate.Current_Principal_Balance__c + productToUpdate.Current_Interest_Amount__c;
-                           }*/
                            mapProductsToReverseBalances.put(productHistory.ParentId, productToUpdate);
                        }
                 }   
@@ -1934,15 +1460,12 @@ public class ProductTriggerHandler{
                 Decimal InterestAmount = 0;
                 Product__c productToUpdate = new Product__c();
                 productToUpdate = mapProductsToReverseBalances.get(product.ID);
-                system.debug('productToUpdate::'+productToUpdate);
                 //If History record does not have principal balance, get it from the new record list
                 if(productToUpdate.Current_Principal_Balance__c == null){
                     productToUpdate.Current_Principal_Balance__c = product.Current_Principal_Balance__c;
                 }
-                system.debug('product.Interest_Rate__c::'+product.Interest_Rate__c);
                 InterestAmount = ((productToUpdate.Current_Principal_Balance__c * product.Interest_Rate__c *
                                   (product.Credit_Counselling_Date__c.daysBetween(Date.today())))/100)/365;
-                system.debug('InterestAmount::'+InterestAmount);
                 productToUpdate.Current_Interest_Amount__c = productToUpdate.Current_Interest_Amount__c + InterestAmount;
                 productToUpdate.Current_Balance__c = productToUpdate.Current_Balance__c + InterestAmount;
                 mapProductsToReverseBalances.put(productToUpdate.ID, productToUpdate);
@@ -2031,21 +1554,17 @@ public class ProductTriggerHandler{
     
     //Ticket 4558: Interest Waiver functionality_added checkes in OR conditions
     public static void populateAccuringInterest(List<Product__c> listNewProducts){
-        system.debug('ProductTriggerHandler_populateAccuringInterest: Entered populateAccuringInterest'+listNewProducts);        
         for(Product__c prodListData :listNewProducts){
             if(prodRTypeIdMap.get('Distressed_Account') == prodListData.RecordTypeId && 
                (prodListData.Current_Principal_Balance__c == null || prodListData.Current_Principal_Balance__c <= 0 || prodListData.Collection_Sub_Status__c == 'Deceased' || prodListData.Collection_Sub_Status__c == 'Paid in Full Account' || prodListData.Collection_Sub_Status__c == 'Settled in Full Account' || prodListData.Collection_Sub_Status__c == 'Bankrupt Account'
               || prodListData.Interest_Rate__c == 0 || prodListData.Interest_Rate__c == NULL || prodListData.Interest_Amount_Last_Calculated_Date__c == NULL || prodListData.Insolvency_Date__c != NULL || prodListData.Deceased_Date__c != NULL || prodListData.Collection_Sub_Status__c == 'Credit Counselling')){
-                  system.debug('ProductTriggerHandler_populateAccuringInterest: value of Accruing Interest::'+prodListData.Interest_Stopped__c);
                 	prodListData.Interest_Stopped__c = true;
               }
             else if(prodRTypeIdMap.get('Distressed_Account') == prodListData.RecordTypeId && (prodListData.Interest_Waived_Off__c == true && (prodListData.Interest_Amount_Last_Calculated_Date__c > prodListData.Interest_Waived_Off_Start_Date__c || prodListData.Interest_Amount_Last_Calculated_Date__c < prodListData.Interest_Waived_Of_End_Date__c)) && (prodListData.Current_Principal_Balance__c == null || prodListData.Current_Principal_Balance__c <= 0 || prodListData.Collection_Sub_Status__c == 'Deceased' || prodListData.Collection_Sub_Status__c == 'Paid in Full Account' || prodListData.Collection_Sub_Status__c == 'Settled in Full Account' || prodListData.Collection_Sub_Status__c == 'Bankrupt Account' || prodListData.Interest_Rate__c == 0 || prodListData.Interest_Rate__c == NULL || prodListData.Insolvency_Date__c != NULL || prodListData.Deceased_Date__c != NULL || prodListData.Collection_Sub_Status__c == 'Credit Counselling')){
-                  system.debug('ProductTriggerHandler_populateAccuringInterest: value of Accruing Interest::'+prodListData.Interest_Stopped__c);
-                	prodListData.Interest_Stopped__c = true;
-              }
+                prodListData.Interest_Stopped__c = true;
+            }
             else if(prodListData.Interest_Waived_Off__c == false || (prodListData.Interest_Waived_Off__c == true && (prodListData.Interest_Amount_Last_Calculated_Date__c < prodListData.Interest_Waived_Off_Start_Date__c || prodListData.Interest_Amount_Last_Calculated_Date__c > prodListData.Interest_Waived_Of_End_Date__c))){
-                     system.debug('ProductTriggerHandler_populateAccuringInterest: value of Accruing Interest::'+prodListData.Interest_Stopped__c);      
-                           prodListData.Interest_Stopped__c = false;         
+                prodListData.Interest_Stopped__c = false;         
             }
             else if(prodListData.Interest_Waived_Off__c == false
             || (prodListData.Interest_Waived_Off__c == true
@@ -2068,7 +1587,6 @@ public class ProductTriggerHandler{
         for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
             mapDataStatus.put(metaData.name,metaData);
         }
-        system.debug('mapDataStatus'+mapDataStatus);
         for(Product__c prodData :listNewProducts){
             if(prodRTypeIdMap.get('Distressed_Account') == prodData.RecordTypeId && mapDataStatus.containskey(prodData.Product_Status__c) && 
                mapDataStatus.get(prodData.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed' && prodData.Closed_Date__c == NULL){

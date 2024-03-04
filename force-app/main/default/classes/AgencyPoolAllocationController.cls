@@ -38,6 +38,8 @@ public class AgencyPoolAllocationController {
     public List<User> systemName= new list<User>();
     public Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
     public Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
+    public static Map<String,Provice_Name_Map_with_Abbreviations__mdt> mapProviceAbbreviations = Provice_Name_Map_with_Abbreviations__mdt.getAll();
+    public static Map<String, String> mapProvinceAcronym = new Map<String, String>();
     
     public AgencyPoolAllocationController(ApexPages.StandardController stdController){
         poolId = ApexPages.CurrentPage().getParameters().get('Id'); 
@@ -371,7 +373,6 @@ public class AgencyPoolAllocationController {
         warningbtndisable = true;
         allocatebtndisable = true;
         set<String> setProductNames = new set<String>();
-        Map<String, String> mapProvinceNames = new Map<String, String>();
         map<string,string> mapProductUpdate = new map<string,string>();
         set<String> setPreviousPlacedProductNames = new set<String>();
 
@@ -380,18 +381,9 @@ public class AgencyPoolAllocationController {
                      WHERE ID= :placementAgency
                     ][0];
         
-        
-        //Fill provice name map with abbriviations
-        mapProvinceNames.put('NS', 'Nova Scotia');
-        mapProvinceNames.put('NB', 'New Brunswick');
-        mapProvinceNames.put('MB', 'Manitoba');
-        mapProvinceNames.put('BC', 'British Columbia');
-        mapProvinceNames.put('PE', 'Prince Edward Island');
-        mapProvinceNames.put('SK', 'Saskatchewan');
-        mapProvinceNames.put('AB',  'Alberta');
-        mapProvinceNames.put('NL', 'Newfoundland and Labrador');
-        mapProvinceNames.put('QC', 'Quebec');
-        mapProvinceNames.put('ON', 'Ontario');
+        for(Provice_Name_Map_with_Abbreviations__mdt metaData : mapProviceAbbreviations.values()){
+            mapProvinceAcronym.put(metaData.Province_Acronym__c,metaData.Province_Name__c);
+        }
         
         for(Product__c product : listProd){
             setProductNames.add(product.name);  
@@ -412,8 +404,8 @@ public class AgencyPoolAllocationController {
             if(String.isNotBlank(newAgency)
                && String.isNotBlank(AgencyProvince) 
                && String.isNotBlank(product.State__c) 
-               && ( (!mapProvinceNames.containsKey(product.State__c) && !AgencyProvince.contains(product.State__c))
-                   ||   (mapProvinceNames.containsKey(product.State__c)  &&!AgencyProvince.contains(mapProvinceNames.get(product.State__c))))){
+               && ( (!mapProvinceAcronym.containsKey(product.State__c) && !AgencyProvince.contains(product.State__c))
+                   ||   (mapProvinceAcronym.containsKey(product.State__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(product.State__c))))){
                        ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
                        comments = ERROR_MSG;
                    }          

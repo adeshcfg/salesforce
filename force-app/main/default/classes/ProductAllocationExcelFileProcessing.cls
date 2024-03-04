@@ -12,6 +12,8 @@ public class ProductAllocationExcelFileProcessing {
     String exceptionMessage;
     String workAssignmentPlacement;
     List<productWrapper> listProductWrapper = new List<productWrapper>();
+    public static Map<String,Provice_Name_Map_with_Abbreviations__mdt> mapProviceAbbreviations = Provice_Name_Map_with_Abbreviations__mdt.getAll();
+    public static Map<String, String> mapProvinceAcronym = new Map<String, String>();
     
     public ProductAllocationExcelFileProcessing(String data, String workAssignmentPlacement, ID documentId){
         exceptionMessage = '';
@@ -223,7 +225,6 @@ public class ProductAllocationExcelFileProcessing {
         Map<String ,Placement__c> mapPlacement =new Map<String,Placement__c>();
         Map<String ,Pool__c> mapPool =new Map<String,Pool__c>();                                                
         Map<Id ,Product_Payments__c> mapProductPayment =new Map<Id,Product_Payments__c>();
-        Map<String, String> mapProvinceNames = new Map<String, String>();
         list<Product_Staging__c> listProductAllocateStaging = new list<Product_Staging__c>();
         set<String> setPreviousPlacedProductNames = new set<String>();
         Product_Staging__c productStaging = new Product_Staging__c();
@@ -253,21 +254,12 @@ public class ProductAllocationExcelFileProcessing {
                                        FROM Pool__c 
                                       ]){
            mapPool.put(pool.Name, pool);
+        }   
+        //Fill provice name map with abbriviations                                            
+        for(Provice_Name_Map_with_Abbreviations__mdt metaData : mapProviceAbbreviations.values()){
+            mapProvinceAcronym.put(metaData.Province_Acronym__c,metaData.Province_Name__c);
         }                                            
-                                                    
         system.debug('mapPlacement: '+mapPlacement);
-        
-        //Fill provice name map with abbriviations
-        mapProvinceNames.put('NS', 'Nova Scotia');
-        mapProvinceNames.put('NB', 'New Brunswick');
-        mapProvinceNames.put('MB', 'Manitoba');
-        mapProvinceNames.put('BC', 'British Columbia');
-        mapProvinceNames.put('PE', 'Prince Edward Island');
-        mapProvinceNames.put('SK', 'Saskatchewan');
-        mapProvinceNames.put('AB',  'Alberta');
-        mapProvinceNames.put('NL', 'Newfoundland and Labrador');
-        mapProvinceNames.put('QC', 'Quebec');
-        mapProvinceNames.put('ON', 'Ontario');
         
         String newAgency = '';
         String oldAgency;
@@ -325,8 +317,8 @@ public class ProductAllocationExcelFileProcessing {
             && String.isNotBlank(AgencyProvince)
             && mapProductName.containsKey(product.Name)
             && String.isNotBlank(mapProductName.get(product.Name).State__c)
-            && ( (!mapProvinceNames.containsKey(mapProductName.get(product.Name).State__c) && !AgencyProvince.contains(mapProductName.get(product.Name).State__c))
-            ||   (mapProvinceNames.containsKey(mapProductName.get(product.Name).State__c)  &&!AgencyProvince.contains(mapProvinceNames.get(mapProductName.get(product.Name).State__c))))){
+            && ( (!mapProvinceAcronym.containsKey(mapProductName.get(product.Name).State__c) && !AgencyProvince.contains(mapProductName.get(product.Name).State__c))
+            ||   (mapProvinceAcronym.containsKey(mapProductName.get(product.Name).State__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(mapProductName.get(product.Name).State__c))))){
                 system.debug('error');
                 ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
                 EXPECTED += 'Product Province - ' + mapProductName.get(product.Name).State__c +'<br/>';

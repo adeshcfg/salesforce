@@ -27,6 +27,8 @@ public with sharing class ProductAllocationIndividualController {
     public List<User> systemName= new list<User>();
     public Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
     public Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
+    public static Map<String,Provice_Name_Map_with_Abbreviations__mdt> mapProviceAbbreviations = Provice_Name_Map_with_Abbreviations__mdt.getAll();
+    public static Map<String, String> mapProvinceAcronym = new Map<String, String>();
     
     public ProductAllocationIndividualController(ApexPages.StandardController stdController) {
         productID =  ApexPages.currentPage().getParameters().get('id');
@@ -73,16 +75,11 @@ public with sharing class ProductAllocationIndividualController {
         List<Id> productIds = new List<Id>();
             for(Product__c prod : prodNew){
                 productIds.add(prod.Id);
-                system.debug('productIds' +productIds);
                 agencyTo_ProductIdsMap.put(prod.Collection_Agency_Placement__c, productIds );
-                system.debug('agencyTo_ProductIdsMap' +agencyTo_ProductIdsMap);
             }
             if(!agencyTo_ProductIdsMap.isEmpty()){
                 for(Id agencyId : agencyTo_ProductIdsMap.keySet()){
-                    system.debug('agencyId' +agencyId);
-                System.enqueueJob(new SnapshotQueueableClass(productIds, agencyId));
-                //System.enqueueJob(new SnapshotQueueableClassForExcel(agencyTo_ProductIdsMap.get(agencyId), agencyId));
-                    
+                System.enqueueJob(new SnapshotQueueableClass(productIds, agencyId));   
                 }
             }
     }
@@ -294,9 +291,7 @@ public with sharing class ProductAllocationIndividualController {
         Boolean error;
         String EXPECTED;
         String AgencyProvince;
-        
         Set<String> setProductAgencyName = new Set<String>();
-        Map<String, String> mapProvinceNames = new Map<String, String>();
         
         placement = [SELECT ID, Name, Agency_Name__c, Serviceable_Province__c,Commission_Rate__c,Active__c
                      FROM Placement__c 
@@ -310,28 +305,16 @@ public with sharing class ProductAllocationIndividualController {
                                                      AND Placement__c = :newPlacement
                                                      AND CreatedDate = LAST_N_DAYS:180];
         
-        
-        //Fill provice name map with abbriviations
-        mapProvinceNames.put('NS', 'Nova Scotia');
-        mapProvinceNames.put('NB', 'New Brunswick');
-        mapProvinceNames.put('MB', 'Manitoba');
-        mapProvinceNames.put('BC', 'British Columbia');
-        mapProvinceNames.put('PE', 'Prince Edward Island');
-        mapProvinceNames.put('SK', 'Saskatchewan');
-        mapProvinceNames.put('AB',  'Alberta');
-        mapProvinceNames.put('NL', 'Newfoundland and Labrador');
-        mapProvinceNames.put('QC', 'Quebec');
-        mapProvinceNames.put('ON', 'Ontario');  
+        //Fill provice name map with abbriviations                                            
+        for(Provice_Name_Map_with_Abbreviations__mdt metaData : mapProviceAbbreviations.values()){
+            mapProvinceAcronym.put(metaData.Province_Acronym__c,metaData.Province_Name__c);
+        }
         
         ERROR_MSG = '';
         
-        /*if(!mapPlacement.containsKey(newPlacement)){
-            ERROR_MSG += '<b>ERROR</b> - '+'Enter valid Collection Agency Number'+'<br/>';
-        }
-        else */if(product.Collection_Agency__c != NULL && product.Collection_Agency__c != 9999){
+		if(product.Collection_Agency__c != NULL && product.Collection_Agency__c != 9999){
             ERROR_MSG += '<b>ERROR</b> - '+'Product is already placed with another agency'+'<br/>';
             EXPECTED += 'Current Agency- ' + product.Collection_Agency__c +'<br/>';
-            system.debug('already placed error');
         }
         
         
@@ -340,24 +323,18 @@ public with sharing class ProductAllocationIndividualController {
                 AgencyProvince = placement.Serviceable_Province__c; 
         }
         
-        system.debug('AgencyProvince: '+AgencyProvince);
-        system.debug('product.State__c: '+product.State__c);
-        
         if(String.isNotBlank(newPlacement)
         && String.isNotBlank(AgencyProvince)
         && String.isNotBlank(product.State__c) 
         && (!AgencyProvince.contains(product.State__c))
-        && ( (!mapProvinceNames.containsKey(product.State__c) && !AgencyProvince.contains(product.State__c))
-        ||   (mapProvinceNames.containsKey(product.State__c)  &&!AgencyProvince.contains(mapProvinceNames.get(product.State__c))))){
-               system.debug('error');
+        && ( (!mapProvinceAcronym.containsKey(product.State__c) && !AgencyProvince.contains(product.State__c))
+        ||   (mapProvinceAcronym.containsKey(product.State__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(product.State__c))))){
                ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
                EXPECTED += 'Product Province - ' + product.State__c +'<br/>';
-               system.debug('province error');
         } 
         
         if(!placementHistory.isEmpty()){
             ERROR_MSG = '<b>WARNING</b> - '+'Product is placed with the agency in last 6 months'+'<br/>';
-            system.debug('previously placed');
         }
         
         
@@ -397,7 +374,7 @@ public with sharing class ProductAllocationIndividualController {
                 ERROR_MSG += '<b>ERROR</b> - Allocate Agency is not Active <br/>';
             }
         }
-        system.debug('ERROR_MSG:: '+ERROR_MSG);
+
         if(String.isNotBlank(ERROR_MSG)){
             return true;
         }
