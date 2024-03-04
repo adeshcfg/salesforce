@@ -9,19 +9,18 @@
 @isTest
 public class TestAlertEmailOnTriggerOFF{
   @testSetup
-    static void testData(){
-        
+  static testMethod void TestbachClass(){
         //Custom setting record creation
-        Application_Config_Settings__c config = new Application_Config_Settings__c();
-        config.Run_EmailMessage_Trigger__c = false;
+        Application_Config_Settings__c config = new Application_Config_Settings__c ();
         config.Run_Insolvency_Account_Trigger__c = true;
+        config.Run_Insolvency_Trigger__c = false;
         insert config;
-    }
-    @isTest
-  static void TestbachClass(){
+        System.debug('creted record id'+config);
+
         Test.startTest();
         AlertEmailOnTriggerOFF batchRun = new AlertEmailOnTriggerOFF ();
         Id batchId = Database.executeBatch(batchRun);
+        system.debug('Batch id'+ batchId);
         Test.stopTest();
     }
   }
