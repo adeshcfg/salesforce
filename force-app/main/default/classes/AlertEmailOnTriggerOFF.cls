@@ -28,7 +28,7 @@ global class AlertEmailOnTriggerOFF implements Database.Batchable<sObject>
 
     map<string,string> mapOfTriggers = new map<string,string>{
         'Run_JudgmentTrigger__c' => 'Run_JudgmentTrigger',
-        'Run_Account_Judgment_Trigger__c' => 'Run_JudgmentTrigger',
+        'Run_Account_Judgment_Trigger__c' => 'Run Account Judgment Trigger',
         'Run_Case_Trigger__c' => 'Run Case Trigger',
         'Run_Attachment_Trigger__c' => 'Run Attachment Trigger',
         'Run_Customer_Update_API_for_Portal__c' => 'Run Customer Update API for Portal',
@@ -51,7 +51,7 @@ global class AlertEmailOnTriggerOFF implements Database.Batchable<sObject>
     };
 
     for(Application_Config_Settings__c config : listOfTriggers){
-         for(string mapingTriggerValue : mapOfTriggers.values()){ 
+         for(string mapingTriggerValue : mapOfTriggers.keySet()){ 
             if (config.get(mapingTriggerValue) == false){
                  triggerName += mapingTriggerValue + ' is Off';
                 } 
