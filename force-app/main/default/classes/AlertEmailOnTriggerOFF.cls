@@ -54,6 +54,7 @@ global class AlertEmailOnTriggerOFF implements Database.Batchable<sObject>
          for(string mapingTriggerValue : mapOfTriggers.keySet()){ 
             if (config.get(mapingTriggerValue) == false){
                  triggerName += mapingTriggerValue + ' is Off';
+                 system.debug('product trigger value = '+ mapingTriggerValue);
                 } 
             }
         }
@@ -77,12 +78,13 @@ global class AlertEmailOnTriggerOFF implements Database.Batchable<sObject>
             for(string productTriggerValue : mapOfProductTriggers.keySet()){ 
                if (productTrigger.get(productTriggerValue) == false){
                     triggerName += productTriggerValue + ' is Off';
+                    system.debug('product trigger value = '+ productTriggerValue);
                    } 
                }
            }
             // check the blanck //
             if( triggerName !=''){
-
+            System.debug('trigger name = '+triggerName);
                 // Query to retrieve all users with the System Administrator profile //
                 List<User> systemAdminUsers = [SELECT Id, Email FROM User WHERE Profile.Name = 'System Administrator'];
                 // send the email //
@@ -92,6 +94,7 @@ global class AlertEmailOnTriggerOFF implements Database.Batchable<sObject>
                     email.setSubject('Notification: Trigger is Off');
                     email.setPlainTextBody('The below mentioned Trigger is off, check the "Application_Application Configuration" & "Loan Re-Engineering" custom setting \n\n'+ triggerName);
                     emails.add(email);
+                    System.debug('trigger name = '+emails);
                 }
             }
         }
