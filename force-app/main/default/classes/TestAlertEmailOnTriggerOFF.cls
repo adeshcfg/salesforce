@@ -25,6 +25,13 @@ public class TestAlertEmailOnTriggerOFF{
         insert loanReEng;
         System.debug('creted record id'+loanReEng);
 
+        List<EmailMessage> listEmailMessage = new List<EmailMessage>();
+        EmailMessage email1 = new EmailMessage();
+        email.setToAddresses = 'systemAdminUsers.email';
+        email1.Subject='Test1';
+        email.setPlainTextBody ='The body';
+        listEmailMessage.add(email1);
+
         Test.startTest();
         AlertEmailOnTriggerOFF batchRun = new AlertEmailOnTriggerOFF ();
         Id batchId = Database.executeBatch(batchRun);
