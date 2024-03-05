@@ -1477,15 +1477,19 @@ public class ProductTriggerHandler{
         ProductTriggerHandler.runProductTrigger = true;
     }
     //When refer to legal is Approved in salesforce then create judgment on that account.
-     public static void creatJudgment(Product__c prodNew){
+    public static void creatJudgment(Product__c prodNew){
         set<ID> prodID = new set<ID>();
         map<String, ID> prodNameID = new map<String, ID>();
             prodID.add(prodNew.ID);
             prodNameID.put(prodNew.Name, prodNew.ID);
        
         List<Account_Judgment__c> accJudg = [Select id,name,status__c,product__C, judgment__c from Account_Judgment__c where product__c IN: prodID AND Status__C = 'Active'];
-    
-         if(accJudg.isEmpty()){
+        
+        if(prodNew.State__c == NULL){
+             prodNew.addError('Product Province is required');
+        }
+         
+        if(accJudg.isEmpty()){
              Judgment__c newJudgment = new Judgment__C();
              newJudgment.Legal_Status__c = 'Pre-Legal';
              newJudgment.Legal_Sub_Status__c = 'Approved for Legal Action';
@@ -1528,10 +1532,10 @@ public class ProductTriggerHandler{
              AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
              
              PortalAccountJudgmentProcessingAPI.processAccountJudgment(accJudg1.ID);
-         }else{
+        }else{
              prodNew.addError('Active Judgment is present on this account');
-         }
         }
+    }
     //get Province Name
     public static String nameFormat (String name) {
         String result = '';
