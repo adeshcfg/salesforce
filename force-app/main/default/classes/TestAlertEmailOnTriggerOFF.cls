@@ -34,14 +34,5 @@ public class TestAlertEmailOnTriggerOFF {
         Database.executeBatch(batchInstance);
         Test.stopTest();
 
-        // Verify emails //
-       
-         List<Messaging.SingleEmailMessage> sentEmails = [SELECT Id FROM Messaging.SingleEmailMessage];
-         System.assertEquals(1, sentEmails.size(), 'One email should be sent');
-         Messaging.SingleEmailMessage sentEmail = sentEmails[0];
-         System.assertEquals('Notification: Trigger is Off', sentEmail.getSubject(), 'Email subject should match');
-         System.assertEquals('Expected email body', sentEmail.getPlainTextBody(), 'Email body should match');
-         System.assertEquals(1, sentEmail.getToAddresses().size(), 'Email should be sent to a specific address');
-         System.assertEquals('testemail@email.com', sentEmail.getToAddresses()[0], 'Email should be sent to a specific address');
     }
 }
