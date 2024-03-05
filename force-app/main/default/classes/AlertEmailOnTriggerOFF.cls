@@ -74,7 +74,7 @@ global class AlertEmailOnTriggerOFF implements Database.Batchable<sObject>
             'Run_Product_Payment_Trigger__c' => 'Run Product Payment Trigger'
         };   
         for(Loan_ReEngineering__c productTrigger : productTriggerList){
-            for(string productTriggerValue : mapOfProductTriggers.values()){ 
+            for(string productTriggerValue : mapOfProductTriggers.keySet()){ 
                if (productTrigger.get(productTriggerValue) == false){
                     triggerName += productTriggerValue + ' is Off';
                    } 
