@@ -26,11 +26,11 @@ public class TestAlertEmailOnTriggerOFF{
         System.debug('creted record id'+loanReEng);
 
         List<EmailMessage> listEmailMessage = new List<EmailMessage>();
-        EmailMessage email1 = new EmailMessage();
+        EmailMessage email = new EmailMessage();
         email.setToAddresses = 'systemAdminUsers.email';
-        email1.Subject='Test1';
+        email.Subject='Test1';
         email.setPlainTextBody ='The body';
-        listEmailMessage.add(email1);
+        listEmailMessage.add(email);
 
         Test.startTest();
         AlertEmailOnTriggerOFF batchRun = new AlertEmailOnTriggerOFF ();
