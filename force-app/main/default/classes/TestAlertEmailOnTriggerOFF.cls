@@ -8,7 +8,7 @@
 *************************************************************************************************/
 @isTest
 public class TestAlertEmailOnTriggerOFF{
-  @testSetup
+ @isTest
   static testMethod void TestbachClass(){
         //Custom setting record creation
         Application_Config_Settings__c config = new Application_Config_Settings__c ();
