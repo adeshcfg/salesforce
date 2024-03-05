@@ -9,7 +9,7 @@
 @isTest
 public class TestAlertEmailOnTriggerOFF{
  @isTest
-  static testMethod void TestbachClass(){
+  Public static void TestbachClass(){
         //Custom setting record creation
         Application_Config_Settings__c config = new Application_Config_Settings__c ();
         config.name = 'Test name';
