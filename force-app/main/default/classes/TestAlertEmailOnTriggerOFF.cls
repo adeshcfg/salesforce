@@ -13,16 +13,7 @@ public class TestAlertEmailOnTriggerOFF {
     static void testBatchExecution() {
         // Create test data for Application_Config_Settings__c
         List<Application_Config_Settings__c> configListrecordList = new List<Application_Config_Settings__c>();
-
-        configList = [Select ID,name, Run_JudgmentTrigger__c,Run_Account_Judgment_Trigger__c,Run_Account_Trigger__c ,
-        Run_Attachment_Trigger__c,Run_Case_Trigger__c,Run_Customer_Update_API_for_Portal__c,Run_Deposit_Slip_Trigger__c,
-        Run_Distressed_Notes_Trigger__c,Run_Document_Storage_Trigger__c,Run_EmailMessage_Trigger__c,
-        Run_Insolvency_Account_Duplicate_Check__c,Run_Insolvency_Trigger__c,Run_Insolvency_Account_Trigger__c,
-        Run_Insolvency_Payment_Trigger__c,Run_Insolvency_Status_Validations__c,Run_Merchant_Account_Payment_Trigger__c,
-        Run_Product_Coll_Sub_Status_Validation__c,Run_Record_Ownership__c,Run_Remittance_Trigger__c,
-        Run_Remittance_Validation__c ,Run_Work_Assignment_Trigger__c from Application_Config_Settings__c];
-      
-        for(Application_Config_Settings__c config : configList ){
+        Application_Config_Settings__c config = new Application_Config_Settings__c ();
         config.name = 'Test name';
         config.Run_JudgmentTrigger__c = false;
         config.Run_Deposit_Slip_Trigger__c = false;
@@ -46,20 +37,16 @@ public class TestAlertEmailOnTriggerOFF {
         config.Run_Remittance_Trigger__c = false;
         config.Run_Remittance_Validation__c = false;
         config.Run_Work_Assignment_Trigger__c = false;
-        configList.add(config);
-       }        
-        insert configList;
-        System.debug('creted record id'+config);
+        configListrecordList.add(config);
+              
+        insert configListrecordList;
+        System.debug('creted record id'+configListrecordList);
       
 
         // Create test data for Loan_ReEngineering__c
             list<Loan_ReEngineering__c> loanList = new List <Loan_ReEngineering__c> ();
 
-            loanRecordsList = [Select id,name,	Run_Attachment_Trigger__c,Run_Product_Before_Trigger__c,Run_Product_Trigger__c,
-            Run_Product_Validation_Trigger__c,Run_Settlement_Trigger__c,Run_PTP_Trigger__c,
-            Run_Product_Payment_Trigger__c from Loan_ReEngineering__c];
-
-            for(Loan_ReEngineering__c loanRecords : loanRecordsList ){
+            Loan_ReEngineering__c loanRecords = new Loan_ReEngineering__c ();
             loanRecords.name = 'test name';
             loanRecords.Run_Attachment_Trigger__c = false;
             loanRecords.Run_Product_Before_Trigger__c = false;
@@ -70,9 +57,8 @@ public class TestAlertEmailOnTriggerOFF {
             loanRecords.Run_PTP_Trigger__c = false;
             loanRecords.Run_Product_Payment_Trigger__c = false;
             loanList.add(loanRecords);
-            } 
             insert loanList;
-            System.debug('creted record id'+loanRecords);
+            System.debug('creted record id'+loanList);
 
         Test.startTest();
         AlertEmailOnTriggerOFF batchInstance = new AlertEmailOnTriggerOFF();
