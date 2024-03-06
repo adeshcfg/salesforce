@@ -7,7 +7,7 @@
 *  task  :  6159
 *************************************************************************************************/
 @isTest
-public class BatchTestAlertEmailOnTriggerOFF {
+public class TestBatchAlertEmailOnTriggerOFF {
 
     @isTest
     static void testBatchExecution() {
