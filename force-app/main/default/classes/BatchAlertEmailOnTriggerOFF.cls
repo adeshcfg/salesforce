@@ -53,7 +53,7 @@ global class BatchAlertEmailOnTriggerOFF implements Database.Batchable<sObject>
     for(Application_Config_Settings__c config : listOfTriggers){
          for(string mapingTriggerValue : mapOfTriggers.keySet()){ 
             if (config.get(mapingTriggerValue) == false){
-                 triggerName += mapingTriggerValue + ' is Off';
+                triggerName += mapOfTriggers.get(mapingTriggerValue) + ' is Off\n';
                  system.debug('product trigger value = '+ mapingTriggerValue);
                 } 
             }
@@ -77,7 +77,7 @@ global class BatchAlertEmailOnTriggerOFF implements Database.Batchable<sObject>
         for(Loan_ReEngineering__c productTrigger : productTriggerList){
             for(string productTriggerValue : mapOfProductTriggers.keySet()){ 
                if (productTrigger.get(productTriggerValue) == false){
-                    triggerName += productTriggerValue + ' is Off';
+                triggerName += mapOfProductTriggers.get(productTriggerValue) + ' is Off\n';
                     system.debug('product trigger value = '+ productTriggerValue);
                    } 
                }
