@@ -853,7 +853,10 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                              accountStatus = metro2TransUnion.Account_Status_Recalled__c;
                         }
                     }else{
-                        if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
+                        if(placementHistoryMap.containskey(prodct.id)){
+                            accountStatus = metro2TransUnion.Account_Status_Recalled__c;
+                        }
+                        else if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
                             accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
                         } 
                     }
