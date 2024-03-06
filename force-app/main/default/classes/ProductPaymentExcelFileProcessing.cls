@@ -589,7 +589,8 @@ public class ProductPaymentExcelFileProcessing {
                 Payment_Posting_Date_Text__c,
                 Is_Payment_Reversed__c,
                 Pay_Due__c,
-                Payment_Provided_Agency__c
+                Payment_Provided_Agency__c,
+                Payment_Agency__c
             FROM Product_Payments__c
             WHERE CCS_Account__c IN :mapProduct.keySet()
         ]) {
@@ -1040,6 +1041,7 @@ public class ProductPaymentExcelFileProcessing {
                         )[0];
                         prodPayment.Original_Of_Payment_Reversal__c = originalPayment.Id;
                         prodPayment.Payment_Provided_Agency__c = originalPayment.Payment_Provided_Agency__c;
+                        prodPayment.Payment_Agency__c = originalPayment.Payment_Agency__c;
                         setOldTransaction.get(payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)
                             .remove(0);
                     }
