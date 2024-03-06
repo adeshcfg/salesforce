@@ -927,6 +927,10 @@ public class BalanceAdjustmentExcelFileProcessing {
                     ) {
                         if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                             //CommissionRate = prodPayment.Commission_Rate_for_Payment__c;
+                            // Use commission rate from excel file if provided
+                            if (prodPayment.Commission_Rate_for_Payment__c != null) {
+                                CommissionRate = prodPayment.Commission_Rate_for_Payment__c;
+                            }
                             if (CommissionRate == null) {
                                 CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Product_Commission_rate__C;
                             }
