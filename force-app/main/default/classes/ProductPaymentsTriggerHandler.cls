@@ -1619,7 +1619,7 @@ public class ProductPaymentsTriggerHandler {
     ) {
         set<ID> alreadyReversedPayments = new Set<ID>();
         map<ID, Product__c> mapProduct = new Map<ID, Product__c>();
-        map<String, List<Id>> setOldTransaction = new Map<String, List<Id>>();
+        map<String, List<Product_Payments__c>> setOldTransaction = new Map<String, List<Product_Payments__c>>();
         list<Product_Payments__c> listProductPayToUpdate = new List<Product_Payments__c>();
         map<ID, Placement__c> mapPlacement = new Map<ID, Placement__c>();
         map<String, Product_Payments__c> mapPayment = new map<String, Product_Payments__c>();
@@ -1665,7 +1665,16 @@ public class ProductPaymentsTriggerHandler {
         }
 
         for (Product_Payments__c oldPay : [
-            SELECT ID, CCS_Account__r.Name, Payment_Type__c, Payment_Amount__c, Payment_Posting_Date__c, Payment_Posting_Date_Text__c, Is_Payment_Reversed__c,Pay_Due__c
+            SELECT
+                ID,
+                CCS_Account__r.Name,
+                Payment_Type__c,
+                Payment_Amount__c,
+                Payment_Posting_Date__c,
+                Payment_Posting_Date_Text__c,
+                Is_Payment_Reversed__c,
+                Pay_Due__c,
+                Payment_Provided_Agency__c
             FROM Product_Payments__c
             WHERE CCS_Account__c IN :mapProduct.keySet()
         ]) {
@@ -1680,11 +1689,11 @@ public class ProductPaymentsTriggerHandler {
                     )
                 ) {
                     setOldTransaction.get(oldPay.Payment_Amount__c + '' + oldPay.Payment_Type__c + oldPay.Payment_Posting_Date_Text__c + oldPay.CCS_Account__c)
-                        .add(oldPay.Id);
+                        .add(oldPay);
                 } else {
                     setOldTransaction.put(
                         oldPay.Payment_Amount__c + '' + oldPay.Payment_Type__c + oldPay.Payment_Posting_Date_Text__c + oldPay.CCS_Account__c,
-                        new List<Id>{ oldPay.Id }
+                        new List<Product_Payments__c>{ oldPay }
                     );
                 }
             }
@@ -1935,9 +1944,11 @@ public class ProductPaymentsTriggerHandler {
                     if (String.isBlank(originalPaymentType)) {
                         ERROR_MSG += '<b>ERROR - </b>A corresponding Payment was not found for this reversal.<br/>';
                     } else {
-                        prodPayment.Original_Of_Payment_Reversal__c = setOldTransaction.get(
+                        Product_Payments__c originalPayment = setOldTransaction.get(
                             payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
                         )[0];
+                        prodPayment.Original_Of_Payment_Reversal__c = originalPayment.Id;
+                        prodPayment.Payment_Provided_Agency__c = originalPayment.Payment_Provided_Agency__c;
                         setOldTransaction.get(payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)
                             .remove(0);
                     }
@@ -2767,8 +2778,9 @@ public class ProductPaymentsTriggerHandler {
                         prodPayment.addError('ERROR - A corresponding Payment was not found for this reversal.');
                     } else {
                         prodPayment.Original_Of_Payment_Reversal__c = setOldTransaction.get(
-                            payAmount + prodPayment.Payment_Type__c + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
-                        )[0];
+                                payAmount + prodPayment.Payment_Type__c + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
+                            )[0]
+                            .Id;
                     }
                 }
             }
