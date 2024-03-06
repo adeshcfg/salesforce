@@ -6,9 +6,9 @@
 *  @date : 04th March 2024
 *  task  :  6159
 *************************************************************************************************/
-global class AlertEmailOnTriggerOFF implements Database.Batchable<sObject>
+global class BatchAlertEmailOnTriggerOFF implements Database.Batchable<sObject>
 {
-    global Database.QueryLocator start(Database.BatchableContext BC)
+    global Database.QueryLocator start(Database.BatchableContext bc)
     {
        // fatch the records of Costum setting //
         return Database.getQueryLocator([Select ID,name, Run_JudgmentTrigger__c,Run_Account_Judgment_Trigger__c,Run_Account_Trigger__c ,
@@ -20,7 +20,7 @@ global class AlertEmailOnTriggerOFF implements Database.Batchable<sObject>
                                          Run_Remittance_Validation__c ,Run_Work_Assignment_Trigger__c from Application_Config_Settings__c]);
         
     }
-    global void execute(Database.BatchableContext BC, List<Application_Config_Settings__c> listOfTriggers){
+    global void execute(Database.BatchableContext bc, List<Application_Config_Settings__c> listOfTriggers){
     
     List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
     
@@ -84,20 +84,24 @@ global class AlertEmailOnTriggerOFF implements Database.Batchable<sObject>
            }
             // check the blanck //
             if( triggerName !=''){
-            System.debug('trigger name = '+triggerName);
-                // Query to retrieve all users with the System Administrator profile //
-                List<User> systemAdminUsers = [SELECT Id, Email FROM User WHERE Profile.Name = 'System Administrator'];
-                // send the email //
-                for (User adminUser : systemAdminUsers) {
+                String userEmail =System.Label.API_Failed_Email;
+                String[] toAddresses = new String[] {userEmail};    
+                if(toAddresses.size() > 0){
                     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-                    email.setToAddresses(new List<String>{adminUser.Email});
+                    email.setToAddresses(toAddresses);
                     email.setSubject('Notification: Trigger is Off');
                     email.setPlainTextBody('The below mentioned Trigger is off, check the "Application_Application Configuration" & "Loan Re-Engineering" custom setting \n\n'+ triggerName);
                     emails.add(email);
-                    System.debug('trigger name = '+emails);
+                    Messaging.SendEmailResult[] results = Messaging.sendEmail(emails);
+                    if (results[0].success) {
+                        System.debug('The email was sent successfully.');
+                    } else {
+                        System.debug('The email failed to send: '
+                                     + results[0].errors[0].message);
                 }
             }
         }
-     global void finish(Database.BatchableContext BC){
+    } 
+     global void finish(Database.BatchableContext bc){
     }
 }
