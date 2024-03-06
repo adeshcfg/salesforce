@@ -7,7 +7,7 @@
 *  task  :  6159
 *************************************************************************************************/
 @isTest
-public class TestAlertEmailOnTriggerOFF {
+public class BatchTestAlertEmailOnTriggerOFF {
 
     @isTest
     static void testBatchExecution() {
@@ -61,7 +61,7 @@ public class TestAlertEmailOnTriggerOFF {
             System.debug('creted record id'+loanList);
 
         Test.startTest();
-        AlertEmailOnTriggerOFF batchInstance = new AlertEmailOnTriggerOFF();
+        BatchAlertEmailOnTriggerOFF batchInstance = new BatchAlertEmailOnTriggerOFF();
         Database.executeBatch(batchInstance);
         Test.stopTest();
 
