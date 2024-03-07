@@ -875,9 +875,9 @@ public class BalanceAdjustmentExcelFileProcessing {
                         }
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled within 15 days and is currently warehoused.<br/>';
                         if (
-                            RogersFile == true &&
+                            !(RogersFile == true &&
                             String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
-                            prodPayment.Direct_Payment_Type__c != 'Direct Payment'
+                            prodPayment.Direct_Payment_Type__c != 'Direct Payment')
                         ) {
                             EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
                         }
@@ -918,9 +918,9 @@ public class BalanceAdjustmentExcelFileProcessing {
                         }
                         //prodPayment.Product_Agency__c = productAgencyID;
                         if (
-                            RogersFile == true &&
+                            !(RogersFile == true &&
                             String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
-                            prodPayment.Direct_Payment_Type__c != 'Direct Payment'
+                            prodPayment.Direct_Payment_Type__c != 'Direct Payment')
                         ) {
                             EXPECTED +=
                                 'Commission Amount ' +
@@ -964,9 +964,9 @@ public class BalanceAdjustmentExcelFileProcessing {
                                 }
                             }
                             if (
-                                RogersFile == true &&
+                                !(RogersFile == true &&
                                 String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
-                                prodPayment.Direct_Payment_Type__c != 'Direct Payment'
+                                prodPayment.Direct_Payment_Type__c != 'Direct Payment')
                             ) {
                                 EXPECTED +=
                                     'Commission Amount ' +
