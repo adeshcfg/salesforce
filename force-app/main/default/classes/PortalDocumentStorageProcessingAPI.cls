@@ -92,6 +92,104 @@ public class PortalDocumentStorageProcessingAPI {
                     system.debug('Error Response');
                     system.debug(bodyMap.get('ReturnMessage'));
                 }
+                
+                
+                
+            }
+            catch(Exception ex){
+                system.debug('exception ex: '+ex);
+            }
+            if(documentStorageInstance != NULL){
+                DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
+                update documentStorageInstance;
+                DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+            }
+        }
+        //processDocumentStorage2(documentStorageId);
+    }
+    @future (callout=true)
+    public static void processDocumentStorage2(ID documentStorageId){ 
+        system.debug('SEND DOCUMENT to PORTAL API');
+        list<Document_Storage__c> listDocumentStorage = [SELECT ID, Name, Creator__c, Document_Storage_Number__c, Document_Id__c, Document_Name__c, Document_Type__c, Document_URL__c, Placement_Identifier__c, 
+                                                                Uploaded_By__c, Visibility__c, Record_Type_Identifier__c, Customer_Identifier__c, 
+                                                                Product_Identifier__c, Judgment_Identifier__c, Settlement_Identifier__c, File_Processing_Status__c,
+                                                                Work_Assignment_Identifier__c, Created_By__c, Last_Modified_By__c,Document_Related_To__c,
+                                                                Work_Assignment__r.Record_type_Identifier__c
+                                                       FROM Document_Storage__c 
+                                                       WHERE ID= :documentStorageId];
+         system.debug('listDocumentStorage: '+listDocumentStorage);                             
+       
+        String documentStorageJSONRequest;
+        Document_Storage__c documentStorageInstance;
+        if(!listDocumentStorage.isEmpty()){
+            //Create JSON request for customer update
+            documentStorageInstance = listDocumentStorage[0];
+            system.debug('documentStorageInstance '+documentStorageInstance);
+            system.debug('task type checking: '+documentStorageInstance.Work_Assignment__r.Record_type_Identifier__c); 
+            documentStorageJSONRequest = '{'+
+                '"Name": "'+documentStorageInstance.Name+'",'+
+                '"Creator": "'+documentStorageInstance.Creator__c+'",'+
+                '"Document_Storage_Number": "'+documentStorageInstance.Document_Storage_Number__c+'",'+
+                '"Document_Id": "'+documentStorageInstance.Document_Id__c+'",'+
+                '"Document_Name": "'+documentStorageInstance.Document_Name__c+'",'+
+                '"Document_Type": "'+documentStorageInstance.Document_Type__c+'",'+
+                '"Document_URL": "'+documentStorageInstance.Document_URL__c+'",'+
+                '"Placement_Identifier": "'+documentStorageInstance.Placement_Identifier__c+'",'+
+                '"Uploaded_By": "'+documentStorageInstance.Uploaded_By__c+'",'+
+                '"Visibility": "'+documentStorageInstance.Visibility__c+'",'+
+                '"Record_Type_Identifier": "'+documentStorageInstance.Record_Type_Identifier__c+'",'+
+                '"Customer_Identifier": "'+documentStorageInstance.Customer_Identifier__c+'",'+
+                '"Product_Identifier": "'+documentStorageInstance.Product_Identifier__c+'",'+
+                '"Judgment_Identifier": "'+documentStorageInstance.Judgment_Identifier__c+'",'+
+                '"Settlement_Identifier": "'+documentStorageInstance.Settlement_Identifier__c+'",'+
+                '"Work_Assignment_Identifier": "'+documentStorageInstance.Work_Assignment_Identifier__c+'",'+
+                '"Created_By": "'+documentStorageInstance.Created_By__c+'",'+
+                '"Last_Modified_By": "'+documentStorageInstance.Last_Modified_By__c+'",'+
+                '"Task_Type": "'+documentStorageInstance.Work_Assignment__r.Record_type_Identifier__c+'",'+
+                '"Document_Related_To": "'+documentStorageInstance.Document_Related_To__c+'"'+
+                '}';
+        }
+        system.debug('documentStorageJSONRequest: '+documentStorageJSONRequest);
+        
+        //Get access token for http request
+        String accToken;
+        accToken = getRequestToken();
+        system.debug('accToken: '+accToken);
+        if (accToken != '') {
+            // Instantiate a new http object
+            Http h = new Http();
+            // Instantiate a new HTTP request
+            HttpRequest req = new HttpRequest();
+            system.debug('documentStorageJSONRequest: '+documentStorageJSONRequest);
+            req.setBody(documentStorageJSONRequest);
+            system.debug('req body'+req.getBody());
+            req.setHeader('Authorization', 'Bearer ' + accToken);
+            req.setHeader('Content-Type', 'application/json;charset=UTF-8');
+            apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFDocument');
+            req.setEndpoint(apiCallDetails.PDF_API_URL__c+documentStorageInstance.Document_Id__c);
+            req.setMethod('PUT');         
+            system.debug('req endpoint:: '+req.getEndpoint());
+            system.debug('req body:: '+req.getBody());
+            documentStorageInstance.Outbound_API_Request_Body__c = req.getBody();
+            system.debug('Outbound req body:: '+req.getBody());
+            system.debug('req:: '+req);
+            
+    
+            try{
+                // Send the request, and return a response
+                HttpResponse res = h.send(req);
+                system.debug('res.getBody(): '+res.getBody());
+                Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
+                documentStorageInstance.Outbound_API_Response_Body__c = res.getBody();
+                system.debug('Outbound res body::' +res.getBody());
+                if(res.getStatusCode() == 200
+                && bodyMap.get('IsSuccess') == String.valueOf('true')){
+                    system.debug(bodyMap.get('ReturnMessage'));
+                }       
+                else{
+                    system.debug('Error Response');
+                    system.debug(bodyMap.get('ReturnMessage'));
+                }
                 system.debug('documentStorageInstance.Document_Type__c: '+documentStorageInstance.Document_Type__c);
                 system.debug('documentStorageInstance.File_Processing_Status__c: '+documentStorageInstance.File_Processing_Status__c);
                 /*if((documentStorageInstance.Document_Type__c == 'Product Payment Upload File'
@@ -121,7 +219,6 @@ public class PortalDocumentStorageProcessingAPI {
             }
         }
     }
-    
     //Get Access Token
     public static string getRequestToken() {
         system.debug('apiCallDetails: '+apiCallDetails);
