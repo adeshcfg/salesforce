@@ -446,6 +446,7 @@ public class BalanceAdjustmentExcelFileProcessing {
         String EXPECTED = '';
         ID productAgencyID = null;
         for (Product_Payments__c prodPayment : prodPayNew) {
+            Boolean showCommissionExpectedMessage = true;
             ERROR_MSG = '';
             EXPECTED = '';
 
@@ -618,6 +619,7 @@ public class BalanceAdjustmentExcelFileProcessing {
             }
 
             if (RogersFile == true && String.isNotBlank(prodPayment.Direct_Payment_Type__c) && prodPayment.Direct_Payment_Type__c != 'Direct Payment') {
+                showCommissionExpectedMessage = false;
                 ERROR_MSG += '<b>WARNING</b> - Commission Paid will be 0<br/>';
             }
 
@@ -874,11 +876,7 @@ public class BalanceAdjustmentExcelFileProcessing {
                             prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                         }
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled within 15 days and is currently warehoused.<br/>';
-                        if (
-                            !(RogersFile == true &&
-                            String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
-                            prodPayment.Direct_Payment_Type__c != 'Direct Payment')
-                        ) {
+                        if (showCommissionExpectedMessage) {
                             EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
                         }
                     }
@@ -917,11 +915,7 @@ public class BalanceAdjustmentExcelFileProcessing {
                             prodPayment.Payment_Agency__c = productAgency;
                         }
                         //prodPayment.Product_Agency__c = productAgencyID;
-                        if (
-                            !(RogersFile == true &&
-                            String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
-                            prodPayment.Direct_Payment_Type__c != 'Direct Payment')
-                        ) {
+                        if (showCommissionExpectedMessage) {
                             EXPECTED +=
                                 'Commission Amount ' +
                                 prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP) +
@@ -963,11 +957,7 @@ public class BalanceAdjustmentExcelFileProcessing {
                                     prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                                 }
                             }
-                            if (
-                                !(RogersFile == true &&
-                                String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
-                                prodPayment.Direct_Payment_Type__c != 'Direct Payment')
-                            ) {
+                            if (showCommissionExpectedMessage) {
                                 EXPECTED +=
                                     'Commission Amount ' +
                                     prodPayment.Pay_Due__c +
