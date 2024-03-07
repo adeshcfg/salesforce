@@ -590,7 +590,8 @@ public class ProductPaymentExcelFileProcessing {
                 Is_Payment_Reversed__c,
                 Pay_Due__c,
                 Payment_Provided_Agency__c,
-                Payment_Agency__c
+                Payment_Agency__c,
+                Agency_Submitted_Payment__c
             FROM Product_Payments__c
             WHERE CCS_Account__c IN :mapProduct.keySet()
         ]) {
@@ -1039,11 +1040,17 @@ public class ProductPaymentExcelFileProcessing {
                         Product_Payments__c originalPayment = setOldTransaction.get(
                             payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
                         )[0];
-                        prodPayment.Original_Of_Payment_Reversal__c = originalPayment.Id;
-                        prodPayment.Payment_Provided_Agency__c = originalPayment.Payment_Provided_Agency__c;
-                        prodPayment.Payment_Agency__c = originalPayment.Payment_Agency__c;
-                        setOldTransaction.get(payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)
-                            .remove(0);
+                        // Check if submitted agency of original payment matches with the submitted agency of reversal
+                        if (originalPayment.Agency_Submitted_Payment__c != docStorage.Placement_Agency__c) {
+                            ERROR_MSG += '<b>ERROR - </b>Cannot reverse payment posted by different agency.<br/>';
+                        }
+                        else {
+                            prodPayment.Original_Of_Payment_Reversal__c = originalPayment.Id;
+                            prodPayment.Payment_Provided_Agency__c = originalPayment.Payment_Provided_Agency__c;
+                            prodPayment.Payment_Agency__c = originalPayment.Payment_Agency__c;
+                            setOldTransaction.get(payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)
+                                .remove(0);
+                        }
                     }
                 }
             }
