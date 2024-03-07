@@ -13,13 +13,10 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
     //On-Off switch for trigger
     Loan_ReEngineering__c lrpSettings = Loan_ReEngineering__c.getOrgDefaults();
     Boolean runTrigger = lrpSettings.Run_Product_Payment_Trigger__c;
-     if(Trigger.new[0].CreatedDate != System.Now()){
-        runTrigger = false;
-    }
     if(runTrigger || test.isRunningTest()){ 
         	if(ProductPaymentsTriggerHandler.runProductTrigger){
                 if(Trigger.isBefore) {
-                    if(Trigger.isInsert){
+                    if(Trigger.isInsert && Trigger.new[0].CreatedDate == NULL){
                         //ProductTriggerHandler.handleBeforeInsert(Trigger.new);
                         ProductPaymentsTriggerHandler.handleBeforeInsert(Trigger.new);
                     }
@@ -34,7 +31,9 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                     if(Trigger.isUpdate){
                         ProductPaymentsTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
                     }
-                    if(Trigger.isInsert){
+                    String createdDate = String.valueOf(Trigger.new[0].createddate);
+            		String systemDate = String.valueOf(System.now());
+                    if(Trigger.isInsert && createddate == systemDate){
                         ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.new, Trigger.newMap, Trigger.oldMap);
                     }                          
                 }
