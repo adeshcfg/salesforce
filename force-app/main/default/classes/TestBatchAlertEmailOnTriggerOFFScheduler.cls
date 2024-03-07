@@ -1,11 +1,11 @@
 @isTest
-public class TestBatchAlertEmailOnTriggerOFFScheduler {
-@isTest
-    static void testbatch(){
-       test.startTest();
-       BatchAlertEmailOnTriggerOFFScheduler batchRun=new BatchAlertEmailOnTriggerOFFScheduler();
-        String sch = '0 0 48 * * ?'; 
-       // system.schedule('Test batch run ', sch, batchRun); 
-        Test.stopTest(); 
+public class TestBatchAlertEmailOnTriggerOFFScheduled {
+    @isTest
+    static void testBatchExecution() {
+        test.startTest();
+        BatchAlertEmailOnTriggerOFFScheduled testsche = new BatchAlertEmailOnTriggerOFFScheduled();
+        String sch ='0 48 * * * ?'; 
+        System.schedule('Schedule to update Account Name', sch,testsche);
+        test.stopTest();
     }
 }
