@@ -6,7 +6,7 @@
  *  @date : 07/March/2024
  *  Task 6159 
  *************************************************************************************************/
- public class BatchAlertEmailOnTriggerOFFScheduled implements Schedulable{
+ public class BatchAlertEmailOnTriggerOFFScheduler implements Schedulable{
     public void execute(SchedulableContext sc) {
          Database.executeBatch(new BatchAlertEmailOnTriggerOFF(),100);
     }
