@@ -84,7 +84,7 @@ global class BatchAlertEmailOnTriggerOFF implements Database.Batchable<sObject>
            }
            List<Distress_Setting__c> distressTriggers = [select id,name,	Attachment_Size__c,Distressed_Task_Eligible_Objects__c,Run_Placement_History_Trigger__c from Distress_Setting__c ];
            
-           map<string,string> distressTriggerMap = new map<string,string>{ 'Run Placement History Trigger' => 'Run_Placement_History_Trigger__c'
+           map<string,string> distressTriggerMap = new map<string,string>{ 'Run_Placement_History_Trigger__c' => 'Run Placement History Trigger'
            };
            for(Distress_Setting__c distr : distressTriggers){
             for(string distresstTriggerValue : distressTriggerMap.keySet()){ 
