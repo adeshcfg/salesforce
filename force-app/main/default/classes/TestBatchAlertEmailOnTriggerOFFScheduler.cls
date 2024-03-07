@@ -1,5 +1,5 @@
 @isTest
-public class TestBatchAlertEmailOnTriggerOFFScheduled {
+public class TestBatchAlertEmailOnTriggerOFFScheduler {
     @isTest
     static void testBatchExecution() {
         test.startTest();
