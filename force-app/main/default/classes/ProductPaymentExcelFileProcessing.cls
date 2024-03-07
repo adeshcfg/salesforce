@@ -1041,10 +1041,13 @@ public class ProductPaymentExcelFileProcessing {
                             payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
                         )[0];
                         // Check if submitted agency of original payment matches with the submitted agency of reversal
-                        if (originalPayment.Agency_Submitted_Payment__c != docStorage.Placement_Agency__c) {
+                        if (
+                            String.isNotBlank(originalPayment.Agency_Submitted_Payment__c) &&
+                            String.isNotBlank(docStorage.Placement_Agency__c) &&
+                            originalPayment.Agency_Submitted_Payment__c != docStorage.Placement_Agency__c
+                        ) {
                             ERROR_MSG += '<b>ERROR - </b>Cannot reverse payment posted by different agency.<br/>';
-                        }
-                        else {
+                        } else {
                             prodPayment.Original_Of_Payment_Reversal__c = originalPayment.Id;
                             prodPayment.Payment_Provided_Agency__c = originalPayment.Payment_Provided_Agency__c;
                             prodPayment.Payment_Agency__c = originalPayment.Payment_Agency__c;
