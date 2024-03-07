@@ -874,7 +874,13 @@ public class BalanceAdjustmentExcelFileProcessing {
                             prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                         }
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled within 15 days and is currently warehoused.<br/>';
-                        EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                        if (
+                            RogersFile == true &&
+                            String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
+                            prodPayment.Direct_Payment_Type__c != 'Direct Payment'
+                        ) {
+                            EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                        }
                     }
                 }
                 //This account is recalled before 15 days and is currently warehoused
@@ -911,13 +917,18 @@ public class BalanceAdjustmentExcelFileProcessing {
                             prodPayment.Payment_Agency__c = productAgency;
                         }
                         //prodPayment.Product_Agency__c = productAgencyID;
-
-                        EXPECTED +=
-                            'Commission Amount ' +
-                            prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP) +
-                            ' will be paid to Agency ' +
-                            prodPayment.Payment_Agency__c +
-                            '<br/>';
+                        if (
+                            RogersFile == true &&
+                            String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
+                            prodPayment.Direct_Payment_Type__c != 'Direct Payment'
+                        ) {
+                            EXPECTED +=
+                                'Commission Amount ' +
+                                prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP) +
+                                ' will be paid to Agency ' +
+                                prodPayment.Payment_Agency__c +
+                                '<br/>';
+                        }
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled before 15 days and is currently placed with agency ' + productAgency + '.<br/>';
                     }
                     //This account is recalled within 15 days and
@@ -952,7 +963,18 @@ public class BalanceAdjustmentExcelFileProcessing {
                                     prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                                 }
                             }
-                            EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                            if (
+                                RogersFile == true &&
+                                String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
+                                prodPayment.Direct_Payment_Type__c != 'Direct Payment'
+                            ) {
+                                EXPECTED +=
+                                    'Commission Amount ' +
+                                    prodPayment.Pay_Due__c +
+                                    ' will be paid to Agency ' +
+                                    prodPayment.Payment_Agency__c +
+                                    '<br/>';
+                            }
                             ERROR_MSG +=
                                 '<b>WARINING</b> - Account was recalled within 15 days and is currently placed with agency ' +
                                 productAgency +
