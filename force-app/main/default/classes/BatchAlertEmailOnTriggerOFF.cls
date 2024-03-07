@@ -82,7 +82,20 @@ global class BatchAlertEmailOnTriggerOFF implements Database.Batchable<sObject>
                    } 
                }
            }
-            // check the blanck //
+           List<Distress_Setting__c> distressTriggers = [select id,name,	Attachment_Size__c,Distressed_Task_Eligible_Objects__c,Run_Placement_History_Trigger__c from Distress_Setting__c ];
+           
+           map<string,string> distressTriggerMap = new map<string,string>{ 'Run Placement History Trigger' => 'Run_Placement_History_Trigger__c'
+           };
+           for(Distress_Setting__c distr : distressTriggers){
+            for(string distresstTriggerValue : distressTriggerMap.keySet()){ 
+               if (distr.get(distresstTriggerValue) == false){
+                triggerName += distressTriggerMap.get(distresstTriggerValue) + ' is Off\n';
+                    system.debug('product trigger value = '+ distresstTriggerValue);
+                   } 
+               }
+           } 
+                     
+           // check the blanck //
             if( triggerName !=''){
                 String userEmail =System.Label.API_Failed_Email;
                 String[] toAddresses = new String[] {userEmail};    

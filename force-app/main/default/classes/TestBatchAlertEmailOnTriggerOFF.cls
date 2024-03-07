@@ -60,6 +60,11 @@ public class TestBatchAlertEmailOnTriggerOFF {
             insert loanList;
             System.debug('creted record id'+loanList);
 
+            Distress_Setting__c disRecord = new Distress_Setting__c();
+            disRecord.name = 'test';
+            disREcord.Run_Placement_History_Trigger__c = false;
+            insert disRecord;
+
         Test.startTest();
         BatchAlertEmailOnTriggerOFF batchInstance = new BatchAlertEmailOnTriggerOFF();
         Database.executeBatch(batchInstance);
