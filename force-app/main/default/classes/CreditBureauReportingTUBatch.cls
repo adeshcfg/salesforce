@@ -838,7 +838,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     ZipAddres = ZipAddres.substring(0, STATIC_INTEGER_9);
                 }
             }
-            
             // Set default Account status to 13
             String accountStatus =defAccountStatus;
             if(String.isNotBlank(prodct.Product_Status__c)){
@@ -853,8 +852,14 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                              accountStatus = metro2TransUnion.Account_Status_Recalled__c;
                         }
                     }else{
-                        if(placementHistoryMap.containskey(prodct.id)){
-                            accountStatus = metro2TransUnion.Account_Status_Recalled__c;
+                        if(placementHistoryMap.containskey(prodct.id) && !preAllocatedAgency.containskey(prodct.id)){
+                            accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA
+                        }
+                        else if(preAllocatedAgency.containskey(prodct.id) && !previousAllocatedAgency.containskey(prodct.id)){
+                              accountStatus = metro2TransUnion.Account_Status_Recalled__c;   // set account status DA   
+                        }
+                        else if(preAllocatedAgency.containskey(prodct.id) && previousAllocatedAgency.containskey(prodct.id)){
+                              accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93     
                         }
                         else if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
                             accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
