@@ -61,7 +61,7 @@ public class PortalProductProcessingAPI {
                 '"Allocated_Amount_Total": "'+productInstance.Allocated_Amount_Total__c+'",'+
             	//'"Account_Purchasing_Entity_Value": "'+productInstance.Account_Purchasing_Entity_Value__c+'",'+
                 //'"Legal_Entity_Value": "'+productInstance.Legal_Entity_Name__c+'",'+
-                '"Company_Name": "'+productInstance.Employer_Name__c+'",'+
+                '"Pri_Employer_Name": "'+productInstance.Employer_Name__c+'",'+
                 '"Customer_Identifier": "'+productInstance.Customer_Identifier__c+'",'+
                 '"Seller": "'+productInstance.Seller__r.Name+'",'+
                 '"Current_Fees": "'+productInstance.Current_Fees__c+'",';
@@ -218,7 +218,7 @@ public class PortalProductProcessingAPI {
                 	'"Allocated_Amount_Total": "'+productInstance.Allocated_Amount_Total__c+'",'+
                     //'"Account_Purchasing_Entity_Value": "'+productInstance.Account_Purchasing_Entity_Value__c+'",'+
                     //'"Legal_Entity_Value": "'+productInstance.Legal_Entity_Name__c+'",'+
-                    '"Company_Name": "'+productInstance.Employer_Name__c+'",'+
+                    '"Pri_Employer_Name": "'+productInstance.Employer_Name__c+'",'+
                     '"Customer_Identifier": "'+productInstance.Customer_Identifier__c+'",'+
                     '"Current_Fees": "'+productInstance.Current_Fees__c+'",';
                 
@@ -371,7 +371,7 @@ public class PortalProductProcessingAPI {
                     '"Allocated_Amount_Total": "' +
                     productInstance.Allocated_Amount_Total__c +
                     '",' +
-                    '"Company_Name": "' +
+                    '"Pri_Employer_Name": "' +
                     productInstance.Employer_Name__c +
                     '",' +
                     '"Customer_Identifier": "' +
@@ -438,7 +438,7 @@ public class PortalProductProcessingAPI {
                     req.setEndpoint(apiCallDetails.PDF_API_URL__c + productInstance.Name);
                     req.setMethod('PUT');
                     productInstance.Outbound_API_Request_Body__c = req.getBody();
-                    //System.Debug('res::'+req.getBody());
+                    System.Debug('res::'+req.getBody());
                     try {
                         // Send the request, and return a response
                         HttpResponse res = h.send(req);
