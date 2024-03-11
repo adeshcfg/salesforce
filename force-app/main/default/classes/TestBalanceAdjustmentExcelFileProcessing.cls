@@ -187,9 +187,9 @@ private class TestBalanceAdjustmentExcelFileProcessing{
 		Map<Id,product__c> productmap = new map<Id,product__c>();
 		Map<String,String> mapAccountPrimaryNumber = new Map<String,String>();
 		Product_payments__c productpaymentscObj = new Product_payments__c (
-            Payment_Amount__c = -1.1, 
+            Payment_Amount__c = 1.1, 
             Payment_Posting_Date__c = Date.today(), 
-            Payment_Type__c ='1003', 
+            Payment_Type__c ='1000', 
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
 			CCS_Account_Name__c = 'test',
@@ -198,17 +198,6 @@ private class TestBalanceAdjustmentExcelFileProcessing{
             Payment_Agency__c = '1234',
             Commission_Rate_for_Payment__c = 10
             
-        );
-        Product_payments__c productpaymentscObj1 = new Product_payments__c (
-            Payment_Amount__c = 1.1, 
-            Payment_Posting_Date__c = Date.today(), 
-            Payment_Type__c ='1000', 
-            Payment_Posting_Date_Text__c = 'test value',
-            CCS_Account__c = prod1.Id,
-			CCS_Account_Name__c = 'test',
-			Pay_Due__c =  null,
-			Payment_Source__c = '2',
-            Payment_Agency__c = '1234'
         );
 		mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c,'1263');
 
