@@ -113,7 +113,7 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
                                         Data_Status_Description__c, Pool_Name__r.Name,RecordTypeId,Commission_Rate_at_Time_of_Placement__c,
                                         Commission_Rate__c,Value_Tier_at_Time_of_Placement__c,Settlement_Rate__c,Current_Bal_NSF_Fees__c,
                                         Commission_Adjustment__c,Placed_Settlement_Rate__c,Purchase_Status__c,Placement_Status__c,Status__c,
-                                        Refer_to_Legal__c
+                                        Refer_to_Legal__c,Purchase_Province__c
                                         FROM Product__C
                                         WHERE name in :productNameList])
         {

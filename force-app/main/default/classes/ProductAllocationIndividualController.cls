@@ -35,10 +35,10 @@ public with sharing class ProductAllocationIndividualController {
         product = [SELECT ID, Name, State__c, Collection_Agency__c, Collection_Agency_Placement__c,Fee_Recovery__c,
                           Current_Principal_Balance__c,Current_Interest_Amount__c,Interest_Rate__c,Current_Bal_NSF_Fees__c,
                           Current_Bal_Attorney_Fees__c,Current_Bal_General_Fees__c,Current_Bal_Other_Fees__c,
-                          Current_Bal_Court_Fees__c,Collection_Agency_Placement__r.Commission_Rate__c,
+                          Current_Bal_Court_Fees__c,Collection_Agency_Placement__r.Commission_Rate__c,Purchase_Province__c,
                           Collection_Sub_Status__c, Data_Status_Description__c,Commission_Rate__c,Pool_Name__r.Commission_Rate__c,
                           Placement_Status__c, Pool_Name__r.Name, RecordTypeID,Allocated_Amount_Total__c,Commission_Rate_at_Time_of_Placement__c,Value_Tier_at_Time_of_Placement__c,
-                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c,Purchase_Status__c,OwnerId,Previous_Ownership__c
+                          Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c,Purchase_Status__c,OwnerId,Previous_Ownership__c
                    FROM Product__c WHERE ID= :productID];
         system.debug('product: '+product);
         if(product.Collection_Agency_Placement__c == NULL || product.Collection_Agency__c == 9999){
@@ -120,7 +120,6 @@ public with sharing class ProductAllocationIndividualController {
         product.Timestamp_Of_Invalid_Submission__c = null;
         product.Invalid_Submission_Reason__c = null;
         product.Collection_Sub_Status__c = null;
-        //product.Invalid_Submission_Initiated_By__c = null;
         oldPlacementID = product.Collection_Agency_Placement__c; 
         if(!mapRecallCodeStatus.isEmpty()){
             product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
@@ -316,28 +315,22 @@ public with sharing class ProductAllocationIndividualController {
             ERROR_MSG += '<b>ERROR</b> - '+'Product is already placed with another agency'+'<br/>';
             EXPECTED += 'Current Agency- ' + product.Collection_Agency__c +'<br/>';
         }
-        
-        
         if(placement != NULL
              && String.isNotBlank(placement.Serviceable_Province__c)){
                 AgencyProvince = placement.Serviceable_Province__c; 
         }
-        
         if(String.isNotBlank(newPlacement)
         && String.isNotBlank(AgencyProvince)
-        && String.isNotBlank(product.State__c) 
-        && (!AgencyProvince.contains(product.State__c))
-        && ( (!mapProvinceAcronym.containsKey(product.State__c) && !AgencyProvince.contains(product.State__c))
-        ||   (mapProvinceAcronym.containsKey(product.State__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(product.State__c))))){
+        && String.isNotBlank(product.Purchase_Province__c) 
+        && (!AgencyProvince.contains(product.Purchase_Province__c))
+        && ( (!mapProvinceAcronym.containsKey(product.Purchase_Province__c) && !AgencyProvince.contains(product.Purchase_Province__c))
+        ||   (mapProvinceAcronym.containsKey(product.Purchase_Province__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(product.Purchase_Province__c))))){
                ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
-               EXPECTED += 'Product Province - ' + product.State__c +'<br/>';
+               EXPECTED += 'Product Province - ' + product.Purchase_Province__c +'<br/>';
         } 
-        
         if(!placementHistory.isEmpty()){
             ERROR_MSG = '<b>WARNING</b> - '+'Product is placed with the agency in last 6 months'+'<br/>';
         }
-        
-        
         if(String.isNotBlank(newPlacement)){
             if(String.isNotBlank(product.Collection_Sub_Status__c)){
                 String collectionSubStatus = product.Collection_Sub_Status__c;
@@ -356,9 +349,7 @@ public with sharing class ProductAllocationIndividualController {
                 else if(collectionSubStatus == 'Fraud Claimed'){
                     ERROR_MSG += '<b>ERROR</b> - '+'Product is in Fraud Claimed Collection Sub Status'+'<br/>';
                 }
-            }
-                
-                
+            }   
             if(String.isNotBlank(product.Data_Status_Description__c)){
                 String dataStatus = product.Data_Status_Description__c;
                 if(dataStatus.contains('Closed')){
@@ -369,7 +360,6 @@ public with sharing class ProductAllocationIndividualController {
                     ERROR_MSG += '<b>ERROR</b> - '+'Product is Insolveny Status'+'<br/>';    
                 } 
             }
-
             if(placement.Active__c == False){
                 ERROR_MSG += '<b>ERROR</b> - Allocate Agency is not Active <br/>';
             }
