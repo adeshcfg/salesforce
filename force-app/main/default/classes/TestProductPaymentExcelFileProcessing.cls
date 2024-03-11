@@ -246,9 +246,9 @@ private class TestProductPaymentExcelFileProcessing {
         Map<Id, product__c> productmap = new Map<Id, product__c>();
         Map<String, String> mapAccountPrimaryNumber = new Map<String, String>();
         Product_payments__c productpaymentscObj = new Product_payments__c(
-            Payment_Amount__c = -1.1,
+            Payment_Amount__c = 1.1,
             Payment_Posting_Date__c = Date.today() - 5,
-            Payment_Type__c = '1003',
+            Payment_Type__c = '1000',
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
             CCS_Account_Name__c = 'test',
@@ -256,7 +256,6 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Source__c = '2',
             Ignore_Warning__c = true
         );
-
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
 
         prodList.add(productpaymentscObj);
@@ -462,7 +461,7 @@ private class TestProductPaymentExcelFileProcessing {
         );
         Product_payments__c productpaymentscObj4 = new Product_payments__c(
             Payment_Amount__c = 1.1,
-            Payment_Type__c = '1003',
+            Payment_Type__c = '1000',
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
             CCS_Account_Name__c = 'test',
@@ -473,7 +472,7 @@ private class TestProductPaymentExcelFileProcessing {
         );
         Product_payments__c productpaymentscObj5 = new Product_payments__c(
             Payment_Amount__c = 1.1,
-            Payment_Type__c = '1003',
+            Payment_Type__c = '1000',
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
             CCS_Account_Name__c = 'test',
@@ -921,9 +920,9 @@ private class TestProductPaymentExcelFileProcessing {
         Map<Id, product__c> productmap = new Map<Id, product__c>();
         Map<String, String> mapAccountPrimaryNumber = new Map<String, String>();
         Product_payments__c productpaymentscObj = new Product_payments__c(
-            Payment_Amount__c = -1.1,
+            Payment_Amount__c = 1.1,
             Payment_Posting_Date__c = Date.today() - 5,
-            Payment_Type__c = '1003',
+            Payment_Type__c = '1000',
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
             CCS_Account_Name__c = 'test',
@@ -931,7 +930,6 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Source__c = '2',
             Ignore_Warning__c = true
         );
-
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
 
         prodList.add(productpaymentscObj);
@@ -988,9 +986,9 @@ private class TestProductPaymentExcelFileProcessing {
         Map<Id, product__c> productmap = new Map<Id, product__c>();
         Map<String, String> mapAccountPrimaryNumber = new Map<String, String>();
         Product_payments__c productpaymentscObj = new Product_payments__c(
-            Payment_Amount__c = -1.1,
+            Payment_Amount__c = 1.1,
             Payment_Posting_Date__c = Date.today() - 5,
-            Payment_Type__c = '1003',
+            Payment_Type__c = '1000',
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
             CCS_Account_Name__c = 'test',
@@ -998,7 +996,6 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Source__c = '2',
             Ignore_Warning__c = true
         );
-
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
 
         prodList.add(productpaymentscObj);
@@ -1122,9 +1119,9 @@ private class TestProductPaymentExcelFileProcessing {
         Map<Id, product__c> productmap = new Map<Id, product__c>();
         Map<String, String> mapAccountPrimaryNumber = new Map<String, String>();
         Product_payments__c productpaymentscObj = new Product_payments__c(
-            Payment_Amount__c = -1.1,
+            Payment_Amount__c = 1.1,
             Payment_Posting_Date__c = Date.today() - 5,
-            Payment_Type__c = '1003',
+            Payment_Type__c = '1000',
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
             CCS_Account_Name__c = 'test',
@@ -1132,7 +1129,6 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Source__c = '2',
             Ignore_Warning__c = true
         );
-
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
 
         prodList.add(productpaymentscObj);
