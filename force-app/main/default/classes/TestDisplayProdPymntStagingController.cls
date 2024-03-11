@@ -604,10 +604,10 @@ public class TestDisplayProdPymntStagingController {
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = 1002;
         prodpay2.Pay_Due__c = 100;
         prodpay2.Payment_Posting_Date__c= System.today();
-        prodpay2.Payment_Type__c = '1003';
+        prodpay2.Payment_Type__c = '1000';
         prodpay2.Payment_Source__c = '2';
         prodpay2.Ignore_Warning__c = true;
         prodpay2.Original_Of_Payment_Reversal__c = prodpay1.id;
@@ -660,10 +660,10 @@ public class TestDisplayProdPymntStagingController {
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = 1002;
         prodpay2.Pay_Due__c = 100;
         prodpay2.Payment_Posting_Date__c= System.today();
-        prodpay2.Payment_Type__c = '1003';
+        prodpay2.Payment_Type__c = '1000';
         prodpay2.Payment_Source__c = '2';
         prodpay2.Ignore_Warning__c = true;
         prodpay2.Original_Of_Payment_Reversal__c = prodpay1.id;
@@ -717,9 +717,9 @@ public class TestDisplayProdPymntStagingController {
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = 1002;
         prodpay2.Payment_Posting_Date__c= System.today();
-        prodpay2.Payment_Type__c = '1003';
+        prodpay2.Payment_Type__c = '1000';
         prodpay2.Payment_Source__c = '2';
         prodpay2.Ignore_Warning__c = true;
         prodpay2.Original_Of_Payment_Reversal__c = prodpay1.id;
@@ -792,10 +792,10 @@ public class TestDisplayProdPymntStagingController {
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = 1002;
         prodpay2.Pay_Due__c = 100;
         prodpay2.Payment_Posting_Date__c= System.today();
-        prodpay2.Payment_Type__c = '1003';
+        prodpay2.Payment_Type__c = '1000';
         prodpay2.Payment_Source__c = '2';
         prodpay2.Ignore_Warning__c = true;
         prodpay2.Original_Of_Payment_Reversal__c = prodpay1.id;
@@ -852,9 +852,9 @@ public class TestDisplayProdPymntStagingController {
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = 1002;
         prodpay2.Payment_Posting_Date__c= System.today();
-        prodpay2.Payment_Type__c = '1003';
+        prodpay2.Payment_Type__c = '1000';
         prodpay2.Payment_Source__c = '2';
         prodpay2.Ignore_Warning__c = true;
         prodpay2.Original_Of_Payment_Reversal__c = prodpay1.id;
