@@ -89,6 +89,7 @@ public class TestCommissionStatementController_New {
         prodpay1.Payment_Provided_Agency__c=place.id;
         prodpay1.Pay_Due__c = 200;
         prodpay1.Tax_amount__c= 100;
+        prodpay1.Ignore_Warning__c=true;
         prodpay1.Payment_Created__c = date.newInstance(Integer.valueOf(mYear),Integer.valueOf(mMonth),Integer.valueOf(mDay));
         prodpay1.RecordTypeId = Schema.SObjectType.Product_Payments__C.getRecordTypeInfosByName().get('Distressed Product Payment').getRecordTypeId();
          //prodpay1.RecordType.name = 'Distressed_Product_Payment';
