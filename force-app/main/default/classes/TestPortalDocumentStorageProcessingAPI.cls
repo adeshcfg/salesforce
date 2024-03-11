@@ -44,5 +44,6 @@ public class TestPortalDocumentStorageProcessingAPI {
         INSERT docStor;
         
         PortalDocumentStorageProcessingAPI.processDocumentStorage(docStor.Id); 
+        PortalDocumentStorageProcessingAPI.processDocumentStorage2(docStor.Id); 
     }
 }

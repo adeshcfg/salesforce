@@ -406,11 +406,11 @@ public class DistressedUtilities {
             if(String.isNotBlank(newAgency)
                && String.isNotBlank(AgencyProvince)
                && mapProductName.containsKey(product.Data_Id__c)
-               && String.isNotBlank(mapProductName.get(product.Data_Id__c).State__c)
-               && ( (!mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).State__c) && !AgencyProvince.contains(mapProductName.get(product.Data_Id__c).State__c))
-                   ||   (mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).State__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(mapProductName.get(product.Data_Id__c).State__c))))){
+               && String.isNotBlank(mapProductName.get(product.Data_Id__c).Purchase_Province__c)
+               && ( (!mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).Purchase_Province__c) && !AgencyProvince.contains(mapProductName.get(product.Data_Id__c).Purchase_Province__c))
+                   ||   (mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).Purchase_Province__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(mapProductName.get(product.Data_Id__c).Purchase_Province__c))))){
                        ERROR_MSG += '<b>ERROR</b>- '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
-                       EXPECTED += 'Product Province - ' + mapProductName.get(product.Data_Id__c).State__c +'<br/>';
+                       EXPECTED += 'Product Province - ' + mapProductName.get(product.Data_Id__c).Purchase_Province__c +'<br/>';
                    }
             
             if(newAgency == oldAgency){

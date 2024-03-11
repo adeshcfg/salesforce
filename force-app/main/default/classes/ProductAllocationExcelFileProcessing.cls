@@ -17,7 +17,6 @@ public class ProductAllocationExcelFileProcessing {
     
     public ProductAllocationExcelFileProcessing(String data, String workAssignmentPlacement, ID documentId){
         exceptionMessage = '';
-        system.debug('class called');
         listProductWrapper = deSerializeJSON(data); 
         if(String.isNotBlank(workAssignmentPlacement)){
             this.workAssignmentPlacement = workAssignmentPlacement;    
@@ -34,12 +33,15 @@ public class ProductAllocationExcelFileProcessing {
     
     public void processExcelFileRecords(){
         try{
-            system.debug('listProductWrapper: '+listProductWrapper);
             List<Product__c> listProductsToInsert = new List<Product__c>();
-          
-    
             List<String> accountNumberList = new List<String>();
             List<String> poolNumberList = new List<String>();
+            //map of account number to the Salesforce record ID
+            Map<String, Product__c> mapProductName= new Map<String, Product__c>();
+            set<ID> setProdutID = new set<ID>();
+            set<String> setPlacementNames = new set<String>();
+            Map<String ,Pool__C> mapPoolName =new Map<String,Pool__C>();
+
             for(ProductWrapper wrapRecord : listProductWrapper){
                 if(String.isNotBlank(wrapRecord.data_id) &&  wrapRecord.data_id.contains('.') ){
                     wrapRecord.data_id = wrapRecord.data_id.substringBefore('.');
@@ -54,32 +56,22 @@ public class ProductAllocationExcelFileProcessing {
                     
                 }
             }
-            system.debug('accountNumberList::'+accountNumberList);
-            system.debug('poolNumberList::'+poolNumberList);
-            //map of account number to the Salesforce record ID
-            Map<String, Product__c> mapProductName= new Map<String, Product__c>();
-            set<ID> setProdutID = new set<ID>();
-            set<String> setPlacementNames = new set<String>();
-            Map<String ,Pool__C> mapPoolName =new Map<String,Pool__C>();
-            
+
             for(Pool__C pool : [SELECT ID, Name,Placement_Agency__c
                                 FROM Pool__C 
-                                where Name =: poolNumberList
-                               ]){
-                                   mapPoolName.put(pool.Name, pool);
-                                   //mapPoolID.put(pool.ID, pool);
-                                   //product.Pool_Name__c = mapPool.get(wrapRecord.pool_name).Id;
+                                where Name =: poolNumberList ]){
+                                   mapPoolName.put(pool.Name, pool);  
                                }
             
             for(Product__C accountRecord : [SELECT ID, Name, Collection_Agency__c,Collection_Sub_Status__c,State__c,Current_Principal_Balance__c,
                                             Current_Interest_Amount__c,Fee_Recovery__c,Assignment_Date__c,Collection_Agency_Placement__r.Serviceable_Province__c,
                                             Data_Status_Description__c, Pool_Name__r.Name,RecordTypeId,Commission_Rate_at_Time_of_Placement__c,
-                                            Commission_Rate__c,Value_Tier_at_Time_of_Placement__c,Settlement_Rate__c,Current_Bal_NSF_Fees__c
+                                            Commission_Rate__c,Value_Tier_at_Time_of_Placement__c,Settlement_Rate__c,Current_Bal_NSF_Fees__c,Purchase_Province__c
                                             FROM Product__C 
                                             WHERE name in :accountNumberList] ){
                 mapProductName.put(accountRecord.name, accountRecord);
             }
-            system.debug('mapProductName:::'+mapProductName);
+
             for(ProductWrapper wrapRecord : listProductWrapper){
                 Product__c product = new Product__c();
                 if(String.isNotBlank(wrapRecord.data_id)){
@@ -88,7 +80,7 @@ public class ProductAllocationExcelFileProcessing {
                     }            
                     product.Name = wrapRecord.data_id;
                 }
-                system.debug('wrapRecord: '+wrapRecord);
+
                 if(String.isNotBlank(wrapRecord.place_id)){
                     if(wrapRecord.place_id.contains('.') ){
                         wrapRecord.place_id = wrapRecord.place_id.substringBefore('.');
@@ -126,7 +118,6 @@ public class ProductAllocationExcelFileProcessing {
                     listProductsToInsert.add(product);    
                 } 
             }
-            system.debug('listProductsToInsert: '+listProductsToInsert);
             
             list<Product_Staging__c> listProductStaging = validationOnRecordUpdate(listProductsToInsert, mapProductName,
                                                               documentID,mapPoolName);
@@ -134,14 +125,13 @@ public class ProductAllocationExcelFileProcessing {
         }
         catch(Exception ex){
             exceptionMessage = String.valueOf(ex);
-            
             system.debug('exceptionMessage::'+ex.getStackTraceString());
         }
         
         list<Document_Storage__c> listDocuments = [Select ID, Creator__c, Work_Assignment__c, Uploaded_By__c 
                                                         FROM Document_Storage__c 
                                                         WHERE ID= :documentID];
-        system.debug('listDocuments:: '+listDocuments);
+
         //Send email of File processing completion
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         if(!listDocuments.isEmpty() && listDocuments[0].Uploaded_By__c == 'External User' && String.isnotblank(listDocuments[0].Creator__c)){
@@ -178,17 +168,6 @@ public class ProductAllocationExcelFileProcessing {
                 exceptionMessage = exceptionMessage;
             }
         }
-        /*if(!Test.isRunningTest()){
-            Messaging.SingleEmailMessage[] messages = 
-            new List<Messaging.SingleEmailMessage> {message};
-                 Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
-            if (results[0].success) {
-                System.debug('The email was sent successfully.');
-            } else {
-                System.debug('The email failed to send: '
-                      + results[0].errors[0].message);
-            }    
-        }*/
 
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
         Document_Storage__c doc = new Document_Storage__c(ID = listDocuments[0].ID,
@@ -213,7 +192,6 @@ public class ProductAllocationExcelFileProcessing {
             //Combine Product name + Placement Agency
             setProductAgencyName.add(placementHistory.Product__r.Name + placementHistory.Placement__r.Name );   
         }
-        system.debug('setProductAgencyName::'+setProductAgencyName);
         return setProductAgencyName;
     }
     
@@ -228,10 +206,14 @@ public class ProductAllocationExcelFileProcessing {
         list<Product_Staging__c> listProductAllocateStaging = new list<Product_Staging__c>();
         set<String> setPreviousPlacedProductNames = new set<String>();
         Product_Staging__c productStaging = new Product_Staging__c();
+        String newAgency = '';
+        String oldAgency;
+        String prodAgency = '';
+        String poolAgency = '';
+        String EXPECTED = '';
+        String ERROR_MSG = '';
                                                     
         setPreviousPlacedProductNames = getPlacementHistoryDetails(mapProductName.keySet());
-        system.debug('setPreviousPlacedProductNames: '+setPreviousPlacedProductNames);               
-        system.debug('mapProduct:: '+mapProductName);
         
         map<String, Decimal> mapProductNameAmount = new map<String, Decimal>();     
        	for(Product__c prodList:listProducts){
@@ -245,46 +227,29 @@ public class ProductAllocationExcelFileProcessing {
         }
                                                     
         for(Placement__c placement : [Select ID, Name, Serviceable_Province__c
-                                      From Placement__c 
-                                      ]){
+                                      From Placement__c ]){
            mapPlacement.put(placement.Name, placement);
         }
                                                     
         for(Pool__c pool : [SELECT ID, Name,Placement_Agency__c
-                                       FROM Pool__c 
-                                      ]){
+                                       FROM Pool__c ]){
            mapPool.put(pool.Name, pool);
         }   
         //Fill provice name map with abbriviations                                            
         for(Provice_Name_Map_with_Abbreviations__mdt metaData : mapProviceAbbreviations.values()){
             mapProvinceAcronym.put(metaData.Province_Acronym__c,metaData.Province_Name__c);
         }                                            
-        system.debug('mapPlacement: '+mapPlacement);
-        
-        String newAgency = '';
-        String oldAgency;
-        String prodAgency = '';
-        String poolAgency = '';
-                                                    
+                                                 
         for(Product__c product: listProducts){
-            system.debug('product.Name: '+product.Name);
             if(product.Collection_Agency__c != NULL){
                 newAgency = String.valueOf(Math.floor(product.Collection_Agency__c));    
             }
-            system.debug('newAgency: '+newAgency);
             if(mapProductName.containsKey(product.Name)
             && mapProductName.get(product.Name).Collection_Agency__c != NULL){
                     oldAgency = String.valueOf(Math.floor(mapProductName.get(product.Name).Collection_Agency__c));    
             }
-            system.debug('oldAgency: '+oldAgency);
-            // 3
-            String EXPECTED = '';
-            String ERROR_MSG = '';
-            
             if(setPreviousPlacedProductNames.contains(product.Name+ newAgency)){
                 ERROR_MSG+= '<b>WARNING</b> - '+'Product is placed with the agency in last 6 months'+'<br/>';
-                //product.addError('Product is placed with the agency in last 6 months');
-                system.debug('previously placed');
             }
             if(!mapProductName.containsKey(product.Name)){
                 ERROR_MSG = '<b>ERROR</b> - Invalid Account Number.'+'<br/>';
@@ -298,48 +263,32 @@ public class ProductAllocationExcelFileProcessing {
             if(mapPool.get(product.Pool_Name_Text__c) == NULL && String.isNotBlank(product.Pool_Name_Text__c)){
                 ERROR_MSG += '<b>ERROR</b> - This Pool is not available in system.<br/>';
             }
-            
             if(mapProductNameAmount.containsKey(product.Name )
             && mapProductNameAmount.get(product.Name) > 1){
 				ERROR_MSG += '<b>WARNING</b> - A duplicate transaction was found in this File Update.<br/>';    
             }
-            
             String AgencyProvince;
-            system.debug('newAgency::'+newAgency);
             if(String.isNotBlank(newAgency)
             && mapPlacement.containsKey(newAgency)
             && String.isNotBlank(mapPlacement.get(newAgency).Serviceable_Province__c)){
                 AgencyProvince = mapPlacement.get(newAgency).Serviceable_Province__c; 
             }
-            system.debug('AgencyProvince: '+AgencyProvince);
-            system.debug('product.State__c: '+product.State__c);
             if(String.isNotBlank(newAgency)
             && String.isNotBlank(AgencyProvince)
             && mapProductName.containsKey(product.Name)
-            && String.isNotBlank(mapProductName.get(product.Name).State__c)
-            && ( (!mapProvinceAcronym.containsKey(mapProductName.get(product.Name).State__c) && !AgencyProvince.contains(mapProductName.get(product.Name).State__c))
-            ||   (mapProvinceAcronym.containsKey(mapProductName.get(product.Name).State__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(mapProductName.get(product.Name).State__c))))){
-                system.debug('error');
+            && String.isNotBlank(mapProductName.get(product.Name).Purchase_Province__c)
+            && ( (!mapProvinceAcronym.containsKey(mapProductName.get(product.Name).Purchase_Province__c) && !AgencyProvince.contains(mapProductName.get(product.Name).Purchase_Province__c))
+            ||   (mapProvinceAcronym.containsKey(mapProductName.get(product.Name).Purchase_Province__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(mapProductName.get(product.Name).Purchase_Province__c))))){
                 ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
-                EXPECTED += 'Product Province - ' + mapProductName.get(product.Name).State__c +'<br/>';
-                system.debug('province error');
+                EXPECTED += 'Product Province - ' + mapProductName.get(product.Name).Purchase_Province__c +'<br/>';
             }
-            
-            system.debug('oldAgency before check'+oldAgency);
             if(newAgency == oldAgency){
                 ERROR_MSG += '<b>ERROR</b> - '+'Product is already placed with Same agency'+'<br/>'; 
             }
             else if(String.isNotBlank(oldAgency) && oldAgency != '9999'){
                 ERROR_MSG += '<b>ERROR</b> - '+'Product is already placed with another agency'+'<br/>';
                 EXPECTED += 'Current Agency- ' + oldAgency +'<br/>';
-                //errorMessage += ' VALIDATION: '+'Product is already placed with another agency:'+oldAgency;
-                //product.addError('Product is allready placed with Agency');
-                //errorAdded = true;
-                system.debug('already placed error');
             }
-            
-            
-            //Changes
             if(mapProductName.containsKey(product.Name)
                && mapProductName.get(product.Name).Collection_Agency__c != NULL){
                    prodAgency = String.valueOf(Math.floor(mapProductName.get(product.Name).Collection_Agency__c));    
@@ -352,11 +301,6 @@ public class ProductAllocationExcelFileProcessing {
                        
                    }
             }
-           system.debug('poolAgency***'+poolAgency);
-          // system.debug('mapPoolName poolAgency***'+mapPoolName.get(product.Pool_Name_Text__c).Placement_Agency__c);
-           /* if(string.isBlank(product.Name)){
-                ERROR_MSG += '<b>ERROR</b> - No Account Number is assigned.<br/>';
-            }*/
             if(mapPoolName.get(product.Pool_Name_Text__c).Placement_Agency__c != null &&
               prodAgency != poolAgency){
                 ERROR_MSG += '<b>ERROR</b> - Pool cannot be mapped to account.<br/>';
@@ -370,10 +314,6 @@ public class ProductAllocationExcelFileProcessing {
                     }
                 }
             }
-            //
-            
-            system.debug('product.Name+ newAgency: '+product.Name+ newAgency);
-
             if(String.isNotBlank(newAgency)
             && mapProductName.containsKey(product.Name)){
                 if(String.isNotBlank(mapProductName.get(product.Name).Collection_Sub_Status__c)){
@@ -381,9 +321,6 @@ public class ProductAllocationExcelFileProcessing {
                     if(collectionSubStatus == 'Credit Counselling'){
                         ERROR_MSG += '<b>ERROR</b> - '+'Product is in Credit Counselling Collection Sub Status'+'<br/>';
                     }
-                    /*else if(collectionSubStatus == 'Credit Counselling'){
-                        ERROR_MSG += '<b>ERROR</b> - '+'Product is in Credit Counselling Collection Sub Status'+'<br/>';
-                    }*/
                     else if(collectionSubStatus == 'Cease and Desist – In Writing'){
                         ERROR_MSG += '<b>ERROR</b> - '+'Product is in Cease and Desist – In Writing Collection Sub Status'+'<br/>';
                     }
@@ -397,8 +334,6 @@ public class ProductAllocationExcelFileProcessing {
                         ERROR_MSG += '<b>ERROR</b> - '+'Product is in Fraud Claimed Collection Sub Status'+'<br/>';
                     }
                 }
-                
-                system.debug('mapProductName.get(product.Name'+mapProductName);
                 if(String.isNotBlank(mapProductName.get(product.Name).Data_Status_Description__c)){
                     String dataStatus = mapProductName.get(product.Name).Data_Status_Description__c;
                     if(dataStatus.contains('Closed')){
@@ -436,9 +371,6 @@ public class ProductAllocationExcelFileProcessing {
                 }
             }
              
-            /*if(product.Pool_Name__r.Name != NULL ){
-                productStaging.Pool_Name__c = product.Pool_Name__r.Name;
-            }*/
             if(product.Collection_Agency__c != NULL ){
                 productStaging.Placement_Agency__c = String.valueOf(product.Collection_Agency__c);
                 if(mapPlacement.containsKey(productStaging.Placement_Agency__c)){
@@ -460,19 +392,16 @@ public class ProductAllocationExcelFileProcessing {
             if(product.Settlement_Rate__c != NULL ){
                 productStaging.Current_Settlement_Rate__c = product.Settlement_Rate__c;
             }
-            system.debug('productStaging.Current_Settlement_Rate__c***: '+productStaging.Current_Settlement_Rate__c);
             if(product.Value_Tier_at_Time_of_Placement__c != NULL ){
                 productStaging.Value_Tier_at_Time_of_Placement__c = product.Value_Tier_at_Time_of_Placement__c;
             }
             if(product.Placed_Settlement_Rate__c != NULL ){
                 productStaging.Placed_Settlement_Rate__c = product.Placed_Settlement_Rate__c;
             }
-            system.debug('productStaging.Placed_Settlement_Rate__c***: '+productStaging.Placed_Settlement_Rate__c);
             productStaging.Pool_Name__c = String.valueOf(product.Pool_Name_Text__c);
             if(product.Pool_Name_Text__c != NULL && mapPool.get(product.Pool_Name_Text__c) != NULL){
                 productStaging.Pool_Name_ID__c = mapPool.get(productStaging.Pool_Name__c).ID;
             }
-            system.debug('productStaging: '+productStaging);
             if(String.isBlank(ERROR_MSG)){
                 productStaging.Comment__c = 'SUCCESS';
             }
@@ -481,7 +410,6 @@ public class ProductAllocationExcelFileProcessing {
            newAgency = '';
            oldAgency = '';
         }
-        system.debug('listProductAllocateStaging: '+listProductAllocateStaging);
         return listProductAllocateStaging;
     }
     
