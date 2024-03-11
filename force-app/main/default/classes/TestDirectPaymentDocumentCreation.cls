@@ -9,6 +9,10 @@ public class TestDirectPaymentDocumentCreation {
         String docUrl;
         String docId;
         
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
+        
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         API_Call_Details__c  settings = new API_Call_Details__c ();
         settings.Name = 'Agency Portal API';
@@ -60,7 +64,7 @@ public class TestDirectPaymentDocumentCreation {
         Product_Payments__c prodpay= new  Product_Payments__c();
         prodpay.CCS_Account__c= prod.id;
         prodpay.Payment_Type__c ='1900';
-        prodpay.Payment_Amount__c= 1002;
+        prodpay.Payment_Amount__c= 100;
         prodpay.Agency_Calculated_Comm__c=10;
         prodpay.Payment_Posting_Date__c= System.today();
         //prodpay.Commission_Amount__c = prodpay.Payment_Amount__c * (ComissionRate);
@@ -131,6 +135,8 @@ public class TestDirectPaymentDocumentCreation {
         Product_Payments__c prod1 = new Product_Payments__c();
         prod1.Payment_Source__c = '2';
         prod1.Payment_Agency__c = '61';
+        prod1.payment_Type__c = '1000';
+        prod1.Payment_Amount__c = 100;
         prod1.CCS_Account__c = prodList[0].Id;
 		insert prod1;
         /*Product_Payments__c prod3 = new Product_Payments__c();

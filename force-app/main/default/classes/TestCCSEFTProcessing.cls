@@ -2,6 +2,10 @@
 public class TestCCSEFTProcessing {
     @testSetup
     public static void testSetup() {
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
+        
         EFT_Processing_Config__c config = new EFT_Processing_Config__c();
         config.CCS_EFT_RecordTypeID__c = Schema.SObjectType.EFT_Files__c.getRecordTypeInfosByName().get('CCS EFT').getRecordTypeId();
         insert config;
@@ -139,6 +143,8 @@ public class TestCCSEFTProcessing {
         paymentInstance1.CCS_Account__c = [SELECT ID FROM Product__c LIMIT 1][0].ID;
         paymentInstance1.Payment_Posting_Date__c = system.today();
         paymentInstance1.Payment_Amount__c = 321.98;
+        paymentInstance1.Payment_Type__c = '1000';
+        paymentInstance1.Payment_Source__c = '1';
         paymentInstance1.FairShare_Amount__c = 110.02;
         paymentInstance1.Cheque_Number__c = 'Test File Uploaded123456';
         paymentInstance1.EFT_Files__c = eftInstance.Id;
