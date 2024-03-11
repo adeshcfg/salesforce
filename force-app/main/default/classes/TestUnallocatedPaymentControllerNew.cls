@@ -14,6 +14,10 @@ public class TestUnallocatedPaymentControllerNew{
     @testSetup
     static void testData(){
        
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
+        
         Application_Config_Settings__c config = new Application_Config_Settings__c(Run_Remittance_Validation__c = false,Run_Remittance_Trigger__c  = true,Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
                                                                                    Run_Insolvency_Trigger__c = false,Run_Insolvency_Account_Duplicate_Check__c = True,Run_Insolvency_Account_Trigger__c=false,
                                                                                    Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',Run_Insolvency_Status_Validations__c = True,
@@ -89,9 +93,12 @@ public class TestUnallocatedPaymentControllerNew{
         Product_Payments__c prodPayments = new Product_Payments__c();
         prodPayments.Dividend__c = remit.Id;
         prodPayments.Payment_Amount__c = 1123.00;
+        prodPayments.Payment_Type__c = '1000';
+        prodPayments.Payment_Source__c = '1';
         prodPayments.CCS_Account__c =prod.id;
         prodPayments.Unallocated_Payment__c=unAloccPay.id;
         prodPayments.Deposit_Account_Type__c = 'CIH';
+        prodPayments.Payment_Posting_Date__c = System.today();
         insert prodPayments;
     }
     
@@ -180,6 +187,8 @@ public class TestUnallocatedPaymentControllerNew{
 		Product_Payments__c prodPayments = new Product_Payments__c();
         prodPayments.Dividend__c = remit.Id;
         prodPayments.Payment_Amount__c = 1123.00;
+        prodPayments.Payment_Type__c = '1000';
+        prodPayments.Payment_Source__c = '1';
         prodPayments.CCS_Account__c =prod1.id;
         prodPayments.Unallocated_Payment__c=unAloccPay.id;
         prodPayments.Deposit_Account_Type__c = 'CCL';
@@ -187,7 +196,9 @@ public class TestUnallocatedPaymentControllerNew{
         
         Product_Payments__c prodPayments1 = new Product_Payments__c();
         prodPayments1.Dividend__c = remit.Id;
-        prodPayments1.Payment_Amount__c = 1123.00;
+        prodPayments1.Payment_Amount__c = 1124.00;
+        prodPayments1.Payment_Type__c = '1000';
+        prodPayments1.Payment_Source__c = '1';
         prodPayments1.CCS_Account__c =prod1.id;
         prodPayments1.Unallocated_Payment__c=unAloccPay.id;
         prodPayments1.Deposit_Account_Type__c = 'CIA';
@@ -264,9 +275,12 @@ public class TestUnallocatedPaymentControllerNew{
 		Product_Payments__c prodPayments = new Product_Payments__c();
         prodPayments.Dividend__c = remit.Id;
         prodPayments.Payment_Amount__c = 1123.00;
+        prodPayments.Payment_Type__c = '1000';
+        prodPayments.Payment_Source__c = '1';
         prodPayments.CCS_Account__c =prod1.id;
         prodPayments.Unallocated_Payment__c=unAloccPay.id;
         prodPayments.Deposit_Account_Type__c = 'ETC';
+        prodPayments.Ignore_Warning__c = true;
         insert prodPayments;
         
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
@@ -372,17 +386,23 @@ public class TestUnallocatedPaymentControllerNew{
 		Product_Payments__c prodPayments = new Product_Payments__c();
         prodPayments.Dividend__c = remit.Id;
         prodPayments.Payment_Amount__c = 1123.00;
+        prodPayments.Payment_Type__c = '1000';
+        prodPayments.Payment_Source__c = '1';
         prodPayments.CCS_Account__c =prod1.id;
         prodPayments.Unallocated_Payment__c=unAloccPay.id;
         prodPayments.Deposit_Account_Type__c = 'CIH';
+        prodPayments.Ignore_Warning__c = true;
         insert prodPayments;
         
         Product_Payments__c prodPayments1 = new Product_Payments__c();
         prodPayments1.Dividend__c = remit.Id;
         prodPayments1.Payment_Amount__c = 1123.00;
+        prodPayments1.Payment_Type__c = '1000';
+        prodPayments1.Payment_Source__c = '1';
         prodPayments1.CCS_Account__c =prod1.id;
         prodPayments1.Unallocated_Payment__c=unAloccPay.id;
         prodPayments1.Deposit_Account_Type__c = 'CIA';
+        prodPayments1.Ignore_Warning__c = true;
         insert prodPayments1;
         
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
@@ -481,9 +501,12 @@ public class TestUnallocatedPaymentControllerNew{
 		Product_Payments__c prodPayments = new Product_Payments__c();
         prodPayments.Dividend__c = remit.Id;
         prodPayments.Payment_Amount__c = 1123.00;
+        prodPayments.Payment_Type__c = '1000';
+        prodPayments.Payment_Source__c = '1';
         prodPayments.CCS_Account__c =prod1.id;
         prodPayments.Unallocated_Payment__c=unAloccPay.id;
         prodPayments.Deposit_Account_Type__c = 'ETC';
+        prodPayments.Ignore_Warning__c = true;
         insert prodPayments;
         
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
@@ -582,9 +605,12 @@ public class TestUnallocatedPaymentControllerNew{
 		Product_Payments__c prodPayments = new Product_Payments__c();
         prodPayments.Dividend__c = remit.Id;
         prodPayments.Payment_Amount__c = 1123.00;
+        prodPayments.Payment_Type__c = '1000';
+        prodPayments.Payment_Source__c = '1';
         prodPayments.CCS_Account__c =prod1.id;
         prodPayments.Unallocated_Payment__c=unAloccPay.id;
         prodPayments.Deposit_Account_Type__c = 'AAL';
+        prodPayments.Ignore_Warning__c = true;
         insert prodPayments;
         
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
@@ -827,9 +853,12 @@ public class TestUnallocatedPaymentControllerNew{
 		Product_Payments__c prodPayments = new Product_Payments__c();
         prodPayments.Dividend__c = remit.Id;
         prodPayments.Payment_Amount__c = 1123.00;
+        prodPayments.Payment_Type__c = '1000';
+        prodPayments.Payment_Source__c = '1';
         prodPayments.CCS_Account__c =prod1.id;
         prodPayments.Unallocated_Payment__c=unAloccPay.id;
         prodPayments.Deposit_Account_Type__c = 'AAL';
+        prodPayments.Ignore_Warning__c = true;
         insert prodPayments;
         
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
@@ -921,9 +950,12 @@ public class TestUnallocatedPaymentControllerNew{
 		Product_Payments__c prodPayments = new Product_Payments__c();
         prodPayments.Dividend__c = remit.Id;
         prodPayments.Payment_Amount__c = 1123.00;
+        prodPayments.Payment_Type__c = '1000';
+        prodPayments.Payment_Source__c = '1';
         prodPayments.CCS_Account__c =prod1.id;
         prodPayments.Unallocated_Payment__c=unAloccPay.id;
         prodPayments.Deposit_Account_Type__c = 'AAL';
+        prodPayments.Ignore_Warning__c = true;
         insert prodPayments;
         
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);

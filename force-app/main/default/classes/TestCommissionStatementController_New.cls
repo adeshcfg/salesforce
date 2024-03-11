@@ -10,8 +10,12 @@
 @isTest
 public class TestCommissionStatementController_New {
         
-        static testMethod void testMethod1() 
-    {
+        static testMethod void testMethod1() {
+            
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
+        
         String recordTypeID1 = Schema.SObjectType.Product_Payments__c.getRecordTypeInfosByName().get('Distressed Product Payment').getRecordTypeId();
         Application_Config_Settings__c config = new Application_Config_Settings__c();
         config.Product_Payment_Record_Type__c = recordTypeID1;
@@ -61,7 +65,7 @@ public class TestCommissionStatementController_New {
         prodpay.CCS_Account__c=prod2.id;
         prodpay.Payment_Source__c = '2';
         prodpay.Payment_Type__c ='1003';
-        prodpay.Payment_Amount__c=1002;
+        prodpay.Payment_Amount__c=-1002;
         prodpay.Agency_Calculated_Comm__c=10;
         prodpay.Payment_Posting_Date__c= System.today();
         prodpay.Payment_Provided_Agency__c=place.id;
@@ -78,7 +82,7 @@ public class TestCommissionStatementController_New {
         prodpay1.CCS_Account__c=prod2.id;
         prodpay1.Payment_Source__c = '1';
         prodpay1.Payment_Type__c ='1003';
-        prodpay1.Payment_Amount__c=1002;
+        prodpay1.Payment_Amount__c=-1000;
         prodpay1.Agency_Calculated_Comm__c=10;
         prodpay1.Payment_Posting_Date__c= System.today();
         prodpay1.Payment_Provided_Agency__c=place.id;

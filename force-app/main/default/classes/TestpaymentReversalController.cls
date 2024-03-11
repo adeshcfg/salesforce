@@ -24,6 +24,9 @@ public class TestpaymentReversalController {
             Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
         );
         insert config;
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
     }
     static testMethod void TestData() {
         Account customer1 = new Account(
@@ -68,15 +71,6 @@ insert acc1;*/
         unAloccPay.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'unallocated_payment__c' AND name LIKE '%ccs%' LIMIT 1].id;
         //unAloccPay.Remittance__c=divid.Id;
         insert unAloccPay;
-
-        //Product Payment
-        Product_Payments__c prodpay = new Product_Payments__c();
-        prodpay.CCS_Account__c = prod.Id;
-        prodpay.Dividend__c = remittance2.Id;
-        prodpay.Cheque_Number__c = 'Test2021';
-        prodpay.fairshare_amount__C = 12.00;
-        prodpay.Payment_Amount__c = 20.00;
-        insert prodpay;
 
         ApexPages.currentPage().getParameters().put('Id', String.valueOf(remittance2.Id));
         ApexPages.StandardController sc = new ApexPages.StandardController(remittance2);
