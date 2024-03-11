@@ -582,7 +582,6 @@ public class TestDisplayProdPymntStagingController {
         prodpay1.Payment_Source__c = '1';
         prodpay1.Ignore_Warning__c = true;
         prodpay1.Interest_Adjustment__c = 5;
-        prodpay1.Payment_Posting_Date__c = System.today()-1;
         prodpay1.Interest_Payment_Amount__c = 1.1;
         prodpay1.Principal_Payment_Amount__c = 1.1;
         prodpay1.Pay_Due__c = 1.1;
