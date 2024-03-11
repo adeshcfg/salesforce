@@ -1935,8 +1935,8 @@ public class ProductPaymentsTriggerHandler {
                     // Check if we have a valid payment to reverse for 1000, 1001 and 1002 payment types
                     for (String paymentType : paymentTypes) {
                         if (
-                            setOldTransaction.containsKey(payAmount + paymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c) &&
-                            !setOldTransaction.get(payAmount + paymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c).isEmpty()
+                            setOldTransaction.containsKey(payAmount + '' + paymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c) &&
+                            !setOldTransaction.get(payAmount + '' + paymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c).isEmpty()
                         ) {
                             originalPaymentType = paymentType;
                             break;
@@ -1944,6 +1944,7 @@ public class ProductPaymentsTriggerHandler {
                     }
                     if (String.isBlank(originalPaymentType)) {
                         ERROR_MSG += '<b>ERROR - </b>A corresponding Payment was not found for this reversal.<br/>';
+                        prodPayment.addError('A corresponding Payment was not found for this reversal.');
                     } else {
                         Product_Payments__c originalPayment = setOldTransaction.get(
                             payAmount + originalPaymentType + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
@@ -2515,6 +2516,9 @@ public class ProductPaymentsTriggerHandler {
                     mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) > 15
                 ) {
                     ERROR_MSG += '<b>WARINING</b> - Account was recalled more than 15 days ago and is currently warehoused.<br/>';
+                    if (!prodPayment.Ignore_Warning__c) {
+                        prodPayment.addError('WARINING - Account was recalled more than 15 days ago and is currently warehoused.');
+                    }
                     //Ticket 5190: Commission Given on Payments That Should Not Have Commission
                     if(prodPayment.Payment_Type__c == '1003'){
                         if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Pay_Due__c != NULL){
