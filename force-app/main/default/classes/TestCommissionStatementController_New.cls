@@ -82,8 +82,8 @@ public class TestCommissionStatementController_New {
         Product_Payments__c prodpay1= new  Product_Payments__c();
         prodpay1.CCS_Account__c=prod2.id;
         prodpay1.Payment_Source__c = '1';
-        prodpay1.Payment_Type__c ='1003';
-        prodpay1.Payment_Amount__c=-1000;
+        prodpay1.Payment_Type__c ='1000';
+        prodpay1.Payment_Amount__c=1000;
         prodpay1.Agency_Calculated_Comm__c=10;
         prodpay1.Payment_Posting_Date__c= System.today();
         prodpay1.Payment_Provided_Agency__c=place.id;
