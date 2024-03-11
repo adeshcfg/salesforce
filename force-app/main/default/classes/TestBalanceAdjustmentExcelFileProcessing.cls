@@ -222,7 +222,18 @@ private class TestBalanceAdjustmentExcelFileProcessing{
 			Payment_Source__c = '2',
             Payment_Agency__c = '1234'
         );
-        
+        Product_payments__c productpaymentscObj2 = new Product_payments__c (
+            Payment_Amount__c = 1.1, 
+            Payment_Posting_Date__c = Date.today(), 
+            Payment_Type__c ='1000', 
+            Payment_Posting_Date_Text__c = 'test value',
+            CCS_Account__c = prod1.Id,
+			CCS_Account_Name__c = 'test',
+			Pay_Due__c =  null,
+			Payment_Source__c = '2',
+            Payment_Agency__c = '1234'
+        );
+        insert productpaymentscObj2;
 		mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c,'1263');
 
 		prodList.add(productpaymentscObj);

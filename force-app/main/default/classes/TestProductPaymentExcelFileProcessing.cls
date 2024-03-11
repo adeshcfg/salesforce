@@ -266,7 +266,8 @@ private class TestProductPaymentExcelFileProcessing {
 			CCS_Account_Name__c = 'test',
 			Pay_Due__c =  null,
 			Payment_Source__c = '2',
-            Payment_Agency__c = '1234'
+            Payment_Agency__c = '1234',
+            Ignore_Warning__c = true
         );
         insert productpaymentscObj2;
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
@@ -953,7 +954,8 @@ private class TestProductPaymentExcelFileProcessing {
 			CCS_Account_Name__c = 'test',
 			Pay_Due__c =  null,
 			Payment_Source__c = '2',
-            Payment_Agency__c = '1234'
+            Payment_Agency__c = '1234',
+            Ignore_Warning__c = true
         );
         insert productpaymentscObj2;
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
@@ -1032,7 +1034,8 @@ private class TestProductPaymentExcelFileProcessing {
 			CCS_Account_Name__c = 'test',
 			Pay_Due__c =  null,
 			Payment_Source__c = '2',
-            Payment_Agency__c = '1234'
+            Payment_Agency__c = '1234',
+            Ignore_Warning__c = true
         );
         insert productpaymentscObj2;
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
@@ -1178,7 +1181,8 @@ private class TestProductPaymentExcelFileProcessing {
 			CCS_Account_Name__c = 'test',
 			Pay_Due__c =  null,
 			Payment_Source__c = '2',
-            Payment_Agency__c = '1234'
+            Payment_Agency__c = '1234',
+            Ignore_Warning__c = true
         );
         insert productpaymentscObj2;
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
