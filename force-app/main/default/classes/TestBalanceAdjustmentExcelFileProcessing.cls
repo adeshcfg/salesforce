@@ -199,22 +199,10 @@ private class TestBalanceAdjustmentExcelFileProcessing{
             Commission_Rate_for_Payment__c = 10
             
         );
-		Product_payments__c productpaymentscObj2 = new Product_payments__c (
+        Product_payments__c productpaymentscObj1 = new Product_payments__c (
             Payment_Amount__c = 1.1, 
             Payment_Posting_Date__c = Date.today(), 
             Payment_Type__c ='1000', 
-            Payment_Posting_Date_Text__c = 'test value',
-            CCS_Account__c = prod1.Id,
-			CCS_Account_Name__c = 'test',
-			Pay_Due__c =  null,
-			Payment_Source__c = '2',
-            Payment_Agency__c = '1234'
-        );
-        insert productpaymentscObj2;
-        Product_payments__c productpaymentscObj1 = new Product_payments__c (
-            Payment_Amount__c = -1.1, 
-            Payment_Posting_Date__c = Date.today(), 
-            Payment_Type__c ='1003', 
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod1.Id,
 			CCS_Account_Name__c = 'test',
