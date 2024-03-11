@@ -2485,7 +2485,7 @@ public class ProductPaymentsTriggerHandler {
 
                             //calculate tax amount ends
                         }
-                        if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
+                        if (prodPayment.Payment_Type__c != PAYTYPE_REVERSAL && mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                             if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
                                 prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
                             }
