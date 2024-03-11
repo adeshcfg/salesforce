@@ -1485,7 +1485,7 @@ public class ProductTriggerHandler{
        
         List<Account_Judgment__c> accJudg = [Select id,name,status__c,product__C, judgment__c from Account_Judgment__c where product__c IN: prodID AND Status__C = 'Active'];
         
-        if(prodNew.State__c == NULL){
+        if(prodNew.Purchase_Province__c == NULL){
              prodNew.addError('Product Province is required');
         }
          
