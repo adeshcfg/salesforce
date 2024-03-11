@@ -577,7 +577,7 @@ public class TestDisplayProdPymntStagingController {
         Product_Payments__c prodpay1= new  Product_Payments__c();
         prodpay1.CCS_Account__c = prod.id;
         prodpay1.Payment_Amount__c = 5000;
-        prodpay1.Payment_Posting_Date__c= System.today().addDays(-1);
+        prodpay1.Payment_Posting_Date__c= System.today();
         prodpay1.Payment_Type__c = '1001';
         prodpay1.Payment_Source__c = '1';
         prodpay1.Ignore_Warning__c = true;
@@ -601,10 +601,9 @@ public class TestDisplayProdPymntStagingController {
         Test.startTest();
         DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment, sp,workAssignment1.Id,docStorage1.Id);
         Test.stopTest();
-        
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = -5000;
         prodpay2.Pay_Due__c = 100;
         prodpay2.Payment_Posting_Date__c= System.today();
         prodpay2.Payment_Type__c = '1003';
@@ -634,7 +633,7 @@ public class TestDisplayProdPymntStagingController {
         Product_Payments__c prodpay1= new  Product_Payments__c();
         prodpay1.CCS_Account__c = prod.id;
         prodpay1.Payment_Amount__c = 5000;
-        prodpay1.Payment_Posting_Date__c= System.today().addDays(-1);
+        prodpay1.Payment_Posting_Date__c= System.today();
         prodpay1.Payment_Type__c = '1001';
         prodpay1.Payment_Source__c = '1';
         prodpay1.Ignore_Warning__c = true;
@@ -660,7 +659,7 @@ public class TestDisplayProdPymntStagingController {
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = -5000;
         prodpay2.Pay_Due__c = 100;
         prodpay2.Payment_Posting_Date__c= System.today();
         prodpay2.Payment_Type__c = '1003';
@@ -706,7 +705,7 @@ public class TestDisplayProdPymntStagingController {
         Product_Payments__c prodpay1= new  Product_Payments__c();
         prodpay1.CCS_Account__c = prod.id;
         prodpay1.Payment_Amount__c = 5000;
-        prodpay1.Payment_Posting_Date__c= System.today().addDays(-1);
+        prodpay1.Payment_Posting_Date__c= System.today();
         prodpay1.Payment_Type__c = '1001';
         prodpay1.Payment_Source__c = '1';
         prodpay1.Ignore_Warning__c = true;
@@ -717,7 +716,7 @@ public class TestDisplayProdPymntStagingController {
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = -5000;
         prodpay2.Payment_Posting_Date__c= System.today();
         prodpay2.Payment_Type__c = '1003';
         prodpay2.Payment_Source__c = '2';
@@ -767,7 +766,7 @@ public class TestDisplayProdPymntStagingController {
         Product_Payments__c prodpay1= new  Product_Payments__c();
         prodpay1.CCS_Account__c = prod.id;
         prodpay1.Payment_Amount__c = 5000;
-        prodpay1.Payment_Posting_Date__c= System.today().addDays(-1);
+        prodpay1.Payment_Posting_Date__c= System.today();
         prodpay1.Payment_Type__c = '1001';
         prodpay1.Payment_Source__c = '1';
         prodpay1.Ignore_Warning__c = true;
@@ -792,7 +791,7 @@ public class TestDisplayProdPymntStagingController {
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = -5000;
         prodpay2.Pay_Due__c = 100;
         prodpay2.Payment_Posting_Date__c= System.today();
         prodpay2.Payment_Type__c = '1003';
@@ -841,7 +840,7 @@ public class TestDisplayProdPymntStagingController {
         Product_Payments__c prodpay1= new  Product_Payments__c();
         prodpay1.CCS_Account__c = prod.id;
         prodpay1.Payment_Amount__c = 5000;
-        prodpay1.Payment_Posting_Date__c= System.today().addDays(-1);
+        prodpay1.Payment_Posting_Date__c= System.today();
         prodpay1.Payment_Type__c = '1001';
         prodpay1.Payment_Source__c = '1';
         prodpay1.Ignore_Warning__c = true;
@@ -852,7 +851,7 @@ public class TestDisplayProdPymntStagingController {
         
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
-        prodpay2.Payment_Amount__c = -1002;
+        prodpay2.Payment_Amount__c = -5000;
         prodpay2.Payment_Posting_Date__c= System.today();
         prodpay2.Payment_Type__c = '1003';
         prodpay2.Payment_Source__c = '2';
