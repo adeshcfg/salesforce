@@ -446,6 +446,7 @@ public class BalanceAdjustmentExcelFileProcessing {
         String EXPECTED = '';
         ID productAgencyID = null;
         for (Product_Payments__c prodPayment : prodPayNew) {
+            Boolean showCommissionExpectedMessage = true;
             ERROR_MSG = '';
             EXPECTED = '';
 
@@ -618,6 +619,7 @@ public class BalanceAdjustmentExcelFileProcessing {
             }
 
             if (RogersFile == true && String.isNotBlank(prodPayment.Direct_Payment_Type__c) && prodPayment.Direct_Payment_Type__c != 'Direct Payment') {
+                showCommissionExpectedMessage = false;
                 ERROR_MSG += '<b>WARNING</b> - Commission Paid will be 0<br/>';
             }
 
@@ -874,7 +876,9 @@ public class BalanceAdjustmentExcelFileProcessing {
                             prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                         }
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled within 15 days and is currently warehoused.<br/>';
-                        EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                        if (showCommissionExpectedMessage) {
+                            EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                        }
                     }
                 }
                 //This account is recalled before 15 days and is currently warehoused
@@ -911,13 +915,14 @@ public class BalanceAdjustmentExcelFileProcessing {
                             prodPayment.Payment_Agency__c = productAgency;
                         }
                         //prodPayment.Product_Agency__c = productAgencyID;
-
-                        EXPECTED +=
-                            'Commission Amount ' +
-                            prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP) +
-                            ' will be paid to Agency ' +
-                            prodPayment.Payment_Agency__c +
-                            '<br/>';
+                        if (showCommissionExpectedMessage) {
+                            EXPECTED +=
+                                'Commission Amount ' +
+                                prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP) +
+                                ' will be paid to Agency ' +
+                                prodPayment.Payment_Agency__c +
+                                '<br/>';
+                        }
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled before 15 days and is currently placed with agency ' + productAgency + '.<br/>';
                     }
                     //This account is recalled within 15 days and
@@ -927,6 +932,10 @@ public class BalanceAdjustmentExcelFileProcessing {
                     ) {
                         if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                             //CommissionRate = prodPayment.Commission_Rate_for_Payment__c;
+                            // Use commission rate from excel file if provided
+                            if (prodPayment.Commission_Rate_for_Payment__c != null) {
+                                CommissionRate = prodPayment.Commission_Rate_for_Payment__c;
+                            }
                             if (CommissionRate == null) {
                                 CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Product_Commission_rate__C;
                             }
@@ -948,7 +957,14 @@ public class BalanceAdjustmentExcelFileProcessing {
                                     prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                                 }
                             }
-                            EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                            if (showCommissionExpectedMessage) {
+                                EXPECTED +=
+                                    'Commission Amount ' +
+                                    prodPayment.Pay_Due__c +
+                                    ' will be paid to Agency ' +
+                                    prodPayment.Payment_Agency__c +
+                                    '<br/>';
+                            }
                             ERROR_MSG +=
                                 '<b>WARINING</b> - Account was recalled within 15 days and is currently placed with agency ' +
                                 productAgency +

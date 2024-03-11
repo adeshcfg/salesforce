@@ -105,12 +105,22 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         
         List<Placement_History__c> placementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c,Placement_Recall_Date__c,
                                                        Current_Total_Bal_at_time_of_Recall__c,Placement__c
-                                                         FROM Placement_History__c
-                                                         WHERE Placement__r.Name IN :includeAgencyList 
-                                                       	 AND Placement_Date__c <: placementDateBefore45
-                                                         AND Placement_Recall_Date__c <> NULL
-                                                         AND Product__r.State__c IN :splitProvinceValues
-                                                      	 AND Placement_Recall_Date__c = LAST_MONTH];
+                                                        FROM Placement_History__c
+                                                        WHERE Placement__r.Name IN :includeAgencyList 
+                                                        AND Placement_Date__c <: placementDateBefore45
+                                                        AND Placement_Recall_Date__c <> NULL
+                                                        AND Product__r.State__c IN :splitProvinceValues
+                                                        AND Placement_Recall_Date__c = LAST_MONTH
+                                                        AND (Product__r.Number_Of_Open_Complaint__c = 0 OR Product__r.Number_Of_Open_Complaint__c = NULL) 
+                                                        AND Product__r.Last_Name__c != null
+                                                        AND Product__r.First_Name__c != null
+                                                        AND (NOT Product__r.First_Name__c LIKE '_')
+                                                        AND (NOT Product__r.Last_Name__c LIKE '_')
+                                                        AND Product__r.Name != null
+                                                        AND Product__r.Charged_Off_Date__c != null
+                                                        AND Product__r.Difference_Greater_Than_N_Years__c = False
+                                                        AND Product__r.Exclude_for_Reporting__c = False
+                                                        AND Product__r.Portfolio_Name_Lookup__c != null];
         for(Placement_History__c placeHistory : placementHistory){
             productIds.add(placeHistory.Product__c);
             placementHistoryMap.put(placeHistory.Product__c,placeHistory);
@@ -119,13 +129,23 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         
         List<Placement_History__c> allocatedPlacementHistory = [SELECT ID, Agency_Id__c, Product__c,Placement_Date__c,Placement_Recall_Date__c,
                                                        Current_Total_Bal_at_time_of_Recall__c,Placement__c
-                                                         FROM Placement_History__c
-                                                         WHERE Placement__r.Name IN :includeAgencyList 
-                                                       	 AND Product__c IN :productIds
-                                                         AND Placement_Recall_Date__c = NULL
-                                                         AND Placement_Date__c <> NULL
-                                                         AND Product__r.State__c IN :splitProvinceValues
-                                                      	 AND Placement_Date__c = LAST_MONTH];
+                                                        FROM Placement_History__c
+                                                        WHERE Placement__r.Name IN :includeAgencyList 
+                                                        AND Product__c IN :productIds
+                                                        AND Placement_Recall_Date__c = NULL
+                                                        AND Placement_Date__c <> NULL
+                                                        AND Product__r.State__c IN :splitProvinceValues
+                                                        AND Placement_Date__c = LAST_MONTH
+                                                        AND (Product__r.Number_Of_Open_Complaint__c = 0 OR Product__r.Number_Of_Open_Complaint__c = NULL) 
+                                                        AND Product__r.Last_Name__c != null
+                                                        AND Product__r.First_Name__c != null
+                                                        AND (NOT Product__r.First_Name__c LIKE '_')
+                                                        AND (NOT Product__r.Last_Name__c LIKE '_')
+                                                        AND Product__r.Name != null
+                                                        AND Product__r.Charged_Off_Date__c != null
+                                                        AND Product__r.Difference_Greater_Than_N_Years__c = False
+                                                        AND Product__r.Exclude_for_Reporting__c = False
+                                                        AND Product__r.Portfolio_Name_Lookup__c != null];
         
         for(Placement_History__c allocatedPlaceHistory : allocatedPlacementHistory){
             preAllocatedAgency.put(allocatedPlaceHistory.Product__c,allocatedPlaceHistory.Placement__c);
@@ -818,7 +838,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     ZipAddres = ZipAddres.substring(0, STATIC_INTEGER_9);
                 }
             }
-            
             // Set default Account status to 13
             String accountStatus =defAccountStatus;
             if(String.isNotBlank(prodct.Product_Status__c)){
@@ -833,7 +852,16 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                              accountStatus = metro2TransUnion.Account_Status_Recalled__c;
                         }
                     }else{
-                        if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
+                        if(placementHistoryMap.containskey(prodct.id) && !preAllocatedAgency.containskey(prodct.id)){
+                            accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA
+                        }
+                        else if(preAllocatedAgency.containskey(prodct.id) && !previousAllocatedAgency.containskey(prodct.id)){
+                              accountStatus = metro2TransUnion.Account_Status_Recalled__c;   // set account status DA   
+                        }
+                        else if(preAllocatedAgency.containskey(prodct.id) && previousAllocatedAgency.containskey(prodct.id)){
+                              accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93     
+                        }
+                        else if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
                             accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
                         } 
                     }
@@ -884,27 +912,35 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             // Code for Adding past Amount  Right Padding upon dynamic values in less
             String pastval = defPastVal;
             if(placementHistoryMap.containsKey(prodct.id) && !previousAllocatedAgency.containsKey(prodct.id)){
-                //Code to prevent negative values. if value is negative show 0's
-                if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c >= 0){        
-                    pastval = String.valueOf(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c);
-                    pastval = pastval.subString(0,pastval.indexOf('.'));
-                    pastval = pastval.leftPad(STATIC_INTEGER_9, '0');
-                }
-                else if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c < 0){
+                if(accountStatus != metro2TransUnion.Account_Status_Close__c){
+                    //Code to prevent negative values. if value is negative show 0's
+                    if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c >= 0){        
+                        pastval = String.valueOf(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c);
+                        pastval = pastval.subString(0,pastval.indexOf('.'));
+                        pastval = pastval.leftPad(STATIC_INTEGER_9, '0');
+                    }
+                    else if(placementHistoryMap.get(prodct.id).Current_Total_Bal_at_time_of_Recall__c < 0){
+                        pastval = defPastVal;
+                    }
+                }else{
                     pastval = defPastVal;
                 } 
             }
             else{
                 if(prodct.Current_Balance__c != null) {
-                    //Code to prevent negative values. if value is negative show 0's
-                    if(prodct.Current_Balance__c >= 0){        
-                        pastval = String.valueOf(prodct.Current_Balance__c);
-                        pastval = pastval.subString(0,pastval.indexOf('.'));
-                        pastval = pastval.leftPad(STATIC_INTEGER_9, '0');
-                    }
-                    else if(prodct.Current_Balance__c < 0){
+                    if(accountStatus != metro2TransUnion.Account_Status_Close__c){
+                        //Code to prevent negative values. if value is negative show 0's
+                        if(prodct.Current_Balance__c >= 0){        
+                            pastval = String.valueOf(prodct.Current_Balance__c);
+                            pastval = pastval.subString(0,pastval.indexOf('.'));
+                            pastval = pastval.leftPad(STATIC_INTEGER_9, '0');
+                        }
+                        else if(prodct.Current_Balance__c < 0){
+                            pastval = defPastVal;
+                        }     
+                    }else{
                         pastval = defPastVal;
-                    }      
+                    } 
                 }    
             }
             //code for populating Date of Account Information

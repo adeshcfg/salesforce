@@ -134,6 +134,10 @@ public class TestCreditBureauClass {
         metaData.Bureau_Reporting_Account_Status__c = 'Open';
         insert metaData;
         
+        Agency_Portal_Settings__c agencyPortal = Agency_Portal_Settings__c.getOrgDefaults();
+        agencyPortal.Valid_Payment_Types__c = '1000,1001,1002';
+        insert agencyPortal;
+        
         Metro__c metroheaderrecsetiing  = Metro__c.getOrgDefaults();
         metroheaderrecsetiing.Name = 'Header';
         metroheaderrecsetiing.HeaderCheck__c = false;
@@ -167,7 +171,7 @@ public class TestCreditBureauClass {
 										Last_Name__c = 'last namelast namelast name',
 										Assignment_Date__c = SYSTEM.Today().addDays(-50),
                                         First_Name__c = 'first name first name',
-										Current_Balance__c = -120.00,
+										Current_Balance__c = 120.00,
                                         Last_Payment_Date__c = SYSTEM.Today(),
                                         TransUnion_Reported_As_Complete_Count__c = null,                         
                                         Original_Balance__c = 123.00,
@@ -197,6 +201,7 @@ public class TestCreditBureauClass {
             									Payment_Source__c = '1',
             									Payment_Type__c = '1000',
             									Payment_Amount__c = 100,
+            									Payment_Agency__c = '68',
             									Is_Payment_Reversed__c = false
                                             );
         insert prodPayments;
@@ -237,6 +242,10 @@ public class TestCreditBureauClass {
         metaData.Bureau_Reporting_Account_Status__c = 'Open';
         insert metaData;
         
+        Agency_Portal_Settings__c agencyPortal = Agency_Portal_Settings__c.getOrgDefaults();
+        agencyPortal.Valid_Payment_Types__c = '1000,1001,1002';
+        insert agencyPortal;
+        
         Metro__c metroheaderrecsetiing  = Metro__c.getOrgDefaults();
         metroheaderrecsetiing.Name = 'Header';
         metroheaderrecsetiing.HeaderCheck__c = false;
@@ -270,7 +279,7 @@ public class TestCreditBureauClass {
 										Last_Name__c = 'last namelast namelast name',
 										Assignment_Date__c = SYSTEM.Today().addDays(-50),
                                         First_Name__c = 'first name first name',
-										Current_Balance__c = -120.00,
+										Current_Balance__c = 120.00,
                                         Last_Payment_Date__c = SYSTEM.Today(),
                                         TransUnion_Reported_As_Complete_Count__c = null,                         
                                         Original_Balance__c = 123.00,
@@ -300,6 +309,7 @@ public class TestCreditBureauClass {
             									Payment_Source__c = '1',
             									Payment_Type__c = '1000',
             									Payment_Amount__c = 100,
+            									Payment_Agency__c = '68',
             									Is_Payment_Reversed__c = false
                                             );
         insert prodPayments;

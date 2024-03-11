@@ -40,7 +40,7 @@ public class AddNewJudgmentController {
         String prodProvinceName;
         String ProvinceNameFormat;
         String provinceAcronymFormat;
-        String ProdProvince;
+        String purchaseProvince;
         String agency;
         String ErrorMsg = '';
         String Codes;
@@ -50,7 +50,7 @@ public class AddNewJudgmentController {
         if(judgId != null){
         	Judgment__c judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c FROM Judgment__c where Id  =: judgId];
         }
-        Product__c prod = [SELECT Id,Name,Status__c, Legal_Status__c,Collection_Agency__c,State__c,Account_Purchasing_Entity_Value__c
+        Product__c prod = [SELECT Id,Name,Status__c, Legal_Status__c,Collection_Agency__c,Purchase_Province__c,State__c,Account_Purchasing_Entity_Value__c
                            FROM Product__c WHERE Id =: prodId];
 
         //Added below IF loop for #4586
@@ -65,21 +65,14 @@ public class AddNewJudgmentController {
           ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';
         }
         //Bug:5631 changes ends
-        if(prod.State__c != NULL){
-            prodProvinceName = prod.State__c;
-            ProvinceNameFormat = nameFormat(prodProvinceName);
-            provinceAcronymFormat = prodProvinceName.toUpperCase();
-            if(mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)){
-                ProdProvince = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Name__c;
-            }else if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
-                ProdProvince = ProvinceNameFormat;
-            }
+        if(prod.Purchase_Province__c != NULL){
+            purchaseProvince = prod.Purchase_Province__c;
         }
         if(prod.Collection_Agency__c != NULL){
             agency = String.valueOf(Math.floor(prod.Collection_Agency__c));
         }
        	
-        judgMap.put('Judgment_Province__c',ProdProvince);
+        judgMap.put('Judgment_Province__c',purchaseProvince);
         judgMap.put('Product_1__c',prod.Name);
         judgMap.put('Plaintiff__c',prod.Account_Purchasing_Entity_Value__c);
         judgMap.put('Agency_Initiated_Legal_Action__c',agency);
@@ -97,8 +90,8 @@ public class AddNewJudgmentController {
         if(mapAccountJudgmentCodes.containsKey(judgMap.get('Legal_Status__c')+ judgMap.get('Legal_Sub_Status__c'))){
             Codes = mapAccountJudgmentCodes.get(judgMap.get('Legal_Status__c')+judgMap.get('Legal_Sub_Status__c')).Codes__c;  
         }
-
-        if(String.isBlank(ProdProvince)){
+        
+        if(String.isBlank(purchaseProvince)){
             ErrorMsg = 'Product Province is required';
         }
         if((codes == '220000') || (codes == '220210') || (codes =='220700') || (codes =='220030') || (codes =='220040') || (codes =='220050')){
@@ -193,7 +186,7 @@ public class AddNewJudgmentController {
         String prodProvinceName;
         String ProvinceNameFormat;
         String provinceAcronymFormat;
-        String ProdProvince;
+        String purchaseProvince;
         String ErrorMsg = '';
         Judgment__c judgment;
         String Codes;
@@ -210,17 +203,10 @@ public class AddNewJudgmentController {
                          FROM Judgment__c where Id  =: judgId];
         }
 
-        Product__c prod = [SELECT Id,Name, Legal_Status__c,Collection_Agency__c,State__c,Invalid_Submission_Reason__c FROM Product__c WHERE Id =: prodId];
+        Product__c prod = [SELECT Id,Name, Legal_Status__c,Collection_Agency__c,Purchase_Province__c,State__c,Invalid_Submission_Reason__c FROM Product__c WHERE Id =: prodId];
 
-        if(prod.State__c != NULL){
-            prodProvinceName = prod.State__c;
-            ProvinceNameFormat = nameFormat(prodProvinceName);
-            provinceAcronymFormat = prodProvinceName.toUpperCase();
-            if(mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)){
-                ProdProvince = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Name__c;
-            }else if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
-                ProdProvince = ProvinceNameFormat;
-            }
+        if(prod.Purchase_Province__c != NULL){
+            purchaseProvince = prod.Purchase_Province__c;
         }
         string Product_1;
         string Product_2;
@@ -256,8 +242,8 @@ public class AddNewJudgmentController {
         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+ judgment.Legal_Sub_Status__c)){
             Codes = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;  
         }
-
-        if(String.isBlank(ProdProvince)){
+        
+        if(String.isBlank(purchaseProvince)){
             ErrorMsg = 'Product Province is required';
         }
         if(judgment.Agency_Initiated_Legal_Action__c != String.valueOf(Math.floor(prod.Collection_Agency__c))){
@@ -265,7 +251,7 @@ public class AddNewJudgmentController {
             listError.add(ErrorMsg);
 
         }
-        if(judgment.Judgment_Province__c != ProdProvince){
+        if(judgment.Judgment_Province__c != purchaseProvince){
 			ErrorMsg='Product Province is not Match with Judgment Province.';
             listError.add(ErrorMsg);
         }
