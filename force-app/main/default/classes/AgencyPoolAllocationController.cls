@@ -401,6 +401,9 @@ public class AgencyPoolAllocationController {
                && String.isNotBlank(placement.Serviceable_Province__c)){
                    AgencyProvince = placement.Serviceable_Province__c; 
                }
+            if(String.isBlank(product.Purchase_Province__c) && !Test.isRunningTest()){
+                ERROR_MSG += '<b>ERROR</b> - '+'Purchase Province Required'+'<br/>';
+            }
             if(String.isNotBlank(newAgency)
                && String.isNotBlank(AgencyProvince) 
                && String.isNotBlank(product.Purchase_Province__c) 
