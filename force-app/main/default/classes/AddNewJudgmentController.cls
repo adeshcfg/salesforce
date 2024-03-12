@@ -242,11 +242,15 @@ public class AddNewJudgmentController {
         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+ judgment.Legal_Sub_Status__c)){
             Codes = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;  
         }
-        
+        if(prod.Collection_Agency__c == NULL){
+            ErrorMsg = 'Product Agency is required';
+            listError.add(ErrorMsg);
+        }
         if(String.isBlank(purchaseProvince)){
             ErrorMsg = 'Product Province is required';
+            listError.add(ErrorMsg);
         }
-        if(judgment.Agency_Initiated_Legal_Action__c != String.valueOf(Math.floor(prod.Collection_Agency__c))){
+        if(prod.Collection_Agency__c != NULL && judgment.Agency_Initiated_Legal_Action__c != String.valueOf(Math.floor(prod.Collection_Agency__c))){
             ErrorMsg='Product Agency is not Match with Judgment Agency.';
             listError.add(ErrorMsg);
 
