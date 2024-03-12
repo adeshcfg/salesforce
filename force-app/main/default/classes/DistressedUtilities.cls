@@ -403,6 +403,9 @@ public class DistressedUtilities {
                && String.isNotBlank(mapPlacement.get(newAgency).Serviceable_Province__c)){
                    AgencyProvince = mapPlacement.get(newAgency).Serviceable_Province__c; 
                }
+             if(String.isBlank(mapProductName.get(product.Data_Id__c).Purchase_Province__c)){
+                     ERROR_MSG += '<b>ERROR</b> - '+'Purchase Province Required'+'<br/>';
+             }
             if(String.isNotBlank(newAgency)
                && String.isNotBlank(AgencyProvince)
                && mapProductName.containsKey(product.Data_Id__c)
