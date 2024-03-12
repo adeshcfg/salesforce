@@ -2527,14 +2527,12 @@ public class ProductPaymentsTriggerHandler {
                     }else{
                         EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
                         if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                            if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
-                                prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
-                            }
                             if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
                                 prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
                             }
                         }
                     }
+                    prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
                     prodPayment.Pay_Due__c = 0;
                     prodPayment.Tax_Amount__c = 0;
                 }
