@@ -107,10 +107,10 @@ public class TestProductLedgerController {
         
         
         Product_Payments__c prodPay2 = new Product_Payments__c();
-        prodPay2.Payment_Amount__c = 100;
+        prodPay2.Payment_Amount__c = -100;
         prodPay2.Payment_Agency__c = '29';
         prodPay2.CCS_Account__c = prod.ID;
-        prodPay2.Payment_Type__c = '1000';
+        prodPay2.Payment_Type__c = '1003';
         prodPay2.Interest_Adjustment__c = 10;
         prodPay2.Pre_Pay_Principal__c = 90;
         prodPay2.Pre_Pay_Interest__c = 10;
