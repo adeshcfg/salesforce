@@ -4926,9 +4926,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Case.CCS_Assignment_Type__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -16778,6 +16778,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Purchased_Account_List__c.Number_of_Records_Processed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AuthorizationFormText.DetailAuthorizationFormText</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
