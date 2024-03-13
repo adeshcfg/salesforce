@@ -63,6 +63,7 @@ public class TestJudgmentTriggerHandler {
         prodInstance.Product_Status__c = 'Test';
         prodInstance.Collection_Agency__c = Decimal.valueOf(plcgy1.name);
         prodInstance.State__c = 'ON';
+        prodInstance.Purchase_Province__c = 'ON';
         prodInstance.Current_Principal_Balance__c = 5000;
         prodInstance.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         ProductTriggerHandler.runProductTrigger = false;
@@ -286,6 +287,7 @@ public class TestJudgmentTriggerHandler {
         prodInstance1.Sub_Status__c = 'Ready';
         prodInstance1.Product_Status__c = 'Test';
         prodInstance1.State__c = 'AB';
+        prodInstance1.Purchase_Province__c = 'AB';
         ProductTriggerHandler.runProductTrigger = false;
         insert prodInstance1;
 
