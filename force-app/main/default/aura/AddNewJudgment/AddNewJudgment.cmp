@@ -26,7 +26,7 @@
     <!-- <aura:method name="handleMessage" action="{!v.handleMessage}" /> -->
     <aura:attribute name="truthy" type="Boolean" default="false" />
     <aura:attribute name="accJudgment" type="Boolean" default="false" />
-
+    <aura:html tag="style">.toastMessage.forceActionsText{white-space : pre-line !important;}</aura:html>
 
     <lightning:notificationsLibrary aura:id="notificationsLibrary" />
 
