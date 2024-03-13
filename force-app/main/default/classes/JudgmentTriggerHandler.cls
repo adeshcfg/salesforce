@@ -2419,11 +2419,11 @@ public static void updateAmountsOnJudgment(List<Judgment__c> prodJudgList){
     }
         system.debug('Product Names after loop-->'+prodActiveNames);
         if(!prodActiveNames.isEmpty()){
-            activeProducts = [SELECT Collection_Agency__c, State__c, Account_Purchasing_Entity_Value__c FROM Product__c WHERE Name IN: prodActiveNames AND Collection_Agency__c != null AND State__c != null LIMIT 1];
+            activeProducts = [SELECT Collection_Agency__c, State__c,Purchase_Province__c, Account_Purchasing_Entity_Value__c FROM Product__c WHERE Name IN: prodActiveNames AND Collection_Agency__c != null AND State__c != null LIMIT 1];
             AggregateResult[] groupedResults  = [SELECT SUM(Current_Principal_Balance__c)  currentPrincipalBalance, 
             SUM(Current_Interest_Amount__c) currentInterestBalance,Name
             FROM product__c WHERE Name IN: prodActiveNames GROUP BY Name];
-            String province = !activeProducts.isEmpty() ? mapProvinceAcronymTaxMetadata.get(activeProducts[0].State__c).Province_Name__c : '';
+            String province = !activeProducts.isEmpty() ? mapProvinceAcronymTaxMetadata.get(activeProducts[0].Purchase_Province__c).Province_Name__c : '';
             String plaintiff = !activeProducts.isEmpty() ? activeProducts[0].Account_Purchasing_Entity_Value__c : '';
             List<Judgment__c> judgList = new List<Judgment__c>();
             List<Id> judgUpdate = new List<Id>();

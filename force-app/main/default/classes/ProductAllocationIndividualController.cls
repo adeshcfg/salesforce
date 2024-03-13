@@ -331,7 +331,7 @@ public with sharing class ProductAllocationIndividualController {
                ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
                EXPECTED += 'Product Province - ' + product.Purchase_Province__c +'<br/>';
         } 
-        if(!placementHistory.isEmpty()){
+        if(!placementHistory.isEmpty() && String.isNotBlank(product.Purchase_Province__c)){
             ERROR_MSG = '<b>WARNING</b> - '+'Product is placed with the agency in last 6 months'+'<br/>';
         }
         if(String.isNotBlank(newPlacement)){
