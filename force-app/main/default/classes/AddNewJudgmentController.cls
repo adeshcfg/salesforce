@@ -188,6 +188,7 @@ public class AddNewJudgmentController {
         String provinceAcronymFormat;
         String purchaseProvince;
         String ErrorMsg = '';
+        String ProdProvince;
         Judgment__c judgment;
         String Codes;
         list<String> listError = new list<String>();
@@ -204,10 +205,18 @@ public class AddNewJudgmentController {
         }
 
         Product__c prod = [SELECT Id,Name, Legal_Status__c,Collection_Agency__c,Purchase_Province__c,State__c,Invalid_Submission_Reason__c FROM Product__c WHERE Id =: prodId];
-
+		
         if(prod.Purchase_Province__c != NULL){
             purchaseProvince = prod.Purchase_Province__c;
+            ProvinceNameFormat = nameFormat(purchaseProvince);
+            provinceAcronymFormat = purchaseProvince.toUpperCase();
+            if(mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)){
+                ProdProvince = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Name__c;
+            }else if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
+                ProdProvince = ProvinceNameFormat;
+            }
         }
+        
         string Product_1;
         string Product_2;
         string Product_3;
@@ -255,7 +264,7 @@ public class AddNewJudgmentController {
             listError.add(ErrorMsg);
 
         }
-        if(judgment.Judgment_Province__c != purchaseProvince){
+        if(judgment.Judgment_Province__c != ProdProvince){
 			ErrorMsg='Product Province is not Match with Judgment Province.';
             listError.add(ErrorMsg);
         }
