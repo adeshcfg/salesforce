@@ -1,13 +1,29 @@
 {
 	"dml": {
-		"update": [
+		"insert": [
 			{
-				"objectName": "Metro2_File__c",
-				"recordVariableName": "metro2File",
+				"objectName": "Agency_Portal_Fields_Mapping__c",
+				"recordVariableName": "AgencyPortalFieldsMapping",
 				"fields": [
 					{
-						"fieldApiName": "Province__c",
-						"fieldValue": "'AB'"
+						"fieldApiName": "Field_API__c",
+						"fieldValue": "'Company_Name__c'"
+					},
+					{
+						"fieldApiName": "Field_JSON_Tag__c",
+						"fieldValue": "'Product_Company_Name'"
+					},
+					{
+						"fieldApiName": "Field_Type__c",
+						"fieldValue": "'Text'"
+					},
+					{
+						"fieldApiName": "Object_Name__c",
+						"fieldValue": "'Product'"
+					},
+					{
+						"fieldApiName": "Name",
+						"fieldValue": "'Product Company Name'"
 					}
 				]
 			}
