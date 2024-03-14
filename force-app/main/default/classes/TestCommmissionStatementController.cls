@@ -64,8 +64,8 @@ public class TestCommmissionStatementController {
         Product_Payments__c prodpay = new Product_Payments__c();
         prodpay.CCS_Account__c = prod2.id;
         prodpay.Payment_Source__c = '2';
-        prodpay.Payment_Type__c = '1003';
-        prodpay.Payment_Amount__c = -1002;
+        prodpay.Payment_Type__c = '1000';
+        prodpay.Payment_Amount__c = 1002;
         prodpay.Agency_Calculated_Comm__c = 10;
         prodpay.Payment_Posting_Date__c = System.today();
         prodpay.Payment_Provided_Agency__c = place.id;
@@ -74,6 +74,7 @@ public class TestCommmissionStatementController {
         prodpay.Payment_Created__c = date.newInstance(Integer.valueOf(mYear), Integer.valueOf(mMonth), Integer.valueOf(mDay));
         //prodpay.RecordType.name = 'Distressed_Product_Payment';
         prodpay.RecordTypeId = Schema.SObjectType.Product_Payments__C.getRecordTypeInfosByName().get('Distressed Product Payment').getRecordTypeId();
+        prodpay.Ignore_Warning__c = true;
         // ProductPaymentsTriggerHandler.runProductTrigger = false;
         insert prodpay;
         system.debug('prodpay' + prodpay.recordType.name);
@@ -91,6 +92,7 @@ public class TestCommmissionStatementController {
         prodpay1.Ignore_Warning__c = true;
         prodpay1.Payment_Created__c = date.newInstance(Integer.valueOf(mYear), Integer.valueOf(mMonth), Integer.valueOf(mDay));
         prodpay1.RecordTypeId = Schema.SObjectType.Product_Payments__C.getRecordTypeInfosByName().get('Distressed Product Payment').getRecordTypeId();
+        prodpay1.Ignore_Warning__c = true;
         //prodpay1.RecordType.name = 'Distressed_Product_Payment';
         // ProductPaymentsTriggerHandler.runProductTrigger = false;
         insert prodpay1;
