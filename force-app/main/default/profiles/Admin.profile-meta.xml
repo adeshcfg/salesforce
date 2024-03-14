@@ -5906,6 +5906,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>smagicinteract__Conversation__c.product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>smagicinteract__Consent__c.product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>smagicinteract__Converse_App_Task__c.product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Distressed_Note_Staging__c.Agency_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
