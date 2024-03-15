@@ -216,6 +216,26 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ICT_Distressed_Product_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>sharing rule for record with Collection Agency=68 &amp; Distressed Account, share with ICT Distressed Group</description>
+        <label>ICT Distressed Product Sharing</label>
+        <sharedTo>
+            <group>ICT_Distressed_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>equals</operation>
+            <value>68</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ICT_Group_Product_Read_Only_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ICT Group Product Read Only Sharing</label>
