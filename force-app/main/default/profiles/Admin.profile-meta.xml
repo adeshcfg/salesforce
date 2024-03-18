@@ -6866,6 +6866,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>insolvency_Account__c.Number_of_Agreement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>insolvency_Account__c.SMRR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Account__c.Account_Details_Verified__c</field>
         <readable>true</readable>
     </fieldPermissions>
