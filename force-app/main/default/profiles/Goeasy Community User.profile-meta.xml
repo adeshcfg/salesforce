@@ -6752,12 +6752,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>insolvency_Account__c.Number_of_Agreement__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>insolvency_Account__c.SMRR__c</field>
         <readable>true</readable>
     </fieldPermissions>
