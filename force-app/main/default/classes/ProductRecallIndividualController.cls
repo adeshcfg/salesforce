@@ -126,6 +126,7 @@ public with sharing class ProductRecallIndividualController {
         product.Timestamp_Of_Invalid_Submission__c = null;
         product.Invalid_Submission_Reason__c = null;
         product.Invalid_Submission_Initiated_By__c = null;
+        product.Run_Identifier_Check_On__c = System.today();
 
         String mainStatus = mapRecallCodeStatus.get(selectedRecallReason).Status__c;
         String subStatus = mapRecallCodeStatus.get(selectedRecallReason).Sub_Status__c;
@@ -291,7 +292,7 @@ public with sharing class ProductRecallIndividualController {
             product.Timestamp_Of_Invalid_Submission__c = null;
             product.Invalid_Submission_Reason__c = null;
             product.Invalid_Submission_Initiated_By__c = null;
-            
+            product.Run_Identifier_Check_On__c = System.today();
             if(selectedValueAction == PENDING_RECALL){
                 ERROR_MSG = 'Product set to Pending Recall Status from Agency:' +NewPlacementAgency;
                 placementIdentifier = String.valueOf(product.Collection_Agency__c);

@@ -144,7 +144,7 @@ public class AgencyPoolRecallController {
         
         for(Product__c product : listProd){
             oldPlacementID = product.Collection_Agency_Placement__c;
-            
+            product.Run_Identifier_Check_On__c = System.today();
             if(product.Placement_Status__c != null){
                 placeStatus = product.Placement_Status__c;
             }
@@ -318,7 +318,7 @@ public class AgencyPoolRecallController {
         }
         else{
             for(Product__c product : listProd){
-            
+            product.Run_Identifier_Check_On__c = System.today();
             if(product.Placement_Status__c != null){
                 placeStatus = product.Placement_Status__c;
             }
