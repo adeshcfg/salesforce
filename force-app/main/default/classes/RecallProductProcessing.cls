@@ -114,7 +114,7 @@ public class RecallProductProcessing {
                     prod.Status__c = productStaging.Placement_Main_Status__c;
                     prod.Sub_Status__c = productStaging.Placement_Sub_Status__c;
                     prod.Status_Changed_Date__c = myDate;
-                   
+                    prod.Run_Identifier_Check_On__c = System.today();
                    if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9')) || Test.isRunningTest()){   
                         if(codeMapping.containsKey(prod.Placement_Status__c) ){
                             if(codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c != NULL){

@@ -167,7 +167,7 @@ public class AgencyPoolAllocationController {
                 product.Placement_Status__c = NEW_ALLOCATION_READY;
                 product.Status_Changed_Date__c = Date.today();
                 product.Collection_Sub_Status__c = null;
-                
+                product.Run_Identifier_Check_On__c = System.today();
                 productList.add(product);
                 prodIdList.add(product.id);
                 
@@ -279,7 +279,7 @@ public class AgencyPoolAllocationController {
                 product.Placement_Status__c = NEW_ALLOCATION_READY;
                 product.Status_Changed_Date__c = Date.today();
                 product.Collection_Sub_Status__c = null;
-                
+                product.Run_Identifier_Check_On__c = System.today();
                 productList.add(product);
                 prodIdList.add(product.id);
                 placeStatusMap.put(product.id,product.Placement_Status__c);

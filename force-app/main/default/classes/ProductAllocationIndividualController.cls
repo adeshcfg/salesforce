@@ -120,6 +120,7 @@ public with sharing class ProductAllocationIndividualController {
         product.Timestamp_Of_Invalid_Submission__c = null;
         product.Invalid_Submission_Reason__c = null;
         product.Collection_Sub_Status__c = null;
+        product.Run_Identifier_Check_On__c = System.today();
         oldPlacementID = product.Collection_Agency_Placement__c; 
         if(!mapRecallCodeStatus.isEmpty()){
             product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
@@ -224,6 +225,7 @@ public with sharing class ProductAllocationIndividualController {
             product.Timestamp_Of_Invalid_Submission__c = null;
             product.Invalid_Submission_Reason__c = null;
             product.Collection_Sub_Status__c = null;
+            product.Run_Identifier_Check_On__c = System.today();
             oldPlacementID = product.Collection_Agency_Placement__c; 
             
             if(!mapRecallCodeStatus.isEmpty()){
