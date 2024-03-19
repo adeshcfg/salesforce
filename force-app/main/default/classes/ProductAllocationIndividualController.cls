@@ -328,8 +328,8 @@ public with sharing class ProductAllocationIndividualController {
         && (!AgencyProvince.contains(product.Purchase_Province__c))
         && ( (!mapProvinceAcronym.containsKey(product.Purchase_Province__c) && !AgencyProvince.contains(product.Purchase_Province__c))
         ||   (mapProvinceAcronym.containsKey(product.Purchase_Province__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(product.Purchase_Province__c))))){
-               ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
-               EXPECTED += 'Product Province - ' + product.Purchase_Province__c +'<br/>';
+               ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Purchase Province is Non Serviceable for Agency'+'<br/>';
+               EXPECTED += 'Product Purchase Province should be either - ' + AgencyProvince +'<br/>';
         } 
         if(!placementHistory.isEmpty()){
             ERROR_MSG += '<b>WARNING</b> - '+'Product is placed with the agency in last 6 months'+'<br/>';

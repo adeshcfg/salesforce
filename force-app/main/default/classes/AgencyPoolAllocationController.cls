@@ -409,7 +409,7 @@ public class AgencyPoolAllocationController {
                && String.isNotBlank(product.Purchase_Province__c) 
                && ( (!mapProvinceAcronym.containsKey(product.Purchase_Province__c) && !AgencyProvince.contains(product.Purchase_Province__c))
                    ||   (mapProvinceAcronym.containsKey(product.Purchase_Province__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(product.Purchase_Province__c))))){
-                       ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
+                       ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Purchase Province is Non Serviceable for Agency'+'<br/>';
                        comments = ERROR_MSG;
                    }          
             
