@@ -1094,6 +1094,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
                     }else if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
                         Province = ProvinceNameFormat; 
                     }
+                }
                 Product_1 = mapProd.get(product.ID).Name;
                 Plaintiff = mapProd.get(product.ID).Account_Purchasing_Entity_Value__c;    
             }
