@@ -2016,7 +2016,7 @@ public class ProductPaymentsTriggerHandler {
                         mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                         (productAgency == '9999' || String.isBlank(productAgency)) &&
                         mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c != null &&
-                        mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) <= 15
+                        mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(Date.today()) <= 15
                     ) {
                         if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                             Decimal CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Product_Commission_rate__C;
@@ -2124,7 +2124,7 @@ public class ProductPaymentsTriggerHandler {
                         mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                         (productAgency == '9999' || String.isBlank(productAgency)) &&
                         mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c != null &&
-                        mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) > 15
+                        mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(Date.today()) > 15
                     ) {
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled more than 15 days ago and is currently warehoused.<br/>';
                         //Ticket 5190: Commission Given on Payments That Should Not Have Commission
@@ -2342,7 +2342,7 @@ public class ProductPaymentsTriggerHandler {
                 productAgency == '9999' && 
                 mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c != null &&
                 prodPayment.Payment_Posting_Date__c != null &&
-                mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) > 60
+                mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(Date.today()) > 60
             ) {
                 ERROR_MSG += '<b>ERROR</b> - Invalid current account status.<br/> ';
                 EXPECTED += 'Account cannot not be in Warehouse.<br/>';
@@ -2409,7 +2409,7 @@ public class ProductPaymentsTriggerHandler {
                     mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                     (productAgency == '9999' || String.isBlank(productAgency)) &&
                     mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c != null &&
-                    mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) <= 15
+                    mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(Date.today()) <= 15
                 ) {
                     if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                         Decimal CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Product_Commission_rate__C;
@@ -2485,7 +2485,7 @@ public class ProductPaymentsTriggerHandler {
 
                             //calculate tax amount ends
                         }
-                        if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
+                        if (prodPayment.Payment_Type__c != PAYTYPE_REVERSAL && mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                             if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
                                 prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
                             }
@@ -2513,7 +2513,7 @@ public class ProductPaymentsTriggerHandler {
                     mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                     (productAgency == '9999' || String.isBlank(productAgency)) &&
                     mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c != null &&
-                    mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(prodPayment.Payment_Posting_Date__c) > 15
+                    mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c.daysBetween(Date.today()) > 15
                 ) {
                     ERROR_MSG += '<b>WARINING</b> - Account was recalled more than 15 days ago and is currently warehoused.<br/>';
                     if (!prodPayment.Ignore_Warning__c) {
@@ -2526,18 +2526,15 @@ public class ProductPaymentsTriggerHandler {
                         }
                     }else{
                         EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
+                        if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
+                            if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
+                                prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
+                            }
+                        }
                     }
-
+                    prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
                     prodPayment.Pay_Due__c = 0;
                     prodPayment.Tax_Amount__c = 0;
-                    if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                        if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
-                            prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
-                        }
-                        if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
-                            prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
-                        }
-                    }
                 }
 
                 //assigned to agency

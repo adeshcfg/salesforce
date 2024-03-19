@@ -371,7 +371,7 @@ public class DistressedUtilities {
                  ERROR_MSG += '<b>ERROR</b> - Invalid account number.<br/>';
                  EXPECTED += 'Account number cannot be blank<br/>'; 
             }
-             if(product.Data_Id__c == null || product.Name__c == null){
+             if(product.Data_Id__c != null || product.Name__c != null){
               
             if(setPreviousPlacedProductNames.contains(product.Data_Id__c+ newAgency)){
                 ERROR_MSG+= '<b>WARNING</b>-'+'Product is placed with the agency in last 6 months'+'<br/>';
@@ -403,6 +403,9 @@ public class DistressedUtilities {
                && String.isNotBlank(mapPlacement.get(newAgency).Serviceable_Province__c)){
                    AgencyProvince = mapPlacement.get(newAgency).Serviceable_Province__c; 
                }
+            if(String.isBlank(mapProductName.get(product.Data_Id__c).Purchase_Province__c)){
+                     ERROR_MSG += '<b>ERROR</b> - '+'Purchase Province Required'+'<br/>';
+            }
             if(String.isNotBlank(newAgency)
                && String.isNotBlank(AgencyProvince)
                && mapProductName.containsKey(product.Data_Id__c)

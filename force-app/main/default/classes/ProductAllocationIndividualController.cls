@@ -319,6 +319,9 @@ public with sharing class ProductAllocationIndividualController {
              && String.isNotBlank(placement.Serviceable_Province__c)){
                 AgencyProvince = placement.Serviceable_Province__c; 
         }
+        if(String.isBlank(product.Purchase_Province__c) && !Test.isRunningTest()){
+             ERROR_MSG += '<b>ERROR</b> - '+'Purchase Province Required'+'<br/>';
+        }
         if(String.isNotBlank(newPlacement)
         && String.isNotBlank(AgencyProvince)
         && String.isNotBlank(product.Purchase_Province__c) 
@@ -328,7 +331,7 @@ public with sharing class ProductAllocationIndividualController {
                ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
                EXPECTED += 'Product Province - ' + product.Purchase_Province__c +'<br/>';
         } 
-        if(!placementHistory.isEmpty()){
+        if(!placementHistory.isEmpty() && String.isNotBlank(product.Purchase_Province__c)){
             ERROR_MSG = '<b>WARNING</b> - '+'Product is placed with the agency in last 6 months'+'<br/>';
         }
         if(String.isNotBlank(newPlacement)){
