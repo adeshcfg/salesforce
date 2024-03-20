@@ -55,7 +55,10 @@ public class SettlementIdentifierBatch implements Database.Batchable<sObject> {
             //Else set Judgement Product Collection Identifier from Judgment
             else {
                 if (settlementObj.Judgment__c != null) {
-                    if (String.isNotBlank(settlementObj.Judgment__r.Collection_Agency_Identifier__c)) {
+                    if (
+                        String.isNotBlank(settlementObj.Judgment__r.Collection_Agency_Identifier__c) &&
+                        settlementObj.Judgment__r.Collection_Agency_Identifier__c != '9999'
+                    ) {
                         settlementObj.Judgment_Collection_Agency_Identifier__c = settlementObj.Judgment__r.Collection_Agency_Identifier__c;
                     } else {
                         settlementObj.Judgment_Collection_Agency_Identifier__c = SEPARATOR + UNPLACED + SEPARATOR;
