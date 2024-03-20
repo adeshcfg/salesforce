@@ -29,17 +29,14 @@ global class JudgmentIdentifierBatch implements Database.Batchable<sObject> {
         }
 
         //Fetch all related products
-        //List<Product__c> listProduct = [select id, Collection_Agency__C from Product__C where id in :productSet];
         //Fetch all accounts judgments related to Judgments
         List<Account_Judgment__c> listAccountJudgment = [SELECT id, Judgment__C, Product__c FROM Account_Judgment__c WHERE Judgment__C IN :judgmentSet];
-
         for (Account_Judgment__c prodJudg : listAccountJudgment) {
             judgmentSet.add(prodJudg.Judgment__C);
             productSet.add(prodJudg.Product__c);
         }
 
         List<Product__c> listProduct = [SELECT id, Collection_Agency__C FROM Product__C WHERE id IN :productSet];
-
         for (Account_Judgment__c prodJudg : listAccountJudgment) {
             for (Product__C prod : listProduct) {
                 if (prod.id == prodJudg.Product__C) {
@@ -53,9 +50,10 @@ global class JudgmentIdentifierBatch implements Database.Batchable<sObject> {
         String collectionAgencyidentifier = '';
         for (Account_Judgment__c prodJudg : listAccountJudgment) {
             Product__c prod = productMap.get(prodJudg.id);
-            if (null == prod)
+            if (prod == null) {
                 continue;
-            if (null == prod.Collection_Agency__C) {
+            }
+            if (prod.Collection_Agency__c == null || prod.Collection_Agency__c == 9999) {
                 collectionAgencyidentifier = SEPARATOR + UNPLACED + SEPARATOR;
             } else {
                 collectionAgencyidentifier = SEPARATOR + prod.Collection_Agency__C + SEPARATOR;
@@ -79,7 +77,6 @@ global class JudgmentIdentifierBatch implements Database.Batchable<sObject> {
         if (judgmentUpdate.size() > 0) {
             for (ID judgmentID : judgmentUpdate.keySet()) {
                 Judgment__c judge = new Judgment__c();
-
                 judge.Collection_Agency_Identifier__c = judgmentUpdate.get(judgmentID);
                 //Update the external Collection Agency Identifier for Agency Group Sharing Rule
                 judge.External_Collection_Agency_Identifier__c = judge.Collection_Agency_Identifier__c.replace('A68A', '')
@@ -87,7 +84,6 @@ global class JudgmentIdentifierBatch implements Database.Batchable<sObject> {
                     .replace(SEPARATOR + UNPLACED + SEPARATOR, '')
                     .replace(',', '');
                 judge.id = judgmentID;
-
                 if (null != judge.id) {
                     listJudgment.add(judge);
                 }
