@@ -42,7 +42,7 @@ public class SettlementIdentifierBatch implements Database.Batchable<sObject> {
         for (Settlement__c settlementObj : listSettlements) {
             //Check if Product Collection Agency is not null and set Settlement Product Collection Identifier
             if (settlementObj.Product__c != null) {
-                if (settlementObj.Product__r.Collection_Agency__c != null) {
+                if (settlementObj.Product__r.Collection_Agency__c != null && settlementObj.Product__r.Collection_Agency__c != 9999) {
                     settlementObj.Product_Collection_Agency_Identifier__c =
                         SEPARATOR +
                         String.valueOf((integer) settlementObj.Product__r.Collection_Agency__c) +
@@ -56,7 +56,6 @@ public class SettlementIdentifierBatch implements Database.Batchable<sObject> {
             else {
                 if (settlementObj.Judgment__c != null) {
                     if (String.isNotBlank(settlementObj.Judgment__r.Collection_Agency_Identifier__c)) {
-                        system.debug('check');
                         settlementObj.Judgment_Collection_Agency_Identifier__c = settlementObj.Judgment__r.Collection_Agency_Identifier__c;
                     } else {
                         settlementObj.Judgment_Collection_Agency_Identifier__c = SEPARATOR + UNPLACED + SEPARATOR;
@@ -64,9 +63,7 @@ public class SettlementIdentifierBatch implements Database.Batchable<sObject> {
                     settlementObj.External_Collection_Agency_Identifier__c = settlementObj.Judgment_Collection_Agency_Identifier__c;
                 }
             }
-
             //Update the external Collection Agency Identifier for Agency Group Sharing Rule
-
             settlementObj.External_Collection_Agency_Identifier__c = settlementObj.External_Collection_Agency_Identifier__c.replace('A68A', '')
                 .replace('A6A', '')
                 .replace(SEPARATOR + UNPLACED + SEPARATOR, '')
