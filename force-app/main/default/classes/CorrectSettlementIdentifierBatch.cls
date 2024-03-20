@@ -22,7 +22,7 @@ public class CorrectSettlementIdentifierBatch implements Database.Batchable<sObj
                     Judgment_Collection_Agency_Identifier__c,
                     External_Collection_Agency_Identifier__c,
                     Product_Collection_Agency_Identifier__c
-                FROM Settlement__c
+                FROM Settlement__c Where (Product__c != null OR Judgment__c != null)
             ]
         );
     }
