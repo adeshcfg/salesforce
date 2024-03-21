@@ -164,7 +164,6 @@ public class AgencyPoolRecallController {
                 }
                 product.Status__c = mainStatus;
                 product.Sub_Status__c = subStatus;
-                productList.add(product);
                 prodIdList.add(product.id);
                 placeStatusMap.put(product.id,product.Placement_Status__c);
             }
@@ -191,7 +190,6 @@ public class AgencyPoolRecallController {
                 }
                 product.Status_Changed_Date__c = Date.today();
                 Product_Placement_Status = product.Placement_Status__c;
-                productList.add(product);
                 prodIdList.add(product.id);
                 placeStatusMap.put(product.id,product.Placement_Status__c);
             }
@@ -207,7 +205,6 @@ public class AgencyPoolRecallController {
                     product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
                     product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
                 }
-                productList.add(product);
                 prodIdList.add(product.id);
                 placeStatusMap.put(product.id,product.Placement_Status__c);
             }
@@ -224,8 +221,8 @@ public class AgencyPoolRecallController {
                            product.Previous_Ownership__c = oldOwnerId;
                        }
                    }
-                productList.add(product);
             }
+            productList.add(product);
             if(selectedValueAction == 'Pending Recall' || selectedValueAction == 'Send to Warehouse'){
               if(!Test.isRunningTest()){
                  DistressedUtilities.updatePlacementHistory(product.Id, selectedValue.replaceFirst(selectedValue.substring(0,1), '9'));
@@ -279,7 +276,7 @@ public class AgencyPoolRecallController {
             recordCount = 'No. of Success Records: '+ productList.size() +'<br/>';
         }
         catch(Exception ex){
-
+			system.debug('exception'+ex);
         }          
         
         return null;
@@ -339,7 +336,6 @@ public class AgencyPoolRecallController {
                     }
                     product.Status__c = mainStatus;
                     product.Sub_Status__c = subStatus;
-                    productList.add(product);
                     prodIdList.add(product.id);
                     placeStatusMap.put(product.id,product.Placement_Status__c);
                 }
@@ -366,7 +362,6 @@ public class AgencyPoolRecallController {
                     }
                     product.Status_Changed_Date__c = Date.today();
                     Product_Placement_Status = product.Placement_Status__c;
-                    productList.add(product);
                     prodIdList.add(product.id);
                     placeStatusMap.put(product.id,product.Placement_Status__c);
                 } 
@@ -381,7 +376,6 @@ public class AgencyPoolRecallController {
                         product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
                         product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
                     }
-                    productList.add(product);
                     prodIdList.add(product.id);
                     placeStatusMap.put(product.id,product.Placement_Status__c);
                 }
@@ -398,8 +392,8 @@ public class AgencyPoolRecallController {
                                product.Previous_Ownership__c = oldOwnerId;
                            }
                        }
-                    productList.add(product);
                 }
+                productList.add(product);
                 if(selectedValueAction == 'Pending Recall' || selectedValueAction == 'Send to Warehouse'){
                     if(!Test.isRunningTest()){
                         DistressedUtilities.updatePlacementHistory(product.Id, selectedValue.replaceFirst(selectedValue.substring(0,1), '9'));
@@ -452,7 +446,7 @@ public class AgencyPoolRecallController {
                 recordCount = 'No. of Success Records: '+ productList.size() +'<br/>';
             }
             catch(Exception ex){
-
+				system.debug('exception'+ex);
             }          
             
         }
