@@ -15,7 +15,6 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
     Boolean runTrigger = config.Run_Insolvency_Trigger__c;
     
     if(runTrigger){   
-        if(!Test.isRunningTest()){
             if(InsolvencyTriggerHandler.runInsolvencyTrigger){
                 
                 //Before Trigger
@@ -48,7 +47,7 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                         String createdDate = String.valueOf(Trigger.new[0].createddate);
                         String systemDate = String.valueOf(System.now());
                         if(Trigger.isInsert && createddate == systemDate){
-                           InsolvencyTriggerHandler.handleAfterInsert(Trigger.new);
+                         InsolvencyTriggerHandler.handleAfterInsert(Trigger.new);
                         }
                     }
                     
@@ -64,7 +63,6 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     }    
                      */                
                 }             
-            }
         }
     }    
 }
