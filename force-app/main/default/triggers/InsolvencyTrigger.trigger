@@ -22,7 +22,7 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                 if(Trigger.isBefore) {
                     
                     //Before Insert Trigger
-                    if(Trigger.isInsert){
+                    if(Trigger.isInsert  && Trigger.new[0].CreatedDate == NULL){
                         InsolvencyTriggerHandler.handleBeforeInsert(Trigger.new);
                     }
                     
@@ -45,7 +45,11 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     
                     //After Insert Trigger
                     if(Trigger.isInsert){
-                        InsolvencyTriggerHandler.handleAfterInsert(Trigger.new);
+                        String createdDate = String.valueOf(Trigger.new[0].createddate);
+                        String systemDate = String.valueOf(System.now());
+                        if(Trigger.isInsert && createddate == systemDate){
+                           InsolvencyTriggerHandler.handleAfterInsert(Trigger.new);
+                        }
                     }
                     
                     //After Update Trigger
