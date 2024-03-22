@@ -3,7 +3,7 @@
     <fullName>Unique_Estate_Number</fullName>
     <active>true</active>
     <description>Validates if Estate Number is unique</description>
-    <errorConditionFormula>IF(ISNEW(), IF( UPPER(Name) == UPPER(VLOOKUP( $ObjectType.Insolvency__c.Fields.Name, $ObjectType.Insolvency__c.Fields.Name, Name)),true , false), 
+    <errorConditionFormula>IF(ISNEW(), AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),IF( UPPER(Name) == UPPER(VLOOKUP( $ObjectType.Insolvency__c.Fields.Name, $ObjectType.Insolvency__c.Fields.Name, Name)),true , false)), 
 
 AND(ISCHANGED(Name), IF( UPPER(Name) == UPPER(VLOOKUP($ObjectType.Insolvency__c.Fields.Name, $ObjectType.Insolvency__c.Fields.Name, Name)),true,false)))</errorConditionFormula>
     <errorDisplayField>Name</errorDisplayField>
