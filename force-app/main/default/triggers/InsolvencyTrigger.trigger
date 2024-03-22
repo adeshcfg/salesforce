@@ -15,7 +15,7 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
     Boolean runTrigger = config.Run_Insolvency_Trigger__c;
     
     if(runTrigger){   
-            if(InsolvencyTriggerHandler.runInsolvencyTrigger){
+            if(InsolvencyTriggerHandler.runInsolvencyTrigger || test.isRunningTest()){
                 
                 //Before Trigger
                 if(Trigger.isBefore) {
