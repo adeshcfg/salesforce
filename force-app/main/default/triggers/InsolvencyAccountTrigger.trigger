@@ -15,7 +15,6 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
     Boolean runTrigger = config.Run_Insolvency_Account_Trigger__c;
     
     if(runTrigger){   
-        if(!Test.isRunningTest()){
             if(InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger){
                 
                 //Before Trigger
@@ -62,6 +61,6 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     }              
                 }               
             }
-        }
+        
     }
 }
