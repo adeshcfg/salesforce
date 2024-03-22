@@ -39,6 +39,7 @@ public without sharing class PaymentReversalController {
     
     // fetch the ccs payments //
     public void ccspayments(){
+        list<Product_Payments__c> updatedPayments=new list<Product_Payments__c>();
         /*Id remittanceRecType  = Schema.SObjectType.Product_Payments__C.getRecordTypeInfosByName().get('CCS_Dividend_Payment').getRecordTypeId();*/
         /* map<id,Remittance__c> mapAPM = new map<id,Remittance__c>([select id,name from Product_Payments__c where ID = :remittanceRecType ]);*/
         /*String remitID = ApexPages.currentPage().getParameters().get('id');*/
@@ -57,11 +58,10 @@ public without sharing class PaymentReversalController {
                                                               WHERE Dividend__c =: listRemit[0].Id] );
             
             
-            
             for(Product_Payments__c prodPay : existingProdPayList){
                 if(prodpay.Payment_Reversed__c==null){
                     prodpay.Payment_Reversed__c=PaymentReversal;
-                    update prodpay;
+                    updatedPayments.add(prodpay);
                     Product_Payments__c clonedRec = prodpay.clone();
                     system.debug('clonedRec '+clonedRec );
                     clonedRec.CCS_Account__c=prodpay.CCS_Account__c;
@@ -72,6 +72,9 @@ public without sharing class PaymentReversalController {
                     //clonedpayments.add(prodPay);
                     
                 }
+            }
+            if(!updatedPayments.isEmpty()){
+                update updatedPayments;
             }
             if(productPaymentList.size()>0){
                 system.debug('------prodPay--------'); 
