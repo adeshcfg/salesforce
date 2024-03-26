@@ -3,6 +3,7 @@
     <fullName>Validate_Account_Number</fullName>
     <active>true</active>
     <description>Account Number should not be more then 20 Characters</description>
-    <errorConditionFormula>And( NOT(LEN(Name)&lt;21))</errorConditionFormula>
+    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),And( NOT(LEN(Name)&lt;21)))),
+And( NOT(LEN(Name)&lt;21)))</errorConditionFormula>
     <errorMessage>Account number should not exceed 20 characters</errorMessage>
 </ValidationRule>

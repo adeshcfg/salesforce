@@ -368,7 +368,7 @@ private class TestInsolvencyAccountTriggerHandler {
             WHERE id = :ia1.Id
         ];
 
-        ia3.RecordTypeId = recordTypeList1[0].Id;
+        //ia3.RecordTypeId = recordTypeList1[0].Id;
         ia3.Name = 'Test-0001';
         ia3.Insolvency_Status__c = 'For Owner Review';
         ia3.Asset_Status__c = 'Duplicate';
