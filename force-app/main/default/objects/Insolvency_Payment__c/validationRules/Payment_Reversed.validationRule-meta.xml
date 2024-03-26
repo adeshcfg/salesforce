@@ -12,6 +12,7 @@ ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Unauthorised&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Stale Dated&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Payment posted to Incorrect account&quot;))),
 AND(
+OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),
 NOT(ISCHANGED(Payment_Reversed__c)),
 OR(
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;NSF&quot;),
