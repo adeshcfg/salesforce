@@ -341,6 +341,10 @@ public class EmailTrusteeController{
                     emailBody = emailBody.replace('{!pocPackage.CFG_Office_Website__c}', pocPackage.CFG_Office_Website__c);         
                 }
                 
+                if(emailBody.contains('{!pocPackage.CFG_Office_Province__c}')){       
+                    emailBody = emailBody.replace('{!pocPackage.CFG_Office_Province__c}', pocPackage.CFG_Office_Province__c);         
+                }
+                
                 if(emailBody.contains('{!pocPackage.CFG_Office_Address_1__c}')){       
                     emailBody = emailBody.replace('{!pocPackage.CFG_Office_Address_1__c}', pocPackage.CFG_Office_Address_1__c);         
                 }
