@@ -333,6 +333,14 @@ public class EmailTrusteeController{
                     emailBody = emailBody.replace('{!Insolvency_Account__c.Reason_for_No_PoC_Required__c}', (insolvAcc.Reason_for_No_PoC_Required__c!= null ? insolvAcc.Reason_for_No_PoC_Required__c:''));    
                 }
                 
+                if(emailBody.contains('{!pocPackage.CFG_Office_Name__c}')){       
+                    emailBody = emailBody.replace('{!pocPackage.CFG_Office_Name__c}', pocPackage.CFG_Office_Name__c);         
+                }
+                
+                if(emailBody.contains('{!pocPackage.CFG_Office_Website__c}')){       
+                    emailBody = emailBody.replace('{!pocPackage.CFG_Office_Website__c}', pocPackage.CFG_Office_Website__c);         
+                }
+                
                 if(emailBody.contains('{!pocPackage.CFG_Office_Address_1__c}')){       
                     emailBody = emailBody.replace('{!pocPackage.CFG_Office_Address_1__c}', pocPackage.CFG_Office_Address_1__c);         
                 }
