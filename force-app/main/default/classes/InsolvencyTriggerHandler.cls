@@ -406,7 +406,7 @@ public class InsolvencyTriggerHandler {
         Datetime systemDateOneHourBefore = System.now().addHours(-1);
         for(Insolvency__c insolRec : insolsNew){
             //Doc Parser code
-            if(test.isRunningTest() || (insolRec.CreatedDate > systemDateOneHourBefore && insolRec.Document_ID__c <> null)){
+            if(insolRec.CreatedDate > systemDateOneHourBefore && insolRec.Document_ID__c <> null){
                 InsolvencyAccountCreationFuture.SendPDFtoParser(insolRec.Remote_ID__c);
                 //InsolvencyAccountCreationFuture.SendPDFtoParser(insolRec.Document_ID__c); 
             }
