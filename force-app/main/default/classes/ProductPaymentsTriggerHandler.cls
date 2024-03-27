@@ -58,9 +58,9 @@ public class ProductPaymentsTriggerHandler {
         for (RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product_Payments__c']) {
             prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
         }
-
+        String systemDateOneHourBefore = String.valueOf(System.now())-1;
         for (Product_Payments__c prodPayment : listProductPayment) {
-            if (prodRTypeIdMap.get('Distressed_Product_Payment') == prodPayment.RecordTypeId) {
+            if (prodPayment.CreatedDate < systemDateOneHourBefore &&  prodRTypeIdMap.get('Distressed_Product_Payment') == prodPayment.RecordTypeId) {
                 if (prodPayment.Payment_Type__c.startsWith('1')) {
                     mapNewPayments.put(prodPayment.ID, prodPayment);
                 } else if (FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)) {
