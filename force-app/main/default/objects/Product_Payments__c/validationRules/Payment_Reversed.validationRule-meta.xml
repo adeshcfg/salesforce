@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Payment_Reversed</fullName>
-    <active>false</active>
+    <active>true</active>
     <description>Once Payment is Reversed do not allow payment to be updated</description>
     <errorConditionFormula>OR(AND(
 ISCHANGED( Payment_Reversed__c ),
