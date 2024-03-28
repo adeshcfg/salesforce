@@ -8,6 +8,13 @@
         <value>nagendra.yanadigalla@canaccede.com</value>
     </labels>
     <labels>
+        <fullName>AddMinutesToCurrentDateTime</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AddMinutesToCurrentDateTime</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
         <fullName>Affirm_Doc_Parser_Address</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -56,7 +63,7 @@
         <shortDescription>CTB Statement</shortDescription>
         <value>Statement</value>
     </labels>
-    <labels>
+        <labels>
         <fullName>Duplicate_Account_ID_Validation_Error</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -196,7 +203,7 @@
         <shortDescription>InsolvencyAccountInline.View</shortDescription>
         <value>View</value>
     </labels>
-    <labels>
+        <labels>
         <fullName>Judgment_Pending_Recall_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -231,7 +238,7 @@
         <shortDescription>RecordType_to_Show_Parser_Button</shortDescription>
         <value>CCS Case,CCS Dividend</value>
     </labels>
-    <labels>
+<labels>
         <fullName>Canaccede_Additional_Info_French_Text</fullName>
         <language>en_US</language>
         <protected>false</protected>
