@@ -7,7 +7,7 @@
 				"fields": [
 					{
 						"fieldApiName": "Turn_Off_CTB__c",
-						"fieldValue": "True"
+						"fieldValue": true
 					}
 				]
 			}
