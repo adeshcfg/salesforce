@@ -1056,7 +1056,7 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
-        Datetime systemDateOneHourBefore = System.now().addHours(-1);
+        Datetime systemDateOneHourBefore = System.now().addMinutes(Integer.valueOf(System.Label.AddMinutesToCurrentDateTime));
         boolean unarchivalFlag=FALSE;
         for (Insolvency_Account__c insolvAccount : insolAccntsNew) {
             if (test.isRunningTest() || insolvAccount.CreatedDate > systemDateOneHourBefore){
