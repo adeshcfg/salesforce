@@ -407,6 +407,9 @@ private class TestInsolvencyAccountTriggerHandler {
         iaMap.put(ia3.id, ia3);
         iaMap.put(ia2.id, ia2);
         iaMap.put(ia1.id, ia1);
+        list<RecordType> recordTypeList = new List<RecordType>(
+            [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SDA%']
+        );
         Test.startTest();
         //Test for Before Update
         InsolvencyAccountTriggerHandler.handleBeforeUpdate(iaList, iaMap);
