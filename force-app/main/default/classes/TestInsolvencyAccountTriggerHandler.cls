@@ -421,7 +421,7 @@ private class TestInsolvencyAccountTriggerHandler {
     //Test after insert, update, delete
     static testMethod void afterTest() {
         //Insolvency Record
-        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' LIMIT 1];
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
 
 
         list<RecordType> recordTypeList = new List<RecordType>(
@@ -470,7 +470,7 @@ private class TestInsolvencyAccountTriggerHandler {
     //Test after insert, update, delete
     static testMethod void duplicateCheck() {
         //Insolvency Record
-        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' LIMIT 1];
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
 
         list<RecordType> recordTypeList = new List<RecordType>(
             [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND name LIKE '%SPL%']
@@ -512,7 +512,7 @@ private class TestInsolvencyAccountTriggerHandler {
 
     public static testMethod void testForOwnerReviewExternal() {
         //Insolvency Record
-        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' LIMIT 1];
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
 
         list<RecordType> recordTypeList = new List<RecordType>(
             [
@@ -558,7 +558,7 @@ private class TestInsolvencyAccountTriggerHandler {
         Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
         system.debug('run: ' + config.Run_Insolvency_Account_Trigger__c);
         //Insolvency Record
-        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' LIMIT 1];
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
 
         list<RecordType> recordTypeList = new List<RecordType>(
             [
@@ -597,7 +597,7 @@ private class TestInsolvencyAccountTriggerHandler {
                 WHERE SobjectType = 'Insolvency_Account__c' AND DeveloperName = 'Canadian_Tire_Insolvency_Account'
             ]
         );
-        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' LIMIT 1];
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.RecordTypeId = recordTypeList[0].Id;
         ia1.name = 'testAccount1';
