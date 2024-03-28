@@ -31,6 +31,12 @@ private class TestInsolvencyAccountTriggerHandler {
         insert insolv;
         system.debug('insolvency created-->'+insolv.id);
         system.debug('insolvency created-->'+insolv.name);
+        Insolvency__c insolv1 = new Insolvency__c();
+        insolv1.Name = '12456783';
+        insolv1.Client_Identifiers__c = 'SPL';
+        insolv1.Insolvency_Type__c = 'Bankruptcy';
+        insolv1.Insolvency_Status__c = 'Active';
+        insert insolv1;
 
     }
 
@@ -210,13 +216,8 @@ private class TestInsolvencyAccountTriggerHandler {
     //Test Before Update
     static testMethod void insolvencyBeforeUpdateTest() {
         //Insolvency Record
-        Insolvency__c insolv = new Insolvency__c();
-        insolv.Name = '12456783';
-        insolv.Client_Identifiers__c = 'SPL';
-        insolv.Insolvency_Type__c = 'Bankruptcy';
-        insolv.Insolvency_Status__c = 'Active';
-        insert insolv;
-
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456783' OR Client_Identifiers__c = 'SPL' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
+       
         //Portfolio record
         Portfolio_Name__c portfolioName = new Portfolio_Name__c();
         portfolioName.name = 'AFSCARDS';
