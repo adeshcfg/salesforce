@@ -31,9 +31,8 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                     if(Trigger.isUpdate){
                         ProductPaymentsTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
                     }
-                    String createdDate = String.valueOf(Trigger.new[0].createddate);
-            		String systemDate = String.valueOf(System.now());
-                    if(Trigger.isInsert && createddate == systemDate){
+                   
+                    if(Trigger.isInsert){
                         ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.new, Trigger.newMap, Trigger.oldMap);
                     }                          
                 }

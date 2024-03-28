@@ -289,7 +289,7 @@
         </values>
         <values>
             <fullName>New</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>No PoC Required</fullName>

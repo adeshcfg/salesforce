@@ -1,13 +1,13 @@
 /**************************************************************************************************
- *
- *  Class:   
- *
- *  @description : This class contains unit tests for validating behavior of InsolvencyTriggerHandler
- *  @author : A5E Consulting
- *  @date : 09/26/2016
- * 
- *************************************************************************************************/
- 
+*
+*  Class:   
+*
+*  @description : This class contains unit tests for validating behavior of InsolvencyTriggerHandler
+*  @author : A5E Consulting
+*  @date : 09/26/2016
+* 
+*************************************************************************************************/
+
 @isTest
 private class TestInsolvencyTriggerHandler{
     
@@ -58,9 +58,9 @@ private class TestInsolvencyTriggerHandler{
         insolv2.Name = '852147856';
         insolv2.Debtor_2_Estate_Number__c = '874123698';  
         insolv2.Insolvency_Status__c = 'Active';
-                insolv1.Sent_For_Owner_Review_Date__c = null;
-                        insolv1.Revival_Date__c = System.today();
-                        insolv1.Voting_Trustee_Follow_up_Date__c = System.today();
+        insolv1.Sent_For_Owner_Review_Date__c = null;
+        insolv1.Revival_Date__c = System.today();
+        insolv1.Voting_Trustee_Follow_up_Date__c = System.today();
         insolvList.add(insolv2); 
         
         Insolvency__c insolv3 = new Insolvency__c();
@@ -104,7 +104,7 @@ private class TestInsolvencyTriggerHandler{
         insolv9.Debtor_2_Estate_Number__c = '523761651854';  
         insolv9.Insolvency_Status__c = 'Withdrawn – Filed New';
         insolvList.add(insolv9);
-
+        
         //Test Before Insert        
         InsolvencyTriggerHandler.handleBeforeInsert(insolvList);
         
@@ -118,9 +118,9 @@ private class TestInsolvencyTriggerHandler{
         insolvMap.put(insolv7.Id,insolv7);
         insolvMap.put(insolv8.Id,insolv8);
         insolvMap.put(insolv9.Id,insolv9);
-    
+        
         System.debug('insolvmap---'+insolvMap);
-      
+        
         InsolvencyTriggerHandler.handleBeforeUpdate(insolvList, insolvMap);  
         
     }
@@ -163,10 +163,10 @@ private class TestInsolvencyTriggerHandler{
         
         Insolvency__c insolv15 = new Insolvency__c();
         insolv15.Name = '789456123';
-        insolv15.Insolvency_Status__c = 'Withdrawn';
+        insolv15.Insolvency_Status__c = 'For Owner Review';
         insolvList.add(insolv15);
-                
-                
+        
+        
         insert  insolvList; 
         
         Map<ID, Insolvency__c> insolvOldMap = new Map<ID, Insolvency__c>();
@@ -177,8 +177,8 @@ private class TestInsolvencyTriggerHandler{
         insolvOldMap.put(insolv11.Id,insolv11);
         insolvOldMap.put(insolv14.Id,insolv14);
         insolvOldMap.put(insolv15.Id,insolv15);
-
-       
+        
+        
         Id devRecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
         
         //Insolvency Account record insertion
@@ -269,9 +269,10 @@ private class TestInsolvencyTriggerHandler{
         insert  insolAcct2;
         
         Insolvency__c insolv2 = new Insolvency__c();
-        insolv2.Insolvency_Status__c = 'Annulled';
+        insolv2.Insolvency_Status__c = 'For Owner Review'; //'Annulled'
+        
         insolv2.Id = insolv3.Id;
-
+        
         Insolvency__c insolv4 = new Insolvency__c();
         insolv4.Insolvency_Status__c = 'Refused';        
         insolv4.Id = insolv10.Id;
@@ -306,7 +307,7 @@ private class TestInsolvencyTriggerHandler{
         insolvNewMap.put(insolv9.Id,insolv9);
         insolvNewMap.put(insolv16.Id,insolv16);
         insolvNewMap.put(insolv17.Id,insolv17);
-         
+        
         
         
         InsolvencyTriggerHandler.handleAfterInsert(insolvList);
@@ -316,48 +317,48 @@ private class TestInsolvencyTriggerHandler{
     }
     
     /*
-    static testMethod void insolvencyTriggerHandlerTest(){
-        
-        //Create Accounts
-        List<Account> debtors = new List <Account>();
-        Account debtor1 = new Account();
-        debtor1.firstName = 'D1First'; 
-        debtor1.lastName = 'D1Last';
-        debtors.add(debtor1);
-        Account debtor2 = new Account();
-        debtor2.firstName = 'D2First'; 
-        debtor2.lastName = 'D2Last';
-        debtors.add(debtor2);
-        insert debtors;
-        
-        //Create Insolvency Records
-        List<Insolvency__c> insolvList = new List<Insolvency__c>();
-        Insolvency__c insolv1 = new Insolvency__c();
-        insolv1.debtor_1__c = debtor1.id;
-        insolv1.debtor_2__c = debtor2.id;       
-        insolv1.Client_Identifier__c = 'Scotia Bank';
-        insolvList.add(insolv1); 
-        Insolvency__c insolv2 = new Insolvency__c();
-        insolv2.debtor_1__c = debtor2.id;
-        insolv2.debtor_2__c = debtor1.id;       
-        insolv2.Client_Identifier__c = 'Scotia Bank';
-        insolvList.add(insolv2); 
-                   
-        //Test Before Insert        
-        InsolvencyTriggerHandler.handleBeforeInsert(insolvList);
-        
-        //Test After Insert 
-        insert insolvList; 
-        InsolvencyTriggerHandler.handleAfterInsert(insolvList);
-        
-        //Test Before Update 
-        Map<ID, Insolvency__c> insolvMap = new Map<ID, Insolvency__c>();
-        insolvMap.put(insolv1.id, insolv2);     
-        insolvMap.put(insolv2.id, insolv1);       
-        InsolvencyTriggerHandler.handleBeforeUpdate(insolvList, insolvMap);
-        
-        //Test After Update 
-        InsolvencyTriggerHandler.handleBeforeUpdate(insolvList, insolvMap);        
-    }
-    */
+static testMethod void insolvencyTriggerHandlerTest(){
+
+//Create Accounts
+List<Account> debtors = new List <Account>();
+Account debtor1 = new Account();
+debtor1.firstName = 'D1First'; 
+debtor1.lastName = 'D1Last';
+debtors.add(debtor1);
+Account debtor2 = new Account();
+debtor2.firstName = 'D2First'; 
+debtor2.lastName = 'D2Last';
+debtors.add(debtor2);
+insert debtors;
+
+//Create Insolvency Records
+List<Insolvency__c> insolvList = new List<Insolvency__c>();
+Insolvency__c insolv1 = new Insolvency__c();
+insolv1.debtor_1__c = debtor1.id;
+insolv1.debtor_2__c = debtor2.id;       
+insolv1.Client_Identifier__c = 'Scotia Bank';
+insolvList.add(insolv1); 
+Insolvency__c insolv2 = new Insolvency__c();
+insolv2.debtor_1__c = debtor2.id;
+insolv2.debtor_2__c = debtor1.id;       
+insolv2.Client_Identifier__c = 'Scotia Bank';
+insolvList.add(insolv2); 
+
+//Test Before Insert        
+InsolvencyTriggerHandler.handleBeforeInsert(insolvList);
+
+//Test After Insert 
+insert insolvList; 
+InsolvencyTriggerHandler.handleAfterInsert(insolvList);
+
+//Test Before Update 
+Map<ID, Insolvency__c> insolvMap = new Map<ID, Insolvency__c>();
+insolvMap.put(insolv1.id, insolv2);     
+insolvMap.put(insolv2.id, insolv1);       
+InsolvencyTriggerHandler.handleBeforeUpdate(insolvList, insolvMap);
+
+//Test After Update 
+InsolvencyTriggerHandler.handleBeforeUpdate(insolvList, insolvMap);        
+}
+*/
 }

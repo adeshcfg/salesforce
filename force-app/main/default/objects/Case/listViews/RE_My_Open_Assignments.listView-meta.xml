@@ -33,7 +33,6 @@
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
-        <group>Insolvency_Canadian_Tire_Users</group>
         <group>Insolvency_SDA_Users</group>
         <group>Insolvency_SPL_Users</group>
     </sharedTo>

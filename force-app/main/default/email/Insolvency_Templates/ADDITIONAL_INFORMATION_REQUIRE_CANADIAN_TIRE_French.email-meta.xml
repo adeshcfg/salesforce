@@ -6,11 +6,7 @@
     <name>Additional Information Required</name>
     <style>none</style>
     <subject>Canaccede - En ce qui concerne le Numéro du Surintendant &quot;{!Insolvency__r.Name}&quot; et Numéro de compte &quot;{!Insolvency_Account__c.Secured_Name__c}&quot;</subject>
-    <textOnly>{!pocPackage.CFG_Office_Name__c}
-{!pocPackage.CFG_Office_Address_1__c}
-{!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}    t. {!pocPackage.CFG_Office_Phone_Number__c}
-f. {!pocPackage.CFG_Office_Fax_Number__c}
-{!pocPackage.CFG_Office_Website__c}
+    <textOnly>
 
 Cher (ère) Monsieur / Madame:
 
