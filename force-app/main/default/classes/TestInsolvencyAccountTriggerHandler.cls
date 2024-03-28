@@ -385,7 +385,7 @@ private class TestInsolvencyAccountTriggerHandler {
         ia3.Distressed_Data_Id__c = '848085644';
         ia3.Trustee_Not_Providing_LoR__c = true;
         ia3.Revival_Date__c = Date.today();
-        update ia3;
+       // update ia3;
         iaList.add(ia3);
 
         ia2.RecordTypeId = recordTypeList1[0].Id;
@@ -393,7 +393,7 @@ private class TestInsolvencyAccountTriggerHandler {
         ia2.Insolvency_Status__c = 'For Owner Review';
         ia2.Insolvency__c = insolv.Id;
         ia2.Trustee_Not_Providing_LoR__c = true;
-        update ia2;
+       // update ia2;
         iaList.add(ia2);
 
         ia1.RecordTypeId = recordTypeList1[0].Id;
@@ -401,7 +401,7 @@ private class TestInsolvencyAccountTriggerHandler {
         ia1.Insolvency_Status__c = 'Trustee Followup';
         ia1.Insolvency__c = insolv.Id;
         ia1.Trustee_Not_Providing_LoR__c = true;
-        update ia1;
+       // update ia1;
         iaList.add(ia1);
         Map<ID, Insolvency_Account__c> iaMap = new Map<ID, Insolvency_Account__c>();
         iaMap.put(ia3.id, ia3);
@@ -412,7 +412,7 @@ private class TestInsolvencyAccountTriggerHandler {
         );
         Test.startTest();
         //Test for Before Update
-       // InsolvencyAccountTriggerHandler.handleBeforeUpdate(iaList, iaMap);
+       InsolvencyAccountTriggerHandler.handleBeforeUpdate(iaList, iaMap);
 
         //Test for After Delete
         InsolvencyAccountTriggerHandler.handleAfterDelete(iaList, iaMap);
