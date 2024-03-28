@@ -44,9 +44,11 @@ private class TestInsolvencyAccountTriggerHandler {
         portfolioName.Account_Purchasing_Entity_ID__c = ' 13';
         insert portfolioName;
 
+        list<RecordType> recordTypeList = new List<RecordType>(
+            [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SDA%']
+        );
         //Insolvency Account records
         List<Insolvency_Account__c> iaListNew = new List<Insolvency_Account__c>();
-        List<Insolvency_Account__c> iaList = new List<Insolvency_Account__c>();
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.RecordTypeId = recordTypeList[0].Id;
         ia1.Name = 'Test-001';
@@ -282,7 +284,7 @@ private class TestInsolvencyAccountTriggerHandler {
     static testMethod void insolvencyBeforeUpdateTest() {
         //Insolvency Record
         Insolvency__c insolv=[select id from Insolvency__c where name='12456783' OR Client_Identifiers__c = 'SPL' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
-      
+        List<Insolvency_Account__c> iaList = new List<Insolvency_Account__c>();
         Account accInstance1 = new Account();
         string recrdid3 = [
             SELECT id
@@ -318,9 +320,6 @@ private class TestInsolvencyAccountTriggerHandler {
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         insert prod;
 
-        list<RecordType> recordTypeList = new List<RecordType>(
-            [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SDA%']
-        );
         list<RecordType> recordTypeList1 = new List<RecordType>(
             [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SPL%']
         );
@@ -404,6 +403,10 @@ private class TestInsolvencyAccountTriggerHandler {
         ia1.Trustee_Not_Providing_LoR__c = true;
         update ia1;
         iaList.add(ia1);
+        Map<ID, Insolvency_Account__c> iaMap = new Map<ID, Insolvency_Account__c>();
+        iaMap.put(ia3.id, ia3);
+        iaMap.put(ia2.id, ia2);
+        iaMap.put(ia1.id, ia1);
         Test.startTest();
         //Test for Before Update
         InsolvencyAccountTriggerHandler.handleBeforeUpdate(iaList, iaMap);
