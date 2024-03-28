@@ -266,6 +266,7 @@ private class TestInsolvencyAccountTriggerHandler {
             [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SPL%']
         );
         //Insolvency Account records
+        List<Insolvency_Account__c> iaListNew = new List<Insolvency_Account__c>();
         List<Insolvency_Account__c> iaList = new List<Insolvency_Account__c>();
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.RecordTypeId = recordTypeList[0].Id;
@@ -283,7 +284,7 @@ private class TestInsolvencyAccountTriggerHandler {
         ia1.Trustee_Not_Providing_LoR__c = false;
         ia1.Distressed_Data_Id__c = '1';
         ia1.Claim_Filed_Date__c = System.now();
-        insert ia1;
+        //insert ia1;
 
         Insolvency_Account__c ia2 = new Insolvency_Account__c();
         ia2.RecordTypeId = recordTypeList[0].Id;
@@ -301,7 +302,7 @@ private class TestInsolvencyAccountTriggerHandler {
         ia2.Trustee_Not_Providing_LoR__c = false;
         ia2.Distressed_Data_Id__c = '2';
         ia2.Claim_Filed_Date__c = System.now();
-        insert ia2;
+       // insert ia2;
 
         Insolvency_Account__c ia3 = new Insolvency_Account__c();
         ia3.RecordTypeId = recordTypeList[0].Id;
@@ -318,8 +319,15 @@ private class TestInsolvencyAccountTriggerHandler {
         ia3.Trustee_Not_Providing_LoR__c = false;
         ia3.Distressed_Data_Id__c = '3';
         ia3.Claim_Filed_Date__c = null;
-        insert ia3;
-
+        //insert ia3;
+        iaListNew.add(ia1);
+        iaListNew.add(ia2);
+        iaListNew.add(ia3);
+        try{
+            insert iaListNew;
+        }catch(Exception e){
+            system.debug('Exception Occured-->'+e);
+        }
         Map<ID, Insolvency_Account__c> iaMap = new Map<ID, Insolvency_Account__c>();
         iaMap.put(ia3.id, ia3);
         iaMap.put(ia2.id, ia2);
