@@ -306,7 +306,7 @@
                                     <i>All notices or correspondence regarding this claim must be forwarded to the following address:</i>
                                 </div>
                                 <div style="font-weight : bold; text-align:center;padding-top:10px;">
-                                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">{!remGroupMap.Entity_Name1__c} C/O </apex:outputText> {!remGroupMap.Entity_Name1__c}<br/>
+                                    {!remGroupMap.Entity_Name1__c}<br/>
                                     {!pocPackage.CFG_Office_Address_1__c}<br/>
                                     {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
                                 </div>
@@ -558,8 +558,8 @@
                                                     <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
                                                     <br/>
                                                     <b>Bryan Szemenyei, President</b><br/>
-                                                    <b>{!remGroupMap.Entity_Name1__c}</b>
-                                                    <apex:outputText value="<br/> <b>Servicer for The {!pocPackage.Client_Company_Name__c} </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" />(creditor)
+                                                    <b>{!remGroupMap.Entity_Name1__c} (creditor)</b>
+                                                    
                                                 </td>
                                             </tr>
                                         </Table>
