@@ -152,13 +152,13 @@
                     </span> <br/>
                     De la Ville de <span style="font-weight : bold;font-family: sans-serif; ">{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}</span>, dans la province de <span style="font-weight : bold;font-family: sans-serif; ">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>
-                    et la réclamation du <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</span> </apex:outputText> (Créancier)
+                    et la réclamation du <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;">  CFG Canada Funding, LLC cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</span> </apex:outputText> (Créancier)
                     <br/><br/>
                     <span style="font-family: sans-serif; font-style:italic;">Tous les avis ou correspondances concernant cette réclamation doivent être envoyés à l'adresse suivante:</span>
                 </div>
                 
                 <div style="font-weight : bold; text-align:center;padding-top:0px; font-family: sans-serif;">
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">{!remGroupMap.Entity_Name1__c} C/O </apex:outputText> {!remGroupMap.Entity_Name1__c}<br/>
+                    {!remGroupMap.Entity_Name1__c}<br/>
                     {!pocPackage.CFG_Office_Address_1__c}<br/>
                     {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
                 </div>
@@ -439,8 +439,7 @@
                             <br/>
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, CEO<br/>
-                                {!remGroupMap.Entity_Name1__c}
-                                <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c} " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
+                                {!remGroupMap.Entity_Name1__c} (creditor)
                                 <apex:outputText value="<br/><br/>" escape="false" rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" />
                             </span>
                         </td>
