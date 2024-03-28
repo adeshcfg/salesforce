@@ -161,7 +161,7 @@
                 </div>
                 
                 <div style="font-weight : bold; text-align:center;padding-top:0px; font-family: sans-serif;">
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">{!remGroupMap.Entity_Name1__c} C/O </apex:outputText> {!remGroupMap.Entity_Name1__c}<br/>
+                    {!remGroupMap.Entity_Name1__c}<br/>
                     {!pocPackage.CFG_Office_Address_1__c}<br/>
                     {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
                 </div>
@@ -451,8 +451,8 @@
                             <br/>
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, President<br/>
-                                {!remGroupMap.Entity_Name1__c}
-                                <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c} " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
+                                {!remGroupMap.Entity_Name1__c} (creditor)
+                                
                                 <apex:outputText value="<br/><br/>" escape="false" rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" />
                             </span>
                         </td>
