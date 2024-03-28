@@ -40,7 +40,7 @@ private class TestInsolvencyAccountTriggerHandler {
          
         //Portfolio record
         Portfolio_Name__c portfolioName = new Portfolio_Name__c();
-        portfolioName.name = 'AFSCARDS';
+        portfolioName.name = 'AFSCARD';
         portfolioName.Account_Purchasing_Entity_ID__c = ' 13';
         insert portfolioName;
 
@@ -340,7 +340,7 @@ private class TestInsolvencyAccountTriggerHandler {
                 Revival_Date__c,
                 Sent_For_Owner_Review_Date_Original__c
             FROM Insolvency_Account__c
-            WHERE Distressed_Data_Id__c = '3' AND insolvency__c=:insolv.id
+            WHERE Distressed_Data_Id__c = '3'
         ];
         Insolvency_Account__c ia2 = [
             SELECT
@@ -357,7 +357,7 @@ private class TestInsolvencyAccountTriggerHandler {
                 Claim_Amount__c,
                 Total_Account_Recovery__c
             FROM Insolvency_Account__c
-            WHERE Distressed_Data_Id__c = '2' AND insolvency__c=:insolv.id
+            WHERE Distressed_Data_Id__c = '2'
         ];
         Insolvency_Account__c ia1 = [
             SELECT
@@ -374,7 +374,7 @@ private class TestInsolvencyAccountTriggerHandler {
                 Claim_Amount__c,
                 Total_Account_Recovery__c
             FROM Insolvency_Account__c
-            WHERE Distressed_Data_Id__c = '1' AND insolvency__c=:insolv.id
+            WHERE Distressed_Data_Id__c = '1'
         ];
 
         //ia3.RecordTypeId = recordTypeList1[0].Id;
