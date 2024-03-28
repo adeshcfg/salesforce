@@ -3,7 +3,7 @@
 		"insert": [
 			{
 				"objectName": "Loan_ReEngineering__c",
-				"recordVariableName": "LoanReEngineering	",
+				"recordVariableName": "LoanReEngineering",
 				"fields": [
 					{
 						"fieldApiName": "Turn_Off_CTB__c",
