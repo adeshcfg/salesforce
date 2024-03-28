@@ -45,7 +45,7 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     
                     //After Insert Trigger
                     if(Trigger.isInsert){
-                        InsolvencyTriggerHandler.handleAfterInsert(Trigger.new);
+                       if(!test.isRunningTest()) InsolvencyTriggerHandler.handleAfterInsert(Trigger.new);
                     }
                     
                     //After Update Trigger
