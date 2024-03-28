@@ -29,6 +29,9 @@ private class TestInsolvencyAccountTriggerHandler {
         insolv.Client_Identifiers__c = 'New';
         insolv.Insolvency_Type__c = 'Bankruptcy';
         insert insolv;
+        system.debug('insolvency created-->'+insolv.id);
+        system.debug('insolvency created-->'+insolv.name);
+
     }
 
     //Test Before Insert
