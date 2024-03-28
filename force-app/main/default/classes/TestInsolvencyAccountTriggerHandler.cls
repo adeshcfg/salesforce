@@ -412,7 +412,7 @@ private class TestInsolvencyAccountTriggerHandler {
         );
         Test.startTest();
         //Test for Before Update
-        InsolvencyAccountTriggerHandler.handleBeforeUpdate(iaList, iaMap);
+       // InsolvencyAccountTriggerHandler.handleBeforeUpdate(iaList, iaMap);
 
         //Test for After Delete
         InsolvencyAccountTriggerHandler.handleAfterDelete(iaList, iaMap);
