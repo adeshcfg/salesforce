@@ -403,7 +403,7 @@ public class InsolvencyTriggerHandler {
     
     //Handle After Insert
     public static void handleAfterInsert(List<Insolvency__c> insolsNew) {
-        Datetime systemDateOneHourBefore = System.now().addHours(-1);
+        Datetime systemDateOneHourBefore = System.now().addMinutes(Integer.valueOf(System.Label.AddMinutesToCurrentDateTime));
         for(Insolvency__c insolRec : insolsNew){
             //Doc Parser code
             if(insolRec.CreatedDate > systemDateOneHourBefore && insolRec.Document_ID__c <> null){
