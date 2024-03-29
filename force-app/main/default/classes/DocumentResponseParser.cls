@@ -1141,7 +1141,7 @@ public class DocumentResponseParser {
       }
 
       for(String str: canadianTire){
-         if(creditorName.contains(str) && lrpSetting.Turn_Off_CTB__c == TRUE){
+         if(creditorName.contains(str) && lrpSetting.Turn_On_CTB__c == TRUE){
             return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
          }
       }
@@ -1197,7 +1197,7 @@ public class DocumentResponseParser {
    // Read Insolvency Record types based on account number starts with specific sequence as defined
    public static Id getCanadianTireInsolvencyRecordTypeAccountNumber(String creditorAccountNumber){
       for(String str: canadianTireBins){
-        if(creditorAccountNumber.startsWith(str) && lrpSetting.Turn_Off_CTB__c == TRUE){
+        if(creditorAccountNumber.startsWith(str) && lrpSetting.Turn_On_CTB__c == TRUE){
            return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
         }
      }
