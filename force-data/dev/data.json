@@ -6,7 +6,7 @@
 				"recordVariableName": "LoanReEngineering",
 				"fields": [
 					{
-						"fieldApiName": "Turn_Off_CTB__c",
+						"fieldApiName": "Turn_On_CTB__c",
 						"fieldValue": true
 					}
 				]
