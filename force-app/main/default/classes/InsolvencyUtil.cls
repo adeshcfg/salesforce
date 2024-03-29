@@ -136,7 +136,7 @@
     public static Map <Id, String> getInsAccntRecorTypeMap(){
         
         Map <Id, String> insAccntRecorTypeMap = new Map<Id, String>();
-        List <RecordType> recordTypes = [Select Id, DeveloperName From RecordType where sobjecttype = 'Insolvency_Account__c' and (NOT name like 'Unknown%')];
+        List <RecordType> recordTypes = [Select Id, DeveloperName From RecordType where sobjecttype = 'Insolvency_Account__c' and ((NOT name like 'Unknown%') AND (NOT name like 'Canadian%'))];
         
         for(RecordType recordType : recordTypes){
             insAccntRecorTypeMap.put(recordType.Id ,recordType.DeveloperName);
@@ -150,7 +150,7 @@
     public static Map <Id, String> getInsAccntRecorTypeIdNameMap(){
         
         Map <Id, String> insAccntRecorTypeMap = new Map<Id, String>();
-        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and (NOT name like 'Unknown%')];
+        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and ((NOT name like 'Unknown%') AND (NOT name like 'Canadian%'))];
         
         for(RecordType recordType : recordTypes){
             insAccntRecorTypeMap.put(recordType.Id ,recordType.Name);
@@ -164,7 +164,7 @@
     public static Map <String, Id> getInsAccntRecorTypeNameIdMap(){
         
         Map <String, Id> insAccntRecorTypeMap = new Map<String, Id>();
-        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and (NOT name like 'Unknown%') order by createddate];
+        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and ((NOT name like 'Unknown%') AND (NOT name like 'Canadian%')) order by createddate];
         
         for(RecordType recordType : recordTypes){
             insAccntRecorTypeMap.put(recordType.Name, recordType.Id);
@@ -358,7 +358,7 @@
             workOnRecordTypeMap.put('SDA', 'SDA Insolvency Account');
             workOnRecordTypeMap.put('Fairstone', 'Fairstone Insolvency Account');
             workOnRecordTypeMap.put('Goeasy', 'Easyfinancial Insolvency Account');
-            workOnRecordTypeMap.put('Canadian Tire', 'Canadian Tire Insolvency Account');
+            //workOnRecordTypeMap.put('Canadian Tire', 'Canadian Tire Insolvency Account');
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
         }
         return recordTypeToWorkOn;
