@@ -43,9 +43,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     
                     //After Insert Trigger
                     if(Trigger.isInsert){
-                        String createdDate = String.valueOf(Trigger.new[0].createddate);
-                        String systemDate = String.valueOf(System.now());
-                        if(Trigger.isInsert && createddate == systemDate){
+                        if(Trigger.isInsert){
                            InsolvencyAccountTriggerHandler.handleAfterInsert(Trigger.new);
                         }
                     }

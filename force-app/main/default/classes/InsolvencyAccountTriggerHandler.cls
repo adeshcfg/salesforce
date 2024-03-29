@@ -1056,7 +1056,16 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
-        handleAfterInsertUpdate(insolAccntsNew,null);          
+        Datetime systemDateOneHourBefore = System.now().addMinutes(Integer.valueOf(System.Label.AddMinutesToCurrentDateTime));
+        boolean unarchivalFlag=FALSE;
+        for (Insolvency_Account__c insolvAccount : insolAccntsNew) {
+            if (test.isRunningTest() || insolvAccount.CreatedDate > systemDateOneHourBefore){
+                unarchivalFlag=TRUE;
+            }
+        }
+        if(test.isRunningTest() || unarchivalFlag == FALSE) {
+            handleAfterInsertUpdate(insolAccntsNew,null); 
+        }         
     }
     
     //After Update

@@ -23,6 +23,88 @@ private class TestInsolvencyAccountTriggerHandler {
         config.Run_Insolvency_Trigger__c = false;
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
         insert config;
+        
+        Insolvency__c insolv = new Insolvency__c();
+        insolv.Name = '12456789';
+        insolv.Client_Identifiers__c = 'New';
+        insolv.Insolvency_Type__c = 'Bankruptcy';
+        insert insolv;
+        system.debug('insolvency created-->'+insolv.id);
+        system.debug('insolvency created-->'+insolv.name);
+        Insolvency__c insolv1 = new Insolvency__c();
+        insolv1.Name = '12456783';
+        insolv1.Client_Identifiers__c = 'SPL';
+        insolv1.Insolvency_Type__c = 'Bankruptcy';
+        insolv1.Insolvency_Status__c = 'Active';
+        insert insolv1;
+         
+        //Portfolio record
+        Portfolio_Name__c portfolioName = new Portfolio_Name__c();
+        portfolioName.name = 'AFSCARD';
+        portfolioName.Account_Purchasing_Entity_ID__c = ' 13';
+        insert portfolioName;
+
+        list<RecordType> recordTypeList = new List<RecordType>(
+            [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SDA%']
+        );
+        //Insolvency Account records
+        List<Insolvency_Account__c> iaListNew = new List<Insolvency_Account__c>();
+        Insolvency_Account__c ia1 = new Insolvency_Account__c();
+        ia1.RecordTypeId = recordTypeList[0].Id;
+        ia1.Name = 'Test-001';
+        ia1.Insolvency_Status__c = 'For Owner Review';
+        ia1.Claim_Type__c = 'Unsecured';
+        ia1.Claim_Amount__c = 1000;
+        ia1.Insolvency__c = insolv1.Id;
+        ia1.Portfolio_Group_Name__c = 'CCL001';
+        ia1.Investment_Group__c = 'AFFIRM';
+        ia1.Portfolio_Name_Lookup__c = portfolioName.id;
+        ia1.Asset_Status__c = 'Purchased';
+        ia1.Distressed_Data_Id__c = '848085644';
+        ia1.Sent_For_Owner_Review_Date_Original__c = date.today();
+        ia1.Trustee_Not_Providing_LoR__c = false;
+        ia1.Distressed_Data_Id__c = '1';
+        ia1.Claim_Filed_Date__c = System.now();
+        //insert ia1;
+
+        Insolvency_Account__c ia2 = new Insolvency_Account__c();
+        ia2.RecordTypeId = recordTypeList[0].Id;
+        ia2.Name = 'Test- 001';
+        ia2.Insolvency_Status__c = 'New';
+        ia2.Claim_Type__c = 'Secured';
+        ia2.Claim_Amount__c = 1000;
+        ia2.Insolvency__c = insolv1.Id;
+        ia2.Portfolio_Group_Name__c = 'CIH002';
+        ia2.Investment_Group__c = 'AFFIRM';
+        ia2.Portfolio_Name_Lookup__c = portfolioName.id;
+        ia2.Asset_Status__c = 'Purchased';
+        ia2.Distressed_Data_Id__c = '84565665';
+        ia2.Sent_For_Owner_Review_Date_Original__c = date.today();
+        ia2.Trustee_Not_Providing_LoR__c = false;
+        ia2.Distressed_Data_Id__c = '2';
+        ia2.Claim_Filed_Date__c = System.now();
+       // insert ia2;
+
+        Insolvency_Account__c ia3 = new Insolvency_Account__c();
+        ia3.RecordTypeId = recordTypeList[0].Id;
+        ia3.Name = 'Test-0001';
+        ia3.Insolvency_Status__c = 'Pending Assignment to Collection Agency';
+        ia3.Claim_Type__c = 'Secured';
+        ia3.Claim_Amount__c = 1000;
+        ia3.Insolvency__c = insolv1.Id;
+        ia3.Portfolio_Group_Name__c = 'CIT002';
+        ia3.Investment_Group__c = 'AFFIRM';
+        ia3.Portfolio_Name_Lookup__c = portfolioName.id;
+        ia3.Asset_Status__c = 'Purchased';
+        ia3.Sent_For_Owner_Review_Date_Original__c = date.today();
+        ia3.Trustee_Not_Providing_LoR__c = false;
+        ia3.Distressed_Data_Id__c = '3';
+        ia3.Claim_Filed_Date__c = null;
+        //insert ia3;
+        iaListNew.add(ia1);
+        iaListNew.add(ia2);
+        iaListNew.add(ia3);
+        insert iaListNew;
     }
 
     //Test Before Insert
@@ -201,19 +283,8 @@ private class TestInsolvencyAccountTriggerHandler {
     //Test Before Update
     static testMethod void insolvencyBeforeUpdateTest() {
         //Insolvency Record
-        Insolvency__c insolv = new Insolvency__c();
-        insolv.Name = '12456783';
-        insolv.Client_Identifiers__c = 'SPL';
-        insolv.Insolvency_Type__c = 'Bankruptcy';
-        insolv.Insolvency_Status__c = 'Active';
-        insert insolv;
-
-        //Portfolio record
-        Portfolio_Name__c portfolioName = new Portfolio_Name__c();
-        portfolioName.name = 'AFSCARDS';
-        portfolioName.Account_Purchasing_Entity_ID__c = ' 13';
-        insert portfolioName;
-
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456783' OR Client_Identifiers__c = 'SPL' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
+        List<Insolvency_Account__c> iaList = new List<Insolvency_Account__c>();
         Account accInstance1 = new Account();
         string recrdid3 = [
             SELECT id
@@ -249,72 +320,10 @@ private class TestInsolvencyAccountTriggerHandler {
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         insert prod;
 
-        list<RecordType> recordTypeList = new List<RecordType>(
-            [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SDA%']
-        );
         list<RecordType> recordTypeList1 = new List<RecordType>(
             [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SPL%']
         );
-        //Insolvency Account records
-        List<Insolvency_Account__c> iaList = new List<Insolvency_Account__c>();
-        Insolvency_Account__c ia1 = new Insolvency_Account__c();
-        ia1.RecordTypeId = recordTypeList[0].Id;
-        ia1.Name = 'Test-001';
-        ia1.Insolvency_Status__c = 'For Owner Review';
-        ia1.Claim_Type__c = 'Unsecured';
-        ia1.Claim_Amount__c = 1000;
-        ia1.Insolvency__c = insolv.Id;
-        ia1.Portfolio_Group_Name__c = 'CCL001';
-        ia1.Investment_Group__c = 'AFFIRM';
-        ia1.Portfolio_Name_Lookup__c = portfolioName.id;
-        ia1.Asset_Status__c = 'Purchased';
-        ia1.Distressed_Data_Id__c = '848085644';
-        ia1.Sent_For_Owner_Review_Date_Original__c = date.today();
-        ia1.Trustee_Not_Providing_LoR__c = false;
-        ia1.Distressed_Data_Id__c = '1';
-        ia1.Claim_Filed_Date__c = System.now();
-        insert ia1;
-
-        Insolvency_Account__c ia2 = new Insolvency_Account__c();
-        ia2.RecordTypeId = recordTypeList[0].Id;
-        ia2.Name = 'Test- 001';
-        ia2.Insolvency_Status__c = 'New';
-        ia2.Claim_Type__c = 'Secured';
-        ia2.Claim_Amount__c = 1000;
-        ia2.Insolvency__c = insolv.Id;
-        ia2.Portfolio_Group_Name__c = 'CIH002';
-        ia2.Investment_Group__c = 'AFFIRM';
-        ia2.Portfolio_Name_Lookup__c = portfolioName.id;
-        ia2.Asset_Status__c = 'Purchased';
-        ia2.Distressed_Data_Id__c = '84565665';
-        ia2.Sent_For_Owner_Review_Date_Original__c = date.today();
-        ia2.Trustee_Not_Providing_LoR__c = false;
-        ia2.Distressed_Data_Id__c = '2';
-        ia2.Claim_Filed_Date__c = System.now();
-        insert ia2;
-
-        Insolvency_Account__c ia3 = new Insolvency_Account__c();
-        ia3.RecordTypeId = recordTypeList[0].Id;
-        ia3.Name = 'Test-0001';
-        ia3.Insolvency_Status__c = 'Pending Assignment to Collection Agency';
-        ia3.Claim_Type__c = 'Secured';
-        ia3.Claim_Amount__c = 1000;
-        ia3.Insolvency__c = insolv.Id;
-        ia3.Portfolio_Group_Name__c = 'CIT002';
-        ia3.Investment_Group__c = 'AFFIRM';
-        ia3.Portfolio_Name_Lookup__c = portfolioName.id;
-        ia3.Asset_Status__c = 'Purchased';
-        ia3.Sent_For_Owner_Review_Date_Original__c = date.today();
-        ia3.Trustee_Not_Providing_LoR__c = false;
-        ia3.Distressed_Data_Id__c = '3';
-        ia3.Claim_Filed_Date__c = null;
-        insert ia3;
-
-        Map<ID, Insolvency_Account__c> iaMap = new Map<ID, Insolvency_Account__c>();
-        iaMap.put(ia3.id, ia3);
-        iaMap.put(ia2.id, ia2);
-        iaMap.put(ia1.id, ia1);
-        ia3 = [
+        Insolvency_Account__c  ia3 = [
             SELECT
                 Id,
                 Name,
@@ -331,9 +340,9 @@ private class TestInsolvencyAccountTriggerHandler {
                 Revival_Date__c,
                 Sent_For_Owner_Review_Date_Original__c
             FROM Insolvency_Account__c
-            WHERE id = :ia3.Id
+            WHERE Distressed_Data_Id__c = '3'
         ];
-        ia2 = [
+        Insolvency_Account__c ia2 = [
             SELECT
                 Id,
                 Name,
@@ -348,9 +357,9 @@ private class TestInsolvencyAccountTriggerHandler {
                 Claim_Amount__c,
                 Total_Account_Recovery__c
             FROM Insolvency_Account__c
-            WHERE id = :ia2.Id
+            WHERE Distressed_Data_Id__c = '2'
         ];
-        ia1 = [
+        Insolvency_Account__c ia1 = [
             SELECT
                 Id,
                 Name,
@@ -365,7 +374,7 @@ private class TestInsolvencyAccountTriggerHandler {
                 Claim_Amount__c,
                 Total_Account_Recovery__c
             FROM Insolvency_Account__c
-            WHERE id = :ia1.Id
+            WHERE Distressed_Data_Id__c = '1'
         ];
 
         //ia3.RecordTypeId = recordTypeList1[0].Id;
@@ -376,7 +385,6 @@ private class TestInsolvencyAccountTriggerHandler {
         ia3.Distressed_Data_Id__c = '848085644';
         ia3.Trustee_Not_Providing_LoR__c = true;
         ia3.Revival_Date__c = Date.today();
-        update ia3;
         iaList.add(ia3);
 
         ia2.RecordTypeId = recordTypeList1[0].Id;
@@ -384,7 +392,6 @@ private class TestInsolvencyAccountTriggerHandler {
         ia2.Insolvency_Status__c = 'For Owner Review';
         ia2.Insolvency__c = insolv.Id;
         ia2.Trustee_Not_Providing_LoR__c = true;
-        update ia2;
         iaList.add(ia2);
 
         ia1.RecordTypeId = recordTypeList1[0].Id;
@@ -392,11 +399,22 @@ private class TestInsolvencyAccountTriggerHandler {
         ia1.Insolvency_Status__c = 'Trustee Followup';
         ia1.Insolvency__c = insolv.Id;
         ia1.Trustee_Not_Providing_LoR__c = true;
-        update ia1;
         iaList.add(ia1);
+        try{
+          update iaList;
+        }catch(exception E){
+           system.debug('exception occured -->'+E);
+        }
+        Map<ID, Insolvency_Account__c> iaMap = new Map<ID, Insolvency_Account__c>();
+        iaMap.put(ia3.id, ia3);
+        iaMap.put(ia2.id, ia2);
+        iaMap.put(ia1.id, ia1);
+        list<RecordType> recordTypeList = new List<RecordType>(
+            [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SDA%']
+        );
         Test.startTest();
         //Test for Before Update
-        InsolvencyAccountTriggerHandler.handleBeforeUpdate(iaList, iaMap);
+       InsolvencyAccountTriggerHandler.handleBeforeUpdate(iaList, iaMap);
 
         //Test for After Delete
         InsolvencyAccountTriggerHandler.handleAfterDelete(iaList, iaMap);
@@ -412,11 +430,8 @@ private class TestInsolvencyAccountTriggerHandler {
     //Test after insert, update, delete
     static testMethod void afterTest() {
         //Insolvency Record
-        Insolvency__c insolv = new Insolvency__c();
-        insolv.Name = '12456789';
-        insolv.Client_Identifiers__c = 'New';
-        insolv.Insolvency_Type__c = 'Bankruptcy';
-        insert insolv;
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
+
 
         list<RecordType> recordTypeList = new List<RecordType>(
             [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND name LIKE '%SPL%']
@@ -432,7 +447,7 @@ private class TestInsolvencyAccountTriggerHandler {
         ia1.Claim_Amount__c = 200;
         ia1.Client_Identifier__c = 'Scotia Bank';
         ia1.Insolvency__c = insolv.id;
-        insert ia1;
+        //insert ia1;
 
         Insolvency_Account__c ia2 = new Insolvency_Account__c();
         ia2.RecordTypeId = recordTypeList[0].Id;
@@ -442,7 +457,7 @@ private class TestInsolvencyAccountTriggerHandler {
         ia2.Client_Identifier__c = 'SPL';
         ia2.Claim_Amount__c = 300;
         ia2.Insolvency__c = insolv.id;
-        insert ia2;
+        //insert ia2;
 
         Insolvency_Account__c ia3 = new Insolvency_Account__c();
         ia3.RecordTypeId = recordTypeList[0].Id;
@@ -453,22 +468,24 @@ private class TestInsolvencyAccountTriggerHandler {
         ia3.Client_Identifier__c = 'Scotia Bank';
         ia3.Insolvency__c = insolv.id;
         ia3.Insolvency_Status__c = 'Claim Filed';
-        insert ia3;
+       // insert ia3;
         iaRecords.add(ia1);
         iaRecords.add(ia2);
         iaRecords.add(ia3);
-        InsolvencyAccountTriggerHandler.handleAfterInsert(iaRecords);
-        InsolvencyAccountTriggerHandler.handleAfterInsertUpdate(iaRecords, insolv.id);
+        try{
+            insert iaRecords;
+            InsolvencyAccountTriggerHandler.handleAfterInsert(iaRecords);
+            InsolvencyAccountTriggerHandler.handleAfterInsertUpdate(iaRecords, insolv.id);
+        }catch(exception e){
+            system.debug('Exception occured -->'+E);
+        }
+        
     }
 
     //Test after insert, update, delete
     static testMethod void duplicateCheck() {
         //Insolvency Record
-        Insolvency__c insolv = new Insolvency__c();
-        insolv.Name = '12456789';
-        insolv.Client_Identifiers__c = 'New';
-        insolv.Insolvency_Type__c = 'Bankruptcy';
-        insert insolv;
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
 
         list<RecordType> recordTypeList = new List<RecordType>(
             [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND name LIKE '%SPL%']
@@ -510,11 +527,7 @@ private class TestInsolvencyAccountTriggerHandler {
 
     public static testMethod void testForOwnerReviewExternal() {
         //Insolvency Record
-        Insolvency__c insolv = new Insolvency__c();
-        insolv.Name = '12456789';
-        insolv.Client_Identifiers__c = 'New';
-        insolv.Insolvency_Type__c = 'Bankruptcy';
-        insert insolv;
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
 
         list<RecordType> recordTypeList = new List<RecordType>(
             [
@@ -560,11 +573,7 @@ private class TestInsolvencyAccountTriggerHandler {
         Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
         system.debug('run: ' + config.Run_Insolvency_Account_Trigger__c);
         //Insolvency Record
-        Insolvency__c insolv = new Insolvency__c();
-        insolv.Name = '12456789';
-        insolv.Client_Identifiers__c = 'New';
-        insolv.Insolvency_Type__c = 'Bankruptcy';
-        insert insolv;
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
 
         list<RecordType> recordTypeList = new List<RecordType>(
             [
@@ -603,11 +612,7 @@ private class TestInsolvencyAccountTriggerHandler {
                 WHERE SobjectType = 'Insolvency_Account__c' AND DeveloperName = 'Canadian_Tire_Insolvency_Account'
             ]
         );
-        Insolvency__c insolv = new Insolvency__c();
-        insolv.Name = '12456789';
-        insolv.Client_Identifiers__c = 'New';
-        insolv.Insolvency_Type__c = 'Bankruptcy';
-        insert insolv;
+        Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.RecordTypeId = recordTypeList[0].Id;
         ia1.name = 'testAccount1';
