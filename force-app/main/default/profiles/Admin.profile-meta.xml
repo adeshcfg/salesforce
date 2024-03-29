@@ -21078,7 +21078,7 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
