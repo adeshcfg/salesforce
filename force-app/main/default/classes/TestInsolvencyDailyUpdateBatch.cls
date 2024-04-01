@@ -6,7 +6,7 @@ public class TestInsolvencyDailyUpdateBatch {
         Insolvency__c insolv = new Insolvency__c();
         insolv.Name = '12456783';
         insolv.Client_Identifiers__c = 'SPL';
-        insolv.Insolvency_Type__c = 'Bankruptcy';
+        insolv.Insolvency_Type__c = 'Active';
         insolv.Insolvency_Status__c = 'Annulled';
         insolv.Debtor_1_Mailing_Street__c = '345 testing';
         insolv.Debtor_1_Mailing_City__c = 'CA';

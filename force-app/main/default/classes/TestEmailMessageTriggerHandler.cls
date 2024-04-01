@@ -7,15 +7,25 @@
  *  @date : 24/04/2019
  
  *************************************************************************************************/
-  @isTest(SeeAllData=true)
+  @isTest
   public class TestEmailMessageTriggerHandler {
     @isTest
     static void testData(){
-        
-        //Custom setting 
-        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-        config.Run_EmailMessage_Trigger__c = true;
-        update config; 
+         //Application config creation
+        Application_Config_Settings__c config = new Application_Config_Settings__c(
+            Run_Remittance_Validation__c = false,
+            Run_Remittance_Trigger__c = true,
+            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+            Run_Insolvency_Trigger__c = false,
+            Run_Insolvency_Account_Duplicate_Check__c = true,
+            Run_Insolvency_Account_Trigger__c = false,
+            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+            Run_Insolvency_Status_Validations__c = true,
+            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+            Run_EmailMessage_Trigger__c = true,
+            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
+        );
+        insert config;
         
         List<ID> listID = new List<ID>();
         Map<ID,EmailMessage> oldmap=new Map<ID,EmailMessage>();
@@ -80,6 +90,9 @@
         email2.RelatedToId=c2.Id;
         listEmailMessage.add(email2);
         insert listEmailMessage;
+        for(EmailMessage em : listEmailMessage){
+            Test.setCreatedDate(em.Id, System.now());
+        }
         
         listID.add(email1.Id);
         listID.add(email2.Id);

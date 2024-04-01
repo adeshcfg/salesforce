@@ -38,7 +38,7 @@ public class CTBApiCalloutsQueueableTest {
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Active';
         insert insolv1;
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
