@@ -136,7 +136,7 @@
     public static Map <Id, String> getInsAccntRecorTypeMap(){
         
         Map <Id, String> insAccntRecorTypeMap = new Map<Id, String>();
-        List <RecordType> recordTypes = [Select Id, DeveloperName From RecordType where sobjecttype = 'Insolvency_Account__c' and ((NOT name like 'Unknown%') AND (NOT name like 'Canadian%'))];
+        List <RecordType> recordTypes = [Select Id, DeveloperName From RecordType where sobjecttype = 'Insolvency_Account__c' and (NOT name like 'Unknown%')];
         
         for(RecordType recordType : recordTypes){
             insAccntRecorTypeMap.put(recordType.Id ,recordType.DeveloperName);
@@ -164,7 +164,7 @@
     public static Map <String, Id> getInsAccntRecorTypeNameIdMap(){
         
         Map <String, Id> insAccntRecorTypeMap = new Map<String, Id>();
-        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and ((NOT name like 'Unknown%') AND (NOT name like 'Canadian%')) order by createddate];
+        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and (NOT name like 'Unknown%') order by createddate];
         
         for(RecordType recordType : recordTypes){
             insAccntRecorTypeMap.put(recordType.Name, recordType.Id);
