@@ -61,7 +61,7 @@ public class ProductPaymentsTriggerHandler {
 
         Datetime systemDateOneHourBefore = System.now().addMinutes(Integer.valueOf(System.Label.AddMinutesToCurrentDateTime));
         for (Product_Payments__c prodPayment : listProductPayment) {
-            if (test.isRunningTest() || (prodPayment.CreatedDate > systemDateOneHourBefore &&  prodRTypeIdMap.get('Distressed_Product_Payment') == prodPayment.RecordTypeId)) {
+            if (prodPayment.CreatedDate > systemDateOneHourBefore &&  prodRTypeIdMap.get('Distressed_Product_Payment') == prodPayment.RecordTypeId) {
                 if (prodPayment.Payment_Type__c.startsWith('1')) {
                     mapNewPayments.put(prodPayment.ID, prodPayment);
                 } else if (FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)) {

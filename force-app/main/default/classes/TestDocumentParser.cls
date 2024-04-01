@@ -32,7 +32,7 @@ public class TestDocumentParser {
         //Insolvency record creation
         Insolvency__c insolvencyRec = new Insolvency__c();
         insolvencyRec.Name = 'INSOL-90809';
-        insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
+       // insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
         insolvencyRec.Client_Identifiers__c = 'Scotia Bank';
         INSERT insolvencyRec;
 
