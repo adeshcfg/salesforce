@@ -18,7 +18,7 @@ public class TestCTBPaymentGeneratorScheduler {
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Active';
+        insolv1.Insolvency_Status__c = 'Refused';
         insolv1.Insolvency_Received_Date__c = System.today();
         insolv1.Insolvency_Type__c = 'Bankruptcy';
         insolv1.Debtor_1_Mailing_Street__c = 'test mailing street';
@@ -77,7 +77,7 @@ public class TestCTBPaymentGeneratorScheduler {
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Active';
+        insolv1.Insolvency_Status__c = 'Refused';
         insolv1.Insolvency_Received_Date__c = System.today();
         insolv1.Insolvency_Type__c = 'Bankruptcy';
         insolv1.Debtor_1_Mailing_Street__c = 'testmailingstreettestmailingstreettestmailingstreettestmailingstreettestmailingstreet';
@@ -126,7 +126,7 @@ public class TestCTBPaymentGeneratorScheduler {
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Staging';
+        insolv1.Insolvency_Status__c = 'Refused';
         insolv1.Insolvency_Received_Date__c = System.today();
         insolv1.Insolvency_Type__c = 'Bankruptcy';
         insert insolv1;
@@ -165,7 +165,7 @@ public class TestCTBPaymentGeneratorScheduler {
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Active';
+        insolv1.Insolvency_Status__c = 'Refused';
         insert insolv1;
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
         insolAcct1.name = 'Test222';

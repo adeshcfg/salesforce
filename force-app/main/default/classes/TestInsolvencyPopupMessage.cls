@@ -48,7 +48,7 @@ public class TestInsolvencyPopupMessage {
         insolvncyAccnt.Claim_Type__c='Unsecured';
         insolvncyAccnt.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
         Insert insolvncyAccnt;
-        insolvncyAccnt.Insolvency_Status__c='Active';
+        insolvncyAccnt.Insolvency_Status__c='Sent to collections';
         update insolvncyAccnt;    
  		
         PageReference pageRef = Page.InsolvencyAccountView;
