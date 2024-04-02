@@ -75,7 +75,7 @@ public class TestInsolvencyAccountCreationFuture{
         //Insolvency creation
         Insolvency__c insolvencyRec = new Insolvency__c();
         insolvencyRec.Name = 'INSOL-90809';
-        insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
+        //insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
         insolvencyRec.Insolvency_Status__c = 'For Owner Review';
         insolvencyRec.Document_ID__c = '27367623767';
         insolvencyRec.remote_ID__C = caseObj.id;

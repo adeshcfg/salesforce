@@ -15,7 +15,7 @@ public class TestTrusteeFollowupBatch {
         config.Run_Insolvency_Trigger__c = false;
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
         insert config; 
-        
+                
         Trustee_Payment_Followup_Setting__c tpfs = Trustee_Payment_Followup_Setting__c.getOrgDefaults();
         tpfs.Name = 'Trustee Payment Followup';
         tpfs.Domain_Name__c = '@rcfax.com.sb';
@@ -35,7 +35,7 @@ public class TestTrusteeFollowupBatch {
         insolv.Insolvency_Status__c = 'Active';
         insolv.Allow_Insolvency_Date_In_Past__c = true;
         insolv.Insolvency_Date__c = System.today().addMonths(-19);
-        insolv.Insolvency_Type__c = 'Consumer Proposal';
+        //insolv.Insolvency_Type__c = 'Consumer Proposal';
         insolv.Client_Identifiers__c = 'Scotia Bank';
         insolv.Sent_For_Owner_Review_Date__c = System.today();
         insolv.Debtor_1_First_Name__c = 'firstname';
@@ -62,7 +62,7 @@ public class TestTrusteeFollowupBatch {
 
     @isTest 
     public static void TestTrusteeFollowUpEmail() {
-
+        
         /*
         PoC_Package_Settings__c poc = new PoC_Package_Settings__c(Name = 'Scotia Bank', 
         Client_Company_Name__c = 'Canaccede International ltd.', 
@@ -89,7 +89,7 @@ public class TestTrusteeFollowupBatch {
         config.Run_Insolvency_Trigger__c = false;
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
         insert config;
-        
+
         /*
         Trustee_Payment_Followup_Setting__c tpfs = new Trustee_Payment_Followup_Setting__c(Name = 'Canaccede Bank',
         Domain_Name__c = '@rcfax.com.sb',
@@ -117,7 +117,7 @@ public class TestTrusteeFollowupBatch {
         insolv.Insolvency_Status__c = 'Active';
         insolv.Allow_Insolvency_Date_In_Past__c = true;
         insolv.Insolvency_Date__c = System.today().addMonths(-19);
-        insolv.Insolvency_Type__c = 'Consumer Proposal';
+        //insolv.Insolvency_Type__c = 'Consumer Proposal';
         insolv.Client_Identifiers__c = 'Scotia Bank';
         insolv.Sent_For_Owner_Review_Date__c = System.today();
         insolv.Debtor_1_First_Name__c = 'firstname';
