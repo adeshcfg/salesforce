@@ -34,7 +34,7 @@
         <protected>false</protected>
         <shortDescription>CFG Email Template Logo URL</shortDescription>
         <value>https://c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003QzIP&oid=00Dj0000001ripe&lastMod=1693451831000</value>
-    </labels>
+</labels>
     <labels>
         <fullName>CTB_Insolvency_Account</fullName>
         <language>en_US</language>
@@ -202,13 +202,6 @@
         <protected>false</protected>
         <shortDescription>InsolvencyAccountInline.View</shortDescription>
         <value>View</value>
-    </labels>    
-    <labels>
-        <fullName>Affirm_Doc_Parser_Address</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Affirm Doc Parser Address</shortDescription>
-        <value>PO BOX 53, STATION B LONDON, ONTARIO,CANADA, N6A 4V3</value>
     </labels>
     <labels>
         <labels>
