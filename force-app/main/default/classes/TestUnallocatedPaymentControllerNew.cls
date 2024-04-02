@@ -149,7 +149,7 @@ public class TestUnallocatedPaymentControllerNew{
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Active';
         insert insolv1;
         
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
@@ -241,7 +241,7 @@ public class TestUnallocatedPaymentControllerNew{
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Staging';
         insert insolv1;
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Scotia_Bank_Insolvency_Account').getRecordTypeId();
@@ -344,7 +344,7 @@ public class TestUnallocatedPaymentControllerNew{
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Active';
         insert insolv1;
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Scotia_Bank_Insolvency_Account').getRecordTypeId();
@@ -467,7 +467,7 @@ public class TestUnallocatedPaymentControllerNew{
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Active';
         insert insolv1;
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Scotia_Bank_Insolvency_Account').getRecordTypeId();
@@ -571,7 +571,7 @@ public class TestUnallocatedPaymentControllerNew{
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Staging';
         insert insolv1;
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Scotia_Bank_Insolvency_Account').getRecordTypeId();
@@ -673,7 +673,7 @@ public class TestUnallocatedPaymentControllerNew{
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Active';
         insert insolv1;
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Scotia_Bank_Insolvency_Account').getRecordTypeId();
@@ -752,7 +752,7 @@ public class TestUnallocatedPaymentControllerNew{
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Active';
         insert insolv1;
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Scotia_Bank_Insolvency_Account').getRecordTypeId();
@@ -819,7 +819,7 @@ public class TestUnallocatedPaymentControllerNew{
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Staging';
         insert insolv1;
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Scotia_Bank_Insolvency_Account').getRecordTypeId();
@@ -914,7 +914,7 @@ public class TestUnallocatedPaymentControllerNew{
         
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
-        insolv1.Insolvency_Status__c = 'Refused';
+        insolv1.Insolvency_Status__c = 'Active';
         insert insolv1;
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Scotia_Bank_Insolvency_Account').getRecordTypeId();

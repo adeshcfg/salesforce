@@ -16,10 +16,19 @@ public class TestAttachDocumentToOtherRecords {
         System.Test.startTest();
 
         //Application config creation
-        Application_Config_Settings__c appConfig = new Application_Config_Settings__c();
-        appConfig.Doc_Parser_API_Key__c = '7146d1c4f964579e9faa36c112b2035e3d965a03';
-        appConfig.Target_URL_for_Insolvency__c = 'https://api.docparser.com/v1/document/upload'; 
-        INSERT appConfig;
+        Application_Config_Settings__c config = new Application_Config_Settings__c(
+            Run_Remittance_Validation__c = false,
+            Run_Remittance_Trigger__c = true,
+            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+            Run_Insolvency_Trigger__c = false,
+            Run_Insolvency_Account_Duplicate_Check__c = true,
+            Run_Insolvency_Account_Trigger__c = false,
+            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+            Run_Insolvency_Status_Validations__c = true,
+            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
+        );
+        insert config;
         
         /*Group pGrp = new Group();
         pGrp.Name = 'Insolvency CFG Users';
@@ -44,7 +53,7 @@ public class TestAttachDocumentToOtherRecords {
         //Insolvency record creation
         Insolvency__c insolvencyRec = new Insolvency__c();
         insolvencyRec.Name = 'INSOL-90809';
-        insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
+        //insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
         insolvencyRec.Insolvency_Status__c = 'For Owner Review';
         INSERT insolvencyRec;
 
@@ -87,6 +96,7 @@ public class TestAttachDocumentToOtherRecords {
         insolvencyAccount.Account_Type__c = 'Mortgage';
         insolvencyAccount.Insolvency__c = insolvencyRec.Id;
         insolvencyAccount.Insolvency_Type__c = 'Consumer Proposal';
+        insolvencyAccount.Account_Number_Without_Space__c='123';
         INSERT insolvencyAccount;
 
         //Case record creation
@@ -141,6 +151,10 @@ public class TestAttachDocumentToOtherRecords {
         Application_Config_Settings__c appConfig = new Application_Config_Settings__c();
         appConfig.Doc_Parser_API_Key__c = '7146d1c4f964579e9faa36c112b2035e3d965a03';
         appConfig.Target_URL_for_Insolvency__c = 'https://api.docparser.com/v1/document/upload'; 
+        appConfig.Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm';
+        appConfig.Bank_Eligible_for_Duplicate_Check__c = 'SPL';
+        appConfig.Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
+        appConfig.Eligible_for_Claim_Type_Calculation__c='test';
         INSERT appConfig;
         
         /*Group pGrp = new Group();
@@ -166,7 +180,7 @@ public class TestAttachDocumentToOtherRecords {
         //Insolvency record creation
         Insolvency__c insolvencyRec = new Insolvency__c();
         insolvencyRec.Name = 'INSOL-90809';
-        insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
+       // insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
         insolvencyRec.Insolvency_Status__c = 'For Owner Review';
         INSERT insolvencyRec;
 
@@ -210,6 +224,7 @@ public class TestAttachDocumentToOtherRecords {
         insolvencyAccount.Account_Type__c = 'Mortgage';
         insolvencyAccount.Insolvency__c = insolvencyRec.Id;
         insolvencyAccount.Insolvency_Type__c = 'Consumer Proposal';
+        insolvencyAccount.Account_Number_Without_Space__c='123';
         INSERT insolvencyAccount;
 
         //Case record creation

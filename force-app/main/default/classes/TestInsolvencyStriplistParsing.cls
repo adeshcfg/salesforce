@@ -9,9 +9,20 @@ public class TestInsolvencyStriplistParsing {
             .getRecordTypeId();
         insert config;
 
-        Application_Config_Settings__c config1 = new Application_Config_Settings__c();
-        config1.Run_EmailMessage_Trigger__c = false;
-        config1.Run_Insolvency_Account_Trigger__c = true;
+      //Application config creation
+        Application_Config_Settings__c config1 = new Application_Config_Settings__c(
+            Run_Remittance_Validation__c = false,
+            Run_Remittance_Trigger__c = true,
+            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+            Run_Insolvency_Trigger__c = false,
+            Run_Insolvency_Account_Duplicate_Check__c = true,
+            Run_Insolvency_Account_Trigger__c = true,
+            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+            Run_Insolvency_Status_Validations__c = true,
+            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm',
+            Eligible_for_Claim_Type_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
+        );
         insert config1;
         Account Truscomp = new Account();
         Id Recrdid = [SELECT Id FROM RecordType WHERE SobjectType = 'Account' AND name LIKE 'Trustee Company'].id;

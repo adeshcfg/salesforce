@@ -60,7 +60,7 @@ public class TestAttachDocumentToOtherRecordsDP   {
         //Insolvency record creation
         Insolvency__c insolvencyRec = new Insolvency__c();
         insolvencyRec.Name = 'INSOL-90809';
-        insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
+        //insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
         insolvencyRec.Insolvency_Status__c = 'Staging';
         INSERT insolvencyRec;
 
@@ -192,7 +192,7 @@ public class TestAttachDocumentToOtherRecordsDP   {
         //Insolvency record creation
         Insolvency__c insolvencyRec = new Insolvency__c();
         insolvencyRec.Name = 'INSOL-90809';
-        insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
+        //insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
         insolvencyRec.Insolvency_Status__c = 'Staging';
         INSERT insolvencyRec;
 
@@ -306,7 +306,7 @@ public class TestAttachDocumentToOtherRecordsDP   {
         //Insolvency record creation
         Insolvency__c insolvencyRec = new Insolvency__c();
         insolvencyRec.Name = 'INSOL-90809';
-        insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
+        //insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
         insolvencyRec.Insolvency_Status__c = 'Staging';
         INSERT insolvencyRec;
 
