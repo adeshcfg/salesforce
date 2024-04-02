@@ -809,9 +809,12 @@ insolMap.put(insol.id, insol);
                             if(insolAccntnew.Insolvency_Status__c == 'PoC Details Provided'){
                                 insolAccntnew.PoC_Details_Provided_Date__c = dtNow;
                                 // task 6322 get the external user name //
-                                if(IsPortalEnabled = true){
+                                if(IsPortalEnabled){
                                     insolAccntnew.PoC_Details_Provided_By__c = userId;
+                                    system.debug('User = '+IsPortalEnabled);
+                                    system.debug('user name = '+userId);
                                 }
+
                                 // insolAccntnew.PoC_Details_Provided_By__c = userId;
                                 insolAccntnew.Accounts_Validation_Date__c = dtNow;
                                 insolAccntnew.Accounts_Validation_Done_By__c = userId;
