@@ -811,9 +811,9 @@ insolMap.put(insol.id, insol);
                                 // task 6322 get the external user name //
                                 if(IsPortalEnabled){
                                     insolAccntnew.PoC_Details_Provided_By__c = userId;
-                                    system.debug('User = '+IsPortalEnabled);
-                                    system.debug('user name = '+userId);
                                 }
+                                system.debug('User = '+IsPortalEnabled);
+                                    system.debug('user name = '+userId);
 
                                 // insolAccntnew.PoC_Details_Provided_By__c = userId;
                                 insolAccntnew.Accounts_Validation_Date__c = dtNow;
