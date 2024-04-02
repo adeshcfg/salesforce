@@ -1738,8 +1738,8 @@ insDetails.add(insDetail);
         } else {
             return new Insolvency_Account__c(
                 Id = acc.Id,
-                Percent_of_increased_return_from_voting__c = (acc.Expected_Account_Recovery__c - acc.Previous_Expected_Account_Recovery__c) /
-                    acc.Previous_Expected_Account_Recovery__c
+                Percent_of_increased_return_from_voting__c = ((acc.Expected_Account_Recovery__c - acc.Previous_Expected_Account_Recovery__c) /
+                    acc.Previous_Expected_Account_Recovery__c) * 100
             );
         }
     }
