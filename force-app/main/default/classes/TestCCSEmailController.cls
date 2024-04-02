@@ -64,6 +64,7 @@ insert prod;
    Product_Payments__c pp=new Product_Payments__c();
         pp.CCS_Account__c=prod.id;
         pp.RecordTypeId=pprtid;
+        pp.Payment_Type__c='1000';
         insert pp;
         
         Attachment att = new Attachment(Name = 'testAtt', Description = ' Document', Body = Blob.valueOf('Test'), parentId = prod.Id);

@@ -15,6 +15,7 @@ public class TestTrusteeFollowupBatch {
         config.Run_Insolvency_Trigger__c = false;
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
         insert config; 
+         
         
         Trustee_Fees__c trusteeFees = Trustee_Fees__c.getOrgDefaults();
         trusteeFees.Trustee_Administration_Fee__c = 10;
@@ -42,7 +43,7 @@ public class TestTrusteeFollowupBatch {
         insolv.Insolvency_Status__c = 'Active';
         insolv.Allow_Insolvency_Date_In_Past__c = true;
         insolv.Insolvency_Date__c = System.today().addMonths(-19);
-        insolv.Insolvency_Type__c = 'Consumer Proposal';
+        //insolv.Insolvency_Type__c = 'Consumer Proposal';
         insolv.Client_Identifiers__c = 'Scotia Bank';
         insolv.Sent_For_Owner_Review_Date__c = System.today();
         insolv.Debtor_1_First_Name__c = 'firstname';
@@ -70,24 +71,15 @@ public class TestTrusteeFollowupBatch {
     @isTest 
     public static void TestTrusteeFollowUpEmail() {
         
-        Trustee_Fees__c trusteeFees = Trustee_Fees__c.getOrgDefaults();
-        trusteeFees.Trustee_Administration_Fee__c = 10;
-        trusteeFees.Counselling_Fee__c = 10;
-        trusteeFees.Receiver_Fee__c = 10;
-        trusteeFees.Trustee_Variable_Fee_Rate__c = 10;
-        insert trusteeFees;
-        
-        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-        config.Run_Insolvency_Account_Trigger__c = true;
-        config.Run_Insolvency_Status_Validations__c = true;
-        config.Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
-        config.Eligible_for_Claim_Type_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
-        config.Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm';
-        config.Bank_Eligible_for_Duplicate_Check__c = 'SPL';
-        config.Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN';
-        config.Run_Insolvency_Trigger__c = false;
-        config.Run_Insolvency_Account_Duplicate_Check__c = true;
-        insert config;
+
+
+        /*
+        Trustee_Payment_Followup_Setting__c tpfs = new Trustee_Payment_Followup_Setting__c(Name = 'Canaccede Bank',
+        Domain_Name__c = '@rcfax.com.sb',
+        Trustee_Email_Org_Wide_Address_Id__c = '0D2f1000000fxpt',
+        Maximum_Emails_Per_Day__c = 5);
+        insert tpfs;
+        */
         
         Trustee_Payment_Followup_Setting__c tpfs = Trustee_Payment_Followup_Setting__c.getOrgDefaults();
         tpfs.Name = 'Trustee Payment Followup';
@@ -108,7 +100,7 @@ public class TestTrusteeFollowupBatch {
         insolv.Insolvency_Status__c = 'Active';
         insolv.Allow_Insolvency_Date_In_Past__c = true;
         insolv.Insolvency_Date__c = System.today().addMonths(-19);
-        insolv.Insolvency_Type__c = 'Consumer Proposal';
+        //insolv.Insolvency_Type__c = 'Consumer Proposal';
         insolv.Client_Identifiers__c = 'Scotia Bank';
         insolv.Sent_For_Owner_Review_Date__c = System.today();
         insolv.Debtor_1_First_Name__c = 'firstname';

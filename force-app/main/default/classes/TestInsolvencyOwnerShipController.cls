@@ -13,9 +13,20 @@
      //Create all necessary Object records in this method
      @testSetup 
      static void testData() {
-          Application_Config_Settings__c config = new  Application_Config_Settings__c(Run_Insolvency_Status_Validations__c = false, Run_Record_Ownership__c = true,Profile_Eligible_for_Duplicate_Check__c = 'CFG',
-                                                                                     Bank_Eligible_for_Duplicate_Check__c = 'test');
-          insert config;
+            //Application config creation
+        Application_Config_Settings__c config = new Application_Config_Settings__c(
+          Run_Remittance_Validation__c = false,
+          Run_Remittance_Trigger__c = true,
+          Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+          Run_Insolvency_Trigger__c = false,
+          Run_Insolvency_Account_Duplicate_Check__c = true,
+          Run_Insolvency_Account_Trigger__c = false,
+          Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+          Run_Insolvency_Status_Validations__c = true,
+          Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+          Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
+      );
+      insert config;
           
           Insolvency_Account__c insolvAacc = new Insolvency_Account__c(name = 'test');
           insert insolvAacc ;

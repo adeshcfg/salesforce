@@ -102,7 +102,8 @@ public class CustomerProcessingBatchTest {
         Product_Payments__c prodPayments = new Product_Payments__c(
                                                 Payment_Created_Date__c = System.today(),
                                                 RecordTypeId = ccsProductPayment,
-                                                CCS_Account__c = prodList[0].Id
+                                                CCS_Account__c = prodList[0].Id,
+                                                Payment_Type__c='1000'
                                             );
         insert prodPayments;
         
