@@ -202,7 +202,15 @@
         <protected>false</protected>
         <shortDescription>InsolvencyAccountInline.View</shortDescription>
         <value>View</value>
+    </labels>    
+    <labels>
+        <fullName>Affirm_Doc_Parser_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Affirm Doc Parser Address</shortDescription>
+        <value>PO BOX 53, STATION B LONDON, ONTARIO,CANADA, N6A 4V3</value>
     </labels>
+    <labels>
         <labels>
         <fullName>Judgment_Pending_Recall_Error_Message</fullName>
         <language>en_US</language>
