@@ -34,7 +34,7 @@
         <protected>false</protected>
         <shortDescription>CFG Email Template Logo URL</shortDescription>
         <value>https://c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003QzIP&oid=00Dj0000001ripe&lastMod=1693451831000</value>
-</labels>
+ </labels>
     <labels>
         <fullName>CTB_Insolvency_Account</fullName>
         <language>en_US</language>
@@ -204,7 +204,6 @@
         <value>View</value>
     </labels>
     <labels>
-        <labels>
         <fullName>Judgment_Pending_Recall_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
