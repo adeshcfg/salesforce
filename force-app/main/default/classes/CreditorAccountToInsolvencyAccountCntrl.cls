@@ -39,7 +39,7 @@ public class CreditorAccountToInsolvencyAccountCntrl {
     //Fetch Insolvency Record Types
     public List < SelectOption > getRecordTypes() {
         List < SelectOption > types = new List < SelectOption > ();        
-        for(RecordType rType: [SELECT Id, Name FROM RecordType WHERE SObjectType='Insolvency_Account__c']){
+        for(RecordType rType: [SELECT Id, Name FROM RecordType WHERE SObjectType='Insolvency_Account__c' and (NOT name like 'Canadian%')]){
                 types.add(new SelectOption(rType.Id, rType.Name));    
         }      
         return types;
