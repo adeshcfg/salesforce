@@ -41,6 +41,20 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ICT_Distressed_Group_Judgement_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ICT Distressed Group Judgement Sharing</label>
+        <sharedTo>
+            <group>ICT_Distressed_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>A68A</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ICT_Group_Judgement_Read_Only_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ICT Group Judgement Read Only Sharing</label>

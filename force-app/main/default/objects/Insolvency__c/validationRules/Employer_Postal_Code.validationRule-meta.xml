@@ -3,10 +3,14 @@
     <fullName>Employer_Postal_Code</fullName>
     <active>true</active>
     <description>Validates that the Employer Postal Code is in the correct format</description>
-    <errorConditionFormula>IF( ISBLANK(Debtor_1_Employer_Postal_Code__c), false,
+    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),IF( ISBLANK(Debtor_1_Employer_Postal_Code__c), false,
 AND(Created_By_Doc_Parser__c = false,
 NOT(REGEX(Debtor_1_Employer_Postal_Code__c, &quot;((?i)[ABCEGHJKLMNPRSTVXY]\\d[A-Z]?\\s?\\d[A-Z]\\d)?&quot;)))
-)</errorConditionFormula>
+))),
+IF( ISBLANK(Debtor_1_Employer_Postal_Code__c), false,
+AND(Created_By_Doc_Parser__c = false,
+NOT(REGEX(Debtor_1_Employer_Postal_Code__c, &quot;((?i)[ABCEGHJKLMNPRSTVXY]\\d[A-Z]?\\s?\\d[A-Z]\\d)?&quot;)))
+))</errorConditionFormula>
     <errorDisplayField>Debtor_1_Employer_Postal_Code__c</errorDisplayField>
     <errorMessage>Please provide a valid postal code</errorMessage>
 </ValidationRule>

@@ -120,6 +120,7 @@ public with sharing class ProductAllocationIndividualController {
         product.Timestamp_Of_Invalid_Submission__c = null;
         product.Invalid_Submission_Reason__c = null;
         product.Collection_Sub_Status__c = null;
+        product.Run_Identifier_Check_On__c = System.today();
         oldPlacementID = product.Collection_Agency_Placement__c; 
         if(!mapRecallCodeStatus.isEmpty()){
             product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
@@ -224,6 +225,7 @@ public with sharing class ProductAllocationIndividualController {
             product.Timestamp_Of_Invalid_Submission__c = null;
             product.Invalid_Submission_Reason__c = null;
             product.Collection_Sub_Status__c = null;
+            product.Run_Identifier_Check_On__c = System.today();
             oldPlacementID = product.Collection_Agency_Placement__c; 
             
             if(!mapRecallCodeStatus.isEmpty()){
@@ -328,11 +330,11 @@ public with sharing class ProductAllocationIndividualController {
         && (!AgencyProvince.contains(product.Purchase_Province__c))
         && ( (!mapProvinceAcronym.containsKey(product.Purchase_Province__c) && !AgencyProvince.contains(product.Purchase_Province__c))
         ||   (mapProvinceAcronym.containsKey(product.Purchase_Province__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(product.Purchase_Province__c))))){
-               ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
-               EXPECTED += 'Product Province - ' + product.Purchase_Province__c +'<br/>';
+               ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Purchase Province is Non Serviceable for Agency'+'<br/>';
+               EXPECTED += 'Product Purchase Province should be either - ' + AgencyProvince +'<br/>';
         } 
-        if(!placementHistory.isEmpty() && String.isNotBlank(product.Purchase_Province__c)){
-            ERROR_MSG = '<b>WARNING</b> - '+'Product is placed with the agency in last 6 months'+'<br/>';
+        if(!placementHistory.isEmpty()){
+            ERROR_MSG += '<b>WARNING</b> - '+'Product is placed with the agency in last 6 months'+'<br/>';
         }
         if(String.isNotBlank(newPlacement)){
             if(String.isNotBlank(product.Collection_Sub_Status__c)){

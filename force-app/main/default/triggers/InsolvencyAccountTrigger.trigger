@@ -9,20 +9,19 @@
  *************************************************************************************************/
 
 trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before update, before delete, after insert, after update, after delete) {
-	
-	//On-Off switch for trigger
+    
+    //On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Insolvency_Account_Trigger__c;
     
     if(runTrigger){   
-        if(!Test.isRunningTest()){
             if(InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger){
-            	
-            	//Before Trigger
-            	if(Trigger.isBefore) {
-            		
-            		//Before Insert Trigger
-                    if(Trigger.isInsert){
+                
+                //Before Trigger
+                if(Trigger.isBefore) {
+                    
+                    //Before Insert Trigger
+                    if(Trigger.isInsert && Trigger.new[0].CreatedDate == NULL){
                         InsolvencyAccountTriggerHandler.handleBeforeInsert(Trigger.new);
                     }
                     
@@ -40,11 +39,13 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                 }   
                 
                 //After Trigger
-            	if(Trigger.isAfter) {
-            		
-            		//After Insert Trigger
-            		if(Trigger.isInsert){
-                        InsolvencyAccountTriggerHandler.handleAfterInsert(Trigger.new);
+                if(Trigger.isAfter) {
+                    
+                    //After Insert Trigger
+                    if(Trigger.isInsert){
+                        if(Trigger.isInsert){
+                           InsolvencyAccountTriggerHandler.handleAfterInsert(Trigger.new);
+                        }
                     }
                     
                     //After Update Trigger
@@ -56,8 +57,8 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     if(Trigger.isDelete){
                         InsolvencyAccountTriggerHandler.handleAfterDelete(Trigger.new, Trigger.oldMap);
                     }              
-                }            	
+                }               
             }
-        }
+        
     }
 }

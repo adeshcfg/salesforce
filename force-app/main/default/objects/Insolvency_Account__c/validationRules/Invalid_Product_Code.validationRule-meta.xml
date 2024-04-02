@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Invalid_Product_Code</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(
+    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),AND(
 NOT(ISPICKVAL(Product_Code__c,&apos;&apos;)),
 OR(
 
@@ -35,7 +35,41 @@ NOT(ISPICKVAL(Product_Code__c ,&apos;SL&apos;)),
 NOT(ISPICKVAL(Product_Code__c, &apos;LP&apos;)))
 
 )
-)</errorConditionFormula>
+))),
+AND(
+NOT(ISPICKVAL(Product_Code__c,&apos;&apos;)),
+OR(
+
+AND(
+OR(RecordType.DeveloperName == &apos;SDA_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;Canaccede_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;Fidem_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;SPL_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;Scotia_Bank_Insolvency_Account&apos;),
+
+
+OR(ISPICKVAL(Product_Code__c ,&apos;MW&apos;),
+ISPICKVAL(Product_Code__c, &apos;MS&apos;),
+ISPICKVAL(Product_Code__c, &apos;FNS&apos;),
+ISPICKVAL(Product_Code__c, &apos;REG&apos;),
+ISPICKVAL(Product_Code__c,&apos;WMC&apos;))
+),
+
+AND(RecordType.DeveloperName == &apos;Fairstone_Insolvency_Account&apos;,
+NOT(ISPICKVAL(Product_Code__c,&apos;MC&apos;)),
+NOT(ISPICKVAL(Product_Code__c ,&apos;MW&apos;)),
+NOT(ISPICKVAL(Product_Code__c, &apos;MS&apos;)),
+NOT(ISPICKVAL(Product_Code__c, &apos;FNS&apos;)),
+NOT(ISPICKVAL(Product_Code__c, &apos;REG&apos;)),
+NOT(ISPICKVAL(Product_Code__c,&apos;WMC&apos;))
+),
+AND(RecordType.DeveloperName == &apos;Goeasy_Insolvency_Account&apos;,
+NOT(ISPICKVAL(Product_Code__c,&apos;UPL&apos;)),
+NOT(ISPICKVAL(Product_Code__c ,&apos;SL&apos;)),
+NOT(ISPICKVAL(Product_Code__c, &apos;LP&apos;)))
+
+)
+))</errorConditionFormula>
     <errorDisplayField>Product_Code__c</errorDisplayField>
     <errorMessage>Invalid Product Code</errorMessage>
 </ValidationRule>

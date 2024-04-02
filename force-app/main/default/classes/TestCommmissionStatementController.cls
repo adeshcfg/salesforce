@@ -22,7 +22,6 @@ public class TestCommmissionStatementController {
         config.Product_Payment_Record_Type__c = recordTypeID1;
         insert config;
 
-        //List<Placement__c> lstPlacement= new List<Placement__c>();
         Placement__c place = new Placement__c();
         place.Name = '29';
         place.Agency_Name__c = '(C.C.A.) Commercial Credit Adjusters Ltd.';
@@ -72,12 +71,9 @@ public class TestCommmissionStatementController {
         prodpay.Pay_Due__c = 200;
         prodpay.Tax_amount__c = 100;
         prodpay.Payment_Created__c = date.newInstance(Integer.valueOf(mYear), Integer.valueOf(mMonth), Integer.valueOf(mDay));
-        //prodpay.RecordType.name = 'Distressed_Product_Payment';
         prodpay.RecordTypeId = Schema.SObjectType.Product_Payments__C.getRecordTypeInfosByName().get('Distressed Product Payment').getRecordTypeId();
         prodpay.Ignore_Warning__c = true;
-        // ProductPaymentsTriggerHandler.runProductTrigger = false;
         insert prodpay;
-        system.debug('prodpay' + prodpay.recordType.name);
 
         Product_Payments__c prodpay1 = new Product_Payments__c();
         prodpay1.CCS_Account__c = prod2.id;
@@ -93,14 +89,9 @@ public class TestCommmissionStatementController {
         prodpay1.Payment_Created__c = date.newInstance(Integer.valueOf(mYear), Integer.valueOf(mMonth), Integer.valueOf(mDay));
         prodpay1.RecordTypeId = Schema.SObjectType.Product_Payments__C.getRecordTypeInfosByName().get('Distressed Product Payment').getRecordTypeId();
         prodpay1.Ignore_Warning__c = true;
-        //prodpay1.RecordType.name = 'Distressed_Product_Payment';
-        // ProductPaymentsTriggerHandler.runProductTrigger = false;
         insert prodpay1;
 
-        //CommissionStatementController.Summary wrap = new CommissionStatementController.Summary();
-        //wrap.Summary(prodpay);
         ApexPages.currentPage().getParameters().put('id', place.Id);
-        //ApexPages.StandardSetController sc = new ApexPages.StandardSetController(prodpay);
         CommissionStatementController send = new CommissionStatementController();
     }
 }

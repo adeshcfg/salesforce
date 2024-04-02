@@ -7,8 +7,8 @@
 $Profile.Name , 
 &apos;Scotia Bank Community User&apos;, Scotia_Open_Cases__c, 
 &apos;Scotia Bank Community User Readonly&apos;, Scotia_Open_Cases__c,
-&apos;Scotia Bank Login Community User&apos;, Scotia_Open_Cases__c,
-&apos;Scotia Bank Login Community User Readonly&apos;, Scotia_Open_Cases__c,
+&apos;New Scotia Bank Login Community User&apos;, Scotia_Open_Cases__c,
+&apos;New Scotia Bank Login Community User Readonly&apos;, Scotia_Open_Cases__c,
 CFG_Open_Cases__c )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Open Assignments</inlineHelpText>
