@@ -805,7 +805,9 @@ insolMap.put(insol.id, insol);
                             if(insolAccntnew.Insolvency_Status__c == 'PoC Details Provided'){
                                 insolAccntnew.PoC_Details_Provided_Date__c = dtNow;
                                 // task 6322 PoC_Details_Provided_By__c will updated one time 
-                                if(insolAccntOld.Insolvency_Status__c =='For Owner Review' && insolAccntnew.Insolvency_Status__c == 'PoC Details Provided' && insolAccntnew.PoC_Details_Provided_By__c = null){
+                                if(insolAccntOld.Insolvency_Status__c =='For Owner Review' 
+                                && insolAccntnew.Insolvency_Status__c == 'PoC Details Provided' 
+                                && insolAccntnew.PoC_Details_Provided_By__c == null){
                                       insolAccntnew.PoC_Details_Provided_By__c = userId;
                                    }
                                 insolAccntnew.Accounts_Validation_Date__c = dtNow;
