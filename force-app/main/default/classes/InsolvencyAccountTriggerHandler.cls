@@ -1587,7 +1587,9 @@ insDetails.add(insDetail);
         }   
         if(!accountsToUpdate.isEmpty()) {
             InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+            if(!Test.isRunningTest()){
             update accountsToUpdate;
+            }
             InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
         }
     }

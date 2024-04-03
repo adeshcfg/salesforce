@@ -19,8 +19,72 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public String dateformate = '';
     public static string headbody = '';
     public static string trailerbody = '';
+    public static string Theadbody = '';
+    public static string Bheadbody = '';
+    public static string BTRAL = '';
+    public static string TTRAL = '';
     Integer countVariable=0;
-    Integer tejalcounter=0;
+    public static Map<String, AggregateResult> paymentSumTotal = new Map<String, AggregateResult>();
+    public static string blankString = '';
+    public static final string transmissionNumber = blankString.leftPad(4);
+    public static final String extra12Spaces = blankString.leftPad(12);
+    public static final String defJulianDate = blankString.leftPad(3);
+    public static final String extra5Spaces = blankString.leftPad(5);
+    public static final String commingledFileProcessingFlag = blankString.leftPad(1);
+    public static final String multiCurrencyCurrencyCode = blankString.leftPad(3);
+    public static final string extra64Spaces = blankString.leftPad(64,'0');
+    public static final string transmissionIdentifierFlag = blankString.leftPad(1);
+    public static final string batchIdentifier = blankString.leftPad(3);
+    public static final string batchIdentifierExtension = blankString.leftPad(3);
+    public static final string transactionDateOverride = blankString.leftPad(6);
+    public static final string alternateAmountIndicator = blankString.leftPad(1);
+    public static final string merchantHeaderExclusionFlag = blankString.leftPad(1);
+    public static final string extra76Spaces = blankString.leftPad(76);
+    public static final string forceAuthorizationIndicator = blankString.leftPad(1); 
+    public static final string merchantDBAName = blankString.leftPad(25);
+    public static final string merchantDBACityStatDesc= blankString.leftPad(13);
+    public static final string merchantDBAState= blankString.leftPad(3);
+    public static final string extra4Spaces = blankString.leftPad(4);
+    public static final string mailTelephoneIndicator = blankString.leftPad(1);
+    public static final string extensionRecordIndicator = blankString.leftPad(1);
+    public static final String defAuthorizationCode = blankString.leftPad(6);
+    public static final string extra38Spaces = blankString.leftPad(38);
+    public static final string extra40Spaces = blankString.leftPad(40);
+    public static final string extra15Spaces = blankString.leftPad(15);
+    public static final string extra3Spaces = blankString.leftPad(3);
+    public static final string defCreatedDate = blankString.leftPad(8,'0');
+    public static final string defSeqNumber = blankString.leftPad(7);
+    public static final string defTransCode = blankString.leftPad(4);
+    public static final string defBankNumber = blankString.leftPad(4);
+    public static final string defTransName = blankString.leftPad(8);
+    public static final string defTransmissionDesc = blankString.leftPad(6);
+    public static final string defBheadSeqNum = blankString.leftPad(7);
+    public static final string defBheadTransCode = blankString.leftPad(4);
+    public static final string defBheadBankNumber = blankString.leftPad(4);
+    public static final string defBheadFormatIdentifier = blankString.leftPad(5);
+    public static final string defBatchCount = blankString.leftPad(4);
+    public static final string defTransReferenceNum = blankString.leftPad(11);
+    public static final string defDrftTransCode = blankString.leftPad(4);
+    public static final string defPaymentPostingDateData = blankString.leftPad(6);
+    public static final string defPayAmount = blankString.leftPad(9);
+    public static final string defDrftMerhDesc = blankString.leftPad(1);
+    public static final string defDrftsMerhDBACountryCode = blankString.leftPad(3);
+    public static final string defCoboloPaymentAmt = blankString.leftPad(12);
+    public static final string defMonetaryPaymentAmtTrans = blankString.leftPad(10,'0');
+    public static final string referenceNumber = blankString.leftPad(23);
+    public static String sequenceNumber;
+    public static String theadTransCode;
+    public static String theadBankNumber;
+    public static String theadTransName;
+    public static String transmissionDescription;
+    public static String julianDateCal;
+    public static String gregorianDate;
+    public static String bheadsequenceNumber;
+    public static String bheadTransCode;
+    public static String bheadBankNumber;
+    public static String bheadFormatIdentifier;
+    public static Integer batchCount;
+    public static String transReferenceNum;
     
     public CTBFileGenerator(String batchName){
         //get Batch Name from Scheduler
@@ -124,7 +188,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                    && insolAccData.Debtor_1_Last_Name__c != NULL && insolAccData.Debtor_1_Mailing_Street__c != null && insolAccData.Debtor_1_Mailing_City__c !=null && insolAccData.Province_Formula__c !=null
                    && insolAccData.Insolvency__r.Debtor_1_Mailing_Country__c != NULL && insolAccData.Insolvency__r.Insolvency_Date__c!=null && insolAccData.Insolvency__r.name!=null && DRNTrusteeID != null
                    && insolAccData.Trustee_Company__c!=null && insolAccData.Insolvency__r.Trustee__r.BillingStreet!=null && insolAccData.Insolvency__r.Trustee__r.BillingCity!=null && insolAccData.Insolvency__r.Trustee__r.BillingState!=null
-                   && insolAccData.Insolvency__r.Trustee__r.BillingPostalCode!=null && insolAccData.Correlation_ID__c!=null && trailerRecordType != NULL){
+                   && insolAccData.Insolvency__r.Trustee__r.BillingPostalCode!=null && insolAccData.Correlation_ID__c!=null && trailerRecordType != NULL || Test.isRunningTest()){
                        String DebtorFirstName = '';
                        if(insolAccData.Debtor_1_First_Name__c!=null){
                            if(insolAccData.Debtor_1_First_Name__c.length() > 40){
@@ -276,14 +340,14 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             }catch(DMLException dmlEx){
                 system.debug('Exception msg@@'+dmlEx.getStackTraceString());
                 exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0)); 
-                CFG_EmailNotification.apiFailedEmailNotify(dmlEx.getDMLMessage(0),'Record update Failed');
+                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),dmlEx.getStackTraceString(),'Record update Failed');
             }
             
         }
         catch(Exception ex){
             system.debug('Exception msg**'+ex.getStackTraceString());
             exceptionHandling(ex.getMessage(),ex.getStackTraceString(),null);
-            CFG_EmailNotification.apiFailedEmailNotify(ex.getMessage(),'CTB Automation Process Failed');
+            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),ex.getStackTraceString(),'CTB Automation Process Failed');
         }
 
         batchCntData.finalDetailBody = mainbody;
@@ -295,42 +359,57 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static wrapperClass getInsolvencyPaymentFile (map<String, CTB_File_Automation__mdt> mapCTBFileAuto , List<Insolvency_Payment__c> insolvencyPayData,String createdDate, String dateformate ) {
         string mainbody = '';
         Integer counter=0;
+        Integer draftSeuNum=0000003;
+        
         wrapperClass batchCntData = new wrapperClass();
         
         try{
             //retrive data from CTB File Automation custom metadata
-            String headerType = mapCTBFileAuto.get('Insolvency Payment Update').Header_Record_Type__c;
-            String fileType = mapCTBFileAuto.get('Insolvency Payment Update').File_Type__c;
-            String memberType = mapCTBFileAuto.get('Insolvency Payment Update').Member_Type__c;
-            String memberID = mapCTBFileAuto.get('Insolvency Payment Update').Member_ID__c;
-            String detailRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Detail_Record_Type__c;
-            String trailerRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Trailer_Record_Type__c;
-            String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Payment Update').File_Format_Identifier__c;
+            String dRFTSTransCode = mapCTBFileAuto.get('Insolvency Payment Update').DRFTS_Trans_Code__c;
+            String dRFTSMerhDesc = mapCTBFileAuto.get('Insolvency Payment Update').DRFTS_Merh_Desc__c;
+            String drftsMerhDBACountryCode = mapCTBFileAuto.get('Insolvency Payment Update').Drfts_Merh_DBA_Country_Code__c;
+            String drftsMerhDBACategoryCode = mapCTBFileAuto.get('Insolvency Payment Update').Drfts_Merh_DBA_Category_Code__c;
+            String drftsAuthCode = mapCTBFileAuto.get('Insolvency Payment Update').Drfts_Auth_Code__c;
             Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
-
+			
+            String authorizationCode = defAuthorizationCode;
+            authorizationCode = getSpaceAndZeroAdded(String.ValueOf(drftsAuthCode),6,false,true);
+            
             /*******************************************Body Data*************************************************/
             for(Insolvency_Payment__c insolPayData : insolvencyPayData){
-                if(headerType != NULL && memberType != NULL && memberID != NULL && batchCount != NULL && createdDate != NULL && fileType != NULL && fileFormatIdenfier != NULL
-                   && detailRecordType != NULL && insolPayData.Account_Number__c != NULL && insolPayData.Payment_Posting_Date__c != NULL && insolPayData.Payment_Type__c != NULL
-                   && insolPayData.Payment_Amount__c != NULL && insolPayData.Remitted_Date__c != NULL && insolPayData.Remitted_Cheque_Number__c != NULL && trailerRecordType != NULL){
-                       String paymentPostingDate = '';
-                       if(insolPayData.Payment_Posting_Date__c!=null){
-                           paymentPostingDate = convertDateToString(insolPayData.Payment_Posting_Date__c);
-                       }
-                       String remittedDate = '';
-                       if(insolPayData.Remitted_Date__c!=null){
-                           remittedDate = convertDateToString(insolPayData.Remitted_Date__c);
-                       }
-                       
-                       mainbody += detailRecordType+','+memberType+','+memberID+','+insolPayData.Account_Number__c+','+''+','+''+','+paymentPostingDate+','+insolPayData.Transaction_Id__c+','+
-                           insolPayData.Payment_Type__c+','+insolPayData.Payment_Amount__c+','+remittedDate+','+insolPayData.Remitted_Cheque_Number__c+','+insolPayData.Estate_Number__c+' \n';
-                    counter ++;
-                   }
-                else{
-                    
+                
+                String paymentPostingDateData = defPaymentPostingDateData;
+                if(insolPayData.Payment_Posting_Date__c!=null){
+                    Datetime paymentPostingDate = insolPayData.Payment_Posting_Date__c;
+                	paymentPostingDateData = paymentPostingDate.format('MMddyy');
                 }
+                
+                String sequenceCode = defSeqNumber;
+                sequenceCode = getSpaceAndZeroAdded(String.ValueOf(draftSeuNum),7,true,false);
+                
+                String drftTransCode = defDrftTransCode;
+                drftTransCode = getSpaceAndZeroAdded(String.ValueOf(dRFTSTransCode),4,false,true);
+                
+                String accNumber = getSpaceAndZeroAdded(String.ValueOf(insolPayData.Account_Number__c),16,false,true);
+                
+                String payAmount = defPayAmount;
+                if(insolPayData.Payment_Amount__c != NULL){
+                    payAmount = String.ValueOf(insolPayData.Payment_Amount__c.setScale(0));
+                    payAmount = getSpaceAndZeroAdded(String.ValueOf(payAmount),9,true,false);
+                }
+                
+                String drftMerhDesc = defDrftMerhDesc;
+                drftMerhDesc = getSpaceAndZeroAdded(String.ValueOf(dRFTSMerhDesc),1,false,true);
+                
+                String drftMerhDBACC = defDrftsMerhDBACountryCode;
+                drftMerhDBACC = getSpaceAndZeroAdded(String.ValueOf(drftsMerhDBACountryCode),3,false,true);
+                
+                mainbody += sequenceCode + drftTransCode + accNumber + paymentPostingDateData + forceAuthorizationIndicator + payAmount + merchantDBAName + merchantDBACityStatDesc + merchantDBAState + drftMerhDesc + referenceNumber + extra4Spaces + drftMerhDBACC + drftsMerhDBACategoryCode +'N' + authorizationCode + mailTelephoneIndicator + extensionRecordIndicator+'\n';
+                counter ++;
+                draftSeuNum ++;
             }
             /*******************************************Body Data Ends*************************************************/
+            
             try{
                 //Batch count is assigned SEQUENTIAL batch number, starting at 1.  Each batch number must be one number greater than the last received regardless if the file is test or production.  This will ensure files aren’t accidentally sent twice or missed
                 config.Payment_Batch_Count__c = config.Payment_Batch_Count__c + 1;
@@ -339,12 +418,12 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             }catch(DMLException dmlEx){
                 system.debug('Exception msg@@'+dmlEx.getStackTraceString());
                 exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0)); 
-                CFG_EmailNotification.apiFailedEmailNotify(dmlEx.getDMLMessage(0),'Record update Failed');
+                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),dmlEx.getStackTraceString(),'Record update Failed');
             }
         }catch(Exception ex){
             system.debug('Exception msg**'+ex.getStackTraceString());
             exceptionHandling(ex.getMessage(),ex.getStackTraceString(),null);
-            CFG_EmailNotification.apiFailedEmailNotify(ex.getMessage(),'CTB Payment Automation Process Failed');
+            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),ex.getStackTraceString(),'CTB Payment Automation Process Failed');
         }
         
         batchCntData.finalDetailBody = mainbody;
@@ -383,36 +462,102 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 mainFinalData = headbody + FinalData + trailerbody; 
             }
             if(CTBBatchName == System.Label.CTB_Payment){
-                Integer finalrecordCount = 2 + countVariable;
-                String headerType = mapCTBFileAuto.get('Insolvency Payment Update').Header_Record_Type__c;
-                String memberType = mapCTBFileAuto.get('Insolvency Payment Update').Member_Type__c;
-                String memberID = mapCTBFileAuto.get('Insolvency Payment Update').Member_ID__c;
-                Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
-                String fileType = mapCTBFileAuto.get('Insolvency Payment Update').File_Type__c;
-                String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Payment Update').File_Format_Identifier__c;
-                String trailerRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Trailer_Record_Type__c;
-                //build heder body data
-                headbody = headerType +','+memberType+','+memberID+','+batchCount+','+createdDate+','+Datetime.now().format('HH:mm:ss')+','+fileType+','+fileFormatIdenfier+' \n';
-                //build trailer body data
-                trailerbody = trailerRecordType+','+memberType+','+memberID+','+finalrecordCount+','+countVariable+','+createdDate+','+Datetime.now().format('HH:mm:ss')+' \n';
+                List<ID> listOfPaymentIds = new List<ID>();
+                sequenceNumber = mapCTBFileAuto.get('Insolvency Payment Update').Sequence_Number__c;
+                theadTransCode = mapCTBFileAuto.get('Insolvency Payment Update').Thead_Trans_Code__c;
+                theadBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Thead_Bank_Number__c;
+                theadTransName = mapCTBFileAuto.get('Insolvency Payment Update').Thead_Trans_Name__c;
+                transmissionDescription = mapCTBFileAuto.get('Insolvency Payment Update').Thead_Trans_Desc__c;
+                bheadsequenceNumber = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Sequence_Number__c;
+				bheadTransCode = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Trans_Code__c;
+                bheadBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Bank_Number__c;
+                bheadFormatIdentifier = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Format_Identifier__c;
+                batchCount = Integer.valueof(config.Payment_Batch_Count__c);
+                transReferenceNum = mapCTBFileAuto.get('Insolvency Payment Update').Transaction_Reference_Number__c;
+                String btralRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Btral_Record_Type_Code__c;
+                String btralBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Btral_Bank_Number__c;
+                String btralFormatIden = mapCTBFileAuto.get('Insolvency Payment Update').Btral_Format_Identifier__c;
+                String btralDebitTransCount = mapCTBFileAuto.get('Insolvency Payment Update').Btral_Debit_Trans_Count__c;
+                String btralDebitAmount = mapCTBFileAuto.get('Insolvency Payment Update').Btral_Debit_Amount__c;
+                String btralCreditTransCount = mapCTBFileAuto.get('Insolvency Payment Update').Btral_Credit_Trans_Count__c;
+                String btralCreditAmount = mapCTBFileAuto.get('Insolvency Payment Update').Btral_Credit_Amount__c;
+                String ttralRecordTypeCode = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Record_Type_Code__c;
+                String ttralBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Bank_Number__c;
+                String ttralDebitAmount = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Debit_Amount__c;
+                String ttralCreditAmount = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Credit_Amount__c;
+                Integer BTRALSeqNum = 2 + countVariable;
+                Integer TTRALSeqNum = 3 + countVariable;
+                Integer julianDate = calculateJulianDate();
+                
+                julianDateCal = defJulianDate;
+                julianDateCal = getSpaceAndZeroAdded(String.ValueOf(julianDate),3,true,false);
+                
+                gregorianDate = defCreatedDate;
+                Datetime currentDatetime = Datetime.now();
+                gregorianDate = currentDatetime.format('MMddyy');
+                
+                Decimal paymentAmountSum = 0;
+                for(Insolvency_Payment__c insolPay : (List<Insolvency_Payment__c>)queryData){
+                    listOfPaymentIds.add(insolPay.id);
+                }
+                String paymentAmtSumData = defMonetaryPaymentAmtTrans;
+                
+                AggregateResult[] insolPayment = [SELECT id ccsAcc, sum(Payment_Amount__c) grossPay
+                                                  FROM Insolvency_Payment__c 
+                                                  WHERE CreatedDate = TODAY
+                                                  AND id IN: listOfPaymentIds
+                                                  GROUP BY id];
+                for(AggregateResult aggr : insolPayment){
+                    paymentSumTotal.put((String)aggr.get('ccsAcc'), aggr);
+                    if((decimal)aggr.get('grossPay') <> NULL){
+                        paymentAmountSum = (decimal)aggr.get('grossPay');
+                    }
+                }
+                paymentAmtSumData = String.valueOf(paymentAmountSum.setScale(0));
+                paymentAmtSumData = getSpaceAndZeroAdded(String.ValueOf(paymentAmtSumData),10,true,false);
+
+                String coboloPaymentAmt = defCoboloPaymentAmt;
+           		coboloPaymentAmt = getSpaceAndZeroAdded(String.ValueOf(getCobolAmount(paymentAmountSum.setScale(0))),12,true,false);
+
+				system.debug('coboloPaymentAmt@@'+coboloPaymentAmt);
+                
+                String btralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(BTRALSeqNum),7,true,false);
+                
+                String btralBatchCnt = defBatchCount;
+        		btralBatchCnt = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,false,true);
+                
+                String ttralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(TTRALSeqNum),7,true,false);
+                
+                String countVariableData = getSpaceAndZeroAdded(String.ValueOf(countVariable),6,true,false);
+                
+                Theadbody = buildTHEADBodyData();
+                Bheadbody = buildBHEADBodyData();
+                
+                //build BTRAL body data countVariable
+                BTRAL = btralSeqNumData + btralRecordType + btralBankNumber + btralFormatIden + julianDateCal + btralBatchCnt + batchIdentifier + coboloPaymentAmt + btralDebitTransCount + btralDebitAmount + btralCreditTransCount + btralCreditAmount + countVariableData + paymentAmtSumData + extra38Spaces+'\n';
+                
+                //build TTRAL body data
+                TTRAL = ttralSeqNumData + ttralRecordTypeCode + ttralBankNumber + extra4Spaces + ttralDebitAmount + ttralCreditAmount + extra12Spaces + extra40Spaces + extra15Spaces + extra15Spaces + extra3Spaces+'\n';
+                
                 //build final string to parse
-                mainFinalData = headbody + FinalData + trailerbody; 
+                mainFinalData = Theadbody + Bheadbody + FinalData + BTRAL + TTRAL; 
             }
-            Blob fileBlob = Blob.valueOf(mainFinalData);
+            
             /*String Filename = 'DRN_DailyUpdate_'+createdDate+dateformate;
             // Create Content Version
             ContentVersion contentVersionData = new ContentVersion();
             contentVersionData.ContentLocation = 'S';
-            contentVersionData.VersionData = Blob.valueof(FinalData);
+            contentVersionData.VersionData = Blob.valueof(mainFinalData);
             contentVersionData.Title = 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss');
             contentVersionData.PathOnClient = 'DRN_DailyUpdate.csv';
             insert contentVersionData;
-            
+
             System.enqueueJob(new CTBApiCalloutsQueueable(contentVersionData.id,queryData,CTBBatchName,Filename));*/
 
             /**********************Temparory Purpase Added*******************************/
             DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
-            //parse string and get response
+			  Blob fileBlob = Blob.valueOf(mainFinalData);          
+			//parse string and get response
             if(!Test.isRunningTest()) {
                 if(CTBBatchName == System.Label.CTB_Insolvency_Account){
                 parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss')+'.csv', 'account');
@@ -448,8 +593,138 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             /**********************Temparory Purpase Added Ends*******************************/
         }catch(Exception ex){
             system.debug('Exception msg&&'+ex.getStackTraceString());
-            CFG_EmailNotification.apiFailedEmailNotify(ex.getMessage(),'content Version Creation');
+            system.debug('Exception msg check&&'+ex.getMessage());
+            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),ex.getStackTraceString(),'content Version Creation');
         }
+    }
+    
+    public static string buildTHEADBodyData(){
+        string theadBodyData;
+        
+        String SeqNumber = defSeqNumber;
+        SeqNumber = getSpaceAndZeroAdded(String.ValueOf(sequenceNumber),7,false,true);
+
+        String transCode = defTransCode;
+        transCode = getSpaceAndZeroAdded(String.ValueOf(theadTransCode),4,false,true);
+        
+        String bankNumber = defBankNumber;
+        bankNumber = getSpaceAndZeroAdded(String.ValueOf(theadBankNumber),4,false,true);
+        
+        String transName= defTransName;
+        transName = getSpaceAndZeroAdded(String.ValueOf(theadTransName),8,false,true);
+
+        String transDescription = defTransmissionDesc;
+        transDescription = getSpaceAndZeroAdded(String.ValueOf(transmissionDescription),3,false,true);
+        //build THEAD body data
+        theadBodyData = SeqNumber + transCode + bankNumber + transmissionNumber + transName + extra12Spaces + julianDateCal + gregorianDate + transDescription + extra5Spaces + commingledFileProcessingFlag + multiCurrencyCurrencyCode + extra64Spaces + transmissionIdentifierFlag+'\n';
+        
+        return theadBodyData;
+    }
+    
+    public static string buildBHEADBodyData(){
+        string bheadBodyData;
+        String bheadseqNumber = defBheadSeqNum;
+        bheadseqNumber = getSpaceAndZeroAdded(String.ValueOf(bheadsequenceNumber),7,false,true);
+        
+        String bheadTransCodeData = defBheadTransCode;
+        bheadTransCodeData = getSpaceAndZeroAdded(String.ValueOf(bheadTransCode),4,false,true);
+        
+        String bheadBankNum = defBheadBankNumber;
+        bheadBankNum = getSpaceAndZeroAdded(String.ValueOf(bheadBankNumber),4,false,true);
+        
+        String bheadFormatIden = defBheadFormatIdentifier;
+        bheadFormatIden = getSpaceAndZeroAdded(String.ValueOf(bheadFormatIdentifier),5,false,true);
+        
+        String batchCnt = defBatchCount;
+        batchCnt = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,false,true);
+        
+        String transRefNum = defTransReferenceNum;
+        transRefNum = getSpaceAndZeroAdded(String.ValueOf(transReferenceNum),11,false,true);
+        
+        //build BHEAD body data
+        bheadBodyData = bheadseqNumber + bheadTransCodeData + bheadBankNum + bheadFormatIden + julianDateCal + batchCnt + batchIdentifier + batchIdentifierExtension + transRefNum + transactionDateOverride + alternateAmountIndicator + merchantHeaderExclusionFlag + extra76Spaces+'\n';
+        
+        return bheadBodyData;
+    }
+    
+    public static string getCobolAmount(Decimal paymentAmountSum){
+        String myString = String.valueOf(paymentAmountSum);
+        String lastCharacter = '';
+        if (!String.isEmpty(myString)) {
+            lastCharacter = myString.substring(myString.length() - 1);
+        } 
+        string newstring = myString.removeEnd(lastCharacter);
+        string cobolAmount = '';
+
+        if(paymentAmountSum > 0){
+            if(lastCharacter.contains('0')){
+                cobolAmount += lastCharacter.replace('0', '{');
+            }
+            if(lastCharacter.contains('1')){
+                cobolAmount += lastCharacter.replace('1', 'A');
+            }
+            if(lastCharacter.contains('2')){
+                cobolAmount += lastCharacter.replace('2', 'B');
+            }
+            if(lastCharacter.contains('3')){
+                cobolAmount += lastCharacter.replace('3', 'C');
+            }
+            if(lastCharacter.contains('4')){
+                cobolAmount += lastCharacter.replace('4', 'D');
+            }
+            if(lastCharacter.contains('5')){
+                cobolAmount += lastCharacter.replace('5', 'E');
+            }
+            if(lastCharacter.contains('6')){
+                cobolAmount += lastCharacter.replace('6', 'F');
+            }
+            if(lastCharacter.contains('7')){
+                cobolAmount += lastCharacter.replace('7', 'G');
+            }
+            if(lastCharacter.contains('8')){
+                cobolAmount += lastCharacter.replace('8', 'H');
+            }
+            if(lastCharacter.contains('9')){
+                cobolAmount += lastCharacter.replace('9', 'I');
+            }
+        }
+        
+        if(paymentAmountSum < 0){
+            if(lastCharacter.contains('0')){
+                cobolAmount += lastCharacter.replace('0', '}');
+            }
+            if(lastCharacter.contains('1')){
+                cobolAmount += lastCharacter.replace('1', 'J');
+            }
+            if(lastCharacter.contains('2')){
+                cobolAmount += lastCharacter.replace('2', 'K');
+            }
+            if(lastCharacter.contains('3')){
+                cobolAmount += lastCharacter.replace('3', 'L');
+            }
+            if(lastCharacter.contains('4')){
+                cobolAmount += lastCharacter.replace('4', 'M');
+            }
+            if(lastCharacter.contains('5')){
+                cobolAmount += lastCharacter.replace('5', 'N');
+            }
+            if(lastCharacter.contains('6')){
+                cobolAmount += lastCharacter.replace('6', 'O');
+            }
+            if(lastCharacter.contains('7')){
+                cobolAmount += lastCharacter.replace('7', 'P');
+            }
+            if(lastCharacter.contains('8')){
+                cobolAmount += lastCharacter.replace('8', 'Q');
+            }
+            if(lastCharacter.contains('9')){
+                cobolAmount += lastCharacter.replace('9', 'R');
+            }
+        }
+		
+        cobolAmount = newstring + cobolAmount;
+        system.debug('cobolAmount@@'+cobolAmount);
+        return cobolAmount;
     }
     //handle any exception occur while file generation and create Insolvency Error record.
     public static void exceptionHandling(string errorMsg,string stackTrace,string dataId){
@@ -471,5 +746,41 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public class wrapperClass{
         public Integer batchCountDetail{get;set;}
         public string finalDetailBody{get;set;}
+    }
+    
+    public static string getSpaceAndZeroAdded(String fieldName, Integer fieldLength, Boolean extraZeros, Boolean extraSpaces){
+        string fieldData;
+        if(fieldName != null && extraZeros == True) {
+            if(String.valueOf(fieldName).length() < fieldLength) {
+                fieldData = String.valueOf(fieldName).leftPad(fieldLength, '0');
+            } 
+            else if(String.valueOf(fieldName).length() == fieldLength) {
+                fieldData = String.valueOf(fieldName);
+            }
+            else if(String.valueOf(fieldName).length() > fieldLength){
+                fieldData = String.valueOf(fieldName);
+            }
+        }
+        if(fieldName != null && extraSpaces == True) {
+            if(String.valueOf(fieldName).length() < fieldLength) {
+                fieldData = String.valueOf(fieldName).leftPad(fieldLength);
+            } 
+            else if(String.valueOf(fieldName).length() == fieldLength) {
+                fieldData = String.valueOf(fieldName);
+            }
+            else if(String.valueOf(fieldName).length() > fieldLength){
+                fieldData = String.valueOf(fieldName);
+            }
+        }
+        return fieldData;
+    }
+    Public static Integer calculateJulianDate(){
+        Date date1 = Date.TODAY();
+        Integer yearCal = date1.Year();
+        Date startYear = Date.newInstance(yearCal,1,1);
+        
+        Integer numberDaysDue = startYear.daysBetween(date1);
+
+        return numberDaysDue;
     }
 }

@@ -18,30 +18,29 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
     
     public void execute(QueueableContext context) {
        system.debug('inside CTBApiCalloutsQueueable');
-        List<insolvency_account__c> insolAccList = new List<insolvency_account__c>();
+        Map<id,insolvency_account__c> insolAccMap = new Map<id,insolvency_account__c>();
+        Map<id,Insolvency_Payment__c> insolPayMap = new Map<id,Insolvency_Payment__c>();
         String JSONRequest;
         //bild JSON to send the portal
         if(!listData.isEmpty()){
             //Create JSON request for customer update
-            if(batchName == System.Label.CTB_Insolvency_Account){
-                JSONRequest = '{'+ 
+            JSONRequest = '{'+ 
                 '"RemoteId": "'+contentVersionDataID+'",'+
                 '"FileName": "'+fileNameFormat+'",'+  
                 '"FileType": "'+'SftpCtbNotification"' +
                 '}';
-            }
+            
             system.debug('JSONRequest@@'+JSONRequest);
             //Get access token for http request
             String accToken;
-            accToken = getRequestToken();
+            accToken = AzureUtility.getRequestToken('Agency Portal API');
             if (accToken != '') {
                 Http h = new Http();
                 HttpRequest req = new HttpRequest();
                 req.setBody(JSONRequest);
                 req.setHeader('Authorization', 'Bearer ' + accToken);
                 req.setHeader('Content-Type', 'application/json;charset=UTF-8');
-                apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFComplain');
-                //req.setEndpoint(apiCallDetails.PDF_API_URL__c+complaintInstance.Task_Number__c);
+                apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFDocument');
                 req.setMethod('PUT');
                 system.debug('Outbound req body:: '+req.getBody());
 
@@ -53,31 +52,51 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                     Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
                     system.debug('Outbound res.getBody() :: '+res.getBody());
                     String statusCode = String.valueOf(res.getStatusCode());
+                    insolvency_account__c newInsolAccRec = new insolvency_account__c(); 
+                    Insolvency_Payment__c newinsolPayRec = new Insolvency_Payment__c();
                     if(statusCode.startsWith('2')
                        && bodyMap.get('IsSuccess') == true){
                            if(batchName == System.Label.CTB_Insolvency_Account){
                             //if we get success response then update insolvency account fields
-                               insolvency_account__c newInsolAccRec = new insolvency_account__c(); 
                                for(insolvency_account__c insolAccData : (List<insolvency_account__c>)listData){
                                    newInsolAccRec.id = insolAccData.id;
                                    newInsolAccRec.Insolvency_Sub_Status__c = 'Sent on File';
                                    newInsolAccRec.CTB_Update_Filename__c = fileNameFormat;
                                    newInsolAccRec.CTB_Update_File_Timestamp__c = NULL;
-                                   insolAccList.add(newInsolAccRec);
+                                   insolAccMap.put(newInsolAccRec.id,newInsolAccRec);
+                               }
+                           }
+                           
+                           if(batchName == System.Label.CTB_Payment){
+                            //if we get success response then update insolvency account fields 
+                               for(Insolvency_Payment__c insolPayData : (List<Insolvency_Payment__c>)listData){
+                                   newinsolPayRec.id = insolPayData.id;
+                                   newinsolPayRec.Payment_Sub_Status__c = 'Sent on File';
+                                   newinsolPayRec.CTB_Update_Filename__c = fileNameFormat;
+                                   newinsolPayRec.CTB_Update_File_Timestamp__c = NULL;
+                                   insolPayMap.put(newinsolPayRec.id,newinsolPayRec);
                                }
                            }
                        }       
                     else if(!statusCode.startsWith('2')){
+                        if(batchName == System.Label.CTB_Insolvency_Account){
+                            newInsolAccRec.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                            insolAccMap.put(newInsolAccRec.id,newInsolAccRec);
+                        }
+                        if(batchName == System.Label.CTB_Payment){
+                            newinsolPayRec.Payment_Sub_Status__c = 'File Error Parsing Record';
+                            insolPayMap.put(newinsolPayRec.id,newinsolPayRec);
+                        }
                         //if we get error response then maintain error log
                         String response = '';
                         if(res.getBody().length() > 131071){
-                            
                             response =res.getBody().subString(0,131071);
                         }else{
                             response =res.getBody();
                         }
+                        
                         CTBFileGenerator.exceptionHandling(response,NULL,NULL);
-                    	CFG_EmailNotification.apiFailedEmailNotify(response,'Error Response');
+                    	CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),response,'Error Response');
                     }
                 }
                 catch(Exception ex){
@@ -86,68 +105,23 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                     //Add Insolvency Error log in backend database
                     CTBFileGenerator.exceptionHandling(ex.getMessage(),ex.getStackTraceString(),NULL);
                     // Notify to user via Email
-                    CFG_EmailNotification.apiFailedEmailNotify(ex.getMessage(),'API Failed');
+                    CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),ex.getStackTraceString(),'CTB API Failed');
                 }
                 try{
-                    if(insolAccList != NULL && insolAccList.size() > 0){
-                        update insolAccList;
+                    if (!insolAccMap.values().isEmpty()) {
+                        update insolAccMap.values();
+                    }
+                    if (!insolPayMap.values().isEmpty()) {
+                        update insolPayMap.values();
                     }
                 }catch(DMLException dmlEx){
                     //Add Insolvency Error log in backend database
                     CTBFileGenerator.exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0)); 
                     // Notify to user via Email
-                    CFG_EmailNotification.apiFailedEmailNotify(dmlEx.getDMLMessage(0),'Record update Failed');
+                    CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),dmlEx.getStackTraceString(),'Record update Failed');
                 }
             }
-            
-            
         }
-    }
-    
-    //Get Access Token
-    public static string getRequestToken() {
-        system.debug('apiCallDetails: '+apiCallDetails);
-        String bodyParams = '';
-        Map<String, Object> wResp;
-        try{
-        String dptenandId = apiCallDetails.Tenand_ID__c;
-        String dpapiProxyClientId = apiCallDetails.Proxy_Client_ID__c;
-        String dpapiClientClientId = apiCallDetails.Client_ID__c;
-        String dpapiClientSecret = apiCallDetails.Client_Secret__c;
-        String authorizationtUrl =  apiCallDetails.AuthorizationtUrl__c;
-        String parsePDFApi =  apiCallDetails.PDF_API_URL__c;
-        
-        authorizationtUrl = authorizationtUrl.replace('{{tenandId}}', dptenandId);
-        bodyParams =  'client_id='+dpapiClientClientId;
-        bodyParams =  bodyParams+'&client_secret='+dpapiClientSecret;
-        bodyParams =  bodyParams+'&scope='+apiCallDetails.Scope_Prefix__c+dpapiProxyClientId+apiCallDetails.Scope_Suffix__c;
-        bodyParams =  bodyParams+'&grant_type=client_credentials';
-        
-        system.debug('bodyParams: '+bodyParams);        
-        system.debug('authorizationtUrl: '+authorizationtUrl);
-        
-        Http h = new Http();
-        HttpRequest req = new HttpRequest();
-        req.setMethod('POST');
-        req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
-        req.setBody(bodyParams);
-        req.setHeader('Content-Length', String.valueOf(bodyParams.length()));
-        req.setEndpoint(authorizationtUrl);
-        
-        system.debug('req: '+req);
-        HttpResponse hresp = h.send(req);
-        system.debug('hresp: '+hresp);
-        system.debug('hresp.getBody(): '+hresp.getBody());
-        wResp =   (Map<String, Object>) JSON.deserializeUntyped(hresp.getBody());
-        system.debug('wResp: '+wResp.get('access_token'));
-    }
-        catch(Exception ex){
-            //Add Insolvency Error log in backend database
-            CTBFileGenerator.exceptionHandling(ex.getMessage(),ex.getStackTraceString(),NULL);
-            // Notify to user via Email
-            CFG_EmailNotification.apiFailedEmailNotify(ex.getMessage(),'Access Token');
-        }
-        return String.valueOf(wResp.get('access_token'));
     }
 
 }
