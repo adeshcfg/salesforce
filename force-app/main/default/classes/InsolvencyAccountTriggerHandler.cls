@@ -410,10 +410,6 @@ public class InsolvencyAccountTriggerHandler {
         
         DateTime dtNow = System.now();
         ID userId = UserInfo.getUserId();
-        // task 6322 store External users //
-        Boolean IsPortalEnabled = [select id,IsPortalEnabled from User where id =: userId].IsPortalEnabled;
-        System.debug('external user = '+IsPortalEnabled);
-        //variable to stop wrong error message
         Boolean stopErrorMessage = false;
         
         //for Account number without space field update
@@ -808,14 +804,12 @@ insolMap.put(insol.id, insol);
                             
                             if(insolAccntnew.Insolvency_Status__c == 'PoC Details Provided'){
                                 insolAccntnew.PoC_Details_Provided_Date__c = dtNow;
-                                // task 6322 get the external user name //
-                                if(IsPortalEnabled){
-                                    insolAccntnew.PoC_Details_Provided_By__c = userId;
-                                }
-                                system.debug('User = '+IsPortalEnabled);
-                                    system.debug('user name = '+userId);
-
-                                // insolAccntnew.PoC_Details_Provided_By__c = userId;
+                                // task 6322 PoC_Details_Provided_By__c will updated one time 
+                                if(insolAccntOld.Insolvency_Status__c =='For Owner Review' 
+                                   && insolAccntnew.Insolvency_Status__c == 'PoC Details Provided'
+                                   && insolAccntnew.PoC_Details_Provided_By__c = null){
+                                      insolAccntnew.PoC_Details_Provided_By__c = userId;
+                                   }
                                 insolAccntnew.Accounts_Validation_Date__c = dtNow;
                                 insolAccntnew.Accounts_Validation_Done_By__c = userId;
                             }
