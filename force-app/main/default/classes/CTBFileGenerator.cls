@@ -32,7 +32,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static final String extra5Spaces = blankString.leftPad(5);
     public static final String commingledFileProcessingFlag = blankString.leftPad(1);
     public static final String multiCurrencyCurrencyCode = blankString.leftPad(3);
-    public static final string extra64Spaces = blankString.leftPad(64,'0');
+    public static final string extra64Spaces = blankString.leftPad(64);
     public static final string transmissionIdentifierFlag = blankString.leftPad(1);
     public static final string batchIdentifier = blankString.leftPad(3);
     public static final string batchIdentifierExtension = blankString.leftPad(3);
@@ -141,7 +141,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             queryData = query;
             wrapperClass batchCnt = new wrapperClass();
             // build insolvency daily update file body
-            batchCnt = getInsolvencyAccountFile(mapCTBFileAuto,query,createdDate,dateformate);
+            batchCnt = getInsolvencyAccountFile(mapCTBFileAuto,query,createdDate,dateformate,CTBBatchName);
             FinalData += batchCnt.finalDetailBody;
             countVariable += batchCnt.batchCountDetail;
         }
@@ -149,14 +149,14 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             queryData = query;
             wrapperClass batchCnt = new wrapperClass();
             // build insolvency payment update file body
-            batchCnt = getInsolvencyPaymentFile(mapCTBFileAuto,query,createdDate,dateformate);
+            batchCnt = getInsolvencyPaymentFile(mapCTBFileAuto,query,createdDate,dateformate,CTBBatchName);
             FinalData += batchCnt.finalDetailBody;
             countVariable += batchCnt.batchCountDetail;
         }
     }
     
     // Build body for Insolvency Daily Update file generation
-    public static wrapperClass getInsolvencyAccountFile (map<String, CTB_File_Automation__mdt> mapCTBFileAuto , List<Insolvency_Account__c> insolvencyAccData,String createdDate, String dateformate) {
+    public static wrapperClass getInsolvencyAccountFile (map<String, CTB_File_Automation__mdt> mapCTBFileAuto , List<Insolvency_Account__c> insolvencyAccData,String createdDate, String dateformate, string CTBBatchName) {
         Integer counter=0;
         string mainbody = '';
         List<ID> listAccIds = new List<ID>();
@@ -339,14 +339,14 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 } 
             }catch(DMLException dmlEx){
                 system.debug('Exception msg@@'+dmlEx.getStackTraceString());
-                exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0)); 
+                exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0),null,CTBBatchName); 
                 CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),dmlEx.getStackTraceString(),'Record update Failed');
             }
             
         }
         catch(Exception ex){
             system.debug('Exception msg**'+ex.getStackTraceString());
-            exceptionHandling(ex.getMessage(),ex.getStackTraceString(),null);
+            exceptionHandling(ex.getMessage(),ex.getStackTraceString(),null,insolvencyAccData,CTBBatchName);
             CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),ex.getStackTraceString(),'CTB Automation Process Failed');
         }
 
@@ -356,7 +356,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     }
 
     // Build body for Insolvency Daily Update file generation
-    public static wrapperClass getInsolvencyPaymentFile (map<String, CTB_File_Automation__mdt> mapCTBFileAuto , List<Insolvency_Payment__c> insolvencyPayData,String createdDate, String dateformate ) {
+    public static wrapperClass getInsolvencyPaymentFile (map<String, CTB_File_Automation__mdt> mapCTBFileAuto , List<Insolvency_Payment__c> insolvencyPayData,String createdDate, String dateformate,string CTBBatchName ) {
         string mainbody = '';
         Integer counter=0;
         Integer draftSeuNum=0000003;
@@ -417,12 +417,12 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                  
             }catch(DMLException dmlEx){
                 system.debug('Exception msg@@'+dmlEx.getStackTraceString());
-                exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0)); 
+                exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0),null,CTBBatchName); 
                 CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),dmlEx.getStackTraceString(),'Record update Failed');
             }
         }catch(Exception ex){
             system.debug('Exception msg**'+ex.getStackTraceString());
-            exceptionHandling(ex.getMessage(),ex.getStackTraceString(),null);
+            exceptionHandling(ex.getMessage(),ex.getStackTraceString(),null,insolvencyPayData,CTBBatchName);
             CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),ex.getStackTraceString(),'CTB Payment Automation Process Failed');
         }
         
@@ -727,7 +727,24 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         return cobolAmount;
     }
     //handle any exception occur while file generation and create Insolvency Error record.
-    public static void exceptionHandling(string errorMsg,string stackTrace,string dataId){
+    public static void exceptionHandling(string errorMsg,string stackTrace,string dataId,List<sObject> Data,string CTBBatchName){
+        Map<id,sObject> errorMapData = new Map<id,sObject>();
+        if(Data <> NULL){
+            if(CTBBatchName == System.Label.CTB_Insolvency_Account){
+                for(insolvency_account__c insolAccData : (List<insolvency_account__c>)Data){
+                    insolAccData.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                    errorMapData.put(insolAccData.id,insolAccData);
+                } 
+            }
+            if(CTBBatchName == System.Label.CTB_Payment && Data <> NULL){
+                for(Insolvency_Payment__c insolPayData : (List<Insolvency_Payment__c>)Data){
+                    insolPayData.Payment_Sub_Status__c = 'File Error Parsing Record';
+                    errorMapData.put(insolPayData.id,insolPayData);
+                } 
+            }
+            update errorMapData.values();
+        }
+        
         system.debug('inside exceptionHandling method');
         List<Insolvency_Error__c> listInsolErrors = new List<Insolvency_Error__c>();
         Insolvency_Error__c insolErrorData = New Insolvency_Error__c();

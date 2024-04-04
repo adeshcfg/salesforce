@@ -21,6 +21,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
         Map<id,insolvency_account__c> insolAccMap = new Map<id,insolvency_account__c>();
         Map<id,Insolvency_Payment__c> insolPayMap = new Map<id,Insolvency_Payment__c>();
         String JSONRequest;
+        List<id> errorList = new List<id>();
         //bild JSON to send the portal
         if(!listData.isEmpty()){
             //Create JSON request for customer update
@@ -82,6 +83,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                         if(batchName == System.Label.CTB_Insolvency_Account){
                             newInsolAccRec.Insolvency_Sub_Status__c = 'File Error Parsing Record';
                             insolAccMap.put(newInsolAccRec.id,newInsolAccRec);
+                            errorList.add(newInsolAccRec.id);
                         }
                         if(batchName == System.Label.CTB_Payment){
                             newinsolPayRec.Payment_Sub_Status__c = 'File Error Parsing Record';
@@ -95,15 +97,30 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                             response =res.getBody();
                         }
                         
-                        CTBFileGenerator.exceptionHandling(response,NULL,NULL);
+                        CTBFileGenerator.exceptionHandling(response,NULL,NULL,insolPayMap.values(),batchName);
                     	CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),response,'Error Response');
                     }
                 }
                 catch(Exception ex){
                     system.debug('Exception class'+ex);
                     system.debug('exceptionline::'+ex.getStackTraceString());
+                    Map<id,sObject> errorMap = new Map<id,sObject>();
+                    if(batchName == System.Label.CTB_Insolvency_Account){
+                        for(insolvency_account__c insolAccData : (List<insolvency_account__c>)listData){
+                            insolAccData.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                            errorList.add(insolAccData.id);
+                            errorMap.put(insolAccData.id,insolAccData);
+                        }
+                    }
+                    if(batchName == System.Label.CTB_Payment){
+                        for(Insolvency_Payment__c insolPayData : (List<Insolvency_Payment__c>)listData){
+                            insolPayData.Payment_Sub_Status__c = 'File Error Parsing Record';
+                            errorList.add(insolPayData.id);
+                            errorMap.put(insolPayData.id,insolPayData);
+                        }
+                    }
                     //Add Insolvency Error log in backend database
-                    CTBFileGenerator.exceptionHandling(ex.getMessage(),ex.getStackTraceString(),NULL);
+                    CTBFileGenerator.exceptionHandling(ex.getMessage(),ex.getStackTraceString(),NULL,errorMap.values(),batchName);
                     // Notify to user via Email
                     CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),ex.getStackTraceString(),'CTB API Failed');
                 }
@@ -116,7 +133,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                     }
                 }catch(DMLException dmlEx){
                     //Add Insolvency Error log in backend database
-                    CTBFileGenerator.exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0)); 
+                    CTBFileGenerator.exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0),null,batchName); 
                     // Notify to user via Email
                     CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),dmlEx.getStackTraceString(),'Record update Failed');
                 }
