@@ -13,10 +13,6 @@
     <picklistValues>
         <picklist>Court__c</picklist>
         <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Small Claims Court%E2%80%8B</fullName>
             <default>false</default>
         </values>
