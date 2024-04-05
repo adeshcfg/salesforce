@@ -99,7 +99,7 @@
             <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
                 <div style="padding-bottom:10px;">
                     <div style="text-align:left; float:left; width:150px;">
-                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:15px"/>  
+                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                     </div>
                     <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
                         <div style="float:left; padding-left:80px;">
@@ -255,7 +255,7 @@
             <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
                 <div style="padding-bottom:10px;">
                     <div style="text-align:left; float:left; width:150px;">
-                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:15px"/>  
+                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                     </div>
                     <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
                         <div style="float:left; padding-left:80px;">
@@ -388,7 +388,7 @@
                 <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
                     <div style="padding-bottom:10px;">
                         <div style="text-align:left; float:left; width:150px;">
-                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:15px"/>  
+                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                         </div>
                         <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
                             <div style="float:left; padding-left:80px;">
@@ -486,7 +486,7 @@
             <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
                     <div style="padding-bottom:10px;">
                         <div style="text-align:left; float:left; width:150px;">
-                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:15px"/>  
+                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                         </div>
                         <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
                             <div style="float:left; padding-left:80px;">
@@ -658,7 +658,7 @@
             <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
                 <div style="padding-bottom:10px;">
                     <div style="text-align:left; float:left; width:150px;">
-                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:15px"/>  
+                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                     </div>
                     <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
                         <div style="float:left; padding-left:80px;">
