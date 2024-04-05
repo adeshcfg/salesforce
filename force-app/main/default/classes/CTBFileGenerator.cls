@@ -127,7 +127,8 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 'Remitted_Date__c,Remitted_Cheque_Number__c,Estate_Number__c '+
                 'FROM Insolvency_Payment__c '+
                 'WHERE '+
-                'Insolvency_Account__r.Client_Identifier__c = :clientIdentifier';
+                'Insolvency_Account__r.Client_Identifier__c = :clientIdentifier AND '+
+                'Payment_Sub_Status__c = \'Pending File\'';
             }
         }
         
@@ -792,7 +793,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         return fieldData;
     }
     Public static Integer calculateJulianDate(){
-        Date date1 = Date.TODAY();
+        Date date1 = Date.TODAY().addDays(1);
         Integer yearCal = date1.Year();
         Date startYear = Date.newInstance(yearCal,1,1);
         
