@@ -381,8 +381,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 
                 String paymentPostingDateData = defPaymentPostingDateData;
                 if(insolPayData.Payment_Posting_Date__c!=null){
-                    Datetime paymentPostingDate = insolPayData.Payment_Posting_Date__c;
-                	paymentPostingDateData = paymentPostingDate.format('MMddyy');
+                    paymentPostingDateData = formatDate_MM_DD_YY(insolPayData.Payment_Posting_Date__c);
                 }
                 
                 String sequenceCode = defSeqNumber;
@@ -800,5 +799,18 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         Integer numberDaysDue = startYear.daysBetween(date1);
 
         return numberDaysDue;
+    }
+    public static string  formatDate_MM_DD_YY(Date dateToFormat) {
+        String returnValue = '';
+        String day = String.valueOf(dateToFormat.day());
+        day = day.leftPad(2, '0'); 
+
+        String  month = String.valueOf(dateToFormat.month());
+        month = month.leftPad(2, '0'); 
+        
+        String year = String.valueOf(dateToFormat.year());
+        year = string.valueof(year).right(2);
+        returnValue = month + day + year;
+        return returnValue;
     }
 }
