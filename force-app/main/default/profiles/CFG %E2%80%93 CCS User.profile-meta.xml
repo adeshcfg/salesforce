@@ -6761,6 +6761,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Canaccede_reviewed__c.Accepted_Sent_to_Collections__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Account_Details_Verified__c</field>
         <readable>true</readable>
