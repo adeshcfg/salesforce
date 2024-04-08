@@ -39,6 +39,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Payment_Sub_Status__c</picklist>
+        <values>
+            <fullName>File Error Parsing Record</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending File</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Sent on File</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Payment_Type__c</picklist>
         <values>
             <fullName>TBD</fullName>
