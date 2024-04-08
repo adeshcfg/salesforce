@@ -128,6 +128,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 'FROM Insolvency_Payment__c '+
                 'WHERE '+
                 'Insolvency_Account__r.Client_Identifier__c = :clientIdentifier AND '+
+                '(Payment_Amount__c <> 0 AND Payment_Amount__c <> null) AND '+
                 'Payment_Sub_Status__c = \'Pending File\'';
             }
         }
