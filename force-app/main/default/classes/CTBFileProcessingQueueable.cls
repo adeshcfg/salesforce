@@ -31,10 +31,10 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
             if (fileIdentifier == System.Label.CTB_Insolvency_Account) {
                 System.debug('Account processing');
                 processCTBStagingAccounts(csvContents, docStorage);
-            } else if (fileIdentifier == System.Label.CTB_Payment) {
+            } /*  else if (fileIdentifier == System.Label.CTB_Payment) {
                 processCTBStagingPayments(csvContents, docStorage);
                 System.debug('Payment processing');
-            }
+            } */
         } catch (Exception e) {
             System.debug('Exception in CTBFileProcessingQueueable ' + e.getStackTraceString());
         }
@@ -48,46 +48,27 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
      **/
     public static void processCTBStagingAccounts(String csvContents, Document_Storage__c docStorage) {
         List<CTB_Staging__c> stagingRecordsToCreate = new List<CTB_Staging__c>();
-        List<Insolvency_Account__c> accountRecordsToUpdate = new List<Insolvency_Account__c>();
+        List<Insolvency_Account__c> accountRecordsToUpsert = new List<Insolvency_Account__c>();
         List<String> correlationIds = new List<String>();
         Map<String, String> mapCorrelationIdSfId = new Map<String, String>();
         List<String> csvRows = csvContents.split('\n');
-        // This loop is to get all the correlation Ids which will be further used to check if these exist in sf
-        for (Integer i = 1; i < csvRows.size() - 1; i++) {
-            // Split the current row into columns
-            List<String> csvColumns = csvRows[i].split(',');
-            // Store all correlation Ids to query if accounts exist for these correlation Ids
-            if (String.isNotBlank(csvColumns[26])) {
-                correlationIds.add(csvColumns[26]);
-            }
-        }
-        // Query accounts with the correlation Ids
-        for (Insolvency_Account__c acc : [SELECT Id, Correlation_ID__c FROM Insolvency_Account__c WHERE Correlation_ID__c IN :correlationIds]) {
-            mapCorrelationIdSfId.put(acc.Correlation_ID__c, acc.Id);
-        }
         for (Integer i = 1; i < csvRows.size() - 1; i++) {
             // Split the current row into columns
             List<String> csvColumns = csvRows[i].split(',');
             CTB_Staging__c recordToCreate = CTBFileValidationUtility.validateAccountCTBStagingRecord(csvColumns);
             recordToCreate.CTB_Update_Filename__c = docStorage.Document_Name__c;
-            // If no account exists with the correlation Id in sf
-            if (String.isNotBlank(csvColumns[26]) && !mapCorrelationIdSfId.containsKey(csvColumns[26])) {
-                recordToCreate.Status__c = 'Error';
-                recordToCreate.Error_Message__c += 'No account found with the Correlation Id';
-            }
             stagingRecordsToCreate.add(recordToCreate);
             // If validation was successfull
             if (recordToCreate.Status__c != 'Error') {
                 Insolvency_Account__c accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(recordToCreate);
-                accountToUpdate.Id = mapCorrelationIdSfId.get(recordToCreate.Correlation_ID__c);
-                accountRecordsToUpdate.add(accountToUpdate);
+                accountRecordsToUpsert.add(accountToUpdate);
             }
         }
         if (!stagingRecordsToCreate.isEmpty()) {
-            insert stagingRecordsToCreate;
+            Database.insert(stagingRecordsToCreate);
         }
-        if (!accountRecordsToUpdate.isEmpty()) {
-            update accountRecordsToUpdate;
+        if (!accountRecordsToUpsert.isEmpty()) {
+            upsert accountRecordsToUpsert Correlation_Id__c;
         }
     }
 
@@ -97,7 +78,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
      * @param csvContents
      * @param docStorage
      **/
-    public static void processCTBStagingPayments(String csvContents, Document_Storage__c docStorage) {
+    /* public static void processCTBStagingPayments(String csvContents, Document_Storage__c docStorage) {
         List<CTB_Staging__c> stagingRecordsToCreate = new List<CTB_Staging__c>();
         List<String> csvRows = csvContents.split('\n');
         for (Integer i = 1; i < csvRows.size() - 1; i++) {
@@ -110,5 +91,5 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
         if (!stagingRecordsToCreate.isEmpty()) {
             insert stagingRecordsToCreate;
         }
-    }
+    } */
 }
