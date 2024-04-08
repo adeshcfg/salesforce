@@ -58,6 +58,15 @@ public class InsolvencyAccountTriggerHandler {
             if(accNew.Trustee_Not_Providing_LoR__c == True){
                 accNew.Review_Account__c = false;
             }
+
+            // Create unique correlation Id for new CTB accounts
+            if (
+                String.isNotBlank(accNew.RecordTypeId) &&
+                String.isBlank(accNew.Correlation_Id__c) &&
+                insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account'
+            ) {
+                accNew.Correlation_Id__c = InsolvencyUtil.generateUniqueHashCode(accNew.Name);
+            }
             
             //this change is for Insolvency Account Loading and portfolio mapping enhancement
             if(accNew.Distressed_Data_Id__c != null){
