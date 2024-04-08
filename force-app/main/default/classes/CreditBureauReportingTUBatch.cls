@@ -258,7 +258,21 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         for(Credit_Bureau_Reporting_Periods__mdt metaData : mapCreditBureauRepPeriods.values()){
             mapProvinceAcronymCBRepPeriods.put(metaData.Province_Name__c,metaData);
         }
-
+        map<ID, Placement_History__c> previouslyPlaced = new Map<ID, Placement_History__c>();
+        //get recalled products data
+        List<Placement_History__c> recalledProducts = [select id,name,Placement__c,Product__c,Product__r.name,Placement__r.name,
+                                                       Placement_Status_Description__c
+                                                       FROM Placement_History__c
+                                                       WHERE Product__c IN: productIds
+                                                       AND Placement_Recall_Date__c <> NULL
+                                                       AND Product__r.Collection_Agency__c = 9999 
+                                                       ORDER BY CreatedDate DESC];
+        for(Placement_History__c placeHistory: recalledProducts){
+            if (!previouslyPlaced.containsKey(placeHistory.Product__c)) {
+                previouslyPlaced.put(placeHistory.Product__c, placeHistory);
+            }
+        }
+        
         AggregateResult[] placeHistory = [SELECT product__c ccsAcc, Min(Placement_Date__c) firstPlacementDate,  Max(Placement_Recall_Date__c) lastRecallDate
                                     FROM Placement_History__c 
                                     WHERE 
@@ -566,13 +580,16 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             String productname = defProductName;
             if(prodct.Name.length() < STATIC_INTEGER_30) {
                 productname = prodct.Name.rightPad(STATIC_INTEGER_30);
+                productname = productname.toUpperCase();
             } 
             else if(prodct.Name.length() == STATIC_INTEGER_30) {
                 productname = prodct.Name;
+                productname = productname.toUpperCase();
             }
             else if(prodct.Name.length() > STATIC_INTEGER_30){
                 productname = prodct.Name;
                 productname = productname.substring(0, STATIC_INTEGER_30);
+                productname = productname.toUpperCase();
             }
             
             // Code for Adding Purchase_Face_Value__c Left Padding upon dynamic values in less
@@ -846,10 +863,15 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 }
                 if(mapDataStatus.containskey(prodct.Product_Status__c))  {
                     if(prodct.Collection_Agency__c == 9999){
-                        if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
-                            accountStatus = metro2TransUnion.Account_Status_Close__c; // set account status 62
-                        }else{
-                             accountStatus = metro2TransUnion.Account_Status_Recalled__c;
+                        if(previouslyPlaced.containskey(prodct.id)){
+                            boolean found = includeAgencyList.contains(previouslyPlaced.get(prodct.id).Placement__r.name);
+                            if(found && (previouslyPlaced.get(prodct.id).Placement_Status_Description__c.contains('PIF') ||
+                              previouslyPlaced.get(prodct.id).Placement_Status_Description__c.contains('SIF'))){
+                                accountStatus = metro2TransUnion.Account_Status_Close__c; // set account status 62
+                            }
+                            else{
+                                accountStatus = metro2TransUnion.Account_Status_Recalled__c;
+                            }
                         }
                     }else{
                         if(placementHistoryMap.containskey(prodct.id) && !preAllocatedAgency.containskey(prodct.id)){
