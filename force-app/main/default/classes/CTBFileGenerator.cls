@@ -6,7 +6,7 @@ for the Client to send return detailed information to DRN.
                             
 ******************************************************************************************************************/
 
-public class CTBFileGenerator implements Database.Batchable<sobject>, Database.Stateful, Database.AllowsCallouts{
+global class CTBFileGenerator implements Database.Batchable<sobject>, Database.Stateful, Database.AllowsCallouts{
     public static map<String, CTB_File_Automation__mdt> mapCTBFileAutomation = CTB_File_Automation__mdt.getAll();
     public map<String, CTB_File_Automation__mdt> mapCTBFileAuto = new map<String, CTB_File_Automation__mdt>();
     public static Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
@@ -85,8 +85,9 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static String bheadFormatIdentifier;
     public static Integer batchCount;
     public static String transReferenceNum;
+    global Integer batchExecuteCount = 0;
     
-    public CTBFileGenerator(String batchName){
+    global CTBFileGenerator(String batchName){
         //get Batch Name from Scheduler
         CTBBatchName = batchName;
         // get value from CTB File Automation custom metadata
@@ -97,7 +98,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         dateformate = Datetime.now().format('HH:mm:ss');
     }    
     // Start Method
-    public Database.Querylocator start(Database.BatchableContext BC) {
+    global Database.Querylocator start(Database.BatchableContext BC) {
         //List<String> listNames = new List<String>{'101010','010101'};
         String query = '';
         //fetch records based on batchName
@@ -138,7 +139,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     }
     
     //Execute Method: based on batch name call respective method 
-    public void execute(Database.BatchableContext BC, List<sObject> query) {
+    global void execute(Database.BatchableContext BC, List<sObject> query) {
         if(CTBBatchName == System.Label.CTB_Insolvency_Account){
             queryData = query;
             wrapperClass batchCnt = new wrapperClass();
@@ -154,6 +155,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             batchCnt = getInsolvencyPaymentFile(mapCTBFileAuto,query,createdDate,dateformate,CTBBatchName);
             FinalData += batchCnt.finalDetailBody;
             countVariable += batchCnt.batchCountDetail;
+            batchExecuteCount ++;
         }
     }
     
@@ -372,7 +374,6 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             String drftsMerhDBACountryCode = mapCTBFileAuto.get('Insolvency Payment Update').Drfts_Merh_DBA_Country_Code__c;
             String drftsMerhDBACategoryCode = mapCTBFileAuto.get('Insolvency Payment Update').Drfts_Merh_DBA_Category_Code__c;
             String drftsAuthCode = mapCTBFileAuto.get('Insolvency Payment Update').Drfts_Auth_Code__c;
-            Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
 			
             String authorizationCode = defAuthorizationCode;
             authorizationCode = getSpaceAndZeroAdded(String.ValueOf(drftsAuthCode),6,false,true,false);
@@ -443,7 +444,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     }
     
 
-    public void finish(Database.BatchableContext BC) {
+    global void finish(Database.BatchableContext BC) {
         try{
             String mainFinalData = '';
             if(CTBBatchName == System.Label.CTB_Insolvency_Account){
@@ -473,7 +474,6 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 				bheadTransCode = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Trans_Code__c;
                 bheadBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Bank_Number__c;
                 bheadFormatIdentifier = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Format_Identifier__c;
-                batchCount = Integer.valueof(config.Payment_Batch_Count__c);
                 transReferenceNum = mapCTBFileAuto.get('Insolvency Payment Update').Transaction_Reference_Number__c;
                 String btralRecordType = mapCTBFileAuto.get('Insolvency Payment Update').Btral_Record_Type_Code__c;
                 String btralBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Btral_Bank_Number__c;
@@ -525,7 +525,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String btralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(BTRALSeqNum),7,true,false,false);
                 
                 String btralBatchCnt = defBatchCount;
-        		btralBatchCnt = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,false,true,false);
+        		btralBatchCnt = getSpaceAndZeroAdded(String.ValueOf(batchExecuteCount),4,true,false,false);
                 
                 String ttralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(TTRALSeqNum),7,true,false,false);
                 
@@ -622,7 +622,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         return theadBodyData;
     }
     
-    public static string buildBHEADBodyData(){
+    global string buildBHEADBodyData(){
         string bheadBodyData;
         String bheadseqNumber = defBheadSeqNum;
         bheadseqNumber = getSpaceAndZeroAdded(String.ValueOf(bheadsequenceNumber),7,false,true,false);
@@ -637,7 +637,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         bheadFormatIden = getSpaceAndZeroAdded(String.ValueOf(bheadFormatIdentifier),5,false,true,false);
         
         String batchCnt = defBatchCount;
-        batchCnt = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,false,true,false);
+        batchCnt = getSpaceAndZeroAdded(String.ValueOf(batchExecuteCount),4,true,false,false);
         
         String transRefNum = defTransReferenceNum;
         transRefNum = getSpaceAndZeroAdded(String.ValueOf(transReferenceNum),11,false,true,false);
