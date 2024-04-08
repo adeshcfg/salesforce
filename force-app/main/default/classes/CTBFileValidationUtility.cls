@@ -15,7 +15,6 @@ public with sharing class CTBFileValidationUtility {
     public static CTB_Staging__c validateAccountCTBStagingRecord(List<String> csvColumns) {
         CTB_Staging__c stagingRecord = new CTB_Staging__c();
         stagingRecord.Error_Message__c = '';
-        System.debug(csvColumns[26]);
         // If correlation Id is null
         if (String.isBlank(csvColumns[26])) {
             stagingRecord.Error_Message__c = 'No Correlation Id provided';
@@ -40,7 +39,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Last_Payment_Date__c = parseDateString(csvColumns[33], 'Last_Payment_Date__c', stagingRecord);
         stagingRecord.Last_Payment_Amount__c = parseDoubleString(csvColumns[34], 'Last_Payment_Amount__c', stagingRecord);
         stagingRecord.Last_Payment_Date_2__c = parseDateString(csvColumns[35], 'Last_Payment_Date_2__c', stagingRecord);
-        stagingRecord.Last_Payment_Amount__c = parseDoubleString(csvColumns[36], 'Last_Payment_Amount__c', stagingRecord);
+        stagingRecord.Last_Payment_Amount_2__c = parseDoubleString(csvColumns[36], 'Last_Payment_Amount__c', stagingRecord);
         stagingRecord.Last_Payment_Date_3__c = parseDateString(csvColumns[37], 'Last_Payment_Date_3__c', stagingRecord);
         stagingRecord.Last_Payment_Amount_3__c = parseDoubleString(csvColumns[38], 'Last_Payment_Amount_3__c', stagingRecord);
         stagingRecord.Last_Statement_Date__c = parseDateString(csvColumns[39], 'Last_Statement_Date__c', stagingRecord);
@@ -51,8 +50,42 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Last_Statement_Amount_3__c = parseDoubleString(csvColumns[44], 'Last_Statement_Amount_3__c', stagingRecord);
         stagingRecord.Previous_Account_Reference__c = csvColumns[46];
         stagingRecord.Additional_Info__c = csvColumns[47];
-        System.debug(stagingRecord);
         return stagingRecord;
+    }
+
+    /**
+    * @description : Method to populate account info from staging record
+    * @author adesh.ikhar@canaccede.com | 04-05-2024 
+    * @param stagingRecord 
+    * @return Insolvency_Account__c 
+    **/
+    public static Insolvency_Account__c updateInsolvencyAccount(CTB_Staging__c stagingRecord) {
+        Insolvency_Account__c account = new Insolvency_Account__c();
+        account.Name = stagingRecord.Name;
+        account.Debtor_1_First_Name__c = stagingRecord.Debtor_1_First_Name__c;
+        account.Debtor_1_Last_Name__c = stagingRecord.Debtor_1_Last_Name__c;
+        account.CTB_Date_of_Birth__c = stagingRecord.CTB_Date_of_Birth__c;
+        account.CTB_Reject_Reason_Code__c = stagingRecord.CTB_Reject_Reason_Code__c;
+        account.Open_Date__c = stagingRecord.Open_Date__c;
+        account.Balance_Owed__c = stagingRecord.Balance_Owed__c;
+        account.Claim_Amount__c = stagingRecord.Claim_Amount__c;
+        account.Accounts_Validation_Date__c = stagingRecord.Accounts_Validation_Date__c;
+        account.Interest_Rate__c = stagingRecord.Interest_Rate__c;
+        account.Last_Payment_Date__c = stagingRecord.Last_Payment_Date__c;
+        account.Last_Payment_Amount__c = stagingRecord.Last_Payment_Amount__c;
+        account.Last_Payment_Date_2__c = stagingRecord.Last_Payment_Date_2__c;
+        account.Last_Payment_Amount_2__c = stagingRecord.Last_Payment_Amount__c;
+        account.Last_Payment_Date_3__c = stagingRecord.Last_Payment_Date_3__c;
+        account.Last_Payment_Amount_3__c = stagingRecord.Last_Payment_Amount_3__c;
+        account.Last_Statement_Date__c = stagingRecord.Last_Statement_Date__c;
+        account.Last_Statement_Amount__c = stagingRecord.Last_Statement_Amount__c;
+        account.Last_Statement_Date_2__c = stagingRecord.Last_Statement_Date_2__c;
+        account.Last_Statement_Amount_2__c = stagingRecord.Last_Statement_Amount_2__c;
+        account.Last_Statement_Date_3__c = stagingRecord.Last_Statement_Date_3__c;
+        account.Last_Statement_Amount_3__c = stagingRecord.Last_Statement_Amount_3__c;
+        account.Previous_Account_Reference__c = stagingRecord.Previous_Account_Reference__c;
+        account.Additional_Info__c = stagingRecord.Additional_Info__c;
+        return account;
     }
 
     /**
@@ -71,7 +104,6 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Payment_Amount__c = parseDoubleString(csvColumns[9], 'Payment_Amount__c', stagingRecord);
         stagingRecord.Remitted_Date__c = parseDateString(csvColumns[10], 'Remitted_Date__c', stagingRecord);
         stagingRecord.Remitted_Cheque_Number__c = csvColumns[11];
-        System.debug(stagingRecord);
         return stagingRecord;
     }
 
