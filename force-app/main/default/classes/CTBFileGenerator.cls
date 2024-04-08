@@ -375,7 +375,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
 			
             String authorizationCode = defAuthorizationCode;
-            authorizationCode = getSpaceAndZeroAdded(String.ValueOf(drftsAuthCode),6,false,true);
+            authorizationCode = getSpaceAndZeroAdded(String.ValueOf(drftsAuthCode),6,false,true,false);
             
             /*******************************************Body Data*************************************************/
             for(Insolvency_Payment__c insolPayData : insolvencyPayData){
@@ -386,24 +386,24 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 }
                 
                 String sequenceCode = defSeqNumber;
-                sequenceCode = getSpaceAndZeroAdded(String.ValueOf(draftSeuNum),7,true,false);
+                sequenceCode = getSpaceAndZeroAdded(String.ValueOf(draftSeuNum),7,true,false,false);
                 
                 String drftTransCode = defDrftTransCode;
-                drftTransCode = getSpaceAndZeroAdded(String.ValueOf(dRFTSTransCode),4,false,true);
+                drftTransCode = getSpaceAndZeroAdded(String.ValueOf(dRFTSTransCode),4,false,true,false);
                 
-                String accNumber = getSpaceAndZeroAdded(String.ValueOf(insolPayData.Account_Number__c),16,false,true);
+                String accNumber = getSpaceAndZeroAdded(String.ValueOf(insolPayData.Account_Number__c),16,false,true,true);
                 
                 String payAmount = defPayAmount;
                 if(insolPayData.Payment_Amount__c != NULL){
                     payAmount = String.ValueOf(insolPayData.Payment_Amount__c.setScale(0));
-                    payAmount = getSpaceAndZeroAdded(String.ValueOf(payAmount),9,true,false);
+                    payAmount = getSpaceAndZeroAdded(String.ValueOf(payAmount),9,true,false,false);
                 }
                 
                 String drftMerhDesc = defDrftMerhDesc;
-                drftMerhDesc = getSpaceAndZeroAdded(String.ValueOf(dRFTSMerhDesc),1,false,true);
+                drftMerhDesc = getSpaceAndZeroAdded(String.ValueOf(dRFTSMerhDesc),1,false,true,false);
                 
                 String drftMerhDBACC = defDrftsMerhDBACountryCode;
-                drftMerhDBACC = getSpaceAndZeroAdded(String.ValueOf(drftsMerhDBACountryCode),3,false,true);
+                drftMerhDBACC = getSpaceAndZeroAdded(String.ValueOf(drftsMerhDBACountryCode),3,false,true,false);
                 
                 mainbody += sequenceCode + drftTransCode + accNumber + paymentPostingDateData + forceAuthorizationIndicator + payAmount + merchantDBAName + merchantDBACityStatDesc + merchantDBAState + drftMerhDesc + referenceNumber + extra4Spaces + drftMerhDBACC + drftsMerhDBACategoryCode +'N' + authorizationCode + mailTelephoneIndicator + extensionRecordIndicator+'\n';
                 counter ++;
@@ -491,7 +491,7 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 Integer julianDate = calculateJulianDate();
                 
                 julianDateCal = defJulianDate;
-                julianDateCal = getSpaceAndZeroAdded(String.ValueOf(julianDate),3,true,false);
+                julianDateCal = getSpaceAndZeroAdded(String.ValueOf(julianDate),3,true,false,false);
                 
                 gregorianDate = defCreatedDate;
                 Datetime currentDatetime = Datetime.now();
@@ -515,21 +515,21 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     }
                 }
                 paymentAmtSumData = String.valueOf(paymentAmountSum.setScale(0));
-                paymentAmtSumData = getSpaceAndZeroAdded(String.ValueOf(paymentAmtSumData),10,true,false);
+                paymentAmtSumData = getSpaceAndZeroAdded(String.ValueOf(paymentAmtSumData),10,true,false,false);
 
                 String coboloPaymentAmt = defCoboloPaymentAmt;
-           		coboloPaymentAmt = getSpaceAndZeroAdded(String.ValueOf(getCobolAmount(paymentAmountSum.setScale(0))),12,true,false);
+           		coboloPaymentAmt = getSpaceAndZeroAdded(String.ValueOf(getCobolAmount(paymentAmountSum.setScale(0))),12,true,false,false);
 
 				system.debug('coboloPaymentAmt@@'+coboloPaymentAmt);
                 
-                String btralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(BTRALSeqNum),7,true,false);
+                String btralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(BTRALSeqNum),7,true,false,false);
                 
                 String btralBatchCnt = defBatchCount;
-        		btralBatchCnt = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,false,true);
+        		btralBatchCnt = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,false,true,false);
                 
-                String ttralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(TTRALSeqNum),7,true,false);
+                String ttralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(TTRALSeqNum),7,true,false,false);
                 
-                String countVariableData = getSpaceAndZeroAdded(String.ValueOf(countVariable),6,true,false);
+                String countVariableData = getSpaceAndZeroAdded(String.ValueOf(countVariable),6,true,false,false);
                 
                 Theadbody = buildTHEADBodyData();
                 Bheadbody = buildBHEADBodyData();
@@ -603,19 +603,19 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         string theadBodyData;
         
         String SeqNumber = defSeqNumber;
-        SeqNumber = getSpaceAndZeroAdded(String.ValueOf(sequenceNumber),7,false,true);
+        SeqNumber = getSpaceAndZeroAdded(String.ValueOf(sequenceNumber),7,false,true,false);
 
         String transCode = defTransCode;
-        transCode = getSpaceAndZeroAdded(String.ValueOf(theadTransCode),4,false,true);
+        transCode = getSpaceAndZeroAdded(String.ValueOf(theadTransCode),4,false,true,false);
         
         String bankNumber = defBankNumber;
-        bankNumber = getSpaceAndZeroAdded(String.ValueOf(theadBankNumber),4,false,true);
+        bankNumber = getSpaceAndZeroAdded(String.ValueOf(theadBankNumber),4,false,true,false);
         
         String transName= defTransName;
-        transName = getSpaceAndZeroAdded(String.ValueOf(theadTransName),8,false,true);
+        transName = getSpaceAndZeroAdded(String.ValueOf(theadTransName),8,false,true,false);
 
         String transDescription = defTransmissionDesc;
-        transDescription = getSpaceAndZeroAdded(String.ValueOf(transmissionDescription),3,false,true);
+        transDescription = getSpaceAndZeroAdded(String.ValueOf(transmissionDescription),3,false,true,false);
         //build THEAD body data
         theadBodyData = SeqNumber + transCode + bankNumber + transmissionNumber + transName + extra12Spaces + julianDateCal + gregorianDate + transDescription + extra5Spaces + commingledFileProcessingFlag + multiCurrencyCurrencyCode + extra64Spaces + transmissionIdentifierFlag+'\n';
         
@@ -625,22 +625,22 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static string buildBHEADBodyData(){
         string bheadBodyData;
         String bheadseqNumber = defBheadSeqNum;
-        bheadseqNumber = getSpaceAndZeroAdded(String.ValueOf(bheadsequenceNumber),7,false,true);
+        bheadseqNumber = getSpaceAndZeroAdded(String.ValueOf(bheadsequenceNumber),7,false,true,false);
         
         String bheadTransCodeData = defBheadTransCode;
-        bheadTransCodeData = getSpaceAndZeroAdded(String.ValueOf(bheadTransCode),4,false,true);
+        bheadTransCodeData = getSpaceAndZeroAdded(String.ValueOf(bheadTransCode),4,false,true,false);
         
         String bheadBankNum = defBheadBankNumber;
-        bheadBankNum = getSpaceAndZeroAdded(String.ValueOf(bheadBankNumber),4,false,true);
+        bheadBankNum = getSpaceAndZeroAdded(String.ValueOf(bheadBankNumber),4,false,true,false);
         
         String bheadFormatIden = defBheadFormatIdentifier;
-        bheadFormatIden = getSpaceAndZeroAdded(String.ValueOf(bheadFormatIdentifier),5,false,true);
+        bheadFormatIden = getSpaceAndZeroAdded(String.ValueOf(bheadFormatIdentifier),5,false,true,false);
         
         String batchCnt = defBatchCount;
-        batchCnt = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,false,true);
+        batchCnt = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,false,true,false);
         
         String transRefNum = defTransReferenceNum;
-        transRefNum = getSpaceAndZeroAdded(String.ValueOf(transReferenceNum),11,false,true);
+        transRefNum = getSpaceAndZeroAdded(String.ValueOf(transReferenceNum),11,false,true,false);
         
         //build BHEAD body data
         bheadBodyData = bheadseqNumber + bheadTransCodeData + bheadBankNum + bheadFormatIden + julianDateCal + batchCnt + batchIdentifier + batchIdentifierExtension + transRefNum + transactionDateOverride + alternateAmountIndicator + merchantHeaderExclusionFlag + extra76Spaces+'\n';
@@ -766,7 +766,8 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         public string finalDetailBody{get;set;}
     }
     
-    public static string getSpaceAndZeroAdded(String fieldName, Integer fieldLength, Boolean extraZeros, Boolean extraSpaces){
+    public static string getSpaceAndZeroAdded(String fieldName, Integer fieldLength, Boolean extraZeros, Boolean extraSpaces, Boolean rightPad){
+        system.debug('fieldName**'+fieldName);
         string fieldData;
         if(fieldName != null && extraZeros == True) {
             if(String.valueOf(fieldName).length() < fieldLength) {
@@ -779,9 +780,20 @@ public class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 fieldData = String.valueOf(fieldName);
             }
         }
-        if(fieldName != null && extraSpaces == True) {
+        if(fieldName != null && rightPad == false && extraSpaces == True) {
             if(String.valueOf(fieldName).length() < fieldLength) {
                 fieldData = String.valueOf(fieldName).leftPad(fieldLength);
+            } 
+            else if(String.valueOf(fieldName).length() == fieldLength) {
+                fieldData = String.valueOf(fieldName);
+            }
+            else if(String.valueOf(fieldName).length() > fieldLength){
+                fieldData = String.valueOf(fieldName);
+            }
+        }
+        if(fieldName != null && rightPad == true && extraSpaces == True) {
+            if(String.valueOf(fieldName).length() < fieldLength) {
+                fieldData = String.valueOf(fieldName).rightPad(fieldLength);
             } 
             else if(String.valueOf(fieldName).length() == fieldLength) {
                 fieldData = String.valueOf(fieldName);
