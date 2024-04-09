@@ -17,7 +17,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
         	if(ProductPaymentsTriggerHandler.runProductTrigger){
                 if(Trigger.isBefore) {
                     if(Trigger.isInsert && Trigger.new[0].CreatedDate == NULL){
-                        dataArchivalFlag=true;
+                        dataArchivalFlag=TRUE;
                         //ProductTriggerHandler.handleBeforeInsert(Trigger.new);
                         ProductPaymentsTriggerHandler.handleBeforeInsert(Trigger.new);
                     }
@@ -33,7 +33,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                         ProductPaymentsTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
                     }
                    
-                    if(Trigger.isInsert && dataArchivalFlag == FALSE){
+                    if(Trigger.isInsert && dataArchivalFlag == TRUE){
                         ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.new, Trigger.newMap, Trigger.oldMap);
                     }                          
                 }
