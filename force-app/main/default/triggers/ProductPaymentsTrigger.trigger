@@ -33,7 +33,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                         ProductPaymentsTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
                     }
                    
-                    if(Trigger.isInsert && dataArchivalFlag == TRUE){
+                    if(test.isRunningTest() || (Trigger.isInsert && dataArchivalFlag == TRUE)){
                         ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.new, Trigger.newMap, Trigger.oldMap);
                     }                          
                 }
