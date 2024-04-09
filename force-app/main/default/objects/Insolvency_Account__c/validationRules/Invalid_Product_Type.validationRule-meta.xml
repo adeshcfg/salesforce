@@ -3,7 +3,7 @@
     <fullName>Invalid_Product_Type</fullName>
     <active>true</active>
     <description>Invalid_Product_Type</description>
-    <errorConditionFormula>AND(
+    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),AND(
 NOT(ISPICKVAL(Account_Type__c,&apos;&apos;)),
 OR(
 
@@ -37,7 +37,42 @@ NOT(ISPICKVAL(Account_Type__c ,&apos;Credit Card&apos;))
 )
 
 )
-)</errorConditionFormula>
+))),
+AND(
+NOT(ISPICKVAL(Account_Type__c,&apos;&apos;)),
+OR(
+
+AND(
+OR(RecordType.DeveloperName == &apos;SDA_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;Canaccede_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;Fidem_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;SPL_Insolvency_Account&apos;,
+RecordType.DeveloperName == &apos;Scotia_Bank_Insolvency_Account&apos;),
+
+OR(ISPICKVAL(Account_Type__c ,&apos;World Walmart Rewards Mastercard&apos;),
+ISPICKVAL(Account_Type__c, &apos;Core Walmart Rewards Mastercard&apos;),
+ISPICKVAL(Account_Type__c,&apos;Home Equity Secured Mastercard&apos;))
+),
+
+
+AND(RecordType.DeveloperName == &apos;Fairstone_Insolvency_Account&apos;,
+NOT(ISPICKVAL(Account_Type__c,&apos;Unknown&apos;)),
+NOT(ISPICKVAL(Account_Type__c ,&apos;World Walmart Rewards Mastercard&apos;)),
+NOT(ISPICKVAL(Account_Type__c, &apos;Core Walmart Rewards Mastercard&apos;)),
+NOT(ISPICKVAL(Account_Type__c,&apos;Home Equity Secured Mastercard&apos;))
+),
+
+AND(RecordType.DeveloperName == &apos;Goeasy_Insolvency_Account&apos;,
+NOT(ISPICKVAL(Account_Type__c ,&apos;Leasing product&apos;)),
+NOT(ISPICKVAL(Account_Type__c, &apos;Secured Personal Installment Loan&apos;)),
+NOT(ISPICKVAL(Account_Type__c,&apos;Unsecured Installment Loan&apos;))
+),
+AND(RecordType.DeveloperName == &apos;Canadian_Tire_Insolvency_Account&apos;,
+NOT(ISPICKVAL(Account_Type__c ,&apos;Credit Card&apos;))
+)
+
+)
+))</errorConditionFormula>
     <errorDisplayField>Account_Type__c</errorDisplayField>
     <errorMessage>Invalid Product Type</errorMessage>
 </ValidationRule>

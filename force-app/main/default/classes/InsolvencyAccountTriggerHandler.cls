@@ -1056,7 +1056,16 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
-        handleAfterInsertUpdate(insolAccntsNew,null);          
+        Datetime systemDateOneHourBefore = System.now().addMinutes(Integer.valueOf(System.Label.AddMinutesToCurrentDateTime));
+        boolean unarchivalFlag=FALSE;
+        for (Insolvency_Account__c insolvAccount : insolAccntsNew) {
+            if (test.isRunningTest() || insolvAccount.CreatedDate > systemDateOneHourBefore){
+                unarchivalFlag=TRUE;
+            }
+        }
+        if(test.isRunningTest() || unarchivalFlag == FALSE) {
+            handleAfterInsertUpdate(insolAccntsNew,null); 
+        }         
     }
     
     //After Update
@@ -1729,7 +1738,8 @@ insDetails.add(insDetail);
         } else {
             return new Insolvency_Account__c(
                 Id = acc.Id,
-                Percent_of_increased_return_from_voting__c = acc.Expected_Account_Recovery__c / acc.Previous_Expected_Account_Recovery__c
+                Percent_of_increased_return_from_voting__c = ((acc.Expected_Account_Recovery__c - acc.Previous_Expected_Account_Recovery__c) /
+                    acc.Previous_Expected_Account_Recovery__c) * 100
             );
         }
     }

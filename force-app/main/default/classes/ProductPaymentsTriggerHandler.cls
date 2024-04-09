@@ -329,11 +329,10 @@ public class ProductPaymentsTriggerHandler {
                 // 4578 - Link appropriate placement history with payment
                 Map<String, String> mapPlacementHistoryToLink = getPlacementHistoryToLink(productPayment, mapProducts, mapProductIdPlacementHistoryList);
                 productPayment.Placement_History__c = mapPlacementHistoryToLink.get('Id');
-                // 4806
                 productPayment.Placement_History_External__c = mapPlacementHistoryToLink.get('Placement_History_External__c');
-                getTaxAmount(listNewProductPayments, mapProducts);
-                validationOnRecordUpdate2(listNewProductPayments, setProductId, setPlacementID, mapProducts);
             }
+            getTaxAmount(listNewProductPayments, mapProducts);
+            validationOnRecordUpdate2(listNewProductPayments, setProductId, setPlacementID, mapProducts);
         }
     }
 

@@ -45,7 +45,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         cIRTMap.put('Fidem_Insolvency_Account', 'Fidem');
         cIRTMap.put('Fairstone_Insolvency_Account', 'Fairstone'); 
         cIRTMap.put('Goeasy_Insolvency_Account', 'Goeasy'); 
-        cIRTMap.put('Canadian_Tire_Insolvency_Account', 'Canadian Tire');
+        //cIRTMap.put('Canadian_Tire_Insolvency_Account', 'Canadian Tire');
         insolv = [Select Id, 
                             Name, 
                             Insolvency_Type__c, 
@@ -394,7 +394,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
          want to select a value or in case no values are returned from query below*/
          //options.add(new selectOption('', '- None -')); 
         String defaultRtype = InsolvencyUtil.getRecordTypeToWorkOn();
-        for(Recordtype record : [SELECT Id,Name,SobjectType FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND (NOT  Name LIKE '%unknown%')]) { 
+        for(Recordtype record : [SELECT Id,Name,SobjectType FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND ((NOT name like '%unknown%') AND (NOT name like '%Canadian%'))]) { 
             //query for Record types records 
             options.add(new selectOption(record.id, record.Name)); 
             //for all records found - add them to the picklist options

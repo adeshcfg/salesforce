@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <formula>CASE( Court__c ,&quot;Small Claims Court&quot;, Small_Claims_Court__r.Small_Claims_Court_Address__c ,
 &quot;Superior Court of Justice&quot;, Superior_Court__r.Superior_Court_Address__c ,
-&quot;Other&quot;, &quot;&quot;,&quot;&quot;)</formula>
+&quot;&quot;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Template Court Address</label>
     <required>false</required>

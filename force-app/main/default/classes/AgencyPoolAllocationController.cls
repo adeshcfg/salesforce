@@ -167,7 +167,7 @@ public class AgencyPoolAllocationController {
                 product.Placement_Status__c = NEW_ALLOCATION_READY;
                 product.Status_Changed_Date__c = Date.today();
                 product.Collection_Sub_Status__c = null;
-                
+                product.Run_Identifier_Check_On__c = System.today();
                 productList.add(product);
                 prodIdList.add(product.id);
                 
@@ -279,7 +279,7 @@ public class AgencyPoolAllocationController {
                 product.Placement_Status__c = NEW_ALLOCATION_READY;
                 product.Status_Changed_Date__c = Date.today();
                 product.Collection_Sub_Status__c = null;
-                
+                product.Run_Identifier_Check_On__c = System.today();
                 productList.add(product);
                 prodIdList.add(product.id);
                 placeStatusMap.put(product.id,product.Placement_Status__c);
@@ -409,7 +409,7 @@ public class AgencyPoolAllocationController {
                && String.isNotBlank(product.Purchase_Province__c) 
                && ( (!mapProvinceAcronym.containsKey(product.Purchase_Province__c) && !AgencyProvince.contains(product.Purchase_Province__c))
                    ||   (mapProvinceAcronym.containsKey(product.Purchase_Province__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(product.Purchase_Province__c))))){
-                       ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
+                       ERROR_MSG += '<b>ERROR</b> - '+'Product cannot be placed with agency as Product Purchase Province is Non Serviceable for Agency'+'<br/>';
                        comments = ERROR_MSG;
                    }          
             

@@ -121,6 +121,7 @@ public class AllocationProductProcessing {
                     product.Allocated_Amount_Fees__c = productStaging1.Fees__c;
                     product.Allocated_Amount_Principal__c = productStaging1.Current_Principal_Balance__c;
                     product.Allocated_Amount_Interest__c = productStaging1.Current_Interest_Balance__c;
+                    product.Run_Identifier_Check_On__c = System.today();
                     if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
                        && Decimal.valueOf(productStaging1.Placement_Agency__c) != mapProduct.get(productStaging1.Product_ID__c).Collection_Agency__c){
                            Id oldOwnerId = mapProduct.get(productStaging1.Product_ID__c).OwnerId;

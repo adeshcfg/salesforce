@@ -132,6 +132,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Origin</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Type</field>
         <readable>true</readable>
@@ -139,6 +144,26 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Account_Details_Verified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Last_Payment_Amount_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Last_Payment_Amount_3__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Last_Payment_Date_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Last_Payment_Date_3__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2965,7 +2990,7 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <tabSettings>
         <tab>Insolvency_Account__c</tab>

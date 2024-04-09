@@ -412,8 +412,8 @@ public class DistressedUtilities {
                && String.isNotBlank(mapProductName.get(product.Data_Id__c).Purchase_Province__c)
                && ( (!mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).Purchase_Province__c) && !AgencyProvince.contains(mapProductName.get(product.Data_Id__c).Purchase_Province__c))
                    ||   (mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).Purchase_Province__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(mapProductName.get(product.Data_Id__c).Purchase_Province__c))))){
-                       ERROR_MSG += '<b>ERROR</b>- '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
-                       EXPECTED += 'Product Province - ' + mapProductName.get(product.Data_Id__c).Purchase_Province__c +'<br/>';
+                       ERROR_MSG += '<b>ERROR</b>- '+'Product cannot be placed with agency as Product Purchase Province is Non Serviceable for Agency'+'<br/>';
+                       EXPECTED += 'Product Purchase Province should be either - ' + AgencyProvince +'<br/>';
                    }
             
             if(newAgency == oldAgency){

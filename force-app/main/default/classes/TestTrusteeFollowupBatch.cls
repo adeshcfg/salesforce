@@ -15,7 +15,15 @@ public class TestTrusteeFollowupBatch {
         config.Run_Insolvency_Trigger__c = false;
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
         insert config; 
-                
+         
+        
+        Trustee_Fees__c trusteeFees = Trustee_Fees__c.getOrgDefaults();
+        trusteeFees.Trustee_Administration_Fee__c = 10;
+        trusteeFees.Counselling_Fee__c = 10;
+        trusteeFees.Receiver_Fee__c = 10;
+        trusteeFees.Trustee_Variable_Fee_Rate__c = 10;
+        insert trusteeFees;
+        
         Trustee_Payment_Followup_Setting__c tpfs = Trustee_Payment_Followup_Setting__c.getOrgDefaults();
         tpfs.Name = 'Trustee Payment Followup';
         tpfs.Domain_Name__c = '@rcfax.com.sb';
@@ -63,32 +71,7 @@ public class TestTrusteeFollowupBatch {
     @isTest 
     public static void TestTrusteeFollowUpEmail() {
         
-        /*
-        PoC_Package_Settings__c poc = new PoC_Package_Settings__c(Name = 'Scotia Bank', 
-        Client_Company_Name__c = 'Canaccede International ltd.', 
-        CFG_Office_Phone_Number__c = '800-800-800', 
-        CFG_Office_Name__c = 'The Scotia Bank',
-        CFG_Office_Email_Address__c = 'test@canaccede.com');
-        insert poc;
-        */        
 
-        /*
-        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-        //config.Domain_Name__c = 'test.com';
-        insert config;
-        */
-        
-        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-        config.Run_Insolvency_Account_Trigger__c = true;
-        config.Run_Insolvency_Status_Validations__c = true;
-        config.Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
-        config.Eligible_for_Claim_Type_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
-        config.Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm';
-        config.Bank_Eligible_for_Duplicate_Check__c = 'SPL';
-        config.Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN';
-        config.Run_Insolvency_Trigger__c = false;
-        config.Run_Insolvency_Account_Duplicate_Check__c = true;
-        insert config;
 
         /*
         Trustee_Payment_Followup_Setting__c tpfs = new Trustee_Payment_Followup_Setting__c(Name = 'Canaccede Bank',

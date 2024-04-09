@@ -41,6 +41,26 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ICT_Distressed_Group_Settlement_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ICT Distressed Group Settlement Sharing</label>
+        <sharedTo>
+            <group>ICT_Distressed_Group</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>Judgment_Collection_Agency_Identifier__c</field>
+            <operation>contains</operation>
+            <value>A68A</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Product_Collection_Agency_Identifier__c</field>
+            <operation>equals</operation>
+            <value>A68A</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ICT_Group_Settlement_Read_Only_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ICT Group Settlement Read Only Sharing</label>

@@ -3,13 +3,20 @@
     <fullName>Restrict_Future_Insolvency_Date</fullName>
     <active>true</active>
     <description>Do not allow future insolvency date</description>
-    <errorConditionFormula>IF((
+    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),IF((
 ((ISNEW()) || (!ISNEW() &amp;&amp; ISCHANGED(Insolvency_Date__c)))
 &amp;&amp;
 (!ISNULL(Insolvency_Date__c ))
 &amp;&amp;
 (Insolvency_Date__c &gt; TODAY())
-), true, false)</errorConditionFormula>
+), true, false))),
+IF((
+((ISNEW()) || (!ISNEW() &amp;&amp; ISCHANGED(Insolvency_Date__c)))
+&amp;&amp;
+(!ISNULL(Insolvency_Date__c ))
+&amp;&amp;
+(Insolvency_Date__c &gt; TODAY())
+), true, false))</errorConditionFormula>
     <errorDisplayField>Insolvency_Date__c</errorDisplayField>
     <errorMessage>Insolvency Date cannot be in future</errorMessage>
 </ValidationRule>
