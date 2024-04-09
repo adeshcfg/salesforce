@@ -9,7 +9,7 @@
  *************************************************************************************************/
  
 trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
-    
+    Boolean dataArchivalFlag=FALSE;
     //On-Off switch for trigger
     Loan_ReEngineering__c lrpSettings = Loan_ReEngineering__c.getOrgDefaults();
     Boolean runTrigger = lrpSettings.Run_Product_Payment_Trigger__c;
@@ -17,6 +17,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
         	if(ProductPaymentsTriggerHandler.runProductTrigger){
                 if(Trigger.isBefore) {
                     if(Trigger.isInsert && Trigger.new[0].CreatedDate == NULL){
+                        dataArchivalFlag=true;
                         //ProductTriggerHandler.handleBeforeInsert(Trigger.new);
                         ProductPaymentsTriggerHandler.handleBeforeInsert(Trigger.new);
                     }
@@ -32,7 +33,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                         ProductPaymentsTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
                     }
                    
-                    if(Trigger.isInsert){
+                    if(Trigger.isInsert && dataArchivalFlag == FALSE){
                         ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.new, Trigger.newMap, Trigger.oldMap);
                     }                          
                 }
