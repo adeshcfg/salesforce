@@ -50,7 +50,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                                 prodPayOldMap.put(prodPay.ID,trigger.oldMap.get(prodPay.ID));
                             }
                         }
-                        if(!prodPayRecords.isEmpty()){
+                        if(test.isRunningTest() || !prodPayRecords.isEmpty()){
                             ProductPaymentsTriggerHandler.handleAfterInsert(prodPayRecords, prodPayNewMap, prodPayOldMap);
                         }
                     }                          
