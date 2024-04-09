@@ -102,7 +102,7 @@
                         <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                     </div>
                     <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
-                        <div style="float:left; padding-left:80px;">
+                        <div style="float:left; padding-left:25px;">
                             {!remGroupMap.Entity_Name1__c}<br/>
                             {!pocPackage.CFG_Office_Address_1__c}<br/>
                             {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
