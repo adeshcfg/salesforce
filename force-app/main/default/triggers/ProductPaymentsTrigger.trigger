@@ -46,12 +46,10 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                         for(product_Payments__c prodPay:trigger.new){
                             if(prodPay.IsUnArchived__c==FALSE){
                                 prodPayRecords.add(prodPay);
-                                prodPayNewMap.put(prodPay.ID,trigger.newMap.get(prodPay.ID));
-                                prodPayOldMap.put(prodPay.ID,trigger.oldMap.get(prodPay.ID));
                             }
                         }
-                        if(test.isRunningTest() || !prodPayRecords.isEmpty()){
-                            ProductPaymentsTriggerHandler.handleAfterInsert(prodPayRecords, prodPayNewMap, prodPayOldMap);
+                        if(!prodPayRecords.isEmpty()){
+                            ProductPaymentsTriggerHandler.handleAfterInsert(prodPayRecords, trigger.newMap, trigger.oldMap);
                         }
                     }                          
                 }
