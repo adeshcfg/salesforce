@@ -96,24 +96,22 @@
             </div>
             
             <!-- <br/><br/><br/><br/><br/>  <br/>-->
-            <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
-                <div style="padding-bottom:10px;">
-                    <div style="text-align:left; float:left; width:150px;">
+            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
+                <div style="text-align:left; float:left; width:200px">
                         <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                     </div>
-                    <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
-                        <div style="float:left; padding-left:25px;">
-                            {!remGroupMap.Entity_Name1__c}<br/>
-                            {!pocPackage.CFG_Office_Address_1__c}<br/>
-                            {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                        </div>
-                        <div  style="padding-left:330px;">
-                            t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                            f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                            {!pocPackage.CFG_Office_Website__c}
-                        </div>
+                <div style='float:left;width:455px; padding-top:20px'>
+                     <span style="float:left; padding-left:25px;font-size:13px">
+                        {!remGroupMap.Entity_Name1__c}<br/>
+                        {!pocPackage.CFG_Office_Address_1__c}<br/>
+                        {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                    </span>
+                    <span style="float:right; text-align:left;">
+                        t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+                        f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                        {!pocPackage.CFG_Office_Website__c}
+                    </span>
                     </div>                            
-                </div>
                 <br/>
             </div>
             <div style="clear:both;"> </div>
@@ -252,24 +250,22 @@
             </div>
             <br/>
             
-            <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
-                <div style="padding-bottom:10px;">
-                    <div style="text-align:left; float:left; width:150px;">
+            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
+                <div style="text-align:left; float:left; width:200px">
                         <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                     </div>
-                    <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
-                        <div style="float:left; padding-left:80px;">
-                            {!remGroupMap.Entity_Name1__c}<br/>
-                            {!pocPackage.CFG_Office_Address_1__c}<br/>
-                            {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                        </div>
-                        <div  style="padding-left:330px;">
-                            t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                            f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                            {!pocPackage.CFG_Office_Website__c}
-                        </div>
+                <div style='float:left;width:455px; padding-top:20px'>
+                     <span style="float:left; padding-left:25px;font-size:13px">
+                        {!remGroupMap.Entity_Name1__c}<br/>
+                        {!pocPackage.CFG_Office_Address_1__c}<br/>
+                        {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                    </span>
+                    <span style="float:right; text-align:left;">
+                        t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+                        f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                        {!pocPackage.CFG_Office_Website__c}
+                    </span>
                     </div>                            
-                </div>
                 <br/>
             </div>
             <div style="clear:both;"> </div>
@@ -384,27 +380,25 @@
                     {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
                     <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null || insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/></div>
                 </div>
-                <br/><br/><br/>
-                <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
-                    <div style="padding-bottom:10px;">
-                        <div style="text-align:left; float:left; width:150px;">
-                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
-                        </div>
-                        <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
-                            <div style="float:left; padding-left:80px;">
-                                {!remGroupMap.Entity_Name1__c}<br/>
-                                {!pocPackage.CFG_Office_Address_1__c}<br/>
-                                {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                            </div>
-                            <div  style="padding-left:330px;">
-                                t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                                f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                                {!pocPackage.CFG_Office_Website__c}
-                            </div>
-                        </div>                            
+                <br/><br/><br/>  
+            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
+                <div style="text-align:left; float:left; width:200px">
+                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                     </div>
-                    <br/>
-                </div>
+                <div style='float:left;width:455px; padding-top:20px'>
+                     <span style="float:left; padding-left:25px;font-size:13px">
+                        {!remGroupMap.Entity_Name1__c}<br/>
+                        {!pocPackage.CFG_Office_Address_1__c}<br/>
+                        {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                    </span>
+                    <span style="float:right; text-align:left;">
+                        t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+                        f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                        {!pocPackage.CFG_Office_Website__c}
+                    </span>
+                    </div>                            
+                <br/>
+            </div>
                 <div style="clear:both; padding-left:40px;">
                     
                     <br/>
@@ -483,26 +477,24 @@
         
         <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true'}" >
-            <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
-                    <div style="padding-bottom:10px;">
-                        <div style="text-align:left; float:left; width:150px;">
-                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
-                        </div>
-                        <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
-                            <div style="float:left; padding-left:80px;">
-                                {!remGroupMap.Entity_Name1__c}<br/>
-                                {!pocPackage.CFG_Office_Address_1__c}<br/>
-                                {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                            </div>
-                            <div  style="padding-left:330px;">
-                                t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                                f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                                {!pocPackage.CFG_Office_Website__c}
-                            </div>
-                        </div>                            
+            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
+                <div style="text-align:left; float:left; width:200px">
+                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                     </div>
-                    <br/>
-                </div>
+                <div style='float:left;width:455px; padding-top:20px'>
+                     <span style="float:left; padding-left:25px;font-size:13px">
+                        {!remGroupMap.Entity_Name1__c}<br/>
+                        {!pocPackage.CFG_Office_Address_1__c}<br/>
+                        {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                    </span>
+                    <span style="float:right; text-align:left;">
+                        t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+                        f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                        {!pocPackage.CFG_Office_Website__c}
+                    </span>
+                    </div>                            
+                <br/>
+            </div>
             <div style=' margin:auto;padding-left:10px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
                 
                 <div style="line-height:15px;float:left;">
@@ -655,24 +647,22 @@
         </apex:outputPanel> <br/>
         <!---------------------STATEMENT OF ACCOUNT -------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.statementOfAccount == 'true'}" >
-            <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 10px;">
-                <div style="padding-bottom:10px;">
-                    <div style="text-align:left; float:left; width:150px;">
+            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
+                <div style="text-align:left; float:left; width:200px">
                         <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                     </div>
-                    <div style="float:left;width:63%;padding-left:80px;padding-top: 10px;">
-                        <div style="float:left; padding-left:80px;">
-                            {!remGroupMap.Entity_Name1__c}<br/>
-                            {!pocPackage.CFG_Office_Address_1__c}<br/>
-                            {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                        </div>
-                        <div  style="padding-left:330px;">
-                            t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                            f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                            {!pocPackage.CFG_Office_Website__c}
-                        </div>
+                <div style='float:left;width:455px; padding-top:20px'>
+                     <span style="float:left; padding-left:25px;font-size:13px">
+                        {!remGroupMap.Entity_Name1__c}<br/>
+                        {!pocPackage.CFG_Office_Address_1__c}<br/>
+                        {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                    </span>
+                    <span style="float:right; text-align:left;">
+                        t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+                        f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                        {!pocPackage.CFG_Office_Website__c}
+                    </span>
                     </div>                            
-                </div>
                 <br/>
             </div>
             <div style=' margin:auto;padding-left:30px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.statementOfAccount == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
