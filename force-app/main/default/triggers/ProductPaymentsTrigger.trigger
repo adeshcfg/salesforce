@@ -11,7 +11,7 @@
 trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
     list<Product_Payments__c> prodPayRecords=new list<Product_Payments__c>();
     map<ID,Product_Payments__c> prodPayNewMap=new map<ID,Product_Payments__c>();
-    map<ID,Product_Payments__c> prodPayOldMap=new map<ID,Product_Payments__c>;
+    map<ID,Product_Payments__c> prodPayOldMap=new map<ID,Product_Payments__c>();
     //On-Off switch for trigger
     Loan_ReEngineering__c lrpSettings = Loan_ReEngineering__c.getOrgDefaults();
     Boolean runTrigger = lrpSettings.Run_Product_Payment_Trigger__c;
