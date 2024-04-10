@@ -60,7 +60,6 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                             InsolvencyAccountTriggerHandler.handleAfterInsert(insolAccntRecords);
                         }
                     }
-                }
                     
                     //After Update Trigger
                     if(Trigger.isUpdate){
@@ -70,9 +69,9 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     //After Delete Trigger
                     if(Trigger.isDelete){
                         InsolvencyAccountTriggerHandler.handleAfterDelete(Trigger.new, Trigger.oldMap);
-                    }              
-                }               
-            }
+                    }
+                }              
+            }               
+        }
         
     }
-}
