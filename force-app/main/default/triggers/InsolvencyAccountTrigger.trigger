@@ -9,7 +9,7 @@
  *************************************************************************************************/
 
 trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before update, before delete, after insert, after update, after delete) {
-    
+    list<Insolvency_Account__c> insolAccntRecords=new list<Insolvency_Account__c>();
     //On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Insolvency_Account_Trigger__c;
