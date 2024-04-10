@@ -16,6 +16,21 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Canaccede_PTP_ICT_Distressed_Group</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Distressed PTP records with ICT Distressed users</description>
+        <label>Canaccede PTP ICT Distressed Group</label>
+        <sharedTo>
+            <group>ICT_Distressed_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Canaccede PTP</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Fidem_PTP</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Fidem PTP records with Fidem users</description>
