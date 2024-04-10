@@ -664,6 +664,7 @@
                     </span>
                 </div>
                 <br/>
+                <br/>
             </div>
              <div style=' margin:auto;padding-left:30px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.statementOfAccount == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
                 <div style="clear:both;">
