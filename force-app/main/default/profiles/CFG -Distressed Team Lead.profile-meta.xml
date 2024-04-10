@@ -13311,6 +13311,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Payments__c.IsUnArchived__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Payments__c.Agency_Commission_Rate__c</field>
         <readable>true</readable>
     </fieldPermissions>
