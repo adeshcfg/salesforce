@@ -486,8 +486,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String ttralBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Bank_Number__c;
                 String ttralDebitAmount = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Debit_Amount__c;
                 String ttralCreditAmount = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Credit_Amount__c;
-                Integer BTRALSeqNum = 2 + countVariable;
-                Integer TTRALSeqNum = 3 + countVariable;
+                Integer BTRALSeqNum = 3 + countVariable;
+                Integer TTRALSeqNum = 4 + countVariable;
                 Integer julianDate = calculateJulianDate();
                 
                 julianDateCal = defJulianDate;
