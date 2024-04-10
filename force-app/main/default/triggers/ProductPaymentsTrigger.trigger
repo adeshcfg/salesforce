@@ -9,14 +9,22 @@
  *************************************************************************************************/
  
 trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
-    
+    list<Product_Payments__c> prodPayRecords=new list<Product_Payments__c>();
     //On-Off switch for trigger
     Loan_ReEngineering__c lrpSettings = Loan_ReEngineering__c.getOrgDefaults();
     Boolean runTrigger = lrpSettings.Run_Product_Payment_Trigger__c;
     if(runTrigger || test.isRunningTest()){ 
         	if(ProductPaymentsTriggerHandler.runProductTrigger){
                 if(Trigger.isBefore) {
-                    if(Trigger.isInsert && Trigger.new[0].CreatedDate == NULL){
+                    if(Trigger.isInsert){
+                        for(Product_Payments__c prodPay:trigger.new){
+                            if(prodPay.CreatedDate == NULL){
+                                prodPay.IsUnArchived__c=FALSE;
+                            }
+                            else{
+                                prodPay.IsUnArchived__c=TRUE;
+                            }
+                        }
                         //ProductTriggerHandler.handleBeforeInsert(Trigger.new);
                         ProductPaymentsTriggerHandler.handleBeforeInsert(Trigger.new);
                     }
@@ -33,7 +41,14 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                     }
                    
                     if(Trigger.isInsert){
-                        ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.new, Trigger.newMap, Trigger.oldMap);
+                        for(product_Payments__c prodPay:trigger.new){
+                            if(prodPay.IsUnArchived__c==FALSE){
+                                prodPayRecords.add(prodPay);
+                            }
+                        }
+                        if(!prodPayRecords.isEmpty()){
+                            ProductPaymentsTriggerHandler.handleAfterInsert(prodPayRecords, trigger.newMap, trigger.oldMap);
+                        }
                     }                          
                 }
             }
