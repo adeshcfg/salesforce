@@ -474,6 +474,7 @@
         <br/>
         <br/>
         <br/>
+        <br/>
         <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true'}" >
             <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
@@ -643,6 +644,8 @@
                 
             </div>
         </apex:outputPanel> <br/>
+        <br/>
+        <br/>
         <!---------------------STATEMENT OF ACCOUNT -------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.statementOfAccount == 'true'}" >
             <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
