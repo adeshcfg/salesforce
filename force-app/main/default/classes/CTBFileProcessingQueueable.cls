@@ -49,8 +49,6 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
     public static void processCTBStagingAccounts(String csvContents, Document_Storage__c docStorage) {
         List<CTB_Staging__c> stagingRecordsToCreate = new List<CTB_Staging__c>();
         List<Insolvency_Account__c> accountRecordsToUpsert = new List<Insolvency_Account__c>();
-        List<String> correlationIds = new List<String>();
-        Map<String, String> mapCorrelationIdSfId = new Map<String, String>();
         List<String> csvRows = csvContents.split('\n');
         for (Integer i = 1; i < csvRows.size() - 1; i++) {
             // Split the current row into columns
@@ -61,6 +59,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
             // If validation was successfull
             if (recordToCreate.Status__c != 'Error') {
                 Insolvency_Account__c accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(recordToCreate);
+                accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
                 accountRecordsToUpsert.add(accountToUpdate);
             }
         }
@@ -68,7 +67,13 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
             Database.insert(stagingRecordsToCreate);
         }
         if (!accountRecordsToUpsert.isEmpty()) {
-            upsert accountRecordsToUpsert Correlation_Id__c;
+            try {
+                upsert accountRecordsToUpsert Correlation_Id__c;
+                docStorage.File_Processing_Status__c = 'Processed';
+                update docStorage;
+            } catch (DmlException dex) {
+                System.debug('Error upserting account records ' + dex.getDmlMessage(0));
+            }
         }
     }
 

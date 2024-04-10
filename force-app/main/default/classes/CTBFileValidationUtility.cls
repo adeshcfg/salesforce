@@ -28,8 +28,8 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Name = csvColumns[4];
         stagingRecord.Debtor_1_First_Name__c = csvColumns[7];
         stagingRecord.Debtor_1_Last_Name__c = csvColumns[8];
-        stagingRecord.CTB_Date_of_Birth__c = parseDateString(csvColumns[8], 'CTB_Date_of_Birth__c', stagingRecord);
-        stagingRecord.Correlation_ID__c = csvColumns[26];
+        stagingRecord.CTB_Date_of_Birth__c = parseDateString(csvColumns[17], 'CTB_Date_of_Birth__c', stagingRecord);
+        stagingRecord.Correlation_Id__c = csvColumns[26];
         stagingRecord.CTB_Reject_Reason_Code__c = csvColumns[28];
         stagingRecord.Open_Date__c = parseDateString(csvColumns[29], 'Open_Date__c', stagingRecord);
         stagingRecord.Balance_Owed__c = parseDoubleString(csvColumns[30], 'Balance_Owed__c', stagingRecord);
@@ -54,17 +54,18 @@ public with sharing class CTBFileValidationUtility {
     }
 
     /**
-    * @description : Method to populate account info from staging record
-    * @author adesh.ikhar@canaccede.com | 04-05-2024 
-    * @param stagingRecord 
-    * @return Insolvency_Account__c 
-    **/
+     * @description : Method to populate account info from staging record
+     * @author adesh.ikhar@canaccede.com | 04-05-2024
+     * @param stagingRecord
+     * @return Insolvency_Account__c
+     **/
     public static Insolvency_Account__c updateInsolvencyAccount(CTB_Staging__c stagingRecord) {
         Insolvency_Account__c account = new Insolvency_Account__c();
         account.Name = stagingRecord.Name;
         account.Debtor_1_First_Name__c = stagingRecord.Debtor_1_First_Name__c;
         account.Debtor_1_Last_Name__c = stagingRecord.Debtor_1_Last_Name__c;
         account.CTB_Date_of_Birth__c = stagingRecord.CTB_Date_of_Birth__c;
+        account.Correlation_Id__c = stagingRecord.Correlation_Id__c;
         account.CTB_Reject_Reason_Code__c = stagingRecord.CTB_Reject_Reason_Code__c;
         account.Open_Date__c = stagingRecord.Open_Date__c;
         account.Balance_Owed__c = stagingRecord.Balance_Owed__c;
@@ -85,6 +86,10 @@ public with sharing class CTBFileValidationUtility {
         account.Last_Statement_Amount_3__c = stagingRecord.Last_Statement_Amount_3__c;
         account.Previous_Account_Reference__c = stagingRecord.Previous_Account_Reference__c;
         account.Additional_Info__c = stagingRecord.Additional_Info__c;
+        account.Insolvency_Sub_Status__c = null;
+        account.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName()
+            .get('Canadian_Tire_Insolvency_Account')
+            .getRecordTypeId();
         return account;
     }
 
@@ -94,7 +99,7 @@ public with sharing class CTBFileValidationUtility {
      * @param csvColumns
      * @return CTB_Staging__c
      **/
-    public static CTB_Staging__c validatePaymentCTBStagingRecord(List<String> csvColumns) {
+    /* public static CTB_Staging__c validatePaymentCTBStagingRecord(List<String> csvColumns) {
         CTB_Staging__c stagingRecord = new CTB_Staging__c();
         stagingRecord.Error_Message__c = '';
         stagingRecord.Name = csvColumns[3];
@@ -105,7 +110,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Remitted_Date__c = parseDateString(csvColumns[10], 'Remitted_Date__c', stagingRecord);
         stagingRecord.Remitted_Cheque_Number__c = csvColumns[11];
         return stagingRecord;
-    }
+    } */
 
     /**
      * @description : Parse String to Date, return null and populate error message for invalid Date
@@ -141,7 +146,7 @@ public with sharing class CTBFileValidationUtility {
             return null;
         }
         try {
-            return DateTime.parse(input);
+            return DateTime.newInstance(Date.parse(input), Time.newInstance(23, 59, 59, 59));
         } catch (Exception ex) {
             stagingRecord.Status__c = 'Error';
             stagingRecord.Error_Message__c += ' Invalid DateTime format for ' + fieldName;
