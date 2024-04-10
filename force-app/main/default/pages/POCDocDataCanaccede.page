@@ -647,7 +647,6 @@
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, President<br/>
                             {!remGroupMap.Entity_Name1__c}
-                            <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c}" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
                             
                         </span>
                     </td>

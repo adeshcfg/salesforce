@@ -439,7 +439,6 @@
                             <br/>
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, CEO<br/>
-                                {!remGroupMap.Entity_Name1__c} (creditor)
                                 <apex:outputText value="<br/><br/>" escape="false" rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" />
                             </span>
                         </td>
@@ -631,7 +630,6 @@
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, CEO<br/>
                             {!remGroupMap.Entity_Name1__c}
-                            <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c}" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
                             
                         </span>
                     </td>
@@ -663,6 +661,7 @@
                         {!pocPackage.CFG_Office_Website__c}
                     </span>
                 </div>
+                <br/>
                 <br/>
             </div>
              <div style=' margin:auto;padding-left:30px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.statementOfAccount == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
