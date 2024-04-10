@@ -439,7 +439,7 @@
                             <br/>
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, CEO<br/>
-                                {!remGroupMap.Entity_Name1__c} (creditor)
+                                {!remGroupMap.Entity_Name1__c} (Créancier)
                                 <apex:outputText value="<br/><br/>" escape="false" rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" />
                             </span>
                         </td>
@@ -631,7 +631,7 @@
                         <br/>
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, CEO<br/>
-                            {!remGroupMap.Entity_Name1__c}
+                            {!remGroupMap.Entity_Name1__c} (Créancier)
                             
                         </span>
                     </td>

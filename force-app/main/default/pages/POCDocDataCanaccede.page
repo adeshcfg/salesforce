@@ -646,7 +646,7 @@
                         <br/>
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, President<br/>
-                            {!remGroupMap.Entity_Name1__c}
+                            {!remGroupMap.Entity_Name1__c} (creditor)
                             
                         </span>
                     </td>

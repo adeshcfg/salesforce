@@ -752,7 +752,7 @@
                                                 <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
                                                 <br/>
                                                 <b>Bryan Szemenyei, President</b><br/>
-                                                <b>{!remGroupMap.Entity_Name1__c}</b>
+                                                <b>{!remGroupMap.Entity_Name1__c} (creditor)</b>
                                             </td>
                                         </tr>
                                     </Table>
