@@ -403,10 +403,9 @@ public class InsolvencyTriggerHandler {
     
     //Handle After Insert
     public static void handleAfterInsert(List<Insolvency__c> insolsNew) {
-        Datetime systemDateOneHourBefore = System.now().addMinutes(Integer.valueOf(System.Label.AddMinutesToCurrentDateTime));
         for(Insolvency__c insolRec : insolsNew){
             //Doc Parser code
-            if(insolRec.CreatedDate > systemDateOneHourBefore && insolRec.Document_ID__c <> null){
+            if(insolRec.Document_ID__c <> null){
                 InsolvencyAccountCreationFuture.SendPDFtoParser(insolRec.Remote_ID__c);
                 //InsolvencyAccountCreationFuture.SendPDFtoParser(insolRec.Document_ID__c); 
             }

@@ -8292,6 +8292,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.IsUnArchived__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Acceptable_Monthly_Payment__c</field>
         <readable>false</readable>

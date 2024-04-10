@@ -9,7 +9,7 @@
  *************************************************************************************************/
 
 trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before delete, after insert, after update, after delete) {
-  
+    list<Insolvency__c> insolvRecords=new list<Insolvency__c>();
     //On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Insolvency_Trigger__c;
@@ -21,7 +21,15 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                 if(Trigger.isBefore) {
                     
                     //Before Insert Trigger
-                    if(Trigger.isInsert  && Trigger.new[0].CreatedDate == NULL){
+                    if(Trigger.isInsert){
+                        for(Insolvency__c insolv:trigger.new){
+                            if(insolv.CreatedDate == NULL){
+                                insolv.IsUnArchived__c=FALSE;
+                            }
+                            else{
+                                insolv.IsUnArchived__c=TRUE;
+                            }
+                        }
                         InsolvencyTriggerHandler.handleBeforeInsert(Trigger.new);
                     }
                     
@@ -44,9 +52,12 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     
                     //After Insert Trigger
                     if(Trigger.isInsert){
-                        if(Trigger.isInsert){
-                         InsolvencyTriggerHandler.handleAfterInsert(Trigger.new);
+                        for(Insolvency__c insolv:trigger.new){
+                            if(insolv.IsUnArchived__c==FALSE){
+                                insolvRecords.add(insolv);
+                            }
                         }
+                         InsolvencyTriggerHandler.handleAfterInsert(insolvRecords);
                     }
                     
                     //After Update Trigger
