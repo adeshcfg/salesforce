@@ -18177,6 +18177,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.IsUnArchived__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.Exclude_From_Missing_Payment_Mail_List__c</field>
         <readable>true</readable>
     </fieldPermissions>
