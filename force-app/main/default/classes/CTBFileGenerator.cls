@@ -465,6 +465,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             }
             if(CTBBatchName == System.Label.CTB_Payment){
                 List<ID> listOfPaymentIds = new List<ID>();
+                Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
                 sequenceNumber = mapCTBFileAuto.get('Insolvency Payment Update').Sequence_Number__c;
                 theadTransCode = mapCTBFileAuto.get('Insolvency Payment Update').Thead_Trans_Code__c;
                 theadBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Thead_Bank_Number__c;
@@ -529,6 +530,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String ttralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(TTRALSeqNum),7,true,false,false);
                 
                 String countVariableData = getSpaceAndZeroAdded(String.ValueOf(countVariable),6,true,false,false);
+                String transmissionNumber = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,true,false,false);
                 
                 Theadbody = buildTHEADBodyData();
                 Bheadbody = buildBHEADBodyData();
@@ -537,7 +539,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 BTRAL = btralSeqNumData + btralRecordType + btralBankNumber + btralFormatIden + julianDateCal + btralBatchCnt + batchIdentifier + coboloPaymentAmt + btralDebitTransCount + btralDebitAmount + btralCreditTransCount + btralCreditAmount + countVariableData + paymentAmtSumData + extra38Spaces+'\n';
                 
                 //build TTRAL body data
-                TTRAL = ttralSeqNumData + ttralRecordTypeCode + ttralBankNumber + extra4Spaces + ttralDebitAmount + ttralCreditAmount + paymentAmtSumData.leftPad(12, '0') + extra40Spaces + extra15Spaces + extra15Spaces + extra3Spaces+'\n';
+                TTRAL = ttralSeqNumData + ttralRecordTypeCode + ttralBankNumber + transmissionNumber + ttralDebitAmount + ttralCreditAmount + paymentAmtSumData.leftPad(12, '0') + extra40Spaces + extra15Spaces + extra15Spaces + extra3Spaces+'\n';
                 
                 //build final string to parse
                 mainFinalData = Theadbody + Bheadbody + FinalData + BTRAL + TTRAL; 
