@@ -616,7 +616,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         transName = getSpaceAndZeroAdded(String.ValueOf(theadTransName),8,false,true,false);
 
         String transDescription = defTransmissionDesc;
-        transDescription = getSpaceAndZeroAdded(String.ValueOf(transmissionDescription),3,false,true,false);
+        transDescription = getSpaceAndZeroAdded(String.ValueOf(transmissionDescription),6,false,true,false);
         //build THEAD body data
         theadBodyData = SeqNumber + transCode + bankNumber + transmissionNumber + transName + extra12Spaces + julianDateCal + gregorianDate + transDescription + extra5Spaces + commingledFileProcessingFlag + multiCurrencyCurrencyCode + extra64Spaces + transmissionIdentifierFlag+'\n';
         
@@ -778,7 +778,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 fieldData = String.valueOf(fieldName);
             }
             else if(String.valueOf(fieldName).length() > fieldLength){
-                fieldData = String.valueOf(fieldName);
+                fieldData = String.valueOf(fieldName).substring(0, fieldLength);
             }
         }
         if(fieldName != null && rightPad == false && extraSpaces == True) {
@@ -789,7 +789,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 fieldData = String.valueOf(fieldName);
             }
             else if(String.valueOf(fieldName).length() > fieldLength){
-                fieldData = String.valueOf(fieldName);
+                fieldData = String.valueOf(fieldName).substring(0, fieldLength);
             }
         }
         if(fieldName != null && rightPad == true && extraSpaces == True) {
@@ -800,7 +800,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 fieldData = String.valueOf(fieldName);
             }
             else if(String.valueOf(fieldName).length() > fieldLength){
-                fieldData = String.valueOf(fieldName);
+                fieldData = String.valueOf(fieldName).substring(0, fieldLength);
             }
         }
         return fieldData;
