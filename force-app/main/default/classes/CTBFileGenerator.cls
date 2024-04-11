@@ -505,8 +505,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 
                 AggregateResult[] insolPayment = [SELECT id ccsAcc, sum(Payment_Amount__c) grossPay
                                                   FROM Insolvency_Payment__c 
-                                                  WHERE CreatedDate = TODAY
-                                                  AND id IN: listOfPaymentIds
+                                                  WHERE id IN: listOfPaymentIds
                                                   GROUP BY id];
                 for(AggregateResult aggr : insolPayment){
                     paymentSumTotal.put((String)aggr.get('ccsAcc'), aggr);
