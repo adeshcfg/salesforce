@@ -273,13 +273,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             }
         }
         
-        AggregateResult[] placeHistory = [SELECT product__c ccsAcc, Min(Placement_Date__c) firstPlacementDate,  Max(Placement_Recall_Date__c) lastRecallDate
+        AggregateResult[] placeHistory = [SELECT Min(Placement_Date__c) firstPlacementDate,  Max(Placement_Recall_Date__c) lastRecallDate
                                     FROM Placement_History__c 
                                     WHERE 
                                     Placement__r.Name IN :includeAgencyList 
                                     AND Placement_Recall_Date__c <> NULL
-                                    AND Placement_Recall_Date__c = LAST_MONTH
-                                         GROUP BY product__c];
+                                    AND Placement_Recall_Date__c = LAST_MONTH];
         
         for(AggregateResult arrResult : placeHistory){
             minPlacementDate = (Date)arrResult.get('firstPlacementDate');
@@ -651,13 +650,14 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             if(mapProductPaymentsData.containsKey(prodct.id) && !previousAllocatedAgency.containsKey(prodct.id)){
                lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(mapProductPaymentsData.get(prodct.id)[0].Payment_Created__c); 
             }else{
-                if(!placementHistoryMap.containsKey(prodct.id)){
-                    if(prodct.Last_Payment_Date__c != null) {
+                if(prodct.Last_Payment_Date__c != null) {
+                    if(!placementHistoryMap.containsKey(prodct.id)){
                         lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
                     }
-                }
-                if(previousAllocatedAgency.containsKey(prodct.id)){
-                    if(prodct.Last_Payment_Date__c != null) {
+                    if(previousAllocatedAgency.containsKey(prodct.id)){
+                        lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
+                    }
+                    if(previouslyPlaced.containsKey(prodct.id)){
                         lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
                     }
                 }
