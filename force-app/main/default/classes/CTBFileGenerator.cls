@@ -511,7 +511,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 for(AggregateResult aggr : insolPayment){
                     paymentSumTotal.put((String)aggr.get('ccsAcc'), aggr);
                     if((decimal)aggr.get('grossPay') <> NULL){
-                        paymentAmountSum = (decimal)aggr.get('grossPay');
+                        paymentAmountSum += (decimal)aggr.get('grossPay');
                     }
                 }
                 paymentAmtSumData = String.valueOf(paymentAmountSum.setScale(0));
