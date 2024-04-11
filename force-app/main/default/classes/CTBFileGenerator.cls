@@ -537,7 +537,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 BTRAL = btralSeqNumData + btralRecordType + btralBankNumber + btralFormatIden + julianDateCal + btralBatchCnt + batchIdentifier + coboloPaymentAmt + btralDebitTransCount + btralDebitAmount + btralCreditTransCount + btralCreditAmount + countVariableData + paymentAmtSumData + extra38Spaces+'\n';
                 
                 //build TTRAL body data
-                TTRAL = ttralSeqNumData + ttralRecordTypeCode + ttralBankNumber + extra4Spaces + ttralDebitAmount + ttralCreditAmount + extra12Spaces + extra40Spaces + extra15Spaces + extra15Spaces + extra3Spaces+'\n';
+                TTRAL = ttralSeqNumData + ttralRecordTypeCode + ttralBankNumber + extra4Spaces + ttralDebitAmount + ttralCreditAmount + paymentAmtSumData.leftPad(12, '0') + extra40Spaces + extra15Spaces + extra15Spaces + extra3Spaces+'\n';
                 
                 //build final string to parse
                 mainFinalData = Theadbody + Bheadbody + FinalData + BTRAL + TTRAL; 
