@@ -261,7 +261,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         map<ID, Placement_History__c> previouslyPlaced = new Map<ID, Placement_History__c>();
         //get recalled products data
         List<Placement_History__c> recalledProducts = [select id,name,Placement__c,Product__c,Product__r.name,Placement__r.name,
-                                                       Placement_Status_Description__c
+                                                       Placement_Status_Description__c,Placement_Recall_Date__c
                                                        FROM Placement_History__c
                                                        WHERE Product__c IN: productIds
                                                        AND Placement_Recall_Date__c <> NULL
@@ -372,7 +372,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         map<Id, Decimal> mapProductPaymentAmount = new Map<ID, Decimal>();
         Map<Id, List<Product_Payments__c>> mapProductPaymentsData = new Map<Id, List<Product_Payments__c>>();
         for(Product_Payments__c prodPay : prodPaymentData){
-            
+            //if account got recalled and reallocated to same agecncy and again recalled from this agency 
+            //e.g allocated to agency 6 got recalled and reallocated to agency 6 and got recalled and currently in warehouse
+            if(placementHistoryMap.containsKey(prodPay.CCS_Account__C) && previouslyPlaced.containsKey(prodPay.CCS_Account__C) &&
+              placementHistoryMap.get(prodPay.CCS_Account__C).Placement__c == previouslyPlaced.get(prodPay.CCS_Account__C).Placement__c){
+                placementHistoryMap.get(prodPay.CCS_Account__C).Placement_Recall_Date__c = previouslyPlaced.get(prodPay.CCS_Account__C).Placement_Recall_Date__c;
+            }
             //calculate Actual Payment Amount : sum of ONLY the payments that came in the reporting period up to (and including) the recall date
             if(prodPay.Payment_Created__c >= FirstOfLastMonth && prodPay.Payment_Created__c <= LastDayOfLastMonth &&
                placementHistoryMap.containsKey(prodPay.CCS_Account__C) && prodPay.Payment_Created__c != NULL &&
@@ -397,7 +402,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             }
         }
           
-        
         //Fetch custom value records from Metro2_File__c custom setting 
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
         if(metro2TransUnion.MaxRowsCount__c <> NULL){
@@ -617,6 +621,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             if(mapProductPaymentAmount.containsKey(prodct.id) && !previousAllocatedAgency.containsKey(prodct.id)){
                 Finalactualpayplan = String.valueOf(mapProductPaymentAmount.get(prodct.id).setScale(0));
                 Finalactualpayplan = Finalactualpayplan.leftPad(STATIC_INTEGER_9, '0');  
+            }else if(placementHistoryMap.containsKey(prodct.id) && !mapProductPaymentAmount.containsKey(prodct.id)){
+                Finalactualpayplan  = defFinalActualPayPlan;
             }
             else {
                 if(null != grossPaySum){
