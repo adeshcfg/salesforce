@@ -7,7 +7,7 @@ public class TestInsolvencyDailyUpdateBatch {
         insolv.Name = '12456783';
         insolv.Client_Identifiers__c = 'SPL';
         insolv.Insolvency_Type__c = 'Bankruptcy';
-        insolv.Insolvency_Status__c = 'Annulled';
+        insolv.Insolvency_Status__c = 'Active';
         insolv.Debtor_1_Mailing_Street__c = '345 testing';
         insolv.Debtor_1_Mailing_City__c = 'CA';
         insert insolv;
