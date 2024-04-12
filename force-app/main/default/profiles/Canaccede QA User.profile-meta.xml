@@ -7122,6 +7122,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.IsUnArchived__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>insolvency_Account__c.SMRR__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -6863,6 +6863,11 @@
         <editable>true</editable>
         <field>Insolvency_Account__c.Accepted_Sent_to_Collections__c</field>
         <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.IsUnArchived__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
