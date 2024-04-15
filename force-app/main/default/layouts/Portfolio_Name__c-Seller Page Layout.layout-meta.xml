@@ -61,6 +61,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>CIML_Reporting_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Collateral_Information_Provided__c</field>
             </layoutItems>
             <layoutItems>
