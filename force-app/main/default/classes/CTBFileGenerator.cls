@@ -524,9 +524,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 
                 String btralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(BTRALSeqNum),7,true,false,false);
                 
-                String btralBatchCnt = defBatchCount;
-        		btralBatchCnt = getSpaceAndZeroAdded(String.ValueOf(batchExecuteCount),4,true,false,false);
-                
                 String ttralSeqNumData = getSpaceAndZeroAdded(String.ValueOf(TTRALSeqNum),7,true,false,false);
                 
                 String countVariableData = getSpaceAndZeroAdded(String.ValueOf(countVariable),6,true,false,false);
@@ -536,7 +533,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 Bheadbody = buildBHEADBodyData();
                 
                 //build BTRAL body data countVariable
-                BTRAL = btralSeqNumData + btralRecordType + btralBankNumber + btralFormatIden + julianDateCal + btralBatchCnt + batchIdentifier + coboloPaymentAmt + btralDebitTransCount + btralDebitAmount + btralCreditTransCount + btralCreditAmount + countVariableData + paymentAmtSumData + extra38Spaces+'\n';
+                BTRAL = btralSeqNumData + btralRecordType + btralBankNumber + btralFormatIden + julianDateCal + transmissionNumber + batchIdentifier + coboloPaymentAmt + btralDebitTransCount + btralDebitAmount + btralCreditTransCount + btralCreditAmount + countVariableData + paymentAmtSumData + extra38Spaces+'\n';
                 
                 //build TTRAL body data
                 TTRAL = ttralSeqNumData + ttralRecordTypeCode + ttralBankNumber + transmissionNumber + ttralDebitAmount + ttralCreditAmount + paymentAmtSumData.leftPad(12, '0') + extra40Spaces + extra15Spaces + extra15Spaces + extra3Spaces+'\n';
@@ -637,14 +634,14 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         String bheadFormatIden = defBheadFormatIdentifier;
         bheadFormatIden = getSpaceAndZeroAdded(String.ValueOf(bheadFormatIdentifier),5,false,true,false);
         
-        String batchCnt = defBatchCount;
-        batchCnt = getSpaceAndZeroAdded(String.ValueOf(batchExecuteCount),4,true,false,false);
+        Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
+        String batchNumber = getSpaceAndZeroAdded(String.ValueOf(batchCount),4,true,false,false);
         
         String transRefNum = defTransReferenceNum;
         transRefNum = getSpaceAndZeroAdded(String.ValueOf(transReferenceNum),11,false,true,false);
         
         //build BHEAD body data
-        bheadBodyData = bheadseqNumber + bheadTransCodeData + bheadBankNum + bheadFormatIden + julianDateCal + batchCnt + batchIdentifier + batchIdentifierExtension + transRefNum + transactionDateOverride + alternateAmountIndicator + merchantHeaderExclusionFlag + extra76Spaces+'\n';
+        bheadBodyData = bheadseqNumber + bheadTransCodeData + bheadBankNum + bheadFormatIden + julianDateCal + batchNumber + batchIdentifier + batchIdentifierExtension + transRefNum + transactionDateOverride + alternateAmountIndicator + merchantHeaderExclusionFlag + extra76Spaces+'\n';
         
         return bheadBodyData;
     }
