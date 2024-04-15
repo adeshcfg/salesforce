@@ -24,7 +24,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static string BTRAL = '';
     public static string TTRAL = '';
     Integer countVariable=0;
-    public static Map<String, AggregateResult> paymentSumTotal = new Map<String, AggregateResult>();
+    public static Map<String, Insolvency_Payment__c> paymentSumTotal = new Map<String, Insolvency_Payment__c>();
     public static string blankString = '';
     public static final string transmissionNumber = blankString.leftPad(4);
     public static final String extra12Spaces = blankString.leftPad(12);
@@ -503,15 +503,13 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     listOfPaymentIds.add(insolPay.id);
                 }
                 String paymentAmtSumData = defMonetaryPaymentAmtTrans;
-                
-                AggregateResult[] insolPayment = [SELECT id ccsAcc, sum(Payment_Amount__c) grossPay
-                                                  FROM Insolvency_Payment__c 
-                                                  WHERE id IN: listOfPaymentIds
-                                                  GROUP BY id];
-                for(AggregateResult aggr : insolPayment){
-                    paymentSumTotal.put((String)aggr.get('ccsAcc'), aggr);
-                    if((decimal)aggr.get('grossPay') <> NULL){
-                        paymentAmountSum += (decimal)aggr.get('grossPay');
+
+                for(Insolvency_Payment__c payment : [SELECT id, Payment_Amount__c
+                                            FROM Insolvency_Payment__c 
+                                            WHERE id IN: listOfPaymentIds]){
+                    paymentSumTotal.put(payment.Id, payment);
+                    if(payment.Payment_Amount__c <> NULL){
+                        paymentAmountSum += (payment.Payment_Amount__c).setScale(0);
                     }
                 }
                 paymentAmtSumData = String.valueOf(paymentAmountSum.setScale(0));
