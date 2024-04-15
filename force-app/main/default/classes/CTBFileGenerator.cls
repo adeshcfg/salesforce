@@ -405,6 +405,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 
                 String drftMerhDBACC = defDrftsMerhDBACountryCode;
                 drftMerhDBACC = getSpaceAndZeroAdded(String.ValueOf(drftsMerhDBACountryCode),3,false,true,false);
+
+                String referenceNumber = getSpaceAndZeroAdded((insolPayData.Name).substringAfter('-'),23,false,true,true);
                 
                 mainbody += sequenceCode + drftTransCode + accNumber + paymentPostingDateData + forceAuthorizationIndicator + payAmount + merchantDBAName + merchantDBACityStatDesc + merchantDBAState + drftMerhDesc + referenceNumber + extra4Spaces + drftMerhDBACC + drftsMerhDBACategoryCode +'N' + authorizationCode + mailTelephoneIndicator + extensionRecordIndicator+'\n';
                 counter ++;
