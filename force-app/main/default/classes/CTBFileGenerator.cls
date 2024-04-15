@@ -392,7 +392,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String drftTransCode = defDrftTransCode;
                 drftTransCode = getSpaceAndZeroAdded(String.ValueOf(dRFTSTransCode),4,false,true,false);
                 
-                String accNumber = getSpaceAndZeroAdded(String.ValueOf(insolPayData.Account_Number__c),16,false,true,true);
+                String accNumber = getSpaceAndZeroAdded(String.ValueOf(insolPayData.Account_Number__c).deleteWhiteSpace(),16,false,true,true);
                 
                 String payAmount = defPayAmount;
                 if(insolPayData.Payment_Amount__c != NULL){
