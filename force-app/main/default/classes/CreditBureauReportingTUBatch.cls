@@ -261,7 +261,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         map<ID, Placement_History__c> previouslyPlaced = new Map<ID, Placement_History__c>();
         //get recalled products data
         List<Placement_History__c> recalledProducts = [select id,name,Placement__c,Product__c,Product__r.name,Placement__r.name,
-                                                       Placement_Status_Description__c,Placement_Recall_Date__c
+                                                       Placement_Status_Description__c,Placement_Recall_Date__c,Placement_Status__c
                                                        FROM Placement_History__c
                                                        WHERE Product__c IN: productIds
                                                        AND Placement_Recall_Date__c <> NULL
@@ -867,37 +867,47 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                 for(Data_Status_Mapping__c metaData : mapDataStatusMapping.values()){
                     mapDataStatus.put(metaData.name,metaData);
                 }
-                if(mapDataStatus.containskey(prodct.Product_Status__c))  {
-                    if(prodct.Collection_Agency__c == 9999){
-                        if(previouslyPlaced.containskey(prodct.id)){
-                            boolean found = includeAgencyList.contains(previouslyPlaced.get(prodct.id).Placement__r.name);
-                            if(found && (previouslyPlaced.get(prodct.id).Placement_Status_Description__c.contains('PIF') ||
-                              previouslyPlaced.get(prodct.id).Placement_Status_Description__c.contains('SIF'))){
-                                accountStatus = metro2TransUnion.Account_Status_Close__c; // set account status 62
-                            }
-                            else{
-                                accountStatus = metro2TransUnion.Account_Status_Recalled__c;
-                            }
+
+                if(prodct.Collection_Agency__c == 9999){
+                    //set default as DA
+                	accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA    
+                    if(previouslyPlaced.containskey(prodct.id)){
+                        boolean found = includeAgencyList.contains(previouslyPlaced.get(prodct.id).Placement__r.name);
+                        //if account recalled from PIF or SIF then set account as closed
+                        if(found && mapDataStatus.containskey(previouslyPlaced.get(prodct.id).Placement_Status__c) && mapDataStatus.get(previouslyPlaced.get(prodct.id).Placement_Status__c).Bureau_Reporting_Account_Status__c  == 'Closed'){
+                            accountStatus = metro2TransUnion.Account_Status_Close__c; // set account status 62
                         }
-                    }else{
-                        if(placementHistoryMap.containskey(prodct.id) && !preAllocatedAgency.containskey(prodct.id)){
-                            accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA
+                        else{
+                            //if account not recalled from PIF or SIF then set account as DA
+                            accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA  
                         }
-                        else if(preAllocatedAgency.containskey(prodct.id) && !previousAllocatedAgency.containskey(prodct.id)){
-                              accountStatus = metro2TransUnion.Account_Status_Recalled__c;   // set account status DA   
-                        }
-                        else if(preAllocatedAgency.containskey(prodct.id) && previousAllocatedAgency.containskey(prodct.id)){
-                              accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93     
-                        }
-                        else if(mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
-                            accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
-                        } 
                     }
-                 }
+                }else{
+                    accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93   
+                    //if account placed with agency 68 or 6 and curretnly mapped with any other agency
+                    if(placementHistoryMap.containskey(prodct.id) && !preAllocatedAgency.containskey(prodct.id)){
+                        accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA
+                    }
+                    //if account placed with agency 68 or 6 and got recalled and reallocated to same agency
+                    else if(preAllocatedAgency.containskey(prodct.id) && !previousAllocatedAgency.containskey(prodct.id)){
+                        accountStatus = metro2TransUnion.Account_Status_Recalled__c;   // set account status DA   
+                    }
+                    //if account placed with agency 68 or 6 and got recalled and again reallocated to same agency i.e 68 or 6
+                    else if(preAllocatedAgency.containskey(prodct.id) && previousAllocatedAgency.containskey(prodct.id)){
+                        accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93     
+                    }
+                    //based on product status set account status
+                    else if(mapDataStatus.containskey(prodct.Product_Status__c) && mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
+                        accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
+                    } 
+                }
             }
             else{
-                //set account status to 93
-                accountStatus = metro2TransUnion.Account_Status_Open__c;
+                if(prodct.Collection_Agency__c == 9999){
+                    accountStatus = metro2TransUnion.Account_Status_Recalled__c;	// set account status DA 
+                }else{
+                	accountStatus = metro2TransUnion.Account_Status_Open__c;  		//set account status to 93
+                }
             }
             
             metroobj2.Status__c = accountStatus;
