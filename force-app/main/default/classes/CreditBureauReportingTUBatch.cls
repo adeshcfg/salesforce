@@ -681,24 +681,25 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             if(prodct.First_Name__c != null) {
                 Boolean checkFirstNameValid = CustomerProcessingBatchHelper.getValidCustomerName(prodct.First_Name__c);
                 if(checkFirstNameValid == true){
+                    //if first name includes apostrophes 
+                    firstname = prodct.First_Name__c;
+                    firstname = firstname.replaceAll('\'', '');
+
                     for(string checkFirstName : nameExcludeList){
                         if(prodct.First_Name__c.toUpperCase().contains(checkFirstName)){
                             firstname = defFirstName;
                         	nameValidationCheck = true;  
                         }
                     }
-                    if(prodct.First_Name__c.toUpperCase() == INC || 
-                             prodct.First_Name__c.toUpperCase().contains(spaceINC) ){
+                    if(prodct.First_Name__c.toUpperCase() == INC || prodct.First_Name__c.toUpperCase().contains(spaceINC) ){
                         firstname = defFirstName;
                         nameValidationCheck = true;  
                     }else{
                         if(prodct.First_Name__c.length() <= STATIC_INTEGER_20) {
-                            String firstNameValue = prodct.First_Name__c;
-                            firstname = firstNameValue.rightPad(STATIC_INTEGER_20);
+                            firstname = firstname.rightPad(STATIC_INTEGER_20);
                             firstname = firstname.toUpperCase();
                         } 
                         else if(prodct.First_Name__c.length() > STATIC_INTEGER_20) {
-                            firstname = prodct.First_Name__c;
                             firstname = firstname.left(STATIC_INTEGER_20);
                             firstname = firstname.toUpperCase();
                         }
@@ -713,24 +714,25 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             if(prodct.Last_Name__c != null) {
                 Boolean checkLastNameValid = CustomerProcessingBatchHelper.getValidCustomerName(prodct.Last_Name__c);
                 if(checkLastNameValid == true){
+                    //if last name includes apostrophes 
+                    lastname = prodct.Last_Name__c;
+                    lastname = lastname.replaceAll('\'', '');
+                    
                     for(string checkLastName : nameExcludeList){
                         if(prodct.Last_Name__c.toUpperCase().contains(checkLastName)){
                             lastname = defLastName;
                         	nameValidationCheck = true;  
                         }
                     }
-                    if(prodct.Last_Name__c.toUpperCase() == INC || 
-                             prodct.Last_Name__c.toUpperCase().contains(spaceINC) ){
+                    if(prodct.Last_Name__c.toUpperCase() == INC || prodct.Last_Name__c.toUpperCase().contains(spaceINC) ){
                         lastname = defLastName;       
                         nameValidationCheck = true;                  
                     }else{
                         if(prodct.Last_Name__c.length() <= STATIC_INTEGER_25) {
-                            String lastNameValue = prodct.Last_Name__c;
-                            lastname = lastNameValue.rightPad(STATIC_INTEGER_25);
+                            lastname = lastname.rightPad(STATIC_INTEGER_25);
                             lastname = lastname.toUpperCase();
                         } 
                         else if(prodct.Last_Name__c.length() > STATIC_INTEGER_25) {
-                            lastname = prodct.Last_Name__c;
                             lastname = lastname.left(STATIC_INTEGER_25);
                             lastname = lastname.toUpperCase();
                         }     
@@ -743,13 +745,15 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             // Code for Adding Middle_Name__c Right Padding upon dynamic values in less
             String middlename = defMiddleName;
             if(prodct.Middle_Name__c != null) {
+                //if last name includes apostrophes 
+                middlename = prodct.Middle_Name__c;
+                middlename = middlename.replaceAll('\'', '');
+                
                 if(prodct.Middle_Name__c.length() <= STATIC_INTEGER_20) {
-                    String middleNameValue = prodct.Middle_Name__c;
-                    middlename = middleNameValue.rightPad(STATIC_INTEGER_20);
+                    middlename = middlename.rightPad(STATIC_INTEGER_20);
                     middlename = middlename.toUpperCase();
                 } 
                 else if(prodct.Middle_Name__c.length() > STATIC_INTEGER_20) {
-                    middlename = prodct.Middle_Name__c;
                     middlename = middlename.left(STATIC_INTEGER_20);
                     middlename = middlename.toUpperCase();
                 }
