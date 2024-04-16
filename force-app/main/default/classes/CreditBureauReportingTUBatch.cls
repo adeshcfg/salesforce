@@ -681,10 +681,13 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             if(prodct.First_Name__c != null) {
                 Boolean checkFirstNameValid = CustomerProcessingBatchHelper.getValidCustomerName(prodct.First_Name__c);
                 if(checkFirstNameValid == true){
-                    if(nameExcludeList.contains(prodct.First_Name__c.toUpperCase())){
-                        firstname = defFirstName;
-                        nameValidationCheck = true;
-                    }else if(prodct.First_Name__c.toUpperCase() == INC || 
+                    for(string checkFirstName : nameExcludeList){
+                        if(prodct.First_Name__c.toUpperCase().contains(checkFirstName)){
+                            firstname = defFirstName;
+                        	nameValidationCheck = true;  
+                        }
+                    }
+                    if(prodct.First_Name__c.toUpperCase() == INC || 
                              prodct.First_Name__c.toUpperCase().contains(spaceINC) ){
                         firstname = defFirstName;
                         nameValidationCheck = true;  
@@ -710,10 +713,13 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             if(prodct.Last_Name__c != null) {
                 Boolean checkLastNameValid = CustomerProcessingBatchHelper.getValidCustomerName(prodct.Last_Name__c);
                 if(checkLastNameValid == true){
-                    if(nameExcludeList.contains(prodct.Last_Name__c.toUpperCase())){
-                        lastname = defLastName;
-                        nameValidationCheck = true;      
-                    }else if(prodct.Last_Name__c.toUpperCase() == INC || 
+                    for(string checkLastName : nameExcludeList){
+                        if(prodct.Last_Name__c.toUpperCase().contains(checkLastName)){
+                            lastname = defLastName;
+                        	nameValidationCheck = true;  
+                        }
+                    }
+                    if(prodct.Last_Name__c.toUpperCase() == INC || 
                              prodct.Last_Name__c.toUpperCase().contains(spaceINC) ){
                         lastname = defLastName;       
                         nameValidationCheck = true;                  
