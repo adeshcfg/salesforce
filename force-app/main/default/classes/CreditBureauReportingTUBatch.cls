@@ -259,13 +259,16 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             mapProvinceAcronymCBRepPeriods.put(metaData.Province_Name__c,metaData);
         }
         map<ID, Placement_History__c> previouslyPlaced = new Map<ID, Placement_History__c>();
-        //get recalled products data
+        //get account where previously allocated to agency 6 or 68 then got recalled and again reallocated to same agency
+        //again got recalled and then allocated to any other agency after that account gets again recalled or placed with other agency.
         List<Placement_History__c> recalledProducts = [select id,name,Placement__c,Product__c,Product__r.name,Placement__r.name,
                                                        Placement_Status_Description__c,Placement_Recall_Date__c,Placement_Status__c
                                                        FROM Placement_History__c
                                                        WHERE Product__c IN: productIds
                                                        AND Placement_Recall_Date__c <> NULL
-                                                       AND Product__r.Collection_Agency__c = 9999 
+                                                       AND Product__r.Collection_Agency__c <> NULL
+                                                       AND (Product__r.Collection_Agency__c = 9999 OR 
+                                                            Product__r.Collection_Agency__c <> 9999)
                                                        ORDER BY CreatedDate DESC];
         for(Placement_History__c placeHistory: recalledProducts){
             if (!previouslyPlaced.containsKey(placeHistory.Product__c)) {
