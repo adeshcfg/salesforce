@@ -140,11 +140,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Legal_Agency__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Legal_Agency_Formula__c</field>
+                <field>Placed_Agency__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

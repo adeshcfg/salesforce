@@ -14,8 +14,8 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Legal_Agency__c</field>
+                <behavior>Readonly</behavior>
+                <field>Placed_Agency__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
