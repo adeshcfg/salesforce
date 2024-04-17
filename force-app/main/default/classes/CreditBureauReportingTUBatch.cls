@@ -647,12 +647,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             //Code for populating Payment history profile for last 24 months
             String paymentHistoryProfile = defNumberOfPayments;
-
-            // Code for date closed Right Padding upon dynamic values in less
-            String dateclosed = defDateClosed;             
-            if(prodct.Closed_Date__C != null){
-                dateclosed = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(date.newinstance(prodct.Closed_Date__C.year(), prodct.Closed_Date__C.month(), prodct.Closed_Date__C.day()));
-            }
             
             // Code for date of last payment  Right Padding upon dynamic values in less
             String lastpaymentdate  = defLastPaymentDate;
@@ -925,6 +919,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
             
             metroobj2.Status__c = accountStatus;
             
+            // Code for date closed Right Padding upon dynamic values in less
+            String dateclosed = defDateClosed;             
+            if(prodct.Closed_Date__C != null && accountStatus == metro2TransUnion.Account_Status_Close__c){
+                dateclosed = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(date.newinstance(prodct.Closed_Date__C.year(), prodct.Closed_Date__C.month(), prodct.Closed_Date__C.day()));
+            }
+                
             // Code for Adding current Amount  Right Padding upon dynamic values in less
             String currentplanval = defCurrentPlanVal;
             if(placementHistoryMap.containsKey(prodct.id) && !previousAllocatedAgency.containsKey(prodct.id)){
