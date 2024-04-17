@@ -1515,6 +1515,7 @@ public class ProductTriggerHandler{
                  newJudgment.Legal_Agency_Placement__c = Null;
              }
              newJudgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prodNew.Collection_Agency__c));
+             newJudgment.Legal_Agency__c = newJudgment.Agency_Initiated_Legal_Action__c;
              if(String.isNotBlank(newJudgment.Agency_Initiated_Legal_Action__c)){ 
                  newJudgment.Agency_Initiated_Legal_Action_Lookup__c = mapCollectionAgency.get(newJudgment.Agency_Initiated_Legal_Action__c).id;
              }else{
