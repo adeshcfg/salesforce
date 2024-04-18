@@ -10,6 +10,7 @@
 
 trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before update, before delete, after insert, after update, after delete) {
     list<Insolvency_Account__c> insolAccntRecords=new list<Insolvency_Account__c>();
+    list<Insolvency_Account__c> insolAccntRecordsBeforeInsert=new list<Insolvency_Account__c>();
     //On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Insolvency_Account_Trigger__c;
@@ -25,12 +26,15 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                         for(Insolvency_Account__c insolAccnt:trigger.new){
                             if(insolAccnt.CreatedDate == NULL){
                                 insolAccnt.IsUnArchived__c=FALSE;
+                                insolAccntRecordsBeforeInsert.add(insolAccnt);
                             }
                             else{
                                 insolAccnt.IsUnArchived__c=TRUE;
                             }
                         }
-                        InsolvencyAccountTriggerHandler.handleBeforeInsert(Trigger.new);
+                        if(!insolAccntRecordsBeforeInsert.isEmpty()){
+                            InsolvencyAccountTriggerHandler.handleBeforeInsert(insolAccntRecordsBeforeInsert);
+                        }
                     }
                     
                     //Before Update Trigger
