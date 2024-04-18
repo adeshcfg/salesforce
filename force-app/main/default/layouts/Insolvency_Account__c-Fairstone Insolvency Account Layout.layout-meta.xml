@@ -90,6 +90,10 @@
                 <behavior>Readonly</behavior>
                 <field>Revival_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Insolvency_Sub_Status__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
