@@ -55,8 +55,8 @@ global with sharing class CTBFileUploadWebService {
             docStorageToUpdate[0].File_Processing_Status__c = docStorageStatusToUpdate;
         }
         // Update insolvency account records status from the file
-        for (Insolvency_Account__c acc : [SELECT Id, Canadian_Tire_Sub_Status__c FROM Insolvency_Account__c WHERE CTB_Update_Filename__c = :fileName]) {
-            acc.Canadian_Tire_Sub_Status__c = accountStatusToUpdate;
+        for (Insolvency_Account__c acc : [SELECT Id, Insolvency_Sub_Status__c FROM Insolvency_Account__c WHERE CTB_Update_Filename__c = :fileName]) {
+            acc.Insolvency_Sub_Status__c = accountStatusToUpdate;
             accountsToUpdate.add(acc);
         }
         try {
