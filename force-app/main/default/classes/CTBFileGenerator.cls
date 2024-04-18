@@ -790,7 +790,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             /**********************Temparory Purpase Added Ends*******************************/
         } catch (Exception ex) {
             system.debug('Exception msg&&' + ex.getStackTraceString());
-            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), ex.getStackTraceString(), 'content Version Creation');
+            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), ex.getStackTraceString(), 'CTB file generation failed');
         }
     }
 

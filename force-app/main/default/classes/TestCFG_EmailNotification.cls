@@ -54,5 +54,6 @@ public class TestCFG_EmailNotification {
         CFG_EmailNotification.snapshotFailedEmailNotification('xyz@gmail.com', 'fail records', docStorage.id);
         CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport('Tejal Vidhate1','success record','Access token');
         CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport('Tejal Vidhate1','success record','Access token');
+        CFG_EmailNotification.apiFailedEmailNotify('Tejal Vidhate1','success record','Access token');
     }
 }
