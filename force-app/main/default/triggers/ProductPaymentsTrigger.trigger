@@ -10,6 +10,7 @@
  
 trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
     list<Product_Payments__c> prodPayRecords=new list<Product_Payments__c>();
+    list<Product_Payments__c> prodPayRecordsBeforeInsert=new list<Product_Payments__c>();
     //On-Off switch for trigger
     Loan_ReEngineering__c lrpSettings = Loan_ReEngineering__c.getOrgDefaults();
     Boolean runTrigger = lrpSettings.Run_Product_Payment_Trigger__c;
@@ -20,13 +21,16 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                         for(Product_Payments__c prodPay:trigger.new){
                             if(prodPay.CreatedDate == NULL){
                                 prodPay.IsUnArchived__c=FALSE;
+                                prodPayRecordsBeforeInsert.add(prodPay);
                             }
                             else{
                                 prodPay.IsUnArchived__c=TRUE;
                             }
                         }
                         //ProductTriggerHandler.handleBeforeInsert(Trigger.new);
-                        ProductPaymentsTriggerHandler.handleBeforeInsert(Trigger.new);
+                        if (!prodPayRecordsBeforeInsert.isEmpty()) {
+                            ProductPaymentsTriggerHandler.handleBeforeInsert(prodPayRecordsBeforeInsert);                            
+                        }
                     }
                     //Ticket 4546: changes done by tejal for update payment posting month as per payment posting date
                     if(Trigger.isUpdate){
