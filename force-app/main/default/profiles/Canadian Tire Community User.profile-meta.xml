@@ -15399,11 +15399,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Insolvency_Account__c.Canadian_Tire_Sub_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Insolvency_Account__c.Charge_Off_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
