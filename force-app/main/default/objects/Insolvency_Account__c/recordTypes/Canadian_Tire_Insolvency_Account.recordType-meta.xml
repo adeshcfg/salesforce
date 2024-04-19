@@ -79,7 +79,11 @@
     <picklistValues>
         <picklist>Insolvency_Sub_Status__c</picklist>
         <values>
-            <fullName>Pending to sent on File</fullName>
+            <fullName>Pending File</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>File Error Parsing Record</fullName>
             <default>false</default>
         </values>
         <values>
