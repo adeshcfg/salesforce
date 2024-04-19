@@ -46,7 +46,7 @@ global with sharing class CTBFileUploadWebService {
      **/
     public static void processSFUpload(String fileName, String uploadStatus) {
         // TODO: Add Insolvency payment update logic
-        String accountStatusToUpdate = uploadStatus == 'SUCCESS' ? 'Delivered' : 'Pending to sent on File';
+        String accountStatusToUpdate = uploadStatus == 'SUCCESS' ? 'Delivered' : 'Pending File';
         String docStorageStatusToUpdate = uploadStatus == 'SUCCESS' ? 'Successful' : 'Failed';
         Insolvency_Account__c[] accountsToUpdate = new List<Insolvency_Account__c>();
         // Update document storage status associated to the file
