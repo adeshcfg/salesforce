@@ -53,7 +53,7 @@ public class TestCTBPaymentGeneratorScheduler {
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
         insolAcct1.name = 'TestTestInslAcc222';
         insolAcct1.Insolvency_Status__c = 'For Owner Review';
-        insolAcct1.Insolvency_Sub_Status__c = 'Pending File';
+        insolAcct1.Insolvency_Sub_Status__c = 'Pending to sent on File';
         insolAcct1.Insolvency__c = insolv1.id;
         insolAcct1.Account_Type__c = 'Line of Credit';
         insolAcct1.Borrower_Primary__c = 'Kajal';
@@ -120,7 +120,7 @@ public class TestCTBPaymentGeneratorScheduler {
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
         insolAcct1.name = 'Test222TestInslAcc';
         insolAcct1.Insolvency_Status__c = 'For Owner Review';
-        insolAcct1.Insolvency_Sub_Status__c = 'Pending File';
+        insolAcct1.Insolvency_Sub_Status__c = 'Pending to sent on File';
         insolAcct1.Insolvency__c = insolv1.id;
         insolAcct1.Account_Type__c = 'Line of Credit';
         insolAcct1.Borrower_Primary__c = 'Kajal';
@@ -160,7 +160,7 @@ public class TestCTBPaymentGeneratorScheduler {
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
         insolAcct1.name = 'TestInslAcc222';
         insolAcct1.Insolvency_Status__c = 'For Owner Review';
-        insolAcct1.Insolvency_Sub_Status__c = 'Pending File';
+        insolAcct1.Insolvency_Sub_Status__c = 'Pending to sent on File';
         insolAcct1.Insolvency__c = insolv1.id;
         insolAcct1.Account_Type__c = 'Line of Credit';
         insolAcct1.Borrower_Primary__c = 'Kajal';
