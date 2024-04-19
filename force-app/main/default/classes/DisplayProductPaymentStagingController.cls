@@ -27,6 +27,12 @@ public class DisplayProductPaymentStagingController {
     static String PENDING_RECALL_SIF_CODE = '807000';
     static String PENDING_RECALL = 'Pending Recall';
     static String PENDING_RECALL_PRODUCT_STATUS_CODE = '302000';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF = 'Pending Recall - Paid Prior To Previous Agency - PIF';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE = '808500';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF = 'Pending Recall - Paid Prior To Previous Agency - SIF';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE = '808550';
+    static String PIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE = '908500';
+    static String SIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE = '908550';
     public static String productNames = '';
     public static String placementIdentifier = '';
     public static String placementStatusCode = '';
@@ -741,7 +747,8 @@ public class DisplayProductPaymentStagingController {
                                           (SELECT ID, Payment_Amount__c,Pay_NSF__c,Pay_Attorney__c,Payment_Posting_Date__c,Last_Payment_Date__c,Last_Payment_Amount__c,
                                            Pay_Court__c,Pay_Other__c,Pay_Fees__c,Interest_Payment_Amount__c,
                                            Pay_Due__c, Pay_Recoverable_Fee__c, Pay_Non_Recoverable_fee__c,Pay_Placedetail_Status__c,
-                                           Principal_Payment_Amount__c,CCS_Account__c, Payment_Type__c, Original_Of_Payment_Reversal__c
+                                           Principal_Payment_Amount__c,CCS_Account__c, Payment_Type__c, Original_Of_Payment_Reversal__c,Payment_Provided_Agency__c,
+                    					   Product_Agency__c
                                            FROM Product_Payments__r
                                            WHERE
                                            // Payment_Amount__c > 0
@@ -777,64 +784,50 @@ public class DisplayProductPaymentStagingController {
                                                       //Set Product to Pending recall if paid In Full type Payment is made
                                                       if(payProductInstance.Payment_Type__c == PAYTYPE_PAID_IN_FULL){
                                                           productInstance.Collection_Sub_Status__c = 'Paid In Full Account';
-                                                          productInstance.Status__c = PENDING_RECALL_PIF;
                                                           productInstance.Sub_Status__c = null;
-                                                          productInstance.Placement_Status__c = PENDING_RECALL_PIF_CODE;
+                                                          //if payement posted agency and product agency is not same
+                                                          if(payProductInstance.Payment_Provided_Agency__c <> payProductInstance.Product_Agency__c){
+                                                              productInstance.Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF;
+                                                              productInstance.Placement_Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE;
+                                                              placementStatusCode = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE;
+                                                          }else{
+                                                              productInstance.Status__c = PENDING_RECALL_PIF;
+                                                              productInstance.Placement_Status__c = PENDING_RECALL_PIF_CODE;
+                                                              placementStatusCode = PENDING_RECALL_PIF_CODE;
+                                                          }
                                                           productInstance.Product_Status__c = PENDING_RECALL_PRODUCT_STATUS_CODE;
                                                           productInstance.Data_Status_Description__c = PENDING_RECALL;
                                                           productInstance.Status_Changed_Date__c = Date.today();
-                                                          placementStatusCode = PENDING_RECALL_PIF_CODE;
                                                           productNames += productInstance.Name + ',';
                                                           
                                                           setProductToUpdateStatus.add(productInstance.ID);
                                                           if(productInstance.Collection_Agency__c != NULL){
                                                               placementIdentifier = String.valueOf(Math.floor(productInstance.Collection_Agency__c));    
-                                                          }
-                                                          
-                                                          if(mapStatusProductWrapper.containsKey(PENDING_RECALL_PIF_CODE)){
-                                                              productWrapper prodWrap = mapStatusProductWrapper.get(PENDING_RECALL_PIF_CODE);
-                                                              prodWrap.productName += ',' + productInstance.Name;
-                                                              mapStatusProductWrapper.put( PENDING_RECALL_PIF_CODE, prodWrap);
-                                                          }
-                                                          else{
-                                                              String productname = productInstance.Name;
-                                                              productWrapper prodWrap = new productWrapper(productname, 
-                                                                                                           PENDING_RECALL_PIF_CODE, 
-                                                                                                           PENDING_RECALL_PRODUCT_STATUS_CODE, 
-                                                                                                           placementIdentifier);
-                                                              mapStatusProductWrapper.put(PENDING_RECALL_PIF_CODE, 
-                                                                                          prodWrap);
-                                                          }
+                                                          }                                                         
                                                       }
                                                       
                                                       //Set Product to Pending recall if Settled In Full type Payment is made
                                                       if(payProductInstance.Payment_Type__c == PAYTYPE_SETTLED_IN_FULL){
                                                           productInstance.Collection_Sub_Status__c = 'Settled In Full Account';
-                                                          productInstance.Status__c = PENDING_RECALL_SIF;
                                                           productInstance.Sub_Status__c = null;
-                                                          productInstance.Placement_Status__c = PENDING_RECALL_SIF_CODE;
+                                                          //if payement posted agency and product agency is not same
+                                                          if(payProductInstance.Payment_Provided_Agency__c <> payProductInstance.Product_Agency__c){
+                                                              productInstance.Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF;
+                                                              productInstance.Placement_Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE;
+                                                              placementStatusCode = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE;
+                                                          }else{
+                                                              productInstance.Status__c = PENDING_RECALL_SIF;
+                                                              productInstance.Placement_Status__c = PENDING_RECALL_SIF_CODE;
+                                                              placementStatusCode = PENDING_RECALL_SIF_CODE;
+                                                          }
                                                           productInstance.Product_Status__c = PENDING_RECALL_PRODUCT_STATUS_CODE;
                                                           productInstance.Data_Status_Description__c = PENDING_RECALL;
                                                           productInstance.Status_Changed_Date__c = Date.today();
-                                                          placementStatusCode = PENDING_RECALL_SIF_CODE;
                                                           productNames += productInstance.Name + ',';
                                                           
                                                           setProductToUpdateStatus.add(productInstance.ID);
                                                           if(productInstance.Collection_Agency__c != NULL){
                                                               placementIdentifier = String.valueOf(Math.floor(productInstance.Collection_Agency__c));    
-                                                          }
-                                                          
-                                                          if(mapStatusProductWrapper.containsKey(PENDING_RECALL_SIF_CODE)){
-                                                              productWrapper prodWrap = mapStatusProductWrapper.get(PENDING_RECALL_SIF_CODE);
-                                                              prodWrap.productName += ',' + productInstance.Name;
-                                                              mapStatusProductWrapper.put( PENDING_RECALL_SIF_CODE, prodWrap);
-                                                          }
-                                                          else{
-                                                              mapStatusProductWrapper.put(PENDING_RECALL_SIF_CODE, 
-                                                                                          new productWrapper(productInstance.Name, 
-                                                                                                             PENDING_RECALL_SIF_CODE, 
-                                                                                                             PENDING_RECALL_PRODUCT_STATUS_CODE, 
-                                                                                                             placementIdentifier));
                                                           }
                                                       }
                                                       
