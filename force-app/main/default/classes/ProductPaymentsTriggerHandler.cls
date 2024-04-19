@@ -30,6 +30,12 @@ public class ProductPaymentsTriggerHandler {
     static String SIF_PRODUCT_STATUS_CODE = '907000';
     static string PIF_DATA_DESCRIPTION = 'Closed: Paid in full';
     static string SIF_DATA_DESCRIPTION = 'Closed: Settled in full';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF = 'Pending Recall - Paid Prior To Previous Agency - PIF';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE = '808500';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF = 'Pending Recall - Paid Prior To Previous Agency - SIF';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE = '808550';
+    static String PIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE = '908500';
+    static String SIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE = '908550';
     public static Decimal DebtorProvinceTaxRate;
     public static Decimal CanadaTaxRate;
     public static string prodProvinceName;
@@ -652,7 +658,9 @@ public class ProductPaymentsTriggerHandler {
                         Principal_Payment_Amount__c,
                         CCS_Account__c,
                         Payment_Type__c,
-                        Original_Of_Payment_Reversal__c
+                        Original_Of_Payment_Reversal__c,
+                    	Payment_Provided_Agency__c,
+                    	Product_Agency__c
                     FROM Product_Payments__r
                     WHERE CCS_Account__r.RecordType.DeveloperName = :'Distressed_Account' AND ID IN :mapNewProductPayment.keySet()
                     ORDER BY Payment_Posting_Date__c, Name ASC
@@ -705,14 +713,27 @@ public class ProductPaymentsTriggerHandler {
                             productInstance.Collection_Sub_Status__c = 'Paid In Full Account';
                             productInstance.Sub_Status__c = null;
                             if (productInstance.Collection_Agency_Formula__c <> 'Warehouse') {
-                                productInstance.Status__c = PENDING_RECALL_PIF;
-                                productInstance.Placement_Status__c = PENDING_RECALL_PIF_CODE;
+                                //if payement posted agency and product agency is not same
+                                if(payProductInstance.Payment_Provided_Agency__c <> payProductInstance.Product_Agency__c){
+                                    productInstance.Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF;
+                                	productInstance.Placement_Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE;
+                                    placementStatusCode = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE;
+                                }else{
+                                    productInstance.Status__c = PENDING_RECALL_PIF;
+                                	productInstance.Placement_Status__c = PENDING_RECALL_PIF_CODE;
+                                    placementStatusCode = PENDING_RECALL_PIF_CODE;
+                                }
                                 productInstance.Product_Status__c = PENDING_RECALL_PRODUCT_STATUS_CODE;
                                 productInstance.Data_Status_Description__c = PENDING_RECALL;
                                 productInstance.Status_Changed_Date__c = Date.today();
-                                placementStatusCode = PENDING_RECALL_PIF_CODE;
+                                
                             } else {
-                                productInstance.Product_Status__c = PIF_PRODUCT_STATUS_CODE;
+                                //if payement posted agency and product agency is not same
+                                if(payProductInstance.Payment_Provided_Agency__c <> payProductInstance.Product_Agency__c){
+                                    productInstance.Product_Status__c = PIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE;
+                                }else{
+                                    productInstance.Product_Status__c = PIF_PRODUCT_STATUS_CODE;
+                                }
                                 productInstance.Data_Status_Description__c = PIF_DATA_DESCRIPTION;
                             }
                             productNames += productInstance.Name + ',';
@@ -741,14 +762,27 @@ public class ProductPaymentsTriggerHandler {
                             productInstance.Collection_Sub_Status__c = 'Settled In Full Account';
                             productInstance.Sub_Status__c = null;
                             if (productInstance.Collection_Agency_Formula__c <> 'Warehouse') {
-                                productInstance.Status__c = PENDING_RECALL_SIF;
-                                productInstance.Placement_Status__c = PENDING_RECALL_SIF_CODE;
+                                //if payement posted agency and product agency is not same
+                                if(payProductInstance.Payment_Provided_Agency__c <> payProductInstance.Product_Agency__c){
+                                    productInstance.Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF;
+                                	productInstance.Placement_Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE;
+                                    placementStatusCode = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE;
+                                }else{
+                                    productInstance.Status__c = PENDING_RECALL_SIF;
+                                	productInstance.Placement_Status__c = PENDING_RECALL_SIF_CODE;
+                                    placementStatusCode = PENDING_RECALL_SIF_CODE;
+                                }
                                 productInstance.Product_Status__c = PENDING_RECALL_PRODUCT_STATUS_CODE;
                                 productInstance.Data_Status_Description__c = PENDING_RECALL;
                                 productInstance.Status_Changed_Date__c = Date.today();
-                                placementStatusCode = PENDING_RECALL_SIF_CODE;
+                                
                             } else {
-                                productInstance.Product_Status__c = SIF_PRODUCT_STATUS_CODE;
+                                //if payement posted agency and product agency is not same
+                                if(payProductInstance.Payment_Provided_Agency__c <> payProductInstance.Product_Agency__c){
+                                   productInstance.Product_Status__c = SIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE;
+                                }else{
+                                    productInstance.Product_Status__c = SIF_PRODUCT_STATUS_CODE;
+                                }
                                 productInstance.Data_Status_Description__c = SIF_DATA_DESCRIPTION;
                             }
                             productNames += productInstance.Name + ',';
