@@ -141,10 +141,6 @@
                 <behavior>Edit</behavior>
                 <field>Judgment_Amount__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Legal_Agency_Formula__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

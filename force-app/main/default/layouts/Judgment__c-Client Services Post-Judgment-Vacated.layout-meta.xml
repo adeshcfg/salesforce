@@ -145,10 +145,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Legal_Agency_Formula__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Customer_Email_address__c</field>
             </layoutItems>
         </layoutColumns>

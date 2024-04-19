@@ -150,10 +150,6 @@
                 <field>Judgment_Amount__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Legal_Agency_Formula__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Collection_Agency_Identifier__c</field>
             </layoutItems>
