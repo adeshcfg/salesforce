@@ -15,7 +15,11 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Placed_Agency__c</field>
+                <field>Legal_Agency__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Legal_Agency_Formula__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

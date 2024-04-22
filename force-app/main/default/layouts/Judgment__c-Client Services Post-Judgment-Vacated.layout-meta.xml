@@ -15,7 +15,11 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Placed_Agency__c</field>
+                <field>Legal_Agency__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Legal_Agency_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -295,7 +299,7 @@
         <style>CustomLinks</style>
     </layoutSections>
     <miniLayout>
-        <fields>Placed_Agency__c</fields>
+        <fields>Legal_Agency__c</fields>
     </miniLayout>
     <platformActionList>
         <actionListContext>Record</actionListContext>
