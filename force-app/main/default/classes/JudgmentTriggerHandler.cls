@@ -117,7 +117,7 @@ public class JudgmentTriggerHandler {
                 if(prod.Collection_Agency__c != NULL){
                     judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prod.Collection_Agency__c));
                     judgment.Placed_Agency__c = judgment.Agency_Initiated_Legal_Action__c;   
-                    judgment.Legal_Agency__c = judgment.Agency_Initiated_Legal_Action__c;            
+                    judgment.Legal_Agency__c = judgment.Placed_Agency__c;            
                 }
                 if(String.isNotBlank(judgment.Agency_Initiated_Legal_Action__c)){
                     judgment.Agency_Initiated_Legal_Action_Lookup__c = collectionAgency.get(judgment.Agency_Initiated_Legal_Action__c);

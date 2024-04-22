@@ -155,6 +155,7 @@ public with sharing class ProductAllocationIndividualController {
             if(mapActiveAccountJudgments.containsKey(product.id) && mapActiveAccountJudgments.get(product.id) != NULL){
                 judgment.id = mapActiveAccountJudgments.get(product.id);
                 judgment.Placed_Agency__c = placement.Name;
+                judgment.Legal_Agency__c = judgment.Placed_Agency__c;
                 updateJudgments.put(judgment.id,judgment);
             }
             update updateJudgments.values();
@@ -261,6 +262,7 @@ public with sharing class ProductAllocationIndividualController {
                 if(mapActiveAccountJudgments.containsKey(product.id) && mapActiveAccountJudgments.get(product.id) != NULL){
                     judgment.id = mapActiveAccountJudgments.get(product.id);
                     judgment.Placed_Agency__c = placement.Name;
+                    judgment.Legal_Agency__c = judgment.Placed_Agency__c;
                     updateJudgments.put(judgment.id,judgment);
                 }
                 update updateJudgments.values();
