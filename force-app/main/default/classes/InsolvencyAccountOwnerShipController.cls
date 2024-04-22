@@ -37,7 +37,7 @@ public class InsolvencyAccountOwnerShipController{
     
     public InsolvencyAccountOwnerShipController(ApexPages.StandardController controller) {
     
-        config = [SELECT Run_Insolvency_Status_Validations__c, Run_Record_Ownership__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+        config = [SELECT Run_Insolvency_Status_Validations__c, Run_Record_Ownership__c FROM Application_Config_Settings__c];
         eligibleForOwnerShip = false;
         // Run only if record ownership functionality is Enabled at custom settings level
         if(config.Run_Record_Ownership__c){

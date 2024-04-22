@@ -285,7 +285,7 @@
             formattedFax = formattedFax.replaceAll('-', '');
             formattedFax = formattedFax.replaceAll(' ', '');
             Application_Config_Settings__c acs; // = Application_Config_Settings__c.getOrgDefaults();
-            acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c FOR UPDATE];
+            acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c];
             formattedFax =  formattedFax + acs.Domain_Name__c;
         }  
         return formattedFax;

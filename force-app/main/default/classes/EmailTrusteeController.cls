@@ -85,7 +85,7 @@ public class EmailTrusteeController{
         insolTemplateWithHeaderList = new list<ID>();
         insolTemplateWithoutHeaderList = new list<ID>();
         config = [SELECT Maximum_Email_Attachments_Size_Text__c, Maximum_Email_Attachments_Size__c,Run_Insolvency_Status_Validations__c,
-                    Domain_Name__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+                    Domain_Name__c FROM Application_Config_Settings__c];
         
         attachSizeExceptionMessage = config.Maximum_Email_Attachments_Size_Text__c;
         
@@ -97,7 +97,7 @@ public class EmailTrusteeController{
                      Reason_for_No_PoC_Required__c,Amended_Claim_Flag__c, Insolvency_Type__c,
                      Claim_Filed_Date__c //for SLA tracking
                      FROM Insolvency_Account__c 
-                     WHERE Id =: ApexPages.currentPage().getParameters().get('Id') FOR UPDATE];
+                     WHERE Id =: ApexPages.currentPage().getParameters().get('Id')];
         
         //Set language as per trustee office
         if(null != insolvAcc.Insolvency__r.Trustee__r.Preferred_Language__c){
@@ -724,7 +724,7 @@ public class EmailTrusteeController{
             formattedFax = formattedFax.replaceAll('-', '');
             formattedFax = formattedFax.replaceAll(' ', '');
             
-            Application_Config_Settings__c acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+            Application_Config_Settings__c acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c];
             formattedFax =  formattedFax + acs.Domain_Name__c;
         }  
         return formattedFax;

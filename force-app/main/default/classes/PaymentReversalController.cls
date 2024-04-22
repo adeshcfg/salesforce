@@ -24,7 +24,7 @@ public without sharing class PaymentReversalController {
     // Consturactor for CCS Dividend and insolvency dividend//
     Public PaymentReversalController(ApexPages.StandardController controller) {
         
-        appConfig = [SELECT Do_Not_Run_Payment_Validation__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+        appConfig = [SELECT Do_Not_Run_Payment_Validation__c FROM Application_Config_Settings__c FOR UPDATE];
         
         remit= [SELECT Id, name,  Status__c FROM Remittance__c WHERE Id =:remitID];
         if(remit.Status__c=='Payment Reversed'){

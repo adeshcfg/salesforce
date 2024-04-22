@@ -416,7 +416,7 @@
     //Calculate number of open cases on Insolvency
     private static void calculateNumberOfOpenCasesIns(Id insId) {
         
-        config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+        config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c];
         //Related Open Cases
         List <Case> insolvencyCases = [Select id, Assign_To__c from Case
                             where status != 'Closed'
@@ -471,7 +471,7 @@
     //Calculate number of open cases on Insolvency Account
     private static void calculateNumberOfOpenCasesInsAccnt(Id insAccntId) {
       
-      config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+      config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c];
       //Related Open Cases
       List <Case> insolvencyCases = [Select id, Assign_To__c from Case
                             where status != 'Closed' 
