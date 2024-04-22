@@ -464,12 +464,12 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             } catch (DMLException dmlEx) {
                 system.debug('Exception msg@@' + dmlEx.getStackTraceString());
                 exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, CTBBatchName);
-                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), dmlEx.getStackTraceString(), 'Record update Failed');
+                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), dmlEx.getStackTraceString(), 'Account batch count update Failed');
             }
         } catch (Exception ex) {
             system.debug('Exception msg**' + ex.getStackTraceString());
             exceptionHandling(ex.getMessage(), ex.getStackTraceString(), null, insolvencyAccData, CTBBatchName);
-            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), ex.getStackTraceString(), 'CTB Automation Process Failed');
+            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), ex.getStackTraceString(), 'CTB Account Automation Process Failed');
         }
         batchCntData.finalDetailBody = mainbody;
         batchCntData.batchCountDetail = counter;
@@ -558,7 +558,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             } catch (DMLException dmlEx) {
                 system.debug('Exception msg@@' + dmlEx.getStackTraceString());
                 exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, CTBBatchName);
-                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), dmlEx.getStackTraceString(), 'Record update Failed');
+                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), dmlEx.getStackTraceString(), 'Payment batch count update Failed');
             }
         } catch (Exception ex) {
             system.debug('Exception msg**' + ex.getStackTraceString());
@@ -790,7 +790,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             /**********************Temparory Purpase Added Ends*******************************/
         } catch (Exception ex) {
             system.debug('Exception msg&&' + ex.getStackTraceString());
-            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), ex.getStackTraceString(), 'CTB file generation failed');
+            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), ex.getStackTraceString(), CTBBatchName + ' file generation failed');
         }
     }
 
