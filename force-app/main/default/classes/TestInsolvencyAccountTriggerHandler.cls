@@ -615,7 +615,7 @@ private class TestInsolvencyAccountTriggerHandler {
         Insolvency__c insolv=[select id from Insolvency__c where name='12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy' LIMIT 1];
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.RecordTypeId = recordTypeList[0].Id;
-        ia1.name = 'testAccount1';
+        ia1.name = '2221111234567895';
         ia1.Insolvency_Status__c = 'New';
         ia1.Claim_Type__c = 'Unsecured';
         ia1.Claim_Amount__c = 200;
