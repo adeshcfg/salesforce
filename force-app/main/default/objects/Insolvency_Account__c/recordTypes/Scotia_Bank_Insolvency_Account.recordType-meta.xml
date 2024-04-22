@@ -2570,6 +2570,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>BNS Account</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Small Business</fullName>
             <default>false</default>
         </values>
