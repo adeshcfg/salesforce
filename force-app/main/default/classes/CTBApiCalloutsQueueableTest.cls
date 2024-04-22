@@ -43,7 +43,7 @@ public class CTBApiCalloutsQueueableTest {
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
-        insolAcct1.name = 'Test222';
+        insolAcct1.name = '2221111234567890';
         insolAcct1.Insolvency_Status__c = 'New';
         insolAcct1.Insolvency__c = insolv1.id;
         insolAcct1.Account_Type__c = 'Credit Card';
@@ -119,7 +119,7 @@ public class CTBApiCalloutsQueueableTest {
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
-        insolAcct1.name = 'Test222';
+        insolAcct1.name = '2221111234567891';
         insolAcct1.Insolvency_Status__c = 'New';
         insolAcct1.Insolvency__c = insolv1.id;
         insolAcct1.Account_Type__c = 'Credit Card';
@@ -210,7 +210,7 @@ public class CTBApiCalloutsQueueableTest {
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
-        insolAcct1.name = 'Test222';
+        insolAcct1.name = '2221111234567892';
         insolAcct1.Insolvency_Status__c = 'New';
         insolAcct1.Insolvency__c = insolv1.id;
         insolAcct1.Account_Type__c = 'Credit Card';

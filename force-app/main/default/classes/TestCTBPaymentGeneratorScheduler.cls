@@ -31,7 +31,7 @@ public class TestCTBPaymentGeneratorScheduler {
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency__c insolv1 = new Insolvency__c();
-        insolv1.name = 'test';
+        insolv1.name = '2221111234567890';
         insolv1.Insolvency_Status__c = 'Active';
         insolv1.Insolvency_Received_Date__c = System.today();
         insolv1.Insolvency_Type__c = 'Bankruptcy';
@@ -51,7 +51,7 @@ public class TestCTBPaymentGeneratorScheduler {
         
         
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
-        insolAcct1.name = 'TestTestInslAcc222';
+        insolAcct1.name = '2221111234567896';
         insolAcct1.Insolvency_Status__c = 'For Owner Review';
         insolAcct1.Insolvency_Sub_Status__c = 'Pending File';
         insolAcct1.Insolvency__c = insolv1.id;
@@ -100,7 +100,7 @@ public class TestCTBPaymentGeneratorScheduler {
         
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency__c insolv1 = new Insolvency__c();
-        insolv1.name = 'test';
+        insolv1.name = '2221111234567891';
         insolv1.Insolvency_Status__c = 'Active';
         insolv1.Insolvency_Received_Date__c = System.today();
         insolv1.Insolvency_Type__c = 'Bankruptcy';
@@ -118,7 +118,7 @@ public class TestCTBPaymentGeneratorScheduler {
         
         
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
-        insolAcct1.name = 'Test222TestInslAcc';
+        insolAcct1.name = '2221111234567898';
         insolAcct1.Insolvency_Status__c = 'For Owner Review';
         insolAcct1.Insolvency_Sub_Status__c = 'Pending File';
         insolAcct1.Insolvency__c = insolv1.id;
@@ -158,7 +158,7 @@ public class TestCTBPaymentGeneratorScheduler {
         
         
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
-        insolAcct1.name = 'TestInslAcc222';
+        insolAcct1.name = '2221111234567892';
         insolAcct1.Insolvency_Status__c = 'For Owner Review';
         insolAcct1.Insolvency_Sub_Status__c = 'Pending File';
         insolAcct1.Insolvency__c = insolv1.id;
@@ -209,7 +209,7 @@ public class TestCTBPaymentGeneratorScheduler {
         insert insolv1;
         
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
-        insolAcct1.name = 'TestInslAcc';
+        insolAcct1.name = '2221111234567893';
         insolAcct1.Insolvency_Status__c = 'New';
         insolAcct1.Insolvency__c = insolv1.id;
         insolAcct1.Account_Type__c = 'Line of Credit';
