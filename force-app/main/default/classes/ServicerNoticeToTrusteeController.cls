@@ -39,7 +39,7 @@ public class ServicerNoticeToTrusteeController{
         languageList.add(new SelectOption('fr', 'French'));
     
         config = [SELECT Maximum_Email_Attachments_Size_Text__c, Maximum_Email_Attachments_Size__c,
-                    Run_Insolvency_Status_Validations__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+                    Run_Insolvency_Status_Validations__c FROM Application_Config_Settings__c];
         //poulateRecord();
         insolvAttachList= new List<InsolvAttachments>();
         Datetime now = Datetime.now();

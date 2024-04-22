@@ -90,7 +90,7 @@
         languageList.add(new SelectOption('fr', 'French'));
         
         config = [SELECT Maximum_Email_Attachments_Size_Text__c, Maximum_Email_Attachments_Size__c, Run_Insolvency_Status_Validations__c
-                    FROM Application_Config_Settings__c FOR UPDATE]; //update for lock issue
+                    FROM Application_Config_Settings__c];
         //Atachment Size limit check
         attachSizeException = false;
         attachSizeExceptionMessage = config.Maximum_Email_Attachments_Size_Text__c;
@@ -445,7 +445,7 @@
             formattedFax = formattedFax.replaceAll('-', '');
             formattedFax = formattedFax.replaceAll(' ', '');
             
-            Application_Config_Settings__c acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c FOR UPDATE]; //update for lock issue
+            Application_Config_Settings__c acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c];
             formattedFax =  formattedFax + acs.Domain_Name__c;
         }  
         return formattedFax;
