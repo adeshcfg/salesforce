@@ -112,7 +112,9 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         //API call to portal to visisble failure file on portal
         if(DocType == 'Product Payment Upload File' || DocType == 'Account Status Update File'
           || DocType == 'Customer Contact Information Update File'){
-            PortalDocumentStorageProcessingAPI.processDocumentStorage(failedDocStorage.ID); 
+              if(failedDocStorage.ID != NULL){
+                  PortalDocumentStorageProcessingAPI.processDocumentStorage(failedDocStorage.ID); 
+              }
         }
         //Create Success CSV Document Storage
         Document_Storage__c  SuccessDocStorage = new Document_Storage__c();
@@ -153,7 +155,9 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         //API call to portal to visisble failure file on portal
         if(DocType == 'Product Payment Upload File' || DocType == 'Account Status Update File'
           || DocType == 'Customer Contact Information Update File'){
-            PortalDocumentStorageProcessingAPI.processDocumentStorage(SuccessDocStorage.ID); 
+              if(SuccessDocStorage.ID != NULL){
+                  PortalDocumentStorageProcessingAPI.processDocumentStorage(SuccessDocStorage.ID); 
+              }
         }
         Document_Storage__c docStorageToUpdate = new Document_Storage__c(ID= documentID, File_Processing_Status__c = 'Processed');
         update docStorageToUpdate;

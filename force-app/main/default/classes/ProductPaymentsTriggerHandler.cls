@@ -8,7 +8,7 @@
  *
  *************************************************************************************************/
 
-public class ProductPaymentsTriggerHandler {
+ public class ProductPaymentsTriggerHandler {
     public static boolean runProductTrigger = true;
     public static boolean currentBalanceUpdate = true;
     public static String productNames = '';
@@ -564,7 +564,8 @@ public class ProductPaymentsTriggerHandler {
                     Interest_Adjustment__c,
                     Interest_Rate_to_For_Interest_Adjustment__c,
                     No_of_Days_to_Adjust_Interest__c,
-                    Pay_Placedetail_Status__c
+                    Pay_Placedetail_Status__c,Last_Payment_Date__c, 
+                	Last_Payment_Amount__c
                 FROM Product_Payments__c
                 WHERE ID IN :setReversalPayments
                 ORDER BY CreatedDate DESC
@@ -598,8 +599,8 @@ public class ProductPaymentsTriggerHandler {
 
         for (Product_Payments__C prodpaylist : latestPayment) {
             prodPaymentId.add(prodpaylist.Original_Of_Payment_Reversal__c);
-        }
-
+        } 
+        
         for (Product__c productInstance : [
             SELECT
                 ID,
@@ -1382,12 +1383,19 @@ public class ProductPaymentsTriggerHandler {
                             );
                         }
                     }
+                    if(payProductInstance.payment_type__c == '1003' 
+                       && mapReversedPayments.containsKey(payProductInstance.Original_Of_Payment_Reversal__c) && !productIdsForPaymentUpdate.isEmpty()){
+                        productInstance.Last_Payment_Date__c = mapReversedPayments.get(payProductInstance.Original_Of_Payment_Reversal__c).Last_Payment_Date__c;
+                        productInstance.Last_Payment_Amount__c = mapReversedPayments.get(payProductInstance.Original_Of_Payment_Reversal__c).Last_Payment_Amount__c;   
+                    }
                     mapProductToAdjustInterestFinal.put(productInstance.ID, productInstance);
                     listProdPaymentToUpdate.add(prodPayToUpdate);
                 }
             }
         }
-
+        update listProdPaymentToUpdate;
+		update listProdPaymentReversal;
+        
         // 4329 - Take queries out from for loop and update the logic for updating Last Payment Date and Amount
         if (!productIdsForPaymentUpdate.isEmpty()) {
             for (Product__c product : [
@@ -1418,7 +1426,7 @@ public class ProductPaymentsTriggerHandler {
                     : mapProductToAdjustInterestFinal.get(product.Id).Last_Payment_Date__c;
                 mapProductToAdjustInterestFinal.get(product.Id).Last_Payment_Amount__c = !product.Product_Payments__r.isEmpty()
                     ? product.Product_Payments__r[0].Payment_Amount__c
-                    : mapProductToAdjustInterestFinal.get(product.Id).Payment_Amount__c;
+                    : mapProductToAdjustInterestFinal.get(product.Id).Last_Payment_Amount__c;
             }
         }
 
@@ -1450,8 +1458,7 @@ public class ProductPaymentsTriggerHandler {
             }
         }
 
-        update listProdPaymentToUpdate;
-		update listProdPaymentReversal;
+        
         
         if (!setProductIDToReverse.isEmpty()) {
             PortalProductProcessingAPI.processProductBulkBatch(setProductIDToReverse);
