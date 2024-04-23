@@ -262,7 +262,8 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         //get account where previously allocated to agency 6 or 68 then got recalled and again reallocated to same agency
         //again got recalled and then allocated to any other agency after that account gets again recalled or placed with other agency.
         List<Placement_History__c> recalledProducts = [select id,name,Placement__c,Product__c,Product__r.name,Placement__r.name,
-                                                       Placement_Status_Description__c,Placement_Recall_Date__c,Placement_Status__c
+                                                       Placement_Status_Description__c,Placement_Recall_Date__c,Placement_Status__c,
+                                                       Product__r.Collection_Agency__c
                                                        FROM Placement_History__c
                                                        WHERE Product__c IN: productIds
                                                        AND Placement_Recall_Date__c <> NULL
@@ -661,7 +662,15 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                         lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
                     }
                     if(previouslyPlaced.containsKey(prodct.id)){
-                        lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
+                        if(previouslyPlaced.get(prodct.id).Placement__r.name == string.valueOf(previouslyPlaced.get(prodct.id).Product__r.Collection_Agency__c)){
+                            lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
+                        }else{
+                            if(previouslyPlaced.get(prodct.id).Placement_Recall_Date__c > prodct.Last_Payment_Date__c){
+                                lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
+                            }else{
+                                lastpaymentdate = defLastPaymentDate;
+                            }
+                        }
                     }
                 }
             }
