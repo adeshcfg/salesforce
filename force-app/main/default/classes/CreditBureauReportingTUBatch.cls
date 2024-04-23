@@ -902,11 +902,20 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93   
                     //if account placed with agency 68 or 6 and curretnly mapped with any other agency
                     if(placementHistoryMap.containskey(prodct.id) && !preAllocatedAgency.containskey(prodct.id)){
-                        accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA
+                        accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA   
+                    }
+                    //account allocated to 6 or 68 then got recalled and reallocated to 32 agency 
+                    //and again got recalled and then again reallocated to 6 or 68 agency
+                    else if(preAllocatedAgency.containskey(prodct.id) && previouslyPlaced.containskey(prodct.id)){
+                        if(previouslyPlaced.get(prodct.id).Placement__c == preAllocatedAgency.get(prodct.id)){
+                        	accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
+                        }else{
+                            accountStatus = metro2TransUnion.Account_Status_Recalled__c;   // set account status DA
+                        }
                     }
                     //if account placed with agency 68 or 6 and got recalled and reallocated to same agency
                     else if(preAllocatedAgency.containskey(prodct.id) && !previousAllocatedAgency.containskey(prodct.id)){
-                        accountStatus = metro2TransUnion.Account_Status_Recalled__c;   // set account status DA   
+                        accountStatus = metro2TransUnion.Account_Status_Recalled__c;   // set account status DA  
                     }
                     //if account placed with agency 68 or 6 and got recalled and again reallocated to same agency i.e 68 or 6
                     else if(preAllocatedAgency.containskey(prodct.id) && previousAllocatedAgency.containskey(prodct.id)){
@@ -915,7 +924,7 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                     //based on product status set account status
                     else if(mapDataStatus.containskey(prodct.Product_Status__c) && mapDataStatus.get(prodct.Product_Status__c).Bureau_Reporting_Account_Status__c  == 'Open'){
                         accountStatus = metro2TransUnion.Account_Status_Open__c; // set account status 93
-                    } 
+                    }
                 }
             }
             else{
