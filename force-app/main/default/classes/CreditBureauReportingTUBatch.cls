@@ -1208,6 +1208,6 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
         }catch(Exception ex){
             system.debug('exception'+ex);
         }
-        System.enqueueJob(new CreditBureauRepTUTextFileGeneration(batchNumber));
+        //System.enqueueJob(new CreditBureauRepTUTextFileGeneration(batchNumber));
     }
 }
