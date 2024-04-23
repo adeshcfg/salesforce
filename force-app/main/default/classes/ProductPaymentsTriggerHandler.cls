@@ -641,6 +641,7 @@
                 Interest_Waived_Off__c,
                 Owner.Name,
                 Payment_Amount__c,
+            	Closed_Date__c,
                 (
                     SELECT
                         ID,
@@ -1312,6 +1313,10 @@
                             }
                             if (reversedPay.Payment_Type__c == PAYTYPE_SETTLED_IN_FULL || reversedPay.Payment_Type__c == PAYTYPE_PAID_IN_FULL) {
                                 setProductIDToReverse.add(productInstance.ID);
+                                //Ticket 6495: whenver we reverse PIF or SIF payments then reset closded date
+                                if(productInstance.Closed_Date__c <> NULL){
+                                    productInstance.Closed_Date__c = NULL;
+                                }
                             }
                             listProdPaymentReversal.add(reversedPay);
                         }
