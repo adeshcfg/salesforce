@@ -49,14 +49,14 @@
                 <label>SDA Account</label>
             </value>
             <value>
-                <fullName>BNS Account</fullName>
-                <default>false</default>
-                <label>BNS Account</label>
-            </value>
-            <value>
                 <fullName>Scotia Private Label Account</fullName>
                 <default>false</default>
                 <label>Scotia Private Label Account</label>
+            </value>            
+            <value>
+                <fullName>BNS Account</fullName>
+                <default>false</default>
+                <label>BNS Account</label>
             </value>
             <value>
                 <fullName>Not SDA Account</fullName>
