@@ -743,7 +743,7 @@ public class DisplayProductPaymentStagingController {
                                           Non_Recoverable_Fee__c, Recoverable_Fee__c, Placement_Status__c, 
                                           Product_Status__c, Status__c, Data_Status_Description__c,Interest_Rate__c,
                                           Interest_Waived_Off_Start_Date__c, Interest_Waived_Of_End_Date__c ,
-                                          Payment_Apportionment__c,Interest_Waived_Off__c,
+                                          Payment_Apportionment__c,Interest_Waived_Off__c,Closed_Date__c,
                                           (SELECT ID, Payment_Amount__c,Pay_NSF__c,Pay_Attorney__c,Payment_Posting_Date__c,Last_Payment_Date__c,Last_Payment_Amount__c,
                                            Pay_Court__c,Pay_Other__c,Pay_Fees__c,Interest_Payment_Amount__c,
                                            Pay_Due__c, Pay_Recoverable_Fee__c, Pay_Non_Recoverable_fee__c,Pay_Placedetail_Status__c,
@@ -904,7 +904,12 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                                  productInstance.Collection_Sub_Status__c = reversedPay.Product_Collection_Sub_Status__c;
                                                                  productInstance.Data_Status_Description__c = reversedPay.Product_Status_Desc_on_Product__c;
                                                                  productInstance.Status__c = reversedPay.Placement_Status_on_Product__c;
-                                                                 
+                                                                 //Ticket 6495: whenver we reverse PIF or SIF payments then reset closded date
+                                                                 if (reversedPay.Payment_Type__c == PAYTYPE_SETTLED_IN_FULL || reversedPay.Payment_Type__c == PAYTYPE_PAID_IN_FULL) {
+                                                                     if(productInstance.Closed_Date__c <> NULL){
+                                                                         productInstance.Closed_Date__c = NULL;
+                                                                     }
+                                                                 }
                                                                  if(mapProductNameIds.containsKey(reversedPay.CCS_Account__c)){
                                                                      if(reversedPay.Payment_Posting_Date__c >= mapProductNameIds.get(reversedPay.CCS_Account__c)){
                                                                          productInstance.Status__c = reversedPay.Placement_Status_on_Product__c;  
