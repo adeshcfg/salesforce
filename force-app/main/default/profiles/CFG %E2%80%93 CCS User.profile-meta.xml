@@ -3220,6 +3220,10 @@
         <apexClass>updateSettlementStatusBatch</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+    <tabVisibilities>
+        <tab>Credit_Bureau</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
