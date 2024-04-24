@@ -62,6 +62,7 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable, Database.
      **/
     public static String getContentVersion(String batchNumber, String bureauType, String productType) {
         String csvString = '';
+        String fileNameSuffix = 'CCS';
         // Added if else condition to avoid checking for CIML file type in the for loop
         if (bureauType == 'TransUnion' && productType == 'Distressed Account') {
             for (MetroFlatFileData__c prodData : [
@@ -75,7 +76,7 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable, Database.
                     csvString += recordStr.rightPad(460) + '\n';
                 }
             }
-            bureauType = 'CIML';
+            fileNameSuffix = 'CIML';
         } else {
             for (MetroFlatFileData__c prodData : [
                 SELECT RowData1__c
@@ -92,7 +93,7 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable, Database.
         csvString.removeEnd('\n');
         Blob fileBlob = Blob.valueOf(csvString);
         Date todayDate = Date.today();
-        String fileName = bureauType + todayDate.month().toString() + todayDate.year().toString() + '.txt';
+        String fileName = bureauType + '_' + String.valueOf(Datetime.now().format('MM')) + todayDate.year().toString() + '_' + fileNameSuffix + '.txt';
         ContentVersion contentVersion = new ContentVersion(Title = fileName.substringBefore('.'), PathOnClient = fileName, VersionData = fileBlob);
         insert contentVersion;
         csvString = '';
