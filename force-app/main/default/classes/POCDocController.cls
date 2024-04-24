@@ -448,6 +448,10 @@ public class POCDocController{
                 pageRef = new PageReference('/apex/POCDocFrenchCanadianTirePreview?Id='+insolvAcc.Id);
                 pageRef.setRedirect( true ); 
             }
+            else if(pageName == 'Goeasy'){
+                pageRef = new PageReference('/apex/POCDocDataFrenchEasyFinancial?Id='+insolvAcc.Id);
+                pageRef.setRedirect( true ); 
+            }
             else{
                  system.debug('here');
                  pageRef = new PageReference('/apex/POCDocFrenchStreamPreview?Id='+insolvAcc.Id);
@@ -465,6 +469,10 @@ public class POCDocController{
             }
             else if(pageName == 'CanadianTire'){
                 pageRef = new PageReference('/apex/POCDocCanadianTire?Id='+insolvAcc.Id);
+                pageRef.setRedirect( true ); 
+            }
+            else if(pageName == 'Goeasy'){
+                pageRef = new PageReference('/apex/POCDocDataEasyFinancial?Id='+insolvAcc.Id);
                 pageRef.setRedirect( true ); 
             }
             else{
