@@ -27,9 +27,9 @@ public class DisplayProductPaymentStagingController {
     static String PENDING_RECALL_SIF_CODE = '807000';
     static String PENDING_RECALL = 'Pending Recall';
     static String PENDING_RECALL_PRODUCT_STATUS_CODE = '302000';
-    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF = 'Pending Recall - Paid Prior To Previous Agency - PIF';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF = 'Pending Recall - Paid Prior To Previous Agency';
     static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE = '808500';
-    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF = 'Pending Recall - Paid Prior To Previous Agency - SIF';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF = 'Pending Recall - Paid Prior To Previous Agency';
     static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE = '808550';
     static String PIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE = '908500';
     static String SIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE = '908550';
@@ -790,6 +790,7 @@ public class DisplayProductPaymentStagingController {
                                                               productInstance.Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF;
                                                               productInstance.Placement_Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE;
                                                               placementStatusCode = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE;
+                                                              productInstance.Sub_Status__c = 'PIF';
                                                           }else{
                                                               productInstance.Status__c = PENDING_RECALL_PIF;
                                                               productInstance.Placement_Status__c = PENDING_RECALL_PIF_CODE;
@@ -815,6 +816,7 @@ public class DisplayProductPaymentStagingController {
                                                               productInstance.Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF;
                                                               productInstance.Placement_Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE;
                                                               placementStatusCode = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE;
+                                                              productInstance.Sub_Status__c = 'SIF';
                                                           }else{
                                                               productInstance.Status__c = PENDING_RECALL_SIF;
                                                               productInstance.Placement_Status__c = PENDING_RECALL_SIF_CODE;
