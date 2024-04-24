@@ -281,6 +281,15 @@ public class POCDocController{
                 system.debug('pdf in french');
                 pdf = Page.POCDocDataFrenchCanadianTire;     
             }
+        }else if(insolvAcc.Client_Identifier__c =='Goeasy'){
+            if(language == 'en_US'){
+                system.debug('pdf in english');
+                pdf = Page.POCDocDataEasyFinancial;     
+            }
+            if(language == 'fr'){
+                system.debug('pdf in french');
+                pdf = Page.POCDocDataFrenchEasyFinancial;     
+            }
         }
         else{
             system.debug('Scotia Bank');
