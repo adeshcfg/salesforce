@@ -53,6 +53,21 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Credit_Bureau_Work_Assignment</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Rule to share Credit bureau work assignment record</description>
+        <label>Credit Bureau Work Assignment</label>
+        <sharedTo>
+            <group>Credit_Bureau_Work_Assignment</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Credit Bureau Reporting Files</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ICT_Group_Sharing_Read_Only_Setting</fullName>
         <accessLevel>Read</accessLevel>
         <description>Share media and excel processing records with placement 68 read only.</description>
