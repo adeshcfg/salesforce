@@ -39,7 +39,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Last_Payment_Date__c = parseDateString(csvColumns[33], 'Last_Payment_Date__c', stagingRecord);
         stagingRecord.Last_Payment_Amount__c = parseDoubleString(csvColumns[34], 'Last_Payment_Amount__c', stagingRecord);
         stagingRecord.Last_Payment_Date_2__c = parseDateString(csvColumns[35], 'Last_Payment_Date_2__c', stagingRecord);
-        stagingRecord.Last_Payment_Amount_2__c = parseDoubleString(csvColumns[36], 'Last_Payment_Amount__c', stagingRecord);
+        stagingRecord.Last_Payment_Amount_2__c = parseDoubleString(csvColumns[36], 'Last_Payment_Amount_2__c', stagingRecord);
         stagingRecord.Last_Payment_Date_3__c = parseDateString(csvColumns[37], 'Last_Payment_Date_3__c', stagingRecord);
         stagingRecord.Last_Payment_Amount_3__c = parseDoubleString(csvColumns[38], 'Last_Payment_Amount_3__c', stagingRecord);
         stagingRecord.Last_Statement_Date__c = parseDateString(csvColumns[39], 'Last_Statement_Date__c', stagingRecord);
