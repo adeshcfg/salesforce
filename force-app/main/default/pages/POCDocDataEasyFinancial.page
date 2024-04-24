@@ -144,7 +144,7 @@
                     </apex:facet>
                 </apex:ActionStatus>
                 <apex:ActionFunction name="changeLanguage" action="{!changeLanguage}" reRender="form" status="spinner">
-                    <apex:param name="firstParam" assignTo="{!pageName}" value="Canaccede" />
+                    <apex:param name="firstParam" assignTo="{!pageName}" value="Goeasy" />
                 </apex:ActionFunction>
                 <body class="slds-scope" style="width:700px;margin: auto; background: #d8edff; padding-top:20px;">
                     <div class="slds-grid slds-m-around_xx-small slds-p-top_medium">
