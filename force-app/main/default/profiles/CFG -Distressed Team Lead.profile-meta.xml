@@ -3224,6 +3224,10 @@
         <apexClass>SnapshotQueueablePortalAPI</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <tabVisibilities>
+        <tab>Credit_Bureau</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
