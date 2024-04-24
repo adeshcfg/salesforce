@@ -75,7 +75,7 @@ public with sharing class CTBFileValidationUtility {
         account.Last_Payment_Date__c = stagingRecord.Last_Payment_Date__c;
         account.Last_Payment_Amount__c = stagingRecord.Last_Payment_Amount__c;
         account.Last_Payment_Date_2__c = stagingRecord.Last_Payment_Date_2__c;
-        account.Last_Payment_Amount_2__c = stagingRecord.Last_Payment_Amount__c;
+        account.Last_Payment_Amount_2__c = stagingRecord.Last_Payment_Amount_2__c;
         account.Last_Payment_Date_3__c = stagingRecord.Last_Payment_Date_3__c;
         account.Last_Payment_Amount_3__c = stagingRecord.Last_Payment_Amount_3__c;
         account.Last_Statement_Date__c = stagingRecord.Last_Statement_Date__c;
