@@ -5,7 +5,7 @@
  *
  ***************************************************/
 
-public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>, Database.Stateful, Database.AllowsCallouts {
+ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>, Database.Stateful, Database.AllowsCallouts {
     public static string blankString = '';
     public static final string defLastModifiedByDate = blankString.leftPad(8, '0');
     public static final string defCreatedDate = blankString.leftPad(8, '0');
@@ -709,7 +709,12 @@ public class CreditBureauReportingTUBatch implements Database.Batchable<sobject>
                                 lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
                             } else {
                                 if (previouslyPlaced.get(prodct.id).Placement_Recall_Date__c > prodct.Last_Payment_Date__c) {
-                                    lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
+                                    boolean found = includeAgencyList.contains(previouslyPlaced.get(prodct.id).Placement__r.name);
+                                    if(found){
+                                        lastpaymentdate = CustomerProcessingBatchHelper.formatDate_MM_DD_YYYY(prodct.Last_Payment_Date__c);
+                                    }else{
+                                        lastpaymentdate = defLastPaymentDate;
+                                    }
                                 } else {
                                     lastpaymentdate = defLastPaymentDate;
                                 }
