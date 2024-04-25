@@ -63,31 +63,21 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable, Database.
     public static String getContentVersion(String batchNumber, String bureauType, String productType) {
         String csvString = '';
         String fileNameSuffix = 'CCS';
-        // Added if else condition to avoid checking for CIML file type in the for loop
-        if (bureauType == 'TransUnion' && productType == 'Distressed Account') {
-            for (MetroFlatFileData__c prodData : [
-                SELECT RowData1__c
-                FROM MetroFlatFileData__c
-                WHERE Bureau_Type__c = :bureauType AND Product_Type__c = :productType AND Batch_Number__c = :batchNumber AND CreatedDate = TODAY
-                ORDER BY Sort_Order__c ASC
-            ]) {
-                String recordStr = prodData.RowData1__c;
-                if (recordStr != null && recordStr != '') {
-                    csvString += recordStr.rightPad(460) + '\n';
-                }
-            }
-            fileNameSuffix = 'CIML';
-        } else {
-            for (MetroFlatFileData__c prodData : [
-                SELECT RowData1__c
-                FROM MetroFlatFileData__c
-                WHERE Bureau_Type__c = :bureauType AND Product_Type__c = :productType AND Batch_Number__c = :batchNumber AND CreatedDate = TODAY
-                ORDER BY Sort_Order__c ASC
-            ]) {
-                String recordStr = prodData.RowData1__c;
-                if (recordStr != null && recordStr != '') {
-                    csvString += recordStr + '\n';
-                }
+        Map<String, Integer> mapFileTypeRowLength = new Map<String, Integer>{
+            'TransUnion_Distressed Account' => 460,
+            'TransUnion_CCS Account' => 426,
+            'Equifax_CCS Account' => 1364
+        };
+        Integer rowPadding = mapFileTypeRowLength.get(bureauType + '_' + productType);
+        for (MetroFlatFileData__c prodData : [
+            SELECT RowData1__c
+            FROM MetroFlatFileData__c
+            WHERE Bureau_Type__c = :bureauType AND Product_Type__c = :productType AND Batch_Number__c = :batchNumber AND CreatedDate = TODAY
+            ORDER BY Sort_Order__c ASC
+        ]) {
+            String recordStr = prodData.RowData1__c;
+            if (recordStr != null && recordStr != '') {
+                csvString += recordStr.rightPad(rowPadding) + '\n';
             }
         }
         csvString.removeEnd('\n');

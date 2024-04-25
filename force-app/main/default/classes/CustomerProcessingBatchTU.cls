@@ -179,14 +179,11 @@ public class CustomerProcessingBatchTU implements Database.Batchable<sobject> {
         Integer countheader2 = countheader + headbody.length();
         integer[] trimmedArray2 = new List<integer>(countheader);
 
-        for (integer i = 0; i < countheader; i++)
-            trimmedArray2[i] = 160;
-
         Metro__c metroheaderrecsetiing = Metro__c.getInstance('Header');
 
         if (metroheaderrecsetiing.HeaderCheck__c == false) {
             MetroFlatFileData__c metroobj24 = new MetroFlatFileData__c();
-            metroobj24.RowData1__c = headbody + String.fromCharArray(trimmedArray2);
+            metroobj24.RowData1__c = headbody;
             metroobj24.HeaderCheck__c = true;
             metroobj24.Bureau_Type__c = bureauTypeTransUnion;
             metroobj24.Product_Type__c = productType;
@@ -683,11 +680,8 @@ public class CustomerProcessingBatchTU implements Database.Batchable<sobject> {
             finalheadbody2 = finalheadbody2 + headbody2.rightPad(Stringcountheadercount) + '\r\n';
 
             integer[] trimmedArray = new List<integer>(Stringcount2);
-            for (integer i = 0; i < Stringcount2; i++) {
-                trimmedArray[i] = 160;
-            }
 
-            metroobj2.RowData1__c = headbody2 + String.fromCharArray(trimmedArray);
+            metroobj2.RowData1__c = headbody2;
 
             //ProductID
             metroobj2.ProductId__c = prodct.Id;
@@ -899,11 +893,8 @@ public class CustomerProcessingBatchTU implements Database.Batchable<sobject> {
         String finaltrairec = Trailerrec.rightPad(Trailheadcoutfinal);
         Integer Trailcount2 = 426 - Trailerrec.length();
         integer[] trimmedArray = new List<integer>(Trailcount2);
-        for (integer i = 0; i < Trailcount2; i++) {
-            trimmedArray[i] = 160;
-        }
         MetroFlatFileData__c metroobj4 = new MetroFlatFileData__c();
-        metroobj4.RowData1__c = Trailerrec + String.fromCharArray(trimmedArray);
+        metroobj4.RowData1__c = Trailerrec;
         metroobj4.FooterCheck__c = true;
         metroobj4.Bureau_Type__c = bureauTypeTransUnion;
         metroobj4.Product_Type__c = productType;
