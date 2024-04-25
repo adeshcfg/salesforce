@@ -174,7 +174,7 @@
                         <!-- <a href="/sfc/servlet.shepherd/version/download/" aura:id="{!f.Document_ID__c}" onclick="{!c.previewFile}" target="_blank" >
                             {!f.Document_Name__c}	
                         </a> -->
-                         <a href="javascript:void(0)" aura:id="{!f.Document_ID__c}" 
+                         <a href="javascript:void(0)" aura:id="{!f.Document_ID__c}" title="{!f.Document_Name__c}" 
                            data-doctype="{!f.Document_Type__c}" 
                            data-filename="{!f.Document_Name__c}" 
                            data-documentid="{!f.Document_Id__c}"
