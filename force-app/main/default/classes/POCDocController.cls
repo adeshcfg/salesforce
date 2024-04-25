@@ -281,7 +281,7 @@ public class POCDocController{
                 system.debug('pdf in french');
                 pdf = Page.POCDocDataFrenchCanadianTire;     
             }
-        }else if(insolvAcc.Client_Identifier__c =='Goeasy'){
+        }else if(insolvAcc.Client_Identifier__c =='Goeasy' && insolvAcc.Account_Type__c=='Unsecured Installment Loan' && insolvAcc.Excluded_from_Purchase__c==TRUE){
             if(language == 'en_US'){
                 system.debug('pdf in english');
                 pdf = Page.POCDocDataEasyFinancial;     
