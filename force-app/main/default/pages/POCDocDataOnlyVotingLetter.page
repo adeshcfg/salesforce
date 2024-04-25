@@ -172,7 +172,6 @@
                                     <td  style="padding-left:8px;">I hereby Request: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>(Check and complete appropriate section)</i></td>
                                 </tr>
                             </table>
-                        </div>
                         <div style="float:left;padding-left:17px;">
                             <apex:inputCheckbox styleClass="my-checkbox" value="{!voteForAcceptance}"/>
                             <span style="padding-left:25px">
@@ -232,6 +231,7 @@
                                     </td>
                                 </tr>
                             </Table>
+                                                    </div>
                             </html>
         </apex:page>                       
                         
