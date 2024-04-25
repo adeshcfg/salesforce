@@ -1,142 +1,237 @@
 <apex:page showHeader="false" renderAs="pdf" controller="POCDocDataController" standardStylesheets="false">
-                                <div style="line-height: 17px;padding-left: 15px;">
-                                <div>
-                                    District of: {!insolvAcc.Insolvency__r.Court_District_Name__c} Division<br/>
-                                    Division No: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br/>
-                                    Court No: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br/>
-                                    Estate No: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br/>
-                                </div>
-                                </div>
-                                <div style="text-align:center;">
-                                    Form 37.1<br/> Voting Letter (Consumer Proposal) <br/> (Paragraph 66.15(3)(c) of the Act)
-                                    <br/><br/>
-                                    In the matter of the bankruptcy (or the proposal, or the receivership) of
-                                    <br/>
-                                    <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} </b>
-                                    <br/>
-                                    <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} </b>
-                                    <br/>
-                                    of the City of <b>{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}</b>, in the Province of <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</b>
-                                    <br/>
-                                    and the claim of <span style="font-weight : bold">{!remGroupMap.Entity_Name1__c}</span> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><b> assignee of {!insolvAcc.Vendor_Orginator__c}.</b> (creditor)</apex:outputText><apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> assignee of {!insolvAcc.Vendor_Orginator__c}</b> (creditor)</apex:outputText>  
-                                </div>
-                                <br/>
-                                <table>
-                                    <tr style="text-align:left;">
-                                        <td style="vertical-align:top;">1. </td>
-                                        <td style="padding-left:8px;">
-                                            I, Bryan Szemenyei, bankruptcy representative of a creditor in the above matter for the sum of
-                                            <b>
-                                                <apex:outputText value="{0, number, $#,##0.00}">
-                                                    <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                                </apex:outputText>
-                                            </b>
-                                            hereby understand that:
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="vertical-align:top;">(a)</td>
-                                        <td style="padding-left:8px;">as a creditor who has a proven claim, I may indicate assent to or dissent from the consumer proposal at or
-                                            prior to a meeting of creditors, or prior to the expiration of the 45-day period following the filing of the
-                                            consumer proposal;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="vertical-align:top;">(b)</td>
-                                        <td style="padding-left:8px;">a vote <b>AGAINST</b> the consumer proposal is not a deemed request for a meeting of creditors for the purpose
-                                            of paragraph 66.15(2)(b) of the Act, and will not be counted in a vote on the consumer proposal unless a
-                                            meeting of creditors is called;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="vertical-align:top;">(c)</td>
-                                        <td style="padding-left:8px;">the administrator of the consumer proposal will be required to call a meeting of creditors only if, pursuant to
-                                            section 66.15 of the Act:
-                                        </td>
-                                    </tr>
-                                    <tr >
-                                        <td  style="vertical-align:top;text-align:center;">-</td>
-                                        <td style="padding-left:8px;">he/she is directed to do so by the official receiver within the 45-day period after the filing of the
-                                            consumer proposal; or
-                                        </td>
-                                    </tr>
-                                    <tr >
-                                        <td  style="vertical-align:top;text-align:center;">-</td>
-                                        <td style="padding-left:8px;">at the expiration of the 45-day period after the filing of the consumer proposal, creditors having
-                                            in the aggregate at least 25 percent of the value of proven claims have so requested;  
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="vertical-align:top;">(d)</td>
-                                        <td style="padding-left:8px;">if no meeting of creditors is called, the consumer proposal shall, by virtue of subsection 66.18(1) of the Act,
-                                            be deemed to have been accepted by the creditors, regardless of any dissent(s) the administrator of the
-                                            consumer proposal may have received.                  
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td  style="vertical-align:top;text-align:center;">2.</td>
-                                        <td  style="padding-left:8px;">I hereby Request: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>(Check and complete appropriate section)</i></td>
-                                    </tr>
-                                </table>
+    <html class="myfont">
+           <style>
+            .headerfont{
+            font-size:8px !important;
+            font-family: "Arial Unicode MS";
+            }
+            .myfont{
+            font-family: "Arial Unicode MS" !important;
+            font-size:8px;
+            }
+            .votingLetter{
+            font-family: "Arial Unicode MS";
+            font-size:9px !important;
+            }
+            body{
+            font-family: "Arial Unicode MS";
+            }
+        </style>
+        <apex:outputPanel rendered="{! $CurrentPage.parameters.proofOfClaim == 'true'}">
+            <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Insolvency_Type__c != 'Division 1 Proposal' && insolvAcc.Business_Account__c == False}">
+        <!-- Adding new page STARTS-->
+            <div style='font-family: "Times New Roman"; width:90%; margin:auto; font-size:16px; display:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "block;", "none;")}'>
+                <div style="text-align:center;padding-top: 0px;">
+                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>  
+                </div>
+                <br/>
+                <div style="line-height:30px;">
+                    <apex:outputText value="{!formattedDateTodayHeader}"/>
+                    <!--<apex:outputText value="{0,date, MMMM dd',' yyyy}">
+                        
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>   -->            <br/>
+                    {!insolvAcc.Insolvency__r.Trustee__r.Parent.Name}
+                    <br/>
+                    Chers(ères) Messieurs / Mesdames:<br/>
+                </div>
+                <br/>
+                <table>
+                    <tr>
+                        <td style="vertical-align:top;"><span style="font-family: Times New Roman; font-weight:bold;">Objet:</span></td>
+                        <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!pocPackage.Client_Company_Name__c}. (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name__c)} (“CFG CANADA”).</span> </td>    
+                    </tr>
+                </table>
+                <hr style="border-color:black;"/>
+                <br/>
+                Nous vous écrivons pour vous informer que le compte et la réclamation connexe qui nous sont dus (le « compte ») par le débiteur (le « débiteur ») décrit dans la preuve de réclamation ci-jointe est en cours d’achat par
+                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}"> {!pocPackage.CFG_Office_Name__c}.</apex:outputText>
+                Nous comprenons que le débiteur est soumis à une procédures en vertu de la 
+                <span style="font-family: Times New Roman; font-style:italic;">Loi sur la faillite et l'insolvabilité </span>(Canada) à l'égard de laquelle vous avez été nommé syndic de faillite.
+                <br/><br/>
+                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
+                Nous autorisons par la présente {!pocPackage.CFG_Office_Name__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name__c}.
+                </apex:outputText>
+                <br/><br/>
+                Si vous avez des questions, n'hésitez pas à contacter Canaccede International Management Ltd. aux coordonnées suivantes:
+                <br/><br/>
+                <div style="padding-left:30px;">
+                    {!pocPackage.CFG_French_Office_Name__c}<br/>
+                    {!pocPackage.CFG_Office_Address_1__c}<br/>
+                    {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+                    <table style="width: 320px; margin-left:-5px;">
+                        <tr>
+                            <td>Attention:  </td>
+                            <td>Insolvency Processing</td>
+                        </tr>
+                        <tr>
+                            <td>Téléphone:  </td>
+                            <td>{!pocPackage.CFG_Office_Phone_Number__c}</td>
+                        </tr>
+                        <tr>
+                            <td>Télécopieur:  </td>
+                            <td>{!pocPackage.CFG_Office_Fax_Number__c}</td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td>{!pocPackage.CFG_Office_Email_Address__c}</td>
+                        </tr>
+                    </table>
+                </div><br/>
+                <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
+                <br/><br/>
+                </apex:outputPanel>
+                Sincèrement,
+                <br/><br/>
+                <span style=" font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}">{!pocPackage.Client_Company_Name__c}</span>
+                 
+                <br/>
+                <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
+                <br/><br/>
+                </apex:outputPanel>
+                <br/><br/><br/><br/><br/>
+            </div>
+            </apex:outputPanel>
+            </apex:outputPanel>
+                            <div style="line-height: 17px;padding-left: 15px;">
+                            <div>
+                                District of: {!insolvAcc.Insolvency__r.Court_District_Name__c} Division<br/>
+                                Division No: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br/>
+                                Court No: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br/>
+                                Estate No: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br/>
                             </div>
-                            <div style="float:left;padding-left:17px;">
-                                <apex:inputCheckbox styleClass="my-checkbox" value="{!voteForAcceptance}"/>
-                                <span style="padding-left:25px">
-                                    the administrator acting with respect to the consumer proposal to record my vote <b>FOR</b> the acceptance of the
-                                    consumer proposal as made on the 
-                                    <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
-                                        <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
-                                    </apex:outputText>
-                                    .
-                                </span>
+                            </div>
+                            <div style="text-align:center;">
+                                Form 37.1<br/> Voting Letter (Consumer Proposal) <br/> (Paragraph 66.15(3)(c) of the Act)
+                                <br/><br/>
+                                In the matter of the bankruptcy (or the proposal, or the receivership) of
                                 <br/>
-                                <apex:inputCheckbox styleClass="my-checkbox" value="{!voteAgainstAcceptance}"/>
-                                <span style="padding-left:25px">
-                                    the administrator acting with respect to the consumer proposal to record my vote <b>AGAINST</b> the acceptance of
-                                    the consumer proposal as made on the 
-                                    <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
-                                        <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
-                                    </apex:outputText>
-                                    .
-                                </span>
+                                <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} </b>
                                 <br/>
-                                <apex:inputCheckbox styleClass="my-checkbox" value="{!meetingOfCredits}"/>
-                                <span style="padding-left:25px">
-                                    the administrator acting with respect to the consumer proposal to record my vote <b>AGAINST</b> the acceptance of
-                                    the consumer proposal as made on the 
-                                    <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
-                                        <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
-                                    </apex:outputText>
-                                    , and <b>REQUEST THAT A MEETING OF CREDITORS BE HELD.</b>
-                                </span>
-                                <br/><br/>{!insolvAcc.Voting_Letter_Comments__c}<br/>
+                                <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} </b>
                                 <br/>
-                                Dated at London, Ontario, this 
-                                <b>
-                                    <apex:outputText value="{0,date, dd }">
-                                        <apex:param value="{!TODAY()}" />
-                                    </apex:outputText>
-                                </b>
-                                day of
-                                <b>
-                                    <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                        <apex:param value="{!TODAY()}" />
-                                    </apex:outputText>
-                                    .
-                                </b>
-                                <Table style="width:100%;">
-                                    <tr style="margin-top:-40px;">
-                                        <td style=" width:270px; vertical-align:bottom; padding-right: 85px;padding-bottom:20px;">
-                                            <apex:image style="width:200px;" value="{!pocPackage.Witness_Signature__c}"/>
-                                            Witness
-                                        </td>
-                                        <td >
-                                            <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
-                                            <br/>
-                                            <b>Bryan Szemenyei, President</b><br/>
-                                            <b>{!remGroupMap.Entity_Name1__c} (creditor)</b>
-                                        </td>
-                                    </tr>
-                                </Table>
-            </apex:page>                       
-                            
+                                of the City of <b>{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}</b>, in the Province of <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</b>
+                                <br/>
+                                and the claim of <span style="font-weight : bold">{!remGroupMap.Entity_Name1__c}</span> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><b> assignee of {!insolvAcc.Vendor_Orginator__c}.</b> (creditor)</apex:outputText><apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> assignee of {!insolvAcc.Vendor_Orginator__c}</b> (creditor)</apex:outputText>  
+                            </div>
+                            <br/>
+                            <table>
+                                <tr style="text-align:left;">
+                                    <td style="vertical-align:top;">1. </td>
+                                    <td style="padding-left:8px;">
+                                        I, Bryan Szemenyei, bankruptcy representative of a creditor in the above matter for the sum of
+                                        <b>
+                                            <apex:outputText value="{0, number, $#,##0.00}">
+                                                <apex:param value="{!insolvAcc.Claim_Amount__c}" />
+                                            </apex:outputText>
+                                        </b>
+                                        hereby understand that:
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align:top;">(a)</td>
+                                    <td style="padding-left:8px;">as a creditor who has a proven claim, I may indicate assent to or dissent from the consumer proposal at or
+                                        prior to a meeting of creditors, or prior to the expiration of the 45-day period following the filing of the
+                                        consumer proposal;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align:top;">(b)</td>
+                                    <td style="padding-left:8px;">a vote <b>AGAINST</b> the consumer proposal is not a deemed request for a meeting of creditors for the purpose
+                                        of paragraph 66.15(2)(b) of the Act, and will not be counted in a vote on the consumer proposal unless a
+                                        meeting of creditors is called;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align:top;">(c)</td>
+                                    <td style="padding-left:8px;">the administrator of the consumer proposal will be required to call a meeting of creditors only if, pursuant to
+                                        section 66.15 of the Act:
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td  style="vertical-align:top;text-align:center;">-</td>
+                                    <td style="padding-left:8px;">he/she is directed to do so by the official receiver within the 45-day period after the filing of the
+                                        consumer proposal; or
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td  style="vertical-align:top;text-align:center;">-</td>
+                                    <td style="padding-left:8px;">at the expiration of the 45-day period after the filing of the consumer proposal, creditors having
+                                        in the aggregate at least 25 percent of the value of proven claims have so requested;  
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align:top;">(d)</td>
+                                    <td style="padding-left:8px;">if no meeting of creditors is called, the consumer proposal shall, by virtue of subsection 66.18(1) of the Act,
+                                        be deemed to have been accepted by the creditors, regardless of any dissent(s) the administrator of the
+                                        consumer proposal may have received.                  
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  style="vertical-align:top;text-align:center;">2.</td>
+                                    <td  style="padding-left:8px;">I hereby Request: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>(Check and complete appropriate section)</i></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="float:left;padding-left:17px;">
+                            <apex:inputCheckbox styleClass="my-checkbox" value="{!voteForAcceptance}"/>
+                            <span style="padding-left:25px">
+                                the administrator acting with respect to the consumer proposal to record my vote <b>FOR</b> the acceptance of the
+                                consumer proposal as made on the 
+                                <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
+                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                </apex:outputText>
+                                .
+                            </span>
+                            <br/>
+                            <apex:inputCheckbox styleClass="my-checkbox" value="{!voteAgainstAcceptance}"/>
+                            <span style="padding-left:25px">
+                                the administrator acting with respect to the consumer proposal to record my vote <b>AGAINST</b> the acceptance of
+                                the consumer proposal as made on the 
+                                <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
+                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                </apex:outputText>
+                                .
+                            </span>
+                            <br/>
+                            <apex:inputCheckbox styleClass="my-checkbox" value="{!meetingOfCredits}"/>
+                            <span style="padding-left:25px">
+                                the administrator acting with respect to the consumer proposal to record my vote <b>AGAINST</b> the acceptance of
+                                the consumer proposal as made on the 
+                                <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
+                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                </apex:outputText>
+                                , and <b>REQUEST THAT A MEETING OF CREDITORS BE HELD.</b>
+                            </span>
+                            <br/><br/>{!insolvAcc.Voting_Letter_Comments__c}<br/>
+                            <br/>
+                            Dated at London, Ontario, this 
+                            <b>
+                                <apex:outputText value="{0,date, dd }">
+                                    <apex:param value="{!TODAY()}" />
+                                </apex:outputText>
+                            </b>
+                            day of
+                            <b>
+                                <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                    <apex:param value="{!TODAY()}" />
+                                </apex:outputText>
+                                .
+                            </b>
+                            <Table style="width:100%;">
+                                <tr style="margin-top:-40px;">
+                                    <td style=" width:270px; vertical-align:bottom; padding-right: 85px;padding-bottom:20px;">
+                                        <apex:image style="width:200px;" value="{!pocPackage.Witness_Signature__c}"/>
+                                        Witness
+                                    </td>
+                                    <td >
+                                        <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
+                                        <br/>
+                                        <b>Bryan Szemenyei, President</b><br/>
+                                        <b>{!remGroupMap.Entity_Name1__c} (creditor)</b>
+                                    </td>
+                                </tr>
+                            </Table>
+                            </html>
+        </apex:page>                       
+                        

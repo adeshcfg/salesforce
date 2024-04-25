@@ -1,4 +1,4 @@
-<apex:page showHeader="false" controller="POCDocController" id="page">
+<apex:page showHeader="false" controller="POCDocDataController" id="page">
     <html class="ArialUnicodeMSFont">
         <head>
             <apex:slds />
