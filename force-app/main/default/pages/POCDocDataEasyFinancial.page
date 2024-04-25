@@ -186,9 +186,6 @@
                                             </table>
                                         </div>
                                         </div> </td>
-                                    <td><div style="text-align:center;padding-top: 20px;">
-                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>  
-                                        </div></td>
                                 </tr>
                                  </table><br/>
                                 <br/>
@@ -247,44 +244,18 @@
                         <apex:outputPanel rendered="{!form31}">
                             <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 20px;">
                                 <div style="padding-bottom:10px;">
-                                    <div style="text-align:center; float:left; width:23%;padding-bottom:10px;">
-                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>  
-                                    </div>
                                     <div style="float:left;width:63%;padding-left:60px">
                                         <div style="float:left; padding-left:0px;">
                                             {!remGroupMap.Entity_Name1__c}<br/>
                                             {!pocPackage.CFG_Office_Address_1__c}<br/>
                                             {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                         </div>
-                                        <div  style="padding-left:280px;">
-                                            t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                                            f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                                            {!pocPackage.CFG_Office_Website__c}
-                                        </div>
                                     </div>                            
                                 </div>
                                 <br/>
                                 <div style="clear:both;"> </div>
                             </div>
-                            <div style="font-size: 13px; margin:auto;line-height: 17px; width:90%;">
-                                <div>
-                                    <div style="line-height: 17px;padding-left: 2%;">
-                                        <table>
-                                            <tr>
-                                                <td>District of: {!insolvAcc.Insolvency__r.Court_District_Name__c}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Division No: {!insolvAcc.Insolvency__r.Court_Division_Number__c}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Court No: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Estate No: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>  
+                            <div style="font-size: 13px; margin:auto;line-height: 17px; width:90%;">  
                                 <br/>
                                 <div style=" text-align:center;">
                                     Form 31 - <apex:outputText rendered="{!insolvAcc.Amended_Claim_Flag__c}">&nbsp;Amended</apex:outputText> Proof of claim 
@@ -403,19 +374,11 @@
                                 <div>
                                     <div style="padding-bottom:10px;">
                                         <br/>
-                                        <div style="text-align:center; float:left; width:130px;">
-                                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
-                                        </div>
                                         <div style="float:left;width:395px; padding-left:10px">
                                             <div style="float:left; padding-left:0px;">
                                                 {!remGroupMap.Entity_Name1__c}<br/>
                                                 {!pocPackage.CFG_Office_Address_1__c}<br/>
                                                 {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                                            </div>
-                                            <div  style="padding-left:280px;">
-                                                t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                                                f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                                                {!pocPackage.CFG_Office_Website__c}
                                             </div>
                                         </div>
                                     </div>
@@ -506,19 +469,11 @@
                                 <div>
                                     <div style="padding-bottom:10px;">
                                         <br/><br/>
-                                        <div style="text-align:center; float:left; width: 130px;">
-                                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
-                                        </div>
                                         <div style="float:left;width:395px;padding-left:10px">
                                             <div style="float:left;">
                                                 {!remGroupMap.Entity_Name1__c}<br/>
                                                 {!pocPackage.CFG_Office_Address_1__c}<br/>
                                                 {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                                            </div>
-                                            <div  style="padding-left:290px">
-                                                t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                                                f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                                                {!pocPackage.CFG_Office_Website__c}
                                             </div>
                                         </div>
                                     </div>
@@ -593,19 +548,11 @@
                         <apex:outputPanel rendered="{!form37}" >
                             <div style="font-size: 13px; margin:auto; padding-top:20px; line-height: 17px; width:90%;">
                                 <div style="padding-bottom:10px;">
-                                    <div style="text-align:center; float:left; width: 100px;">
-                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
-                                    </div>
                                     <div style="float:left;width:70%;padding-left:50px">
                                         <div style="float:left; padding-left:0px;">
                                             {!remGroupMap.Entity_Name1__c}<br/>
                                             {!pocPackage.CFG_Office_Address_1__c}<br/>
                                             {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                                        </div>
-                                        <div  style="padding-left:280px;">
-                                            t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                                            f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                                            {!pocPackage.CFG_Office_Website__c}
                                         </div>
                                     </div>
                                 </div>
@@ -613,12 +560,6 @@
                                 <div style="clear:both;">
                                 </div><br/>
                                 <div style="line-height: 17px;padding-left: 15px;">
-                                    <div>
-                                        District of: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br/>
-                                        Division No: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br/>
-                                        Court No: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br/>
-                                        Estate No: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br/>
-                                    </div>
                                     <!--
 <div class="slds-text-align_center shadow">
 <apex:inputCheckbox styleClass="my-checkbox" value="{!form37}"/> Include FORM 37.1
@@ -769,19 +710,11 @@
                             <div style="font-size: 13px; margin:auto; line-height: 17px; width:90%; padding-top:20px;">
                                 <div style="padding-bottom:10px;">
                                     <br/><br/>
-                                    <div style="text-align:center; float:left; width: 110px;">
-                                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
-                                    </div>
                                     <div style="float:left; width: 395px; padding-left: 10px;">
                                         <div style="float:left; padding-left:0px;">
                                             {!remGroupMap.Entity_Name1__c}<br/>
                                             {!pocPackage.CFG_Office_Address_1__c}<br/>
                                             {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                                        </div>
-                                        <div  style="padding-left:290px">
-                                            t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                                            f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                                            {!pocPackage.CFG_Office_Website__c}
                                         </div>
                                     </div>
                                 </div>
