@@ -1,4 +1,4 @@
-<apex:page showHeader="false" renderAs="pdf" controller="POCDocDataController" standardStylesheets="false">
+<apex:page showHeader="false" renderAs="pdf" controller="POCDocController" standardStylesheets="false">
 <html class="myfont">
         <style>
         .headerfont{
