@@ -89,7 +89,7 @@ public class POCDocController{
         frenchDates.put(12, 'Décembre');
 
 
-            insolvAcc = [SELECT Id, Name, Secured_Name__c,Business_Account__c,Insolvency_Type__c,
+            insolvAcc = [SELECT Id, Name,Excluded_from_Purchase__c, Secured_Name__c,Business_Account__c,Insolvency_Type__c,
                                 //Debtor_1_Estate_Number__c, Debtor_2_Estate_Number__c,
                                 Insolvency__r.Name, Insolvency__r.Debtor_2_Estate_Number__c,
                                 Insolvency__r.Eligible_For_Voting_Decision__c,
