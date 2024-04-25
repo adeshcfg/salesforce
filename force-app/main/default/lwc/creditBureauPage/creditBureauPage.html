@@ -1,7 +1,26 @@
-<template>
-    
-    <lightning-button variant="base" label="Equifax" disabled={EquifaxDisabled} id="EquifaxId" onclick={handleClick} class="slds-button slds-button_brand" title="Generate CCS Canaccede Product file for Equifax"> </lightning-button> <br><br>
-    <lightning-button variant="base" label="TransUnion" disabled={TransUnionDisabled} id="TransUnionId" onclick={handleClick} class="slds-button slds-button_brand" title="Generate CCS Canaccede Product file for TansUnion"></lightning-button><br><br>
-    <lightning-button variant="base" label="CreditBureau" disabled={CreditBureauDisabled} id="CreditBureauId" onclick={handleClick} class="slds-button slds-button_brand" title="Generate ICT/LRT Distressed Product file"></lightning-button>
-
+<template><lightning-card>
+        <div slot="footer">
+            Please go to this <a href={workAssignmentId}>Work Assignment</a> to check the generated file
+        </div>
+        <p class="slds-var-p-horizontal_small">
+            <lightning-layout horizontal-align="space">
+                <lightning-layout-item>
+                    <lightning-button variant="base" label="Equifax" disabled={EquifaxDisabled} id="EquifaxId"
+                        onclick={handleClick} class="slds-button slds-button_brand"
+                        title="Generate CCS Canaccede Product file for Equifax">
+                    </lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <lightning-button variant="base" label="TransUnion" disabled={TransUnionDisabled} id="TransUnionId"
+                        onclick={handleClick} class="slds-button slds-button_brand"
+                        title="Generate CCS Canaccede Product file for TansUnion"></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <lightning-button variant="base" label="CreditBureau" disabled={CreditBureauDisabled}
+                        id="CreditBureauId" onclick={handleClick} class="slds-button slds-button_brand"
+                        title="Generate ICT/LRT Distressed Product file"></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </p>
+    </lightning-card>
 </template>

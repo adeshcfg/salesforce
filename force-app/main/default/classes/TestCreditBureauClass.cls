@@ -1,7 +1,7 @@
 @isTest(seeALlData=false)
 public class TestCreditBureauClass {
     @TestSetup
-    static void makeData(){
+    static void makeData() {
         Work_Assignment__c cimlWs = new Work_Assignment__c();
         cimlWs.RecordTypeId = Schema.SObjectType.Work_Assignment__c.getRecordTypeInfosByDeveloperName().get('Credit_Bureau_Reporting_Files').getRecordTypeId();
         insert cimlWs;
@@ -360,5 +360,13 @@ public class TestCreditBureauClass {
         Database.executeBatch(obj);
         creditBureauClass.getcreditBureauClass('CreditBureau');
         Test.stopTest();
+    }
+
+    @isTest
+    static void testGetWorkAssignment() {
+        Test.startTest();
+        String workAssignmentId = creditBureauClass.getWorkAssignment();
+        Test.stopTest();
+        System.assertNotEquals(null, workAssignmentId);
     }
 }
