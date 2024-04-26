@@ -77,10 +77,10 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable, Database.
         ]) {
             String recordStr = prodData.RowData1__c;
             if (recordStr != null && recordStr != '') {
-                csvString += recordStr.rightPad(rowPadding) + '\n';
+                csvString += recordStr.rightPad(rowPadding) + '\r\n';
             }
         }
-        csvString.removeEnd('\n');
+        csvString.removeEnd('\r\n');
         Blob fileBlob = Blob.valueOf(csvString);
         Date todayDate = Date.today();
         String fileName = bureauType + '_' + String.valueOf(Datetime.now().format('MM')) + todayDate.year().toString() + '_' + fileNameSuffix + '.txt';
