@@ -6,6 +6,31 @@
  * @last modified by  : adeshi@a5econsulting.net
  **/
 public with sharing class CTBFileValidationUtility {
+    // Contants for csv column index mapping with staging object fields
+    public static final Integer ACCOUNT_NUMBER = 4;
+    public static final Integer FIRST_NAME = 7;
+    public static final Integer LAST_NAME = 8;
+    public static final Integer CTB_DOB = 17;
+    public static final Integer CORRELATION_ID = 26;
+    public static final Integer CTB_REJECT_REASON_CODE = 28;
+    public static final Integer OPEN_DATE = 29;
+    public static final Integer CLAIM_AMOUNT = 30;
+    public static final Integer ACCOUNTS_VALIDATION_DATE = 31;
+    public static final Integer INTEREST_RATE = 32;
+    public static final Integer LAST_PAYMENT_DATE = 33;
+    public static final Integer LAST_PAYMENT_AMOUNT = 34;
+    public static final Integer LAST_PAYMENT_DATE_2 = 35;
+    public static final Integer LAST_PAYMENT_AMOUNT_2 = 36;
+    public static final Integer LAST_PAYMENT_DATE_3 = 37;
+    public static final Integer LAST_PAYMENT_AMOUNT_3 = 38;
+    public static final Integer LAST_STATEMENT_DATE = 39;
+    public static final Integer LAST_STATEMENT_AMOUNT = 40;
+    public static final Integer LAST_STATEMENT_DATE_2 = 41;
+    public static final Integer LAST_STATEMENT_AMOUNT_2 = 42;
+    public static final Integer LAST_STATEMENT_DATE_3 = 43;
+    public static final Integer LAST_STATEMENT_AMOUNT_3 = 44;
+    public static final Integer PREVIOUS_ACCOUNT_REFERENCE = 46;
+    public static final Integer ADDITIONAL_INFO = 47;
     /**
      * @description : Map and validate fields from csv to CTB Staging for Insolvency Account
      * @author adeshi@a5econsulting.net | 11-23-2023
@@ -16,40 +41,40 @@ public with sharing class CTBFileValidationUtility {
         CTB_Staging__c stagingRecord = new CTB_Staging__c();
         stagingRecord.Error_Message__c = '';
         // If correlation Id is null
-        if (String.isBlank(csvColumns[26])) {
+        if (String.isBlank(csvColumns[CORRELATION_ID])) {
             stagingRecord.Error_Message__c = 'No Correlation Id provided';
             stagingRecord.Status__c = 'Error';
         }
         // If Current Balance owed is null
-        if (String.isBlank(csvColumns[30])) {
+        if (String.isBlank(csvColumns[CLAIM_AMOUNT])) {
             stagingRecord.Error_Message__c += ' No Current Balance owed provided';
             stagingRecord.Status__c = 'Error';
         }
-        stagingRecord.Name = csvColumns[4];
-        stagingRecord.Debtor_1_First_Name__c = csvColumns[7];
-        stagingRecord.Debtor_1_Last_Name__c = csvColumns[8];
-        stagingRecord.CTB_Date_of_Birth__c = parseDateString(csvColumns[17], 'CTB_Date_of_Birth__c', stagingRecord);
-        stagingRecord.Correlation_Id__c = csvColumns[26];
-        stagingRecord.CTB_Reject_Reason_Code__c = csvColumns[28];
-        stagingRecord.Open_Date__c = parseDateString(csvColumns[29], 'Open_Date__c', stagingRecord);
-        stagingRecord.Balance_Owed__c = parseDoubleString(csvColumns[30], 'Balance_Owed__c', stagingRecord);
-        stagingRecord.Claim_Amount__c = parseDoubleString(csvColumns[30], 'Claim_Amount__c', stagingRecord);
-        stagingRecord.Accounts_Validation_Date__c = parseDateTimeString(csvColumns[31], 'Accounts_Validation_Date__c', stagingRecord);
-        stagingRecord.Interest_Rate__c = parseDoubleString(csvColumns[32], 'Interest_Rate__c', stagingRecord);
-        stagingRecord.Last_Payment_Date__c = parseDateString(csvColumns[33], 'Last_Payment_Date__c', stagingRecord);
-        stagingRecord.Last_Payment_Amount__c = parseDoubleString(csvColumns[34], 'Last_Payment_Amount__c', stagingRecord);
-        stagingRecord.Last_Payment_Date_2__c = parseDateString(csvColumns[35], 'Last_Payment_Date_2__c', stagingRecord);
-        stagingRecord.Last_Payment_Amount_2__c = parseDoubleString(csvColumns[36], 'Last_Payment_Amount_2__c', stagingRecord);
-        stagingRecord.Last_Payment_Date_3__c = parseDateString(csvColumns[37], 'Last_Payment_Date_3__c', stagingRecord);
-        stagingRecord.Last_Payment_Amount_3__c = parseDoubleString(csvColumns[38], 'Last_Payment_Amount_3__c', stagingRecord);
-        stagingRecord.Last_Statement_Date__c = parseDateString(csvColumns[39], 'Last_Statement_Date__c', stagingRecord);
-        stagingRecord.Last_Statement_Amount__c = parseDoubleString(csvColumns[40], 'Last_Statement_Amount__c', stagingRecord);
-        stagingRecord.Last_Statement_Date_2__c = parseDateString(csvColumns[41], 'Last_Statement_Date_2__c', stagingRecord);
-        stagingRecord.Last_Statement_Amount_2__c = parseDoubleString(csvColumns[42], 'Last_Statement_Amount_2__c', stagingRecord);
-        stagingRecord.Last_Statement_Date_3__c = parseDateString(csvColumns[43], 'Last_Statement_Date_3__c', stagingRecord);
-        stagingRecord.Last_Statement_Amount_3__c = parseDoubleString(csvColumns[44], 'Last_Statement_Amount_3__c', stagingRecord);
-        stagingRecord.Previous_Account_Reference__c = csvColumns[46];
-        stagingRecord.Additional_Info__c = csvColumns[47];
+        stagingRecord.Name = csvColumns[ACCOUNT_NUMBER];
+        stagingRecord.Debtor_1_First_Name__c = csvColumns[FIRST_NAME];
+        stagingRecord.Debtor_1_Last_Name__c = csvColumns[LAST_NAME];
+        stagingRecord.CTB_Date_of_Birth__c = parseDateString(csvColumns[CTB_DOB], 'CTB_Date_of_Birth__c', stagingRecord);
+        stagingRecord.Correlation_Id__c = csvColumns[CORRELATION_ID];
+        stagingRecord.CTB_Reject_Reason_Code__c = csvColumns[CTB_REJECT_REASON_CODE];
+        stagingRecord.Open_Date__c = parseDateString(csvColumns[OPEN_DATE], 'Open_Date__c', stagingRecord);
+        stagingRecord.Balance_Owed__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Balance_Owed__c', stagingRecord);
+        stagingRecord.Claim_Amount__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Claim_Amount__c', stagingRecord);
+        stagingRecord.Accounts_Validation_Date__c = parseDateTimeString(csvColumns[ACCOUNTS_VALIDATION_DATE], 'Accounts_Validation_Date__c', stagingRecord);
+        stagingRecord.Interest_Rate__c = parseDoubleString(csvColumns[INTEREST_RATE], 'Interest_Rate__c', stagingRecord);
+        stagingRecord.Last_Payment_Date__c = parseDateString(csvColumns[LAST_PAYMENT_DATE], 'Last_Payment_Date__c', stagingRecord);
+        stagingRecord.Last_Payment_Amount__c = parseDoubleString(csvColumns[LAST_PAYMENT_AMOUNT], 'Last_Payment_Amount__c', stagingRecord);
+        stagingRecord.Last_Payment_Date_2__c = parseDateString(csvColumns[LAST_PAYMENT_DATE_2], 'Last_Payment_Date_2__c', stagingRecord);
+        stagingRecord.Last_Payment_Amount_2__c = parseDoubleString(csvColumns[LAST_PAYMENT_AMOUNT_2], 'Last_Payment_Amount_2__c', stagingRecord);
+        stagingRecord.Last_Payment_Date_3__c = parseDateString(csvColumns[LAST_PAYMENT_DATE_3], 'Last_Payment_Date_3__c', stagingRecord);
+        stagingRecord.Last_Payment_Amount_3__c = parseDoubleString(csvColumns[LAST_PAYMENT_AMOUNT_3], 'Last_Payment_Amount_3__c', stagingRecord);
+        stagingRecord.Last_Statement_Date__c = parseDateString(csvColumns[LAST_STATEMENT_DATE], 'Last_Statement_Date__c', stagingRecord);
+        stagingRecord.Last_Statement_Amount__c = parseDoubleString(csvColumns[LAST_STATEMENT_AMOUNT], 'Last_Statement_Amount__c', stagingRecord);
+        stagingRecord.Last_Statement_Date_2__c = parseDateString(csvColumns[LAST_STATEMENT_DATE_2], 'Last_Statement_Date_2__c', stagingRecord);
+        stagingRecord.Last_Statement_Amount_2__c = parseDoubleString(csvColumns[LAST_STATEMENT_AMOUNT_2], 'Last_Statement_Amount_2__c', stagingRecord);
+        stagingRecord.Last_Statement_Date_3__c = parseDateString(csvColumns[LAST_STATEMENT_DATE_3], 'Last_Statement_Date_3__c', stagingRecord);
+        stagingRecord.Last_Statement_Amount_3__c = parseDoubleString(csvColumns[LAST_STATEMENT_AMOUNT_3], 'Last_Statement_Amount_3__c', stagingRecord);
+        stagingRecord.Previous_Account_Reference__c = csvColumns[PREVIOUS_ACCOUNT_REFERENCE];
+        stagingRecord.Additional_Info__c = csvColumns[ADDITIONAL_INFO];
         return stagingRecord;
     }
 
