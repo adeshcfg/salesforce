@@ -3,6 +3,6 @@
     <fullName>CTB_Account_Number_Validation</fullName>
     <active>true</active>
     <description>Account Number should be numeric and not more than 16 characters excluding spaces</description>
-    <errorConditionFormula>RecordType.DeveloperName = &apos;Canadian_Tire_Insolvency_Account&apos; &amp;&amp; (NOT(ISNUMBER(Name)) || LEN(Name) &gt; 16)</errorConditionFormula>
+    <errorConditionFormula>RecordType.DeveloperName = &apos;Canadian_Tire_Insolvency_Account&apos; &amp;&amp; (NOT(ISNUMBER(SUBSTITUTE(Name, &apos; &apos;, &apos;&apos;))) || LEN(SUBSTITUTE(Name, &apos; &apos;, &apos;&apos;)) &gt; 16)</errorConditionFormula>
     <errorMessage>Account Number should be numeric and not more than 16 characters excluding spaces</errorMessage>
 </ValidationRule>
