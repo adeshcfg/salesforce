@@ -69,18 +69,23 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable, Database.
             'Equifax_CCS Account' => 1364
         };
         Integer rowPadding = mapFileTypeRowLength.get(bureauType + '_' + productType);
-        for (MetroFlatFileData__c prodData : [
+        List<MetroFlatFileData__c> fileDataList = [
             SELECT RowData1__c
             FROM MetroFlatFileData__c
             WHERE Bureau_Type__c = :bureauType AND Product_Type__c = :productType AND Batch_Number__c = :batchNumber AND CreatedDate = TODAY
             ORDER BY Sort_Order__c ASC
-        ]) {
-            String recordStr = prodData.RowData1__c;
-            if (recordStr != null && recordStr != '') {
-                csvString += recordStr.rightPad(rowPadding) + '\r\n';
+        ];
+        // Create csv without the last row so we don't add new line character in the last row, add last row separately after the loop
+        if (fileDataList.size() > 1) {
+            for (Integer i = 0; i < fileDataList.size() - 1; i++) {
+                MetroFlatFileData__c prodData = fileDataList[i];
+                String recordStr = prodData.RowData1__c;
+                if (recordStr != null && recordStr != '') {
+                    csvString += recordStr.rightPad(rowPadding) + '\r\n';
+                }
             }
         }
-        csvString.removeEnd('\r\n');
+        csvString += fileDataList[fileDataList.size() - 1].RowData1__c.rightPad(rowPadding);
         Blob fileBlob = Blob.valueOf(csvString);
         Date todayDate = Date.today();
         String fileName = bureauType + '_' + String.valueOf(Datetime.now().format('MM')) + todayDate.year().toString() + '_' + fileNameSuffix + '.txt';
