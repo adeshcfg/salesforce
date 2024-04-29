@@ -7,13 +7,14 @@
  *  @date : 15/08/2022
  /**************************************************************************************************/
 
-public class BalanceAdjustmentExcelFileProcessing {
+ public class BalanceAdjustmentExcelFileProcessing {
     //balance adjustment transaction type codes
+    static final String FEE_TRANSACION_CODES = '3000,3400,4000,4001,4002,4003,5000,5001,5002,5003,7000,7001';
     static String PAYTYPE_REGULAR = '1000';
     static String PAYTYPE_REVERSAL = '1003';
     static String PAYTYPE_SETTLED_IN_FULL = '1002';
     static String PAYTYPE_PAID_IN_FULL = '1001';
-
+	
     public boolean RogersFile = false;
 
     ID documentId;
@@ -808,42 +809,46 @@ public class BalanceAdjustmentExcelFileProcessing {
             }
 
             //DIRECT PAYMENT USECASES for commission
-            if (
-                prodPayment.Commission_Rate_for_Payment__c != null &&
-                prodPayment.Payment_Amount__c != null &&
-                mapProduct.containsKey(prodPayment.CCS_Account__c)
-            ) {
-                if (prodPayment.Commission_Rate_for_Payment__c == 0) {
-                    prodPayment.Commission_Amount__c = 0;
-                    prodPayment.Tax_Amount__c = 0;
-                } else {
-                    if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
-                        CommissionRate = prodPayment.Commission_Rate_for_Payment__c + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
+            if(!FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)){
+                if (
+                    prodPayment.Commission_Rate_for_Payment__c != null &&
+                    prodPayment.Payment_Amount__c != null &&
+                    mapProduct.containsKey(prodPayment.CCS_Account__c)
+                ) {
+                    if (prodPayment.Commission_Rate_for_Payment__c == 0) {
+                        prodPayment.Commission_Amount__c = 0;
+                        prodPayment.Tax_Amount__c = 0;
+                    } else {
+                        if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
+                            CommissionRate = prodPayment.Commission_Rate_for_Payment__c + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
+                        }
+                        prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * prodPayment.Commission_Rate_for_Payment__c) / 100;
                     }
-                    prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * prodPayment.Commission_Rate_for_Payment__c) / 100;
+                } else if (
+                    prodPayment.Commission_Rate_for_Payment__c == null &&
+                    prodPayment.Payment_Amount__c != null &&
+                    mapProduct.containsKey(prodPayment.CCS_Account__c)
+                ) {
+                    if (prodPayment.Product_Commission_Rate__c != null) {
+                        CommissionRate = prodPayment.Product_Commission_Rate__c;
+                    } else if (prodPayment.Agency_Commission_Rate__c != null) {
+                        CommissionRate = prodPayment.Agency_Commission_Rate__c;
+                    } else if (prodPayment.Pool_Commission_Rate__c != null) {
+                        CommissionRate = prodPayment.Pool_Commission_Rate__c;
+                    }
+                    //if commission adjustment is added to product, adjust Commission Rate
+                    if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
+                        CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
+                    }
+                    if (CommissionRate != null) {
+                        prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                    }
+                    prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                 }
-            } else if (
-                prodPayment.Commission_Rate_for_Payment__c == null &&
-                prodPayment.Payment_Amount__c != null &&
-                mapProduct.containsKey(prodPayment.CCS_Account__c)
-            ) {
-                if (prodPayment.Product_Commission_Rate__c != null) {
-                    CommissionRate = prodPayment.Product_Commission_Rate__c;
-                } else if (prodPayment.Agency_Commission_Rate__c != null) {
-                    CommissionRate = prodPayment.Agency_Commission_Rate__c;
-                } else if (prodPayment.Pool_Commission_Rate__c != null) {
-                    CommissionRate = prodPayment.Pool_Commission_Rate__c;
-                }
-                //if commission adjustment is added to product, adjust Commission Rate
-                if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
-                    CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
-                }
-                if (CommissionRate != null) {
-                    prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
-                }
-                prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
             }
-            if (prodPayment.Payment_Source__c == '2' || prodPayment.Payment_Source__c == '3' && prodPayment.Payment_Amount__c != null) {
+            
+            if ((prodPayment.Payment_Source__c == '2' || prodPayment.Payment_Source__c == '3') && prodPayment.Payment_Amount__c != null
+               		&& !FEE_TRANSACION_CODES.contains(prodPayment.Payment_Type__c)) {
                 //This account is recalled within 15 days and is currently warehoused
                 if (
                     mapProduct.containsKey(prodPayment.CCS_Account__c) &&
