@@ -75,6 +75,11 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
                 System.debug('Error upserting account records ' + dex.getDmlMessage(0));
             }
         }
+        // Query and delete successfull records
+        List<CTB_Staging__c> stagingRecordsToDelete = [SELECT Id FROM CTB_Staging__c WHERE Status__c != 'Error'];
+        if (!stagingRecordsToDelete.isEmpty()) {
+            System.enqueueJob(new BulkDmlQueueable(stagingRecordsToDelete, 0, 'Delete'));
+        }
     }
 
     /**
