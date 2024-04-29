@@ -62,7 +62,7 @@ public class CreditBureauRepTUTextFileGeneration implements Queueable, Database.
      **/
     public static String getContentVersion(String batchNumber, String bureauType, String productType) {
         String csvString = '';
-        String fileNameSuffix = 'CCS';
+        String fileNameSuffix = bureauType == 'TransUnion' && productType == 'Distressed Account' ? 'CIML' : 'CCS';
         Map<String, Integer> mapFileTypeRowLength = new Map<String, Integer>{
             'TransUnion_Distressed Account' => 460,
             'TransUnion_CCS Account' => 426,
