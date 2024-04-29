@@ -97,4 +97,14 @@ public class BulkDmlQueueableTest {
         System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'Update'));
         Test.stopTest();
     }
+
+    @isTest
+    public static void testDelete() {
+        Document_Storage__c docStorage = [SELECT Id FROM Document_Storage__c LIMIT 1];
+        List<SObject> recordsToInsert = new List<SObject>();
+        recordsToInsert.add(docStorage);
+        Test.startTest();
+        System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'Delete'));
+        Test.stopTest();
+    }
 }

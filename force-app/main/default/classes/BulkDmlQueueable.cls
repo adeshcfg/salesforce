@@ -35,6 +35,32 @@ public class BulkDmlQueueable implements Queueable {
             when 'Update' {
                 updateHelper(recordsToInsert, endingIndex, recordList);
             }
+            when 'Delete' {
+                deleteHelper(recordsToInsert, endingIndex, recordList);
+            }
+        }
+    }
+
+    /**
+     * @description : Helper method to delete records
+     * @author adesh.ikhar@canaccede.com | 04-29-2024
+     * @param recordsToDelete
+     **/
+    public static void deleteHelper(List<SObject> recordsToDelete, Integer endingIndex, List<SObject> recordList) {
+        try {
+            if (!recordsToDelete.isEmpty()) {
+                Database.delete(recordsToDelete);
+            }
+        } catch (DmlException de) {
+            System.debug('Exception during record deletion ' + de.getDmlMessage(0));
+            Insolvency_Error__c error = new Insolvency_Error__c(Error__c = de.getDmlMessage(0));
+            insert error;
+        }
+        // If end index is >= MAX_RECORD_LIMIT or equal to the input record list we have deleted all records, can call final method
+        if (!(endingIndex >= MAX_RECORD_LIMIT || endingIndex == recordList.size())) {
+            if (!Test.isRunningTest()) {
+                System.enqueueJob(new BulkDmlQueueable(recordList, endingIndex, 'Delete'));
+            }
         }
     }
 
