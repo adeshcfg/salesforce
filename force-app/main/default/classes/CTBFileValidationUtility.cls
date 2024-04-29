@@ -89,13 +89,24 @@ public with sharing class CTBFileValidationUtility {
      * @return Insolvency_Account__c
      **/
     public static Insolvency_Account__c updateInsolvencyAccount(CTB_Staging__c stagingRecord) {
+        List<String> optionalFields = new List<String>{
+            'Debtor_1_First_Name__c',
+            'Debtor_1_Last_Name__c',
+            'CTB_Reject_Reason_Code__c',
+            'Previous_Account_Reference__c',
+            'Additional_Info__c'
+        };
         Insolvency_Account__c account = new Insolvency_Account__c();
-        account.Name = stagingRecord.Name;
-        account.Debtor_1_First_Name__c = stagingRecord.Debtor_1_First_Name__c;
-        account.Debtor_1_Last_Name__c = stagingRecord.Debtor_1_Last_Name__c;
+        // Check if optional field value was not null in csv, only update if it was not null
+        for (String fieldApiName : optionalFields) {
+            String fieldValue = stagingRecord.get(fieldApiName) != null ? String.valueOf(stagingRecord.get(fieldApiName)) : null;
+            if (String.isNotBlank(fieldValue)) {
+                account.put(fieldApiName, fieldValue);
+            }
+        }
+        // account.Name = stagingRecord.Name;
         account.CTB_Date_of_Birth__c = stagingRecord.CTB_Date_of_Birth__c;
         account.Correlation_Id__c = stagingRecord.Correlation_Id__c;
-        account.CTB_Reject_Reason_Code__c = stagingRecord.CTB_Reject_Reason_Code__c;
         account.Open_Date__c = stagingRecord.Open_Date__c;
         account.Balance_Owed__c = stagingRecord.Balance_Owed__c;
         account.Claim_Amount__c = stagingRecord.Claim_Amount__c;
@@ -113,8 +124,6 @@ public with sharing class CTBFileValidationUtility {
         account.Last_Statement_Amount_2__c = stagingRecord.Last_Statement_Amount_2__c;
         account.Last_Statement_Date_3__c = stagingRecord.Last_Statement_Date_3__c;
         account.Last_Statement_Amount_3__c = stagingRecord.Last_Statement_Amount_3__c;
-        account.Previous_Account_Reference__c = stagingRecord.Previous_Account_Reference__c;
-        account.Additional_Info__c = stagingRecord.Additional_Info__c;
         account.Insolvency_Sub_Status__c = null;
         account.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName()
             .get('Canadian_Tire_Insolvency_Account')
