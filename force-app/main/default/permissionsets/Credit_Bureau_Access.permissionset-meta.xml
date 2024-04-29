@@ -24,11 +24,15 @@
         <apexClass>creditBureauClass</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <description>Permission set to give access to Credit Bureau Tab</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Credit Bureau Access</label>
+    <recordTypeVisibilities>
+        <recordType>Work_Assignment__c.Credit_Bureau_Reporting_Files</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>Credit_Bureau</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <description>Permission set to give access to Credit Bureau Tab</description>
-    <hasActivationRequired>false</hasActivationRequired>
-    <label>Credit Bureau Access</label>
 </PermissionSet>

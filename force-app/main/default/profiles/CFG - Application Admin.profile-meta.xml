@@ -20184,11 +20184,6 @@
         <recordType>Distressed_notes__c.Distressed_Notes_Read_Only</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Work_Assignment__c.Credit_Bureau_Reporting_Files</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
     <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>
