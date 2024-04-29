@@ -1,12 +1,11 @@
 public with sharing class creditBureauClass {
     @AuraEnabled
     public static void getcreditBureauClass(String batchName) {
-        system.debug('batchName check' + batchName);
-        if (batchName == 'Equifax') {
+        if (batchName == 'CCS_Equifax') {
             Database.executeBatch(new CustomerProcessingBatch(), 80);
-        } else if (batchName == 'TransUnion') {
+        } else if (batchName == 'CCS_TransUnion') {
             Database.executeBatch(new CustomerProcessingBatchTU(), 80);
-        } else if (batchName == 'CreditBureau') {
+        } else if (batchName == 'CIML_TransUnion') {
             Database.executeBatch(new CreditBureauReportingTUBatch(), 200);
         }
     }
