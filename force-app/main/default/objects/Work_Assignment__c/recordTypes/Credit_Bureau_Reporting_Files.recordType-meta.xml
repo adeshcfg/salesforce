@@ -521,10 +521,6 @@
     <picklistValues>
         <picklist>Purpose__c</picklist>
         <values>
-            <fullName>Bulk Media Request</fullName>
-            <default>true</default>
-        </values>
-        <values>
             <fullName>Excel File Processing</fullName>
             <default>false</default>
         </values>
