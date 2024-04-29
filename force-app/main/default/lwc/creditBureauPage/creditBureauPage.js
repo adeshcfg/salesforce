@@ -19,15 +19,15 @@ export default class creditBureauClass extends LightningElement {
 
     handleClick(event) {
         let labelName = event.target.label;
-        if (labelName === "CreditBureau") {
+        if (labelName === "CIML_TransUnion") {
             getAccounts({ batchName: labelName });
             this.CreditBureauDisabled = true;
         }
-        if (labelName === "TransUnion") {
+        if (labelName === "CCS_TransUnion") {
             getAccounts({ batchName: labelName });
             this.TransUnionDisabled = true;
         }
-        if (labelName === "Equifax") {
+        if (labelName === "CCS_Equifax") {
             getAccounts({ batchName: labelName });
             this.EquifaxDisabled = true;
         }

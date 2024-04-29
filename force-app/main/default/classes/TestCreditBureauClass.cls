@@ -134,7 +134,7 @@ public class TestCreditBureauClass {
         Test.startTest();
         CreditBureauReportingTUBatch obj = new CreditBureauReportingTUBatch();
         Database.executeBatch(obj);
-        creditBureauClass.getcreditBureauClass('CreditBureau');
+        creditBureauClass.getcreditBureauClass('CIML_TransUnion');
         Test.stopTest();
     }
 
@@ -245,7 +245,7 @@ public class TestCreditBureauClass {
         Test.startTest();
         CreditBureauReportingTUBatch obj = new CreditBureauReportingTUBatch();
         Database.executeBatch(obj);
-        creditBureauClass.getcreditBureauClass('CreditBureau');
+        creditBureauClass.getcreditBureauClass('CIML_TransUnion');
         Test.stopTest();
     }
 
@@ -358,7 +358,7 @@ public class TestCreditBureauClass {
         Test.startTest();
         CreditBureauReportingTUBatch obj = new CreditBureauReportingTUBatch();
         Database.executeBatch(obj);
-        creditBureauClass.getcreditBureauClass('CreditBureau');
+        creditBureauClass.getcreditBureauClass('CIML_TransUnion');
         Test.stopTest();
     }
 
