@@ -1709,25 +1709,25 @@ insDetails.add(insDetail);
         accNew.CTB_Status_Update_Code__c = '';
         accNew.Insolvency_Sub_Status__c = '';	
         //CTB Automation: set insolvency account processing status and sub-status
-        if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency_Status__c == 'For Owner Review'){
-            accNew.CTB_Status_Update_Code__c = '';
-            accNew.Insolvency_Sub_Status__c = 'Pending File';
+        if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c){
+            if(accNew.Insolvency_Status__c == 'For Owner Review'){
+            	accNew.CTB_Status_Update_Code__c = '';
+            	accNew.Insolvency_Sub_Status__c = 'Pending File';
+        	}
+        	if(accNew.Insolvency_Status__c == 'Discharged'){
+            	accNew.CTB_Status_Update_Code__c = 'PCOM';
+            	accNew.Insolvency_Sub_Status__c = 'Pending File';
+        	}
+        	if(accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused' || accNew.Insolvency_Status__c == 'Withdrawn'){
+            	accNew.CTB_Status_Update_Code__c = 'RREV';
+            	accNew.Insolvency_Sub_Status__c = 'Pending File';
+        	}
+        	if(accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldAccRecord.Insolvency__r.Revival_Date__c){
+            	accNew.CTB_Status_Update_Code__c = '';
+            	accNew.Insolvency_Sub_Status__c = 'Pending File';
+        	}
         }
-        if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency_Status__c == 'Discharged'){
-            accNew.CTB_Status_Update_Code__c = 'PCOM';
-            accNew.Insolvency_Sub_Status__c = 'Pending File';
-        }
-        if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && (accNew.Insolvency_Status__c == 'Annulled' 
-              || accNew.Insolvency_Status__c == 'Refused' || accNew.Insolvency_Status__c == 'Withdrawn')){
-            accNew.CTB_Status_Update_Code__c = 'RREV';
-            accNew.Insolvency_Sub_Status__c = 'Pending File';
-        }
-        if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency__r.Insolvency_Status__c == 'Active' 
-           && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldAccRecord.Insolvency__r.Revival_Date__c 
-           && accNew.Insolvency__r.Revival_Date__c != NULL){
-            accNew.CTB_Status_Update_Code__c = '';
-            accNew.Insolvency_Sub_Status__c = 'Pending File';
-        }
+        
     }
 
     /**
