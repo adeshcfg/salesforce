@@ -132,6 +132,41 @@ public with sharing class CTBFileValidationUtility {
     }
 
     /**
+     * @description : Method to parse csv, parses columns containing , as well
+     * @author adesh.ikhar@canaccede.com | 04-30-2024
+     * @param csvRow
+     * @return List<String>
+     **/
+    public static List<String> parseCsv(String csvRow) {
+        Integer startIndex = null;
+        Integer endIndex = null;
+        List<String> parsedColumns = new List<String>();
+        while (csvRow.indexOf('"') > -1) {
+            if (startIndex == null) {
+                startIndex = csvRow.indexOf('"');
+                csvRow = csvRow.substring(0, startIndex) + ':quotes:' + csvRow.substring(startIndex + 1, csvRow.length());
+            } else {
+                if (endIndex == null) {
+                    endIndex = csvRow.indexOf('"');
+                    csvRow = csvRow.substring(0, endIndex) + ':quotes:' + csvRow.substring(endIndex + 1, csvRow.length());
+                }
+            }
+            if (startIndex != null && endIndex != null) {
+                String sub = csvRow.substring(startIndex, endIndex);
+                sub = sub.replaceAll(',', ':comma:');
+                csvRow = csvRow.substring(0, startIndex) + sub + csvRow.substring(endIndex, csvRow.length());
+                startIndex = null;
+                endIndex = null;
+            }
+        }
+        for (String column : csvRow.split(',')) {
+            column = column.replaceAll(':quotes:', '').replaceAll(':comma:', ',').trim();
+            parsedColumns.add(column);
+        }
+        return parsedColumns;
+    }
+
+    /**
      * @description : Map and validate fields from csv to CTB Staging for Insolvency Payment
      * @author adeshi@a5econsulting.net | 11-23-2023
      * @param csvColumns

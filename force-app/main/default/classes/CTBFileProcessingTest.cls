@@ -13,7 +13,7 @@ public class CTBFileProcessingTest {
         Database.insert(docInfo);
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
 
-        String csvString = 'H,2,999,10,4/5/2024,10:07:05,T,DRN00001,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\nD,2,999,9/19/2023,41414,Consumer Proposal,Canadian Tire Credit Card,HILDA,ZIRK,1108-1660 Henderson Hwy,,Winnipeg,MB,CA,R2G 1H7,,11/12/1977,9/15/2023,21-2986827,1,L.C. Taylor & Co. Ltd.,386 Broadway Suite 605,,Winnipeg,MB,R3C3R6,0000000008PCOM,,,9/15/2023,500,9/15/2023,10,9/15/2023,11,9/16/2023,12,9/16/2023,13,9/17/2023,14,9/18/2023,15,9/19/2023,16,,,Test\nT,2,999,444,442,4/5/2024,10:07:05,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,';
+        String csvString = '"H","2","999","10","4/5/2024","10:07:05","T","DRN00001","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA","ZIRK","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","0000000008PCOM","","","9/15/2023","500","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","16","","","Test"\n"T","2","999","444","442","4/5/2024","10:07:05","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""';
         Document documentObj = new Document();
         documentObj.Body = Blob.valueOf(csvString);
         documentObj.ContentType = 'text/csv';
