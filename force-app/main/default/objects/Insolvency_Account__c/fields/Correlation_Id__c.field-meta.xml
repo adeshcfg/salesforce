@@ -4,6 +4,7 @@
     <description>This field is created as a part of CTB Automation and this field will be used to store unique identifier of Insolvency Account which is used by CTB Business user to reference Insolvency account back to SF system.</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>true</externalId>
+    <inlineHelpText>Field to store unique identifier of Insolvency Account which is used by CTB Business user to reference Insolvency account back to SF system</inlineHelpText>
     <label>Correlation Id</label>
     <length>15</length>
     <required>false</required>

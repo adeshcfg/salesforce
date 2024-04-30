@@ -3,7 +3,7 @@
     <fullName>Additional_Info__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <label>Error Message</label>
+    <label>Additional Info</label>
     <length>131071</length>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>

@@ -4,6 +4,7 @@
     <description>This field is created as a part of CTB Automation and will be used to store date/time when CTB insolvency file was generated</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
+    <inlineHelpText>Field used to store date/time when CTB insolvency file was generated/processed</inlineHelpText>
     <label>CTB Update File Timestamp</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
