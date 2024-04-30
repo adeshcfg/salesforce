@@ -52,7 +52,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
         List<String> csvRows = csvContents.split('\n');
         for (Integer i = 1; i < csvRows.size() - 1; i++) {
             // Split the current row into columns
-            List<String> csvColumns = csvRows[i].split(',');
+            List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
             CTB_Staging__c recordToCreate = CTBFileValidationUtility.validateAccountCTBStagingRecord(csvColumns);
             recordToCreate.CTB_Update_Filename__c = docStorage.Document_Name__c;
             stagingRecordsToCreate.add(recordToCreate);
