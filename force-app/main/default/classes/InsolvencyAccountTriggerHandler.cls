@@ -1706,10 +1706,10 @@ insDetails.add(insDetail);
         author - Tejal Vidhate
     */
     public static void updateProcessingSubStatus(Insolvency_Account__c accNew , Insolvency_Account__c oldAccRecord){
-        accNew.CTB_Status_Update_Code__c = '';
-        accNew.Insolvency_Sub_Status__c = '';	
         //CTB Automation: set insolvency account processing status and sub-status
         if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c){
+            accNew.CTB_Status_Update_Code__c = '';
+        	accNew.Insolvency_Sub_Status__c = '';
             if(accNew.Insolvency_Status__c == 'For Owner Review'){
             	accNew.CTB_Status_Update_Code__c = '';
             	accNew.Insolvency_Sub_Status__c = 'Pending File';
@@ -1726,6 +1726,11 @@ insDetails.add(insDetail);
             	accNew.CTB_Status_Update_Code__c = '';
             	accNew.Insolvency_Sub_Status__c = 'Pending File';
         	}
+        }else{
+            if(oldAccRecord.Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c &&
+               accNew.Insolvency_Sub_Status__c != 'Pending File'){ 
+                 accNew.Insolvency_Sub_Status__c.addError('You can set only Pending File as Processing Sub Status.');
+            }
         }
         
     }
