@@ -48,31 +48,53 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
      **/
     public static void processCTBStagingAccounts(String csvContents, Document_Storage__c docStorage) {
         List<CTB_Staging__c> stagingRecordsToCreate = new List<CTB_Staging__c>();
-        List<Insolvency_Account__c> accountRecordsToUpsert = new List<Insolvency_Account__c>();
+        List<Insolvency_Account__c> accountRecordsToUpdate = new List<Insolvency_Account__c>();
+        Set<String> correlationIdSet = new Set<String>();
+        Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
         List<String> csvRows = csvContents.split('\n');
         for (Integer i = 1; i < csvRows.size() - 1; i++) {
             // Split the current row into columns
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
+            // Get all correlation Ids
+            correlationIdSet.add(csvColumns[CTBFileValidationUtility.CORRELATION_ID]);
             CTB_Staging__c recordToCreate = CTBFileValidationUtility.validateAccountCTBStagingRecord(csvColumns);
             recordToCreate.CTB_Update_Filename__c = docStorage.Document_Name__c;
             stagingRecordsToCreate.add(recordToCreate);
-            // If validation was successfull
-            if (recordToCreate.Status__c != 'Error') {
-                Insolvency_Account__c accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(recordToCreate);
-                accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
-                accountRecordsToUpsert.add(accountToUpdate);
+        }
+        // Query existing account with the correlation Ids from the csv and create map with correlation id and account
+        if (!correlationIdSet.isEmpty() && !stagingRecordsToCreate.isEmpty()) {
+            for (Insolvency_Account__c acc : [SELECT Id, Correlation_Id__c FROM Insolvency_Account__c WHERE Correlation_Id__c IN :correlationIdSet]) {
+                mapCorrelationIdAccount.put(acc.Correlation_Id__c, acc);
             }
         }
         if (!stagingRecordsToCreate.isEmpty()) {
+            for (CTB_Staging__c stagingAcc : stagingRecordsToCreate) {
+                // If no account exists with correlation Id provided in the csv
+                if (!mapCorrelationIdAccount.containsKey(stagingAcc.Correlation_Id__c)) {
+                    stagingAcc.Status__c = 'Error';
+                    stagingAcc.Error_Message__c += '; No Account with given Correlation Id found in SF';
+                    // Remove ; from start of the string if it starts with ;
+                    if (String.isNotBlank(stagingAcc.Error_Message__c)) {
+                        stagingAcc.Error_Message__c = stagingAcc.Error_Message__c.removeStart(';');
+                    }
+                }
+                // If validation was successfull
+                if (stagingAcc.Status__c != 'Error') {
+                    Insolvency_Account__c accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
+                    accountToUpdate.Id = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
+                    accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
+                    accountRecordsToUpdate.add(accountToUpdate);
+                }
+            }
             Database.insert(stagingRecordsToCreate);
         }
-        if (!accountRecordsToUpsert.isEmpty()) {
+        if (!accountRecordsToUpdate.isEmpty()) {
             try {
-                upsert accountRecordsToUpsert Correlation_Id__c;
+                update accountRecordsToUpdate;
                 docStorage.File_Processing_Status__c = 'Processed';
                 update docStorage;
             } catch (DmlException dex) {
-                System.debug('Error upserting account records ' + dex.getDmlMessage(0));
+                System.debug('Error updating account records ' + dex.getDmlMessage(0));
             }
         }
         // Query and delete successfull records

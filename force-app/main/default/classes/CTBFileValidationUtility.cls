@@ -75,10 +75,6 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Last_Statement_Amount_3__c = parseDoubleString(csvColumns[LAST_STATEMENT_AMOUNT_3], 'Last_Statement_Amount_3__c', stagingRecord);
         stagingRecord.Previous_Account_Reference__c = csvColumns[PREVIOUS_ACCOUNT_REFERENCE];
         stagingRecord.Additional_Info__c = csvColumns[ADDITIONAL_INFO];
-        // Remove ; from start of the string if it starts with ;
-        if (String.isNotBlank(stagingRecord.Error_Message__c)) {
-            stagingRecord.Error_Message__c = stagingRecord.Error_Message__c.removeStart(';');
-        }
         return stagingRecord;
     }
 
