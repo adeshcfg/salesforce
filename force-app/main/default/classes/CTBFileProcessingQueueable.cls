@@ -61,7 +61,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
             if (csvColumns.size() != 48) {
                 docStorage.File_Processing_Status__c = 'Failed';
                 docStorage.File_Processing_Error__c =
-                    'Invalid number of columns or missing double quotes for all the cells of row number ' +
+                    'Invalid number of columns or missing double quotes for the cells of row number ' +
                     (i + 1) +
                     ', please check the file';
                 invalidFile = true;
