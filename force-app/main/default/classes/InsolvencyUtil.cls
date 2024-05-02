@@ -168,7 +168,7 @@
     public static Map <Id, String> getInsAccntRecorTypeIdNameMap(){
         
         Map <Id, String> insAccntRecorTypeMap = new Map<Id, String>();
-        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and ((NOT name like 'Unknown%') AND (NOT name like 'Canadian%'))];
+        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and ((NOT name like 'Unknown%'))];
         
         for(RecordType recordType : recordTypes){
             insAccntRecorTypeMap.put(recordType.Id ,recordType.Name);
@@ -376,7 +376,7 @@
             workOnRecordTypeMap.put('SDA', 'SDA Insolvency Account');
             workOnRecordTypeMap.put('Fairstone', 'Fairstone Insolvency Account');
             workOnRecordTypeMap.put('Goeasy', 'Easyfinancial Insolvency Account');
-            //workOnRecordTypeMap.put('Canadian Tire', 'Canadian Tire Insolvency Account');
+            workOnRecordTypeMap.put('Canadian Tire', 'Canadian Tire Insolvency Account');
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
         }
         return recordTypeToWorkOn;
