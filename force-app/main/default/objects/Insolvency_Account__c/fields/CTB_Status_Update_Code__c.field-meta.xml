@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CTB_Status_Update_Code__c</fullName>
     <externalId>false</externalId>
+    <inlineHelpText>Field updated when Processing status changed to Discharged or Annulled or Refused or Withdrawn</inlineHelpText>
     <label>CTB Status Update Code</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
