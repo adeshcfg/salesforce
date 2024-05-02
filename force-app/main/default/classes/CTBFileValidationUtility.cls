@@ -74,7 +74,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Last_Statement_Date_3__c = parseDateString(csvColumns[LAST_STATEMENT_DATE_3], 'Last_Statement_Date_3__c', stagingRecord);
         stagingRecord.Last_Statement_Amount_3__c = parseDoubleString(csvColumns[LAST_STATEMENT_AMOUNT_3], 'Last_Statement_Amount_3__c', stagingRecord);
         stagingRecord.Previous_Account_Reference__c = csvColumns[PREVIOUS_ACCOUNT_REFERENCE];
-        stagingRecord.Additional_Info__c = csvColumns[ADDITIONAL_INFO];
+        stagingRecord.Additional_Info__c = csvColumns[ADDITIONAL_INFO].remove('"');
         return stagingRecord;
     }
 
