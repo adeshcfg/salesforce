@@ -342,61 +342,68 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     }
                     // buld final body data
                     mainbody +=
-                        detailRecordType +
-                        ',' +
+                        '"'+detailRecordType +
+                        '","' +
                         memberType +
-                        ',' +
+                        '","' +
                         memberID +
-                        ',' +
+                        '","' +
                         openDate +
-                        ',' +
+                        '","' +
                         insolAccData.name +
-                        ',' +
+                        '","' +
                         insolAccData.Insolvency__r.Insolvency_Type__c +
-                        ',' +
+                        '","' +
                         productDesc +
-                        ',' +
+                        '","' +
                         DebtorFirstName +
-                        ',' +
+                        '","' +
                         DebtorLaseName +
-                        ',' +
+                        '","' +
                         addressLine1 +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         DebtorMailingCity +
-                        ',' +
+                        '","' +
                         province +
-                        ',' +
+                        '","' +
                         mailingCountry +
-                        ',' +
+                        '","' +
                         mailingPostalCode +
-                        ',' +
+                        '","' +
                         SIN +
-                        ',' +
+                        '","' +
                         dateOfBirth +
-                        ',' +
+                        '","' +
                         insolvencyDate +
-                        ',' +
+                        '","' +
                         estateNumber +
-                        ',' +
+                        '","' +
                         DRNTrusteeID +
-                        ',' +
+                        '","' +
                         trusteeCompany +
-                        ',' +
+                        '","' +
                         trusteeAddress +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         trusteeCity +
-                        ',' +
+                        '","' +
                         trusteeState +
-                        ',' +
+                        '","' +
                         trusteePostalCode +
-                        ',' +
+                        '","' +
                         insolAccData.Correlation_ID__c +
+                        '","' +
                         insolAccData.CTB_Status_Update_Code__c +
-                        ',' +
+                        '","' +
+                        '' +
+                        '","' +
+                        '' +
+                        '","' +
+                        '' +
+                        '","' +
                         '' +
                         ',' +
                         '' +
@@ -408,34 +415,28 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '' +
                         ',' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
-                        '' +
-                        ',' +
-                        '' +
-                        ',' +
-                        '' +
-                        ',' +
-                        '' +
+                        '","' +
+                        '' +'"'+
                         ' \n';
                     counter++;
                 } else {
@@ -458,7 +459,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 config.Insolvency_Account_Batch_Count__c = config.Insolvency_Account_Batch_Count__c + 1;
                 update config;
                 //if any error occur while file build then update status on insolvency account to "File Error Parsing Record"
-                if (insolvAcctErrorListMap != null) {
+                if (insolvAcctErrorListMap != null && !insolvAcctErrorListMap.isEmpty()) {
                     update insolvAcctErrorListMap.values();
                 }
             } catch (DMLException dmlEx) {
@@ -593,37 +594,37 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String trailerRecordType = mapCTBFileAuto.get('Insolvency Daily Update').Trailer_Record_Type__c;
                 //build heder body data
                 headbody =
-                    headerType +
-                    ',' +
+                    '"'+headerType +
+                    '","' +
                     memberType +
-                    ',' +
+                    '","' +
                     memberID +
-                    ',' +
+                    '","' +
                     batchCount +
-                    ',' +
+                    '","' +
                     createdDate +
-                    ',' +
+                    '","' +
                     dateformate +
-                    ',' +
+                    '","' +
                     fileType +
-                    ',' +
-                    fileFormatIdenfier +
+                    '","' +
+                    fileFormatIdenfier + '"'+
                     ' \n';
                 //build trailer body data
                 trailerbody =
-                    trailerRecordType +
-                    ',' +
+                    '"'+trailerRecordType +
+                    '","' +
                     memberType +
-                    ',' +
+                    '","' +
                     memberID +
-                    ',' +
+                    '","' +
                     finalrecordCount +
-                    ',' +
+                    '","' +
                     countVariable +
-                    ',' +
+                    '","' +
                     createdDate +
-                    ',' +
-                    dateformate +
+                    '","' +
+                    dateformate +'"'+
                     ' \n';
                 //build final string to parse
                 mainFinalData = headbody + FinalData + trailerbody;
