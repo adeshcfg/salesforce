@@ -176,7 +176,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         List<ID> listAccSuccessIds = new List<ID>();
         wrapperClass batchCntData = new wrapperClass();
         Map<id, Insolvency_Account__c> insolvAcctErrorListMap = new Map<id, Insolvency_Account__c>();
-
+		Insolvency_Account__c insolAccError = new Insolvency_Account__c();
+        
         try {
             //retrive data from CTB File Automation custom metadata
             String headerType = mapCTBFileAuto.get('Insolvency Daily Update').Header_Record_Type__c;
@@ -444,10 +445,10 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     listAccIds.add(insolAccData.id);
 
                     //update insolvency sub status to "File Error Parsing Record" on insolvency account records.
-                    Insolvency_Account__c insolAccError = new Insolvency_Account__c();
                     if (insolAccData.id != null) {
                         insolAccError.id = insolAccData.id;
                         insolAccError.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                        insolAccError.Error_Message__c = 'Missing data in one or more mandatory fields.';
                         insolvAcctErrorListMap.put(insolAccError.id, insolAccError);
                     }
                 }
@@ -753,7 +754,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
                     parsedResponse = DocumentAPIClient.postDocument(
                         fileBlob,
-                        'DRN_DailyUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') + '.csv',
+                        'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss') + '.csv',
                         'account'
                     );
                 } else if (CTBBatchName == System.Label.CTB_Payment) {
@@ -778,7 +779,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             docInfo.Document_URL__c = parsedResponse.docUrl;
             docInfo.Document_Extension__c = 'csv';
             if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
-                docInfo.Document_Name__c = 'DRN_DailyUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') + '.csv';
+                docInfo.Document_Name__c = 'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
             } else if (CTBBatchName == System.Label.CTB_Payment) {
                 docInfo.Document_Name__c = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') + '.csv';
             }

@@ -190,6 +190,13 @@ public class TestCTBPaymentGeneratorScheduler {
                                                                               Eligible_for_Claim_Type_Calculation__c = 'SPL',Ignore_Account_Number_for_DuplicateCheck__c = 'TRAILER');
         insert cs;
         
+        Account accInstance = new Account();
+        accInstance.FirstName = 'Ana';
+        accInstance.LastName = 'Starrk';
+        accInstance.Number_Of_Open_Complaint__c = 6;
+        accInstance.Phone_Number__pc = '123' ;
+        insert accInstance;
+        
         Trustee_Fees__c trusteeFees = Trustee_Fees__c.getOrgDefaults();
         trusteeFees.Trustee_Administration_Fee__c = 10;
         trusteeFees.Counselling_Fee__c = 10;
@@ -206,6 +213,7 @@ public class TestCTBPaymentGeneratorScheduler {
         insolv1.Payment_Amount__c = 10;
         insolv1.Number_of_Payments__c = 5;
         insolv1.Previous_Trustee_Variable_Fees__c = 70;
+        insolv1.Trustee__c = accInstance.id;
         insert insolv1;
         
         Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
