@@ -128,6 +128,20 @@ public with sharing class CTBFileValidationUtility {
     }
 
     /**
+     * @description : Method to return document storage record with passed details
+     * @author adesh.ikhar@canaccede.com | 05-03-2024
+     * @param docStorage
+     * @param status
+     * @param errorMessage
+     * @return Document_Storage__c
+     **/
+    public static Document_Storage__c updateDocStorageDetails(Document_Storage__c docStorage, String status, String errorMessage) {
+        docStorage.File_Processing_Status__c = status;
+        docStorage.File_Processing_Error__c = errorMessage;
+        return docStorage;
+    }
+
+    /**
      * @description : Method to parse csv, parses columns containing , as well
      * @author adesh.ikhar@canaccede.com | 04-30-2024
      * @param csvRow
@@ -160,6 +174,99 @@ public with sharing class CTBFileValidationUtility {
             parsedColumns.add(column);
         }
         return parsedColumns;
+    }
+
+    /**
+     * @description : Method to validate header and trailer rows
+     * @author adesh.ikhar@canaccede.com | 05-03-2024
+     * @param header
+     * @param trailer
+     * @param numberOfRows
+     * @return String
+     **/
+    public static String validateHeaderTrailer(String header, String trailer, Integer numberOfRows) {
+        if (String.isBlank(header) || String.isBlank(trailer)) {
+            return 'Empty Header/Trailer provided';
+        }
+        CTB_File_Automation__mdt fileMetadata = [
+            SELECT Header_Record_Type__c, Trailer_Record_Type__c
+            FROM CTB_File_Automation__mdt
+            WHERE DeveloperName = 'Insolvency_Daily_Update'
+        ];
+        List<String> headerValues = header.split('","');
+        String headerValidationMessage = validateHeader(headerValues, fileMetadata.Header_Record_Type__c);
+        if (String.isNotBlank(headerValidationMessage)) {
+            return headerValidationMessage;
+        }
+        List<String> trailerValues = trailer.split('","');
+        String trailerValidationMessage = validatetrailer(trailerValues, fileMetadata.Trailer_Record_Type__c, numberOfRows);
+        if (String.isNotBlank(trailerValidationMessage)) {
+            return trailerValidationMessage;
+        }
+        if (headerValues[4] != trailerValues[5]) {
+            return 'TrnDate for header and trailer should be same';
+        }
+        return null;
+    }
+
+    /**
+     * @description : Validate header row
+     * @author adesh.ikhar@canaccede.com | 05-03-2024
+     * @param headerValues
+     * @param headerRecType
+     * @return string
+     **/
+    public static string validateHeader(List<String> headerValues, String headerRecType) {
+        if (headerValues.size() != 8) {
+            return 'Number of columns in header should be 8';
+        }
+        for (String value : headerValues) {
+            if (String.isBlank(value)) {
+                return 'Mandatory value absent in the header';
+            }
+        }
+        if (headerValues[0].remove('"') != headerRecType) {
+            return 'Invalid RecType in the header';
+        }
+        if (headerValues[1] != '2') {
+            return 'Invalid MemType in the header';
+        }
+        if (headerValues[6] != 'T' && headerValues[6] != 'P') {
+            return 'Invalid File Type in the header';
+        }
+        return null;
+    }
+
+    /**
+     * @description : Validate trailer row
+     * @author adesh.ikhar@canaccede.com | 05-03-2024
+     * @param trailerValues
+     * @param trailerRecType
+     * @param numberOfRows
+     * @return string
+     **/
+    public static string validatetrailer(List<String> trailerValues, String trailerRecType, Integer numberOfRows) {
+        if (trailerValues.size() != 7) {
+            return 'Number of columns in trailer should be 7';
+        }
+        for (String value : trailerValues) {
+            if (String.isBlank(value)) {
+                return 'Mandatory value absent in the trailer';
+            }
+        }
+        if (trailerValues[0].remove('"') != trailerRecType) {
+            return 'Invalid RecType in the trailer';
+        }
+        if (trailerValues[1] != '2') {
+            return 'Invalid MemType in the trailer';
+        }
+        if (Integer.valueOf(trailerValues[3]) != numberOfRows) {
+            return 'RecCount does not match with the number of rows in the file';
+        }
+        if (Integer.valueOf(trailerValues[4]) != numberOfRows - 2) {
+            return 'TranCount does not match with the number of detail in the file';
+        }
+        return null;
     }
 
     /**

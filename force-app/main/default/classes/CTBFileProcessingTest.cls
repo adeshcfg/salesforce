@@ -13,7 +13,7 @@ public class CTBFileProcessingTest {
         Database.insert(docInfo);
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
 
-        String csvString = '"H","2","999","10","4/5/2024","10:07:05","T","DRN00001","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA","ZIRK","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","0000000008PCOM","","","9/15/2023","500","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","16","","","Test"\n"T","2","999","444","442","4/5/2024","10:07:05","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""';
+        String csvString = '"H","2","999","0000001","08/15/2008","12:32:06","P","DRN00001"\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","0000000008PCOM","","","9/15/2023","500","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123"\n"T","2","999","3","1","08/15/2008","12:32:06"';
         Document documentObj = new Document();
         documentObj.Body = Blob.valueOf(csvString);
         documentObj.ContentType = 'text/csv';
@@ -21,7 +21,25 @@ public class CTBFileProcessingTest {
         documentObj.IsPublic = true;
         documentObj.Name = 'My Document';
         documentObj.FolderId = [SELECT Id FROM folder WHERE DeveloperName = 'Metadata_Content'].Id;
-        insert documentObj;
+
+        String csvString1 = '"H","2","999","0000001","08/15/2008","12:32:06","P","DRN00001","D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","0000000008PCOM","","","9/15/2023","500","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123"\n"T","2","999","3","1","08/15/2008","12:32:06"';
+        Document documentObjNoOfRows = new Document();
+        documentObjNoOfRows.Body = Blob.valueOf(csvString1);
+        documentObjNoOfRows.ContentType = 'text/csv';
+        documentObjNoOfRows.DeveloperName = 'my_document_noofrows';
+        documentObjNoOfRows.IsPublic = true;
+        documentObjNoOfRows.Name = 'my_document_noofrows';
+        documentObjNoOfRows.FolderId = [SELECT Id FROM folder WHERE DeveloperName = 'Metadata_Content'].Id;
+
+        String csvString2 = '"H","2","999","0000001","08/15/2008","12:32:06","P","DRN00001"\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","0000000008PCOM","","","9/15/2023","500","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123","Fail"\n"T","2","999","3","1","08/15/2008","12:32:06"';
+        Document documentObjNoOfCols = new Document();
+        documentObjNoOfCols.Body = Blob.valueOf(csvString2);
+        documentObjNoOfCols.ContentType = 'text/csv';
+        documentObjNoOfCols.DeveloperName = 'my_document_noofcols';
+        documentObjNoOfCols.IsPublic = true;
+        documentObjNoOfCols.Name = 'my_document_noofcols';
+        documentObjNoOfCols.FolderId = [SELECT Id FROM folder WHERE DeveloperName = 'Metadata_Content'].Id;
+        insert new List<Document>{ documentObj, documentObjNoOfRows, documentObjNoOfCols };
 
         Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
         config.Run_Insolvency_Account_Trigger__c = true;
@@ -75,6 +93,24 @@ public class CTBFileProcessingTest {
     @isTest
     static void processFileTest() {
         Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document' LIMIT 1];
+        Document_Storage__c docStorage = [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c = 'TestFile' LIMIT 1];
+        Test.startTest();
+        System.enqueueJob(new CTBFileProcessingQueueable(System.Label.CTB_Insolvency_Account, doc.Id, docStorage));
+        Test.stopTest();
+    }
+
+    @isTest
+    static void processFileNegativeRows() {
+        Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document_noofrows' LIMIT 1];
+        Document_Storage__c docStorage = [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c = 'TestFile' LIMIT 1];
+        Test.startTest();
+        System.enqueueJob(new CTBFileProcessingQueueable(System.Label.CTB_Insolvency_Account, doc.Id, docStorage));
+        Test.stopTest();
+    }
+
+    @isTest
+    static void processFileNegativeCols() {
+        Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document_noofcols' LIMIT 1];
         Document_Storage__c docStorage = [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c = 'TestFile' LIMIT 1];
         Test.startTest();
         System.enqueueJob(new CTBFileProcessingQueueable(System.Label.CTB_Insolvency_Account, doc.Id, docStorage));
