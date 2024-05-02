@@ -1728,7 +1728,7 @@ insDetails.add(insDetail);
         	}
         }else{
             if(oldAccRecord.Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c &&
-               accNew.Insolvency_Sub_Status__c != 'Pending File'){ 
+               accNew.Insolvency_Sub_Status__c == 'Pending File' && oldAccRecord.Insolvency_Sub_Status__c != 'Pending File'){ 
                  accNew.Insolvency_Sub_Status__c.addError('You can set only Pending File as Processing Sub Status.');
             }
         }
