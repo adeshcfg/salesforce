@@ -1706,33 +1706,68 @@ insDetails.add(insDetail);
         author - Tejal Vidhate
     */
     public static void updateProcessingSubStatus(Insolvency_Account__c accNew , Insolvency_Account__c oldAccRecord){
-        //CTB Automation: set insolvency account processing status and sub-status
-        if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c){
-            accNew.CTB_Status_Update_Code__c = '';
-        	accNew.Insolvency_Sub_Status__c = '';
-            if(accNew.Insolvency_Status__c == 'For Owner Review'){
-            	accNew.CTB_Status_Update_Code__c = '';
-            	accNew.Insolvency_Sub_Status__c = 'Pending File';
-        	}
-        	if(accNew.Insolvency_Status__c == 'Discharged'){
-            	accNew.CTB_Status_Update_Code__c = 'PCOM';
-            	accNew.Insolvency_Sub_Status__c = 'Pending File';
-        	}
-        	if(accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused' || accNew.Insolvency_Status__c == 'Withdrawn'){
-            	accNew.CTB_Status_Update_Code__c = 'RREV';
-            	accNew.Insolvency_Sub_Status__c = 'Pending File';
-        	}
-        	if(accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldAccRecord.Insolvency__r.Revival_Date__c){
-            	accNew.CTB_Status_Update_Code__c = '';
-            	accNew.Insolvency_Sub_Status__c = 'Pending File';
-        	}
-        }else{
-            if(oldAccRecord.Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c &&
-               accNew.Insolvency_Sub_Status__c == 'Pending File' && oldAccRecord.Insolvency_Sub_Status__c != 'Pending File'){ 
-                 accNew.Insolvency_Sub_Status__c.addError('You can set only Pending File as Processing Sub Status.');
+        Insolvency__c insolData = [select id,name,Insolvency_Type__c,Debtor_1_First_Name__c,Debtor_1_Middle_Name__c,
+                                   Debtor_1_Mailing_Country__c,Insolvency_Date__c,Trustee__c
+                                   from Insolvency__c where id =: accNew.Insolvency__c limit 1];
+
+        Account accData = [select id,BillingStreet,BillingCity,BillingState,BillingPostalCode from account where id =: insolData.Trustee__c limit 1];
+
+        if(insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()){
+            if (
+                    accNew.Insolvency_Received_Date__c == null ||
+                    accNew.name == null ||
+                    insolData.Insolvency_Type__c == null ||
+                    insolData.Debtor_1_First_Name__c == null ||
+                    insolData.Debtor_1_Middle_Name__c == null ||
+                    accNew.Debtor_1_First_Name__c == null ||
+                    accNew.Debtor_1_Last_Name__c == null ||
+                    accNew.Debtor_1_Mailing_Street__c == null ||
+                    accNew.Debtor_1_Mailing_City__c == null ||
+                    accNew.Province_Formula__c == null ||
+                    insolData.Debtor_1_Mailing_Country__c == null ||
+                    insolData.Insolvency_Date__c == null ||
+                    insolData.name == null ||
+                    accNew.Trustee_Company__c == null ||
+                    accData.BillingStreet == null ||
+                    accData.BillingCity == null ||
+                    accData.BillingState == null ||
+                    accData.BillingPostalCode == null ||
+                    accNew.Correlation_ID__c == null
+            ) {
+                accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                accNew.Error_Message__c = 'Missing data in one or more mandatory fields.';
             }
+            else if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c){
+                //CTB Automation: set insolvency account processing status and sub-status
+                accNew.CTB_Status_Update_Code__c = '';
+                accNew.Insolvency_Sub_Status__c = '';
+                if(accNew.Insolvency_Status__c == 'For Owner Review'){
+                    accNew.CTB_Status_Update_Code__c = '';
+                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+                }
+                if(accNew.Insolvency_Status__c == 'Discharged'){
+                    accNew.CTB_Status_Update_Code__c = 'PCOM';
+                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+                }
+                if(accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused' || accNew.Insolvency_Status__c == 'Withdrawn'){
+                    accNew.CTB_Status_Update_Code__c = 'RREV';
+                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+                }
+                if(accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldAccRecord.Insolvency__r.Revival_Date__c){
+                    accNew.CTB_Status_Update_Code__c = '';
+                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+                }
+            }
+            else{
+                if(oldAccRecord.Insolvency_Status__c == accNew.Insolvency_Status__c && oldAccRecord.Insolvency_Sub_Status__c == NULL
+                   && accNew.Insolvency_Sub_Status__c == 'File Error Parsing Record'){
+                    accNew.Insolvency_Sub_Status__c.addError('You can set directly File Error Parsing Record as Processing Sub Status.');
+                }else if(oldAccRecord.Insolvency_Status__c == accNew.Insolvency_Status__c && oldAccRecord.Insolvency_Sub_Status__c == NULL
+                   && accNew.Insolvency_Sub_Status__c == 'Sent on file'){
+                    accNew.Insolvency_Sub_Status__c.addError('You can set directly Sent on file as Processing Sub Status.');   
+                }
+            }  
         }
-        
     }
 
     /**
