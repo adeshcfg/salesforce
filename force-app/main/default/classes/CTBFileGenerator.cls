@@ -406,15 +406,15 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '' +
                         '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
-                        ',' +
+                        '","' +
                         '' +
                         '","' +
                         '' +
