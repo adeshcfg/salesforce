@@ -70,13 +70,13 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
         if (!stagingRecordsToCreate.isEmpty()) {
             for (CTB_Staging__c stagingAcc : stagingRecordsToCreate) {
                 // If no account exists with correlation Id provided in the csv
-                if (!mapCorrelationIdAccount.containsKey(stagingAcc.Correlation_Id__c)) {
+                if (!mapCorrelationIdAccount.containsKey(stagingAcc.Correlation_Id__c) && !stagingAcc.Error_Message__c.contains('No Correlation Id provided')) {
                     stagingAcc.Status__c = 'Error';
                     stagingAcc.Error_Message__c += '; No Account with given Correlation Id found in SF';
-                    // Remove ; from start of the string if it starts with ;
-                    if (String.isNotBlank(stagingAcc.Error_Message__c)) {
-                        stagingAcc.Error_Message__c = stagingAcc.Error_Message__c.removeStart(';');
-                    }
+                }
+                // Remove ; from start of the string if it starts with ;
+                if (String.isNotBlank(stagingAcc.Error_Message__c)) {
+                    stagingAcc.Error_Message__c = stagingAcc.Error_Message__c.removeStart(';');
                 }
                 // If validation was successfull
                 if (stagingAcc.Status__c != 'Error') {
@@ -86,7 +86,12 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
                     accountRecordsToUpdate.add(accountToUpdate);
                 }
             }
-            Database.insert(stagingRecordsToCreate);
+            try {
+                Database.insert(stagingRecordsToCreate);
+            } catch (DmlException dex) {
+                System.debug('Error updating stging records ' + dex.getDmlMessage(0));
+                createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
+            }
         }
         if (!accountRecordsToUpdate.isEmpty()) {
             try {
@@ -95,6 +100,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
                 update docStorage;
             } catch (DmlException dex) {
                 System.debug('Error updating account records ' + dex.getDmlMessage(0));
+                createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
             }
         }
         // Query and delete successfull records
@@ -102,6 +108,12 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
         if (!stagingRecordsToDelete.isEmpty()) {
             System.enqueueJob(new BulkDmlQueueable(stagingRecordsToDelete, 0, 'Delete'));
         }
+    }
+
+    public static void createInsolvencyError(String errorMsg, String stackTrace) {
+        Insolvency_Error__c insolErrorData = new Insolvency_Error__c();
+        insolErrorData.Error__c = 'Record failed due to' + ' ' + errorMsg + ' ' + stackTrace;
+        Database.insert(insolErrorData);
     }
 
     /**
