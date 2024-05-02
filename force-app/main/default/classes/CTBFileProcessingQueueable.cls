@@ -36,7 +36,8 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
                 System.debug('Payment processing');
             } */
         } catch (Exception e) {
-            System.debug('Exception in CTBFileProcessingQueueable ' + e.getStackTraceString());
+            System.debug('Exception in CTBFileProcessingQueueable ' + e.getMessage() + e.getStackTraceString());
+            createInsolvencyError(e.getMessage(), e.getStackTraceString());
         }
     }
 
