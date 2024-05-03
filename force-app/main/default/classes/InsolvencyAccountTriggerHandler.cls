@@ -420,7 +420,7 @@ public class InsolvencyAccountTriggerHandler {
         DateTime dtNow = System.now();
         ID userId = UserInfo.getUserId();
         Boolean stopErrorMessage = false;
-        
+        Map<String,String> insolAccountIdInsolId = new Map<String,String>();
         //for Account number without space field update
         for(Insolvency_Account__c accNew : insolAccntsNew){
             Insolvency_Account__c insolAccntOld = oldMap.get(accNew.id);
@@ -438,9 +438,10 @@ public class InsolvencyAccountTriggerHandler {
             }
             //accNew.Alias_Name__c = accNew.Last_Modify_User_Alias__c;
             //Added by Tejal To Handle updating Processing Sub Status for CTB Automation
-            updateProcessingSubStatus(accNew,insolAccntOld);
+            insolAccountIdInsolId.put(accNew.id,accNew.Insolvency__c);
+            
         }
-        
+        updateProcessingSubStatus(insolAccntsNew,oldMap,insolAccountIdInsolId);
         set<Id> insolIdSet = new set<Id>();
         for(Insolvency_Account__c insolAccntnew : insolAccntsNew){
             insolIdSet.add(insolAccntnew.Insolvency__c);
@@ -1705,68 +1706,80 @@ insDetails.add(insDetail);
         return - void
         author - Tejal Vidhate
     */
-    public static void updateProcessingSubStatus(Insolvency_Account__c accNew , Insolvency_Account__c oldAccRecord){
-        Insolvency__c insolData = [select id,name,Insolvency_Type__c,Debtor_1_First_Name__c,Debtor_1_Middle_Name__c,
-                                   Debtor_1_Mailing_Country__c,Insolvency_Date__c,Trustee__c
-                                   from Insolvency__c where id =: accNew.Insolvency__c limit 1];
-
-        Account accData = [select id,BillingStreet,BillingCity,BillingState,BillingPostalCode from account where id =: insolData.Trustee__c limit 1];
-
-        if(insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()){
-            if (
+    public static void updateProcessingSubStatus(List<Insolvency_Account__c> insolAccntsNew, Map<Id, Insolvency_Account__c> oldMap,Map<String,String> insolAcctIdInsolId){
+        Map<string,Insolvency__c> mapInsolData = new Map<string,Insolvency__c>();
+        Map<string,String> mapInsolIdTrusteeId = new Map<string,String>();
+        Map<string,Account> trusteeData = new Map<string,Account>(); 
+        for(Insolvency__c insolData : [select id,name,Insolvency_Type__c,Debtor_1_First_Name__c,Debtor_1_Middle_Name__c,
+                                   Debtor_1_Mailing_Country__c,Insolvency_Date__c,Trustee__r.BillingStreet,
+                                       Trustee__r.BillingCity,Trustee__r.BillingState,Trustee__r.BillingPostalCode
+                                       from Insolvency__c where id IN: insolAcctIdInsolId.values()]){
+                                         mapInsolData.put(insolData.id,insolData);
+                                         mapInsolIdTrusteeId.put(insolData.id,insolData.Trustee__c);
+                                       }
+		
+        for(Account accData : [select id,BillingStreet,BillingCity,BillingState,BillingPostalCode from account where id IN: mapInsolIdTrusteeId.values()]){
+            trusteeData.put(accData.id,accData);
+        }
+        
+        for(Insolvency_Account__c accNew : insolAccntsNew){
+            if(insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()){
+                if (
                     accNew.Insolvency_Received_Date__c == null ||
                     accNew.name == null ||
-                    insolData.Insolvency_Type__c == null ||
-                    insolData.Debtor_1_First_Name__c == null ||
-                    insolData.Debtor_1_Middle_Name__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Insolvency_Type__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_First_Name__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Middle_Name__c == null ||
                     accNew.Debtor_1_First_Name__c == null ||
                     accNew.Debtor_1_Last_Name__c == null ||
                     accNew.Debtor_1_Mailing_Street__c == null ||
                     accNew.Debtor_1_Mailing_City__c == null ||
                     accNew.Province_Formula__c == null ||
-                    insolData.Debtor_1_Mailing_Country__c == null ||
-                    insolData.Insolvency_Date__c == null ||
-                    insolData.name == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Mailing_Country__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Insolvency_Date__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).name == null ||
                     accNew.Trustee_Company__c == null ||
-                    accData.BillingStreet == null ||
-                    accData.BillingCity == null ||
-                    accData.BillingState == null ||
-                    accData.BillingPostalCode == null ||
+                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingStreet == null ||
+                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingCity == null ||
+                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingState == null ||
+                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingPostalCode == null ||
                     accNew.Correlation_ID__c == null
-            ) {
-                accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
-                accNew.Error_Message__c = 'Missing data in one or more mandatory fields.';
-            }
-            else if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c){
-                //CTB Automation: set insolvency account processing status and sub-status
-                accNew.CTB_Status_Update_Code__c = '';
-                accNew.Insolvency_Sub_Status__c = '';
-                if(accNew.Insolvency_Status__c == 'For Owner Review'){
+                ) {
+                    accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                    accNew.Error_Message__c = 'Missing data in one or more mandatory fields.';
+                }
+                else if(oldMap.get(accNew.id).Insolvency_Status__c!=accNew.Insolvency_Status__c){
+                    //CTB Automation: set insolvency account processing status and sub-status
                     accNew.CTB_Status_Update_Code__c = '';
-                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    accNew.Insolvency_Sub_Status__c = '';
+                    if(accNew.Insolvency_Status__c == 'For Owner Review'){
+                        accNew.CTB_Status_Update_Code__c = '';
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
+                    if(accNew.Insolvency_Status__c == 'Discharged'){
+                        accNew.CTB_Status_Update_Code__c = 'PCOM';
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
+                    if(accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused' || accNew.Insolvency_Status__c == 'Withdrawn'){
+                        accNew.CTB_Status_Update_Code__c = 'RREV';
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
+                    if(accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldMap.get(accNew.id).Insolvency__r.Revival_Date__c){
+                        accNew.CTB_Status_Update_Code__c = '';
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
                 }
-                if(accNew.Insolvency_Status__c == 'Discharged'){
-                    accNew.CTB_Status_Update_Code__c = 'PCOM';
-                    accNew.Insolvency_Sub_Status__c = 'Pending File';
-                }
-                if(accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused' || accNew.Insolvency_Status__c == 'Withdrawn'){
-                    accNew.CTB_Status_Update_Code__c = 'RREV';
-                    accNew.Insolvency_Sub_Status__c = 'Pending File';
-                }
-                if(accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldAccRecord.Insolvency__r.Revival_Date__c){
-                    accNew.CTB_Status_Update_Code__c = '';
-                    accNew.Insolvency_Sub_Status__c = 'Pending File';
-                }
+                else{
+                    if(oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c && oldMap.get(accNew.id).Insolvency_Sub_Status__c == NULL
+                       && accNew.Insolvency_Sub_Status__c == 'File Error Parsing Record'){
+                           accNew.Insolvency_Sub_Status__c.addError('You can set directly File Error Parsing Record as Processing Sub Status.');
+                    }
+                    else if(oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c && oldMap.get(accNew.id).Insolvency_Sub_Status__c == NULL
+                            && accNew.Insolvency_Sub_Status__c == 'Sent on file'){
+                                accNew.Insolvency_Sub_Status__c.addError('You can set directly Sent on file as Processing Sub Status.');   
+                    }
+                }  
             }
-            else{
-                if(oldAccRecord.Insolvency_Status__c == accNew.Insolvency_Status__c && oldAccRecord.Insolvency_Sub_Status__c == NULL
-                   && accNew.Insolvency_Sub_Status__c == 'File Error Parsing Record'){
-                    accNew.Insolvency_Sub_Status__c.addError('You can set directly File Error Parsing Record as Processing Sub Status.');
-                }else if(oldAccRecord.Insolvency_Status__c == accNew.Insolvency_Status__c && oldAccRecord.Insolvency_Sub_Status__c == NULL
-                   && accNew.Insolvency_Sub_Status__c == 'Sent on file'){
-                    accNew.Insolvency_Sub_Status__c.addError('You can set directly Sent on file as Processing Sub Status.');   
-                }
-            }  
         }
     }
 
