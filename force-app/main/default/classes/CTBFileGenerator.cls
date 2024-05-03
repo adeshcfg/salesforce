@@ -375,6 +375,22 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                             trusteePostalCode = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingPostalCode);
                         }
                     }
+                    string ctbStatusUpdateCode = '';
+                    if(insolAccData.CTB_Status_Update_Code__c != null) {
+                        if (insolAccData.CTB_Status_Update_Code__c.length() > 20) {
+                            ctbStatusUpdateCode = insolAccData.CTB_Status_Update_Code__c.subString(0, 20);
+                        } else {
+                            ctbStatusUpdateCode = insolAccData.CTB_Status_Update_Code__c;
+                        }
+                    }    
+                    string correlationID = '';
+                    if(insolAccData.Correlation_ID__c != null) {
+                        if (insolAccData.Correlation_ID__c.length() > 15) {
+                            correlationID = insolAccData.Correlation_ID__c.subString(0, 15);
+                        } else {
+                            correlationID = insolAccData.Correlation_ID__c;
+                        }
+                    }
                     // buld final body data
                     mainbody +=
                         '"'+detailRecordType +
@@ -429,9 +445,9 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '","' +
                         trusteePostalCode +
                         '","' +
-                        insolAccData.Correlation_ID__c +
+                        correlationID +
                         '","' +
-                        insolAccData.CTB_Status_Update_Code__c +
+                        ctbStatusUpdateCode +
                         '","' +
                         '' +
                         '","' +
