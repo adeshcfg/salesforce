@@ -108,7 +108,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 ' Select id,name,Insolvency_Received_Date__c,Insolvency__r.Insolvency_Type__c,Debtor_1_First_Name__c,' +
                 'Debtor_1_Last_Name__c,Province_Formula__c,Insolvency__r.Debtor_1_Mailing_Country__c,Debtor_1_Mailing_Postal_Code__c,' +
                 'Debtor_1_SIN__c,Debtor_1_Date_of_Birth__c,Insolvency__r.Insolvency_Date__c,Insolvency__r.name,Trustee_Company__c,Correlation_ID__c,' +
-                'Insolvency__r.Trustee__r.BillingStreet,Insolvency__r.Debtor_1_First_Name__c,Insolvency__r.Trustee__r.BillingCity,Insolvency__r.Trustee__r.BillingState,CTB_Date_of_Birth__c,' +
+                'Insolvency__r.Trustee__r.BillingStreet,Insolvency__r.Debtor_1_First_Name__c,Insolvency__r.Debtor_1_Last_Name__c,Insolvency__r.Trustee__r.BillingCity,Insolvency__r.Trustee__r.BillingState,CTB_Date_of_Birth__c,' +
                 'Insolvency__r.Trustee__r.BillingPostalCode,Debtor_1_Mailing_Street__c,CTB_Status_Update_Code__c,Insolvency__r.Debtor_1_Middle_Name__c,Debtor_1_Mailing_City__c ' +
                 'FROM Insolvency_Account__c ' +
                 'WHERE ' +
@@ -211,7 +211,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     (insolAccData.Insolvency__r.Debtor_1_First_Name__c != null ||
                     insolAccData.Insolvency__r.Debtor_1_Middle_Name__c != null ||
                     insolAccData.Debtor_1_First_Name__c != null) &&
-                    insolAccData.Debtor_1_Last_Name__c != null &&
+                    (insolAccData.Debtor_1_Last_Name__c != null ||
+                    insolAccData.Insolvency__r.Debtor_1_Last_Name__c != null) &&
                     insolAccData.Debtor_1_Mailing_Street__c != null &&
                     insolAccData.Debtor_1_Mailing_City__c != null &&
                     insolAccData.Province_Formula__c != null &&
@@ -233,6 +234,31 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         } else {
                             DebtorFirstName = insolAccData.Debtor_1_First_Name__c;
                         }
+                    }else{
+                        if (insolAccData.Insolvency__r.Debtor_1_First_Name__c != null 
+                            && insolAccData.Insolvency__r.Debtor_1_Middle_Name__c != null) {
+                            string inslodebtorFirstName = '';
+                            string debtorMiddleName = '';
+                            if (insolAccData.Insolvency__r.Debtor_1_First_Name__c.length() > 40) {
+                                inslodebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c.subString(0, 40);
+                            } else {
+                                inslodebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c;
+                            }
+                            if (insolAccData.Insolvency__r.Debtor_1_Middle_Name__c.length() > 40) {
+                                debtorMiddleName = insolAccData.Insolvency__r.Debtor_1_Middle_Name__c.subString(0, 40);
+                            } else {
+                                debtorMiddleName = insolAccData.Insolvency__r.Debtor_1_Middle_Name__c;
+                            }
+                            DebtorFirstName = inslodebtorFirstName + debtorMiddleName;
+                          }else{
+                              if (insolAccData.Insolvency__r.Debtor_1_First_Name__c != null){
+                                  if (insolAccData.Insolvency__r.Debtor_1_First_Name__c.length() > 40) {
+                                      DebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c.subString(0, 40);
+                                  } else {
+                                      DebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c;
+                                  }
+                              }
+                          }
                     }
                     String DebtorLaseName = '';
                     if (insolAccData.Debtor_1_Last_Name__c != null) {
@@ -240,6 +266,14 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                             DebtorLaseName = insolAccData.Debtor_1_Last_Name__c.subString(0, 40);
                         } else {
                             DebtorLaseName = insolAccData.Debtor_1_Last_Name__c;
+                        }
+                    }else{
+                        if(insolAccData.Insolvency__r.Debtor_1_Last_Name__c != null){
+                            if (insolAccData.Insolvency__r.Debtor_1_Last_Name__c.length() > 40) {
+                                DebtorLaseName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c.subString(0, 40);
+                            } else {
+                                DebtorLaseName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c;
+                            }    
                         }
                     }
                     String addressLine1 = '';
