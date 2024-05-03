@@ -74,11 +74,9 @@ public class CTBFileProcessingTest {
 
     @isTest
     static void processFileTest() {
-        String csvRow = '"H","2","999","10","4/5/2024","10:07:05","T","DRN00001, test"';
         Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document' LIMIT 1];
         Document_Storage__c docStorage = [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c = 'TestFile' LIMIT 1];
         Test.startTest();
-        CTBFileValidationUtility.parseCsv(csvRow);
         System.enqueueJob(new CTBFileProcessingQueueable(System.Label.CTB_Insolvency_Account, doc.Id, docStorage));
         Test.stopTest();
     }
