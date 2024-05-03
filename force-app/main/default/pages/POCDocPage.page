@@ -1,4 +1,4 @@
-<apex:page showHeader="false" controller="POCDocController" id="page" action="{!changeLanguage}">
+<apex:page showHeader="false" controller="POCDocController" id="page">
    <html class="ArialUnicodeMSFont">
       <head>
          <apex:slds />
@@ -31,28 +31,23 @@
          </style>
          <script>
             function target(){
-                console.log('target enter');
+                
                 var element = document.getElementById("target");
-                console.log('target enter element-->'+element);
                 /*var elementAmend = document.getElementById("amendPOCmessage");
                 unfade(elementAmend);*/
                 var checkVal = document.getElementById('page:form:hiddenCheck').value;
-                console.log('target enter checkVal-->'+checkVal);
                 if(checkVal  == 'true'){
-                      console.log('target enter if loop');
                       element = document.getElementById("exceptionInPdf");
-                      console.log('target enter if loop element-->'+element);
                       unfade(element);
-                    console.log('after unfade inside if loop');
                       return false;
                 }
-                console.log('before unfade');
+                
                 unfade(element);
-                 console.log('after unfade');
+                
                 setTimeout(function(){
                   closeWindow();
                 }, 5000);
-                console.log('last line');
+                
             }
                
             function closeWindow(){
@@ -60,7 +55,6 @@
             }
                
             function unfade(element) {
-                console.log('unfade enter');
                 var op = 0.1;  // initial opacity
                 element.style.display = 'block';
                 var timer = setInterval(function () {
@@ -71,7 +65,6 @@
                     element.style.filter = 'alpha(opacity=' + op * 100 + ")";
                     op += op * 0.1;
                 }, 0);
-                console.log('last line unfade');
             }
             window.onload = function(){
                 //setLanguage();

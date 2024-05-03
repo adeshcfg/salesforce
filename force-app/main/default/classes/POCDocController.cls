@@ -117,7 +117,13 @@ public class POCDocController{
                                 Statements_Required__c, Proof_of_Claim_Required__c, Voting_Options__c ,Include_Voting_Letter__c, Amended_PoC_Created_Date__c, PoC_Created_Date__c, Account_Type__c   
                                 FROM Insolvency_Account__c 
                                 WHERE Id =: ApexPages.currentPage().getParameters().get('Id')];
-                                
+         if(insolvAcc.Client_Identifier__c =='Goeasy' && insolvAcc.Account_Type__c=='Unsecured Installment Loan' && insolvAcc.Include_Voting_Letter__c==TRUE && insolvAcc.Excluded_from_Purchase__c==TRUE){
+             pageName='GoEasyOnlyVotingLetter';
+         }
+        else if(insolvAcc.Client_Identifier__c =='Goeasy' && insolvAcc.Account_Type__c=='Unsecured Installment Loan' && insolvAcc.Excluded_from_Purchase__c==TRUE){
+            pageName='GoEasyUnSecured';
+         }
+                    system.debug('pageName@@'+pageName);
          Datetime dateNow = Datetime.now();
          if(insolvAcc.Insolvency__r.Insolvency_Date__c!=null){
          formattedDate= String.valueOf(' '+frenchDates.get(insolvAcc.Insolvency__r.Insolvency_Date__c.month()) 
@@ -230,8 +236,7 @@ public class POCDocController{
             for(String trusteeCheck: trusteeCheckList){
                 if(insolvAcc.Insolvency__r.Trustee__r.ParentId == trusteeCheck){
                     isTrusteeSerNovSco = true;
-                }
-                
+                }                
             } 
             if(isTrusteeSerNovSco == true){
                 insolAccName = insolvAcc.Secured_Name__c;
@@ -281,15 +286,6 @@ public class POCDocController{
                 system.debug('pdf in french');
                 pdf = Page.POCDocDataFrenchCanadianTire;     
             }
-        }else if(insolvAcc.Client_Identifier__c =='Goeasy' && insolvAcc.Account_Type__c=='Unsecured Installment Loan' && insolvAcc.Excluded_from_Purchase__c==TRUE){
-            if(language == 'en_US'){
-                system.debug('pdf in english');
-                pdf = Page.POCDocDataEasyFinancial;     
-            }
-            if(language == 'fr'){
-                system.debug('pdf in french');
-                pdf = Page.POCDocDataFrenchEasyFinancial;     
-            }
         }
         else if(insolvAcc.Client_Identifier__c =='Goeasy' && insolvAcc.Include_Voting_Letter__c==TRUE && insolvAcc.Excluded_from_Purchase__c==TRUE){
             if(language == 'en_US'){
@@ -299,6 +295,16 @@ public class POCDocController{
             if(language == 'fr'){
                 system.debug('pdf in french');
                 pdf = Page.POCDocDataFrenchOnlyVotingLetter;     
+            }
+        }
+        else if(insolvAcc.Client_Identifier__c =='Goeasy' && insolvAcc.Account_Type__c=='Unsecured Installment Loan' && insolvAcc.Excluded_from_Purchase__c==TRUE){
+            if(language == 'en_US'){
+                system.debug('pdf in english');
+                pdf = Page.POCDocDataEasyFinancial;     
+            }
+            if(language == 'fr'){
+                system.debug('pdf in french');
+                pdf = Page.POCDocDataFrenchEasyFinancial;     
             }
         }
         else{
@@ -445,9 +451,10 @@ public class POCDocController{
     //change the language logic from POCDoc page
     public PageReference changeLanguage(){
         system.debug('language: '+language);
-        system.debug('pageName: '+pageName);
+        system.debug('pageName changeLanguage: '+pageName);
         
         if(language == 'fr'){
+            system.debug('pageName-->'+pageName);
             system.debug('french');
             PageReference pageRef;
             if(pageName == 'Canaccede'){
@@ -458,8 +465,12 @@ public class POCDocController{
                 pageRef = new PageReference('/apex/POCDocFrenchCanadianTirePreview?Id='+insolvAcc.Id);
                 pageRef.setRedirect( true ); 
             }
-            else if(pageName == 'Goeasy'){
-                pageRef = new PageReference('/apex/POCDocDataFrenchEasyFinancial?Id='+insolvAcc.Id);
+            else if(pageName == 'GoEasyOnlyVotingLetter'){
+                pageRef = new PageReference('/apex/POCDocOnlyVotingLetterFrenchPreview?Id='+insolvAcc.Id);
+                pageRef.setRedirect( true ); 
+            }            
+            else if(pageName == 'GoEasyUnSecured'){
+                pageRef = new PageReference('/apex/POCDocFrenchEasyFinancialPreview?Id='+insolvAcc.Id);
                 pageRef.setRedirect( true ); 
             }
             else{
@@ -472,6 +483,7 @@ public class POCDocController{
         }
         else{
             system.debug('english');
+            system.debug('pageName-->'+pageName);
             PageReference pageRef;
             if(pageName == 'Canaccede'){
                 pageRef = new PageReference('/apex/POCDocCanaccede?Id='+insolvAcc.Id);
@@ -481,13 +493,17 @@ public class POCDocController{
                 pageRef = new PageReference('/apex/POCDocCanadianTire?Id='+insolvAcc.Id);
                 pageRef.setRedirect( true ); 
             }
-            else if(pageName == 'Goeasy'){
-                pageRef = new PageReference('/apex/POCDocDataEasyFinancial?Id='+insolvAcc.Id);
+            else if(pageName == 'GoEasyOnlyVotingLetter'){
+                pageRef = new PageReference('/apex/POCDocOnlyVotingLetterEnglishPreview?Id='+insolvAcc.Id);
+                pageRef.setRedirect( true ); 
+            }
+            else if(pageName == 'GoEasyUnSecured'){
+                pageRef = new PageReference('/apex/POCDocEasyFiEnglish?Id='+insolvAcc.Id);
                 pageRef.setRedirect( true ); 
             }
             else{
                  system.debug('english here Scotia');
-                 pageRef = new PageReference('/apex/POCDoc?Id='+insolvAcc.Id);
+                 pageRef = new PageReference('/apex/POCDocPage?Id='+insolvAcc.Id);
                  pageRef.setRedirect( true ); 
             }            
             system.debug('pageRef: '+pageRef);

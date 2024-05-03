@@ -1,6 +1,6 @@
-<apex:page showHeader="false" controller="POCDocController" id="page">
-<html class="myfont">
-       <style>
+<apex:page showHeader="false" renderAs="pdf" controller="POCDocDataController" standardStylesheets="false">
+    <html class="myfont">
+        <style>
             .headerfont{
             font-size:8px !important;
             font-family: "Arial Unicode MS";
@@ -17,89 +17,19 @@
             font-family: "Arial Unicode MS";
             }
         </style>
-        <apex:outputPanel rendered="{! $CurrentPage.parameters.proofOfClaim == 'true'}">
-            <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Insolvency_Type__c != 'Division 1 Proposal' && insolvAcc.Business_Account__c == False}">
-        <!-- Adding new page STARTS-->
-            <div style='font-family: "Times New Roman"; width:90%; margin:auto; font-size:16px; display:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "block;", "none;")}'>
-                <div style="text-align:center;padding-top: 0px;">
-                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>  
+        <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
+        <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true'}" >
+            <div style=' margin:auto;padding-left:10px;font-size:12px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
+             
+                <div style="line-height:15px;float:left;">
+                    
+                    District de: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br/>
+                   	No division: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br/>
+                    No cour: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br/>
+                    No dossier: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}
                 </div>
-                <br/>
-                <div style="line-height:30px;">
-                    <apex:outputText value="{!formattedDateTodayHeader}"/>
-                    <!--<apex:outputText value="{0,date, MMMM dd',' yyyy}">
-                        
-                        <apex:param value="{!TODAY()}" />
-                    </apex:outputText>   -->            <br/>
-                    {!insolvAcc.Insolvency__r.Trustee__r.Parent.Name}
-                    <br/>
-                    Chers(ères) Messieurs / Mesdames:<br/>
-                </div>
-                <br/>
-                <table>
-                    <tr>
-                        <td style="vertical-align:top;"><span style="font-family: Times New Roman; font-weight:bold;">Objet:</span></td>
-                        <td style="padding-left:40px;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Avis de cession de comptes par {!pocPackage.Client_Company_Name__c}. (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name__c)} (“CFG CANADA”).</span> </td>    
-                    </tr>
-                </table>
-                <hr style="border-color:black;"/>
-                <br/>
-                Nous vous écrivons pour vous informer que le compte et la réclamation connexe qui nous sont dus (le « compte ») par le débiteur (le « débiteur ») décrit dans la preuve de réclamation ci-jointe est en cours d’achat par
-                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}"> {!pocPackage.CFG_Office_Name__c}.</apex:outputText>
-                Nous comprenons que le débiteur est soumis à une procédures en vertu de la 
-                <span style="font-family: Times New Roman; font-style:italic;">Loi sur la faillite et l'insolvabilité </span>(Canada) à l'égard de laquelle vous avez été nommé syndic de faillite.
-                <br/><br/>
-                <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
-                Nous autorisons par la présente {!pocPackage.CFG_Office_Name__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name__c}.
-                </apex:outputText>
-                <br/><br/>
-                Si vous avez des questions, n'hésitez pas à contacter Canaccede International Management Ltd. aux coordonnées suivantes:
-                <br/><br/>
-                <div style="padding-left:30px;">
-                    {!pocPackage.CFG_French_Office_Name__c}<br/>
-                    {!pocPackage.CFG_Office_Address_1__c}<br/>
-                    {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
-                    <table style="width: 320px; margin-left:-5px;">
-                        <tr>
-                            <td>Attention:  </td>
-                            <td>Insolvency Processing</td>
-                        </tr>
-                        <tr>
-                            <td>Téléphone:  </td>
-                            <td>{!pocPackage.CFG_Office_Phone_Number__c}</td>
-                        </tr>
-                        <tr>
-                            <td>Télécopieur:  </td>
-                            <td>{!pocPackage.CFG_Office_Fax_Number__c}</td>
-                        </tr>
-                        <tr>
-                            <td>Email:</td>
-                            <td>{!pocPackage.CFG_Office_Email_Address__c}</td>
-                        </tr>
-                    </table>
-                </div><br/>
-                <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
-                <br/><br/>
-                </apex:outputPanel>
-                Sincèrement,
-                <br/><br/>
-                <span style=" font-weight:bold;display:{!IF(insolvAcc.Client_Identifier__c == "Goeasy", "block;", "none;")}">{!pocPackage.Client_Company_Name__c}</span>
-                 
-                <br/>
-                <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
-                <br/><br/>
-                </apex:outputPanel>
-                <br/><br/><br/><br/><br/>
-            </div>
-            </apex:outputPanel>
-            </apex:outputPanel>
-<div style="line-height:15px;float:left;">
-            District de: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br/>
-            No division: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br/>
-            No cour: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br/>
-            No dossier: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}
-        </div>
-                        <div style="text-align:center;clear:both;">
+                
+                <div style="text-align:center;clear:both;">
                     Formulaire 37.1
                     <br/>
                     Formulaire de Votation (Proposition de Consomateur) <br/> (alinéa 66.15(3)c) de la Loi)
@@ -113,11 +43,7 @@
                     <br/>
                     De la Ville de <span  style="font-family: sans-serif; font-weight:bold;"> {!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</span>, dans la province de <span  style="font-family: sans-serif; font-weight:bold;">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>Et la reclamation de 
-                    <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> {!pocPackage.CFG_Office_Name__c}</span></apex:outputText> 
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c}</span> (Créancier)</apex:outputText>   
-                    </apex:outputText>
-                    <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.CFG_Office_Name_2__c} </span> (Créancier)</apex:outputText>
+                    <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}"><span style="font-weight : bold; font-family: sans-serif;"> {!pocPackage.CFG_Office_Name_2__c} </span> (Créancier)</apex:outputText>
                 </div>
                 <br/>
                 <tr style="text-align:left;">
@@ -201,7 +127,7 @@
                              <apex:outputText value="{0,date, dd ' jour de '}">{!formattedDate}
                             <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> 
                         </apex:outputText>, et <span  style="font-family: sans-serif; font-weight:bold;">JE DEMANDE QU’UNE ASSEMBLÉE SOIT CONVOQUÉE.</span>
-                        
+                        CONTRE-OFFRE: {!insolvAcc.Voting_Letter_Comments__c} $ pour X mois totalisant {!insolvAcc.Voting_Letter_Comments__c} $.
                     </span>
                     <div style="height:60px; padding: 10px 0px 0px 0px;">
                         {!insolvAcc.Voting_Letter_Comments__c}
@@ -232,14 +158,20 @@
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, Président<br/>
                             {!pocPackage.CFG_French_Office_Name__c}<br/>
-                            <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
-                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier) </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
-                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured')}" />
-                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL'))}" />
-                            </apex:outputText>
-                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name_2__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}" />
+                            <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}" />
                         </span>
                     </td>
                 </tr>
-                </html>
+                <br/> 
+                <div style=" {!IF($CurrentPage.parameters.proofOfClaim == 'true', 'margin-top:-40px; padding-top:5px;','height:50px;margin-top:-68px;')}">&nbsp;</div>
+                <!--<div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
+                {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
+                <br/>
+                {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} -->
+                 <br/><br/><br/><br/><br/><br/>
+            </div>
+        </apex:outputPanel>
+        <!-- PAGE 5 ENDS-->
+    </html>
+    
 </apex:page>
