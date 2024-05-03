@@ -264,7 +264,7 @@ public with sharing class CTBFileValidationUtility {
             return 'RecCount does not match with the number of rows in the file';
         }
         if (Integer.valueOf(trailerValues[4]) != numberOfRows - 2) {
-            return 'TranCount does not match with the number of detail in the file';
+            return 'TranCount does not match with the number of detail records in the file';
         }
         return null;
     }

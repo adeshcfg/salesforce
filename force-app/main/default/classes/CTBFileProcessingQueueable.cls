@@ -49,7 +49,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
      **/
     public static void processCTBStagingAccounts(String csvContents, Document_Storage__c docStorage) {
         List<CTB_Staging__c> stagingRecordsToCreate = new List<CTB_Staging__c>();
-        List<Insolvency_Account__c> accountRecordsToUpdate = new List<Insolvency_Account__c>();
+        Map<Id, Insolvency_Account__c> accountRecordsToUpdateMap = new Map<Id, Insolvency_Account__c>();
         Set<String> correlationIdSet = new Set<String>();
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
         Boolean invalidFile = false;
@@ -76,10 +76,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
             if (csvColumns.size() != 48) {
                 docStorage.File_Processing_Status__c = 'Failed';
-                docStorage.File_Processing_Error__c =
-                    'Invalid number of columns for row number ' +
-                    (i + 1) +
-                    ', please check the file';
+                docStorage.File_Processing_Error__c = 'Invalid number of columns for row number ' + (i + 1) + ', please check the file';
                 invalidFile = true;
                 break;
             }
@@ -111,7 +108,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
                     Insolvency_Account__c accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
                     accountToUpdate.Id = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
-                    accountRecordsToUpdate.add(accountToUpdate);
+                    accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
                 }
             }
             try {
@@ -121,9 +118,9 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
                 createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
             }
         }
-        if (!accountRecordsToUpdate.isEmpty()) {
+        if (!accountRecordsToUpdateMap.values().isEmpty()) {
             try {
-                update accountRecordsToUpdate;
+                update accountRecordsToUpdateMap.values();
                 docStorage.File_Processing_Status__c = 'Processed';
             } catch (DmlException dex) {
                 System.debug('Error updating account records ' + dex.getDmlMessage(0));
