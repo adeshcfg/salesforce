@@ -54,13 +54,30 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
         Boolean invalidFile = false;
         List<String> csvRows = csvContents.split('\n');
+        // Check for number of rows, should have atleast 3 rows
+        if (csvRows.size() < 3) {
+            docStorage = CTBFileValidationUtility.updateDocStorageDetails(
+                docStorage,
+                'Failed',
+                'File should contain atleast 3 rows. Header, record detail and trailer.'
+            );
+            update docStorage;
+            return;
+        }
+        // Validate header and trailer
+        String headerTrailerValidationMsg = CTBFileValidationUtility.validateHeaderTrailer(csvRows[0], csvRows[csvRows.size() - 1], csvRows.size());
+        if (String.isNotBlank(headerTrailerValidationMsg)) {
+            docStorage = CTBFileValidationUtility.updateDocStorageDetails(docStorage, 'Failed', headerTrailerValidationMsg);
+            update docStorage;
+            return;
+        }
         for (Integer i = 1; i < csvRows.size() - 1; i++) {
             // Split the current row into columns
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
             if (csvColumns.size() != 48) {
                 docStorage.File_Processing_Status__c = 'Failed';
                 docStorage.File_Processing_Error__c =
-                    'Invalid number of columns or missing double quotes for the cells of row number ' +
+                    'Invalid number of columns for row number ' +
                     (i + 1) +
                     ', please check the file';
                 invalidFile = true;
