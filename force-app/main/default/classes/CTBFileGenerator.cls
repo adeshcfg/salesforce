@@ -465,6 +465,13 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 }
             } catch (DMLException dmlEx) {
                 system.debug('Exception msg@@' + dmlEx.getStackTraceString());
+                insolAccError.id = dmlEx.getDmlId(0);
+                insolAccError.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                insolAccError.Error_Message__c = dmlEx.getStackTraceString();
+                insolvAcctErrorListMap.put(insolAccError.id, insolAccError);
+                if(insolvAcctErrorListMap != null && !insolvAcctErrorListMap.isEmpty()) {
+                    update insolvAcctErrorListMap.values();
+                }
                 exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, CTBBatchName);
                 CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), dmlEx.getStackTraceString(), 'Account batch count update Failed');
             }
@@ -963,6 +970,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
                 for (insolvency_account__c insolAccData : (List<insolvency_account__c>) Data) {
                     insolAccData.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                    insolAccData.Error_Message__c = stackTrace;
                     errorMapData.put(insolAccData.id, insolAccData);
                 }
             }
