@@ -1710,7 +1710,7 @@ insDetails.add(insDetail);
         Map<string,Insolvency__c> mapInsolData = new Map<string,Insolvency__c>();
         Map<string,String> mapInsolIdTrusteeId = new Map<string,String>();
         Map<string,Account> trusteeData = new Map<string,Account>(); 
-        for(Insolvency__c insolData : [select id,name,Insolvency_Type__c,Debtor_1_First_Name__c,Debtor_1_Middle_Name__c,
+        for(Insolvency__c insolData : [select id,name,Insolvency_Type__c,Debtor_1_First_Name__c,Debtor_1_Middle_Name__c,Debtor_1_Last_Name__c,
                                    Debtor_1_Mailing_Country__c,Insolvency_Date__c,Trustee__r.BillingStreet,
                                        Trustee__r.BillingCity,Trustee__r.BillingState,Trustee__r.BillingPostalCode
                                        from Insolvency__c where id IN: insolAcctIdInsolId.values()]){
@@ -1729,7 +1729,7 @@ insDetails.add(insDetail);
                     accNew.name == null ||
                     mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Insolvency_Type__c == null ||
                     mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_First_Name__c == null ||
-                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Middle_Name__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Last_Name__c == null ||
                     accNew.Debtor_1_First_Name__c == null ||
                     accNew.Debtor_1_Last_Name__c == null ||
                     accNew.Debtor_1_Mailing_Street__c == null ||
