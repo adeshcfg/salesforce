@@ -394,7 +394,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
          want to select a value or in case no values are returned from query below*/
          //options.add(new selectOption('', '- None -')); 
         String defaultRtype = InsolvencyUtil.getRecordTypeToWorkOn();
-        for(Recordtype record : [SELECT Id,Name,SobjectType FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND ((NOT name like '%unknown%') AND (NOT name like '%Canadian%'))]) { 
+        for(Recordtype record : [SELECT Id,Name,SobjectType FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND ((NOT name like '%unknown%'))]) { 
             //query for Record types records 
             options.add(new selectOption(record.id, record.Name)); 
             //for all records found - add them to the picklist options
