@@ -8,8 +8,9 @@
  * 
  *************************************************************************************************/
  
-trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
-    
+ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
+    list<Product_Payments__c> prodPayRecords=new list<Product_Payments__c>();
+    list<Product_Payments__c> prodPayRecordsBeforeInsert=new list<Product_Payments__c>();
     //On-Off switch for trigger
     Loan_ReEngineering__c lrpSettings = Loan_ReEngineering__c.getOrgDefaults();
     Boolean runTrigger = lrpSettings.Run_Product_Payment_Trigger__c;
@@ -18,8 +19,15 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
         	if(ProductPaymentsTriggerHandler.runProductTrigger){
                 if(Trigger.isBefore) {
                     if(Trigger.isInsert){
+                        for(Product_Payments__c prodPay:trigger.new){
+                            if(prodPay.CreatedDate == NULL){
+                                prodPayRecordsBeforeInsert.add(prodPay);
+                            }
+                        }
                         //ProductTriggerHandler.handleBeforeInsert(Trigger.new);
-                        ProductPaymentsTriggerHandler.handleBeforeInsert(Trigger.new);
+                        if (!prodPayRecordsBeforeInsert.isEmpty()) {
+                            ProductPaymentsTriggerHandler.handleBeforeInsert(prodPayRecordsBeforeInsert);                            
+                        }
                     }
                     //Ticket 4546: changes done by tejal for update payment posting month as per payment posting date
                     if(Trigger.isUpdate){
@@ -32,8 +40,16 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                     if(Trigger.isUpdate){
                         ProductPaymentsTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
                     }
+                   
                     if(Trigger.isInsert){
-                        ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.new, Trigger.newMap, Trigger.oldMap);
+                        for(product_Payments__c prodPay:trigger.new){
+                            if(prodPay.External_Correlation_ID__c==NULL){
+                                prodPayRecords.add(prodPay);
+                            }
+                        }
+                        if(!prodPayRecords.isEmpty()){
+                            ProductPaymentsTriggerHandler.handleAfterInsert(prodPayRecords, trigger.newMap, trigger.oldMap);
+                        }
                     }                          
                 }
             }

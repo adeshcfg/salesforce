@@ -434,7 +434,7 @@ public class InsolvencyAccountTriggerHandler {
             //Added by Tejal To Handle updating Processing Sub Status for CTB Automation
             updateProcessingSubStatus(accNew,insolAccntOld);
         }
-        
+            
         set<Id> insolIdSet = new set<Id>();
         for(Insolvency_Account__c insolAccntnew : insolAccntsNew){
             insolIdSet.add(insolAccntnew.Insolvency__c);
@@ -807,7 +807,7 @@ insolMap.put(insol.id, insol);
                             
                             if(insolAccntnew.Insolvency_Status__c == 'PoC Details Provided'){
                                 insolAccntnew.PoC_Details_Provided_Date__c = dtNow;
-                                insolAccntnew.PoC_Details_Provided_By__c = userId;
+                                      insolAccntnew.PoC_Details_Provided_By__c = userId;
                                 insolAccntnew.Accounts_Validation_Date__c = dtNow;
                                 insolAccntnew.Accounts_Validation_Done_By__c = userId;
                             }
@@ -1058,12 +1058,22 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
-        handleAfterInsertUpdate(insolAccntsNew,null);          
+     map<ID, Insolvency_Account__c> updateInsolvencyAccounts = new Map<ID, Insolvency_Account__c>();
+     for(Insolvency_Account__c insolvAccount : insolAccntsNew){
+         insolvAccount.External_Correlation_ID__c = insolvAccount.ID;
+         updateInsolvencyAccounts.put(insolvAccount.ID,insolvAccount);
+      }
+      if(!updateInsolvencyAccounts.isEmpty()){
+         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=false;
+         update updateInsolvencyAccounts.values();
+         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=true;
+      }
+        handleAfterInsertUpdate(insolAccntsNew,null);     
     }
     
     //After Update
     public static void handleAfterUpdate(List<Insolvency_Account__c> insolAccntsNew, Map<Id, Insolvency_Account__c> oldMap) {
-        
+
         /*
 config.Run_Insolvency_Status_Validations__c = runValidationRule;
 update config;
@@ -1569,7 +1579,7 @@ insDetails.add(insDetail);
         //Insert Action_Needed_Insolvency__c in bulk
         if(insDetails.size() > 0){
             upsert insDetails;
-        }   
+        }
     }
     
     //Utility method to fetch Insolvency records for Insolvency Accounts
@@ -1684,24 +1694,24 @@ insDetails.add(insDetail);
         author - Tejal Vidhate
     */
     public static void updateProcessingSubStatus(Insolvency_Account__c accNew , Insolvency_Account__c oldAccRecord){
-        //CTB Automation: set insolvency account processing status and sub-status
+                //CTB Automation: set insolvency account processing status and sub-status
             if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency_Status__c == 'For Owner Review'){
-                accNew.CTB_Status_Update_Code__c = '';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
+                    accNew.CTB_Status_Update_Code__c = '';
+                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+                }
             if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency_Status__c == 'Discharged'){
-                accNew.CTB_Status_Update_Code__c = 'PCOM';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
+                    accNew.CTB_Status_Update_Code__c = 'PCOM';
+                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+                }
             if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && (accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused'
               || accNew.Insolvency_Status__c == 'Withdrawn')){
-                accNew.CTB_Status_Update_Code__c = 'RREV';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
+                    accNew.CTB_Status_Update_Code__c = 'RREV';
+                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+                }
             if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldAccRecord.Insolvency__r.Revival_Date__c
               && accNew.Insolvency__r.Revival_Date__c != NULL){
-                accNew.CTB_Status_Update_Code__c = '';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
+                    accNew.CTB_Status_Update_Code__c = '';
+                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+        }
     }
 }

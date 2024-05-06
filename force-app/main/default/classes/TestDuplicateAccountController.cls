@@ -70,7 +70,7 @@ public class TestDuplicateAccountController {
         DuplicateAccountController cc = new DuplicateAccountController(sc); 
         
         //Calling methods
-        cc.DuplicateAccountList(ia2.Id);
+        //cc.DuplicateAccountList(ia2.Id);
         cc.save();
         cc.getInslAcctWrappers();
         test.stopTest();

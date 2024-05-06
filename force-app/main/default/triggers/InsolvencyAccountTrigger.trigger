@@ -8,22 +8,30 @@
  * 
  *************************************************************************************************/
 
-trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before update, before delete, after insert, after update, after delete) {
-	
-	//On-Off switch for trigger
+ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before update, before delete, after insert, after update, after delete) {
+    list<Insolvency_Account__c> insolAccntRecords=new list<Insolvency_Account__c>();
+    list<Insolvency_Account__c> insolAccntRecordsBeforeInsert=new list<Insolvency_Account__c>();
+    //On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Insolvency_Account_Trigger__c;
     
     if(runTrigger){   
         if(!Test.isRunningTest()){
             if(InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger){
-            	
-            	//Before Trigger
-            	if(Trigger.isBefore) {
-            		
-            		//Before Insert Trigger
+                
+                //Before Trigger
+                if(Trigger.isBefore) {
+                    
+                    //Before Insert Trigger
                     if(Trigger.isInsert){
-                        InsolvencyAccountTriggerHandler.handleBeforeInsert(Trigger.new);
+                        for(Insolvency_Account__c insolAccnt:trigger.new){
+                            if(insolAccnt.CreatedDate == NULL){
+                                insolAccntRecordsBeforeInsert.add(insolAccnt);
+                            }
+                        }
+                        if(!insolAccntRecordsBeforeInsert.isEmpty()){
+                            InsolvencyAccountTriggerHandler.handleBeforeInsert(insolAccntRecordsBeforeInsert);
+                        }
                     }
                     
                     //Before Update Trigger
@@ -40,11 +48,18 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                 }   
                 
                 //After Trigger
-            	if(Trigger.isAfter) {
-            		
-            		//After Insert Trigger
-            		if(Trigger.isInsert){
-                        InsolvencyAccountTriggerHandler.handleAfterInsert(Trigger.new);
+                if(Trigger.isAfter) {
+                    
+                    //After Insert Trigger
+                    if(Trigger.isInsert){                        
+                        for(Insolvency_Account__c insolAccnt:trigger.new){
+                            if(insolAccnt.External_Correlation_ID__c==NULL){
+                                insolAccntRecords.add(insolAccnt);
+                            }
+                        }
+                        if(!insolAccntRecords.isEmpty()){
+                            InsolvencyAccountTriggerHandler.handleAfterInsert(insolAccntRecords);
+                        }
                     }
                     
                     //After Update Trigger
@@ -55,9 +70,9 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     //After Delete Trigger
                     if(Trigger.isDelete){
                         InsolvencyAccountTriggerHandler.handleAfterDelete(Trigger.new, Trigger.oldMap);
-                    }              
-                }            	
-            }
+                    }
+                }              
+            }               
         }
     }
-}
+    }

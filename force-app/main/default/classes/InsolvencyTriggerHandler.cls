@@ -8,7 +8,7 @@
  
  *************************************************************************************************/
  
-public class InsolvencyTriggerHandler {
+ public class InsolvencyTriggerHandler {
     
     public static boolean runInsolvencyTrigger = true; 
     public static boolean stopDuplicatePaymentInsert = True;
@@ -403,14 +403,21 @@ public class InsolvencyTriggerHandler {
     
     //Handle After Insert
     public static void handleAfterInsert(List<Insolvency__c> insolsNew) {
-        
+        map<ID, Insolvency__c> updateInsolvencies = new Map<ID, Insolvency__c>();
         for(Insolvency__c insolRec : insolsNew){
+             insolRec.External_Correlation_ID__c = insolRec.ID;
+             updateInsolvencies.put(insolRec.ID,insolRec);
             //Doc Parser code
             if(insolRec.Document_ID__c <> null){
                 InsolvencyAccountCreationFuture.SendPDFtoParser(insolRec.Remote_ID__c);
                 //InsolvencyAccountCreationFuture.SendPDFtoParser(insolRec.Document_ID__c); 
             }
         }
+        if(!updateInsolvencies.isEmpty()){
+           InsolvencyTriggerHandler.runInsolvencyTrigger = false;
+           update updateInsolvencies.values();
+           InsolvencyTriggerHandler.runInsolvencyTrigger = true;
+       }
     }
     
     //Handle After Update

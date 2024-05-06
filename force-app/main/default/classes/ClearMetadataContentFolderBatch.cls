@@ -2,7 +2,13 @@ global class ClearMetadataContentFolderBatch implements Database.Batchable<sObje
     public string folderName = 'Metadata_Content';
     Datetime dt = Datetime.now().addMinutes(-30);
     global Database.QueryLocator start(Database.BatchableContext BC) {
-        String query = 'SELECT Id, FolderId, Folder.Name FROM Document WHERE Folder.Name =: folderName AND CreatedDate <=: dt';
+        String query;
+        If(Test.isRunningTest()){            
+            query = 'SELECT Id, FolderId, Folder.Name FROM Document WHERE Folder.Name =: folderName AND CreatedDate <=: dt LIMIT 200';       
+        }else{            
+            query = 'SELECT Id, FolderId, Folder.Name FROM Document WHERE Folder.Name =: folderName AND CreatedDate <=: dt';          
+        }
+        
         return Database.getQueryLocator(query);
     }
     
