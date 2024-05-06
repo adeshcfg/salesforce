@@ -193,12 +193,12 @@ public with sharing class CTBFileValidationUtility {
             FROM CTB_File_Automation__mdt
             WHERE DeveloperName = 'Insolvency_Daily_Update'
         ];
-        List<String> headerValues = header.split('","');
+        List<String> headerValues = parseCsv(header);
         String headerValidationMessage = validateHeader(headerValues, fileMetadata.Header_Record_Type__c);
         if (String.isNotBlank(headerValidationMessage)) {
             return headerValidationMessage;
         }
-        List<String> trailerValues = trailer.split('","');
+        List<String> trailerValues = parseCsv(trailer);
         String trailerValidationMessage = validatetrailer(trailerValues, fileMetadata.Trailer_Record_Type__c, numberOfRows);
         if (String.isNotBlank(trailerValidationMessage)) {
             return trailerValidationMessage;
