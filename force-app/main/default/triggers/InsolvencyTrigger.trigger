@@ -56,11 +56,12 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     if(Trigger.isInsert){
                         for(Insolvency__c insolv:trigger.new){
                             if(insolv.External_Correlation_ID__c==NULL){
-
                                 insolvRecords.add(insolv);
                             }
                         }
+                     if(!insolvRecords.isEmpty()){
                          InsolvencyTriggerHandler.handleAfterInsert(insolvRecords);
+                       }
                     }
                     
                     //After Update Trigger
