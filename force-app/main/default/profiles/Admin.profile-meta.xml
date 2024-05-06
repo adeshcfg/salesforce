@@ -3230,7 +3230,7 @@
     </classAccesses>
     <tabVisibilities>
         <tab>CTB_Staging__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Credit_Bureau</tab>
