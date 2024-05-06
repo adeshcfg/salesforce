@@ -72,7 +72,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
 list<Insolvency_Account__C> insolvencyAccounts=new list<Insolvency_Account__C>();
 user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
 for(Insolvency_Account__C insolAcc: trigger.new){
-if(insolAcc.LastModifiedByName != u.name){
+if(insolAcc.LastModifiedByID != u.ID){
 insolvencyAccounts.add(insolAcc);
 }
 }
