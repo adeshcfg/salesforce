@@ -15,7 +15,7 @@ public with sharing class CTBFileValidationUtility {
     public static final Integer CTB_REJECT_REASON_CODE = 28;
     public static final Integer OPEN_DATE = 29;
     public static final Integer CLAIM_AMOUNT = 30;
-    public static final Integer ACCOUNTS_VALIDATION_DATE = 31;
+    public static final Integer CTB_AS_OF_DATE = 31;
     public static final Integer INTEREST_RATE = 32;
     public static final Integer LAST_PAYMENT_DATE = 33;
     public static final Integer LAST_PAYMENT_AMOUNT = 34;
@@ -59,7 +59,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Open_Date__c = parseDateString(csvColumns[OPEN_DATE], 'Open_Date__c', stagingRecord);
         stagingRecord.Balance_Owed__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Balance_Owed__c', stagingRecord);
         stagingRecord.Claim_Amount__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Claim_Amount__c', stagingRecord);
-        stagingRecord.Accounts_Validation_Date__c = parseDateTimeString(csvColumns[ACCOUNTS_VALIDATION_DATE], 'Accounts_Validation_Date__c', stagingRecord);
+        stagingRecord.CTB_Balance_as_of_date__c = parseDateTimeString(csvColumns[CTB_AS_OF_DATE], 'CTB_Balance_as_of_date__c', stagingRecord);
         stagingRecord.Interest_Rate__c = parseDoubleString(csvColumns[INTEREST_RATE], 'Interest_Rate__c', stagingRecord);
         stagingRecord.Last_Payment_Date__c = parseDateString(csvColumns[LAST_PAYMENT_DATE], 'Last_Payment_Date__c', stagingRecord);
         stagingRecord.Last_Payment_Amount__c = parseDoubleString(csvColumns[LAST_PAYMENT_AMOUNT], 'Last_Payment_Amount__c', stagingRecord);
@@ -106,7 +106,7 @@ public with sharing class CTBFileValidationUtility {
         account.Open_Date__c = stagingRecord.Open_Date__c;
         account.Balance_Owed__c = stagingRecord.Balance_Owed__c;
         account.Claim_Amount__c = stagingRecord.Claim_Amount__c;
-        account.Accounts_Validation_Date__c = stagingRecord.Accounts_Validation_Date__c;
+        account.CTB_Balance_as_of_date__c = stagingRecord.CTB_Balance_as_of_date__c;
         account.Interest_Rate__c = stagingRecord.Interest_Rate__c;
         account.Last_Payment_Date__c = stagingRecord.Last_Payment_Date__c;
         account.Last_Payment_Amount__c = stagingRecord.Last_Payment_Amount__c;
