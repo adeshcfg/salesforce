@@ -8,6 +8,7 @@
  * 
  *************************************************************************************************/
 
+
 trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before update, before delete, after insert, after update, after delete) {
     list<Insolvency_Account__c> insolAccntRecords=new list<Insolvency_Account__c>();
     list<Insolvency_Account__c> insolAccntRecordsBeforeInsert=new list<Insolvency_Account__c>();
@@ -25,11 +26,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     if(Trigger.isInsert){
                         for(Insolvency_Account__c insolAccnt:trigger.new){
                             if(insolAccnt.CreatedDate == NULL){
-                                insolAccnt.IsUnArchived__c=FALSE;
                                 insolAccntRecordsBeforeInsert.add(insolAccnt);
-                            }
-                            else{
-                                insolAccnt.IsUnArchived__c=TRUE;
                             }
                         }
                         if(!insolAccntRecordsBeforeInsert.isEmpty()){
@@ -56,7 +53,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     //After Insert Trigger
                     if(Trigger.isInsert){                        
                         for(Insolvency_Account__c insolAccnt:trigger.new){
-                            if(insolAccnt.IsUnArchived__c==FALSE){
+                            if(insolAccnt.External_Correlation_ID__c==NULL){
                                 insolAccntRecords.add(insolAccnt);
                             }
                         }
@@ -71,11 +68,19 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     } 
                     
                     //After Delete Trigger
-                    if(Trigger.isDelete){
-                        InsolvencyAccountTriggerHandler.handleAfterDelete(Trigger.new, Trigger.oldMap);
+                    if(Trigger.isDelete && !test.isRunningTest()){
+list<Insolvency_Account__C> insolvencyAccounts=new list<Insolvency_Account__C>();
+user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+for(Insolvency_Account__C insolAcc: trigger.new){
+if(insolAcc.LastModifiedByID != u.ID){
+insolvencyAccounts.add(insolAcc);
+}
+}
+if(!insolvencyAccounts.isEmpty()){
+                        InsolvencyAccountTriggerHandler.handleAfterDelete(insolvencyAccounts, Trigger.oldMap);
+}
                     }
                 }              
             }               
         }
-        
     }

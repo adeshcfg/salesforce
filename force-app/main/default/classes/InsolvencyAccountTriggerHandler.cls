@@ -814,6 +814,7 @@ insolMap.put(insol.id, insol);
                             
                             if(insolAccntnew.Insolvency_Status__c == 'PoC Details Provided'){
                                 insolAccntnew.PoC_Details_Provided_Date__c = dtNow;
+
                                 // task 6322 PoC_Details_Provided_By__c will updated one time 
                                 if(insolAccntOld.Insolvency_Status__c =='For Owner Review' 
                                 && insolAccntnew.Insolvency_Status__c == 'PoC Details Provided' 
@@ -1070,6 +1071,18 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
+     map<ID, Insolvency_Account__c> updateInsolvencyAccounts = new Map<ID, Insolvency_Account__c>();
+     for(Insolvency_Account__c insolvAccount : [select ID,External_Correlation_ID__c from Insolvency_Account__c where ID IN : insolAccntsNew]){
+         insolvAccount.External_Correlation_ID__c = insolvAccount.ID;
+         updateInsolvencyAccounts.put(insolvAccount.ID,insolvAccount);
+      }
+      if(!updateInsolvencyAccounts.isEmpty()){
+         InsolvencyTriggerHandler.runInsolvencyTrigger=FALSE;
+         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=false;
+         update updateInsolvencyAccounts.values();
+         InsolvencyTriggerHandler.runInsolvencyTrigger=TRUE;
+         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=true;
+      }
         handleAfterInsertUpdate(insolAccntsNew,null);     
     }
     
@@ -1585,6 +1598,7 @@ insDetails.add(insDetail);
         //Insert Action_Needed_Insolvency__c in bulk
         if(insDetails.size() > 0){
             upsert insDetails;
+
         }   
         if(!accountsToUpdate.isEmpty()) {
             InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;

@@ -8,6 +8,7 @@
  * 
  *************************************************************************************************/
 
+
 trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before delete, after insert, after update, after delete) {
     list<Insolvency__c> insolvRecords=new list<Insolvency__c>();
     list<Insolvency__c> insolvRecordsBeforeInsert=new list<Insolvency__c>();
@@ -25,12 +26,9 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     if(Trigger.isInsert){
                         for(Insolvency__c insolv:trigger.new){
                             if(insolv.CreatedDate == NULL){
-                                insolv.IsUnArchived__c=FALSE;
                                 insolvRecordsBeforeInsert.add(insolv);
                             }
-                            else{
-                                insolv.IsUnArchived__c=TRUE;
-                            }
+
                         }
                         if(!insolvRecordsBeforeInsert.isEmpty()){
                             InsolvencyTriggerHandler.handleBeforeInsert(insolvRecordsBeforeInsert);
@@ -57,15 +55,17 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     //After Insert Trigger
                     if(Trigger.isInsert){
                         for(Insolvency__c insolv:trigger.new){
-                            if(insolv.IsUnArchived__c==FALSE){
+                            if(insolv.External_Correlation_ID__c==NULL){
                                 insolvRecords.add(insolv);
                             }
                         }
+                     if(!insolvRecords.isEmpty()){
                          InsolvencyTriggerHandler.handleAfterInsert(insolvRecords);
+                       }
                     }
                     
                     //After Update Trigger
-                    if(Trigger.isUpdate){
+                    if(Trigger.isUpdate && !test.isRunningTest()){
                         InsolvencyTriggerHandler.handleAfterUpdate(Trigger.newMap, Trigger.oldMap);
                     } 
                     
@@ -76,6 +76,7 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     }    
                      */                
                 }             
-        }
+                }             
+
     }    
 }

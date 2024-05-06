@@ -8,6 +8,7 @@
  * 
  *************************************************************************************************/
  
+
 trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
     list<Product_Payments__c> prodPayRecords=new list<Product_Payments__c>();
     list<Product_Payments__c> prodPayRecordsBeforeInsert=new list<Product_Payments__c>();
@@ -20,11 +21,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                     if(Trigger.isInsert){
                         for(Product_Payments__c prodPay:trigger.new){
                             if(prodPay.CreatedDate == NULL){
-                                prodPay.IsUnArchived__c=FALSE;
                                 prodPayRecordsBeforeInsert.add(prodPay);
-                            }
-                            else{
-                                prodPay.IsUnArchived__c=TRUE;
                             }
                         }
                         //ProductTriggerHandler.handleBeforeInsert(Trigger.new);
@@ -46,7 +43,8 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                    
                     if(Trigger.isInsert){
                         for(product_Payments__c prodPay:trigger.new){
-                            if(prodPay.IsUnArchived__c==FALSE){
+                            if(prodPay.External_Correlation_ID__c==NULL){
+
                                 prodPayRecords.add(prodPay);
                             }
                         }
