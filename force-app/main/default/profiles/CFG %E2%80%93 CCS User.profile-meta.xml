@@ -8336,11 +8336,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency__c.IsUnArchived__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Acceptable_Monthly_Payment__c</field>
         <readable>false</readable>
@@ -13361,11 +13356,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Payments__c.IsUnArchived__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Product_Payments__c.Agency_Commission_Rate__c</field>
         <readable>false</readable>
@@ -18203,11 +18193,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Percent_of_increased_return_from_voting__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency_Account__c.IsUnArchived__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
