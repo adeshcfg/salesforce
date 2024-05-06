@@ -73,6 +73,11 @@ public class TestProductAllocationIndividualContr {
         //ProductTriggerHandler.runProductTrigger = false;
         insert prod;
         
+        Product_Extension__c prodExt = new Product_Extension__c();
+        prodExt.Account_ID__c = prod.id;
+        prodExt.Zip_Code__c = '12345';
+        insert prodExt;
+        
         Judgment__c judg= new Judgment__c();
         string recordid=[SELECT id from RecordType where sobjecttype='Judgment__C' AND RecordType.Name='Judgment'].id;
         judg.RecordTypeId=recordid;
