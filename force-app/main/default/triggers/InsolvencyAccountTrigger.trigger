@@ -75,5 +75,3 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
             }               
         }
     }
-
-    }
