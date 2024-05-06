@@ -46,7 +46,11 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Date_of_Birth__c</field>
-            </layoutItems>
+            </layoutItems>            
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Deceased_Date__c</field>
+            </layoutItems> 
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Co_Borrower__c</field>
@@ -97,10 +101,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Portfolio_Name_Lookup__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Portfolio_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -216,6 +216,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>FDR_Account_ID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Purchase_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Portfolio_Group_Name__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -344,18 +352,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Purchase_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Account_Purchasing_Entity_Value__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Portfolio_Group_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -821,10 +821,6 @@
                 <behavior>Edit</behavior>
                 <field>Credit_Counselling_Date__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Deceased_Date__c</field>
-            </layoutItems> 
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Interest_Stopped__c</field>

@@ -48,7 +48,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                                         Insolvency_Date__c <: months18ProiorDate AND
                                         Insolvency_Type__c IN: insolvencyTypes AND                                       
                                         Missing_Payment_Follow_up_Sent_Date__c = null AND
-                                        Trustee__c != null AND Trustee__r.Is_Active__c = true                                        
+                                        Trustee__c != null AND Trustee__r.Is_Active__c = true AND Trustee__r.Exclude_From_Missing_Payment_Mail_List__c = FALSE                                         
                                     ]);
         
         //Trustee__c != Null is addded because there are few Insolvencies without associated Trustee records 
@@ -90,7 +90,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
 
             // Get Insolvency Account related to Account
             List<Insolvency_Account__c> insolvencyAccounts = insolvency.Insolvency_Accounts__r;
-            
+            system.debug('insolvencyAccounts===>'+insolvencyAccounts);
             if(!insolvencyAccounts.isEmpty()){
                 
                 system.debug(' === '+trustee.Number_Of_Emails_Sent_Today__c);
@@ -125,8 +125,9 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
 
         // Send emails and update Trustee, and Accounts
         if(!singleEmailMessages.isEmpty()){
-            Messaging.SendEmailResult[] emailResult = Messaging.sendEmail( singleEmailMessages );
-            
+            if(!Test.isRunningTest()) {
+                Messaging.SendEmailResult[] emailResult = Messaging.sendEmail( singleEmailMessages );
+            }
             if(!trusteeMap.isEmpty()){
                 update trusteeMap.values();
             }

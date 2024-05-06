@@ -3,7 +3,7 @@
     <fullName>Remitted_Payment_Required_Fields</fullName>
     <active>true</active>
     <description>Once payment is remitted, Remitted date, remitted cheque number and remitted to values should be populated</description>
-    <errorConditionFormula>OR(
+    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),OR(
 AND(
 Is_Payment_Remitted__c = True,
 OR(
@@ -17,6 +17,21 @@ NOT(ISBLANK(Remitted_Cheque_Number__c )),
 NOT(ISBLANK(Remitted_Back_To__c)),
 NOT(ISBLANK(Remitted_Date__c ))
 ))
-)</errorConditionFormula>
+))),
+(OR(
+AND(
+Is_Payment_Remitted__c = True,
+OR(
+ISBLANK(Remitted_Cheque_Number__c),
+ISBLANK(Remitted_Back_To__c),
+ISBLANK(Remitted_Date__c))),
+AND(
+Is_Payment_Remitted__c = False,
+OR(
+NOT(ISBLANK(Remitted_Cheque_Number__c )),
+NOT(ISBLANK(Remitted_Back_To__c)),
+NOT(ISBLANK(Remitted_Date__c ))
+))
+)))</errorConditionFormula>
     <errorMessage>Mandatory Remittance fields are incomplete</errorMessage>
 </ValidationRule>

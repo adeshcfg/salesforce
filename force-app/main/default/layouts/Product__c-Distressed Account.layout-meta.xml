@@ -113,10 +113,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Portfolio_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Portfolio_Name_Lookup__c</field>
             </layoutItems>
             <layoutItems>
@@ -863,10 +859,6 @@
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Portfolio_Group_Name__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Account_Portfolio_Code__c</field>
             </layoutItems>
@@ -885,10 +877,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Company_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Purchase_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

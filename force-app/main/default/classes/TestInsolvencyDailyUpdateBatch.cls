@@ -7,7 +7,7 @@ public class TestInsolvencyDailyUpdateBatch {
         insolv.Name = '12456783';
         insolv.Client_Identifiers__c = 'SPL';
         insolv.Insolvency_Type__c = 'Bankruptcy';
-        insolv.Insolvency_Status__c = 'Annulled';
+        insolv.Insolvency_Status__c = 'Active';
         insolv.Debtor_1_Mailing_Street__c = '345 testing';
         insolv.Debtor_1_Mailing_City__c = 'CA';
         insert insolv;
@@ -16,7 +16,7 @@ public class TestInsolvencyDailyUpdateBatch {
         List<Insolvency_Account__c> iaList = new List<Insolvency_Account__c>();
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.RecordTypeId = Schema.SObjectType.Insolvency_Account__C.getRecordTypeInfosByName().get('Canadian Tire Insolvency Account').getRecordTypeId();
-        ia1.Name = 'Test-001';
+        ia1.Name = '2221111234567890';
         ia1.Insolvency_Status__c = 'Annulled';
         ia1.Claim_Type__c = 'Unsecured';
         ia1.Claim_Amount__c = 1000;

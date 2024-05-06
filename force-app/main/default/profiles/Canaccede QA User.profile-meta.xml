@@ -149,15 +149,7 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>CTB_Staging__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Court__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Credit_Bureau</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -342,10 +334,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Settlement__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Small_Claims_Court__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -7128,6 +7116,21 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>insolvency_Account__c.Number_of_Agreement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.IsUnArchived__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>insolvency_Account__c.SMRR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Accepted_Sent_to_Collections__c</field>
         <readable>false</readable>
@@ -8029,6 +8032,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Insolvency_Account__c.Acquired_Purchase_Face_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Acquired_Purchase_Factor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Purchase_Completed__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -8681,6 +8694,11 @@
         <editable>false</editable>
         <field>Insolvency__c.Acceleration_Clause__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.IsUnArchived__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -13694,6 +13712,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Payments__c.IsUnArchived__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Payments__c.Agency_Commission_Rate__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -14060,6 +14083,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product_Payments__c.Agency_Submitted_Payment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Payments__c.Agency_Submitted_Payment_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -16600,7 +16628,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Record_Type_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -18537,6 +18565,11 @@
         <field>Customer_Staging__c.Include_in_Processing__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Exclude_From_Missing_Payment_Mail_List__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
@@ -19035,7 +19068,7 @@
         <recordType>Product__c.CCS_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Product__c-Client Services layout</layout>
+        <layout>Product__c-Canaccede QA User layout</layout>
         <recordType>Product__c.Distressed_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -19192,7 +19225,7 @@
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
+        <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Account_Judgment__c</object>
         <viewAllRecords>false</viewAllRecords>
@@ -19246,7 +19279,7 @@
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
+        <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Distressed_notes__c</object>
         <viewAllRecords>false</viewAllRecords>
@@ -19311,15 +19344,6 @@
         <allowEdit>false</allowEdit>
         <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>PTP_Information__c</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>false</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>false</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
         <object>Payment_Transaction_CSV__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
@@ -19327,7 +19351,7 @@
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
+        <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Payment_Transaction__c</object>
         <viewAllRecords>false</viewAllRecords>
@@ -19381,7 +19405,7 @@
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
+        <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Product_Payments__c</object>
         <viewAllRecords>false</viewAllRecords>
@@ -19408,7 +19432,16 @@
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
+        <allowRead>false</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>PTP_Information__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Settlement__c</object>
         <viewAllRecords>false</viewAllRecords>
@@ -19447,15 +19480,6 @@
         <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Judgment__c</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>false</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>PTP_Information__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -19588,7 +19612,7 @@
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
+        <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Product_Extension__c</object>
         <viewAllRecords>false</viewAllRecords>

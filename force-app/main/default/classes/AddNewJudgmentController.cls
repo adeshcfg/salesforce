@@ -6,11 +6,11 @@ public class AddNewJudgmentController {
             mapProvinceAcronymTaxMetadata.put(taxMetadata.Province_Acronym__c, taxMetadata);
         }
     }
-//bug:5476 changes starts
+    //bug:5476 changes starts
     @AuraEnabled
     public static string getProductName(Id prodId){
-product__c prod=[select id,name from product__c where ID=:prodId];
-return prod.name;
+        product__c prod=[select id,name from product__c where ID=:prodId];
+        return prod.name;
     }
     //bug:5476 changes ends
     @AuraEnabled
@@ -19,10 +19,8 @@ return prod.name;
         prodJudg.Judgment__c = judgId;
         prodJudg.Product__c = prodId;
         prodJudg.Status__c = 'Active';
-        //insert prodJudg;
         Database.insert(prodJudg, false) ;
-        system.debug('prodId testing::'+prodId);
-        system.debug('judgId testing::'+judgId);
+
         Judgment__c judg = [SELECT Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c,Judgment_Province__c FROM Judgment__c where Id  =: judgId];
         for(Product__c prod: [SELECT Id, Legal_Status__c,Collection_Agency__c,State__c FROM Product__c WHERE Id =: prodId]){
             prod.Legal_Status__c = judg.Legal_Status__c != null ? judg.Legal_Status__c : '' + ' - '+judg.Legal_Sub_Status__c != NULL ? judg.Legal_Sub_Status__c : '';
@@ -39,53 +37,48 @@ return prod.name;
     }
     @AuraEnabled
     public static String validationRule(Id prodId, Id judgId,Map<String,String> judgMap){
-        system.debug('judgMap&&' +judgMap);
         String prodProvinceName;
         String ProvinceNameFormat;
         String provinceAcronymFormat;
-        String ProdProvince;
+        String purchaseProvince;
         String agency;
         String ErrorMsg = '';
         String Codes;
         list<String> listError = new list<String>();
         map<String, Judgment_product_codes_mapping__c> mapAccountJudgmentCodes = new map<String, Judgment_product_codes_mapping__c>();
-        system.debug('judgId' +judgId);
-        system.debug('prodId**' +prodId);
         
         if(judgId != null){
         	Judgment__c judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c FROM Judgment__c where Id  =: judgId];
         }
-        Product__c prod = [SELECT Id,Name,Status__c, Legal_Status__c,Collection_Agency__c,State__c,Account_Purchasing_Entity_Value__c
+        Product__c prod = [SELECT Id,Name,Status__c, Legal_Status__c,Collection_Agency__c,Purchase_Province__c,State__c,Account_Purchasing_Entity_Value__c
                            FROM Product__c WHERE Id =: prodId];
-        system.debug('prod test' +prod);
+
         //Added below IF loop for #4586
         if(prod.Status__c.contains('Pending Recall')){
-ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
+            ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
         }
-        if(prod.State__c != NULL){
-            prodProvinceName = prod.State__c;
-            ProvinceNameFormat = nameFormat(prodProvinceName);
-            system.debug('ProvinceNameFormat'+ProvinceNameFormat);
-            provinceAcronymFormat = prodProvinceName.toUpperCase();
-            system.debug('provinceAcronymFormat'+provinceAcronymFormat);
-            if(mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)){
-                ProdProvince = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Name__c;
-            }else if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
-                ProdProvince = ProvinceNameFormat;
-            }
+        //Bug: 5631 changes starts
+        if(!judgMap.containsKey('Legal_Status__c')){
+            ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';      
         }
-        system.debug('ProdProvince' +ProdProvince);
+        else if(string.isBlank(judgMap.get('Legal_Status__c')) || string.isBlank(judgMap.get('Legal_Sub_Status__c'))){
+          ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';
+        }
+        //Bug:5631 changes ends
+        if(prod.Purchase_Province__c != NULL){
+            purchaseProvince = prod.Purchase_Province__c;
+        }
         if(prod.Collection_Agency__c != NULL){
             agency = String.valueOf(Math.floor(prod.Collection_Agency__c));
         }
        	
-        judgMap.put('Judgment_Province__c',ProdProvince);
+        judgMap.put('Judgment_Province__c',purchaseProvince);
         judgMap.put('Product_1__c',prod.Name);
         judgMap.put('Plaintiff__c',prod.Account_Purchasing_Entity_Value__c);
         judgMap.put('Agency_Initiated_Legal_Action__c',agency);
         
         String Status = judgMap.get('Legal_Status__c');
-        system.debug('Status**' + Status);
+
         for(Judgment_product_codes_mapping__c mapping : [SELECT Id,Name,Codes__c, Product_Status__c,
                                                                 Product_Sub_status__c,Judgment_Legal_Status__c,
                                                                 Judgment_Legal_Sub_Status__c
@@ -97,9 +90,11 @@ ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
         if(mapAccountJudgmentCodes.containsKey(judgMap.get('Legal_Status__c')+ judgMap.get('Legal_Sub_Status__c'))){
             Codes = mapAccountJudgmentCodes.get(judgMap.get('Legal_Status__c')+judgMap.get('Legal_Sub_Status__c')).Codes__c;  
         }
-        system.debug('Codes**' + codes);
+        
+        if(String.isBlank(purchaseProvince)){
+            ErrorMsg = 'Product Province is required';
+        }
         if((codes == '220000') || (codes == '220210') || (codes =='220700') || (codes =='220030') || (codes =='220040') || (codes =='220050')){
-              system.debug('inside if co');
             if(String.isBlank(judgMap.get('Case_Number__c')) || String.isBlank(judgMap.get('Judgment_Province__c')) || judgMap.get('Suit_Amount__c') == NULL || ((String.isNotBlank(judgMap.get('Product_1__c'))) && (judgMap.get('Interest_Rate_one__c') == NULL || judgMap.get('Suit_Amount_1__c') == NULL))
                   || String.isBlank(judgMap.get('Court__c')) || String.isBlank(judgMap.get('Legal_Firm__c')) || String.isBlank(judgMap.get('Plaintiff__c')) || String.isBlank(judgMap.get('Attorney__c')) || String.isBlank(judgMap.get('Agency_Initiated_Legal_Action__c'))){                     
                       ErrorMsg = 'Fields should not blank Case Number,Province,Suit Amount,Product 1,interest Rate-1,Suit Amount 1,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action';
@@ -162,7 +157,6 @@ ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
          }
                 
        listError.add(ErrorMsg);
-       system.debug('listError'+ErrorMsg);
         return ErrorMsg;
     }
     
@@ -189,18 +183,17 @@ ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
     }
     @AuraEnabled
     public static list<String> validationRuleForExistingRecord(Id prodId, Id judgId,Map<String,String> judgMap){
-        system.debug('judgMap&&' +  judgMap);
         String prodProvinceName;
         String ProvinceNameFormat;
         String provinceAcronymFormat;
-        String ProdProvince;
+        String purchaseProvince;
         String ErrorMsg = '';
+        String ProdProvince;
         Judgment__c judgment;
         String Codes;
         list<String> listError = new list<String>();
         map<String, Judgment_product_codes_mapping__c> mapAccountJudgmentCodes = new map<String, Judgment_product_codes_mapping__c>();
-        system.debug('judgId' +judgId);
-        system.debug('prodId**' +prodId);
+
         if(judgId != null){
         	 judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c,
                          Case_Number__c,Suit_Amount__c,Date_Debtor_Served__c,Product_1__c,Balance_one__c,Interest_Rate_one__c,Suit_Amount_1__c,
@@ -210,26 +203,27 @@ ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
                          Interest_Rate_five__c,Suit_Amount_5__c,Judgment_Date__c,Judgment_Amount__c,Filing_Date__c
                          FROM Judgment__c where Id  =: judgId];
         }
-        system.debug('judgment test**' +judgment);
-        Product__c prod = [SELECT Id,Name, Legal_Status__c,Collection_Agency__c,State__c,Invalid_Submission_Reason__c FROM Product__c WHERE Id =: prodId];
-        system.debug('prod test' +prod);
-        if(prod.State__c != NULL){
-            prodProvinceName = prod.State__c;
-            ProvinceNameFormat = nameFormat(prodProvinceName);
-            provinceAcronymFormat = prodProvinceName.toUpperCase();
+
+        Product__c prod = [SELECT Id,Name, Legal_Status__c,Collection_Agency__c,Purchase_Province__c,State__c,Invalid_Submission_Reason__c FROM Product__c WHERE Id =: prodId];
+		
+        if(prod.Purchase_Province__c != NULL){
+            purchaseProvince = prod.Purchase_Province__c;
+            ProvinceNameFormat = nameFormat(purchaseProvince);
+            provinceAcronymFormat = purchaseProvince.toUpperCase();
             if(mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)){
                 ProdProvince = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Name__c;
             }else if(mapTaxMetadata.containsKey(ProvinceNameFormat)){
                 ProdProvince = ProvinceNameFormat;
             }
         }
+        
         string Product_1;
         string Product_2;
         string Product_3;
         string Product_4;
         string Product_5;
         String Status = judgment.Legal_Status__c;
-        system.debug('Status**' + Status);
+
         if(judgment.Product_1__c == NULL){
             Product_1 = prod.Name;
         }
@@ -257,8 +251,15 @@ ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+ judgment.Legal_Sub_Status__c)){
             Codes = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;  
         }
-        system.debug('Codes**' + codes);
-        if(judgment.Agency_Initiated_Legal_Action__c != String.valueOf(Math.floor(prod.Collection_Agency__c))){
+        if(prod.Collection_Agency__c == NULL){
+            ErrorMsg = 'Product Agency is required';
+            listError.add(ErrorMsg);
+        }
+        if(String.isBlank(purchaseProvince)){
+            ErrorMsg = 'Product Province is required';
+            listError.add(ErrorMsg);
+        }
+        if(prod.Collection_Agency__c != NULL && judgment.Agency_Initiated_Legal_Action__c != String.valueOf(Math.floor(prod.Collection_Agency__c))){
             ErrorMsg='Product Agency is not Match with Judgment Agency.';
             listError.add(ErrorMsg);
 
@@ -385,7 +386,6 @@ ErrorMsg=System.label.Judgment_Pending_Recall_Error_Message;
                   || judgment.Judgment_Date__c == NULL || judgment.Judgment_Amount__c == NULL || judgment.Filing_Date__c == NULL || String.isBlank(judgment.Court__c)
                   || String.isBlank(judgment.Garnishment_Number__c) || judgment.Garnishment_Date__c == NULL || judgment.Garnishment_Amount__c == NULL
                   || String.isBlank(judgment.Legal_Firm__c) || String.isBlank(judgment.Plaintiff__c) || String.isBlank(judgment.Attorney__c) || String.isBlank(judgment.Agency_Initiated_Legal_Action__c)){
-                      system.debug('inside error');
                     ErrorMsg = 'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action';
                     listError.add(ErrorMsg);    
                 }

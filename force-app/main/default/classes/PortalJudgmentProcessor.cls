@@ -11,6 +11,7 @@
 global class PortalJudgmentProcessor {
     @HttpPost
     global static string postJudgment(){    
+        List<Agency_Portal_Fields_Mapping__c> fieldMapping = Agency_Portal_Fields_Mapping__c.getall().values();
         //Store Response
         RestRequest req = RestContext.request;
         system.debug('req.requestBody: '+req);
@@ -31,15 +32,17 @@ global class PortalJudgmentProcessor {
         //Decision variables
         //Process the Customer based on Identfier in portal request
         system.debug('param'+mapParameters.get('Identifier'));
-        List<Judgment__c> listJudgment = [SELECT ID, Name, Created_By__c, Last_Modified_By__c,Writ_Renewal_Date__c,Garnishment_Date__c,
-                                          Judgment_Number__c,Legal_Status__c,Legal_Sub_Status__c,Suit_Amount_3__c,Suit_Amount_2__c,
-                                          Suit_Amount_4__c,Suit_Amount_5__c,Suit_Amount_1__c,Judgment_Date__c,Interest_Rate_two__c,
-                                          Balance_two__c,Interest_Rate_three__c,Balance_three__c,Interest_Rate_four__c,Balance_four__c,
-                                          Interest_Rate_five__c,Balance_five__c
-                                          FROM Judgment__c 
-                                          WHERE Judgment_Number__c =: mapParameters.get('Judgment_Number')
-                                          //AND RecordType.Developername= :'Agency'
-                                          LIMIT 1];
+        String judgmentNumber = mapParameters.get('Judgment_Number');
+        String Query = 'SELECT Id,Name,Writ_Renewal_Date_Formula__c,Garnishment_Renewal_Date_Formula__c, ';
+        for(Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping){
+            if(fieldMappingInstance.Object_Name__c == 'Judgment'){
+                Query += fieldMappingInstance.Field_API__c + ', ';
+            }
+            
+        }
+        Query = Query.removeEnd(', ');
+        Query += ' FROM Judgment__c WHERE Judgment_Number__c = :judgmentNumber LIMIT 1';
+        List<Judgment__c> listJudgment = Database.query(Query);
         String StatusResponse; 
         Map<String, Object> stringMap = new Map<String, Object>();
         Judgment__c Judgment = new Judgment__c();

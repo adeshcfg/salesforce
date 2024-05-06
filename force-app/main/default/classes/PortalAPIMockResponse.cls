@@ -149,6 +149,13 @@ public class PortalAPIMockResponse implements HttpCalloutMock{
             res.setBody(jsonTokenResponse);
             res.setStatusCode(200);  
          }
+        if(req.getEndpoint().startsWith('https://test.com/customerstaging/task/testing')){
+            // Create a fake response
+            res.setHeader('Content-Type', 'application/json');
+            String jsonTokenResponse = '[{"data_id":"2500P316","pri_email":"test@email.com","pri_add1":"TEST 7607 172 ST NW A408","pri_add2":"TEST APT A408","pri_municipality":"TEST Edmonton","pri_province":"ON","pri_postcode":"T5T2P2","pri_country":"CAN","pri_hphone":"780-999-0548","pri_wphone":"780-433-4729","pri_cphone":"519-555-1212","sec_email":"test@email.com","sec_add1":"TEST sec addy1","sec_add2":"TEST sec addy2","sec_municipality":"TEST mun","sec_province":"TEST prov","sec_postcode":"T5T2P2","sec_country":"CAN","sec_hphone":"780-999-0548","sec_wphone":"780-433-4729","sec_cphone":"519-555-1212"}]';
+            res.setBody(jsonTokenResponse);
+            res.setStatusCode(200);  
+        }
         // below code is for increasing code coverage
         //mock response for access token
         if(req.getEndpoint().startsWith('https://test.com/endpoint')){
@@ -159,6 +166,53 @@ public class PortalAPIMockResponse implements HttpCalloutMock{
             res.setBody(jsonTokenResponse);
             res.setStatusCode(200);  
         }}
+
+        if(req.getEndpoint() == 'https://exceltojson.com/api'){
+            // Create a fake response
+            res.setHeader('Content-Type', 'application/json');
+            String jsonTokenResponse =
+            '[{' +
+            '"AccountNumber":,' +
+            '"ClientID":254801.0,' +
+            '"ClientName":"LEBLANC, JUSTIN ",' +
+            '"EstateNumber":00-000001,' +
+            '"Amount":39.0,' +
+            '}]';
+            res.setBody(jsonTokenResponse);
+            res.setStatusCode(200);  
+         }
+        if(req.getEndpoint() == 'https://exceltojson.com/ccs'){
+            // Create a fake response
+            res.setHeader('Content-Type', 'application/json');
+            String jsonTokenResponse =
+            '[{' +
+            '"AccountNumber":null,' +
+            '"ClientID":254801.0,' +
+            '"ClientName":"LEBLANC, JUSTIN ",' +
+            '"NetPayment":390.0,' +
+            '"FairSharePayment":110.0,' +
+            '"GrossPayment":500.0' +
+            '}]';
+            res.setBody(jsonTokenResponse);
+            res.setStatusCode(200);  
+        }
+        if(req.getEndpoint() == 'https://exceltojson.com/insolvency'){
+            // Create a fake response
+            res.setHeader('Content-Type', 'application/json');
+            String jsonTokenResponse =
+            '[{' +
+            '"AccountNumber":null,' +
+            '"ClientID":254801.0,' +
+            '"ClientName":"LEBLANC, JUSTIN ",' +
+            '"PaymentSource":3,' +
+            '"PaymentType":1000,' +
+            '"NetPayment":390.0,' +
+            '"FairSharePayment":110.0,' +
+            '"GrossPayment":500.0' +
+            '}]';
+            res.setBody(jsonTokenResponse);
+            res.setStatusCode(200);  
+        }
         system.debug('req.getEndpoint()2'+req.getEndpoint());
         return res;
     }

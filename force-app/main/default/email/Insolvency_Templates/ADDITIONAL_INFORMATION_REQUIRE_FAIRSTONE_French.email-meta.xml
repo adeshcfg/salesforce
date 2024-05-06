@@ -8,7 +8,7 @@
     <subject>Canaccede - En ce qui concerne le Numéro du Surintendant &quot;{!Insolvency__r.Name}&quot; et Numéro de compte &quot;{!Insolvency_Account__c.Secured_Name__c}&quot;</subject>
     <textOnly>Cher (ère) Monsieur / Madame:
 
-Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de  {!pocPackage.Client_Company_Name__c}.
+{!Additional_Info_Text}.
 
 Veuillez noter que  {!pocPackage.Client_Company_Name__c} n’est pas en mesure de trouver le débiteur. Auriez-vous l’obligeance de nous fournir le numéro de compte, le NIV ou le NAS.
 

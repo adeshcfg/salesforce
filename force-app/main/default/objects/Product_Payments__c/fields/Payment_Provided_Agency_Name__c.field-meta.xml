@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Payment_Provided_Agency_Name__c</fullName>
-    <description>Payment Provided Agency Name</description>
+    <description>Commission Paid To Agency Name</description>
     <externalId>false</externalId>
     <formula>Payment_Provided_Agency__r.Agency_Name__c</formula>
-    <inlineHelpText>Payment Provided Agency Name</inlineHelpText>
-    <label>Payment Provided Agency Name</label>
+    <inlineHelpText>Commission Paid To Agency Name</inlineHelpText>
+    <label>Commission Paid To Agency Name</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

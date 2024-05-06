@@ -11,19 +11,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Small Claims Court​</fullName>
-                <default>false</default>
-                <label>Small Claims Court​</label>
-            </value>
-            <value>
                 <fullName>Superior Court of Justice</fullName>
                 <default>false</default>
                 <label>Superior Court of Justice</label>
             </value>
             <value>
-                <fullName>Other</fullName>
+                <fullName>Small Claims Court</fullName>
                 <default>false</default>
-                <label>Other</label>
+                <label>Small Claims Court</label>
             </value>
         </valueSetDefinition>
     </valueSet>

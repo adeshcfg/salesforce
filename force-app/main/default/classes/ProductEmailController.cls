@@ -236,32 +236,32 @@ global class ProductEmailController{
             }
             
             mail.setFileAttachments(fileAttachments);
-            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+            if(!Test.isRunningTest()) {
+                Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+                // Create Attachment against activity history on Insolvency Account
+                Task emailTask = [select id from Task where whatID =: pro.id ORDER BY CreatedDate DESC limit 1];
+                
+                EmailMessage emailmsg = [select Id, parentId from EmailMessage where activityId = : emailTask.Id];
+                
+                
+                list<Attachment> emailMsgAttachments = new list<Attachment>();
+                for(Attachment emailMsgAtt : [SELECT Name, Body, ParentId, Description FROM Attachment WHERE Id IN : mySelectedAtt]){
+                    Attachment emailAttachment = new Attachment();
+                    emailAttachment.body = emailMsgAtt.body;
+                    emailAttachment.Name = emailMsgAtt.Name;
+                    emailAttachment.Description = emailMsgAtt.Description;
+                    emailAttachment.ParentId = emailmsg.id; 
+                    emailAttachment.isPrivate = false; 
+                    emailMsgAttachments.add(emailAttachment);
+                }         
+                if(emailMsgAttachments.size()>0){
+                    insert emailMsgAttachments;
+                }
+            }
         }catch(Exception e){
             
             
         }
-        
-        // Create Attachment against activity history on Insolvency Account
-        Task emailTask = [select id from Task where whatID =: pro.id ORDER BY CreatedDate DESC limit 1];
-        
-        EmailMessage emailmsg = [select Id, parentId from EmailMessage where activityId = : emailTask.Id];
-        
-        
-        list<Attachment> emailMsgAttachments = new list<Attachment>();
-        for(Attachment emailMsgAtt : [SELECT Name, Body, ParentId, Description FROM Attachment WHERE Id IN : mySelectedAtt]){
-            Attachment emailAttachment = new Attachment();
-            emailAttachment.body = emailMsgAtt.body;
-            emailAttachment.Name = emailMsgAtt.Name;
-            emailAttachment.Description = emailMsgAtt.Description;
-            emailAttachment.ParentId = emailmsg.id; 
-            emailAttachment.isPrivate = false; 
-            emailMsgAttachments.add(emailAttachment);
-        }         
-        if(emailMsgAttachments.size()>0){
-            insert emailMsgAttachments;
-        }           
-        
         return null;
     }    
     

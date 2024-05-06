@@ -13,10 +13,20 @@ private class TestGenerateDepositSlipRecordsController {
     
     @testSetup
     static void testData(){
-        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-        config.Do_Not_Run_Payment_Validation__c = false;
-        //config.Final_Deposit_Slip__c = system.today();
-        INSERT config;  
+       
+        Application_Config_Settings__c config = new Application_Config_Settings__c(
+            Run_Remittance_Validation__c = false,
+            Run_Remittance_Trigger__c = true,
+            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+            Run_Insolvency_Trigger__c = false,
+            Run_Insolvency_Account_Duplicate_Check__c = true,
+            Run_Insolvency_Account_Trigger__c = false,
+            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+            Run_Insolvency_Status_Validations__c = true,
+            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
+        );
+        insert config; 
        
          List<Deposit_Accounts__c> depAccList = new List<Deposit_Accounts__c>();
         Deposit_Accounts__c depAcc = new Deposit_Accounts__c();

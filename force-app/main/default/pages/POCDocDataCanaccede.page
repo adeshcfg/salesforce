@@ -66,7 +66,7 @@
                 <br/>
                 To whom it may concern,<br/><br/>
                 Please find enclosed document pertaining to the bankruptcy (or the proposal, or the receivership) of
-                {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c)} {!UPPER(insolvAcc.Insolvency__r.Debtor_1_Middle_Name__c)} {!UPPER(insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} of the City of {!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}, in the Province of {!insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c} and the claim of {!remGroupMap.Entity_Name1__c},
+                {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c)} {!UPPER(insolvAcc.Insolvency__r.Debtor_1_Middle_Name__c)} {!UPPER(insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} of the City of {!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}, in the Province of {!insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c} and the claim of <span style="font-weight : bold">{!remGroupMap.Entity_Name1__c}</span>,
                 assignee of {!insolvAcc.Vendor_Orginator__c} .    <br/><br/>
                 {!remGroupMap.Entity_Name1__c} is now the owner of these accounts as they have been sold and transferred from {!insolvAcc.Vendor_Orginator__c} as part of an accounts receivable sale. Please direct payments and 
                 remittances to Canaccede as outlined in the trustee provided Notice of {!insolvAcc.Insolvency__r.Insolvency_Type__c}.
@@ -155,13 +155,13 @@
                     </span> <br/>
                     of the City of <span style="font-weight : bold;font-family: sans-serif; ">{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}</span>, in the Province of <span style="font-weight : bold;font-family: sans-serif; ">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>
-                    and the claim of {!remGroupMap.Entity_Name1__c} <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> assignee of {!insolvAcc.Vendor_Orginator__c}.</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> assignee of {!insolvAcc.Vendor_Orginator__c}.</span> </apex:outputText> (creditor)          
+                    and the claim of <span style="font-weight : bold;font-family: sans-serif;">{!remGroupMap.Entity_Name1__c}</span> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> assignee of {!insolvAcc.Vendor_Orginator__c}.</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> assignee of {!insolvAcc.Vendor_Orginator__c}.</span> </apex:outputText> (creditor)          
                     <br/><br/>
                     <span style="font-family: sans-serif; font-style:italic;">All notices or correspondence regarding this claim must be forwarded to the following address:</span>
                 </div>
                 
                 <div style="font-weight : bold; text-align:center;padding-top:0px; font-family: sans-serif;">
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">{!remGroupMap.Entity_Name1__c} C/O </apex:outputText> {!remGroupMap.Entity_Name1__c}<br/>
+                    {!remGroupMap.Entity_Name1__c}<br/>
                     {!pocPackage.CFG_Office_Address_1__c}<br/>
                     {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
                 </div>
@@ -451,8 +451,8 @@
                             <br/>
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, President<br/>
-                                {!remGroupMap.Entity_Name1__c}
-                                <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c} " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
+                                {!remGroupMap.Entity_Name1__c} (creditor)
+                                
                                 <apex:outputText value="<br/><br/>" escape="false" rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" />
                             </span>
                         </td>
@@ -527,7 +527,7 @@
                     <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} </b>
                     <br/>
                     of the City of <span  style="font-family: sans-serif; font-weight:bold;"> {!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}</span>, in the Province of <span  style="font-family: sans-serif; font-weight:bold;">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
-                    <br/>and the claim of {!remGroupMap.Entity_Name1__c} <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> assignee of {!insolvAcc.Vendor_Orginator__c}.</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> assignee of {!insolvAcc.Vendor_Orginator__c}</span> (creditor)</apex:outputText>   
+                    <br/>and the claim of <span style="font-weight : bold">{!remGroupMap.Entity_Name1__c}</span> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> assignee of {!insolvAcc.Vendor_Orginator__c}.</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> assignee of {!insolvAcc.Vendor_Orginator__c}</span> (creditor)</apex:outputText>   
                 </div>
                 <br/>
                 <tr style="text-align:left;">
@@ -646,8 +646,7 @@
                         <br/>
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, President<br/>
-                            {!remGroupMap.Entity_Name1__c}
-                            <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c}" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
+                            {!remGroupMap.Entity_Name1__c} (creditor)
                             
                         </span>
                     </td>

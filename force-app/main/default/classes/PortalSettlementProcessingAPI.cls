@@ -36,6 +36,7 @@ public class PortalSettlementProcessingAPI {
             if(String.isNotBlank(settlementInstance.Comment__c)){
                 commentReply = String.valueOf(settlementInstance.Comment__c).replace('\n', '').replace('\r', ' ');   
                 commentReply = commentReply.replaceAll('\\s+', ' ');
+                commentReply = commentReply.replaceAll('"', '\'\'');
             }
            
             if(String.isNotBlank(settlementInstance.Monthly_Expenses_Comments__c)){

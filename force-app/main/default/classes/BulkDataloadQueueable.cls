@@ -1,10 +1,10 @@
 /**
-* @description       : Queueable class to parse CSV and insert parsed records
-* @author            : adeshi@a5econsulting.net
-* @group             :
-* @last modified on  : 03-27-2023
-* @last modified by  : adeshi@a5econsulting.net
-**/
+ * @description       : Queueable class to parse CSV and insert parsed records
+ * @author            : adeshi@a5econsulting.net
+ * @group             :
+ * @last modified on  : 02-05-2024
+ * @last modified by  : adeshi@a5econsulting.net
+ **/
 public class BulkDataloadQueueable implements Queueable {
     // Max number of records to be inserted in a single job
     public static final Integer MAX_NUMBER_OF_RECORDS_PER_JOB = 10000;
@@ -16,14 +16,14 @@ public class BulkDataloadQueueable implements Queueable {
     public Integer startingIndex = 0;
     public Document_Storage__c documentStorage;
     public String typeOfOperation;
-    
+
     public BulkDataloadQueueable(String typeOfOperation, List<String> recordListString, Integer startingIndex, Document_Storage__c documentStorage) {
         this.typeOfOperation = typeOfOperation;
         this.recordListString = recordListString;
         this.startingIndex = startingIndex;
         this.documentStorage = documentStorage;
     }
-    
+
     public void execute(QueueableContext context) {
         try {
             switch on typeOfOperation {
@@ -36,14 +36,16 @@ public class BulkDataloadQueueable implements Queueable {
             }
         } catch (Exception e) {
             System.debug('Exception in BulkDataloadQueueable ' + e.getMessage());
+            Insolvency_Error__c error = new Insolvency_Error__c(Error__c = e.getMessage() + e.getStackTraceString());
+            insert error;
         }
     }
-    
+
     /**
-* @description : Convert CSV to List of Strings with every CSV row being an element of array, will be used further to create records
-* @author adeshi@a5econsulting.net | 03-22-2023
-* @param documentStorage
-**/
+     * @description : Convert CSV to List of Strings with every CSV row being an element of array, will be used further to create records
+     * @author adeshi@a5econsulting.net | 03-22-2023
+     * @param documentStorage
+     **/
     public static void parseCSVToStringList(Document_Storage__c documentStorage) {
         ContentDocumentLink con = [
             SELECT Id, ContentDocumentId, LinkedEntityId
@@ -67,17 +69,17 @@ public class BulkDataloadQueueable implements Queueable {
             System.enqueueJob(new BulkDataloadQueueable('INSERT_DATA', csvStringList, 0, documentStorage));
         }
     }
-    
+
     /**
-* @description : Method to convert list of CSV rows to list of Product Staging records and insert in chunks of 10000 max
-* @author adeshi@a5econsulting.net | 03-22-2023
-* @param recordListString
-* @param startingIndex
-* @param documentStorage
-**/
+     * @description : Method to convert list of CSV rows to list of Product Staging records and insert in chunks of 10000 max
+     * @author adeshi@a5econsulting.net | 03-22-2023
+     * @param recordListString
+     * @param startingIndex
+     * @param documentStorage
+     **/
     public static void createAndInsertRecordList(List<String> recordListString, Integer startingIndex, Document_Storage__c documentStorage) {
         List<Product_Staging__c> recordsToInsert = new List<Product_Staging__c>();
-        
+
         // Generate end index for iteration on CSV String list, end index can be greater than start index by 10000 at max due to DML limit
         Integer endingIndex = startingIndex + MAX_NUMBER_OF_RECORDS_PER_JOB < recordListString.size()
             ? startingIndex + MAX_NUMBER_OF_RECORDS_PER_JOB
@@ -87,16 +89,21 @@ public class BulkDataloadQueueable implements Queueable {
             for (Integer i = startingIndex; i < endingIndex; i++) {
                 // Split comma separated string of data into an array
                 List<String> csvData = recordListString[i].split(',');
-                recordsToInsert.add(createAllocationRecord(csvData, documentStorage.Id));
+                // Check for empty row
+                if (!csvData.isEmpty()) {
+                    recordsToInsert.add(createAllocationRecord(csvData, documentStorage.Id));
+                }
             }
         } else if (documentStorage.Document_Type__c == RECALL_DOC_TYPE) {
             for (Integer i = startingIndex; i < endingIndex; i++) {
                 // Split comma separated string of data into an array
                 List<String> csvData = recordListString[i].split(',');
-                recordsToInsert.add(createRecallRecord(csvData, documentStorage.Id));               
+                // Check for empty row
+                if (!csvData.isEmpty()) {
+                    recordsToInsert.add(createRecallRecord(csvData, documentStorage.Id));
+                }
             }
         }
-        system.debug('recordsToInsert::'+recordsToInsert);
         try {
             if (!recordsToInsert.isEmpty()) {
                 Database.insert(recordsToInsert);
@@ -115,78 +122,75 @@ public class BulkDataloadQueueable implements Queueable {
             }
         }
     }
-    
+
     /**
-* @description : Method to map csv columns to correct Product Staging fields in case of Allocation
-* @author adeshi@a5econsulting.net | 03-23-2023
-* @param csvData
-* @return List<Product_Staging__c>
-**/
+     * @description : Method to map csv columns to correct Product Staging fields in case of Allocation
+     * @author adeshi@a5econsulting.net | 03-23-2023
+     * @param csvData
+     * @return List<Product_Staging__c>
+     **/
     public static Product_Staging__c createAllocationRecord(List<String> csvData, String documentStorageId) {
         Product_Staging__c psRecord = new Product_Staging__c();
         // Map array indexes to Product Staging fields
-        
+
         psRecord.Data_Id__c = csvData[0];
-        if(csvData[1] != null || csvData[1] != ''){
+        if (csvData[1] != null || csvData[1] != '') {
             psRecord.Placement_Agency__c = csvData[1];
-        }else{
+        } else {
             psRecord.Placement_Agency__c = '';
         }
-        if(csvData[2] != null && csvData[2] != ''){
+        if (csvData[2] != null && csvData[2] != '') {
             psRecord.Pool_Name__c = csvData[2];
-        }else{
+        } else {
             psRecord.Pool_Name__c = '';
         }
-        if(csvData[3] != null && csvData[3] != ''){
+        if (csvData[3] != null && csvData[3] != '') {
             psRecord.Current_Commission_Rate__c = Decimal.valueOf(csvData[3]);
-        }else{
+        } else {
             psRecord.Current_Commission_Rate__c = 0.00;
         }
-        if(csvData[4] != null && csvData[4] != ''){
+        if (csvData[4] != null && csvData[4] != '') {
             psRecord.Placed_Commission_Rate__c = Decimal.valueOf(csvData[4]);
-        }else{
+        } else {
             psRecord.Placed_Commission_Rate__c = 0.00;
         }
-        if(csvData[5] != null && csvData[5] != ''){
+        if (csvData[5] != null && csvData[5] != '') {
             psRecord.Current_Settlement_Rate__c = Decimal.valueOf(csvData[5]);
-        }else{
-            psRecord.Current_Settlement_Rate__c = 0.00; 
+        } else {
+            psRecord.Current_Settlement_Rate__c = 0.00;
         }
-        if(csvData[6] != null && csvData[6] != ''){
-            system.debug('inside if placedRate');
+        if (csvData[6] != null && csvData[6] != '') {
             psRecord.Placed_Settlement_Rate__c = Decimal.valueOf(csvData[6]);
-        }else{
-            system.debug('inside else placedRate');
+        } else {
             psRecord.Placed_Settlement_Rate__c = 0.00;
         }
-        if(csvData.size() >= 8){
-            psRecord.Value_Tier_at_Time_of_Placement__c = csvData[7]; 
-        }else{
-            psRecord.Value_Tier_at_Time_of_Placement__c = ''; 
+        if (csvData.size() >= 8) {
+            psRecord.Value_Tier_at_Time_of_Placement__c = csvData[7];
+        } else {
+            psRecord.Value_Tier_at_Time_of_Placement__c = '';
         }
         psRecord.Identifier__c = documentStorageId;
         return psRecord;
     }
-    
+
     /**
-* @description : Method to map csv columns to correct Product Staging fields in case of Recall
-* @author adeshi@a5econsulting.net | 03-23-2023
-* @param csvData
-* @return List<Product_Staging__c>
-**/
+     * @description : Method to map csv columns to correct Product Staging fields in case of Recall
+     * @author adeshi@a5econsulting.net | 03-23-2023
+     * @param csvData
+     * @return List<Product_Staging__c>
+     **/
     public static Product_Staging__c createRecallRecord(List<String> csvData, String documentStorageId) {
         Product_Staging__c psRecord = new Product_Staging__c();
-        system.debug('csvData::'+csvData);
         // Map array indexes to Product Staging fields
         psRecord.Name__c = csvData[0];
-        if(csvData[1] != null || csvData[1] != ''){
+        if (csvData[1] != null || csvData[1] != '') {
             psRecord.Placement_Status_Code__c = csvData[1];
-        }else{
+        } else {
             psRecord.Placement_Status_Code__c = '';
         }
-        if(csvData.size() >= 3){
+        if (csvData.size() >= 3) {
             psRecord.Status_Changed_Date__c = csvData[2];
-        }else{
+        } else {
             psRecord.Status_Changed_Date__c = '';
         }
         psRecord.Identifier__c = documentStorageId;

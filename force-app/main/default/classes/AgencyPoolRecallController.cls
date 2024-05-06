@@ -20,14 +20,15 @@ public class AgencyPoolRecallController {
     public string selectedValueAction{get;set;}
     public String recordCount {get;set;}    
     string poolId ;
-     public String placeStatus;
-     
-   // string placementID;
+    public String placeStatus;
     public String oldPlacementID;
     list<Product__c> productList = new list<Product__c>();
     list<Id> ProdIdList = new list<Id>();
     list<Placement_History__c> placementHistoryList = new list<Placement_History__c>();
     List <Pool__c> pool = new List<Pool__c>();
+    public List<User> systemName= new list<User>();
+    public Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
+    public Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
     
     public AgencyPoolRecallController(ApexPages.StandardController stdController) {
         poolId = ApexPages.CurrentPage().getParameters().get('Id'); 
@@ -42,9 +43,9 @@ public class AgencyPoolRecallController {
                     Current_Bal_Attorney_Fees__c,Current_Bal_General_Fees__c,Current_Bal_Other_Fees__c,External_Status_Current__c,
                     Current_Bal_Court_Fees__c,Collection_Agency_Placement__r.Commission_Rate__c,Commission_Rate__c,Pool_Name__r.Commission_Rate__c,Allocated_Amount_Total__c,
                     Pool_Name__r.Name,Commission_Rate_at_Time_of_Placement__c,Value_Tier_at_Time_of_Placement__c,
-                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c
+                   Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,OwnerId,Previous_Ownership__c
                     from Product__C Where Pool_Name__c =: poolId AND (Collection_Agency__c != NULL AND Collection_Agency__c != 9999)];
-                  System.debug('listProd...>>>'+listProd);
+        System.debug('listProd...>>>'+listProd);
         if(listProd.isEmpty()){ 
             error = true;         
             Disable = true;
@@ -62,30 +63,34 @@ public class AgencyPoolRecallController {
             Disable = true;
             Alert_msg = true;
         }
+        //Fetch System Api
+        if(lrpSetting.Canaccede_API_User__c != NULL){
+            systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
+        }
+        //Fetch Product RecordType
+        for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product__c' ]){
+            prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
+        }
     }
     
     public List<SelectOption> getItems() {
        // Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
         String recallReasonString;         
         List<SelectOption> options = new List<SelectOption>();
-        
         List<Agency_Portal_Settings__c> recallReasons = [Select Pool_Recall_Reasons__c from Agency_Portal_Settings__c];
-        system.debug('recallReasons  '+recallReasons);
+
         for(Agency_Portal_Settings__c recallReason :recallReasons ){
             recallReasonString = recallReason.Pool_Recall_Reasons__c;
         }
         List<String> lstReason = recallReasonString.split(',');
         Set<String> setPoolRecallReasons = new Set<String>();
         setPoolRecallReasons.addAll(lstReason);
-        system.debug('lstReason  '+lstReason);
-        
      
         List<Placement_Status_Code_Mapping__c> statusCodes = [Select Parent_Status__c,Placement_Status_Code__c,
                                                               Data_Status_Code__c, Data_Status_Description__c   ,
                                                               Status__c,Sub_Status__c,Complete_Status__c
                                                               from Placement_Status_Code_Mapping__c];  
       
-        system.debug('statusCodes '+statusCodes);
         for(Placement_Status_Code_Mapping__c reasons : statusCodes){  
             if(setPoolRecallReasons.contains(reasons.Complete_Status__c)){
                 if(reasons.Sub_Status__c == NULL){
@@ -97,7 +102,6 @@ public class AgencyPoolRecallController {
             
             mapRecallCodeStatus.put(reasons.Placement_Status_Code__c, reasons);            
         }
-        system.debug('mapRecallCodeStatus::'+mapRecallCodeStatus);
         return options;
     }
     
@@ -108,7 +112,6 @@ public class AgencyPoolRecallController {
         }
         else{
             actionoptions.add(new SelectOption('Pending Recall','Pending Recall'));
-            //actionoptions.add(new SelectOption('Pending Allocation','Pending Allocation')); 
             actionoptions.add(new SelectOption('Send to Warehouse','Send to Warehouse'));  
         }    
         return actionoptions;
@@ -132,27 +135,22 @@ public class AgencyPoolRecallController {
         for(Data_Status_Mapping__c dataStatusMapping : [SELECT Description1__c,Description2__c,Name, Description__c
                                                             FROM Data_Status_Mapping__c
                                                             WHERE 
-                                                            /*Description1__c = :mainStatus 
-                                                            AND Description2__c= :subStatus*/
                                                             Description__c LIKE :'Warehouse%'
                                                         ]){
             mapProductStatusCodes.put(dataStatusMapping.Description1__c + 
                                       ( dataStatusMapping.Description2__c!= null ?  dataStatusMapping.Description2__c : '') 
                                      , dataStatusMapping);              
-            system.debug('map::'+dataStatusMapping.Description1__c+dataStatusMapping.Description2__c);
         } 
         
         for(Product__c product : listProd){
             oldPlacementID = product.Collection_Agency_Placement__c;
-            
+            product.Run_Identifier_Check_On__c = System.today();
             if(product.Placement_Status__c != null){
                 placeStatus = product.Placement_Status__c;
             }
             
             if(selectedValueAction == 'Pending Recall'){                
-                system.debug('selectedValue' +selectedValue);
                 product.Placement_Status__c = selectedValue;
-                system.debug('product.Placement_Status__c::'+product.Placement_Status__c);
                 Product_Placement_Status = product.Placement_Status__c;
                 product.Status_Changed_Date__c = Date.today();
                 product.External_Status_Current__c = null;
@@ -166,24 +164,15 @@ public class AgencyPoolRecallController {
                 }
                 product.Status__c = mainStatus;
                 product.Sub_Status__c = subStatus;
-                system.debug('product.Status__c:: '+product.Status__c);
-                system.debug('product.Sub_Status__c: '+product.Sub_Status__c);
-                productList.add(product);
                 prodIdList.add(product.id);
                 placeStatusMap.put(product.id,product.Placement_Status__c);
-                //productNames += product.Name + ',';
             }
             else if(selectedValueAction == 'Send to Warehouse'){
                 product.Recalled_Date__c = Date.today();   
                 product.Collection_Agency__c = 9999;
                 product.Collection_Agency_Placement__c = placement.id;
                 product.External_Status_Current__c = null;
-                system.debug('selectedValue::'+selectedValue);
-                system.debug('product.Placement_Status__c::'+product.Placement_Status__c);
-                
                 product.Placement_Status__c = selectedValue.replaceFirst('8', '9');
-                system.debug('mapRecallCodeStatus contains:'+mapRecallCodeStatus.get(product.Placement_Status__c));
-                
                 //upadate placment status and data status description from custom setting for the corresponding Placement Status Code
                 if(mapRecallCodeStatus.containsKey(product.Placement_Status__c)){
                     product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
@@ -200,48 +189,15 @@ public class AgencyPoolRecallController {
                     product.Collection_Agency_Placement__c = placement.id;
                 }
                 product.Status_Changed_Date__c = Date.today();
-                
-                /*if(String.isNotBlank(product.Status__c) && product.Status__c.startsWith(PENDING_RECALL)){
-                    product.Status__c = product.Status__c.replaceAll(PENDING_RECALL, RECALL);
-                    product.Placement_Status__c = product.Placement_Status__c.replace('8', '9');
-                }
-                system.debug('selectedValue' +selectedValue);
-                system.debug('mainStatus:: '+mainStatus);
-                system.debug('subStatus:: '+subStatus);
-                if(mapProductStatusCodes.containsKey(mainStatus+subStatus)){
-                        product.Product_Status__c =  mapProductStatusCodes.get(mainStatus+subStatus).Name;
-                        product.Data_Status_Description__c =  mapProductStatusCodes.get(mainStatus+subStatus).Description__c;
-                }
-                else if(mapProductStatusCodes.containsKey(mainStatus)){
-                    product.Product_Status__c =  mapProductStatusCodes.get(mainStatus).Name;
-                    product.Data_Status_Description__c =  mapProductStatusCodes.get(mainStatus).Description__c;   
-                }
-                else if(mapProductStatusCodes.containsKey(mainStatus + 'Other')){
-                    product.Product_Status__c =  mapProductStatusCodes.get(mainStatus + 'Other').Name;
-                    product.Data_Status_Description__c =  mapProductStatusCodes.get(mainStatus + 'Other').Description__c;   
-                }
-                else if(mapProductStatusCodes.containsKey('Other')){
-                    product.Product_Status__c =  mapProductStatusCodes.get('Other').Name;
-                    product.Data_Status_Description__c =  mapProductStatusCodes.get('Other').Description__c;   
-                }
-              /*  product.Placement_Status__c = PENDING_RECALL_NEW;
-                if(mapRecallCodeStatus.containsKey(product.Placement_Status__c)){
-                    product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
-                    product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;        
-                }*/
-
                 Product_Placement_Status = product.Placement_Status__c;
-                productList.add(product);
-                 prodIdList.add(product.id);
+                prodIdList.add(product.id);
                 placeStatusMap.put(product.id,product.Placement_Status__c);
-                system.debug('productList++' +productList);
             }
             else if(selectedValueAction == 'Pending Allocation'){
                 product.Collection_Agency__c = 9999;
                 product.Collection_Agency_Placement__c = placement.id;
                 product.Recalled_Date__c = Date.today();
                 product.External_Status_Current__c = null;
-               // product.Product_Status__c = PENDING_ALLOCATION;
                 product.Placement_Status__c = selectedValue;
                 product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
                 product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
@@ -249,39 +205,25 @@ public class AgencyPoolRecallController {
                     product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
                     product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
                 }
-                productList.add(product);
-                 prodIdList.add(product.id);
+                prodIdList.add(product.id);
                 placeStatusMap.put(product.id,product.Placement_Status__c);
             }
+            if(product.Collection_Agency__c == 9999){
+                if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
+                   && placement.Name != PlacementAgency){
+                       Id oldOwnerId = product.OwnerId;
+                       // Assign System API to Owner
+                       if(!systemName.isEmpty()){
+                           product.OwnerId = systemName[0].Id;      
+                       }
+                       //Also Assign the last owner to the previous ownership field
+                       if(oldOwnerId != product.OwnerId && oldOwnerId != NULL){
+                           product.Previous_Ownership__c = oldOwnerId;
+                       }
+                   }
+            }
+            productList.add(product);
             if(selectedValueAction == 'Pending Recall' || selectedValueAction == 'Send to Warehouse'){
-                /*Placement_History__c placementHistory = new Placement_History__c();                
-                placementHistory.Product__c = product.id;
-                placementHistory.Placement__c =  oldPlacementID;    
-                placementHistory.Placement_Recall_Date__c = Date.today();
-                placementHistory.Placement_Status__c = product.Placement_Status__c;
-                placementHistory.Placement_Date__c = product.Assignment_Date__c;
-                placementHistory.Current_Principal_Balance__c = product.Current_Principal_Balance__c;
-                placementHistory.Current_Interest_Balance__c = product.Current_Interest_Amount__c;
-                placementHistory.Interest_Rate__c = product.Interest_Rate__c;
-                placementHistory.NSF_Fees__c = product.Current_Bal_NSF_Fees__c;
-                placementHistory.Current_Bal_Attorney_Fees__c = product.Current_Bal_Attorney_Fees__c;
-                placementHistory.Current_Bal_General_Fees__c = product.Current_Bal_General_Fees__c;
-                placementHistory.Current_Bal_Other_Fees__c = product.Current_Bal_Other_Fees__c;
-                placementHistory.Current_Bal_Court_Fees__c = product.Current_Bal_Court_Fees__c;
-                placementHistory.Commission_Rate__c = product.Collection_Agency_Placement__r.Commission_Rate__c;
-                placementHistory.Pool_Commission_Rate__c = product.Pool_Name__r.Commission_Rate__c;
-                placementHistory.Product_Commission_Rate__c = product.Commission_Rate__c;
-                placementHistory.Allocated_Balance__c = product.Allocated_Amount_Total__c;
-                placementHistory.Pool_ID__c = product.Pool_Name__r.Name;
-                  placementHistory.Placed_Commission_Rate__c = product.Commission_Rate_at_Time_of_Placement__c;
-                placementHistory.Value_Tier_at_Placement__c = product.Value_Tier_at_Time_of_Placement__c;
-                placementHistory.Placed_Settlement_Rate__c = product.Placed_Settlement_Rate__c;
-                placementHistory.Recoverable_fee_balance__c = product.Recoverable_Fee__c;
-                placementHistory.Non_recoverable_fee_balance__c = product.Non_Recoverable_Fee__c;
-                placementHistory.Placement_Status_at_time_of_recall__c = placeStatus;
-                placementHistory.Total_Balance_at_Placement__c = product.Current_Balance__c;
-                placementHistoryList.add(placementHistory);*/
-                
               if(!Test.isRunningTest()){
                  DistressedUtilities.updatePlacementHistory(product.Id, selectedValue.replaceFirst(selectedValue.substring(0,1), '9'));
 
@@ -292,7 +234,6 @@ public class AgencyPoolRecallController {
         productNames = productNames.removeEnd(',');
         String poolAgency = '';
         try{
-            system.debug('selectedValueAction::'+selectedValueAction);
             if(selectedValueAction == 'Send to Warehouse'){   
                 poolAgency = '9999';
                 poolRecord.Placement_Agency__c = 9999;
@@ -312,43 +253,14 @@ public class AgencyPoolRecallController {
                     
                 }
              }
-            system.debug('selectedValueAction::'+selectedValueAction);
-            system.debug('poolRecord.Placement_Agency__c::'+poolRecord.Placement_Agency__c);
-            system.debug('poolAgency::'+poolAgency);
-            /*for(Pool__c poolRec : pool ){ 
-                if(selectedValueAction == 'Send to Warehouse'){                 
-                    
-                    poolRec.Placement_Agency__c = 9999;                   
-                    poolRec.Placement_agency_lookup__c = NULL;
-                    
-                    //updatePool.add(poolRec);
-                }
-                else{
-                   // poolRec.Placement_Agency__c = NULL;   
-                   // poolRec.Placement_agency_lookup__c = NULL;
-                    
-                }
-                
-            }*/
-            
-            system.debug('productList '+productList);
-            
             
             ProductTriggerHandler.runProductTrigger = false;
-             DistressedUtilities.UpdateSettlement(prodIdList);
+            DistressedUtilities.UpdateSettlement(prodIdList);
             update productList;
-           // insert placementHistoryList;
-     
-             //Commented by satyajit
-            //PortalProductStatusBulkAPI.processBulkProducts(productNames, Product_Placement_Status, ALLOCATED, String.valueOf(Date.today()), 
-                                                           //'Recall',poolAgency, poolRecord.Name);
-                                                           //
-                                                           //
-             //Added by satyajit
-              Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update File'), 200);
-                                                           
+            //Added by satyajit
+            Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update File'), 200);                                             
             ProductTriggerHandler.runProductTrigger = true;
-            //update pool;
+
             listProdWrapper = new list<productWrapper>();
             if(selectedValueAction == 'Send to Warehouse'){
                 Alert = 'Product Send to Warehouse';
@@ -364,7 +276,7 @@ public class AgencyPoolRecallController {
             recordCount = 'No. of Success Records: '+ productList.size() +'<br/>';
         }
         catch(Exception ex){
-            // ERROR_MSG = ex.getMessage();
+			system.debug('exception'+ex);
         }          
         
         return null;
@@ -380,7 +292,6 @@ public class AgencyPoolRecallController {
         Placement__c placement = [SELECT ID, Name
                    FROM Placement__c WHERE Name= :'9999' limit 1];
         
-        system.debug('PlacementAgency== '+PlacementAgency);
         String mainStatus = mapRecallCodeStatus.get(selectedValue).Parent_Status__C + ' - ' +mapRecallCodeStatus.get(selectedValue).Status__c;
         String subStatus = mapRecallCodeStatus.get(selectedValue).Sub_Status__c;
         map<String, String> mapDataStatus = new map<String, String>();
@@ -388,16 +299,12 @@ public class AgencyPoolRecallController {
         for(Data_Status_Mapping__c dataStatusMapping : [SELECT Description1__c,Description2__c,Name,Description__c
                                                             FROM Data_Status_Mapping__c
                                                             WHERE 
-                                                            /*Description1__c = :mainStatus 
-                                                            AND Description2__c= :subStatus*/
                                                             Description__c LIKE :'Warehouse%'
                                                         ]){
             mapProductStatusCodes.put(dataStatusMapping.Description1__c + 
                                       ( dataStatusMapping.Description2__c!= null ?  dataStatusMapping.Description2__c : '') 
                                      , dataStatusMapping);  
-            system.debug('map::'+dataStatusMapping.Description1__c+dataStatusMapping.Description2__c);
         }
-        // system.debug('placement::'+ product.Collection_Agency_Placement__c);
         listProdWrapper = new list<productWrapper>();
         Boolean validation = validationOnRecordUpdate(listProd, PlacementAgency);
         if(Test.isRunningTest()){
@@ -408,14 +315,13 @@ public class AgencyPoolRecallController {
         }
         else{
             for(Product__c product : listProd){
-            
+            product.Run_Identifier_Check_On__c = System.today();
             if(product.Placement_Status__c != null){
                 placeStatus = product.Placement_Status__c;
             }
             
                 oldPlacementID = product.Collection_Agency_Placement__c;
                 if(selectedValueAction == 'Pending Recall'){
-                    system.debug('selectedValue' +selectedValue);
                     product.Placement_Status__c = selectedValue;
                     Product_Placement_Status = product.Placement_Status__c;
                     product.Status_Changed_Date__c = Date.today();
@@ -430,23 +336,15 @@ public class AgencyPoolRecallController {
                     }
                     product.Status__c = mainStatus;
                     product.Sub_Status__c = subStatus;
-                    system.debug('product.Status__c:: '+product.Status__c);
-                    system.debug('product.Sub_Status__c:: '+product.Sub_Status__c);
-                    productList.add(product);
                     prodIdList.add(product.id);
                     placeStatusMap.put(product.id,product.Placement_Status__c);
-                    //productNames += product.Name + ',';
                 }
                 else if(selectedValueAction == 'Send to Warehouse'){
                     product.Recalled_Date__c = Date.today();   
                     product.Collection_Agency__c = 9999;
                     product.Collection_Agency_Placement__c = placement.id;
                     product.External_Status_Current__c = null;
-                    system.debug('selectedValue:::'+selectedValue);
                     product.Placement_Status__c = selectedValue.replaceFirst('8', '9');
-                    system.debug('product.Placement_Status__c::'+product.Placement_Status__c);
-                    system.debug('mapRecallCodeStatus contains:'+mapRecallCodeStatus.get(product.Placement_Status__c));
-                    
                     //upadate placment status and data status description from custom setting for the corresponding Placement Status Code
                     if(mapRecallCodeStatus.containsKey(product.Placement_Status__c)){
                         product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
@@ -463,36 +361,14 @@ public class AgencyPoolRecallController {
                         product.Collection_Agency_Placement__c = placement.id;
                     }
                     product.Status_Changed_Date__c = Date.today();
-                    
-                    /*if(mapProductStatusCodes.containsKey(mainStatus+subStatus)){
-                        product.Product_Status__c =  mapProductStatusCodes.get(mainStatus+subStatus).Name;
-                        product.Data_Status_Description__c =  mapProductStatusCodes.get(mainStatus+subStatus).Description__c;
-                    }
-                    else if(mapProductStatusCodes.containsKey(mainStatus)){
-                            product.Product_Status__c =  mapProductStatusCodes.get(mainStatus).Name;
-                            product.Data_Status_Description__c =  mapProductStatusCodes.get(mainStatus).Description__c;   
-                    }
-                    else if(mapProductStatusCodes.containsKey(mainStatus + 'Other')){
-                            product.Product_Status__c =  mapProductStatusCodes.get(mainStatus + 'Other').Name;
-                            product.Data_Status_Description__c =  mapProductStatusCodes.get(mainStatus + 'Other').Description__c;   
-                    }
-                    else if(mapProductStatusCodes.containsKey('Other')){
-                            product.Product_Status__c =  mapProductStatusCodes.get('Other').Name;
-                            product.Data_Status_Description__c =  mapProductStatusCodes.get('Other').Description__c;   
-                   }*/
-                    system.debug('selectedValue' +selectedValue);
                     Product_Placement_Status = product.Placement_Status__c;
-                    productList.add(product);
-                     prodIdList.add(product.id);
+                    prodIdList.add(product.id);
                     placeStatusMap.put(product.id,product.Placement_Status__c);
-                    system.debug('productList++' +productList);
                 } 
                 else if(selectedValueAction == 'Pending Allocation'){
                     product.Collection_Agency__c = 9999;
                     product.Collection_Agency_Placement__c = placement.id;
                     product.External_Status_Current__c = null;
-                    //product.Recalled_Date__c = Date.today();
-                   // product.Product_Status__c = PENDING_ALLOCATION;
                     product.Placement_Status__c = selectedValue;
                     product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
                     product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
@@ -500,51 +376,34 @@ public class AgencyPoolRecallController {
                         product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
                         product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
                     }
-                    // ERROR_MSG = 'Product set to Pending Allocation Status';
-                    // placementIdentifier = '';
-                    productList.add(product);
-                     prodIdList.add(product.id);
+                    prodIdList.add(product.id);
                     placeStatusMap.put(product.id,product.Placement_Status__c);
                 }
-                 if(selectedValueAction == 'Pending Recall' || selectedValueAction == 'Send to Warehouse'){
-               /* Placement_History__c placementHistory = new Placement_History__c();                
-                placementHistory.Product__c = product.id;
-                placementHistory.Placement__c =  oldPlacementID;    
-                placementHistory.Placement_Recall_Date__c = Date.today();
-                placementHistory.Placement_Status__c = product.Placement_Status__c;
-                placementHistory.Placement_Date__c = product.Assignment_Date__c;
-                placementHistory.Current_Principal_Balance__c = product.Current_Principal_Balance__c;
-                placementHistory.Current_Interest_Balance__c = product.Current_Interest_Amount__c;
-                placementHistory.Interest_Rate__c = product.Interest_Rate__c;
-                placementHistory.NSF_Fees__c = product.Current_Bal_NSF_Fees__c;
-                placementHistory.Current_Bal_Attorney_Fees__c = product.Current_Bal_Attorney_Fees__c;
-                placementHistory.Current_Bal_General_Fees__c = product.Current_Bal_General_Fees__c;
-                placementHistory.Current_Bal_Other_Fees__c = product.Current_Bal_Other_Fees__c;
-                placementHistory.Current_Bal_Court_Fees__c = product.Current_Bal_Court_Fees__c;
-                placementHistory.Commission_Rate__c = product.Collection_Agency_Placement__r.Commission_Rate__c;
-                placementHistory.Pool_Commission_Rate__c = product.Pool_Name__r.Commission_Rate__c;
-                placementHistory.Product_Commission_Rate__c = product.Commission_Rate__c;
-                placementHistory.Allocated_Balance__c = product.Allocated_Amount_Total__c;
-                placementHistory.Pool_ID__c = product.Pool_Name__r.Name;
-                 placementHistory.Placed_Commission_Rate__c = product.Commission_Rate_at_Time_of_Placement__c;
-                placementHistory.Value_Tier_at_Placement__c = product.Value_Tier_at_Time_of_Placement__c;
-                placementHistory.Placed_Settlement_Rate__c = product.Placed_Settlement_Rate__c;
-                placementHistory.Recoverable_fee_balance__c = product.Recoverable_Fee__c;
-                placementHistory.Non_recoverable_fee_balance__c = product.Non_Recoverable_Fee__c;
-                placementHistory.Placement_Status_at_time_of_recall__c = placeStatus;
-                placementHistory.Total_Balance_at_Placement__c = product.Current_Balance__c;
-                placementHistoryList.add(placementHistory);*/
-                
-                if(!Test.isRunningTest()){
-                    DistressedUtilities.updatePlacementHistory(product.Id, selectedValue.replaceFirst(selectedValue.substring(0,1), '9'));
+                if(product.Collection_Agency__c == 9999){
+                    if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
+                       && placement.Name != PlacementAgency){
+                           Id oldOwnerId = product.OwnerId;
+                           // Assign System API to Owner
+                           if(!systemName.isEmpty()){
+                               product.OwnerId = systemName[0].Id;      
+                           }
+                           //Also Assign the last owner to the previous ownership field
+                           if(oldOwnerId != product.OwnerId && oldOwnerId != NULL){
+                               product.Previous_Ownership__c = oldOwnerId;
+                           }
+                       }
                 }
-            }
+                productList.add(product);
+                if(selectedValueAction == 'Pending Recall' || selectedValueAction == 'Send to Warehouse'){
+                    if(!Test.isRunningTest()){
+                        DistressedUtilities.updatePlacementHistory(product.Id, selectedValue.replaceFirst(selectedValue.substring(0,1), '9'));
+                    }
+                }
              productNames += product.Name + ',';   
             }
             productNames = productNames.removeEnd(',');
             String poolAgency = '';
             try{
-                system.debug('selectedValueAction::'+selectedValueAction);
                 if(selectedValueAction == 'Send to Warehouse'){   
                     poolAgency = '9999';
                     poolRecord.Placement_Agency__c = 9999;
@@ -563,39 +422,14 @@ public class AgencyPoolRecallController {
                         PoolTriggerHandler.runPoolTrigger = true;
                     }
                 }
-                system.debug('selectedValueAction::'+selectedValueAction);
-                system.debug('poolAgency::'+poolAgency);
-                /*for(Pool__c poolRec : pool ){ 
-                    if(selectedValueAction == 'Send to Warehouse'){                 
-                        poolRec.Placement_Agency__c = 9999;                   
-                        poolRec.Placement_agency_lookup__c = NULL;
-                        
-                        //updatePool.add(poolRec);
-                    }
-                    else{
-                       // poolRec.Placement_Agency__c = NULL;    
-                       // poolRec.Placement_agency_lookup__c = NULL;
-                        
-                    }
-                    
-                }*/
-                
-                system.debug('productList '+productList);
                 
                 DistressedUtilities.UpdateSettlement(prodIdList);
                 ProductTriggerHandler.runProductTrigger = false;
-                update productList;               
-                //insert placementHistoryList; 
-                
-               //Commented by satyajit
-                //PortalProductStatusBulkAPI.processBulkProducts(productNames, Product_Placement_Status, ALLOCATED, String.valueOf(Date.today()), 
-                                                              // 'Recall',poolAgency, poolRecord.Name);
-               
+                update productList;                             
                 //Added by satyajit
                 Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update File'), 200);
-                
                 ProductTriggerHandler.runProductTrigger = true;
-                //update pool;
+
                 listProdWrapper = new list<productWrapper>();
                 if(selectedValueAction == 'Send to Warehouse'){
                     Alert = 'Product Send to Warehouse';
@@ -605,14 +439,14 @@ public class AgencyPoolRecallController {
                 }else{
                     Alert =  'Product set to Pending Status';
                 }
-                // Alert = 'Product Recalled from Agency ';
+
                 Disable = true;
                 Alert_msg = true;
                 countrefresh = true;
                 recordCount = 'No. of Success Records: '+ productList.size() +'<br/>';
             }
             catch(Exception ex){
-                // ERROR_MSG = ex.getMessage();
+				system.debug('exception'+ex);
             }          
             
         }
@@ -621,13 +455,12 @@ public class AgencyPoolRecallController {
     
     public static set<String> getProductPaymentDetails(set<String> setProductId){
         set<String> setRecentlyPaidProducts = new set<String>();
-         system.debug('productPay::123');
+
         for(Product_Payments__c productPay : [SELECT ID, CCS_Account__c,CCS_Account__r.Name 
                                               FROM Product_Payments__c 
                                               WHERE CCS_Account__r.Name IN :setProductId
                                               AND Payment_Posting_Date__c = LAST_N_DAYS:60]){
                                                   setRecentlyPaidProducts.add(productPay.CCS_Account__r.Name);
-                                                   system.debug('productPay::'+productPay);
                                               }
        
          return setRecentlyPaidProducts;
@@ -654,39 +487,27 @@ public class AgencyPoolRecallController {
         
         for(Product__c product : listProd){
             setProductNames.add(product.name);
-            system.debug('ProductName::'+setProductNames);
         }
         
-        setRecentlyPaidProducts = getProductPaymentDetails(setProductNames);
-        system.debug('setRecentlyPaidProducts: '+setRecentlyPaidProducts);               
+        setRecentlyPaidProducts = getProductPaymentDetails(setProductNames);            
         
         for(Product__c product: listProd){
             ERROR_MSG = '';
             error =false;
-            system.debug('product.Name: '+product.Name);
             newAgency = placementAgency;
-            system.debug('newAgency: '+newAgency);
             if(product.Collection_Agency__c  != NULL){
                 oldAgency = String.valueOf(product.Collection_Agency__c);    
             }
-            system.debug('oldAgency: '+oldAgency);
-            // 3
-            //String EXPECTED = '';
-            
             
             if(String.isNotBlank(product.Legal_Status__c)){
-                system.debug('recall warning::');
                 ERROR_MSG += '<b>WARNING</b> - '+'Cannot recall agency as Product is in Legal Status'+'<br/>';
-                //product.addError('Cannot recall agency as Product is in Legal Status');
                 comments = ERROR_MSG;
                 error = true;
             }
             
             //Check Recall Validations
             if(setRecentlyPaidProducts.contains(product.Name)){
-            system.debug('product.Id:'+product.Name);
                 ERROR_MSG += '<b>WARNING</b> - '+'Account had a recent payment in last 2 months'+'<br/>';
-                //product.addError('Cannot recall agency as Product is in Legal Status');
                 comments = ERROR_MSG;
                 error = true;
             }
@@ -700,7 +521,6 @@ public class AgencyPoolRecallController {
                     successRecords = successRecords + 1;
                 }else{
                     listProdWrapper.add(new productWrapper(product, comments));
-                    system.debug('listProdWrapper  '+listProdWrapper);
                     if(comments.contains('ERROR')){
                         Disable = true;
                         Alert_msg = true;
@@ -753,7 +573,6 @@ public class AgencyPoolRecallController {
             return true;     
         }
         else{
-           // System.debug('6 '+error);
             return false;    
         }   
     }
@@ -764,8 +583,6 @@ public class AgencyPoolRecallController {
         public productWrapper(Product__c prod, String comment ){
             product = prod;            
             comments = comment;
-            system.debug('product  '+product);
-            system.debug('comments  '+comments);
         }
     }
     

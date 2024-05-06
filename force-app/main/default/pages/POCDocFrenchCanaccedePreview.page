@@ -302,12 +302,12 @@
                                     </span> <br/>
                                     De la Ville de <span style="font-weight : bold">{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}</span>, dans la province de <span style="font-weight : bold">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                                     <br/>
-                                    et la réclamation du <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><b> cessionnaire de {!insolvAcc.Vendor_Orginator__c}. </b> (Créancier)</apex:outputText><apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</b> (Créancier)</apex:outputText>        
+                                    et la réclamation du <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><b> cessionnaire de {!insolvAcc.Vendor_Orginator__c}. </b> (Créancier)</apex:outputText><apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b>  CFG Canada Funding, LLC cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</b> (Créancier)</apex:outputText>        
                                     <br/><br/>
                                     <i>Tous les avis ou correspondances concernant cette réclamation doivent être envoyés à l'adresse suivante</i>
                                 </div>
                                 <div style="font-weight : bold; text-align:center;padding-top:10px;">
-                                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">{!remGroupMap.Entity_Name1__c} C/O </apex:outputText> {!remGroupMap.Entity_Name1__c}<br/>
+                                    {!remGroupMap.Entity_Name1__c}<br/>
                                     {!pocPackage.CFG_Office_Address_1__c}<br/>
                                     {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
                                 </div>
@@ -556,8 +556,7 @@
                                                     <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
                                                     <br/>
                                                     <b>Bryan Szemenyei, CEO</b><br/>
-                                                    <b>{!remGroupMap.Entity_Name1__c}</b>
-                                                    <apex:outputText value="<br/> <b>Servicer for The {!pocPackage.Client_Company_Name__c} </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" />(Créancier)
+                                                    <b>{!remGroupMap.Entity_Name1__c} (Créancier)</b>
                                                 </td>
                                             </tr>
                                         </Table>
@@ -736,8 +735,7 @@
                                                 <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
                                                 <br/>
                                                 <b>Bryan Szemenyei, CEO</b><br/>
-                                                <b>{!remGroupMap.Entity_Name1__c}</b>
-                                                <apex:outputText value="<br/> <b>Servicer for The {!pocPackage.Client_Company_Name__c} </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (Créancier) 
+                                                <b>{!remGroupMap.Entity_Name1__c} (Créancier)</b>
                                             </td>
                                         </tr>
                                     </Table>

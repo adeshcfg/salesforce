@@ -61,9 +61,17 @@
                 <behavior>Readonly</behavior>
                 <field>Product_Agency__c</field>
             </layoutItems>
-            <layoutItems>
+                     <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Product_Agency_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Agency_Submitted_Payment__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Agency_Submitted_Payment_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -166,10 +174,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Original_Of_Payment_Reversal__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Agency_Submitted_Payment__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

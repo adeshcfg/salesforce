@@ -74,7 +74,8 @@ private class TestBalanceAdjustmentExcelFileProcessing{
             Payment_Source__c='1',
             CCS_Account__c = prod.Id,
             Direct_Payment_Type__c = 'Balance adjustment due for Equipment Return',
-            Agency_Calculated_Comm__c = 25.00
+            Agency_Calculated_Comm__c = 25.00,
+            Ignore_Warning__c = true
         );
         insert productpaymentscObj;
 		
@@ -85,7 +86,8 @@ private class TestBalanceAdjustmentExcelFileProcessing{
             Payment_Source__c='1',
             CCS_Account__c = prod.Id,
             Direct_Payment_Type__c = 'Direct Payment',
-            Agency_Calculated_Comm__c = 25.00
+            Agency_Calculated_Comm__c = 25.00,
+            Ignore_Warning__c = true
         );
         insert productpaymentscObj1;
         
@@ -185,9 +187,9 @@ private class TestBalanceAdjustmentExcelFileProcessing{
 		Map<Id,product__c> productmap = new map<Id,product__c>();
 		Map<String,String> mapAccountPrimaryNumber = new Map<String,String>();
 		Product_payments__c productpaymentscObj = new Product_payments__c (
-            Payment_Amount__c = -1.1, 
+            Payment_Amount__c = 1.1, 
             Payment_Posting_Date__c = Date.today(), 
-            Payment_Type__c ='1003', 
+            Payment_Type__c ='1000', 
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
 			CCS_Account_Name__c = 'test',
@@ -197,19 +199,6 @@ private class TestBalanceAdjustmentExcelFileProcessing{
             Commission_Rate_for_Payment__c = 10
             
         );
-		
-        Product_payments__c productpaymentscObj1 = new Product_payments__c (
-            Payment_Amount__c = -1.1, 
-            Payment_Posting_Date__c = Date.today(), 
-            Payment_Type__c ='1003', 
-            Payment_Posting_Date_Text__c = 'test value',
-            CCS_Account__c = prod1.Id,
-			CCS_Account_Name__c = 'test',
-			Pay_Due__c =  null,
-			Payment_Source__c = '2',
-            Payment_Agency__c = '1234'
-        );
-        
 		mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c,'1263');
 
 		prodList.add(productpaymentscObj);
@@ -292,14 +281,15 @@ private class TestBalanceAdjustmentExcelFileProcessing{
 		Map<Id,product__c> productmap = new map<Id,product__c>();
 		Map<String,String> mapAccountPrimaryNumber = new Map<String,String>();
 		Product_payments__c productpaymentscObj = new Product_payments__c (
-            Payment_Amount__c = -1.1, 
+            Payment_Amount__c = 1.1, 
             Payment_Type__c ='1001', 
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
 			CCS_Account_Name__c = 'test',
 			Pay_Due__c =  null,
 			Payment_Source__c = '2',
-            Commission_Rate_for_Payment__c = 0
+            Commission_Rate_for_Payment__c = 0,
+            Ignore_Warning__c = true
 			);
 				
 		mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c,'1263');
@@ -423,14 +413,15 @@ private class TestBalanceAdjustmentExcelFileProcessing{
 		Map<Id,product__c> productmap = new map<Id,product__c>();
 		Map<String,String> mapAccountPrimaryNumber = new Map<String,String>();
 		Product_payments__c productpaymentscObj = new Product_payments__c (
-            Payment_Amount__c = -1.1, 
+            Payment_Amount__c = 1.1, 
             Payment_Type__c ='1001', 
             Payment_Posting_Date_Text__c = 'test value',
             CCS_Account__c = prod.Id,
 			CCS_Account_Name__c = 'test',
 			Pay_Due__c =  null,
 			Payment_Source__c = '2',
-            Payment_Agency__c = NULL
+            Payment_Agency__c = NULL,
+            Ignore_Warning__c = true
 			);
 			Product_payments__c productpaymentscObj2 = new Product_payments__c (
             Payment_Amount__c = -1.1, 

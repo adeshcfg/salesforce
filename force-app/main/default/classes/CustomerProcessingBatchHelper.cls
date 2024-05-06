@@ -18,6 +18,14 @@ public class CustomerProcessingBatchHelper {
                                                                     'DROPPED NOTIFICATION'=>'P ',
                                                                     'DEFAULT' => '  '
                                                                 }; 
+    public static Map<String, String> customerMailingCountry =  new Map<String, String>{
+                                                                    'CA' => 'CA',
+                                                                    'Canada'=>'CA',
+                                                                    'US'=>'US',
+                                                                    'United States'=>'US',
+                                                                    'USA'=>'US',
+                                                                    'DEFAULT' => '  '
+                                                                };                                                                
                                                                 
     public static Map<String, String> specialCommentMapping =  new Map<String, String>{
                                                                     'COMPLETED / PAID IN FULL' => 'B ',
@@ -63,6 +71,15 @@ public class CustomerProcessingBatchHelper {
             return customerInformationIndicator.get('DEFAULT');
         }
     }
+    
+    // Check Mailing Country and return mapped value
+    public static String getMailingCountry(String mailingCountry){
+        if(customerMailingCountry.containsKey(mailingCountry)){
+            return customerMailingCountry.get(mailingCountry);
+        }else{
+            return customerMailingCountry.get('DEFAULT');
+        }
+    }
 
     // Check account status and return mapped value
     public static String getAccountStatus(String accountStatus){
@@ -105,6 +122,20 @@ public class CustomerProcessingBatchHelper {
         }else{
             return (''+monthlyPaymentAmount);
         }
+    }
+    
+    public static boolean getValidPhoneNumber(String phoneHome){
+        string phoneRegex = '\\+{0,1}[0-9]{10,12}';
+        Pattern MyPattern1 = Pattern.compile(phoneRegex);
+        Matcher MyMatcher1 = MyPattern1.matcher(phoneHome);
+        return MyMatcher1.matches();
+    }
+    
+    public static boolean getValidCustomerName(String custName){
+        string nameRegex = '^[a-zA-Z\\s-\']*$';
+        Pattern MyPattern1 = Pattern.compile(nameRegex);
+        Matcher MyMatcher1 = MyPattern1.matcher(custName);
+        return MyMatcher1.matches();
     }
     
     //This method will accept integers and return string with 0 paddings

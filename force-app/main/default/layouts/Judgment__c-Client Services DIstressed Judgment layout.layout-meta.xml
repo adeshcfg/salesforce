@@ -70,8 +70,8 @@
                 <field>Garnishment_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Garnishment_Renewal_Date__c</field>
+                <behavior>Readonly</behavior>
+                <field>Garnishment_Renewal_Date_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -118,8 +118,12 @@
                 <field>Discount__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Readonly</behavior>
                 <field>Legal_Agency__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Legal_Agency_Formula__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -142,10 +146,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Judgment_Amount__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Legal_Agency_Formula__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

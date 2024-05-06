@@ -24,6 +24,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Canadian Tire</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>SDA</fullName>
             <default>false</default>
         </values>
@@ -339,6 +343,10 @@
         <picklist>Reason</picklist>
         <values>
             <fullName>Complex functionality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate</fullName>
             <default>false</default>
         </values>
         <values>

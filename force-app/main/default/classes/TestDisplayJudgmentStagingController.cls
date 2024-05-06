@@ -12,6 +12,11 @@ public class TestDisplayJudgmentStagingController {
     
     static {
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
+        
         API_Call_Details__c  settings = new API_Call_Details__c ();
         settings.Name = 'Agency Portal API';
         settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
@@ -70,7 +75,7 @@ public class TestDisplayJudgmentStagingController {
     
     public static testMethod void testMethod1(){
         Placement__c place = new Placement__c();
-        place.Name = '29';
+        place.Name = '89';
         place.Agency_Name__c = '(C.C.A.) Commercial Credit Adjusters Ltd.1';
         insert place;
       	
@@ -130,6 +135,7 @@ public class TestDisplayJudgmentStagingController {
         prodpay6.Payment_Posting_Date__c= System.today().addDays(-1);
         prodpay6.Payment_Type__c = '1000';
         prodpay6.Payment_Source__c = '2';
+        prodpay6.Ignore_Warning__c = true;
         insert prodpay6;
        
         Judgment_Staging__c judgStaging = new Judgment_Staging__c();
@@ -199,7 +205,7 @@ public class TestDisplayJudgmentStagingController {
         Product_Payments__c prodpay= new  Product_Payments__c();
         prodpay.CCS_Account__c=prod2.id;
         prodpay.Payment_Source__c = '2';
-        prodpay.Payment_Type__c ='1003';
+        prodpay.Payment_Type__c ='1000';
         prodpay.Payment_Amount__c=1002;
         prodpay.Agency_Calculated_Comm__c=10;
         prodpay.Payment_Posting_Date__c= System.today();
@@ -740,6 +746,7 @@ public class TestDisplayJudgmentStagingController {
         prodpay6.Payment_Posting_Date__c= System.today().addDays(-1);
         prodpay6.Payment_Type__c = '1000';
         prodpay6.Payment_Source__c = '2';
+        prodpay6.Ignore_Warning__c = true;
         insert prodpay6;
         ProductPaymentList.put(prod2.name,prodpay6);
         

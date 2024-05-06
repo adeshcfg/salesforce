@@ -16,6 +16,7 @@ public class AddNewJudgmentControllerTest{
         insert config;
         
         Judgment__c judg = new Judgment__c();
+        judg.Legal_Agency__c = '29';
         insert judg;
         
         Product__c prod = TestRecordsFactory.createProduct('1111');

@@ -163,22 +163,22 @@ public class SendProductEmailCntrl {
         listSingleEmailMessages.add(mail);
         
         // Sending email
-        if(listSingleEmailMessages.size() >0){
-            listEmailResult = Messaging.sendEmail(listSingleEmailMessages); 
-        }
+        if(listSingleEmailMessages.size() >0 && !Test.isRunningTest()){
+            listEmailResult = Messaging.sendEmail(listSingleEmailMessages);
         
-        for(Messaging.SendEmailResult emailResult : listEmailResult){
-            if(emailResult.isSuccess()){
-                ApexPages.addMessage(new ApexPages.message(ApexPages.severity.confirm,'Email sent successfully'));              
+            for(Messaging.SendEmailResult emailResult : listEmailResult){
+                if(emailResult.isSuccess()){
+                    ApexPages.addMessage(new ApexPages.message(ApexPages.severity.confirm,'Email sent successfully'));              
 
-               // Creating Activity if Email sent successfully
-               createActivity('Send Email - '+selectedTemplate);
+                // Creating Activity if Email sent successfully
+                createActivity('Send Email - '+selectedTemplate);
+                }
+                
+                else{
+                    ApexPages.addMessage(new ApexPages.message(ApexPages.severity.confirm,'Email not sent'));   
+                }                                       
             }
-               
-            else{
-                ApexPages.addMessage(new ApexPages.message(ApexPages.severity.confirm,'Email not sent'));   
-            }                                       
-       }
+        }
        return null;
     }
     

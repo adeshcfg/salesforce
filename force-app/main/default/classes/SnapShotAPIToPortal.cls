@@ -17,6 +17,7 @@ public class SnapShotAPIToPortal {
             
             for(Product__c prod : listProd){
                 placeId.add(String.valueOf(prod.collection_agency__c));
+            }
                 snap.DocumentStorageId = documentStorageId;
                 for(String place : placeId){
                     Agencies agcy = new Agencies();
@@ -33,7 +34,7 @@ public class SnapShotAPIToPortal {
                 snap.Allocations = awList;
                 sJOSN = JSON.serialize(snap);
                 system.debug('sJOSN::'+sJOSN); 
-            }	
+            
         }else{
             List<Product_Staging__c> listProdStaging = [Select Placement_Agency__c ,Identifier__c ,Data_Id__c 
                                                         From Product_Staging__c
@@ -165,12 +166,12 @@ public class SnapShotAPIToPortal {
                         DataIds += DataId +',';
                     }
                 }
-                DataIds = DataIds.removeEnd(', ');
+                DataIds = DataIds.removeEnd(',');
                 API_Error__c apiErrorData = New API_Error__c();
                 if(docData != NULL){
                     apiErrorData.Error__c = docData.name +' '+'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
                 }else{
-                    apiErrorData.Error__c = 'Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
+                    apiErrorData.Error__c = DataIds+' Record failed due to'+' '+ex.getMessage()+' '+ex.getStackTraceString();
                 }
                 apiErrorData.End_Point__c = 'Process Distressed';
                 apiErrorData.Action__c = 'API Failed';

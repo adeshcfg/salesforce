@@ -42,12 +42,42 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>insolvency_Account__c.Number_of_Agreement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>insolvency_Account__c.SMRR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Account__c.Account_Details_Verified__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Account_Is_Putback__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Last_Payment_Amount_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Last_Payment_Amount_3__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Last_Payment_Date_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Last_Payment_Date_3__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -73,6 +103,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Accounts_in_Queue__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Acquired_Purchase_Face_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Acquired_Purchase_Factor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -178,6 +218,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.CFG_Open_Cases__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Insolvency_Sub_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1038,6 +1083,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Total_Paid_To_Date_On_Interim__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Trustee_Address__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3043,7 +3093,7 @@
         <apexPage>InsolvencyView</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
-    <recordTypeVisibilities>
+<recordTypeVisibilities>
         <recordType>Case.Insolvency_Goeasy_Community_Case</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>

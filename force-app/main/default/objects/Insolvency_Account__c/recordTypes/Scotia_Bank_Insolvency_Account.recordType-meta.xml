@@ -2272,10 +2272,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>CLF166</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>CLP001</fullName>
             <default>false</default>
         </values>
@@ -2567,6 +2563,10 @@
         </values>
         <values>
             <fullName>Scotia Private Label Account</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BNS Account</fullName>
             <default>false</default>
         </values>
         <values>

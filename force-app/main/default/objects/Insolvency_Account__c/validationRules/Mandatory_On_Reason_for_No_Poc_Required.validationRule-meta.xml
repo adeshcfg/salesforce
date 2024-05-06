@@ -4,7 +4,7 @@
     <active>true</active>
     <description>If other option is selected in Reason For No Poc required , This field is mandatory</description>
     <errorConditionFormula>AND(
-OR(ISCHANGED(Reason_for_No_PoC_Required_Dropdown__c), ISNEW()),
+OR(ISCHANGED(Reason_for_No_PoC_Required_Dropdown__c), AND(ISNEW(),OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )))),
 ISPICKVAL(Reason_for_No_PoC_Required_Dropdown__c,&apos;Other&apos;),
 ISBLANK( Reason_for_No_PoC_Required__c
 ))</errorConditionFormula>

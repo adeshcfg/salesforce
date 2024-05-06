@@ -77,13 +77,17 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Canadian_Tire_Sub_Status__c</picklist>
+        <picklist>Insolvency_Sub_Status__c</picklist>
         <values>
             <fullName>Pending to sent on File</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Sent on file</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delivered</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -284,10 +288,14 @@
         </values>
         <values>
             <fullName>New</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>No PoC Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Assignment to Collection Agency</fullName>
             <default>false</default>
         </values>
         <values>
@@ -304,6 +312,10 @@
         </values>
         <values>
             <fullName>Refused %E2%80%93 Filed New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent to Collections</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1919,11 +1931,71 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL166</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL167</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>CFL171</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL172</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL176</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL180</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL190</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL192</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL195</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL205</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL208</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL215</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL217</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL221</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL222</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL227</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL231</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2175,10 +2247,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>CLF166</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>CLP001</fullName>
             <default>false</default>
         </values>
@@ -2334,155 +2402,7 @@
     <picklistValues>
         <picklist>Product_Code__c</picklist>
         <values>
-            <fullName>AUTO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>AXG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>AXP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>AXS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>BLV</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Bank Card Product</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>FNS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MOR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MW</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Motor Cycle</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ODA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OLL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Others</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>P1</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>REG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RV</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAV</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SBOP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SCL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SDA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SPL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SSL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Small Business</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Term Loan</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>UPL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VCL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VFA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VFF</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VGD</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VIC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VLR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VUS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WMC</fullName>
+            <fullName>NA</fullName>
             <default>false</default>
         </values>
     </picklistValues>

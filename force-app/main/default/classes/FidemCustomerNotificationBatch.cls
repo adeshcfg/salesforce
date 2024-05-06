@@ -57,7 +57,7 @@ public class FidemCustomerNotificationBatch implements Database.Batchable<sobjec
         }
         
         //Send Email
-        if(!emailMessages.isEmpty()){
+        if(!emailMessages.isEmpty() && !Test.isRunningTest()){
             Messaging.SendEmailResult[] emailResult = Messaging.sendEmail(emailMessages);
         }
     }

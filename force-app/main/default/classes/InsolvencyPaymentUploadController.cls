@@ -1,110 +1,172 @@
 /**************************************************************************************************
-*  Class:   
-*
-*  @description : This is a controller class to process Product Payment excel file for EFT Payments
-*  @author : A5E Consulting
-*  @date : 28 Sept 2020
-*************************************************************************************************/
-public class InsolvencyPaymentUploadController{
-    public String outputJSON{get;set;}
-    public boolean showallocated{get;set;}
-    public boolean showunallocated{get;set;}
-    public boolean showButtons{get;set;}
-    public boolean showFileUpload{get;set;}
-    public EFT_Files__c eftInstance{get;set;}
-    public String postingDate{get;set;}
-    public String fileUploadStatus {get;set;}
+ *  Class:
+ *
+ *  @description : This is a controller class to process Product Payment excel file for EFT Payments
+ *  @author : A5E Consulting
+ *  @date : 28 Sept 2020
+ *************************************************************************************************/
+public class InsolvencyPaymentUploadController {
+    public String excelFile { get; set; }
+    public boolean showallocated { get; set; }
+    public boolean showunallocated { get; set; }
+    public boolean showButtons { get; set; }
+    public boolean showFileUpload { get; set; }
+    public EFT_Files__c eftInstance { get; set; }
+    public String postingDate { get; set; }
     EFT_Processing_Config__c eftConfigInstance;
-    
-    public InsolvencyPaymentUploadController(){
+
+    public InsolvencyPaymentUploadController() {
         showButtons = false;
         Id EFTRecordId = ApexPages.currentPage().getParameters().get('id');
         eftInstance = new EFT_Files__c();
-        if(EFTRecordId != NULL){
-            eftInstance = [SELECT Id, Unallocated_Processing_Status__c, Allocated_Processing_Status__c, User_ID__c,
-                           		  Posting_Date__c, Text_URL__c, Allocated_Payments_Count__c, Unallocated_payments_Count__c,
-                           		  Total_Record_Count__c,Total_Payments_Amount__c,Allocated_Payments_Amount__c,
-                           		  Unallocated_Payments_Amount__c
-                           FROM EFT_Files__c
-                           WHERE Id= :EFTRecordId][0];
+        if (EFTRecordId != null) {
+            eftInstance = [
+                SELECT
+                    Id,
+                    Unallocated_Processing_Status__c,
+                    Allocated_Processing_Status__c,
+                    User_ID__c,
+                    Posting_Date__c,
+                    Text_URL__c,
+                    Allocated_Payments_Count__c,
+                    Unallocated_payments_Count__c,
+                    Total_Record_Count__c,
+                    Total_Payments_Amount__c,
+                    Allocated_Payments_Amount__c,
+                    Unallocated_Payments_Amount__c
+                FROM EFT_Files__c
+                WHERE Id = :EFTRecordId
+            ][0];
             showButtons = true;
             postingDate = String.valueOf(eftInstance.Posting_Date__c);
         }
-        outputJSON = '';
         showFileUpload = true;
         eftConfigInstance = EFT_Processing_Config__c.getOrgDefaults();
     }
-    
-    public PageReference importDatatoApex(){
-        if(fileUploadStatus == 'error'){
-            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.Error,'Invalid file uploaded. Please refresh the page to upload another file.'));
-            return null;
+
+    /**
+     * @description : Method to convert and process file uploaded from VF page
+     * @author adesh.ikhar@canaccede.com | 02-15-2024
+     **/
+    public void processExcelFile() {
+        API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
+        String accessToken = AzureUtility.getRequestToken(apiCallDetails);
+        HttpRequest documentApiReq = StriplistInsolPaymentUploadController.getExcelToJsonRequest(apiCallDetails);
+        documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
+        // Free up view state
+        excelFile = '';
+        try {
+            HttpResponse response = new Http().send(documentApiReq);
+            if (response.getStatusCode() == 200 && String.isNotBlank(response.getBody())) {
+                importDatatoApex(response.getBody());
+            } else {
+                StriplistInsolPaymentUploadController.insertApiError(
+                    response.getBody(),
+                    apiCallDetails.PDF_API_URL__c + 'converters/excel',
+                    response.getStatus()
+                );
+                Apexpages.addMessage(
+                    new ApexPages.message(
+                        Apexpages.Severity.ERROR,
+                        'Error during API callout, Response status code ' +
+                            String.valueOf(response.getStatusCode()) +
+                            ' Response status ' +
+                            response.getStatus()
+                    )
+                );
+            }
+        } catch (Exception ex) {
+            System.debug(ex.getMessage());
+            System.debug(ex.getStackTraceString());
+            StriplistInsolPaymentUploadController.insertApiError(
+                String.valueOf(ex.getCause()),
+                apiCallDetails.PDF_API_URL__c + 'converters/excel',
+                ex.getMessage()
+            );
+            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR, 'Error during API callout, please contact System admin'));
         }
-		List<EFTUtil.paymentRecordsWrapper> listPaymentRecordWrapper = new List<EFTUtil.paymentRecordsWrapper>();
-        
-        EFTUtil eftUtilInstance = new EFTUtil();        
-        try{
-        	listPaymentRecordWrapper = eftUtilInstance.deSerializeJSON(outputJSON); 
-            for(EFTUtil.paymentRecordsWrapper payInstance : listPaymentRecordWrapper){
-                if((String.isNotBlank(payInstance.netPayment)
-                || (String.isNotBlank(payInstance.fairsharePayment))
-                || String.isNotBlank(payInstance.paymentSource)
-                || String.isNotBlank(payInstance.paymentType))
-                && (String.isBlank(payInstance.accountNumber))){
-                    Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR,
-					'Account Number cannot be blank. Please check the file headers and upload valid file.'));
-                    return null;
+    }
+
+    public void importDatatoApex(String outputJSON) {
+        List<EFTUtil.paymentRecordsWrapper> listPaymentRecordWrapper = new List<EFTUtil.paymentRecordsWrapper>();
+
+        EFTUtil eftUtilInstance = new EFTUtil();
+        try {
+            listPaymentRecordWrapper = eftUtilInstance.deSerializeJSON(outputJSON);
+            for (EFTUtil.paymentRecordsWrapper payInstance : listPaymentRecordWrapper) {
+                // Ignore empty row
+                if (
+                    String.isBlank(payInstance.netPayment) &&
+                    String.isBlank(payInstance.fairsharePayment) &&
+                    String.isBlank(payInstance.paymentSource) &&
+                    String.isBlank(payInstance.paymentType) &&
+                    String.isBlank(payInstance.accountNumber)
+                ) {
+                    continue;
                 }
-                if(String.isNotBlank(payInstance.accountNumber)
-                 &&(String.isBlank(payInstance.netPayment)
-                || payInstance.netPayment == String.valueOf(0)
-                || payInstance.netPayment == String.valueOf(0.00)
-                || payInstance.netPayment == String.valueOf(0.0))){
-                    Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR,'Net Payment cannot be blank or 0. Please check the file headers and upload valid file'));
-                    return null;
+                if (
+                    (String.isNotBlank(payInstance.netPayment) ||
+                    (String.isNotBlank(payInstance.fairsharePayment)) ||
+                    String.isNotBlank(payInstance.paymentSource) ||
+                    String.isNotBlank(payInstance.paymentType)) && (String.isBlank(payInstance.accountNumber))
+                ) {
+                    Apexpages.addMessage(
+                        new ApexPages.message(Apexpages.Severity.ERROR, 'Account Number cannot be blank. Please check the file headers and upload valid file.')
+                    );
+                    return;
+                }
+                if (
+                    String.isNotBlank(payInstance.accountNumber) &&
+                    (String.isBlank(payInstance.netPayment) ||
+                    payInstance.netPayment == String.valueOf(0) ||
+                    payInstance.netPayment == String.valueOf(0.00) ||
+                    payInstance.netPayment == String.valueOf(0.0))
+                ) {
+                    Apexpages.addMessage(
+                        new ApexPages.message(Apexpages.Severity.ERROR, 'Net Payment cannot be blank or 0. Please check the file headers and upload valid file')
+                    );
+                    return;
                 }
             }
-            if(String.isBlank(postingDate))    {
-            	eftInstance.Posting_Date__c = system.Today();
-        	}
-        	else{
-            	list<String> dateValue = postingDate.split('-');
-            	eftInstance.Posting_Date__c = date.newInstance(Integer.valueOf(dateValue[0]), Integer.valueOf(dateValue[1]), Integer.valueOf(dateValue[2]));
+            if (String.isBlank(postingDate)) {
+                eftInstance.Posting_Date__c = system.Today();
+            } else {
+                list<String> dateValue = postingDate.split('-');
+                eftInstance.Posting_Date__c = date.newInstance(Integer.valueOf(dateValue[0]), Integer.valueOf(dateValue[1]), Integer.valueOf(dateValue[2]));
             }
-        	eftInstance.File_Processing_Status__c = 'In Progress';
+            eftInstance.File_Processing_Status__c = 'In Progress';
             eftInstance.Name = 'Insolvency Payments ' + system.now();
             eftInstance.User_ID__c = String.valueOf(UserInfo.getUserId());
-            if(String.isNotBlank(eftInstance.Text_URL__c)){
+            if (String.isNotBlank(eftInstance.Text_URL__c)) {
                 eftInstance.Text_URL__c = eftInstance.Text_URL__c.trim();
             }
-            system.debug('eftInstance: '+eftInstance.Text_URL__c);
-            if(String.isNotBlank(eftConfigInstance.Insolvency_EFT_RecordTypeID__c	)){
-            	eftInstance.RecordTypeId = eftConfigInstance.Insolvency_EFT_RecordTypeID__c	;    
+            if (String.isNotBlank(eftConfigInstance.Insolvency_EFT_RecordTypeID__c)) {
+                eftInstance.RecordTypeId = eftConfigInstance.Insolvency_EFT_RecordTypeID__c;
             }
             insert eftInstance;
-            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO,'File is being processed.  You will receive email once processing is completed.'));
+            Apexpages.addMessage(
+                new ApexPages.message(Apexpages.Severity.INFO, 'File is being processed.  You will receive email once processing is completed.')
+            );
             ProcessInsolvencyEFTBatch batchInstance = new ProcessInsolvencyEFTBatch(listPaymentRecordWrapper, eftInstance);
-            database.executeBatch(batchInstance);    
+            database.executeBatch(batchInstance);
+        } catch (Exception ex) {
+            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, ex.getMessage()));
         }
-        catch(Exception ex){
-            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO,ex.getMessage()));    
-        }
-        return null;
+        return;
     }
-    
-    public pageReference showAllocatedProductPayments(){
-        PageReference retURL = new PageReference('/apex/DisplayAllocatedInsolvencyPayments?id='+eftInstance.Id);
+
+    public pageReference showAllocatedProductPayments() {
+        PageReference retURL = new PageReference('/apex/DisplayAllocatedInsolvencyPayments?id=' + eftInstance.Id);
         retURL.setRedirect(true);
-		return retURL;
+        return retURL;
     }
-    
-    public PageReference ShowUnallocatedProductPayments(){
+
+    public PageReference ShowUnallocatedProductPayments() {
         PageReference retURL;
-        if(eftInstance.Unallocated_Processing_Status__c == 'Completed'){
-            retURL = new PageReference('/apex/DisplayUnallocatedProcessed?id='+eftInstance.Id+'&rt=Insolvency');
-        }
-        else{
-        	retURL = new PageReference('/apex/DisplayInsolvencyUnallocatedPayments?id='+eftInstance.Id);    
+        if (eftInstance.Unallocated_Processing_Status__c == 'Completed') {
+            retURL = new PageReference('/apex/DisplayUnallocatedProcessed?id=' + eftInstance.Id + '&rt=Insolvency');
+        } else {
+            retURL = new PageReference('/apex/DisplayInsolvencyUnallocatedPayments?id=' + eftInstance.Id);
         }
         retURL.setRedirect(true);
         return retURL;

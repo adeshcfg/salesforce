@@ -585,5 +585,9 @@
             <fullName>Manually Rejected - Majority Approved</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Auto Approved</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
 </RecordType>

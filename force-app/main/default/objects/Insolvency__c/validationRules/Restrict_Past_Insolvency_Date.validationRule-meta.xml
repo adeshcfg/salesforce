@@ -3,7 +3,7 @@
     <fullName>Restrict_Past_Insolvency_Date</fullName>
     <active>true</active>
     <description>Restrict Past Insolvency Date</description>
-    <errorConditionFormula>IF((
+    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),IF((
 ((ISNEW()) || (!ISNEW() &amp;&amp; ISCHANGED(Insolvency_Date__c)))
 &amp;&amp;
 (!ISNULL(Insolvency_Date__c ))
@@ -11,7 +11,16 @@
 (TODAY() - Insolvency_Date__c &gt; 60)
 &amp;&amp;
 (Allow_Insolvency_Date_In_Past__c = false)
-), true, false)</errorConditionFormula>
+), true, false))),
+IF((
+((ISNEW()) || (!ISNEW() &amp;&amp; ISCHANGED(Insolvency_Date__c)))
+&amp;&amp;
+(!ISNULL(Insolvency_Date__c ))
+&amp;&amp;
+(TODAY() - Insolvency_Date__c &gt; 60)
+&amp;&amp;
+(Allow_Insolvency_Date_In_Past__c = false)
+), true, false))</errorConditionFormula>
     <errorDisplayField>Allow_Insolvency_Date_In_Past__c</errorDisplayField>
     <errorMessage>Insolvency Date is older than 2 months. Please accept the checkbox first.</errorMessage>
 </ValidationRule>

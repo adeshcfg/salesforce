@@ -138,7 +138,18 @@
                 <default>false</default>
                 <label>Direct Payment Upload File</label>
             </value>
+            <value>
+                <fullName>Bulk Media Request</fullName>
+                <default>false</default>
+                <label>Bulk Media Request</label>
+            </value>
+            <value>
+                <fullName>Work Assignment Upload File</fullName>
+                <default>false</default>
+                <label>Work Assignment Upload File</label>
+            </value>
         </valueSetDefinition>
+        
         <valueSettings>
             <controllingFieldValue>Payment</controllingFieldValue>
             <valueName>Payment</valueName>
@@ -190,6 +201,10 @@
         <valueSettings>
             <controllingFieldValue>Excel File Processing</controllingFieldValue>
             <valueName>Direct Payment Upload File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bulk Media Request</controllingFieldValue>
+            <valueName>Bulk Media Request</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

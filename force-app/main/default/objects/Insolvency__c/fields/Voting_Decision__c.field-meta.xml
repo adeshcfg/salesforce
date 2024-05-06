@@ -27,6 +27,11 @@
                 <default>false</default>
                 <label>Manually Rejected - Majority Approved</label>
             </value>
+            <value>
+                <fullName>Auto Approved</fullName>
+                <default>false</default>
+                <label>Auto Approved</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
