@@ -1,47 +1,22 @@
 @isTest
 public class TestCTBPaymentGeneratorScheduler {
     @testSetup
-
-
     public static void testSetup(){
-
-
         API_Call_Details__c  settings = new API_Call_Details__c ();
-
-
         settings.Name = 'Agency Portal API';
-
-
         settings.AuthorizationtUrl__c = 'https://login.microsoftonline.com/{{tenandId}}/oauth2/v2.0/token';
-
-
         settings.Tenand_ID__c = '0f455e83-d015-4300-80c3-3b73c4ce1d10';
-
-
         settings.Proxy_Client_ID__c = '8c862ddf-0df2-4322-8490-e858d46f18ce';
-
-
         settings.Client_ID__c = '3b3cd051-5cc0-469f-98e0-601d5d9577f4';
-
-
         settings.Client_Secret__c = 'lxW8Q~YfJqn5yr8bRlTlH.hI6BAfAb_x-VIzDcNd';
-
-
         settings.PDF_API_URL__c = 'https://test.com/endpointurl';
-
-
         settings.Scope_Prefix__c = 'https://canaccedeb2cdevelopment.onmicrosoft.com/';
-
-
         settings.Scope_Suffix__c = '/.default';
-
-
         insert settings;
-
-
     }
     @isTest
     static void CTBInsolvencyAccountTestMethod(){
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         Application_Config_Settings__c cs = new Application_Config_Settings__c(Insolvency_Account_Batch_Count__c = 1,Profile_Eligible_for_Duplicate_Check__c = 'Scotia',
                                                                               Bank_Eligible_for_Duplicate_Check__c = 'Scotia',Eligible_for_Validn_Needed_Calculation__c = 'Scotia',
                                                                               Eligible_for_Claim_Type_Calculation__c = 'SPL');
@@ -123,6 +98,7 @@ public class TestCTBPaymentGeneratorScheduler {
     
     @isTest
     static void CTBInsolvencyAccountTestMethod1(){
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         Application_Config_Settings__c cs = new Application_Config_Settings__c(Insolvency_Account_Batch_Count__c = 1,Profile_Eligible_for_Duplicate_Check__c = 'Scotia',
                                                                               Bank_Eligible_for_Duplicate_Check__c = 'Scotia',Eligible_for_Validn_Needed_Calculation__c = 'Scotia',
                                                                               Eligible_for_Claim_Type_Calculation__c = 'SPL');
@@ -187,6 +163,7 @@ public class TestCTBPaymentGeneratorScheduler {
     
     @isTest
     static void CTBInsolvencyTestNegativeMethod(){
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
@@ -224,6 +201,7 @@ public class TestCTBPaymentGeneratorScheduler {
     
     @isTest
     static void testMethod2(){
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         Application_Config_Settings__c cs = new Application_Config_Settings__c(Insolvency_Account_Batch_Count__c = 1,Profile_Eligible_for_Duplicate_Check__c = 'Scotia',
                                                                               Bank_Eligible_for_Duplicate_Check__c = 'Scotia',Eligible_for_Validn_Needed_Calculation__c = 'Scotia',
                                                                               Eligible_for_Claim_Type_Calculation__c = 'SPL',Ignore_Account_Number_for_DuplicateCheck__c = 'TRAILER');
