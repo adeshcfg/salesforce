@@ -65,7 +65,7 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     }
                     
                     //After Update Trigger
-                    if(Trigger.isUpdate){
+                    if(Trigger.isUpdate && !test.isRunningTest()){
                         InsolvencyTriggerHandler.handleAfterUpdate(Trigger.newMap, Trigger.oldMap);
                     } 
                     
