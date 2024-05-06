@@ -81,7 +81,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
+                                <componentName>runtime_sales_activities:activityPanel</componentName>
                 <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
@@ -106,6 +106,13 @@
             <componentInstance>
                 <componentName>FileUploadToAzure</componentName>
                 <identifier>c_FileUploadToAzure</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Record_Type_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Distressed_Account</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-d5107d7a-6d0e-4b1f-accb-80d9f2c036cf</name>
@@ -125,6 +132,16 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-0f54pqcn6c35</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>customerComplaints</componentName>
+                <identifier>c_customerComplaints</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-002ac78d-c679-4314-9c16-baf059d80fb2</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -232,6 +249,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-002ac78d-c679-4314-9c16-baf059d80fb2</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Complaints</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-c99f8f62-f861-450b-b359-cdbe56285433</name>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>CreditBureauRepTUTextFileGeneration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CreditBureauReportingTUBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomerProcessingBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomerProcessingBatchHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomerProcessingBatchTU</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>creditBureauClass</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>Permission set to give access to Credit Bureau Tab</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Credit Bureau Access</label>
+    <recordTypeVisibilities>
+        <recordType>Work_Assignment__c.Credit_Bureau_Reporting_Files</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <tabSettings>
+        <tab>Credit_Bureau</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

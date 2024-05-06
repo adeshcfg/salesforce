@@ -68,6 +68,9 @@
                 </th>
                 <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase ID">
                     <div>Purchase ID</div>
+                </th>                
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Date">
+                    <div>Purchase Date</div>
                 </th>
             </tr>
         </thead>
@@ -98,6 +101,14 @@
                         title="Purchase ID" 
                         >
                         {!draftValue.Purchase_ID__c}
+                    </td>                    
+                    <td
+                        class="slds-truncate"
+                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                        data-label="Purchase Date"
+                        title="Purchase Date" 
+                        >
+                        <ui:outputDate format="MM/dd/yyyy" value = "{!draftValue.Purchase_date__c}"/>
                     </td>
                 </tr>
             </aura:iteration>
@@ -225,7 +236,7 @@
                                         data-label="Purchase date"
                                         title="Purchase date" 
                                         >
-                                        {!draftValue.Purchase_date__c}
+                                        <ui:outputDate format="MM/dd/yyyy" value = "{!draftValue.Purchase_date__c}"/>
                                     </td>
                                     <td
                                         class="slds-truncate"

@@ -11,8 +11,21 @@ public class TestLoRNotice2Controller{
     //Create all necessary Object records in this method
      @testSetup 
      static void testData() {
-         Application_Config_Settings__c config = new  Application_Config_Settings__c(Run_Insolvency_Status_Validations__c = false);
-         insert config;
+        
+        //Application config creation
+        Application_Config_Settings__c config = new Application_Config_Settings__c(
+            Run_Remittance_Validation__c = false,
+            Run_Remittance_Trigger__c = true,
+            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+            Run_Insolvency_Trigger__c = false,
+            Run_Insolvency_Account_Duplicate_Check__c = true,
+            Run_Insolvency_Account_Trigger__c = false,
+            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+            Run_Insolvency_Status_Validations__c = true,
+            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
+        );
+        insert config;
          
          User u = [SELECT Id FROM User WHERE Id !=: UserInfo.getUserId() AND Profile.Name = 'System Administrator' AND isActive = true LIMIT 1];
          
@@ -31,7 +44,7 @@ public class TestLoRNotice2Controller{
                                                                          LoR_Notice_2_Content_Id__c = loRContent.Id);
              insert poc;
          }
-         Account parentAcc = new Account(Name = 'my acc', Communication_Preference__c = 'Email', Business_Email__c = 'test@sample.com');
+         Account parentAcc = new Account(Name = 'my acc', Communication_Preference__c = 'Fax', Business_Email__c = 'test@sample.com');
          insert parentAcc;
          
          Insolvency__c insolv = new Insolvency__c(Trustee__c = parentAcc.Id, Name='Test');
@@ -43,8 +56,25 @@ public class TestLoRNotice2Controller{
                                                                  Insolvency__c = insolv.Id,
                                                                  Insolvency_Status_Last_Changed__c = System.Today(),
                                                                  Date_LOR_received_for_Secured__c = System.Today(),
+                                                                     Account_Number_Without_Space__c='123',
                                                                  Insolvency_Status__c = 'For Owner Review');
          insert insolcAcc;
+         Account parentAcc1 = new Account(Name = 'my acc', Communication_Preference__c = 'Email', Business_Email__c = 'test@sample.com');
+         insert parentAcc1;
+         
+         Insolvency__c insolv1 = new Insolvency__c(Trustee__c = parentAcc1.Id, Name='Test123');
+         insert insolv1;
+         
+         Insolvency_Account__c insolcAcc1 = new Insolvency_Account__c(Claim_Type__c = 'Unsecured', 
+                                                                 Proof_of_Claim_Required__c = false, 
+                                                                 Client_Identifier__c='Scotia Bank',
+                                                                 Insolvency__c = insolv1.Id,
+                                                                 Insolvency_Status_Last_Changed__c = System.Today(),
+                                                                 Date_LOR_received_for_Secured__c = System.Today(),
+                                                                     Account_Number_Without_Space__c='123',
+                                                                      PoC_Created_Date__c = System.Today().addDays(-30),
+                                                                 Insolvency_Status__c = 'For Owner Review');
+         insert insolcAcc1;
      }
      
      // Unit test for saving poc pdf document as attachment of insolvancy account
@@ -56,5 +86,13 @@ public class TestLoRNotice2Controller{
           obj.toEmail = 'test@cfg.com;';
           obj.sendEmail();
           obj.isAnyException = false;
+         
+         Insolvency_Account__c insolcAcc1 = [SELECT Id FROM Insolvency_Account__c where PoC_Created_Date__c !=NULL LIMIT 1];
+          ApexPages.currentPage().getParameters().put('Id', insolcAcc1.Id);
+          
+          LoRNotice2Controller obj1 = new LoRNotice2Controller();
+          obj1.toEmail = 'test@cfg.com;';
+          obj1.sendEmail();
+          obj1.isAnyException = false;
      }
 }

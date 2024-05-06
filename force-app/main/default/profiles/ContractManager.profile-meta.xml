@@ -18136,6 +18136,11 @@
         <field>Work_Assignment__c.Write_Off_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Exclude_From_Missing_Payment_Mail_List__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
@@ -18778,10 +18783,7 @@
     <layoutAssignments>
         <layout>Task-Task Layout</layout>
     </layoutAssignments>
-    <layoutAssignments>
-        <layout>TimeSlot-Time Slot Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
+     <layoutAssignments>
         <layout>Unallocated_Payment__c-CCS Unallocated Payment Layout</layout>
         <recordType>Unallocated_Payment__c.CCS</recordType>
     </layoutAssignments>

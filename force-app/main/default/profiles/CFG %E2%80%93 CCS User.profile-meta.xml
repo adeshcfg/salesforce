@@ -3202,7 +3202,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>portfolioWidgetOnProductController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>savePortalAccStatusUpdateFileBatch</apexClass>
@@ -3220,6 +3220,10 @@
         <apexClass>updateSettlementStatusBatch</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+    <tabVisibilities>
+        <tab>Credit_Bureau</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
@@ -6758,6 +6762,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.Canaccede_reviewed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Account__c.Account_Details_Verified__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7637,6 +7646,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Acquired_Purchase_Face_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Acquired_Purchase_Factor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Purchase_Completed__c</field>
         <readable>true</readable>
@@ -8299,6 +8318,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency__c.Acceleration_Clause__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.IsUnArchived__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -13322,6 +13346,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Payments__c.IsUnArchived__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Product_Payments__c.Agency_Commission_Rate__c</field>
         <readable>false</readable>
@@ -16224,7 +16253,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Record_Type_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -18161,6 +18190,16 @@
         <field>Insolvency_Account__c.Percent_of_increased_return_from_voting__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.IsUnArchived__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Exclude_From_Missing_Payment_Mail_List__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
@@ -18900,6 +18939,14 @@
     <layoutAssignments>
         <layout>Work_Assignment__c-Work Assignment - CFG</layout>
         <recordType>Work_Assignment__c.CFG</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Distressed_notes__c-Distressed Notes Read Only Layout</layout>
+        <recordType>Distressed_notes__c.Distressed_Notes_Read_Only</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Work_Assignment__c-Work Assignment Layout</layout>
+        <recordType>Work_Assignment__c.Credit_Bureau_Reporting_Files</recordType>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -20122,6 +20169,11 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Work_Assignment__c.CFG_Media</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Distressed_notes__c.Distressed_Notes_Read_Only</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
     <userLicense>Salesforce</userLicense>

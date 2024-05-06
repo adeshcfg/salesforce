@@ -12,16 +12,21 @@ public class DistressedUtilities {
     public static map<String, Placement_Status_Mapping__c> placementStatusMap = Placement_Status_Mapping__c.getAll(); 
     
     public static Map<Id, String>  placementHistoryIDMap;
+    public static Map<Id, Decimal>  productIDMap;
     public static Map<Id, String> settlementIDMap;
     public static Map<String, ID> mapProductJudgment = new Map<String, ID>();
+    public static Map<String,Provice_Name_Map_with_Abbreviations__mdt> mapProviceAbbreviations = Provice_Name_Map_with_Abbreviations__mdt.getAll();
+    public static Map<String, String> mapProvinceAcronym = new Map<String, String>();
     // Fetching and updating Placement History Map
     public static void loadPlacementHistoryIDMap(List<id> prodIdList){
         placementHistoryIDMap = new Map<Id, String>();
+        productIDMap = new Map<Id, Decimal>();
         
         // Iterate and push statute date values to a map
-        for(Placement_history__c m :[Select id,name,Product__c from Placement_history__c where Product__c in: prodIdList AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC]){
+        for(Placement_history__c m :[Select id,name,Product__c,Product__r.Current_Balance__c from Placement_history__c where Product__c in: prodIdList AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC]){
             if(!placementHistoryIDMap.containsKey(m.Product__c)){
                 placementHistoryIDMap.put(m.Product__c, m.id);
+                productIDMap.put(m.Product__c,m.Product__r.Current_Balance__c);
             }
         }
     }
@@ -246,13 +251,16 @@ public class DistressedUtilities {
     public static void updatePlacementHistory(id product, String placeStatus){  
         List<ID> prodID = new List<ID>();
         prodID.add(product);
-        Placement_history__c placeHistory = [Select id,name from Placement_history__c where Product__c =: product AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC limit 1 ];
+        Placement_history__c placeHistory = [Select id,name,Product__r.Current_Balance__c from Placement_history__c where Product__c =: product AND Placement_Recall_Date__c = null ORDER By CreatedDate DESC limit 1 ];
         Placement_history__c updatePlaceHistory = new Placement_history__c();
         updatePlaceHistory.Id = placeHistory.Id;
         updatePlaceHistory.Placement_Recall_Date__c = Date.today();
         updatePlaceHistory.Placement_Status__c = placeStatus;
         updatePlaceHistory.Placement_Status_Description__c = placementStatusMap.get(placeStatus).Description__c;
         updatePlaceHistory.Placement_Status_at_time_of_recall__c = placeStatus;
+        if(placeHistory.Product__r.Current_Balance__c != NULL){
+           updatePlaceHistory.Current_Total_Bal_at_time_of_Recall__c = placeHistory.Product__r.Current_Balance__c; 
+        }
         
         Update updatePlaceHistory;
         
@@ -276,6 +284,9 @@ public class DistressedUtilities {
                     updatePlaceHistory.Placement_Status_Description__c = placementStatusMap.get(updatePlaceHistory.Placement_Status__c).Description__c;
                 }
                 updatePlaceHistory.Placement_Status_at_time_of_recall__c = placeStatus.get(pid);//placeStatus;
+                if(productIDMap.containsKey(pid) && productIDMap.get(pid) != NULL){
+                    updatePlaceHistory.Current_Total_Bal_at_time_of_Recall__c = productIDMap.get(pid);
+                }
                 lstUpdateHis.add(updatePlaceHistory);
                 //Update updatePlaceHistory;
             }
@@ -310,7 +321,6 @@ public class DistressedUtilities {
         Map<String ,Placement__c> mapPlacement =new Map<String,Placement__c>();
         Map<String ,Pool__c> mapPool =new Map<String,Pool__c>();                                                
         Map<Id ,Product_Payments__c> mapProductPayment =new Map<Id,Product_Payments__c>();
-        Map<String, String> mapProvinceNames = new Map<String, String>();
         list<Product_Staging__c> listProductAllocateStaging = new list<Product_Staging__c>();
         set<String> setPreviousPlacedProductNames = getPlacementHistoryDetails(mapProductName.keySet());
         map<String, Decimal> mapProductNameAmount = new map<String, Decimal>(); 
@@ -328,25 +338,17 @@ public class DistressedUtilities {
                 mapProductNameAmount.put(String.valueOf(prodList.Data_Id__c), 1);
             }
         }                                    
-        for(Placement__c placement : [Select ID, Name, Serviceable_Province__c From Placement__c]){
+        for(Placement__c placement : [Select ID, Name, Serviceable_Province__c,Active__c From Placement__c]){
             mapPlacement.put(placement.Name, placement);
         }
         
         for(Pool__c pool : [SELECT ID, Name,Placement_Agency__c FROM Pool__c ]){
             mapPool.put(pool.Name, pool);
-        }                                                                            
-        
+        }   
         //Fill provice name map with abbriviations
-        mapProvinceNames.put('NS', 'Nova Scotia');
-        mapProvinceNames.put('NB', 'New Brunswick');
-        mapProvinceNames.put('MB', 'Manitoba');
-        mapProvinceNames.put('BC', 'British Columbia');
-        mapProvinceNames.put('PE', 'Prince Edward Island');
-        mapProvinceNames.put('SK', 'Saskatchewan');
-        mapProvinceNames.put('AB',  'Alberta');
-        mapProvinceNames.put('NL', 'Newfoundland and Labrador');
-        mapProvinceNames.put('QC', 'Quebec');
-        mapProvinceNames.put('ON', 'Ontario');
+        for(Provice_Name_Map_with_Abbreviations__mdt metaData : mapProviceAbbreviations.values()){
+            mapProvinceAcronym.put(metaData.Province_Acronym__c,metaData.Province_Name__c);
+        }
         
         String newAgency = '';
         String oldAgency;
@@ -369,7 +371,7 @@ public class DistressedUtilities {
                  ERROR_MSG += '<b>ERROR</b> - Invalid account number.<br/>';
                  EXPECTED += 'Account number cannot be blank<br/>'; 
             }
-             if(product.Data_Id__c == null || product.Name__c == null){
+             if(product.Data_Id__c != null || product.Name__c != null){
               
             if(setPreviousPlacedProductNames.contains(product.Data_Id__c+ newAgency)){
                 ERROR_MSG+= '<b>WARNING</b>-'+'Product is placed with the agency in last 6 months'+'<br/>';
@@ -380,7 +382,10 @@ public class DistressedUtilities {
             }
             if((String.isNotBlank(newAgency) && !mapPlacement.containsKey(newAgency))){
                 ERROR_MSG = '<b>ERROR</b>-Invalid Agency Number.'+'<br/>';
-            }  
+            }
+            if(mapPlacement.containsKey(newAgency) && mapPlacement.get(newAgency).Active__c == False){
+                ERROR_MSG += '<b>ERROR</b> - Allocate Agency is not Active <br/>';
+            }
             if( String.isBlank(newAgency)){
                 ERROR_MSG = '<b>ERROR</b>- Enter Agency Number to allocate.'+'<br/>';
             }
@@ -398,14 +403,17 @@ public class DistressedUtilities {
                && String.isNotBlank(mapPlacement.get(newAgency).Serviceable_Province__c)){
                    AgencyProvince = mapPlacement.get(newAgency).Serviceable_Province__c; 
                }
+            if(String.isBlank(mapProductName.get(product.Data_Id__c).Purchase_Province__c)){
+                     ERROR_MSG += '<b>ERROR</b> - '+'Purchase Province Required'+'<br/>';
+            }
             if(String.isNotBlank(newAgency)
                && String.isNotBlank(AgencyProvince)
                && mapProductName.containsKey(product.Data_Id__c)
-               && String.isNotBlank(mapProductName.get(product.Data_Id__c).State__c)
-               && ( (!mapProvinceNames.containsKey(mapProductName.get(product.Data_Id__c).State__c) && !AgencyProvince.contains(mapProductName.get(product.Data_Id__c).State__c))
-                   ||   (mapProvinceNames.containsKey(mapProductName.get(product.Data_Id__c).State__c)  &&!AgencyProvince.contains(mapProvinceNames.get(mapProductName.get(product.Data_Id__c).State__c))))){
-                       ERROR_MSG += '<b>ERROR</b>- '+'Product cannot be placed with agency as Product Province is Non Serviceable for Agency'+'<br/>';
-                       EXPECTED += 'Product Province - ' + mapProductName.get(product.Data_Id__c).State__c +'<br/>';
+               && String.isNotBlank(mapProductName.get(product.Data_Id__c).Purchase_Province__c)
+               && ( (!mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).Purchase_Province__c) && !AgencyProvince.contains(mapProductName.get(product.Data_Id__c).Purchase_Province__c))
+                   ||   (mapProvinceAcronym.containsKey(mapProductName.get(product.Data_Id__c).Purchase_Province__c)  &&!AgencyProvince.contains(mapProvinceAcronym.get(mapProductName.get(product.Data_Id__c).Purchase_Province__c))))){
+                       ERROR_MSG += '<b>ERROR</b>- '+'Product cannot be placed with agency as Product Purchase Province is Non Serviceable for Agency'+'<br/>';
+                       EXPECTED += 'Product Purchase Province should be either - ' + AgencyProvince +'<br/>';
                    }
             
             if(newAgency == oldAgency){
@@ -664,6 +672,13 @@ productStaging.Include_in_Processing__c = true;
         
         Map<String, Placement_Status_Code_Mapping__c> settings = Placement_Status_Code_Mapping__c.getAll();
         
+        //Ticket 5081
+        for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c, Product__r.Name FROM Account_Judgment__c
+                                                  WHERE Product__r.name IN :mapProduct.keySet()
+                                                  AND Status__c = 'Active']){
+                mapProductJudgment.put(accJudgment.Product__r.Name, accJudgment.Judgment__c);
+        }
+        
         for(Product_Staging__c product : batchScope){
             Boolean error = false;
             String ERROR_MSG = '';
@@ -784,10 +799,17 @@ productStaging.Include_in_Processing__c = true;
                 /*ERROR_MSG += '<b>ERROR</b> : Incorrect status date format\n';
 EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             } 
-            
-            if(docStorage != NULL && docStorage.Uploaded_By__c == 'External User' && mapProductJudgment.containsKey(product.Name__c)){
+                
+			//Ticket 5081: User cannot update status if product with judgment
+            Legal_Status_Codes__c lrpSetting = Legal_Status_Codes__c.getOrgDefaults();
+            String statusCodes=lrpSetting.status_codes__c;
+            String placementStatus;
+            if (mapProduct.get(product.Name__c).Placement_Status__c!=NULL && mapProduct.get(product.Name__c).Placement_Status__c!=''){
+                placementStatus=mapProduct.get(product.Name__c).Placement_Status__c;
+            }
+            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && (placementStatus!=NULL && placementStatus!='') && statusCodes.contains(placementStatus)){
                 ERROR_MSG += '<b>ERROR</b> : Can\'t change account in Legal status<br/>';
-                EXPECTED += 'Agency user cannot update the status on Product with Judgment<br/>';
+                EXPECTED += 'User cannot update the status on Product with Judgment<br/>';
             }
             if(mapProduct.containsKey(product.Name__c)
                && mapProduct.get(product.Name__c).Collection_Agency__c != NULL){
@@ -1128,8 +1150,9 @@ accStaging.Status_Changed_Date__c = mapFilingDate.get(product.Name);
                                                oldComments = workAssignment.Comments_History__c;
                                            }
                                            workAssignment.Latest_Comment__c = workAssignment.Comment_Reply__c;
-                                           workAssignment.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
-                                           
+                                            //bug:4743 : changes starts
+                                           workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+                                            //bug:4743 : changes ends
                                            if(oldComments != null){
                                                workAssignment.Comments_History__c += oldComments;
                                            }

@@ -45,6 +45,37 @@ public class TestCustomerContactInfoStagingController {
     }
 
     @isTest
+    static void testGenerateSuccessAndErrorFile() {
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        Work_Assignment__c workAssignment = [SELECT Id FROM Work_Assignment__c LIMIT 1];
+        Document_Storage__c failedDocStorage = [SELECT Id FROM Document_Storage__c LIMIT 1];
+
+        Customer_Staging__c custStaging = new Customer_Staging__c();
+        custStaging.Comment__c = 'SUCCESS';
+        custStaging.ProdID__c = '656P178';
+        custStaging.Placement_Agency__c = '68';
+        custStaging.Status__c = 'Pending';
+        custStaging.Document_Storage__c = failedDocStorage.id;
+        custStaging.Include_in_Processing__c = true;
+
+        Customer_Staging__c custStaging1 = new Customer_Staging__c();
+        custStaging1.Comment__c = 'SUCCESS';
+        custStaging1.ProdID__c = '656P178';
+        custStaging1.Placement_Agency__c = '68';
+        custStaging1.Status__c = 'Processed';
+        custStaging1.Document_Storage__c = failedDocStorage.id;
+        insert new List<Customer_Staging__c>{ custStaging, custStaging1 };
+
+        testDocumentAPI();
+        DisplayCustomerContInfoStagingController.GenerateSuccessAndErrorFile(
+            new List<Customer_Staging__c>{ custStaging, custStaging1 },
+            workAssignment.Id,
+            'CFG + Requesting Agency',
+            failedDocStorage.Id
+        );
+    }
+
+    @isTest
     static void testMethodSave() {
         Work_Assignment__c workAssignment = [SELECT Id FROM Work_Assignment__c LIMIT 1];
         Document_Storage__c failedDocStorage = [SELECT Id FROM Document_Storage__c LIMIT 1];

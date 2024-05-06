@@ -12,6 +12,10 @@ public class TestAgencyPaymentNotificationBatch {
     static testMethod void insertTestData(){
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
+        
         API_Call_Details__c  settings = new API_Call_Details__c ();
         settings.Name = 'Agency Portal API';
         settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
@@ -66,6 +70,8 @@ public class TestAgencyPaymentNotificationBatch {
 
         Product_Payments__c prod = new Product_Payments__c();
         prod.Payment_Source__c = '1';
+        prod.payment_Type__c = '1000';
+        prod.Payment_Amount__c = 100;
         prod.CCS_Account__c = prodList[0].Id;
 		insert prod;
         

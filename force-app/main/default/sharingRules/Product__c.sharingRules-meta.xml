@@ -93,22 +93,7 @@
         <sharedTo>
             <group>Canaccede_QA_Group</group>
         </sharedTo>
-        <booleanFilter>(1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7) AND 8</booleanFilter>
-        <criteriaItems>
-            <field>Originating_Creditor__c</field>
-            <operation>equals</operation>
-            <value>BNS</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Originating_Creditor__c</field>
-            <operation>equals</operation>
-            <value>The Bank of Nova Scotia</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Originating_Creditor__c</field>
-            <operation>equals</operation>
-            <value>Bank of Nova Scotia</value>
-        </criteriaItems>
+        <booleanFilter>(1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9 OR 10 OR 11 OR 12 OR 13) AND 14</booleanFilter>
         <criteriaItems>
             <field>Originating_Creditor__c</field>
             <operation>equals</operation>
@@ -128,6 +113,51 @@
             <field>Originating_Creditor__c</field>
             <operation>equals</operation>
             <value>MBNA Canada Bank</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Originating_Creditor__c</field>
+            <operation>equals</operation>
+            <value>Bank of Montreal</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Originating_Creditor__c</field>
+            <operation>equals</operation>
+            <value>Easyfinancial Services Inc.</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Originating_Creditor__c</field>
+            <operation>equals</operation>
+            <value>Lendcare Capital Inc.</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Originating_Creditor__c</field>
+            <operation>equals</operation>
+            <value>National Bank of Canada</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Originating_Creditor__c</field>
+            <operation>equals</operation>
+            <value>Santander Consumer Inc.</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Originating_Creditor__c</field>
+            <operation>equals</operation>
+            <value>Bank of Nova Scotia</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Originating_Creditor__c</field>
+            <operation>equals</operation>
+            <value>BNS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Originating_Creditor__c</field>
+            <operation>equals</operation>
+            <value>The Bank of Nova Scotia</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Originating_Creditor__c</field>
+            <operation>equals</operation>
+            <value>BNS-Tangerine</value>
         </criteriaItems>
         <criteriaItems>
             <field>RecordTypeId</field>
@@ -184,6 +214,26 @@
             <value>Easyfinancial CCS Account</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ICT_Distressed_Product_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>sharing rule for record with Collection Agency=68 &amp; Distressed Account, share with ICT Distressed Group</description>
+        <label>ICT Distressed Product Sharing</label>
+        <sharedTo>
+            <group>ICT_Distressed_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Collection_Agency__c</field>
+            <operation>equals</operation>
+            <value>68</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Distressed Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
         <fullName>ICT_Group_Product_Read_Only_Sharing</fullName>

@@ -86,7 +86,9 @@ public class NotifyCustomerForPendingRequestFunds implements Database.Batchable<
                     mails.add(mail);
 			}            
         }
-        Messaging.sendEmail(mails);    
+        if(!Test.isRunningTest()) {
+            Messaging.sendEmail(mails);
+        }
     }    
     public void finish(Database.BatchableContext bc){
 		

@@ -2,9 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Payment_Provided_Agency__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Placement agency associated with Payment</description>
+    <description>Commission Paid To agency associated with Payment</description>
     <externalId>false</externalId>
-    <inlineHelpText>Placement agency associated with Payment</inlineHelpText>
+    <inlineHelpText>Commission Paid To agency associated with Payment</inlineHelpText>
     <label>Commission Paid To</label>
     <referenceTo>Placement__c</referenceTo>
     <relationshipLabel>Product Payments</relationshipLabel>

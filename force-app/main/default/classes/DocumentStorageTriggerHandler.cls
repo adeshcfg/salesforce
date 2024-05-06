@@ -144,11 +144,16 @@ public class DocumentStorageTriggerHandler {
                        processProductAllocation(documentStorage.Document_Id__c, workAssignmentPlacement, documentStorage.ID,documentStorage.Document_Type__c, documentStorage.Document_URL__c);                                    
                            System.scheduleBatch(new CFG_ProcessBulkStatusUpdate('',documentStorage.ID,documentStorage.Work_Assignment__c,documentStorage), 'Bulk Process data', 1);
                 }*/
+                else if(documentStorage.Document_Type__c == CUSTOMER_CONTACT_INFO_UPDATE && String.isNotBlank(documentStorage.Document_Id__c) && (documentStorage.File_Processing_Status__c == 'Pending' || String.isBlank(documentStorage.File_Processing_Status__c))) {
+                    if(!Test.isRunningTest()){
+                        System.enqueueJob(new CustomerStagingExcelFileProcessing(documentStorage.Document_URL__c, documentStorage.Work_Assignment_Placement__c, documentStorage.Id));
+                    }
+                }
 
                 else if((documentStorage.Document_Type__c == PRODUCT_PAYMENT_UPLOAD_FILE
                 //   || documentStorage.Document_Type__c == ACCOUNT_STATUS_UPDATE_FILE
                   || documentStorage.Document_Type__c == ACCOUNT_STATUS_HAVING_JUDGMENT_FILE
-                  || documentStorage.Document_Type__c == CUSTOMER_CONTACT_INFO_UPDATE
+                //   || documentStorage.Document_Type__c == CUSTOMER_CONTACT_INFO_UPDATE
                 //|| documentStorage.Document_Type__c == PRODUCT_ALLOCATION_FILE
                   || documentStorage.Document_Type__c == PRODUCT_RECALL_FILE
                   || documentStorage.Document_Type__c == PRODUCT_BULK_POOL_UPDATE_FILE

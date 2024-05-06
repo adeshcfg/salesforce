@@ -117,7 +117,13 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             //Call product recall update class. developer - satyajit patil
             prodIds = RecallProductProcessing.recallProducts(scope, workAssignmentId);
         } else if (docType == DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
-            prodIds = DisplayCustomerContInfoStagingController.processRecords(scope);
+            List<Id> scopedProdIds = new List<Id>();
+            scopedProdIds = DisplayCustomerContInfoStagingController.processRecords(scope);
+            if (prodIds.isEmpty()) {
+                prodIds = scopedProdIds;
+            } else {
+                prodIds.addAll(scopedProdIds);
+            }
         }
         if (Test.isRunningTest()) {
             prodIds = RecallProductProcessing.recallProducts(scope, workAssignmentId);
@@ -133,20 +139,74 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
         //Call the portal API Batch. Developer: satyajit patil
         if (docType != DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
             Database.executeBatch(new CFG_ProductBulkApiProcess(documentStorageId, docType), 200);
-        }
-        else {
+        } else {
+            Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
+            // Create Success and Error file
+            generateCustomerStagingSuccessErrorFile();
+            // Call Portal API to update product records on Portal
             PortalProductProcessingAPI.processProductBulkBatch(prodIds);
         }
 
-        List<id> successfailedRecord = new List<id>();
+        /* List<id> successfailedRecord = new List<id>();
         set<string> failedStringSet = new Set<string>();
         Set<String> successStringSet = new Set<String>();
-        List<Id> prodIdList = new List<Id>();
+        List<Id> prodIdList = new List<Id>(); */
 
         //Commented by satyajit
         /*  if(workAssignmentId != null) {
             system.enqueueJob(new CFG_ProcessWorkAssignment(workAssignmentId));
         } */
+    }
+
+    public void generateCustomerStagingSuccessErrorFile() {
+        List<Customer_Staging__c> listCustomerStaging = [
+            SELECT
+                ID,
+                Name,
+                Address_Line1__c,
+                Address_Line2__c,
+                Cell_Phone__c,
+                City__c,
+                Country__c,
+                Email_Address__c,
+                Home_Phone__c,
+                Postal_Code__c,
+                State__c,
+                Work_Phone__c,
+                Coborrower_Address1__c,
+                Coborrower_Address2__c,
+                Coborrower_Cell_Phone__c,
+                Coborrower_City__c,
+                Coborrower_Country__c,
+                Coborrower_Email__c,
+                Coborrower_Home_Phone__c,
+                Coborrower_Postal_Code__c,
+                Coborrower_State__c,
+                Coborrower_Work_Phone__c,
+                Comment__c,
+                Placement_Agency__c,
+                ProdID__c,
+                Status__c,
+                Document_Storage__c,
+                Document_Storage__r.File_Processing_Status__c,
+                Document_Storage__r.Work_Assignment__c,
+                Product_ID__c,
+                Expected_Value__c,
+                Include_in_Processing__c
+            FROM Customer_Staging__c
+            WHERE Identifier__c = :documentStorageId AND Status__c != 'Processed'
+            ORDER BY Include_in_Processing__c
+        ];
+        Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
+        // Create Success and Error file
+        if (!listCustomerStaging.isEmpty()) {
+            DisplayCustomerContInfoStagingController.GenerateSuccessAndErrorFile(
+                listCustomerStaging,
+                listCustomerStaging[0].Document_Storage__r.Work_Assignment__c,
+                portalSettings.Document_Storage_Default_Visibility__c,
+                listCustomerStaging[0].Document_Storage__c
+            );
+        }
     }
 
     public static void processWorkAssignment(ID workAssignmentId, String triggereve, Boolean commentStatus) {

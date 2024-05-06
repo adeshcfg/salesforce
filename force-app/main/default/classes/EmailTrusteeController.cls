@@ -85,7 +85,7 @@ public class EmailTrusteeController{
         insolTemplateWithHeaderList = new list<ID>();
         insolTemplateWithoutHeaderList = new list<ID>();
         config = [SELECT Maximum_Email_Attachments_Size_Text__c, Maximum_Email_Attachments_Size__c,Run_Insolvency_Status_Validations__c,
-                    Domain_Name__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+                    Domain_Name__c FROM Application_Config_Settings__c];
         
         attachSizeExceptionMessage = config.Maximum_Email_Attachments_Size_Text__c;
         
@@ -97,7 +97,7 @@ public class EmailTrusteeController{
                      Reason_for_No_PoC_Required__c,Amended_Claim_Flag__c, Insolvency_Type__c,
                      Claim_Filed_Date__c //for SLA tracking
                      FROM Insolvency_Account__c 
-                     WHERE Id =: ApexPages.currentPage().getParameters().get('Id') FOR UPDATE];
+                     WHERE Id =: ApexPages.currentPage().getParameters().get('Id')];
         
         //Set language as per trustee office
         if(null != insolvAcc.Insolvency__r.Trustee__r.Preferred_Language__c){
@@ -333,6 +333,18 @@ public class EmailTrusteeController{
                     emailBody = emailBody.replace('{!Insolvency_Account__c.Reason_for_No_PoC_Required__c}', (insolvAcc.Reason_for_No_PoC_Required__c!= null ? insolvAcc.Reason_for_No_PoC_Required__c:''));    
                 }
                 
+                if(emailBody.contains('{!pocPackage.CFG_Office_Name__c}')){       
+                    emailBody = emailBody.replace('{!pocPackage.CFG_Office_Name__c}', pocPackage.CFG_Office_Name__c);         
+                }
+                
+                if(emailBody.contains('{!pocPackage.CFG_Office_Website__c}')){       
+                    emailBody = emailBody.replace('{!pocPackage.CFG_Office_Website__c}', pocPackage.CFG_Office_Website__c);         
+                }
+                
+                if(emailBody.contains('{!pocPackage.CFG_Office_Province__c}')){       
+                    emailBody = emailBody.replace('{!pocPackage.CFG_Office_Province__c}', pocPackage.CFG_Office_Province__c);         
+                }
+                
                 if(emailBody.contains('{!pocPackage.CFG_Office_Address_1__c}')){       
                     emailBody = emailBody.replace('{!pocPackage.CFG_Office_Address_1__c}', pocPackage.CFG_Office_Address_1__c);         
                 }
@@ -400,7 +412,26 @@ public class EmailTrusteeController{
                    }else{
                        emailBody = emailBody.replace('The reason that we have not filed a claim on behalf of Scotiabank is','The reason Canaccede has not filed a claim is');        
                    }
-                }  
+                }
+
+                if(emailName == 'Additional Information Required'){
+                    if(insolvAcc.Client_Identifier__c == 'Canaccede') {
+                        if(language == 'fr') {
+                            emailBody = emailBody.replace('{!Additional_Info_Text}', System.Label.Canaccede_Additional_Info_French_Text);
+                        }
+                        else {
+                            emailBody = emailBody.replace('{!Additional_Info_Text}', System.Label.Canaccede_Additional_Info_Text);
+                        }
+                    }
+                    else {
+                        if(language == 'fr') {
+                            emailBody = emailBody.replace('{!Additional_Info_Text}', 'Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de ' + pocPackage.Client_Company_Name__c);
+                        }
+                        else {
+                            emailBody = emailBody.replace('{!Additional_Info_Text}','As you are aware, Canaccede International Management Ltd is processing '+ pocPackage.Client_Company_Name__c + ' insolvent accounts');
+                        }
+                    }
+                }
                 
                 if(emailName == 'Creditor Package Request'){
                     if(insolvAcc.Client_Identifier__c == 'Canaccede'){  
@@ -693,7 +724,7 @@ public class EmailTrusteeController{
             formattedFax = formattedFax.replaceAll('-', '');
             formattedFax = formattedFax.replaceAll(' ', '');
             
-            Application_Config_Settings__c acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+            Application_Config_Settings__c acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c];
             formattedFax =  formattedFax + acs.Domain_Name__c;
         }  
         return formattedFax;

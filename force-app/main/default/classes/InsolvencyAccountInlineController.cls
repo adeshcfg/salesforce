@@ -42,7 +42,7 @@ public with sharing class InsolvencyAccountInlineController {
        
        config = [SELECT Insolvency_Account_Object_ID__c, Insolvency_Account_Field_ID__c, Run_Insolvency_Account_Duplicate_Check__c,
                     Profile_Eligible_for_Duplicate_Check__c, Bank_Eligible_for_Duplicate_Check__c, 
-                    Ignore_Account_Number_for_DuplicateCheck__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+                    Ignore_Account_Number_for_DuplicateCheck__c FROM Application_Config_Settings__c];
        
        refreshInsolAcc();
        

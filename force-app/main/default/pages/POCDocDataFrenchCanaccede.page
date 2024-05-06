@@ -96,29 +96,25 @@
             </div>
             
             <!-- <br/><br/><br/><br/><br/>  <br/>-->
-            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
-                
-                <div style="text-align:left; float:left; width:200px; ">
-                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>
+            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>               
+                <div style="text-align:left; float:left; width:200px">
+                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                 </div>
-                <div style='float:left;width:455px; padding-top:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "20px;", "20px;")}'>
+                <div style='float:left;width:455px; padding-top:20px'>
                     <span style="float:left; padding-left:25px;font-size:13px">
                         {!remGroupMap.Entity_Name1__c}<br/>
                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
-                    <span style="float:right; text-align:right;">
+                    <span style="float:right; text-align:left;">
                         t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                         f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                         {!pocPackage.CFG_Office_Website__c}
                     </span>
                 </div>
+                <br/>
             </div>
-            
-            <br/>
-            <div style="clear:both;">
-                
-            </div>
+            <div style="clear:both;"> </div>
             <div style='margin:auto; line-height: 17px; width:90%; font-family: "Arial Unicode MS"; font-size:13px;'>
                 <div>
                     <div style="line-height: 13px;">
@@ -152,13 +148,13 @@
                     </span> <br/>
                     De la Ville de <span style="font-weight : bold;font-family: sans-serif; ">{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}</span>, dans la province de <span style="font-weight : bold;font-family: sans-serif; ">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br/>
-                    et la réclamation du <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;"> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</span> </apex:outputText> (Créancier)
+                    et la réclamation du <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><span style="font-weight : bold; font-family: sans-serif; "> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</span></apex:outputText> <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><span style="font-weight : bold; font-family: sans-serif;">  CFG Canada Funding, LLC cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</span> </apex:outputText> (Créancier)
                     <br/><br/>
                     <span style="font-family: sans-serif; font-style:italic;">Tous les avis ou correspondances concernant cette réclamation doivent être envoyés à l'adresse suivante:</span>
                 </div>
                 
                 <div style="font-weight : bold; text-align:center;padding-top:0px; font-family: sans-serif;">
-                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">{!remGroupMap.Entity_Name1__c} C/O </apex:outputText> {!remGroupMap.Entity_Name1__c}<br/>
+                    {!remGroupMap.Entity_Name1__c}<br/>
                     {!pocPackage.CFG_Office_Address_1__c}<br/>
                     {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
                 </div>
@@ -254,23 +250,27 @@
             </div>
             <br/>
             
-            <div style='font-family: "Arial Unicode MS"; font-size:13px; '>
-                <div style="text-align:left; float:left; width:200px;">
-                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>
+            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'> 
+                <div style="text-align:left; float:left; width:200px">
+                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                 </div>
-                <div style='float:left;width:455px; {!IF(insolvAcc.Claim_Type__c == "Unsecured","margin-top:20px;","margin-top:10px;")} '>
-                    <span style="float:left; padding-left:25px;font-size:13px"><br/>
+                <div style='float:left;width:455px; padding-top:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "20px;", "20px;")}'>
+                    <span style="float:left; padding-left:25px;font-size:13px">
                         {!remGroupMap.Entity_Name1__c}<br/>
                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
-                    <span style="float:right; text-align:right;"><br/>
+                    <span style="float:right; text-align:left;">
                         t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                         f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                         {!pocPackage.CFG_Office_Website__c}
                     </span>
                 </div>
-                
+                <br/>
+            </div>
+            <div style="clear:both;"> </div>
+            
+            <div style='font-family: "Arial Unicode MS"; font-size:13px; '>
                 <div style="text-align:center; clear:both;">
                     Formulaire 31 --- Suite
                 </div>
@@ -380,26 +380,26 @@
                     {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
                     <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null || insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/></div>
                 </div>
-                <br/><br/><br/><br/><br/>
-                <div style="clear:both; padding-left:40px;">
-                    <div style="margin-left:-30px;">
-                        <div style="text-align:left; float:left; width:200px;">
-                            <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>
-                        </div><div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
-                        <div style="float:left;width:455px;">
-                            <span style="float:left; padding-left:25px;font-size:13px">
-                                
-                               {!remGroupMap.Entity_Name1__c}<br/>
-                             {!pocPackage.CFG_Office_Address_1__c}<br/>
-                            {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
-                            </span>
-                            <span style="float:right; text-align:right;">
-                                t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                                f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
-                                {!pocPackage.CFG_Office_Website__c}
-                            </span>
-                        </div>
-                    </div>
+                <br/><br/><br/>
+                <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
+               <div style="text-align:left; float:left; width:200px">
+                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
+                </div>
+                <div style='float:left;width:455px; padding-top:20px'>
+                    <span style="float:left; padding-left:25px;font-size:13px">
+                        {!remGroupMap.Entity_Name1__c}<br/>
+                        {!pocPackage.CFG_Office_Address_1__c}<br/>
+                        {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                    </span>
+                    <span style="float:right; text-align:left;">
+                        t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+                        f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                        {!pocPackage.CFG_Office_Website__c}
+                    </span>
+                </div>
+            </div>
+             <div style="clear:both; padding-left:40px;">
+                    
                     <br/>
                     <div style="clear:both; text-align:center;">
                         Formulaire 31 --- Fin
@@ -439,8 +439,7 @@
                             <br/>
                             <span  style="font-family: sans-serif; font-weight:bold;">
                                 Bryan Szemenyei, CEO<br/>
-                                {!remGroupMap.Entity_Name1__c}
-                                <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c} " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
+                                {!remGroupMap.Entity_Name1__c} (Créancier)
                                 <apex:outputText value="<br/><br/>" escape="false" rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" />
                             </span>
                         </td>
@@ -474,26 +473,30 @@
                 </div></div>
         </apex:outputPanel>
         <br/>
-        
+        <br/>
+        <br/>
+        <br/>
         <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true'}" >
-            <div style=' margin:auto;padding-left:10px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
+            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
                 
-                <div style="text-align:left; float:left; width:200px;">
-                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>
+                <div style="text-align:left; float:left; width:200px">
+                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                 </div>
-                <div style='float:left;width:455px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-top:35px;", "margin-top:10px;")} '>
+                <div style='float:left;width:455px; padding-top:20px'>
                     <span style="float:left; padding-left:25px;font-size:13px">
                         {!remGroupMap.Entity_Name1__c}<br/>
                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
-                    <span style="float:right; text-align:right;">
+                    <span style="float:right; text-align:left;">
                         t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                         f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                         {!pocPackage.CFG_Office_Website__c}
                     </span>
                 </div>
+            </div>
+            <div style=' margin:auto;padding-left:10px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
                 
                 <div style="line-height:15px;float:left;">
                     
@@ -628,8 +631,7 @@
                         <br/>
                         <span  style="font-family: sans-serif; font-weight:bold;">
                             Bryan Szemenyei, CEO<br/>
-                            {!remGroupMap.Entity_Name1__c}
-                            <apex:outputText value="<br/>Servicer for The {!pocPackage.Client_Company_Name__c}" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" /> (creditor)
+                            {!remGroupMap.Entity_Name1__c} (Créancier)
                             
                         </span>
                     </td>
@@ -642,30 +644,31 @@
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
                 
             </div>
-        </apex:outputPanel> <br/><br/><br/>
+        </apex:outputPanel> <br/>
+        <br/>
+        <br/>
         <!---------------------STATEMENT OF ACCOUNT -------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.statementOfAccount == 'true'}" >
-            
-            <div style='font-family: "Arial Unicode MS";clear:both; margin:auto; margin-bottom:-19px; line-height: 15px; width:100%;' class="myfont">
-                
-                
-                <div style="text-align:left; float:left; width:200px;">
-                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" />
+            <div style='padding-bottom:10px; margin-top:-2px; font-family: "Arial Unicode MS"; font-size:13px;'>
+                <div style="text-align:left; float:left; width:200px">
+                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" style="padding-left:40px"/>  
                 </div>
-                <div style='font-size:13px; float:left;width:455px; {!IF(($CurrentPage.parameters.proofOfClaim == "true" || $CurrentPage.parameters.votingLetter == "true"), "margin-top:50px;", "margin-top:10px;")} '>
-                    <span style="float:left; padding-left:25px;">
+                <div style='float:left;width:455px; padding-top:20px'>
+                    <span style="float:left; padding-left:25px;font-size:13px">
                         {!remGroupMap.Entity_Name1__c}<br/>
                         {!pocPackage.CFG_Office_Address_1__c}<br/>
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
-                    <span style="float:right; text-align:right;">
+                    <span style="float:right; text-align:left;">
                         t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                         f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                         {!pocPackage.CFG_Office_Website__c}
                     </span>
                 </div>
-                
-                
+                <br/>
+                <br/>
+            </div>
+             <div style=' margin:auto;padding-left:30px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.statementOfAccount == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
                 <div style="clear:both;">
                     
                 </div>
@@ -833,7 +836,7 @@
             </div>
             
             
-            <div style='font-family: "Arial Unicode MS"; font-size:13px;'>
+            <div style='font-family: "Arial Unicode MS"; font-size:13px;padding-left:30px;'>
                 <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/><br/></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                 <br/>

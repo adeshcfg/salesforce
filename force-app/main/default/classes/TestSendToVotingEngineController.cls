@@ -28,9 +28,9 @@ public class TestSendToVotingEngineController {
             insolvencyInstance.eligible_for_voting_decision__c = true;
             insolvencyInstance.Debtor_2_Estate_Number__c = '985236987';
             insolvencyInstance.Insolvency_Status__c = 'Active';
-            insolvencyInstance.Insolvency_Type__c = 'Consumer Proposal';
+            //insolvencyInstance.Insolvency_Type__c = 'Consumer Proposal';
             insolvencyInstance.Sent_For_Owner_Review_Date__c = null;
-            insolvencyInstance.Revival_Date__c = System.today();
+            //insolvencyInstance.Revival_Date__c = System.today();
             insolvencyInstance.Number_Of_Persons_In_Household__c = 3;
             insolvencyInstance.Number_Of_Persons_In_Household_Below_17__c = 1;
             insolvencyInstance.Food_Grocery_Expenses__c = 100;

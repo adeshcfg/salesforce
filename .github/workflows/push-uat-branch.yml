@@ -1,6 +1,9 @@
 # Unique name for this workflow
 name: Deploy development branch to uat org
 
+env:
+  target: uat
+
 # Definition when the workflow should run
 on:
     pull_request:
@@ -8,7 +11,8 @@ on:
             - closed
         branches: [uat_psb]
         paths:
-            - "force-app/**"
+          - 'force-app/**'
+          - 'force-data/**'
 
 # Jobs to be executed
 jobs:
@@ -21,11 +25,25 @@ jobs:
               with:
                   node-version: "16"
 
+            # Install mustache
+            - name: 'Install mustache'
+              run: npm install -g mustache
+
             # Checkout the source code
             - name: "Checkout source code"
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
+
+            # Check which folder has changes - metadata or scripts
+            - uses: dorny/paths-filter@v2
+              id: changes
+              with:
+                filters: |
+                  metadata:
+                    - 'force-app/**'
+                  script:
+                    - 'force-data/**'
 
             # Now, we need a way to let the developer specify which tests to run, which
             # could be all tests or just the tests relevant to their deployment.
@@ -86,6 +104,7 @@ jobs:
                   echo ${{secrets.SFDX_UAT_URL}} > ./SFDX_UAT_URL.txt
 
             - name: "Create delta packages for new, modified or deleted metadata"
+              if: steps.changes.outputs.metadata == 'true'
               run: |
                   mkdir changed-sources
                   sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
@@ -99,16 +118,21 @@ jobs:
             # tests that can be run
 
             - name: "Deploy delta changes - run specified tests"
-              if: ${{ env.APEX_TESTS != 'all' }}
+              if: ${{ (env.APEX_TESTS != 'all') && (steps.changes.outputs.metadata == 'true') }}
               run: |
                   echo ${{env.APEX_TESTS}}
                   sfdx force:source:deploy -p "changed-sources/force-app" --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} --json
 
             # If the env variable equals all, we run all tests
             - name: "Deploy delta changes - run all tests"
-              if: ${{ env.APEX_TESTS == 'all' }}
+              if: ${{ (env.APEX_TESTS == 'all') && (steps.changes.outputs.metadata == 'true') }}
               run: |
                   sfdx force:source:deploy -p "changed-sources/force-app" --testlevel RunLocalTests  --json
 
             - name: "Deploy destructive changes (if any) to Integration org"
+              if: steps.changes.outputs.metadata == 'true'
               run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings
+
+            - name: 'Execute Apex Script'
+              if: steps.changes.outputs.script == 'true'
+              run: sfdx force:apex:execute -f ./force-data/generatedApexScript.apex

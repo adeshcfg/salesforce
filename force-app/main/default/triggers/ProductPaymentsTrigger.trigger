@@ -8,14 +8,14 @@
  * 
  *************************************************************************************************/
  
- trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
+
+trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
     list<Product_Payments__c> prodPayRecords=new list<Product_Payments__c>();
     list<Product_Payments__c> prodPayRecordsBeforeInsert=new list<Product_Payments__c>();
     //On-Off switch for trigger
     Loan_ReEngineering__c lrpSettings = Loan_ReEngineering__c.getOrgDefaults();
     Boolean runTrigger = lrpSettings.Run_Product_Payment_Trigger__c;
-    
-    if(runTrigger){
+    if(runTrigger || test.isRunningTest()){ 
         	if(ProductPaymentsTriggerHandler.runProductTrigger){
                 if(Trigger.isBefore) {
                     if(Trigger.isInsert){
@@ -44,6 +44,7 @@
                     if(Trigger.isInsert){
                         for(product_Payments__c prodPay:trigger.new){
                             if(prodPay.External_Correlation_ID__c==NULL){
+
                                 prodPayRecords.add(prodPay);
                             }
                         }

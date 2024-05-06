@@ -12,6 +12,10 @@
 public class TestGenerateDepositProductPDFController {
     @testSetup
     static void testData() {
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
+
         Deposit_Slip__c dp = new Deposit_Slip__c();
         dp.recordTypeId = [SELECT id FROM RecordType WHERE SobjectType = 'Deposit_slip__C' AND name LIKE '%CCS%' LIMIT 1].id;
         insert dp;
@@ -99,6 +103,9 @@ public class TestGenerateDepositProductPDFController {
         payment1.dividend__c = remittance1.Id;
         payment1.Payment_Amount__c = 1123.00;
         payment1.CCS_account__c = insAcc1.Id;
+        payment1.Payment_Posting_Date__c = System.today();
+        payment1.Payment_Type__c = '1000';
+        payment1.Payment_Source__c = '1';
         insert payment1;
 
         //Payments
@@ -106,6 +113,9 @@ public class TestGenerateDepositProductPDFController {
         payment2.dividend__c = remittance2.Id;
         payment2.Payment_Amount__c = 1123.00;
         payment2.CCS_account__c = insAcc2.Id;
+        payment2.Payment_Posting_Date__c = System.today();
+        payment2.Payment_Type__c = '1000';
+        payment2.Payment_Source__c = '1';
         insert payment2;
 
         List<Deposit_Accounts__c> depAccList = new List<Deposit_Accounts__c>();
@@ -237,22 +247,64 @@ public class TestGenerateDepositProductPDFController {
 
         insolvPay.Deposit_Account_Type__c = 'CAL';
         update insolvPay;
+        Test.startTest();
+        obj = new GenerateDepositSlipProductPDFController();
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testCih() {
+        ApexPages.currentPage().getParameters().put('type', 'Canaccede_Account_Perticulars');
+        GenerateDepositSlipProductPDFController obj = new GenerateDepositSlipProductPDFController();
         obj = new GenerateDepositSlipProductPDFController();
 
+        Product_Payments__C insolvPay = [SELECT Id, Deposit_Account_Type__c FROM Product_Payments__C LIMIT 1];
         insolvPay.Deposit_Account_Type__c = 'CIH';
         update insolvPay;
+        Test.startTest();
+        obj = new GenerateDepositSlipProductPDFController();
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testCcl() {
+        ApexPages.currentPage().getParameters().put('type', 'Canaccede_Account_Perticulars');
+        GenerateDepositSlipProductPDFController obj = new GenerateDepositSlipProductPDFController();
         obj = new GenerateDepositSlipProductPDFController();
 
+        Product_Payments__C insolvPay = [SELECT Id, Deposit_Account_Type__c FROM Product_Payments__C LIMIT 1];
         insolvPay.Deposit_Account_Type__c = 'CCL';
         update insolvPay;
+        Test.startTest();
+        obj = new GenerateDepositSlipProductPDFController();
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testClp() {
+        ApexPages.currentPage().getParameters().put('type', 'Canaccede_Account_Perticulars');
+        GenerateDepositSlipProductPDFController obj = new GenerateDepositSlipProductPDFController();
         obj = new GenerateDepositSlipProductPDFController();
 
+        Product_Payments__C insolvPay = [SELECT Id, Deposit_Account_Type__c FROM Product_Payments__C LIMIT 1];
         insolvPay.Deposit_Account_Type__c = 'CLP';
         update insolvPay;
+        Test.startTest();
+        obj = new GenerateDepositSlipProductPDFController();
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testCiq() {
+        ApexPages.currentPage().getParameters().put('type', 'Canaccede_Account_Perticulars');
+        GenerateDepositSlipProductPDFController obj = new GenerateDepositSlipProductPDFController();
         obj = new GenerateDepositSlipProductPDFController();
 
+        Product_Payments__C insolvPay = [SELECT Id, Deposit_Account_Type__c FROM Product_Payments__C LIMIT 1];
         insolvPay.Deposit_Account_Type__c = 'CIA';
         update insolvPay;
+        Test.startTest();
         obj = new GenerateDepositSlipProductPDFController();
+        Test.stopTest();
     }
 }

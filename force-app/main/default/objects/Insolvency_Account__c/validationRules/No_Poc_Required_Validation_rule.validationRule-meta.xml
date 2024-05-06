@@ -2,7 +2,9 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>No_Poc_Required_Validation_rule</fullName>
     <active>true</active>
-    <errorConditionFormula>IF(AND(RecordType.Name = &apos;SDA Insolvency Account&apos;,CONTAINS($Profile.Name,&quot;Community User&quot;)),
-IF(AND(OR(ISNEW(),ISCHANGED(Insolvency_Status__c)),NOT(ISPICKVAL(Insolvency_Status__c, &apos;No PoC Required&apos;))), OR(ISBLANK(Claim_Amount__c), ISBLANK(Interest_Rate__c), ISBLANK(Last_Statement_Date__c), ISBLANK(Last_Statement_Amount__c),ISBLANK(Last_Payment_Date__c), ISBLANK(Last_Payment_Amount__c)), false), false)</errorConditionFormula>
+    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),IF(AND(RecordType.Name = &apos;SDA Insolvency Account&apos;,CONTAINS($Profile.Name,&quot;Community User&quot;)),
+IF(AND(OR(ISNEW(),ISCHANGED(Insolvency_Status__c)),NOT(ISPICKVAL(Insolvency_Status__c, &apos;No PoC Required&apos;))), OR(ISBLANK(Claim_Amount__c), ISBLANK(Interest_Rate__c), ISBLANK(Last_Statement_Date__c), ISBLANK(Last_Statement_Amount__c),ISBLANK(Last_Payment_Date__c), ISBLANK(Last_Payment_Amount__c)), false), false))),
+IF(AND(RecordType.Name = &apos;SDA Insolvency Account&apos;,CONTAINS($Profile.Name,&quot;Community User&quot;)),
+IF(AND(OR(ISNEW(),ISCHANGED(Insolvency_Status__c)),NOT(ISPICKVAL(Insolvency_Status__c, &apos;No PoC Required&apos;))), OR(ISBLANK(Claim_Amount__c), ISBLANK(Interest_Rate__c), ISBLANK(Last_Statement_Date__c), ISBLANK(Last_Statement_Amount__c),ISBLANK(Last_Payment_Date__c), ISBLANK(Last_Payment_Amount__c)), false), false))</errorConditionFormula>
     <errorMessage>Following fields are mandatory: Claim Amount, Interest Rate, Last Statement Date, Last Statement Amount, Last Payment Date, Last Payment Amount</errorMessage>
 </ValidationRule>

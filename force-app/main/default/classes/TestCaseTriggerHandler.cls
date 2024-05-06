@@ -13,11 +13,22 @@ private class TestCaseTriggerHandler{
     
     @testSetup
     static void testData(){
-        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-        config.Run_Case_Trigger__c = true;
-        config.Run_Insolvency_Status_Validations__c = false;
-        config.Eligible_for_Open_Assignment_Calculation__c = 'CFG,Scotia Bank';
-        insert config;  
+        
+        Application_Config_Settings__c config = new Application_Config_Settings__c(
+            Run_Remittance_Validation__c = false,
+            Run_Remittance_Trigger__c = true,
+            Run_Case_Trigger__c = true,
+            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+            Run_Insolvency_Trigger__c = false,
+            Run_Insolvency_Account_Duplicate_Check__c = true,
+            Run_Insolvency_Account_Trigger__c = false,
+            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+            Run_Insolvency_Status_Validations__c = true,
+            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+            Eligible_for_Open_Assignment_Calculation__c='test',
+            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
+        );
+        insert config;
     }
     
     //Test all methods
@@ -31,6 +42,7 @@ private class TestCaseTriggerHandler{
         //Insolvency Account Record
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.Insolvency_Status__c = 'For Owner Review';
+        ia1.Account_Number_Without_Space__c='123';
         ia1.Insolvency__c = insolv.id;
         insert ia1;
         
@@ -75,7 +87,6 @@ private class TestCaseTriggerHandler{
         //Test Insert   
         CaseTriggerHandler.handleBeforeInsert(cases);     
         CaseTriggerHandler.handleAfterInsert(cases);
-        
         //Test Update 
         Map<ID, Case> caseMap = new Map<ID, Case>();
         caseMap.put(cseInsolv1.id, cseInsolv2);     
@@ -105,12 +116,14 @@ private class TestCaseTriggerHandler{
         cseInsolv1.status = 'New';
         cseInsolv1.Assign_To__c = 'Scotia Bank';
         cseInsolv1.Insolvency__c = insolv.id;
+        cseInsolv1.RecordTypeId=[select id from recordtype where DeveloperName='Remittance' AND sobjecttype = 'Case' LIMIT 1].id;
         insert cseInsolv1;
         Case cseInsolv2 = new Case();
         cseInsolv2.subject = 'Review Insolvency';
         cseInsolv2.status = 'New';
         cseInsolv2.Assign_To__c = 'CFG';
-        cseInsolv2.Insolvency__c = insolv.id;        
+        cseInsolv2.Insolvency__c = insolv.id;  
+        cseInsolv2.RecordTypeId=[select id from recordtype where DeveloperName='EmailToCase'].id;
         insert cseInsolv2;     
         
         cases.add(cseInsolv1);
@@ -141,6 +154,7 @@ private class TestCaseTriggerHandler{
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.Insolvency_Status__c = 'For Owner Review';
         ia1.Insolvency__c = insolv.id;
+        ia1.Account_Number_Without_Space__c='123';
         insert ia1;
         
         //Cases

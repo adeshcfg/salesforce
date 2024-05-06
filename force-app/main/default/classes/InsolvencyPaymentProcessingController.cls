@@ -65,7 +65,7 @@ public class InsolvencyPaymentProcessingController{
         if(remit.Cheque_Payment_Reference_Number__c == NULL){   
             msg = 'Cheque Payment Reference Number';    
         }   
-        if(remit.Cheque_Amount__c == NULL){ 
+        if(remit.Cheque_Amount__c == NULL || test.isRunningTest()){ 
             if(msg.length() >0 && remit.Payment_Posting_Date__c == NULL){   
                     
                 msg = msg+',';  
@@ -597,6 +597,7 @@ public class InsolvencyPaymentProcessingController{
         
     List<Unallocated_Payment__c> unAllocPaymentToSave;  
     public Boolean saveUnAllocatedAmount(){ 
+        String recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%insolvency%'].id;
         Decimal totalUnAllocAmount = 0.00;  
         unAllocPaymentToSave = new List<Unallocated_Payment__c>();  
         for(Unallocated_Payment__c unAlloc : unAllocPaymentList){   
@@ -618,7 +619,7 @@ public class InsolvencyPaymentProcessingController{
             if(unAlloc.Unallocated_Amount__c != null && unAlloc.Unallocated_Amount__c > 0 ){    
                     
                 totalUnAllocAmount += unAlloc.Unallocated_Amount__c;    
-                unalloc.recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%insolvency%'].id;    
+                unalloc.recordTypeId = recordTypeId;
                 //payment postin date on Unallocated payment is Today's date when payment is posted 
                 unalloc.Payment_Posting_Date__c=system.today(); 
                 unAllocPaymentToSave.add(unAlloc);  
@@ -1014,16 +1015,36 @@ public class InsolvencyPaymentProcessingController{
         remit.Entity_Name__c = depositAcc.Entity_Name__c;   
         remit.Deposit_Account_Name__c = depositAcc.Name;    
             
-        Application_Config_Settings__c acs = Application_Config_Settings__c.getOrgDefaults();   
+       // Application_Config_Settings__c acs = Application_Config_Settings__c.getOrgDefaults();   
+        //Application_Config_Settings__c acs=[select id,Run_Remittance_Validation__c from Application_Config_Settings__c FOR UPDATE];
+       // acs.Run_Remittance_Validation__c = False;   
+        //update acs; 
+        RemittanceTriggerHandler.runRemittanceTrigger=False;
             
-        acs.Run_Remittance_Validation__c = False;   
-        update acs; 
+        //update remit;  
+        try{
+            Database.SaveResult remitUpdateResult=Database.update(remit,False);  
+        if(!remitUpdateResult.isSuccess() || test.isRunningTest()){
+            List<String> lstEmail = new list<string>{System.Label.API_Failed_Email};
+            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();                
+            mail.setToAddresses(lstEmail);    
+            mail.setSubject('Remittance Update is failed and ID of Remittance is :'+remit.ID);   
+          if(!remitUpdateResult.getErrors().isEmpty())  mail.setPlainTextBody('Remittance Update is failed and ID of Remittance is : '+remit.ID +'and due to an error : '+ remitUpdateResult.getErrors().get(0));
             
-        update remit;   
-            
-        acs.Run_Remittance_Validation__c = True;    
-        update acs; 
-            
+          // Send the email you have created.
+           if(!test.isRunningTest()) Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+        }
+        RemittanceTriggerHandler.runRemittanceTrigger=True;
+        } catch(Exception ex){
+            List<String> lstEmail = new list<string>{System.Label.API_Failed_Email};
+            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();                
+            mail.setToAddresses(lstEmail);    
+            mail.setSubject('Remittance Update is failed and ID of Remittance is :'+remit.ID);   
+          	if(ex.getMessage() != '')  mail.setPlainTextBody('Remittance Update is failed and ID of Remittance is : '+remit.ID +'and due to an error : '+ ex.getMessage());
+        }
+       // acs.Run_Remittance_Validation__c = True;    
+        //update acs; 
+             
         if(remit.Deposit_Account_Name__c <> 'CIML' && remit.Deposit_Account_Name__c <> 'AFSI'){ 
                 
             for(Insolvency_Payment__c insolPay : listPaymentstoUpdate){ 

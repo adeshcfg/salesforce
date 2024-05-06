@@ -281,10 +281,14 @@
         </values>
         <values>
             <fullName>New</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>No PoC Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Assignment to Collection Agency</fullName>
             <default>false</default>
         </values>
         <values>
@@ -301,6 +305,10 @@
         </values>
         <values>
             <fullName>Refused %E2%80%93 Filed New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent to Collections</fullName>
             <default>false</default>
         </values>
         <values>
@@ -422,6 +430,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>BNS DISTRESSED AUTO</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>BNS DISTRESSED FF</fullName>
             <default>false</default>
         </values>
@@ -463,6 +475,10 @@
         </values>
         <values>
             <fullName>EFDisFF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FAIRSTONE INSOLVENT FF</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1916,11 +1932,71 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CFL166</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CFL167</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>CFL171</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL172</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL176</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL180</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL190</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL192</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL195</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL205</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL208</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL215</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL217</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL221</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL222</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL227</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFL231</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2169,10 +2245,6 @@
         </values>
         <values>
             <fullName>CIH032</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CLF166</fullName>
             <default>false</default>
         </values>
         <values>

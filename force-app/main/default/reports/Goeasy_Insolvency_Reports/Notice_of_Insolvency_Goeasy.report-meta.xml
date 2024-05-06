@@ -454,7 +454,7 @@
     <columns>
         <field>Insolvency_Account__c.Reason_for_No_PoC_Required__c</field>
     </columns>
-    <columns>
+<columns>
         <field>Insolvency_Account__c.Payment_Frequency__c</field>
     </columns>
     <columns>
@@ -781,6 +781,15 @@
     <columns>
         <field>CUST_LAST_ACTIVITY</field>
     </columns>
+    <filter>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Client_Identifier__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Goeasy</value>
+        </criteriaItems>
+    </filter>
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>

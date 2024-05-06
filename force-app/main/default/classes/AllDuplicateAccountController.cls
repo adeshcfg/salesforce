@@ -342,10 +342,10 @@ public with sharing class AllDuplicateAccountController {
                 
         for( Schema.PicklistEntry ple : ples){
             if('Unknown' != ple.getLabel()){
-                types.add(new SelectOption(ple.getLabel(), ple.getValue()));    
+                types.add(new SelectOption(ple.getValue(), ple.getLabel()));   
             }
-        }      
-        return types;
+        }   
+            return types;
     }
     
     //Insolvency Type Dropdown

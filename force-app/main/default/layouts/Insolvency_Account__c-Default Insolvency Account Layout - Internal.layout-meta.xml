@@ -63,7 +63,7 @@
             <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
-        </layoutColumns>
+                    </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -256,6 +256,18 @@
                 <behavior>Edit</behavior>
                 <field>Putback_Buyback_amount__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Acquired_Purchase_Factor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Purchase_Amount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Acquired_Purchase_Face_Value__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -341,6 +353,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Reason_for_Claim_Withdrawal__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Account_PIF__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>PIF_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

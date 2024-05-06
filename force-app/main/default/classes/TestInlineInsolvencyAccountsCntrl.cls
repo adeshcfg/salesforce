@@ -34,7 +34,7 @@ public class TestInlineInsolvencyAccountsCntrl{
 
  
         Insolvency_Account__c insolAcct = new Insolvency_Account__c();
-        insolAcct.name = 'Test111';
+        insolAcct.name = '1234';
         insolAcct.Insolvency_Status__c = 'New';
         insolAcct.Insolvency__c = insolv.id;
         insolAcct.Account_Type__c = 'Line of Credit';
@@ -45,6 +45,18 @@ public class TestInlineInsolvencyAccountsCntrl{
         insolAcct.RecordTypeId = scotiabank;
         insolAcct.Client_Identifier__c = 'Scotia Bank';
         insert insolAcct;
+        Insolvency_Account__c insolAcct2 = new Insolvency_Account__c();
+        insolAcct2.name = '1234';
+        insolAcct2.Insolvency_Status__c = 'New';
+        insolAcct2.Insolvency__c = insolv.id;
+        insolAcct2.Account_Type__c = 'Line of Credit';
+        insolAcct2.Borrower_Primary__c = 'Kajal';
+        insolAcct2.Type_of_Service__c = 'Service Only';
+        insolAcct2.Claim_Type__c = 'Unsecured';
+        insolAcct2.Is_Duplicate_Resolved__c = false;
+        insolAcct2.RecordTypeId = scotiabank;
+        insolAcct2.Client_Identifier__c = 'Canadian Tire';
+        insert insolAcct2;
         
         ApexPages.currentPage().getParameters().put('id', insolv.Id);
         InlineInsolvencyAccountsCntrl obj = new InlineInsolvencyAccountsCntrl(new ApexPages.StandardController(insolv) );
@@ -72,15 +84,20 @@ public class TestInlineInsolvencyAccountsCntrl{
         obj.save();
         
         obj.dupAccCheckList(null, null, '1234',insolv.Id, new list<string>(), 'reason');
+        obj.dupAccCheckList(insolv.Id, scotiabank, '1234',insolv.Id, new list<string>{'789','567'}, 'reason');
 
 
         obj.addMore();   
+       
         
         //Insolvency 
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'insolv123';
         insolAcct.Claim_Type__c = 'Unsecured';
+        insolv1.Insolvency_Status__c='Active';
         insert insolv1;    
+        obj.rType='';
+        obj.addMore();
         ApexPages.currentPage().getParameters().put('id', insolv1.Id);
         InlineInsolvencyAccountsCntrl obj1 = new InlineInsolvencyAccountsCntrl(new ApexPages.StandardController(insolv) );
         obj.recordTypeSelected();

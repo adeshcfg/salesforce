@@ -96,7 +96,7 @@ public Class ProcessInsolvencyEFTBatch implements Database.Batchable<EFTUtil.pay
                     accountID = mapAlternateAccountNumberID.get(wrapRecord.accountNumber);
                 }
 				system.debug('accountID: '+accountID);
-                if(String.valueOf(wrapRecord.accountNumber) != null){
+                if(String.isNotBlank(wrapRecord.accountNumber)){
                     system.debug('acc no not null');
                     if(String.valueOf(wrapRecord.paymentSource) != null){
                     	system.debug('paysource not null');

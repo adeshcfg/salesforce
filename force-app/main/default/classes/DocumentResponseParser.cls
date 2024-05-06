@@ -20,9 +20,10 @@ public class DocumentResponseParser {
    public static Set<String> fairstoneAcc = new Set<String>{'5434','5435'};
    public static Set<String> canadianTire = new Set<String>{'CANADIAN TIRE BANK', 'CANADIAN TIRE', 'OPTIONS MASTERCARD', 'BANQUE CANADIAN TIRE', 'CANADIANTIRE'};
    public static Set<String> canadianTireBins = new Set<String>{'525995', '544612', '544614', '544618', '544629', '544644'};
-   public static Set<String> goEasy = new Set<String>{'EASYFINANCIAL SERVICES', 'EASY FINANCIAL SERVICES', 'EASYFINANCIAL', 'EASY FINANCIAL', 'GOEASY', 'GO EASY'};//5093: 'EASYHOME', 'EASY HOME',
+   public static Set<String> goEasy = new Set<String>{'EASYFINANCIAL SERVICES', 'EASY FINANCIAL SERVICES', 'EASYFINANCIAL', 'EASY FINANCIAL', 'GOEASY', 'GO EASY', 'EASY-HOME', 'EASY HOME', 'RTO ASSET MANAGEMENT'};//5093: 'EASYHOME', 'EASY HOME',
    //public static Set<String> fairstoneExcludeAcc = new Set<String>{'676'};
    //public static Set<String> fairstoneExcludeAccData = new Set<String>{'6030'};
+   public static Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
       
    //Court Province Map
    public static Map<String, String> courtProvinceMap = new Map<String, String>{
@@ -1138,6 +1139,12 @@ public class DocumentResponseParser {
             return insolvencyRecordTypeMap.get('Goeasy_Insolvency_Account');
          }
       }
+
+      for(String str: canadianTire){
+         if(creditorName.contains(str) && lrpSetting.Turn_On_CTB__c == TRUE){
+            return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
+         }
+      }
         
       for(String str: canaccedeBank){
          if(creditorName.contains(str)){
@@ -1162,12 +1169,6 @@ public class DocumentResponseParser {
                     return insolvencyRecordTypeMap.get('Fidem_Insolvency_Account');
                 }
             }
-      }
-
-      for(String str: canadianTire){
-         if(creditorName.contains(str)){
-            return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
-         }
       }
       
       return null;
@@ -1196,7 +1197,7 @@ public class DocumentResponseParser {
    // Read Insolvency Record types based on account number starts with specific sequence as defined
    public static Id getCanadianTireInsolvencyRecordTypeAccountNumber(String creditorAccountNumber){
       for(String str: canadianTireBins){
-        if(creditorAccountNumber.startsWith(str)){
+        if(creditorAccountNumber.startsWith(str) && lrpSetting.Turn_On_CTB__c == TRUE){
            return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
         }
      }
@@ -1253,9 +1254,9 @@ public class DocumentResponseParser {
 
             // Check if this is SPL or Fairstone account
             if(insolvAccount.RecordTypeId == NULL){
+               insolvAccount.RecordTypeId = getCanadianTireInsolvencyRecordTypeAccountNumber(liability.accountNumber);
                insolvAccount.RecordTypeId = getInsolvencyRecordTypeAccountNumber(liability.accountNumber);
                insolvAccount.RecordTypeId = getFairstoneInsolvencyRecordTypeAccNumber(liability.accountNumber);
-               insolvAccount.RecordTypeId = getCanadianTireInsolvencyRecordTypeAccountNumber(liability.accountNumber);
             }
          }
 

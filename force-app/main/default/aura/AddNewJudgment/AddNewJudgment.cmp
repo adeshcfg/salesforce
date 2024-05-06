@@ -26,7 +26,7 @@
     <!-- <aura:method name="handleMessage" action="{!v.handleMessage}" /> -->
     <aura:attribute name="truthy" type="Boolean" default="false" />
     <aura:attribute name="accJudgment" type="Boolean" default="false" />
-
+    <aura:html tag="style">.toastMessage.forceActionsText{white-space : pre-line !important;}</aura:html>
 
     <lightning:notificationsLibrary aura:id="notificationsLibrary" />
 
@@ -62,7 +62,6 @@
                                                                        'Interest_Rate_four__c',
                                                                        'Garnishment_Renewal_Date__c',
                                                                        'Suit_Amount_5__c',
-                                                                       'Legal_Agency__c',
                                                                        'Balance_five__c',
                                                                        'Court__c',
                                                                        'Small_Claims_Court__c',

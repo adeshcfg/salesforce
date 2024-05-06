@@ -32,6 +32,11 @@
                 <default>false</default>
                 <label>Excel File Processing</label>
             </value>
+            <value>
+                <fullName>Bulk Media Request</fullName>
+                <default>true</default>
+                <label>Bulk Media Request</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -1,0 +1,9 @@
+<template>
+    <template if:true={showTable}>
+        <lightning-datatable data={complaints} columns={columns} key-field="id" hide-checkbox-column>
+        </lightning-datatable>
+    </template>
+    <template if:false={showTable}>
+        <div class="slds-align_absolute-center">No Complaints found</div>
+    </template>
+</template>

@@ -11,7 +11,7 @@
 public class DisplayCustomerContInfoStagingController {
     Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
     public list<Customer_Staging__c> listCustomerContactStaging { get; set; }
-    public list<customerContactInfoStagingWrapper> listCustomerContInfoStagingWrapper;
+    public List<customerContactInfoStagingWrapper> listCustomerContInfoStagingWrapper = new List<customerContactInfoStagingWrapper>();
     public static final String PROCESSED = 'Processed';
     public static final String INPROGRESS = 'In Progress';
     public static String CUSTOMER_CONTACT_INFO_UPDATE = 'Customer Contact Information Update File';
@@ -21,8 +21,8 @@ public class DisplayCustomerContInfoStagingController {
     public Id workAssignmentId { get; set; }
     public String recordIdentfier = ApexPages.currentPage().getParameters().get('Id');
     public Id documentID;
-    String success;
-    String failed;
+    String success = '';
+    String failed = '';
     String placementAgency = '';
     public static final Integer PAGE_SIZE = 20;
     public Integer pageNumber { get; set; }
@@ -292,6 +292,9 @@ public class DisplayCustomerContInfoStagingController {
             showHide = 'hidden';
             displayPanel = false;
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'There are no error or warning records to display '));
+            if (successCount > 0) {
+                showButton = true;
+            }
         } else {
             workAssignmentId = listCustomerContactStaging[0].Document_Storage__r.Work_Assignment__c;
             placementAgency = listCustomerContactStaging[0].Placement_Agency__c;
@@ -381,7 +384,7 @@ public class DisplayCustomerContInfoStagingController {
     public pageReference Save() {
         transient List<Customer_Staging__c> customerAllRec = getAllRecords();
         // If select all checkbox is checked include all warning records to be selected for processing
-        if (isSelected) {
+        if (isSelected == true) {
             Customer_Staging__c custStaging = new Customer_Staging__c();
             for (Customer_Staging__c custStagingWrapper : customerAllRec) {
                 if (custStagingWrapper.Comment__c != null && !custStagingWrapper.Comment__c.contains('ERROR')) {
@@ -605,17 +608,17 @@ public class DisplayCustomerContInfoStagingController {
         }
         //Code modified to Show Exception and avoiding not to generate Success and Failure file 27-Dec-2022: Rasmitha
         try {
-            Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
+            // Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
             ProductTriggerHandler.runProductTrigger = false;
             List<Database.SaveResult> result = Database.update(listProd, false);
             ProductTriggerHandler.runProductTrigger = true;
             //Create Success and Error file
-            DisplayCustomerContInfoStagingController.GenerateSuccessAndErrorFile(
+            /* DisplayCustomerContInfoStagingController.GenerateSuccessAndErrorFile(
                 listCustomerStaging,
                 listCustomerStaging[0].Document_Storage__r.Work_Assignment__c,
                 portalSettings.Document_Storage_Default_Visibility__c,
                 listCustomerStaging[0].Document_Storage__c
-            );
+            ); */
         } catch (exception ex) {
             system.debug('exception Customer file catch--+--' + ex.getStackTraceString());
             for (Customer_Staging__c customerStaging : listCustomerStagingToUpdate) {
@@ -640,6 +643,7 @@ public class DisplayCustomerContInfoStagingController {
         String visiblity,
         Id documentID
     ) {
+        List<Customer_Staging__c> processedStagingRecords = new List<Customer_Staging__c>();
         String success;
         String failed;
         Integer successRecords = 0;
@@ -651,6 +655,7 @@ public class DisplayCustomerContInfoStagingController {
         for (Customer_Staging__c CustStaging : listCustomerStagingToUpdate) {
             if (CustStaging.Status__c != PROCESSED && CustStaging.Include_in_Processing__c == true) {
                 CustStaging.Status__c = PROCESSED;
+                processedStagingRecords.add(CustStaging);
                 success += '\n';
                 success +=
                     '\'' +
@@ -755,7 +760,13 @@ public class DisplayCustomerContInfoStagingController {
                 failedRecords = failedRecords + 1;
             }
         }
-
+        if (!processedStagingRecords.isEmpty()) {
+            try {
+                Database.update(processedStagingRecords);
+            } catch (DmlException ex) {
+                System.debug(ex.getDmlMessage(0));
+            }
+        }
         system.enqueueJob(
             new PostDocumentAPI(CUSTOMER_CONTACT_INFO_UPDATE, failed, success, failedRecords, successRecords, workAssignmentId, visiblity, documentID)
         );

@@ -27,6 +27,7 @@ public class TestAddNewJudgmentController{
         prod.Product_Status__c = 'Test';
         prod.State__c = 'ontario';
         prod.Collection_Agency__c =29;
+        prod.Purchase_Province__c = 'ON';
         insert prod;
         
         Product__c prod1 = TestRecordsFactory.createProduct('1112');
@@ -35,6 +36,7 @@ public class TestAddNewJudgmentController{
         prod1.Product_Status__c = 'Test';
         prod1.State__c = 'ON';
         prod1.Collection_Agency__c =29;
+        prod1.Purchase_Province__c = 'AB';
         insert prod1;
     }
     

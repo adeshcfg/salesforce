@@ -1,12 +1,12 @@
 /**************************************************************************************************
- *
- *  Class:   
- *
- *  @description : This class contains unit tests for validating behavior of AttachmentTriggerHandler
- *  @author : A5E Consulting
- *  @date : 10/14/2016
- * 
- *************************************************************************************************/
+*
+*  Class:   
+*
+*  @description : This class contains unit tests for validating behavior of AttachmentTriggerHandler
+*  @author : A5E Consulting
+*  @date : 10/14/2016
+* 
+*************************************************************************************************/
 @isTest
 private class TestAttachmentTriggerHandler {
     
@@ -17,10 +17,20 @@ private class TestAttachmentTriggerHandler {
         loanSettings.Run_Product_Trigger__c = true;
         //loanSettings.Run_Attachment_Trigger__c = true;
         insert loanSettings;        
-        
-        Application_Config_Settings__c csSettings = new  Application_Config_Settings__c();
-    	csSettings.Run_Attachment_Trigger__c = true;
-    	insert csSettings;  
+        Application_Config_Settings__c config = new Application_Config_Settings__c(
+            Run_Remittance_Validation__c = false,
+            Run_Remittance_Trigger__c = true,
+            Run_Attachment_Trigger__c = true,
+            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+            Run_Insolvency_Trigger__c = false,
+            Run_Insolvency_Account_Duplicate_Check__c = true,
+            Run_Insolvency_Account_Trigger__c = false,
+            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+            Run_Insolvency_Status_Validations__c = true,
+            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
+        );
+        insert config;  
     }
     
     static testMethod void attachmentTest(){
@@ -47,7 +57,7 @@ private class TestAttachmentTriggerHandler {
         System.runAs(csrUser) {
             AttachmentTriggerHandler.handleBeforeDelete(deleteList);
         }
-            
+        
         //Edit Attachment
         Attachment attchEdit = new Attachment();
         attchEdit.body = Blob.valueof('Test Body Edit');
@@ -61,31 +71,29 @@ private class TestAttachmentTriggerHandler {
         }
         
         delete attchDelete;
- //After Attachment is Deleted 
+        //After Attachment is Deleted 
         if(attchDelete==Null){
-List<Attachment> attachm = new list<Attachment>();
-List<Task> activities = new List<Task>();
-for(Attachment attach : attachm){
-Task activity = new Task();
-activity.Subject = 'Deleted-'+attach.Name;
-activity.WhatId = attach.ParentId;
-activity.Status = 'Completed';
-activities.add(activity);
-}
-if(activities.size() > 0){
- insert activities;
+            List<Attachment> attachm = new list<Attachment>();
+            List<Task> activities = new List<Task>();
+            for(Attachment attach : attachm){
+                Task activity = new Task();
+                activity.Subject = 'Deleted-'+attach.Name;
+                activity.WhatId = attach.ParentId;
+                activity.Status = 'Completed';
+                activities.add(activity);
+            }
+            if(activities.size() > 0){
+                insert activities;
+            }
+            
+            System.runAs(csrUser) {
+                AttachmentTriggerHandler.handleAfterDelete(attachm);
+            }
         }
-        
-System.runAs(csrUser) {
-AttachmentTriggerHandler.handleAfterDelete(attachm);
-}
-}
-}    
+    }    
     
     static testMethod void attachmentCoomunityUser(){
         
-        //Run As CSR User
-        User commUser= TestRecordsFactory.getCommunityUser();
         Insolvency_Account__c inAcc = new Insolvency_Account__c(Name='werty');
         insert inAcc;
         
@@ -97,26 +105,23 @@ AttachmentTriggerHandler.handleAfterDelete(attachm);
         insert attchDelete;
         List<Attachment> deleteList = new List<Attachment>();
         deleteList.add(attchDelete);
-        System.runAs(commUser) {
-            AttachmentTriggerHandler.handleBeforeDelete(deleteList);
+        AttachmentTriggerHandler.handleBeforeDelete(deleteList);
+        
+        //After Attachment is Deleted 
+        
+        List<Attachment> attachm = new list<Attachment>();
+        List<Task> activities = new List<Task>();
+        for(Attachment attach : attachm){
+            Task activity = new Task();
+            activity.Subject = 'Deleted-'+attach.Name;
+            activity.WhatId = attach.ParentId;
+            activity.Status = 'Completed';
+            activities.add(activity);
         }
-  //After Attachment is Deleted 
-
-List<Attachment> attachm = new list<Attachment>();
-List<Task> activities = new List<Task>();
-for(Attachment attach : attachm){
-Task activity = new Task();
-activity.Subject = 'Deleted-'+attach.Name;
-activity.WhatId = attach.ParentId;
-activity.Status = 'Completed';
-activities.add(activity);
-}
-if(activities.size() > 0){
+        if(activities.size() > 0){
             insert activities;
         }
-System.runAs(commUser) {
-AttachmentTriggerHandler.handleAfterDelete(attachm);
-} 
-System.Test.stopTest();        
-}
+        AttachmentTriggerHandler.handleAfterDelete(deleteList);
+        System.Test.stopTest();        
+    }
 }

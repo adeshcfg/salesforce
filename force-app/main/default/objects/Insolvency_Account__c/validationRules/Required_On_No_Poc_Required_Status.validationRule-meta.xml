@@ -3,7 +3,7 @@
     <fullName>Required_On_No_Poc_Required_Status</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-OR(ISCHANGED(Insolvency_Status__c), ISNEW()),
+OR(ISCHANGED(Insolvency_Status__c), AND(ISNEW(),OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )))),
 ISPICKVAL(Insolvency_Status__c,&apos;No PoC Required&apos;) ,
 ISPICKVAL( Reason_for_No_PoC_Required_Dropdown__c,&apos;&apos;)	
 )</errorConditionFormula>

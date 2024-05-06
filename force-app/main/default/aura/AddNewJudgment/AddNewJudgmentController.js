@@ -132,7 +132,7 @@
                     else {
                         //alert('Inside match');
                         component.set("v.showSpinner", true);
-                        component.find("recordViewForm").submit(fields);
+                        component.find("recordViewForm").submit(component.get('v.ObjectMap'));
                     }
                 }
             });

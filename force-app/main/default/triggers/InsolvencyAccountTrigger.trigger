@@ -8,7 +8,8 @@
  * 
  *************************************************************************************************/
 
- trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before update, before delete, after insert, after update, after delete) {
+
+trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before update, before delete, after insert, after update, after delete) {
     list<Insolvency_Account__c> insolAccntRecords=new list<Insolvency_Account__c>();
     list<Insolvency_Account__c> insolAccntRecordsBeforeInsert=new list<Insolvency_Account__c>();
     //On-Off switch for trigger
@@ -16,7 +17,6 @@
     Boolean runTrigger = config.Run_Insolvency_Account_Trigger__c;
     
     if(runTrigger){   
-        if(!Test.isRunningTest()){
             if(InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger){
                 
                 //Before Trigger
@@ -75,4 +75,5 @@
             }               
         }
     }
+
     }

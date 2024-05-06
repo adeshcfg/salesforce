@@ -1,0 +1,3 @@
+{
+	"apexCode": "Work_Assignment__c cimlWs = new Work_Assignment__c();\r\ncimlWs.RecordTypeId = Schema.SObjectType.Work_Assignment__c.getRecordTypeInfosByDeveloperName().get('Credit_Bureau_Reporting_Files').getRecordTypeId();\r\ninsert cimlWs;"
+}

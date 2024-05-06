@@ -27,7 +27,10 @@ public with sharing class InlineInsolvencyAccountsCntrl {
     Set<String> processedNewNumber;
     public Map <String, String> cIRTMap = new Map<String, String>(); // Client Identifier
     public Map <Id, String> insAccntRecorTypeMap;
-    
+    //bug:5593 Starts
+    map<id,Insolvency_Account__c> insolvMap = new map<id,Insolvency_Account__c>();
+    set<id> insolAccIDs = new set<id>();
+    //bug:5593 ends
     // Custom setting for specific functionality check
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     
@@ -215,7 +218,24 @@ public with sharing class InlineInsolvencyAccountsCntrl {
 
                            if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c == null){
                                 if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
-                                    msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
+                                    //Bug : 5593 Added below lines
+                                    insolAccIDs=insolvMap.keyset();
+                                    list<id> insolAccIDList=new list<id>();
+                                    insolAccIDList.addAll(insolAccIDs);  
+                                    system.debug('insolvMap.get(insolAccIDList[0])--->'+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
+                                    //Bug : 5593 Added 'with Asset Status ' to the error message
+                                    //Bug : 5593 changes starts
+                                    if(insolAccIDList.size()==1){
+                                        msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
+                                    }
+                                    else if(insolAccIDList.size()>1){
+                                        string errorMsg='';
+                                        for(Integer i=0;i<insolAccIDList.size();i++){
+                                         errorMsg= insolvMap.get(insolAccIDList[i]).Name +' with Asset Status '+insolvMap.get(insolAccIDList[i]).Asset_Status__c+',';
+                                       }
+                                       msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for '+ errorMsg);
+                                    }
+                                    //bug: 5593 changes ends
                                     ApexPages.addMessage(msg);
                                     mssg = 'NA';
                                 }
@@ -234,14 +254,48 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                             }
                         
                         if((dupAccCheckList(insolvAcc.id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolv.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c) || isNewAccDup) ){
-                            msg = new ApexPages.Message(ApexPages.Severity.Error, 'Duplicate record found for ' + insolvAcc.Name );
-                            ApexPages.addMessage(msg);
+                             //Bug : 5593 Added below lines
+                             insolAccIDs=insolvMap.keyset();
+                             list<id> insolAccIDList=new list<id>();
+                             insolAccIDList.addAll(insolAccIDs);   
+                             system.debug('insolvMap.get(insolAccIDList[0])--->'+insolvMap.get(insolAccIDList[0]).Asset_Status__c);                         
+                             //Bug : 5593 Added 'with Asset Status' to the error message
+                             //Bug : 5593 changes starts
+                            if(insolAccIDList.size()==1){
+                               msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
+                            }
+                            else if(insolAccIDList.size()>1){
+                             string errorMsg='';
+                               for(Integer i=0;i<insolAccIDList.size();i++){
+                                  errorMsg= insolvMap.get(insolAccIDList[i]).Name +' with Asset Status '+insolvMap.get(insolAccIDList[i]).Asset_Status__c+',';
+                                }
+                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for '+ errorMsg);
+                            }
+                              //bug: 5593 changes ends  
+                              ApexPages.addMessage(msg);
                             mssg = 'NA';
                         }
                         
                         if(runDuplicateCheckForProfile && runDuplicateCheckForBank && insolvAcc.Duplicate_Reasons_Picklist__c != null){
                             if(dupAccCheckList(insolvAcc.Id, insolvAcc.RecordTypeID, insolvAcc.Name,  insolvAcc.Insolvency__r.Id, ignoreAcctNameList, insolvAcc.Duplicate_Reasons_Picklist__c)){
-                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name );
+                                //Bug : 5593 Added below lines
+                                insolAccIDs=insolvMap.keyset();   
+                                list<id> insolAccIDList=new list<id>();
+                                insolAccIDList.addAll(insolAccIDs);
+                                system.debug('insolvMap.get(insolAccIDList[0])--->'+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
+                                //Bug : 5593 Added 'with Asset Status' to the error message
+                                //Bug : 5593 changes starts
+                            if(insolAccIDList.size()==1){
+                                msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for ' + insolvAcc.Name +' with Asset Status '+insolvMap.get(insolAccIDList[0]).Asset_Status__c);
+                             }
+                             else if(insolAccIDList.size()>1){
+                              string errorMsg='';
+                                for(Integer i=0;i<insolAccIDList.size();i++){
+                                   errorMsg= insolvMap.get(insolAccIDList[i]).Name +' with Asset Status '+insolvMap.get(insolAccIDList[i]).Asset_Status__c+',';
+                                 }
+                                 msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Duplicate record found for '+ errorMsg);
+                             }
+                               //bug: 5593 changes ends  
                                 ApexPages.addMessage(msg);
                                 mssg = 'NA';
                             }
@@ -298,7 +352,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         List<Insolvency_Account__c> insolAcctDBList = new List<Insolvency_Account__c>();
         
         if(dupReason != null){
-            insolAcctDBList = [Select Id, Name 
+            insolAcctDBList = [Select Id, Name,Asset_Status__c 
                                                        from Insolvency_Account__c
                                                        where Id !=: accId
                                                        AND RecordTypeID =: accRTId
@@ -306,7 +360,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
                                                        and Account_Number_Without_Space__c =: numberWithoutSpace
                                                        and Account_Number_Without_Space__c NOT IN: ignoreAcctNameList];
         }else if(dupReason == null){
-            insolAcctDBList = [Select Id, Name 
+            insolAcctDBList = [Select Id, Name,Asset_Status__c
                                                        from Insolvency_Account__c
                                                        where Id !=: accId
                                                        AND RecordTypeID =: accRTId
@@ -315,6 +369,13 @@ public with sharing class InlineInsolvencyAccountsCntrl {
         }
         
         if(insolAcctDBList.size()>0){
+            //Added for loop part of bug:5593
+            system.debug('Size of Insolvency Accs--->'+insolAcctDBList.size());
+            for(Insolvency_Account__c insAcc:insolAcctDBList){
+                system.debug('ID of Insolvency Acc--->'+insAcc.ID);
+                system.debug('Status of Insolvency Acc--->'+insAcc.Asset_Status__c);
+                insolvMap.put(insAcc.id,insAcc);
+            }
             dupFound = true;
         }
         return dupFound;
@@ -333,7 +394,7 @@ public with sharing class InlineInsolvencyAccountsCntrl {
          want to select a value or in case no values are returned from query below*/
          //options.add(new selectOption('', '- None -')); 
         String defaultRtype = InsolvencyUtil.getRecordTypeToWorkOn();
-        for(Recordtype record : [SELECT Id,Name,SobjectType FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND (NOT  Name LIKE '%unknown%')]) { 
+        for(Recordtype record : [SELECT Id,Name,SobjectType FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND ((NOT name like '%unknown%'))]) { 
             //query for Record types records 
             options.add(new selectOption(record.id, record.Name)); 
             //for all records found - add them to the picklist options

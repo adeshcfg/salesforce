@@ -10,18 +10,18 @@ trigger AccountJudgmentTrigger on Account_Judgment__c (after insert, after updat
                     system.debug('After insert Acc Judg');
                     Utilities.runAccountJudgmentTrigger = FALSE;
                     AccountJudgmentTriggerHandler.updateActiveAccountJudgmentRecord(Trigger.new);
-                    AccountJudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
-                   //Bug:5564- Commented below line
-                    // AccountJudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
+                   //Bug:5564- Commented below lines
+                   //AccountJudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
+                   // AccountJudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
                 }
                 
                 if(Trigger.isUpdate && Utilities.runAccountJudgmentTrigger){
                     Utilities.runAccountJudgmentTrigger = FALSE;
                     AccountJudgmentTriggerHandler.handleAfterUpdate(Trigger.new);
                     AccountJudgmentTriggerHandler.updateActiveAccountJudgmentRecord(Trigger.newMap, Trigger.oldMap);
-                    AccountJudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
                     //AccountJudgmentTriggerHandler.updateActiveAccountJudgmentRecord(Trigger.new);
-                    //Bug:5564- Commented below line
+                    //Bug:5564- Commented below lines
+                    //AccountJudgmentTriggerHandler.updateAmountsOnJudgment(Trigger.new);
                     //AccountJudgmentTriggerHandler.populateJudgmentWithPlacement(Trigger.new);
                 }
             }    

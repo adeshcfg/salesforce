@@ -202,6 +202,11 @@
                 <default>false</default>
                 <label>LP</label>
             </value>
+            <value>
+                <fullName>NA</fullName>
+                <default>false</default>
+                <label>NA</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
