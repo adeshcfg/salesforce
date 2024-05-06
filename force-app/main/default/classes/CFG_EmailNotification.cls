@@ -154,22 +154,24 @@ public class CFG_EmailNotification {
     //When snapshot is failed from product and pool allocation then send exception email.
     public static void snapshotFailedEmailNotification(String userName,String exceptionMsg,String documentStorage){
         User activeUser;
-        system.debug('userName::'+userName);
-        if(!Test.isRunningTest()){
+  
+        if(!Test.isRunningTest() && userName != NULL){
             activeUser = [Select Email From User where name = : userName limit 1];
         }
-        system.debug('activeUser::'+activeUser);
+
         String userEmail ='';
+        userEmail =System.Label.API_Failed_Email+',';
         if(!Test.isRunningTest()){
-            userEmail = activeUser.Email;
+            userEmail += activeUser.Email;
         }else{
-            userEmail = userName;
+            userEmail = 'test@gmail.com';
         }
         system.debug('userEmail::'+userEmail);
+        List<String> lstEmail = userEmail.split(',');
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        String[] toAddresses = new String[] {userEmail}; 
-            
-        mail.setToAddresses(toAddresses);
+        //String[] toAddresses = new String[] {userEmail}; 
+        mail.setToAddresses(lstEmail);    
+        //mail.setToAddresses(toAddresses);
         mail.setSenderDisplayName('Salesforce Support');
 
         mail.setSubject('Snapshot is failed');   
@@ -264,5 +266,38 @@ public class CFG_EmailNotification {
             system.debug('Exception::'+e.getMessage());
         }
         
+    }
+    
+    public static void apiFailedEmailNotify(String userName, String exceptionMsg, String action) {
+        User activeUser = new User();
+        if (!Test.isRunningTest()) {
+            activeUser = [SELECT Email FROM User WHERE name = :userName LIMIT 1];
+        }
+        String userEmail = '';
+        userEmail = System.Label.API_Failed_Email + ',';
+        if (!Test.isRunningTest()) {
+            userEmail += activeUser.Email;
+        } else {
+            userEmail = userName;
+        }
+        List<String> lstEmail = userEmail.split(',');
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+
+        mail.setToAddresses(lstEmail);
+        mail.setSenderDisplayName('Salesforce Support');
+
+        mail.setSubject(action);
+        mail.setUseSignature(false);
+
+        mail.setHtmlBody(
+            'Please find the below error and kindly contact your technical team:<br/><br/>' + exceptionMsg + '.<br/><br/><br/>Thanks,<br/>CFG support'
+        );
+
+        // Send the email you have created.
+        try {
+            Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+        } catch (Exception e) {
+            system.debug('Exception::' + e.getMessage());
+        }
     }
 }

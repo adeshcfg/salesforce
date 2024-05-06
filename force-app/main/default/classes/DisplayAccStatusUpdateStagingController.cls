@@ -438,9 +438,12 @@
             }
             if(successRecords > 0){
                 workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
-            }
+            }            
+            //bug:4743 : changes starts
+            WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
+            //bug:4743 : changes ends       
             update workAssignment;        
-            
+            WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;//Added part of bug #4743
             ProductTriggerHandler.runProductAPI = false;
             List<Product_Staging__c> accStagingLists = new List<Product_Staging__c>(accountStagingSet);
             if(accStagingLists.size()>0){
@@ -726,8 +729,19 @@
             }
             if(successRecords > 0){
                 workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
+            }            
+            //bug:4743 : changes starts
+            String oldComments = '';
+            if(workAssignment.Comments_History__c !=null){
+            oldComments = workAssignment.Comments_History__c;
             }
-          
+            DateTime dT = System.now();
+            workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+            if(oldComments != null){
+                workAssignment.Comments_History__c += oldComments;
+            }
+            WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
+            //bug:4743 : changes ends             
             Database.executeBatch(new PortalProductStatusBulkAPIBatch(documentID,accountStagingSet, 
                                              workAssignmentID,successRecords,failedRecords,failedStringSet,
                                                                      successStringSet,true,null,null,null),1); 
@@ -756,7 +770,7 @@
            
             //WorkAssignmentTriggerHandler.runWorkAssignmentTrigger=false;
             update workAssignment;        
-            
+            WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;//Added part of #4743
            // update new Work_Assignment__c(Id = listAccountStaging[0].Document_Storage__r.Work_Assignment__c, 
             //                              Status__c = 'Completed');
             

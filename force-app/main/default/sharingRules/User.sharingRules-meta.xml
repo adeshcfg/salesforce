@@ -60,4 +60,15 @@
             <group>Sales_Pipeline</group>
         </sharedFrom>
     </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>User_Visibility</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>User Visibility</label>
+        <sharedTo>
+            <group>User_Visibility_Group</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>User_Visibility_Group</group>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_Bureau_Reporting_Files</fullName>
+    <active>true</active>
+    <label>Credit Bureau Reporting Files</label>
+    <picklistValues>
+        <picklist>Account_Being_CB_Reported_By_Agency__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

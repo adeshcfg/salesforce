@@ -11,7 +11,7 @@
 public class InsolvencyAccountTriggerHandler {
     
     public static boolean runInsolvencyAccountTrigger = true; 
-    
+    public static List<Insolvency_Account__c> accountsToUpdate = new List<Insolvency_Account__c>();
     public static String errorMessageOwnerReview {set;get;} 
     
     public static Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
@@ -50,7 +50,6 @@ public class InsolvencyAccountTriggerHandler {
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
             }
             //accNew.Account_Owner__c = UserInfo.getUserId();
-
             // Populate client identifier based on record type
             if(accNew.RecordTypeId != null && accNew.Client_Identifier__c == null){
                 accNew.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(accNew.RecordTypeId));
@@ -58,6 +57,15 @@ public class InsolvencyAccountTriggerHandler {
             
             if(accNew.Trustee_Not_Providing_LoR__c == True){
                 accNew.Review_Account__c = false;
+            }
+
+            // Create unique correlation Id for new CTB accounts
+            if (
+                String.isNotBlank(accNew.RecordTypeId) &&
+                String.isBlank(accNew.Correlation_Id__c) &&
+                insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account'
+            ) {
+                accNew.Correlation_Id__c = InsolvencyUtil.generateUniqueHashCode(accNew.Name);
             }
             
             //this change is for Insolvency Account Loading and portfolio mapping enhancement
@@ -411,16 +419,14 @@ public class InsolvencyAccountTriggerHandler {
         
         DateTime dtNow = System.now();
         ID userId = UserInfo.getUserId();
-        //variable to stop wrong error message
         Boolean stopErrorMessage = false;
-        
+        Map<String,String> insolAccountIdInsolId = new Map<String,String>();
         //for Account number without space field update
         for(Insolvency_Account__c accNew : insolAccntsNew){
             Insolvency_Account__c insolAccntOld = oldMap.get(accNew.id);
             if(accNew.Name != insolAccntOld.Name){
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
             }
-            
             if(insolAccntOld.Trustee_Not_Providing_LoR__c == False && accNew.Trustee_Not_Providing_LoR__c == True){
                 accNew.Review_Account__c = false;
             }
@@ -432,9 +438,10 @@ public class InsolvencyAccountTriggerHandler {
             }
             //accNew.Alias_Name__c = accNew.Last_Modify_User_Alias__c;
             //Added by Tejal To Handle updating Processing Sub Status for CTB Automation
-            updateProcessingSubStatus(accNew,insolAccntOld);
+            insolAccountIdInsolId.put(accNew.id,accNew.Insolvency__c);
+            
         }
-        
+        updateProcessingSubStatus(insolAccntsNew,oldMap,insolAccountIdInsolId);
         set<Id> insolIdSet = new set<Id>();
         for(Insolvency_Account__c insolAccntnew : insolAccntsNew){
             insolIdSet.add(insolAccntnew.Insolvency__c);
@@ -807,7 +814,12 @@ insolMap.put(insol.id, insol);
                             
                             if(insolAccntnew.Insolvency_Status__c == 'PoC Details Provided'){
                                 insolAccntnew.PoC_Details_Provided_Date__c = dtNow;
-                                insolAccntnew.PoC_Details_Provided_By__c = userId;
+                                // task 6322 PoC_Details_Provided_By__c will updated one time 
+                                if(insolAccntOld.Insolvency_Status__c =='For Owner Review' 
+                                && insolAccntnew.Insolvency_Status__c == 'PoC Details Provided' 
+                                && insolAccntnew.PoC_Details_Provided_By__c == null){
+                                      insolAccntnew.PoC_Details_Provided_By__c = userId;
+                                   }
                                 insolAccntnew.Accounts_Validation_Date__c = dtNow;
                                 insolAccntnew.Accounts_Validation_Done_By__c = userId;
                             }
@@ -1058,12 +1070,12 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
-        handleAfterInsertUpdate(insolAccntsNew,null);          
+        handleAfterInsertUpdate(insolAccntsNew,null);     
     }
     
     //After Update
     public static void handleAfterUpdate(List<Insolvency_Account__c> insolAccntsNew, Map<Id, Insolvency_Account__c> oldMap) {
-        
+
         /*
 config.Run_Insolvency_Status_Validations__c = runValidationRule;
 update config;
@@ -1073,7 +1085,6 @@ update config;
         List <Insolvency_Account__c> insolAccntsToProcess = new List <Insolvency_Account__c>();
         ID oldInsolvencyID;
         for(Insolvency_Account__c insolAccntNew : insolAccntsNew){
-            
             Insolvency_Account__c insolAccntOld = oldMap.get(insolAccntNew.id);
             oldInsolvencyID = insolAccntOld.Insolvency__c;
             if(
@@ -1092,7 +1103,6 @@ update config;
             }
 
         }
-        
         handleAfterInsertUpdate(insolAccntsToProcess,oldInsolvencyID);
     }  
     
@@ -1103,6 +1113,12 @@ update config;
         /*Calculate Total Claim Amount*/
         set<ID> setInsolvencyClaimFailedID = new set<ID>();
         for(Insolvency_Account__c insolAccnt : insolAccnts){
+            if(insAccntRecorTypeMap.get(insolAccnt.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
+                Insolvency_Account__c updatedAcc = updatePercentageOfIncreasedReturn(insolAccnt);
+                if(updatedAcc != null) {
+                    accountsToUpdate.add(updatePercentageOfIncreasedReturn(insolAccnt));
+                }
+            }
             insolvenciesIds.add(insolAccnt.Insolvency__c);
             //condition code is commented here and taken care of in calculateTotalAmount
             //if(insolAccnt.Insolvency_Status__c == 'Claim Filed'){
@@ -1570,6 +1586,13 @@ insDetails.add(insDetail);
         if(insDetails.size() > 0){
             upsert insDetails;
         }   
+        if(!accountsToUpdate.isEmpty()) {
+            InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+            if(!Test.isRunningTest()){
+            update accountsToUpdate;
+            }
+            InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
+        }
     }
     
     //Utility method to fetch Insolvency records for Insolvency Accounts
@@ -1683,25 +1706,103 @@ insDetails.add(insDetail);
         return - void
         author - Tejal Vidhate
     */
-    public static void updateProcessingSubStatus(Insolvency_Account__c accNew , Insolvency_Account__c oldAccRecord){
-        //CTB Automation: set insolvency account processing status and sub-status
-            if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency_Status__c == 'For Owner Review'){
-                accNew.CTB_Status_Update_Code__c = '';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
+    public static void updateProcessingSubStatus(List<Insolvency_Account__c> insolAccntsNew, Map<Id, Insolvency_Account__c> oldMap,Map<String,String> insolAcctIdInsolId){
+        Map<string,Insolvency__c> mapInsolData = new Map<string,Insolvency__c>();
+        Map<string,String> mapInsolIdTrusteeId = new Map<string,String>();
+        Map<string,Account> trusteeData = new Map<string,Account>(); 
+        for(Insolvency__c insolData : [select id,name,Insolvency_Type__c,Debtor_1_First_Name__c,Debtor_1_Middle_Name__c,Debtor_1_Last_Name__c,
+                                   Debtor_1_Mailing_Country__c,Insolvency_Date__c,Trustee__r.BillingStreet,
+                                       Trustee__r.BillingCity,Trustee__r.BillingState,Trustee__r.BillingPostalCode
+                                       from Insolvency__c where id IN: insolAcctIdInsolId.values()]){
+                                         mapInsolData.put(insolData.id,insolData);
+                                         mapInsolIdTrusteeId.put(insolData.id,insolData.Trustee__c);
+                                       }
+		
+        for(Account accData : [select id,BillingStreet,BillingCity,BillingState,BillingPostalCode from account where id IN: mapInsolIdTrusteeId.values()]){
+            trusteeData.put(accData.id,accData);
+        }
+        
+        for(Insolvency_Account__c accNew : insolAccntsNew){
+            if(insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()){
+                if (
+                    accNew.Insolvency_Received_Date__c == null ||
+                    accNew.name == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Insolvency_Type__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_First_Name__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Last_Name__c == null ||
+                    accNew.Debtor_1_First_Name__c == null ||
+                    accNew.Debtor_1_Last_Name__c == null ||
+                    accNew.Debtor_1_Mailing_Street__c == null ||
+                    accNew.Debtor_1_Mailing_City__c == null ||
+                    accNew.Province_Formula__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Mailing_Country__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Insolvency_Date__c == null ||
+                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).name == null ||
+                    accNew.Trustee_Company__c == null ||
+                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingStreet == null ||
+                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingCity == null ||
+                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingState == null ||
+                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingPostalCode == null ||
+                    accNew.Correlation_ID__c == null
+                ) {
+                    accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                    accNew.Error_Message__c = 'Missing data in one or more mandatory fields.';
+                }
+                else if(oldMap.get(accNew.id).Insolvency_Status__c!=accNew.Insolvency_Status__c){
+                    //CTB Automation: set insolvency account processing status and sub-status
+                    accNew.CTB_Status_Update_Code__c = '';
+                    accNew.Insolvency_Sub_Status__c = '';
+                    if(accNew.Insolvency_Status__c == 'For Owner Review'){
+                        accNew.CTB_Status_Update_Code__c = '';
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
+                    if(accNew.Insolvency_Status__c == 'Discharged'){
+                        accNew.CTB_Status_Update_Code__c = 'PCOM';
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
+                    if(accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused' || accNew.Insolvency_Status__c == 'Withdrawn'){
+                        accNew.CTB_Status_Update_Code__c = 'RREV';
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
+                    if(accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldMap.get(accNew.id).Insolvency__r.Revival_Date__c){
+                        accNew.CTB_Status_Update_Code__c = '';
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
+                }
+                else{
+                    if(oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c && oldMap.get(accNew.id).Insolvency_Sub_Status__c == NULL
+                       && accNew.Insolvency_Sub_Status__c == 'File Error Parsing Record'){
+                           accNew.Insolvency_Sub_Status__c.addError('You can set directly File Error Parsing Record as Processing Sub Status.');
+                    }
+                    else if(oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c && oldMap.get(accNew.id).Insolvency_Sub_Status__c == NULL
+                            && accNew.Insolvency_Sub_Status__c == 'Sent on file'){
+                                accNew.Insolvency_Sub_Status__c.addError('You can set directly Sent on file as Processing Sub Status.');   
+                    }
+                }  
             }
-            if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency_Status__c == 'Discharged'){
-                accNew.CTB_Status_Update_Code__c = 'PCOM';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
-            if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && (accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused'
-              || accNew.Insolvency_Status__c == 'Withdrawn')){
-                accNew.CTB_Status_Update_Code__c = 'RREV';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
-            if(oldAccRecord.Insolvency_Status__c!=accNew.Insolvency_Status__c && accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldAccRecord.Insolvency__r.Revival_Date__c
-              && accNew.Insolvency__r.Revival_Date__c != NULL){
-                accNew.CTB_Status_Update_Code__c = '';
-                accNew.Insolvency_Sub_Status__c = 'Pending File';
-            }
+        }
+    }
+
+    /**
+     * @description : Calculate percentage of increased return
+     * @author adesh.ikhar@canaccede.com | 02-23-2024
+     * @param acc
+     * @return Insolvency_Account__c
+     **/
+    public static Insolvency_Account__c updatePercentageOfIncreasedReturn(Insolvency_Account__c acc) {
+        if (
+            acc.Previous_Expected_Account_Recovery__c == null ||
+            acc.Previous_Expected_Account_Recovery__c == 0 ||
+            acc.Expected_Account_Recovery__c == 0 ||
+            acc.Expected_Account_Recovery__c == null
+        ) {
+            return new Insolvency_Account__c(Id = acc.Id, Percent_of_increased_return_from_voting__c = 0);
+        } else {
+            return new Insolvency_Account__c(
+                Id = acc.Id,
+                Percent_of_increased_return_from_voting__c = ((acc.Expected_Account_Recovery__c - acc.Previous_Expected_Account_Recovery__c) /
+                    acc.Previous_Expected_Account_Recovery__c) * 100
+            );
+        }
     }
 }

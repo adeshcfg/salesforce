@@ -74,7 +74,7 @@ public Class ProcessCCSEFTBatch implements Database.Batchable<EFTUtil.paymentRec
                 if(mapAccountNumberID.containsKey(wrapRecord.accountNumber)){
                     accountID = mapAccountNumberID.get(wrapRecord.accountNumber);
                 }
-                if(String.valueOf(wrapRecord.accountNumber) != null){
+                if(String.isNotBlank(wrapRecord.accountNumber)){
                     if(null != Decimal.valueOf(wrapRecord.netPayment)){
                     	totalAmount += Decimal.valueOf(wrapRecord.netPayment);
                     }

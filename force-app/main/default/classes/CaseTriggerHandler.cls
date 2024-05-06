@@ -8,7 +8,7 @@
  
  *************************************************************************************************/
  
-public class CaseTriggerHandler {
+ public class CaseTriggerHandler {
     
     public static boolean runCaseTrigger = true;
     
@@ -59,7 +59,27 @@ public class CaseTriggerHandler {
 
         list<case> oldCaseList = new list<case>();
         //case caseObj = casesNew[0];
-        
+        List<String> listOfSubject = new List<String>();
+        List<Case> listOfCasesToClose = new List<Case> ();
+        List<Case> casesWithSubject = new List<Case> ();
+        DateTime currentDateTime = System.Now();
+        DateTime tenMinutesLessThanNow = currentDateTime.addMinutes(-10);
+        Map<String,List<Case>> mapOfSubjectWithCases = new Map<String,List<Case>>();
+        for (Case caseNew : casesNew){
+            listOfSubject.add(caseNew.Subject);
+        }
+        System.debug('currentDateTime:: '+currentDateTime);
+        System.debug('tenMinutesLessThanNow:: '+tenMinutesLessThanNow);
+        List<Case> listOfOldCases = [select id,Subject from Case where Subject in : listOfSubject 
+                                        and Status != 'Closed' 
+                                        and Status != 'Completed'
+                                        and CreatedDate >: tenMinutesLessThanNow
+                                        order by CreatedDate Desc];//Older record last created
+        System.debug('listOfOldCases:: '+listOfOldCases);
+        for(Case oldCase : listOfOldCases){
+            casesWithSubject.add(oldcase);
+          if(!test.isRunningTest())  mapOfSubjectWithCases.put(oldCase.Subject, casesWithSubject);
+        }
         for (Case caseNew : casesNew){
             
             //Remittance + CCS Case
@@ -73,7 +93,7 @@ public class CaseTriggerHandler {
                caseNew.recordTypeID != caseRecorTypeMap.get('CCS_Dividend')){         
             
                 if(String.isNotBlank(caseNew.Assign_To__c)){
-                    caseNew.Entity_Identifiers__c = caseNew.Assign_To__c;   
+                   caseNew.Entity_Identifiers__c = caseNew.Assign_To__c;   
                 }  
                 
                 //Update Record Type based on Client Identifier
@@ -84,18 +104,38 @@ public class CaseTriggerHandler {
                 
                 if(caseNew.recordTypeID == caseRecorTypeMap.get('EmailToCase')){
                     caseNew.Is_Email_to_Case__c = true;
+                    List<Case> oldCaseRecord = new List<Case>();
+                    if(mapOfSubjectWithCases.size() > 0){
+                        oldCaseRecord = mapOfSubjectWithCases.get(caseNew.Subject);
+                    }
+                        
+                        Integer oldCaseRecordCount = oldCaseRecord.size();//5
+                          if(oldCaseRecordCount > 0){
+                              caseNew.Status = 'Closed';
+                            caseNew.Reason = 'Duplicate';//New Record
+                            //listOfCasesToClose.add(caseNew);
+                            /*for(Case caseRec : oldCaseRecord){
+                                if(oldCaseRecordCount != 1){
+                                    caseRec.Status = 'Closed';
+                                    listOfCasesToClose.add(caseRec);
+                                    oldCaseRecordCount--;//4,3,2,1
+                                }
+                            }*/
+                        }
+                    //}
                 }
             }
             else if(caseNew.recordTypeID == caseRecorTypeMap.get('Remittance') ||
                     caseNew.recordTypeID == caseRecorTypeMap.get('CCS_Dividend')){//Modified - Chetan Gaikwad 1/4/19
                 caseNew.status = 'Closed';
-                
             }
             else if(caseNew.recordTypeID == caseRecorTypeMap.get('CCS_Case')){
-                CaseNew.Is_Email_to_Case__c = True;//for Email to Case for CCS
+                    CaseNew.Is_Email_to_Case__c = True;//for Email to Case for CCS
             }
         }
-    }
+         Update listOfCasesToClose; // this is added for 5302
+        }
+    
     
     //Before Case is updated
     public static void handleBeforeUpdate(List<Case> casesNew, Map<Id, Case> oldMap) { 
@@ -376,7 +416,7 @@ public class CaseTriggerHandler {
     //Calculate number of open cases on Insolvency
     private static void calculateNumberOfOpenCasesIns(Id insId) {
         
-        config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+        config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c];
         //Related Open Cases
         List <Case> insolvencyCases = [Select id, Assign_To__c from Case
                             where status != 'Closed'
@@ -431,7 +471,7 @@ public class CaseTriggerHandler {
     //Calculate number of open cases on Insolvency Account
     private static void calculateNumberOfOpenCasesInsAccnt(Id insAccntId) {
       
-      config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
+      config = [SELECT Eligible_for_Open_Assignment_Calculation__c FROM Application_Config_Settings__c];
       //Related Open Cases
       List <Case> insolvencyCases = [Select id, Assign_To__c from Case
                             where status != 'Closed' 

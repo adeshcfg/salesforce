@@ -27,6 +27,12 @@ public class DisplayProductPaymentStagingController {
     static String PENDING_RECALL_SIF_CODE = '807000';
     static String PENDING_RECALL = 'Pending Recall';
     static String PENDING_RECALL_PRODUCT_STATUS_CODE = '302000';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF = 'Pending Recall - Paid Prior To Previous Agency';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE = '808500';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF = 'Pending Recall - Paid Prior To Previous Agency';
+    static String PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE = '808550';
+    static String PIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE = '908500';
+    static String SIF_PAID_PRIOR_PREVIOUS_AGENCY_PRODUCT_STATUS_CODE = '908550';
     public static String productNames = '';
     public static String placementIdentifier = '';
     public static String placementStatusCode = '';
@@ -38,6 +44,8 @@ public class DisplayProductPaymentStagingController {
     Decimal successRecords;
     Decimal failedRecords;
     String placementAgency = '';
+    //bug : 5354 added below line
+    ID docStorplacementAgency;
     String success;
     String failed;
     Id documentID;
@@ -51,7 +59,7 @@ public class DisplayProductPaymentStagingController {
         String recordIdentfier = ApexPages.currentPage().getParameters().get('id');
         listProductPayStaging = [SELECT ID,CCS_Account__c, Cheque_Number__c, Comment__c, Document_Storage__c, Document_Storage__r.File_Processing_Status__c,
                                  Document_Storage__r.Work_Assignment_Identifier__c, Commission_Rate_for_Payment__c,
-                                 Commission_Amount__c,Payment_Type__c, Payment_posting_Date__c,Product_ID__c,Pool_Lookup__c,
+                                 Document_Storage__r.Placement_Agency__c,Commission_Amount__c,Payment_Type__c, Payment_posting_Date__c,Product_ID__c,Pool_Lookup__c,
                                  Interest_Payment_Amount__c, Pay_Attorney__c, Pay_Court__c, Pay_Fees__c,Tax_Amount__c,
                                  Pay_NSF__c, Pay_Other__c, Principal_Payment_Amount__c,Agency_Calculated_Comm__c,
                                  Payment_Amount__c, Payment_Source__c, Placement_Agency__c, Status__c, Expected_Value__c,
@@ -88,7 +96,13 @@ public class DisplayProductPaymentStagingController {
                 }
             }
             placementAgency = listProductPayStaging[0].Placement_Agency__c;
-            documentID = listProductPayStaging[0].Document_Storage__c;
+       //bug:5354 added if loop
+            if(listProductPayStaging[0].Document_Storage__r.Placement_Agency__c != NULL){
+                system.debug('listProductPayStaging[0].Document_Storage__r.Placement_Agency__c'+listProductPayStaging[0].Document_Storage__r.Placement_Agency__c);
+            docStorplacementAgency=listProductPayStaging[0].Document_Storage__r.Placement_Agency__c;
+            system.debug('docStorplacementAgency-->'+docStorplacementAgency);
+        }
+             documentID = listProductPayStaging[0].Document_Storage__c;
             if(showButton == false){
                 if(listProductPayStaging[0].Document_Storage__r.File_Processing_Status__c == PROCESSED){
                     //showButton = false;
@@ -140,7 +154,6 @@ public class DisplayProductPaymentStagingController {
                 mapProducts.put(productInstance.ID, productInstance);
             }
         }
-        
         //Get Placement ID
         list<Placement__c> listPlacements = [SELECT ID 
                                              FROM Placement__c 
@@ -192,8 +205,12 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Payment_Provided_Agency__c = placementID;
                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;
                    //Bug : 5354 changes starts
-                   prodPayment.Agency_Submitted_Payment__c = placementID;
-                   prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;
+                  if(docStorplacementAgency != NULL){
+                    system.debug('docStorplacementAgency--->'+docStorplacementAgency);
+                    prodPayment.Agency_Submitted_Payment__c = docStorplacementAgency;
+                    system.debug('prodPayment.Agency_Submitted_Payment__c--->'+docStorplacementAgency);
+                  } 
+                  // prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;
                   //Bug: 5354 changes ends
                   prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
                    prodPayment.Pay_Due__c = payStaging.Commission_Amount__c;
@@ -315,8 +332,9 @@ public class DisplayProductPaymentStagingController {
                 oldComments = workAssignmentData.Comments_History__c;
             }
             workAssignmentData.Latest_Comment__c =workAssignmentData.Comment_Reply__c;
-            workAssignmentData.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' +workAssignmentData.Comment_Reply__c + '\n' + '\n';
-            
+            //bug:4743 : changes starts
+            workAssignmentData.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' +workAssignmentData.Comment_Reply__c + '\n' + '\n';
+            //bug:4743 : changes ends
             if(oldComments != null){
                 workAssignmentData.Comments_History__c += oldComments;
             }
@@ -402,7 +420,7 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.Payment_Agency__c = payStaging.Placement_Agency__c;
                    prodPayment.Payment_Provided_Agency__c = payStaging.Product_Payment_Agency__c;    
                    //Bug: 5354 - Added below line
-                   prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;    
+                   //prodPayment.Agency_Submitted_Payment__c = payStaging.Product_Payment_Agency__c;    
                    
                    prodPayment.Product_Agency__c = payStaging.Product_Agency__c;
                    prodPayment.Pool_Lookup__c = payStaging.Pool_Lookup__c;
@@ -507,8 +525,9 @@ public class DisplayProductPaymentStagingController {
                 oldComments = workAssignmentData.Comments_History__c;
             }
             workAssignmentData.Latest_Comment__c = workAssignmentData.Comment_Reply__c;
-            workAssignmentData.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' +workAssignmentData.Comment_Reply__c + '\n' + '\n';
-            
+            //bug:4743 : changes starts
+            workAssignmentData.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' +workAssignmentData.Comment_Reply__c + '\n' + '\n';
+            //bug:4743 changes ends
             if(oldComments != null){
                 workAssignmentData.Comments_History__c += oldComments;
             }
@@ -567,7 +586,7 @@ public class DisplayProductPaymentStagingController {
                                                                    DocumentType = 'Balance Adjustment Upload File';
                                                                    success += '\n';
                                                                    success += payStaging.CCS_Account__c
-                                                                       +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '')
+                                                                       +'\t' + (payStaging.Direct_Payment_Type__c!= null ? payStaging.Direct_Payment_Type__c : '')
                                                                        +'\t'+payStaging.Payment_Type__c
                                                                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
                                                                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
@@ -616,7 +635,7 @@ public class DisplayProductPaymentStagingController {
                                                                    DocumentType = 'Balance Adjustment Upload File';
                                                                    failed += '\n';
                                                                    failed += payStaging.CCS_Account__c
-                                                                       +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '')
+                                                                       +'\t' + (payStaging.Direct_Payment_Type__c!= null ? payStaging.Direct_Payment_Type__c : '')
                                                                        +'\t'+payStaging.Payment_Type__c
                                                                        +'\t' + (payStaging.Payment_Posting_Date__c!= null ? payStaging.Payment_Posting_Date__c : '') 
                                                                        +'\t'+(payStaging.Payment_Amount__c != null ? payStaging.Payment_Amount__c :0) 
@@ -724,11 +743,12 @@ public class DisplayProductPaymentStagingController {
                                           Non_Recoverable_Fee__c, Recoverable_Fee__c, Placement_Status__c, 
                                           Product_Status__c, Status__c, Data_Status_Description__c,Interest_Rate__c,
                                           Interest_Waived_Off_Start_Date__c, Interest_Waived_Of_End_Date__c ,
-                                          Payment_Apportionment__c,Interest_Waived_Off__c,
+                                          Payment_Apportionment__c,Interest_Waived_Off__c,Closed_Date__c,
                                           (SELECT ID, Payment_Amount__c,Pay_NSF__c,Pay_Attorney__c,Payment_Posting_Date__c,Last_Payment_Date__c,Last_Payment_Amount__c,
                                            Pay_Court__c,Pay_Other__c,Pay_Fees__c,Interest_Payment_Amount__c,
                                            Pay_Due__c, Pay_Recoverable_Fee__c, Pay_Non_Recoverable_fee__c,Pay_Placedetail_Status__c,
-                                           Principal_Payment_Amount__c,CCS_Account__c, Payment_Type__c, Original_Of_Payment_Reversal__c
+                                           Principal_Payment_Amount__c,CCS_Account__c, Payment_Type__c, Original_Of_Payment_Reversal__c,Payment_Provided_Agency__c,
+                    					   Product_Agency__c
                                            FROM Product_Payments__r
                                            WHERE
                                            // Payment_Amount__c > 0
@@ -764,64 +784,52 @@ public class DisplayProductPaymentStagingController {
                                                       //Set Product to Pending recall if paid In Full type Payment is made
                                                       if(payProductInstance.Payment_Type__c == PAYTYPE_PAID_IN_FULL){
                                                           productInstance.Collection_Sub_Status__c = 'Paid In Full Account';
-                                                          productInstance.Status__c = PENDING_RECALL_PIF;
                                                           productInstance.Sub_Status__c = null;
-                                                          productInstance.Placement_Status__c = PENDING_RECALL_PIF_CODE;
+                                                          //if payement posted agency and product agency is not same
+                                                          if(payProductInstance.Payment_Provided_Agency__c <> payProductInstance.Product_Agency__c){
+                                                              productInstance.Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF;
+                                                              productInstance.Placement_Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE;
+                                                              placementStatusCode = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_PIF_CODE;
+                                                              productInstance.Sub_Status__c = 'PIF';
+                                                          }else{
+                                                              productInstance.Status__c = PENDING_RECALL_PIF;
+                                                              productInstance.Placement_Status__c = PENDING_RECALL_PIF_CODE;
+                                                              placementStatusCode = PENDING_RECALL_PIF_CODE;
+                                                          }
                                                           productInstance.Product_Status__c = PENDING_RECALL_PRODUCT_STATUS_CODE;
                                                           productInstance.Data_Status_Description__c = PENDING_RECALL;
                                                           productInstance.Status_Changed_Date__c = Date.today();
-                                                          placementStatusCode = PENDING_RECALL_PIF_CODE;
                                                           productNames += productInstance.Name + ',';
                                                           
                                                           setProductToUpdateStatus.add(productInstance.ID);
                                                           if(productInstance.Collection_Agency__c != NULL){
                                                               placementIdentifier = String.valueOf(Math.floor(productInstance.Collection_Agency__c));    
-                                                          }
-                                                          
-                                                          if(mapStatusProductWrapper.containsKey(PENDING_RECALL_PIF_CODE)){
-                                                              productWrapper prodWrap = mapStatusProductWrapper.get(PENDING_RECALL_PIF_CODE);
-                                                              prodWrap.productName += ',' + productInstance.Name;
-                                                              mapStatusProductWrapper.put( PENDING_RECALL_PIF_CODE, prodWrap);
-                                                          }
-                                                          else{
-                                                              String productname = productInstance.Name;
-                                                              productWrapper prodWrap = new productWrapper(productname, 
-                                                                                                           PENDING_RECALL_PIF_CODE, 
-                                                                                                           PENDING_RECALL_PRODUCT_STATUS_CODE, 
-                                                                                                           placementIdentifier);
-                                                              mapStatusProductWrapper.put(PENDING_RECALL_PIF_CODE, 
-                                                                                          prodWrap);
-                                                          }
+                                                          }                                                         
                                                       }
                                                       
                                                       //Set Product to Pending recall if Settled In Full type Payment is made
                                                       if(payProductInstance.Payment_Type__c == PAYTYPE_SETTLED_IN_FULL){
                                                           productInstance.Collection_Sub_Status__c = 'Settled In Full Account';
-                                                          productInstance.Status__c = PENDING_RECALL_SIF;
                                                           productInstance.Sub_Status__c = null;
-                                                          productInstance.Placement_Status__c = PENDING_RECALL_SIF_CODE;
+                                                          //if payement posted agency and product agency is not same
+                                                          if(payProductInstance.Payment_Provided_Agency__c <> payProductInstance.Product_Agency__c){
+                                                              productInstance.Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF;
+                                                              productInstance.Placement_Status__c = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE;
+                                                              placementStatusCode = PENDING_RECALL_PAID_PRIOR_PREVIOUS_AGENCY_SIF_CODE;
+                                                              productInstance.Sub_Status__c = 'SIF';
+                                                          }else{
+                                                              productInstance.Status__c = PENDING_RECALL_SIF;
+                                                              productInstance.Placement_Status__c = PENDING_RECALL_SIF_CODE;
+                                                              placementStatusCode = PENDING_RECALL_SIF_CODE;
+                                                          }
                                                           productInstance.Product_Status__c = PENDING_RECALL_PRODUCT_STATUS_CODE;
                                                           productInstance.Data_Status_Description__c = PENDING_RECALL;
                                                           productInstance.Status_Changed_Date__c = Date.today();
-                                                          placementStatusCode = PENDING_RECALL_SIF_CODE;
                                                           productNames += productInstance.Name + ',';
                                                           
                                                           setProductToUpdateStatus.add(productInstance.ID);
                                                           if(productInstance.Collection_Agency__c != NULL){
                                                               placementIdentifier = String.valueOf(Math.floor(productInstance.Collection_Agency__c));    
-                                                          }
-                                                          
-                                                          if(mapStatusProductWrapper.containsKey(PENDING_RECALL_SIF_CODE)){
-                                                              productWrapper prodWrap = mapStatusProductWrapper.get(PENDING_RECALL_SIF_CODE);
-                                                              prodWrap.productName += ',' + productInstance.Name;
-                                                              mapStatusProductWrapper.put( PENDING_RECALL_SIF_CODE, prodWrap);
-                                                          }
-                                                          else{
-                                                              mapStatusProductWrapper.put(PENDING_RECALL_SIF_CODE, 
-                                                                                          new productWrapper(productInstance.Name, 
-                                                                                                             PENDING_RECALL_SIF_CODE, 
-                                                                                                             PENDING_RECALL_PRODUCT_STATUS_CODE, 
-                                                                                                             placementIdentifier));
                                                           }
                                                       }
                                                       
@@ -898,7 +906,12 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                                  productInstance.Collection_Sub_Status__c = reversedPay.Product_Collection_Sub_Status__c;
                                                                  productInstance.Data_Status_Description__c = reversedPay.Product_Status_Desc_on_Product__c;
                                                                  productInstance.Status__c = reversedPay.Placement_Status_on_Product__c;
-                                                                 
+                                                                 //Ticket 6495: whenver we reverse PIF or SIF payments then reset closded date
+                                                                 if (reversedPay.Payment_Type__c == PAYTYPE_SETTLED_IN_FULL || reversedPay.Payment_Type__c == PAYTYPE_PAID_IN_FULL) {
+                                                                     if(productInstance.Closed_Date__c <> NULL){
+                                                                         productInstance.Closed_Date__c = NULL;
+                                                                     }
+                                                                 }
                                                                  if(mapProductNameIds.containsKey(reversedPay.CCS_Account__c)){
                                                                      if(reversedPay.Payment_Posting_Date__c >= mapProductNameIds.get(reversedPay.CCS_Account__c)){
                                                                          productInstance.Status__c = reversedPay.Placement_Status_on_Product__c;  

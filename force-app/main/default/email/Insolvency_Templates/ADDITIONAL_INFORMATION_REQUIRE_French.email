@@ -26,8 +26,8 @@
     <br />
     <br />Si des erreurs se sont produites dans la transmission de la pièce jointe, veuillez communiquer avec Canaccede à:&nbsp;
     <br />Email:&nbsp;<a href=""mailto:SBInsolvency@Canaccede.com"">SBInsolvency@Canaccede.com</a>&nbsp;
-    <br />Télécopieur: 844-827.9220&nbsp;
-    <br />Téléphone: 844-827. 9222&nbsp;
+    <br />Télécopieur: {!pocPackage.CFG_Office_Fax_Number__c}&nbsp;
+    <br />Téléphone: {!pocPackage.CFG_Office_Phone_Number__c}&nbsp;
     <br />
     <br />Merci,&nbsp;
     <br />Canaccede Traitement de l'insolvabilité</p>

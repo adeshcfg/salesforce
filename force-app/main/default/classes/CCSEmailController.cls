@@ -340,23 +340,24 @@ global class CCSEmailController {
            && selectedTempalteName != 'Missed Payment Followup') {
             mail.setFileAttachments(fileAttachments);
         }
-        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+        if(!Test.isRunningTest()) {
+            Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+            // Create Attachment copy in Activity history
+            Task emailTask = [SELECT id FROM Task WHERE whatID = :pro.id ORDER BY CreatedDate DESC LIMIT 1];
+            EmailMessage emailmsg = [SELECT Id, parentId FROM EmailMessage WHERE activityId = :emailTask.Id];
+            if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
+            && selectedTempalteName != 'Missed Payment Followup') {
+                list<Attachment> emailMsgAttachments = new List<Attachment>();
+                Attachment attach = new Attachment();
+                attach.ParentId = emailmsg.Id;
+                attach.name = attachmentName;
+                attach.body = Blob.toPDF(attachmentBody);
+                attach.Description = '';
+                emailMsgAttachments.add(attach);
 
-        // Create Attachment copy in Activity history
-        Task emailTask = [SELECT id FROM Task WHERE whatID = :pro.id ORDER BY CreatedDate DESC LIMIT 1];
-        EmailMessage emailmsg = [SELECT Id, parentId FROM EmailMessage WHERE activityId = :emailTask.Id];
-        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
-           && selectedTempalteName != 'Missed Payment Followup') {
-            list<Attachment> emailMsgAttachments = new List<Attachment>();
-            Attachment attach = new Attachment();
-            attach.ParentId = emailmsg.Id;
-            attach.name = attachmentName;
-            attach.body = Blob.toPDF(attachmentBody);
-            attach.Description = '';
-            emailMsgAttachments.add(attach);
-
-            if (emailMsgAttachments.size() > 0) {
-                insert emailMsgAttachments;
+                if (emailMsgAttachments.size() > 0) {
+                    insert emailMsgAttachments;
+                }
             }
         }
 

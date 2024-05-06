@@ -3,8 +3,11 @@
     <fullName>Manadatory_Field_For_Manually_Rejected</fullName>
     <active>true</active>
     <description>Manual reason is mandatory if voting decision is manually rejected</description>
-    <errorConditionFormula>AND( ISPICKVAL(Voting_Decision__c, &quot;Manually Rejected&quot;) ,
+    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),AND( ISPICKVAL(Voting_Decision__c, &quot;Manually Rejected&quot;) ,
   ISBLANK(Manual_Reject_Reason__c)
-)</errorConditionFormula>
+))),
+AND( ISPICKVAL(Voting_Decision__c, &quot;Manually Rejected&quot;) ,
+  ISBLANK(Manual_Reject_Reason__c)
+))</errorConditionFormula>
     <errorMessage>Manual reject reason is mandatory if voting status is manually rejected</errorMessage>
 </ValidationRule>

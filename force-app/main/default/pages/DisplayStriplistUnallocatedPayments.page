@@ -149,12 +149,12 @@
         <apex:form id="form1">
         <apex:define name="content">    
         <apex:pageMessages />
-        <apex:outputPanel rendered="{!paymentRecordListInner.Empty}" >
+        <apex:outputPanel rendered="{!!showTable}">
             <apex:commandButton action="{!Cancel}" value="OK" id="backBtn1" styleclass="slds-button slds-button_neutral"
                                 style="margin-left: 3.25rem;"/>
         </apex:outputPanel>
         <apex:outputPanel rendered="{!showTable}">
-        <apex:outputPanel rendered="{!!paymentRecordListInner.Empty}" >
+        <apex:outputPanel>
             <div style = "font-weight:bold;font-size:large">
                 Unallocated Payments
             </div>
@@ -166,28 +166,28 @@
                         var pbsId = '{!$Component.pbs}';
                     </script>
                 
-            <apex:datatable value="{!paymentRecordListInner}" var="payment" id="accountTable">
+            <apex:datatable value="{!wrapperMap}" var="payment" id="accountTable">
                
                 <apex:column >
                     
                     <apex:facet name="header"><apex:outputText value="Insolvency Account" style="margin-left: 1.10rem;"/></apex:facet>
-                    <apex:inputField value="{!payment.insolvencyAccInstance.Insolvency_Account__c}"/>
+                    <apex:inputField value="{!wrapperMap[payment].insolvencyAccInstance.Insolvency_Account__c}"/>
                 </apex:column>
                 <apex:column >
                     <apex:facet name="header">Debtor Name</apex:facet>
-                    <apex:outputText value="{!payment.debtorName}"/>
+                    <apex:outputText value="{!wrapperMap[payment].debtorName}"/>
                 </apex:column>
                 <apex:column >
                     <apex:facet name="header">Account Number</apex:facet>
-                    <apex:outputText value="{!payment.accountNumber}"/>
+                    <apex:outputText value="{!wrapperMap[payment].accountNumber}"/>
                 </apex:column>
                 <apex:column >
                     <apex:facet name="header">Estate Number</apex:facet>
-                    <apex:outputText value="{!payment.estateNumber}"/>
+                    <apex:outputText value="{!wrapperMap[payment].estateNumber}"/>
                 </apex:column>
                 <apex:column style="width:15%">
                     <apex:facet name="header">Unallocated Amount</apex:facet>
-                    <apex:outputText value="{!payment.amount}"/>
+                    <apex:outputText value="{!wrapperMap[payment].amount}"/>
                 </apex:column>
             </apex:datatable>
  

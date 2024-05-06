@@ -176,7 +176,11 @@ public class DisplayBuybackPutbackStagingController {
         if(successRecords!= NULL && successRecords > 0){
             workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
         }        
+        //bug:4743 : changes starts 
+        WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
+        //bug:4743 : changes ends           
         update workAssignment;
+        WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;//Added part of bug #4743
         system.debug('workAssignment: '+workAssignment);
         //workAssignmentId = workAssignment.Id;
         //WorkAssignmenttriggerHandler.runWorkAssignmentTrigger = false;

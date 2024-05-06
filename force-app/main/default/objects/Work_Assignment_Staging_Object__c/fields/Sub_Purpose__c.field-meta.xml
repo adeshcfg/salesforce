@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Purpose__c</fullName>
+    <description>Sub-Purpose</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Sub-Purpose</inlineHelpText>
+    <label>Sub-Purpose</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Purpose__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Media Request Sub-Purpose 1</fullName>
+                <default>false</default>
+                <label>Media Request Sub-Purpose 1</label>
+            </value>
+            <value>
+                <fullName>Media Request Sub-Purpose 2</fullName>
+                <default>false</default>
+                <label>Media Request Sub-Purpose 2</label>
+            </value>
+            <value>
+                <fullName>Complaint Sub-Purpose 1</fullName>
+                <default>false</default>
+                <label>Complaint Sub-Purpose 1</label>
+            </value>
+            <value>
+                <fullName>Complaint Sub-Purpose 2</fullName>
+                <default>false</default>
+                <label>Complaint Sub-Purpose 2</label>
+            </value>
+            <value>
+                <fullName>Invalid Submission</fullName>
+                <default>false</default>
+                <label>Invalid Submission</label>
+            </value>
+            <value>
+                <fullName>Settlement</fullName>
+                <default>false</default>
+                <label>Settlement</label>
+            </value>
+            <value>
+                <fullName>Approved Sub-Purpose 2</fullName>
+                <default>false</default>
+                <label>Approved Sub-Purpose 2</label>
+            </value>
+            <value>
+                <fullName>Ministry (provincial governing body, etc.)</fullName>
+                <default>false</default>
+                <label>Ministry (provincial governing body, etc.)</label>
+            </value>
+            <value>
+                <fullName>Better Business Bureau</fullName>
+                <default>false</default>
+                <label>Better Business Bureau</label>
+            </value>
+            <value>
+                <fullName>Credit Bureau (Equifax or TU sending us requests)</fullName>
+                <default>false</default>
+                <label>Credit Bureau (Equifax or TU sending us requests)</label>
+            </value>
+            <value>
+                <fullName>Letter from lawyer / law firm / paralegal</fullName>
+                <default>false</default>
+                <label>Letter from lawyer / law firm / paralegal</label>
+            </value>
+            <value>
+                <fullName>Verbal (from consumer, not any of the above)</fullName>
+                <default>false</default>
+                <label>Verbal (from consumer, not any of the above)</label>
+            </value>
+            <value>
+                <fullName>Written (from consumer, not any of the above)</fullName>
+                <default>false</default>
+                <label>Written (from consumer, not any of the above)</label>
+            </value>
+            <value>
+                <fullName>Media Request</fullName>
+                <default>false</default>
+                <label>Media Request</label>
+            </value>
+            <value>
+                <fullName>Payment</fullName>
+                <default>false</default>
+                <label>Payment</label>
+            </value>
+            <value>
+                <fullName>Product Payment Upload File</fullName>
+                <default>false</default>
+                <label>Product Payment Upload File</label>
+            </value>
+            <value>
+                <fullName>Account Status Update File</fullName>
+                <default>false</default>
+                <label>Account Status Update File</label>
+            </value>
+            <value>
+                <fullName>Account Status (having Judgment) Update File</fullName>
+                <default>false</default>
+                <label>Account Status (having Judgment) Update File</label>
+            </value>
+            <value>
+                <fullName>Customer Contact Information Update File</fullName>
+                <default>false</default>
+                <label>Customer Contact Information Update File</label>
+            </value>
+            <value>
+                <fullName>Product Allocation File</fullName>
+                <default>false</default>
+                <label>Product Allocation File</label>
+            </value>
+            <value>
+                <fullName>Product Recall File</fullName>
+                <default>false</default>
+                <label>Product Recall File</label>
+            </value>
+            <value>
+                <fullName>Product Bulk Pool Update File</fullName>
+                <default>false</default>
+                <label>Product Bulk Pool Update File</label>
+            </value>
+            <value>
+                <fullName>General Inquiries</fullName>
+                <default>false</default>
+                <label>General Inquiries</label>
+            </value>
+            <value>
+                <fullName>Distressed Notes Bulk Upload File</fullName>
+                <default>false</default>
+                <label>Distressed Notes Bulk Upload File</label>
+            </value>
+            <value>
+                <fullName>Direct Payment Upload File</fullName>
+                <default>false</default>
+                <label>Direct Payment Upload File</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Payment</controllingFieldValue>
+            <valueName>Payment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Media Request</controllingFieldValue>
+            <valueName>Media Request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Query</controllingFieldValue>
+            <valueName>Invalid Submission</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Query</controllingFieldValue>
+            <valueName>General Inquiries</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Product Payment Upload File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Account Status Update File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Account Status (having Judgment) Update File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Customer Contact Information Update File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Product Allocation File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Product Recall File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Product Bulk Pool Update File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Distressed Notes Bulk Upload File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Direct Payment Upload File</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

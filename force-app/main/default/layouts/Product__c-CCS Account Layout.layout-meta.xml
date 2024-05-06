@@ -44,7 +44,7 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Type_of_Service__c</field>
-            </layoutItems>
+            </layoutItems> 
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Portfolio_Name__c</field>

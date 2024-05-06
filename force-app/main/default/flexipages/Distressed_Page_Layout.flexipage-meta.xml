@@ -73,6 +73,13 @@
             <componentInstance>
                 <componentName>FileUploadToAzure</componentName>
                 <identifier>c_FileUploadToAzure</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Record_Type_Name__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Distressed_Account</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-8d9ebb53-0df2-44b5-886c-e7801b378cc4</name>
@@ -83,13 +90,6 @@
             <componentInstance>
                 <componentName>FileUploadComponent</componentName>
                 <identifier>c_FileUploadComponent</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Record_Type_Name__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Distressed_Account</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -116,6 +116,16 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-d4bd05ec-61d3-4663-b640-10459d496007</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>customerComplaints</componentName>
+                <identifier>c_customerComplaints</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-ab2a28da-8521-4225-96bb-bdc3941e3a2c</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -195,6 +205,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ab2a28da-8521-4225-96bb-bdc3941e3a2c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Complaints</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-1b00f096-8df1-435e-b5c7-86991eec8fc0</name>

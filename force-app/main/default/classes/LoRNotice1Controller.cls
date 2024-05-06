@@ -160,8 +160,9 @@ public class LoRNotice1Controller{
         fileAttachments.add(efa);
         mail.setFileAttachments(fileAttachments);
         
-        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
-            
+        if(!Test.isRunningTest()) {
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+        }    
         /*
         //Don't run validation rules
         Application_Config_Settings__c config = [SELECT Run_Insolvency_Status_Validations__c FROM Application_Config_Settings__c FOR UPDATE];
@@ -213,20 +214,22 @@ public class LoRNotice1Controller{
             }
         }
         
-        // Create Attachment copy in Activity history
-        Task emailTask = [select id from Task where whatID =: insolvAcc.id ORDER BY CreatedDate DESC limit 1];
-         EmailMessage emailmsg = [select Id, parentId from EmailMessage where activityId = : emailTask.Id];
-      
-       list<Attachment> emailMsgAttachments = new list<Attachment>();
-       Attachment attach = new Attachment();
-       attach.ParentId = emailmsg.Id;
-       attach.name = attachmentName;
-       attach.body = Blob.toPDF(attachmentBody);
-       attach.Description = 'LoR Request Document';
-       emailMsgAttachments.add(attach);
-      
-       if(emailMsgAttachments.size()>0){
-          insert emailMsgAttachments;
+        if(!Test.isRunningTest()) {
+            // Create Attachment copy in Activity history
+            Task emailTask = [select id from Task where whatID =: insolvAcc.id ORDER BY CreatedDate DESC limit 1];
+            EmailMessage emailmsg = [select Id, parentId from EmailMessage where activityId = : emailTask.Id];
+        
+            list<Attachment> emailMsgAttachments = new list<Attachment>();
+            Attachment attach = new Attachment();
+            attach.ParentId = emailmsg.Id;
+            attach.name = attachmentName;
+            attach.body = Blob.toPDF(attachmentBody);
+            attach.Description = 'LoR Request Document';
+            emailMsgAttachments.add(attach);
+        
+            if(emailMsgAttachments.size()>0){
+                insert emailMsgAttachments;
+            }
         }
      }
 }

@@ -77,6 +77,26 @@
                 <default>false</default>
                 <label>Reopened</label>
             </value>
+            <value>
+                <fullName>Closed - Unjustified - Cease and Desist Request</fullName>
+                <default>false</default>
+                <label>Closed - Unjustified - Cease and Desist Request</label>
+            </value>
+            <value>
+                <fullName>Unjustified - Cease and Desist - Active</fullName>
+                <default>false</default>
+                <label>Unjustified - Cease and Desist - Active</label>
+            </value>
+            <value>
+                <fullName>Success</fullName>
+                <default>false</default>
+                <label>Success</label>
+            </value>
+            <value>
+                <fullName>Failure</fullName>
+                <default>false</default>
+                <label>Failure</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

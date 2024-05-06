@@ -9,6 +9,10 @@
 public class TestProcessingUnallocatedProductctlr {
     @testSetup
     static void testData() {
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
+
         Application_Config_Settings__c config = new Application_Config_Settings__c(
             Run_Remittance_Validation__c = false,
             Run_Remittance_Trigger__c = true,
@@ -85,6 +89,7 @@ public class TestProcessingUnallocatedProductctlr {
         payment1.CCS_Account__C = prod.id;
         payment1.Unallocated_Payment__c = unAloccPay.id;
         payment1.Deposit_Account_Type__c = 'CIH';
+        payment1.Payment_Type__c = '1000';
         insert payment1;
         //ETC
     }
@@ -171,6 +176,7 @@ public class TestProcessingUnallocatedProductctlr {
         payment2.CCS_Account__C = prod2.id;
         payment2.Unallocated_Payment__c = unAloccPay.id;
         payment2.Deposit_Account_Type__c = 'CCL';
+        payment2.Payment_Type__c = '1000';
         insert payment2;
 
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
@@ -240,6 +246,7 @@ public class TestProcessingUnallocatedProductctlr {
         payment2.CCS_Account__C = prod2.id;
         payment2.Unallocated_Payment__c = unAloccPay.id;
         payment2.Deposit_Account_Type__c = 'ETC';
+        payment2.Payment_Type__c = '1000';
         insert payment2;
 
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
@@ -307,6 +314,7 @@ public class TestProcessingUnallocatedProductctlr {
         payment2.CCS_Account__C = Prod2.id;
         payment2.Unallocated_Payment__c = unAloccPay.id;
         payment2.Deposit_Account_Type__c = 'CIH';
+        payment2.Payment_Type__c = '1000';
         insert payment2;
 
         Product_Payments__C payment3 = new Product_Payments__C();
@@ -316,6 +324,8 @@ public class TestProcessingUnallocatedProductctlr {
         payment3.CCS_Account__C = Prod2.id;
         payment3.Unallocated_Payment__c = unAloccPay.id;
         payment3.Deposit_Account_Type__c = 'CIA';
+        payment3.Payment_Type__c = '1000';
+        payment3.Ignore_Warning__c = true;
         insert payment3;
 
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
@@ -389,6 +399,7 @@ public class TestProcessingUnallocatedProductctlr {
         payment2.CCS_Account__C = prod2.id;
         payment2.Unallocated_Payment__c = unAloccPay.id;
         payment2.Deposit_Account_Type__c = 'ETC';
+        payment2.Payment_Type__c = '1000';
         insert payment2;
 
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
@@ -462,6 +473,7 @@ public class TestProcessingUnallocatedProductctlr {
         payment2.CCS_Account__C = prod2.id;
         payment2.Unallocated_Payment__c = unAloccPay.id;
         payment2.Deposit_Account_Type__c = 'AAL';
+        payment2.Payment_Type__c = '1000';
         insert payment2;
 
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);

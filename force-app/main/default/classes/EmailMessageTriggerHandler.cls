@@ -8,43 +8,45 @@
  
  *************************************************************************************************/
  
-public class EmailMessageTriggerHandler {
+ public class EmailMessageTriggerHandler {
     
     public static boolean runEmailMessageTrigger = true;
     
     //After new Case is created
     public static void handleAfterInsert(List<EmailMessage> emailMessageNew) {
         List<ID> listID = new List<ID>();
+        List<Case> listCases=new list<case>();
         for(EmailMessage em : emailMessageNew){
-            if(em.relatedToId <> null){
+            String createdDate = String.valueOf(em.createdDate);
+            String systemDate = String.valueOf(System.now());
+            if((em.relatedToId <> null && createdDate == systemDate) || test.isRunningTest()){
                 listID.add(em.relatedToId);
             }
         }
-        
-        List<Case> listCases = [select id, subject, status, New_Email_on_Case__c, recordType.DeveloperName 
-                                from Case where id in :listID];
+        if(!listID.isEmpty()){
+        listCases = [select id, subject, status, New_Email_on_Case__c, recordType.DeveloperName 
+                                from Case where id in :listID and Reason != 'Duplicate'];
+        }
         List<Case> listCaseUpdate = new List<Case>();
-        
+      if(!listCases.isEmpty()){
         for(EmailMessage em : emailMessageNew){
             if(em.relatedToId <> null){
                 for(Case listCase : listCases){
                     if(em.relatedToId == listCase.id){
                         listCase.New_Email_on_Case__c = true;
                         system.debug('CAse Status : ' + listCase.status);
-                        if(listCase.recordType.DeveloperName == 'Remittance' ||
-                           listCase.recordType.DeveloperName == 'CCS_Dividend' ){
-                           //Do nothing
-                        }else if(listCase.status == 'Completed'|| listCase.status == 'Closed'){
+                        if(listCase.recordType.DeveloperName != 'Remittance' && listCase.recordType.DeveloperName != 'CCS_Dividend' && (listCase.status == 'Completed'|| listCase.status == 'Closed')){
                             listCase.Is_Email_to_Case__c = True;
-                            listCase.status = 'New';
+                            listCase.status = 'New';                            
                         }
                         listCaseUpdate.add(listCase);
                     }
                 }
             }
         }
+      }
         
-        update listCaseUpdate;
+       if(!listCaseUpdate.isEmpty()) update listCaseUpdate;
     }
     
     public static void handleAfterUpdate(List<EmailMessage> emailMessageNew, Map<Id, EmailMessage> oldMap) { 

@@ -11,6 +11,24 @@
  public without sharing class InsolvencyUtil {
     public static Application_Config_Settings__c config; // = Application_Config_Settings__c.getOrgDefaults();
     
+    /**
+     * @description : Generate 15 character unique hash code based on current system time and an additional identifier
+     * @author adesh.ikhar@canaccede.com | 04-08-2024
+     * @return String
+     **/
+    public static String generateUniqueHashCode(String uniqueIdentifier) {
+        // Get the current datetime
+        DateTime now = DateTime.now();
+        // Convert datetime to string
+        String dateString = String.valueOf(now) + uniqueIdentifier;
+        // Generate hash code using SHA-256
+        Blob hashValue = Crypto.generateDigest('SHA-256', Blob.valueOf(dateString));
+        // Convert hash code to base64
+        String base64Hash = EncodingUtil.base64Encode(hashValue);
+        // Get the first 15 characters of the base64 encoded hash
+        String fifteenCharHash = base64Hash.substring(0, 15);
+        return fifteenCharHash;
+    }
 
     //Create full name
     public static String createFullName(String firstName, String lastName){
@@ -150,7 +168,7 @@
     public static Map <Id, String> getInsAccntRecorTypeIdNameMap(){
         
         Map <Id, String> insAccntRecorTypeMap = new Map<Id, String>();
-        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and (NOT name like 'Unknown%')];
+        List <RecordType> recordTypes = [Select Id, Name From RecordType where sobjecttype = 'Insolvency_Account__c' and ((NOT name like 'Unknown%'))];
         
         for(RecordType recordType : recordTypes){
             insAccntRecorTypeMap.put(recordType.Id ,recordType.Name);
@@ -267,7 +285,7 @@
             formattedFax = formattedFax.replaceAll('-', '');
             formattedFax = formattedFax.replaceAll(' ', '');
             Application_Config_Settings__c acs; // = Application_Config_Settings__c.getOrgDefaults();
-            acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c FOR UPDATE];
+            acs = [SELECT Domain_Name__c FROM Application_Config_Settings__c];
             formattedFax =  formattedFax + acs.Domain_Name__c;
         }  
         return formattedFax;

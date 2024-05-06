@@ -12,14 +12,27 @@ public class RecallProductProcessing {
     
     public static decimal successRecords = 0;
     public static decimal failedRecords = 0;
+    public static List<User> systemName= new list<User>();
+    public static Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
+    public static Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
     
     //Recall/Account status update of product.
     public static List<Id> recallProducts(List<Product_Staging__c> prodStagingList,String workAssignmentId){  
-        
         List<Product__c> prodList = new List<Product__c>();
         Map<String,Id> PlacementMap = new Map<String,Id>();
         Map<Id,String> PlacementStatusMap = new Map<Id,String>();
         List<Id> prodIds = new List<Id>();
+        set<id> setProductIDs = new set<id>();
+        
+        //Fetch System Api
+        if(lrpSetting.Canaccede_API_User__c != NULL){
+            systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
+        }
+        //Fetch Product RecordType
+        for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product__c' ]){
+            prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
+        }
+        
         List<Product_Staging__c> listproductstaging = new List<Product_Staging__c>();
         map<String, Placement_Status_Code_Mapping__c> codeMapping = new map<String, Placement_Status_Code_Mapping__c>();
         for(Placement_Status_Code_Mapping__c mapping : [SELECT ID, Name, Data_Status_Code__c, Data_Status_Description__C
@@ -30,6 +43,13 @@ public class RecallProductProcessing {
         for(Placement__c placeList : [SELECT id,name from Placement__c]){
             PlacementMap.put(placeList.name, placeList.Id);
         }
+        
+        for(Product_Staging__c productStaging : prodStagingList){
+            setProductIDs.add(productStaging.Product_ID__c);
+        }
+        
+        map<ID, Product__c> mapProduct = new Map<ID, Product__c> ([SELECT ID, Name, RecordTypeId,OwnerId,Collection_Agency__c
+                                                                       FROM Product__c WHERE ID IN :setProductIDs]);
         try {
             for(Product_Staging__c productStaging : prodStagingList){
                 //Regex to check MM/DD/YYYY (text format in excel)
@@ -94,7 +114,7 @@ public class RecallProductProcessing {
                     prod.Status__c = productStaging.Placement_Main_Status__c;
                     prod.Sub_Status__c = productStaging.Placement_Sub_Status__c;
                     prod.Status_Changed_Date__c = myDate;
-                   
+                    prod.Run_Identifier_Check_On__c = System.today();
                    if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9')) || Test.isRunningTest()){   
                         if(codeMapping.containsKey(prod.Placement_Status__c) ){
                             if(codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c != NULL){
@@ -128,7 +148,22 @@ public class RecallProductProcessing {
                         if(prod.Collection_Agency__c == 9999){
                             prodIds.add(Prod.Id);
                             PlacementStatusMap.put(Prod.Id, productStaging.Placement_Status_Code__c);
+                            if(prodRTypeIdMap.get('Distressed_Account') == mapProduct.get(productStaging.Product_ID__c).RecordTypeId
+                               && prod.Collection_Agency__c != mapProduct.get(productStaging.Product_ID__c).Collection_Agency__c){
+                                   ID oldOwnerId = mapProduct.get(productStaging.Product_ID__c).OwnerId;
+                                   // Assign System API to Owner
+                                   if(!systemName.isEmpty()){
+                                       prod.OwnerId = systemName[0].Id;      
+                                   }
+                                   //Also Assign the last owner to the previous ownership field
+                                   if(oldOwnerId <> NULL && oldOwnerId <> prod.OwnerId){
+                                       prod.Previous_Ownership__c = oldOwnerId;
+                                   }
+                           }
                         }
+                    
+                           
+                 
                     }else{
                         failedRecords = failedRecords + 1;
                     }

@@ -152,12 +152,12 @@
         <apex:form id="form1">
         <apex:define name="content">    
         <apex:pageMessages />
-        <apex:outputPanel rendered="{!paymentRecordListInner.Empty}" >
+        <apex:outputPanel rendered="{!!showTable}" >
             <apex:commandButton action="{!Cancel}" value="OK" id="backBtn1" styleclass="slds-button slds-button_neutral"
                                 style="margin-left: 3.25rem;"/>
         </apex:outputPanel>
         <apex:outputPanel rendered="{!showTable}" id="tablePanel">
-        <apex:outputPanel rendered="{!!paymentRecordListInner.Empty}" >
+        <apex:outputPanel>
             <div style = "font-weight:bold;font-size:large">
                 Unallocated Payments
             </div>
@@ -168,7 +168,7 @@
                         var accountTableBodyId = accountTableId + ':tb';
                         var pbsId = '{!$Component.pbs}';
                     </script>
-           <apex:datatable value="{!paymentRecordListInner}" var="payment" id="accountTable"
+           <apex:datatable value="{!wrapperMap}" var="payment" id="accountTable"
                             >
                 <apex:column style="text-align:center" styleClass="ct">
                     <apex:facet name="header">
@@ -176,14 +176,14 @@
                         CCS Account
                         </div>
                         </apex:facet>
-                    <apex:inputField value="{!payment.prodLookup.Product_Custom__c}" style="text-align:center"/>
+                    <apex:inputField value="{!wrapperMap[payment].prodLookup.Product_Custom__c}" style="text-align:center"/>
                 </apex:column>
                 <apex:column style="text-align:center">
                     <apex:facet name="header">
                         <div  style="text-align:center">
                             Account <br/> Number
                         </div></apex:facet>
-                    <apex:outputText value="{!payment.accountNumber}" />
+                    <apex:outputText value="{!wrapperMap[payment].accountNumber}" />
                 </apex:column>
                 <apex:column style="">
                     <apex:facet name="header">
@@ -191,13 +191,13 @@
                         	Client <br/> Name    
                         </div>
                     </apex:facet>
-                    <apex:outputText value="{!payment.debtorName}"/>
+                    <apex:outputText value="{!wrapperMap[payment].debtorName}"/>
                 </apex:column>
                 <apex:column style="width:30%;">
                     <apex:facet name="header">
                             Cheque Number
                     </apex:facet>
-                    	<apex:outputText value="{!payment.ChequeNumber}"/>    
+                    	<apex:outputText value="{!wrapperMap[payment].ChequeNumber}"/>    
                 </apex:column>
                 <apex:column style="text-align:center">
                     <apex:facet name="header">Payment <br/> Posting Date</apex:facet>
@@ -206,17 +206,17 @@
                 </apex:column>
                 <apex:column style="text-align:center">
                     <apex:facet name="header">Payment <br/> Source</apex:facet>
-                    <apex:outputText value="{!payment.paymentSource}">
+                    <apex:outputText value="{!wrapperMap[payment].paymentSource}">
                     </apex:outputText>
                 </apex:column>
                 
                 <apex:column style="text-align:center">
                     <apex:facet name="header">Unallocated <br/> Amount</apex:facet>
-                    <apex:outputText value="{!payment.netPayment}"/>
+                    <apex:outputText value="{!wrapperMap[payment].netPayment}"/>
                 </apex:column>
                <apex:column style="text-align:center">
                     <apex:facet name="header">Fairshare <br/> Amount</apex:facet>
-                    <apex:outputText value="{!payment.fairsharePayment}"/>
+                    <apex:outputText value="{!wrapperMap[payment].fairsharePayment}"/>
                 </apex:column>
             </apex:datatable>
  

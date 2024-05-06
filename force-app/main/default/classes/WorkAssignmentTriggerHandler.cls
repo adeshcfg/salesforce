@@ -8,7 +8,7 @@
 
 *************************************************************************************************/
 public class WorkAssignmentTriggerHandler {
-    
+    public static boolean updateCommentHistoryField = TRUE;
     public static boolean runWorkAssignmentTrigger = true;
     public static Map <String, Id> WorkAssRecTypeMap;
     //public static Id CFG_Complaint = '0127g000001QgFEAA0';
@@ -80,7 +80,7 @@ public class WorkAssignmentTriggerHandler {
             if(workAssig.Comment_Reply__c != null){
                 commReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
                 workAssig.Latest_Comment__c = commReply;
-                workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commReply;
+                if(updateCommentHistoryField==TRUE) workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commReply;
                 workAssig.Comment_Reply__c = '';
             }
             
@@ -174,7 +174,7 @@ public class WorkAssignmentTriggerHandler {
         system.debug('listNewWorkAssignments:::' +listNewWorkAssignments);
         Work_Assignment__c newListWorkAss = listNewWorkAssignments.get(0);
         set<ID> setProductID = new set<ID>();
-        set<ID> setCustomerID = new set<ID>();
+        ID setCustomerID;
        
         system.debug('newListWorkAss:::' +newListWorkAss);
         System.debug('WorkAssRecTypeMap.get '+WorkAssRecTypeMap.get('CFG_Complaint'));
@@ -185,87 +185,10 @@ public class WorkAssignmentTriggerHandler {
               
             for(Work_Assignment__c wrkAss : listNewWorkAssignments){
                 setProductID.add(wrkAss.Product__c);
-                setCustomerID.add(wrkAss.Customer__c);
+                setCustomerID= wrkAss.Customer__c;
                 
             }
-            
-            AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
-                                                WHERE Customer__c IN :setCustomerID 
-                                                AND Customer__c != NULL
-                                                AND Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
-                                                GROUP BY Customer__c];
-            System.Debug('custGroupedResults' +custGroupedResults);
-            ProductTriggerHandler.runProductTrigger = false;
-            for (AggregateResult arr : custGroupedResults)  {
-                if((decimal)arr.get('comptCustomercnt') > 0){
-                    Account cust=new Account();
-                    cust.Id=(id)arr.get('Customer__c'); 
-                    cust.Number_Of_Open_Complaint__c=(decimal)arr.get('comptCustomercnt'); 
-                    update cust;
-                }
-            }
-            ProductTriggerHandler.runProductTrigger = true;
-             set<ID> customerID =new set<ID>();
-                system.debug('setProductID::'+setProductID);
-            AggregateResult[] prodGroupedResults = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
-                                                WHERE Product__c IN :setProductID 
-                                                AND Product__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request' AND Status__c != 'Unjustified - Cease and Desist - Active') 
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
-                                                GROUP BY Product__c];
-            System.Debug('prodGroupedResults' +prodGroupedResults);
-            for (AggregateResult ar : prodGroupedResults)  {
-                if((decimal)ar.get('comptProductcnt') > 0){
-                    Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)ar.get('Product__c')];
-                    //Account acc = new Account();
-                  if(prodCustomer.Customer__c != NULL)  customerID.add(prodCustomer.Customer__c); //added null check for #5223
-                    Product__c pr1=new Product__c();
-                    pr1.Id=(id)ar.get('Product__c'); 
-                    pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt'); 
-                    //acc.id = prodCustomer.Customer__c;
-                    //acc.Number_Of_Open_Product_Complaint__c  = (decimal)ar.get('comptProductcnt');
-                    ProductTriggerHandler.runProductTrigger = false;
-                    update pr1;
-                    //update acc;
-                    //PortalProductProcessingAPI.processProduct(pr1.ID);   
-                }
-            }
-            ProductTriggerHandler.runProductTrigger = True;
-                 set<Id> custProdId = new set<ID>();
-                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID LIMIT 50000]; //added LIMIT for #5223
-                system.debug('cutProdList:'+cutProdList);
-                for(Product__C custprod : cutProdList){
-                    custProdId.add(custprod.Id);
-                }
-                AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
-                                                WHERE (Product__c IN :custProdId AND Product__c != NULL)
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request' AND Status__c != 'Unjustified - Cease and Desist - Active') 
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
-                system.debug('prodGroupedResults1:'+prodGroupedResults1);
-                Id cutomerId;
-                Decimal prodcomplaintcount = 0;
-                for(AggregateResult prdlist : prodGroupedResults1){
-                    Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
-                    cutomerId = prodCustomer1.Customer__c;
-                    //system.debug('inside for');
-                    prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
-                    //system.debug('prodcomplaintcount::'+prodcomplaintcount);
-                }
-                system.debug('prodcomplaintcount211::'+prodcomplaintcount);
-                //system.debug('cutomerId::'+cutomerId);
-                if(cutomerId != null){
-                    //system.debug('prodcomplaintcount45785:'+prodcomplaintcount);
-                    Account acc = new Account();
-                    acc.id = cutomerId;
-                    acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
-                    //update pr1;
-                    CustomerTriggerHandler.runCustomerTrigger= false;
-                    update acc;     
-                    CustomerTriggerHandler.runCustomerTrigger= true;
-                }
+            getComplaintCountOnProductAndCustomer(setProductID,setCustomerID);
         }
     }         
     @future (callout=true)
@@ -274,6 +197,8 @@ public class WorkAssignmentTriggerHandler {
     }
     //Method to handle after update of record
     public static void handleAfterUpdate(list<Work_Assignment__c> listNewWorkAssignments, map<ID, Work_Assignment__c> mapOldWorkAssignment){
+        system.debug('listNewWorkAssignments--->'+listNewWorkAssignments);
+        system.debug('mapOldWorkAssignment--->'+mapOldWorkAssignment.values());
         Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
        //Bug: 5555 - Changes Starts
        map<ID, Work_Assignment__c> mapNewWorkAssignment = new map<ID, Work_Assignment__c>();
@@ -333,7 +258,7 @@ public class WorkAssignmentTriggerHandler {
         system.debug('listNewWorkAssignments:::' +listNewWorkAssignments);
         Work_Assignment__c newListWorkAss = listNewWorkAssignments.get(0);
         set<ID> setProductID = new set<ID>();
-        set<ID> setCustomerID = new set<ID>();
+        ID setCustomerID;
        
         system.debug('newListWorkAss:::' +newListWorkAss);
         System.debug('WorkAssRecTypeMap.get '+WorkAssRecTypeMap.get('CFG_Complaint'));
@@ -344,165 +269,21 @@ public class WorkAssignmentTriggerHandler {
               
             for(Work_Assignment__c wrkAss : listNewWorkAssignments){
                 setProductID.add(wrkAss.Product__c);
-                setCustomerID.add(wrkAss.Customer__c);
+                setCustomerID = wrkAss.Customer__c;
                 system.debug('wrkAss.Product__c::'+wrkAss.Product__c);
                 system.debug('mapOldWorkAssignment.get(wrkAss.id).Product__c::'+mapOldWorkAssignment.get(wrkAss.id).Product__c);
                 if(wrkAss.Product__c != mapOldWorkAssignment.get(wrkAss.id).Product__c){
                     setProductID.add(mapOldWorkAssignment.get(wrkAss.id).Product__c);
                 }
             }
-            system.debug('setProductID::' +setProductID);
- 			AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
-                                                WHERE Customer__c IN :setCustomerID 
-                                                AND Customer__c != NULL
-                                                AND Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
-                                                GROUP BY Customer__c];
-      
-            System.Debug('custGroupedResults' +custGroupedResults);
-                if(custGroupedResults != NULL && !custGroupedResults.isEmpty()){
-                    for (AggregateResult arr : custGroupedResults)  {
-                        if((decimal)arr.get('comptCustomercnt') > 0){
-                            Account cust=new Account();
-                            cust.Id=(id)arr.get('Customer__c'); 
-                            cust.Number_Of_Open_Complaint__c = 0;
-                            cust.Number_Of_Open_Complaint__c= (decimal)arr.get('comptCustomercnt'); 
-                            ProductTriggerHandler.runProductTrigger = false;
-                            update cust;
-                            ProductTriggerHandler.runProductTrigger = true;
-                        }
-                        
-                    }
-                } else{
-                        for(Account Acc : [SELECT ID, Name FROM Account
-                                           WHERE ID IN :setCustomerID ]){
-                                               Account cus =new Account();
-                                               cus.Id = Acc.Id;
-                                               cus.Number_Of_Open_Complaint__c = 0;
-                                               ProductTriggerHandler.runProductTrigger = false;
-                                               update cus;
-                                               ProductTriggerHandler.runProductTrigger = true;
-                                           }
-                    }
-               
-             set<ID> customerID =new set<ID>();    
-            AggregateResult[] prodGroupedResults = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
-                                                WHERE Product__c IN :setProductID 
-                                                AND Product__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request')
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
-                                                GROUP BY Product__c];
-            System.Debug('prodGroupedResults' +prodGroupedResults);
-            if(prodGroupedResults != NULL && !prodGroupedResults.isEmpty()) { 
-                system.debug('inside if update');
-                for (AggregateResult ar : prodGroupedResults)  {
-                    if((decimal)ar.get('comptProductcnt') > 0){
-                        Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)ar.get('Product__c')];
-                        //Account acc = new Account();
-                        customerID.add(prodCustomer.Customer__c);
-                        Product__c pr1=new Product__c();
-                        pr1.Id=(id)ar.get('Product__c'); 
-                        pr1.Number_Of_Open_Complaint__c = 0;
-                        pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt');
-                         
-                        ProductTriggerHandler.runProductTrigger = false;
-                        update pr1;  
-                        ProductTriggerHandler.runProductTrigger = True;
-					}
-                }
-                set<Id> custProdId = new set<ID>();
-                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID];
-                system.debug('cutProdList:'+cutProdList);
-                for(Product__C custprod : cutProdList){
-                    custProdId.add(custprod.Id);
-                }
-                AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
-                                                WHERE (Product__c IN :custProdId AND Product__c != NULL)
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request') 
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
-                system.debug('prodGroupedResults1:'+prodGroupedResults1);
-                Id cutomerId;
-                Decimal prodcomplaintcount = 0;
-                for(AggregateResult prdlist : prodGroupedResults1){
-                    Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
-                    cutomerId = prodCustomer1.Customer__c;
-                    prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
-                }
-                system.debug('prodcomplaintcount211::'+prodcomplaintcount);
-                if(cutomerId != null){
-                    Account acc = new Account();
-                    acc.id = cutomerId;
-                    acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
-                    CustomerTriggerHandler.runCustomerTrigger= false;
-                    update acc;     
-                    CustomerTriggerHandler.runCustomerTrigger= true;
-                }
-            }else{
-                system.debug('inside setProductID::' +setProductID);
-                Id custId;
-                 for(Product__c product : [SELECT ID, Name,Customer__c
-                                     FROM Product__c
-                                     WHERE ID IN :setProductID ]){
-                                         system.debug('inside else test product' +product);
-                    customerID.add(product.Customer__c);
-                    custId = product.Customer__c;                 
-                    Product__c pr1=new Product__c();
-                            pr1.Id=product.id; 
-                            pr1.Number_Of_Open_Complaint__c=0; 
-                            ProductTriggerHandler.runProductTrigger = false;
-                            update pr1;  
-                            ProductTriggerHandler.runProductTrigger = True;
-                }
-                system.debug('customerID:'+customerID);
-                set<Id> custProdId = new set<ID>();
-                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID];
-                
-                system.debug('cutProdList:'+cutProdList);
-                for(Product__C custprod : cutProdList){
-                    custProdId.add(custprod.Id);
-                }
-                AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
-                                                WHERE (Product__c IN :custProdId AND Product__c != NULL)
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request') 
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
-                system.debug('prodGroupedResults1:'+prodGroupedResults1);
-                Id cutomerId;
-                Decimal prodcomplaintcount = 0;
-                for(AggregateResult prdlist : prodGroupedResults1){
-                    Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
-                    cutomerId = prodCustomer1.Customer__c;
-                    prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
-                }
-                system.debug('prodcomplaintcount211::'+prodcomplaintcount);
-                if(cutomerId != null){
-                    Account acc = new Account();
-                    acc.id = cutomerId;
-                    acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
-                    CustomerTriggerHandler.runCustomerTrigger= false;
-                    update acc;     
-                    CustomerTriggerHandler.runCustomerTrigger= true;
-                }
-                system.debug('custId::'+custId);
-                if(prodGroupedResults1.isEmpty()) { 
-                    if(custId != null){
-                        system.debug('inside custId::'+custId);
-                        Account acc = new Account();
-                        acc.id = custId;
-                        acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
-                        CustomerTriggerHandler.runCustomerTrigger= false;
-                        update acc;     
-                        CustomerTriggerHandler.runCustomerTrigger= true;
-                    }
-                }
-            }
+            getComplaintCountOnProductAndCustomer(setProductID,setCustomerID);
         }
     }
    
     //this inner method populate the comment, comment history and user name.
     public static void handleBeforeUpdate(List<Work_Assignment__c> wrkAssgns, Map<Id, Work_Assignment__c> oldMap) {
+        system.debug('wrkAssgns--->'+wrkAssgns);
+        system.debug('oldMap--->'+oldMap.values());
         list<Work_Assignment__c> listInternalNewWorkAssignment = new list<Work_Assignment__c>();
         list<Work_Assignment__c> listExternalNewWorkAssignment = new list<Work_Assignment__c>();
         Date dT = System.Today();
@@ -575,7 +356,7 @@ public class WorkAssignmentTriggerHandler {
             Boolean identifierRemovalFlag = false;
             Work_Assignment__c wrkAssgnsOld = oldMap.get(workAssig.id);
             workAssig.Last_Modified_By__c = UserInfo.getName();
-             
+             system.debug('wrkAssgnsOld--->'+wrkAssgnsOld);
             System.debug('Block Run1'+workAssig);
             System.debug('workAssig.Status__c :'+workAssig.Status__c);
             System.debug('wrkAssgnsOld.Status__c :'+wrkAssgnsOld.Status__c);
@@ -722,17 +503,27 @@ public class WorkAssignmentTriggerHandler {
            system.debug('ABC1');
             String commentReply = '';
             system.debug('commentReply::'+commentReply);
+            system.debug('workAssig--->'+workAssig);
             if(workAssig.Comment_Reply__c != null && workAssig.Comment_Reply__c != wrkAssgnsOld.Comment_Reply__c){
                try{
                    commentReply = String.valueOf(workAssig.Comment_Reply__c).replace('\n', '').replace('\r', '');
+                   system.debug('workAssig--->'+workAssig);
+                   //bug: 4743 changes starts
+                   if(updateCommentHistoryField==TRUE) {
                    workAssig.Comments_History__c = UserInfo.getName() + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
+                   } 
+                   else if (updateCommentHistoryField==FALSE){
+                    workAssig.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' +' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + commentReply + '\n' + '\n';
+                   }
+                   //bug : 4743 changes ends
                    workAssig.Latest_Comment__c = commentReply;
                    system.debug('ABC');
                    workAssig.Comment_Reply__c = '';
-                    if(wrkAssgnsOld.Comments_History__c !=null){
+                   system.debug('workAssig--->'+workAssig);
+                   if(wrkAssgnsOld.Comments_History__c !=null){
                          workAssig.Comments_History__c += wrkAssgnsOld.Comments_History__c;
                     }
-                   
+                    system.debug('workAssig--->'+workAssig);
                 }catch(exception e){
                }
             }else{
@@ -763,7 +554,7 @@ public class WorkAssignmentTriggerHandler {
         system.debug('after delete');
         Work_Assignment__c oldListWorkAss = oldWrkAssgns.get(0);
         set<ID> setProductID = new set<ID>();
-        set<ID> setCustomerID = new set<ID>();
+        ID setCustomerID;
        
         system.debug('oldListWorkAss:::' +oldListWorkAss);
         System.debug('WorkAssRecTypeMap.get '+WorkAssRecTypeMap.get('CFG_Complaint'));
@@ -774,154 +565,111 @@ public class WorkAssignmentTriggerHandler {
               
             for(Work_Assignment__c wrkAss : oldWrkAssgns){
                 setProductID.add(wrkAss.Product__c);
-                setCustomerID.add(wrkAss.Customer__c);
+                setCustomerID = wrkAss.Customer__c;
             }
-            System.Debug('setProductID' +setProductID);
-            AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
-                                                WHERE Customer__c IN :setCustomerID 
-                                                AND Customer__c != NULL
-                                                AND Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
-                                                GROUP BY Customer__c];
-      
-            System.Debug('custGroupedResults' +custGroupedResults);
-                if(custGroupedResults != NULL && !custGroupedResults.isEmpty()){
-                    for (AggregateResult arr : custGroupedResults)  {
-                        if((decimal)arr.get('comptCustomercnt') > 0){
-                            Account cust=new Account();
-                            cust.Id=(id)arr.get('Customer__c'); 
-                            cust.Number_Of_Open_Complaint__c = 0;
-                            cust.Number_Of_Open_Complaint__c= (decimal)arr.get('comptCustomercnt'); 
-                            ProductTriggerHandler.runProductTrigger = false;
-                            update cust;
-                            ProductTriggerHandler.runProductTrigger = true;
-                        }
-                        
-                    }
-                } else{
-                        for(Account Acc : [SELECT ID, Name FROM Account
-                                           WHERE ID IN :setCustomerID ]){
-                                               Account cus =new Account();
-                                               cus.Id = Acc.Id;
-                                               cus.Number_Of_Open_Complaint__c = 0;
-                                               ProductTriggerHandler.runProductTrigger = false;
-                                               update cus;
-                                               ProductTriggerHandler.runProductTrigger = true;
-                                           }
-                    }
-               
-             set<ID> customerID =new set<ID>();   
-            AggregateResult[] prodGroupedResults = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
-                                                WHERE Product__c IN :setProductID 
-                                                AND Product__c != NULL
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request')
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')  
-                                                GROUP BY Product__c];
-            System.Debug('prodGroupedResults' +prodGroupedResults);
-            if(prodGroupedResults != NULL && !prodGroupedResults.isEmpty()) { 
-                system.debug('inside if update');
-                for (AggregateResult ar : prodGroupedResults)  {
-                    if((decimal)ar.get('comptProductcnt') > 0){
-                        Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)ar.get('Product__c')];
-                        customerID.add(prodCustomer.Customer__c);
-                        Product__c pr1=new Product__c();
-                        pr1.Id=(id)ar.get('Product__c'); 
-                        pr1.Number_Of_Open_Complaint__c = 0;
-                        pr1.Number_Of_Open_Complaint__c=(decimal)ar.get('comptProductcnt');
-                        ProductTriggerHandler.runProductTrigger = false;
-                        update pr1; 
-                        ProductTriggerHandler.runProductTrigger = True;
-                    }
-                }
-                 set<Id> custProdId = new set<ID>();
-                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID];
-                system.debug('cutProdList:'+cutProdList);
-                for(Product__C custprod : cutProdList){
-                    custProdId.add(custprod.Id);
-                }
-                AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
-                                                WHERE (Product__c IN :custProdId AND Product__c != NULL)
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request') 
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
-                system.debug('prodGroupedResults1:'+prodGroupedResults1);
-                Id cutomerId;
-                Decimal prodcomplaintcount = 0;
-                for(AggregateResult prdlist : prodGroupedResults1){
-                    Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
-                    cutomerId = prodCustomer1.Customer__c;
-                    prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
-                }
-                system.debug('prodcomplaintcount211::'+prodcomplaintcount);
-                if(cutomerId != null){
-                    Account acc = new Account();
-                    acc.id = cutomerId;
-                    acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
-                    CustomerTriggerHandler.runCustomerTrigger= false;
-                    update acc;     
-                    CustomerTriggerHandler.runCustomerTrigger= true;
-                }
+            getComplaintCountOnProductAndCustomer(setProductID,setCustomerID);
+        }
+    }
+    public static void getComplaintCountOnProductAndCustomer(set<ID> setProductID,ID setCustomerID){
+        System.Debug('inside getComplaintCountOnProductAndCustomer**');
+        Id customerID;
+        Id custId;
+        Decimal prodcomplaintcount = 0;
+        Decimal customercomplaintcount = 0;
+        Account cust;
+        Product__c prodData;
+        Map<String, AggregateResult> mapProdCompCount = new Map<String, AggregateResult>();
+        Map<id, decimal> mapCustomerCompCount = new Map<id, decimal>();
+        
+        if(setProductID == NULL && setCustomerID == NULL){
+            return;
+        }
+        if(setCustomerID == NULL && setProductID != NULL){
+            Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id IN: setProductID]; 
+            if(prodCustomer.Customer__c != NULL){
+                customerID = prodCustomer.Customer__c;
             }else{
-                Id custId;
-                system.debug('inside setProductID::' +setProductID);
-                 for(Product__c product : [SELECT ID, Name,Customer__c
-                                     FROM Product__c
-                                     WHERE ID IN :setProductID ]){
-                                         system.debug('inside else test product' +product);
-                    customerID.add(product.Customer__c);  
-                    custId = product.Customer__c;                 
-                    Product__c pr1=new Product__c();
-                            pr1.Id=product.id; 
-                            pr1.Number_Of_Open_Complaint__c=0; 
-                            ProductTriggerHandler.runProductTrigger = false;
-                            update pr1; 
-                            ProductTriggerHandler.runProductTrigger = True;
-                }
-                set<Id> custProdId = new set<ID>();
-                List<Product__C> cutProdList = [Select id,name from Product__c where customer__c IN: customerID];
-                system.debug('cutProdList:'+cutProdList);
-                for(Product__C custprod : cutProdList){
-                    custProdId.add(custprod.Id);
-                }
-                AggregateResult[] prodGroupedResults1 = [select Product__c, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
-                                                WHERE (Product__c IN :custProdId AND Product__c != NULL)
-                                                AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
-                                                AND Status__c != 'Closed - Unjustified - Cease and Desist Request') 
-                                                AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint') GROUP BY Product__c];
-                system.debug('prodGroupedResults1:'+prodGroupedResults1);
-                Id cutomerId;
-                Decimal prodcomplaintcount = 0;
-                for(AggregateResult prdlist : prodGroupedResults1){
-                    Product__c prodCustomer1 = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id =: (id)prdlist.get('Product__c')];
-                    cutomerId = prodCustomer1.Customer__c;
-                    prodcomplaintcount = prodcomplaintcount + (Decimal)prdlist.get('comptProductcnt');
-                }
-                system.debug('prodcomplaintcount211::'+prodcomplaintcount);
-                if(cutomerId != null){
-                    Account acc = new Account();
-                    acc.id = cutomerId;
-                    acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
-                    CustomerTriggerHandler.runCustomerTrigger= false;
-                    update acc;     
-                    CustomerTriggerHandler.runCustomerTrigger= true;
-                }
-                system.debug('custId::'+custId);
-                if(prodGroupedResults1.isEmpty()) { 
-                    if(custId != null){
-                        system.debug('inside custId::'+custId);
-                        Account acc = new Account();
-                        acc.id = custId;
-                        acc.Number_Of_Open_Product_Complaint__c  = prodcomplaintcount;
-                        CustomerTriggerHandler.runCustomerTrigger= false;
-                        update acc;     
-                        CustomerTriggerHandler.runCustomerTrigger= true;
+                return;
+            }
+        }else{
+            customerID = setCustomerID;
+        }
+
+        //step 1: get open customer complaint count store it in an variable
+        if(customerID != NULL){
+            AggregateResult[] custGroupedResults = [select Customer__c, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
+                                        WHERE Customer__c  =:customerID 
+                                        AND Customer__c != NULL AND Product__c = NULL
+                                        AND Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                        AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
+                                        GROUP BY Customer__c];
+            
+            if(custGroupedResults != NULL && !custGroupedResults.isEmpty()){
+                for (AggregateResult arr : custGroupedResults)  {
+                    if((decimal)arr.get('comptCustomercnt') > 0){ 
+                        custId = (id)arr.get('Customer__c');
+                        customercomplaintcount = (decimal)arr.get('comptCustomercnt');
                     }
                 }
             }
         }
+
+        //step 2: get all product associated to customer
+        List<product__c> listProdData = [Select id,Number_Of_Open_Complaint__c from product__c where Customer__c =: customerID]; 
+        List<ID> prodListIds = new List<ID>();
+        for(product__c prodIDList: listProdData){
+            prodListIds.add(prodIDList.id);
+        }
+
+        //step 3: get all complaint based on product retrive in step 2
+        AggregateResult[] prodGroupedResults = [select Product__c prodId, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
+                                            WHERE Product__c IN :prodListIds 
+                                            AND Product__c != NULL
+                                            AND (Status__c != 'Closed - Justified' AND Status__c != 'Closed - Unjustified'
+                                            AND Status__c != 'Closed - Unjustified - Cease and Desist Request')
+                                            AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
+                                            GROUP BY Product__c];
+        if(prodGroupedResults != NULL && !prodGroupedResults.isEmpty()) { 
+            for (AggregateResult ar : prodGroupedResults)  {
+                //step 4: create map for step 3 with product and complaint count
+                mapProdCompCount.put((String)ar.get('prodId'),ar);
+                prodcomplaintcount += (decimal)ar.get('comptProductcnt');
+            }
+        }
+
+        //step 5: loop all the product of customer
+        Map<id,product__c> prodMap = new Map<id,product__c>();
+        for(Product__c prodDlist : listProdData){
+            prodData=new Product__c();
+            prodData.id = prodDlist.Id;
+            if(mapProdCompCount.containsKey(prodDlist.id)){
+                AggregateResult prodCompTotalCount = mapProdCompCount.get(prodDlist.id);
+                prodData.Number_Of_Open_Complaint__c = (Decimal)prodCompTotalCount.get('comptProductcnt') + customercomplaintcount;
+            }else{
+                prodData.Number_Of_Open_Complaint__c = customercomplaintcount;
+            }
+            prodMap.put(prodData.id,prodData);
+        }
+
+        ProductTriggerHandler.runProductTrigger = false;
+        update prodMap.values();
+        ProductTriggerHandler.runProductTrigger = true;
+
+        cust=new Account();
+        if(custId != NULL){
+            cust.id = custId;
+        }
+        if(customerID != NULL){
+            cust.id = customerID;
+        }
+        cust.Number_Of_Open_Complaint__c = customercomplaintcount;
+        cust.Number_Of_Open_Product_Complaint__c = prodcomplaintcount;
+
+        CustomerTriggerHandler.runCustomerTrigger= false;
+        update cust;     
+        CustomerTriggerHandler.runCustomerTrigger= true;
     }
-    
+
     //using this inner method populate the identifier fields using CFG data.
      public static void getWorkAssignmentRelatedData(list<Work_Assignment__c> listWorkAssignments){
          system.debug('listWorkAssignments first testing::' +listWorkAssignments);

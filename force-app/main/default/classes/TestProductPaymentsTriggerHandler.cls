@@ -70,6 +70,10 @@ public class TestProductPaymentsTriggerHandler {
         province2.Canada_Tax_Rate__c = 5;
         province2.Total_Tax_Rate__c = 10;
         
+        Placement__c plcmnt = new Placement__c();
+        plcmnt.name = '9999';
+        plcmnt.Apply_Ontario_Rate_on_Legal_Account__c = true;
+        insert plcmnt;
         
         Loan_ReEngineering__c confi = Loan_ReEngineering__c.getOrgDefaults();
         confi.Run_Product_Payment_Trigger__c = True;
@@ -640,7 +644,7 @@ public class TestProductPaymentsTriggerHandler {
         prodpay12.Principal_Payment_Amount__c = 100;
         prodpay12.Payment_Provided_Agency__c = placement.id;
         prodpay12.Ignore_Warning__c = true;
-        insert prodpay12;
+        // insert prodpay12;
         
         Product_Payments__c prodpay13 = new  Product_Payments__c();
         prodpay13.CCS_Account__c = prod.id;
@@ -653,7 +657,7 @@ public class TestProductPaymentsTriggerHandler {
         prodpay13.Ignore_Warning__c = true;
         prodpay13.Payment_Provided_Agency__c = placement.id;
         prodpay13.Original_Of_Payment_Reversal__c = NULL;
-        insert prodpay13;
+        // insert prodpay13;
         
         Product_Payments__c prodpay14 = new  Product_Payments__c();
         prodpay14.CCS_Account__c = prod.id;
@@ -665,7 +669,8 @@ public class TestProductPaymentsTriggerHandler {
         prodpay14.Tax_Amount__c = 0;
         prodpay14.Payment_Provided_Agency__c = placement.id;
         prodpay14.Payment_Posting_Date__c= System.today().addDays(-2);
-        insert prodpay14;
+        // insert prodpay14;
+        insert new List<Product_Payments__c>{prodpay12, prodpay13, prodpay14};
                 
         Test.stopTest();
      }
@@ -1273,7 +1278,7 @@ public class TestProductPaymentsTriggerHandler {
         prodpay12.Principal_Payment_Amount__c = 100;
         prodpay12.Payment_Provided_Agency__c = placement.id;
         prodpay12.Ignore_Warning__c = true;
-        insert prodpay12;
+        // insert prodpay12;
         
         Product_Payments__c prodpay13 = new  Product_Payments__c();
         prodpay13.CCS_Account__c = prod.id;
@@ -1286,7 +1291,7 @@ public class TestProductPaymentsTriggerHandler {
         prodpay13.Ignore_Warning__c = true;
         prodpay13.Payment_Provided_Agency__c = placement.id;
         prodpay13.Original_Of_Payment_Reversal__c = NULL;
-        insert prodpay13;
+        // insert prodpay13;
         
         Product_Payments__c prodpay14 = new  Product_Payments__c();
         prodpay14.CCS_Account__c = prod.id;
@@ -1298,8 +1303,8 @@ public class TestProductPaymentsTriggerHandler {
         prodpay14.Tax_Amount__c = 0;
         prodpay14.Payment_Provided_Agency__c = placement.id;
         prodpay14.Payment_Posting_Date__c= System.today().addDays(-2);
-        insert prodpay14;
-                
+        // insert prodpay14;
+        insert new List<Product_Payments__c>{prodpay12, prodpay13, prodpay14};
         Test.stopTest();
      }
     

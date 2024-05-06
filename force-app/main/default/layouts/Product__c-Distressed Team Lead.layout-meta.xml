@@ -896,14 +896,6 @@
                 <field>Portfolio_Name_Lookup__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Portfolio_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Portfolio_Group_Name__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Account_Portfolio_Code__c</field>
             </layoutItems>
@@ -922,10 +914,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Investment_Group__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Purchase_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

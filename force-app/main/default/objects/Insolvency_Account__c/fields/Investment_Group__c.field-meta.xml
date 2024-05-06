@@ -138,6 +138,11 @@
                 <label>BNS INSOLVENT FF</label>
             </value>
             <value>
+                <fullName>BNS DISTRESSED AUTO</fullName>
+                <default>false</default>
+                <label>BNS DISTRESSED AUTO</label>
+            </value>
+            <value>
                 <fullName>CBVPDistBul</fullName>
                 <default>false</default>
                 <label>CBVPDistBul</label>
@@ -331,6 +336,16 @@
                 <fullName>GOEASY INSOLVENT FF</fullName>
                 <default>false</default>
                 <label>EASYFINANCIAL INSOLVENT FF</label>
+            </value>
+            <value>
+                <fullName>FAIRSTONE INSOLVENT FF</fullName>
+                <default>false</default>
+                <label>FAIRSTONE INSOLVENT FF</label>
+            </value>
+            <value>
+                <fullName>CTB DISTRESSED FF</fullName>
+                <default>false</default>
+                <label>CTB DISTRESSED FF</label>
             </value>
         </valueSetDefinition>
     </valueSet>

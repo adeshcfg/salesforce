@@ -9,21 +9,32 @@
  *************************************************************************************************/
 
 trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before delete, after insert, after update, after delete) {
-  
+    list<Insolvency__c> insolvRecords=new list<Insolvency__c>();
+    list<Insolvency__c> insolvRecordsBeforeInsert=new list<Insolvency__c>();
     //On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Insolvency_Trigger__c;
     
-    if(runTrigger){   
-        if(!Test.isRunningTest()){
-            if(InsolvencyTriggerHandler.runInsolvencyTrigger){
+    if(runTrigger || test.isRunningTest()){   
+            if(InsolvencyTriggerHandler.runInsolvencyTrigger || test.isRunningTest()){
                 
                 //Before Trigger
                 if(Trigger.isBefore) {
                     
                     //Before Insert Trigger
                     if(Trigger.isInsert){
-                        InsolvencyTriggerHandler.handleBeforeInsert(Trigger.new);
+                        for(Insolvency__c insolv:trigger.new){
+                            if(insolv.CreatedDate == NULL){
+                                insolv.IsUnArchived__c=FALSE;
+                                insolvRecordsBeforeInsert.add(insolv);
+                            }
+                            else{
+                                insolv.IsUnArchived__c=TRUE;
+                            }
+                        }
+                        if(!insolvRecordsBeforeInsert.isEmpty()){
+                            InsolvencyTriggerHandler.handleBeforeInsert(insolvRecordsBeforeInsert);
+                        }
                     }
                     
                     //Before Update Trigger
@@ -45,7 +56,12 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     
                     //After Insert Trigger
                     if(Trigger.isInsert){
-                        InsolvencyTriggerHandler.handleAfterInsert(Trigger.new);
+                        for(Insolvency__c insolv:trigger.new){
+                            if(insolv.IsUnArchived__c==FALSE){
+                                insolvRecords.add(insolv);
+                            }
+                        }
+                         InsolvencyTriggerHandler.handleAfterInsert(insolvRecords);
                     }
                     
                     //After Update Trigger
@@ -60,7 +76,6 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                     }    
                      */                
                 }             
-            }
         }
     }    
 }

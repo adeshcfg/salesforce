@@ -37,11 +37,6 @@
                 <default>false</default>
                 <label>Easy Financial Services Ltd</label>
             </value>
-            <value>
-                <fullName>Canadian Tire</fullName>
-                <default>false</default>
-                <label>Canadian Tire</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

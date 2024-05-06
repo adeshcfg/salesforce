@@ -19,6 +19,8 @@ public class AssignmentDocCntrl{
     public boolean showOnBIorSD{get;set;}
     public Id selectedAttId {set;get;}
     public Boolean isGoeasyBankCommunityUser {set; get;}
+    public Boolean isLightningCommunity {get;set;}
+    public String urlPathPrefix {get;set;}
     public List<Attachment> attList {set;get;}
     //public boolean showOnSD = false;
         
@@ -43,10 +45,16 @@ public class AssignmentDocCntrl{
         attach = new Attachment();
         
         communityUser = isCommunityUser();
-        
+        //Checking if community user
+        if(communityUser) {
+            InsolvencyAccntNoteCntrl.getCommunityUrl();
+            isLightningCommunity = InsolvencyAccntNoteCntrl.isLightningCommunity;
+            if(isLightningCommunity) {
+                urlPathPrefix = InsolvencyAccntNoteCntrl.isProduction ? '/' : '/' + InsolvencyAccntNoteCntrl.urlPathPrefix + '/';
+            }
+        }
         initialLoad = true;
-        isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
-        
+        isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());      
     }   
     
     //Upload Attachment

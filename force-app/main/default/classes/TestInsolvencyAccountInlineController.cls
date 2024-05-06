@@ -12,11 +12,18 @@
 public class TestInsolvencyAccountInlineController {
     @testSetup
     static void testData() {
-        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-        config.Profile_Eligible_for_Duplicate_Check__c = 'SPL,Goeasy Community User';
-        config.Bank_Eligible_for_Duplicate_Check__c = 'SPL,Goeasy';
-        config.Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN';
-        config.Run_Insolvency_Status_Validations__c = false;
+        Application_Config_Settings__c config = new Application_Config_Settings__c(
+            Run_Remittance_Validation__c = false,
+            Run_Remittance_Trigger__c = true,
+            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+            Run_Insolvency_Trigger__c = false,
+            Run_Insolvency_Account_Duplicate_Check__c = true,
+            Run_Insolvency_Account_Trigger__c = false,
+            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+            Run_Insolvency_Status_Validations__c = true,
+            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
+        );
         insert config;
     }
 
@@ -178,11 +185,7 @@ public class TestInsolvencyAccountInlineController {
         ApexPages.currentPage().getParameters().put('id', insolv.Id);
         ApexPages.currentPage().getParameters().put('viewPage', '');
 
-        User u = TestInsolvencyAccountEditController.getCommunityUser('Goeasy Community User');
-        TestInsolvencyAccountEditController.shareInsolvencyRecord(u.Id);
-        System.runAs(u) {
             ApexPages.StandardController scCommunity = new ApexPages.StandardController(insolv);
             InsolvencyAccountInlineController ccCommunity = new InsolvencyAccountInlineController(scCommunity);
-        }
     }
 }

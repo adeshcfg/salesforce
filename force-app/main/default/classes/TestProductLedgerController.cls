@@ -2,6 +2,11 @@
 public class TestProductLedgerController {
     public static testMethod void testLedger(){
        
+        Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
+        portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
+        insert portalSettings;
+        
+        
         //list<Pool__c> poolList = new list<Pool__c>();
         Placement__c plcmnt= new Placement__c();      
         plcmnt.Name= '89'; 
@@ -97,6 +102,7 @@ public class TestProductLedgerController {
         prodPay.Pay_NSF__c = '2';
         prodPay.Balance_Before_Payment__c = 1090;
         prodPay.Payment_Source__c = '1';
+        prodPay.Ignore_Warning__c = true;
         insert prodPay;
         
         
@@ -118,6 +124,7 @@ public class TestProductLedgerController {
         prodPay2.Balance_Before_Payment__c = 1090;
         prodPay2.Pay_NSF__c = '0';
         prodPay2.Payment_Source__c = '1';
+        prodPay2.Ignore_Warning__c = true;
         insert prodPay2;
         
         Product__History prodHistory1 = new Product__History();
