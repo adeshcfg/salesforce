@@ -77,7 +77,7 @@ public class ProcessProductBulkBatchAllocation {
                         '"Pool_Name": "'+productInstance.Pool_Name__r.Pool_ID__c+'",'+
                         '"Created_By": "'+productInstance.Created_By__c+'",'+
                         '"Allocated_Amount_Total": "'+productInstance.Allocated_Amount_Total__c+'",'+
-                        '"Company_Name": "'+productInstance.Employer_Name__c+'",'+
+                        '"Pri_Employer_Name": "'+productInstance.Employer_Name__c+'",'+
                         '"Customer_Identifier": "'+productInstance.Customer_Identifier__c+'",'+
                         '"Current_Fees": "'+productInstance.Current_Fees__c+'",';
                     
