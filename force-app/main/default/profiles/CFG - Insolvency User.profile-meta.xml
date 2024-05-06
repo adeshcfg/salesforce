@@ -18433,6 +18433,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CTB_Staging__c.CTB_Balance_as_of_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Payment__c.Payment_Posting_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
