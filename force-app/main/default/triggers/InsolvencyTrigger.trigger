@@ -77,6 +77,5 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                 }             
                 }             
 
-        }
     }    
 }
