@@ -2946,6 +2946,11 @@
         <field>Insolvency__c.Water_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.CTB_Balance_as_of_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Canadian Tire Insolvency Permission Set</label>
     <objectPermissions>
