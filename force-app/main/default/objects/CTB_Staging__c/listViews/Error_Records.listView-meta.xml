@@ -13,4 +13,7 @@
         <value>Error</value>
     </filters>
     <label>Error Records</label>
+    <sharedTo>
+        <group>CTB_Staging_Group</group>
+    </sharedTo>
 </ListView>
