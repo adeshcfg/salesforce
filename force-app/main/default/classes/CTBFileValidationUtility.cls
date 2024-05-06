@@ -59,7 +59,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Open_Date__c = parseDateString(csvColumns[OPEN_DATE], 'Open_Date__c', stagingRecord);
         stagingRecord.Balance_Owed__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Balance_Owed__c', stagingRecord);
         stagingRecord.Claim_Amount__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Claim_Amount__c', stagingRecord);
-        stagingRecord.CTB_Balance_as_of_date__c = parseDateTimeString(csvColumns[CTB_AS_OF_DATE], 'CTB_Balance_as_of_date__c', stagingRecord);
+        stagingRecord.CTB_Balance_as_of_date__c = parseDateString(csvColumns[CTB_AS_OF_DATE], 'CTB_Balance_as_of_date__c', stagingRecord);
         stagingRecord.Interest_Rate__c = parseDoubleString(csvColumns[INTEREST_RATE], 'Interest_Rate__c', stagingRecord);
         stagingRecord.Last_Payment_Date__c = parseDateString(csvColumns[LAST_PAYMENT_DATE], 'Last_Payment_Date__c', stagingRecord);
         stagingRecord.Last_Payment_Amount__c = parseDoubleString(csvColumns[LAST_PAYMENT_AMOUNT], 'Last_Payment_Amount__c', stagingRecord);
@@ -317,7 +317,7 @@ public with sharing class CTBFileValidationUtility {
      * @param stagingRecord
      * @return DateTime
      **/
-    public static DateTime parseDateTimeString(String input, String fieldName, CTB_Staging__c stagingRecord) {
+    /* public static DateTime parseDateTimeString(String input, String fieldName, CTB_Staging__c stagingRecord) {
         if (String.isBlank(input)) {
             return null;
         }
@@ -328,7 +328,7 @@ public with sharing class CTBFileValidationUtility {
             stagingRecord.Error_Message__c += '; Invalid DateTime format for ' + fieldName;
             return null;
         }
-    }
+    } */
 
     /**
      * @description : Parse String to Double, return null and populate error message for invalid Double
