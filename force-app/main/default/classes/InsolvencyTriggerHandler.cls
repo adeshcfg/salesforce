@@ -404,10 +404,11 @@
     //Handle After Insert
     public static void handleAfterInsert(List<Insolvency__c> insolsNew) {
         map<ID, Insolvency__c> updateInsolvencies = new Map<ID, Insolvency__c>();
-
-        for(Insolvency__c insolRec : insolsNew){
-             insolRec.External_Correlation_ID__c = insolRec.ID;
+for(Insolvency__c insolRec : [select id,External_Correlation_ID__c from Insolvency__c where ID IN: insolsNew]){
+insolRec.External_Correlation_ID__c = insolRec.ID;
              updateInsolvencies.put(insolRec.ID,insolRec);
+}
+        for(Insolvency__c insolRec : insolsNew){
             //Doc Parser code
             if(insolRec.Document_ID__c <> null){
                 InsolvencyAccountCreationFuture.SendPDFtoParser(insolRec.Remote_ID__c);
