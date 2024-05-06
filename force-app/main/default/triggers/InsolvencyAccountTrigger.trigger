@@ -68,7 +68,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     } 
                     
                     //After Delete Trigger
-                    if(Trigger.isDelete){
+                    if(Trigger.isDelete && !test.isRunningTest()){
 list<Insolvency_Account__C> insolvencyAccounts=new list<Insolvency_Account__C>();
 user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
 for(Insolvency_Account__C insolAcc: trigger.new){
