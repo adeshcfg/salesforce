@@ -3220,6 +3220,10 @@
         <apexClass>updateSettlementStatusBatch</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+    <tabVisibilities>
+        <tab>CTB_Staging__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
     <custom>true</custom>
     <customSettingAccesses>
         <enabled>true</enabled>
