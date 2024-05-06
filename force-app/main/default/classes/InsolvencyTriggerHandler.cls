@@ -416,8 +416,10 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
             }
         }
         if(!updateInsolvencies.isEmpty()){
+         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=false;
            InsolvencyTriggerHandler.runInsolvencyTrigger = false;
            update updateInsolvencies.values();
+         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=TRUE;
            InsolvencyTriggerHandler.runInsolvencyTrigger = true;
        }
     }
