@@ -1077,8 +1077,10 @@ update listInsolvency;
          updateInsolvencyAccounts.put(insolvAccount.ID,insolvAccount);
       }
       if(!updateInsolvencyAccounts.isEmpty()){
+         InsolvencyTriggerHandler.runInsolvencyTrigger=FALSE;
          InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=false;
          update updateInsolvencyAccounts.values();
+         InsolvencyTriggerHandler.runInsolvencyTrigger=TRUE;
          InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=true;
       }
         handleAfterInsertUpdate(insolAccntsNew,null);     
