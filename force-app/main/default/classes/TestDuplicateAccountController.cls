@@ -70,7 +70,7 @@ public class TestDuplicateAccountController {
         DuplicateAccountController cc = new DuplicateAccountController(sc); 
         
         //Calling methods
-        //cc.DuplicateAccountList(ia2.Id);
+        //cc.DuplicateAccountList(ia2.Id);// commented to avoid 101 soql query errors
         cc.save();
         cc.getInslAcctWrappers();
         test.stopTest();
