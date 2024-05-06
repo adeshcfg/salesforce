@@ -53,7 +53,14 @@ public class ProductPaymentsTriggerHandler{
         map<ID, Product_Payments__c> mapNewPayments = new map<ID, Product_Payments__c>();
         map<ID, Product_Payments__c> mapNewFees = new map<ID, Product_Payments__c>();
         Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
-        
+        map<ID, Product_Payments__c> updateproductPayment = new Map<ID, Product_Payments__c>();
+        for(Product_Payments__c productPayment : [select ID,External_Correlation_ID__c from Product_Payments__c where ID IN : listProductPayment]){
+            productPayment.External_Correlation_ID__c = productPayment.ID;
+            updateproductPayment.put(productPayment.ID,productPayment);
+         }
+         if(!updateproductPayment.isEmpty()){
+            update updateproductPayment.values();
+         }
         for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product_Payments__c' ]){
             prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
         }

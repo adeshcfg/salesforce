@@ -6756,6 +6756,7 @@
         <field>Insolvency_Account__c.Accepted_Sent_to_Collections__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Account_Details_Verified__c</field>
@@ -7164,6 +7165,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Duplicate_Reasons_Picklist__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Payments__c.External_Correlation_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
