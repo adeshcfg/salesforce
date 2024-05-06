@@ -4962,6 +4962,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Payments__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Creditor_Account__c.Liabilities_Type_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8348,11 +8363,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency__c.Acceleration_Clause__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency__c.IsUnArchived__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -13381,11 +13391,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Payments__c.IsUnArchived__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Product_Payments__c.Agency_Commission_Rate__c</field>
         <readable>false</readable>
@@ -18213,11 +18218,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.CTB_Status_Update_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency_Account__c.IsUnArchived__c</field>
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>

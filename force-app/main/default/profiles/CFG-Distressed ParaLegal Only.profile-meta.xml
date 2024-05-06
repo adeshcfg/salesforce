@@ -6765,11 +6765,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency_Account__c.IsUnArchived__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Account_Details_Verified__c</field>
         <readable>false</readable>
@@ -8305,11 +8300,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Insolvency__c.IsUnArchived__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Acceptable_Monthly_Payment__c</field>
         <readable>false</readable>
@@ -8328,6 +8318,21 @@
         <editable>false</editable>
         <field>Insolvency__c.Accounts_Needing_Validation_Scotia__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Payments__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -13317,11 +13322,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product_Payments__c.Agency_Calculated_Comm__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Payments__c.IsUnArchived__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
