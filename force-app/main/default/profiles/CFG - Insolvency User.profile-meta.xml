@@ -3222,7 +3222,7 @@
     </classAccesses>
     <tabVisibilities>
         <tab>CTB_Staging__c</tab>
-        <visibility>DefaultOff</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <custom>true</custom>
     <customSettingAccesses>
@@ -19829,7 +19829,7 @@
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
+        <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>CTB_Staging__c</object>
         <viewAllRecords>false</viewAllRecords>
