@@ -47,6 +47,7 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
             if (res.getStatusCode() == 200) {
             }
         } catch (Exception ex) {
+            createApiError(ex.getMessage(), ex.getStackTraceString());
             System.debug('Exception in getFileList ' + ex.getStackTraceString());
         }
         return fileNameList;
@@ -87,8 +88,21 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
                 contentVersionId = parsedResponse.data.id;
             }
         } catch (Exception ex) {
+            createApiError(ex.getMessage(), ex.getStackTraceString());
             System.debug('Exception in getContentVersionId ' + ex.getStackTraceString());
         }
         return contentVersionId;
+    }
+
+    /**
+     * @description : Method to create API Error record
+     * @author adesh.ikhar@canaccede.com | 05-07-2024
+     * @param exceptionMsg
+     * @param stackTraceString
+     **/
+    public static void createApiError(String exceptionMsg, String stackTraceString) {
+        API_Error__c apiError = new API_Error__c(Action__c = 'API Failed', Error__c = exceptionMsg + stackTraceString);
+        insert apiError;
+        CTBFileValidationUtility.sendEmail('CTB Account file processing failed', 'API Failed with error - ' + apiError.Error__c);
     }
 }

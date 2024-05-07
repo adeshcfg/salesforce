@@ -2,8 +2,8 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 11-23-2023
- * @last modified by  : adeshi@a5econsulting.net
+ * @last modified on  : 05-07-2024
+ * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
     // List of file names to process
@@ -79,6 +79,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
             return docInfo;
         } catch (DmlException ex) {
             System.debug('DMLException in createDocStorage ' + ex.getDmlMessage(0));
+            createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
             return null;
         }
     }
@@ -164,6 +165,10 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
             try {
                 update accountRecordsToUpdateMap.values();
                 docStorage.File_Processing_Status__c = 'Processed';
+                CTBFileValidationUtility.sendEmail(
+                    'CTB Account file successfully processed',
+                    'File ' + docStorage.Document_Name__c + 'was successfully processed'
+                );
             } catch (DmlException dex) {
                 System.debug('Error updating account records ' + dex.getDmlMessage(0));
                 createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
@@ -175,8 +180,9 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
 
     public static void createInsolvencyError(String errorMsg, String stackTrace) {
         Insolvency_Error__c insolErrorData = new Insolvency_Error__c();
-        insolErrorData.Error__c = 'Record failed due to' + ' ' + errorMsg + ' ' + stackTrace;
+        insolErrorData.Error__c = 'File processing failed due to' + ' ' + errorMsg + ' ' + stackTrace;
         Database.insert(insolErrorData);
+        CTBFileValidationUtility.sendEmail('CTB Account file processing failed', insolErrorData.Error__c);
     }
 
     /**
