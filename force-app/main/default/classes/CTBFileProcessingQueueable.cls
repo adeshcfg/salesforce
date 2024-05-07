@@ -5,18 +5,15 @@
  * @last modified on  : 11-23-2023
  * @last modified by  : adeshi@a5econsulting.net
  **/
-public with sharing class CTBFileProcessingQueueable implements Queueable {
+public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
+    // List of file names to process
+    public List<String> fileNames = new List<String>();
     // Identifier to know type of file, Account or Payment
     public String fileIdentifier = '';
-    // Salesforce document record Id where the csv is stored
-    public String documentId = '';
-    // Document storage record created after receiving file from CTB
-    public Document_Storage__c docStorage = new Document_Storage__c();
 
-    public CTBFileProcessingQueueable(String fileIdentifier, String documentId, Document_Storage__c docStorage) {
+    public CTBFileProcessingQueueable(List<String> fileNames, String fileIdentifier) {
+        this.fileNames = fileNames;
         this.fileIdentifier = fileIdentifier;
-        this.documentId = documentId;
-        this.docStorage = docStorage;
     }
 
     /**
@@ -26,18 +23,63 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
      **/
     public void execute(QueueableContext context) {
         try {
-            Document fileToProccess = [SELECT Id, Body FROM Document WHERE Id = :documentId];
-            String csvContents = fileToProccess.Body.toString();
+            // Call SFTP API to get the file uploaded in SF as a content version record and get it's Id
+            String contentVersionId = CTBGetFileApiQueueable.getContentVersionId(fileNames[0]);
+            if (String.isBlank(contentVersionId)) {
+                return;
+            }
+            // Convert CSV to string
+            ContentVersion fileToProccess = [SELECT Id, FileExtension, ContentDocumentId, VersionData, Title FROM ContentVersion WHERE Id = :contentVersionId];
+            String csvContents = fileToProccess.VersionData.toString();
+            // Create Doc storage record with received file details
+            Document_Storage__c docStorage = createDocStorage(fileToProccess.Title, fileToProccess.FileExtension);
             if (fileIdentifier == System.Label.CTB_Insolvency_Account) {
-                System.debug('Account processing');
                 processCTBStagingAccounts(csvContents, docStorage);
             } /*  else if (fileIdentifier == System.Label.CTB_Payment) {
                 processCTBStagingPayments(csvContents, docStorage);
                 System.debug('Payment processing');
             } */
+            // Remove the file which was processed
+            fileNames.remove(0);
+            // This will be the last queueable in case of multiple unprocessed files
+            if (fileNames.isEmpty()) {
+                // Query and delete successfull records
+                List<CTB_Staging__c> stagingRecordsToDelete = [SELECT Id FROM CTB_Staging__c WHERE Status__c != 'Error'];
+                if (!stagingRecordsToDelete.isEmpty()) {
+                    System.enqueueJob(new BulkDmlQueueable(stagingRecordsToDelete, 0, 'Delete'));
+                }
+                return;
+            }
+            System.enqueueJob(new CTBFileProcessingQueueable(fileNames, System.Label.CTB_Insolvency_Account));
         } catch (Exception e) {
             System.debug('Exception in CTBFileProcessingQueueable ' + e.getMessage() + e.getStackTraceString());
             createInsolvencyError(e.getMessage(), e.getStackTraceString());
+        }
+    }
+
+    /**
+     * @description : Method to create document storage record for incoming file
+     * @author adesh.ikhar@canaccede.com | 05-07-2024
+     * @param fileName
+     * @param extension
+     * @return Document_Storage__c
+     **/
+    public static Document_Storage__c createDocStorage(String fileName, String extension) {
+        // Create document storage status associated to the file
+        Document_Storage__c docInfo = new Document_Storage__c();
+        docInfo.Document_Type__c = 'Insolvency Daily Update';
+        docInfo.Document_Extension__c = extension;
+        docInfo.Document_Name__c = fileName;
+        docInfo.File_Processing_Status__c = 'Pending';
+        docInfo.RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('CTB').getRecordTypeId();
+        try {
+            DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
+            Database.insert(docInfo);
+            DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+            return docInfo;
+        } catch (DmlException ex) {
+            System.debug('DMLException in createDocStorage ' + ex.getDmlMessage(0));
+            return null;
         }
     }
 
@@ -129,11 +171,6 @@ public with sharing class CTBFileProcessingQueueable implements Queueable {
         }
         // Update doc storage with processing status and error message if failed
         update docStorage;
-        // Query and delete successfull records
-        List<CTB_Staging__c> stagingRecordsToDelete = [SELECT Id FROM CTB_Staging__c WHERE Status__c != 'Error'];
-        if (!stagingRecordsToDelete.isEmpty()) {
-            System.enqueueJob(new BulkDmlQueueable(stagingRecordsToDelete, 0, 'Delete'));
-        }
     }
 
     public static void createInsolvencyError(String errorMsg, String stackTrace) {
