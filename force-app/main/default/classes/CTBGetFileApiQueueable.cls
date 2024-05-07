@@ -43,8 +43,11 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
         req.setEndpoint(endpoint);
         try {
             HttpResponse res = h.send(req);
-            String statusCode = String.valueOf(res.getStatusCode());
             if (res.getStatusCode() == 200) {
+                FileListWrapper fileList = (FileListWrapper) System.JSON.deserialize(res.getBody(), FileListWrapper.class);
+                fileNameList = fileList.files;
+            } else {
+                createApiError(String.valueOf(res.getStatusCode()), res.getBody());
             }
         } catch (Exception ex) {
             createApiError(ex.getMessage(), ex.getStackTraceString());
@@ -92,6 +95,12 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
             System.debug('Exception in getContentVersionId ' + ex.getStackTraceString());
         }
         return contentVersionId;
+    }
+
+    // Wrapper class for file list API response
+    public class FileListWrapper {
+        public boolean hasMore;
+        public List<String> files;
     }
 
     /**
