@@ -523,12 +523,12 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     update insolvAcctErrorListMap.values();
                 }
                 exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, CTBBatchName);
-                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), dmlEx.getStackTraceString(), 'Account batch count update Failed');
+                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Account batch count update Failed');
             }
         } catch (Exception ex) {
             system.debug('Exception msg**' + ex.getStackTraceString());
             exceptionHandling(ex.getMessage(), ex.getStackTraceString(), null, insolvencyAccData, CTBBatchName);
-            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), ex.getStackTraceString(), 'CTB Account Automation Process Failed');
+            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), ex.getStackTraceString(), 'CTB Account Automation Process Failed');
         }
         batchCntData.finalDetailBody = mainbody;
         batchCntData.batchCountDetail = counter;
@@ -617,12 +617,12 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             } catch (DMLException dmlEx) {
                 system.debug('Exception msg@@' + dmlEx.getStackTraceString());
                 exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, CTBBatchName);
-                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), dmlEx.getStackTraceString(), 'Payment batch count update Failed');
+                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Payment batch count update Failed');
             }
         } catch (Exception ex) {
             system.debug('Exception msg**' + ex.getStackTraceString());
             exceptionHandling(ex.getMessage(), ex.getStackTraceString(), null, insolvencyPayData, CTBBatchName);
-            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(), ex.getStackTraceString(), 'CTB Payment Automation Process Failed');
+            CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), ex.getStackTraceString(), 'CTB Payment Automation Process Failed');
         }
         batchCntData.finalDetailBody = mainbody;
         batchCntData.batchCountDetail = counter;
@@ -861,7 +861,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         } catch (Exception ex) {
             system.debug('Exception msg&&' + ex.getStackTraceString());
             CFG_EmailNotification.apiFailedEmailNotify(
-                UserInfo.getName(),
+                UserInfo.getUserId(),
                 ex.getMessage() + ' ' + ex.getStackTraceString(),
                 CTBBatchName + ' file generation failed'
             );
