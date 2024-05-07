@@ -86,8 +86,6 @@ public with sharing class CTBFileValidationUtility {
      **/
     public static Insolvency_Account__c updateInsolvencyAccount(CTB_Staging__c stagingRecord) {
         List<String> optionalFields = new List<String>{
-            'Debtor_1_First_Name__c',
-            'Debtor_1_Last_Name__c',
             'CTB_Reject_Reason_Code__c',
             'Previous_Account_Reference__c',
             'Additional_Info__c'
