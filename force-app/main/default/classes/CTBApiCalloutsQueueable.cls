@@ -18,27 +18,13 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
     
     public void execute(QueueableContext context) {
        system.debug('inside CTBApiCalloutsQueueable');
-        Map<id,insolvency_account__c> insolAccMap = new Map<id,insolvency_account__c>();
-        Map<id,Insolvency_Payment__c> insolPayMap = new Map<id,Insolvency_Payment__c>();
-        String JSONRequest;
-        List<id> errorList = new List<id>();
-        //bild JSON to send the portal
         if(!listData.isEmpty()){
-            //Create JSON request for customer update
-            JSONRequest = '{'+ 
-                '"RemoteId": "'+contentVersionDataID+'",'+
-                '"FileName": "'+fileNameFormat+'",'+  
-                '"FileType": "'+'SftpCtbNotification"' +
-                '}';
-            
-            system.debug('JSONRequest@@'+JSONRequest);
             //Get access token for http request
             String accToken;
             accToken = AzureUtility.getRequestToken('Agency Portal API');
             if (accToken != '') {
                 Http h = new Http();
                 HttpRequest req = new HttpRequest();
-                //req.setBody(JSONRequest);
                 req.setHeader('Authorization', 'Bearer ' + accToken);
                 req.setHeader('Content-Type', 'application/json');
                 
@@ -46,53 +32,21 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                 req.setMethod('POST');
                 string apiUrl = apiCallDetails.PDF_API_URL__c + 'sobjects/' + contentVersionDataID + '/ctbsftpoutbox?name=' + fileNameFormat;
                	req.setEndpoint(apiUrl);
-                system.debug('Outbound req body:: '+req.getBody());
+
 				system.debug('Endpoint req body:: '+req.getEndpoint());
+                Map<id,sobject> mapRecordUpdate = new Map<id,sobject>();
                 try{
                     // Send the request, and return a response
                     HttpResponse res = h.send(req);
                     system.debug('res.getBody(): '+res.getBody());
                     system.debug('Status code: '+res.getStatusCode());
-                    Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
-                    system.debug('bodyMap: '+bodyMap);
-                    system.debug('Outbound res.getBody() :: '+res.getBody());
                     String statusCode = String.valueOf(res.getStatusCode());
                     system.debug('statusCode: '+statusCode);
-                    insolvency_account__c newInsolAccRec = new insolvency_account__c(); 
+                    
                     Insolvency_Payment__c newinsolPayRec = new Insolvency_Payment__c();
-                    if(statusCode.startsWith('2')){
-                           if(batchName == System.Label.CTB_Insolvency_Account){
-                            //if we get success response then update insolvency account fields
-                               for(insolvency_account__c insolAccData : (List<insolvency_account__c>)listData){
-                                   newInsolAccRec.id = insolAccData.id;
-                                   newInsolAccRec.Insolvency_Sub_Status__c = 'Sent on File';
-                                   newInsolAccRec.CTB_Update_Filename__c = fileNameFormat;
-                                   newInsolAccRec.CTB_Update_File_Timestamp__c = NULL;
-                                   insolAccMap.put(newInsolAccRec.id,newInsolAccRec);
-                               }
-                           }
-                           
-                           if(batchName == System.Label.CTB_Payment){
-                            //if we get success response then update insolvency account fields 
-                               for(Insolvency_Payment__c insolPayData : (List<Insolvency_Payment__c>)listData){
-                                   newinsolPayRec.id = insolPayData.id;
-                                   newinsolPayRec.Payment_Sub_Status__c = 'Sent on File';
-                                   newinsolPayRec.CTB_Update_Filename__c = fileNameFormat;
-                                   newinsolPayRec.CTB_Update_File_Timestamp__c = NULL;
-                                   insolPayMap.put(newinsolPayRec.id,newinsolPayRec);
-                               }
-                           }
-                       }       
-                    else if(!statusCode.startsWith('2')){
-                        if(batchName == System.Label.CTB_Insolvency_Account){
-                            newInsolAccRec.Insolvency_Sub_Status__c = 'File Error Parsing Record';
-                            insolAccMap.put(newInsolAccRec.id,newInsolAccRec);
-                            errorList.add(newInsolAccRec.id);
-                        }
-                        if(batchName == System.Label.CTB_Payment){
-                            newinsolPayRec.Payment_Sub_Status__c = 'File Error Parsing Record';
-                            insolPayMap.put(newinsolPayRec.id,newinsolPayRec);
-                        }
+  					//update processing sub status based on portal response
+                    mapRecordUpdate = populateProcessingSubStatus(batchName,statusCode,listData,fileNameFormat);   
+                    if(!statusCode.startsWith('2')){
                         //if we get error response then maintain error log
                         String response = '';
                         if(res.getBody().length() > 131071){
@@ -101,7 +55,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                             response =res.getBody();
                         }
                         
-                        CTBFileGenerator.exceptionHandling(response,NULL,NULL,insolPayMap.values(),batchName);
+                        CTBFileGenerator.exceptionHandling(response,NULL,NULL,mapRecordUpdate.values(),batchName);
                     	CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),response,'Error Response');
                     }
                 }
@@ -112,14 +66,12 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                     if(batchName == System.Label.CTB_Insolvency_Account){
                         for(insolvency_account__c insolAccData : (List<insolvency_account__c>)listData){
                             insolAccData.Insolvency_Sub_Status__c = 'File Error Parsing Record';
-                            errorList.add(insolAccData.id);
                             errorMap.put(insolAccData.id,insolAccData);
                         }
                     }
                     if(batchName == System.Label.CTB_Payment){
                         for(Insolvency_Payment__c insolPayData : (List<Insolvency_Payment__c>)listData){
                             insolPayData.Payment_Sub_Status__c = 'File Error Parsing Record';
-                            errorList.add(insolPayData.id);
                             errorMap.put(insolPayData.id,insolPayData);
                         }
                     }
@@ -129,20 +81,86 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                     CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),ex.getStackTraceString(),'CTB API Failed');
                 }
                 try{
-                    if (!insolAccMap.values().isEmpty()) {
-                        update insolAccMap.values();
-                    }
-                    if (!insolPayMap.values().isEmpty()) {
-                        update insolPayMap.values();
+                    
+                    if (!mapRecordUpdate.values().isEmpty()) {
+                        update mapRecordUpdate.values();
                     }
                 }catch(DMLException dmlEx){
+                    Map<id, sObject> insolvAcctErrorListMap = new Map<id, sObject>();
+                    system.debug('Exception class'+dmlEx.getDMLMessage(0));
+                    system.debug('getStackTraceString class'+dmlEx.getStackTraceString());
+                    system.debug('getDmlId class'+dmlEx.getDmlId(0));
+                    if(batchName == System.Label.CTB_Insolvency_Account){
+                        insolvency_account__c insolAccError = new insolvency_account__c();
+                        insolAccError.id = dmlEx.getDmlId(0);
+                        insolAccError.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                        insolAccError.Error_Message__c = dmlEx.getStackTraceString();
+                        insolvAcctErrorListMap.put(insolAccError.id, insolAccError);
+                    }
+                    if(batchName == System.Label.CTB_Payment){
+                        Insolvency_Payment__c insolPayError = new Insolvency_Payment__c();
+                        insolPayError.id = dmlEx.getDmlId(0);
+                        insolPayError.Payment_Sub_Status__c = 'File Error Parsing Record';
+                        insolvAcctErrorListMap.put(insolPayError.id, insolPayError);
+                    }
+                    
                     //Add Insolvency Error log in backend database
                     CTBFileGenerator.exceptionHandling(dmlEx.getDMLMessage(0),dmlEx.getStackTraceString(),dmlEx.getDmlId(0),null,batchName); 
                     // Notify to user via Email
                     CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getName(),dmlEx.getStackTraceString(),'Record update Failed');
+                    system.debug('above if');
+                    try{
+                        if(insolvAcctErrorListMap != null && !insolvAcctErrorListMap.isEmpty()) {
+                            update insolvAcctErrorListMap.values();
+                        }
+                    }catch(DMLException ex){
+                        system.debug('Exception class'+ex.getDMLMessage(0));
+                        system.debug('getDmlId class'+ex.getDmlId(0));
+                    }
+                    
                 }
             }
         }
+    }
+    
+    public Map<id,sObject> populateProcessingSubStatus(string batchName,string statusCode,List<sObject> listData,string fileNameFormat){
+        Map<id,sObject> insolAccAndPaymentMap = new Map<id,sObject>();
+        if(batchName == System.Label.CTB_Insolvency_Account){   
+            //if we get success response then update insolvency account fields
+            for(insolvency_account__c insolAccData : (List<insolvency_account__c>)listData){
+                insolvency_account__c newInsolAccRec = new insolvency_account__c(); 
+                if(statusCode.startsWith('2')){
+                    newInsolAccRec.id = insolAccData.id;
+                    newInsolAccRec.Insolvency_Sub_Status__c = 'Sent on File';
+                    newInsolAccRec.CTB_Update_Filename__c = fileNameFormat;
+                    newInsolAccRec.CTB_Update_File_Timestamp__c = NULL;
+                    insolAccAndPaymentMap.put(newInsolAccRec.id,newInsolAccRec);
+                }else{
+                    newInsolAccRec.id = insolAccData.id;
+                    newInsolAccRec.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                    insolAccAndPaymentMap.put(newInsolAccRec.id,newInsolAccRec);
+                }
+            }
+        }
+        
+        if(batchName == System.Label.CTB_Payment){
+            //if we get success response then update insolvency account fields 
+            for(Insolvency_Payment__c insolPayData : (List<Insolvency_Payment__c>)listData){
+                Insolvency_Payment__c newinsolPayRec = new Insolvency_Payment__c();
+                if(statusCode.startsWith('2')){
+                    newinsolPayRec.id = insolPayData.id;
+                    newinsolPayRec.Payment_Sub_Status__c = 'Sent on File';
+                    newinsolPayRec.CTB_Update_Filename__c = fileNameFormat;
+                    newinsolPayRec.CTB_Update_File_Timestamp__c = NULL;
+                    insolAccAndPaymentMap.put(newinsolPayRec.id,newinsolPayRec);
+                }else{
+                    newinsolPayRec.id = insolPayData.id;
+                    newinsolPayRec.Payment_Sub_Status__c = 'File Error Parsing Record';
+                    insolAccAndPaymentMap.put(newinsolPayRec.id,newinsolPayRec);
+                }
+            }
+        } 
+        return insolAccAndPaymentMap;
     }
 
 }
