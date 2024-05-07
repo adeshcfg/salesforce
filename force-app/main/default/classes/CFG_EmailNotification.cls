@@ -271,7 +271,7 @@ public class CFG_EmailNotification {
     public static void apiFailedEmailNotify(String userName, String exceptionMsg, String action) {
         User activeUser = new User();
         if (!Test.isRunningTest()) {
-            activeUser = [SELECT Email FROM User WHERE name = :userName LIMIT 1];
+            activeUser = [SELECT Email FROM User WHERE id = :userName LIMIT 1];
         }
         String userEmail = '';
         userEmail = System.Label.API_Failed_Email + ',';
