@@ -38,25 +38,29 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
             if (accToken != '') {
                 Http h = new Http();
                 HttpRequest req = new HttpRequest();
-                req.setBody(JSONRequest);
+                //req.setBody(JSONRequest);
                 req.setHeader('Authorization', 'Bearer ' + accToken);
-                req.setHeader('Content-Type', 'application/json;charset=UTF-8');
-                apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFDocument');
-                req.setMethod('PUT');
+                req.setHeader('Content-Type', 'application/json');
+                
+                apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy');
+                req.setMethod('POST');
+                string apiUrl = apiCallDetails.PDF_API_URL__c + 'sobjects/' + contentVersionDataID + '/ctbsftpoutbox?name=' + fileNameFormat;
+               	req.setEndpoint(apiUrl);
                 system.debug('Outbound req body:: '+req.getBody());
-
+				system.debug('Endpoint req body:: '+req.getEndpoint());
                 try{
                     // Send the request, and return a response
                     HttpResponse res = h.send(req);
                     system.debug('res.getBody(): '+res.getBody());
                     system.debug('Status code: '+res.getStatusCode());
                     Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
+                    system.debug('bodyMap: '+bodyMap);
                     system.debug('Outbound res.getBody() :: '+res.getBody());
                     String statusCode = String.valueOf(res.getStatusCode());
+                    system.debug('statusCode: '+statusCode);
                     insolvency_account__c newInsolAccRec = new insolvency_account__c(); 
                     Insolvency_Payment__c newinsolPayRec = new Insolvency_Payment__c();
-                    if(statusCode.startsWith('2')
-                       && bodyMap.get('IsSuccess') == true){
+                    if(statusCode.startsWith('2')){
                            if(batchName == System.Label.CTB_Insolvency_Account){
                             //if we get success response then update insolvency account fields
                                for(insolvency_account__c insolAccData : (List<insolvency_account__c>)listData){

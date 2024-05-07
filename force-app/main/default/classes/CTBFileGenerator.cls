@@ -792,18 +792,29 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 mainFinalData = Theadbody + Bheadbody + FinalData + BTRAL + TTRAL;
             }
 
-            /*String Filename = 'DRN_DailyUpdate_'+createdDate+dateformate;
+            //String Filename = 'DRN_DailyUpdate_'+createdDate+dateformate;
+            String Filename;
             // Create Content Version
             ContentVersion contentVersionData = new ContentVersion();
             contentVersionData.ContentLocation = 'S';
             contentVersionData.VersionData = Blob.valueof(mainFinalData);
-            contentVersionData.Title = 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss');
-            contentVersionData.PathOnClient = 'DRN_DailyUpdate.csv';
+            //contentVersionData.Title = 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss');
+            if(CTBBatchName == System.Label.CTB_Payment){
+                Filename = 'DRN_PaymentUpdate_'+createdDate+dateformate;
+                contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss');
+                contentVersionData.PathOnClient = 'DRN_PaymentUpdate.csv';
+            }
+            if(CTBBatchName == System.Label.CTB_Insolvency_Account){
+                Filename = 'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
+                contentVersionData.Title = 'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
+                contentVersionData.PathOnClient = 'DRN_DailyUpdate.csv';
+            }
+            
             insert contentVersionData;
 
-            System.enqueueJob(new CTBApiCalloutsQueueable(contentVersionData.id,queryData,CTBBatchName,Filename));*/
+            System.enqueueJob(new CTBApiCalloutsQueueable(contentVersionData.id,queryData,CTBBatchName,Filename));
 
-            /**********************Temparory Purpase Added*******************************/
+            /**********************Temparory Purpase Added*******************************
             DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
             Blob fileBlob = Blob.valueOf(mainFinalData);
             //parse string and get response
@@ -846,7 +857,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
             insert docInfo;
             DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
-            /**********************Temparory Purpase Added Ends*******************************/
+            **********************Temparory Purpase Added Ends*******************************/
         } catch (Exception ex) {
             system.debug('Exception msg&&' + ex.getStackTraceString());
             CFG_EmailNotification.apiFailedEmailNotify(
