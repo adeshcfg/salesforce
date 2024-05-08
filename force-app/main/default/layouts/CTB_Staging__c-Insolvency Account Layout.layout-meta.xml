@@ -43,7 +43,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Open_Date__c</field>
+                <field>Account_Original_Open_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

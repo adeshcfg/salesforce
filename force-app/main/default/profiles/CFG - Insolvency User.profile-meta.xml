@@ -18317,7 +18317,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>CTB_Staging__c.Open_Date__c</field>
+        <field>CTB_Staging__c.Account_Original_Open_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
