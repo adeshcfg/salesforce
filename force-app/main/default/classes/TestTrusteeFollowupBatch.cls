@@ -1,9 +1,7 @@
 @isTest
 public class TestTrusteeFollowupBatch {
-
-    @isTest 
-    public static void TestTrusteeFollowUp() {
-        
+    @TestSetup
+    static void makeData() {
         Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
         config.Run_Insolvency_Account_Trigger__c = true;
         config.Run_Insolvency_Status_Validations__c = true;
@@ -14,44 +12,53 @@ public class TestTrusteeFollowupBatch {
         config.Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN';
         config.Run_Insolvency_Trigger__c = false;
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
-        insert config; 
-         
-        
+        insert config;
+
+        Trustee_Payment_Followup_Setting__c tpfs = Trustee_Payment_Followup_Setting__c.getOrgDefaults();
+        tpfs.Name = 'Trustee Payment Followup';
+        tpfs.Domain_Name__c = '@rcfax.com.sb';
+        tpfs.Trustee_Email_Org_Wide_Address_Id__c = '0D2f1000000fxpt';
+        tpfs.Maximum_Emails_Per_Day__c = 5;
+        tpfs.Additional_Follow_up_After_X_Months__c = 12;
+        tpfs.Follow_up_Max_Limit__c = 1;
+        insert tpfs;
+
         Trustee_Fees__c trusteeFees = Trustee_Fees__c.getOrgDefaults();
         trusteeFees.Trustee_Administration_Fee__c = 10;
         trusteeFees.Counselling_Fee__c = 10;
         trusteeFees.Receiver_Fee__c = 10;
         trusteeFees.Trustee_Variable_Fee_Rate__c = 10;
         insert trusteeFees;
-        
-        Trustee_Payment_Followup_Setting__c tpfs = Trustee_Payment_Followup_Setting__c.getOrgDefaults();
-        tpfs.Name = 'Trustee Payment Followup';
-        tpfs.Domain_Name__c = '@rcfax.com.sb';
-        tpfs.Trustee_Email_Org_Wide_Address_Id__c = '0D2f1000000fxpt';
-        tpfs.Maximum_Emails_Per_Day__c = 5;
-        insert tpfs;
+    }
 
-        Account trusteeOffice = new Account(Name = 'my acc', 
-                                            Business_Email__c = 'test@test.com',                                             
-                                            Communication_Preference__c = 'Fax', 
-                                            Number_Of_Emails_Sent_Today__c = 2,
-                                            Fax = '123-123-123');
+    @isTest
+    public static void TestTrusteeFollowUp() {
+        Account trusteeOffice = new Account(
+            Name = 'my acc',
+            Business_Email__c = 'test@test.com',
+            Communication_Preference__c = 'Fax',
+            Number_Of_Emails_Sent_Today__c = 2,
+            Fax = '123-123-123'
+        );
         insert trusteeOffice;
 
         Insolvency__c insolv = new Insolvency__c();
         insolv.Name = '12456780';
         insolv.Insolvency_Status__c = 'Active';
         insolv.Allow_Insolvency_Date_In_Past__c = true;
-        insolv.Insolvency_Date__c = System.today().addMonths(-19);
+        insolv.Insolvency_Date__c = System.today().addMonths(-12);
         //insolv.Insolvency_Type__c = 'Consumer Proposal';
         insolv.Client_Identifiers__c = 'Scotia Bank';
         insolv.Sent_For_Owner_Review_Date__c = System.today();
         insolv.Debtor_1_First_Name__c = 'firstname';
         insolv.Debtor_1_Last_Name__c = 'lastname';
         insolv.Trustee__c = trusteeOffice.Id;
+        insolv.Missing_Payment_Follow_up_Sent_Date__c = System.today().addMonths(-12);
         insert insolv;
 
-        list<RecordType> recordTypeList = new list<RecordType>([SELECT Id,Name FROM RecordType WHERE SobjectType='Insolvency_Account__c' and recordtype.name='Scotia Bank Insolvency Account']);
+        list<RecordType> recordTypeList = new List<RecordType>(
+            [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND recordtype.name = 'Scotia Bank Insolvency Account']
+        );
         Insolvency_Account__c insacc = new Insolvency_Account__c();
         insacc.RecordTypeId = recordTypeList[0].Id;
         insacc.Name = 'Test-001';
@@ -59,56 +66,49 @@ public class TestTrusteeFollowupBatch {
         insacc.Insolvency__c = insolv.Id;
         insacc.Account_Number_Without_Space__c = 'Test-001';
         insacc.Asset_Status__c = 'Purchased';
-        insacc.Excluded_from_Purchase__c = FALSE ; 
+        insacc.Excluded_from_Purchase__c = false;
         insacc.Insolvency_Status__c = 'Claim Filed';
         insacc.Claim_Type__c = 'Unsecured';
         insacc.Claim_Amount__c = 251;
         insert insacc;
+
+        Test.startTest();
         TrusteeFollowupBatch obj = new TrusteeFollowupBatch();
         DataBase.executeBatch(obj);
+        Test.stopTest();
     }
 
-    @isTest 
+    @isTest
     public static void TestTrusteeFollowUpEmail() {
-        
-
-
-        /*
-        Trustee_Payment_Followup_Setting__c tpfs = new Trustee_Payment_Followup_Setting__c(Name = 'Canaccede Bank',
-        Domain_Name__c = '@rcfax.com.sb',
-        Trustee_Email_Org_Wide_Address_Id__c = '0D2f1000000fxpt',
-        Maximum_Emails_Per_Day__c = 5);
-        insert tpfs;
-        */
-        
-        Trustee_Payment_Followup_Setting__c tpfs = Trustee_Payment_Followup_Setting__c.getOrgDefaults();
-        tpfs.Name = 'Trustee Payment Followup';
-        tpfs.Domain_Name__c = '@rcfax.com.sb';
-        tpfs.Trustee_Email_Org_Wide_Address_Id__c = '0D2f1000000fxpt';
-        tpfs.Maximum_Emails_Per_Day__c = 5;
-        insert tpfs;
-
-        Account trusteeOffice = new Account(Name = 'my acc', 
-                                            Business_Email__c = 'test@test.com',
-                                            Communication_Preference__c = 'Email', 
-                                            Number_Of_Emails_Sent_Today__c = 2, 
-                                            Fax = '123-123-123');
+        Account trusteeOffice = new Account(
+            Name = 'my acc',
+            Business_Email__c = 'test@test.com',
+            Communication_Preference__c = 'Email',
+            Number_Of_Emails_Sent_Today__c = 2,
+            Fax = '123-123-123'
+        );
         insert trusteeOffice;
 
         Insolvency__c insolv = new Insolvency__c();
         insolv.Name = '12456780';
         insolv.Insolvency_Status__c = 'Active';
         insolv.Allow_Insolvency_Date_In_Past__c = true;
-        insolv.Insolvency_Date__c = System.today().addMonths(-19);
-        //insolv.Insolvency_Type__c = 'Consumer Proposal';
+        insolv.Insolvency_Date__c = System.today().addMonths(-12);
+        insolv.Insolvency_Type__c = 'Consumer Proposal';
         insolv.Client_Identifiers__c = 'Scotia Bank';
         insolv.Sent_For_Owner_Review_Date__c = System.today();
         insolv.Debtor_1_First_Name__c = 'firstname';
         insolv.Debtor_1_Last_Name__c = 'lastname';
         insolv.Trustee__c = trusteeOffice.Id;
+        insolv.Missing_Payment_Follow_up_Sent_Date__c = System.today().addMonths(-12);
+        insolv.Previous_Bulk_Payment_Amount__c = 1000;
+        insolv.Previous_Payment_Amount__c = 100;
+        insolv.Previous_Number_of_Payments__c = 2;
         insert insolv;
 
-        list<RecordType> recordTypeList = new list<RecordType>([SELECT Id,Name FROM RecordType WHERE SobjectType='Insolvency_Account__c' and recordtype.name='Scotia Bank Insolvency Account']);
+        list<RecordType> recordTypeList = new List<RecordType>(
+            [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND recordtype.name = 'Scotia Bank Insolvency Account']
+        );
         Insolvency_Account__c insacc = new Insolvency_Account__c();
         insacc.RecordTypeId = recordTypeList[0].Id;
         insacc.Name = 'Test-002';
@@ -116,12 +116,15 @@ public class TestTrusteeFollowupBatch {
         insacc.Insolvency__c = insolv.Id;
         insacc.Account_Number_Without_Space__c = 'Test-001';
         insacc.Asset_Status__c = 'Purchased';
-        insacc.Excluded_from_Purchase__c = FALSE ; 
+        insacc.Excluded_from_Purchase__c = false;
         insacc.Insolvency_Status__c = 'Claim Filed';
         insacc.Claim_Type__c = 'Unsecured';
         insacc.Claim_Amount__c = 251;
         insert insacc;
+
+        Test.startTest();
         TrusteeFollowupBatch obj = new TrusteeFollowupBatch();
         DataBase.executeBatch(obj);
+        Test.stopTest();
     }
 }

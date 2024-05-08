@@ -259,4 +259,11 @@
         <shortDescription>CTB_File_Processing_Emails</shortDescription>
         <value>adesh.ikhar@canaccede.com</value>
     </labels>
+    <labels>
+        <fullName>Trustee_Follow_Up_Record_Types</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Record types for which Trustee Follow Up emails should be sent</shortDescription>
+        <value>Canaccede_Insolvency_Account,SDA_Insolvency_Account,SPL_Insolvency_Account,Scotia_Bank_Insolvency_Account,Fairstone_Insolvency_Account,Goeasy_Insolvency_Account</value>
+    </labels>
 </CustomLabels>
