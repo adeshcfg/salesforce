@@ -65,6 +65,10 @@
                 <behavior>Readonly</behavior>
                 <field>Statements_Requested_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Account_Original_Open_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
