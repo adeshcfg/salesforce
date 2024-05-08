@@ -3227,7 +3227,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Open_Date__c</field>
+            <field>Account_Original_Open_Date__c</field>
             <table>Account.InsolvencyRecords__r.Insolvency_Accounts__r</table>
         </columns>
         <columns>
