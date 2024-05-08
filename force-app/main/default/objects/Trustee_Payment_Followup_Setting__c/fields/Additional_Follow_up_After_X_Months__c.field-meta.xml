@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Additional_Follow_up_After_X_Months__c</fullName>
+    <description>The value in this field will be used to do second follow-up after the mentioned number of months</description>
+    <externalId>false</externalId>
+    <label>Additional Follow-up After X Months</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
