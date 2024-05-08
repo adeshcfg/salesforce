@@ -7488,7 +7488,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Insolvency_Account__c.Open_Date__c</field>
+        <field>Insolvency_Account__c.Account_Original_Open_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -18318,9 +18318,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Superior_Court__c-Superior Court Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>TimeSlot-Time Slot Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Work_Assignment__c-Agency Complaint</layout>

@@ -2,8 +2,8 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 11-28-2023
- * @last modified by  : adeshi@a5econsulting.net
+ * @last modified on  : 05-08-2024
+ * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
     // Contants for csv column index mapping with staging object fields
@@ -13,7 +13,7 @@ public with sharing class CTBFileValidationUtility {
     public static final Integer CTB_DOB = 17;
     public static final Integer CORRELATION_ID = 26;
     public static final Integer CTB_REJECT_REASON_CODE = 28;
-    public static final Integer OPEN_DATE = 29;
+    public static final Integer ACCOUNT_OPEN_DATE = 29;
     public static final Integer CLAIM_AMOUNT = 30;
     public static final Integer CTB_AS_OF_DATE = 31;
     public static final Integer INTEREST_RATE = 32;
@@ -56,7 +56,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.CTB_Date_of_Birth__c = parseDateString(csvColumns[CTB_DOB], 'CTB_Date_of_Birth__c', stagingRecord);
         stagingRecord.Correlation_Id__c = csvColumns[CORRELATION_ID];
         stagingRecord.CTB_Reject_Reason_Code__c = csvColumns[CTB_REJECT_REASON_CODE];
-        stagingRecord.Open_Date__c = parseDateString(csvColumns[OPEN_DATE], 'Open_Date__c', stagingRecord);
+        stagingRecord.Account_Original_Open_Date__c = parseDateString(csvColumns[ACCOUNT_OPEN_DATE], 'Account_Original_Open_Date__c', stagingRecord);
         stagingRecord.Balance_Owed__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Balance_Owed__c', stagingRecord);
         stagingRecord.Claim_Amount__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Claim_Amount__c', stagingRecord);
         stagingRecord.CTB_Balance_as_of_date__c = parseDateString(csvColumns[CTB_AS_OF_DATE], 'CTB_Balance_as_of_date__c', stagingRecord);
@@ -101,7 +101,7 @@ public with sharing class CTBFileValidationUtility {
         // account.Name = stagingRecord.Name;
         account.CTB_Date_of_Birth__c = stagingRecord.CTB_Date_of_Birth__c;
         account.Correlation_Id__c = stagingRecord.Correlation_Id__c;
-        account.Open_Date__c = stagingRecord.Open_Date__c;
+        account.Account_Original_Open_Date__c = stagingRecord.Account_Original_Open_Date__c;
         account.Balance_Owed__c = stagingRecord.Balance_Owed__c;
         account.Claim_Amount__c = stagingRecord.Claim_Amount__c;
         account.CTB_Balance_as_of_date__c = stagingRecord.CTB_Balance_as_of_date__c;
