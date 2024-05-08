@@ -32,6 +32,10 @@
                 <behavior>Edit</behavior>
                 <field>Is_Active__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Follow_Up_Prior_Months__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
