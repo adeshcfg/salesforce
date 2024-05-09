@@ -1031,7 +1031,11 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
                 for (insolvency_account__c insolAccData : (List<insolvency_account__c>) Data) {
                     insolAccData.Insolvency_Sub_Status__c = 'File Error Parsing Record';
-                    insolAccData.Error_Message__c = stackTrace;
+                    if(stackTrace == NULL || stackTrace == ''){
+                        insolAccData.Error_Message__c = errorMsg;
+                    }else{
+                        insolAccData.Error_Message__c = stackTrace;
+                    }
                     errorMapData.put(insolAccData.id, insolAccData);
                 }
             }
