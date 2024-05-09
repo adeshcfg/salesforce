@@ -2,16 +2,18 @@
 public class CTBFileProcessingTest {
     @TestSetup
     static void makeData() {
-        Document_Storage__c docInfo = new Document_Storage__c();
-        docInfo.Document_Type__c = 'Insolvency Daily Update';
-        docInfo.Document_Extension__c = 'csv';
-        docInfo.Document_Name__c = 'TestFile';
-        docInfo.Document_Id__c = 'testdocid';
-        docInfo.File_Processing_Status__c = 'Pending';
-        docInfo.RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('CTB').getRecordTypeId();
-        DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
-        Database.insert(docInfo);
-        DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+        API_Call_Details__c settings = new API_Call_Details__c();
+        settings.Name = 'Agency Portal API';
+        settings.AuthorizationtUrl__c = 'https://test.com/api/accessToken';
+        settings.Tenand_ID__c = '123';
+        settings.Proxy_Client_ID__c = '123';
+        settings.Client_ID__c = '1234';
+        settings.Client_Secret__c = '1234';
+        settings.PDF_API_URL__c = 'https://test.com/api/getFileList';
+        settings.Scope_Prefix__c = 'scope.com';
+        settings.Scope_Suffix__c = '/.default';
+        settings.API_Request_Timeout__c = 90000;
+        insert settings;
 
         String csvString = '"H","2","999","0000001","08/15/2008","12:32:06","P","DRN00001"\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","0000000008PCOM","","","9/15/2023","500","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123"\n"T","2","999","3","1","08/15/2008","12:32:06"';
         Document documentObj = new Document();
@@ -93,27 +95,30 @@ public class CTBFileProcessingTest {
     @isTest
     static void processFileTest() {
         Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document' LIMIT 1];
-        Document_Storage__c docStorage = [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c = 'TestFile' LIMIT 1];
+        Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(doc.Id));
         Test.startTest();
-        System.enqueueJob(new CTBFileProcessingQueueable(System.Label.CTB_Insolvency_Account, doc.Id, docStorage));
+        CTBFileProcessingScheduler scheduler = new CTBFileProcessingScheduler();
+        scheduler.execute(null);
         Test.stopTest();
     }
 
     @isTest
     static void processFileNegativeRows() {
         Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document_noofrows' LIMIT 1];
-        Document_Storage__c docStorage = [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c = 'TestFile' LIMIT 1];
+        Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(doc.Id));
         Test.startTest();
-        System.enqueueJob(new CTBFileProcessingQueueable(System.Label.CTB_Insolvency_Account, doc.Id, docStorage));
+        CTBFileProcessingScheduler scheduler = new CTBFileProcessingScheduler();
+        scheduler.execute(null);
         Test.stopTest();
     }
 
     @isTest
     static void processFileNegativeCols() {
         Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document_noofcols' LIMIT 1];
-        Document_Storage__c docStorage = [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c = 'TestFile' LIMIT 1];
+        Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(doc.Id));
         Test.startTest();
-        System.enqueueJob(new CTBFileProcessingQueueable(System.Label.CTB_Insolvency_Account, doc.Id, docStorage));
+        CTBFileProcessingScheduler scheduler = new CTBFileProcessingScheduler();
+        scheduler.execute(null);
         Test.stopTest();
     }
 }
