@@ -184,7 +184,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
 
     public static void createInsolvencyError(String errorMsg, String stackTrace) {
         Insolvency_Error__c insolErrorData = new Insolvency_Error__c();
-        insolErrorData.Error__c = 'File processing failed due to' + ' ' + errorMsg + ' ' + stackTrace;
+        insolErrorData.Error__c = 'File processing failed due to' + '\n' + errorMsg + ' ' + stackTrace;
         Database.insert(insolErrorData);
         CTBFileValidationUtility.sendEmail('CTB Account file processing failed', insolErrorData.Error__c);
     }

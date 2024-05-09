@@ -135,7 +135,7 @@ public with sharing class CTBFileValidationUtility {
         if (status == 'Failed') {
             CTBFileValidationUtility.sendEmail(
                 'CTB Account file processing failed',
-                'File processing failed for ' + docStorage.Document_Name__c + '</br>' + errorMessage
+                'File processing failed for ' + docStorage.Document_Name__c + '\n' + 'Error - ' + errorMessage
             );
         }
         return docStorage;
