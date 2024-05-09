@@ -2,7 +2,7 @@
 <Network xmlns="http://soap.sforce.com/2006/04/metadata">
     <allowInternalUserLogin>true</allowInternalUserLogin>
     <allowMembersToFlag>false</allowMembersToFlag>
-    <changePasswordTemplate>Community/CommunityChangePasswordEmailTemplate</changePasswordTemplate>
+    <changePasswordTemplate>Community/Password_Reset_Email</changePasswordTemplate>
     <communityRoles/>
     <disableReputationRecordConversations>false</disableReputationRecordConversations>
     <emailSenderAddress>adesh.ikhar@canaccede.com</emailSenderAddress>
@@ -25,12 +25,12 @@
     <enableTopicAssignmentRules>true</enableTopicAssignmentRules>
     <enableTopicSuggestions>false</enableTopicSuggestions>
     <enableUpDownVote>false</enableUpDownVote>
-    <forgotPasswordTemplate>Community/CommunityForgotPasswordEmailTemplate</forgotPasswordTemplate>
+    <forgotPasswordTemplate>Community/Password_Reset_Email</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
-        <profile>Admin</profile>
-        <profile>Goeasy Community User</profile>
-        <profile>Goeasy Community User Readonly</profile>
+        <profile>admin</profile>
+        <profile>goeasy community user</profile>
+        <profile>goeasy community user readonly</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
