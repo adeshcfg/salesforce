@@ -1,0 +1,317 @@
+<apex:page showHeader="false" controller="POCDocController" id="page">
+    <html class="ArialUnicodeMSFont">
+        <head>
+            <apex:slds />
+            <style>
+                .ArialUnicodeMSFont{
+                font-family:"Arial";
+                }
+                .my-checkbox{
+                width: 1rem;
+                height: 1rem;
+                display: inline-block;
+                vertical-align: middle;
+                border: 1px solid #d8dde6;
+                border-radius: .125rem;
+                background: #fff;
+                transition: border .1s linear,background-color .1s linear;
+                }
+                .pageSeperator{
+                width: 112%;
+                background-color: #d8edff;
+                height: 10px;
+                margin-left: -6%;
+                }
+                .slds-scope h1, .slds-scope h2, .slds-scope h3, .slds-scope h4, .slds-scope h5, .slds-scope h6, .slds-scope td, .slds-scope th {
+                font-family:"Arial";
+                }
+                .slds-scope {
+                color:#000;
+                }
+                div.footer {
+                display: block;
+                padding: 5px;
+                text-align:center; 
+                position: running(footer);
+                }
+                .pagenumber:before {
+                content: counter(page);
+                }
+                .pagecount:before {
+                content: counter(pages);
+                }
+            </style>
+            <script>
+            function target(){
+                var element = document.getElementById("target");
+                /*var elementAmend = document.getElementById("amendPOCmessage");
+                unfade(elementAmend);*/
+                var checkVal = document.getElementById('page:form:hiddenCheck').value;
+                if(checkVal  == 'true'){
+                    element = document.getElementById("exceptionInPdf");
+                    unfade(element);
+                    return false;
+                }
+                unfade(element);
+                setTimeout(function(){
+                    closeWindow();
+                }, 5000);
+                
+            }
+            
+            function closeWindow(){
+                window.close();
+            }
+            
+            function unfade(element) {
+                var op = 0.1;  // initial opacity
+                element.style.display = 'block';
+                var timer = setInterval(function () {
+                    if (op >= 1){
+                        clearInterval(timer);
+                    }
+                    element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op += op * 0.1;
+                }, 0);
+            }
+            window.onload = function(){
+                if('{!isAnyException}' == 'true'){
+                    var element = document.getElementById("exception");
+                    unfade(element);
+                }
+            }
+            </script>
+        </head>
+        <apex:outputPanel id="notifier">
+            <div class="slds-notify_container success-notifier slds-hide"  id="exception">
+                <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
+                    <span class="slds-assistive-text-override">Sorry, there is a problem generating this proof of claim package; please contact the System Administrator for more information and resolution</span>
+                </div>
+            </div>
+            <div class="slds-notify_container success-notifier slds-hide"  id="exceptionInPdf">
+                <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
+                    <span class="slds-assistive-text-override">There was an error generating the proof of claim package; please contact the System Administrator for more information and resolution</span>
+                </div>
+            </div>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!amendedPOCcheck}">
+            <div class="slds-notify_container success-notifier"  id="amendPOCmessage">
+            <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
+                <span class="slds-assistive-text-override">Please Check Amended Claim checkbox to generate amended POC.</span>
+            </div>
+            </div>
+      </apex:outputPanel>
+        <apex:form styleClass="ArialUnicodeMSFont" id="form">
+            <apex:inputHidden value="{!isAnyException}" id="hiddenCheck"/>
+            <apex:outputPanel id="notifier">
+                <div class="slds-notify_container success-notifier slds-hide"  id="target">
+                    <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
+                        <span class="slds-assistive-text-override" >The proof of claim package has been successfully created and attached to the Insolvency Account</span>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!IF((insolvAcc.Insolvency_Status__c <> 'PoC Details Provided' || insolvAcc.Proof_of_Claim_Required__c == false), true, false)}">
+                <div class="slds-notify_container">
+                    <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
+                        <h2>    
+                            {!statusError}<br/>{!pocDocError}
+                        </h2>
+                        <br/>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!IF(('Canaccede' == insolvAcc.Client_Identifier__c && canaccedeError), true, false)}">
+                <div class="slds-notify_container">
+                    <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
+                        <h2>    
+                            {!canaccedeErrorMsg}<br/>
+                        </h2>
+                        <br/>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!IF((insolvAcc.Insolvency_Status__c == 'PoC Details Provided' && insolvAcc.Proof_of_Claim_Required__c && !canaccedeError), true, false)}">
+                <apex:ActionStatus id="spinner">
+                    <apex:facet name="start">
+                        <div class="slds-spinner_container">
+                            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                <span class="slds-assistive-text">Loading</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:ActionStatus>
+                <apex:ActionFunction name="changeLanguage" action="{!changeLanguage}" reRender="form" status="spinner">
+                	<apex:param name="firstParam" assignTo="{!pageName}" value="GoEasyOnlyVotingLetter" />
+                </apex:ActionFunction>
+                <body class="slds-scope" style="width:700px;margin: auto; background: #d8edff; padding-top:20px;">
+                    <div class="slds-grid slds-m-around_xx-small slds-p-top_medium">
+                        <div class="slds-col slds-align_absolute-center">
+                            <!--<apex:selectList size="1" value="{!language}" styleClass="slds-select" style="color: rgb(1 118 211);width: 100px;margin-right: 4px;" onchange="changeLanguage()">
+								<apex:selectOptions value="{!EnglishlanguageList}" />
+                        		<apex:actionsupport event="onchange"/>
+                      		</apex:selectList>-->
+                            <apex:commandButton style="font-family:Arial;font-size: 14px;" styleclass="slds-button slds-button_neutral" action="{!changeLanguage}" value="Translate to English" status="spinner" reRender="form">
+								<apex:param name="languagetoTranslate" assignTo="{!language}" value="en_US" />
+                         		<apex:param name="pageNameToTranslate" assignTo="{!pageName}" value="GoEasyOnlyVotingLetter" />
+                      		</apex:commandButton>
+                            <apex:commandButton style="font-family:Arial;font-size: 14px;" styleclass="slds-button slds-button_neutral" action="{!savePOCDoc}" value="Generate Poc Package & attach it to Insolvency Account" oncomplete="target()" status="spinner" reRender="hiddenCheck,amendPOCmessage" rendered="{! !isAnyException}">
+                            	<apex:param name="language" assignTo="{!language}" value="fr" />
+                            </apex:commandButton>
+                            <input type="button" style="font-family:Arial;font-size: 14px;" class="slds-button slds-button_neutral" onclick="closeWindow();" value="Cancel"/>
+                        </div>
+                    </div>
+                    <article class="slds-card slds-p-top_medium ArialUnicodeMSFont" style="background: #fff;">
+                       <apex:outputPanel rendered="{!form37}" >
+                            <div style="font-size: 13px; margin:auto; padding-top:20px; line-height: 17px; width:90%;">
+                                <div style="line-height: 17px;padding-left: 15px;">
+                                    <div>
+                                        District de: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br/>
+                                        No division: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br/>
+                                        No cour: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br/>
+                                        No dossier: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}&nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br/>
+                                    </div>
+                                    <!--
+<div class="slds-text-align_center shadow">
+<apex:inputCheckbox styleClass="my-checkbox" value="{!form37}"/> Include FORM 37.1
+</div>
+-->
+                                    <div style="text-align:center;">
+                                        Formulaire 37.1<br/>  Formulaire de Votation (Proposition de Consomateur) <br/> (alinéa 66.15(3)c) de la Loi)
+                                        <br/><br/>
+                                        Dans l'affaire de la proposition de consommateur (ou la proposition, ou la mise sous séquestre) de
+                                        <br/>
+                                        <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} </b>
+                                        <br/>
+                                        <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} </b>
+                                        <br/>
+                                        De la Ville de <b>{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c}</b>, dans la province de <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</b>
+                                        <br/>
+                                        et la réclamation du <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><b> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</b> (Créancier)</apex:outputText><apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> cessionnaire de {!insolvAcc.Vendor_Orginator__c}</b> (Créancier)</apex:outputText>  
+                                    </div>
+                                    <br/>
+                                    <table>
+                                        <tr style="text-align:left;">
+                                            <td style="vertical-align:top;">1. </td>
+                                            <td style="padding-left:8px;">
+                                                Je, Bryan Szemenyei, représentant du créancier dans l'affaire ci-dessus pour la somme de
+                                                <b>
+                                                    <apex:outputText value="{0, number, $#,##0.00}">
+                                                        <apex:param value="{!insolvAcc.Claim_Amount__c}" />
+                                                    </apex:outputText>
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align:top;">(a)</td>
+                                            <td style="padding-left:8px;">En tant que créancier ayant prouvé une réclamation, je peux, lors de l’assemblée des créanciers ou avant la tenue de celle-ci, ou encore avant l’expiration des 45 jours suivant le dépôt de la proposition, indiquer si j’approuve ou je désapprouve la proposition de consommateur.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align:top;">(b)</td>
+                                            <td style="padding-left:8px;">Un vote <b>CONTRE </b> l’acceptation de la proposition de consommateur n’est pas une demande de convocation d’une assemblée des créanciers pour l’application de l’alinéa 66.15(2)b) de la Loi et ne sera pas calculé dans le cadre d’un vote portant sur la proposition de consommateur, à moins qu’une assemblée des créanciers soit convoquée.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align:top;">(c)</td>
+                                            <td style="padding-left:8px;">L’administrateur de la proposition de consommateur sera tenu de convoquer une assemblée des créanciers dans la mesure où, selon le cas, en vertu de l’article 66.15 de la Loi :
+                                            </td>
+                                        </tr>
+                                        <tr >
+                                            <td  style="vertical-align:top;text-align:center;">-</td>
+                                            <td style="padding-left:8px;">dans les 45 jours suivant le dépôt de la proposition de consommateur, si le séquestre officiel lui enjoint de convoquer une telle assemblée; ou
+                                            </td>
+                                        </tr>
+                                        <tr >
+                                            <td  style="vertical-align:top;text-align:center;">-</td>
+                                            <td style="padding-left:8px;">des créanciers représentant en valeur au moins 25 p. 100 des réclamations prouvées en font la demande avant l’expiration des 45 jours suivant le dépôt de la proposition de consommateur.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align:top;">(d)</td>
+                                            <td style="padding-left:8px;">Si une assemblée des créanciers n’est pas convoquée, la proposition de consommateur est réputée, en vertu du paragraphe 66.18(1) de la Loi, avoir été acceptée par les créanciers, sans égard à toute désapprobation reçue par l’administrateur de la proposition de consommateur.                  
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td  style="vertical-align:top;text-align:center;">2.</td>
+                                            <td  style="padding-left:8px;">Je demande: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i> (Cochez et remplissez la section pertinente)</i></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="float:left;padding-left:17px;">
+                                    <apex:inputCheckbox styleClass="my-checkbox" value="{!voteForAcceptance}"/>
+                                    <span style="padding-left:25px">
+                                        à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote <b>EN FAVEUR</b> de l’acceptation de la proposition de consommateur faite le 
+                                        <apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">
+                                            <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                        </apex:outputText>
+                                        .
+                                    </span>
+                                    <br/>
+                                    <apex:inputCheckbox styleClass="my-checkbox" value="{!voteAgainstAcceptance}"/>
+                                    <span style="padding-left:25px">
+                                        à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote <b>CONTRE</b> l’acceptation de la proposition de consommateur faite le 
+                                        <apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">
+                                            <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                        </apex:outputText>
+                                        .
+                                    </span>
+                                    <br/>
+                                    <apex:inputCheckbox styleClass="my-checkbox" value="{!meetingOfCredits}"/>
+                                    <span style="padding-left:25px">
+                                        à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote <b>CONTRE</b> l’acceptation de la proposition de consommateur faite le
+                                        <apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">
+                                            <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                        </apex:outputText>
+                                        , et <b>JE DEMANDE QU’UNE ASSEMBLÉE SOIT CONVOQUÉE.</b>
+                                    </span>
+                                    <br/><br/>{!insolvAcc.Voting_Letter_Comments__c}<br/>
+                                    <br/>
+                                    Daté le 
+                                    <b>
+                                        <apex:outputText value="{0,date, dd }">
+                                            <apex:param value="{!TODAY()}" />
+                                        </apex:outputText>
+                                    </b>
+                                    jour de
+                                    <b>
+                                        <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                            <apex:param value="{!TODAY()}" />, à London, ON.
+                                        </apex:outputText>
+                                    </b>
+                                    <Table style="width:100%;">
+                                        <tr style="margin-top:-40px;">
+                                            <td style=" width:270px; vertical-align:bottom; padding-right: 85px;padding-bottom:20px;">
+                                                <apex:image style="width:200px;" value="{!pocPackage.Witness_Signature__c}"/>
+                                                Témoin
+                                            </td>
+                                            <td >
+                                                <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
+                                                <br/>
+                                                <b>Bryan Szemenyei, CEO</b><br/>
+                                                <b>Canaccede International Management Ltd. (Créancier)</b>
+                                            </td>
+                                        </tr>
+                                    </Table>
+                                    <br/><br/><br/><br/>
+                                </div>
+                            </div>
+                            <div class="pageSeperator" style="clear:both;">
+                            </div>
+                        </apex:outputPanel>
+                    </article>
+                    <div class="slds-grid slds-m-around_xx-small slds-p-top_medium">
+                        <div class="slds-col slds-align_absolute-center">
+                            <apex:commandButton style="font-family:Arial;font-size: 14px;" styleclass="slds-button slds-button_neutral" action="{!savePOCDoc}" value="Generate Poc Package & attach it to Insolvency Account" oncomplete="target()" status="spinner" reRender="mmm" rendered="{! !isAnyException}">
+                                <apex:param name="language" assignTo="{!language}" value="fr" />
+                            </apex:commandButton>
+                            <input type="button" style="font-family:Arial;font-size: 14px;" class="slds-button slds-button_neutral"  onclick="closeWindow();" value="Cancel"/>
+                        </div>
+                    </div>
+                </body>
+            </apex:outputPanel>
+        </apex:form>
+    </html>
+</apex:page>
