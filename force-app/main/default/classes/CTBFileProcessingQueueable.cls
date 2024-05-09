@@ -32,7 +32,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
             Document fileToProccess = [SELECT Name, ContentType, Body FROM Document WHERE Id = :documentId];
             String csvContents = fileToProccess.Body.toString();
             // Create Doc storage record with received file details
-            Document_Storage__c docStorage = createDocStorage(fileToProccess.Name, fileToProccess.ContentType);
+            Document_Storage__c docStorage = createDocStorage(fileNames[0], fileToProccess.ContentType);
             if (fileIdentifier == System.Label.CTB_Insolvency_Account) {
                 processCTBStagingAccounts(csvContents, docStorage);
             } /*  else if (fileIdentifier == System.Label.CTB_Payment) {

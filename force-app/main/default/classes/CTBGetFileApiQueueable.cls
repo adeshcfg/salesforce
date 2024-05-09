@@ -52,7 +52,7 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
                 FileListWrapper fileList = (FileListWrapper) System.JSON.deserialize(res.getBody(), FileListWrapper.class);
                 for (String fileName : fileList.files) {
                     // Get only the file name from the file path and remove file extension
-                    fileNameList.add(fileName.substringAfterLast('/').substringBeforeLast('.'));
+                    fileNameList.add(fileName.substringAfterLast('/'));
                 }
             } else {
                 createApiError(String.valueOf(res.getStatusCode()), res.getBody());
