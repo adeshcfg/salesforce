@@ -13,6 +13,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public String CTBBatchName;
     public static final String recordType = 'Canadian_Tire_Insolvency_Account';
     public static final String clientIdentifier = 'Canadian Tire';
+    public static final String coDebtor = 'coDebtor';  
+    public static final String borrower = 'borrower';
     String FinalData = '';
     List<sObject> queryData = new List<sObject>();
     String createdDate = '';
@@ -109,7 +111,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 'Debtor_1_Last_Name__c,Province_Formula__c,Insolvency__r.Debtor_1_Mailing_Country__c,Debtor_1_Mailing_Postal_Code__c,' +
                 'Debtor_1_SIN__c,Debtor_1_Date_of_Birth__c,Insolvency__r.Insolvency_Date__c,Insolvency__r.name,Trustee_Company__c,Correlation_ID__c,' +
                 'Insolvency__r.Trustee__r.BillingStreet,Insolvency__r.Debtor_1_First_Name__c,Insolvency__r.Debtor_1_Last_Name__c,Insolvency__r.Trustee__r.BillingCity,Insolvency__r.Trustee__r.BillingState,CTB_Date_of_Birth__c,' +
-                'Insolvency__r.Trustee__r.BillingPostalCode,Debtor_1_Mailing_Street__c,CTB_Status_Update_Code__c,Insolvency__r.Debtor_1_Middle_Name__c,Debtor_1_Mailing_City__c ' +
+                'Insolvency__r.Trustee__r.BillingPostalCode,Debtor_1_Mailing_Street__c,CTB_Status_Update_Code__c,Insolvency__r.Debtor_1_Middle_Name__c,Debtor_1_Mailing_City__c,' +
+                'Debtor_2_First_Name__c,Insolvency__r.Debtor_2_First_Name__c,Insolvency__r.Debtor_2_Middle_Name__c,Debtor_2_Last_Name__c,Insolvency__r.Debtor_2_Last_Name__c, Street_Name_Number__c, City__c,Province__c,Insolvency__r.Debtor_2_Mailing_Country__c,Postal_Code__c,Insolvency__r.Debtor_2_SIN__c,Debtor_2_Date_of_Birth__c ' +
                 'FROM Insolvency_Account__c ' +
                 'WHERE ' +
                 'RecordType.developerName = :recordType AND ' +
@@ -143,13 +146,28 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
     //Execute Method: based on batch name call respective method
     global void execute(Database.BatchableContext BC, List<sObject> query) {
+        List<Insolvency_Account__c> coDebtorList = new List<Insolvency_Account__c>();
         if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
+            for(Insolvency_Account__c insolAcctsData :(List<Insolvency_Account__c>) query){
+                if(insolAcctsData.Insolvency__r.Debtor_2_First_Name__c <> NULL && insolAcctsData.Insolvency__r.Debtor_2_Last_Name__c <> NULL){
+                    coDebtorList.add(insolAcctsData);
+                }
+            }
             queryData = query;
+           
+            // build insolvency daily update file coDebtor body
+             wrapperClass coDebtorBatchCnt = new wrapperClass();
+            coDebtorBatchCnt = getInsolvencyAccountFile(mapCTBFileAuto, coDebtorList, createdDate, dateformate, CTBBatchName,coDebtor);  
+            
+            // build insolvency daily update file Borrower body
             wrapperClass batchCnt = new wrapperClass();
-            // build insolvency daily update file body
-            batchCnt = getInsolvencyAccountFile(mapCTBFileAuto, query, createdDate, dateformate, CTBBatchName);
+            batchCnt = getInsolvencyAccountFile(mapCTBFileAuto, query, createdDate, dateformate, CTBBatchName,borrower);
+
             FinalData += batchCnt.finalDetailBody;
+            FinalData += coDebtorBatchCnt.finalDetailBody;
+
             countVariable += batchCnt.batchCountDetail;
+            countVariable += coDebtorBatchCnt.batchCountDetail;
         }
         if (CTBBatchName == System.Label.CTB_Payment) {
             queryData = query;
@@ -168,7 +186,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         List<Insolvency_Account__c> insolvencyAccData,
         String createdDate,
         String dateformate,
-        string CTBBatchName
+        string CTBBatchName,
+        string borrowerName
     ) {
         Integer counter = 0;
         string mainbody = '';
@@ -228,99 +247,223 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     insolAccData.Correlation_ID__c != null && trailerRecordType != null || Test.isRunningTest()
                 ) {
                     String DebtorFirstName = '';
-                    if (insolAccData.Debtor_1_First_Name__c != null) {
-                        if (insolAccData.Debtor_1_First_Name__c.length() > 40) {
-                            DebtorFirstName = insolAccData.Debtor_1_First_Name__c.subString(0, 40);
-                        } else {
-                            DebtorFirstName = insolAccData.Debtor_1_First_Name__c;
+                    if(borrowerName == borrower){
+                        if (insolAccData.Debtor_1_First_Name__c != null) {
+                            if (insolAccData.Debtor_1_First_Name__c.length() > 40) {
+                                DebtorFirstName = insolAccData.Debtor_1_First_Name__c.subString(0, 40);
+                            } else {
+                                DebtorFirstName = insolAccData.Debtor_1_First_Name__c;
+                            }
+                        }else{
+                            if (insolAccData.Insolvency__r.Debtor_1_First_Name__c != null 
+                                && insolAccData.Insolvency__r.Debtor_1_Middle_Name__c != null) {
+                                    string inslodebtorFirstName = '';
+                                    string debtorMiddleName = '';
+                                    if (insolAccData.Insolvency__r.Debtor_1_First_Name__c.length() > 40) {
+                                        inslodebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c.subString(0, 40);
+                                    } else {
+                                        inslodebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c;
+                                    }
+                                    if (insolAccData.Insolvency__r.Debtor_1_Middle_Name__c.length() > 40) {
+                                        debtorMiddleName = insolAccData.Insolvency__r.Debtor_1_Middle_Name__c.subString(0, 40);
+                                    } else {
+                                        debtorMiddleName = insolAccData.Insolvency__r.Debtor_1_Middle_Name__c;
+                                    }
+                                    DebtorFirstName = inslodebtorFirstName + debtorMiddleName;
+                                }else{
+                                    if (insolAccData.Insolvency__r.Debtor_1_First_Name__c != null){
+                                        if (insolAccData.Insolvency__r.Debtor_1_First_Name__c.length() > 40) {
+                                            DebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c.subString(0, 40);
+                                        } else {
+                                            DebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c;
+                                        }
+                                    }
+                                }
                         }
-                    }else{
-                        if (insolAccData.Insolvency__r.Debtor_1_First_Name__c != null 
-                            && insolAccData.Insolvency__r.Debtor_1_Middle_Name__c != null) {
-                            string inslodebtorFirstName = '';
-                            string debtorMiddleName = '';
-                            if (insolAccData.Insolvency__r.Debtor_1_First_Name__c.length() > 40) {
-                                inslodebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c.subString(0, 40);
-                            } else {
-                                inslodebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c;
-                            }
-                            if (insolAccData.Insolvency__r.Debtor_1_Middle_Name__c.length() > 40) {
-                                debtorMiddleName = insolAccData.Insolvency__r.Debtor_1_Middle_Name__c.subString(0, 40);
-                            } else {
-                                debtorMiddleName = insolAccData.Insolvency__r.Debtor_1_Middle_Name__c;
-                            }
-                            DebtorFirstName = inslodebtorFirstName + debtorMiddleName;
-                          }else{
-                              if (insolAccData.Insolvency__r.Debtor_1_First_Name__c != null){
-                                  if (insolAccData.Insolvency__r.Debtor_1_First_Name__c.length() > 40) {
-                                      DebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c.subString(0, 40);
-                                  } else {
-                                      DebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c;
-                                  }
-                              }
-                          }
                     }
-                    String DebtorLaseName = '';
-                    if (insolAccData.Debtor_1_Last_Name__c != null) {
-                        if (insolAccData.Debtor_1_Last_Name__c.length() > 40) {
-                            DebtorLaseName = insolAccData.Debtor_1_Last_Name__c.subString(0, 40);
-                        } else {
-                            DebtorLaseName = insolAccData.Debtor_1_Last_Name__c;
-                        }
-                    }else{
-                        if(insolAccData.Insolvency__r.Debtor_1_Last_Name__c != null){
-                            if (insolAccData.Insolvency__r.Debtor_1_Last_Name__c.length() > 40) {
-                                DebtorLaseName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c.subString(0, 40);
+                    if(borrowerName == coDebtor){
+                        if (insolAccData.Debtor_2_First_Name__c != null) {
+                            if (insolAccData.Debtor_2_First_Name__c.length() > 40) {
+                                DebtorFirstName = insolAccData.Debtor_2_First_Name__c.subString(0, 40);
                             } else {
-                                DebtorLaseName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c;
-                            }    
+                                DebtorFirstName = insolAccData.Debtor_2_First_Name__c;
+                            }
+                        }else{
+                            if (insolAccData.Insolvency__r.Debtor_2_First_Name__c != null 
+                                && insolAccData.Insolvency__r.Debtor_2_Middle_Name__c != null) {
+                                    string inslodebtorFirstName = '';
+                                    string debtorMiddleName = '';
+                                    if (insolAccData.Insolvency__r.Debtor_2_First_Name__c.length() > 40) {
+                                        inslodebtorFirstName = insolAccData.Insolvency__r.Debtor_2_First_Name__c.subString(0, 40);
+                                    } else {
+                                        inslodebtorFirstName = insolAccData.Insolvency__r.Debtor_2_First_Name__c;
+                                    }
+                                    if (insolAccData.Insolvency__r.Debtor_2_Middle_Name__c.length() > 40) {
+                                        debtorMiddleName = insolAccData.Insolvency__r.Debtor_2_Middle_Name__c.subString(0, 40);
+                                    } else {
+                                        debtorMiddleName = insolAccData.Insolvency__r.Debtor_2_Middle_Name__c;
+                                    }
+                                    DebtorFirstName = inslodebtorFirstName + debtorMiddleName;
+                                }else{
+                                    if (insolAccData.Insolvency__r.Debtor_2_First_Name__c != null){
+                                        if (insolAccData.Insolvency__r.Debtor_2_First_Name__c.length() > 40) {
+                                            DebtorFirstName = insolAccData.Insolvency__r.Debtor_2_First_Name__c.subString(0, 40);
+                                        } else {
+                                            DebtorFirstName = insolAccData.Insolvency__r.Debtor_2_First_Name__c;
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                    
+                    String DebtorLaseName = '';
+                    if(borrowerName == borrower){
+                        if (insolAccData.Debtor_1_Last_Name__c != null) {
+                            if (insolAccData.Debtor_1_Last_Name__c.length() > 40) {
+                                DebtorLaseName = insolAccData.Debtor_1_Last_Name__c.subString(0, 40);
+                            } else {
+                                DebtorLaseName = insolAccData.Debtor_1_Last_Name__c;
+                            }
+                        }else{
+                            if(insolAccData.Insolvency__r.Debtor_1_Last_Name__c != null){
+                                if (insolAccData.Insolvency__r.Debtor_1_Last_Name__c.length() > 40) {
+                                    DebtorLaseName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c.subString(0, 40);
+                                } else {
+                                    DebtorLaseName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c;
+                                }    
+                            }
+                        }
+                    }
+                    if(borrowerName == coDebtor){
+                        if (insolAccData.Debtor_2_Last_Name__c != null) {
+                            if (insolAccData.Debtor_2_Last_Name__c.length() > 40) {
+                                DebtorLaseName = insolAccData.Debtor_2_Last_Name__c.subString(0, 40);
+                            } else {
+                                DebtorLaseName = insolAccData.Debtor_2_Last_Name__c;
+                            }
+                        }else{
+                            if(insolAccData.Insolvency__r.Debtor_2_Last_Name__c != null){
+                                if (insolAccData.Insolvency__r.Debtor_2_Last_Name__c.length() > 40) {
+                                    DebtorLaseName = insolAccData.Insolvency__r.Debtor_2_Last_Name__c.subString(0, 40);
+                                } else {
+                                    DebtorLaseName = insolAccData.Insolvency__r.Debtor_2_Last_Name__c;
+                                }    
+                            }
                         }
                     }
                     String addressLine1 = '';
-                    if (insolAccData.Debtor_1_Mailing_Street__c != null) {
-                        if (insolAccData.Debtor_1_Mailing_Street__c.length() > 80) {
-                            addressLine1 = insolAccData.Debtor_1_Mailing_Street__c.subString(0, 80);
-                        } else {
-                            addressLine1 = insolAccData.Debtor_1_Mailing_Street__c;
+                    if(borrowerName == borrower){
+                        if (insolAccData.Debtor_1_Mailing_Street__c != null) {
+                            if (insolAccData.Debtor_1_Mailing_Street__c.length() > 80) {
+                                addressLine1 = insolAccData.Debtor_1_Mailing_Street__c.subString(0, 80);
+                            } else {
+                                addressLine1 = insolAccData.Debtor_1_Mailing_Street__c;
+                            }
+                        }
+                    }
+                    if(borrowerName == coDebtor){
+                        if (insolAccData.Street_Name_Number__c != null) {
+                            if (insolAccData.Street_Name_Number__c.length() > 80) {
+                                addressLine1 = insolAccData.Street_Name_Number__c.subString(0, 80);
+                            } else {
+                                addressLine1 = insolAccData.Street_Name_Number__c;
+                            }
                         }
                     }
                     String DebtorMailingCity = '';
-                    if (insolAccData.Debtor_1_Mailing_City__c != null) {
-                        if (insolAccData.Debtor_1_Mailing_City__c.length() > 40) {
-                            DebtorMailingCity = insolAccData.Debtor_1_Mailing_City__c.subString(0, 40);
-                        } else {
-                            DebtorMailingCity = insolAccData.Debtor_1_Mailing_City__c;
+                    if(borrowerName == borrower){
+                        if (insolAccData.Debtor_1_Mailing_City__c != null) {
+                            if (insolAccData.Debtor_1_Mailing_City__c.length() > 40) {
+                                DebtorMailingCity = insolAccData.Debtor_1_Mailing_City__c.subString(0, 40);
+                            } else {
+                                DebtorMailingCity = insolAccData.Debtor_1_Mailing_City__c;
+                            }
+                        }
+                    }
+                    if(borrowerName == coDebtor){
+                        if (insolAccData.City__c != null) {
+                            if (insolAccData.City__c.length() > 40) {
+                                DebtorMailingCity = insolAccData.City__c.subString(0, 40);
+                            } else {
+                                DebtorMailingCity = insolAccData.City__c;
+                            }
                         }
                     }
                     String province = '';
-                    if (insolAccData.Province_Formula__c != null) {
-                        province = CustomerProcessingBatchHelper.getProvinceCode(insolAccData.Province_Formula__c);
+                    if(borrowerName == borrower){
+                        if (insolAccData.Province_Formula__c != null) {
+                            province = CustomerProcessingBatchHelper.getProvinceCode(insolAccData.Province_Formula__c);
+                        }
+                    }
+                    if(borrowerName == coDebtor){
+                        if (insolAccData.Province__c != null) {
+                            province = CustomerProcessingBatchHelper.getProvinceCode(insolAccData.Province__c);
+                        } 
                     }
                     String mailingCountry = '';
-                    if (insolAccData.Insolvency__r.Debtor_1_Mailing_Country__c != null) {
-                        mailingCountry = CustomerProcessingBatchHelper.getMailingCountry(insolAccData.Insolvency__r.Debtor_1_Mailing_Country__c);
+                    if(borrowerName == borrower){
+                        if (insolAccData.Insolvency__r.Debtor_1_Mailing_Country__c != null) {
+                            mailingCountry = CustomerProcessingBatchHelper.getMailingCountry(insolAccData.Insolvency__r.Debtor_1_Mailing_Country__c);
+                        }
+                    }
+                    if(borrowerName == coDebtor){
+                        if (insolAccData.Insolvency__r.Debtor_2_Mailing_Country__c != null) {
+                            mailingCountry = CustomerProcessingBatchHelper.getMailingCountry(insolAccData.Insolvency__r.Debtor_2_Mailing_Country__c);
+                        }
                     }
                     String mailingPostalCode = '';
-                    if (insolAccData.Debtor_1_Mailing_Postal_Code__c != null) {
-                        if (insolAccData.Debtor_1_Mailing_Postal_Code__c.length() > 15) {
-                            mailingPostalCode = insolAccData.Debtor_1_Mailing_Postal_Code__c.subString(0, 15);
-                        } else {
-                            mailingPostalCode = insolAccData.Debtor_1_Mailing_Postal_Code__c;
+                    if(borrowerName == borrower){
+                        if (insolAccData.Debtor_1_Mailing_Postal_Code__c != null) {
+                            if (insolAccData.Debtor_1_Mailing_Postal_Code__c.length() > 15) {
+                                mailingPostalCode = insolAccData.Debtor_1_Mailing_Postal_Code__c.subString(0, 15);
+                            } else {
+                                mailingPostalCode = insolAccData.Debtor_1_Mailing_Postal_Code__c;
+                            }
                         }
                     }
+                    if(borrowerName == coDebtor){
+                       if (insolAccData.Postal_Code__c != null) {
+                            if (insolAccData.Postal_Code__c.length() > 15) {
+                                mailingPostalCode = insolAccData.Postal_Code__c.subString(0, 15);
+                            } else {
+                                mailingPostalCode = insolAccData.Postal_Code__c;
+                            }
+                        } 
+                    }
+                    
                     String SIN = '';
-                    if (insolAccData.Debtor_1_SIN__c != null) {
-                        if (insolAccData.Debtor_1_SIN__c.length() > 8) {
-                            SIN = insolAccData.Debtor_1_SIN__c.subString(0, 8);
-                        } else {
-                            SIN = insolAccData.Debtor_1_SIN__c;
-                        }
+                    if(borrowerName == borrower){
+                        if (insolAccData.Debtor_1_SIN__c != null) {
+                            if (insolAccData.Debtor_1_SIN__c.length() > 8) {
+                                SIN = insolAccData.Debtor_1_SIN__c.subString(0, 8);
+                            } else {
+                                SIN = insolAccData.Debtor_1_SIN__c;
+                            }
+                        } 
+                    }
+                    if(borrowerName == coDebtor){
+                       if (insolAccData.Insolvency__r.Debtor_2_SIN__c != null) {
+                            if (insolAccData.Insolvency__r.Debtor_2_SIN__c.length() > 8) {
+                                SIN = insolAccData.Insolvency__r.Debtor_2_SIN__c.subString(0, 8);
+                            } else {
+                                SIN = insolAccData.Insolvency__r.Debtor_2_SIN__c;
+                            }
+                        } 
                     }
                     String dateOfBirth = '';
-                    if (insolAccData.CTB_Date_of_Birth__c != null) {
-                        dateOfBirth = convertDateToString(insolAccData.CTB_Date_of_Birth__c);
-                    } else {
-                        dateOfBirth = convertDateToString(insolAccData.Debtor_1_Date_of_Birth__c);
+                    if(borrowerName == borrower){
+                        if (insolAccData.CTB_Date_of_Birth__c != null) {
+                            dateOfBirth = convertDateToString(insolAccData.CTB_Date_of_Birth__c);
+                        } else {
+                            dateOfBirth = convertDateToString(insolAccData.Debtor_1_Date_of_Birth__c);
+                        }
+                    }
+                    if(borrowerName == coDebtor){
+                        if (insolAccData.CTB_Date_of_Birth__c != null) {
+                            dateOfBirth = convertDateToString(insolAccData.CTB_Date_of_Birth__c);
+                        } else {
+                            dateOfBirth = convertDateToString(insolAccData.Debtor_2_Date_of_Birth__c);
+                        }
                     }
                     String insolvencyDate = '';
                     if (insolAccData.Insolvency__r.Insolvency_Date__c != null) {
