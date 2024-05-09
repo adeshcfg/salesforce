@@ -2,7 +2,7 @@
  * @description       : Queueable class to get file list and store other API callout methods for incoming file
  * @author            : adesh.ikhar@canaccede.com
  * @group             :
- * @last modified on  : 05-07-2024
+ * @last modified on  : 05-09-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallouts {
@@ -45,7 +45,10 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
             HttpResponse res = h.send(req);
             if (res.getStatusCode() == 200) {
                 FileListWrapper fileList = (FileListWrapper) System.JSON.deserialize(res.getBody(), FileListWrapper.class);
-                fileNameList = fileList.files;
+                for (String fileName : fileList.files) {
+                    // Get only the file name from the file path and remove file extension
+                    fileNameList.add(fileName.substringAfterLast('/').substringBeforeLast('.'));
+                }
             } else {
                 createApiError(String.valueOf(res.getStatusCode()), res.getBody());
             }
@@ -57,22 +60,23 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
     }
 
     /**
-     * @description : Method to get specific uploaded in SF from SFTP
+     * @description : Method to get specific file uploaded in SF from SFTP
      * @author adesh.ikhar@canaccede.com | 05-07-2024
      * @param fileName
      * @return String
      **/
-    public static String getContentVersionId(String fileName) {
-        String contentVersionId = '';
+    public static String getDocumentId(String fileName) {
+        String documentId = '';
         Folder downloadFolder = [SELECT Id, Name FROM Folder WHERE Name = 'Metadata_Content' LIMIT 1];
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         String accToken = AzureUtility.getRequestToken('Agency Portal API');
+        String filePath = Datetime.now().format('yyyyMMdd') + '/' + filename;
         String endpoint =
             apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy') +
             'sobjects/folders/' +
             downloadFolder.Id +
             '?type=ctbsftpinbox&name=' +
-            filename;
+            EncodingUtil.urlEncode(filePath, 'UTF-8');
         Http h = new Http();
         HttpRequest req = new HttpRequest();
         req.setHeader('Authorization', 'Bearer ' + accToken);
@@ -84,17 +88,16 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
             HttpResponse res = h.send(req);
             if (res.getStatusCode() == 200) {
                 DocumentAPIClientUtil.ReverseProxyAPI parsedResponse = new DocumentAPIClientUtil.ReverseProxyAPI();
-                parsedResponse = (DocumentAPIClientUtil.ReverseProxyAPI) System.JSON.deserialize(
-                    parsedResponse.response,
-                    DocumentAPIClientUtil.ReverseProxyAPI.class
-                );
-                contentVersionId = parsedResponse.data.id;
+                parsedResponse = (DocumentAPIClientUtil.ReverseProxyAPI) System.JSON.deserialize(res.getBody(), DocumentAPIClientUtil.ReverseProxyAPI.class);
+                documentId = parsedResponse.data.id;
+            } else {
+                createApiError(String.valueOf(res.getStatusCode()), res.getBody());
             }
         } catch (Exception ex) {
             createApiError(ex.getMessage(), ex.getStackTraceString());
             System.debug('Exception in getContentVersionId ' + ex.getStackTraceString());
         }
-        return contentVersionId;
+        return documentId;
     }
 
     // Wrapper class for file list API response

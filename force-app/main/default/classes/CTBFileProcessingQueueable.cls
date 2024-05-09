@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-07-2024
+ * @last modified on  : 05-08-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -24,15 +24,15 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
     public void execute(QueueableContext context) {
         try {
             // Call SFTP API to get the file uploaded in SF as a content version record and get it's Id
-            String contentVersionId = CTBGetFileApiQueueable.getContentVersionId(fileNames[0]);
-            if (String.isBlank(contentVersionId)) {
+            String documentId = CTBGetFileApiQueueable.getDocumentId(fileNames[0]);
+            if (String.isBlank(documentId)) {
                 return;
             }
             // Convert CSV to string
-            ContentVersion fileToProccess = [SELECT Id, FileExtension, ContentDocumentId, VersionData, Title FROM ContentVersion WHERE Id = :contentVersionId];
-            String csvContents = fileToProccess.VersionData.toString();
+            Document fileToProccess = [SELECT Name, ContentType, Body FROM Document WHERE Id = :documentId];
+            String csvContents = fileToProccess.Body.toString();
             // Create Doc storage record with received file details
-            Document_Storage__c docStorage = createDocStorage(fileToProccess.Title, fileToProccess.FileExtension);
+            Document_Storage__c docStorage = createDocStorage(fileToProccess.Name, fileToProccess.ContentType);
             if (fileIdentifier == System.Label.CTB_Insolvency_Account) {
                 processCTBStagingAccounts(csvContents, docStorage);
             } /*  else if (fileIdentifier == System.Label.CTB_Payment) {
@@ -50,6 +50,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 }
                 return;
             }
+            delete fileToProccess;
             System.enqueueJob(new CTBFileProcessingQueueable(fileNames, System.Label.CTB_Insolvency_Account));
         } catch (Exception e) {
             System.debug('Exception in CTBFileProcessingQueueable ' + e.getMessage() + e.getStackTraceString());
