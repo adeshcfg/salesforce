@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-08-2024
+ * @last modified on  : 05-09-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -85,11 +85,7 @@ public with sharing class CTBFileValidationUtility {
      * @return Insolvency_Account__c
      **/
     public static Insolvency_Account__c updateInsolvencyAccount(CTB_Staging__c stagingRecord) {
-        List<String> optionalFields = new List<String>{
-            'CTB_Reject_Reason_Code__c',
-            'Previous_Account_Reference__c',
-            'Additional_Info__c'
-        };
+        List<String> optionalFields = new List<String>{ 'CTB_Reject_Reason_Code__c', 'Previous_Account_Reference__c', 'Additional_Info__c' };
         Insolvency_Account__c account = new Insolvency_Account__c();
         // Check if optional field value was not null in csv, only update if it was not null
         for (String fieldApiName : optionalFields) {
@@ -136,6 +132,12 @@ public with sharing class CTBFileValidationUtility {
     public static Document_Storage__c updateDocStorageDetails(Document_Storage__c docStorage, String status, String errorMessage) {
         docStorage.File_Processing_Status__c = status;
         docStorage.File_Processing_Error__c = errorMessage;
+        if (status == 'Failed') {
+            CTBFileValidationUtility.sendEmail(
+                'CTB Account file processing failed',
+                'File processing failed for ' + docStorage.Document_Name__c + '\n' + 'Error - ' + errorMessage
+            );
+        }
         return docStorage;
     }
 
@@ -346,6 +348,22 @@ public with sharing class CTBFileValidationUtility {
             stagingRecord.Status__c = 'Error';
             stagingRecord.Error_Message__c += '; Invalid Number format for ' + fieldName;
             return null;
+        }
+    }
+
+    public static void sendEmail(String subject, String htmlBody) {
+        String userEmail = UserInfo.getUserEmail() + ',' + System.Label.CTB_File_Processing_Emails;
+        List<String> lstEmail = userEmail.split(',');
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        mail.setToAddresses(lstEmail);
+        mail.setSenderDisplayName('Salesforce Support');
+        mail.setSubject(subject);
+        mail.setUseSignature(false);
+        mail.setHtmlBody(htmlBody);
+        try {
+            Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+        } catch (Exception e) {
+            system.debug('Exception in sendEmail ' + e.getMessage());
         }
     }
 }
