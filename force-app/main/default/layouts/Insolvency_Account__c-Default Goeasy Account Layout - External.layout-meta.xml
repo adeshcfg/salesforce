@@ -115,10 +115,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Account_Original_Open_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Charge_Off_Date__c</field>
             </layoutItems>
             <layoutItems>
