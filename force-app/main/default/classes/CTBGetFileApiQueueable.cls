@@ -21,6 +21,11 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
         // Enqueue the file processing class
         if (!fileNameList.isEmpty()) {
             System.enqueueJob(new CTBFileProcessingQueueable(fileNameList, System.Label.CTB_Insolvency_Account));
+        } else {
+            CTBFileValidationUtility.sendEmail(
+                'Account files processing status : No files processed',
+                'No files were found on the server to process or all the files are already processed for today'
+            );
         }
     }
 

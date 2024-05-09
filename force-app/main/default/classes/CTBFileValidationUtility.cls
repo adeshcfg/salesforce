@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-08-2024
+ * @last modified on  : 05-09-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -132,6 +132,12 @@ public with sharing class CTBFileValidationUtility {
     public static Document_Storage__c updateDocStorageDetails(Document_Storage__c docStorage, String status, String errorMessage) {
         docStorage.File_Processing_Status__c = status;
         docStorage.File_Processing_Error__c = errorMessage;
+        if (status == 'Failed') {
+            CTBFileValidationUtility.sendEmail(
+                'CTB Account file processing failed',
+                'File processing failed for ' + docStorage.Document_Name__c + '</br>' + errorMessage
+            );
+        }
         return docStorage;
     }
 
