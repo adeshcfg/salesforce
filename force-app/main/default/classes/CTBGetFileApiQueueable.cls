@@ -19,7 +19,7 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
             }
         }
         // Enqueue the file processing class
-        if (!fileNameList.isEmpty()) {
+        if (!fileNameList.isEmpty() && !Test.isRunningTest()) {
             System.enqueueJob(new CTBFileProcessingQueueable(fileNameList, System.Label.CTB_Insolvency_Account));
         } else {
             CTBFileValidationUtility.sendEmail(

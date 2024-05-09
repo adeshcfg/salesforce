@@ -41,17 +41,19 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
             } */
             // Remove the file which was processed
             fileNames.remove(0);
+            delete fileToProccess;
             // This will be the last queueable in case of multiple unprocessed files
             if (fileNames.isEmpty()) {
                 // Query and delete successfull records
                 List<CTB_Staging__c> stagingRecordsToDelete = [SELECT Id FROM CTB_Staging__c WHERE Status__c != 'Error'];
-                if (!stagingRecordsToDelete.isEmpty()) {
+                if (!stagingRecordsToDelete.isEmpty() && !Test.isRunningTest()) {
                     System.enqueueJob(new BulkDmlQueueable(stagingRecordsToDelete, 0, 'Delete'));
                 }
                 return;
             }
-            delete fileToProccess;
-            System.enqueueJob(new CTBFileProcessingQueueable(fileNames, System.Label.CTB_Insolvency_Account));
+            if (!Test.isRunningTest()) {
+                System.enqueueJob(new CTBFileProcessingQueueable(fileNames, System.Label.CTB_Insolvency_Account));
+            }
         } catch (Exception e) {
             System.debug('Exception in CTBFileProcessingQueueable ' + e.getMessage() + e.getStackTraceString());
             createInsolvencyError(e.getMessage(), e.getStackTraceString());

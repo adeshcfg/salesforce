@@ -94,31 +94,30 @@ public class CTBFileProcessingTest {
 
     @isTest
     static void processFileTest() {
-        Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document' LIMIT 1];
+        Document doc = [SELECT Id, Name FROM Document WHERE DeveloperName = 'my_document' LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(doc.Id));
         Test.startTest();
         CTBFileProcessingScheduler scheduler = new CTBFileProcessingScheduler();
         scheduler.execute(null);
+        System.enqueueJob(new CTBFileProcessingQueueable(new List<String>{ doc.Name }, System.Label.CTB_Insolvency_Account));
         Test.stopTest();
     }
 
     @isTest
     static void processFileNegativeRows() {
-        Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document_noofrows' LIMIT 1];
+        Document doc = [SELECT Id, Name FROM Document WHERE DeveloperName = 'my_document_noofrows' LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(doc.Id));
         Test.startTest();
-        CTBFileProcessingScheduler scheduler = new CTBFileProcessingScheduler();
-        scheduler.execute(null);
+        System.enqueueJob(new CTBFileProcessingQueueable(new List<String>{ doc.Name }, System.Label.CTB_Insolvency_Account));
         Test.stopTest();
     }
 
     @isTest
     static void processFileNegativeCols() {
-        Document doc = [SELECT Id FROM Document WHERE DeveloperName = 'my_document_noofcols' LIMIT 1];
+        Document doc = [SELECT Id, Name FROM Document WHERE DeveloperName = 'my_document_noofcols' LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(doc.Id));
         Test.startTest();
-        CTBFileProcessingScheduler scheduler = new CTBFileProcessingScheduler();
-        scheduler.execute(null);
+        System.enqueueJob(new CTBFileProcessingQueueable(new List<String>{ doc.Name }, System.Label.CTB_Insolvency_Account));
         Test.stopTest();
     }
 }
