@@ -5,7 +5,7 @@
     <changePasswordTemplate>Community/Password_Reset_Email</changePasswordTemplate>
     <communityRoles/>
     <disableReputationRecordConversations>false</disableReputationRecordConversations>
-    <emailSenderAddress>adesh.ikhar@canaccede.com</emailSenderAddress>
+    <emailSenderAddress>SBInsolvency@canaccede.com</emailSenderAddress>
     <emailSenderName>Insolvency Stream</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>false</enableDirectMessages>
