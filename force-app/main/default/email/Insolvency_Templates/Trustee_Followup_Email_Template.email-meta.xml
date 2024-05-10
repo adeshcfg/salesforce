@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Trustee Followup Email Template</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Trustee Followup Email Template</name>
+    <style>none</style>
+    <subject>Status of Insolvency - {!Insolvency__c.Name}/{!Insolvency_Account__c.Name}/{!Insolvency__c.Debtor_1_First_Name__c} {!Insolvency__c.Debtor_1_Last_Name__c}</subject>
+    <textOnly>Attn: Administrator/Trustee
+
+Dear Sir / Madam,
+
+In an effort to keep our records current, we are kindly requesting an update for the above-noted Insolvency filed with your office. According to our records we have not received an expected dividend for the below mentioned account(s):
+
+{!AccountList}  
+
+Please advise if the Insolvency is:
+
+Ongoing
+
+Has our claim been received and admitted?
+Have any dividends been issued / when can we expect dividends?
+
+
+Annulled
+
+Date of annulment and Trustee discharge?
+Has a subsequent bankruptcy been filed? If yes, please provide new Estate information
+
+
+Discharged
+
+Date of full performance?
+Were any dividends issued for the account(s) listed?
+
+
+Any other information that you may be able to provide would be greatly appreciated.
+
+Thank you in advance for your assistance.
+
+
+Sincerely
+
+
+Canaccede International Management Ltd.
+Insolvency Department
+
+
+Canaccede International Management Ltd
+PO Box 9 STN B
+London | Ontario | N6A 4Y8
+Tel: 844-202-6780 | Fax: 855-914-7653
+Email: www.canaccede.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
