@@ -63,6 +63,16 @@
                 <label>Small Business</label>
             </value>
             <value>
+                <fullName>VISA</fullName>
+                <default>false</default>
+                <label>VISA</label>
+            </value>
+            <value>
+                <fullName>MASTERCARD</fullName>
+                <default>false</default>
+                <label>MASTERCARD</label>
+            </value>
+            <value>
                 <fullName>Small Business Visa</fullName>
                 <default>false</default>
                 <label>Small Business Visa</label>
