@@ -11,6 +11,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>VISA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MASTERCARD</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Auto Loan</fullName>
             <default>false</default>
         </values>
