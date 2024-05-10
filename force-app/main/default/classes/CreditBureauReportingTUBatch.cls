@@ -811,7 +811,7 @@
                 }
                 // Code for Adding SIN__c Right Padding upon dynamic values in less
                 String SinNumber = defSinNumber;
-                if (prodct.SIN__c != null && prodct.SIN__c.length() == STATIC_INTEGER_9) {
+                if (prodct.SIN__c != null && !prodct.SIN__c.startsWith('0') && prodct.SIN__c.length() == STATIC_INTEGER_9) {
                     metroobj2.SIN__c = prodct.SIN__c;
                     SinNumber = prodct.SIN__c;
                 }
