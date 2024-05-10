@@ -9,37 +9,32 @@
 
 *************************************************************************************************/
 
-public class BatchProcessForProdScreen implements Database.Batchable<sObject>, Database.Stateful, Database.AllowsCallouts{
-	
+public class BatchProcessForProdScreen implements Database.Batchable<sObject>, Database.Stateful, Database.AllowsCallouts {
     List<Id> prodList;
-    Map<Id,String> placementStatus;
+    Map<Id, String> placementStatus;
     String docType;
-    public static String allocate = 'Product Allocation File';
+    public static List<String> allocate = new List<String>{ 'Product Allocation File', 'Product Allocation Individual' };
     public static String recall = 'Account Status Update File';
-    
+
     //Call Recall/Account status update portal API.
-     public BatchProcessForProdScreen(List<ID> productId, Map<Id,String> placementStatus,String docType){
-         system.debug('run inside batch');
-       this.prodList = productId;
-       this.placementStatus = placementStatus;
-       this.docType = docType;
+    public BatchProcessForProdScreen(List<ID> productId, Map<Id, String> placementStatus, String docType) {
+        this.prodList = productId;
+        this.placementStatus = placementStatus;
+        this.docType = docType;
     }
-    public Database.QueryLocator start(Database.BatchableContext BC){
-        return Database.getQueryLocator([Select id from product__c where id IN: prodList]);
+    public Database.QueryLocator start(Database.BatchableContext BC) {
+        return Database.getQueryLocator([SELECT id FROM product__c WHERE id IN :prodList]);
     }
-     public void execute(Database.BatchableContext BC, List<Product__c> scope){
-         
-          if(docType == allocate || Test.isRunningTest()){
-                //Call the portal Allocation API. developer: Satyajit Patil
-                ProcessProductBulkBatchAllocation.processProductBulkBatchone(prodList,placementStatus,allocate);
-            }else if(docType == recall){
-                //Call the portal Recall API. developer: Satyajit Patil
-                ProcessProductStatusUpdateBatchRecall.processProductRecallBulk(prodList,placementStatus,recall);
-            }
-        
-     }
-    
-     public void finish(Database.BatchableContext BC) {
-         
-     }
+    public void execute(Database.BatchableContext BC, List<Product__c> scope) {
+        if (allocate.contains(docType) || Test.isRunningTest()) {
+            //Call the portal Allocation API. developer: Satyajit Patil
+            ProcessProductBulkBatchAllocation.processProductBulkBatchone(prodList, placementStatus, docType);
+        } else if (docType == recall) {
+            //Call the portal Recall API. developer: Satyajit Patil
+            ProcessProductStatusUpdateBatchRecall.processProductRecallBulk(prodList, placementStatus, recall);
+        }
+    }
+
+    public void finish(Database.BatchableContext BC) {
+    }
 }
