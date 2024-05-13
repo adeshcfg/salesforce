@@ -2,7 +2,7 @@
  * @description       : Queueable class to get file list and store other API callout methods for incoming file
  * @author            : adesh.ikhar@canaccede.com
  * @group             :
- * @last modified on  : 05-09-2024
+ * @last modified on  : 05-13-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallouts {
@@ -50,9 +50,11 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
             HttpResponse res = h.send(req);
             if (res.getStatusCode() == 200) {
                 FileListWrapper fileList = (FileListWrapper) System.JSON.deserialize(res.getBody(), FileListWrapper.class);
-                for (String fileName : fileList.files) {
-                    // Get only the file name from the file path and remove file extension
-                    fileNameList.add(fileName.substringAfterLast('/'));
+                if (fileList.files != null && !fileList.files.isEmpty()) {
+                    for (String fileName : fileList.files) {
+                        // Get only the file name from the file path and remove file extension
+                        fileNameList.add(fileName.substringAfterLast('/'));
+                    }
                 }
             } else {
                 createApiError(String.valueOf(res.getStatusCode()), res.getBody());
