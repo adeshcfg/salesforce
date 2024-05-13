@@ -220,10 +220,9 @@ public class AgencyPoolAllocationController {
             //'Allocation',placement.Name, poolRecord.Name);
             
             //Added by satyajit for ticket 4307
-            Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update File'), 200);  
+            Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update Pool'), 200);  
             
             update pool;
-            getSnapshortRecords(productList);
             ProductTriggerHandler.runProductTrigger = true;
             
             countrefresh = true;
@@ -328,10 +327,9 @@ public class AgencyPoolAllocationController {
             // PortalProductStatusBulkAPI.processBulkProducts(productNames, NEW_ALLOCATION_READY, ALLOCATED, String.valueOf(Date.today()), 
             // 'Allocation',placement.Name, poolRecord.Name);
             //Added by satyajit
-            Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update File'), 200);  
+            Database.executeBatch(new BatchProcessForProdScreen(prodIdList,placeStatusMap,'Account Status Update Pool'), 200);  
             
             update pool;
-            getSnapshortRecords(productList);
             ProductTriggerHandler.runProductTrigger = true;
             warningbtndisable = true;
             allocatebtndisable = true;
