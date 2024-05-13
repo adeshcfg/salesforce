@@ -12,14 +12,14 @@ public class AzureUtility {
     public static API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
     public static String accTokenBulk;
     public static List<String> allocate = new List<String>{ 'Product Allocation File', 'Product Allocation Individual' };
-    public static String recall = 'Account Status Update File';
+    public static List<String> recall = new List<String>{ 'Account Status Update File', 'Account Status Update Pool' };
     public static List<API_Error__c> ErrorList = new List<API_Error__c>();
 
     //Call allocation/account status update API based in document type.
     public static String apiCall(List<String> listProductJSONRequest1, string docType) {
         accTokenBulk = getRequestToken();
         List<Product__c> prodList = new List<Product__c>();
-        if (docType == 'Product Allocation Individual') {
+        if (docType == 'Product Allocation Individual' || docType == 'Account Status Update Pool') {
             List<Object> productJsonList = (List<Object>) JSON.deserializeUntyped(listProductJSONRequest1[0]);
             Map<String, Object> jsonMap = (Map<String, Object>) productJsonList[0];
             String productName = String.valueOf(jsonMap.get('Name'));
@@ -39,7 +39,7 @@ public class AzureUtility {
                     apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFProduct');
                     req.setEndpoint(apiCallDetails.PDF_API_URL__c + 'bulk');
                     req.setMethod('PUT');
-                } else if (docType == recall) {
+                } else if (recall.contains(docType)) {
                     apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFBulkProductUpdate');
                     req.setEndpoint(apiCallDetails.PDF_API_URL__c + 'bulk');
                     req.setMethod('PATCH');
@@ -52,6 +52,8 @@ public class AzureUtility {
                     if (res.getStatusCode() == 200 && !Test.isRunningTest()) {
                         if (docType == 'Product Allocation Individual') {
                             ProductAllocationIndividualController.getSnapshortRecords(prodList);
+                        } else if (docType == 'Account Status Update Pool') {
+                            AgencyPoolAllocationController.getSnapshortRecords(prodList);
                         }
                     } else {
                         try {
