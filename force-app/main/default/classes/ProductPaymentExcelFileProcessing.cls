@@ -31,6 +31,7 @@
     String provinceAcronymFormat;
     @testVisible
     String warehouseAgencyId = '';
+    string warehouseAgencyName = '';
 
     list<Document_Storage__c> listDocuments;
     List<paymentRecordsWrapper> listPaymentRecordWrapper = new List<paymentRecordsWrapper>();
@@ -83,9 +84,10 @@
             mapProductJudgmentClaimIssuedID = new Map<ID, ID>();
             map<String, Decimal> mapValueTierCommissionRate = getCommissionRateValues();
 
-            List<Placement__c> warehouse = [SELECT Id From Placement__c Where Name = '9999' Limit 1];
+            List<Placement__c> warehouse = [SELECT Id,name From Placement__c Where Name = '9999' Limit 1];
             if(!warehouse.isEmpty()) {
                 warehouseAgencyId = warehouse[0].Id;
+                warehouseAgencyName = warehouse[0].name;
             }
 
             for (PaymentRecordsWrapper wrapRecord : listPaymentRecordWrapper) {
@@ -1231,14 +1233,17 @@
 							prodPayment.Pay_Due__c = 0;
 							prodPayment.Tax_Amount__c = 0;
 							prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
+                            //Ticket 6503: commission paid to and payment agency should be same
+                            prodPayment.Payment_Provided_Agency__c = warehouseAgencyName;
 							if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
 								// Commission paid to field should be populated with warehouse placement record, no need to populate with previous placed agency
 								/* if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
 									prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
 								} */
-								if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
+								//Ticket 6503: commission paid to and payment agency should be same
+                                /*if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
 									prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
-								}
+								}*/
 							}
 						}
 
@@ -1627,13 +1632,16 @@
                     prodPayment.Pay_Due__c = 0;
                     prodPayment.Tax_Amount__c = 0;
                     prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
+                    //Ticket 6503: commission paid to and payment agency should be same
+                    prodPayment.Payment_Provided_Agency__c = warehouseAgencyName;
                     if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                         /* if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
                             prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
                         } */
-                        if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
+                        //Ticket 6503: commission paid to and payment agency should be same
+                        /*if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
                             prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
-                        }
+                        }*/
                     }
                 }
 

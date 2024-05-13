@@ -29,6 +29,8 @@
     string prodProvinceName;
     string ProvinceNameFormat;
     String provinceAcronymFormat;
+    String warehouseAgencyId = '';
+    string warehouseAgencyName = '';
 
     list<Document_Storage__c> listDocuments;
     List<paymentRecordsWrapper> listPaymentRecordWrapper = new List<paymentRecordsWrapper>();
@@ -81,6 +83,12 @@
 
             mapProductJudgmentClaimIssuedID = new Map<ID, ID>();
             map<String, Decimal> mapValueTierCommissionRate = getCommissionRateValues();
+            
+            List<Placement__c> warehouse = [SELECT Id,name From Placement__c Where Name = '9999' Limit 1];
+            if(!warehouse.isEmpty()) {
+                warehouseAgencyId = warehouse[0].Id;
+                warehouseAgencyName = warehouse[0].name;
+            }
 
             for (PaymentRecordsWrapper wrapRecord : listPaymentRecordWrapper) {
                 accountNumberList.add(wrapRecord.data_id);
@@ -897,10 +905,13 @@
                     //EXPECTED += 'Current Agency Number ' + mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency__c +'<br/>';
                     EXPECTED += 'Commission Amount paid will be 0 on this payment. ' + '<br/>';
                     prodPayment.Pay_Due__c = 0;
-                    if (prodPayment.Payment_Agency__c == null) {
+                    //Ticket 6503: commission paid to and payment agency should be same
+                    prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
+                    prodPayment.Payment_Agency__c = warehouseAgencyName;
+                    /*if (prodPayment.Payment_Agency__c == null) {
                         prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
                         prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
-                    }
+                    }*/
                     //prodPayment.Product_Agency__c = mapProduct.get(prodPayment.CCS_Account__c).COllection_Agency_placement__c;
                 }
 
