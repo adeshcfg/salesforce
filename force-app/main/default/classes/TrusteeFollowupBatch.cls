@@ -5,8 +5,6 @@
  *
  ***************************************************/
 public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Database.Stateful {
-    public EmailTemplate emailTemplate = [SELECT Id, Subject, HtmlValue FROM EmailTemplate WHERE DeveloperName = 'Trustee_Followup_Email_Template'];
-
     // Start Method
     public Database.Querylocator start(Database.BatchableContext BC) {
         // List values to be used as filters in SOQL query
@@ -73,6 +71,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
         Integer maxEmailsSentPerDay = Integer.ValueOf(tpfs.Maximum_Emails_Per_Day__c);
         List<Insolvency__c> insolvencies = (List<Insolvency__c>) scope;
         List<Messaging.SingleEmailMessage> singleEmailMessages = new List<Messaging.SingleEmailMessage>();
+        Map<String, EmailTemplate> templateMap = new Map<String, EmailTemplate>();
 
         //Eligible Insolvencies to update
         List<Insolvency__c> insolvenciesToUpdate = new List<Insolvency__c>();
@@ -93,11 +92,20 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                     Business_Email__c,
                     Fax,
                     Last_Trustee_Followup_Sent_Date__c,
-                    Follow_up_Email__c
+                    Follow_up_Email__c,
+                    Preferred_Language__c
                 FROM Account
                 WHERE Id IN :trusteeIds
             ]
         );
+
+        for (EmailTemplate template : [
+            SELECT DeveloperName, Subject, HtmlValue
+            FROM EmailTemplate
+            WHERE DeveloperName IN ('Trustee_Followup_Email_Template', 'Trustee_Followup_Email_Template_French')
+        ]) {
+            templateMap.put(template.DeveloperName, template);
+        }
 
         for (Insolvency__c insolvency : insolvencies) {
             Account trustee = trusteeMap.get(insolvency.Trustee__c);
@@ -106,12 +114,16 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
             if (!insolvencyAccounts.isEmpty()) {
                 // Use custom setting to read maximum emails to be sent
                 if (trustee.Number_Of_Emails_Sent_Today__c < maxEmailsSentPerDay && insolvencyAccounts != null && insolvencyAccounts.size() > 0) {
+                    String templateName = 'Trustee_Followup_Email_Template';
+                    if (String.isNotBlank(trustee.Preferred_Language__c) && trustee.Preferred_Language__c == 'French') {
+                        templateName = templateName + '_French';
+                    }
                     //Create Email
                     Messaging.SingleEmailMessage email = TrusteeFollowUpBatchHelper.generateSingleEmailMessage(
                         trustee,
                         insolvency,
                         insolvencyAccounts,
-                        emailTemplate
+                        templateMap.get(templateName)
                     );
                     if (email != null) {
                         singleEmailMessages.add(email);
