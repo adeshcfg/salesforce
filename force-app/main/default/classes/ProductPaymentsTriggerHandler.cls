@@ -1682,7 +1682,7 @@
             mapPlacement.put(placement.ID, placement);
         }
 
-        List<Placement__c> warehouse = [SELECT,name Id From Placement__c Where Name = '9999' Limit 1];
+        List<Placement__c> warehouse = [SELECT Id,name  From Placement__c Where Name = '9999' Limit 1];
         if(!warehouse.isEmpty()) {
             warehouseAgencyId = warehouse[0].Id;
             warehouseAgencyName = warehouse[0].name;
