@@ -19,11 +19,16 @@ public class AzureUtility {
     public static String apiCall(List<String> listProductJSONRequest1, string docType) {
         accTokenBulk = getRequestToken();
         List<Product__c> prodList = new List<Product__c>();
+        List<String> productNameListFromJson = new List<String>();
         if (docType == 'Product Allocation Individual' || docType == 'Account Status Update Pool') {
-            List<Object> productJsonList = (List<Object>) JSON.deserializeUntyped(listProductJSONRequest1[0]);
-            Map<String, Object> jsonMap = (Map<String, Object>) productJsonList[0];
-            String productName = String.valueOf(jsonMap.get('Name'));
-            prodList = [SELECT Id, Collection_Agency_Placement__c FROM Product__c WHERE Name = :productName];
+            for (String prodJson : listProductJSONRequest1) {
+                List<Object> productJsonList = (List<Object>) JSON.deserializeUntyped(prodJson);
+                Map<String, Object> jsonMap = (Map<String, Object>) productJsonList[0];
+                productNameListFromJson.add(String.valueOf(jsonMap.get('Name')));
+            }
+        }
+        if (!productNameListFromJson.isEmpty()) {
+            prodList = [SELECT Id, Collection_Agency_Placement__c FROM Product__c WHERE Name IN :productNameListFromJson];
         }
         for (String ProductJSONRequest : listProductJSONRequest1) {
             //Get access token for http request
@@ -48,7 +53,7 @@ public class AzureUtility {
                 try {
                     // Send the request, and return a response
                     HttpResponse res = h.send(req);
-                    Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
+                    // Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
                     if (res.getStatusCode() == 200 && !Test.isRunningTest()) {
                         if (docType == 'Product Allocation Individual') {
                             ProductAllocationIndividualController.getSnapshortRecords(prodList);
