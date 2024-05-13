@@ -1,0 +1,84 @@
+<html>
+<style>
+body{
+font-family:Calibri, Arial; 
+font-size: 11pt;
+width: 98%;
+text-align: left;
+
+margin: auto;
+padding: 20px;
+padding-left: 2%;
+}
+.li-style{
+padding-left: 10px;
+}
+.ul-style{
+line-height: 20px;
+}
+</style>
+<div style="text-align:center;"> 
+<img src= 'https://cfgroup--c.na103.content.force.com/servlet/servlet.ImageServer?id=0153a000003YHoL&oid=00Dj0000001ripe&lastMod=1588328832000' style="width:100%;max-width:150px;height:95px;"/> 
+</div> <br/>
+<body >
+<br>
+<b>À l’attention de </b>l’administrateur ou du Syndic
+<br><br>
+
+Cher(ère) Monsieur / Madame, 
+<br><br>
+
+Dans un effort pour garder nos dossiers à jour, nous vous prions de bien vouloir faire une mise à jour de la déclaration d’insolvabilité susmentionnée déposée auprès de votre bureau. Selon nos dossiers, nous n’avons pas reçu de dividende pour le(s) compte(s) mentionné(s) ci-dessous : 
+
+<br><br>
+
+{!AccountList}
+
+</br>
+
+Veuillez indiquer si l’insolvabilité est: 
+
+<br><br>
+
+<b>En Cours </b>
+<ul class="ul-style">
+<li class="li-style">Notre demande a-t-elle été reçue et acceptée? </li>
+<li class="li-style">Des dividendes ont-ils été émis? / quand pouvons-nous espérer recevoir des dividendes?</li>
+</ul>
+
+<br>
+<b>Annulée </b>
+<ul class="ul-style">
+<li class="li-style">Date d’annulation et de libération du syndic?  </li>
+<li class="li-style">Une faillite subséquente a-t-elle été déclarée? Si oui, veuillez fournir de nouveaux renseignements sur la faillite </li>
+</ul>
+<br>
+
+<b>Libéré </b>
+<ul class="ul-style">
+<li class="li-style">Date de la libération absolue?</li>
+<li class="li-style">Des dividendes ont-ils été émis pour le(s) compte(s) indiqué(s)?   </li>
+</ul>
+<br>
+
+Toute autre information que vous pourriez être en mesure de fournir serait grandement appréciée.
+<br><br>
+Merci à l’avance pour votre aide.  
+<br><br><br>
+Sincèrement 
+<br><br><br>
+
+Canaccede International Management Ltd. 
+<br>
+
+Département de l’insolvabilité 
+<p style="width:100%; text-align:center;" >
+<br/><b>Canaccede International Management Ltd </b><br/>
+  PO Box 9 STN B<br/>
+                            London | Ontario | N6A 4Y8 <br/>
+Tel: 844-202-6780 | Fax:
+ 855-914-7653<br/>
+Email: www.canaccede.com
+</p>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Trustee Followup Email Template French</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Trustee Followup Email Template French</name>
+    <style>none</style>
+    <subject>Statut d&apos;insolvabilité - {!Insolvency__c.Name}/{!Insolvency_Account__c.Name}/{!Insolvency__c.Debtor_1_First_Name__c} {!Insolvency__c.Debtor_1_Last_Name__c}</subject>
+    <textOnly>À l’attention de l’administrateur ou du Syndic
+
+Cher(ère) Monsieur / Madame,
+
+Dans un effort pour garder nos dossiers à jour, nous vous prions de bien vouloir faire une mise à jour de la déclaration d’insolvabilité susmentionnée déposée auprès de votre bureau. Selon nos dossiers, nous n’avons pas reçu de dividende pour le(s) compte(s) mentionné(s) ci-dessous :
+
+{!AccountList}  
+Veuillez indiquer si l’insolvabilité est:
+
+En Cours
+
+Notre demande a-t-elle été reçue et acceptée?
+Des dividendes ont-ils été émis? / quand pouvons-nous espérer recevoir des dividendes?
+
+
+Annulée
+
+Date d’annulation et de libération du syndic?
+Une faillite subséquente a-t-elle été déclarée? Si oui, veuillez fournir de nouveaux renseignements sur la faillite
+
+
+Libéré
+
+Date de la libération absolue?
+Des dividendes ont-ils été émis pour le(s) compte(s) indiqué(s)?
+
+
+Toute autre information que vous pourriez être en mesure de fournir serait grandement appréciée.
+
+Merci à l’avance pour votre aide.
+
+
+Sincèrement
+
+
+Canaccede International Management Ltd.
+Département de l’insolvabilité
+
+
+Canaccede International Management Ltd
+PO Box 9 STN B
+London | Ontario | N6A 4Y8
+Tel: 844-202-6780 | Fax: 855-914-7653
+Email: www.canaccede.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
