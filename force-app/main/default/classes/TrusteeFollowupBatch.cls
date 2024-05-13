@@ -119,6 +119,9 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                         trusteeMap.put(insolvency.Trustee__c, trustee);
 
                         // Increment follow up counter
+                        if (insolvency.Follow_Up_Counter__c == null) {
+                            insolvency.Follow_Up_Counter__c = 0;
+                        }
                         insolvency.Follow_Up_Counter__c = insolvency.Follow_Up_Counter__c + 1;
 
                         //Set Missing Follow up Date
