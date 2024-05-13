@@ -164,10 +164,9 @@ public with sharing class ProductAllocationIndividualController {
             //PortalProductProcessingAPI.processProduct(product.ID);
             
             //Added by satyajit
-            Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Product Allocation File'), 200);
+            Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Product Allocation Individual'), 200);
             
             ProductTriggerHandler.runProductTrigger = true;
-            getSnapshortRecords(new List<Product__c>{product});
             ERROR_MSG = 'Product Allocated to Agency : ' +placement.Name + ' - ' + placement.Agency_Name__c;
         }
         catch(Exception ex){
@@ -271,9 +270,8 @@ public with sharing class ProductAllocationIndividualController {
                 //PortalProductProcessingAPI.processProduct(product.ID);
                 
                 //Added by satyajit
-                Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Product Allocation File'), 200);
+                Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Product Allocation Individual'), 200);
                 
-                getSnapshortRecords(new List<Product__c>{product});
                 ProductTriggerHandler.runProductTrigger = true;
                 ERROR_MSG = 'Product Allocated to Agency : ' +placement.Name + ' - ' + placement.Agency_Name__c;
             }
