@@ -1234,7 +1234,7 @@
 							prodPayment.Tax_Amount__c = 0;
 							prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
                             //Ticket 6503: commission paid to and payment agency should be same
-                            prodPayment.Payment_Provided_Agency__c = warehouseAgencyName;
+                            prodPayment.Payment_Agency__c = warehouseAgencyName;
 							if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
 								// Commission paid to field should be populated with warehouse placement record, no need to populate with previous placed agency
 								/* if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
@@ -1633,7 +1633,7 @@
                     prodPayment.Tax_Amount__c = 0;
                     prodPayment.Payment_Provided_Agency__c = warehouseAgencyId;
                     //Ticket 6503: commission paid to and payment agency should be same
-                    prodPayment.Payment_Provided_Agency__c = warehouseAgencyName;
+                    prodPayment.Payment_Agency__c = warehouseAgencyName;
                     if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                         /* if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
                             prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
