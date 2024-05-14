@@ -2,10 +2,11 @@
  * @description       : Queueable class to get file list and store other API callout methods for incoming file
  * @author            : adesh.ikhar@canaccede.com
  * @group             :
- * @last modified on  : 05-13-2024
+ * @last modified on  : 05-14-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallouts {
+    public static final String API_TYPE_PARAMETER = 'incoming_decrypted';
     public void execute(QueueableContext context) {
         // Call API to get the list of files
         List<String> fileNameList = getFileList();
@@ -38,7 +39,12 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
         List<String> fileNameList = new List<String>();
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         String accToken = AzureUtility.getRequestToken('Agency Portal API');
-        String endpoint = apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy') + 'types/ctbsftpinbox?filter=' + Datetime.now().format('yyyyMMdd');
+        String endpoint =
+            apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy') +
+            'types/' +
+            API_TYPE_PARAMETER +
+            '?filter=' +
+            Datetime.now().format('yyyyMMdd');
         Http h = new Http();
         HttpRequest req = new HttpRequest();
         req.setHeader('Authorization', 'Bearer ' + accToken);
@@ -82,7 +88,9 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
             apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy') +
             'sobjects/folders/' +
             downloadFolder.Id +
-            '?type=ctbsftpinbox&name=' +
+            '?type=' +
+            API_TYPE_PARAMETER +
+            '&name=' +
             EncodingUtil.urlEncode(filePath, 'UTF-8');
         Http h = new Http();
         HttpRequest req = new HttpRequest();
