@@ -339,9 +339,6 @@
                                                AND CreatedDate = LAST_MONTH
                                                ORDER BY CreatedDate ASC];
         for(Product__History prodHistory : listProductHistory){
-            if(splitProvinceValues.contains(string.valueOf(prodHistory.NewValue))){
-                //nothing to do
-            }else{
                 if(!splitProvinceValues.contains(string.valueOf(prodHistory.NewValue)) && splitProvinceValues.contains(string.valueOf(prodHistory.OldValue))){
                     if(!mapProvinceProd.containsKey(string.valueOf(prodHistory.ParentId))){
                         //get old value from producthistory when province gets changed
@@ -351,8 +348,6 @@
                     //if account never in valid province, then dont report that account
                     mapProductExcluse.put(string.valueOf(prodHistory.ParentId), true);
                 } 
-            }
-            
         }
         //check active judgment present on product
         List<Account_Judgment__c> accountJudgment = [
