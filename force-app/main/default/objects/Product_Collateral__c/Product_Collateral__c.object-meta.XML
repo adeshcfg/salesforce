@@ -55,7 +55,6 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Product Collateral</label>
     <nameField>
-        <encrypted>false</encrypted>
         <label>Product Collateral Name</label>
         <type>Text</type>
     </nameField>
