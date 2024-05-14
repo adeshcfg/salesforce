@@ -111,8 +111,8 @@
                 AND Placement_Recall_Date__c != NULL
                 AND Product__r.State__c IN :splitProvinceValues
                 AND Placement_Recall_Date__c = LAST_MONTH
-                AND (Product__r.Number_Of_Open_Complaint__c = 0
-                OR Product__r.Number_Of_Open_Complaint__c = NULL)
+                /*AND (Product__r.Number_Of_Open_Complaint__c = 0
+                OR Product__r.Number_Of_Open_Complaint__c = NULL)*/
                 AND Product__r.Last_Name__c != NULL
                 AND Product__r.First_Name__c != NULL
                 AND (NOT Product__r.First_Name__c LIKE '_')
@@ -139,8 +139,8 @@
                 AND Placement_Date__c != NULL
                 AND Product__r.State__c IN :splitProvinceValues
                 AND Placement_Date__c = LAST_MONTH
-                AND (Product__r.Number_Of_Open_Complaint__c = 0
-                OR Product__r.Number_Of_Open_Complaint__c = NULL)
+                /*AND (Product__r.Number_Of_Open_Complaint__c = 0
+                OR Product__r.Number_Of_Open_Complaint__c = NULL)*/
                 AND Product__r.Last_Name__c != NULL
                 AND Product__r.First_Name__c != NULL
                 AND (NOT Product__r.First_Name__c LIKE '_')
@@ -208,7 +208,7 @@
                 '((RecordType.Name =: productType AND ' +
                 'Product_Status__c NOT IN :excludeProdStatusList AND ' +
                 'Collection_Agency__c IN :includeAgencyList AND ' +
-                '(Number_Of_Open_Complaint__c = 0 OR Number_Of_Open_Complaint__c = NULL) AND ' +
+               // '(Number_Of_Open_Complaint__c = 0 OR Number_Of_Open_Complaint__c = NULL) AND ' +
                 'Last_Name__c != null AND ' +
                 'First_Name__c != null AND ' +
                 'Name !=null AND ' +
@@ -235,6 +235,7 @@
         map<String, Credit_Bureau_Reporting_Periods__mdt> mapCreditBureauRepPeriods = Credit_Bureau_Reporting_Periods__mdt.getAll();
         map<String, Credit_Bureau_Reporting_Periods__mdt> mapProvinceAcronymCBRepPeriods = new Map<String, Credit_Bureau_Reporting_Periods__mdt>();
         List<ID> listOfProductIds = new List<ID>();
+        Map<id, decimal> mapProductCompCount = new Map<id, decimal>();
         Date minPlacementDate = null;
         Date maxRecallDate = null;
         String finalHeadBody2 = '';
@@ -306,6 +307,22 @@
         for (Product__c prodData : scope) {
             mapProduct.put(prodData.ID, prodData);
         }
+        
+        //Get all complaint based on product
+        AggregateResult[] prodGroupedResults = [select Product__c prodId, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
+                                            WHERE Product__c IN :mapProduct.keySet() 
+                                            AND Product__c != NULL
+                                            //AND CreatedDate = LAST_MONTH 
+                                            AND Requested_Date__c = LAST_MONTH     
+                                            AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
+                                            GROUP BY Product__c];
+        if(prodGroupedResults != NULL && !prodGroupedResults.isEmpty()) { 
+            for (AggregateResult ar : prodGroupedResults)  {
+                //create map with product and complaint count
+                mapProductCompCount.put((String)ar.get('prodId'),(decimal)ar.get('comptProductcnt'));
+            }
+        }
+        
         //check active judgment present on product
         List<Account_Judgment__c> accountJudgment = [
             SELECT ID, Name, Product__c, Judgment__c, Judgment__r.Legal_Status__c, Judgment__r.Legal_Sub_Status__c
@@ -973,7 +990,10 @@
                         accountStatus = metro2TransUnion.Account_Status_Open__c; //set account status to 93
                     }
                 }
-
+                if(mapProductCompCount.containskey(prodct.id)){
+                    //if product has complaint present in reporting month then reported account as DA
+                    accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA
+                }
                 metroobj2.Status__c = accountStatus;
 
                 // Code for date closed Right Padding upon dynamic values in less
@@ -1177,9 +1197,12 @@
                 if (accountStatus == metro2TransUnion.Account_Status_Close__c) {
                     if (null == prodct.TransUnion_Reported_As_Complete_Count__c) {
                         prodct.TransUnion_Reported_As_Complete_Count__c = 1;
-                    } else {
-                        prodct.TransUnion_Reported_As_Complete_Count__c += 1;
-                    }
+                    } 
+                    listOfProductsToUpdate.add(prodct);
+                }
+                //if product has complaint then reported that account only once.
+                if(mapProductCompCount.containskey(prodct.id)){
+                    prodct.TransUnion_Reported_As_Complete_Count__c = 1;
                     listOfProductsToUpdate.add(prodct);
                 }
             } // if condition
