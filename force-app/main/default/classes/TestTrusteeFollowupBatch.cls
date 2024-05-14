@@ -104,6 +104,7 @@ public class TestTrusteeFollowupBatch {
         insolv.Previous_Bulk_Payment_Amount__c = 1000;
         insolv.Previous_Payment_Amount__c = 100;
         insolv.Previous_Number_of_Payments__c = 2;
+        insolv.Follow_Up_Counter__c = 1;
         insert insolv;
 
         list<RecordType> recordTypeList = new List<RecordType>(
