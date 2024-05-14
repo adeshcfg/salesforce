@@ -109,7 +109,7 @@
                 Placement__r.Name IN :includeAgencyList
                 AND Placement_Date__c < :placementDateBefore45
                 AND Placement_Recall_Date__c != NULL
-                AND Product__r.State__c IN :splitProvinceValues
+                //AND Product__r.State__c IN :splitProvinceValues
                 AND Placement_Recall_Date__c = LAST_MONTH
                 /*AND (Product__r.Number_Of_Open_Complaint__c = 0
                 OR Product__r.Number_Of_Open_Complaint__c = NULL)*/
@@ -137,7 +137,7 @@
                 AND Product__c IN :productIds
                 AND Placement_Recall_Date__c = NULL
                 AND Placement_Date__c != NULL
-                AND Product__r.State__c IN :splitProvinceValues
+                //AND Product__r.State__c IN :splitProvinceValues
                 AND Placement_Date__c = LAST_MONTH
                 /*AND (Product__r.Number_Of_Open_Complaint__c = 0
                 OR Product__r.Number_Of_Open_Complaint__c = NULL)*/
@@ -220,7 +220,7 @@
                 'Difference_Greater_Than_N_Years__c = False AND ' +
                 'Exclude_for_Reporting__c = False AND ' +
                 'Portfolio_Name_Lookup__c <> null AND ' +
-                'State__c IN :splitProvinceValues AND ' +
+                //'State__c IN :splitProvinceValues AND ' +
                 '(TransUnion_Reported_As_Complete_Count__c = null OR ' +
                 'TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)) OR (Id IN :productIds AND (TransUnion_Reported_As_Complete_Count__c = null OR TransUnion_Reported_As_Complete_Count__c <: noOfTimesToReport)))'
         );
@@ -234,6 +234,8 @@
         map<id, boolean> mapProductExcluse = new Map<id, boolean>();
         map<String, Credit_Bureau_Reporting_Periods__mdt> mapCreditBureauRepPeriods = Credit_Bureau_Reporting_Periods__mdt.getAll();
         map<String, Credit_Bureau_Reporting_Periods__mdt> mapProvinceAcronymCBRepPeriods = new Map<String, Credit_Bureau_Reporting_Periods__mdt>();
+        //Fetch custom value records from Metro2_File__c custom setting
+        Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
         List<ID> listOfProductIds = new List<ID>();
         Map<id, decimal> mapProductCompCount = new Map<id, decimal>();
         Date minPlacementDate = null;
@@ -323,6 +325,30 @@
             }
         }
         
+        String province = '';
+        List<String> splitProvinceValues = new List<string>();
+        if (metro2TransUnion.Province__c <> null) {
+            province = metro2TransUnion.Province__c;
+            splitProvinceValues = province.split(',');
+        }
+        Map<string,string> mapProvinceProd = new Map<string,string>();
+        list<Product__History> listProductHistory = [SELECT ParentId, OldValue, NewValue, Field
+                                               FROM Product__History
+                                               WHERE ParentId = :mapProduct.keySet()
+                                               AND (Field= :'State__c')
+                                               AND CreatedDate = LAST_MONTH
+                                               ORDER BY CreatedDate ASC];
+        for(Product__History prodHistory : listProductHistory){
+                if(!splitProvinceValues.contains(string.valueOf(prodHistory.NewValue)) && splitProvinceValues.contains(string.valueOf(prodHistory.OldValue))){
+                    if(!mapProvinceProd.containsKey(string.valueOf(prodHistory.ParentId))){
+                        //get old value from producthistory when province gets changed
+                        mapProvinceProd.put(string.valueOf(prodHistory.ParentId),string.valueOf(prodHistory.NewValue));
+                    }
+                }else{
+                    //if account never in valid province, then dont report that account
+                    mapProductExcluse.put(string.valueOf(prodHistory.ParentId), true);
+                } 
+        }
         //check active judgment present on product
         List<Account_Judgment__c> accountJudgment = [
             SELECT ID, Name, Product__c, Judgment__c, Judgment__r.Legal_Status__c, Judgment__r.Legal_Sub_Status__c
@@ -341,6 +367,12 @@
         }
         //if product has active judgment then add TU_Judgment_Period__c years in Charged_Off_Date__c else add TU_Collection_Period__c years
         for (Product__c prodRecData : scope) {
+            //if province is not changed in reporting month then check product present province valid or not.
+            if(!mapProvinceProd.containskey(prodRecData.id)){
+                if(!splitProvinceValues.contains(prodRecData.State__c)){
+                    mapProductExcluse.put(prodRecData.id, true);
+                }
+            }
             listOfProductIds.add(prodRecData.id);
 
             Date chargeOffDate;
@@ -467,9 +499,7 @@
                 mapProductPaymentsData.put(prodPay.CCS_Account__c, new List<Product_Payments__c>{ prodPay });
             }
         }
-
-        //Fetch custom value records from Metro2_File__c custom setting
-        Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
+        
         if (metro2TransUnion.MaxRowsCount__c <> null) {
             maxRowslength = metro2TransUnion.MaxRowsCount__c;
         }
@@ -990,8 +1020,13 @@
                         accountStatus = metro2TransUnion.Account_Status_Open__c; //set account status to 93
                     }
                 }
+                //if product has complaint present in reporting month then reported account as DA
                 if(mapProductCompCount.containskey(prodct.id)){
-                    //if product has complaint present in reporting month then reported account as DA
+                    accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA
+                }
+                //if product province has changed from valid province to invalid province then reported account as DA
+                //eg: from AB,BC,MB,NS,ON,SK to any other province.
+                if(mapProvinceProd.containskey(prodct.id)){
                     accountStatus = metro2TransUnion.Account_Status_Recalled__c; // set account status DA
                 }
                 metroobj2.Status__c = accountStatus;
@@ -1202,6 +1237,12 @@
                 }
                 //if product has complaint then reported that account only once.
                 if(mapProductCompCount.containskey(prodct.id)){
+                    prodct.TransUnion_Reported_As_Complete_Count__c = 1;
+                    listOfProductsToUpdate.add(prodct);
+                }
+                //if product province has changed from valid province to invalid province then reported account only once.
+                //eg: from AB,BC,MB,NS,ON,SK to any other province.
+                if(mapProvinceProd.containskey(prodct.id)){ 
                     prodct.TransUnion_Reported_As_Complete_Count__c = 1;
                     listOfProductsToUpdate.add(prodct);
                 }
