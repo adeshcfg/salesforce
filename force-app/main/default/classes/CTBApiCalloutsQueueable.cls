@@ -30,7 +30,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                 
                 apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy');
                 req.setMethod('POST');
-                string apiUrl = apiCallDetails.PDF_API_URL__c + 'sobjects/' + contentVersionDataID + '/ctbsftpoutbox?name=' + fileNameFormat;
+                string apiUrl = apiCallDetails.PDF_API_URL__c + 'sobjects/' + contentVersionDataID + '/outgoing_clear?name=' + fileNameFormat;
                	req.setEndpoint(apiUrl);
 
 				system.debug('Endpoint req body:: '+req.getEndpoint());
