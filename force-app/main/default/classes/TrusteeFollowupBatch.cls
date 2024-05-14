@@ -6,7 +6,7 @@
  ***************************************************/
 public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Database.Stateful {
     // Start Method
-    public Database.Querylocator start(Database.BatchableContext BC) {
+    public Database.Querylocator start(Database.BatchableContext bc) {
         // List values to be used as filters in SOQL query
         List<String> assetStatus = new List<String>{ '', 'Purchased', 'Debt Purchase', 'Bulk Purchased' };
         List<String> insolvencyTypes = new List<String>{ 'Consumer Proposal', 'Division 1 Proposal' };
@@ -47,7 +47,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                             AND ((Send_Follow_up_Email__c = TRUE
                             AND Missing_Payment_Follow_up_Sent_Date__c = NULL)
                             OR (Missing_Payment_Follow_up_Sent_Date__c != NULL
-                            AND Missing_Payment_Follow_up_Sent_Date__c <= :monthsPriorFromToday))
+                            AND Missing_Payment_Follow_up_Sent_Date__c = :monthsPriorFromToday))
                     )
                 FROM Insolvency__c
                 WHERE
@@ -55,9 +55,10 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                     AND Insolvency_Type__c IN :insolvencyTypes
                     AND ((Send_Follow_up_Email__c = TRUE
                     AND Missing_Payment_Follow_up_Sent_Date__c = NULL)
-                    OR (Follow_Up_Counter__c <= :followUpMaxLimit
+                    OR ((Follow_Up_Counter__c = NULL
+                    OR Follow_Up_Counter__c <= :followUpMaxLimit)
                     AND Missing_Payment_Follow_up_Sent_Date__c != NULL
-                    AND Missing_Payment_Follow_up_Sent_Date__c <= :monthsPriorFromToday))
+                    AND Missing_Payment_Follow_up_Sent_Date__c = :monthsPriorFromToday))
                     AND Trustee__c != NULL
                     AND Trustee__r.Is_Active__c = TRUE
                     AND Trustee__r.Exclude_From_Missing_Payment_Mail_List__c = FALSE
@@ -66,7 +67,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
     }
 
     // Execute method
-    public void execute(Database.BatchableContext BC, List<sObject> scope) {
+    public void execute(Database.BatchableContext bc, List<sObject> scope) {
         Trustee_Payment_Followup_Setting__c tpfs = Trustee_Payment_Followup_Setting__c.getValues('Trustee Payment Followup');
         Integer maxEmailsSentPerDay = Integer.ValueOf(tpfs.Maximum_Emails_Per_Day__c);
         List<Insolvency__c> insolvencies = (List<Insolvency__c>) scope;
@@ -137,7 +138,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                         insolvency.Follow_Up_Counter__c = insolvency.Follow_Up_Counter__c + 1;
 
                         //Set Missing Follow up Date
-                        insolvency.Missing_payment_Follow_Up_Sent_Date__c = System.now();
+                        insolvency.Missing_payment_Follow_Up_Sent_Date__c = System.today();
 
                         //Set Last Trustee Followup Sent Date
                         trustee.Last_Trustee_Followup_Sent_Date__c = System.now();
@@ -167,7 +168,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
     }
 
     // Finish Method
-    public void finish(Database.BatchableContext BC) {
+    public void finish(Database.BatchableContext bc) {
         //Do Nothing
     }
 }
