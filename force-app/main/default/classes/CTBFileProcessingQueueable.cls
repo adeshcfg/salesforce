@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-09-2024
+ * @last modified on  : 05-14-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -173,7 +173,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 docStorage.File_Processing_Status__c = 'Processed';
                 CTBFileValidationUtility.sendEmail(
                     'CTB Account file successfully processed',
-                    'File ' + docStorage.Document_Name__c + 'was successfully processed'
+                    'File ' + docStorage.Document_Name__c + ' was successfully processed'
                 );
             } catch (DmlException dex) {
                 System.debug('Error updating account records ' + dex.getDmlMessage(0));
