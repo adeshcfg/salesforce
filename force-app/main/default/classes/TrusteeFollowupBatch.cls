@@ -47,7 +47,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                             AND ((Send_Follow_up_Email__c = TRUE
                             AND Missing_Payment_Follow_up_Sent_Date__c = NULL)
                             OR (Missing_Payment_Follow_up_Sent_Date__c != NULL
-                            AND Missing_Payment_Follow_up_Sent_Date__c = :monthsPriorFromToday))
+                            AND Missing_Payment_Follow_up_Sent_Date__c <= :monthsPriorFromToday))
                     )
                 FROM Insolvency__c
                 WHERE
@@ -58,7 +58,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                     OR ((Follow_Up_Counter__c = NULL
                     OR Follow_Up_Counter__c <= :followUpMaxLimit)
                     AND Missing_Payment_Follow_up_Sent_Date__c != NULL
-                    AND Missing_Payment_Follow_up_Sent_Date__c = :monthsPriorFromToday))
+                    AND Missing_Payment_Follow_up_Sent_Date__c <= :monthsPriorFromToday))
                     AND Trustee__c != NULL
                     AND Trustee__r.Is_Active__c = TRUE
                     AND Trustee__r.Exclude_From_Missing_Payment_Mail_List__c = FALSE
@@ -138,7 +138,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                         insolvency.Follow_Up_Counter__c = insolvency.Follow_Up_Counter__c + 1;
 
                         //Set Missing Follow up Date
-                        insolvency.Missing_payment_Follow_Up_Sent_Date__c = System.today();
+                        insolvency.Missing_payment_Follow_Up_Sent_Date__c = System.now();
 
                         //Set Last Trustee Followup Sent Date
                         trustee.Last_Trustee_Followup_Sent_Date__c = System.now();
