@@ -176,6 +176,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     Insolvency_Account__c accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
                     accountToUpdate.Id = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
+                    accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
                     accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
                 }
             }
