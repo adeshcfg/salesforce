@@ -631,7 +631,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '' +
                         '","' +
                         '' +'"'+
-                        ' \n';
+                        '\r\n';
                     counter++;
                 } else {
                     //If mandatory fields are null then dont build CSV file for this record
@@ -748,7 +748,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     authorizationCode +
                     mailTelephoneIndicator +
                     extensionRecordIndicator +
-                    '\n';
+                    '\r\n';
                 counter++;
                 draftSeuNum++;
             }
@@ -810,7 +810,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     fileType +
                     '","' +
                     fileFormatIdenfier + '"'+
-                    ' \n';
+                    '\r\n';
                 //build trailer body data
                 trailerbody =
                     '"'+trailerRecordType +
@@ -826,7 +826,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     createdDate +
                     '","' +
                     dateformate +'"'+
-                    ' \n';
+                    '\r\n';
                 //build final string to parse
                 mainFinalData = headbody + FinalData + trailerbody;
             }
@@ -914,7 +914,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     countVariableData +
                     paymentAmtSumData +
                     extra38Spaces +
-                    '\n';
+                    '\r\n';
 
                 //build TTRAL body data
                 TTRAL =
@@ -929,7 +929,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     extra15Spaces +
                     extra15Spaces +
                     extra3Spaces +
-                    '\n';
+                    '\r\n';
 
                 //build final string to parse
                 mainFinalData = Theadbody + Bheadbody + FinalData + BTRAL + TTRAL;
@@ -1044,7 +1044,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             multiCurrencyCurrencyCode +
             extra64Spaces +
             transmissionIdentifierFlag +
-            '\n';
+            '\r\n';
 
         return theadBodyData;
     }
@@ -1084,7 +1084,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             alternateAmountIndicator +
             merchantHeaderExclusionFlag +
             extra76Spaces +
-            '\n';
+            '\r\n';
 
         return bheadBodyData;
     }
