@@ -1,3 +1,24 @@
 {
-	"apexCode": "Work_Assignment__c cimlWs = new Work_Assignment__c();\r\ncimlWs.RecordTypeId = Schema.SObjectType.Work_Assignment__c.getRecordTypeInfosByDeveloperName().get('Credit_Bureau_Reporting_Files').getRecordTypeId();\r\ninsert cimlWs;"
+    "dml": {
+        "update": [
+            {
+                "objectName": "Trustee_Payment_Followup_Setting__c",
+                "recordVariableName": "trusteeDetails",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a243a000002VqlE'"
+                    },
+                    {
+                        "fieldApiName": "Additional_Follow_up_After_X_Months__c",
+                        "fieldValue": "12"
+                    },
+					{
+                        "fieldApiName": "Follow_up_Max_Limit__c",
+                        "fieldValue": "1"
+                    }
+                ]
+            }
+        ]
+    }
 }
