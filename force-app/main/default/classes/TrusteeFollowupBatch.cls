@@ -44,7 +44,8 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                             AND Claim_Amount__c >= 250
                             AND Date_NOD_received__c = NULL
                             AND Disallowance_Reasons__c = NULL
-                            AND ((Send_Follow_up_Email__c = TRUE
+                            AND (((Last_Payment_Date__c = NULL
+                            OR Send_Follow_up_Email__c = TRUE)
                             AND Missing_Payment_Follow_up_Sent_Date__c = NULL)
                             OR (Missing_Payment_Follow_up_Sent_Date__c != NULL
                             AND Missing_Payment_Follow_up_Sent_Date__c <= :monthsPriorFromToday))
