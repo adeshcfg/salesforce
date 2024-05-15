@@ -287,7 +287,7 @@ public class POCDocController{
                 pdf = Page.POCDocDataFrenchCanadianTire;     
             }
         }
-        else if(insolvAcc.Client_Identifier__c =='Goeasy' && insolvAcc.Include_Voting_Letter__c==TRUE && insolvAcc.Excluded_from_Purchase__c==TRUE){
+        else if(insolvAcc.Client_Identifier__c =='Goeasy' && insolvAcc.Account_Type__c=='Unsecured Installment Loan' && insolvAcc.Include_Voting_Letter__c==TRUE && insolvAcc.Excluded_from_Purchase__c==TRUE){
             if(language == 'en_US'){
                 system.debug('pdf in english');
                 pdf = Page.POCDocDataOnlyVotingLetter;     
