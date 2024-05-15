@@ -174,20 +174,14 @@
                 <br/>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Set out on an attached sheet details to support priority claim.)
                 <div></div>
-                <br/><br/>
+				<br/>
                 
-                <!--div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
+                <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                 <br/>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
-                <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null || insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/></div>
-                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"><br/> </apex:outputText>
-                <br/-->
-                <br/>
-                <br/>
-                <br/>
+                <br/><br/><br/>
             </div>
-            
             
             <div style='font-family: "Arial Unicode MS"; font-size:13px; '>
                  
@@ -313,15 +307,12 @@
                     <br/><br/><br/><br/>
                     <br/><br/><br/><br/>
                     
-                    <!--div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
+                    <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
                     {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                     <br/>
                     {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
-                    <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null || insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/><br/><br/></div-->
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
+                    <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null || insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/><br/><br/></div>
+                   
                 </div>
                 
                 <div style="clear:both; padding-left:40px;">
@@ -411,18 +402,11 @@
                     </table>
                     <br/><br/><br/><br/><br/><br/><br/>
                     <br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                    <!--div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/><br/></div>
+                    <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/><br/></div>
                     <br/>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                     <br/>
                     {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
-                    <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null || insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/></div-->
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
+                    <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null || insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/><br/></div>
                 </div></div>
         </apex:outputPanel>
         <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
@@ -594,19 +578,19 @@
                 </tr>
                 <br/> <br/> <br/>
                 <div style=" {!IF($CurrentPage.parameters.proofOfClaim == 'true', 'margin-top:-40px; padding-top:5px;','height:50px;margin-top:-68px;')}">&nbsp;</div>
-                <!--div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
+                <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
                 <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                 <br/>
-                {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} -->
-                <br/><br/><br/>
+                {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
+                <br/><br/><br/><br/>
             </div>
         </apex:outputPanel>
         <!---------------------STATEMENT OF ACCOUNT -------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.statementOfAccount == 'true'}" >
             
-            <div style='font-family: "Arial Unicode MS";clear:both; margin:auto; margin-bottom:-19px; line-height: 15px; width:100%;' class="myfont">
-
+           <!--<div style='font-family: "Arial Unicode MS";clear:both; margin:auto; margin-bottom:-19px; line-height: 15px; width:100%;' class="myfont"> -->
+			<div style=' margin:auto;padding-left:10px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px;' >						  
               
                           <div style="padding-bottom:10px;">
                               <div style="text-align:center; float:left; width:23%;padding-bottom:10px;">
@@ -790,12 +774,12 @@
             </div>
             <div style="{!IF((insolvAcc.Claim_Type__c != 'Secured'), 'display:block;', 'display:none;')}"><br/><br/><br/><br/></div>
             
-            <!--div style='font-family: "Arial Unicode MS"; font-size:13px;'>
+            <div style='font-family: "Arial Unicode MS"; font-size:13px;'>
                 <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/><br/></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                 <br/>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
-            </div-->
+            </div>
         </apex:outputPanel>
         <!-- PAGE 5 ENDS-->
     </html>
