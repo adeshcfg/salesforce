@@ -96,7 +96,7 @@
                 <br/>
                 <div style="line-height: normal;">
                     Je, <span  style="font-family: sans-serif; font-weight:bold;">Bryan Szemenyei</span>, de la Ville de London, dans la province de l’Ontario, certifie par la présente:
-                    <br/><br/>
+                    <br/>
                     <table >
                         <tr>
                             <td style="vertical-align:top;"><b>1.</b></td>
@@ -177,14 +177,12 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Indiquez sur une feuille annexée les renseignements à l'appui de la réclamation prioritaire.)
                 <div></div>
                 <br/>
-                <!-- <br/> -->
-                <!--<br/><br/>-->
-               <!-- {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
+               {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                 <br/>
-                {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}-->
+                {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
                 <br/>
             </div>           
-            <br/>
+            
             <div style='font-family: "Arial Unicode MS"; font-size:13px; '>
                 
             <div style="font-family: 'Arial Unicode MS'; font-size: 13px; line-height: 17px; width:100%;padding-top: 20px;">
@@ -334,15 +332,15 @@
                     <br/><br/><br/><br/>
                     <br/><!--<br/><br/><br/><br/>-->
                     
-                   <!-- <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
+                    <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
                     {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                     <br/>
                     {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
                     <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null || insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/></div>
-                --></div>
-                <br/><br/><br/>
-                <div style="clear:both; padding-left:40px;">
-                   
+                </div>
+                <br/>
+                
+                <div style='font-family: "Arial Unicode MS"; font-size:13px;padding-left:30px;'>
             <div style="font-family: 'Arial Unicode MS'; font-size: 13px; line-height: 17px; width:100%;padding-top: 20px;">
                           <div style="padding-bottom:10px;">
                               <div style="text-align:center; float:left; width:23%;padding-bottom:10px;">
@@ -430,20 +428,20 @@
                         </tr>
                     </table>
                     <br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                    <br/><br/><br/><br/><br/> <!--<br/><br/>-->
-                   <!-- <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
+                    <br/><!--<br/><br/><br/><br/> <br/><br/>-->
+                   <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
                     <br/>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                     <br/>
                     {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
                     <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c!= null || insolvAcc.Insolvency__r.Debtor_2_Last_Name__c != null ), 'display:block;', 'display:none;')}"><br/></div>
-                    -->
+                   
                 </div></div>
         <br/>
         <br/>
         <br/>
         <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true'}" >
-            <div style=' margin:auto;padding-left:10px;font-size:12px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' >
+            
                 
             <div style="font-family: 'Arial Unicode MS'; font-size: 13px; line-height: 17px; width:100%;padding-top: 20px;">
                           <div style="padding-bottom:10px;">
@@ -466,14 +464,27 @@
                           <br/>
                           <div style="clear:both;"> </div>
                       </div>
-                
-                <div style="line-height:15px;float:left;">
+               
+                <div style='margin:auto; line-height: 15px; width:90%; font-family: "Arial Unicode MS"; font-size:12px;'>
+                 <div>
+                    <div style="line-height: 13px;">
+                        <table>
+                            <tr>
+                                <td>District de: {!insolvAcc.Insolvency__r.Court_District_Name__c}</td>
+                            </tr>
+                            <tr>
+                                <td>No division: {!insolvAcc.Insolvency__r.Court_Division_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td>No cour: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td>No dossier: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}</td>
+                            </tr>
+                        </table>
+                    </div>
                     
-                    District de: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br/>
-                   	No division: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br/>
-                    No cour: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br/>
-                    No dossier: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}
-                </div>
+                </div>		
                 
                 <div style="text-align:center;clear:both;">
                     Formulaire 37.1
@@ -610,18 +621,18 @@
                 </tr>
                 <br/> 
                 <div style=" {!IF($CurrentPage.parameters.proofOfClaim == 'true', 'margin-top:-40px; padding-top:5px;','height:50px;margin-top:-68px;')}">&nbsp;</div>
-                <!--<div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
+                <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"><br/></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                 <br/>
-                {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} -->
+                {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
                  <br/><br/><br/><br/><br/><br/>
             </div>
         </apex:outputPanel>
         <!---------------------STATEMENT OF ACCOUNT -------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.statementOfAccount == 'true'}" >
             
-            <div style='font-family: "Arial Unicode MS";clear:both; margin:auto; margin-bottom:-19px; line-height: 15px; width:100%;' class="myfont">
-                
+           <!-- <div style='font-family: "Arial Unicode MS";clear:both; margin:auto; margin-bottom:-19px; line-height: 15px; width:100%;' class="myfont"> -->
+            <!-- <div style='font-family: "Arial Unicode MS"; font-size:13px; padding-left:30px;'>   -->
                 
                 
             <div style="font-family: 'Arial Unicode MS'; font-size: 13px; line-height: 17px; width:100%;padding-top: 20px;">
@@ -642,14 +653,15 @@
                                   </div>
                               </div>                            
                           </div>
-                          <br/>
-                          <div style="clear:both;"> </div>
+                          
                       </div>
-                <br/>
-                <div style='text-align:center; '>
+
+            
+                <div style="clear:both; text-align:center;">
                     <h3 style='margin-top:-5px;'><span  style="font-family: sans-serif; font-weight:bold;">ANNEXE A – Relevé de compte</span></h3>
                 </div>
-                <br/>
+                
+            <div style='font-family: "Arial Unicode MS"; font-size:13px; padding-left:30px;'>
                 <table style="font-size:13px;width:100%;">
                     <tr>
                         <td style=" text-align:left; width:100px; vertical-align:top;">
@@ -746,7 +758,7 @@
                             </td>
                         </tr>
                     </table>
-                </div>  <br/>
+                </div>  
                 <div style="text-align:center;"><span  style="font-family: sans-serif; font-weight:bold;">Résumé du compte</span></div><br/><br/>
                 <table border="0" style=" text-align: left; width:600px; font-size:13px;">
                     <tr>
@@ -778,15 +790,15 @@
                         </td>
                     </tr>
                 </table>
-                <br/>
-                <span  style="font-family: sans-serif;">Si elles sont disponibles, veuillez consulter les états ci-joints pour connaître tous les détails des paiements, crédits et virements survenus au cours des trois mois précédant la date de l’insolvabilité.</span>
-                <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}"><br/></apex:outputText>
-            </div><!--<br/><br/>-->
+               
+               <!-- <span  style="font-family: sans-serif;">Si elles sont disponibles, veuillez consulter les états ci-joints pour connaître tous les détails des paiements, crédits et virements survenus au cours des trois mois précédant la date de l’insolvabilité.</span> -->
+              
+           <!-- </div><br/><br/>-->
             <!-- <apex:outputText style="font-family: sans-serif; font-size:13px;" escape="false" value="<br/>*Need to include more details for secured claim (Give full particulars of the security, including the date on which the security was given and the value at which you assess the security, and attach a copy of the security documents.)" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"/> -->
             <!-- <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" value="<br/><br/><br/>" escape="false"/> --><br/><br/><!--<br/>-->
             
-            <!--div style='font-family: "Arial Unicode MS"; font-size:13px; padding-left:30px;'>
-                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' || (insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+            
+          
                     
                     <table>
                         <tr>
@@ -795,16 +807,16 @@
                         </tr>
                         
                     </table>
-                </apex:outputText>
+               
      
-            </div-->            
-
-            <!--div style='font-family: "Arial Unicode MS"; font-size:13px;'>
+                       
+		
+            	<br/>
                 <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                 <br/>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
-            </div-->
+            </div>
         </apex:outputPanel>
         <!-- PAGE 5 ENDS-->
     </html>
