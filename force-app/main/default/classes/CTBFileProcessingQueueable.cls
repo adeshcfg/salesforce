@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-14-2024
+ * @last modified on  : 05-15-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -98,6 +98,13 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         Map<Id, Insolvency_Account__c> accountRecordsToUpdateMap = new Map<Id, Insolvency_Account__c>();
         Set<String> correlationIdSet = new Set<String>();
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
+        List<String> validOldInsolvencyStatuses = new List<String>{
+            'For Owner Review',
+            'Claim Filed',
+            'BOT Review completed',
+            'PoC Package Generated',
+            'No PoC Required'
+        };
         Boolean invalidFile = false;
         List<String> csvRows = csvContents.split('\n');
         // Check for number of rows, should have atleast 3 rows
@@ -137,7 +144,11 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         }
         // Query existing account with the correlation Ids from the csv and create map with correlation id and account
         if (!correlationIdSet.isEmpty() && !stagingRecordsToCreate.isEmpty() && !invalidFile) {
-            for (Insolvency_Account__c acc : [SELECT Id, Correlation_Id__c FROM Insolvency_Account__c WHERE Correlation_Id__c IN :correlationIdSet]) {
+            for (Insolvency_Account__c acc : [
+                SELECT Id, Correlation_Id__c, Insolvency_Status__c
+                FROM Insolvency_Account__c
+                WHERE Correlation_Id__c IN :correlationIdSet
+            ]) {
                 mapCorrelationIdAccount.put(acc.Correlation_Id__c, acc);
             }
         }
@@ -147,6 +158,14 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 if (!mapCorrelationIdAccount.containsKey(stagingAcc.Correlation_Id__c) && !stagingAcc.Error_Message__c.contains('No Correlation Id provided')) {
                     stagingAcc.Status__c = 'Error';
                     stagingAcc.Error_Message__c += '; No Account with given Correlation Id found in SF';
+                }
+                // Check if status can be updated to PoC Details Provided
+                if (
+                    stagingAcc.Status__c != 'Error' &&
+                    !validOldInsolvencyStatuses.contains(mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c)
+                ) {
+                    stagingAcc.Status__c = 'Error';
+                    stagingAcc.Error_Message__c += '; Cannot update Insolvency Status to PoC Details Provided, current Insolvency status is incorrect';
                 }
                 // Remove ; from start of the string if it starts with ;
                 if (String.isNotBlank(stagingAcc.Error_Message__c)) {
