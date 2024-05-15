@@ -190,16 +190,14 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         if (!accountRecordsToUpdateMap.values().isEmpty()) {
             try {
                 update accountRecordsToUpdateMap.values();
-                docStorage.File_Processing_Status__c = 'Processed';
-                CTBFileValidationUtility.sendEmail(
-                    'CTB Account file successfully processed',
-                    'File ' + docStorage.Document_Name__c + ' was successfully processed'
-                );
             } catch (DmlException dex) {
                 System.debug('Error updating account records ' + dex.getDmlMessage(0));
                 createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
+                return;
             }
         }
+        docStorage.File_Processing_Status__c = 'Processed';
+        CTBFileValidationUtility.sendEmail('CTB Account file successfully processed', 'File ' + docStorage.Document_Name__c + ' was successfully processed');
         // Update doc storage with processing status and error message if failed
         update docStorage;
     }
