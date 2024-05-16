@@ -47,10 +47,10 @@ public class TrusteeFollowupBatchHelper {
         String accountsHtmlList = '';
         for (Insolvency_Account__c acc : insolvAccounts) {
             if (String.isBlank(acc.Creditor_Name__c)) {
-                accountsHtmlList += acc.Name + '</br>';
+                accountsHtmlList += acc.Name + '<br>';
                 continue;
             }
-            accountsHtmlList += acc.Creditor_Name__c + spaceSeparator + acc.Name + '</br>';
+            accountsHtmlList += acc.Creditor_Name__c + spaceSeparator + acc.Name + '<br>';
         }
         return htmlValue.replace('{!AccountList}', accountsHtmlList);
     }
