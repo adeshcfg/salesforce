@@ -203,7 +203,7 @@
 
         //Query to fetch all the eligible records with the recordtype as CCS Account
         return Database.getQueryLocator(
-            'SELECT Id, Name,RecordType.Name,Collection_Agency__c,Assignment_Date__c,Last_Payment_Amount__c,Portfolio_Name_Lookup__r.CIML_Reporting_Name__c,Purchase_Face_Value__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Charged_Off_Amount__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c,Number_Of_Open_Complaint__c FROM Product__c ' +
+            'SELECT Id, Name,RecordType.Name,Collection_Agency__c,Assignment_Date__c,Last_Payment_Amount__c,Portfolio_Name_Lookup__r.CIML_Reporting_Name__c,Purchase_Face_Value__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Charged_Off_Amount__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c,Number_Of_Open_Complaint__c,Customer__c FROM Product__c ' +
                 'WHERE ' +
                 '((RecordType.Name =: productType AND ' +
                 'Product_Status__c NOT IN :excludeProdStatusList AND ' +
@@ -230,6 +230,8 @@
     public void execute(Database.BatchableContext BC, List<Product__c> scope) {
         List<Product__c> listOfProductsToUpdate = new List<Product__c>();
         map<Id, Product__c> mapProduct = new Map<Id, Product__c>();
+        Set<Id> prodCustomerIds = new Set<Id>();
+        Map<String,String> mapCustProdIds = new Map<String,String>();
         mapProductJudgmentClaimIssuedID = new Map<ID, ID>();
         map<id, boolean> mapProductExcluse = new Map<id, boolean>();
         map<String, Credit_Bureau_Reporting_Periods__mdt> mapCreditBureauRepPeriods = Credit_Bureau_Reporting_Periods__mdt.getAll();
@@ -308,6 +310,8 @@
         }
         for (Product__c prodData : scope) {
             mapProduct.put(prodData.ID, prodData);
+            prodCustomerIds.add(prodData.Customer__c);
+            mapCustProdIds.put(prodData.Customer__c,prodData.Id);
         }
         
         //Get all complaint based on product
@@ -322,6 +326,20 @@
             for (AggregateResult ar : prodGroupedResults)  {
                 //create map with product and complaint count
                 mapProductCompCount.put((String)ar.get('prodId'),(decimal)ar.get('comptProductcnt'));
+            }
+        }
+        
+        AggregateResult[] custGroupedResults = [select Customer__c prodId, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
+                                        WHERE Customer__c  IN:prodCustomerIds 
+                                        AND Customer__c != NULL AND Product__c = NULL
+                                        AND Requested_Date__c = LAST_MONTH     
+                                        AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
+                                        GROUP BY Customer__c];
+        if(custGroupedResults != NULL && !custGroupedResults.isEmpty()) { 
+            for (AggregateResult ar : custGroupedResults)  {
+                //create map with product and complaint count
+                //mapCustProdIds.get((String)ar.get('prodId'))
+                mapProductCompCount.put(mapCustProdIds.get((String)ar.get('prodId')),(decimal)ar.get('comptCustomercnt'));
             }
         }
         
@@ -373,9 +391,10 @@
                     mapProductExcluse.put(prodRecData.id, true);
                 }
             }
+            system.debug('mapProductCompCount@@'+mapProductCompCount+'name'+prodRecData.name);
             //if complaint not created in reporting month then dont report that account.
             if(!mapProductCompCount.containskey(prodRecData.id) 
-               && (prodRecData.Number_Of_Open_Complaint__c != 0 && prodRecData.Number_Of_Open_Complaint__c != NULL)){
+               && prodRecData.Number_Of_Open_Complaint__c != 0 && prodRecData.Number_Of_Open_Complaint__c != NULL){
                 
                 mapProductExcluse.put(prodRecData.id, true);
             }
