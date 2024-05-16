@@ -3,7 +3,7 @@
     <fullName>Total_Account_Recovery__c</fullName>
     <description>The total of all payments made to date on this account minus Remitted Amount</description>
     <externalId>false</externalId>
-    <inlineHelpText>The total of all payments made to date on this account</inlineHelpText>
+    <inlineHelpText>The total of all payments made to date on this account minus Remitted Amount</inlineHelpText>
     <label>Total Account Recovery</label>
     <summarizedField>Insolvency_Payment__c.Payment_Amount__c</summarizedField>
     <summaryFilterItems>
