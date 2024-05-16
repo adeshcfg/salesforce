@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Total_Account_Recovery__c</fullName>
-    <description>The total of all payments made to date on this account</description>
+    <description>The total of all payments made to date on this account minus Remitted Amount</description>
     <externalId>false</externalId>
     <inlineHelpText>The total of all payments made to date on this account</inlineHelpText>
     <label>Total Account Recovery</label>
