@@ -203,7 +203,7 @@
 
         //Query to fetch all the eligible records with the recordtype as CCS Account
         return Database.getQueryLocator(
-            'SELECT Id, Name,RecordType.Name,Collection_Agency__c,Assignment_Date__c,Last_Payment_Amount__c,Portfolio_Name_Lookup__r.CIML_Reporting_Name__c,Purchase_Face_Value__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Charged_Off_Amount__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c FROM Product__c ' +
+            'SELECT Id, Name,RecordType.Name,Collection_Agency__c,Assignment_Date__c,Last_Payment_Amount__c,Portfolio_Name_Lookup__r.CIML_Reporting_Name__c,Purchase_Face_Value__c, Closed_Date__C, Product_Status__c,Createddate,LastModifieddate,Original_Balance__c,Current_Balance__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Zip_Code__c,Deceased_Date__c, Charged_Off_Amount__c, TransUnion_Reported_As_Complete_Count__c,Seller__r.name,Charged_Off_Date__c,Number_Of_Open_Complaint__c FROM Product__c ' +
                 'WHERE ' +
                 '((RecordType.Name =: productType AND ' +
                 'Product_Status__c NOT IN :excludeProdStatusList AND ' +
@@ -372,6 +372,12 @@
                 if(!splitProvinceValues.contains(prodRecData.State__c)){
                     mapProductExcluse.put(prodRecData.id, true);
                 }
+            }
+            //if complaint not created in reporting month then dont report that account.
+            if(!mapProductCompCount.containskey(prodRecData.id) 
+               && (prodRecData.Number_Of_Open_Complaint__c != 0 && prodRecData.Number_Of_Open_Complaint__c != NULL)){
+                
+                mapProductExcluse.put(prodRecData.id, true);
             }
             listOfProductIds.add(prodRecData.id);
 
