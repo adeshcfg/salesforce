@@ -588,10 +588,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Total_Account_Recovery__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Proportion_of_Claim_Recovered__c</field>
             </layoutItems>
             <layoutItems>
