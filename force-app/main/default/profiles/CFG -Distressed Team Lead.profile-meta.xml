@@ -7876,6 +7876,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Insolvency_Account__c.Remaining_payment_to_be_received__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Total_Paid_To_Date_by_Trustee__c</field>
+        <readable>true</readable>
+    </fieldPermissions>   
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Insolvency_Account__c.Total_Remittance_count__c</field>
         <readable>false</readable>
     </fieldPermissions>

@@ -628,6 +628,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Total_Paid_To_Date_by_Trustee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Remaining_payment_to_be_received__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Previous_Expected_Account_Recovery__c</field>
             </layoutItems>
         </layoutColumns>
