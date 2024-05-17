@@ -199,7 +199,7 @@ public class TestPortalProductProcessingAPI {
         prodids.add(prod2.id);
         prodids.add(prod6.id);
         prodids.add(prod8.id);
-        PortalProductProcessingAPI.processProductBulkBatch(prodids);
+        PortalProductProcessingAPI.processProductBulkBatch(prodids, new List<Product__c>());
 		PortalProductProcessingAPI.processProductBulk(prodids);
         PortalProductProcessingAPI.processProductBulkBatchone(new Set<Id>(prodids));
         

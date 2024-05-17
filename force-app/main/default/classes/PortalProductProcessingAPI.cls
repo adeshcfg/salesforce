@@ -172,8 +172,8 @@ public class PortalProductProcessingAPI {
         }
     }
     
-    public static void processProductBulkBatch(List<ID> productId){    
-        Id batchJobId = Database.executeBatch(new PortalProductProcessingAPIBatch(productId), 40);
+    public static void processProductBulkBatch(List<ID> productId, List<Product__c> productListToCreateJudgment){    
+        Id batchJobId = Database.executeBatch(new PortalProductProcessingAPIBatch(productId, productListToCreateJudgment), 40);
     }
     @future (callout=true)
     public static void processProductBulk(List<ID> productId){

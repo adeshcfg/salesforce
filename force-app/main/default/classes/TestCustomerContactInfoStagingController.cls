@@ -73,6 +73,10 @@ public class TestCustomerContactInfoStagingController {
             'CFG + Requesting Agency',
             failedDocStorage.Id
         );
+
+        Test.startTest();
+        System.enqueueJob(new CFG_ProcessWorkAssignment(workAssignment.Id));
+        Test.stopTest();
     }
 
     @isTest
