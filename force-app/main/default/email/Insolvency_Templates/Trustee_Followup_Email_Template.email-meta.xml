@@ -5,7 +5,7 @@
     <encodingKey>ISO-8859-1</encodingKey>
     <name>Trustee Followup Email Template</name>
     <style>none</style>
-    <subject>Status of Insolvency - {!Insolvency__c.Name}/{!Insolvency_Account__c.Name}/{!Insolvency__c.Debtor_1_First_Name__c} {!Insolvency__c.Debtor_1_Last_Name__c}</subject>
+    <subject>Status of Insolvency - {!Insolvency__c.Name}/{!Insolvency__c.Debtor_1_First_Name__c} {!Insolvency__c.Debtor_1_Last_Name__c}</subject>
     <textOnly>Attn: Administrator/Trustee
 
 Dear Sir / Madam,
