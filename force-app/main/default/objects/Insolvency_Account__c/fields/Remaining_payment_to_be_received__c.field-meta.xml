@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remaining_payment_to_be_received__c</fullName>
+    <description>Remaining payment expected to be received from Trustee to complete the total paid disclosed on interim</description>
+    <externalId>false</externalId>
+    <formula>Total_Paid_To_Date_On_Interim__c  -  Total_Paid_To_Date_by_Trustee__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Remaining payment expected to be received from Trustee to complete the total paid disclosed on interim</inlineHelpText>
+    <label>Remaining payment to be received</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>
