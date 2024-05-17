@@ -79,9 +79,9 @@ public class TrusteeFollowupBatchHelper {
      *   Returns      :  String with all merge fields populate on Email Subject
      ************************************************/
     public static String populateSubject(String subject, Insolvency__c insolvency, List<Insolvency_Account__c> insolvAccounts) {
-        String insolvencyAccountNames = getInsolvencyAccountNames(insolvAccounts);
+        // String insolvencyAccountNames = getInsolvencyAccountNames(insolvAccounts);
         subject = subject.replace('{!Insolvency__c.Name}', insolvency.Name);
-        subject = subject.replace('{!Insolvency_Account__c.Name}', insolvencyAccountNames);
+        // subject = subject.replace('{!Insolvency_Account__c.Name}', insolvencyAccountNames);
         subject = subject.replace(
             '{!Insolvency__c.Debtor_1_First_Name__c}',
             (insolvency.Debtor_1_First_Name__c != null ? insolvency.Debtor_1_First_Name__c : '')
@@ -96,14 +96,14 @@ public class TrusteeFollowupBatchHelper {
      *   Parameters   :  insolvAccounts
      *   Returns      :  String
      ************************************************/
-    public static String getInsolvencyAccountNames(List<Insolvency_Account__c> insolvAccounts) {
+    /* public static String getInsolvencyAccountNames(List<Insolvency_Account__c> insolvAccounts) {
         List<String> inSolvAccNames = new List<String>();
         for (Insolvency_Account__c insolvAcc : insolvAccounts) {
             inSolvAccNames.add(insolvAcc.Name);
         }
         String accountNumbers = String.join(inSolvAccNames, ', ');
         return accountNumbers;
-    }
+    } */
 
     /**************************************************
      *   Utility method to format Fax As Email Address
