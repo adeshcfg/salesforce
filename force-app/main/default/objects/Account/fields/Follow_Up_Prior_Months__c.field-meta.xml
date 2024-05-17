@@ -3,6 +3,7 @@
     <fullName>Follow_Up_Prior_Months__c</fullName>
     <description>This field value will be used to determine after how many months the first follow-up is required.</description>
     <externalId>false</externalId>
+    <inlineHelpText>This field value will be used to determine after how many months the first follow-up is required</inlineHelpText>
     <label>Follow Up Prior Months</label>
     <precision>3</precision>
     <required>false</required>
