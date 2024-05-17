@@ -7,7 +7,7 @@
 AND(PRIORVALUE(Is_Payment_Remitted__c ) = True, Is_Payment_Remitted__c = True)
 ))),
 (OR( AND(ISCHANGED(Is_Payment_Remitted__c ), Is_Payment_Remitted__c = False),
-AND(PRIORVALUE(Is_Payment_Remitted__c ) = True, Is_Payment_Remitted__c = True)
+AND(NOT(ISCHANGED(External_Correlation_ID__c)),PRIORVALUE(Is_Payment_Remitted__c ) = True, Is_Payment_Remitted__c = True)
 )))</errorConditionFormula>
     <errorMessage>Payment is remitted back and now it can not be edited</errorMessage>
 </ValidationRule>
