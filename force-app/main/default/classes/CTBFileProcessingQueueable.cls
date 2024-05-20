@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-16-2024
+ * @last modified on  : 05-20-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -176,11 +176,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     Insolvency_Account__c accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
                     accountToUpdate.Id = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
-                    accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
-                    if (accountToUpdate.Balance_Owed__c < 100) {
-                        accountToUpdate.Insolvency_Status__c = 'No PoC Required';
-                        accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Below Threshold';
-                    }
+                    updateAccountStatusAndReason(accountToUpdate);
                     accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
                 }
             }
@@ -206,6 +202,31 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         update docStorage;
     }
 
+    /**
+     * @description : Method to update correct account status as per criteria
+     * @author adesh.ikhar@canaccede.com | 05-20-2024
+     * @param accountToUpdate
+     * @return Insolvency_Account__c
+     **/
+    public static Insolvency_Account__c updateAccountStatusAndReason(Insolvency_Account__c accountToUpdate) {
+        accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
+        if (accountToUpdate.Balance_Owed__c < 100) {
+            accountToUpdate.Insolvency_Status__c = 'No PoC Required';
+            accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Below Threshold';
+        }
+        if (accountToUpdate.CTB_Reject_Reason_Code__c == 'SOLD') {
+            accountToUpdate.Insolvency_Status__c = 'No PoC Required';
+            accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Account Sold';
+        }
+        return accountToUpdate;
+    }
+
+    /**
+     * @description : Method to create Insolvency error record in case of exception
+     * @author adesh.ikhar@canaccede.com | 05-20-2024
+     * @param errorMsg
+     * @param stackTrace
+     **/
     public static void createInsolvencyError(String errorMsg, String stackTrace) {
         Insolvency_Error__c insolErrorData = new Insolvency_Error__c();
         insolErrorData.Error__c = 'File processing failed due to' + '\n' + errorMsg + ' ' + stackTrace;
