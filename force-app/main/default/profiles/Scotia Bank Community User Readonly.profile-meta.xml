@@ -7885,6 +7885,7 @@
         <editable>false</editable>
         <field>Insolvency_Account__c.Total_Paid_To_Date_by_Trustee__c</field>
         <readable>false</readable>
+        <readable>false</readable>
     </fieldPermissions>   
     <fieldPermissions>
         <editable>false</editable>
