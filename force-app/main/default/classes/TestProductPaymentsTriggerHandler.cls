@@ -1843,6 +1843,7 @@ public class TestProductPaymentsTriggerHandler {
         prodpay8.Tax_Amount__c = 12;
         prodpay8.Original_Of_Payment_Reversal__c = prodpay12.id;
         insert prodpay8;
+        Test.stopTest();
         
         Judgment__c judg = new Judgment__c();
         Id recrdid=[SELECT id from RecordType where sobjecttype='Judgment__C' AND RecordType.Name='Judgment'].id;
@@ -1859,8 +1860,6 @@ public class TestProductPaymentsTriggerHandler {
         accjudg.Status__c='Active';
         accjudg.CreatedDate = System.today();
         insert accjudg;
-        
-        Test.stopTest();
      }
     
 }

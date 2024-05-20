@@ -1476,7 +1476,7 @@
         
         
         if (!setProductIDToReverse.isEmpty()) {
-            PortalProductProcessingAPI.processProductBulkBatch(setProductIDToReverse);
+            PortalProductProcessingAPI.processProductBulkBatch(setProductIDToReverse, new List<Product__c>());
         }
         JudgmentTriggerHandler.recalculateDisbursmentFees(setProductID);
         ProductTriggerHandler.runProductTrigger = true;

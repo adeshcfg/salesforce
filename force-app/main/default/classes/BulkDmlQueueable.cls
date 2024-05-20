@@ -2,8 +2,8 @@
  * @description       : Queueable class to insert more than 10000 records to avoid DML limit, can be modified for other DML operations and generalized more
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 01-17-2024
- * @last modified by  : adeshi@a5econsulting.net
+ * @last modified on  : 05-17-2024
+ * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class BulkDmlQueueable implements Queueable {
     // Max number of records to be inserted in a single job, not 10000 as we have a update DML after records insertion
@@ -21,12 +21,20 @@ public class BulkDmlQueueable implements Queueable {
         this.maxNumberOfRecordsPerJob = operation == 'Update' ? 2000 : this.maxNumberOfRecordsPerJob;
     }
 
+    public BulkDmlQueueable(List<SObject> recordList, String operation) {
+        this.recordList = recordList;
+        this.operation = operation;
+    }
+
     public void execute(QueueableContext context) {
+        Integer endingIndex = 0;
         List<SObject> recordsToInsert = new List<SObject>();
-        // Generate end index for iteration on SObject list, end index can be greater than start index by 10000 at max due to DML limit
-        Integer endingIndex = startingIndex + maxNumberOfRecordsPerJob < recordList.size() ? startingIndex + maxNumberOfRecordsPerJob : recordList.size();
-        for (Integer i = startingIndex; i < endingIndex; i++) {
-            recordsToInsert.add(recordList[i]);
+        if (operation != 'AccountJudgmentProcessing') {
+            // Generate end index for iteration on SObject list, end index can be greater than start index by 10000 at max due to DML limit
+            endingIndex = startingIndex + maxNumberOfRecordsPerJob < recordList.size() ? startingIndex + maxNumberOfRecordsPerJob : recordList.size();
+            for (Integer i = startingIndex; i < endingIndex; i++) {
+                recordsToInsert.add(recordList[i]);
+            }
         }
         switch on operation {
             when 'CustomerStagingExcelProcessing' {
@@ -37,6 +45,9 @@ public class BulkDmlQueueable implements Queueable {
             }
             when 'Delete' {
                 deleteHelper(recordsToInsert, endingIndex, recordList);
+            }
+            when 'AccountJudgmentProcessing' {
+                ProductTriggerHandler.creatJudgment(recordList);
             }
         }
     }

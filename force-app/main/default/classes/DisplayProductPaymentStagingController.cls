@@ -1181,7 +1181,7 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
         update listProdPaymentToUpdate;
        
         if(!setProductToUpdateStatus.isEmpty()){
-            PortalProductProcessingAPI.processProductBulkBatch(setProductToUpdateStatus);
+            PortalProductProcessingAPI.processProductBulkBatch(setProductToUpdateStatus, new List<Product__c>());
         }
         
         ProductTriggerHandler.runProductTrigger = true;

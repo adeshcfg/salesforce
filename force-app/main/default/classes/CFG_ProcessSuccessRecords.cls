@@ -144,7 +144,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             // Create Success and Error file
             generateCustomerStagingSuccessErrorFile();
             // Call Portal API to update product records on Portal
-            PortalProductProcessingAPI.processProductBulkBatch(prodIds);
+            PortalProductProcessingAPI.processProductBulkBatch(prodIds, new List<Product__c>());
         }
 
         /* List<id> successfailedRecord = new List<id>();

@@ -31,7 +31,7 @@ public class ProcessRecordsBatchClass implements Database.Batchable<Product__c>,
        DisplayProductAllocateStagingController.getSnapshortRecords(psAllRec);
        Database.executeBatch(new ProcessRecordsBatchClassStaging(psAllRec));
         }
-       PortalProductProcessingAPI.processProductBulkBatch(prodIdList);  
+       PortalProductProcessingAPI.processProductBulkBatch(prodIdList, new List<Product__c>());  
     }
     
 }
