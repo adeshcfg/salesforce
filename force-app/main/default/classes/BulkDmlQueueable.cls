@@ -2,7 +2,7 @@
  * @description       : Queueable class to insert more than 10000 records to avoid DML limit, can be modified for other DML operations and generalized more
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-17-2024
+ * @last modified on  : 05-20-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class BulkDmlQueueable implements Queueable {
@@ -47,6 +47,7 @@ public class BulkDmlQueueable implements Queueable {
                 deleteHelper(recordsToInsert, endingIndex, recordList);
             }
             when 'AccountJudgmentProcessing' {
+                ProductTriggerHandler.UtilityMethod();
                 ProductTriggerHandler.creatJudgment(recordList);
             }
         }

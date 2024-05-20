@@ -26,6 +26,38 @@ public class BulkDmlQueueableTest {
         docStorage.Document_Related_To__c = 'Task';
         docStorage.File_Processing_Status__c = 'In Progress';
         insert docStorage;
+
+        Account customer = new Account(
+            FirstName = 'FirstName',
+            LastName = 'Last Name',
+            PersonOtherPhone = '1234567890',
+            Work_Phone__pc = '1234567890',
+            PersonHomePhone = '1234567890',
+            PersonBirthdate = System.Today().addMonths(-36),
+            PersonMailingState = 'State',
+            PersonMailingPostalCode = 'Postal',
+            PersonMailingCity = 'City',
+            PersonMailingStreet = 'Mailing',
+            RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Fidem Customer').getRecordTypeId()
+        );
+        insert customer;
+
+        Placement__c plcgy1 = new Placement__c();
+        plcgy1.Name = '20';
+        plcgy1.Agency_Email__c = 'test@gmail.com';
+        insert plcgy1;
+
+        API_Call_Details__c settings = new API_Call_Details__c();
+        settings.Name = 'Agency Portal API';
+        settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
+        settings.Tenand_ID__c = '123';
+        settings.Proxy_Client_ID__c = '123';
+        settings.Client_ID__c = '1234';
+        settings.Client_Secret__c = '1234';
+        settings.PDF_API_URL__c = 'https://test.com/endpointurl';
+        settings.Scope_Prefix__c = 'scopep.com';
+        settings.Scope_Suffix__c = '/.default';
+        insert settings;
     }
 
     @isTest
@@ -105,6 +137,41 @@ public class BulkDmlQueueableTest {
         recordsToInsert.add(docStorage);
         Test.startTest();
         System.enqueueJob(new BulkDmlQueueable(recordsToInsert, 0, 'Delete'));
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void testAccountJudgmentProcessinge() {
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        List<SObject> recordsList = new List<SObject>();
+        Product__c prod = new Product__c(
+            Phone_Other__c = '1234567890',
+            Phone_Work__c = '1234567890',
+            Phone_Home__c = '1234567890',
+            Date_of_Birth__c = System.Today().addMonths(-36),
+            State__c = 'State',
+            Zip_Code__c = 'Postal',
+            Purchase_Province__c = 'PE',
+            Deceased_Date__c = null,
+            City__c = 'City',
+            Statute_Date__c = null,
+            Insolvency_Date__c = null,
+            Credit_Counselling_Date__c = system.today(),
+            First_Name__c = 'FirstName',
+            Last_Name__c = 'LastName',
+            Status__c = 'New Allocation - New Allocation',
+            Sub_Status__c = 'Ready',
+            Product_Status__c = 'Test',
+            Customer__c = [SELECT Id FROM Account LIMIT 1]
+            .Id,
+            Source_System__c = 'FDR',
+            Collection_Agency__c = 20,
+            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId()
+        );
+        insert prod;
+        recordsList.add(prod);
+        Test.startTest();
+        System.enqueueJob(new BulkDmlQueueable(recordsList, 'AccountJudgmentProcessing'));
         Test.stopTest();
     }
 }
