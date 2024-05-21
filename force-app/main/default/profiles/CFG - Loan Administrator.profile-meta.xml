@@ -3221,6 +3221,16 @@
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Object_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Salesforce_Record_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>API_Error__c.Action__c</field>
