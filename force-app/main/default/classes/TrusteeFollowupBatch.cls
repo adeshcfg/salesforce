@@ -47,7 +47,8 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                             AND (((Latest_Payment_Date__c = NULL
                             OR Send_Follow_up_Email__c = TRUE)
                             AND Missing_Payment_Follow_up_Sent_Date__c = NULL)
-                            OR (Missing_Payment_Follow_up_Sent_Date__c != NULL
+                            OR (Latest_Payment_Date__c != NULL
+                            AND Missing_Payment_Follow_up_Sent_Date__c != NULL
                             AND Missing_Payment_Follow_up_Sent_Date__c <= :monthsPriorFromToday))
                     )
                 FROM Insolvency__c

@@ -123,6 +123,9 @@ public class TestTrusteeFollowupBatch {
         insacc.Claim_Amount__c = 251;
         insert insacc;
 
+        Insolvency_Payment__c payment = new Insolvency_Payment__c(Insolvency_Account__c = insacc.Id, Payment_Posting_Date__c = System.today().addMonths(-12));
+        insert payment;
+
         Test.startTest();
         TrusteeFollowupBatch obj = new TrusteeFollowupBatch();
         DataBase.executeBatch(obj);
