@@ -15,7 +15,6 @@ trigger RemittanceTrigger on Remittance__c (before insert, before update, before
     Boolean runTrigger = config.Run_Remittance_Trigger__c;
     
     if(runTrigger){   
-        if(!Test.isRunningTest()){
             if(RemittanceTriggerHandler.runRemittanceTrigger){
                 
                 //After Trigger
@@ -37,6 +36,5 @@ trigger RemittanceTrigger on Remittance__c (before insert, before update, before
                     }             
                 }               
             }
-        }
     }
 }

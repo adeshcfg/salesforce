@@ -15,7 +15,6 @@
     Boolean runTrigger = config.Run_Insolvency_Payment_Trigger__c;
     
     if(runTrigger){   
-        if(!Test.isRunningTest()){
                     //After Insert Trigger
                     if(Trigger.isInsert){                        
                         for(Insolvency_Payment__c insolPayment:trigger.new){
@@ -27,6 +26,5 @@
                             InsolvencyPaymentsTriggerHandler.handleAfterInsert(insolPaymentRecords);
                         }
                     }             
-            }
         }
     }

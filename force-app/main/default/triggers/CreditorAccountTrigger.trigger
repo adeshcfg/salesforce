@@ -15,9 +15,8 @@
     Boolean runTrigger = config.Run_Creditor_Account_Trigger__c;
     
     if(runTrigger){   
-        if(!Test.isRunningTest()){
                     //After Insert Trigger
-                    if(Trigger.isInsert){                        
+                    if(Trigger.isInsert && Trigger.isAfter){                        
                         for(Creditor_Account__c creditorAccount:trigger.new){
                             if(creditorAccount.External_Correlation_ID__c==NULL){
                                 creditorAccountRecords.add(creditorAccount);
@@ -27,6 +26,5 @@
                             CreditorAccountTriggerHandler.handleAfterInsert(creditorAccountRecords);
                         }
                     }             
-            }
         }
     }
