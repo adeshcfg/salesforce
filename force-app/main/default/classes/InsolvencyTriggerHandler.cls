@@ -818,7 +818,7 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
         list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
         user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
         for(Insolvency__c insol: insolvRecords){
-            if(creditorinsolAccount.LastModifiedByID != u.ID){
+            if(insol.LastModifiedByID != u.ID){
                 ID recordID=insol.ID;
                 Deleted_Records__c deletedRec=new Deleted_Records__c();
                 deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
