@@ -17,20 +17,7 @@
     if(runTrigger){   
         //Before Delete
         if(trigger.isBefore && trigger.isDelete){
-            list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
-                user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
-                for(Insolvency_Payment__c insolPayment: trigger.old){
-                    if(insolPayment.LastModifiedByID != u.ID){
-                        ID recordID=insolPayment.ID;
-                        Deleted_Records__c deletedRec=new Deleted_Records__c();
-                        deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
-                        deletedRec.Salesforce_Record_Id__c=insolPayment.External_Correlation_ID__c;
-                        deletedRecords.add(deletedRec);
-                    }
-                }
-                if(!deletedRecords.isEmpty()){
-                    insert deletedRecords;
-                }
+           InsolvencyPaymentsTriggerHandler.handleBeforeDelete(trigger.old);
         }
                     //After Insert Trigger
                     if(Trigger.isInsert){                        

@@ -31,20 +31,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                     }
                     //Before delete
                     if(trigger.isDelete){
-                        list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
-                        user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
-                        for(product_Payments__c prodPayment: trigger.old){
-                            if(prodPayment.LastModifiedByID != u.ID){
-                                ID recordID=prodPayment.ID;
-                                Deleted_Records__c deletedRec=new Deleted_Records__c();
-                                deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
-                                deletedRec.Salesforce_Record_Id__c=prodPayment.External_Correlation_ID__c;
-                                deletedRecords.add(deletedRec);
-                            }
-                        }
-                        if(!deletedRecords.isEmpty()){
-                            insert deletedRecords;
-                        }
+                        ProductPaymentsTriggerHandler.handleBeforeDelete(trigger.old);                        
                     }
                     //Ticket 4546: changes done by tejal for update payment posting month as per payment posting date
                     if(Trigger.isUpdate){
