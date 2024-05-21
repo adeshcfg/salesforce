@@ -3230,6 +3230,16 @@
         <name>Deposit_Accounts__c</name>
     </customSettingAccesses>
     <description>CFG - Insolvency User</description>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Object_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Salesforce_Record_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>API_Error__c.Action__c</field>
@@ -4958,6 +4968,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Creditor_Account__c.Insolvency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Payment__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Remittance__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Creditor_Account__c.External_Correlation_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

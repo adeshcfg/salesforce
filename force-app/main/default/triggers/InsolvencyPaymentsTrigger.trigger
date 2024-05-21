@@ -9,6 +9,7 @@
  *************************************************************************************************/
 
  trigger InsolvencyPaymentsTrigger on Insolvency_Payment__c (after insert, before delete) {
+
     list<Insolvency_Payment__c> insolPaymentRecords=new list<Insolvency_Payment__c>();
 	//On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();

@@ -47,4 +47,15 @@ public class RemittanceTriggerHandler{
        		update paymentsToProces;
         }    
     }
+	//After Insert
+    public static void handleAfterInsert(List<Remittance__c> remsNew){
+		map<id,Remittance__c> remitMap = new map<id,Remittance__c>();
+		for(Remittance__c remit : [select ID,External_Correlation_ID__c from Remittance__c where ID IN : remsNew]){
+            remit.External_Correlation_ID__c = remit.ID;
+            remitMap.put(remit.ID,remit);
+         }
+         if(!remitMap.isEmpty()){
+            update remitMap.values();
+         }
+	}
 }

@@ -78,6 +78,8 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
 
         //Eligible Insolvencies to update
         List<Insolvency__c> insolvenciesToUpdate = new List<Insolvency__c>();
+        Time myTime = Time.newInstance(0, 0, 0, 0);
+        DateTime local = DateTime.newInstance(System.today(), myTime);
 
         Set<Id> trusteeIds = new Set<Id>();
         for (Insolvency__c insolvency : insolvencies) {
@@ -140,10 +142,10 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                         insolvency.Follow_Up_Counter__c = insolvency.Follow_Up_Counter__c + 1;
 
                         //Set Missing Follow up Date
-                        insolvency.Missing_payment_Follow_Up_Sent_Date__c = System.now();
+                        insolvency.Missing_payment_Follow_Up_Sent_Date__c = local;
 
                         //Set Last Trustee Followup Sent Date
-                        trustee.Last_Trustee_Followup_Sent_Date__c = System.now();
+                        trustee.Last_Trustee_Followup_Sent_Date__c = local;
 
                         //Insolvency is eligible for update
                         insolvenciesToUpdate.add(insolvency);
