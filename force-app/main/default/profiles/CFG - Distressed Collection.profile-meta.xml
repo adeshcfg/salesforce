@@ -3229,6 +3229,16 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <custom>true</custom>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Object_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Salesforce_Record_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>API_Error__c.Action__c</field>
@@ -6778,6 +6788,21 @@
         <editable>false</editable>
         <field>Insolvency_Account__c.Account_No_without_Prefix__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Payment__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Remittance__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Creditor_Account__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>

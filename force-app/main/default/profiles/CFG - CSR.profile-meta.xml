@@ -3229,6 +3229,16 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Object_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Salesforce_Record_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>API_Error__c.Action__c</field>
@@ -7447,6 +7457,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Number_of_Days_Close_to_Voting_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Payment__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Remittance__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Creditor_Account__c.External_Correlation_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

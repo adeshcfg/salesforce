@@ -3,6 +3,7 @@
     <fullName>Follow_up_Max_Limit__c</fullName>
     <description>The value in this field will be used to decide on how many follow-ups needs to be made</description>
     <externalId>false</externalId>
+    <inlineHelpText>The value in this field will be used to decide on how many follow-ups needs to be made</inlineHelpText>
     <label>Follow-up Max Limit</label>
     <precision>1</precision>
     <required>false</required>

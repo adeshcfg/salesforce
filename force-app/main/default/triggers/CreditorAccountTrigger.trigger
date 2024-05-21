@@ -9,6 +9,7 @@
  *************************************************************************************************/
 
  trigger CreditorAccountTrigger on Creditor_Account__c (before delete, after insert) {
+
     list<Creditor_Account__c> creditorAccountRecords=new list<Creditor_Account__c>();
 	//On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
