@@ -71,7 +71,7 @@
         insert creditorAccount;
         list<Creditor_Account__c> creditorAccountRecords=new list<Creditor_Account__c>();
         creditorAccountRecords.add(creditorAccount);
-         CreditorAccountTriggerHandler.handleAfterInsert(creditorAccountRecords);         
+        CreditorAccountTriggerHandler.handleAfterInsert(creditorAccountRecords);         
      }    
  
  }
