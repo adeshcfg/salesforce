@@ -40,12 +40,23 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                         InsolvencyTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
                     } 
                     
-                    /*
                     //Before Delete Trigger
                     if(Trigger.isDelete){
-                        InsolvencyTriggerHandler.handleBeforeDelete(Trigger.new, Trigger.oldMap);
+                        list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
+                        user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+                        for(Insolvency__c insol: trigger.old){
+                            if(insol.LastModifiedByID != u.ID){
+                                ID recordID=insol.ID;
+                                Deleted_Records__c deletedRec=new Deleted_Records__c();
+                                deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
+                                deletedRec.Salesforce_Record_Id__c=insol.External_Correlation_ID__c;
+                                deletedRecords.add(deletedRec);
+                            }
+                        }
+                        if(!deletedRecords.isEmpty()){
+                            insert deletedRecords;
+                        }   
                     }   
-                    */                
                 }   
                 
                 //After Trigger

@@ -40,13 +40,23 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     } 
                     
                     //Before Delete Trigger
-                    /*
                     if(Trigger.isDelete){
-                        InsolvencyAccountTriggerHandler.handleBeforeDelete(Trigger.new, Trigger.oldMap);
-                    }  
-                    */                 
+                        list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
+                        user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+                        for(Insolvency_Account__C insolAcc: trigger.old){
+                            if(insolAcc.LastModifiedByID != u.ID){
+                                ID recordID=insolAcc.ID;
+                                Deleted_Records__c deletedRec=new Deleted_Records__c();
+                                deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
+                                deletedRec.Salesforce_Record_Id__c=insolAcc.External_Correlation_ID__c;
+                                deletedRecords.add(deletedRec);
+                            }
+                        }
+                        if(!deletedRecords.isEmpty()){
+                            insert deletedRecords;
+                        }
+                    }                
                 }   
-                
                 //After Trigger
                 if(Trigger.isAfter) {
                     
@@ -71,7 +81,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     if(Trigger.isDelete && !test.isRunningTest()){
 list<Insolvency_Account__C> insolvencyAccounts=new list<Insolvency_Account__C>();
 user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
-for(Insolvency_Account__C insolAcc: trigger.new){
+for(Insolvency_Account__C insolAcc: trigger.old){
 if(insolAcc.LastModifiedByID != u.ID){
 insolvencyAccounts.add(insolAcc);
 }
