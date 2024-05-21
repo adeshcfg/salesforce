@@ -30,8 +30,43 @@
          insert config;
      }
      
-     static testMethod void insolvencyBeforeInsertTest(){
+     static testMethod void afterInsertTest(){
+        Account Truscomp = new Account();
+        Id Recrdid = [SELECT Id FROM RecordType WHERE SobjectType = 'Account' AND name LIKE 'Trustee Company'].id;
+        Truscomp.RecordTypeId = Recrdid;
+        Truscomp.name = 'Test';
+        insert Truscomp;
+
+        Deposit_Accounts__c depositeAcc = new Deposit_Accounts__c();
+        depositeAcc.Name = 'CCL';
+        depositeAcc.Account_Number__c = '1993-130';
+        depositeAcc.Bank_Name__c = 'Canaccede Credit LP Blocked';
+        depositeAcc.Entity_Name__c = 'Canaccede Credit LP';
+        depositeAcc.Account_Name_on_Clearing_Account__c = 'CCLP - 130';
+        depositeAcc.Transit_Number__c = '03482';
+        insert depositeAcc;
+
+        // Trustee Office Record
+        Account Trusoff = new Account();
+        Id Recordid = [SELECT Id FROM RecordType WHERE SobjectType = 'Account' AND name LIKE 'Trustee Office'].id;
+        Trusoff.RecordTypeId = Recordid;
+        Trusoff.name = 'Testrecord';
+        Trusoff.Trustee_ID__c = Truscomp.id;
+        Trusoff.Is_Active__c = true;
+        Trusoff.Follow_up_Email__c = 'Test@test.com';
+        insert Trusoff;
+
+        //Insolvency Record
+        Insolvency__c insolv1 = new Insolvency__c();
+        insolv1.Name = '00-000001';
+        insolv1.Client_Identifiers__c = 'Scotia Bank';
+        insolv1.Sent_For_Owner_Review_Date__c = System.today();
+        insolv1.Trustee__c = Trusoff.id;
+        insert insolv1;
+
         Creditor_Account__c creditorAccount=new Creditor_Account__c();
+        creditorAccount.Name='test123';
+        creditorAccount.Insolvency__c=insolv1.ID;
         creditorAccount.External_Correlation_ID__c='';
         insert creditorAccount;
         list<Creditor_Account__c> creditorAccountRecords=new list<Creditor_Account__c>();
