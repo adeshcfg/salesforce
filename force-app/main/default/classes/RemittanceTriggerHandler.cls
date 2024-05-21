@@ -47,6 +47,16 @@ public class RemittanceTriggerHandler{
        		update paymentsToProces;
         }    
     }
+	public static void handleAfterInsert(List<Remittance__c> remsNew){
+		map<id,Remittance__c> remitMap = new map<id,Remittance__c>();
+		for(Remittance__c remit : [select ID,External_Correlation_ID__c from Remittance__c where ID IN : remsNew]){
+            remit.External_Correlation_ID__c = remit.ID;
+            remitMap.put(remit.ID,remit);
+         }
+         if(!remitMap.isEmpty()){
+            update remitMap.values();
+         }
+	}
 	public static void handleBeforeDelete(List<Remittance__c> remittanceRecords){
 		list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
 		user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
