@@ -12,7 +12,7 @@
     list<Creditor_Account__c> creditorAccountRecords=new list<Creditor_Account__c>();
 	//On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-    Boolean runTrigger = config.Run_Remittance_Trigger__c;
+    Boolean runTrigger = config.Run_Creditor_Account_Trigger__c;
     
     if(runTrigger){   
         if(!Test.isRunningTest()){
