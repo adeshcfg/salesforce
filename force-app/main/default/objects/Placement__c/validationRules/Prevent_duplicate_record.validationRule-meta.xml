@@ -3,14 +3,21 @@
     <fullName>Prevent_duplicate_record</fullName>
     <active>true</active>
     <description>Restrict user to create duplicate record</description>
-    <errorConditionFormula>AND(
-    ISNEW(),
-    ISBLANK(Name) = false,
-    NOT(ISBLANK(Name)),
-    ISNEW(),
-    OR(
-        VLOOKUP($ObjectType.Placement__c.Fields.Name, $ObjectType.Placement__c.Fields.Name, Name) &lt;&gt; Id
-    )
+    <errorConditionFormula>OR(
+	AND(
+		ISNEW(),
+		ISBLANK(Name) = false,
+		NOT(ISBLANK(Name)),
+		ISNEW(),
+		OR(
+			VLOOKUP($ObjectType.Placement__c.Fields.Name, $ObjectType.Placement__c.Fields.Name, Name) &lt;&gt; Id
+		)
+	),
+
+	AND(
+		ISCHANGED(Name),
+		VLOOKUP($ObjectType.Placement__c.Fields.Name, $ObjectType.Placement__c.Fields.Name, Name) &lt;&gt; Id
+	)
 )</errorConditionFormula>
     <errorMessage>&quot;Duplicate Record&quot; A record with this name already exists</errorMessage>
 </ValidationRule>
