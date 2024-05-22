@@ -9,7 +9,7 @@
  *************************************************************************************************/
  
 
-trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
+trigger ProductPaymentsTrigger on Product_Payments__c(before insert,before delete, before update, after insert, after update) {
     list<Product_Payments__c> prodPayRecords=new list<Product_Payments__c>();
     list<Product_Payments__c> prodPayRecordsBeforeInsert=new list<Product_Payments__c>();
     //On-Off switch for trigger
