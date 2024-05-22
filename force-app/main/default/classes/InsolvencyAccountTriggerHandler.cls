@@ -1071,7 +1071,7 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
-     map<ID, Insolvency_Account__c> updateInsolvencyAccounts = new Map<ID, Insolvency_Account__c>();
+     /*map<ID, Insolvency_Account__c> updateInsolvencyAccounts = new Map<ID, Insolvency_Account__c>();
      for(Insolvency_Account__c insolvAccount : [select ID,External_Correlation_ID__c from Insolvency_Account__c where ID IN : insolAccntsNew]){
          insolvAccount.External_Correlation_ID__c = insolvAccount.ID;
          updateInsolvencyAccounts.put(insolvAccount.ID,insolvAccount);
@@ -1083,7 +1083,8 @@ update listInsolvency;
          InsolvencyTriggerHandler.runInsolvencyTrigger=TRUE;
          InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=true;
       }
-        handleAfterInsertUpdate(insolAccntsNew,null);     
+*/     
+      handleAfterInsertUpdate(insolAccntsNew,null);     
     }
     
     //After Update
