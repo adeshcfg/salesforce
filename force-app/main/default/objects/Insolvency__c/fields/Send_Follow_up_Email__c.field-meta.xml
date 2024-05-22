@@ -5,6 +5,7 @@
     <externalId>false</externalId>
     <formula>If(Insolvency_Date__c &lt;= ADDMONTHS(TODAY(), -Trustee__r.Follow_Up_Prior_Months__c), TRUE, FALSE)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This formula field turns TRUE once the Insolvency Date equals to Date prior to the X Months mentioned in Follow_Up_Prior_Months__c from Today</inlineHelpText>
     <label>Send Follow-up Email</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
