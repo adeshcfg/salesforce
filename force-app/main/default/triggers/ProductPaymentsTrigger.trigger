@@ -29,6 +29,10 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert,before delet
                             ProductPaymentsTriggerHandler.handleBeforeInsert(prodPayRecordsBeforeInsert);                            
                         }
                     }
+                    //Before delete
+                    if(trigger.isDelete){
+                        ProductPaymentsTriggerHandler.handleBeforeDelete(trigger.old);                        
+                    }
                     //Ticket 4546: changes done by tejal for update payment posting month as per payment posting date
                     if(Trigger.isUpdate){
                         ProductPaymentsTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
