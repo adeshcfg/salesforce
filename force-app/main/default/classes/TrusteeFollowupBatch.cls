@@ -4,7 +4,8 @@
  * Description    : Send email to trustee if they are unsecured and doesnt do payment for 18 months
  *
  ***************************************************/
-public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Database.Stateful {
+public class TrusteeFollowupBatch implements Database.Batchable<sobject> {
+    public Time myTime = Time.newInstance(0, 0, 0, 0);
     // Start Method
     public Database.Querylocator start(Database.BatchableContext bc) {
         // List values to be used as filters in SOQL query
@@ -14,7 +15,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
 
         Trustee_Payment_Followup_Setting__c tpfs = Trustee_Payment_Followup_Setting__c.getValues('Trustee Payment Followup');
         Integer additionalFollowupXMonths = Integer.ValueOf(tpfs.Additional_Follow_up_After_X_Months__c);
-        Date monthsPriorFromToday = System.today().addmonths(-additionalFollowupXMonths);
+        DateTime monthsPriorFromToday = DateTime.newInstance(System.today().addmonths(-additionalFollowupXMonths), myTime);
         Integer followUpMaxLimit = Integer.ValueOf(tpfs.Follow_up_Max_Limit__c);
 
         // Fetch all active unsecured accounts
@@ -78,7 +79,6 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
 
         //Eligible Insolvencies to update
         List<Insolvency__c> insolvenciesToUpdate = new List<Insolvency__c>();
-        Time myTime = Time.newInstance(0, 0, 0, 0);
         DateTime local = DateTime.newInstance(System.today(), myTime);
 
         Set<Id> trusteeIds = new Set<Id>();
