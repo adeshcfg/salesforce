@@ -538,6 +538,7 @@
         Decimal placementCommisionRate;
         Map<Id,String> placeStatus = new Map<Id,String>();
         List<ID> prodIds = new List<ID>();
+        Boolean checkIsReversal = false;
         List<Product__c> prodList = new List<Product__c>();
         map<String, Data_Status_Mapping__c> mapDataStatusMapping = Data_Status_Mapping__c.getAll();
     	map<String, Data_Status_Mapping__c> mapDataStatus = new Map<String, Data_Status_Mapping__c>();
@@ -840,7 +841,7 @@
                                 );
                             }
                         }
-
+						oldPlacementID = productInstance.Collection_Agency_Placement__c;
                         //Feed Deduction Starts--------------------------------------------
                         //Recoverable_Fee
                         if (totalProductPayment > 0 && productInstance.Recoverable_Fee__c != null && productInstance.Recoverable_Fee__c != 0) {
@@ -1165,6 +1166,7 @@
                     if (payProductInstance.Payment_Amount__c < 0) {
                         //using to validate whether current total balance need to be updated or not
                         Boolean calflag = false;
+                        checkIsReversal = true;
                         if (mapReversedPayments.containsKey(payProductInstance.Original_Of_Payment_Reversal__c)) {
                             Product_Payments__c reversedPay = mapReversedPayments.get(payProductInstance.Original_Of_Payment_Reversal__c);
                             reversedPay.Is_Payment_Reversed__c = true; 
@@ -1527,7 +1529,9 @@
         }
 		//Ticket 6494: if reverse SIF/PIF create placement history and call snapshot
         try{
-            DistressedUtilities.createPlacementHistory(prodList,oldPlacementID,placementCommisionRate);
+            if (checkIsReversal == true) {
+            	DistressedUtilities.createPlacementHistory(prodList,oldPlacementID,placementCommisionRate);
+            }
             Database.executeBatch(new BatchProcessForProdScreen(prodIds,placeStatus,'Product Allocation Individual'), 200);
         }catch(Exception ex){
             system.debug('exception message'+ex.getStackTraceString());
