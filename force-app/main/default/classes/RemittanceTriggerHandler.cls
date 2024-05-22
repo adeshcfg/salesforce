@@ -47,8 +47,7 @@ public class RemittanceTriggerHandler{
        		update paymentsToProces;
         }    
     }
-	//After Insert
-    public static void handleAfterInsert(List<Remittance__c> remsNew){
+	public static void handleAfterInsert(List<Remittance__c> remsNew){
 		map<id,Remittance__c> remitMap = new map<id,Remittance__c>();
 		for(Remittance__c remit : [select ID,External_Correlation_ID__c from Remittance__c where ID IN : remsNew]){
             remit.External_Correlation_ID__c = remit.ID;
@@ -58,4 +57,20 @@ public class RemittanceTriggerHandler{
             update remitMap.values();
          }
 	}
+	public static void handleBeforeDelete(List<Remittance__c> remittanceRecords){
+		list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
+		user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+		for(Remittance__c remittance: remittanceRecords){
+			if(remittance.LastModifiedByID != u.ID){
+				ID recordID=remittance.ID;
+				Deleted_Records__c deletedRec=new Deleted_Records__c();
+				deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
+				deletedRec.Salesforce_Record_Id__c=remittance.External_Correlation_ID__c;
+				deletedRecords.add(deletedRec);
+			}
+		}
+		if(!deletedRecords.isEmpty()){
+			insert deletedRecords;
+		}
+	 }
 }

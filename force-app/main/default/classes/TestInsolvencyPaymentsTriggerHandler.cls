@@ -102,7 +102,8 @@
         insert paymentInstance1;
         list<Insolvency_Payment__c> insolPaymentRecords=new list<Insolvency_Payment__c>();
         insolPaymentRecords.add(paymentInstance1);
-        InsolvencyPaymentsTriggerHandler.handleAfterInsert(insolPaymentRecords);         
+        InsolvencyPaymentsTriggerHandler.handleAfterInsert(insolPaymentRecords); 
+        InsolvencyPaymentsTriggerHandler.handleBeforeDelete(insolPaymentRecords); 
      }    
  
  }

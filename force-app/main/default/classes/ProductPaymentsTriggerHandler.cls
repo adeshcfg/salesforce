@@ -2991,4 +2991,21 @@
         }
         return lastAgencyRecallDate;
     }
+    public static void handleBeforeDelete(list<Product_Payments__c> prodPayRecords){
+        
+        list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
+        user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+        for(product_Payments__c prodPayment: prodPayRecords){
+            if(prodPayment.LastModifiedByID != u.ID){
+                ID recordID=prodPayment.ID;
+                Deleted_Records__c deletedRec=new Deleted_Records__c();
+                deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
+                deletedRec.Salesforce_Record_Id__c=prodPayment.External_Correlation_ID__c;
+                deletedRecords.add(deletedRec);
+            }
+        }
+        if(!deletedRecords.isEmpty()){
+            insert deletedRecords;
+        }
+    }
 }

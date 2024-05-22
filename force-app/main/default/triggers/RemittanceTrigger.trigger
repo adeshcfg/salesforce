@@ -16,7 +16,10 @@ trigger RemittanceTrigger on Remittance__c (before insert, before update, before
     
     if(runTrigger){   
             if(RemittanceTriggerHandler.runRemittanceTrigger){
-                
+                //Before Delete
+                if(trigger.isBefore && trigger.isDelete){
+                RemittanceTriggerHandler.handleBeforeDelete(trigger.old);   
+                }
                 //After Trigger
                 if(Trigger.isAfter) {
                     //After Update Trigger
