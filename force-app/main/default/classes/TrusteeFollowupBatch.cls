@@ -34,7 +34,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject> {
                     Debtor_1_Last_Name__c,
                     Follow_Up_Counter__c,
                     (
-                        SELECT Id, Name, Debtor_1_Estate_Number__c, Creditor_Name__c
+                        SELECT Id, Name, Debtor_1_Estate_Number__c, Bank_Name__c
                         FROM Insolvency_Accounts__r
                         WHERE
                             Asset_Status__c IN :assetStatus
