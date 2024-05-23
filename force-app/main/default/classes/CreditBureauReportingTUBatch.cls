@@ -315,7 +315,7 @@
             mapCustProdIds.put(prodData.Customer__c,prodData.Id);
         }
         List<Work_Assignment__c> prodAllComplt = [select id,name,Product__c from Work_Assignment__c
-        									where Requested_Date__c <> LAST_MONTH
+        									where CreatedDate <> LAST_MONTH
         									AND  (Product__c IN :mapProduct.keySet() OR Customer__c  IN:prodCustomerIds)
         									AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')];
         for(Work_Assignment__c prodComplCheck : prodAllComplt){
@@ -325,8 +325,8 @@
         AggregateResult[] prodGroupedResults = [select Product__c prodId, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
                                             WHERE Product__c IN :mapProduct.keySet() 
                                             AND Product__c != NULL
-                                            //AND CreatedDate = LAST_MONTH 
-                                            AND Requested_Date__c = LAST_MONTH     
+                                            AND CreatedDate = LAST_MONTH 
+                                            //AND Requested_Date__c = LAST_MONTH     
                                             AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                             GROUP BY Product__c];
         if(prodGroupedResults != NULL && !prodGroupedResults.isEmpty()) { 
@@ -339,7 +339,8 @@
         AggregateResult[] custGroupedResults = [select Customer__c prodId, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
                                         WHERE Customer__c  IN:prodCustomerIds 
                                         AND Customer__c != NULL AND Product__c = NULL
-                                        AND Requested_Date__c = LAST_MONTH     
+                                        AND CreatedDate = LAST_MONTH 
+                                        //AND Requested_Date__c = LAST_MONTH     
                                         AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                         GROUP BY Customer__c];
         if(custGroupedResults != NULL && !custGroupedResults.isEmpty()) { 
