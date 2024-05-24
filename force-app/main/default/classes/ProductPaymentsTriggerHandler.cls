@@ -62,8 +62,9 @@
         map<ID, Product_Payments__c> mapNewFees = new Map<ID, Product_Payments__c>();
         Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
         map<ID, Product_Payments__c> updateproductPayment = new Map<ID, Product_Payments__c>();
-        for(Product_Payments__c productPayment : [select ID,External_Correlation_ID__c from Product_Payments__c where ID IN : listProductPayment]){
+        for(Product_Payments__c productPayment : [select ID,Name,External_Correlation_ID__c,Payment_ID_Original__c from Product_Payments__c where ID IN : listProductPayment]){
             productPayment.External_Correlation_ID__c = productPayment.ID;
+            productPayment.Payment_ID_Original__c = productPayment.Name;
             updateproductPayment.put(productPayment.ID,productPayment);
          }
          if(!updateproductPayment.isEmpty()){

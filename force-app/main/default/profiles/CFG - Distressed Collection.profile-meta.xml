@@ -6791,6 +6791,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Payment__c.Insolvency_Payment_Name_Original__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Payments__c.Payment_ID_Original__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+  <field>Remittance__c.Dividends_Name_Original__c</field>  
+   <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Payment__c.External_Correlation_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
