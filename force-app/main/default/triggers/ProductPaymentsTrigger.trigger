@@ -9,7 +9,7 @@
  *************************************************************************************************/
  
 
-trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before update, after insert, after update) {
+trigger ProductPaymentsTrigger on Product_Payments__c(before insert,before delete, before update, after insert, after update) {
     list<Product_Payments__c> prodPayRecords=new list<Product_Payments__c>();
     list<Product_Payments__c> prodPayRecordsBeforeInsert=new list<Product_Payments__c>();
     //On-Off switch for trigger
@@ -28,6 +28,10 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert, before upda
                         if (!prodPayRecordsBeforeInsert.isEmpty()) {
                             ProductPaymentsTriggerHandler.handleBeforeInsert(prodPayRecordsBeforeInsert);                            
                         }
+                    }
+                    //Before delete
+                    if(trigger.isDelete){
+                        ProductPaymentsTriggerHandler.handleBeforeDelete(trigger.old);                        
                     }
                     //Ticket 4546: changes done by tejal for update payment posting month as per payment posting date
                     if(Trigger.isUpdate){

@@ -240,6 +240,7 @@
         Metro2_File__c metro2TransUnion = Metro2_File__c.getValues('CreditBureauTU');
         List<ID> listOfProductIds = new List<ID>();
         Map<id, decimal> mapProductCompCount = new Map<id, decimal>();
+        Set<string> prodCustomComptCount = new Set<string>();
         Date minPlacementDate = null;
         Date maxRecallDate = null;
         String finalHeadBody2 = '';
@@ -313,13 +314,19 @@
             prodCustomerIds.add(prodData.Customer__c);
             mapCustProdIds.put(prodData.Customer__c,prodData.Id);
         }
-        
+        List<Work_Assignment__c> prodAllComplt = [select id,name,Product__c from Work_Assignment__c
+        									where CreatedDate <> LAST_MONTH
+        									AND  (Product__c IN :mapProduct.keySet() OR Customer__c  IN:prodCustomerIds)
+        									AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')];
+        for(Work_Assignment__c prodComplCheck : prodAllComplt){
+            prodCustomComptCount.add(prodComplCheck.Product__c);
+        }
         //Get all complaint based on product
         AggregateResult[] prodGroupedResults = [select Product__c prodId, Count(Product__r.Name)comptProductcnt from Work_Assignment__c 
                                             WHERE Product__c IN :mapProduct.keySet() 
                                             AND Product__c != NULL
-                                            //AND CreatedDate = LAST_MONTH 
-                                            AND Requested_Date__c = LAST_MONTH     
+                                            AND CreatedDate = LAST_MONTH 
+                                            //AND Requested_Date__c = LAST_MONTH     
                                             AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                             GROUP BY Product__c];
         if(prodGroupedResults != NULL && !prodGroupedResults.isEmpty()) { 
@@ -332,13 +339,13 @@
         AggregateResult[] custGroupedResults = [select Customer__c prodId, Count(Customer__r.SF_ID__c)comptCustomercnt from Work_Assignment__c 
                                         WHERE Customer__c  IN:prodCustomerIds 
                                         AND Customer__c != NULL AND Product__c = NULL
-                                        AND Requested_Date__c = LAST_MONTH     
+                                        AND CreatedDate = LAST_MONTH 
+                                        //AND Requested_Date__c = LAST_MONTH     
                                         AND (Recordtype.DeveloperName = 'CFG_Complaint' OR RecordType.DeveloperName = 'Agency_Complaint')
                                         GROUP BY Customer__c];
         if(custGroupedResults != NULL && !custGroupedResults.isEmpty()) { 
             for (AggregateResult ar : custGroupedResults)  {
                 //create map with product and complaint count
-                //mapCustProdIds.get((String)ar.get('prodId'))
                 mapProductCompCount.put(mapCustProdIds.get((String)ar.get('prodId')),(decimal)ar.get('comptCustomercnt'));
             }
         }
@@ -391,7 +398,12 @@
                     mapProductExcluse.put(prodRecData.id, true);
                 }
             }
-            system.debug('mapProductCompCount@@'+mapProductCompCount+'name'+prodRecData.name);
+            
+            //if complaint created in reporting month and also product has another complaint present which is 
+            //created before reporting month then dont report that account.
+            if(prodCustomComptCount.contains(prodRecData.id)){
+                mapProductExcluse.put(prodRecData.id, true);
+            }
             //if complaint not created in reporting month then dont report that account.
             if(!mapProductCompCount.containskey(prodRecData.id) 
                && prodRecData.Number_Of_Open_Complaint__c != 0 && prodRecData.Number_Of_Open_Complaint__c != NULL){

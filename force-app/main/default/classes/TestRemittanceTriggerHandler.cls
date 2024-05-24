@@ -76,7 +76,8 @@ public class TestRemittanceTriggerHandler{
         Map<Id, Remittance__c> remMap = new Map<Id, Remittance__c>();
         remMap.put(remittance1.Id, remittance2);        
         RemittanceTriggerHandler.handleAfterUpdate(remListList, remMap);
-        
+        RemittanceTriggerHandler.handleAfterInsert(remListList);
+        RemittanceTriggerHandler.handleBeforeDelete(remListList);        
     }    
 
 }

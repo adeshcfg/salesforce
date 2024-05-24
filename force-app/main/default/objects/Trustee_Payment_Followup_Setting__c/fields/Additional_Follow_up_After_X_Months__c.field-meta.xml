@@ -3,6 +3,7 @@
     <fullName>Additional_Follow_up_After_X_Months__c</fullName>
     <description>The value in this field will be used to do second follow-up after the mentioned number of months</description>
     <externalId>false</externalId>
+    <inlineHelpText>The value in this field will be used to do second follow-up after the mentioned number of months</inlineHelpText>
     <label>Additional Follow-up After X Months</label>
     <precision>3</precision>
     <required>false</required>

@@ -3,8 +3,9 @@
     <fullName>Send_Follow_up_Email__c</fullName>
     <description>This formula field turns TRUE once the Latest_Payment_Date__c equals to Date prior to the X Months mentioned in Follow_Up_Prior_Months__c from Today.</description>
     <externalId>false</externalId>
-    <formula>If(Latest_Payment_Date__c = ADDMONTHS(TODAY(), -Insolvency__r.Trustee__r.Follow_Up_Prior_Months__c), TRUE, FALSE)</formula>
+    <formula>If(Latest_Payment_Date__c &lt;= ADDMONTHS(TODAY(), -Insolvency__r.Trustee__r.Follow_Up_Prior_Months__c), TRUE, FALSE)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This formula field turns TRUE once the Latest_Payment_Date__c equals to Date prior to the X Months mentioned in Follow_Up_Prior_Months__c from Today</inlineHelpText>
     <label>Send Follow-up Email</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
