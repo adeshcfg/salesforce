@@ -868,12 +868,12 @@ public class TestProductPaymentProcessingController {
         pppc.getwrapListWithZeroAmountNotEmpty();
 
         sc = new ApexPages.StandardController(dividWihtouCheque);
-        pppc = new ProductPaymentProcessingController(sc);
 
+        Test.startTest();
+        pppc = new ProductPaymentProcessingController(sc);
         dividWihtouCheque.Cheque_Payment_Reference_Number__c = '1430';
         dividWihtouCheque.Fairshare_Amount__c = null;
         update dividWihtouCheque;
-        Test.startTest();
         pppc = new ProductPaymentProcessingController(sc);
         Test.stopTest();
     }
