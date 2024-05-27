@@ -3312,7 +3312,11 @@
     <customSettingAccesses>
         <enabled>true</enabled>
         <name>Workflow_Rule__c</name>
-    </customSettingAccesses>    
+    </customSettingAccesses>
+    <customSettingAccesses>
+        <enabled>true</enabled>
+        <name>Statement_Processing_Settings__c</name>
+    </customSettingAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>Deleted_Records__c.Object_Name__c</field>
@@ -18896,6 +18900,26 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Preferred_Language__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Document_Storage__c.Statement_Processing_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Document_Storage__c.Insolvency_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Document_Storage__c.Bulk_API_Job_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Document_Storage__c.Token_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
