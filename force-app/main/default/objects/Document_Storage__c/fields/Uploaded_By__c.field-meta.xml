@@ -21,6 +21,11 @@
                 <default>false</default>
                 <label>External User</label>
             </value>
+            <value>
+                <fullName>System</fullName>
+                <default>false</default>
+                <label>System</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
