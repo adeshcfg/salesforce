@@ -40,12 +40,10 @@ trigger InsolvencyTrigger on Insolvency__c(before insert, before update, before 
                         InsolvencyTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
                     } 
                     
-                    /*
                     //Before Delete Trigger
                     if(Trigger.isDelete){
-                        InsolvencyTriggerHandler.handleBeforeDelete(Trigger.new, Trigger.oldMap);
+                        InsolvencyTriggerHandler.handleBeforeDelete(trigger.old);   
                     }   
-                    */                
                 }   
                 
                 //After Trigger

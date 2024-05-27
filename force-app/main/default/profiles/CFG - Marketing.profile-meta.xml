@@ -3221,6 +3221,16 @@
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>
+        <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Object_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Deleted_Records__c.Salesforce_Record_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>API_Error__c.Action__c</field>
@@ -4968,7 +4978,22 @@
     </fieldPermissions>
 <fieldPermissions>
         <editable>true</editable>
-        <field>Remittance__c.Dividends_Name_Original__c</field>
+  <field>Remittance__c.Dividends_Name_Original__c</field>  
+   <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Payment__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Remittance__c.External_Correlation_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Creditor_Account__c.External_Correlation_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -18179,6 +18204,36 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Exclude_From_Missing_Payment_Mail_List__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Follow_Up_Prior_Months__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.Send_Follow_up_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.Follow_Up_Counter__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Send_Follow_up_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Missing_Payment_Follow_up_Sent_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Preferred_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>

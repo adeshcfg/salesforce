@@ -1071,7 +1071,7 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
-     map<ID, Insolvency_Account__c> updateInsolvencyAccounts = new Map<ID, Insolvency_Account__c>();
+     /*map<ID, Insolvency_Account__c> updateInsolvencyAccounts = new Map<ID, Insolvency_Account__c>();
      for(Insolvency_Account__c insolvAccount : [select ID,External_Correlation_ID__c from Insolvency_Account__c where ID IN : insolAccntsNew]){
          insolvAccount.External_Correlation_ID__c = insolvAccount.ID;
          updateInsolvencyAccounts.put(insolvAccount.ID,insolvAccount);
@@ -1083,7 +1083,8 @@ update listInsolvency;
          InsolvencyTriggerHandler.runInsolvencyTrigger=TRUE;
          InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=true;
       }
-        handleAfterInsertUpdate(insolAccntsNew,null);     
+*/     
+      handleAfterInsertUpdate(insolAccntsNew,null);     
     }
     
     //After Update
@@ -1819,4 +1820,20 @@ insDetails.add(insDetail);
             );
         }
     }
+    public static void handleBeforeDelete(List<Insolvency_Account__c> insolAccntOld){
+        list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
+        user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+        for(Insolvency_Account__c insolAccnt: insolAccntOld){
+            if(insolAccnt.LastModifiedByID != u.ID){
+                ID recordID=insolAccnt.ID;
+                Deleted_Records__c deletedRec=new Deleted_Records__c();
+                deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
+                deletedRec.Salesforce_Record_Id__c=insolAccnt.External_Correlation_ID__c;
+                deletedRecords.add(deletedRec);
+            }
+        }
+        if(!deletedRecords.isEmpty()){
+            insert deletedRecords;
+        }
+     }
 }

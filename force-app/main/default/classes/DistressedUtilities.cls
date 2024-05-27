@@ -48,7 +48,9 @@ public class DistressedUtilities {
             //placementHistory.Placement_Recall_Date__c = Date.today();
             placementHistory.Placement_Date__c = product.Assignment_Date__c;
             placementHistory.Placement_Status__c = product.Placement_Status__c;
-            placementHistory.Placement_Status_Description__c = placementStatusMap.get(placementHistory.Placement_Status__c).Description__c;
+            if(placementStatusMap.containskey(placementHistory.Placement_Status__c)){
+                placementHistory.Placement_Status_Description__c = placementStatusMap.get(placementHistory.Placement_Status__c).Description__c;
+            }
             placementHistory.Current_Principal_Balance__c = product.Current_Principal_Balance__c;
             placementHistory.Current_Interest_Balance__c = product.Current_Interest_Amount__c;
             placementHistory.Interest_Rate__c = product.Interest_Rate__c;

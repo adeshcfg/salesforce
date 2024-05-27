@@ -1235,6 +1235,14 @@
                 <field>Missing_payment_Follow_Up_Sent_Date__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Follow_Up_Counter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Send_Follow_up_Email__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Voting_Trustee_Follow_up_Date__c</field>
             </layoutItems>

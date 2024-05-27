@@ -4,7 +4,8 @@
  * Description    : Send email to trustee if they are unsecured and doesnt do payment for 18 months
  *
  ***************************************************/
-public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Database.Stateful {
+public class TrusteeFollowupBatch implements Database.Batchable<sobject> {
+    public Time myTime = Time.newInstance(0, 0, 0, 0);
     // Start Method
     public Database.Querylocator start(Database.BatchableContext bc) {
         // List values to be used as filters in SOQL query
@@ -14,7 +15,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
 
         Trustee_Payment_Followup_Setting__c tpfs = Trustee_Payment_Followup_Setting__c.getValues('Trustee Payment Followup');
         Integer additionalFollowupXMonths = Integer.ValueOf(tpfs.Additional_Follow_up_After_X_Months__c);
-        Date monthsPriorFromToday = System.today().addmonths(-additionalFollowupXMonths);
+        DateTime monthsPriorFromToday = DateTime.newInstance(System.today().addmonths(-additionalFollowupXMonths), myTime);
         Integer followUpMaxLimit = Integer.ValueOf(tpfs.Follow_up_Max_Limit__c);
 
         // Fetch all active unsecured accounts
@@ -33,7 +34,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                     Debtor_1_Last_Name__c,
                     Follow_Up_Counter__c,
                     (
-                        SELECT Id, Name, Debtor_1_Estate_Number__c, Creditor_Name__c
+                        SELECT Id, Name, Debtor_1_Estate_Number__c, Bank_Name__c
                         FROM Insolvency_Accounts__r
                         WHERE
                             Asset_Status__c IN :assetStatus
@@ -78,6 +79,7 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
 
         //Eligible Insolvencies to update
         List<Insolvency__c> insolvenciesToUpdate = new List<Insolvency__c>();
+        DateTime local = DateTime.newInstance(System.today(), myTime);
 
         Set<Id> trusteeIds = new Set<Id>();
         for (Insolvency__c insolvency : insolvencies) {
@@ -140,10 +142,10 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject>, Databa
                         insolvency.Follow_Up_Counter__c = insolvency.Follow_Up_Counter__c + 1;
 
                         //Set Missing Follow up Date
-                        insolvency.Missing_payment_Follow_Up_Sent_Date__c = System.now();
+                        insolvency.Missing_payment_Follow_Up_Sent_Date__c = local;
 
                         //Set Last Trustee Followup Sent Date
-                        trustee.Last_Trustee_Followup_Sent_Date__c = System.now();
+                        trustee.Last_Trustee_Followup_Sent_Date__c = local;
 
                         //Insolvency is eligible for update
                         insolvenciesToUpdate.add(insolvency);
