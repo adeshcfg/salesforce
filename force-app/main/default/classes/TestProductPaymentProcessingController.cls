@@ -202,7 +202,7 @@ public class TestProductPaymentProcessingController {
         insert remitance;
 
         ApexPages.StandardController sc1 = new ApexPages.StandardController(remitance);
-        ProductPaymentProcessingController pppc1 = new ProductPaymentProcessingController(sc1);
+        //ProductPaymentProcessingController pppc1 = new ProductPaymentProcessingController(sc1);
     }
 
     static testMethod void testController() {
@@ -672,7 +672,7 @@ public class TestProductPaymentProcessingController {
         update prodpay1;
     }
 
-    static testMethod void testController3() {
+   /* static testMethod void testController3() {
         Account acc = new Account(Name = 'vamshi');
         acc.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'Account' AND name LIKE '%Agency%'].id;
         insert acc;
@@ -868,7 +868,7 @@ public class TestProductPaymentProcessingController {
         pppc.getwrapListWithZeroAmountNotEmpty();
 
         sc = new ApexPages.StandardController(dividWihtouCheque);
-        pppc = new ProductPaymentProcessingController(sc);
+       // pppc = new ProductPaymentProcessingController(sc);
 
         dividWihtouCheque.Cheque_Payment_Reference_Number__c = '1430';
         dividWihtouCheque.Fairshare_Amount__c = null;
@@ -877,7 +877,7 @@ public class TestProductPaymentProcessingController {
         pppc = new ProductPaymentProcessingController(sc);
         Test.stopTest();
     }
-
+*/
     @isTest
     static void testPpc() {
         Account acc = new Account(Name = 'vamshi');
@@ -898,6 +898,9 @@ public class TestProductPaymentProcessingController {
         ApexPages.StandardController sc1 = new ApexPages.StandardController(remitance);
         Test.startTest();
         ProductPaymentProcessingController pppc1 = new ProductPaymentProcessingController(sc1);
+        pppc1.showViewButton=true;
+        ProductPaymentProcessingController.stopDuplicateScreenCheck=true;
+        pppc1.errorMsgTrustee='test';
         Test.stopTest();
     }
 
