@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <decisions>
+        <description>Check Province/State of the new office</description>
+        <name>Check_Province_State</name>
+        <label>Check Province/State</label>
+        <locationX>182</locationX>
+        <locationY>287</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>If_Province_State_is_QC</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BillingState</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>QC</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_preferred_language_to_French</targetReference>
+            </connector>
+            <label>If Province/State is QC</label>
+        </rules>
+    </decisions>
+    <description>Update Trustee Office Preferred Language as per selected Province/State</description>
+    <environments>Default</environments>
+    <interviewLabel>Update Trustee Office Preferred Language {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Trustee Office Preferred Language</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update preferred language to French</description>
+        <name>Update_preferred_language_to_French</name>
+        <label>Update preferred language to French</label>
+        <locationX>50</locationX>
+        <locationY>395</locationY>
+        <inputAssignments>
+            <field>Preferred_Language__c</field>
+            <value>
+                <stringValue>French</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Province_State</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Record_Type_Name__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Trustee_Office</stringValue>
+            </value>
+        </filters>
+        <object>Account</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
