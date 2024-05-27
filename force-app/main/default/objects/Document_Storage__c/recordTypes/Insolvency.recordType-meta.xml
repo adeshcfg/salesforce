@@ -19,6 +19,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Statement_Processing_Status__c</picklist>
+        <values>
+            <fullName>In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Processed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Process</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Payment_Type__c</picklist>
         <values>
             <fullName>Agency Payment</fullName>
@@ -33,6 +52,10 @@
         </values>
         <values>
             <fullName>Internal User</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>System</fullName>
             <default>false</default>
         </values>
     </picklistValues>
