@@ -36,6 +36,10 @@
             <fullName>Pending Process</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>No Files</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Payment_Type__c</picklist>

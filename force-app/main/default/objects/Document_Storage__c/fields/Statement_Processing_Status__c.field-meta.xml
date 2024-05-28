@@ -32,6 +32,11 @@
                 <default>false</default>
                 <label>Pending Process</label>
             </value>
+            <value>
+                <fullName>No Files</fullName>
+                <default>false</default>
+                <label>No Files</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
