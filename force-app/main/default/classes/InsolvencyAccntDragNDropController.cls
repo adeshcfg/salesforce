@@ -18,6 +18,7 @@ global class InsolvencyAccntDragNDropController{
     public String description {set;get;}
     public List<Attachment> attList {set;get;}
     public List<Attachment> insolvAttList {set;get;}
+    public List<wrapperClass> downloadFile {set;get;}
     public String urlPathPrefix {get;set;}
     public Boolean isLightningCommunity {get;set;}
     public Insolvency_Account__c insAcc{set;get;}
@@ -93,6 +94,39 @@ global class InsolvencyAccntDragNDropController{
         insolvAttList = new List<Attachment>();
         insolvAttList = [SELECT Id, Name,owner.name, Description, CreatedDate, LastModifiedDate, ParentID FROM Attachment WHERE ParentID =: insAcc.Insolvency__c AND Description='Creditors Package'];
         
+        List<Document_Storage__c> docStorageList = new List<Document_Storage__c>();
+        docStorageList = [SELECT Id, Name,Document_Type__c,Document_Name__c,Document_URL__c,createdBy.name,LastModifiedDate,CreatedDate FROM Document_Storage__c WHERE Insolvency_Account__c =: insAcc.Id ];
+       	
+        wrapperClass wrpclass = new wrapperClass();
+        downloadFile = new list<wrapperClass>();
+        String filePath = '';
+        
+        for(Document_Storage__c docStorageData : docStorageList){
+            wrpclass = new wrapperClass();
+            if(docStorageData.Document_URL__c <> NULL){
+                filePath = FileUploadToAzureController.uploadDocumentProxy(docStorageData.Document_URL__c);
+            }
+            if(docStorageData.Document_Type__c <> NULL){
+                wrpclass.documetType = docStorageData.Document_Type__c;
+            }
+            if(docStorageData.Document_Name__c <> NULL){
+                wrpclass.documetName = docStorageData.Document_Name__c;
+            }
+            if(docStorageData.CreatedDate <> NULL){
+                wrpclass.createdDate = docStorageData.CreatedDate;
+            }
+            if(docStorageData.createdBy.name <> NULL){
+                wrpclass.createdBy = docStorageData.createdBy.name;
+            }
+            if(docStorageData.LastModifiedDate <> NULL){
+                wrpclass.LastModifiedDate = docStorageData.LastModifiedDate;
+            }
+            if(filePath <> NULL){
+                wrpclass.fileIds = filePath;
+            }
+            downloadFile.add(wrpclass);
+        }
+        
         refreshAttList();
 
         //Checking if community user
@@ -137,5 +171,14 @@ global class InsolvencyAccntDragNDropController{
         }catch(Exception ex){
             refreshAttList();
         }
+    }
+    
+    public class wrapperClass{
+        public string documetType {set;get;}
+        public string documetName {set;get;}
+        public DateTime createdDate {set;get;}
+        public string createdBy {set;get;}
+        public DateTime LastModifiedDate {set;get;}
+        public String fileIds {set;get;}
     }
 }
