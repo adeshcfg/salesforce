@@ -1272,6 +1272,7 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
                 insolAccnt.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(insolAccnt.RecordTypeId));
             }
             
+            if (insolvency != null){
             //Check if insolvency account is Scotia and POC Details are provided
             if(insolAccnt.Insolvency_Status__c == 'POC Details Provided'
                &&((config.Eligible_for_Voting_Decision__c).contains(insolAccnt.Client_Identifier__c))){
@@ -1290,8 +1291,6 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
                     
                     votingAutomationList.add(insolvency.id);
                 }
-            
-            if (insolvency != null){
                 
                 //Client Identifier - imp
                 String clientIdentifier = insolAccnt.Client_Identifier__c;
