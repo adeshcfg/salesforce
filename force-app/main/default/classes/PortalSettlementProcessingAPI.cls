@@ -169,7 +169,7 @@ public class PortalSettlementProcessingAPI {
                 // apiErrorData.Response__c =res.getBody();                
                  listAPIErrors.add(apiErrorData);
                  
-                 CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport('Settlement',recordName,userName,apiErrorData.Response__c,apiErrorData.Action__c);
+                 CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport('Settlement',recordName,userName,apiErrorData.Error__c,apiErrorData.Action__c);
            //4931 - changes end
            }
            //Added if loop by Nagendra - #4931
