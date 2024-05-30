@@ -53,7 +53,7 @@ public class TestCFG_EmailNotification {
         CFG_EmailNotification.sendEmailNotificationOnProcessLinkFail('xyz@gmail.com', 'fail records', workAssignment.Name, workAssignment.Title__c, workAssignment.id,'Product Allocation File');
         CFG_EmailNotification.snapshotFailedEmailNotification('xyz@gmail.com', 'fail records', docStorage.id);
         CFG_EmailNotification.snapshotFailedEmailNotifyTOCFGSupport('Tejal Vidhate1','success record','Access token');
-        CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport('Tejal Vidhate1','success record','Access token');
+        CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport('Test API','1234','Tejal Vidhate1','success record','Access token');
         CFG_EmailNotification.apiFailedEmailNotify('Tejal Vidhate1','success record','Access token');
     }
 }
