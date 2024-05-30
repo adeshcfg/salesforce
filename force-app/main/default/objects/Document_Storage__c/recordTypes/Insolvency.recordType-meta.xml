@@ -40,6 +40,10 @@
             <fullName>No Files</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Processing</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Payment_Type__c</picklist>
