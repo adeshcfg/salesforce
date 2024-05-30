@@ -13,6 +13,7 @@ public class TestPortalSettlementProcessingAPI {
         settings.PDF_API_URL__c = 'https://test.com/endpointurl';
         settings.Scope_Prefix__c = 'scopep.com';
         settings.Scope_Suffix__c = '/.default';
+        settings.API_Request_Timeout__c = 90;
         insert settings;
         
         Agency_Portal_Fields_Mapping__c FieldMap = new Agency_Portal_Fields_Mapping__c();
@@ -67,18 +68,15 @@ public class TestPortalSettlementProcessingAPI {
         //Settlement Record Creation
         
         Settlement__c Sttlmnt= new Settlement__c();
-      //  String recordid=[SELECT id from RecordType where sobjecttype='Judgment__C' AND RecordType.Name='Judgment'].id;
-       // judg.RecordTypeId=recordid;
         Sttlmnt.Product__c = prod.Id;
         Sttlmnt.Status__c='New';
         Sttlmnt.Proposal_Amount__c= 111;
         Sttlmnt.Monthly_Expenses_Comments__c = 'test';
-         Sttlmnt.Monthly_Income_Comments__c = 'test';
-         Sttlmnt.Total_Wealth_Comments__c = 'test';
-      Sttlmnt.Comment__c='testing';
-         Sttlmnt.Employment_Comments__c='testing\n\r\\sclass';
-             Sttlmnt.HomeOwner_Status_Comments__c='testing\n\r\\sclass';
-        
+        Sttlmnt.Monthly_Income_Comments__c = 'test';
+        Sttlmnt.Total_Wealth_Comments__c = 'test';
+      	Sttlmnt.Comment__c='testing';
+        Sttlmnt.Employment_Comments__c='testing\n\r\\sclass';
+        Sttlmnt.HomeOwner_Status_Comments__c='testing\n\r\\sclass';
         insert Sttlmnt;
         
         PortalSettlementProcessingAPI.processSettlement(Sttlmnt.Id); 
