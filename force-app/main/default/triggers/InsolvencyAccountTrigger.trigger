@@ -41,7 +41,10 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     
                     //Before Delete Trigger
                     if(Trigger.isDelete){
-                        InsolvencyAccountTriggerHandler.handleBeforeDelete(trigger.old);
+                        user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+                        if(userinfo.getUserId() != u.id){
+                            InsolvencyAccountTriggerHandler.handleBeforeDelete(trigger.old);
+                        }
                     }                
                 }   
                 //After Trigger

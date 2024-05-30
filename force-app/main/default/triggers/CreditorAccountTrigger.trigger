@@ -18,7 +18,10 @@
     if(runTrigger){   
         //Before Delete
         if(trigger.isBefore && trigger.isDelete){
-        CreditorAccountTriggerHandler.handleBeforeDelete(trigger.old);   
+            user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+            if(userinfo.getuserId() != u.id){
+                CreditorAccountTriggerHandler.handleBeforeDelete(trigger.old);
+            } 
         }
                     //After Insert Trigger
                     if(Trigger.isInsert && Trigger.isAfter){                        

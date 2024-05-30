@@ -18,7 +18,10 @@ trigger RemittanceTrigger on Remittance__c (before insert, before update, before
             if(RemittanceTriggerHandler.runRemittanceTrigger){
                 //Before Delete
                 if(trigger.isBefore && trigger.isDelete){
-                RemittanceTriggerHandler.handleBeforeDelete(trigger.old);   
+                    user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+                    if(userinfo.getUserId() != u.id){
+                        RemittanceTriggerHandler.handleBeforeDelete(trigger.old);   
+                    }
                 }
                 //After Trigger
                 if(Trigger.isAfter) {
