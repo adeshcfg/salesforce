@@ -34,7 +34,7 @@ public with sharing class CTBFileValidationUtility {
     public static Map<String, String> dateAmountFieldsMap = new Map<String, String>{
         'Last_Payment_Date__c' => 'Last_Payment_Amount__c',
         'Last_Payment_Date_2__c' => 'Last_Payment_Amount_2__c',
-        'Last_Payment_Date_2__c' => 'Last_Payment_Amount_2__c'
+        'Last_Payment_Date_3__c' => 'Last_Payment_Amount_3__c'
     };
     /**
      * @description : Map and validate fields from csv to CTB Staging for Insolvency Account
