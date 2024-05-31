@@ -98,13 +98,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         Map<Id, Insolvency_Account__c> accountRecordsToUpdateMap = new Map<Id, Insolvency_Account__c>();
         Set<String> correlationIdSet = new Set<String>();
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
-        List<String> validOldInsolvencyStatuses = new List<String>{
-            'For Owner Review',
-            'Discharged',
-            'Annulled',
-            'Withdrawn',
-            'Refused'
-        };
+        List<String> validOldInsolvencyStatuses = new List<String>{ 'For Owner Review', 'Discharged', 'Annulled', 'Withdrawn', 'Refused' };
         Boolean invalidFile = false;
         List<String> csvRows = csvContents.split('\n');
         // Check for number of rows, should have atleast 3 rows
@@ -165,7 +159,10 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     !validOldInsolvencyStatuses.contains(mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c)
                 ) {
                     stagingAcc.Status__c = 'Error';
-                    stagingAcc.Error_Message__c += '; Cannot update Insolvency Status to PoC Details Provided, current Insolvency status is incorrect';
+                    stagingAcc.Error_Message__c +=
+                        '; Current Insolvency status is ' +
+                        mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c +
+                        ', cannot update Insolvency Status to PoC Details Provided';
                 }
                 // Remove ; from start of the string if it starts with ;
                 if (String.isNotBlank(stagingAcc.Error_Message__c)) {
@@ -173,10 +170,13 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 }
                 // If validation was successfull
                 if (stagingAcc.Status__c != 'Error') {
-                    Insolvency_Account__c accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
+                    Insolvency_Account__c accountToUpdate = new Insolvency_Account__c();
+                    if (stagingAcc.CTB_Reject_Reason_Code__c != 'SOLD') {
+                        accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
+                    }
                     accountToUpdate.Id = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
-                    updateAccountStatusAndReason(accountToUpdate);
+                    updateAccountStatusAndReason(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c);
                     accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
                 }
             }
@@ -206,9 +206,10 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
      * @description : Method to update correct account status as per criteria
      * @author adesh.ikhar@canaccede.com | 05-20-2024
      * @param accountToUpdate
+     * @param currentStatus
      * @return Insolvency_Account__c
      **/
-    public static Insolvency_Account__c updateAccountStatusAndReason(Insolvency_Account__c accountToUpdate) {
+    public static Insolvency_Account__c updateAccountStatusAndReason(Insolvency_Account__c accountToUpdate, String currentStatus) {
         accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
         if (accountToUpdate.Balance_Owed__c < 100) {
             accountToUpdate.Insolvency_Status__c = 'No PoC Required';
@@ -217,6 +218,10 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         if (accountToUpdate.CTB_Reject_Reason_Code__c == 'SOLD') {
             accountToUpdate.Insolvency_Status__c = 'No PoC Required';
             accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Account Sold';
+        }
+        // Update status only if previous status was For Owner Review
+        if (currentStatus != 'For Owner Review') {
+            accountToUpdate.Insolvency_Status__c = currentStatus;
         }
         return accountToUpdate;
     }
