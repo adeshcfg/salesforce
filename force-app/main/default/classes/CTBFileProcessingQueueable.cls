@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-20-2024
+ * @last modified on  : 05-31-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -100,10 +100,10 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
         List<String> validOldInsolvencyStatuses = new List<String>{
             'For Owner Review',
-            'Claim Filed',
-            'BOT Review completed',
-            'PoC Package Generated',
-            'No PoC Required'
+            'Discharged',
+            'Annulled',
+            'Withdrawn',
+            'Refused'
         };
         Boolean invalidFile = false;
         List<String> csvRows = csvContents.split('\n');
