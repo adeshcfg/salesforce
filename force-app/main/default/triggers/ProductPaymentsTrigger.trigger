@@ -31,7 +31,10 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert,before delet
                     }
                     //Before delete
                     if(trigger.isDelete){
-                        ProductPaymentsTriggerHandler.handleBeforeDelete(trigger.old);                        
+                        user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+                        if(userinfo.getUserId() != u.id){
+                        ProductPaymentsTriggerHandler.handleBeforeDelete(trigger.old);  
+                        }                      
                     }
                     //Ticket 4546: changes done by tejal for update payment posting month as per payment posting date
                     if(Trigger.isUpdate){
