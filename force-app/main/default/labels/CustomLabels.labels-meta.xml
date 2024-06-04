@@ -266,4 +266,11 @@
         <shortDescription>Record types for which Trustee Follow Up emails should be sent</shortDescription>
         <value>Canaccede_Insolvency_Account,SDA_Insolvency_Account,SPL_Insolvency_Account,Scotia_Bank_Insolvency_Account,Fairstone_Insolvency_Account,Goeasy_Insolvency_Account</value>
     </labels>
+    <labels>
+        <fullName>CTB_Valid_Insolvency_Statuses</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Insolvency statuses which are allowed for account update</shortDescription>
+        <value>For Owner Review,Trustee follow up</value>
+    </labels>
 </CustomLabels>
