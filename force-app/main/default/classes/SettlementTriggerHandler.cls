@@ -35,6 +35,15 @@ public class SettlementTriggerHandler {
             setProductID.add(settlemnt.Product__c);
             setJudgmentID.add(settlemnt.Judgment__c);
             settlemnt.Last_Modified_By__c = UserInfo.getName();
+            //Ticket 6739: moved "Update Approved/Rejected details on Settlement" flow logic into trigger
+            if(settlemnt.Status__c == 'Approved' && settlemnt.Approved_By__c == NULL && settlemnt.Approved_Date__c == NULL){
+                settlemnt.Approved_By__c = UserInfo.getUserId();
+                settlemnt.Approved_Date__c = Datetime.now();
+            }
+            if(settlemnt.Status__c == 'Rejected' && settlemnt.Rejected_By__c == NULL && settlemnt.Rejected_Date__c == NULL){
+                settlemnt.Rejected_By__c = UserInfo.getUserId();
+                settlemnt.Rejected_Date__c = Datetime.now();
+            }
         }
         //Added Status != Not completed in below SOQL Query as part of #5145
         for (Settlement__c newSettle : [
@@ -82,13 +91,15 @@ public class SettlementTriggerHandler {
         Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
         list<Settlement__c> listSettlmentsForIdentifier = new List<Settlement__c>();
         list<Work_Assignment__c> listWorkAssignments = new List<Work_Assignment__c>();
-        if (!firstcall) {
+        
+        //Ticket 6739: 3 API calls are happening on Settlement 
+        /*if (!firstcall) {
             firstcall = true;
             if (config.Run_Settlement_Update_API_for_Portal__c) {
                 //call API
                 PortalSettlementProcessingAPI.processSettlement(listNewSettlments[0].ID);
             }
-        }
+        }*/
         for (Settlement__c settlmentObj : listNewSettlments) {
             if (config.Run_Settlement_Update_API_for_Portal__c) {
                 //call API
@@ -210,6 +221,18 @@ public class SettlementTriggerHandler {
             setProductID.add(settl.Product__c);
             setJudgmentID.add(settl.Judgment__c);
             settl.Last_Modified_By__c = UserInfo.getName();
+            //Ticket 6739: moved "Update Approved/Rejected details on Settlement" flow logic into trigger
+            if(settl.Status__c != settlementOld1.Status__c){
+                if(settl.Status__c == 'Approved' && settl.Approved_By__c == NULL && settl.Approved_Date__c == NULL){
+                    settl.Approved_By__c = UserInfo.getUserId();
+                    settl.Approved_Date__c = Datetime.now();
+                }
+                if(settl.Status__c == 'Rejected' && settl.Rejected_By__c == NULL && settl.Rejected_Date__c == NULL){
+                    settl.Rejected_By__c = UserInfo.getUserId();
+                    settl.Rejected_Date__c = Datetime.now();
+                }
+            }
+            
             if (settl.Comment__c != null && settl.Comment__c != settlementOld1.Comment__c) {
                 try {
                     settl.Comments_History__c =
