@@ -940,8 +940,10 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             contentVersionData.VersionData = Blob.valueof(mainFinalData);
             //contentVersionData.Title = 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss');
             if(CTBBatchName == System.Label.CTB_Payment){
-                Filename = 'DRN_PaymentUpdate_'+createdDate+dateformate;
-                contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss');
+                //Filename = 'DRN_PaymentUpdate_'+createdDate+dateformate + '.csv';
+                Filename = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
+                contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
+                //contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss');
                 contentVersionData.PathOnClient = 'DRN_PaymentUpdate.csv';
             }
             if(CTBBatchName == System.Label.CTB_Insolvency_Account){
