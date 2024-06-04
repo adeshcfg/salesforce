@@ -1784,13 +1784,17 @@ insDetails.add(insDetail);
                     }
                 }
                 else{
+                    if(oldMap.get(accNew.id).Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c && 
+                      accNew.Insolvency_Sub_Status__c == 'Pending File'){
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
                     if(oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c && oldMap.get(accNew.id).Insolvency_Sub_Status__c == NULL
                        && accNew.Insolvency_Sub_Status__c == 'File Error Parsing Record'){
-                           accNew.Insolvency_Sub_Status__c.addError('You can set directly File Error Parsing Record as Processing Sub Status.');
+                           accNew.Insolvency_Sub_Status__c.addError('You cannot set directly File Error Parsing Record as Processing Sub Status.');
                     }
                     else if(oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c && oldMap.get(accNew.id).Insolvency_Sub_Status__c == NULL
                             && accNew.Insolvency_Sub_Status__c == 'Sent on file'){
-                                accNew.Insolvency_Sub_Status__c.addError('You can set directly Sent on file as Processing Sub Status.');   
+                                accNew.Insolvency_Sub_Status__c.addError('You cannot set directly Sent on file as Processing Sub Status.');   
                     }
                 }  
             }
