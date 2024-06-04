@@ -98,7 +98,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         Map<Id, Insolvency_Account__c> accountRecordsToUpdateMap = new Map<Id, Insolvency_Account__c>();
         Set<String> correlationIdSet = new Set<String>();
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
-        List<String> validOldInsolvencyStatuses = new List<String>{ 'For Owner Review', 'Discharged', 'Annulled', 'Withdrawn', 'Refused' };
+        List<String> validOldInsolvencyStatuses = System.Label.CTB_Valid_Insolvency_Statuses.split(',');
         Boolean invalidFile = false;
         List<String> csvRows = csvContents.split('\n');
         // Check for number of rows, should have atleast 3 rows
