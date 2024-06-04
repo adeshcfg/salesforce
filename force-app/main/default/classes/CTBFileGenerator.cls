@@ -116,11 +116,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 'FROM Insolvency_Account__c ' +
                 'WHERE ' +
                 'RecordType.developerName = :recordType AND ' +
-                '(Insolvency_Status__c = \'For Owner Review\' OR ' +
-                'Insolvency_Status__c = \'Discharged\' OR ' +
-                'Insolvency_Status__c = \'Annulled\'OR ' +
-                'Insolvency_Status__c = \'Withdrawn\'OR ' +
-                'Insolvency_Status__c = \'Refused\') AND ' +
                 'Insolvency_Sub_Status__c = \'Pending File\'';
         }
         if (CTBBatchName == System.Label.CTB_Payment) {
