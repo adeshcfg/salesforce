@@ -131,8 +131,9 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     'FROM Insolvency_Payment__c ' +
                     'WHERE ' +
                     'Insolvency_Account__r.Client_Identifier__c = :clientIdentifier AND ' +
-                    'RecordType.DeveloperName = \'Insolvency_Payment\' AND ' +
+                    //'RecordType.DeveloperName = \'Insolvency_Payment\' AND ' +
                     'Payment_Amount__c > 0 AND ' +
+                    'Is_Payment_Remitted__c = false AND ' +
                     'Payment_Reversed__c = NULL AND ' +
                     'Payment_Reversal_Date__c = NULL AND ' +
                     'Payment_Sub_Status__c = \'Pending File\'';
@@ -940,8 +941,10 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             contentVersionData.VersionData = Blob.valueof(mainFinalData);
             //contentVersionData.Title = 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss');
             if(CTBBatchName == System.Label.CTB_Payment){
-                Filename = 'DRN_PaymentUpdate_'+createdDate+dateformate;
-                contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss');
+                //Filename = 'DRN_PaymentUpdate_'+createdDate+dateformate + '.csv';
+                Filename = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
+                contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
+                //contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss');
                 contentVersionData.PathOnClient = 'DRN_PaymentUpdate.csv';
             }
             if(CTBBatchName == System.Label.CTB_Insolvency_Account){
