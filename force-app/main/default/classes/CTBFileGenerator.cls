@@ -131,8 +131,9 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     'FROM Insolvency_Payment__c ' +
                     'WHERE ' +
                     'Insolvency_Account__r.Client_Identifier__c = :clientIdentifier AND ' +
-                    'RecordType.DeveloperName = \'Insolvency_Payment\' AND ' +
+                    //'RecordType.DeveloperName = \'Insolvency_Payment\' AND ' +
                     'Payment_Amount__c > 0 AND ' +
+                    'Is_Payment_Remitted__c = false AND ' +
                     'Payment_Reversed__c = NULL AND ' +
                     'Payment_Reversal_Date__c = NULL AND ' +
                     'Payment_Sub_Status__c = \'Pending File\'';
@@ -1010,7 +1011,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         }
     }
 
-    
     public static string buildTHEADBodyData() {
         string theadBodyData;
 
