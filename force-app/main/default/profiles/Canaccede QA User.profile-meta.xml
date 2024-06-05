@@ -11472,11 +11472,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Judgment__c.Placed_Agency__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Judgment__c.Placed_Province__c</field>
         <readable>true</readable>
     </fieldPermissions>
