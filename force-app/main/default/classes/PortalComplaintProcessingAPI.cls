@@ -138,7 +138,8 @@ public class PortalComplaintProcessingAPI {
             complaintInstance.Outbound_API_Request_Body__c = req.getBody();
             system.debug('Outbound req body:: '+req.getBody());
             system.debug('req:: '+req);
-            
+            Map<String, Object> reqBodyMap = (Map<String, Object>)JSON.deserializeUntyped(req.getBody());
+            string recordName = String.valueOf(reqBodyMap.get('Name'));
             
             try{
                 // Send the request, and return a response
@@ -168,7 +169,7 @@ public class PortalComplaintProcessingAPI {
                     }
                     listAPIErrors.add(apiErrorData);
                     
-                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Response__c,apiErrorData.Action__c);
+                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport('Complaint',recordName,userName,apiErrorData.Response__c,apiErrorData.Action__c);
                 }
             }
             catch(Exception ex){
@@ -183,7 +184,7 @@ public class PortalComplaintProcessingAPI {
                 
                 listAPIErrors.add(apiErrorData);
                 
-                CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiErrorData.Error__c,apiErrorData.Action__c);
+                CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport('Complaint',recordName,userName,apiErrorData.Error__c,apiErrorData.Action__c);
             }
             
             insert listAPIErrors;
@@ -241,7 +242,7 @@ public class PortalComplaintProcessingAPI {
             apiError.Action__c = 'Access Token';
             apiError.Response__c = bodyParams;
             listAPIErrors.add(apiError); 
-            CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName,apiError.Error__c,apiError.Action__c);
+            CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport('Access Token',null,userName,apiError.Error__c,apiError.Action__c);
         }
         return String.valueOf(wResp.get('access_token'));
     }

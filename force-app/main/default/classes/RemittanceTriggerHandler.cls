@@ -49,8 +49,9 @@ public class RemittanceTriggerHandler{
     }
 	public static void handleAfterInsert(List<Remittance__c> remsNew){
 		map<id,Remittance__c> remitMap = new map<id,Remittance__c>();
-		for(Remittance__c remit : [select ID,External_Correlation_ID__c from Remittance__c where ID IN : remsNew]){
+		for(Remittance__c remit : [select ID,Name,External_Correlation_ID__c,Dividends_Name_Original__c from Remittance__c where ID IN : remsNew]){
             remit.External_Correlation_ID__c = remit.ID;
+			remit.Dividends_Name_Original__c = remit.Name;
             remitMap.put(remit.ID,remit);
          }
          if(!remitMap.isEmpty()){

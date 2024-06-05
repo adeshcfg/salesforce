@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Total_Paid_To_Date_by_Trustee__c</fullName>
-    <description>Dividend payments received by Trustee</description>
+    <description>Insolvency payments received by Trustee</description>
     <externalId>false</externalId>
-    <inlineHelpText>Dividend payments received by Trustee</inlineHelpText>
+    <inlineHelpText>Insolvency payments received by Trustee</inlineHelpText>
     <label>Total Paid To Date by Trustee</label>
     <summarizedField>Insolvency_Payment__c.Payment_Amount__c</summarizedField>
     <summaryFilterItems>

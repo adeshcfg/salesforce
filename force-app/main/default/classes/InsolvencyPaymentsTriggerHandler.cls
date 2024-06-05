@@ -24,8 +24,9 @@ public class InsolvencyPaymentsTriggerHandler{
 	//After Insert
     public static void handleAfterInsert(List<Insolvency_Payment__c> insolvPaymentsNew){
 		map<id,Insolvency_Payment__c> insolvPaymentMap = new map<id,Insolvency_Payment__c>();
-		for(Insolvency_Payment__c insolvPayment : [select ID,External_Correlation_ID__c from Insolvency_Payment__c where ID IN : insolvPaymentsNew]){
+		for(Insolvency_Payment__c insolvPayment : [select ID,Name,External_Correlation_ID__c,Insolvency_Payment_Name_Original__c from Insolvency_Payment__c where ID IN : insolvPaymentsNew]){
             insolvPayment.External_Correlation_ID__c = insolvPayment.ID;
+			insolvPayment.Insolvency_Payment_Name_Original__c=insolvPayment.Name;
             insolvPaymentMap.put(insolvPayment.ID,insolvPayment);
          }
          if(!insolvPaymentMap.isEmpty()){

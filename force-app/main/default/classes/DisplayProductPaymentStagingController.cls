@@ -738,6 +738,7 @@ public class DisplayProductPaymentStagingController {
         Decimal placementCommisionRate;
         Map<Id,String> placeStatus = new Map<Id,String>();
         List<ID> prodIds = new List<ID>();
+        Boolean checkIsReversal = false;
         List<Product__c> prodList = new List<Product__c>();
         map<String, Data_Status_Mapping__c> mapDataStatusMapping = Data_Status_Mapping__c.getAll();
     	map<String, Data_Status_Mapping__c> mapDataStatus = new Map<String, Data_Status_Mapping__c>();
@@ -850,7 +851,7 @@ public class DisplayProductPaymentStagingController {
                                                               placementIdentifier = String.valueOf(Math.floor(productInstance.Collection_Agency__c));    
                                                           }
                                                       }
-                                                      
+                                                      oldPlacementID = productInstance.Collection_Agency_Placement__c;
                                                       //DEDUCT INTEREST and PRINCIPAL
                                                       if(prodPayToUpdate.Interest_Payment_Amount__c != NULL){
                                                           productInstance.Current_Interest_Amount__c = productInstance.Current_Interest_Amount__c - prodPayToUpdate.Interest_Payment_Amount__c;   
@@ -913,7 +914,8 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                   /*--------------Reversed Payment Calculation STARTS------------------------------*/
                                                   //If reversed payment is added, it is added to Balances on Product as per original Payment
                                                   if(payProductInstance.Payment_Amount__c < 0){
-                                                      Boolean calflag = false;                        
+                                                      Boolean calflag = false; 
+                                                      checkIsReversal = true;
                                                       if(mapReversedPayments.containsKey(payProductInstance.Original_Of_Payment_Reversal__c)
                                                          && payProductInstance.Payment_Type__c != '3000'){
                                                              Product_Payments__c reversedPay = mapReversedPayments.get(payProductInstance.Original_Of_Payment_Reversal__c);
@@ -1227,7 +1229,9 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
         
        //Ticket 6494: if reverse SIF/PIF create placement history and call snapshot
         try{
-            DistressedUtilities.createPlacementHistory(prodList,oldPlacementID,placementCommisionRate);
+            if (checkIsReversal == true) {
+            	DistressedUtilities.createPlacementHistory(prodList,oldPlacementID,placementCommisionRate);
+            }
             Database.executeBatch(new BatchProcessForProdScreen(prodIds,placeStatus,'Product Allocation Individual'), 200);
         }catch(Exception ex){
             system.debug('exception message'+ex.getStackTraceString());

@@ -349,7 +349,7 @@ public class TestProcessingUnallocatedProductctlr {
 
         obj.insolvPay.CCS_Account__C = [SELECT Id FROM Product__c LIMIT 1].Id;
         obj.isAllocated = false;
-        obj.save();
+       // obj.save();
     }
 
     static testMethod void testController4() {

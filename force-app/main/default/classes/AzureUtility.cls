@@ -190,7 +190,9 @@ public class AzureUtility {
             req.setEndpoint(apiCallDetails.PDF_API_URL__c + endPoint);
             req.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
             req.setMethod('PUT');
-
+			Map<String, Object> reqBodyMap = (Map<String, Object>)JSON.deserializeUntyped(req.getBody());
+            string recordName = String.valueOf(reqBodyMap.get('Name'));
+            
             try {
                 // Send the request, and return a response
                 HttpResponse res = h.send(req);
@@ -213,7 +215,7 @@ public class AzureUtility {
                     }
                     ErrorList.add(apiErrorData);
 
-                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName, apiErrorData.Response__c, apiErrorData.Action__c);
+                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(portalApiCall,recordName,userName, apiErrorData.Response__c, apiErrorData.Action__c);
                 }
             } catch (Exception ex) {
                 String userName = UserInfo.getName();
@@ -225,7 +227,7 @@ public class AzureUtility {
                 }
                 ErrorList.add(apiErrorData);
 
-                CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(userName, apiErrorData.Error__c, apiErrorData.Action__c);
+                CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(portalApiCall,recordName,userName, apiErrorData.Error__c, apiErrorData.Action__c);
             }
 
             insert ErrorList;

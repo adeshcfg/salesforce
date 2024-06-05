@@ -41,6 +41,10 @@ public class TestInsolvencyAccntDragNDropController{
          insolvAcc.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
          Insert insolvAcc;
 
+         Document_Storage__c docStr = new Document_Storage__c();
+         docStr.Document_Type__c = 'test';
+         docStr.Insolvency_Account__c = insolvAcc.id;
+         insert docStr;
          
          // insert attachments for insolvance account
          Attachment att = new Attachment(Name = 'testAtt', Body = Blob.valueOf('Test'), parentId = insolvAcc.Id);
@@ -60,7 +64,9 @@ public class TestInsolvencyAccntDragNDropController{
           controller.updateAtList();
           controller.description='acc';
           Double db = controller.offset;
-          
+          InsolvencyAccntDragNDropController.wrapperClass wrapper = new InsolvencyAccntDragNDropController.wrapperClass();
+          wrapper.createdBy = 'test';
+          wrapper.documetName = 'test';
           controller.selectedAttId = [SELECT Id FROM Attachment LIMIT 1].Id;
           controller.deleteAttachment();
      }

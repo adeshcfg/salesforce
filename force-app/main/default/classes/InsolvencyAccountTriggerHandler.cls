@@ -1071,7 +1071,7 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
-     map<ID, Insolvency_Account__c> updateInsolvencyAccounts = new Map<ID, Insolvency_Account__c>();
+     /*map<ID, Insolvency_Account__c> updateInsolvencyAccounts = new Map<ID, Insolvency_Account__c>();
      for(Insolvency_Account__c insolvAccount : [select ID,External_Correlation_ID__c from Insolvency_Account__c where ID IN : insolAccntsNew]){
          insolvAccount.External_Correlation_ID__c = insolvAccount.ID;
          updateInsolvencyAccounts.put(insolvAccount.ID,insolvAccount);
@@ -1083,7 +1083,8 @@ update listInsolvency;
          InsolvencyTriggerHandler.runInsolvencyTrigger=TRUE;
          InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=true;
       }
-        handleAfterInsertUpdate(insolAccntsNew,null);     
+*/     
+      handleAfterInsertUpdate(insolAccntsNew,null);     
     }
     
     //After Update
@@ -1271,6 +1272,7 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
                 insolAccnt.Client_Identifier__c = cIRTMap.get(insAccntRecorTypeMap.get(insolAccnt.RecordTypeId));
             }
             
+            if (insolvency != null){
             //Check if insolvency account is Scotia and POC Details are provided
             if(insolAccnt.Insolvency_Status__c == 'POC Details Provided'
                &&((config.Eligible_for_Voting_Decision__c).contains(insolAccnt.Client_Identifier__c))){
@@ -1289,8 +1291,6 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
                     
                     votingAutomationList.add(insolvency.id);
                 }
-            
-            if (insolvency != null){
                 
                 //Client Identifier - imp
                 String clientIdentifier = insolAccnt.Client_Identifier__c;
@@ -1784,13 +1784,17 @@ insDetails.add(insDetail);
                     }
                 }
                 else{
+                    if(oldMap.get(accNew.id).Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c && 
+                      accNew.Insolvency_Sub_Status__c == 'Pending File'){
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    }
                     if(oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c && oldMap.get(accNew.id).Insolvency_Sub_Status__c == NULL
                        && accNew.Insolvency_Sub_Status__c == 'File Error Parsing Record'){
-                           accNew.Insolvency_Sub_Status__c.addError('You can set directly File Error Parsing Record as Processing Sub Status.');
+                           accNew.Insolvency_Sub_Status__c.addError('You cannot set directly File Error Parsing Record as Processing Sub Status.');
                     }
                     else if(oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c && oldMap.get(accNew.id).Insolvency_Sub_Status__c == NULL
                             && accNew.Insolvency_Sub_Status__c == 'Sent on file'){
-                                accNew.Insolvency_Sub_Status__c.addError('You can set directly Sent on file as Processing Sub Status.');   
+                                accNew.Insolvency_Sub_Status__c.addError('You cannot set directly Sent on file as Processing Sub Status.');   
                     }
                 }  
             }

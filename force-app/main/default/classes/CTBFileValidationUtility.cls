@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-20-2024
+ * @last modified on  : 05-31-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -31,6 +31,11 @@ public with sharing class CTBFileValidationUtility {
     public static final Integer LAST_STATEMENT_AMOUNT_3 = 44;
     public static final Integer PREVIOUS_ACCOUNT_REFERENCE = 46;
     public static final Integer ADDITIONAL_INFO = 47;
+    public static Map<String, String> dateAmountFieldsMap = new Map<String, String>{
+        'Last_Payment_Date__c' => 'Last_Payment_Amount__c',
+        'Last_Payment_Date_2__c' => 'Last_Payment_Amount_2__c',
+        'Last_Payment_Date_3__c' => 'Last_Payment_Amount_3__c'
+    };
     /**
      * @description : Map and validate fields from csv to CTB Staging for Insolvency Account
      * @author adeshi@a5econsulting.net | 11-23-2023
@@ -119,6 +124,18 @@ public with sharing class CTBFileValidationUtility {
         account.Last_Statement_Date_3__c = stagingRecord.Last_Statement_Date_3__c;
         account.Last_Statement_Amount_3__c = stagingRecord.Last_Statement_Amount_3__c;
         account.Insolvency_Sub_Status__c = null;
+        // If payment amount is null or less than 0 or payment date is null or future date, make both fields null
+        for (String dateField : dateAmountFieldsMap.keySet()) {
+            if (
+                account.get(dateAmountFieldsMap.get(dateField)) == null ||
+                account.get(dateField) == null ||
+                Double.valueOf(account.get(dateAmountFieldsMap.get(dateField))) <= 0 ||
+                Date.valueOf(account.get(dateField)) > System.today()
+            ) {
+                account.put(dateAmountFieldsMap.get(dateField), null);
+                account.put(dateField, null);
+            }
+        }
         account.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName()
             .get('Canadian_Tire_Insolvency_Account')
             .getRecordTypeId();

@@ -2,8 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Follow_Up_Counter__c</fullName>
     <defaultValue>0</defaultValue>
-    <description>This field will be default to zero and it will be incremented for each follow-up email sent.</description>
+    <description>This field will default to zero and it will be incremented for each follow-up email sent.</description>
     <externalId>false</externalId>
+    <inlineHelpText>This field will default to zero and it will be incremented for each follow-up email sent</inlineHelpText>
     <label>Follow Up Counter</label>
     <precision>1</precision>
     <required>false</required>

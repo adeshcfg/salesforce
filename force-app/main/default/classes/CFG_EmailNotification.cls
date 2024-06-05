@@ -230,7 +230,7 @@ public class CFG_EmailNotification {
         
     }
     
-    public static void apiFailedEmailNotifyTOCFGSupport(String userName,String exceptionMsg,String action){
+    public static void apiFailedEmailNotifyTOCFGSupport(string apiName, String apiFailedRecord, String userName,String exceptionMsg,String action){
         //send mail to CFG App Support
         //String userEmail ='appsupport@canaccede.com';
         system.debug('inside apiFailedEmailNotifyTOCFGSupport');
@@ -253,10 +253,10 @@ public class CFG_EmailNotification {
         mail.setToAddresses(lstEmail);
         mail.setSenderDisplayName('Salesforce Support');
 
-        mail.setSubject('API is failed');   
+        mail.setSubject('API Failed For '+apiFailedRecord);   
         mail.setUseSignature(false);
         
-        mail.setHtmlBody('API is failed. Please find the below error and kindly contact with your technical team:<br/><br/>'+exceptionMsg+' '+'on action'+' '+action+'.<br/><br/><br/>Thanks,<br/>CFG support');
+        mail.setHtmlBody(apiName + ' API is failed. Please find the below error and kindly contact with your technical team:<br/><br/>'+exceptionMsg+' '+'on action'+' '+action+'.<br/><br/><br/>Thanks,<br/>CFG support');
     
         // Send the email you have created.
         try{

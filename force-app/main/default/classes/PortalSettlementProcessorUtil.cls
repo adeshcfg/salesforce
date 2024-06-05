@@ -22,7 +22,6 @@ public class PortalSettlementProcessorUtil {
           if(mapping.Object_Name__c == 'Settlement'){
               system.debug('mapping.Field_JSON_Tag__c '+mapping.Field_JSON_Tag__c);
               system.debug('tag:: '+paramMap.get(mapping.Field_JSON_Tag__c));
-              //settlement.put(mapping.Field_API__c, paramMap.get(mapping.Field_JSON_Tag__c));
               if(mapping.Field_Type__c == 'Currency'){
                   if(String.isNotBlank(paramMap.get(mapping.Field_JSON_Tag__c))){
                      settlement.put(mapping.Field_API__c,Decimal.valueOf(paramMap.get(mapping.Field_JSON_Tag__c)));    
@@ -36,17 +35,9 @@ public class PortalSettlementProcessorUtil {
               
               else if(mapping.Field_Type__c == 'DateTime'){
                         if(String.isNotBlank(paramMap.get(mapping.Field_JSON_Tag__c))){
-                            
-                            String str = '"2013-01-30T07:38:44.268Z"';
-                            system.debug(JSON.deserialize(str, DateTime.class));
-                            system.debug(DateTime.valueOf(JSON.deserialize(str, DateTime.class)));
                             String ss = '"'+paramMap.get(mapping.Field_JSON_Tag__c)+'"';
-                            system.debug('ssss'+ss);
                             DateTime convertedDateTime = DateTime.valueOf(JSON.deserialize(ss, DateTime.class));
-                            system.debug('convertedDateTime::'+convertedDateTime);
                             settlement.put(mapping.Field_API__c,convertedDateTime); 
-                            system.debug('convertedDateTime::'+convertedDateTime);
-                            //settlement.put(mapping.Field_API__c,DateTime.valueOf(paramMap.get(mapping.Field_JSON_Tag__c)));    
                         }      
                     }
               
@@ -66,20 +57,14 @@ public class PortalSettlementProcessorUtil {
       DateTime dT = System.now();
         if(String.isNotBlank(paramMap.get('Comment_Reply'))){
             if(settlement.Comment__c != paramMap.get('Comment_Reply')){
-                system.debug('--Comments_History__c: '+settlement.Comments_History__c);
-                system.debug('workAssignment.Comment__c: '+settlement.Comment__c);
                 settlement.Comment__c = paramMap.get('Comment_Reply');
                 String Comment = settlement.Last_Modified_By__c + ' ' + 'added on' + ' ' + dT.month() + '/' + dT.day() 
                 + '/' + dT.year() + ';' + ' ' + ' ' + settlement.Comment__c + '\n' + '\n';
-                system.debug('Comment : '+Comment );
                 
                 if(String.isNotBlank(settlement.Comments_History__c)){
                     Comment  = Comment  + settlement.Comments_History__c;
                 }
-                //Comment  += (String.isNotBlank(settlement.Comments_History__c) ? settlement.Comments_History__c: '');
-                system.debug('Comment  2:'+Comment);
                 settlement.Comments_History__c = Comment ;
-                system.debug('Comment History 3:' +settlement.Comments_History__c );
               }
         } 
      
@@ -118,10 +103,20 @@ public class PortalSettlementProcessorUtil {
                 && SettlementStatus!= settlement.Status__c){
                     //update the Status to Approved
                     settlement.Status__c = APPROVED;
+                    settlement.Approved_Date__c = Datetime.now();
                     update settlement;
                     PortalSettlementProcessingAPI.processSettlement(settlement.ID);
                 }
               else{
+                  Settlement__c settlementData = [select id,name,Approved_By__c,Approved_By__r.name,Approved_Date__c,Rejected_By__c,Rejected_By__r.name,Rejected_Date__c from Settlement__c where Settlement_Number__c =: settlement.Settlement_Number__c];
+                  if(settlementData.Approved_By__c <> NULL && settlementData.Approved_Date__c <> NULL){
+                      settlement.Approved_By_text__c = settlementData.Approved_By__r.name;
+                      settlement.Approved_Date__c = settlementData.Approved_Date__c;
+                  }
+                  if(settlementData.Rejected_By__c <> NULL && settlementData.Rejected_Date__c <> NULL){
+                      settlement.Approved_By_text__c = settlementData.Rejected_By__r.name;
+                      settlement.Rejected_Date__c = settlementData.Rejected_Date__c;
+                  }
                   system.debug('settlement::'+settlement);
                   update settlement;
               }
