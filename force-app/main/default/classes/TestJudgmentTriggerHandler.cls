@@ -812,7 +812,7 @@ public class TestJudgmentTriggerHandler {
         judgment4.Legal_Status__c = 'Judgment';
         judgment4.Legal_Sub_Status__c = 'Default Judgment';
         judgment4.Judgment_Date__c = Date.newInstance(2022, 5, 9);
-        judgment4.Placed_Agency__c = '29';
+        judgment4.Legal_Agency__c = '29';
         judgment4.Interest_Rate_one__c = 5;
         judgment4.Balance_one__c = 120;
         judgment4.Interest_Rate_two__c = 5;

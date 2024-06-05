@@ -1342,7 +1342,8 @@ insert customer1;*/
         ProductTriggerHandler.calculateBalanceBackdatedPayments2(newProdList, oldprodMap);
         ProductTriggerHandler.handleBeforeInsert(newProdList);
         ProductTriggerHandler.handleafterinsertdate(newProdList);
-
+		prodOld.Credit_Counselling_Date__c = System.today();
+        update prodOld;
         Test.stopTest();
         // ProductTriggerHandler.updateCustomerFromProduct(prod);
         // ProductTriggerHandler.needtoUpdateCustomer(prod1);

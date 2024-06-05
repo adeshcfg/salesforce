@@ -116,8 +116,7 @@ public class JudgmentTriggerHandler {
         for(Judgment__c judgment : listNewJudgments){
                 if(prod.Collection_Agency__c != NULL){
                     judgment.Agency_Initiated_Legal_Action__c = String.valueOf(Math.floor(prod.Collection_Agency__c));
-                    judgment.Placed_Agency__c = judgment.Agency_Initiated_Legal_Action__c;   
-                    judgment.Legal_Agency__c = judgment.Placed_Agency__c;            
+                    judgment.Legal_Agency__c = judgment.Agency_Initiated_Legal_Action__c;            
                 }
                 if(String.isNotBlank(judgment.Agency_Initiated_Legal_Action__c)){
                     judgment.Agency_Initiated_Legal_Action_Lookup__c = collectionAgency.get(judgment.Agency_Initiated_Legal_Action__c);
@@ -385,7 +384,7 @@ public class JudgmentTriggerHandler {
             config.Send_Notification__c = true;  
             //call API
             if(!Test.isRunningTest()){
-                if(judgRecord.Agency_Initiated_Legal_Action__c != NULL && judgRecord.Placed_Agency__c != NULL){
+                if(judgRecord.Agency_Initiated_Legal_Action__c != NULL && judgRecord.Legal_Agency__c != NULL){
                 	PortalJudgmentProcessingAPI.processJudgment(judgRecord.ID);
                 }
             }
@@ -984,7 +983,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
         for(Judgment__c judgment : listNewJudgments){
             if(config.Run_Judgment_Update_API_For_Portal__c){ 
                 //call API
-                if(judgment.Agency_Initiated_Legal_Action__c != NULL && judgment.Placed_Agency__c != NULL){
+                if(judgment.Agency_Initiated_Legal_Action__c != NULL && judgment.Legal_Agency__c != NULL){
                     PortalJudgmentProcessingAPI.processJudgment(judgment.ID); 
                 }
             }
