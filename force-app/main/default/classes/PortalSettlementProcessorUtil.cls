@@ -103,6 +103,7 @@ public class PortalSettlementProcessorUtil {
                 && SettlementStatus!= settlement.Status__c){
                     //update the Status to Approved
                     settlement.Status__c = APPROVED;
+                    settlement.Approved_Date__c = Datetime.now();
                     update settlement;
                     PortalSettlementProcessingAPI.processSettlement(settlement.ID);
                 }
