@@ -1652,7 +1652,7 @@ public class ProductTriggerHandler {
             Judgment__c newJudgment = new Judgment__C();
             newJudgment.Legal_Status__c = 'Pre-Legal';
             newJudgment.Legal_Sub_Status__c = 'Approved for Legal Action';
-            newJudgment.Placed_Agency__c = String.valueOf(Math.floor(prodNew.Collection_Agency__c));
+            newJudgment.Legal_Agency__c = String.valueOf(Math.floor(prodNew.Collection_Agency__c));
             if (prodNew.State__c != null) {
                 prodProvinceName = prodNew.State__c;
                 ProvinceNameFormat = nameFormat(prodProvinceName);
