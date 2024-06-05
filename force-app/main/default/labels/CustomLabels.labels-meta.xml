@@ -273,4 +273,11 @@
         <shortDescription>Insolvency statuses which are allowed for account update</shortDescription>
         <value>For Owner Review,Trustee follow up</value>
     </labels>
+  <labels>
+    <fullName>DataArchiverUser</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DataArchiverUser</shortDescription>
+        <value>OwnBackUpAdminUser</value>
+  </labels>
 </CustomLabels>

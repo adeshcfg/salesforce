@@ -41,7 +41,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     
                     //Before Delete Trigger
                     if(Trigger.isDelete){
-                        user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+                        user u=[ select id,name from User where name =: System.label.DataArchiverUser LIMIT 1];
                         if(userinfo.getUserId() != u.id){
                             InsolvencyAccountTriggerHandler.handleBeforeDelete(trigger.old);
                         }
@@ -70,7 +70,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     //After Delete Trigger
                     if(Trigger.isDelete && !test.isRunningTest()){
 list<Insolvency_Account__C> insolvencyAccounts=new list<Insolvency_Account__C>();
-user u=[ select id,name from User where name = 'OwnBackUpAdminUser' LIMIT 1];
+user u=[ select id,name from User where name =: System.label.DataArchiverUser LIMIT 1];
 for(Insolvency_Account__C insolAcc: trigger.old){
 if(insolAcc.LastModifiedByID != u.ID){
 insolvencyAccounts.add(insolAcc);
