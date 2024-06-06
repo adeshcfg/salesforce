@@ -177,10 +177,9 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             if (csvRows.isEmpty()) {
                 continue;
             }
-            for (Integer i = 0; i < csvRows.size(); i++) {
+            for (Integer i = 1; i < csvRows.size(); i++) {
                 // Split the current row into columns
                 List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
-                // To do : get sample csv and map correlation id
                 correlationIds.add(csvColumns[1].substringAfter('/').substring(0, 15));
             }
         }
@@ -203,12 +202,13 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         if (csvRows.isEmpty()) {
             return fileInfoList;
         }
-        for (Integer i = 0; i < csvRows.size(); i++) {
+        for (Integer i = 1; i < csvRows.size(); i++) {
             // Split the current row into columns
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
             String fileName = csvColumns[1].substringAfter('/');
-            // To do : get sample csv and map all fields to fileinfo wrapper
-            fileInfoList.add(new FileInfo(fileName, csvColumns[1], correlationIdAccountIdMap.get(fileName.substring(0, 15))));
+            if (correlationIdAccountIdMap.containsKey(fileName.substring(0, 15))) {
+                fileInfoList.add(new FileInfo(fileName, csvColumns[1], correlationIdAccountIdMap.get(fileName.substring(0, 15))));
+            }
         }
         return fileInfoList;
     }
