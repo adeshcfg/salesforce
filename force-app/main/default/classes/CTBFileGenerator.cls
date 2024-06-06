@@ -782,6 +782,9 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     global void finish(Database.BatchableContext BC) {
         try {
             String mainFinalData = '';
+            String dailyUpdateFileName = '';
+            String paymentFileName = '';
+            String Filename;
             if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
                 Integer finalrecordCount = 2 + countVariable;
                 String headerType = mapCTBFileAuto.get('Insolvency Daily Update').Header_Record_Type__c;
@@ -791,6 +794,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String fileType = mapCTBFileAuto.get('Insolvency Daily Update').File_Type__c;
                 String fileFormatIdenfier = mapCTBFileAuto.get('Insolvency Daily Update').File_Format_Identifier__c;
                 String trailerRecordType = mapCTBFileAuto.get('Insolvency Daily Update').Trailer_Record_Type__c;
+                dailyUpdateFileName = mapCTBFileAuto.get('Insolvency Daily Update').File_Name__c;
                 //build heder body data
                 headbody =
                     '"'+headerType +
@@ -852,6 +856,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String ttralBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Bank_Number__c;
                 String ttralDebitAmount = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Debit_Amount__c;
                 String ttralCreditAmount = mapCTBFileAuto.get('Insolvency Payment Update').Ttral_Credit_Amount__c;
+                paymentFileName = mapCTBFileAuto.get('Insolvency Payment Update').File_Name__c;
                 Integer BTRALSeqNum = 3 + countVariable;
                 Integer TTRALSeqNum = 4 + countVariable;
                 Integer julianDate = calculateJulianDate();
@@ -933,22 +938,17 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 mainFinalData = Theadbody + Bheadbody + FinalData + BTRAL + TTRAL;
             }
 
-            //String Filename = 'DRN_DailyUpdate_'+createdDate+dateformate;
-            String Filename;
             // Create Content Version
             ContentVersion contentVersionData = new ContentVersion();
             contentVersionData.ContentLocation = 'S';
             contentVersionData.VersionData = Blob.valueof(mainFinalData);
-            //contentVersionData.Title = 'DRN_DailyUpdate_'+Datetime.now().format('yyyy-MM-dd HH:mm:ss');
             if(CTBBatchName == System.Label.CTB_Payment){
-                //Filename = 'DRN_PaymentUpdate_'+createdDate+dateformate + '.csv';
-                Filename = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
+                Filename = paymentFileName + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
                 contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
-                //contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss');
                 contentVersionData.PathOnClient = 'DRN_PaymentUpdate.csv';
             }
             if(CTBBatchName == System.Label.CTB_Insolvency_Account){
-                Filename = 'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
+                Filename = dailyUpdateFileName + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
                 contentVersionData.Title = 'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
                 contentVersionData.PathOnClient = 'DRN_DailyUpdate.csv';
             }
