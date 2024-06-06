@@ -1712,7 +1712,7 @@ insDetails.add(insDetail);
             
         }
     }
-    
+
     /**
         method name : updateProcessingSubStatus - created for CTB Automation to update Processing Sub Status
         parameters : accNew - insolvency record updated
@@ -1735,32 +1735,97 @@ insDetails.add(insDetail);
         for(Account accData : [select id,BillingStreet,BillingCity,BillingState,BillingPostalCode from account where id IN: mapInsolIdTrusteeId.values()]){
             trusteeData.put(accData.id,accData);
         }
-        
+        String errorMsg = 'Fields Required ';
+        boolean fieldMissing = false;
         for(Insolvency_Account__c accNew : insolAccntsNew){
             if(insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()){
+                if(accNew.Insolvency_Received_Date__c == null){
+                    errorMsg = 'Insolvency Received Date ,';
+                    fieldMissing = true;
+                }
+                if(accNew.name == null){
+                    errorMsg += 'Name ,';
+                    fieldMissing = true;
+                }
+                if(insolAcctIdInsolId.get(accNew.id) != null){
+                    if(mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Insolvency_Type__c == null){
+                        errorMsg += 'Insolvency Type ,';
+                        fieldMissing = true;
+                    }
+                    if(mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_First_Name__c == null){
+                        errorMsg += 'Insolvency Debtor First Name ,';
+                        fieldMissing = true;
+                    }
+                    if(mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Last_Name__c == null){
+                        errorMsg += 'Insolvency Debtor Last Name ,';
+                        fieldMissing = true;
+                    }      
+                    if(mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Mailing_Country__c == null){
+                        errorMsg += 'Country ,';
+                        fieldMissing = true;
+                    }
+                    if(mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Insolvency_Date__c == null){
+                        errorMsg += 'Insolvency Date ,';
+                        fieldMissing = true;
+                    }
+                    if(mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).name == null){
+                        errorMsg += 'Insolvency Name ,';
+                        fieldMissing = true;
+                    }
+                }
+                
+                if(accNew.Debtor_1_First_Name__c == null){
+                    errorMsg += 'Debtor First Name ,';
+                    fieldMissing = true;
+                }
+                if(accNew.Debtor_1_Last_Name__c == null){
+                    errorMsg += 'Debtor Last Name ,';
+                    fieldMissing = true;
+                }
+                if(accNew.Debtor_1_Mailing_Street__c == null){
+                    errorMsg += 'Street Name & Number ,';
+                    fieldMissing = true;
+                }
+                if(accNew.Debtor_1_Mailing_City__c == null){
+                    errorMsg += 'City ,';
+                    fieldMissing = true;
+                }
+                if(accNew.Province_Formula__c == null){
+                    errorMsg += 'Province ,';
+                    fieldMissing = true;
+                }
+                if(accNew.Trustee_Company__c == null){
+                    errorMsg += 'Trustee Details ,';
+                    fieldMissing = true;
+                }
+                if(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id)) != null && insolAcctIdInsolId.get(accNew.id) != null){
+                    if(trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingStreet == null){
+                        errorMsg += 'Trustee Street ,';
+                        fieldMissing = true;
+                    }
+                    if(trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingCity == null){
+                        errorMsg += 'Trustee City ,';
+                        fieldMissing = true;
+                    }
+                    if(trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingState == null){
+                        errorMsg += 'Trustee State ,';
+                        fieldMissing = true;
+                    }
+                    if(trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingPostalCode == null){
+                        errorMsg += 'Trustee Postal Code ,';
+                        fieldMissing = true;
+                    }
+                }
+                if(accNew.Correlation_ID__c == null){
+                    errorMsg += 'Correlation Id ,';
+                    fieldMissing = true;
+                }
+                errorMsg = errorMsg.removeEnd(' ,');
                 if (
-                    accNew.Insolvency_Received_Date__c == null ||
-                    accNew.name == null ||
-                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Insolvency_Type__c == null ||
-                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_First_Name__c == null ||
-                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Last_Name__c == null ||
-                    accNew.Debtor_1_First_Name__c == null ||
-                    accNew.Debtor_1_Last_Name__c == null ||
-                    accNew.Debtor_1_Mailing_Street__c == null ||
-                    accNew.Debtor_1_Mailing_City__c == null ||
-                    accNew.Province_Formula__c == null ||
-                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Debtor_1_Mailing_Country__c == null ||
-                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).Insolvency_Date__c == null ||
-                    mapInsolData.get(insolAcctIdInsolId.get(accNew.id)).name == null ||
-                    accNew.Trustee_Company__c == null ||
-                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingStreet == null ||
-                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingCity == null ||
-                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingState == null ||
-                    trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingPostalCode == null ||
-                    accNew.Correlation_ID__c == null
+                     fieldMissing == TRUE
                 ) {
                     accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
-                    accNew.Error_Message__c = 'Missing data in one or more mandatory fields.';
+                    accNew.Error_Message__c = errorMsg /*'Missing data in one or more mandatory fields.'*/;
                 }
                 else if(oldMap.get(accNew.id).Insolvency_Status__c!=accNew.Insolvency_Status__c){
                     //CTB Automation: set insolvency account processing status and sub-status
@@ -1769,18 +1834,22 @@ insDetails.add(insDetail);
                     if(accNew.Insolvency_Status__c == 'For Owner Review'){
                         accNew.CTB_Status_Update_Code__c = '';
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
+                        accNew.Error_Message__c = '';
                     }
                     if(accNew.Insolvency_Status__c == 'Discharged'){
                         accNew.CTB_Status_Update_Code__c = 'PCOM';
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
+                        accNew.Error_Message__c = '';
                     }
                     if(accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused' || accNew.Insolvency_Status__c == 'Withdrawn'){
                         accNew.CTB_Status_Update_Code__c = 'RREV';
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
+                        accNew.Error_Message__c = '';
                     }
                     if(accNew.Insolvency__r.Insolvency_Status__c == 'Active' && accNew.Insolvency__r.Revival_Date__c!=null && accNew.Insolvency__r.Revival_Date__c != oldMap.get(accNew.id).Insolvency__r.Revival_Date__c){
                         accNew.CTB_Status_Update_Code__c = '';
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
+                        accNew.Error_Message__c = '';
                     }
                 }
                 else{
