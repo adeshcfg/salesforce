@@ -1735,7 +1735,7 @@ insDetails.add(insDetail);
         for(Account accData : [select id,BillingStreet,BillingCity,BillingState,BillingPostalCode from account where id IN: mapInsolIdTrusteeId.values()]){
             trusteeData.put(accData.id,accData);
         }
-        String errorMsg = 'Fields Required ';
+        String errorMsg = '';
         boolean fieldMissing = false;
         for(Insolvency_Account__c accNew : insolAccntsNew){
             if(insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()){
@@ -1821,6 +1821,7 @@ insDetails.add(insDetail);
                     fieldMissing = true;
                 }
                 errorMsg = errorMsg.removeEnd(' ,');
+                errorMsg += ' are missing';
                 if (
                      fieldMissing == TRUE
                 ) {
