@@ -10,7 +10,6 @@ public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallo
     public void execute(QueueableContext context) {
         try {
             initializeZipFileProcessing();
-            System.scheduleBatch(new ProcessStatementZipFilesBatch(), 'ProcessStatementZipFilesBatch', 15);
         } catch (Exception e) {
             System.debug('Exception in initializeZipFileProcessing ' + e.getStackTraceString());
             CTBFileProcessingQueueable.createInsolvencyError(e.getMessage(), e.getStackTraceString());
@@ -40,8 +39,15 @@ public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallo
             }
             return;
         }
-        // Start zip processing
-        startProcessing(zipFileList);
+        try {
+            // Start Zip file processing
+            startProcessing(zipFileList);
+            // Schedule the next job to process the zip file
+            System.scheduleBatch(new ProcessStatementZipFilesBatch(), 'ProcessStatementZipFilesBatch', 15);
+        } catch (Exception ex) {
+            CTBGetFileApiQueueable.createApiError(ex.getMessage(), ex.getStackTraceString());
+            System.debug('Exception in initializeZipFileProcessing ' + ex.getStackTraceString());
+        }
     }
 
     /**
