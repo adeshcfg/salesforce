@@ -123,7 +123,6 @@ public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallo
         req.setHeader('Content-Type', 'application/json');
         req.setHeader('Content-Length', '2');
         req.setMethod('POST');
-        req.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
         req.setEndpoint(endpoint);
         try {
             HttpResponse res = h.send(req);
