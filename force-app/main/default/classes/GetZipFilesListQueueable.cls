@@ -41,9 +41,11 @@ public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallo
         }
         try {
             // Start Zip file processing
-            startProcessing(zipFileList);
+            List<Document_Storage__c> listDocStorageToInsert = startProcessing(zipFileList);
             // Schedule the next job to process the zip file
-            System.scheduleBatch(new ProcessStatementZipFilesBatch(), 'ProcessStatementZipFilesBatch', 15);
+            if (!listDocStorageToInsert.isEmpty()) {
+                System.scheduleBatch(new ProcessStatementZipFilesBatch(), 'ProcessStatementZipFilesBatch', 15);
+            }
         } catch (Exception ex) {
             CTBGetFileApiQueueable.createApiError(ex.getMessage(), ex.getStackTraceString());
             System.debug('Exception in initializeZipFileProcessing ' + ex.getStackTraceString());
@@ -76,7 +78,7 @@ public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallo
      * @author adesh.ikhar@canaccede.com | 05-28-2024
      * @param zipFileList
      **/
-    public static void startProcessing(List<String> zipFileList) {
+    public static List<Document_Storage__c> startProcessing(List<String> zipFileList) {
         List<Document_Storage__c> listDocStorageToInsert = new List<Document_Storage__c>();
         for (String fileName : zipFileList) {
             String tokenId = getTokenId(fileName);
@@ -95,6 +97,7 @@ public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallo
                 CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
             }
         }
+        return listDocStorageToInsert;
     }
 
     /**
