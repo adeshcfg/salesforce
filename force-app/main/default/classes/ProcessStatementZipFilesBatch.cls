@@ -1,3 +1,9 @@
+/**
+ * @description       : Batch class to process zip and statement files for CTB
+ * @author            : adesh.ikhar@canaccede.com
+ * @last modified on  : 06-06-2024
+ * @last modified by  : adesh.ikhar@canaccede.com
+ **/
 public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
     public Boolean reRunGetStatements = false;
     public List<Document_Storage__c> docStorageToUpdateList = new List<Document_Storage__c>();
@@ -39,6 +45,10 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         }
     }
 
+    /**
+     * @description : Helper method to finish batch job
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     **/
     public void finishHelper() {
         List<SObject> recordsToUpdate = new List<SObject>();
         Statement_Processing_Settings__c stmtProcessingSettings = Statement_Processing_Settings__c.getInstance('Canadian Tire');
@@ -69,6 +79,11 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         }
     }
 
+    /**
+     * @description : Helper method to start processing
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @param docStorageList
+     **/
     public void startProcessing(List<Document_Storage__c> docStorageList) {
         for (Document_Storage__c doc : docStorageList) {
             Map<String, String> statusDocumentIdMap = getStatementsDocId(doc.Token_ID__c);
@@ -89,6 +104,11 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         }
     }
 
+    /**
+     * @description : Create and start Bulk API job processing, map Job Id to document storage record
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @param mapDocumentIdDocStorage
+     **/
     public void startBulkApiJob(Map<String, Document_Storage__c> mapDocumentIdDocStorage) {
         Map<String, Document> idDocumentMap = new Map<String, Document>([SELECT Name, Body FROM Document WHERE Id IN :mapDocumentIdDocStorage.keySet()]);
         Map<String, String> correlationIdAccountIdMap = getCorrelationIdAccountMap(mapDocumentIdDocStorage.keySet());
@@ -103,9 +123,14 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         }
     }
 
+    /**
+     * @description : Check if zip file extraction is complete and get the CSV ContentVersion Id if processing is completed
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @param tokenId
+     * @return Map<String, String>
+     **/
     public static Map<String, String> getStatementsDocId(String tokenId) {
         Map<String, String> statusDocumentIdMap = new Map<String, String>();
-        // Folder downloadFolder = [SELECT Id, Name FROM Folder WHERE Name = 'Metadata_Content' LIMIT 1];
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         String accToken = AzureUtility.getRequestToken('Agency Portal API');
         String endpoint = apiCallDetails.PDF_API_URL__c.replace('Document', 'Background') + 'jobs/' + tokenId;
@@ -136,6 +161,12 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         return statusDocumentIdMap;
     }
 
+    /**
+     * @description : Extract correlation Ids from the file names in CSV
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @param documentIds
+     * @return Map<String, String>
+     **/
     public static Map<String, String> getCorrelationIdAccountMap(Set<String> documentIds) {
         Map<String, String> correlationIdAccountIdMap = new Map<String, String>();
         Set<String> correlationIds = new Set<String>();
@@ -150,7 +181,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
                 // Split the current row into columns
                 List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
                 // To do : get sample csv and map correlation id
-                correlationIds.add(csvColumns[0].substring(0, 15));
+                correlationIds.add(csvColumns[1].substringAfter('/').substring(0, 15));
             }
         }
         for (Insolvency_Account__c acc : [SELECT Id, Correlation_Id__c FROM Insolvency_Account__c WHERE Correlation_Id__c IN :correlationIds]) {
@@ -159,6 +190,13 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         return correlationIdAccountIdMap;
     }
 
+    /**
+     * @description : Map csv fields to wrapper
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @param csvContents
+     * @param correlationIdAccountIdMap
+     * @return List<FileInfo>
+     **/
     public static List<FileInfo> createWrapperList(String csvContents, Map<String, String> correlationIdAccountIdMap) {
         List<FileInfo> fileInfoList = new List<FileInfo>();
         List<String> csvRows = csvContents.split('\n');
@@ -168,12 +206,19 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         for (Integer i = 0; i < csvRows.size(); i++) {
             // Split the current row into columns
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
+            String fileName = csvColumns[1].substringAfter('/');
             // To do : get sample csv and map all fields to fileinfo wrapper
-            fileInfoList.add(new FileInfo(csvColumns[0], csvColumns[0] + csvColumns[1], correlationIdAccountIdMap.get(csvColumns[0].substring(0, 15))));
+            fileInfoList.add(new FileInfo(fileName, csvColumns[1], correlationIdAccountIdMap.get(fileName.substring(0, 15))));
         }
         return fileInfoList;
     }
 
+    /**
+     * @description : Create CSV to upload in Bulk API job
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @param fileInfoList
+     * @return String
+     **/
     public static String createBulkUploadCsv(List<FileInfo> fileInfoList) {
         String detailRow = '';
         for (FileInfo info : fileInfoList) {
@@ -193,6 +238,11 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         return bulkUploadHeader + detailRow;
     }
 
+    /**
+     * @description : Method to create a Bulk API Job and return the Job Id
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @return String
+     **/
     public static String createIngestionJob() {
         String jobId = '';
         HttpRequest request = new HttpRequest();
@@ -218,6 +268,12 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         return jobId;
     }
 
+    /**
+     * @description : Method to upload CSV in the Bulk API Job
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @param jobId
+     * @param csvString
+     **/
     public static void uploadData(String jobId, String csvString) {
         HttpRequest request = new HttpRequest();
         request.setMethod('PUT');
@@ -239,6 +295,11 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         }
     }
 
+    /**
+     * @description : Method to update Bulk API Job status
+     * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @param jobId
+     **/
     public static void updateBulkJobState(String jobId) {
         HttpRequest request = new HttpRequest();
         request.setMethod('PATCH');

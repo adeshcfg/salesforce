@@ -1,3 +1,9 @@
+/**
+ * @description       : Scheduler and Batch class to get and upload success and failure files for CTB statement processing
+ * @author            : adesh.ikhar@canaccede.com
+ * @last modified on  : 06-06-2024
+ * @last modified by  : adesh.ikhar@canaccede.com
+ **/
 public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts {
     public static List<Document_Storage__c> docStorageToUpdateList = new List<Document_Storage__c>();
     public static List<ContentVersion> conVersionToInsertList = new List<ContentVersion>();
