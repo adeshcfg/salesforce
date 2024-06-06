@@ -55,7 +55,7 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
                 if (fileList.files != null && !fileList.files.isEmpty()) {
                     for (String fileName : fileList.files) {
                         // Only add csv files in the list
-                        if (fileName.substring(fileName.length() - 3, fileName.length()) == 'csv') {
+                        if (fileName.substring(fileName.length() - 3, fileName.length()) == fileType) {
                             // Get only the file name from the file path and remove file extension
                             fileNameList.add(fileName.substringAfterLast('/'));
                         }
