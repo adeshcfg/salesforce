@@ -9,7 +9,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
     public List<Document_Storage__c> docStorageToUpdateList = new List<Document_Storage__c>();
     public static Map<String, Document_Storage__c> mapDocumentIdDocStorage = new Map<String, Document_Storage__c>();
     public static String lineBreak = '\n';
-    public static String bulkUploadHeader = 'Document_Name__c,Document_URL__c,Document_Type__c,Document_Extension__c,Statement_Processing_Status__c,Document_Related_To__c, Insolvency_Account_ID__c,Uploaded_By__c,Creator__c,Visibility__c';
+    public static String bulkUploadHeader = 'Document_Name__c,Document_URL__c,Document_Type__c,Document_Extension__c,Statement_Processing_Status__c,Document_Related_To__c,Insolvency_Account__c,Uploaded_By__c,Creator__c,Visibility__c,RecordTypeId';
 
     public Database.Querylocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
@@ -53,8 +53,8 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         List<SObject> recordsToUpdate = new List<SObject>();
         Statement_Processing_Settings__c stmtProcessingSettings = Statement_Processing_Settings__c.getInstance('Canadian Tire');
         stmtProcessingSettings.Number_of_Statements_Attempts__c = stmtProcessingSettings.Number_of_Statements_Attempts__c + 1;
+        recordsToUpdate.add(stmtProcessingSettings);
         if (reRunGetStatements && stmtProcessingSettings.Number_of_Statements_Attempts__c < stmtProcessingSettings.Max_Limit_of_Statements_Attempts__c) {
-            recordsToUpdate.add(stmtProcessingSettings);
             Database.update(recordsToUpdate);
             System.scheduleBatch(new ProcessStatementZipFilesBatch(), 'ProcessStatementZipFilesBatch', 15);
         } else {
@@ -100,7 +100,12 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             mapDocumentIdDocStorage.put(statusDocumentIdMap.get('documentId'), doc);
         }
         if (mapDocumentIdDocStorage != null) {
-            startBulkApiJob(mapDocumentIdDocStorage);
+            try {
+                startBulkApiJob(mapDocumentIdDocStorage);
+            } catch (DmlException ex) {
+                System.debug('DMLException in startBulkApiJob ' + ex.getDmlMessage(0));
+                CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
+            }
         }
     }
 
@@ -110,11 +115,12 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
      * @param mapDocumentIdDocStorage
      **/
     public void startBulkApiJob(Map<String, Document_Storage__c> mapDocumentIdDocStorage) {
+        String insolvRecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('Insolvency').getRecordTypeId();
         Map<String, Document> idDocumentMap = new Map<String, Document>([SELECT Name, Body FROM Document WHERE Id IN :mapDocumentIdDocStorage.keySet()]);
         Map<String, String> correlationIdAccountIdMap = getCorrelationIdAccountMap(mapDocumentIdDocStorage.keySet());
         for (String docId : mapDocumentIdDocStorage.keySet()) {
             List<FileInfo> fileInfoList = createWrapperList(idDocumentMap.get(docId).Body.toString(), correlationIdAccountIdMap);
-            String bulkUploadCsv = createBulkUploadCsv(fileInfoList);
+            String bulkUploadCsv = createBulkUploadCsv(fileInfoList, insolvRecordTypeId);
             String jobId = createIngestionJob();
             uploadData(jobId, bulkUploadCsv);
             mapDocumentIdDocStorage.get(docId).Bulk_API_Job_ID__c = jobId;
@@ -145,6 +151,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             if (res.getStatusCode() == 201) {
                 // To do : update after getting the actual reponse
                 Map<String, Object> respMap = (Map<String, Object>) Json.deserializeUntyped(res.getBody());
+                statusDocumentIdMap.put('documentId', (String) respMap.get('sfFileId'));
             } else if (res.getStatusCode() == 204) {
                 statusDocumentIdMap.put('status', 'Pending Process');
             } else if (res.getStatusCode() == 500) {
@@ -171,7 +178,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         List<Document> filesToProcess = [SELECT Name, Body FROM Document WHERE Id IN :documentIds];
         for (Document fileToProccess : filesToProcess) {
             String csvContents = fileToProccess.Body.toString();
-            List<String> csvRows = csvContents.split('\n');
+            List<String> csvRows = csvContents.split(lineBreak);
             if (csvRows.isEmpty()) {
                 continue;
             }
@@ -196,7 +203,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
      **/
     public static List<FileInfo> createWrapperList(String csvContents, Map<String, String> correlationIdAccountIdMap) {
         List<FileInfo> fileInfoList = new List<FileInfo>();
-        List<String> csvRows = csvContents.split('\n');
+        List<String> csvRows = csvContents.split(lineBreak);
         if (csvRows.isEmpty()) {
             return fileInfoList;
         }
@@ -217,21 +224,40 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
      * @param fileInfoList
      * @return String
      **/
-    public static String createBulkUploadCsv(List<FileInfo> fileInfoList) {
+    public static String createBulkUploadCsv(List<FileInfo> fileInfoList, String insolvRecordTypeId) {
         String detailRow = '';
         for (FileInfo info : fileInfoList) {
             detailRow +=
-                '\n' +
+                lineBreak +
+                '"' +
                 info.docName +
+                '"' +
+                ',' +
+                '"' +
                 info.docUrl +
-                'CTB Statements' +
-                'pdf' +
-                'Processed' +
-                'Insolvency Account' +
+                '"' +
+                ',' +
+                '"CTB Statements"' +
+                ',' +
+                '"pdf"' +
+                ',' +
+                '"Processed"' +
+                ',' +
+                '"Insolvency Account"' +
+                ',' +
+                '"' +
                 info.accId +
-                'System' +
-                'System' +
-                'CFG only';
+                '"' +
+                ',' +
+                '"System"' +
+                ',' +
+                '"System"' +
+                ',' +
+                '"CFG only"' +
+                ',' +
+                '"' +
+                insolvRecordTypeId +
+                '"';
         }
         return bulkUploadHeader + detailRow;
     }
@@ -248,7 +274,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         request.setEndpoint(URl.getOrgDomainUrl().toExternalForm() + '/services/data/v60.0/jobs/ingest');
         request.setHeader('content-type', 'application/json');
         request.setHeader('Authorization', 'Bearer ' + userInfo.getSessionId());
-        String body = '{' + '"operation": "insert",' + '"object": "Document_Storage__c"",' + '}';
+        String body = '{' + '"operation": "insert",' + '"object": "Document_Storage__c",' + '"contentType": "CSV"' + '}';
         request.setBody(body);
         Http h = new Http();
         try {

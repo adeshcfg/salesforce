@@ -118,6 +118,9 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
         }
         try {
             Database.insert(docStorageToCreateList);
+            Statement_Processing_Settings__c stmtProcessingSettings = Statement_Processing_Settings__c.getInstance('Canadian Tire');
+            stmtProcessingSettings.Number_of_Statements_Attempts__c = 0;
+            Database.update(stmtProcessingSettings);
         } catch (DmlException ex) {
             System.debug('DMLException in CTBApiCalloutsQueueable ' + ex.getDmlMessage(0));
             CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());

@@ -4,16 +4,16 @@
  * @last modified on  : 06-06-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
-public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts {
-    public static List<Document_Storage__c> docStorageToUpdateList = new List<Document_Storage__c>();
-    public static List<ContentVersion> conVersionToInsertList = new List<ContentVersion>();
+public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful {
+    public List<Document_Storage__c> docStorageToUpdateList = new List<Document_Storage__c>();
+    public List<ContentVersion> conVersionToInsertList = new List<ContentVersion>();
     public void execute(SchedulableContext sc) {
         Database.executeBatch(new GetSuccessFailedFilesScheduler());
     }
 
     public Database.Querylocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            'SELECT Id, Document_Name__c, Bulk_API_Job_ID__c From Document_Storage__c WHERE CreatedDate = TODAY AND Document_Type__c = \'zip\' AND Statement_Processing_Status__c = \'Processing\''
+            'SELECT Id, Document_Name__c, Bulk_API_Job_ID__c From Document_Storage__c WHERE CreatedDate = TODAY AND Document_Extension__c = \'zip\' AND Statement_Processing_Status__c = \'Processing\''
         );
     }
 
@@ -46,7 +46,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
      * @author adesh.ikhar@canaccede.com | 06-06-2024
      * @param docStorageList
      **/
-    public static void startProcessing(List<Document_Storage__c> docStorageList) {
+    public void startProcessing(List<Document_Storage__c> docStorageList) {
         for (Document_Storage__c doc : docStorageList) {
             if (String.isBlank(doc.Bulk_API_Job_ID__c)) {
                 continue;
@@ -55,8 +55,8 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
             if (bulkJobStatus == 'JobComplete' || bulkJobStatus == 'Failed') {
                 String successCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'successfulResults');
                 String failedCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'failedResults');
-                conVersionToInsertList.add(createConVersion(doc.Document_Name__c, successCsv));
-                conVersionToInsertList.add(createConVersion(doc.Document_Name__c, failedCsv));
+                conVersionToInsertList.add(createConVersion('Success', doc.Document_Name__c, successCsv));
+                conVersionToInsertList.add(createConVersion('Failed', doc.Document_Name__c, failedCsv));
                 doc.Statement_Processing_Status__c = 'Processed';
             } else {
                 doc.Statement_Processing_Status__c = 'Failed';
@@ -87,7 +87,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
             'sobjects/' +
             cvId +
             '/' +
-            CTBGetFileApiQueueable.API_TYPE_PARAMETER +
+            GetZipFilesListQueueable.API_TYPE_PARAMETER +
             '?name=' +
             EncodingUtil.urlEncode(Datetime.now().format('yyyyMMdd') + '/' + fileName, 'UTF-8');
         Http h = new Http();
@@ -114,11 +114,11 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
      * @param csvString
      * @return ContentVersion
      **/
-    public static ContentVersion createConVersion(String fileName, String csvString) {
+    public static ContentVersion createConVersion(String prefix, String fileName, String csvString) {
         ContentVersion contentVersionData = new ContentVersion();
         contentVersionData.ContentLocation = 'S';
         contentVersionData.VersionData = Blob.valueof(csvString);
-        contentVersionData.Title = 'Success' + fileName.remove('.zip');
+        contentVersionData.Title = prefix + '_' + fileName.remove('.zip');
         contentVersionData.PathOnClient = contentVersionData.Title + '.csv';
         return contentVersionData;
     }
