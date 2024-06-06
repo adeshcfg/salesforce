@@ -124,7 +124,6 @@ public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallo
         HttpRequest req = new HttpRequest();
         req.setHeader('Authorization', 'Bearer ' + accToken);
         req.setHeader('Content-Type', 'application/json');
-        req.setHeader('Content-Length', '2');
         req.setMethod('POST');
         req.setEndpoint(endpoint);
         try {
