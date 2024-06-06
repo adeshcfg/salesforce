@@ -2,14 +2,15 @@
  * @description       : Queueable class to get file list and store other API callout methods for incoming file
  * @author            : adesh.ikhar@canaccede.com
  * @group             :
- * @last modified on  : 06-05-2024
+ * @last modified on  : 06-06-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallouts {
     public static final String API_TYPE_PARAMETER = 'incoming_decrypted';
+    public static final String FILE_TYPE_PARAMETER = 'csv';
     public void execute(QueueableContext context) {
         // Call API to get the list of files
-        List<String> fileNameList = getFileList();
+        List<String> fileNameList = getFileList(API_TYPE_PARAMETER, FILE_TYPE_PARAMETER);
         if (!fileNameList.isEmpty()) {
             for (Document_Storage__c doc : [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c IN :fileNameList]) {
                 // Check if we already have document storage record for any file
@@ -35,16 +36,11 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
      * @author adesh.ikhar@canaccede.com | 05-07-2024
      * @return List<String>
      **/
-    public static List<String> getFileList() {
+    public static List<String> getFileList(String type, String fileType) {
         List<String> fileNameList = new List<String>();
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         String accToken = AzureUtility.getRequestToken('Agency Portal API');
-        String endpoint =
-            apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy') +
-            'types/' +
-            API_TYPE_PARAMETER +
-            '?filter=' +
-            Datetime.now().format('yyyyMMdd');
+        String endpoint = apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy') + 'types/' + type + '?filter=' + Datetime.now().format('yyyyMMdd');
         Http h = new Http();
         HttpRequest req = new HttpRequest();
         req.setHeader('Authorization', 'Bearer ' + accToken);
