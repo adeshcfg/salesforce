@@ -715,7 +715,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
                 String payAmount = defPayAmount;
                 if (insolPayData.Payment_Amount__c != null) {
-                    payAmount = String.ValueOf(insolPayData.Payment_Amount__c.setScale(0));
+                    //payAmount = String.ValueOf(insolPayData.Payment_Amount__c.setScale(0));
+                    payAmount = String.ValueOf((insolPayData.Payment_Amount__c * mapCTBFileAuto.get('Insolvency Payment Update').Convert_Dollars_To_Cents__c).setScale(0));
                     payAmount = getSpaceAndZeroAdded(String.ValueOf(payAmount), 9, true, false, false);
                 }
 
@@ -881,7 +882,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 ]) {
                     paymentSumTotal.put(payment.Id, payment);
                     if (payment.Payment_Amount__c <> null) {
-                        paymentAmountSum += (payment.Payment_Amount__c).setScale(0);
+                        paymentAmountSum += (payment.Payment_Amount__c * mapCTBFileAuto.get('Insolvency Payment Update').Convert_Dollars_To_Cents__c).setScale(0);
                     }
                 }
                 paymentAmtSumData = String.valueOf(paymentAmountSum.setScale(0));
