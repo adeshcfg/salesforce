@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class to process zip and statement files for CTB
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-06-2024
+ * @last modified on  : 06-07-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
@@ -212,7 +212,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
             String fileName = csvColumns[1].substringAfter('/');
             if (correlationIdAccountIdMap.containsKey(fileName.substring(0, 15))) {
-                fileInfoList.add(new FileInfo(fileName, csvColumns[1], correlationIdAccountIdMap.get(fileName.substring(0, 15))));
+                fileInfoList.add(new FileInfo(fileName, csvColumns[1], csvColumns[0], correlationIdAccountIdMap.get(fileName.substring(0, 15))));
             }
         }
         return fileInfoList;
@@ -237,7 +237,9 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
                 info.docUrl +
                 '"' +
                 ',' +
-                '"CTB Statements"' +
+                '"' +
+                info.docType +
+                '"' +
                 ',' +
                 '"pdf"' +
                 ',' +
@@ -348,11 +350,13 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
     public class FileInfo {
         public String docName { get; set; }
         public String docUrl { get; set; }
+        public String docType { get; set; }
         public String accId { get; set; }
 
-        public FileInfo(String docName, String docUrl, String accId) {
+        public FileInfo(String docName, String docUrl, String docType, String accId) {
             this.docName = docName;
             this.docUrl = docUrl;
+            this.docType = docType;
             this.accId = accId;
         }
     }
