@@ -44,7 +44,20 @@ public class InsolvencyAccountTriggerHandler {
     
     //Before Insert    
     public static void handleBeforeInsert(List<Insolvency_Account__c> insolAccntsNew) {
-        //for Account number without space 
+        // Default correlation Id, will be set for the first ever CTB account created
+        String correlationId = '0';
+        // Get latest created CTB account
+        List<Insolvency_Account__c> latestCtbAccount = [
+            SELECT Id, Correlation_Id__c
+            FROM Insolvency_Account__c
+            WHERE RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account'
+            ORDER BY CreatedDate DESC
+            LIMIT 1
+        ];
+        if (!latestCtbAccount.isEmpty()) {
+            correlationId = String.valueOf(Integer.valueOf(latestCtbAccount[0].Correlation_Id__c));
+        }
+        //for Account number without space
         for(Insolvency_Account__c accNew : insolAccntsNew){
             if(accNew.Name != NULL) {
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
@@ -65,7 +78,8 @@ public class InsolvencyAccountTriggerHandler {
                 String.isBlank(accNew.Correlation_Id__c) &&
                 insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account'
             ) {
-                accNew.Correlation_Id__c = InsolvencyUtil.generateUniqueHashCode(accNew.Name);
+                accNew.Correlation_Id__c = String.valueOf(Integer.valueOf(correlationId) + 1).leftPad(15, '0');
+                correlationId = accNew.Correlation_Id__c;
             }
             
             //this change is for Insolvency Account Loading and portfolio mapping enhancement
