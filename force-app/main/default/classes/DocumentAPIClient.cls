@@ -677,4 +677,49 @@ public with sharing class DocumentAPIClient {
 
         return parsedResponse.data.id;
     }
+
+    /**
+    * @description : Method to get document created in SF from azure using document type and URL
+    * @author adesh.ikhar@canaccede.com | 06-07-2024 
+    * @param docUrl 
+    * @param docType 
+    * @return String 
+    **/
+    public static String getContentVersionIdForAzureFile(String docUrl, String docType) {
+        String contentVersionId = '';
+        Folder downloadFolder = [SELECT Id, Name FROM Folder WHERE Name = 'Metadata_Content' LIMIT 1];
+        API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
+        String accToken = AzureUtility.getRequestToken('Agency Portal API');
+        String endpoint =
+            apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy') +
+            'sobjects/folders/' +
+            downloadFolder.Id +
+            '?type=' +
+            docType +
+            '&name=' +
+            EncodingUtil.urlEncode(docUrl, 'UTF-8');
+        Http h = new Http();
+        HttpRequest req = new HttpRequest();
+        req.setHeader('Authorization', 'Bearer ' + accToken);
+        req.setHeader('Content-Type', 'application/json');
+        req.setMethod('POST');
+        req.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
+        req.setEndpoint(endpoint);
+        try {
+            HttpResponse res = h.send(req);
+            if (res.getStatusCode() == 200) {
+                DocumentAPIClientUtil.ReverseProxyAPI parsedResponse = new DocumentAPIClientUtil.ReverseProxyAPI();
+                parsedResponse = (DocumentAPIClientUtil.ReverseProxyAPI) System.JSON.deserialize(res.getBody(), DocumentAPIClientUtil.ReverseProxyAPI.class);
+                contentVersionId = parsedResponse.data.id;
+            } else {
+                API_Error__c apiError = new API_Error__c(Action__c = 'API Failed', Error__c = res.getStatusCode() + res.getBody());
+                insert apiError;
+            }
+        } catch (Exception ex) {
+            API_Error__c apiError = new API_Error__c(Action__c = 'API Failed', Error__c = ex.getMessage() + ex.getStackTraceString());
+            insert apiError;
+            System.debug('Exception in getContentVersionIdForAzureFile ' + ex.getStackTraceString());
+        }
+        return contentVersionId;
+    }
 }
