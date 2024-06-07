@@ -1,11 +1,11 @@
 /**
  * @description       : Queueable class to initiate zip file processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-06-2024
+ * @last modified on  : 06-07-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallouts {
-    public static final String API_TYPE_PARAMETER = 'ctb_statements';
+    public static final String API_TYPE_PARAMETER = 'ctb_statement_input';
     public static final String FILE_TYPE_PARAMETER = 'zip';
     public void execute(QueueableContext context) {
         try {
