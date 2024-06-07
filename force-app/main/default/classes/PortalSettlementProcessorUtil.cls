@@ -109,12 +109,16 @@ public class PortalSettlementProcessorUtil {
                 }
               else{
                   Settlement__c settlementData = [select id,name,Approved_By__c,Approved_By__r.name,Approved_Date__c,Rejected_By__c,Rejected_By__r.name,Rejected_Date__c from Settlement__c where Settlement_Number__c =: settlement.Settlement_Number__c];
-                  if(settlementData.Approved_By__c <> NULL && settlementData.Approved_Date__c <> NULL){
+                  if(settlementData.Approved_By__c <> NULL && settlementData.Approved_By__r.name <> 'System API'){
                       settlement.Approved_By_text__c = settlementData.Approved_By__r.name;
+                  }
+                  if(settlementData.Approved_Date__c <> NULL){
                       settlement.Approved_Date__c = settlementData.Approved_Date__c;
                   }
-                  if(settlementData.Rejected_By__c <> NULL && settlementData.Rejected_Date__c <> NULL){
+                  if(settlementData.Rejected_By__c <> NULL && settlementData.Rejected_By__r.name <> 'System API'){
                       settlement.Approved_By_text__c = settlementData.Rejected_By__r.name;
+                  }
+                  if(settlementData.Rejected_Date__c <> NULL){
                       settlement.Rejected_Date__c = settlementData.Rejected_Date__c;
                   }
                   system.debug('settlement::'+settlement);
