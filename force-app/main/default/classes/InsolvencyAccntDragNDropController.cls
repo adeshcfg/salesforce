@@ -104,7 +104,7 @@ global class InsolvencyAccntDragNDropController{
         for(Document_Storage__c docStorageData : docStorageList){
             wrpclass = new wrapperClass();
             if(docStorageData.Document_URL__c <> NULL){
-                filePath = FileUploadToAzureController.uploadDocumentProxy(docStorageData.Document_URL__c);
+                filePath = DocumentAPIClient.getContentVersionIdForAzureFile(docStorageData.Document_URL__c, docStorageData.Document_Type__c);
             }
             if(docStorageData.Document_Type__c <> NULL){
                 wrpclass.documetType = docStorageData.Document_Type__c;
@@ -131,6 +131,7 @@ global class InsolvencyAccntDragNDropController{
 
         //Checking if community user
         isCommunityUser = InsolvencyUtil.isCommunityUser();
+        isLightningCommunity = false;
         if(isCommunityUser) {
             InsolvencyAccntNoteCntrl.getCommunityUrl();
             isLightningCommunity = InsolvencyAccntNoteCntrl.isLightningCommunity;

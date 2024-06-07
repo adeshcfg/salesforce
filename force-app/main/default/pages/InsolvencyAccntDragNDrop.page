@@ -649,7 +649,7 @@
                                                 </td>
                                                 <td style="max-width:250px;">
                                                    <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
-                                                      <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(NOT(isGoeasyBankCommunityUser), "", "none;")}'>
+                                                      <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(NOT(isLightningCommunity), "", "none;")}'>
                                                       <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!att.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!att.Name}</a>
                                                       </span>
                                                       <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(isLightningCommunity, "", "none;")}'>
@@ -686,9 +686,12 @@
                                               <td ></td>
                                               <td style="max-width:250px;">
                                                  <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
-                                                    <span class="slds-m-left_xx-small slds-truncate" title="{!docAtt.documetName}" >
-                                                        <a href="#" onclick='window.open("{!docAtt.fileIds}", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!docAtt.documetName}</a>
+                                                    <span class="slds-m-left_xx-small slds-truncate" title="{!docAtt.documetName}" style ='display:{!IF(NOT(isLightningCommunity), "", "none;")}'>
+                                                        <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!docAtt.fileIds}", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!docAtt.documetName}</a>
                                                      </span>
+                                                     <span class="slds-m-left_xx-small slds-truncate" title="{!docAtt.documetName}" style ='display:{!IF(isLightningCommunity, "", "none;")}'>
+                                                      <a href="{!urlPathPrefix}servlet/servlet.FileDownload?file={!docAtt.fileIds}" target="_blank" ></a>
+                                                   </span>
                                                  </li>
                                               </td>
                                               <td>
