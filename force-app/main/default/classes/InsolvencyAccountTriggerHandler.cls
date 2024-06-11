@@ -55,7 +55,7 @@ public class InsolvencyAccountTriggerHandler {
             SELECT Id, Correlation_Id__c
             FROM Insolvency_Account__c
             WHERE RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account'
-            ORDER BY CreatedDate DESC
+            ORDER BY Correlation_Id__c DESC
             LIMIT 1
         ];
         if (!latestCtbAccount.isEmpty()) {
