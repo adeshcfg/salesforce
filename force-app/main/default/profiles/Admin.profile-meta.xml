@@ -21259,7 +21259,7 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Document_Storage__c.Insolvency</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
