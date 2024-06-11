@@ -41,9 +41,13 @@ public class InsolvencyAccountTriggerHandler {
         cIRTMap.put('Goeasy_Insolvency_Account', 'Goeasy');
         cIRTMap.put('Canadian_Tire_Insolvency_Account', 'Canadian Tire');
     }
-    
-    //Before Insert    
-    public static void handleBeforeInsert(List<Insolvency_Account__c> insolAccntsNew) {
+
+    /**
+    * @description : Method to get latest correlation Id
+    * @author adesh.ikhar@canaccede.com | 06-11-2024 
+    * @return String 
+    **/
+    public static String getLatestCorrelationId() {
         // Default correlation Id, will be set for the first ever CTB account created
         String correlationId = '0';
         // Get latest created CTB account
@@ -57,6 +61,13 @@ public class InsolvencyAccountTriggerHandler {
         if (!latestCtbAccount.isEmpty()) {
             correlationId = String.valueOf(Integer.valueOf(latestCtbAccount[0].Correlation_Id__c));
         }
+        return correlationId;
+    }
+    
+    //Before Insert    
+    public static void handleBeforeInsert(List<Insolvency_Account__c> insolAccntsNew) {
+        // Default correlation Id, will be set for the first ever CTB account created
+        String correlationId = getLatestCorrelationId();
         //for Account number without space
         for(Insolvency_Account__c accNew : insolAccntsNew){
             if(accNew.Name != NULL) {
@@ -476,7 +487,7 @@ public class InsolvencyAccountTriggerHandler {
         for(Insolvency__c insol : dbInsolList ){
             insolMap.put(insol.id, insol);
         }
-        
+        String correlationId = getLatestCorrelationId();
         for(Insolvency_Account__c accNew : insolAccntsNew){
             Insolvency_Account__c insolAccntNew = insolAccntsNew[0];
             Insolvency_Account__c insolAccntOld = oldMap.get(insolAccntNew.id);
@@ -488,9 +499,16 @@ public class InsolvencyAccountTriggerHandler {
                     insolAccntOld.Insolvency_Status__c == 'No PoC Required' || 
                     insolAccntOld.Insolvency_Status__c == 'Trustee Followup'){  
                         Insolvency__c dbInsol = insolMap.get(insolAccntnew.Insolvency__c);
-                        
                         insolAccntnew.Client_Identifier__c = getClientIdentifierBasedOnRecordType(insolAccntNew.recordTypeId);
-                        
+                        // Populate correlation Id if record type was updated to CTB
+                        if(insAccntRecorTypeMap.get(insolAccntnew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
+                            insolAccntnew.Correlation_Id__c = String.valueOf(Integer.valueOf(correlationId) + 1).leftPad(15, '0');
+                            correlationId = accNew.Correlation_Id__c;
+                        }
+                        // Remove correlation Id if record type was changed from CTB
+                        if(insAccntRecorTypeMap.get(insolAccntOld.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
+                            insolAccntnew.Correlation_Id__c = null;
+                        }
                         //Utility Method to Fetch Owner
                         try{
                             insolAccntnew.OwnerID = InsolvencyUtil.fetchOwner(insolAccntNew, dbInsol);
