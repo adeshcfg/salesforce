@@ -1,7 +1,7 @@
 /**
  * @description       : Scheduler and Batch class to get and upload success and failure files for CTB statement processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-06-2024
+ * @last modified on  : 06-11-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful {
@@ -52,12 +52,13 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
                 continue;
             }
             String bulkJobStatus = getJobStatus(doc.Bulk_API_Job_ID__c);
-            if (bulkJobStatus == 'JobComplete' || bulkJobStatus == 'Failed') {
+            doc.Statement_Processing_Status__c = 'Processed';
+            if (bulkJobStatus == 'JobComplete') {
                 String successCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'successfulResults');
-                String failedCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'failedResults');
                 conVersionToInsertList.add(createConVersion('Success', doc.Document_Name__c, successCsv));
+            } else if (bulkJobStatus == 'Failed') {
+                String failedCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'failedResults');
                 conVersionToInsertList.add(createConVersion('Failed', doc.Document_Name__c, failedCsv));
-                doc.Statement_Processing_Status__c = 'Processed';
             } else {
                 doc.Statement_Processing_Status__c = 'Failed';
             }
