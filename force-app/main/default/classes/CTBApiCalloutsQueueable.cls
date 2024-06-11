@@ -108,6 +108,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
             Document_Storage__c docInfo = new Document_Storage__c(
                 Document_Name__c = cv.PathOnClient,
                 Document_Type__c = 'Statement Result File',
+                Statement_Processing_Status__c = 'Processed',
                 Document_Extension__c = 'csv',
                 Uploaded_By__c = 'System',
                 Creator__c = 'System',
