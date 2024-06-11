@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 05-31-2024
+ * @last modified on  : 06-11-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -156,7 +156,8 @@ public with sharing class CTBFileValidationUtility {
         if (status == 'Failed') {
             CTBFileValidationUtility.sendEmail(
                 'CTB Account file processing failed',
-                'File processing failed for ' + docStorage.Document_Name__c + '\n' + 'Error - ' + errorMessage
+                'File processing failed for ' + docStorage.Document_Name__c + '\n' + 'Error - ' + errorMessage,
+                System.Label.CTB_File_Processing_Emails
             );
         }
         return docStorage;
@@ -372,8 +373,15 @@ public with sharing class CTBFileValidationUtility {
         }
     }
 
-    public static void sendEmail(String subject, String htmlBody) {
-        String userEmail = UserInfo.getUserEmail() + ',' + System.Label.CTB_File_Processing_Emails;
+    /**
+     * @description : Method to send email to passed emails with given subject and body
+     * @author adesh.ikhar@canaccede.com | 06-11-2024
+     * @param subject
+     * @param htmlBody
+     * @param commaSeparatedEmails
+     **/
+    public static void sendEmail(String subject, String htmlBody, String commaSeparatedEmails) {
+        String userEmail = UserInfo.getUserEmail() + ',' + commaSeparatedEmails;
         List<String> lstEmail = userEmail.split(',');
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         mail.setToAddresses(lstEmail);

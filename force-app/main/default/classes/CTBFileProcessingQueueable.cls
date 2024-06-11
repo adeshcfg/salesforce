@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 06-04-2024
+ * @last modified on  : 06-11-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -202,7 +202,11 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
             docStorage.File_Processing_Status__c = 'Processed';
         }
         docStorage.Comment__c = 'Success Records : ' + String.valueOf(successRecordCount) + '\n' + 'Failed Records : ' + String.valueOf(failedRecordCount);
-        CTBFileValidationUtility.sendEmail('CTB Account file successfully processed', 'File ' + docStorage.Document_Name__c + ' was successfully processed');
+        CTBFileValidationUtility.sendEmail(
+            'CTB Account file successfully processed',
+            'File ' + docStorage.Document_Name__c + ' was successfully processed',
+            System.Label.CTB_File_Processing_Emails
+        );
         // Update doc storage with processing status and error message if failed
         update docStorage;
     }
@@ -241,7 +245,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         Insolvency_Error__c insolErrorData = new Insolvency_Error__c();
         insolErrorData.Error__c = 'File processing failed due to' + '\n' + errorMsg + ' ' + stackTrace;
         Database.insert(insolErrorData);
-        CTBFileValidationUtility.sendEmail('CTB Account file processing failed', insolErrorData.Error__c);
+        CTBFileValidationUtility.sendEmail('CTB Account file processing failed', insolErrorData.Error__c, System.Label.CTB_File_Processing_Emails);
     }
 
     /**

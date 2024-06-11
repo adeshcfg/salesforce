@@ -260,6 +260,13 @@
         <value>adesh.ikhar@canaccede.com</value>
     </labels>
     <labels>
+        <fullName>CTB_Statement_Processing_Emails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CTB_File_Processing_Emails</shortDescription>
+        <value>sulbha.konodia@canaccede.com</value>
+    </labels>
+    <labels>
         <fullName>Trustee_Follow_Up_Record_Types</fullName>
         <language>en_US</language>
         <protected>false</protected>

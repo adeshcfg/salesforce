@@ -2,7 +2,7 @@
  * @description       : Queueable class to get file list and store other API callout methods for incoming file
  * @author            : adesh.ikhar@canaccede.com
  * @group             :
- * @last modified on  : 06-06-2024
+ * @last modified on  : 06-11-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallouts {
@@ -26,7 +26,8 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
         } else {
             CTBFileValidationUtility.sendEmail(
                 'Account files processing status : No files processed',
-                'No files were found on the server to process or all the files are already processed for today'
+                'No files were found on the server to process or all the files are already processed for today',
+                System.Label.CTB_File_Processing_Emails
             );
         }
     }
@@ -129,6 +130,10 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
     public static void createApiError(String exceptionMsg, String stackTraceString) {
         API_Error__c apiError = new API_Error__c(Action__c = 'API Failed', Error__c = exceptionMsg + stackTraceString);
         insert apiError;
-        CTBFileValidationUtility.sendEmail('CTB Account file processing failed', 'API Failed with error - ' + apiError.Error__c);
+        CTBFileValidationUtility.sendEmail(
+            'CTB Account file processing failed',
+            'API Failed with error - ' + apiError.Error__c,
+            System.Label.CTB_File_Processing_Emails
+        );
     }
 }

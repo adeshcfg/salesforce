@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class to process zip and statement files for CTB
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-07-2024
+ * @last modified on  : 06-11-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
@@ -58,12 +58,14 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             Database.update(recordsToUpdate);
             System.scheduleBatch(new ProcessStatementZipFilesBatch(), 'ProcessStatementZipFilesBatch', 15);
         } else {
+            String failedFilesString = '';
             for (Document_Storage__c doc : [
-                SELECT Id
+                SELECT Id, Document_Name__c
                 FROM Document_Storage__c
                 WHERE Statement_Processing_Status__c = 'Pending Process' OR Statement_Processing_Status__c = 'In Progress'
             ]) {
                 doc.Statement_Processing_Status__c = 'Failed';
+                failedFilesString += ', ' + doc.Document_Name__c;
                 recordsToUpdate.add(doc);
             }
             if (!recordsToUpdate.isEmpty()) {
@@ -71,6 +73,12 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
                     DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
                     Database.update(recordsToUpdate);
                     DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+                    String errorMessage = 'Zip file processing failed for - ' + failedFilesString;
+                    CTBFileValidationUtility.sendEmail(
+                        'Statement zip file processing failed',
+                        errorMessage.removeStart(','),
+                        System.Label.CTB_Statement_Processing_Emails
+                    );
                 } catch (DmlException ex) {
                     System.debug('DMLException in ProcessStatementZipFilesBatch ' + ex.getDmlMessage(0));
                     CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
