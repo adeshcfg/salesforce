@@ -107,7 +107,7 @@ global class InsolvencyAccntDragNDropController{
                 filePath = DocumentAPIClient.getContentVersionIdForAzureFile(docStorageData.Document_URL__c, docStorageData.Document_Type__c);
             }
             if(docStorageData.Document_Type__c <> NULL){
-                wrpclass.documetType = docStorageData.Document_Type__c;
+                wrpclass.documetType = 'Account Statement';
             }
             if(docStorageData.Document_Name__c <> NULL){
                 wrpclass.documetName = docStorageData.Document_Name__c;
