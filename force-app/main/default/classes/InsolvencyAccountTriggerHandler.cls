@@ -466,7 +466,7 @@ public class InsolvencyAccountTriggerHandler {
             insolAccountIdInsolId.put(accNew.id,accNew.Insolvency__c);
             
         }
-        updateProcessingSubStatus(insolAccntsNew,oldMap,insolAccountIdInsolId);
+        
         set<Id> insolIdSet = new set<Id>();
         for(Insolvency_Account__c insolAccntnew : insolAccntsNew){
             insolIdSet.add(insolAccntnew.Insolvency__c);
@@ -524,7 +524,7 @@ public class InsolvencyAccountTriggerHandler {
             }
             
         }
-        
+        updateProcessingSubStatus(insolAccntsNew,oldMap,insolAccountIdInsolId);
         //Duplicate Check
         if(config.Run_Insolvency_Account_Duplicate_Check__c){
             
