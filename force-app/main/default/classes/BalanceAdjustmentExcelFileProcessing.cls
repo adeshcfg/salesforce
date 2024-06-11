@@ -14,7 +14,8 @@
     static String PAYTYPE_REVERSAL = '1003';
     static String PAYTYPE_SETTLED_IN_FULL = '1002';
     static String PAYTYPE_PAID_IN_FULL = '1001';
-	
+    static String BAL_ADJ_PAYTYPE_REVERSAL = '8003';
+    static String BALANCE_ADJUSTMENT = '8000';
     public boolean RogersFile = false;
 
     ID documentId;
@@ -371,6 +372,7 @@
         map<String, String> mapAccountPrimaryNumber
     ) {
         map<String, ID> setOldTransaction = new Map<String, ID>();
+        map<String, ID> setOldReversalTransaction = new Map<String, ID>();
         map<String, Decimal> mapOldTransactionCount = new Map<String, Decimal>();
 
         set<ID> alreadyReversedPayments = new Set<ID>();
@@ -382,17 +384,26 @@
             mapPlacementNames.put(place.Name, place);
         }
         for (Product_Payments__c oldPay : [
-            SELECT ID, CCS_Account__r.Name, Payment_Type__c, Payment_Amount__c, Payment_Posting_Date__c, Payment_Posting_Date_Text__c
+            SELECT ID, CCS_Account__r.Name, Payment_Type__c, Payment_Amount__c,Interest_Payment_Amount__c,Principal_Payment_Amount__c, Payment_Posting_Date__c, Payment_Posting_Date_Text__c
             FROM Product_Payments__c
             WHERE CCS_Account__c IN :mapProduct.keySet()
         ]) {
             String payAmount = '';
+            Decimal pricipalPayAmount = 0;
+            Decimal interestPayAmount = 0;
             if (oldPay.Payment_Amount__c != null) {
                 oldPay.Payment_Amount__c = oldPay.Payment_Amount__c.setScale(2, RoundingMode.HALF_UP);
                 payAmount = String.valueOf(oldPay.Payment_Amount__c);
             }
-
+			if (oldPay.Interest_Payment_Amount__c != null) {
+                interestPayAmount = oldPay.Interest_Payment_Amount__c.setScale(2, RoundingMode.HALF_UP);
+            }
+            if (oldPay.Principal_Payment_Amount__c != null) {
+                pricipalPayAmount = oldPay.Principal_Payment_Amount__c.setScale(2, RoundingMode.HALF_UP);
+            }
+			
             setOldTransaction.put(payAmount + '' + oldPay.Payment_Type__c + oldPay.Payment_Posting_Date_Text__c + oldPay.CCS_Account__c, oldPay.ID);
+            setOldReversalTransaction.put(pricipalPayAmount + '' +interestPayAmount + oldPay.Payment_Type__c + oldPay.Payment_Posting_Date_Text__c + oldPay.CCS_Account__c, oldPay.ID);
         }
 
         Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
@@ -458,7 +469,8 @@
             Boolean showCommissionExpectedMessage = true;
             ERROR_MSG = '';
             EXPECTED = '';
-
+			String originalPaymentType = '';
+            
             productAgency = '';
             productAgencyID = null;
             prodPayStatus = '';
@@ -549,7 +561,36 @@
             ) {
                 ERROR_MSG += '<b>WARNING</b> - A duplicate transaction was found in this File Update.<br/>';
             }
-
+            if(prodPayment.Payment_Amount__c <= 0 && prodPayment.Payment_Type__c != BAL_ADJ_PAYTYPE_REVERSAL){
+                ERROR_MSG += '<b>ERROR - </b>Payment type should be 80003.<br/>';
+            }
+            if(prodPayment.Payment_Amount__c <= 0 && prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL
+              && (prodPayment.Principal_Payment_Amount__c > 0 || prodPayment.Interest_Payment_Amount__c > 0 )){
+                ERROR_MSG += '<b>ERROR - </b>Transaction pay principal or pay interest not correct.<br/>';
+                EXPECTED += 'Amount should be in negative.<br/>';
+            }
+            if(prodPayment.Payment_Amount__c > 0 && prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL){
+                ERROR_MSG += '<b>ERROR - </b>Transaction amount should be in negative.<br/>';
+            }
+            if (prodPayment.Payment_Posting_Date__c != null && prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL) {
+                if (prodPayment.Payment_Amount__c <= 0) {
+                    Decimal pricipalPayAmount = prodPayment.Principal_Payment_Amount__c * -1;
+                    pricipalPayAmount = pricipalPayAmount.setScale(2, RoundingMode.HALF_UP);
+                    Decimal interestPayAmount = prodPayment.Interest_Payment_Amount__c * -1;
+                    interestPayAmount = interestPayAmount.setScale(2, RoundingMode.HALF_UP);
+                    
+                    // Check if we have a valid payment to reverse for 8000 payment type
+                    if ( setOldReversalTransaction.containsKey(pricipalPayAmount + '' + interestPayAmount + BALANCE_ADJUSTMENT + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c)  
+                    ) {
+                        originalPaymentType = BALANCE_ADJUSTMENT;
+                    }
+                    if (String.isBlank(originalPaymentType)) {
+                        ERROR_MSG += '<b>ERROR - </b>A corresponding Payment was not found for this reversal.<br/>';
+                    }else{
+                        prodPayment.Original_Of_Payment_Reversal__c = setOldReversalTransaction.get(pricipalPayAmount + '' + interestPayAmount + BALANCE_ADJUSTMENT + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c);
+                    }
+                }
+            }
             if (!mapProduct.containsKey(prodPayment.CCS_Account__c)) {
                 ERROR_MSG = '<b>ERROR</b> - Account not found.<br/>';
             }
@@ -600,7 +641,7 @@
                 RogersFile == true &&
                 String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
                 prodPayment.Direct_Payment_Type__c == 'Balance adjustment due for Equipment Return' &&
-                prodPayment.Payment_Type__c != '8000'
+                (prodPayment.Payment_Type__c != '8000' && prodPayment.Payment_Type__c != '8003')
             ) {
                 ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type for Balance adjustment due for Equipment Return.<br/>';
             }
