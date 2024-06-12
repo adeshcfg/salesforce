@@ -228,7 +228,6 @@
 
     //Execute Method
     public void execute(Database.BatchableContext BC, List<Product__c> scope) {
-        system.debug('scope@@'+scope);
         List<Product__c> listOfProductsToUpdate = new List<Product__c>();
         map<Id, Product__c> mapProduct = new Map<Id, Product__c>();
         Set<Id> prodCustomerIds = new Set<Id>();
@@ -379,7 +378,7 @@
                     }
                 } 
         }
-        system.debug('mapProductExcluse@@'+mapProductExcluse);
+
         //check active judgment present on product
         List<Account_Judgment__c> accountJudgment = [
             SELECT ID, Name, Product__c, Judgment__c, Judgment__r.Legal_Status__c, Judgment__r.Legal_Sub_Status__c
@@ -404,20 +403,20 @@
                     mapProductExcluse.put(prodRecData.id, true);
                 }
             }
-            system.debug('mapProductExcluse##'+mapProductExcluse);
+
             //if complaint created in reporting month and also product has another complaint present which is 
             //created before reporting month then dont report that account.
             if(prodCustomComptCount.contains(prodRecData.id)){
                 mapProductExcluse.put(prodRecData.id, true);
             }
-            system.debug('mapProductExcluse!!'+mapProductExcluse);
+           
             //if complaint not created in reporting month then dont report that account.
             if(!mapProductCompCount.containskey(prodRecData.id) 
                && prodRecData.Number_Of_Open_Complaint__c != 0 && prodRecData.Number_Of_Open_Complaint__c != NULL){
                 
                 mapProductExcluse.put(prodRecData.id, true);
             }
-            system.debug('mapProductExcluse::'+mapProductExcluse);
+            
             listOfProductIds.add(prodRecData.id);
 
             Date chargeOffDate;
@@ -439,7 +438,7 @@
                         }
                     }
                 }
-                system.debug('mapProductExcluse=='+mapProductExcluse);
+               
             } else {
                 Integer numberOfPeriods;
                 if (
@@ -458,7 +457,7 @@
                         }
                     }
                 }
-                system.debug('mapProductExcluse&&'+mapProductExcluse);
+                
             }
         }
         //Get sum of product payment amount of product
