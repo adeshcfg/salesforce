@@ -562,7 +562,7 @@
                 ERROR_MSG += '<b>WARNING</b> - A duplicate transaction was found in this File Update.<br/>';
             }
             if(prodPayment.Payment_Amount__c <= 0 && prodPayment.Payment_Type__c != BAL_ADJ_PAYTYPE_REVERSAL){
-                ERROR_MSG += '<b>ERROR - </b>Payment type should be 80003.<br/>';
+                ERROR_MSG += '<b>ERROR - </b>Payment type should be 8003.<br/>';
             }
             if(prodPayment.Payment_Amount__c <= 0 && prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL
               && (prodPayment.Principal_Payment_Amount__c > 0 || prodPayment.Interest_Payment_Amount__c > 0 )){
