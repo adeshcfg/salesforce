@@ -7,39 +7,37 @@
  *  @date : 30-Dec-2017
  
  *************************************************************************************************/
-global class InsolvencyAccntDragNDropController{
-    
-    // Remote action to fetch record information    
+global class InsolvencyAccntDragNDropController {
+    // Remote action to fetch record information
     @RemoteAction
-    global static Insolvency_Account__c getRecordInfo(Id recordid){
-        return [SELECT RecordType.Name , Name FROM Insolvency_Account__c WHERE Id=: recordid ];
+    global static Insolvency_Account__c getRecordInfo(Id recordid) {
+        return [SELECT RecordType.Name, Name FROM Insolvency_Account__c WHERE Id = :recordid];
     }
-    
-    public String description {set;get;}
-    public List<Attachment> attList {set;get;}
-    public List<Attachment> insolvAttList {set;get;}
-    public List<wrapperClass> downloadFile {set;get;}
-    public String urlPathPrefix {get;set;}
-    public Boolean isLightningCommunity {get;set;}
-    public Insolvency_Account__c insAcc{set;get;}
-    public Id selectedAttId {set;get;}
-    public Boolean isCommunityReadOnlyUser {set; get;}
-    public Boolean isGoeasyBankCommunityUser {set; get;}
+    public String description { get; set; }
+    public List<Attachment> attList { get; set; }
+    public List<Attachment> insolvAttList { get; set; }
+    public List<wrapperClass> downloadFile { get; set; }
+    public String urlPathPrefix { get; set; }
+    public Boolean isLightningCommunity { get; set; }
+    public Insolvency_Account__c insAcc { get; set; }
+    public Id selectedAttId { get; set; }
+    public Boolean isCommunityReadOnlyUser { get; set; }
+    public Boolean isGoeasyBankCommunityUser { get; set; }
     //Added for 5195
-    public Boolean isScotiaBankCommunityUser {set; get;}
-    public Boolean isSDABankCommunityUser {set; get;}
-    public Boolean isFairstoneBankCommunityUser {set; get;}
-    public Boolean isCanadianTireCommunityUser {set; get;}
+    public Boolean isScotiaBankCommunityUser { get; set; }
+    public Boolean isSDABankCommunityUser { get; set; }
+    public Boolean isFairstoneBankCommunityUser { get; set; }
+    public Boolean isCanadianTireCommunityUser { get; set; }
     //Ends 5195
-    public Boolean isCommunityUser {set; get;}
-    public Boolean isEasyFinanacial {set;get;}
+    public Boolean isCommunityUser { get; set; }
+    public Boolean isEasyFinanacial { get; set; }
 
-    public static List<SelectOption> getAllDocumentOptions(){
+    public static List<SelectOption> getAllDocumentOptions() {
         Schema.DescribeFieldResult insolAccDocumenttype = Insolvency_Account__c.Insolvency_Account_Document_Type__c.getDescribe();
         List<Schema.PicklistEntry> insolAccDocTypeValues = insolAccDocumenttype.getPicklistValues();
 
         List<SelectOption> docOptions = new List<SelectOption>();
-        for(schema.PicklistEntry values : insolAccDocTypeValues ){
+        for (schema.PicklistEntry values : insolAccDocTypeValues) {
             docOptions.add(new SelectOption(values.getLabel(), values.getValue()));
         }
         /*
@@ -58,84 +56,109 @@ global class InsolvencyAccntDragNDropController{
         */
         return docOptions;
     }
-    
+
     //Utility method to populate Attachment types
     public static List<SelectOption> getDocumentOptions() {
         List<SelectOption> docOptions = new List<SelectOption>();
-        docOptions.add(new SelectOption('','--None--'));
+        docOptions.add(new SelectOption('', '--None--'));
         docOptions.addAll(getAllDocumentOptions());
         return docOptions;
     }
-    
+
     //Utility method to populate Attachment types
     public static List<SelectOption> getFileDocumentOptions() {
         List<SelectOption> docOptions = new List<SelectOption>();
         docOptions.addAll(getAllDocumentOptions());
         return docOptions;
     }
-    
-   
+
     // Fetch all attachments related to Insolvency
-    public void refreshAttList(){
-        attList = [SELECT Id, Name,Description,createdbyid,owner.Name, CreatedDate, LastModifiedDate, ParentID FROM Attachment WHERE ParentId =: ApexPages.currentPage().getPArameters().get('Id') ORDER BY CreatedDate DESC];
-        system.debug('---'+attList);
+    public void refreshAttList() {
+        attList = [
+            SELECT Id, Name, Description, createdbyid, owner.Name, CreatedDate, LastModifiedDate, ParentID
+            FROM Attachment
+            WHERE ParentId = :ApexPages.currentPage().getPArameters().get('Id')
+            ORDER BY CreatedDate DESC
+        ];
+        system.debug('---' + attList);
     }
-    
+
     // To update document type of an attachment
-    public void updateAtList(){
+    public void updateAtList() {
         update attList;
     }
-    
+
+    /**
+     * @description : Method to get content version id uploaded and return
+     * @author adesh.ikhar@canaccede.com | 06-12-2024
+     * @param selectedDocId
+     * @param insAccId
+     * @return String
+     **/
+    @RemoteAction
+    global static String getDocumentId(String selectedDocId, String insAccId) {
+        List<Document_Storage__c> docStorageList = [
+            SELECT Id, Name, Document_Type__c, Document_Name__c, Document_URL__c, createdBy.name, LastModifiedDate, CreatedDate
+            FROM Document_Storage__c
+            WHERE Insolvency_Account__c = :insAccId AND Document_Name__c = :selectedDocId
+            LIMIT 1
+        ];
+        String conVerId = DocumentAPIClient.getContentVersionIdForAzureFile(docStorageList[0].Document_URL__c, docStorageList[0].Document_Type__c);
+        return conVerId;
+    }
+
     // controller to load attachments
     public InsolvencyAccntDragNDropController(ApexPages.StandardController controller) {
-        insAcc = (Insolvency_Account__c )controller.getRecord();
-        insAcc = [SELECT Insolvency__c,RecordType.Name FROM Insolvency_Account__c WHERE Id =: insAcc.Id];
-        
+        insAcc = (Insolvency_Account__c) controller.getRecord();
+        insAcc = [SELECT Insolvency__c, RecordType.Name FROM Insolvency_Account__c WHERE Id = :insAcc.Id];
+
         insolvAttList = new List<Attachment>();
-        insolvAttList = [SELECT Id, Name,owner.name, Description, CreatedDate, LastModifiedDate, ParentID FROM Attachment WHERE ParentID =: insAcc.Insolvency__c AND Description='Creditors Package'];
-        
+        insolvAttList = [
+            SELECT Id, Name, owner.name, Description, CreatedDate, LastModifiedDate, ParentID
+            FROM Attachment
+            WHERE ParentID = :insAcc.Insolvency__c AND Description = 'Creditors Package'
+        ];
+
         List<Document_Storage__c> docStorageList = new List<Document_Storage__c>();
-        docStorageList = [SELECT Id, Name,Document_Type__c,Document_Name__c,Document_URL__c,createdBy.name,LastModifiedDate,CreatedDate FROM Document_Storage__c WHERE Insolvency_Account__c =: insAcc.Id ];
-       	
+        docStorageList = [
+            SELECT Id, Name, Document_Type__c, Document_Name__c, Document_URL__c, createdBy.name, LastModifiedDate, CreatedDate
+            FROM Document_Storage__c
+            WHERE Insolvency_Account__c = :insAcc.Id
+        ];
+
         wrapperClass wrpclass = new wrapperClass();
-        downloadFile = new list<wrapperClass>();
+        downloadFile = new List<wrapperClass>();
         String filePath = '';
-        
-        for(Document_Storage__c docStorageData : docStorageList){
+
+        for (Document_Storage__c docStorageData : docStorageList) {
             wrpclass = new wrapperClass();
-            if(docStorageData.Document_URL__c <> NULL){
-                filePath = DocumentAPIClient.getContentVersionIdForAzureFile(docStorageData.Document_URL__c, docStorageData.Document_Type__c);
-            }
-            if(docStorageData.Document_Type__c <> NULL){
+            if (docStorageData.Document_Type__c <> null) {
                 wrpclass.documetType = 'Account Statement';
             }
-            if(docStorageData.Document_Name__c <> NULL){
+            if (docStorageData.Document_Name__c <> null) {
                 wrpclass.documetName = docStorageData.Document_Name__c;
             }
-            if(docStorageData.CreatedDate <> NULL){
+            if (docStorageData.CreatedDate <> null) {
                 wrpclass.createdDate = docStorageData.CreatedDate;
             }
-            if(docStorageData.createdBy.name <> NULL){
+            if (docStorageData.createdBy.name <> null) {
                 wrpclass.createdBy = docStorageData.createdBy.name;
             }
-            if(docStorageData.LastModifiedDate <> NULL){
+            if (docStorageData.LastModifiedDate <> null) {
                 wrpclass.LastModifiedDate = docStorageData.LastModifiedDate;
-            }
-            if(filePath <> NULL){
-                wrpclass.fileIds = filePath;
             }
             downloadFile.add(wrpclass);
         }
-        
+
         refreshAttList();
 
         //Checking if community user
         isCommunityUser = InsolvencyUtil.isCommunityUser();
         isLightningCommunity = false;
-        if(isCommunityUser) {
+        if (isCommunityUser) {
             InsolvencyAccntNoteCntrl.getCommunityUrl();
             isLightningCommunity = InsolvencyAccntNoteCntrl.isLightningCommunity;
-            if(isLightningCommunity) {
+            if (isLightningCommunity) {
                 urlPathPrefix = InsolvencyAccntNoteCntrl.isProduction ? '/' : '/' + InsolvencyAccntNoteCntrl.urlPathPrefix + '/';
             }
         }
@@ -147,39 +170,36 @@ global class InsolvencyAccntDragNDropController{
         isCanadianTireCommunityUser = InsolvencyUtil.isCanadianTireCommunityUser(UserInfo.getProfileId());
         //Ends 5195
         //Checking if read only community user
-        isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser(); 
-     
+        isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser();
     }
-    
+
     //Utility method to return user time zone offset
-    public Double offset{
-        get
-        {
+    public Double offset {
+        get {
             TimeZone tz = UserInfo.getTimeZone();
             //Milliseconds to Day
             return tz.getOffset(DateTime.now()) / (1000 * 3600 * 24.0);
         }
-    } 
-    
+    }
+
     //Delete Attchments
-    public void deleteAttachment(){
-        try{
-            for(Attachment att :  attList){
-                if(att.Id == selectedAttId )
+    public void deleteAttachment() {
+        try {
+            for (Attachment att : attList) {
+                if (att.Id == selectedAttId)
                     delete att;
             }
             refreshAttList();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             refreshAttList();
         }
     }
-    
-    public class wrapperClass{
-        public string documetType {set;get;}
-        public string documetName {set;get;}
-        public DateTime createdDate {set;get;}
-        public string createdBy {set;get;}
-        public DateTime LastModifiedDate {set;get;}
-        public String fileIds {set;get;}
+
+    public class wrapperClass {
+        public string documetType { get; set; }
+        public string documetName { get; set; }
+        public DateTime createdDate { get; set; }
+        public string createdBy { get; set; }
+        public DateTime LastModifiedDate { get; set; }
     }
 }
