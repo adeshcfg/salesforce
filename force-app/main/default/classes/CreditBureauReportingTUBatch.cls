@@ -361,7 +361,8 @@
                                                FROM Product__History
                                                WHERE ParentId = :mapProduct.keySet()
                                                AND (Field= :'State__c')
-                                               AND CreatedDate = LAST_MONTH
+                                               //AND CreatedDate = LAST_MONTH
+                                               AND CreatedDate = THIS_MONTH
                                                ORDER BY CreatedDate ASC];
         for(Product__History prodHistory : listProductHistory){
                 if(!splitProvinceValues.contains(string.valueOf(prodHistory.NewValue)) && splitProvinceValues.contains(string.valueOf(prodHistory.OldValue))){
@@ -371,9 +372,10 @@
                     }
                 }else{
                     //if account never in valid province, then dont report that account
-                    mapProductExcluse.put(string.valueOf(prodHistory.ParentId), true);
+                    if(!splitProvinceValues.contains(string.valueOf(prodHistory.NewValue))){
+                        mapProductExcluse.put(string.valueOf(prodHistory.ParentId), true);
+                    }
                 } 
-        }
         //check active judgment present on product
         List<Account_Judgment__c> accountJudgment = [
             SELECT ID, Name, Product__c, Judgment__c, Judgment__r.Legal_Status__c, Judgment__r.Legal_Sub_Status__c
