@@ -305,6 +305,7 @@
             WHERE Placement__r.Name IN :includeAgencyList AND Placement_Recall_Date__c != NULL AND Placement_Recall_Date__c = LAST_MONTH
         ];
 
+        
         for (AggregateResult arrResult : placeHistory) {
             minPlacementDate = (Date) arrResult.get('firstPlacementDate');
             maxRecallDate = (Date) arrResult.get('lastRecallDate');
@@ -361,7 +362,8 @@
                                                FROM Product__History
                                                WHERE ParentId = :mapProduct.keySet()
                                                AND (Field= :'State__c')
-                                               AND CreatedDate = LAST_MONTH
+                                               //AND CreatedDate = LAST_MONTH
+                                               AND CreatedDate = THIS_MONTH
                                                ORDER BY CreatedDate ASC];
         for(Product__History prodHistory : listProductHistory){
                 if(!splitProvinceValues.contains(string.valueOf(prodHistory.NewValue)) && splitProvinceValues.contains(string.valueOf(prodHistory.OldValue))){
@@ -371,9 +373,12 @@
                     }
                 }else{
                     //if account never in valid province, then dont report that account
-                    mapProductExcluse.put(string.valueOf(prodHistory.ParentId), true);
+                    if(!splitProvinceValues.contains(string.valueOf(prodHistory.NewValue))){
+                        mapProductExcluse.put(string.valueOf(prodHistory.ParentId), true);
+                    }
                 } 
         }
+
         //check active judgment present on product
         List<Account_Judgment__c> accountJudgment = [
             SELECT ID, Name, Product__c, Judgment__c, Judgment__r.Legal_Status__c, Judgment__r.Legal_Sub_Status__c
@@ -398,18 +403,20 @@
                     mapProductExcluse.put(prodRecData.id, true);
                 }
             }
-            
+
             //if complaint created in reporting month and also product has another complaint present which is 
             //created before reporting month then dont report that account.
             if(prodCustomComptCount.contains(prodRecData.id)){
                 mapProductExcluse.put(prodRecData.id, true);
             }
+           
             //if complaint not created in reporting month then dont report that account.
             if(!mapProductCompCount.containskey(prodRecData.id) 
                && prodRecData.Number_Of_Open_Complaint__c != 0 && prodRecData.Number_Of_Open_Complaint__c != NULL){
                 
                 mapProductExcluse.put(prodRecData.id, true);
             }
+            
             listOfProductIds.add(prodRecData.id);
 
             Date chargeOffDate;
@@ -431,6 +438,7 @@
                         }
                     }
                 }
+               
             } else {
                 Integer numberOfPeriods;
                 if (
@@ -449,6 +457,7 @@
                         }
                     }
                 }
+                
             }
         }
         //Get sum of product payment amount of product
