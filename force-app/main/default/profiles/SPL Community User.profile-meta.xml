@@ -6969,7 +6969,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Control_Group__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>

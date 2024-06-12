@@ -71,6 +71,10 @@
                 <behavior>Readonly</behavior>
                 <field>Excluded_Account_Comments__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Control_Group__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
