@@ -915,7 +915,6 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                   //If reversed payment is added, it is added to Balances on Product as per original Payment
                                                   if(payProductInstance.Payment_Amount__c < 0){
                                                       Boolean calflag = false; 
-                                                      checkIsReversal = true;
                                                       if(mapReversedPayments.containsKey(payProductInstance.Original_Of_Payment_Reversal__c)
                                                          && payProductInstance.Payment_Type__c != '3000'){
                                                              Product_Payments__c reversedPay = mapReversedPayments.get(payProductInstance.Original_Of_Payment_Reversal__c);
@@ -926,11 +925,25 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                                  productInstance.Collection_Sub_Status__c = reversedPay.Product_Collection_Sub_Status__c;
                                                                  productInstance.Data_Status_Description__c = reversedPay.Product_Status_Desc_on_Product__c;
                                                                  productInstance.Status__c = reversedPay.Placement_Status_on_Product__c;
-                                                                 //Ticket 6495: whenver we reverse PIF or SIF payments then reset closded date
+                                                                 
                                                                  if (reversedPay.Payment_Type__c == PAYTYPE_SETTLED_IN_FULL || reversedPay.Payment_Type__c == PAYTYPE_PAID_IN_FULL) {
+                                                                     //Ticket 6495: whenver we reverse PIF or SIF payments then reset closded date
                                                                      if(productInstance.Closed_Date__c <> NULL){
                                                                          productInstance.Closed_Date__c = NULL;
                                                                      }
+                                                                     //Ticket 6494: reallocated product to agency if SIF/PIF payments get reversed.
+                                                                    //Populate Agency ID on product
+                                                                    checkIsReversal = true;
+                                                                    if(mapProductPreviouslyPlaced.containsKey(reversedPay.CCS_Account__c)){
+                                                                        if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Agency_Id__c <> NULL){
+                                                                            productInstance.Collection_Agency__c = Decimal.valueOf(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Agency_Id__c);
+                                                                        }
+                                                                        if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c <> NULL){
+                                                                            oldPlacementID = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
+                                                                            productInstance.Collection_Agency_Placement__c = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
+                                                                        }
+                                                                        placementCommisionRate = productInstance.Collection_Agency_Placement__r.Commission_Rate__c;
+                                                                    }
                                                                  }
                                                                  if(mapProductNameIds.containsKey(reversedPay.CCS_Account__c)){
                                                                      if(reversedPay.Payment_Posting_Date__c >= mapProductNameIds.get(reversedPay.CCS_Account__c)){
@@ -940,18 +953,6 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                                      productInstance.Status__c = reversedPay.Placement_Status_on_Product__c; 
                                                                  }
                                                                  
-                                                                 //Ticket 6494: reallocated product to agency if SIF/PIF payments get reversed.
-                                                                //Populate Agency ID on product
-                                                                if(mapProductPreviouslyPlaced.containsKey(reversedPay.CCS_Account__c)){
-                                                                    if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Agency_Id__c <> NULL){
-                                                                        productInstance.Collection_Agency__c = Decimal.valueOf(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Agency_Id__c);
-                                                                    }
-                                                                    if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c <> NULL){
-                                                                        oldPlacementID = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
-                                                                        productInstance.Collection_Agency_Placement__c = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
-                                                                    }
-                                                                    placementCommisionRate = productInstance.Collection_Agency_Placement__r.Commission_Rate__c;
-                                                                }
                                                                 //Populate Product Status and Data Status Description on product
                                                                 if(reversedPay.Pay_Data_Status__c <> NULL && mapDataStatus.containsKey(reversedPay.Pay_Data_Status__c)){
                                                                     productInstance.Product_Status__c = reversedPay.Pay_Data_Status__c;
@@ -1231,15 +1232,18 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
         try{
             if (checkIsReversal == true) {
             	DistressedUtilities.createPlacementHistory(prodList,oldPlacementID,placementCommisionRate);
+                Database.executeBatch(new BatchProcessForProdScreen(prodIds,placeStatus,'Product Allocation Individual'), 200);
+            }else{
+                if(!setProductToUpdateStatus.isEmpty()){
+            		PortalProductProcessingAPI.processProductBulkBatch(setProductToUpdateStatus, new List<Product__c>());
+        		}
             }
-            Database.executeBatch(new BatchProcessForProdScreen(prodIds,placeStatus,'Product Allocation Individual'), 200);
+            
         }catch(Exception ex){
             system.debug('exception message'+ex.getStackTraceString());
         }
         
-        /*if(!setProductToUpdateStatus.isEmpty()){
-            PortalProductProcessingAPI.processProductBulkBatch(setProductToUpdateStatus, new List<Product__c>());
-        }*/
+        
         
         ProductTriggerHandler.runProductTrigger = true;
         ProductPaymentstriggerHandler.runProductTrigger = true;
