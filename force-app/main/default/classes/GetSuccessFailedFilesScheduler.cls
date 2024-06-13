@@ -1,7 +1,7 @@
 /**
  * @description       : Scheduler and Batch class to get and upload success and failure files for CTB statement processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-11-2024
+ * @last modified on  : 06-13-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful {
@@ -47,10 +47,12 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
      * @param docStorageList
      **/
     public void startProcessing(List<Document_Storage__c> docStorageList) {
+        List<String> skippedFileNamesString = new List<String>();
         for (Document_Storage__c doc : docStorageList) {
             if (String.isBlank(doc.Bulk_API_Job_ID__c)) {
                 continue;
             }
+            skippedFileNamesString.add('Skipped' + '_' + doc.Document_Name__c.remove('.zip'));
             String bulkJobStatus = getJobStatus(doc.Bulk_API_Job_ID__c);
             doc.Statement_Processing_Status__c = 'Processed';
             if (bulkJobStatus == 'JobComplete') {
@@ -67,6 +69,10 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
         if (!conVersionToInsertList.isEmpty()) {
             try {
                 Database.insert(conVersionToInsertList);
+                List<ContentVersion> skippedConVerList = [SELECT Id, PathOnClient FROM ContentVersion WHERE Title IN :skippedFileNamesString];
+                if (!skippedConVerList.isEmpty()) {
+                    conVersionToInsertList.addAll(skippedConVerList);
+                }
             } catch (DmlException ex) {
                 System.debug('DMLException in GetSuccessFailedFilesScheduler ' + ex.getDmlMessage(0));
                 CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());

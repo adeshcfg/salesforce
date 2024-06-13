@@ -100,8 +100,11 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
      * @param listData
      **/
     public static void finishStatementProcessing(List<sObject> listData) {
+        List<ContentDocument> contentDocToDelete = new List<ContentDocument>();
+        List<String> conVerIdsToDelete = new List<String>();
         List<Document_Storage__c> docStorageToCreateList = new List<Document_Storage__c>();
         for (ContentVersion cv : (List<ContentVersion>) listData) {
+            conVerIdsToDelete.add(cv.Id);
             // Upload content version csv to azure
             GetSuccessFailedFilesScheduler.uploadFile(cv.Id, cv.PathOnClient);
             // Create new doc storage for each csv
@@ -122,6 +125,12 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
             Statement_Processing_Settings__c stmtProcessingSettings = Statement_Processing_Settings__c.getInstance('Canadian Tire');
             stmtProcessingSettings.Number_of_Statements_Attempts__c = 0;
             Database.update(stmtProcessingSettings);
+            for (ContentVersion conVer : [SELECT ContentDocumentId FROM ContentVersion WHERE Id IN :conVerIdsToDelete]) {
+                contentDocToDelete.add(new ContentDocument(Id = conVer.ContentDocumentId));
+            }
+            if (!contentDocToDelete.isEmpty()) {
+                Database.delete(contentDocToDelete);
+            }
         } catch (DmlException ex) {
             System.debug('DMLException in CTBApiCalloutsQueueable ' + ex.getDmlMessage(0));
             CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
