@@ -1,19 +1,22 @@
 /**
  * @description       : Batch class to process zip and statement files for CTB
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-11-2024
+ * @last modified on  : 06-13-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
     public Boolean reRunGetStatements = false;
+    public List<ContentVersion> conVerToInsertList = new List<ContentVersion>();
     public List<Document_Storage__c> docStorageToUpdateList = new List<Document_Storage__c>();
     public static Map<String, Document_Storage__c> mapDocumentIdDocStorage = new Map<String, Document_Storage__c>();
     public static String lineBreak = '\n';
+    public static String skippedRecordsCsvHeader = 'FileName,Reason';
+    public static String skippedRecordsCsv = '';
     public static String bulkUploadHeader = 'Document_Name__c,Document_URL__c,Document_Type__c,Document_Extension__c,Statement_Processing_Status__c,Document_Related_To__c,Insolvency_Account__c,Uploaded_By__c,Creator__c,Visibility__c,RecordTypeId';
 
     public Database.Querylocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            'SELECT Id, Token_ID__c From Document_Storage__c WHERE (Statement_Processing_Status__c = \'In Progress\' OR Statement_Processing_Status__c = \'Pending Process\')'
+            'SELECT Id, Token_ID__c, Document_Name__c From Document_Storage__c WHERE (Statement_Processing_Status__c = \'In Progress\' OR Statement_Processing_Status__c = \'Pending Process\')'
         );
     }
 
@@ -27,15 +30,18 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
     }
 
     public void finish(Database.BatchableContext bc) {
-        if (!docStorageToUpdateList.isEmpty()) {
-            try {
+        try {
+            if (!docStorageToUpdateList.isEmpty()) {
                 DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
                 Database.update(docStorageToUpdateList);
                 DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
-            } catch (DmlException ex) {
-                System.debug('DMLException in ProcessStatementZipFilesBatch ' + ex.getDmlMessage(0));
-                CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
             }
+            if (!conVerToInsertList.isEmpty()) {
+                Database.insert(conVerToInsertList);
+            }
+        } catch (DmlException ex) {
+            System.debug('DMLException in ProcessStatementZipFilesBatch ' + ex.getDmlMessage(0));
+            CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
         }
         try {
             finishHelper();
@@ -53,8 +59,8 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         List<SObject> recordsToUpdate = new List<SObject>();
         Statement_Processing_Settings__c stmtProcessingSettings = Statement_Processing_Settings__c.getInstance('Canadian Tire');
         stmtProcessingSettings.Number_of_Statements_Attempts__c = stmtProcessingSettings.Number_of_Statements_Attempts__c + 1;
-        recordsToUpdate.add(stmtProcessingSettings);
         if (reRunGetStatements && stmtProcessingSettings.Number_of_Statements_Attempts__c < stmtProcessingSettings.Max_Limit_of_Statements_Attempts__c) {
+            recordsToUpdate.add(stmtProcessingSettings);
             Database.update(recordsToUpdate);
             System.scheduleBatch(new ProcessStatementZipFilesBatch(), 'ProcessStatementZipFilesBatch', 15);
         } else {
@@ -128,6 +134,13 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
         Map<String, String> correlationIdAccountIdMap = getCorrelationIdAccountMap(mapDocumentIdDocStorage.keySet());
         for (String docId : mapDocumentIdDocStorage.keySet()) {
             List<FileInfo> fileInfoList = createWrapperList(idDocumentMap.get(docId).Body.toString(), correlationIdAccountIdMap);
+            // Create csv for skipped files
+            if (String.isNotBlank(skippedRecordsCsv)) {
+                skippedRecordsCsv = skippedRecordsCsvHeader + lineBreak + skippedRecordsCsv;
+                conVerToInsertList.add(
+                    GetSuccessFailedFilesScheduler.createConVersion('Skipped', mapDocumentIdDocStorage.get(docId).Document_Name__c, skippedRecordsCsv)
+                );
+            }
             String bulkUploadCsv = createBulkUploadCsv(fileInfoList, insolvRecordTypeId);
             String jobId = createIngestionJob();
             uploadData(jobId, bulkUploadCsv);
@@ -210,6 +223,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
      * @return List<FileInfo>
      **/
     public static List<FileInfo> createWrapperList(String csvContents, Map<String, String> correlationIdAccountIdMap) {
+        skippedRecordsCsv = '';
         List<FileInfo> fileInfoList = new List<FileInfo>();
         List<String> csvRows = csvContents.split(lineBreak);
         if (csvRows.isEmpty()) {
@@ -221,6 +235,8 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             String fileName = csvColumns[1].substringAfter('/');
             if (correlationIdAccountIdMap.containsKey(fileName.substring(0, 15))) {
                 fileInfoList.add(new FileInfo(fileName, csvColumns[1], csvColumns[0], correlationIdAccountIdMap.get(fileName.substring(0, 15))));
+            } else {
+                skippedRecordsCsv = fileName + ',' + 'No Account found in SF matching Correlation Id of file' + lineBreak;
             }
         }
         return fileInfoList;
