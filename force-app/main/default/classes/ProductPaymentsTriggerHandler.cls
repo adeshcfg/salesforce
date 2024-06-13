@@ -1176,7 +1176,7 @@
                                 productInstance.Product_Status__c = reversedPay.Pay_Data_Status__c;
                                 productInstance.Collection_Sub_Status__c = reversedPay.Product_Collection_Sub_Status__c;
                                 productInstance.Data_Status_Description__c = reversedPay.Product_Status_Desc_on_Product__c;
-
+                                
                                 if (mapProductNameIds.containsKey(reversedPay.CCS_Account__c)) {
                                     if (reversedPay.Payment_Posting_Date__c >= mapProductNameIds.get(reversedPay.CCS_Account__c)) {
                                         productInstance.Status__c = reversedPay.Placement_Status_on_Product__c;
@@ -1370,17 +1370,20 @@
                                 }
                                 //Ticket 6494: reallocated product to agency if SIF/PIF payments get reversed.
                                 //Populate Agency ID on product
-                                checkIsReversal = true;
-                                if(mapProductPreviouslyPlaced.containsKey(reversedPay.CCS_Account__c)){
-                                    if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Agency_Id__c <> NULL){
-                                        productInstance.Collection_Agency__c = Decimal.valueOf(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Agency_Id__c);
+                                if(productInstance.Collection_Agency__c == 9999){
+                                    checkIsReversal = true;
+                                    if(mapProductPreviouslyPlaced.containsKey(reversedPay.CCS_Account__c)){
+                                        if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Agency_Id__c <> NULL){
+                                            productInstance.Collection_Agency__c = Decimal.valueOf(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Agency_Id__c);
+                                        }
+                                        if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c <> NULL){
+                                            oldPlacementID = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
+                                            productInstance.Collection_Agency_Placement__c = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
+                                        }
+                                        productInstance.Assignment_Date__c = Date.today();
+                                        placementCommisionRate = productInstance.Collection_Agency_Placement__r.Commission_Rate__c;
                                     }
-                                    if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c <> NULL){
-                                        oldPlacementID = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
-                                        productInstance.Collection_Agency_Placement__c = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
-                                    }
-                                    placementCommisionRate = productInstance.Collection_Agency_Placement__r.Commission_Rate__c;
-                                }
+                                } 
                             }
                             listProdPaymentReversal.add(reversedPay);
                         }
