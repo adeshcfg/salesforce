@@ -27,11 +27,6 @@
                 <default>false</default>
                 <label>Balance adjustment due for Equipment Return</label>
             </value>
-			<value>
-                <fullName>Balance adjustment due for Equipment Return Reversal</fullName>
-                <default>false</default>
-                <label>Balance adjustment due for Equipment Return Reversal</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

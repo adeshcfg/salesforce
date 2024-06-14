@@ -27,7 +27,6 @@
       &apos;7000&apos;, &apos;Judgment adjustment&apos;,
       &apos;7001&apos;, &apos;Judgment vacate adjustment&apos;,
       &apos;8000&apos;, &apos;Balance adjustment&apos;,
-	    &apos;8003&apos;, &apos;Balance adjustment reversal&apos;,
       null)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Payment Type Description</inlineHelpText>
