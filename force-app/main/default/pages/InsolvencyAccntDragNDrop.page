@@ -63,8 +63,14 @@
 
             function getDownloadUrl(selectedDocId){
                InsolvencyAccntDragNDropController.getDocumentId(selectedDocId, '{!insAcc.Id}', function(result, event){
+                var isLightningCommunity = ('{!isLightningCommunity}' === 'true');
                     if (event.status) {
-                        redirectToAttachment(result);
+                        if (isLightningCommunity) {
+                            window.open('{!urlPathPrefix}' + `servlet/servlet.FileDownload?file=${result}`)
+                        }
+                        else {
+                            redirectToAttachment(result);
+                        }
                     } else if (event.type === 'exception') {
                         console.log(event.message + "\n" + event.where );
                     } else {
@@ -665,7 +671,7 @@
                                                       <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!att.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!att.Name}</a>
                                                       </span>
                                                       <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(isLightningCommunity, "", "none;")}'>
-                                                           <a href="{!urlPathPrefix}servlet/servlet.FileDownload?file={!att.Id}" target="_blank" ></a>  
+                                                           <a href="{!urlPathPrefix}servlet/servlet.FileDownload?file={!att.Id}" target="_blank" >{!att.Name}</a>  
                                                       </span>
                                                    </li>
                                                 </td>
