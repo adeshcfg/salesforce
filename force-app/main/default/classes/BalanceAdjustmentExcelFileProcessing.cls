@@ -631,7 +631,7 @@
                 RogersFile == true &&
                 String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
                 prodPayment.Direct_Payment_Type__c == 'Direct Payment' &&
-                prodPayment.Payment_Type__c != '1000'
+                prodPayment.Payment_Type__c != PAYTYPE_REGULAR
             ) {
                 ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type.<br/>';
             }
@@ -641,7 +641,7 @@
                 RogersFile == true &&
                 String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
                 prodPayment.Direct_Payment_Type__c == 'Balance adjustment due for Equipment Return' &&
-                (prodPayment.Payment_Type__c != '8000' && prodPayment.Payment_Type__c != '8003')
+                (prodPayment.Payment_Type__c != BALANCE_ADJUSTMENT && prodPayment.Payment_Type__c != BAL_ADJ_PAYTYPE_REVERSAL)
             ) {
                 ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type for Balance adjustment due for Equipment Return.<br/>';
             }
@@ -651,7 +651,7 @@
                 RogersFile == true &&
                 String.isNotBlank(prodPayment.Direct_Payment_Type__c) &&
                 prodPayment.Direct_Payment_Type__c == 'Equipment Return Payment' &&
-                prodPayment.Payment_Type__c != '1000'
+                prodPayment.Payment_Type__c != PAYTYPE_REGULAR
             ) {
                 ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type for Equipment Return Payment.<br/>';
             }
@@ -1070,6 +1070,10 @@
                     }
                 }
                 //calculate tax amount ends
+            }
+            
+            if(prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL){
+                prodPayment.Direct_Payment_Type__c = 'Balance adjustment due for Equipment Return Reversal';
             }
 
             //------------------Direct Payment Validations Ends-------------------//
