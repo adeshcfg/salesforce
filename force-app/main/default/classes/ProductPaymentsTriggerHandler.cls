@@ -1461,9 +1461,12 @@
                         productInstance.Last_Payment_Amount__c = mapReversedPayments.get(payProductInstance.Original_Of_Payment_Reversal__c).Last_Payment_Amount__c;   
                     }
                     mapProductToAdjustInterestFinal.put(productInstance.ID, productInstance);
-                    listProdPaymentToUpdate.add(prodPayToUpdate);
-                    prodList.add(productInstance);
-                    prodIds.add(productInstance.ID);
+                    listProdPaymentToUpdate.add(prodPayToUpdate); 
+                    if (checkIsReversal == true){
+                        checkIsReversal = false;
+                        prodList.add(productInstance);
+                        prodIds.add(productInstance.ID);
+                    }
                 }
             }
         }
@@ -1533,7 +1536,7 @@
         }
 		//Ticket 6494: if reverse SIF/PIF create placement history and call snapshot
         try{
-            if (checkIsReversal == true) {
+            if (!prodList.isEmpty()) {
             	DistressedUtilities.createPlacementHistory(prodList,oldPlacementID,placementCommisionRate);
                 Database.executeBatch(new BatchProcessForProdScreen(prodIds,placeStatus,'Product Allocation Individual'), 200);
             }else{

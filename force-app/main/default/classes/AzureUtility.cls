@@ -20,11 +20,16 @@ public class AzureUtility {
         accTokenBulk = getRequestToken();
         List<Product__c> prodList = new List<Product__c>();
         List<String> productNameListFromJson = new List<String>();
+        List<Object> productJsonList;
         if (docType == 'Product Allocation Individual' || docType == 'Account Status Update Pool') {
             for (String prodJson : listProductJSONRequest1) {
-                List<Object> productJsonList = (List<Object>) JSON.deserializeUntyped(prodJson);
-                Map<String, Object> jsonMap = (Map<String, Object>) productJsonList[0];
-                productNameListFromJson.add(String.valueOf(jsonMap.get('Name')));
+                productJsonList = (List<Object>) JSON.deserializeUntyped(prodJson);
+                //Map<String, Object> jsonMap = (Map<String, Object>) productJsonList[0];
+                //productNameListFromJson.add(String.valueOf(jsonMap.get('Name')));
+            }
+            for(Object obj : productJsonList){
+                Map<String, Object> personMap = (Map<String, Object>) obj;
+                productNameListFromJson.add((String) personMap.get('Name'));
             }
         }
         if (!productNameListFromJson.isEmpty()) {

@@ -737,9 +737,9 @@ public class DisplayProductPaymentStagingController {
         String oldPlacementID ='';
         Decimal placementCommisionRate;
         Map<Id,String> placeStatus = new Map<Id,String>();
-        List<ID> prodIds = new List<ID>();
-        Boolean checkIsReversal = false;
-        List<Product__c> prodList = new List<Product__c>();
+        //List<ID> prodIds = new List<ID>();
+        //Boolean checkIsReversal = false;
+        //List<Product__c> prodList = new List<Product__c>();
         map<String, Data_Status_Mapping__c> mapDataStatusMapping = Data_Status_Mapping__c.getAll();
     	map<String, Data_Status_Mapping__c> mapDataStatus = new Map<String, Data_Status_Mapping__c>();
         for (Data_Status_Mapping__c metaData : mapDataStatusMapping.values()) {
@@ -932,8 +932,8 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                                          productInstance.Closed_Date__c = NULL;
                                                                      }
                                                                      //Ticket 6494: reallocated product to agency if SIF/PIF payments get reversed.
-                                                                    //Populate Agency ID on product
-                                                                     if(productInstance.Collection_Agency__c == 9999){
+                                                                    //for balance adjustment reversal account should not be reallocate to previous agency
+                                                                     /*if(productInstance.Collection_Agency__c == 9999){
                                                                          checkIsReversal = true;
                                                                          if(mapProductPreviouslyPlaced.containsKey(reversedPay.CCS_Account__c)){
                                                                              if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Agency_Id__c <> NULL){
@@ -946,7 +946,7 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                                              productInstance.Assignment_Date__c = Date.today();
                                                                              placementCommisionRate = productInstance.Collection_Agency_Placement__r.Commission_Rate__c;
                                                                          }
-                                                                     }
+                                                                     }*/
                                                                  }
                                                                  if(mapProductNameIds.containsKey(reversedPay.CCS_Account__c)){
                                                                      if(reversedPay.Payment_Posting_Date__c >= mapProductNameIds.get(reversedPay.CCS_Account__c)){
@@ -1212,8 +1212,8 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                   //productInstance.Current_Balance__c = DistressedUtilites_Total.UpdateTotalCurrentBalance(productInstance);
                                                   mapProductToAdjustInterestFinal.put(productInstance.ID, productInstance);
                                                   listProdPaymentToUpdate.add(prodPayToUpdate);
-                                                  prodList.add(productInstance);
-                    							  prodIds.add(productInstance.ID);
+                                                  //prodList.add(productInstance);
+                    							  //prodIds.add(productInstance.ID);
                                               }
                                           }
         
@@ -1232,8 +1232,10 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
         update listProdPaymentToUpdate;
         
        //Ticket 6494: if reverse SIF/PIF create placement history and call snapshot
-        try{
+       //for balance adjustment reversal account should not be reallocate to previous agency
+        /*try{
             if (checkIsReversal == true) {
+                checkIsReversal = false;
             	DistressedUtilities.createPlacementHistory(prodList,oldPlacementID,placementCommisionRate);
                 Database.executeBatch(new BatchProcessForProdScreen(prodIds,placeStatus,'Product Allocation Individual'), 200);
             }else{
@@ -1244,9 +1246,11 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
             
         }catch(Exception ex){
             system.debug('exception message'+ex.getStackTraceString());
+        }*/
+        
+        if(!setProductToUpdateStatus.isEmpty()){
+            PortalProductProcessingAPI.processProductBulkBatch(setProductToUpdateStatus, new List<Product__c>());
         }
-        
-        
         
         ProductTriggerHandler.runProductTrigger = true;
         ProductPaymentstriggerHandler.runProductTrigger = true;
