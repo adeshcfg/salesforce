@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class to process zip and statement files for CTB
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-13-2024
+ * @last modified on  : 06-17-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
@@ -206,6 +206,10 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             for (Integer i = 1; i < csvRows.size(); i++) {
                 // Split the current row into columns
                 List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
+                String fileName = csvColumns[1].substringAfter('/');
+                if (fileName.length() < 15) {
+                    continue;
+                }
                 correlationIds.add(csvColumns[1].substringAfter('/').substring(0, 15));
             }
         }
@@ -233,7 +237,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             // Split the current row into columns
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
             String fileName = csvColumns[1].substringAfter('/');
-            if (correlationIdAccountIdMap.containsKey(fileName.substring(0, 15))) {
+            if (fileName.length() > 15 && correlationIdAccountIdMap.containsKey(fileName.substring(0, 15))) {
                 fileInfoList.add(new FileInfo(fileName, csvColumns[1], csvColumns[0], correlationIdAccountIdMap.get(fileName.substring(0, 15))));
             } else {
                 skippedRecordsCsv = fileName + ',' + 'No Account found in SF matching Correlation Id of file' + lineBreak;
