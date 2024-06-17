@@ -240,7 +240,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             if (fileName.length() > 15 && correlationIdAccountIdMap.containsKey(fileName.substring(0, 15))) {
                 fileInfoList.add(new FileInfo(fileName, csvColumns[1], csvColumns[0], correlationIdAccountIdMap.get(fileName.substring(0, 15))));
             } else {
-                skippedRecordsCsv = fileName + ',' + 'No Account found in SF matching Correlation Id of file' + lineBreak;
+                skippedRecordsCsv += fileName + ',' + 'No Account found in SF matching Correlation Id of file' + lineBreak;
             }
         }
         return fileInfoList;
