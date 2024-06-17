@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class to initiate zip file processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-13-2024
+ * @last modified on  : 06-17-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallouts {
@@ -37,6 +37,7 @@ public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallo
             Document_Storage__c docInfo = new Document_Storage__c();
             docInfo.Document_Name__c = Datetime.now().format('yyyyMMdd');
             docInfo.Statement_Processing_Status__c = 'No Files';
+            docInfo.Document_Type__c = 'Statement Processing File';
             docInfo.RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('Insolvency').getRecordTypeId();
             try {
                 DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
