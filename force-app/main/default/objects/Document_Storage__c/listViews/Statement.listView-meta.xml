@@ -16,7 +16,7 @@
     <filters>
         <field>Statement_Processing_Status__c</field>
         <operation>equals</operation>
-        <value>Processed,Failed,No Files,Processing</value>
+        <value>In Progress,Processed,Failed,Pending Process,No Files,Processing,NA</value>
     </filters>
     <label>Statement</label>
 </ListView>

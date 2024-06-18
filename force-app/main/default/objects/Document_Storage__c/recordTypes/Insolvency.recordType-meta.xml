@@ -44,6 +44,10 @@
             <fullName>Processing</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>NA</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Payment_Type__c</picklist>

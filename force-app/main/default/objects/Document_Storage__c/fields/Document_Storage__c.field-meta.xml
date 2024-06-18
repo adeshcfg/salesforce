@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Storage__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Parent document storage</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Parent document storage</inlineHelpText>
+    <label>Parent Document Storage</label>
+    <referenceTo>Document_Storage__c</referenceTo>
+    <relationshipLabel>Document Storages</relationshipLabel>
+    <relationshipName>Document_Storages</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
