@@ -4,6 +4,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
     public static API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
     public string batchName = '';
     public string fileNameFormat = '';
+    private Map<String, List<ContentVersion>> docStorageIdConVersionToInsertMap = new Map<String, List<ContentVersion>>();
 
     public CTBApiCalloutsQueueable(Id cvID, List<sObject> Data, string CTBBatchName, string fileName) {
         //ContentVersion ID
@@ -16,13 +17,13 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
         fileNameFormat = fileName;
     }
 
-    public CTBApiCalloutsQueueable(List<sObject> data) {
-        this.listData = data;
+    public CTBApiCalloutsQueueable(Map<String, List<ContentVersion>> docStorageIdConVersionToInsertMap) {
+        this.docStorageIdConVersionToInsertMap = docStorageIdConVersionToInsertMap;
     }
 
     public void execute(QueueableContext context) {
         system.debug('inside CTBApiCalloutsQueueable');
-        if (!listData.isEmpty() && String.isNotBlank(batchName)) {
+        if (String.isNotBlank(batchName)) {
             //Get access token for http request
             String accToken;
             accToken = AzureUtility.getRequestToken('Agency Portal API');
@@ -89,36 +90,38 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
         }
         // Statement file processing success and failed file upload
         if (String.isBlank(batchName)) {
-            finishStatementProcessing(listData);
+            finishStatementProcessing(docStorageIdConVersionToInsertMap);
         }
     }
 
     /**
      * @description : Method to create doc storage and upload success and failed files to azure
      * @author adesh.ikhar@canaccede.com | 06-06-2024
-     * @param cvList
-     * @param listData
+     * @param docStorageIdConVersionToInsertMap
      **/
-    public static void finishStatementProcessing(List<sObject> listData) {
+    public static void finishStatementProcessing(Map<String, List<ContentVersion>> docStorageIdConVersionToInsertMap) {
         List<ContentDocument> contentDocToDelete = new List<ContentDocument>();
         List<String> conVerIdsToDelete = new List<String>();
         List<Document_Storage__c> docStorageToCreateList = new List<Document_Storage__c>();
-        for (ContentVersion cv : (List<ContentVersion>) listData) {
-            conVerIdsToDelete.add(cv.Id);
-            // Upload content version csv to azure
-            GetSuccessFailedFilesScheduler.uploadFile(cv.Id, cv.PathOnClient);
-            // Create new doc storage for each csv
-            Document_Storage__c docInfo = new Document_Storage__c(
-                Document_Name__c = cv.PathOnClient,
-                Document_Type__c = 'Statement Result File',
-                Statement_Processing_Status__c = 'Processed',
-                Document_Extension__c = 'csv',
-                Uploaded_By__c = 'System',
-                Creator__c = 'System',
-                Visibility__c = 'CFG only',
-                RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('Insolvency').getRecordTypeId()
-            );
-            docStorageToCreateList.add(docInfo);
+        for (String docStorageId : docStorageIdConVersionToInsertMap.keySet()) {
+            for (ContentVersion cv : docStorageIdConVersionToInsertMap.get(docStorageId)) {
+                conVerIdsToDelete.add(cv.Id);
+                // Upload content version csv to azure
+                GetSuccessFailedFilesScheduler.uploadFile(cv.Id, cv.PathOnClient);
+                // Create new doc storage for each csv
+                Document_Storage__c docInfo = new Document_Storage__c(
+                    Document_Storage__c = docStorageId,
+                    Document_Name__c = cv.PathOnClient,
+                    Document_Type__c = 'Statement Result File',
+                    Statement_Processing_Status__c = 'NA',
+                    Document_Extension__c = 'csv',
+                    Uploaded_By__c = 'System',
+                    Creator__c = 'System',
+                    Visibility__c = 'CFG only',
+                    RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('Insolvency').getRecordTypeId()
+                );
+                docStorageToCreateList.add(docInfo);
+            }
         }
         try {
             Database.insert(docStorageToCreateList);

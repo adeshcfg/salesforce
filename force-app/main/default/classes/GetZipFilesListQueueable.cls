@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class to initiate zip file processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-17-2024
+ * @last modified on  : 06-18-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallouts {
@@ -23,15 +23,6 @@ public class GetZipFilesListQueueable implements Queueable, Database.AllowsCallo
     public static void initializeZipFileProcessing() {
         // Call API to get the list of files
         List<String> zipFileList = CTBGetFileApiQueueable.getFileList(API_TYPE_PARAMETER, FILE_TYPE_PARAMETER);
-        if (!zipFileList.isEmpty()) {
-            for (Document_Storage__c doc : [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c IN :zipFileList]) {
-                // Check if we already have document storage record for any file
-                if (zipFileList.contains(doc.Document_Name__c)) {
-                    // Remove the file name if we already have a document storage record
-                    zipFileList.remove(zipFileList.indexOf(doc.Document_Name__c));
-                }
-            }
-        }
         // Create doc storage record with No files status if no zip files were found on blob storage
         if (zipFileList.isEmpty()) {
             Document_Storage__c docInfo = new Document_Storage__c();

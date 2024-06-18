@@ -1,22 +1,23 @@
 /**
  * @description       : Batch class to process zip and statement files for CTB
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-17-2024
+ * @last modified on  : 06-18-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
     public Boolean reRunGetStatements = false;
+    public static Set<String> fileNamesList = new Set<String>();
     public List<ContentVersion> conVerToInsertList = new List<ContentVersion>();
     public List<Document_Storage__c> docStorageToUpdateList = new List<Document_Storage__c>();
     public static Map<String, Document_Storage__c> mapDocumentIdDocStorage = new Map<String, Document_Storage__c>();
     public static String lineBreak = '\n';
     public static String skippedRecordsCsvHeader = 'FileName,Reason';
     public static String skippedRecordsCsv = '';
-    public static String bulkUploadHeader = 'Document_Name__c,Document_URL__c,Document_Type__c,Document_Extension__c,Statement_Processing_Status__c,Document_Related_To__c,Insolvency_Account__c,Uploaded_By__c,Creator__c,Visibility__c,RecordTypeId';
+    public static String bulkUploadHeader = 'Document_Name__c,Document_URL__c,Document_Type__c,Document_Extension__c,Statement_Processing_Status__c,Document_Related_To__c,Insolvency_Account__c,Uploaded_By__c,Creator__c,Visibility__c,RecordTypeId,Document_Storage__c';
 
     public Database.Querylocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            'SELECT Id, Token_ID__c, Document_Name__c From Document_Storage__c WHERE (Statement_Processing_Status__c = \'In Progress\' OR Statement_Processing_Status__c = \'Pending Process\')'
+            'SELECT Id, Token_ID__c, Document_Name__c, Comment__c From Document_Storage__c WHERE (Statement_Processing_Status__c = \'In Progress\' OR Statement_Processing_Status__c = \'Pending Process\')'
         );
     }
 
@@ -129,17 +130,27 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
      * @param mapDocumentIdDocStorage
      **/
     public void startBulkApiJob(Map<String, Document_Storage__c> mapDocumentIdDocStorage) {
+        Set<String> existingDocStorageNames = new Set<String>();
         String insolvRecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('Insolvency').getRecordTypeId();
         Map<String, Document> idDocumentMap = new Map<String, Document>([SELECT Name, Body FROM Document WHERE Id IN :mapDocumentIdDocStorage.keySet()]);
         Map<String, String> correlationIdAccountIdMap = getCorrelationIdAccountMap(mapDocumentIdDocStorage.keySet());
+        for (Document_Storage__c existingDocStorage : [SELECT Document_Name__c FROM Document_Storage__c WHERE Document_Name__c IN :fileNamesList]) {
+            existingDocStorageNames.add(existingDocStorage.Document_Name__c);
+        }
         for (String docId : mapDocumentIdDocStorage.keySet()) {
-            List<FileInfo> fileInfoList = createWrapperList(idDocumentMap.get(docId).Body.toString(), correlationIdAccountIdMap);
+            List<FileInfo> fileInfoList = createWrapperList(
+                mapDocumentIdDocStorage.get(docId).Id,
+                idDocumentMap.get(docId).Body.toString(),
+                correlationIdAccountIdMap,
+                existingDocStorageNames
+            );
             // Create csv for skipped files
             if (String.isNotBlank(skippedRecordsCsv)) {
                 skippedRecordsCsv = skippedRecordsCsvHeader + lineBreak + skippedRecordsCsv;
                 conVerToInsertList.add(
                     GetSuccessFailedFilesScheduler.createConVersion('Skipped', mapDocumentIdDocStorage.get(docId).Document_Name__c, skippedRecordsCsv)
                 );
+                mapDocumentIdDocStorage.get(docId).Comment__c = 'Skipped Records : ' + (skippedRecordsCsv.split(lineBreak).size() - 1);
             }
             String bulkUploadCsv = createBulkUploadCsv(fileInfoList, insolvRecordTypeId);
             String jobId = createIngestionJob();
@@ -210,6 +221,7 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
                 if (fileName.length() < 15) {
                     continue;
                 }
+                fileNamesList.add(fileName);
                 correlationIds.add(csvColumns[1].substringAfter('/').substring(0, 15));
             }
         }
@@ -222,11 +234,18 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
     /**
      * @description : Map csv fields to wrapper
      * @author adesh.ikhar@canaccede.com | 06-06-2024
+     * @param docStorageId
      * @param csvContents
      * @param correlationIdAccountIdMap
+     * @param existingDocStorageNames
      * @return List<FileInfo>
      **/
-    public static List<FileInfo> createWrapperList(String csvContents, Map<String, String> correlationIdAccountIdMap) {
+    public static List<FileInfo> createWrapperList(
+        String docStorageId,
+        String csvContents,
+        Map<String, String> correlationIdAccountIdMap,
+        Set<String> existingDocStorageNames
+    ) {
         skippedRecordsCsv = '';
         List<FileInfo> fileInfoList = new List<FileInfo>();
         List<String> csvRows = csvContents.split(lineBreak);
@@ -237,8 +256,12 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
             // Split the current row into columns
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
             String fileName = csvColumns[1].substringAfter('/');
+            if (existingDocStorageNames.contains(fileName)) {
+                skippedRecordsCsv += fileName + ',' + 'File with same name already exists' + lineBreak;
+                continue;
+            }
             if (fileName.length() > 15 && correlationIdAccountIdMap.containsKey(fileName.substring(0, 15))) {
-                fileInfoList.add(new FileInfo(fileName, csvColumns[1], csvColumns[0], correlationIdAccountIdMap.get(fileName.substring(0, 15))));
+                fileInfoList.add(new FileInfo(fileName, csvColumns[1], csvColumns[0], correlationIdAccountIdMap.get(fileName.substring(0, 15)), docStorageId));
             } else {
                 skippedRecordsCsv += fileName + ',' + 'No Account found in SF matching Correlation Id of file' + lineBreak;
             }
@@ -287,6 +310,10 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
                 ',' +
                 '"' +
                 insolvRecordTypeId +
+                '"' +
+                ',' +
+                '"' +
+                info.docStorageId +
                 '"';
         }
         return bulkUploadHeader + detailRow;
@@ -376,12 +403,14 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
     }
 
     public class FileInfo {
+        public String docStorageId { get; set; }
         public String docName { get; set; }
         public String docUrl { get; set; }
         public String docType { get; set; }
         public String accId { get; set; }
 
-        public FileInfo(String docName, String docUrl, String docType, String accId) {
+        public FileInfo(String docName, String docUrl, String docType, String accId, String docStorageId) {
+            this.docStorageId = docStorageId;
             this.docName = docName;
             this.docUrl = docUrl;
             this.docType = docType;
