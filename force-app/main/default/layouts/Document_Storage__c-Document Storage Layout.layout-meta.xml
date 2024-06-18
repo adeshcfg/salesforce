@@ -104,6 +104,10 @@
                 <behavior>Readonly</behavior>
                 <field>Work_Assignment__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Document_Storage__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -260,6 +264,16 @@
     </platformActionList>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Document_Name__c</fields>
+        <fields>Document_Type__c</fields>
+        <fields>Statement_Processing_Status__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>Document_Storage__c.Document_Storage__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
