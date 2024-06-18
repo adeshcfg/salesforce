@@ -19349,7 +19349,7 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowRead>false</allowRead>
+        <allowRead>true</allowRead>
         <object>Document</object>
     </objectPermissions>
     <pageAccesses>
