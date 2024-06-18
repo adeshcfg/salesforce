@@ -19348,6 +19348,10 @@
         <object>Insolvency__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <allowRead>false</allowRead>
+        <object>Document</object>
+    </objectPermissions>
     <pageAccesses>
         <apexPage>AccountConversationView</apexPage>
         <enabled>false</enabled>
