@@ -5249,6 +5249,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>OrderItem.SubscriptionTerm</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Delinquency_Tracker__c.Chargeoff_Aging_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
