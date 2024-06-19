@@ -3599,7 +3599,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Application__c.OrderItem.SubscriptionTerm</field>
+        <field>OrderItem.SubscriptionTerm</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
