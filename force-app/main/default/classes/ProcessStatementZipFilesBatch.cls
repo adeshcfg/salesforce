@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class to process zip and statement files for CTB
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-18-2024
+ * @last modified on  : 06-19-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
@@ -151,6 +151,8 @@ public class ProcessStatementZipFilesBatch implements Database.Batchable<SObject
                     GetSuccessFailedFilesScheduler.createConVersion('Skipped', mapDocumentIdDocStorage.get(docId).Document_Name__c, skippedRecordsCsv)
                 );
                 mapDocumentIdDocStorage.get(docId).Comment__c = 'Skipped Records : ' + (skippedRecordsCsv.split(lineBreak).size() - 1);
+            } else {
+                mapDocumentIdDocStorage.get(docId).Comment__c = 'Skipped Records : ' + 0;
             }
             String bulkUploadCsv = createBulkUploadCsv(fileInfoList, insolvRecordTypeId);
             String jobId = createIngestionJob();
