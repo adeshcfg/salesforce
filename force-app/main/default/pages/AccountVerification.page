@@ -55,7 +55,6 @@
        </style>
        <script>
        		function redirectToResults(){
-                console.log('print');
             	window.parent.location = "{!$Setup.Customer_Portal_Setting__c.Account_Results_page__c}?uniqueID={!account.Id}&_iframeDomain={!$Setup.Customer_Portal_Setting__c.iFrameDomain__c}";
             }
        </script>

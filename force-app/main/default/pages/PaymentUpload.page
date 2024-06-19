@@ -62,16 +62,13 @@
     var fileName;
                 
     $( document ).ready(function() {
-        console.log( "ready!" );
         if({!showButtons} == true){
-            console.log('--', {!showButtons});
             disableInput();
         }
         
     });
       
     function disableInput(){
-        console.log('called');
         document.getElementById("postingDateVal").value ='{!postingDate}';
         document.getElementById("shortUrlVal").value ="{!eftInstance.Text_URL__c}";
         document.getElementById("f_UploadExcel").disabled =true;
@@ -80,7 +77,6 @@
     }
 
     function sendFile(file) {
-        console.log('file value: ',file);
         fileName = file.name;
         var reader = new FileReader();
         reader.readAsDataURL($('#f_UploadExcel')[0].files[0]);
@@ -96,19 +92,13 @@
             processExcelFile(excelFile, postingDate, shortUrl ,fileName);
             disableInput();
         };
-        console.log("exit send file");
     }
 
-    //var _URL = window.URL || window.webkitURL;
     $("#f_UploadExcel").on('change', function () {
         //alert("onchange");
         var file;
         if ((file = this.files[0])) {
-            console.log("sending file");
-            //alert("sending file");
             sendFile(file);
-            console.log("end sending file");
-            //alert("end sending file");
         }
     });
 

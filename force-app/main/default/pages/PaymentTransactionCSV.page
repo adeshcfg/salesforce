@@ -52,7 +52,6 @@
     </style>
      <script>
      	   function refreshPage(){
-                console.log('true');
            		window.location.reload();
            }
      </script>  

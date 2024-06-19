@@ -111,25 +111,6 @@
                
                 window.print();
             }
-            function downloadDocument(blobcontents1){
-                console.log('download doc called');
-                console.log('blobcontents from class---', '{!blobcontents}');
-                var byteCharacters = atob('{!blobcontents}');
-                console.log('byte length::'+byteCharacters.length);
-                let buf = new Array(byteCharacters.length);
-                for (var i = 0; i != byteCharacters.length; ++i) buf[i] = byteCharacters.charCodeAt(i);// & 0xFF;
-                let view = new Uint8Array(buf);
-                 let blob = new Blob([view], {
-                    type: 'pdf'
-                });
-                console.log('view-',view);
-                console.log('blob-',blob);
-                var downloadLink = document.createElement('a');
-                var url = URL.createObjectURL(blob);
-                downloadLink.href = url;
-                downloadLink.download = "Download.pdf";  //Name the file here
-                window.open(downloadLink);
-            }
             
              window.onload=function(){
                  //alert("Page is loaded");
@@ -142,19 +123,8 @@
                  $('#FromDate').val(today);
                  
                 
-            }
-             
-             $(document).ready(function() {
-                 $('#FromDate').datepicker().datepicker('setDate', 'today');
-                 console.log('inside onload');
-                
-                 console.log('--', $('#FromDate').val());
-             });*/
-
-            
-            
+            }*/
             var userlang = window.navigator.language;
-            console.log(userlang);
             $(function(){
             
                 var date = new Date();

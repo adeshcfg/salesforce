@@ -236,12 +236,10 @@
             window.addEventListener('load', function() {
                 var submitBtn = document.querySelector('.submit-btn');
                 submitBtn && submitBtn.addEventListener('click', function() {
-                    console.log('submit clicked');
                     validateBasicDetails();
                     validateCheckBox();
                     var emailvalue = document.getElementById("email").value ;
                     var phone = document.getElementById("phone").value ;
-                    console.log(phone.length);
                     var atposition=emailvalue.indexOf("@");  
                     var dotposition=emailvalue.lastIndexOf(".");  
                     if (atposition<1 || dotposition<atposition+2 || dotposition+2>=emailvalue.length){  
@@ -257,11 +255,8 @@
 						if(consentChecked === true){
                         	this.disabled = true;
                             document.getElementById("phoneDiv").classList.remove('error');
-                            console.log('register function call');
                             v = document.getElementById('{!$Component.form.myHiddenElement}');
-                            console.log('v',v);
                             v.value = document.getElementById('marketing').checked;
-                            console.log(document.getElementById('marketing').checked);
                             registerFunction();
                         }
                         
@@ -288,13 +283,6 @@
 					return null;
 				};
 			}
-			
-        /*function calc(){
-               v = document.getElementById('{!$Component.form.myHiddenElement}');
-               console.log('v',v);
-  			   v.value = document.getElementById('marketing').checked;
-              console.log(document.getElementById('marketing').checked);
-            }*/
         
         	function phoneNumberFormat(){
 				var text1 = document.getElementById("phone").value.trim();

@@ -7,7 +7,6 @@
         {
             CallApexMethod() ;
             var panelHide='{!panelHide}';
-            console.log('panelHide'+panelHide);
         }
     </script>
     
@@ -18,7 +17,6 @@
        
         function done() {
             var responseMes='{!responseMessage}';
-            console.log('responseMes::'+responseMes);
             if(responseMes == 'SUCCESS'){
                 window.history.back();
 				location.reload(); 

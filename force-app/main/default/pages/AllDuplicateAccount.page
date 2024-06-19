@@ -11,7 +11,6 @@
 <apex:page controller="AllDuplicateAccountController" sidebar="false" docType="html-5.0">
     <script type="text/javascript">
         function selectAllCheckboxes(obj, receivedInputID) {
-            console.log(document.getElementById(receivedInputID));
             var inputCheckBox = document.getElementById(receivedInputID).getElementsByTagName("input");
             for (var i = 0; i < inputCheckBox.length; i++) {
                 if (inputCheckBox[i].id.indexOf(receivedInputID) != -1) {

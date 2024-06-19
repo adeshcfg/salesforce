@@ -156,7 +156,6 @@
          function selectAllCheckboxes(obj,receivedInputID){
             var inputCheckBox = document.getElementsByTagName("input");                
             for(var i=0; i<inputCheckBox.length; i++){ 
-                console.log(inputCheckBox[i].disabled);
                 if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1 && inputCheckBox[i].disabled == false) {                                    
                     inputCheckBox[i].checked = obj.checked;
                 }
