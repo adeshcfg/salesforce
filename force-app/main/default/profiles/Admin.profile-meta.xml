@@ -3599,6 +3599,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Application__c.OrderItem.SubscriptionTerm</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Application__c.AML_Decision_Summary__c</field>
         <readable>true</readable>
     </fieldPermissions>
