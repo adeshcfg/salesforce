@@ -1047,9 +1047,10 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                                     prodPayToUpdate.Interest_Payment_Amount__c = reversedPay.Interest_Payment_Amount__c * -1;
                                                                 }
                                                              else{
-                                                                 if(productInstance.Current_Interest_Amount__c < 0){
+                                                                 //Ticket 6835: product interst amount is negative then dont reset to zero for balance adjustment.
+                                                                 /*if(productInstance.Current_Interest_Amount__c < 0){
                                                                      productInstance.Current_Interest_Amount__c = 0;
-                                                                 }
+                                                                 }*/
                                                                  //product has active judgment and paymet posting date is greater than judgment date then only reversal calculation will done
                                                                  if(mapProductNameIds.containsKey(reversedPay.CCS_Account__c)){
                                                                      if(reversedPay.Payment_Posting_Date__c >= mapProductNameIds.get(reversedPay.CCS_Account__c)){
