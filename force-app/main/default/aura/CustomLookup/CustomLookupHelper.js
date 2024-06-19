@@ -51,22 +51,15 @@
      //bug:5476 changes starts
      getProdName: function(component, event, helper) { 
        var prodId = component.get("v.productId");
-       console.log('entered into helper and product id-->'+prodId);
        component.set("v.prodId", prodId);
         var action = component.get("c.getProductName");
-        console.log('calling apex method from helper');
         action.setParams({
             'prodId' : prodId
         });
         action.setCallback(this, function(response) {
-            console.log('set call back from helper');
             var state = response.getState();
-            console.log('state of Apex class from helper--->'+response.getState());
-            console.log('return value of Apex class from helper--->'+response.getReturnValue());
-            //console.log('response::',response.getReturnValue());
             if (state === "SUCCESS") {
                 component.set('v.productNameExisting', response.getReturnValue());
-                console.log('success from helper');
             }
         });
         $A.enqueueAction(action);

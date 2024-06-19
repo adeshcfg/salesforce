@@ -32,11 +32,8 @@
        <apex:outputPanel id="scriptPanel">
         <script>
        	function downloadDocument( blobcontents1){
-            console.log('download doc called');
-            console.log('blobContents from class---', '{!blobContents}');
             //  alert('1');
             var byteCharacters = atob('{!blobContents}');
-            console.log('byte length::'+byteCharacters.length);
             let buf = new Array(byteCharacters.length);
             for (var i = 0; i != byteCharacters.length; ++i) buf[i] = byteCharacters.charCodeAt(i);// & 0xFF;
             // alert('2');
@@ -45,11 +42,8 @@
             let blob = new Blob([view], {
                     type: '{!contentType}'
                 });
-            console.log('view-',view);
-            console.log('blob-',blob);
             //	alert('3');
             var downloadLink = document.createElement('a');
-            //console.log('downloadLink-',downloadLink);
             //alert('4');
             var url = URL.createObjectURL(blob);
             downloadLink.href = url;
@@ -62,9 +56,7 @@
             alert('aa');
             downloadLink.click();
             alert('7');
-            downloadLink.body.removeChild(downloadLink); 
-            //console.log('downloadLink - ',downloadLink);
-            console.log('dwnloading--');
+            downloadLink.body.removeChild(downloadLink);
             alert('8');
            
             window.open("data:application/vnd.ms-excel;content-disposition:attachment;base64,blobcontents1");
@@ -79,12 +71,10 @@
             document.body.removeChild(downloadLink);
                 
             
-            console.log('---', '{!documentId}');
             var byteCharacters = atob({!blobContents});
             const buf = new Array(byteCharacters.length);
             //for (var i = 0; i != byteCharacters.length; ++i) buf[i] = byteCharacters.charCodeAt(i);
             //const view = new Uint8Array(buf);*/
-            //console.log('dwnloading--');
             //window.open("data:application/vnd.ms-excel;content-disposition:attachment;base64,{!blobContents}");
     	}
        </script>

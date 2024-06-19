@@ -21,26 +21,7 @@
         var month = 0;
         var year = 0;
         var param = '';
-        
-        console.log(daterange);
-        function DisableSpecificDates(date) {
-            var enabledates = daterange;
-            var string = jQuery.datepicker.formatDate('mm/dd/yy', date);
-            console.log(string);
-            return [enabledates.indexOf(string) != -1];
-         }
-         
-         function DisableSpecificDatesPayment(date){
-            //alert('called');
-            var enabledates1 = document.getElementById('thePage:theForm:mainBlock:mainSectionItem:firstItem:theBlock:theSection:firstPayment').value;
-            console.log('$$$'+enabledates1);
-            var string = jQuery.datepicker.formatDate('mm/dd/yy', date);
-            console.log(string);
-            return [enabledates1.indexOf(string) != -1];
-         }
-          var x = daterange.split(",");
-          //console.log('sdfsf'+x[0].replace("[",""));
-          
+          var x = daterange.split(",");          
      
         function showCalendar(){
             $j('[id$=datepicker]').datepicker({
@@ -116,7 +97,6 @@
         } 
         
         $j( document ).ready(function() {
-            console.log( "ready!" );
             showCalendar();
             getLoanStart();
         

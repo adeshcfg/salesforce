@@ -135,18 +135,13 @@
             });
             
             $('.demo2').pajinate();
-            console.log('------',document.getElementById("theButton"));
         }); 
         
         function esc(myid) {
            return '#' + myid.replace(/(:|\.)/g,'\\\\$1');
         }
     	function disableSave(ele){
-            console.log('called');
             ele.disabled = true;
-            console.log('check',ele.disabled);
-            //document.getElementById("page:form1:theButton:pbs").disabled =true;
-            //console.log('----',document.getElementById("page:form1:pbs:theButton").disabled);
         }
      </script>
         <apex:form id="form1">

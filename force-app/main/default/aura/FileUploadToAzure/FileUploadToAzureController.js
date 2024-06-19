@@ -77,7 +77,6 @@
             
             
             //if(allowUploadLetter){
-                console.log('@@ running');
                 helper.uploadHelper(component, event);
             //}	
             

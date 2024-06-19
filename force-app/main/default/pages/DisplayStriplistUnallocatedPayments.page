@@ -141,9 +141,7 @@
         }
     
         function disableSave(btn){
-            console.log('called');
             btn.disabled = true;
-            console.log('check',btn.disabled);
         }
      </script>
         <apex:form id="form1">

@@ -280,17 +280,11 @@
     <script>
         var details;
         function accessCookie(cookieName){
-            console.log('--',cookieName);
             var name = cookieName;
-            console.log('name:',name);
             var allCookieArray = document.cookie.split(';');
-            console.log('---',allCookieArray);
             for(var i=0; i<allCookieArray.length; i++){
                 var temp = allCookieArray[i];
-                console.log('temp.indexOf(name)',temp.length);
-                console.log('name.length)',name.length);
                 if (temp.includes(name)){
-                    console.log('name=',temp);
                     return "Yes";
                 }
             }
@@ -299,26 +293,13 @@
     
         function checkCookie(){
             var searchCookie = accessCookie("apex__searchPerformed=Yes");
-            console.log('searchCookie', searchCookie);
             if (searchCookie!="Yes"){
-                console.log('cookie not found');
                 document.cookie = "apex__searchPerformed=No";
-                //document.cookie = "apex__searchPerformed=; expires=2020-10-26T07:13:52.562Z; path=/;";
-                /*document.cookie = "searchPerformed=No";*/
-                //document.cookie = "apex__searchPerformed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                console.log('cookie', document.cookie);
-                console.log('call redirect');
-                console.log("{!setting.Error_page_URL__c}");
                 window.parent.location = "{!setting.Error_page_URL__c}";
             }
             else {
-                console.log('cookie found');
                 details.style.display = "block";
                 document.cookie = "apex__searchPerformed=No";
-                //document.cookie = "apex__searchPerformed= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-                /*document.cookie = "searchPerformed=No";*/
-                //document.cookie = "apex__searchPerformed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                console.log('cookie value', document.cookie);
             }
          }    
     
@@ -330,7 +311,6 @@
           var x = document.getElementById("payment");
           var y = document.getElementById("message");
           //var errorDiv = document.getElementById("errorDiv");
-          console.log('show:', '{!showPayment}');
           if('{!showPayment}' === 'false'){
               //bodyblock.style.display = "none"
             //errorDiv.style.display = "block";
@@ -339,12 +319,6 @@
               //bodyblock.style.display = "block"
               //errorDiv.style.display = "none";
           }
-          /*var imageblock = document.getElementById("imageblock");
-          console.log(imageblock);
-          /*if('{!collectionAgencyURL}' === ''){
-              imageblock.style.display = "none";
-          }*/
-          console.log('{!collectionAgencyName}');
           if ('{!collectionAgencyName}' === "Canaccede International Management Ltd.") {
             x.style.display = "block";
             y.style.display = "none";
@@ -358,7 +332,6 @@
             var theControllerValue = "{!urlForRedirection}";
             //alert('redirect URL' + theControllerValue);
             debugger
-            console.log('redirectURL :',theControllerValue);
             if(null != theControllerValue){
                 window.parent.location = "{!urlForRedirection}";
             }

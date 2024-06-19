@@ -62,9 +62,7 @@
     var shortUrl;
                 
 	$( document ).ready(function() {
-    	console.log( "ready!" );
         if({!showButtons} == true){
-        	console.log('--', {!showButtons});
             disableInput();
         }
         
@@ -79,7 +77,6 @@
     }
 
     function sendFile(file) {
-        console.log('file value: ',file);
         fileName = file.name;
         var reader = new FileReader();
         reader.readAsDataURL($('#f_UploadExcel')[0].files[0]);
@@ -95,16 +92,12 @@
             processExcelFile(excelFile, postingDate, shortUrl ,fileName);
             disableInput();
         };
-        console.log("exit send file");
     }
 
     $("#f_UploadExcel").on('change', function () {
         var file;
-        console.log('---length' ,this.value);
         if ((file = this.files[0])) {
-            console.log("sending file");
             sendFile(file);
-            console.log("end sending file");
         }
     });
 </script>

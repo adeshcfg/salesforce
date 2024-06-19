@@ -101,17 +101,9 @@
         
         function redirectToSite(){
             var theControllerValue = "{!urlForRedirection}";
-            //alert('redirect URL' + theControllerValue);
-            console.log('redirectURL :',theControllerValue);
             if(null != theControllerValue){
-                //alert('open in new window');
-                //window.top.location.href = theControllerValue;
-                //for opening in new tab
-                //window.open("{!urlForRedirection}",'_blank');
-                //for opening in same tab
                 window.parent.location = "{!urlForRedirection}";
             }
-            //alert('null redirect URL');
         }
         
         window.addEventListener("message", function(e) {
@@ -300,9 +292,7 @@
                             <script>
                             function checkRedirect(){
                                 var invalidData = '{!InvalidData}';
-                                console.log('invalidData: ',invalidData);
                                 if(invalidData == 'false'){
-                                    console.log('false');
                                     redirectToSite();
                                 }
                             }

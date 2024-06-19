@@ -4,7 +4,6 @@
 	function func(){
     	var theControllerValue = "{!urlForRedirection}";
         /*alert('redirect URL' + theControllerValue);*/
-        console.log('redirectURL :',theControllerValue);
         if(null != theControllerValue){
         	window.parent.location = "{!urlForRedirection}";
   		}

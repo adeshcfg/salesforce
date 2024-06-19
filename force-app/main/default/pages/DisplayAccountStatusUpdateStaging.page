@@ -127,35 +127,6 @@
             
         </style>
     <apex:form id="form">
-        
-        <!--apex:includeScript value="{!$Resource.EFTJQuery}"/>     
-<apex:includeScript value="{!$Resource.Paginate}"/-->       
-        <!--script type="text/javascript">
-$.noConflict();
-
-jQuery(document).ready(function($){
-$(esc(pbsId)).pajinate({
-item_container_id : esc(accountTableBodyId),
-items_per_page : 25
-});
-
-$('.demo2').pajinate();
-}); 
-
-function esc(myid) {
-return '#' + myid.replace(/(:|\.)/g,'\\\\$1');
-}
-
-function selectAllCheckboxes(obj,receivedInputID){
-var inputCheckBox = document.getElementsByTagName("input");                
-for(var i=0; i<inputCheckBox.length; i++){ 
-console.log(inputCheckBox[i].disabled);
-if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1 && inputCheckBox[i].disabled == false) {                                    
-inputCheckBox[i].checked = obj.checked;
-}
-}
-}
-</script-->
           <apex:define name="content"> 
             <apex:outputPanel rendered="{!!listProductStagingWrapper.Empty}" id="panel2">
                 <apex:outputPanel >

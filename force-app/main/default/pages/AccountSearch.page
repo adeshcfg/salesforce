@@ -316,17 +316,13 @@
         function myFunction(){
             //document.cookie = "";
             //document.cookie = "apex__searchPerformed=Yes";
-            //console.log('cookie', document.cookie);
         }
         function handleDataChange() {
             var name = this.getAttribute('id');
-            console.log('name', name)
             dataObj[name] = this.value;
-            console.log(dataObj);
         }
 
         function validateBasicDetails() {
-            console.log('print',document.getElementById("province"));
             invalidInput = []
             counter = 0;
             for (var i = 0; i < fields.length; i++) {
@@ -334,9 +330,6 @@
                 //var field = document.querySelector(`[name=${fields[i]}]`);
                 var pro = document.getElementsByTagName("select")[0];
                 var provalue = pro.options[pro.selectedIndex].text;
-                console.log(field);
-                console.log('pro',pro);
-                console.log('pro2',pro.options[pro.selectedIndex].text);
                 var proerror = false;
                 if ((field && field.value.length <= 0)) {
                     field.closest('.text-field').classList.add('error');
@@ -349,7 +342,6 @@
                     }
                 }
                 else {
-                    console.log('in else',field);
                     field.closest('.text-field').classList.remove('error');
                     if(proerror == true){
                         pro.closest('.text-field').classList.remove('error');
@@ -384,7 +376,6 @@
 
         function handleChange() {
             secretValue = document.querySelector('[name=' + secret + ']').value;
-            console.log(secretValue)
         }
 
         function valiDateSecret(bool) {
@@ -393,7 +384,6 @@
                 field.closest('.text-field').classList.add('error');
             }
             else {
-                console.log(field.closest('.text-field').classList);
                 field.closest('.text-field').classList.remove('error');
                 document.getElementById("submitButton").disabled = true;
                 searchFunction();
@@ -401,7 +391,6 @@
         }
         window.addEventListener('load', function () {
             //document.cookie = "apex__searchPerformed=Yes";
-            console.log('onclick cookie:', document.cookie);
             var formInputs = document.querySelectorAll('.form-field');
             if (formInputs) {
                 for (var i = 0; i < formInputs.length; i++) {
@@ -409,7 +398,6 @@
                 }
             }
             var selectInput = document.querySelector('.province');
-            console.log('selectInput: ',selectInput);
             selectInput && selectInput.addEventListener('change', handleDataChange)
 
             var submitBtn = document.querySelector('.submit-btn');
@@ -437,7 +425,6 @@
                         validateBasicDetails();
                     }
                 }
-                console.log('test', invalidInput);
             })
         })
         handleErrorReset();

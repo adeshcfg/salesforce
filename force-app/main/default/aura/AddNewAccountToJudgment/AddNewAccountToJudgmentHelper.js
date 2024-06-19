@@ -4,9 +4,7 @@
         var selectedProducts = [];
         var nonSelectedProducts = [];
         var searchResults = component.get('v.searchResults');
-       //  console.log('searchResults'+searchResults.length);
         for(var obj in searchResults){
-         //   console.log('adding'+obj);
             if(searchResults[obj].isSelected == true){
                 delete searchResults[obj]['isSelected'];
                 selectedProducts.push(searchResults[obj]);
@@ -91,8 +89,6 @@
         });
         action.setCallback(this, function(response) {
             var state = response.getState();
-          //   console.log(state);
-//            console.log(response.g);
             if(state == 'SUCCESS'){
                // console.log('updated');
             }else{

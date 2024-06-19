@@ -34,7 +34,6 @@
     }
     function changeRtype(ele){
         recordTypeSelected(ele.value);
-        console.log(ele.value);
     }
     function closeWindow(){
         window.close();

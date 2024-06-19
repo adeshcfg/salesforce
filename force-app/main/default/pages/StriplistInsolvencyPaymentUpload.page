@@ -52,9 +52,7 @@
 </body>
 <script>        
 	$( document ).ready(function() {
-    	console.log( "ready!" );
         if({!showButtons} == true){
-        	console.log('--', {!showButtons});
             disableInput();
         }
         if({!showStriplistTab} == true){
@@ -63,13 +61,10 @@
 	});
       
     function disableInput(){
-        console.log('called');
-        //alert("inside Disable input");
         document.getElementById("f_UploadExcel").disabled =true;
         
     }  
     function sendFile(file) {
-        console.log('file value: ',file);
         var reader = new FileReader();
         reader.readAsDataURL($('#f_UploadExcel')[0].files[0]);
         reader.onload = function(){
@@ -80,18 +75,13 @@
             processExcelFile(excelFile);
             disableInput();
         };
-        console.log("exit send file");
     }
 
     //var _URL = window.URL || window.webkitURL;
     $("#f_UploadExcel").on('change', function () {
         var file;
-        console.log('---length' ,this.value);
         if ((file = this.files[0])) {
-            console.log("sending file");
             sendFile(file);
-            console.log("end sending file");
-            
         }
     });
 </script>

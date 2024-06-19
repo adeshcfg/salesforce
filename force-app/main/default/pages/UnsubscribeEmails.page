@@ -130,11 +130,8 @@
     	
     	function optout(){  
             var ele = document.getElementsByTagName('input');
-                console.log(ele);
             	var optout = document.getElementById("optOutCheck");
-            	console.log('optout-',optout);
                 for(var i=0; i<ele.length; i++){ 
-                    console.log(ele[i].name);
                     if(optout.checked == true){
                     	if(ele[i].type=='checkbox' && ele[i].name != 'OptOut')  
                         ele[i].checked=false;  
@@ -148,18 +145,14 @@
     
     	function deselects(){  
                 var ele = document.getElementsByTagName('input');
-                console.log(ele);
                 for(var i=0; i<ele.length; i++){ 
-                    console.log(i);
                     if(ele[i].type=='checkbox')  
                         ele[i].checked=false;  
                 }  
         }
     	function selects(){  
                 var ele = document.getElementsByTagName('input');
-                console.log(ele);
                 for(var i=0; i<ele.length; i++){ 
-                    console.log(i);
                     if(ele[i].type=='checkbox')  
                         ele[i].checked=true;  
                 }  
@@ -206,7 +199,6 @@
                 <apex:outputpanel id="panelToRefresh" >
                     <Script> 
                         var error='{!errorMessage}';
-                        console.log(error);
                         function alertError(){
                             if(error!=''){
                         		var messageDivBlock = document.getElementById('messageDiv');

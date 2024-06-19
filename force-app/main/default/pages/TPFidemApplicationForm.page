@@ -256,7 +256,6 @@
 
      //Get parent page URL inside iframe
      function getParentUrl() {
-         console.log('get parent url');
          //parentUrl = window.location.href;
         var isInIframe = (parent !== window),
             parentUrl = window.location.href;
@@ -264,19 +263,13 @@
         if (isInIframe) {
             parentUrl = document.referrer;            
         }
-         console.log('parentURL: ',parentUrl);
-         console.log('parentURL2: ',window.location.toString());
-         console.log('parentURL3: ',window.location.href);
          document.getElementById('{!$Component.theform.inptHdn}').value = parentUrl;
-         console.log('URL: ',document.getElementById('{!$Component.theform.inptHdn}').value);
          myFun(parentUrl);
      }
                     
     //Updated by A5E Consulting 
     // Toggle Offer Code field if "Yes" answer changes 
-    $(document).ready( function () {
-        console.log('doc ready');
-        
+    $(document).ready( function () {        
         // Toggle code entry fields if "offer code avail" answer changes                   
         $("input[id*='offerCodeAvailRadio']").change( function() {
             var offerCodeValue= $("[id*='offerCodeAvailRadio']:checked");

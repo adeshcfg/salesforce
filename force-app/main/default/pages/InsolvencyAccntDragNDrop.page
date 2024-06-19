@@ -25,7 +25,6 @@
          <script>
             var fileCounter = 0;
             var fileStore = false;    
-            console.log('fileStore++++',fileStore);   
             var compCounter;
             var files;
             var recordid ='';
@@ -35,19 +34,16 @@
             
             
             $(window).on('load',function(){  
-                console.log('currentUserId+++',currentUserId);
                 recordid = '{!insAcc.Id}';
-                console.log(recordid);
                 // Remote call to get record info
                 InsolvencyAccntDragNDropController.getRecordInfo(recordid,function(result, event){
-                    console.log(result);
                     if (event.status) {
                         recordType = result.RecordType.Name;
                         recordName = result.Name;
                     } else if (event.type === 'exception') {
-                        console.log(event.message + "\n" + event.where );
+                        console.error(event.message + "\n" + event.where );
                     } else {
-                       console.log(event.message + "\n" + event.where );
+                       console.error(event.message + "\n" + event.where );
                     }
                 }); 
                 $('.refreshLink').prop('href',(window.location != window.parent.location)? document.referrer : document.location);
@@ -72,9 +68,9 @@
                             redirectToAttachment(result);
                         }
                     } else if (event.type === 'exception') {
-                        console.log(event.message + "\n" + event.where );
+                        console.error(event.message + "\n" + event.where );
                     } else {
-                       console.log(event.message + "\n" + event.where );
+                       console.error(event.message + "\n" + event.where );
                     }
                 }); 
             }
@@ -193,10 +189,8 @@
                                 {
                                     onSuccess : function(result, source)
                                     {
-                                    console.log(result);
                                     if (result[0].getBoolean("success"))
                                         {
-                                            console.log("new Attachment created with id " + result[0].id);                                             
                                             showUploadStatus(true);                                        
                                         }
                                         else{                                        
@@ -273,7 +267,6 @@
                                     {
                                         if (result[0].getBoolean("success"))
                                         {
-                                             console.log("new Attachment created with id " + result[0].id);
                                              showUploadStatus(true);
                                         }
                                         else
@@ -313,12 +306,12 @@
                             document.getElementById('uploadStatusContainer').addEventListener('drop',preventDropOnStatusArea , false);
                         }
                         catch(err) {
-                            console.log("This browser doesn't support Drag & Drop of Files. Please try using Google Chrome or Mozilla Firefox to use this application. Redirecting you back to standard way of uploading attachments. (Technical Details : "+err+")");
+                            console.error("This browser doesn't support Drag & Drop of Files. Please try using Google Chrome or Mozilla Firefox to use this application. Redirecting you back to standard way of uploading attachments. (Technical Details : "+err+")");
                         }    
                     });
                 }
                 else{
-                    console.log('File Reader not supported');
+                    console.error('File Reader not supported');
                 }
             });
             
@@ -363,7 +356,6 @@
                     startUploading();
                 } 
                 else{
-                    console.log('Uploaded all the files successfully');
                     uploadCompleteAction(); // refresh related list 
                     
                     $('.closeBtn').show();
@@ -422,7 +414,6 @@
                 }
             }
             function updateUIForFailedUpload(uploadNum, errorText) {
-                console.log(uploadNum);
                 $('.dropzone-progress-'+uploadNum).empty();
                 $('<span style="width: 100%;" class="dropzone-span-progress"/>').appendTo('.dropzone-progress-'+uploadNum);
                 $('.upload-status-mark'+uploadNum).addClass('fail-mark');
