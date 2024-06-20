@@ -17,7 +17,7 @@
             },
             {
                 "objectName": "Placement_Status_Code_Mapping__c",
-                "recordVariableName": "PlacementStatusCodeMapping",
+                "recordVariableName": "PlacementStatusCodeMapping1",
                 "fields": [
                     {
                         "fieldApiName": "Id",
@@ -31,7 +31,7 @@
             },
             {
                 "objectName": "Placement_Status_Code_Mapping__c",
-                "recordVariableName": "PlacementStatusCodeMapping",
+                "recordVariableName": "PlacementStatusCodeMapping2",
                 "fields": [
                     {
                         "fieldApiName": "Id",
@@ -45,7 +45,7 @@
             },
             {
                 "objectName": "Placement_Status_Code_Mapping__c",
-                "recordVariableName": "PlacementStatusCodeMapping",
+                "recordVariableName": "PlacementStatusCodeMapping3",
                 "fields": [
                     {
                         "fieldApiName": "Id",
@@ -59,7 +59,7 @@
             },
             {
                 "objectName": "Placement_Status_Code_Mapping__c",
-                "recordVariableName": "PlacementStatusCodeMapping",
+                "recordVariableName": "PlacementStatusCodeMapping4",
                 "fields": [
                     {
                         "fieldApiName": "Id",
@@ -73,7 +73,7 @@
             },
             {
                 "objectName": "Placement_Status_Code_Mapping__c",
-                "recordVariableName": "PlacementStatusCodeMapping",
+                "recordVariableName": "PlacementStatusCodeMapping5",
                 "fields": [
                     {
                         "fieldApiName": "Id",
@@ -87,7 +87,7 @@
             },
             {
                 "objectName": "Placement_Status_Code_Mapping__c",
-                "recordVariableName": "PlacementStatusCodeMapping",
+                "recordVariableName": "PlacementStatusCodeMapping6",
                 "fields": [
                     {
                         "fieldApiName": "Id",
@@ -100,7 +100,7 @@
                 ]
             },{
                 "objectName": "Placement_Status_Code_Mapping__c",
-                "recordVariableName": "PlacementStatusCodeMapping",
+                "recordVariableName": "PlacementStatusCodeMapping7",
                 "fields": [
                     {
                         "fieldApiName": "Id",
