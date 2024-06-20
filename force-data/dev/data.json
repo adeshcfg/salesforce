@@ -14,20 +14,6 @@
                         "fieldValue": "Payment Plan -  No Judgment - In Process"
                     }
                 ]
-            },
-            {
-                "objectName": "Placement_Status_Code_Mapping__c",
-                "recordVariableName": "PlacementStatusCodeMapping1",
-                "fields": [
-                    {
-                        "fieldApiName": "Id",
-                        "fieldValue": "'a3E3a00000B3hvSEAR'"
-                    },
-                    {
-                        "fieldApiName": "Complete_Status__c",
-                        "fieldValue": "Payment Plan -  No Judgment - In Process - Proposal"
-                    }
-                ]
             }
         ]
     }
