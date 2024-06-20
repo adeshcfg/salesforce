@@ -2,20 +2,113 @@
     "dml": {
         "update": [
             {
-                "objectName": "Trustee_Payment_Followup_Setting__c",
-                "recordVariableName": "trusteeDetails",
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping",
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a243a000002VqlE'"
+                        "fieldValue": "'a3E3a00000B3hvREAR'"
                     },
                     {
-                        "fieldApiName": "Additional_Follow_up_After_X_Months__c",
-                        "fieldValue": "12"
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping1",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvdEAB'"
                     },
-					{
-                        "fieldApiName": "Follow_up_Max_Limit__c",
-                        "fieldValue": "1"
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - Delinquent'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping2",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvjEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan - No Judgment - In Default'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping3",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvkEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan - No Judgment - Media Requested'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping4",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvlEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan - No Judgment - Locating Debtor'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping5",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvmEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan - No Judgment - Inactive'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping6",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvQEAR'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Pre - Legal - Inactive - Legal Action Rejected'"
+                    }
+                ]
+            },{
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping7",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hwQEAR'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Post - Judgment - Inactive'"
                     }
                 ]
             }
