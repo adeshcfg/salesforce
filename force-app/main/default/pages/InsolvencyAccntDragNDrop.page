@@ -17,7 +17,7 @@
     background: #FFF!important;
 }
          </style>
-         <script src="../soap/ajax/33.0/connection.js" type="text/javascript"></script>
+         <script src="../soap/ajax/61.0/connection.js" type="text/javascript"></script>
          <script type="text/javascript">
             var __sfdcSessionId = '{!GETSESSIONID()}'; 
             sforce.connection.sessionId = '{!GETSESSIONID()}';
@@ -33,7 +33,7 @@
             var currentUserId='0053B000001EwWcQAK';
             
             
-            $(window).on('load',function(){  
+            /* $(window).on('load',function(){  
                 recordid = '{!insAcc.Id}';
                 // Remote call to get record info
                 InsolvencyAccntDragNDropController.getRecordInfo(recordid,function(result, event){
@@ -55,7 +55,7 @@
                 });
                 
                  
-            });
+            }); */
 
             function getDownloadUrl(selectedDocId){
                InsolvencyAccntDragNDropController.getDocumentId(selectedDocId, '{!insAcc.Id}', function(result, event){
@@ -290,8 +290,15 @@
             
             
             $(document).ready(function(){
+                $('.refreshLink').prop('href',(window.location != window.parent.location)? document.referrer : document.location);
+                $('#drop').click(function(){
+                    $('#fileBox').trigger('click');
+                });
+                $(".box").bind('dragover',function() {  
+                    $('#drop').css('border','2px dashed #3385E2'); }).bind('dragleave', function() { $('#drop').css('border','2px dashed #ccc'); 
+                });
                 if (window.FileReader) {
-                    $(document).ready(function(){
+                    // $(document).ready(function(){
                         var drop;
                         drop = document.getElementById('drop');
                         var status = document.getElementById('status');
@@ -308,7 +315,7 @@
                         catch(err) {
                             console.error("This browser doesn't support Drag & Drop of Files. Please try using Google Chrome or Mozilla Firefox to use this application. Redirecting you back to standard way of uploading attachments. (Technical Details : "+err+")");
                         }    
-                    });
+                    // });
                 }
                 else{
                     console.error('File Reader not supported');
@@ -431,13 +438,13 @@
                 $('<span class="slds-icon_container slds-icon-standard-task2"><svg class="slds-icon slds-icon--small" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.LightningDesign, '/assets/icons/standard-sprite/svg/symbols.svg#task2')} "></use></svg></span>').appendTo('.upload-status-mark'+uploadNum);
                 $('.dropzone-progress-'+uploadNum).addClass('green');
             }
-            $(document).ready(function(){
+            /* $(document).ready(function(){
                 $('.pbTitle').css('width','95%');
             });
             
             function redirectToRecord(attId){
                     
-            }
+            } */
             function cancel(){
                 window.location.href='/'+recordid;
             }
