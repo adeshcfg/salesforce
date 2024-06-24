@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>POC_details_provided_mandate</fullName>
+    <active>true</active>
+    <description>Rule that will mandate one of the following data fields is provided in order to set an account to POC Details provided: 
+Last Payment date and amount 
+Or, Acknowledgement date 
+Or, Account Open date</description>
+    <errorConditionFormula>AND(ISPICKVAL(Insolvency_Status__c, &apos;PoC Details Provided&apos;), OR(AND(ISBLANK(Last_Payment_Amount__c), ISBLANK(Last_Payment_Date__c)), ISBLANK(Acknowledgement_date__c), ISBLANK(Account_Open_date__c)))</errorConditionFormula>
+    <errorMessage>Last Payment date and amount or Acknowledgement date or Account Open date are mandatory to set account as POC details provided</errorMessage>
+</ValidationRule>

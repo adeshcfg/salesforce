@@ -98,6 +98,11 @@
                 <default>false</default>
                 <label>DOB mismatch</label>
             </value>
+            <value>
+                <fullName>Statute Barred</fullName>
+                <default>false</default>
+                <label>Statute Barred</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

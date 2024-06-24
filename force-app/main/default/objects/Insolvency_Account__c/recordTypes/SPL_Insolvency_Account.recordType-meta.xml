@@ -2497,6 +2497,10 @@
             <fullName>Unable to Locate Account</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Statute Barred</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Security_Type__c</picklist>
