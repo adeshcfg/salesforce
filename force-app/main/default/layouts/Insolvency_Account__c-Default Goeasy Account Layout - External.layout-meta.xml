@@ -411,7 +411,16 @@
                 <field>Expected_Account_Recovery_Ratio__c</field>
             </layoutItems>
             <layoutItems>
-                <emptySpace>true</emptySpace>
+                <behavior>Edit</behavior>
+                <field>Debt_Due_as_off_date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Acknowledgement_date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Account_Open_date__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
