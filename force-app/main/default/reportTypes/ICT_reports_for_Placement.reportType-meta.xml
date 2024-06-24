@@ -1844,16 +1844,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Previous_Payment_Amount__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Previous_Payment_Date__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Previous_Primary_Account_Number__c</field>
             <table>Account.Products__r</table>
         </columns>
@@ -2355,6 +2345,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Target_Suit_Month__c</field>
+            <table>Account.Products__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Value_Tier_at_Time_of_Placement__c</field>
             <table>Account.Products__r</table>
         </columns>
         <masterLabel>Products</masterLabel>
