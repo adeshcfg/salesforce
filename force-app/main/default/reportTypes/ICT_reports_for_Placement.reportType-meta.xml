@@ -2357,6 +2357,11 @@
             <field>Target_Suit_Month__c</field>
             <table>Account.Products__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Value_Tier_at_Time_of_Placement__c</field>
+            <table>Account.Products__r</table>
+        </columns>
         <masterLabel>Products</masterLabel>
     </sections>
     <sections>
