@@ -360,13 +360,13 @@
                                     Paiement au créancier par le débiteur pour cette créance est recevable (ou le débiteur est en demeure) depuis le 
                                    <b>
                                       <apex:outputText value="{0,date, dd}">
-                                         <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                         <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
                                       </apex:outputText>
                                    </b>
                                    jour de 
                                    <b>
                                       <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                         <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                         <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
                                       </apex:outputText>
                                    </b>
                                    et le plus récent paiement au créancier par le débiteur pour cette créance, si quelque paiement a été effectué, a été fait le
@@ -384,13 +384,13 @@
                                    et/ou que la plus récente renonciation au bénéfice de la prescription ou du temps écoulé a été faite le
                                    <b>
                                     <apex:outputText value="{0,date, dd}">
-                                       <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                       <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                     </apex:outputText>
                                    </b>
                                    jour de
                                    <b>
                                     <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                       <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                       <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                     </apex:outputText>
                                    </b>
                                    dont les détails sont mentionnés ci-après :
@@ -958,7 +958,7 @@
                                 <tr>
                                		 <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Date d'ouverture du compte :</b></td>
                                 	 <td style="padding-bottom:10px; padding-left:5px;">
-                                  		 {!insolvAcc.Account_Original_Open_Date__c}
+                                  		 {!insolvAcc.Account_Open_date__c}
                                 </td>
                              </tr>
                              <tr>

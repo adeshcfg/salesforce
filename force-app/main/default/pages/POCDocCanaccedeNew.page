@@ -379,13 +379,13 @@
                                     That payment for this debt by the debtor to the creditor has been due (or has been in default) since the 
                                    <b>
                                       <apex:outputText value="{0,date, dd}">
-                                         <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                         <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
                                       </apex:outputText>
                                    </b>
                                    day of 
                                    <b>
                                       <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                         <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                         <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
                                       </apex:outputText>
                                    </b>
                                    , and that the last payment, of ay, on this debt by the debtor to the creditor was made on the
@@ -403,13 +403,13 @@
                                    , and/or that the last acknowledgment, if any, of liability for this debt by the debtor to the creditor was made on the
                                    <b>
                                     <apex:outputText value="{0,date, dd}">
-                                       <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                       <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                     </apex:outputText>
                                    </b>
                                    day of
                                    <b>
                                     <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                       <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                       <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                     </apex:outputText>
                                    </b>
                                    , as follows:
@@ -1064,7 +1064,7 @@
                             <tr>
                                 <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Account Open Date:</b></td>
                                 <td style="padding-bottom:10px; padding-left:5px;">
-                                   {!insolvAcc.Account_Original_Open_Date__c}
+                                   {!insolvAcc.Account_Open_date__c}
                                 </td>
                              </tr>
                              <tr>
