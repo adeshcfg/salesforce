@@ -174,7 +174,7 @@
                                 var content = new sforce.SObject("ContentVersion");
                                 content.Title = this.file.name;
                                 content.PathOnClient = '/'+this.file.name;                                                  
-                                content.FirstPublishLocationId =recordid;
+                                content.FirstPublishLocationId ='{!insAcc.Id}';
                                 var binary = "";
                                 var bytes = new Uint8Array(e.target.result);
                                 var length = bytes.byteLength;
@@ -249,7 +249,7 @@
                                 att.Name = this.file.name;
                                 att.ContentType = this.file.type;
                                 att.Description = document.getElementById('pg:form:documentType').value;
-                                att.ParentId = recordid;
+                                att.ParentId = '{!insAcc.Id}';
                                 
                                 var binary = "";
                                 var bytes = new Uint8Array(e.target.result);
@@ -320,6 +320,7 @@
                 else{
                     console.error('File Reader not supported');
                 }
+                window.stop();
             });
             
             
@@ -446,7 +447,7 @@
                     
             } */
             function cancel(){
-                window.location.href='/'+recordid;
+                window.location.href='/'+{!insAcc.Id};
             }
             function redirectToFile(fileId){
                 if('Theme3' == 'Theme4d'){            
