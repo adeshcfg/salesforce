@@ -1008,40 +1008,41 @@
                               </td>
                            </tr>
                             <tr>
-                <td style="padding-bottom:10px;padding-left: 20px;"><span  style="font-family: sans-serif; font-weight:bold;">Rate:</span></td>
-                <td style="padding-bottom:10px; padding-left:5px;">
-                <span  style="font-family: sans-serif;">
-                <apex:outputText value="{0, number,#,##0.00}">
-                   <apex:param value="{!insolvAcc.Interest_Rate__c}" />
-                </apex:outputText>%
-                </span>
-                </td>
-            </tr>
-                           <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' || (insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
-                               <tr>
+                                <td style="padding-bottom:10px;padding-left: 20px;"><span  style="font-family: sans-serif; font-weight:bold;">Rate:</span></td>
+                                <td style="padding-bottom:10px; padding-left:5px;">
+                                    <span  style="font-family: sans-serif;">
+                                        <apex:outputText value="{0, number,#,##0.00}">
+                                            <apex:param value="{!insolvAcc.Interest_Rate__c}" />
+                                        </apex:outputText>%
+                                    </span>
+                                </td>
+                            </tr>
+                           
+                            <tr>
                                 <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Account Open Date:</b></td>
                                 <td style="padding-bottom:10px; padding-left:5px;">
-                                   {!insolvAcc.Account_Open_date__c}
+                                    {!insolvAcc.Account_Open_date__c}
                                 </td>
-                             </tr>
-                             <tr>
+                            </tr>
+                            <tr>
                                 <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Account Charged off Date:</b></td>
                                 <td style="padding-bottom:10px; padding-left:5px;">
-                                   {!insolvAcc.Charge_Off_Date__c}
+                                    {!insolvAcc.Charge_Off_Date__c}
                                 </td>
-                             </tr>
-                           <tr>
-                              <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Security Asset Description:</b></td>
-                              <td style="padding-bottom:10px; padding-left:5px;">
-                                 {!insolvAcc.Security_Description__c}
-                              </td>
-                           </tr>
-                           <tr>
-                              <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>VIN:</b></td>
-                              <td style="padding-bottom:10px; padding-left:5px;">
-                                 {!insolvAcc.Vehicle_Identification_Number__c}
-                              </td>
-                           </tr>
+                            </tr>
+                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' || (insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
+                               <tr>
+                                  <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Security Asset Description:</b></td>
+                                  <td style="padding-bottom:10px; padding-left:5px;">
+                                     {!insolvAcc.Security_Description__c}
+                                  </td>
+                               </tr>
+                               <tr>
+                                  <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>VIN:</b></td>
+                                  <td style="padding-bottom:10px; padding-left:5px;">
+                                     {!insolvAcc.Vehicle_Identification_Number__c}
+                                  </td>
+                               </tr>
                            </apex:outputText>
                         </table>
                         
