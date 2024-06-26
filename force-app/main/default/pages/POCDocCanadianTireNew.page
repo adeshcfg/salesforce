@@ -962,13 +962,17 @@
                             <tr>
                                 <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Account Open Date:</b></td>
                                 <td style="padding-bottom:10px; padding-left:5px;">
-                                   {!insolvAcc.Account_Open_date__c}
+                                    <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                        <apex:param value="{!insolvAcc.Account_Original_Open_Date__c}" />
+                                    </apex:outputText>
                                 </td>
                              </tr>
                              <tr>
                                 <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Account Charged off Date:</b></td>
                                 <td style="padding-bottom:10px; padding-left:5px;">
-                                   {!insolvAcc.Charge_Off_Date__c}
+                                   <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                         <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
+                                     </apex:outputText>
                                 </td>
                              </tr>
                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
