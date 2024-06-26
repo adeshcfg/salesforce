@@ -239,8 +239,8 @@
                     <br/>
 
 
-                    <div class="pageSeperator" style="display : {!IF(insolvAcc.Claim_Type__c == " Unsecured ", 'block;', 'none;')}">
-                    </div>
+                    <div class="pageSeperator" style="display : {!IF(insolvAcc.Claim_Type__c == "Unsecured", 'block;', 'none;')}">
+                        </div>
                     <apex:outputPanel rendered="{!form31}">
                         <div style="font-size: 13px; line-height: 17px; width:100%;padding-top: 1.25rem;padding-left:40px;">
                             <div style="padding-bottom:10px;">
