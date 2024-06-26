@@ -330,7 +330,7 @@ public class POCDocController {
             }
         } else if (pageName == 'Fidem') {
             pdfPageName = 'POCDocDataAffirm';
-        } else if (pageName == 'Canadian Tire') {
+        } else if (pageName == 'Canadian Tire' || pageName == 'CanadianTire') {
             if (language == 'en_US') {
                 pdfPageName = 'POCDocDataCanadianTire';
             }
@@ -504,7 +504,7 @@ public class POCDocController {
         if (language == 'fr') {
             if (pageName == 'Canaccede') {
                 redirectPageName = '/apex/POCDocFrenchCanaccedePreview';
-            } else if (pageName == 'Canadian Tire') {
+            } else if (pageName == 'Canadian Tire' || pageName == 'CanadianTire') {
                 redirectPageName = '/apex/POCDocFrenchCanadianTirePreview';
             } else if (pageName == 'GoEasyUnSecured') {
                 redirectPageName = '/apex/POCDocFrenchEasyFinancialPreview';
@@ -514,7 +514,7 @@ public class POCDocController {
         } else {
             if (pageName == 'Canaccede') {
                 redirectPageName = '/apex/POCDocCanaccede';
-            } else if (pageName == 'Canadian Tire') {
+            } else if (pageName == 'Canadian Tire' || pageName == 'CanadianTire') {
                 redirectPageName = '/apex/POCDocCanadianTire';
             } else if (pageName == 'GoEasyUnSecured') {
                 redirectPageName = '/apex/POCDocEasyFiEnglish';
