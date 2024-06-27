@@ -336,8 +336,8 @@
                                                 </b>
                                                 jour de 
                                                 <b>
-                                                    <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                                        <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                                    <apex:outputText value="{!formattedDate}">                                       
+                                                        <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> 
                                                     </apex:outputText>
                                                 </b>
                                                 , et est toujours, endetté au créancier pour la somme de
