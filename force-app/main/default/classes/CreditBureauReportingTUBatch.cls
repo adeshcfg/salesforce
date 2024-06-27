@@ -362,8 +362,8 @@
                                                FROM Product__History
                                                WHERE ParentId = :mapProduct.keySet()
                                                AND (Field= :'State__c')
-                                               //AND CreatedDate = LAST_MONTH
-                                               AND CreatedDate = THIS_MONTH
+                                               AND CreatedDate = LAST_MONTH
+                                               //AND CreatedDate = THIS_MONTH
                                                ORDER BY CreatedDate ASC];
         for(Product__History prodHistory : listProductHistory){
                 if(!splitProvinceValues.contains(string.valueOf(prodHistory.NewValue)) && splitProvinceValues.contains(string.valueOf(prodHistory.OldValue))){
