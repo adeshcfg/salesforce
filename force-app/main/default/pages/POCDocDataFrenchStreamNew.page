@@ -506,9 +506,9 @@
                     </apex:outputLabel>
                     &nbsp;&nbsp;&nbsp;&nbsp;Je demande qu’une copie du rapport dûment rempli par le syndic quant à la demande de libération du failli, en conformité avec le paragraphe 170(1) de la Loi, me soit expédiée à l’adresse susmentionnée.
                     
-                    <br/>
+                        <br/><br/>
                     <span style="font-family: sans-serif; font-weight:bold;">Avertissement</span>: Le paragraphe 201(1) de la Loi prévoit l’imposition de peines sévères en cas de présentation de réclamations, de preuves, de déclarations ou d’états de compte qui sont faux.
-                    <br/>
+                    <br/><br/>
                     Daté le 
                     <span  style="font-family: sans-serif; font-weight:bold;">
                     <apex:outputText value="{0,date, dd }">
