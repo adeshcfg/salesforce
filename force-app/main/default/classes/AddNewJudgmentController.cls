@@ -200,7 +200,7 @@ public class AddNewJudgmentController {
                          Court__c,Legal_Firm__c,Plaintiff__c,Attorney__c,Product_2__c,Balance_two__c,Suit_Amount_2__c,
                          Interest_Rate_two__c,County__c,Product_3__c,Balance_three__c,Interest_Rate_three__c,Suit_Amount_3__c,
                          Product_4__c,Balance_four__c,Interest_Rate_four__c,Suit_Amount_4__c,Product_5__c,Balance_five__c,
-                         Interest_Rate_five__c,Suit_Amount_5__c,Judgment_Date__c,Judgment_Amount__c,Filing_Date__c
+                         Interest_Rate_five__c,Suit_Amount_5__c,Judgment_Date__c,Judgment_Amount__c,Filing_Date__c,Legal_Agency__c
                          FROM Judgment__c where Id  =: judgId];
         }
 
@@ -259,7 +259,7 @@ public class AddNewJudgmentController {
             ErrorMsg = 'Product Province is required';
             listError.add(ErrorMsg);
         }
-        if(prod.Collection_Agency__c != NULL && judgment.Agency_Initiated_Legal_Action__c != String.valueOf(Math.floor(prod.Collection_Agency__c))){
+        if(prod.Collection_Agency__c != NULL && judgment.Legal_Agency__c != String.valueOf(Math.floor(prod.Collection_Agency__c))){
             ErrorMsg='Product Agency is not Match with Judgment Agency.';
             listError.add(ErrorMsg);
 
