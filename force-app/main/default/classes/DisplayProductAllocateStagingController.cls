@@ -401,7 +401,7 @@ public class DisplayProductAllocateStagingController{
         showButton = true;
         system.debug('SuccessCount::'+SuccessCount);
         //Call Product Update batch for allocation and recall.
-        Database.executeBatch(new CFG_ProcessSuccessRecords(workAssignmentId,recordIdentfier,documentType),200);
+        Database.executeBatch(new CFG_ProcessSuccessRecords(workAssignmentId,recordIdentfier,documentType),100);
         
         
         if(listProductStagingWrapper != null){
