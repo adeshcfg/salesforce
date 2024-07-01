@@ -7,11 +7,11 @@
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a3E3a00000B3hvREAR'"
+                        "fieldValue": "'a3E3a00000B3hvSEAR'"
                     },
                     {
                         "fieldApiName": "Complete_Status__c",
-                        "fieldValue": "'Payment Plan -  No Judgment - In Process'"
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Proposal'"
                     }
                 ]
             },
@@ -21,11 +21,11 @@
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a3E3a00000B3hvdEAB'"
+                        "fieldValue": "'a3E3a00000B3hvTEAR'"
                     },
                     {
                         "fieldApiName": "Complete_Status__c",
-                        "fieldValue": "'Payment Plan -  No Judgment - Delinquent'"
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Established'"
                     }
                 ]
             },
@@ -35,11 +35,11 @@
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a3E3a00000B3hvjEAB'"
+                        "fieldValue": "'a3E3a00000B3hvUEAR'"
                     },
                     {
                         "fieldApiName": "Complete_Status__c",
-                        "fieldValue": "'Payment Plan - No Judgment - In Default'"
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Settlement Pending'"
                     }
                 ]
             },
@@ -49,11 +49,11 @@
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a3E3a00000B3hvkEAB'"
+                        "fieldValue": "'a3E3a00000B3hvVEAR'"
                     },
                     {
                         "fieldApiName": "Complete_Status__c",
-                        "fieldValue": "'Payment Plan - No Judgment - Media Requested'"
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - CCCS Program'"
                     }
                 ]
             },
@@ -63,11 +63,11 @@
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a3E3a00000B3hvlEAB'"
+                        "fieldValue": "'a3E3a00000B3hvWEAR'"
                     },
                     {
                         "fieldApiName": "Complete_Status__c",
-                        "fieldValue": "'Payment Plan - No Judgment - Locating Debtor'"
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Promise to Pay - Single Payment'"
                     }
                 ]
             },
@@ -77,11 +77,11 @@
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a3E3a00000B3hvmEAB'"
+                        "fieldValue": "'a3E3a00000B3hvXEAR'"
                     },
                     {
                         "fieldApiName": "Complete_Status__c",
-                        "fieldValue": "'Payment Plan - No Judgment - Inactive'"
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Promise to Pay - Monthly Payments'"
                     }
                 ]
             },
@@ -91,24 +91,193 @@
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a3E3a00000B3hvQEAR'"
+                        "fieldValue": "'a3E3a00000B3hvYEAR'"
                     },
                     {
                         "fieldApiName": "Complete_Status__c",
-                        "fieldValue": "'Pre - Legal - Inactive - Legal Action Rejected'"
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Post Dated Cheques - at Agency'"
                     }
                 ]
-            },{
+            },
+            {
                 "objectName": "Placement_Status_Code_Mapping__c",
                 "recordVariableName": "PlacementStatusCodeMapping7",
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a3E3a00000B3hwQEAR'"
+                        "fieldValue": "'a3E3a00000B3hvZEAR'"
                     },
                     {
                         "fieldApiName": "Complete_Status__c",
-                        "fieldValue": "'Post - Judgment - Inactive'"
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Post Dated Cheques - at Client'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping8",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvaEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Preauthorized Payments/Direct Deposits'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping9",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvbEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Making Web/Telephone Payments'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping10",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvcEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - In Process - Debtor Refinancing'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping11",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hveEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - Delinquent - In Contact'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping12",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvfEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - Delinquent - Unable To Locate'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping13",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvgEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - Delinquent - Broken Promise'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping14",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvhEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - Delinquent - NSF/Stopped Payment - Cheque'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping15",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hviEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - Delinquent - NSF/Stopped Payment - PAP'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping16",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvjEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - In Default'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping17",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvkEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - Media Requested'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping18",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvlEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - Locating Debtor'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "PlacementStatusCodeMapping19",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a3E3a00000B3hvmEAB'"
+                    },
+                    {
+                        "fieldApiName": "Complete_Status__c",
+                        "fieldValue": "'Payment Plan -  No Judgment - Inactive'"
                     }
                 ]
             }
