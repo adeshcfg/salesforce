@@ -656,6 +656,9 @@ productStaging.Include_in_Processing__c = true;
         for(Judgment_product_codes_mapping__c judgmentCodes : mapJudgment.values()){
             mapJudgmentCodes.put(judgmentCodes.Codes__c, judgmentCodes);
         }
+        
+        String EXCLUDE_JUD_CODES = '210910,220050,220900,220910,290050,290400,293040,293050,295900,299999';
+        
         set<String> setRecentlyPaidProducts = new set<String>();
         setRecentlyPaidProducts = AccountStatusUpdateExcelFileProcessing.getProductPaymentDetails(mapProduct.keySet());
                 
@@ -824,7 +827,13 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             }
             
             if(mapJudgmentCodes.containsKey(product.Placement_Status_Code__c)){
-                ERROR_MSG += '<b>ERROR</b> : Legal Status, cannot update from judgment code<br/>';
+                if(EXCLUDE_JUD_CODES.contains(product.Placement_Status_Code__c) && docStorage.Uploaded_By__c == 'External User'){
+                        ERROR_MSG += '<b>ERROR</b> : Legal Status, cannot update from judgment code<br/>';
+                }else{
+                    if(!EXCLUDE_JUD_CODES.contains(product.Placement_Status_Code__c) && docStorage.Uploaded_By__c == 'Internal User'){
+                        ERROR_MSG += '<b>ERROR</b> : Legal Status, cannot update from judgment code<br/>';
+                    } 
+                }
             }
             
             if(mapProduct.containsKey(product.Name__c)
