@@ -1382,6 +1382,21 @@
                                         }
                                         productInstance.Assignment_Date__c = Date.today();
                                         placementCommisionRate = productInstance.Collection_Agency_Placement__r.Commission_Rate__c;
+                                        //Ticket 6914: whenever account reallocated then Allocated Amount: Principal,
+                                        //Allocated Amount: Interest and Allocated Amount: Fees should populate on product
+                                        if(productInstance.Current_Principal_Balance__c != NULL){
+                                            productInstance.Allocated_Amount_Principal__c = productInstance.Current_Principal_Balance__c;
+                                        }
+                                        if(productInstance.Current_Interest_Amount__c != NULL){
+                                            productInstance.Allocated_Amount_Interest__c = productInstance.Current_Interest_Amount__c;
+                                        }
+                                        if(productInstance.Recoverable_Fee__c == NULL){
+                                            productInstance.Recoverable_Fee__c = 0;
+                                        }
+                                        if(productInstance.Current_Bal_NSF_Fees__c == NULL){
+                                            productInstance.Current_Bal_NSF_Fees__c = 0;
+                                        }
+                                        productInstance.Allocated_Amount_Fees__c = productInstance.Recoverable_Fee__c + productInstance.Current_Bal_NSF_Fees__c; 
                                     }
                                 } 
                             }
