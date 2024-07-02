@@ -561,15 +561,15 @@
             ) {
                 ERROR_MSG += '<b>WARNING</b> - A duplicate transaction was found in this File Update.<br/>';
             }
-            if(prodPayment.Payment_Amount__c <= 0 && prodPayment.Payment_Type__c != BAL_ADJ_PAYTYPE_REVERSAL){
+            if(RogersFile == true && prodPayment.Payment_Amount__c <= 0 && prodPayment.Payment_Type__c != BAL_ADJ_PAYTYPE_REVERSAL){
                 ERROR_MSG += '<b>ERROR - </b>Payment type should be 8003.<br/>';
             }
-            if(prodPayment.Payment_Amount__c <= 0 && prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL
+            if(RogersFile == true && prodPayment.Payment_Amount__c <= 0 && prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL
               && (prodPayment.Principal_Payment_Amount__c > 0 || prodPayment.Interest_Payment_Amount__c > 0 )){
                 ERROR_MSG += '<b>ERROR - </b>Transaction pay principal or pay interest not correct.<br/>';
                 EXPECTED += 'Amount should be in negative.<br/>';
             }
-            if(prodPayment.Payment_Amount__c > 0 && prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL){
+            if(RogersFile == true && prodPayment.Payment_Amount__c > 0 && prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL){
                 ERROR_MSG += '<b>ERROR - </b>Transaction amount should be in negative.<br/>';
             }
             if (prodPayment.Payment_Posting_Date__c != null && prodPayment.Payment_Type__c == BAL_ADJ_PAYTYPE_REVERSAL) {
@@ -973,12 +973,14 @@
                         }
                         //prodPayment.Product_Agency__c = productAgencyID;
                         if (showCommissionExpectedMessage) {
-                            EXPECTED +=
+                            if(prodPayment.Pay_Due__c != NULL && prodPayment.Payment_Agency__c != NULL){
+                                EXPECTED +=
                                 'Commission Amount ' +
                                 prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP) +
                                 ' will be paid to Agency ' +
                                 prodPayment.Payment_Agency__c +
                                 '<br/>';
+                            }
                         }
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled before 15 days and is currently placed with agency ' + productAgency + '.<br/>';
                     }
