@@ -90,6 +90,14 @@
             <fullName>Delivered</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>File Error Parsing Record</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending File</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Claim_Type__c</picklist>
