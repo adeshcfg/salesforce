@@ -1174,7 +1174,15 @@
                                 //revert the statuses
                                 productInstance.Placement_Status__c = reversedPay.Pay_Placedetail_Status__c;
                                 productInstance.Product_Status__c = reversedPay.Pay_Data_Status__c;
-                                productInstance.Collection_Sub_Status__c = reversedPay.Product_Collection_Sub_Status__c;
+                                //Ticket 6915 : Bypass "Collection_Sub_Status_Change" custom validation to set collection sub status to "Legal"
+                                if(reversedPay.Product_Collection_Sub_Status__c == 'Legal'){
+                                    Application_Config_Settings__c config = [SELECT Run_Product_Coll_Sub_Status_Validation__c FROM Application_Config_Settings__c FOR UPDATE];
+                                    config.Run_Product_Coll_Sub_Status_Validation__c = false;
+                                    update config;
+                                    productInstance.Collection_Sub_Status__c = reversedPay.Product_Collection_Sub_Status__c;
+                                }else{
+                                    productInstance.Collection_Sub_Status__c = reversedPay.Product_Collection_Sub_Status__c;
+                                }
                                 productInstance.Data_Status_Description__c = reversedPay.Product_Status_Desc_on_Product__c;
                                 
                                 if (mapProductNameIds.containsKey(reversedPay.CCS_Account__c)) {
