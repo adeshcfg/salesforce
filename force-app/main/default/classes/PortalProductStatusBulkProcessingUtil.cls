@@ -23,12 +23,22 @@ public class PortalProductStatusBulkProcessingUtil {
 
     public static String processBulkProducts(String postJSON) {
         map<String, string> mapAgencyUser = new Map<String, string>();
-
+        map<String, Judgment_product_codes_mapping__c> mapJudgment = Judgment_product_codes_mapping__c.getAll();
+        map<String, string> mapJudgmentCodes = new map<String, string>();                                            
+		List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
+        Map<String, ID> mapProductJudgment = new Map<String, ID>();
+        String EXCLUDE_JUD_CODES = '210910,220050,220900,220910,290050,290400,293040,293050,295900,299999';
+        
         ProductBulkAPIWrapper requestWrapper = (ProductBulkAPIWrapper) JSON.deserialize(postJSON, ProductBulkAPIWrapper.class);
         List<String> listProductNames = new List<String>();
         if (String.isNotBlank(requestWrapper.accountList)) {
             listProductNames = requestWrapper.accountList.split(',');
         }
+        
+        for(Judgment_product_codes_mapping__c judgmentCodes : mapJudgment.values()){
+            mapJudgmentCodes.put(judgmentCodes.Judgment_Legal_Status__c+judgmentCodes.Judgment_Legal_Sub_Status__c, judgmentCodes.Codes__c);
+        }
+        
         List<String> listProductStatus = new List<String>();
         //split PlacementStatus
         if (String.isNotBlank(requestWrapper.PlacementStatus)) {
@@ -78,7 +88,18 @@ public class PortalProductStatusBulkProcessingUtil {
             WHERE Name = :'9999'
             LIMIT 1
         ];
-
+        map<String,String> mapJudgmentCode = new map<String,String>();
+		for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c, Product__r.Name,
+                                               Judgment__r.Legal_Status__c,Judgment__r.Legal_Sub_Status__c
+                                               	FROM Account_Judgment__c
+                                                  WHERE  Product__r.Name IN :listProductNames
+                                                  AND Status__c = 'Active']){
+                mapProductJudgment.put(accJudgment.Product__c, accJudgment.id);
+                mapJudgmentCode.put(accJudgment.Product__c,mapJudgmentCodes.get(accJudgment.Judgment__r.Legal_Status__c+accJudgment.Judgment__r.Legal_Sub_Status__c));                                      
+                         //mapJudgmentCodes.get(accJudgment.Judgment__r.Legal_Status__c+accJudgment.Judgment__r.Legal_Sub_Status__c)                             
+                                                      
+        }
+        
         list<Product__c> listProductsToUpdate = new List<Product__c>();
         list<Placement_History__c> listPlacementHistoryToCreate = new List<Placement_History__c>();
         list<Product__c> listProducts = [
@@ -94,7 +115,8 @@ public class PortalProductStatusBulkProcessingUtil {
                 Allocated_Amount_Fees__c,
                 Allocated_Amount_Interest__c,
                 Allocated_Amount_Principal__c,
-                Timestamp_Of_Invalid_Submission__c
+                Timestamp_Of_Invalid_Submission__c,
+            	Placement_Status__c
             FROM Product__c
             WHERE Name IN :listProductNames
         ];
@@ -126,7 +148,15 @@ public class PortalProductStatusBulkProcessingUtil {
                         product.Status__c = product.Status__c.Replace('Pending Recall', 'Recall');
                     }
                 }
-
+				
+                //Ticket 6430 : Point 2
+                if(EXCLUDE_JUD_CODES.contains(mapJudgmentCode.get(product.id)) 
+                   && mapProductJudgment.containsKey(product.id)){
+                       Account_Judgment__c accJudgment = new Account_Judgment__c();
+                       accJudgment.id =  mapProductJudgment.get(product.id);  
+                       accJudgment.Status__c = 'Inactive';
+                       accJudgStatusUpdateList.add(accJudgment);
+                   }
                 if (product.Placement_Status__c.startsWith('8')) {
                     product.Placement_Status__c = product.Placement_Status__c.Replace('8', '9');
                 }
@@ -216,6 +246,8 @@ public class PortalProductStatusBulkProcessingUtil {
                 System.enqueueJob(new BulkDmlQueueable(listProductsToUpdate, 0, 'Update'));
                 //end CPU Time Limit
                 ProductTriggerHandler.runProductTrigger = true;
+                
+                update accJudgStatusUpdateList;
                 return 'Success';
             } catch (Exception ex) {
                 System.debug(ex.getStackTraceString());
