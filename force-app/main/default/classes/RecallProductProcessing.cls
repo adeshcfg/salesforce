@@ -25,8 +25,8 @@ public class RecallProductProcessing {
         set<id> setProductIDs = new set<id>();
         List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
         Map<String, ID> mapProductJudgment = new Map<String, ID>();
-        String EXCLUDE_JUD_CODES = '210910,220050,220900,220910,290050,290400,293040,293050,295900,299999';
-        
+        Legal_Status_Codes__c legalSetting = Legal_Status_Codes__c.getOrgDefaults();
+        String EXCLUDE_JUD_CODES = legalSetting.Exclude_Judgment_Codes__c;
         
         //Fetch System Api
         if(lrpSetting.Canaccede_API_User__c != NULL){
