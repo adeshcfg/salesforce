@@ -44,6 +44,8 @@ public class TestDisplayProductAllocStagController {
         listmapping.add(mapping6); 
         insert listmapping;
         
+        Legal_Status_Codes__c lrpSetting = new Legal_Status_Codes__c(Exclude_Judgment_Codes__c = '210910,220050,220900,220910,290050,290400,293040,293050,295900,299999');
+        insert lrpSetting;
         
     }
     
@@ -365,10 +367,17 @@ public class TestDisplayProductAllocStagController {
         product1.Purchase_Province__c = 'AB';
         product1.Placement_Status__c='800000';
         product1.Collection_Agency__c=88;
-        insert product1;  
+        insert product1;
+        
+        Account_Judgment__c acctJudgment1 = new Account_Judgment__c();
+        acctJudgment1.Product__c = product.Id;
+        acctJudgment1.Status__c = 'Active';
+        insert acctJudgment1;
+        
         Pool__c poolData = new Pool__c();
         poolData.Placement_Agency__c = 89;
         insert poolData;
+        
         Product_Staging__c productStaging = new Product_Staging__c();
         productStaging.Product_ID__c = product.ID;
         productStaging.Document_Storage__c = docStorage.ID;
@@ -378,8 +387,6 @@ public class TestDisplayProductAllocStagController {
         productStaging.Placement_Agency__c = '1';
         productStaging.Pool_Name_ID__c = poolData.id;
         productStaging.Placement_Status_Code__c='800000';
-        //    productStaging.Status_Changed_Date__c = String.valueOf(Date.today());
-        
         insert productStaging;
         
         Placement_Status_Code_Mapping__c PlacementCode = new Placement_Status_Code_Mapping__c();

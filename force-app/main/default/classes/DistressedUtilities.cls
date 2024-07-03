@@ -806,11 +806,12 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
 			//Ticket 5081: User cannot update status if product with judgment
             Legal_Status_Codes__c lrpSetting = Legal_Status_Codes__c.getOrgDefaults();
             String statusCodes=lrpSetting.status_codes__c;
+            String EXCLUDE_JUD_CODES = lrpSetting.Exclude_Judgment_Codes__c;
             String placementStatus;
             if (mapProduct.get(product.Name__c).Placement_Status__c!=NULL && mapProduct.get(product.Name__c).Placement_Status__c!=''){
                 placementStatus=mapProduct.get(product.Name__c).Placement_Status__c;
             }
-            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && (placementStatus!=NULL && placementStatus!='') && statusCodes.contains(placementStatus)){
+            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && (placementStatus!=NULL && placementStatus!='') && !EXCLUDE_JUD_CODES.contains(placementStatus)){
                 ERROR_MSG += '<b>ERROR</b> : Can\'t change account in Legal status<br/>';
                 EXPECTED += 'User cannot update the status on Product with Judgment<br/>';
             }
@@ -823,7 +824,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             if(setRecentlyPaidProducts.contains(product.Name__c)){
                 ERROR_MSG += '<b>WARNING</b> - '+': Account had payment in last 2 months'+'<br/>';
             }
-            String EXCLUDE_JUD_CODES = lrpSetting.Exclude_Judgment_Codes__c;
+            
             if(mapJudgmentCodes.containsKey(product.Placement_Status_Code__c)){
                 if(EXCLUDE_JUD_CODES.contains(product.Placement_Status_Code__c) && docStorage.Uploaded_By__c == 'External User'){
                         ERROR_MSG += '<b>ERROR</b> : Legal Status, cannot update from judgment code<br/>';
