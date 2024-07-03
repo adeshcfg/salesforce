@@ -95,9 +95,7 @@ public class PortalProductStatusBulkProcessingUtil {
                                                   WHERE  Product__r.Name IN :listProductNames
                                                   AND Status__c = 'Active']){
                 mapProductJudgment.put(accJudgment.Product__c, accJudgment.id);
-                mapJudgmentCode.put(accJudgment.Product__c,mapJudgmentCodes.get(accJudgment.Judgment__r.Legal_Status__c+accJudgment.Judgment__r.Legal_Sub_Status__c));                                      
-                         //mapJudgmentCodes.get(accJudgment.Judgment__r.Legal_Status__c+accJudgment.Judgment__r.Legal_Sub_Status__c)                             
-                                                      
+                mapJudgmentCode.put(accJudgment.Product__c,mapJudgmentCodes.get(accJudgment.Judgment__r.Legal_Status__c+accJudgment.Judgment__r.Legal_Sub_Status__c));                                                                                  
         }
         
         list<Product__c> listProductsToUpdate = new List<Product__c>();
@@ -150,7 +148,7 @@ public class PortalProductStatusBulkProcessingUtil {
                 }
 				
                 //Ticket 6430 : Point 2
-                if(EXCLUDE_JUD_CODES.contains(mapJudgmentCode.get(product.id)) 
+                if(mapJudgmentCode.containsKey(product.id) && EXCLUDE_JUD_CODES.contains(mapJudgmentCode.get(product.id)) 
                    && mapProductJudgment.containsKey(product.id)){
                        Account_Judgment__c accJudgment = new Account_Judgment__c();
                        accJudgment.id =  mapProductJudgment.get(product.id);  
