@@ -23,6 +23,10 @@ public class RecallProductProcessing {
         Map<Id,String> PlacementStatusMap = new Map<Id,String>();
         List<Id> prodIds = new List<Id>();
         set<id> setProductIDs = new set<id>();
+        List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
+        Map<String, ID> mapProductJudgment = new Map<String, ID>();
+        String EXCLUDE_JUD_CODES = '210910,220050,220900,220910,290050,290400,293040,293050,295900,299999';
+        
         
         //Fetch System Api
         if(lrpSetting.Canaccede_API_User__c != NULL){
@@ -47,8 +51,13 @@ public class RecallProductProcessing {
         for(Product_Staging__c productStaging : prodStagingList){
             setProductIDs.add(productStaging.Product_ID__c);
         }
-        
-        map<ID, Product__c> mapProduct = new Map<ID, Product__c> ([SELECT ID, Name, RecordTypeId,OwnerId,Collection_Agency__c
+        for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c, Product__r.Name FROM Account_Judgment__c
+                                                  WHERE Product__c IN :setProductIDs
+                                                  AND Status__c = 'Active']){
+                mapProductJudgment.put(accJudgment.Product__c, accJudgment.id);
+        }
+        map<ID, Product__c> mapProduct = new Map<ID, Product__c> ([SELECT ID, Name, RecordTypeId,OwnerId,Collection_Agency__c,
+                                                                   Placement_Status__c
                                                                        FROM Product__c WHERE ID IN :setProductIDs]);
         try {
             for(Product_Staging__c productStaging : prodStagingList){
@@ -115,7 +124,7 @@ public class RecallProductProcessing {
                     prod.Sub_Status__c = productStaging.Placement_Sub_Status__c;
                     prod.Status_Changed_Date__c = myDate;
                     prod.Run_Identifier_Check_On__c = System.today();
-                   if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9')) || Test.isRunningTest()){   
+                    if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9')) || Test.isRunningTest()){   
                         if(codeMapping.containsKey(prod.Placement_Status__c) ){
                             if(codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c != NULL){
                                 prod.Product_Status__c = codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c;
@@ -161,7 +170,14 @@ public class RecallProductProcessing {
                                    }
                            }
                         }
-                    
+                       //Ticket 6430 : Point 2
+                       if(EXCLUDE_JUD_CODES.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
+                          && mapProductJudgment.containsKey(productStaging.Product_ID__c)){
+                              Account_Judgment__c accJudgment = new Account_Judgment__c();
+                              accJudgment.id =  mapProductJudgment.get(productStaging.Product_ID__c);  
+                              accJudgment.Status__c = 'Inactive';
+                              accJudgStatusUpdateList.add(accJudgment);
+                          }
                            
                  
                     }else{
@@ -177,6 +193,9 @@ public class RecallProductProcessing {
                     ProductTriggerHandler.runProductTrigger = false;
                     update prodList;
                     ProductTriggerHandler.runProductTrigger = true;
+                    AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
+                    update accJudgStatusUpdateList;
+                    AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
                 }
                 
                 // Added by satyajit for ticket: 4217
