@@ -811,7 +811,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             if (mapProduct.get(product.Name__c).Placement_Status__c!=NULL && mapProduct.get(product.Name__c).Placement_Status__c!=''){
                 placementStatus=mapProduct.get(product.Name__c).Placement_Status__c;
             }
-            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && (placementStatus!=NULL && placementStatus!='') && !EXCLUDE_JUD_CODES.contains(placementStatus)){
+            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && (placementStatus!=NULL && placementStatus!='') && statusCodes.contains(placementStatus)){
                 ERROR_MSG += '<b>ERROR</b> : Can\'t change account in Legal status<br/>';
                 EXPECTED += 'User cannot update the status on Product with Judgment<br/>';
             }
