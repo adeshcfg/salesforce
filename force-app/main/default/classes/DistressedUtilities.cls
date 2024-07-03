@@ -866,8 +866,8 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 }*/
                 
                 //agency can not change status when refer to legal is in for review/main status is in pregal.
-                
-                if(mapProduct.get(product.Name__c).Status__c != null){
+                //Ticket 6922: check product placement status present  in EXCLUDE_JUD_CODES
+                if(mapProduct.get(product.Name__c).Status__c != null && !EXCLUDE_JUD_CODES.contains(mapProduct.get(product.Name__c).Placement_Status__c)){
                     if((mapProduct.get(product.Name__c).Status__c.startsWith('Pre - Legal') && mapProduct.get(product.Name__c).Placement_Status__c != product.Placement_Status_Code__c) || (mapProduct.get(product.Name__c).Refer_to_Legal__c == 'For Review' && mapProduct.get(product.Name__c).Placement_Status__c != product.Placement_Status_Code__c)){
                         ERROR_MSG += '<b>ERROR</b> : Account in Refer to Legal status<br/>';
                         //EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name).Placement_Status__c+'.<br/>';
