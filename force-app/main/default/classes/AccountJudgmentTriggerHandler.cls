@@ -80,22 +80,52 @@ public class AccountJudgmentTriggerHandler{
     
     //Fetch related Product record Update status to “Legal” 
     public static void updateProductRecord(List<Account_Judgment__c> prodJudgList){
+        map<String, Judgment_product_codes_mapping__c> mapJudgment = Judgment_product_codes_mapping__c.getAll();
+        map<String, Judgment_product_codes_mapping__c> mapJudgmentCodes = new map<String, Judgment_product_codes_mapping__c>();
+        for(Judgment_product_codes_mapping__c judgmentCodes : mapJudgment.values()){
+            mapJudgmentCodes.put(judgmentCodes.Judgment_Legal_Status__c+judgmentCodes.Judgment_Legal_Sub_Status__c, judgmentCodes);
+        }    
         List<Id> prodIds = new List<Id>();
+        List<Id> judIds = new List<Id>();
+        Map<string,Judgment__c> mapJudgmentData = new Map<string,Judgment__c>();
+        Map<string,map<string,string>> prodStatus = new Map<string,map<string,string>>();
         system.debug('prodJudgList::'+prodJudgList);
         config = [SELECT Run_Product_Coll_Sub_Status_Validation__c FROM Application_Config_Settings__c FOR UPDATE];
+        for(Account_Judgment__c prodJudg : prodJudgList){
+            if(prodJudg.Judgment__c != NULL){
+                judIds.add(prodJudg.Judgment__c);
+            }
+        }
+        List<Judgment__c> judgList = [SELECT Id,Legal_Status__c,Legal_Sub_Status__c  FROM Judgment__c WHERE Id IN: judIds];
+        for(Judgment__c judData : judgList){
+            mapJudgmentData.put(judData.id,judData);
+        }
         for(Account_Judgment__c prodJudg : prodJudgList){
             if(prodJudg.Product__c != NULL){
                 prodIds.add(prodJudg.Product__c);
             }
+            prodStatus.put(
+                        prodJudg.Product__c,
+                        new Map<String, String>{
+                            'PlacementStatus' => mapJudgmentCodes.get(mapJudgmentData.get(prodJudg.Judgment__c).Legal_Status__c+mapJudgmentData.get(prodJudg.Judgment__c).Legal_Sub_Status__c).Codes__c,
+                            'PlacemntMainStatus' => mapJudgmentCodes.get(mapJudgmentData.get(prodJudg.Judgment__c).Legal_Status__c+mapJudgmentData.get(prodJudg.Judgment__c).Legal_Sub_Status__c).Product_Status__c,
+                            'PlacementSubStatus' => mapJudgmentCodes.get(mapJudgmentData.get(prodJudg.Judgment__c).Legal_Status__c+mapJudgmentData.get(prodJudg.Judgment__c).Legal_Sub_Status__c).Product_Sub_status__c
+                        }
+                    );
         }
         system.debug('prodIds::'+prodIds);
+        system.debug('prodStatus::'+prodStatus);
         if(!prodIds.isEmpty()){
             system.debug('BlockRun');
             List<Product__c> prodList = [SELECT Id, Collection_Sub_Status__c FROM Product__c WHERE Id IN: prodIds];
             for(Product__c prod: prodList){
                 prod.Collection_Sub_Status__c = 'Legal';
                 prod.Previously_Reviewed_for_Legal_Action__c = TRUE;
-                
+                //Ticket 6928: added judgment on product from judgment UI screen
+                //update placement main status,placement sub status and placement status on product
+                prod.Status__c = prodStatus.get(prod.id).get('PlacemntMainStatus');
+                prod.Sub_Status__c = prodStatus.get(prod.id).get('PlacementSubStatus');
+                prod.Placement_Status__c = prodStatus.get(prod.id).get('PlacementStatus');
             }
             config.Run_Product_Coll_Sub_Status_Validation__c = false; 
             update config;
