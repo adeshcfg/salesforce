@@ -13,6 +13,15 @@ public class TestAccountJudgmentTriggerHandler {
             (Run_Product_Coll_Sub_Status_Validation__c = true,
             Run_Account_Judgment_Trigger__c = true);
         insert config;
+        
+        Judgment_product_codes_mapping__c mapping = new Judgment_product_codes_mapping__c();
+        mapping.name='A-0007';
+        mapping.Judgment_Legal_Status__c='Pre-legal';
+        mapping.Judgment_Legal_Sub_Status__c = 'Recommended for legal action';
+        mapping.Codes__c='210000';
+        mapping.Product_Parent__c ='Pre - Legal - In Process';
+        mapping.Product_Sub_status__c ='Recommended for Legal Action';
+        insert mapping;
     }
     
      public static testMethod void TestAccountJudgment(){
@@ -30,6 +39,7 @@ public class TestAccountJudgmentTriggerHandler {
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test'; 
+        prod.Collection_Agency__c = 72;
         INSERT prod;
          
       
@@ -37,9 +47,9 @@ public class TestAccountJudgmentTriggerHandler {
         Judgment__c judg= new Judgment__c();
         String recordid=[SELECT id from RecordType where sobjecttype='Judgment__C' AND RecordType.Name='Judgment'].id;
         judg.RecordTypeId=recordid;
-        judg.Legal_Agency__c = 'Test Agency';
-        judg.Legal_Status__c='Post-Judgment';
-        judg.Legal_Sub_Status__c='Dormant';
+        judg.Legal_Agency__c = '72';
+        judg.Legal_Status__c='Pre-legal';
+        judg.Legal_Sub_Status__c='Recommended for legal action';
         insert judg;
         
          //Account-Judgment Record Creation
@@ -56,6 +66,7 @@ public class TestAccountJudgmentTriggerHandler {
         AccountJud.add(accjudg);
         AccountJudgmentTriggerHandler.handleBeforeInsert(AccountJud);
         AccountJudgmentTriggerHandler.getAccJudgmentRelatedData(AccountJud);
+        AccountJudgmentTriggerHandler.updateAmountsOnJudgment(AccountJud);
         //AccountJudgmentTriggerHandler.getAccJudgmentRelatedAgencyData(AccountJud);
      }
     
@@ -74,7 +85,7 @@ public class TestAccountJudgmentTriggerHandler {
         testData();
         
         //Product Record Creation
-         Product__c prod=new Product__C();
+        Product__c prod=new Product__C();
         string recrdid= [SELECT id from RecordType where sobjecttype='product__C' AND RecordType.Name='Distressed Account'].id;
         prod.RecordTypeId=recrdid;
         prod.Name ='123456789';
@@ -83,7 +94,8 @@ public class TestAccountJudgmentTriggerHandler {
         prod.Current_Interest_Amount__c=1000;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
-        prod.Product_Status__c = 'Test'; 
+        prod.Product_Status__c = 'Test';
+        prod.Collection_Agency__c = 72;
         INSERT prod;
          
       
@@ -91,9 +103,9 @@ public class TestAccountJudgmentTriggerHandler {
         Judgment__c judg= new Judgment__c();
         String recordid=[SELECT id from RecordType where sobjecttype='Judgment__C' AND RecordType.Name='Judgment'].id;
         judg.RecordTypeId=recordid;
-        judg.Legal_Agency__c = 'Test Agency';
-        judg.Legal_Status__c='Post-Judgment';
-        judg.Legal_Sub_Status__c='Dormant';
+        judg.Legal_Agency__c = '72';
+        judg.Legal_Status__c='Pre-legal';
+        judg.Legal_Sub_Status__c='Recommended for legal action';
         insert judg;
         
          //Account-Judgment Record Creation

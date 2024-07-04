@@ -228,7 +228,9 @@ public class TestTaskTriggerHandler{
         
         List<Judgment__c> judgs = new List<Judgment__c>();
         Judgment__c judg = new Judgment__c();
-        judg.Legal_Agency__c = '29';
+        judg.Legal_Agency__c = '72';
+        judg.Legal_Status__c='Pre-legal';
+        judg.Legal_Sub_Status__c='Recommended for legal action';
         judg.Collection_Agency_Identifier__c = '6';
         judgs.add(judg);
         
@@ -236,7 +238,15 @@ public class TestTaskTriggerHandler{
         return judgs;
     }
      public static List<Account_Judgment__c> createAccountJudgment(){
-        
+        Judgment_product_codes_mapping__c mapping = new Judgment_product_codes_mapping__c();
+        mapping.name='A-0007';
+        mapping.Judgment_Legal_Status__c='Pre-legal';
+        mapping.Judgment_Legal_Sub_Status__c = 'Recommended for legal action';
+        mapping.Codes__c='210000';
+        mapping.Product_Parent__c ='Pre - Legal - In Process';
+        mapping.Product_Sub_status__c ='Recommended for Legal Action';
+        insert mapping;
+         
         List<Account_Judgment__c> judgs1 = new List<Account_Judgment__c>();
          List<Judgment__c> listJudg = createJudgment();
          List<Product__c> listProd = createProduct();
@@ -245,7 +255,6 @@ public class TestTaskTriggerHandler{
         Account_Judgment__c judg1 = new Account_Judgment__c();
         
         judg1.Judgment__c=listJudg[0].id;
-        //judg1.Legal_Agency__c = '29';
         judg1.Product__c =listProd[3].id;
         judg1.Status__c= 'Active';
         
