@@ -27,8 +27,6 @@ public class PortalProductStatusBulkProcessingUtil {
         map<String, string> mapJudgmentCodes = new map<String, string>();                                            
 		List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
         Map<String, ID> mapProductJudgment = new Map<String, ID>();
-        Legal_Status_Codes__c legalSetting = Legal_Status_Codes__c.getOrgDefaults();
-        String EXCLUDE_JUD_CODES = legalSetting.Exclude_Judgment_Codes__c;
         
         ProductBulkAPIWrapper requestWrapper = (ProductBulkAPIWrapper) JSON.deserialize(postJSON, ProductBulkAPIWrapper.class);
         List<String> listProductNames = new List<String>();
@@ -149,7 +147,7 @@ public class PortalProductStatusBulkProcessingUtil {
                 }
 				
                 //Ticket 6430 : Point 2
-                if(mapJudgmentCode.containsKey(product.id) && EXCLUDE_JUD_CODES.contains(mapJudgmentCode.get(product.id)) 
+                if(mapJudgmentCode.containsKey(product.id) && System.Label.Exclude_Judgment_Codes.contains(mapJudgmentCode.get(product.id)) 
                    && mapProductJudgment.containsKey(product.id)){
                        Account_Judgment__c accJudgment = new Account_Judgment__c();
                        accJudgment.id =  mapProductJudgment.get(product.id);  

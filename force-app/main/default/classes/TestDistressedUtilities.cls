@@ -22,9 +22,6 @@ public class TestDistressedUtilities {
         placeStatusCode.Description__c ='Demand Letters - In Process - Initial Letter Sent';
         insert placeStatusCode;
         
-        Legal_Status_Codes__c lrpSetting = new Legal_Status_Codes__c(Exclude_Judgment_Codes__c = '210910,220050,220900,220910,290050,290400,293040,293050,295900,299999');
-        insert lrpSetting;
-        
         Placement_Status_Mapping__c placeStatusCode1 = new Placement_Status_Mapping__c();
         placeStatusCode1.Name = '900010';
         placeStatusCode1.Description__c ='Demand Letters - Media Requested';
