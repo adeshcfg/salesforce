@@ -223,7 +223,7 @@
                                     <br/>
                                     et la réclamation du <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><b> cessionnaire de {!insolvAcc.Vendor_Orginator__c}. </b> (Créancier)</apex:outputText><apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b>  CFG Canada Funding, LLC cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</b> (Créancier)</apex:outputText>        
                                     <br/><br/>
-                                 <span styele="padding-left:40px;"><i>Tous les avis ou correspondances concernant cette réclamation doivent être envoyés à l'adresse suivante</i></span>   
+                                 <span style="padding-left:40px;"><i>Tous les avis ou correspondances concernant cette réclamation doivent être envoyés à l'adresse suivante</i></span>   
                                 </div>
                                 <div style="font-weight : bold; text-align:center;padding-top:10px;">
                                     Canaccede International Management Ltd.<br/>
@@ -255,8 +255,8 @@
                                                 </b>
                                                 jour de 
                                                 <b>
-                                                    <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                                        <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                                    <apex:outputText value="{!formattedDate}">
+                                                        <!--<apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />-->
                                                     </apex:outputText>
                                                 </b>
                                                 , et est toujours, endetté au créancier pour la somme de
@@ -284,7 +284,7 @@
                                    </b>
                                    jour de 
                                    <b>
-                                      <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                      <apex:outputText value="{!formattedLastPayDate}">
                                          <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
                                       </apex:outputText>
                                    </b>
@@ -296,7 +296,7 @@
                                    </b>
                                    jour de
                                    <b>
-                                    <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                    <apex:outputText value="{!formattedLastPayDate}">
                                        <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
                                     </apex:outputText>
                                    </b>
@@ -308,7 +308,7 @@
                                    </b>
                                    jour de
                                    <b>
-                                    <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                    <apex:outputText value="{!formattedLastPayDate}">
                                        <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                     </apex:outputText>
                                    </b>
@@ -452,10 +452,17 @@
                                         <i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i>
                                         <br/><br/>
                                         <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU MONTANT   DE       $
+                                        &nbsp;&nbsp; G. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU MONTANT   DE       $
                                         <br/>
                                         J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:
                                         <br/>
+                                        (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
+                                        <br/><br/>
+                                        <apex:inputCheckbox styleClass="my-checkbox"/>
+                                        <span style="padding-left:15px;">H. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU MONTANT DE       $ </span>
+                                        
+                                        J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:
+                                        
                                         (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
                                         <br/><br/>
                                         7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
@@ -514,9 +521,9 @@
                                         </b>
                                         jour de
                                         <b>
-                                            <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                                <apex:param value="{!TODAY()}" />, à London, ON.
-                                            </apex:outputText>
+                                            <apex:outputText value="{!formattedDateToday}">
+                                                <!--<apex:param value="{!TODAY()}" />, à London, ON.--->
+                                           </apex:outputText>, à <b>London, ON</b>.
                                         </b>
                                         <Table style="width:100%;">
                                             <tr style="margin-top:-40px;">
@@ -677,7 +684,7 @@
                                     <apex:inputCheckbox styleClass="my-checkbox" value="{!voteForAcceptance}"/>
                                     <span style="padding-left:25px">
                                         à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote <b>EN FAVEUR</b> de l’acceptation de la proposition de consommateur faite le 
-                                        <apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">
+                                       <apex:outputText value="{0,date, dd ' jour de '}">{!formattedDate}
                                             <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                                         </apex:outputText>
                                         .
@@ -686,7 +693,7 @@
                                     <apex:inputCheckbox styleClass="my-checkbox" value="{!voteAgainstAcceptance}"/>
                                     <span style="padding-left:25px">
                                         à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote <b>CONTRE</b> l’acceptation de la proposition de consommateur faite le 
-                                        <apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">
+                                        <apex:outputText value="{0,date, dd ' jour de '}">{!formattedDate}
                                             <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                                         </apex:outputText>
                                         .
@@ -695,7 +702,7 @@
                                     <apex:inputCheckbox styleClass="my-checkbox" value="{!meetingOfCredits}"/>
                                     <span style="padding-left:25px">
                                         à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote <b>CONTRE</b> l’acceptation de la proposition de consommateur faite le
-                                        <apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">
+                                        <apex:outputText value="{0,date, dd ' jour de '}">{!formattedDate}
                                             <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                                         </apex:outputText>
                                         , et <b>JE DEMANDE QU’UNE ASSEMBLÉE SOIT CONVOQUÉE.</b>
@@ -710,9 +717,8 @@
                                     </b>
                                     jour de
                                     <b>
-                                        <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                            <apex:param value="{!TODAY()}" />, à London, ON.
-                                        </apex:outputText>
+                                        <apex:outputText value="{!formattedDateToday}">
+                              			</apex:outputText>, à London, ON.
                                     </b>
                                     <Table style="width:100%;">
                                         <tr style="margin-top:-40px;">
@@ -822,9 +828,16 @@
                               <tr>
                                  <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">Date du dernier paiement</td>
                                  <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
-                                    <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                     <apex:outputText value="{0,date, dd}">
+                                         <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
+                                     </apex:outputText>
+                                     
+                                     <apex:outputText value="{!formattedLastPayDate}">                                       
+                                         <apex:param value="{!insolvAcc.Last_Payment_Date__c}" /> 
+                                     </apex:outputText>
+                                   <!-- <apex:outputText value="{0,date, dd MMMM',' yyyy}">
                                        <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
-                                    </apex:outputText>
+                                    </apex:outputText>--->
                                  </td>
                                  <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;"><b>Montant du dernier paiement</b></td>
                                  <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
@@ -837,9 +850,16 @@
                               <tr>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">Avant-dernière date de paiement</td>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
-                                   <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                     <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" />
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText value="{!formattedSecondLastPayDate}">                                       
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" /> 
+                                    </apex:outputText>
+                                   <!--<apex:outputText value="{0,date, dd MMMM',' yyyy}">
                                       <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" />
-                                   </apex:outputText>
+                                   </apex:outputText>--->
                                 </td>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;"><b>Montant du deuxième dernier paiement</b></td>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
@@ -852,9 +872,16 @@
                              <tr>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">Troisième dernière date de paiement</td>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
-                                   <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                    <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date_3__c}" />
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText value="{!formattedThridLastPayDate}">                                       
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date_3__c}" /> 
+                                    </apex:outputText>
+                                  <!-- <apex:outputText value="{0,date, dd MMMM',' yyyy}">
                                       <apex:param value="{!insolvAcc.Last_Payment_Date_3__c}" />
-                                   </apex:outputText>
+                                   </apex:outputText>--->
                                 </td>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;"><b>Montant du troisième dernier paiement</b></td>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
@@ -895,7 +922,10 @@
                                     <tr>
                                         <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Date d'ouverture du compte :</b></td>
                                         <td style="padding-bottom:10px; padding-left:5px;">
-                                            <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                            <apex:outputText value="{0,date, dd}">
+                                                <apex:param value="{!insolvAcc.Account_Open_date__c}" />
+                                            </apex:outputText>
+                                            <apex:outputText value="{!formattedAccountOpenDate}">
                                                 <apex:param value="{!insolvAcc.Account_Open_date__c}" />
                                             </apex:outputText>
                                         </td>
@@ -903,7 +933,10 @@
                                     <tr>
                                         <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>La date radié du compte :</b></td>
                                         <td style="padding-bottom:10px; padding-left:5px;">
-                                            <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                            <apex:outputText value="{0,date, dd}">
+                                                <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
+                                            </apex:outputText>
+                                            <apex:outputText value="{!formattedAccountChargedoffDate}">
                                                 <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
                                             </apex:outputText>
                                         </td>

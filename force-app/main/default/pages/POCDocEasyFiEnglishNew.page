@@ -443,7 +443,7 @@
                               <i>(Give full particulars of the claim, including the calculations upon which the claim is based.)</i>
                               <br/><br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F. CLAIM OF A CUSTOMER OF A BANKRUPT SECURITIES FIRM $
+                              &nbsp;&nbsp; G. CLAIM OF A CUSTOMER OF A BANKRUPT SECURITIES FIRM $
                               <br/>
                               That I hereby make a claim as a customer for net equity as contemplated by section 262 of the Act, particulars of which are as follows:
                               <br/>
