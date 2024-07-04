@@ -825,14 +825,12 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 ERROR_MSG += '<b>WARNING</b> - '+': Account had payment in last 2 months'+'<br/>';
             }
             
-            if(mapJudgmentCodes.containsKey(product.Placement_Status_Code__c)){
-                if(EXCLUDE_JUD_CODES.contains(product.Placement_Status_Code__c) && docStorage.Uploaded_By__c == 'External User'){
+            
+            if(mapProduct.containsKey(product.Name__c) 
+                && mapProduct.get(product.Name__c).Placement_Status__c <> NULL){
+                    if(EXCLUDE_JUD_CODES.contains(mapProduct.get(product.Name__c).Placement_Status__c) && docStorage.Uploaded_By__c == 'External User'){
                         ERROR_MSG += '<b>ERROR</b> : Legal Status, cannot update from judgment code<br/>';
-                }else{
-                    if(!EXCLUDE_JUD_CODES.contains(product.Placement_Status_Code__c) && docStorage.Uploaded_By__c == 'Internal User'){
-                        ERROR_MSG += '<b>ERROR</b> : Legal Status, cannot update from judgment code<br/>';
-                    } 
-                }
+                    }
             }
             
             if(mapProduct.containsKey(product.Name__c)
