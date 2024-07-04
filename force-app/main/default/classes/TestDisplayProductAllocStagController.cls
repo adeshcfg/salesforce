@@ -44,9 +44,6 @@ public class TestDisplayProductAllocStagController {
         listmapping.add(mapping6); 
         insert listmapping;
         
-        Legal_Status_Codes__c lrpSetting = new Legal_Status_Codes__c(Exclude_Judgment_Codes__c = '210910,220050,220900,220910,290050,290400,293040,293050,295900,299999');
-        insert lrpSetting;
-        
     }
     
     public static testMethod void testAccStatusUpdate(){

@@ -25,8 +25,6 @@ public class RecallProductProcessing {
         set<id> setProductIDs = new set<id>();
         List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
         Map<String, ID> mapProductJudgment = new Map<String, ID>();
-        Legal_Status_Codes__c legalSetting = Legal_Status_Codes__c.getOrgDefaults();
-        String EXCLUDE_JUD_CODES = legalSetting.Exclude_Judgment_Codes__c;
         
         //Fetch System Api
         if(lrpSetting.Canaccede_API_User__c != NULL){
@@ -171,7 +169,7 @@ public class RecallProductProcessing {
                            }
                         }
                        //Ticket 6430 : Point 2
-                       if(EXCLUDE_JUD_CODES.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
+                       if(System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
                           && mapProductJudgment.containsKey(productStaging.Product_ID__c)){
                               Account_Judgment__c accJudgment = new Account_Judgment__c();
                               accJudgment.id =  mapProductJudgment.get(productStaging.Product_ID__c);  

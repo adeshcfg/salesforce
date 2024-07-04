@@ -804,14 +804,11 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             } 
                 
 			//Ticket 5081: User cannot update status if product with judgment
-            Legal_Status_Codes__c lrpSetting = Legal_Status_Codes__c.getOrgDefaults();
-            String statusCodes=lrpSetting.status_codes__c;
-            String EXCLUDE_JUD_CODES = lrpSetting.Exclude_Judgment_Codes__c;
             String placementStatus;
             if (mapProduct.get(product.Name__c).Placement_Status__c!=NULL && mapProduct.get(product.Name__c).Placement_Status__c!=''){
                 placementStatus=mapProduct.get(product.Name__c).Placement_Status__c;
             }
-            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && (placementStatus!=NULL && placementStatus!='') && statusCodes.contains(placementStatus)){
+            if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && (placementStatus!=NULL && placementStatus!='') && System.Label.Judgment_Codes.contains(placementStatus)){
                 ERROR_MSG += '<b>ERROR</b> : Can\'t change account in Legal status<br/>';
                 EXPECTED += 'User cannot update the status on Product with Judgment<br/>';
             }
@@ -825,10 +822,9 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 ERROR_MSG += '<b>WARNING</b> - '+': Account had payment in last 2 months'+'<br/>';
             }
             
-            
             if(mapProduct.containsKey(product.Name__c) 
                 && mapProduct.get(product.Name__c).Placement_Status__c <> NULL){
-                    if(EXCLUDE_JUD_CODES.contains(mapProduct.get(product.Name__c).Placement_Status__c) && docStorage.Uploaded_By__c == 'External User'){
+                    if(System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(product.Name__c).Placement_Status__c) && docStorage.Uploaded_By__c == 'External User'){
                         ERROR_MSG += '<b>ERROR</b> : Legal Status, cannot update from judgment code<br/>';
                     }
             }
@@ -865,7 +861,7 @@ EXPECTED += 'Payment Date cannot be blank.<br/>';*/
                 
                 //agency can not change status when refer to legal is in for review/main status is in pregal.
                 //Ticket 6922: check product placement status present  in EXCLUDE_JUD_CODES
-                if(mapProduct.get(product.Name__c).Status__c != null && !EXCLUDE_JUD_CODES.contains(mapProduct.get(product.Name__c).Placement_Status__c)){
+                if(mapProduct.get(product.Name__c).Status__c != null && !System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(product.Name__c).Placement_Status__c)){
                     if((mapProduct.get(product.Name__c).Status__c.startsWith('Pre - Legal') && mapProduct.get(product.Name__c).Placement_Status__c != product.Placement_Status_Code__c) || (mapProduct.get(product.Name__c).Refer_to_Legal__c == 'For Review' && mapProduct.get(product.Name__c).Placement_Status__c != product.Placement_Status_Code__c)){
                         ERROR_MSG += '<b>ERROR</b> : Account in Refer to Legal status<br/>';
                         //EXPECTED += 'Current Placement Status = ' +mapProduct.get(product.Name).Placement_Status__c+'.<br/>';
