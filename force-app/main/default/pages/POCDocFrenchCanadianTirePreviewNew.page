@@ -427,11 +427,9 @@
                               $
                            </b>
                            <div style="line-height: 30px;">
-                              <span style="padding-left:70px;">(autre qu’une réclamation d’un client visée par l’article 262 de la Loi)</span>
-                              <br/>
-                              En ce qui concerne cette créance, je ne détiens aucun avoir du débiteur à titre de garantie et
-                              <br/>
-                              <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Cochez la description appropriée)</i>
+                               <span style="padding-left:28px;">(autre qu’une réclamation d’un client visée par l’article 262 de la Loi)</span>
+                                             <div style="padding-left:28px;"> En ce qui concerne cette créance, je ne détiens aucun avoir du débiteur à titre de garantie et</div>
+                                             <div style="padding-left:28px;">(Cochez la description appropriée)</div>
                            </div>
                            <apex:inputCheckbox styleClass="my-checkbox" value="{!claimRight}"/>
                            &nbsp;&nbsp;Concernant le montant de 
@@ -458,10 +456,10 @@
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimOfLess}"/>
                               &nbsp;&nbsp;B. RÉCLAMATION DU LOCATEUR SUITE À LA RÉSILIATION D'UN BAIL, AU MONTANT DE      $  
                               <br/>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; J'ai une réclamation en vertu du paragraphe 65.2(4) de la Loi, dont les détails sont mentionnés ci-après:
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; J'ai une réclamation en vertu du paragraphe 65.2(4) de la Loi, dont les détails sont mentionnés <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ci-après:
                               <br/>
-                              (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
-                              <br/>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
+                               <br/><br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!secureClaim}"/>
                               &nbsp;&nbsp;C. RÉCLAMATION GARANTIE AU MONTANT DE
                               <b>
@@ -471,7 +469,7 @@
                                   $
                               </b>
                               <br/>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;En ce qui concerne la créance susmentionnée, je détiens des avoirs du débiteur à titre de garantie, dont la valeur estimative s'élève à
+                           <div style="padding-left:28px;">En ce qui concerne la créance susmentionnée, je détiens des avoirs du débiteur à titre de garantie, dont la valeur estimative s'élève à
                               <b>
                                  <apex:outputText value="{0, number,#,##0.00}">
                                     <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Secured', insolvAcc.Claim_Amount__c, '')}" />
@@ -481,12 +479,12 @@
                               et dont les détails sont mentionnés ci-après:
                               <br/>
                               (Donnez des renseignements complets au sujet de la garantie, y compris la date à laquelle elle a été donnée et la valeur que vous lui attribuez, et annexez une copie des documents relatifs à la garantie.)
-                              <br/><br/> 
+                               <br/></div><br/> 
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimByFarmers}"/>
-                              &nbsp;&nbsp;D. RÉCLAMATION D'UN AGRICULTEUR, D'UN PÊCHEUR OU D'UN AQUICULTEUR AU MONTANT DE      $ 
+                              &nbsp;&nbsp;D. RÉCLAMATION D'UN AGRICULTEUR, D'UN PÊCHEUR OU D'UN AQUICULTEUR AU &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTANT DE      $ 
                               <BR/>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;J'ai une réclamation en vertu du paragraphe 81.2(1) de la Loi pour la somme impayée de      $  
-                              <br/><i>(Veuillez joindre une copie de l'acte de vente et des reçus de livraison).</i>
+                              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>(Veuillez joindre une copie de l'acte de vente et des reçus de livraison).</i>
                               <br/> <br/> 
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimByWage}"/>
                               &nbsp;&nbsp;E. RÉCLAMATION D'UN SALARIÉ AU MONTANT DE      $
@@ -500,10 +498,9 @@
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimByWage}"/>
                               &nbsp;&nbsp;F. RÉCLAMATION D’UN EMPLOYÉ RELATIVE AU RÉGIME DE PENSION AU MONTANT DE      $
                               <br/>
-                              &nbsp;&nbsp;J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $
-                              <br/>
-                              &nbsp;&nbsp;J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $
-                              <br/><br/>
+                             <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>
+                                        <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>                  
+                                       <br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimAgnstDirector}"/>
                               &nbsp;&nbsp; G. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $  
                               <br/>

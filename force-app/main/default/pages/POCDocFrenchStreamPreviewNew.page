@@ -377,7 +377,7 @@
                                    </b>
                                    jour de 
                                    <b>
-                                      <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                      <apex:outputText value="{!formattedLastPayDate}">
                                          <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
                                       </apex:outputText>
                                    </b>
@@ -389,7 +389,7 @@
                                    </b>
                                    jour de
                                    <b>
-                                    <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                    <apex:outputText value="{!formattedLastPayDate}">
                                        <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
                                     </apex:outputText>
                                    </b>
@@ -401,7 +401,7 @@
                                    </b>
                                    jour de
                                    <b>
-                                    <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                    <apex:outputText value="{!formattedLastPayDate}">
                                        <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                     </apex:outputText>
                                    </b>
@@ -418,43 +418,10 @@
                                  <td style="padding-left:10px;"><i>(Cochez la catégorie qui s'applique et remplissez les parties requises.)</i></td>
                               </tr>
                            </table>
-                           <Apex:inputCheckbox styleClass="my-checkbox" value="{!unSecClaim}"/>
-                           &nbsp;&nbsp;A. RÉCLAMATION NON GARANTIE AU MONTANT DE
-                           <b>
-                              <apex:outputText value="{0, number,#,##0.00}">
-                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
-                              </apex:outputText>
-                              $
-                           </b>
-                           <div style="line-height: 30px;">
-                              <span style="padding-left:70px;">(autre qu’une réclamation d’un client visée par l’article 262 de la Loi)</span>
-                              <br/>
-                              En ce qui concerne cette créance, je ne détiens aucun avoir du débiteur à titre de garantie et
-                              <br/>
-                              <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Cochez la description appropriée)</i>
-                           </div>
-                           <apex:inputCheckbox styleClass="my-checkbox" value="{!claimRight}"/>
-                           &nbsp;&nbsp;Concernant le montant de 
-                           <b>
-                              <apex:outputText value="{0, number,#,##0.00}">
-                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
-                              </apex:outputText>
-                              $
-                           </b>
-                           , Je revendique un droit à une priorité en vertu de l'article 136 de la Loi.
-                           <br/>
-                           <Apex:inputCheckbox styleClass="my-checkbox" value="{!dontClaim}"/>
-                           &nbsp;&nbsp;Concernant le montant de 
-                           <b>
-                              <apex:outputText value="{0, number,#,##0.00}">
-                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}"/>
-                              </apex:outputText>
-                              $
-                           </b>
-                           , Je ne revendique pas de droit à une priorité
-                           <br/>
-                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Indiquez sur une feuille annexée les renseignements à l'appui de la réclamation prioritaire.)
-                           <br/><br/>
+                          
+                            
+                            
+                            <br/>
                            {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                            <br/>
                            {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
@@ -490,13 +457,51 @@
                            </div>
                            <br/>
                            <div style="padding-left:30px;">
+                               
+                               <Apex:inputCheckbox styleClass="my-checkbox" value="{!unSecClaim}"/>
+                           &nbsp;&nbsp;A. RÉCLAMATION NON GARANTIE AU MONTANT DE
+                           <b>
+                              <apex:outputText value="{0, number,#,##0.00}">
+                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
+                              </apex:outputText>
+                              $
+                           </b>
+                           <div style="line-height: 30px;">
+                               <span style="padding-left:28px;">(autre qu’une réclamation d’un client visée par l’article 262 de la Loi)</span>
+                                             <div style="padding-left:28px;"> En ce qui concerne cette créance, je ne détiens aucun avoir du débiteur à titre de garantie et</div>
+                                             <div style="padding-left:28px;">(Cochez la description appropriée)</div>
+                           </div>
+                           <apex:inputCheckbox styleClass="my-checkbox" value="{!claimRight}"/>
+                           &nbsp;&nbsp;Concernant le montant de 
+                           <b>
+                              <apex:outputText value="{0, number,#,##0.00}">
+                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
+                              </apex:outputText>
+                              $
+                           </b>
+                               , Je revendique un droit à une priorité en vertu de<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; l'article 136 de
+                               la Loi.
+                           <br/>
+                           <Apex:inputCheckbox styleClass="my-checkbox" value="{!dontClaim}"/>
+                           &nbsp;&nbsp;Concernant le montant de 
+                           <b>
+                              <apex:outputText value="{0, number,#,##0.00}">
+                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}"/>
+                              </apex:outputText>
+                              $
+                           </b>
+                           , Je ne revendique pas de droit à une priorité
+                           <br/>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Indiquez sur une feuille annexée les renseignements à l'appui de la réclamation prioritaire.)
+                               <br/> <br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimOfLess}"/>
                               &nbsp;&nbsp;B. RÉCLAMATION DU LOCATEUR SUITE À LA RÉSILIATION D'UN BAIL, AU MONTANT DE      $  
                               <br/>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; J'ai une réclamation en vertu du paragraphe 65.2(4) de la Loi, dont les détails sont mentionnés ci-après:
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; J'ai une réclamation en vertu du paragraphe 65.2(4) de la Loi, dont les détails sont mentionnés
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ci-après:
                               <br/>
-                              (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
-                              <br/>
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
+                               <br/><br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!secureClaim}"/>
                               &nbsp;&nbsp;C. RÉCLAMATION GARANTIE AU MONTANT DE
                               <b>
@@ -506,7 +511,7 @@
                                   $
                               </b>
                               <br/>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;En ce qui concerne la créance susmentionnée, je détiens des avoirs du débiteur à titre de garantie, dont la valeur estimative s'élève à
+                             <div style="padding-left:28px;">En ce qui concerne la créance susmentionnée, je détiens des avoirs du débiteur à titre de garantie, dont la valeur estimative s'élève à
                               <b>
                                  <apex:outputText value="{0, number,#,##0.00}">
                                     <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Secured', insolvAcc.Claim_Amount__c, '')}" />
@@ -516,15 +521,16 @@
                               et dont les détails sont mentionnés ci-après:
                               <br/>
                               (Donnez des renseignements complets au sujet de la garantie, y compris la date à laquelle elle a été donnée et la valeur que vous lui attribuez, et annexez une copie des documents relatifs à la garantie.)
-                              <br/>
+                                 <br/></div><br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimByFarmers}"/>
-                              &nbsp;&nbsp;D. RÉCLAMATION D'UN AGRICULTEUR, D'UN PÊCHEUR OU D'UN AQUICULTEUR AU MONTANT DE      $ <!--<b>$<apex:outputText value="{0, number,#,##0.00}">
+                              &nbsp;&nbsp;D. RÉCLAMATION D'UN AGRICULTEUR, D'UN PÊCHEUR OU D'UN AQUICULTEUR AU
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONTANT DE      $ <!--<b>$<apex:outputText value="{0, number,#,##0.00}">
                                  <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Secured', insolvAcc.Claim_Amount__c, '')}" />
                                  </apex:outputText> 
                                  </b>-->
                               <BR/>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;J'ai une réclamation en vertu du paragraphe 81.2(1) de la Loi pour la somme impayée de      $  
-                              <br/><i>(Veuillez joindre une copie de l'acte de vente et des reçus de livraison).</i>
+                              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>(Veuillez joindre une copie de l'acte de vente et des reçus de livraison).</i>
                               <br/> <br/> 
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimByWage}"/>
                               &nbsp;&nbsp;E. RÉCLAMATION D'UN SALARIÉ AU MONTANT DE      $
@@ -538,21 +544,28 @@
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimAgnstDirector}"/>
                               &nbsp;&nbsp; F. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $  
                               <br/>
-                              <i>(À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.)</i>
-                              <br/>
-                              J'ai une réclamation en vertu du paragraphe 50(13) de la Loi, dont les détails sont mentionnés ci-après:
-                              <br/>                    
-                              <i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i>
-                              <br/><br/>
+                               <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>
+                                        <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>                  
+                                       <br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
-                              &nbsp;&nbsp; G. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU MONTANT   DE       $
-                              <br/>
-                              J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:
-                              <br/>
-                              (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
-                              <br/><br/>
+                                        &nbsp;&nbsp;G. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU <br/> 
+                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  MONTANT   DE       $ 
+                                        <div style="padding-left:27px;"><i> (À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.)</i></div> 
+                                        <div style="padding-left:27px;"> J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</div>
+                                        
+                                        <div style="padding-left:27px;"><i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i></div>
+                                        <br/>
+                                <!--<apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>-->
+                                        <apex:inputCheckbox styleClass="my-checkbox"/>
+                                        &nbsp;&nbsp;H. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU <br/> 
+                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MONTANT DE      $
+                                        <div style="padding-left:27px;">J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après: 
+                                        </div>
+                                        <div style="padding-left:27px;"><i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i></div>
+                                        <br/>
+                               <br/>
                               7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
-                              <br/>
+                               <br/><br/>
                               8. Les montants suivants constituent les paiements que j'ai reçus  du débiteur  et les crédits que j'ai attribués à celui-ci et les opérations sous-évaluées selon le paragraphe 2(1) de la Loi auxquelles j'ai contribué ou été partie intéressée au cours des trois mois (ou, si le créancier et le débiteur sont des "personnes liées" au sens du paragraphe 4 de la Loi, au cours des douze mois) précédant immédiatement l'ouverture de la faillite, tel que défini au paragraphe 2 de la Loi. (Donnez les détails des paiements, des crédits et des opérations sous-évaluées.)
                               <br/>&nbsp;&nbsp;&nbsp;&nbsp;Veuillez consulter l’annexe A pour plus de détails
                               <br/><br/><br/><br/>
@@ -927,9 +940,13 @@
                               <tr>
                                  <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">Date du dernier paiement</td>
                                  <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
-                                    <apex:outputText value="{!formattedLastpaymentDate}"><!--{0,date, dd MMMM',' yyyy}">
-                                       <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />-->
-                                    </apex:outputText>
+                                     <apex:outputText value="{0,date, dd}">
+                                         <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
+                                     </apex:outputText>
+                                     
+                                     <apex:outputText value="{!formattedLastPayDate}">                                       
+                                         <apex:param value="{!insolvAcc.Last_Payment_Date__c}" /> 
+                                     </apex:outputText>
                                  </td>
                                  <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;"><b>Montant du dernier paiement</b></td>
                                  <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
@@ -942,7 +959,12 @@
                                <tr>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">Avant-dernière date de paiement</td>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
-                                   <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                    
+                                   <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" />
+                                    </apex:outputText> 
+                                    
+                                   <apex:outputText value="{!formattedSecondLastPayDate}">
                                       <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" />
                                    </apex:outputText>
                                 </td>
@@ -957,7 +979,11 @@
                              <tr>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">Troisième dernière date de paiement</td>
                                 <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
-                                   <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                   <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date_3__c}" />
+                                    </apex:outputText>
+                                    
+                                    <apex:outputText value="{!formattedThridLastPayDate}">
                                       <apex:param value="{!insolvAcc.Last_Payment_Date_3__c}" />
                                    </apex:outputText>
                                 </td>
@@ -1001,7 +1027,11 @@
                             <tr>
                                 <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Date d'ouverture du compte :</b></td>
                                 <td style="padding-bottom:10px; padding-left:5px;">
-                                    <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                   <!-- <apex:outputText value="{0,date, dd MMMM',' yyyy}">-->
+                                    <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Account_Open_date__c}" />
+                                    </apex:outputText>
+                                    <apex:outputText value="{!formattedAccountOpenDate}">
                                         <apex:param value="{!insolvAcc.Account_Open_date__c}" />
                                     </apex:outputText>
                                 </td>
@@ -1009,7 +1039,11 @@
                             <tr>
                                 <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>La date radié du compte :</b></td>
                                 <td style="padding-bottom:10px; padding-left:5px;">
-                                    <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                   <!-- <apex:outputText value="{0,date, dd MMMM',' yyyy}">-->
+                                    <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
+                                    </apex:outputText>
+                                    <apex:outputText value="{!formattedAccountChargedoffDate}">
                                         <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
                                     </apex:outputText>
                                 </td>

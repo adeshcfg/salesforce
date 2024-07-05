@@ -246,7 +246,7 @@
                             </span>
                             jour de
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                <apex:outputText value="{!formattedDebtDueOffDate}">
                                     <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
                                 </apex:outputText>
                             </span>
@@ -258,7 +258,7 @@
                             </span>
                             jour de
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                <apex:outputText value="{!formattedLastpaymentDate}">
                                     <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
                                 </apex:outputText>
                             </span>
@@ -270,7 +270,7 @@
                             </span>
                             jour de
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                <apex:outputText value="{!formattedAcknowledgementDate}">
                                     <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                 </apex:outputText>
                             </span>
@@ -467,6 +467,7 @@
                     
                     <i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i>
                     <br/>
+                    <br/>
                     7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
                     <br/>
                     8. Les montants suivants constituent les paiements que j'ai reçus  du débiteur  et les crédits que j'ai attribués à celui-ci et les opérations sous-évaluées selon le paragraphe 2(1) de la Loi auxquelles j'ai contribué ou été partie intéressée au cours des trois mois (ou, si le créancier et le débiteur sont des "personnes liées" au sens du paragraphe 4 de la Loi, au cours des douze mois) précédant immédiatement l'ouverture de la faillite, tel que défini au paragraphe 2 de la Loi.
@@ -530,8 +531,8 @@
                     <span  style="font-family: sans-serif; font-weight:bold;">
                        <!-- <apex:outputText value="{0,date, MMMM',' yyyy}">-->
                             <apex:outputText value="{!formattedDateToday}">
-                            <apex:param value="{!TODAY()}" />, à London, ON.
-                        </apex:outputText>
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText>, à London, ON.
                     </span>
                     <tr style="width:100%;">
                         <td style=" width:200px; vertical-align:bottom; padding-right: 90px;">
@@ -668,10 +669,12 @@
                     <td style="vertical-align:top;">(d)</td>
                     <td style="padding-left:8px;">Si une assemblée des créanciers n’est pas convoquée, la proposition de consommateur est réputée, en vertu du paragraphe 66.18(1) de la Loi, avoir été acceptée par les créanciers, sans égard à toute désapprobation reçue par l’administrateur de la proposition de consommateur.</td>
                 </tr>
+                <br/>
                 <tr>
                     <td style="vertical-align:top;">2.</td>
                     <td style="padding-left:8px;">Je demande:  <span  style="font-family: sans-serif; font-style:italic;padding-left:30px;"> (Cochez et remplissez la section pertinente)</span></td>
                 </tr>
+                 <br/>
                 <div style="line-height:15px; margin-bottom:-8px;">
                     
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.voteForAcceptance == 'true'}"> 
@@ -680,8 +683,10 @@
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.voteForAcceptance == 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel>
-                    <span style="padding-left:15px;">à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote
-                        <span  style="font-family: sans-serif; font-weight:bold;">EN FAVEUR</span> de l’acceptation de la proposition de consommateur faite le </span>
+                    <span style="padding-left:14px;">à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote</span>
+                        <span  style="font-family: sans-serif; font-weight:bold;">EN FAVEUR</span> de
+                    <br/>
+                       <span style="padding-left:28px;">l’acceptation de la proposition de consommateur faite le </span>
                     <!--<apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">-->
                          <apex:outputText value="{0,date, dd ' jour de '}">{!formattedDate}
                         <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> 
@@ -694,8 +699,10 @@
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.voteAgainstAcceptance == 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel>
-                    <span style="padding-left:15px;">
-                        à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote <span  style="font-family: sans-serif; font-weight:bold;">CONTRE </span> l’acceptation de la proposition de consommateur faite le
+                    <span style="padding-left:14px;">
+                        à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote <span  style="font-family: sans-serif; font-weight:bold;">CONTRE </span>
+                        <br/>
+                        <span style="padding-left:28px;">l’acceptation de la proposition de consommateur faite le</span>
                         <!--<apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">-->
                              <apex:outputText value="{0,date, dd ' jour de '}">{!formattedDate}
                             <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
@@ -709,14 +716,17 @@
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.meetingOfCredits == 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel>
-                    <span style="padding-left:15px;">à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote
-                        <span  style="font-family: sans-serif; font-weight:bold;">CONTRE </span> l’acceptation de
-                        la proposition de consommateur faite le
-                        <!--<apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">-->
+                    <span style="padding-left:14px;">à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer mon vote
+                        <span  style="font-family: sans-serif; font-weight:bold;">CONTRE </span>
+                        <br/>
+                        <span style="padding-left:28px;">l’acceptation de la proposition de consommateur faite le
+                           <!--<apex:outputText value="{0,date, dd ' jour de ' MMMM',' yyyy}">-->
                              <apex:outputText value="{0,date, dd ' jour de '}">{!formattedDate}
                             <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> 
-                        </apex:outputText>, et <span  style="font-family: sans-serif; font-weight:bold;">JE DEMANDE QU’UNE ASSEMBLÉE SOIT CONVOQUÉE.</span>
-                        
+                        </apex:outputText>,
+                            <br/>
+                            <span style="padding-left:28px;"> et <span  style="font-family: sans-serif; font-weight:bold;">JE DEMANDE QU’UNE ASSEMBLÉE SOIT CONVOQUÉE.</span></span>
+                        </span>
                     </span>
                     <div style="height:60px; padding: 10px 0px 0px 0px;">
                         {!insolvAcc.Voting_Letter_Comments__c}
@@ -731,8 +741,8 @@
                 <span  style="font-family: sans-serif; font-weight:bold;">
                    <!-- <apex:outputText value="{0,date, MMMM',' yyyy}">-->
                         <apex:outputText value="{!formattedDateToday}">
-                        <apex:param value="{!TODAY()}" />, à London, ON.
-                    </apex:outputText>
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>, à London, ON.
                 </span>
                 
                 <tr style="width:100%;">
@@ -880,8 +890,11 @@
                                 <span  style="font-family: sans-serif; font-weight:bold;">Date du dernier paiement</span></td>
                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
                                 <span  style="font-family: sans-serif; font-weight:bold;">
-                                    <apex:outputText value="{0,date, dd}">{!formattedLastpaymentDate}
-                                        <apex:param value="{!insolvAcc.Last_Payment_Date__c}" /> 
+                                    <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
+                                    </apex:outputText>
+                                    <apex:outputText value="{!formattedLastpaymentDate}">
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
                                     </apex:outputText>
                                 </span>
                             </td>
@@ -901,7 +914,10 @@
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                               <apex:outputText value="{0,date, dd}">
+                                    <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" />
+                                </apex:outputText>
+                                <apex:outputText value="{!formattedSecondLastPayDate}">
                                     <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" />
                                 </apex:outputText>
                             </span>
@@ -923,7 +939,10 @@
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                <apex:outputText value="{0,date, dd}">
+                                    <apex:param value="{!insolvAcc.Last_Payment_Date_3__c}" />
+                                </apex:outputText>
+                                <apex:outputText value="{!formattedThridLastPayDate}">
                                     <apex:param value="{!insolvAcc.Last_Payment_Date_3__c}" />
                                 </apex:outputText>
                             </span>
@@ -977,7 +996,10 @@
                         </td>
                         <td style="padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif;">
-                                <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                <apex:outputText value="{0,date, dd}">
+                                    <apex:param value="{!insolvAcc.Account_Open_date__c}" />
+                                </apex:outputText>
+                                <apex:outputText value="{!formattedAccountOpenDate}">
                                     <apex:param value="{!insolvAcc.Account_Open_date__c}" />
                                 </apex:outputText>
                             </span>
@@ -989,7 +1011,10 @@
                         </td>
                         <td style="padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif;">
-                                <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                <apex:outputText value="{0,date, dd}">
+                                    <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
+                                </apex:outputText>
+                                <apex:outputText value="{!formattedDebtDueOffDate}">
                                     <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
                                 </apex:outputText>
                             </span>
@@ -1034,7 +1059,7 @@
                 </apex:outputText>
      
             </div>            
-
+            <br/>
             <div style='font-family: "Arial Unicode MS"; font-size:13px;padding-left:10px;'>
                 <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}"></div>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 

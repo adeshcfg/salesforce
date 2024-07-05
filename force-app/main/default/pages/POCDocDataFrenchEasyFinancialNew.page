@@ -753,7 +753,7 @@
                     Informations relatives au paragraphe 6 de la preuve de la Preuve de réclamation <br/>
                     <h3 style="text-align:center;"><span  style="font-family: sans-serif; font-weight:bold;">Contexte du compte</span></h3>
                   
-                    <table style="border: 1px solid; text-align: center; border-collapse: collapse; width:90%; font-weight:bold;">
+                    <table style="border: 1px solid; text-align: center; border-collapse: collapse; width:100%; font-weight:bold;">
                         <tr>
                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
                                 <span  style="font-family: sans-serif; font-weight:bold;">Date du dernier paiement</span></td>
@@ -796,7 +796,7 @@
                             </span>
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
-                            <span style="font-family: sans-serif; font-weight:bold;">Second Last Payment Amount</span>
+                            <span style="font-family: sans-serif; font-weight:bold;">Montant du deuxième dernier paiement</span>
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
@@ -808,7 +808,7 @@
                     </tr>
                         <tr>
                             <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
-                                <span style="font-family: sans-serif; font-weight:bold;">Third Last Payment Date</span>
+                                <span style="font-family: sans-serif; font-weight:bold;">Troisième dernière date de paiement</span>
                             </td>
                             <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                                 <span style="font-family: sans-serif; font-weight:bold;">
@@ -822,7 +822,7 @@
                                 </span>
                             </td>
                             <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
-                                <span style="font-family: sans-serif; font-weight:bold;">Third Last Payment Amount</span>
+                                <span style="font-family: sans-serif; font-weight:bold;">Montant du troisième dernier paiement</span>
                             </td>
                             <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                                 <span style="font-family: sans-serif; font-weight:bold;">
@@ -837,7 +837,7 @@
                 <div style="text-align:center;"><span  style="font-family: sans-serif; font-weight:bold;">Résumé du compte</span></div>
                 <table border="0" style=" text-align: left; width:600px; font-size:13px;">
                     <tr>
-                        <td style="padding-bottom:10px; padding-left:5px;width: 230px;"><span  style="font-family: sans-serif; font-weight:bold;">Numéro de compte:</span></td>
+                        <td style="padding-bottom:10px; padding-left:0px;width: 230px;"><span  style="font-family: sans-serif; font-weight:bold;">Numéro de compte:</span></td>
                         <td style="width:550px; padding-bottom:10px; padding-left:5px;">
                             <span  style="font-family: sans-serif;">
                                 {!insolvAcc.Secured_Name__c}
@@ -845,7 +845,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-bottom:10px; padding-left:5px;"><span  style="font-family: sans-serif; font-weight:bold;">Le solde dû est :</span></td>
+                        <td style="padding-bottom:10px; padding-left:0px;"><span  style="font-family: sans-serif; font-weight:bold;">Le solde dû est :</span></td>
                         <td style="padding-bottom:10px; padding-left:5px;">
                             <span  style="font-family: sans-serif;">
                                 $<apex:outputText value="{0, number,#,##0.00}">
@@ -855,7 +855,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style=" padding-bottom:10px; padding-left:5px;"><span  style="font-family: sans-serif; font-weight:bold;">Taux d’intérêts:</span></td>
+                        <td style=" padding-bottom:10px; padding-left:0px;"><span  style="font-family: sans-serif; font-weight:bold;">Taux d’intérêts:</span></td>
                         <td style="padding-bottom:10px; padding-left:5px;">
                             <span  style="font-family: sans-serif;">
                                 <apex:outputText value="{0, number,#,##0.00}">
@@ -865,10 +865,10 @@
                         </td>
                     </tr>
                     <tr>
-                    <td style=" padding-bottom:5px; padding-left:5px;">
+                    <td style=" padding-bottom:5px; padding-left:0px;">
                         <span style="font-family: sans-serif; font-weight:bold;">Date d'ouverture du compte:</span>
                     </td>
-                    <td style="padding-bottom:5px; padding-left:5px;">
+                    <td style="padding-bottom:5px; padding-left:0px;">
                         <span style="font-family: sans-serif;">
                             <apex:outputText value="{0,date, dd}">
                                 <apex:param value="{!insolvAcc.Account_Open_date__c}" />
@@ -880,7 +880,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style=" padding-bottom:5px; padding-left:5px;">
+                    <td style=" padding-bottom:5px; padding-left:0px;">
                         <span style="font-family: sans-serif; font-weight:bold;">La date radié du compte:</span>
                     </td>
                     <td style="padding-bottom:5px; padding-left:5px;">
@@ -918,7 +918,7 @@
                 <br/>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} -->
                 
-                <div style='font-family: "Arial Unicode MS"; font-size:13px; padding-left:10px;'>
+                <div style='font-family: "Arial Unicode MS"; font-size:13px; padding-left:5px;'>
                     Observation: &nbsp;&nbsp;&nbsp;&nbsp; Conformément à l'article 130 de la Loi sur la faillite et l'insolvabilité, nous vous demandons de fournir une 
                     confirmation écrite si vous allez exercer le pouvoir de rachat du titre ou si vous aller exiger qu'il soit réalisé.
                     <br/>
