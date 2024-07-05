@@ -304,7 +304,7 @@
                 <div style="text-align:left; float:left; width:200px">
                     <apex:image value="{!pocPackage.Header_logo__c}" style="padding-left:40px"/>
                 </div>
-                <div style='float:left;width:455px; {!IF(insolvAcc.Claim_Type__c == "Unsecured","margin-top:20px;","margin-top:10px;")} '>
+                <div style='float:left;width:455px; {!IF(insolvAcc.Claim_Type__c == "Unsecured","margin-top:10px;","margin-top:5px;")} '>
                     <span style="float:left; padding-left:25px;font-size:13px"><br/>
                         Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br/>
                         {!pocPackage.CFG_Office_Address_1__c}<br/>
@@ -323,7 +323,7 @@
                     Form 31 --- Continued
                 </div>
                 
-                <div style="padding-left:35px; line-height:18px;">
+                <div style="padding-left:35px; line-height:17px;">
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.unSecClaim == 'true'}"> 
                     <apex:image value="{!$Resource.check}" width="12" />
                 </apex:outputLabel>
@@ -332,14 +332,15 @@
                 </apex:outputLabel>
                 
                 
-                <span style="padding-left:15px;">A. UNSECURED CLAIM OF <span  style="font-family: sans-serif; font-weight:bold;">$<apex:outputText value="{0, number,#,##0.00}">
+                <span style="padding-left:16px;">A. UNSECURED CLAIM OF <span  style="font-family: sans-serif; font-weight:bold;">$<apex:outputText value="{0, number,#,##0.00}">
                     <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c,'')}" />
                     </apex:outputText></span></span>
                 <div style="line-height: 15px;">
-                    <span style="padding-left:60px;">(other than as a customer contemplated by Section 262 of the Act)</span>
+                    <span style="padding-left:28px;">(other than as a customer contemplated by Section 262 of the Act)</span>
                     <br/>
-                    That in respect of this debt, I do not hold any assets of the debtor as security and
-                    <span  style="font-family: sans-serif; font-style:italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Check appropriate description.)</span>
+                    <span style="padding-left:28px;">That in respect of this debt, I do not hold any assets of the debtor as security and</span>
+                    <br/>
+                    <span  style="font-family: sans-serif; font-style:italic;padding-left:28px;">(Check appropriate description.)</span>
                 </div>
                 
                 
@@ -378,7 +379,7 @@
                     <span style="padding-left:25px;">That I hereby make a claim under subsection 65.2(4) of the Act, particulars of which are as follows:
                     </span>
                     <br/>
-                    (Give full particulars of the claim, including the calculations upon which the claim is based.)
+                    <span style="padding-left:25px;"> (Give full particulars of the claim, including the calculations upon which the claim is based.)</span>
                     <br/><br/>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.secureClaim == 'true'}"> 
                         <apex:image value="{!$Resource.check}" width="12" />
@@ -393,13 +394,14 @@
                     <span style="padding-left:25px;">That in respect of this debt, I hold assets of the debtor valued at <span  style="font-family: sans-serif; font-weight:bold;">$<apex:outputText value="{0, number,#,##0.00}">
                         <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Secured', insolvAcc.Claim_Amount__c, '')}" />
                         </apex:outputText> 
-                        </span> as security, particulars of which are as
-                        follows:</span>
+                        </span> as security, 
+                        <br/>
+                        <span style="padding-left:25px;"> particulars of which are as follows:</span></span>
                     <br/>
-                    <div style="line-height:15px;">(Give full particulars of the security, including the date on which the security was given and the value at which you assess the security, and attach a copy of the security documents.)
-                    </div><br/>
-                    
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimByFarmers == 'true'}"> 
+                    <td style="padding-left:20px;">(Give full particulars of the security, including the date on which the security was given and the value at which you assess the security, and attach a copy of the security documents.)
+                    </td>
+                        <br/>
+                   <apex:outputLabel rendered="{! $CurrentPage.parameters.claimByFarmers == 'true'}"> 
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimByFarmers == 'false'}"> 
@@ -407,7 +409,7 @@
                     </apex:outputLabel><span style="padding-left:15px;">D. CLAIM BY FARMER, FISHERMAN OR AQUACULTURIST OF $ </span>
                     <br/>
                     <span style="padding-left:25px;">That I hereby make a claim under subsection 81.2(1) of the Act for the unpaid amount of $
-                        <br/><span  style="font-family: sans-serif; font-style:italic;">(Attach a copy of sales agreement and delivery receipts.)</span></span>
+                        <br/><span  style="font-family: sans-serif; font-style:italic;padding-left:25px;">(Attach a copy of sales agreement and delivery receipts.)</span></span>
                     <br/><br/>
                     
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimByWage == 'true'}"> 
@@ -441,24 +443,27 @@
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel><span style="padding-left:15px;">F. CLAIM AGAINST DIRECTOR $</span>
                     <br/>
-                    <span  style="font-family: sans-serif; font-style:italic;">(To be completed when a proposal provides for the compromise of claims against directors.)</span>
+                    <td>
+                    <span  style="font-family: sans-serif; font-style:italic;padding-left:25px;">(To be completed when a proposal provides for the compromise of claims against directors.)</span>
                     <br/>
-                    That I hereby make a claim under subsection 50(13) of the Act, particulars of which are as follows: 
-                    <br/>
-                    <span  style="font-family: sans-serif; font-style:italic;">(Give full particulars of the claim, including the calculations upon which the claim is based.) </span>
-                    <br/> <br/>
+                        <span style="padding-left:25px;"> That I hereby make a claim under subsection 50(13) of the Act, particulars of which are as follows:</span><br/>
+                      
+                    <span  style="font-family: sans-serif; font-style:italic;padding-left:25px;">(Give full particulars of the claim, including the calculations upon which the claim is based.) </span>
+                    </td>
+                        <br/>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'true'}"> 
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel>
-                    <span style="padding-left:15px;">G. CLAIM OF A CUSTOMER OF A BANKRUPT SECURITIES FIRM $ </span>
+                    <span style="padding-left:14px;">G. CLAIM OF A CUSTOMER OF A BANKRUPT SECURITIES FIRM $ </span>
                     <br/>
-                    That I hereby make a claim as a customer for net equity as contemplated by section 262 of the Act, particulars of which are as follows: 
+                    <td style="padding-left:22px;">That I hereby make a claim as a customer for net equity as contemplated by section 262 of the Act, particulars of which are as follows: 
                     <br/>
-                    (Give full particulars of the claim, including the calculations upon which the claim is based.) 
-                    <br/><br/>
+                     <span style="padding-left:3px;">(Give full particulars of the claim, including the calculations upon which the claim is based.)</span> 
+                    </td>
+                        <br/>
                     7. That, to the best of my knowledge, I am not related to the debtor within the meaning of section 4 of the Act, and have not dealt with the debtor in a non-arm’s length manner. 
                     <br/>
                     8. That the following are the payments that I have received from, and the credits that I have allowed to, and the transfers at undervalue within the meaning of subsection 2(1) of the Act that I have been privy to or a party to with the debtor within the three months (or, if the creditor and the debtor are related within the meaning of section 4 of the Act, within the 12 months) immediately before the date of the initial bankruptcy event within the meaning of Section 2 of the Act: <span  style="font-family: sans-serif; font-style:italic;">(Provide details of payments, credits and transfers at undervalue.)</span> 
@@ -612,7 +617,7 @@
             
                 <!--Page 4 -->
            <!-- <div style='page-break-after: always; margin:auto;padding-left:10px;font-size:12px;font-family: "Arial Unicode MS"; line-height:15px; {!IF($CurrentPage.parameters.proofOfClaim == "true", "margin-bottom:-10px", "margin-bottom:-20px")}' > -->
-                <div style='margin:auto; line-height: 15px; width:90%; font-family: "Arial Unicode MS"; font-size:14px; page-break-after: always'>				
+                <div style='margin:auto; line-height: 17px; width:90%; font-family: "Arial Unicode MS"; font-size:14px; page-break-after: always'>				
                 <div style="line-height:15px;float:left;">
                     District of: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br/>
                     Division No: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br/>
@@ -727,7 +732,7 @@
                         </apex:outputText>, and <span  style="font-family: sans-serif; font-weight:bold;">REQUEST THAT A MEETING OF CREDITORS BE HELD.</span>
                         
                     </span>
-                    <div style="height:40px; padding: 10px 0px 0px 0px;">
+                    <div style="height:10px; padding: 10px 0px 0px 0px;">
                         {!insolvAcc.Voting_Letter_Comments__c}
                     </div>
                 </div>

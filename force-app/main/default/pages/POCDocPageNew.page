@@ -426,43 +426,11 @@
                                  <td style="padding-left:10px;"><i>(Check and complete appropriate category.)</i></td>
                               </tr>
                            </table>
-                           <Apex:inputCheckbox styleClass="my-checkbox" value="{!unSecClaim}"/>
-                           &nbsp;&nbsp;A. UNSECURED CLAIM OF 
-                           <b>
-                              $
-                              <apex:outputText value="{0, number,#,##0.00}">
-                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
-                              </apex:outputText>
-                           </b>
-                           <div style="line-height: 30px;">
-                              <span style="padding-left:70px;">(other than as a customer contemplated by Section 262 of the Act)</span>
-                              <br/>
-                              That in respect of this debt, I do not hold any assets of the debtor as security and
-                              <br/>
-                              <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Check appropriate description.)</i>
-                           </div>
-                           <apex:inputCheckbox styleClass="my-checkbox" value="{!claimRight}"/>
-                           &nbsp;&nbsp;Regarding the amount of 
-                           <b>
-                              $
-                              <apex:outputText value="{0, number,#,##0.00}">
-                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
-                              </apex:outputText>
-                           </b>
-                           , I claim a right to a priority under section 136 of the Act.
-                           <br/>
-                           <Apex:inputCheckbox styleClass="my-checkbox" value="{!dontClaim}"/>
-                           &nbsp;&nbsp;Regarding the amount of 
-                           <b>
-                              $
-                              <apex:outputText value="{0, number,#,##0.00}">
-                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}"/>
-                              </apex:outputText>
-                           </b>
-                           , I do not claim a right to a priority.
-                           <br/>
-                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Set out on an attached sheet details to support priority claim.)
-                           <br/><br/>
+                         
+                            
+                            
+                            
+                            <br/>
                            {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                            <br/>
                            {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
@@ -498,12 +466,50 @@
                            </div>
                            <br/>
                            <div style="padding-left:30px;">
+                               
+                                  <Apex:inputCheckbox styleClass="my-checkbox" value="{!unSecClaim}"/>
+                              &nbsp;&nbsp;A. UNSECURED CLAIM OF 
+                           <b>
+                              $
+                              <apex:outputText value="{0, number,#,##0.00}">
+                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
+                              </apex:outputText>
+                           </b>
+                           <div style="line-height: 30px;">
+                              <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(other than as a customer contemplated by Section 262 of the Act)</i>
+                              <br/>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That in respect of this debt, I do not hold any assets of the debtor as security and
+                              <br/>
+                              <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Check appropriate description.)</i>
+                           </div>
+                           <apex:inputCheckbox styleClass="my-checkbox" value="{!claimRight}"/>
+                           &nbsp;&nbsp;Regarding the amount of 
+                           <b>
+                              $
+                              <apex:outputText value="{0, number,#,##0.00}">
+                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
+                              </apex:outputText>
+                           </b>
+                           , I claim a right to a priority under section 136 of the Act.
+                           <br/>
+                           <Apex:inputCheckbox styleClass="my-checkbox" value="{!dontClaim}"/>
+                           &nbsp;&nbsp;Regarding the amount of 
+                           <b>
+                              $
+                              <apex:outputText value="{0, number,#,##0.00}">
+                                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}"/>
+                              </apex:outputText>
+                           </b>
+                           , I do not claim a right to a priority.
+                           <br/>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Set out on an attached sheet details to support priority claim.)
+                           <br/>                               
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimOfLess}"/>
                               &nbsp;&nbsp;B. CLAIM OF LESS OR FOR DISCLAIMER OF A LEASE $
                               <br/>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; That I hereby make a claim under subsection 65.2(4) of the Act, particulars of which are as follows:
+                             <div style="padding-left:26px;"> That I hereby make a claim under subsection 65.2(4) of the Act, particulars of which are as follows:
                               <br/>
-                              (Give full particulars of the claim, including the calculations upon which the claim is based.)
+                                 (Give full particulars of the claim, including the calculations upon which the claim is based.)</div>
                               <br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!secureClaim}"/>
                               &nbsp;&nbsp;C. SECURED CLAIM OF 
@@ -514,18 +520,18 @@
                                  </apex:outputText>
                               </b>
                               <br/>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That is respect of this debt, I hold assets of the debtor valued at 
+                              <div style="padding-left:26px;">That is respect of this debt, I hold assets of the debtor valued at 
                               <b>
                                  $
                                  <apex:outputText value="{0, number,#,##0.00}">
                                     <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Secured', insolvAcc.Claim_Amount__c, '')}" />
                                  </apex:outputText>
                               </b>
-                              as security, particulars of which are as
+                                  as security,<br/> particulars of which are as
                               follows:
                               <br/>
                               (Give full particulars of the security, including the date on which the security was given and the value at which you assess the security, and attach a copy of the security documents.)
-                              <br/>
+                               </div><br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimByFarmers}"/>
                               &nbsp;&nbsp;D. CLAIM BY FARMER, FISHERMAN OR AQUACULTURIST OF $ <!--<b>$<apex:outputText value="{0, number,#,##0.00}">
                                  <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Secured', insolvAcc.Claim_Amount__c, '')}" />
@@ -533,7 +539,7 @@
                                  </b>-->
                               <BR/>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That I hereby make a claim under subsection 81.2(1) of the Act for the unpaid amount of $
-                              <br/><i>(Attach a copy of sales agreement and delivery receipts.)</i>
+                              <br/><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Attach a copy of sales agreement and delivery receipts.)</i>
                               <br/> <br/> 
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimByWage}"/>
                               &nbsp;&nbsp;E. CLAIM BY WAGE EARNER OF $
@@ -545,25 +551,34 @@
                               &nbsp;&nbsp;That I hereby make a claim under subsection 81.4(8) of the Act in the amount of $
                               <br/><br/>
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimAgnstDirector}"/>
-                              &nbsp;&nbsp; F. CLAIM AGAINST DIRECTOR $
+                              &nbsp;&nbsp;F. CLAIM AGAINST DIRECTOR $
                               <br/>
+                               <div style="padding-left:28px;">
                               <i>(To be completed when a proposal provides for the compromise of claims against directors.)</i>
                               <br/>
                               That I hereby make a claim under subsection 50(13) of the Act, particulars of which are as follows:
                               <br/>                    
-                              <i>(Give full particulars of the claim, including the calculations upon which the claim is based.)</i>
-                              <br/><br/>
-                              <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G. CLAIM OF A CUSTOMER OF A BANKRUPT SECURITIES FIRM $
+                                   <i>(Give full particulars of the claim, including the calculations upon which the claim is based.)</i></div>
                               <br/>
+                              <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
+                              &nbsp;&nbsp;G. CLAIM OF A CUSTOMER OF A BANKRUPT SECURITIES FIRM $
+                              <br/>
+                               <div style="padding-left:28px;">
                               That I hereby make a claim as a customer for net equity as contemplated by section 262 of the Act, particulars of which are as follows:
                               <br/>
-                              (Give full particulars of the claim, including the calculations upon which the claim is based.)
-                              <br/><br/>
-                              7. That, to the best of my knowledge, I am not related to the debtor within the meaning of section 4 of the Act, and have not dealt with the debtor in a non-arm’s length manner.
-                              <br/>
-                              8. That the following are the payments that I have received from, and the credits that I have allowed to, and the transfers at undervalue within the meaning of subsection 2(1) of the Act that I have been privy to or a party to with the debtor within the three months (or, if the creditor and the debtor are related within the meaning of section 4 of the Act, within the 12 months) immediately before the date of the initial bankruptcy event within the meaning of Section 2 of the Act: (Provide details of payments, credits and transfers at undervalue.)
-                              <br/>&nbsp;&nbsp;&nbsp;&nbsp;Please see Schedule A for details
+                                   (Give full particulars of the claim, including the calculations upon which the claim is based.)</div>
+                              <br/> 7. That, to the best of my knowledge, I am not related to the debtor within the meaning
+                                    of  <br/><div style="padding-left:18px;">section 4 of 
+                                    the Act, and have not dealt with the debtor in a non-arm’s length manner.</div>
+                                    <br/> 8. That the following are the payments that I have received from, and the credits that
+                                    I have allowed <div style="padding-left:18px;">to,
+                                    and the transfers at undervalue within the meaning of subsection 2(1)
+                                    of the Act that I have <br/>been privy to or a party to with the debtor within the three months
+                                    (or, if the creditor and the <br/>debtor are related within the meaning of section 4 of the
+                                    Act, within the 12 months) immediately before the date of the initial bankruptcy event
+                                    within the meaning of Section 2 of the Act: (Provide details of payments, credits and
+                                        transfers at undervalue.)</div>
+                               <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please see Schedule A for details
                               <br/><br/><br/><br/>
                               {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                               <br/>
@@ -785,11 +800,11 @@
                               </tr>
                            </table>
                         </div>
-                        <div style="float:left;padding-left:17px;">
+                         <div style="float:left;padding-left:17px;">
                            <apex:inputCheckbox styleClass="my-checkbox" value="{!voteForAcceptance}"/>
-                           <span style="padding-left:25px">
-                              the administrator acting with respect to the consumer proposal to record my vote <b>FOR</b> the acceptance of the
-                              consumer proposal as made on the 
+                           <span style="padding-left:5px">
+                              the administrator acting with respect to the consumer proposal to record my vote <b>FOR</b> the <span style="padding-left:24px;">acceptance of the
+                               consumer proposal as made on the </span>
                               <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
                                  <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                               </apex:outputText>
@@ -797,9 +812,9 @@
                            </span>
                            <br/>
                            <apex:inputCheckbox styleClass="my-checkbox" value="{!voteAgainstAcceptance}"/>
-                           <span style="padding-left:25px">
-                              the administrator acting with respect to the consumer proposal to record my vote <b>AGAINST</b> the acceptance of
-                              the consumer proposal as made on the 
+                           <span style="padding-left:5px">
+                              the administrator acting with respect to the consumer proposal to record my vote <b>AGAINST</b> the <span style="padding-left:24px;"> acceptance of
+                              the consumer proposal as made on the </span>
                               <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
                                  <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                               </apex:outputText>
@@ -807,13 +822,13 @@
                            </span>
                            <br/>
                            <apex:inputCheckbox styleClass="my-checkbox" value="{!meetingOfCredits}"/>
-                           <span style="padding-left:25px">
-                              the administrator acting with respect to the consumer proposal to record my vote <b>AGAINST</b> the acceptance of
-                              the consumer proposal as made on the 
+                           <span style="padding-left:5px">
+                              the administrator acting with respect to the consumer proposal to record my vote <b>AGAINST</b> the <span style="padding-left:24px;"> acceptance of
+                               the consumer proposal as made on the </span>
                               <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
                                  <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                               </apex:outputText>
-                              , and <b>REQUEST THAT A MEETING OF CREDITORS BE HELD.</b>
+                               , and <b>REQUEST <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THAT A MEETING OF CREDITORS BE HELD.</b>
                            </span>
                            <br/><br/>{!insolvAcc.Voting_Letter_Comments__c}<br/>
                            <br/>
