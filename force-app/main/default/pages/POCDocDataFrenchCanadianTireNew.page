@@ -127,11 +127,12 @@
                                     </apex:outputText>
                                 </span>
                                 jour de 
-                                <span  style="font-family: sans-serif; font-weight:bold;">
-                                   <!-- <apex:outputText value="{0,date, MMMM',' yyyy}">-->
-                                        <apex:outputText value="{!formattedDate}">
-                                        <!--<apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> -->
-                                    </apex:outputText></span>,et est toujours, endetté au créancier pour la somme de
+                                 <span  style="font-family: sans-serif; font-weight:bold;">
+                                     <apex:outputText value="{!formattedDate}">
+                                         
+                                     </apex:outputText>
+                                        
+                                </span>,et est toujours, endetté au créancier pour la somme de
                                 <span  style="font-family: sans-serif; font-weight:bold;">
                                     <apex:outputText value="{0, number,#,##0.00}">
                                     <apex:param value="{!insolvAcc.Claim_Amount__c}" />
@@ -141,7 +142,7 @@
                         <td style="vertical-align:top;">4.</td>
                         <td style="padding-left:10px;">
                             Au meilleur de ma connaissance, cette dette n’est pas (ou cette dette est ou une partie de cette dette est) éteinte 
-                            par prescription en vertu de la loi qui lui est applicable. Au meilleur de ma connaissance, cette dette n’est pas (ou cette dette est ou une partie de cette dette est) éteinte par prescription en vertu de la loi qui lui est applicable. soit
+                            par prescription en vertu de la loi qui lui est applicable.
                         </td>
                     </tr>
                     <tr>
@@ -151,10 +152,17 @@
                                 <apex:outputText value="{0,date, dd}">
                                     <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                                 </apex:outputText>
+                                <apex:outputText value="{!formattedDate}">
+                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                </apex:outputText>
+                                
                             </span>
                             jour de
                             <span style="font-family: sans-serif; font-weight:bold;">
                                 <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                </apex:outputText>
+                                <apex:outputText value="{!formattedDate}">
                                     <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                                 </apex:outputText>
                             </span>
@@ -675,9 +683,9 @@
                 jour de
                 <span  style="font-family: sans-serif; font-weight:bold;">
                         <apex:outputText value="{!formattedDateToday}">
-                        <apex:param value="{!TODAY()}" />, à London, ON.
-                    </apex:outputText>
-                </span>
+                       <!-- <apex:param value="{!TODAY()}" />, à London, ON.-->
+                    </apex:outputText>, à <b>London, ON</b>.
+                 </span>
                 
                 <tr style="width:100%;">
                     <td style=" width:200px; vertical-align:bottom; padding-right: 90px;">
@@ -705,6 +713,7 @@
                  <br/><br/><br/><br/><br/><br/>
             </div>
         </apex:outputPanel>
+        <br/>
         <!---------------------STATEMENT OF ACCOUNT -------------->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.statementOfAccount == 'true'}" > 
             <div style=' margin:auto;padding-left:10px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:15px; "margin-bottom:-10px", "margin-bottom:-20px"' >				
@@ -812,9 +821,17 @@
                                 <span  style="font-family: sans-serif; font-weight:bold;">Date du dernier paiement</span></td>
                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
                                 <span  style="font-family: sans-serif; font-weight:bold;">
-                                    <apex:outputText value="{0,date, dd}">{!formattedLastpaymentDate}
+                                    <apex:outputText value="{0,date, dd}">
+                                         <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
+                                     </apex:outputText>
+                                     
+                                     <apex:outputText value="{!formattedLastpaymentDate}">                                       
+                                         <apex:param value="{!insolvAcc.Last_Payment_Date__c}" /> 
+                                     </apex:outputText>
+                                   <!-- <apex:outputText value="{0,date, dd}">
                                         <apex:param value="{!insolvAcc.Last_Payment_Date__c}" /> 
-                                    </apex:outputText>
+                                    </apex:outputText>-->
+                                    
                                 </span>
                             </td>
                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
@@ -829,17 +846,23 @@
                         </tr>
                         <tr>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
-                            <span style="font-family: sans-serif; font-weight:bold;">Second Last Payment Date</span>
+                            <span style="font-family: sans-serif; font-weight:bold;">Avant-dernière date de paiement</span>
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                <apex:outputText value="{0,date, dd}">
                                     <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" />
                                 </apex:outputText>
+                                <apex:outputText value="{!formattedSecondLastPayDate}">                                       
+                                    <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" /> 
+                                </apex:outputText>
+                                <!--<apex:outputText value="{0,date, dd}">{!formattedSecondLastPayDate}
+                                    <apex:param value="{!insolvAcc.Last_Payment_Date_2__c}" />
+                                </apex:outputText>-->
                             </span>
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
-                            <span style="font-family: sans-serif; font-weight:bold;">Second Last Payment Amount</span>
+                            <span style="font-family: sans-serif; font-weight:bold;">Montant du deuxième dernier paiement</span>
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
@@ -851,17 +874,20 @@
                     </tr>
                     <tr>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
-                            <span style="font-family: sans-serif; font-weight:bold;">Third Last Payment Date</span>
+                            <span style="font-family: sans-serif; font-weight:bold;">Troisième dernière date de paiement</span>
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                                <apex:outputText value="{0,date, dd}">
                                     <apex:param value="{!insolvAcc.Last_Payment_Date_3__c}" />
+                                </apex:outputText>
+                                <apex:outputText value="{!formattedThridLastPayDate}">                                       
+                                    <apex:param value="{!insolvAcc.Last_Payment_Date_3__c}" /> 
                                 </apex:outputText>
                             </span>
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
-                            <span style="font-family: sans-serif; font-weight:bold;">Third Last Payment Amount</span>
+                            <span style="font-family: sans-serif; font-weight:bold;">Montant du troisième dernier paiement</span>
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
@@ -909,9 +935,12 @@
                     </td>
                     <td style="padding-bottom:5px; padding-left:5px;">
                         <span style="font-family: sans-serif;">
-                            <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                            <apex:outputText value="{0,date, dd MMMM',' yyyy}">{!formattedAccountOriginalOpenDate}
                                 <apex:param value="{!insolvAcc.Account_Original_Open_Date__c}" />
                             </apex:outputText>
+                            <!--<apex:outputText value="{!formattedAccountOriginalOpenDate}">
+                                <apex:param value="{!insolvAcc.Account_Original_Open_Date__c}" />
+                            </apex:outputText>--->
                         </span>
                     </td>
                 </tr>
@@ -921,7 +950,10 @@
                     </td>
                     <td style="padding-bottom:5px; padding-left:5px;">
                         <span style="font-family: sans-serif;">
-                            <apex:outputText value="{0,date, dd MMMM',' yyyy}">
+                            <apex:outputText value="{0,date, dd MMMM',' yyyy}"><!--{!formattedAccountChargedoffDate}--->
+                                <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
+                            </apex:outputText>
+                            <apex:outputText value="{!formattedAccountChargedoffDate}">
                                 <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
                             </apex:outputText>
                         </span>
