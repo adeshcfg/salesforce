@@ -427,10 +427,10 @@
                               $
                            </b>
                            <div style="line-height: 30px;">
-                               <span style="padding-left:28px;">(autre qu’une réclamation d’un client visée par l’article 262 de la Loi)</span>
-                                             <div style="padding-left:28px;"> En ce qui concerne cette créance, je ne détiens aucun avoir du débiteur à titre de garantie et</div>
-                                             <div style="padding-left:28px;">(Cochez la description appropriée)</div>
-                           </div>
+                              <span style="padding-left:28px;">(autre qu’une réclamation d’un client visée par l’article 262 de la Loi)</span>
+                                            <div style="padding-left:28px;"> En ce qui concerne cette créance, je ne détiens aucun avoir du débiteur à titre de garantie et</div>
+                                            <div style="padding-left:28px;">(Cochez la description appropriée)</div>
+                          </div>
                            <apex:inputCheckbox styleClass="my-checkbox" value="{!claimRight}"/>
                            &nbsp;&nbsp;Concernant le montant de 
                            <b>
