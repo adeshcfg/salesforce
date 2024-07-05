@@ -55,6 +55,7 @@ public class InsolvencyAccountTriggerHandler {
             SELECT Id, Correlation_Id__c
             FROM Insolvency_Account__c
             WHERE RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account'
+            AND Correlation_Id__c != null
             ORDER BY Correlation_Id__c DESC
             LIMIT 1
         ];
