@@ -648,7 +648,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
             try {
                 //Batch count is assigned SEQUENTIAL batch number, starting at 1.  Each batch number must be one number greater than the last received regardless if the file is test or production.  This will ensure files aren’t accidentally sent twice or missed
-                config.Insolvency_Account_Batch_Count__c = config.Insolvency_Account_Batch_Count__c + 1;
+                Decimal accountBatchCount = config.Insolvency_Account_Batch_Count__c == null ? 0 : config.Insolvency_Account_Batch_Count__c;
+                config.Insolvency_Account_Batch_Count__c = accountBatchCount + 1;
                 update config;
                 //if any error occur while file build then update status on insolvency account to "File Error Parsing Record"
                 if (insolvAcctErrorListMap != null && !insolvAcctErrorListMap.isEmpty()) {
@@ -754,7 +755,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             /*******************************************Body Data Ends*************************************************/
             try {
                 //Batch count is assigned SEQUENTIAL batch number, starting at 1.  Each batch number must be one number greater than the last received regardless if the file is test or production.  This will ensure files aren’t accidentally sent twice or missed
-                config.Payment_Batch_Count__c = config.Payment_Batch_Count__c + 1;
+                Decimal paymentBatchCount = config.Payment_Batch_Count__c == null ? 0 : config.Payment_Batch_Count__c;
+                config.Payment_Batch_Count__c = paymentBatchCount + 1;
                 update config;
             } catch (DMLException dmlEx) {
                 system.debug('Exception msg@@' + dmlEx.getStackTraceString());
