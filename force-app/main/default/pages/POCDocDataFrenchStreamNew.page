@@ -96,7 +96,7 @@
                 <span style="display:{!IF(insolvAcc.Client_Identifier__c == "Fairstone", "block;", "none;")}"><br/><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/></span>
                 <br/>
                 <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy'}">
-                <br/><br/>
+                    <br/><br/><br/>
                 </apex:outputPanel>
                 <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c != 'Goeasy'}">
                 <table style="margin-top:-30px;">
