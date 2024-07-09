@@ -1067,9 +1067,9 @@
                         
                         <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                         <br/><br/>
-                       <!-- <div style="padding-left:30px;">
+                        <div style="padding-left:20px;">
                         If available, please see statements attached for the full details of payments, credits and transfers that occurred in the 3 months prior to the date of insolvency.
-                        </div><br/>-->
+                        </div><br/>
                         </apex:outputText>
                         
                         <div style="padding-left:30px;">
