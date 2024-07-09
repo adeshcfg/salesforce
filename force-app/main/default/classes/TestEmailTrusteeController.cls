@@ -1,135 +1,202 @@
 /**************************************************************************************************
-*
-*  Class:   TestEmailTrusteeController
-*
-*  @description : This class contains unit tests for send email trustee regarding insolvancy account and attachments
-*  @author : A5E Consulting
-*  @date : 10/08/2017
-* 
-*************************************************************************************************/
+ *
+ *  Class:   TestEmailTrusteeController
+ *
+ *  @description : This class contains unit tests for send email trustee regarding insolvancy account and attachments
+ *  @author : A5E Consulting
+ *  @date : 10/08/2017
+ *
+ *************************************************************************************************/
 
-@isTest(seeAllData = false)
-public class TestEmailTrusteeController{    
-    @testSetup 
+@isTest(seeAllData=false)
+public class TestEmailTrusteeController {
+    @testSetup
     static void testData() {
-        User u = [SELECT Id FROM User WHERE Id !=: UserInfo.getUserId() AND Profile.Name = 'System Administrator' AND isActive = true LIMIT 1];
-        System.runAs(u){  
-            EmailTemplate defaultTemplate = new EmailTemplate(Name = 'Creditor Package Request',TemplateType  = 'custom', DeveloperName='Insolvency_Template2', HtmlValue = '{!TODAY()}', Body = '{!TODAY()}',Subject = '{!Insolvency_Account__c.Secured_Name__c}', FolderId = UserInfo.getUserId());
+        User u = [SELECT Id FROM User WHERE Id != :UserInfo.getUserId() AND Profile.Name = 'System Administrator' AND isActive = TRUE LIMIT 1];
+        System.runAs(u) {
+            EmailTemplate defaultTemplate = new EmailTemplate(
+                Name = 'Creditor Package Request',
+                TemplateType = 'custom',
+                DeveloperName = 'Insolvency_Template2',
+                HtmlValue = '{!TODAY()}',
+                Body = '{!TODAY()}',
+                Subject = '{!Insolvency_Account__c.Secured_Name__c}',
+                FolderId = UserInfo.getUserId()
+            );
             insert defaultTemplate;
-            
-            PoC_Package_Settings__c poc = new PoC_Package_Settings__c(Name = 'Scotia Bank', CFG_Trustee_Email_Default_content__c = 'test', 
-                                                                      CFG_Trustee_Email_Default_Subject__c ='test',
-                                                                      Insolvency_Template_Header__c = defaultTemplate.id,
-                                                                      Insolvency_Template_WoHeader__c = defaultTemplate.id,
-                                                                      Attachment_Required_Email_Templates__c = defaultTemplate.id,
-                                                                      Account_Statement_Not_Allowed__c  = defaultTemplate.id,
-                                                                      Follow_Up_Email_Required_Templates__c = defaultTemplate.id,
-                                                                      Insolvency_Template_Header_French__c = defaultTemplate.id,
-                                                                      Insolvency_Template_WoHeader_French__c =defaultTemplate.id,
-                                                                      CFG_Office_Address_1__c = 'PO Box 758 STN B',
-                                                                      CFG_Office_Fax_Number__c = '844-827-9220',
-                                                                      CFG_Office_Phone_Number__c = '844-827-9222',
-                                                                      CFG_Office_City__c= 'London',
-                                                                      CFG_Office_Province_Short_Code__c = 'ON',
-                                                                      CFG_Office_Postal_Code__c = 'N6A 4Y8',
-                                                                      CFG_Payment_Postal_Code__c = 'N6A 4Y8',
-                                                                      CFG_Office_Email_Address__c = 'test@canaccede.com'
-                                                                     );
+
+            PoC_Package_Settings__c poc = new PoC_Package_Settings__c(
+                Name = 'Scotia Bank',
+                CFG_Trustee_Email_Default_content__c = 'test',
+                CFG_Trustee_Email_Default_Subject__c = 'test',
+                Insolvency_Template_Header__c = defaultTemplate.id,
+                Insolvency_Template_WoHeader__c = defaultTemplate.id,
+                Attachment_Required_Email_Templates__c = defaultTemplate.id,
+                Account_Statement_Not_Allowed__c = defaultTemplate.id,
+                Follow_Up_Email_Required_Templates__c = defaultTemplate.id,
+                Insolvency_Template_Header_French__c = defaultTemplate.id,
+                Insolvency_Template_WoHeader_French__c = defaultTemplate.id,
+                CFG_Office_Address_1__c = 'PO Box 758 STN B',
+                CFG_Office_Fax_Number__c = '844-827-9220',
+                CFG_Office_Phone_Number__c = '844-827-9222',
+                CFG_Office_City__c = 'London',
+                CFG_Office_Province_Short_Code__c = 'ON',
+                CFG_Office_Postal_Code__c = 'N6A 4Y8',
+                CFG_Payment_Postal_Code__c = 'N6A 4Y8',
+                CFG_Office_Email_Address__c = 'test@canaccede.com'
+            );
             insert poc;
-            PoC_Package_Settings__c poc1 = new PoC_Package_Settings__c(Name = 'Canaccede', CFG_Trustee_Email_Default_content__c = 'test', 
-                                                                       CFG_Trustee_Email_Default_Subject__c ='test',
-                                                                       Insolvency_Template_Header__c = defaultTemplate.id,
-                                                                       Insolvency_Template_WoHeader_French__c =defaultTemplate.id,
-                                                                       Insolvency_Template_WoHeader__c = defaultTemplate.id,
-                                                                       Attachment_Required_Email_Templates__c = defaultTemplate.id,
-                                                                       CFG_Office_Address_1__c = 'PO Box 758 STN B',
-                                                                       CFG_Office_City__c= 'London',
-                                                                       CFG_Office_Province_Short_Code__c = 'ON',
-                                                                       CFG_Office_Postal_Code__c = 'N6A 4Y8',
-                                                                       CFG_Payment_Postal_Code__c = 'N6A 4Y8',
-                                                                       CFG_Office_Fax_Number__c = '844-827-9220',
-                                                                       CFG_Office_Phone_Number__c = '844-827-9222',
-                                                                       Account_Statement_Not_Allowed__c  = defaultTemplate.id,
-                                                                       Follow_Up_Email_Required_Templates__c = defaultTemplate.id,
-                                                                       Insolvency_Template_Header_French__c = defaultTemplate.id,
-                                                                       CFG_Office_Email_Address__c = 'test@canaccede.com'
-                                                                      );
+            PoC_Package_Settings__c poc1 = new PoC_Package_Settings__c(
+                Name = 'Canaccede',
+                CFG_Trustee_Email_Default_content__c = 'test',
+                CFG_Trustee_Email_Default_Subject__c = 'test',
+                Insolvency_Template_Header__c = defaultTemplate.id,
+                Insolvency_Template_WoHeader_French__c = defaultTemplate.id,
+                Insolvency_Template_WoHeader__c = defaultTemplate.id,
+                Attachment_Required_Email_Templates__c = defaultTemplate.id,
+                CFG_Office_Address_1__c = 'PO Box 758 STN B',
+                CFG_Office_City__c = 'London',
+                CFG_Office_Province_Short_Code__c = 'ON',
+                CFG_Office_Postal_Code__c = 'N6A 4Y8',
+                CFG_Payment_Postal_Code__c = 'N6A 4Y8',
+                CFG_Office_Fax_Number__c = '844-827-9220',
+                CFG_Office_Phone_Number__c = '844-827-9222',
+                Account_Statement_Not_Allowed__c = defaultTemplate.id,
+                Follow_Up_Email_Required_Templates__c = defaultTemplate.id,
+                Insolvency_Template_Header_French__c = defaultTemplate.id,
+                CFG_Office_Email_Address__c = 'test@canaccede.com'
+            );
             insert poc1;
+            PoC_Package_Settings__c ctb = new PoC_Package_Settings__c(
+                Name = 'Canadian Tire',
+                CFG_Trustee_Email_Default_content__c = 'test',
+                CFG_Trustee_Email_Default_Subject__c = 'test',
+                Insolvency_Template_Header__c = defaultTemplate.id,
+                Insolvency_Template_WoHeader_French__c = defaultTemplate.id,
+                Insolvency_Template_WoHeader__c = defaultTemplate.id,
+                Attachment_Required_Email_Templates__c = defaultTemplate.id,
+                CFG_Office_Address_1__c = 'PO Box 758 STN B',
+                CFG_Office_City__c = 'London',
+                CFG_Office_Province_Short_Code__c = 'ON',
+                CFG_Office_Postal_Code__c = 'N6A 4Y8',
+                CFG_Payment_Postal_Code__c = 'N6A 4Y8',
+                CFG_Office_Fax_Number__c = '844-827-9220',
+                CFG_Office_Phone_Number__c = '844-827-9222',
+                Account_Statement_Not_Allowed__c = defaultTemplate.id,
+                Follow_Up_Email_Required_Templates__c = defaultTemplate.id,
+                Insolvency_Template_Header_French__c = defaultTemplate.id,
+                CFG_Office_Email_Address__c = 'test@canaccede.com'
+            );
+            insert ctb;
         }
-        Application_Config_Settings__c appConfig = new Application_Config_Settings__c(Run_Insolvency_Status_Validations__c = True,
-                                                                                      Maximum_Email_Attachments_Size__c = 18874368,
-                                                                                      Maximum_Email_Attachments_Size_Text__c = 'You can send attachments only upto 18 MB',
-                                                                                      Run_Insolvency_Account_Trigger__c = true,
-                                                                                      Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm',
-                                                                                      Eligible_for_Claim_Type_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm',
-                                                                                      Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
-                                                                                      Bank_Eligible_for_Duplicate_Check__c = 'SPL',
-                                                                                      Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
-                                                                                      Run_Insolvency_Trigger__c = false,
-                                                                                      Run_Insolvency_Account_Duplicate_Check__c = True,
-                                                                                      Eligible_for_Voting_Decision__c = 'Scotia Bank,SDA,SPL,Canaccede,Fidem,Fairstone'                                      );
+        Application_Config_Settings__c appConfig = new Application_Config_Settings__c(
+            Run_Insolvency_Status_Validations__c = true,
+            Maximum_Email_Attachments_Size__c = 18874368,
+            Maximum_Email_Attachments_Size_Text__c = 'You can send attachments only upto 18 MB',
+            Run_Insolvency_Account_Trigger__c = true,
+            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm',
+            Eligible_for_Claim_Type_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm',
+            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
+            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
+            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
+            Run_Insolvency_Trigger__c = false,
+            Run_Insolvency_Account_Duplicate_Check__c = true,
+            Eligible_for_Voting_Decision__c = 'Scotia Bank,SDA,SPL,Canaccede,Fidem,Fairstone'
+        );
         insert appConfig;
-    }
-    
-    // Testing send email with attachments
-    static testMethod void sendEmailTest(){
-        //Account Record Insertion
+
         Account acct = new Account();
         acct.Name = 'Test Account';
         acct.Communication_Preference__c = 'Fax';
-        acct.fax= '651426256';
+        acct.fax = '651426256';
         insert acct;
-        
+
         //Insolvency Record Insertion
         Insolvency__c inslv = new Insolvency__c();
         inslv.Name = 'Test-Email0010';
-        inslv.Debtor_1_First_Name__c  = 'first';
+        inslv.Debtor_1_First_Name__c = 'first';
         inslv.Debtor_1_Last_Name__c = 'last';
         inslv.Trustee__c = acct.Id;
         insert inslv;
-        
-        //Insolvency Account Record Insertion   
+
+        String csvString = '"H","2","999","0000001","08/15/2008","12:32:06","P","DRN00001"\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","0000000008PCOM","","","9/15/2023","500","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123"\n"T","2","999","3","1","08/15/2008","12:32:06"';
+        Document documentObj = new Document();
+        documentObj.Body = Blob.valueOf(csvString);
+        documentObj.ContentType = 'text/csv';
+        documentObj.DeveloperName = 'my_document';
+        documentObj.IsPublic = true;
+        documentObj.Name = 'My Document';
+        documentObj.FolderId = [SELECT Id FROM folder WHERE DeveloperName = 'Metadata_Content'].Id;
+        insert documentObj;
+
+        TestDocumentAPIClient.testDocumentAPI();
+    }
+
+    // Testing send email with attachments
+    static testMethod void sendEmailTest() {
+        //Insolvency Account Record Insertion
         Insolvency_Account__c acc = new Insolvency_Account__c();
         acc.Name = 'Test- 001';
-        acc.Insolvency__c = inslv.Id;
+        acc.Insolvency__c = [SELECT Id FROM Insolvency__c LIMIT 1][0].Id;
         acc.Borrower_Primary__c = 'TestData';
         acc.Client_Identifier__c = 'Scotia Bank';
-        acc.Balance_Owed__c= 20.0;
+        acc.Balance_Owed__c = 20.0;
         acc.Amended_Claim_Flag__c = false;
         acc.Insolvency_Status__c = 'PoC Details Provided';
         acc.Claim_Amount__c = 100;
         acc.Insolvency_Status_Last_Changed__c = System.Today();
-        acc.Insolvency__c = inslv.Id;
-        acc.Account_Number_Without_Space__c='Test-001';
+        acc.Account_Number_Without_Space__c = 'Test-001';
         acc.Insolvency_Type__c = 'Consumer Proposal';
+        acc.Acknowledgement_date__c = System.today();
         insert acc;
-        
+
         //Attachment Insertion to related Insolvency Account
-        Attachment att = new Attachment(Name = 'testAtt', Description = 'PoC Document', Body = Blob.valueOf('{!Insolvency_Account__c.Balance_Owed__c}'), parentId = acc.Id);
-        insert att; 
-        
+        Attachment att = new Attachment(
+            Name = 'testAtt',
+            Description = 'PoC Document',
+            Body = Blob.valueOf('{!Insolvency_Account__c.Balance_Owed__c}'),
+            parentId = acc.Id
+        );
+        insert att;
+
         ApexPages.currentPage().getParameters().put('Id', acc.Id);
-        
+
         EmailTrusteeController obj = new EmailTrusteeController();
-        set<Id> attIdSet = new set<Id>();
-        
-        if(obj.toEmail == Null){
-            Insolvency_Error__c inslErr= new Insolvency_Error__c();
+        set<String> attIdSet = new Set<String>();
+
+        if (obj.toEmail == null) {
+            Insolvency_Error__c inslErr = new Insolvency_Error__c();
             inslErr.Action__c = 'Email Trustee';
             inslErr.Insolvency_Account__c = acc.Id;
             insert inslErr;
         }
-        
-        for(EmailTrusteeController.InsolvAttachments  attch : obj.insolvAttachList){
+
+        for (EmailTrusteeController.InsolvAttachments attch : obj.insolvAttachList) {
             attch.selected = true;
             obj.attachmentSelected = attch.attId;
-            obj.attachmentSelected();         
+            obj.attachmentSelected();
         }
-        
-        EmailTemplate  emailTempl = new EmailTemplate(Name = 'Notice Received to Prove Claim',TemplateType  = 'custom', DeveloperName='Insolvency_Template2', HtmlValue = '{!TODAY()}', body = 'testbody',Subject = '{!Insolvency_Account__c.Secured_Name__c}', FolderId = UserInfo.getUserId());
-        EmailTemplate defaultTemplate1 = new EmailTemplate(Name = 'Insolvency Default - Template',TemplateType  = 'custom', DeveloperName='Insolvency_Template', HtmlValue = '{!TODAY()}', Body = '{!TODAY()}',Subject = '{!Insolvency_Account__c.Name}', FolderId = UserInfo.getUserId());
-        
-        set<Id> templateSet = new set<Id>();
+
+        EmailTemplate emailTempl = new EmailTemplate(
+            Name = 'Notice Received to Prove Claim',
+            TemplateType = 'custom',
+            DeveloperName = 'Insolvency_Template2',
+            HtmlValue = '{!TODAY()}',
+            body = 'testbody',
+            Subject = '{!Insolvency_Account__c.Secured_Name__c}',
+            FolderId = UserInfo.getUserId()
+        );
+        EmailTemplate defaultTemplate1 = new EmailTemplate(
+            Name = 'Insolvency Default - Template',
+            TemplateType = 'custom',
+            DeveloperName = 'Insolvency_Template',
+            HtmlValue = '{!TODAY()}',
+            Body = '{!TODAY()}',
+            Subject = '{!Insolvency_Account__c.Name}',
+            FolderId = UserInfo.getUserId()
+        );
+
+        set<Id> templateSet = new Set<Id>();
         templateSet.add(emailTempl.Id);
         templateSet.add(defaultTemplate1.Id);
         obj.attachmentSelected = att.Id;
@@ -137,7 +204,7 @@ public class TestEmailTrusteeController{
         obj.selectedTemplate = emailTempl.Id;
         obj.mySelectedAtt = attIdSet;
         obj.emailTemplatechanged();
-        
+
         obj.attachmentRemoved();
         obj.emailBody = emailTempl.Body;
         obj.sendEmail();
@@ -146,57 +213,46 @@ public class TestEmailTrusteeController{
         obj.checkAttachmentForAccState();
         obj.isAnyException = false;
     }
-    
-    static testMethod void sendEmailTestCheck(){
-        Set<id> mySelectedAtt = new Set<id>();
-        //Account Record Insertion
-        Account acct = new Account();
-        acct.Name = 'Tests Account';
-        acct.Communication_Preference__c = 'Fax';
-        acct.fax= '651426256';
-        insert acct;
-        
-        //Insolvency Record Insertion
-        Insolvency__c inslv = new Insolvency__c();
-        inslv.Name = 'Test-Email001';
-        inslv.Debtor_1_First_Name__c  = 'first';
-        inslv.Debtor_1_Last_Name__c = 'last';
-        inslv.Trustee__c = acct.Id;
-        insert inslv;
-        
-        //Insolvency Account Record Insertion  
+
+    static testMethod void sendEmailTestCheck() {
+        //Insolvency Account Record Insertion
         Insolvency_Account__c acc = new Insolvency_Account__c();
         acc.Name = 'Test- 001';
-        acc.Insolvency__c = inslv.Id;
+        acc.Insolvency__c = [SELECT Id FROM Insolvency__c LIMIT 1][0].Id;
         acc.Borrower_Primary__c = 'TestData';
         acc.Client_Identifier__c = 'Scotia Bank';
-        acc.Balance_Owed__c= 20.0;
+        acc.Balance_Owed__c = 20.0;
         acc.Amended_Claim_Flag__c = false;
         acc.Insolvency_Status__c = 'PoC Details Provided';
         acc.Claim_Amount__c = 100;
         acc.Insolvency_Status_Last_Changed__c = System.Today();
-        acc.Insolvency__c = inslv.Id;
-        acc.Account_Number_Without_Space__c='Test-001';
+        acc.Account_Number_Without_Space__c = 'Test-001';
         acc.Insolvency_Type__c = 'Consumer Proposal';
+        acc.Acknowledgement_date__c = System.today();
         insert acc;
-        
+
         //Attachment creation to related Insolvency Account
-        Attachment att = new Attachment(Name = 'testAtt', Body = Blob.valueOf('{!Insolvency_Account__c.Balance_Owed__c}'),Description = 'Account Statement', parentId = acc.Id);
-        insert att; 
-        
+        Attachment att = new Attachment(
+            Name = 'testAtt',
+            Body = Blob.valueOf('{!Insolvency_Account__c.Balance_Owed__c}'),
+            Description = 'Account Statement',
+            parentId = acc.Id
+        );
+        insert att;
+
         ApexPages.currentPage().getParameters().put('Id', acc.Id);
-        
+
         EmailTrusteeController obj = new EmailTrusteeController();
         obj.toEmail = 'test@test.com';
-        set<Id> attIdSet = new set<Id>();
-        
-        for(EmailTrusteeController.InsolvAttachments  attch : obj.insolvAttachList){
+        set<String> attIdSet = new Set<String>();
+
+        for (EmailTrusteeController.InsolvAttachments attch : obj.insolvAttachList) {
             attch.selected = true;
             obj.attachmentSelected = attch.attId;
-            obj.attachmentSelected();         
+            obj.attachmentSelected();
         }
-        
-        EmailTemplate  emailTempl = new EmailTemplate(Name = 'Notice Received to Prove Claim',Subject = '{!Insolvency_Account__c.Borrower_Primary__c}');
+
+        EmailTemplate emailTempl = new EmailTemplate(Name = 'Notice Received to Prove Claim', Subject = '{!Insolvency_Account__c.Borrower_Primary__c}');
         attIdSet.add(att.Id);
         obj.isSelectedAtt = true;
         obj.emailTemplatechanged();
@@ -207,58 +263,46 @@ public class TestEmailTrusteeController{
         obj.checkEligibleTrustee();
         obj.getBankName();
     }
-    
-    static testMethod void sendEmailTestCheck1(){
-        Set<id> mySelectedAtt = new Set<id>();
-        //Account Record Insertion
-        Account acct = new Account();
-        acct.Name = 'Tests Account';
-        acct.Communication_Preference__c = 'Email';
-        acct.fax= '651426256';
-        acct.Preferred_Language__c = 'English';
-        insert acct;
-        
-        //Insolvency Record Insertion
-        Insolvency__c inslv = new Insolvency__c();
-        inslv.Name = 'Test-Email001';
-        inslv.Debtor_1_First_Name__c  = 'first';
-        inslv.Debtor_1_Last_Name__c = 'last';
-        inslv.Trustee__c = acct.Id;
-        insert inslv;
-        
-        //Insolvency Account Record Insertion  
+
+    static testMethod void sendEmailTestCheck1() {
+        //Insolvency Account Record Insertion
         Insolvency_Account__c acc = new Insolvency_Account__c();
         acc.Name = 'Test- 001';
-        acc.Insolvency__c = inslv.Id;
+        acc.Insolvency__c = [SELECT Id FROM Insolvency__c LIMIT 1][0].Id;
         acc.Borrower_Primary__c = 'TestData';
         acc.Client_Identifier__c = 'Canaccede';
-        acc.Balance_Owed__c= 20.0;
+        acc.Balance_Owed__c = 20.0;
         acc.Amended_Claim_Flag__c = false;
         acc.Insolvency_Status__c = 'PoC Details Provided';
         acc.Claim_Amount__c = 100;
         acc.Insolvency_Status_Last_Changed__c = System.Today();
-        acc.Insolvency__c = inslv.Id;
-        acc.Account_Number_Without_Space__c='Test-001';
+        acc.Account_Number_Without_Space__c = 'Test-001';
         acc.Insolvency_Type__c = 'Consumer Proposal';
+        acc.Acknowledgement_date__c = System.today();
         insert acc;
-        
+
         //Attachment creation to related Insolvency Account
-        Attachment att = new Attachment(Name = 'testAtt', Body = Blob.valueOf('{!Insolvency_Account__c.Balance_Owed__c}'),Description = 'Account Statement', parentId = acc.Id);
-        insert att; 
-        
+        Attachment att = new Attachment(
+            Name = 'testAtt',
+            Body = Blob.valueOf('{!Insolvency_Account__c.Balance_Owed__c}'),
+            Description = 'Account Statement',
+            parentId = acc.Id
+        );
+        insert att;
+
         ApexPages.currentPage().getParameters().put('Id', acc.Id);
-        
+
         EmailTrusteeController obj = new EmailTrusteeController();
         obj.toEmail = 'test@test.com';
-        set<Id> attIdSet = new set<Id>();
-        
-        for(EmailTrusteeController.InsolvAttachments  attch : obj.insolvAttachList){
+        set<String> attIdSet = new Set<String>();
+
+        for (EmailTrusteeController.InsolvAttachments attch : obj.insolvAttachList) {
             attch.selected = true;
             obj.attachmentSelected = attch.attId;
-            obj.attachmentSelected();         
+            obj.attachmentSelected();
         }
-        
-        EmailTemplate  emailTempl = new EmailTemplate(Name = 'Notice Received to Prove Claim',Subject = '{!Insolvency_Account__c.Borrower_Primary__c}');
+
+        EmailTemplate emailTempl = new EmailTemplate(Name = 'Notice Received to Prove Claim', Subject = '{!Insolvency_Account__c.Borrower_Primary__c}');
         attIdSet.add(att.Id);
         obj.isSelectedAtt = true;
         obj.emailTemplatechanged();
@@ -268,5 +312,97 @@ public class TestEmailTrusteeController{
         obj.checkAttachment();
         obj.checkEligibleTrustee();
         obj.getBankName();
+    }
+
+    @isTest
+    static void sendEmailTestCTB() {
+        //Insolvency Account Record Insertion
+        Insolvency_Account__c acc = new Insolvency_Account__c();
+        acc.Name = '123456789';
+        acc.Insolvency__c = [SELECT Id FROM Insolvency__c LIMIT 1][0].Id;
+        acc.Borrower_Primary__c = 'TestData';
+        acc.Balance_Owed__c = 20.0;
+        acc.Amended_Claim_Flag__c = false;
+        acc.Insolvency_Status__c = 'PoC Details Provided';
+        acc.Claim_Amount__c = 100;
+        acc.Insolvency_Status_Last_Changed__c = System.Today();
+        acc.Account_Number_Without_Space__c = 'Test-001';
+        acc.Insolvency_Type__c = 'Consumer Proposal';
+        acc.Acknowledgement_date__c = System.today();
+        acc.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName()
+            .get('Canadian_Tire_Insolvency_Account')
+            .getRecordTypeId();
+        insert acc;
+
+        //Attachment creation to related Insolvency Account
+        Attachment att = new Attachment(
+            Name = 'testAtt',
+            Body = Blob.valueOf('{!Insolvency_Account__c.Balance_Owed__c}'),
+            Description = 'PoC Document',
+            parentId = acc.Id
+        );
+        insert att;
+
+        Document_Storage__c docInfo = new Document_Storage__c();
+        docInfo.Document_Name__c = 'Test_Document.pdf';
+        docInfo.Document_URL__c = 'statement/Test_Document.pdf';
+        docInfo.Document_Type__c = 'ctb_statement_output';
+        docInfo.Document_Extension__c = 'pdf';
+        docInfo.Uploaded_By__c = 'System';
+        docInfo.Creator__c = 'System';
+        docInfo.Visibility__c = 'CFG only';
+        docInfo.Insolvency_Account__c = acc.Id;
+        docInfo.RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('Insolvency').getRecordTypeId();
+        insert docInfo;
+
+        ApexPages.currentPage().getParameters().put('Id', acc.Id);
+
+        EmailTrusteeController obj = new EmailTrusteeController();
+        obj.toEmail = 'test@test.com';
+        set<String> attIdSet = new Set<String>{ att.Id, docInfo.Document_URL__c };
+        for (EmailTrusteeController.InsolvAttachments attch : obj.insolvAttachList) {
+            attch.selected = true;
+            obj.attachmentSelected = attch.attId;
+            obj.attachmentSelected();
+        }
+
+        Test.setMock(HttpCalloutMock.class, new DocumentAPIClientMockTest());
+        EmailTemplate emailTempl = new EmailTemplate(Name = 'Creditor Package Request', Subject = '{!Insolvency_Account__c.Borrower_Primary__c}');
+        obj.isSelectedAtt = true;
+        obj.mySelectedAtt = attIdSet;
+        Test.startTest();
+        obj.emailTemplatechanged();
+        obj.attachmentRemoved();
+        obj.loadEmailTemplates();
+        obj.sendEmail();
+        obj.checkAttachment();
+        obj.checkEligibleTrustee();
+        obj.getBankName();
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testUpdateInsolvencyAccount() {
+        //Insolvency Account Record Insertion
+        Insolvency_Account__c acc = new Insolvency_Account__c();
+        acc.Name = '123456789';
+        acc.Insolvency__c = [SELECT Id FROM Insolvency__c LIMIT 1][0].Id;
+        acc.Borrower_Primary__c = 'TestData';
+        acc.Balance_Owed__c = 20.0;
+        acc.Amended_Claim_Flag__c = false;
+        acc.Insolvency_Status__c = 'PoC Package Generated';
+        acc.Claim_Amount__c = 100;
+        acc.Insolvency_Status_Last_Changed__c = System.Today();
+        acc.Account_Number_Without_Space__c = 'Test-001';
+        acc.Insolvency_Type__c = 'Consumer Proposal';
+        acc.Acknowledgement_date__c = System.today();
+        acc.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName()
+            .get('Canadian_Tire_Insolvency_Account')
+            .getRecordTypeId();
+        insert acc;
+
+        Test.startTest();
+        EmailTrusteeController.updateInsolvencyAccount(acc.Id, new Set<String>());
+        Test.stopTest();
     }
 }
