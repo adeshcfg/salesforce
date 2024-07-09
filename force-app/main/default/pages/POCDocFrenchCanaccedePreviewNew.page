@@ -558,14 +558,6 @@
                                         
                                         <div style="padding-left:27px;"><i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i></div>
                                         <br/>
-                                        <!--<apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>-->
-                                        <apex:inputCheckbox styleClass="my-checkbox"/>
-                                        &nbsp;&nbsp;H. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU <br/> 
-                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MONTANT DE      $
-                                        <div style="padding-left:27px;">J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après: 
-                                        </div>
-                                        <div style="padding-left:27px;"><i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i></div>
-                                        <br/>
                                          7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
                                         <br/>
                                         <br/>

@@ -227,7 +227,7 @@
                                 <span  style="font-family: sans-serif; font-weight:bold;">
                                     <apex:outputText value="{0, number,#,##0.00}">
                                     <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                    </apex:outputText>$,</span> tel que spécifié dans le relevé de compte (ou l'affidavit) ci-joint et désigné comme l'annexe "A", après déduction du montant de toute créance compensatoire à laquelle le débiteur a droit. (Le relevé de compte ou l'affidavit ou la déclaration solennelle ci-joint doit préciser les pièces justificatives ou autres preuves à l'appui de la réclamation.)</td>
+                                    </apex:outputText> $,</span> tel que spécifié dans le relevé de compte (ou l'affidavit) ci-joint et désigné comme l'annexe "A", après déduction du montant de toute créance compensatoire à laquelle le débiteur a droit. (Le relevé de compte ou l'affidavit ou la déclaration solennelle ci-joint doit préciser les pièces justificatives ou autres preuves à l'appui de la réclamation.)</td>
                         </tr>
                         <tr>
                         <td style="vertical-align:top;">4.</td>
@@ -327,9 +327,9 @@
                 </apex:outputLabel>
                 
                 
-                <span style="padding-left:15px;">A. RÉCLAMATION NON GARANTIE AU MONTANT DE <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">$
+                <span style="padding-left:15px;">A. RÉCLAMATION NON GARANTIE AU MONTANT DE <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">
                     <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c,'')}" />
-                    </apex:outputText></span></span>
+                    </apex:outputText></span></span> $
                 <div style="line-height: 15px;">
                     <span style="padding-left:30px;">(autre qu’une réclamation d’un client visée par l’article 262 de la Loi)</span>
                    
@@ -343,9 +343,9 @@
                 </apex:outputLabel>
                 <apex:outputLabel rendered="{! $CurrentPage.parameters.claimRight == 'false'}"> 
                     <apex:image value="{!$Resource.uncheck}" width="12"/>
-                </apex:outputLabel> &nbsp;&nbsp;&nbsp;Concernant le montant de <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">$
-                <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c,'')}" />
-                </apex:outputText></span>, Je revendique un droit à une priorité en vertu de l'article 136 de.
+                </apex:outputLabel> &nbsp;&nbsp;&nbsp;Concernant le montant de <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">
+                <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c,'')}" /> 
+                </apex:outputText></span> $, Je revendique un droit à une priorité en vertu de l'article 136 de.
                 <br/>
                 
                 <apex:outputLabel rendered="{! $CurrentPage.parameters.dontClaim== 'true'}"> 
@@ -354,9 +354,9 @@
                 <apex:outputLabel rendered="{! $CurrentPage.parameters.dontClaim== 'false'}"> 
                     <apex:image value="{!$Resource.uncheck}" width="12"/>
                 </apex:outputLabel>
-                &nbsp;&nbsp;&nbsp;Concernant le montant de <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">$
+                &nbsp;&nbsp;&nbsp;Concernant le montant de <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">
                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
-                </apex:outputText></span>, Je ne revendique pas de droit à une priorité.
+                </apex:outputText></span> $, Je ne revendique pas de droit à une priorité.
                 <br/>
                 
                 
@@ -461,12 +461,7 @@
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel>
-                    <span style="padding-left:12px;">H. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU MONTANT DE      $</span>  
-                    
-                    J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après: 
-                    
-                    <i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i>
-                    <br/>
+                   
                     <br/>
                     7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
                     <br/>

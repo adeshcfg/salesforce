@@ -284,7 +284,7 @@
                                    </b>
                                    jour de 
                                    <b>
-                                      <apex:outputText value="{!formattedLastPayDate}">
+                                      <apex:outputText value="{!formattedDebtDueOffDate}">
                                          <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
                                       </apex:outputText>
                                    </b>
@@ -308,7 +308,7 @@
                                    </b>
                                    jour de
                                    <b>
-                                    <apex:outputText value="{!formattedLastPayDate}">
+                                    <apex:outputText value="{!formattedAcknowledgementDate}">
                                        <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                     </apex:outputText>
                                    </b>
@@ -450,22 +450,16 @@
                                         <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>
                                         <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>                  
                                         <br/>                    
-                                        <i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i>
-                                        <br/><br/>
+                            
                                         <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
                                         &nbsp;&nbsp; G. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU MONTANT   DE       $
                                         <br/>
-                                        J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:
-                                        <br/>
-                                        (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
-                                        <br/><br/>
-                                        <apex:inputCheckbox styleClass="my-checkbox"/>
-                                        <span style="padding-left:15px;">H. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU MONTANT DE       $ </span>
+                                        <div style="padding-left:27px;"><i> (À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.)</i></div> 
+                                        <div style="padding-left:27px;"> J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</div>
                                         
-                                        J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:
-                                        
-                                        (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
-                                        <br/><br/>
+                                        <div style="padding-left:27px;"><i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i></div>
+                                       <br/>
+                                       
                                         7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
                                         <br/><br/>
                                         8. Les montants suivants constituent les paiements que j'ai reçus  du débiteur  et les crédits que j'ai attribués à celui-ci et les opérations sous-évaluées selon le paragraphe 2(1) de la Loi auxquelles j'ai contribué ou été partie intéressée au cours des trois mois (ou, si le créancier et le débiteur sont des "personnes liées" au sens du paragraphe 4 de la Loi, au cours des douze mois) précédant immédiatement l'ouverture de la faillite, tel que défini au paragraphe 2 de la Loi. (Donnez les détails des paiements, des crédits et des opérations sous-évaluées.)

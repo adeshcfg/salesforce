@@ -145,60 +145,50 @@
                             par prescription en vertu de la loi qui lui est applicable. soit
                         </td>
                     </tr>
-                    <tr>
-                        <td style="vertical-align:top;">5.</td>
-                        <td style="padding-left:10px;">Paiement au créancier par le débiteur pour cette créance est recevable (ou le débiteur est en demeure) depuis le
-                            <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0,date, dd}">
-                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
-                                </apex:outputText>
-                                <apex:outputText value="{!formattedDate}">
-                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
-                                </apex:outputText>
-                                
-                            </span>
-                            jour de
-                            <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
-                                </apex:outputText>
-                                <apex:outputText value="{!formattedDate}">
-                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
-                                </apex:outputText>
-                            </span>
-                            , et le plus récent paiement au créancier par le débiteur pour cette créance, si quelque paiement a été effectué, a été fait le
-                            <span style="font-family: sans-serif; font-weight:bold;">
-                                $
-                                <apex:outputText value="{0, number,#,##0.00}">
-                                    <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                </apex:outputText>
-                            </span>
-                            jour de
-                            <span style="font-family: sans-serif; font-weight:bold;">
-                                $
-                                <apex:outputText value="{0, number,#,##0.00}">
-                                    <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                </apex:outputText>
-                            </span>
-                            , et/ou que la plus récente renonciation au bénéfice de la prescription ou du temps écoulé a été faite le
-                            <span style="font-family: sans-serif; font-weight:bold;">
-                                $
-                                <apex:outputText value="{0, number,#,##0.00}">
-                                    <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                </apex:outputText>
-                            </span>
-                            jour de
-                            <span style="font-family: sans-serif; font-weight:bold;">
-                                $
-                                <apex:outputText value="{0, number,#,##0.00}">
-                                    <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                </apex:outputText>
-                            </span>
-                            , dont les détails sont mentionnés ci-après :
-                            <br/>
-                            <span style="font-family: sans-serif; font-style:italic;">(Donnez tous les détails de la réclamation, y compris de son historique, de toute renonciation ou de toute action en justice y étant reliée). </span>
-                            <br/> Veuillez consulter l’annexe A pour plus de détails
-                        </td>
+                        <tr>
+                            <td style="vertical-align:top;">5.</td>
+                            <td style="padding-left:10px;">Paiement au créancier par le débiteur pour cette créance est recevable (ou le débiteur est en demeure) depuis le
+                                <span style="font-family: sans-serif; font-weight:bold;">
+                                    <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
+                                    </apex:outputText>
+                                </span>
+                                jour de
+                                <span style="font-family: sans-serif; font-weight:bold;">
+                                    <apex:outputText value="{!formattedDebtDueOffDate}">
+                                        <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
+                                    </apex:outputText>
+                                </span>
+                                , et le plus récent paiement au créancier par le débiteur pour cette créance, si quelque paiement a été effectué, a été fait le
+                                <span style="font-family: sans-serif; font-weight:bold;">
+                                    <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
+                                    </apex:outputText>
+                                </span>
+                                jour de
+                                <span style="font-family: sans-serif; font-weight:bold;">
+                                    <apex:outputText value="{!formattedLastpaymentDate}">
+                                        <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
+                                    </apex:outputText>
+                                </span>
+                                , et/ou que la plus récente renonciation au bénéfice de la prescription ou du temps écoulé a été faite le
+                                <span style="font-family: sans-serif; font-weight:bold;">
+                                    <apex:outputText value="{0,date, dd}">
+                                        <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
+                                    </apex:outputText>
+                                </span>
+                                jour de
+                                <span style="font-family: sans-serif; font-weight:bold;">
+                                    <apex:outputText value="{!formattedAcknowledgementDate}">
+                                        <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
+                                    </apex:outputText>
+                                </span>
+                                , dont les détails sont mentionnés ci-après :
+                                <br/>
+                                <span style="font-family: sans-serif; font-style:italic;">(Donnez tous les détails de la réclamation, y compris de son historique, de toute renonciation ou de toute action en justice y étant reliée). </span>
+                                <br/>
+                                <br/> Veuillez consulter l’annexe A pour plus de détails
+                            </td>
                         </tr>
                         <tr>
                             <td>6.</td>
@@ -423,11 +413,7 @@
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel>
-                    <span style="padding-left:15px;">H. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU MONTANT DEl$ </span>
-                    
-                    J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:
-                    <br/>
-                    (Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)
+                   
                     <br/>
                     7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
                     <br/>
