@@ -764,9 +764,9 @@ productStaging.Include_in_Processing__c = true;
             //If user enters dd/mm/yyyy formate then shows the below error
             // Added product.Status_Changed_Date__c.contains('-') to if loop part of Bug 4932
             if(product.Status_Changed_Date__C != NULL && (product.Status_Changed_Date__C.contains('/') || product.Status_Changed_Date__C.contains('-'))){
-                String statusChangedDate = product.Status_Changed_Date__C.substring(0,2);
+                Integer statusChangedDate = Integer.valueOf(product.Status_Changed_Date_Text__c.substring(0,1));
                 // Added product.Status_Changed_Date__c.contains('-') to if loop part of Bug 4932
-                if(statusChangedDate > '12' && (!statusChangedDate.contains('/') || !statusChangedDate.contains('-'))){
+                if(statusChangedDate > 12){
                     ERROR_MSG += '<b>ERROR</b> - Invalid Status Changed date.<br/>';
                     EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY or MM-DD-YYYY)<br/>'; // Added or MM-DD-YYYY as part of bug #4932
                 }
@@ -791,21 +791,15 @@ productStaging.Include_in_Processing__c = true;
                 }  
             }
             else{
-                if(String.isNotBlank(product.Status_Changed_Date_Text__c)){
-                    ERROR_MSG += '<b>ERROR</b> - Invalid status changed date.<br/>';
-                    EXPECTED += 'Status changed Date should be proper format.(MM/DD/YYYY or MM-DD-YYYY)<br/>'; // Added or MM-DD-YYYY as part of bug #4932
-                }
-                else{
+                if(String.isBlank(product.Status_Changed_Date_Text__c)){
                     ERROR_MSG += '<b>ERROR</b> - Status Changed date cannot be blank.<br/>';
                     EXPECTED += 'Status Changed date cannot be blank<br/>';
                 }
-                /*ERROR_MSG += '<b>ERROR</b> : Incorrect status date format\n';
-EXPECTED += 'Payment Date cannot be blank.<br/>';*/
             } 
                 
 			//Ticket 5081: User cannot update status if product with judgment
             String placementStatus;
-            if (mapProduct.get(product.Name__c).Placement_Status__c!=NULL && mapProduct.get(product.Name__c).Placement_Status__c!=''){
+            if (mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Placement_Status__c!=NULL && mapProduct.get(product.Name__c).Placement_Status__c!=''){
                 placementStatus=mapProduct.get(product.Name__c).Placement_Status__c;
             }
             if(docStorage != NULL /*&& docStorage.Uploaded_By__c == 'External User'*/ && mapProductJudgment.containsKey(product.Name__c) && (placementStatus!=NULL && placementStatus!='') && System.Label.Judgment_Codes.contains(placementStatus)){
