@@ -1205,12 +1205,25 @@
 								ERROR_MSG += '<b>WARINING</b> - Account was recalled within 15 days and is currently warehoused.<br/>';
 								if (prodPayment.Pay_Due__c != null) {
 									prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
-									EXPECTED +=
+                                    if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                        EXPECTED +=
 										'Commission Amount ' +
 										prodPayment.Pay_Due__c +
 										' will be paid to Agency ' +
 										prodPayment.Payment_Agency__c +
 										'<br/>';
+                                    }
+                                    if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                        if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                           && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                               EXPECTED +=
+                                                   'Commission Amount ' +
+                                                   prodPayment.Pay_Due__c +
+                                                   ' will be paid to Agency ' +
+                                                   mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c +
+                                                   '<br/>';
+                                        }
+                                    }
 								}
 							}
 						}
@@ -1257,10 +1270,28 @@
 								if (!mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
 									prodPayment.Payment_Provided_Agency__c = productAgencyID;
 									prodPayment.Payment_Agency__c = productAgency;
-									if (prodPayment.Pay_Due__c != null) {
-										prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
-										EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + productAgency + '<br/>';
-									}
+                                    if (prodPayment.Pay_Due__c != null) {
+                                        prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
+                                        if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                            EXPECTED +=
+                                                'Commission Amount ' +
+                                                prodPayment.Pay_Due__c +
+                                                ' will be paid to Agency ' +
+                                                productAgency +
+                                                '<br/>';
+                                        }
+                                        if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                            if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                               && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                                   EXPECTED +=
+                                                       'Commission Amount ' +
+                                                       prodPayment.Pay_Due__c +
+                                                       ' will be paid to Agency ' +
+                                                       mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c +
+                                                       '<br/>';
+                                               }
+                                        }
+                                    }
 									ERROR_MSG += '<b>WARINING</b> - Account was placed with agency ' + productAgency + '.<br/>';
 								} else if (
 									mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) &&
@@ -1268,16 +1299,28 @@
 								) {
 									prodPayment.Payment_Provided_Agency__c = productAgencyID;
 									prodPayment.Payment_Agency__c = productAgency;
-
-									if (prodPayment.Pay_Due__c != null) {
-										prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
-										EXPECTED +=
-											'Commission Amount ' +
-											prodPayment.Pay_Due__c +
-											' will be paid to Agency ' +
-											prodPayment.Payment_Agency__c +
-											'<br/>';
-									}
+                                    if (prodPayment.Pay_Due__c != null) {
+                                        prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
+                                        if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                            EXPECTED +=
+                                                'Commission Amount ' +
+                                                prodPayment.Pay_Due__c +
+                                                ' will be paid to Agency ' +
+                                                prodPayment.Payment_Agency__c +
+                                                '<br/>';
+                                        }
+                                        if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                            if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                               && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                                   EXPECTED +=
+                                                       'Commission Amount ' +
+                                                       prodPayment.Pay_Due__c +
+                                                       ' will be paid to Agency ' +
+                                                       mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c +
+                                                       '<br/>';
+                                               }
+                                        }
+                                    }
 									ERROR_MSG +=
 										'<b>WARINING</b> - Account was recalled before 15 days and is currently placed with agency ' +
 										productAgency +
@@ -1372,15 +1415,28 @@
 													prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
 												}
 
-												if (prodPayment.Pay_Due__c != null) {
-													prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
-													EXPECTED +=
-														'Commission Amount ' +
-														prodPayment.Pay_Due__c +
-														' will be paid to Agency ' +
-														prodPayment.Payment_Agency__c +
-														'<br/>';
-												}
+                                                if (prodPayment.Pay_Due__c != null) {
+                                                    prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
+                                                    if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                                        EXPECTED +=
+                                                            'Commission Amount ' +
+                                                            prodPayment.Pay_Due__c +
+                                                            ' will be paid to Agency ' +
+                                                            prodPayment.Payment_Agency__c +
+                                                            '<br/>';
+                                                    }
+                                                    if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                                        if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                                           && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                                               EXPECTED +=
+                                                                   'Commission Amount ' +
+                                                                   prodPayment.Pay_Due__c +
+                                                                   ' will be paid to Agency ' +
+                                                                   mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c +
+                                                                   '<br/>';
+                                                           }
+                                                    }
+                                                }
 												ERROR_MSG +=
 													'<b>WARINING</b> - Account was recalled within 15 days and is currently placed with agency ' +
 													productAgency +
@@ -1399,15 +1455,28 @@
 												if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
 													prodPayment.Payment_Provided_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c;
 													prodPayment.Payment_Agency__c = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Agency_Id__c;
-													if (prodPayment.Pay_Due__c != null) {
-														prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
-														EXPECTED +=
-															'Commission Amount ' +
-															prodPayment.Pay_Due__c +
-															' will be paid to Agency ' +
-															prodPayment.Payment_Agency__c +
-															'<br/>';
-													}
+                                                    if (prodPayment.Pay_Due__c != null) {
+                                                        prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
+                                                        if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                                            EXPECTED +=
+                                                                'Commission Amount ' +
+                                                                prodPayment.Pay_Due__c +
+                                                                ' will be paid to Agency ' +
+                                                                prodPayment.Payment_Agency__c +
+                                                                '<br/>';
+                                                        }
+                                                        if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                                            if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                                               && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                                                   EXPECTED +=
+                                                                       'Commission Amount ' +
+                                                                       prodPayment.Pay_Due__c +
+                                                                       ' will be paid to Agency ' +
+                                                                       mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c +
+                                                                       '<br/>';
+                                                               }
+                                                        }
+                                                    }
 													ERROR_MSG +=
 														'<b>WARINING</b> - Account was recalled within 15 days and is currently placed with agency ' +
 														productAgency +
@@ -1609,7 +1678,25 @@
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled within 15 days and is currently warehoused.<br/>';
                         if (prodPayment.Pay_Due__c != null) {
                             prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
-                            EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                            if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                EXPECTED +=
+                                    'Commission Amount ' +
+                                    prodPayment.Pay_Due__c +
+                                    ' will be paid to Agency ' +
+                                    prodPayment.Payment_Agency__c +
+                                    '<br/>';
+                            }
+                            if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                   && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                       EXPECTED +=
+                                           'Commission Amount ' +
+                                           prodPayment.Pay_Due__c +
+                                           ' will be paid to Agency ' +
+                                           mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c +
+                                           '<br/>';
+                                   }
+                            }
                         }
                     }
                 }
@@ -1659,7 +1746,25 @@
                         prodPayment.Payment_Agency__c = productAgency;
                         if (prodPayment.Pay_Due__c != null) {
                             prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
-                            EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                            if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                EXPECTED +=
+                                    'Commission Amount ' +
+                                    prodPayment.Pay_Due__c +
+                                    ' will be paid to Agency ' +
+                                    prodPayment.Payment_Agency__c +
+                                    '<br/>';
+                            }
+                            if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                   && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                       EXPECTED +=
+                                           'Commission Amount ' +
+                                           prodPayment.Pay_Due__c +
+                                           ' will be paid to Agency ' +
+                                           mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c +
+                                           '<br/>';
+                                   }
+                            }
                         }
                         ERROR_MSG += '<b>WARINING</b> - Account was recalled before 15 days and is currently placed with agency ' + productAgency + '.<br/>';
                     }
@@ -1768,12 +1873,25 @@
                             }
                             if (prodPayment.Pay_Due__c != null) {
                                 prodPayment.Pay_Due__c = prodPayment.Pay_Due__c.setScale(2, RoundingMode.HALF_UP);
-                                EXPECTED +=
-                                    'Commission Amount ' +
-                                    prodPayment.Pay_Due__c +
-                                    ' will be paid to Agency ' +
-                                    prodPayment.Payment_Agency__c +
-                                    '<br/>';
+                                if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                    EXPECTED +=
+                                        'Commission Amount ' +
+                                        prodPayment.Pay_Due__c +
+                                        ' will be paid to Agency ' +
+                                        prodPayment.Payment_Agency__c +
+                                        '<br/>';
+                                }
+                                if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                    if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                       && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                           EXPECTED +=
+                                               'Commission Amount ' +
+                                               prodPayment.Pay_Due__c +
+                                               ' will be paid to Agency ' +
+                                               mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c +
+                                               '<br/>';
+                                       }
+                                }
                             }
                             ERROR_MSG +=
                                 '<b>WARINING</b> - Account was recalled within 15 days and is currently placed with agency ' +
