@@ -2255,17 +2255,39 @@
 
                                 //}
                             }
+                            
                             ERROR_MSG += '<b>WARINING</b> - Account was recalled within 15 days and is currently warehoused.<br/>';
-                            EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
-                            if (prodPayment.Ignore_Warning__c == false) {
-                                prodPayment.addError(
-                                    'WARNING - Account was recalled within 15 days is currently warehoused.' +
-                                        'Commission Amount ' +
-                                        prodPayment.Pay_Due__c +
-                                        ' will be paid to Agency ' +
-                                        prodPayment.Payment_Agency__c
-                                );
-                            }
+
+
+                                if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                    EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                                    if (prodPayment.Ignore_Warning__c == false) {
+                                        prodPayment.addError(
+                                            'WARNING - Account was recalled within 15 days is currently warehoused.' +
+                                            'Commission Amount ' +
+                                            prodPayment.Pay_Due__c +
+                                            ' will be paid to Agency ' +
+                                            prodPayment.Payment_Agency__c
+                                        );
+                                    }
+                                }
+                                if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                    if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                       && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                           EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c + '<br/>';
+                                           if (prodPayment.Ignore_Warning__c == false) {
+                                               prodPayment.addError(
+                                                   'WARNING - Account was recalled within 15 days is currently warehoused.' +
+                                                   'Commission Amount ' +
+                                                   prodPayment.Pay_Due__c +
+                                                   ' will be paid to Agency ' +
+                                                   mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c
+                                               );
+                                           }
+                                       }
+                                }
+
+                            
                         }
                     }
 
@@ -2318,16 +2340,34 @@
                             prodPayment.Payment_Provided_Agency__c = productAgencyID;
                             prodPayment.Payment_Agency__c = productAgency;
                             ERROR_MSG += '<b>WARINING</b> - <b>WARINING</b> - Account was recalled before 15 days and is currently placed with agency.<br/>';
-                            EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
-                            if (prodPayment.Ignore_Warning__c == false) {
-                                prodPayment.addError(
-                                    'WARNING - Account was recalled before 15 days and is currently placed with agency.' +
+                            		
+                            if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                                if (prodPayment.Ignore_Warning__c == false) {
+                                    prodPayment.addError(
+                                        'WARNING - Account was recalled before 15 days and is currently placed with agency.' +
                                         'Commission Amount ' +
                                         prodPayment.Pay_Due__c +
                                         ' will be paid to Agency ' +
                                         productAgency
-                                );
+                                    );
+                                }
                             }
+                            if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                   && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                       EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c + '<br/>';
+                                       if (prodPayment.Ignore_Warning__c == false) {
+                                           prodPayment.addError(
+                                               'WARNING - Account was recalled before 15 days and is currently placed with agency.' +
+                                               'Commission Amount ' +
+                                               prodPayment.Pay_Due__c +
+                                               ' will be paid to Agency ' +
+                                               mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c
+                                           );
+                                       }
+                                   }
+                            }	
                         }
                         //This account is recalled within 15 days and
                         else if (
@@ -2647,17 +2687,35 @@
                             }
                         }
 
-                        ERROR_MSG += '<b>WARINING</b> - Account was recalled within 15 days and is currently warehoused.<br/>';
-                        EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
-                        if (prodPayment.Ignore_Warning__c == false) {
-                            prodPayment.addError(
-                                'WARNING - Account was recalled within 15 days is currently warehoused.' +
+                        ERROR_MSG += '<b>WARINING</b> - Account was recalled within 15 days and is currently warehoused.<br/>';		
+                        if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                            EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                            if (prodPayment.Ignore_Warning__c == false) {
+                                prodPayment.addError(
+                                    'WARNING - Account was recalled within 15 days is currently warehoused.' +
                                     'Commission Amount ' +
                                     prodPayment.Pay_Due__c +
                                     ' will be paid to Agency ' +
                                     prodPayment.Payment_Agency__c
-                            );
+                                );
+                            }
                         }
+                        if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                            if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                               && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                   EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c + '<br/>';
+                                   if (prodPayment.Ignore_Warning__c == false) {
+                                       prodPayment.addError(
+                                           'WARNING - Account was recalled within 15 days is currently warehoused.' +
+                                           'Commission Amount ' +
+                                           prodPayment.Pay_Due__c +
+                                           ' will be paid to Agency ' +
+                                           mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c
+                                       );
+                                   }
+                               }
+                        }
+								
                     }
                 }
 

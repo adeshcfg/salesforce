@@ -529,8 +529,8 @@ private class TestProductPaymentExcelFileProcessing {
 
         Product__c prod2 = new Product__c();
         prod2.name = '1105P801';
-        prod2.Collection_Agency__c = 29;
-        prod2.Recalled_Date__c = System.today() - 30;
+        prod2.Collection_Agency__c = 9999;
+        prod2.Recalled_Date__c = System.today() - 10;
         prod2.Commission_Adjustment__c = 20;
         prod2.Purchase_Province__c = 'BC';
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
@@ -1357,6 +1357,131 @@ private class TestProductPaymentExcelFileProcessing {
         metaData.Canada_Tax_rate__c = 12;
         Map<String, Province_Tax_Rate_Mapping__mdt> mcs = new Map<String, Province_Tax_Rate_Mapping__mdt>();
         mcs.put('Ab', metaData);
+        instance.mapTaxMetadata = mcs;
+        instance.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs);
+    }
+    
+    @isTest
+    static void testMethod20() {
+        Document_storage__c documentstoragecObj2 = new Document_storage__c(
+            Document_Name__c = 'Product Payment Upload File',
+            Document_Type__c = 'Product Payment Upload File',
+            Uploaded_By__c = 'Internal User'
+        );
+        insert documentstoragecObj2;
+
+        Map<Id, Placement__c> mapPlacementIDs = new Map<Id, Placement__c>();
+        Placement__c plcmnt = new Placement__c();
+        plcmnt.name = '1234';
+        plcmnt.Commission_rate__c = 2;
+        plcmnt.Apply_Ontario_Rate_on_Legal_Account__c = false;
+        insert plcmnt;
+        mapPlacementIDs.put(plcmnt.id, plcmnt);
+
+        Product__c prod = new Product__c();
+        prod.name = '1105P700';
+        prod.Funding_Type__c = 'Automated';
+        prod.Disbursement_Amount__c = 2000.00;
+        prod.Current_Balance__c = 7000;
+        prod.Current_Principal_Balance__c = 5000;
+        prod.Current_Interest_Amount__c = 2000;
+        prod.Current_Workflow__c = 'Collection Process';
+        prod.Requested_Close_Date__c = System.Today();
+        prod.Status__c = 'Pending Recall - Client Request';
+        prod.Sub_Status__c = 'Ready';
+        prod.Product_Status__c = 'Test';
+        prod.Commission_Rate__c = 0;
+        prod.State__c = 'ON';
+        prod.Commission_Adjustment__c = 2;
+        prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('CCS Account').getRecordTypeId();
+        prod.Recalled_Date__c = system.today();
+        prod.Collection_Agency__c = 29;
+        prod.Settlement_Rate__c = 2;
+        prod.Purchase_Province__c = 'BC';
+        insert prod;
+
+        settlement__c settlementData = new settlement__c();
+        settlementData.Product__c = prod.id;
+        settlementData.Required_Amount__c = 10;
+        settlementData.Payment_Frequency__c = 'Weekly';
+        settlementData.Status__c = 'In Progress';
+        insert settlementData;
+
+        Judgment__c judgment = new Judgment__c();
+        judgment.Legal_Status__c = 'Judgment';
+        judgment.Legal_Sub_Status__c = 'Recommended for legal action';
+        judgment.Legal_Agency__c = '29';
+        insert judgment;
+
+        Account_Judgment__c accJudgement = new Account_Judgment__c();
+        accJudgement.Product__c = prod.Id;
+        accJudgement.judgment__c = judgment.Id;
+        accJudgement.status__c = 'Active';
+        insert accJudgement;
+
+        List<Product_payments__c> prodList = new List<Product_payments__c>();
+        Map<Id, product__c> productmap = new Map<Id, product__c>();
+        Map<String, String> mapAccountPrimaryNumber = new Map<String, String>();
+        Product_payments__c productpaymentscObj = new Product_payments__c(
+            Payment_Amount__c = 19,
+            Payment_Type__c = '1002',
+            Payment_Posting_Date__c = Date.today() - 10,
+            Payment_Posting_Date_Text__c = '07/01/2024',
+            CCS_Account__c = prod.Id,
+            CCS_Account_Name__c = 'test',
+            Pay_Due__c = 123,
+            Payment_Source__c = '2',
+            Payment_Agency__c = '29',
+            Ignore_Warning__c = true
+        );
+
+        mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
+
+        prodList.add(productpaymentscObj);
+        productmap.put(prod.id, prod);
+        insert productpaymentscObj;
+		
+        Product_payments__c productpaymentscObj2 = new Product_payments__c(
+            Payment_Amount__c = 19,
+            Payment_Type__c = '1000',
+            Payment_Posting_Date__c = Date.today() - 10,
+            Payment_Posting_Date_Text__c = '07/01/2024',
+            CCS_Account__c = prod.Id,
+            CCS_Account_Name__c = 'test',
+            Pay_Due__c = 123,
+            Payment_Source__c = '2',
+            Payment_Agency__c = '29',
+            Ignore_Warning__c = true
+        );
+        insert productpaymentscObj2;
+        
+        Product_payments__c productpaymentscObj3 = new Product_payments__c(
+            Payment_Amount__c = -19,
+            Payment_Type__c = '1003',
+            Payment_Posting_Date__c = Date.today() - 10,
+            Payment_Posting_Date_Text__c = '07/01/2024',
+            CCS_Account__c = prod.Id,
+            CCS_Account_Name__c = 'test',
+            Pay_Due__c = 123,
+            Payment_Source__c = '2',
+            Original_Of_Payment_Reversal__c = productpaymentscObj2.id,
+            Payment_Agency__c = '29',
+            Ignore_Warning__c = true
+        );
+        insert productpaymentscObj3;
+        
+        ProductPaymentExcelFileProcessing instance = new ProductPaymentExcelFileProcessing(
+            '[{"data_id":"1105P700","tran_type":"5000","tran_date":"2024/01/20","tran_amount":"1000","tran_principal":"9","tran_interest":null,"tran_court":"89","tran_attorney":null,"tran_nsf":null,"tran_general":"1.0","tran_other":"1.0","tran_retained":"1.0"},{"data_id":"1105P700","tran_type":"1003","tran_date":"07/01/2022","tran_amount":"-19","tran_principal":"9","tran_interest":null,"tran_court":"89","tran_attorney":null,"tran_nsf":null,"tran_general":"1.0","tran_other":"1.0","tran_retained":"1.0"},{"data_id":"1105P711","tran_type":"1001","tran_date":"07/08/2022","tran_amount":"15909.06","tran_principal":null,"tran_interest":"10","tran_court":null,"tran_attorney":"abc","tran_nsf":null,"tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1105P865","tran_type":"1002","tran_date":"07/07/2022","tran_amount":"10000","tran_principal":null,"tran_interest":"11","tran_court":null,"tran_attorney":null,"tran_nsf":"test","tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1106P052","tran_type":"3000","tran_date":"07/09/2022","tran_amount":"200","tran_principal":null,"tran_interest":"12","tran_court":null,"tran_attorney":null,"tran_nsf":null,"tran_general":null,"tran_other":null,"pri_acctno":23434.00,"commission_rate":"2","pay_source":"8928.0","tran_retained":null}]',
+            '1234',
+            documentstoragecObj2.Id
+        );
+        instance.processExcelFileRecords();
+        Province_Tax_Rate_Mapping__mdt metaData = new Province_Tax_Rate_Mapping__mdt();
+        metaData.Tax_Type__c = 'HST';
+        metaData.Province_Name__c = 'ON';
+        metaData.Province_Tax_Rate__c = 10;
+        Map<String, Province_Tax_Rate_Mapping__mdt> mcs = new Map<String, Province_Tax_Rate_Mapping__mdt>();
+        mcs.put('ON', metaData);
         instance.mapTaxMetadata = mcs;
         instance.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs);
     }
