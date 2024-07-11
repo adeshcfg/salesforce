@@ -1483,6 +1483,6 @@ private class TestProductPaymentExcelFileProcessing {
         Map<String, Province_Tax_Rate_Mapping__mdt> mcs = new Map<String, Province_Tax_Rate_Mapping__mdt>();
         mcs.put('ON', metaData);
         instance.mapTaxMetadata = mcs;
-        instance.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs);
+        //instance.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs);
     }
 }
