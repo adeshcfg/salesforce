@@ -865,7 +865,14 @@
                 ERROR_MSG = '<b>ERROR</b> - Payment Source is not valid.<br/>';
                 EXPECTED += 'Payment Source Should be 1 OR 2 OR 3.<br/>';
             }
-
+			//If user enters dd/mm/yyyy formate then shows the below error
+            if(prodPayment.Payment_Posting_Date__c != NULL && prodPayment.Payment_Posting_Date_Text__c.contains('/')){
+                Integer paymentPostingDate = Integer.valueOf(prodPayment.Payment_Posting_Date_Text__c.substring(0,1));
+                if(paymentPostingDate > 12){
+                    ERROR_MSG += '<b>ERROR</b> - Invalid payment date.<br/>';
+                    EXPECTED += 'payment Date should be in proper format.(MM/DD/YYYY)<br/>'; 
+                }
+            }
             //Invalid Payment Date
             if (prodPayment.Payment_Posting_Date__c != null) {
                 if (prodPayment.Payment_Posting_Date__c > Date.today()) {
