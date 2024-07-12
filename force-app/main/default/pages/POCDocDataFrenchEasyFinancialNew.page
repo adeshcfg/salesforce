@@ -313,48 +313,31 @@
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel><span style="padding-left:15px;">J'ai une réclamation en vertu du paragraphe 81.4(8) de la Loi au montant de      $</span>
                     <br/> <br/>
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'true'}"> 
+                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'true'}"> 
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
-                    </apex:outputLabel><span style="padding-left:15px;">F. RÉCLAMATION D’UN EMPLOYÉ RELATIVE AU RÉGIME DE PENSION AU MONTANT DE      $</span>
-                    <br/>
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'true'}"> 
-                        <apex:image value="{!$Resource.check}" width="12" />
-                    </apex:outputLabel>
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'false'}"> 
-                        <apex:image value="{!$Resource.uncheck}" width="12"/>
-                    </apex:outputLabel><span style="padding-left:15px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $</span>
-                    <br/>
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'true'}"> 
-                        <apex:image value="{!$Resource.check}" width="12" />
-                    </apex:outputLabel>
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'false'}"> 
-                        <apex:image value="{!$Resource.uncheck}" width="12"/>
-                    </apex:outputLabel><span style="padding-left:15px;">J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $</span>
-                    <br/><br/>
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'true'}"> 
-                        <apex:image value="{!$Resource.check}" width="12" />
-                    </apex:outputLabel>
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'false'}"> 
-                        <apex:image value="{!$Resource.uncheck}" width="12"/>
-                    </apex:outputLabel><span style="padding-left:15px;">G. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $</span>
+                    </apex:outputLabel><span style="padding-left:15px;">F. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $</span>
                     <br/>
                     <span  style="font-family: sans-serif; font-style:italic;">(À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.)</span>
                     <br/>
                     J'ai une réclamation en vertu du paragraphe 50(13) de la Loi, dont les détails sont mentionnés ci-après:
                     <br/>
                     <span  style="font-family: sans-serif; font-style:italic;">(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.) </span>
-                    <br/> <br/>
+                    <br/><br/>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'true'}"> 
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel>
-                   
-                 	<br/>
+                    <span style="padding-left:15px;">G. RÉCLAMATION D'UN CLIENT D'UN COURTIER  EN VALEURS MOBILIÈRES FAILLI AU 
+                        <div style="padding-left:28px;"> MONTANT DE        $ </div></span>
+                    <div style="padding-left:28px;"><td >J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</td></div>
+                    <div style="padding-left:20px;">(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</div>
+                    <br/>
+                    
                     7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
                     <br/>
                     8. Les montants suivants constituent les paiements que j'ai reçus  du débiteur  et les crédits que j'ai attribués à celui-ci et les opérations sous-évaluées selon le paragraphe 2(1) de la Loi auxquelles j'ai contribué ou été partie intéressée au cours des trois mois (ou, si le créancier et le débiteur sont des "personnes liées" au sens du paragraphe 4 de la Loi, au cours des douze mois) précédant immédiatement l'ouverture de la faillite, tel que défini au paragraphe 2 de la Loi.
@@ -770,9 +753,9 @@
                                 <span  style="font-family: sans-serif; font-weight:bold;">Montant du dernier paiement</span></td>
                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
                                 <span  style="font-family: sans-serif; font-weight:bold;">
-                                    <apex:outputText value="{0, number, $#,##0.00}">
+                                    <apex:outputText value="{0, number, #,##0.00}">
                                         <apex:param value="{!insolvAcc.Last_Payment_Amount__c}" />
-                                    </apex:outputText>
+                                    </apex:outputText> $
                                 </span>
                             </td>
                         </tr>
@@ -796,9 +779,9 @@
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0, number, $#,##0.00}">
+                                <apex:outputText value="{0, number, #,##0.00}">
                                     <apex:param value="{!insolvAcc.Last_Payment_Amount_2__c}" />
-                                </apex:outputText>
+                                </apex:outputText> $
                             </span>
                         </td>
                     </tr>
@@ -822,9 +805,9 @@
                             </td>
                             <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                                 <span style="font-family: sans-serif; font-weight:bold;">
-                                    <apex:outputText value="{0, number, $#,##0.00}">
+                                    <apex:outputText value="{0, number, #,##0.00}">
                                         <apex:param value="{!insolvAcc.Last_Payment_Amount_3__c}" />
-                                    </apex:outputText>
+                                    </apex:outputText> $
                                 </span>
                             </td>
                         </tr>
@@ -844,9 +827,9 @@
                         <td style="padding-bottom:10px; padding-left:0px;"><span  style="font-family: sans-serif; font-weight:bold;">Le solde dû est :</span></td>
                         <td style="padding-bottom:10px; padding-left:5px;">
                             <span  style="font-family: sans-serif;">
-                                $<apex:outputText value="{0, number,#,##0.00}">
+                               <apex:outputText value="{0, number,#,##0.00}">
                                 <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                </apex:outputText>
+                                </apex:outputText> $
                             </span>
                         </td>
                     </tr>
