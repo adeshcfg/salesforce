@@ -283,9 +283,9 @@
                 </apex:outputLabel>
                 
                 
-                <span style="padding-left:15px;">A. RÉCLAMATION NON GARANTIE AU MONTANT DE <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">$
+                <span style="padding-left:15px;">A. RÉCLAMATION NON GARANTIE AU MONTANT DE <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">
                     <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c,'')}" />
-                    </apex:outputText></span></span>
+                    </apex:outputText> $</span></span>
                 <div style="line-height: 13px;">
                     <span style="padding-left:28px;">(autre qu’une réclamation d’un client visée par l’article 262 de la Loi)</span>
                     <br/>
@@ -299,9 +299,9 @@
                 </apex:outputLabel>
                 <apex:outputLabel rendered="{! $CurrentPage.parameters.claimRight == 'false'}"> 
                     <apex:image value="{!$Resource.uncheck}" width="10"/>
-                </apex:outputLabel> &nbsp;&nbsp;&nbsp;Concernant le montant de <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">$
+                </apex:outputLabel> &nbsp;&nbsp;&nbsp;Concernant le montant de <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">
                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c,'')}" />
-                </apex:outputText></span>, Je revendique un droit à une priorité en vertu de l'article 136 de la Loi.
+                </apex:outputText> $</span>, Je revendique un droit à une priorité en vertu de l'article 136 de la Loi.
                 <br/>
                 
                 <apex:outputLabel rendered="{! $CurrentPage.parameters.dontClaim== 'true'}"> 
@@ -310,9 +310,9 @@
                 <apex:outputLabel rendered="{! $CurrentPage.parameters.dontClaim== 'false'}"> 
                     <apex:image value="{!$Resource.uncheck}" width="10"/>
                 </apex:outputLabel>
-                &nbsp;&nbsp;&nbsp;Concernant le montant de <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">$
+                &nbsp;&nbsp;&nbsp;Concernant le montant de <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">
                 <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Unsecured', insolvAcc.Claim_Amount__c, '')}" />
-                </apex:outputText></span>, Je ne revendique pas de droit à une priorité.
+                </apex:outputText> $</span>, Je ne revendique pas de droit à une priorité.
                 <br/>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Indiquez sur une feuille annexée les renseignements à l'appui de la réclamation prioritaire.)
                 <div></div>
@@ -335,17 +335,17 @@
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.secureClaim == 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="10"/>
-                    </apex:outputLabel><span style="padding-left:15px;">C. RÉCLAMATION GARANTIE AU MONTANT DE <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">$
+                    </apex:outputLabel><span style="padding-left:15px;">C. RÉCLAMATION GARANTIE AU MONTANT DE <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">
                     <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Secured', insolvAcc.Claim_Amount__c, '')}" />
-                    </apex:outputText> 
+                    </apex:outputText> $
                     </span></span>
                     <br/>
                     <span style="padding-left:27px;">En ce qui concerne la créance susmentionnée, je détiens des avoirs du débiteur à titre de garantie, 
                         <br/>
                         <span style="padding-left:27px;"> dont la valeur estimative s'élève à
-                        <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">$
+                        <span  style="font-family: sans-serif; font-weight:bold;"><apex:outputText value="{0, number,#,##0.00}">
                         <apex:param value="{!IF(insolvAcc.Claim_Type__c == 'Secured', insolvAcc.Claim_Amount__c, '')}" />
-                        </apex:outputText> 
+                        </apex:outputText> $
                         </span > &nbsp; et dont les détails sont mentionnés ci-après:</span></span>
                     <br/>
                     <div style="line-height:20px;padding-left:27px;">(Donnez des renseignements complets au sujet de la garantie, y compris la date à laquelle elle a été donnée 
@@ -387,44 +387,29 @@
                     </apex:outputLabel><span style="padding-left:15px;">J'ai une réclamation en vertu du paragraphe 81.4(8) de la Loi au montant de      $</span>
                     <br/> <br/>
                     
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'true'}"> 
-                        <apex:image value="{!$Resource.check}" width="10" />
+                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'true'}"> 
+                        <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'false'}"> 
-                        <apex:image value="{!$Resource.uncheck}" width="10"/>
+                        <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel><span style="padding-left:15px;">F. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $</span>
                     <br/>
-                    <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>
-                    <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div> 
+                    <span  style="font-family: sans-serif; font-style:italic;">(À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.)</span>
                     <br/>
-                     <!--<span  style="font-family: sans-serif; font-style:italic;padding-left:28px;">(À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.)</span>
+                    J'ai une réclamation en vertu du paragraphe 50(13) de la Loi, dont les détails sont mentionnés ci-après:
                     <br/>
-                   <span style="padding-left:27px;">J'ai une réclamation en vertu du paragraphe 50(13) de la Loi, dont les détails sont mentionnés ci-après:</span>
-                    <span  style="font-family: sans-serif; font-style:italic;padding-left:28px;">(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.) </span>
-                    <br/> <br/>-->
+                    <span  style="font-family: sans-serif; font-style:italic;">(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.) </span>
+                    <br/><br/>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'true'}"> 
-                        <apex:image value="{!$Resource.check}" width="10" />
-                    </apex:outputLabel>
-                    <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'false'}"> 
-                        <apex:image value="{!$Resource.uncheck}" width="10"/>
-                    </apex:outputLabel>
-                    <span style="padding-left:12px;">G. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI 
-                        <br/>
-                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AU MONTANT DE       $ </span>
-                    <br/>
-                    <div style ="padding-left:25px;"> 
-                    That J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:
-                   </div>
-                    <span  style="font-family: sans-serif; font-style:italic;padding-left:25px;">(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</span>
-                  	 <br/>
-                    <br/>
-                   <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'true'}"> 
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimForCustomer== 'false'}"> 
                         <apex:image value="{!$Resource.uncheck}" width="12"/>
                     </apex:outputLabel>
-                    	
+                    <span style="padding-left:15px;">G. RÉCLAMATION D'UN CLIENT D'UN COURTIER  EN VALEURS MOBILIÈRES FAILLI AU 
+                        <div style="padding-left:28px;"> MONTANT DE        $ </div></span>
+                    <div style="padding-left:28px;"><td >J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</td></div>
+                    <div style="padding-left:15px;">(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</div>
                     <br/>
                      7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur. 
                      <br/>
@@ -592,9 +577,9 @@
                     <td style="vertical-align:top;">1. </td>
                     <td style="padding-left:8px;">Je, Bryan Szemenyei, représentant du créancier dans l'affaire ci-dessus pour la somme de
                         <span  style="font-family: sans-serif; font-weight:bold;">
-                            <apex:outputText value="{0, number, $#,##0.00}">
+                            <apex:outputText value="{0, number, #,##0.00}">
                                 <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                            </apex:outputText>$
+                            </apex:outputText> $
                         </span></td>
                 </tr>     
                 <br/>
@@ -829,9 +814,9 @@
                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;"><span  style="font-family: sans-serif; font-weight:bold;">Montant du dernier paiement</span></td>
                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
                                 <span  style="font-family: sans-serif; font-weight:bold;">
-                                    <apex:outputText value="{0, number, $#,##0.00}">
+                                    <apex:outputText value="{0, number, #,##0.00}">
                                         <apex:param value="{!insolvAcc.Last_Payment_Amount__c}" />
-                                    </apex:outputText>
+                                    </apex:outputText> $
                                 </span>
                             </td>
                         </tr>
@@ -854,9 +839,9 @@
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0, number, $#,##0.00}">
+                                <apex:outputText value="{0, number, #,##0.00}">
                                     <apex:param value="{!insolvAcc.Last_Payment_Amount_2__c}" />
-                                </apex:outputText>
+                                </apex:outputText> $
                             </span>
                         </td>
                     </tr>
@@ -879,9 +864,9 @@
                         </td>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                <apex:outputText value="{0, number, $#,##0.00}">
+                                <apex:outputText value="{0, number, #,##0.00}">
                                     <apex:param value="{!insolvAcc.Last_Payment_Amount_3__c}" />
-                                </apex:outputText>
+                                </apex:outputText> $
                             </span>
                         </td>
                     </tr>
@@ -902,9 +887,9 @@
                         <td style="padding-bottom:5px; padding-left:5px;"><span  style="font-family: sans-serif; font-weight:bold;">Le solde dû est:</span></td>
                         <td style="padding-bottom:5px; padding-left:5px;">
                             <span  style="font-family: sans-serif;">
-                                $<apex:outputText value="{0, number,#,##0.00}">
+                                <apex:outputText value="{0, number,#,##0.00}">
                                 <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                </apex:outputText>
+                                </apex:outputText> $
                             </span>
                         </td>
                     </tr>

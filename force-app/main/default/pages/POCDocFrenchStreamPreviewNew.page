@@ -541,20 +541,20 @@
                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimBySubSec814}"/>
                               &nbsp;&nbsp;J'ai une réclamation en vertu du paragraphe 81.4(8) de la Loi au montant de      $
                               <br/><br/>
-                              <apex:inputCheckbox styleClass="my-checkbox" value="{!claimAgnstDirector}"/>
-                              &nbsp;&nbsp; F. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $  
-                              <br/>
-                               <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>
-                                        <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>                  
-                                       <br/>
-                              <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
-                                        &nbsp;&nbsp;G. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU <br/> 
-                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  MONTANT   DE       $ 
-                                        <div style="padding-left:27px;"><i> (À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.)</i></div> 
-                                        <div style="padding-left:27px;"> J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</div>
-                                        
-                                        <div style="padding-left:27px;"><i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i></div>
-                                        <br/>
+                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimAgnstDirector}"/>
+                               &nbsp;&nbsp;F. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE       $ <br/> 
+                               <div style="padding-left:27px;"><i> (À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.)</i></div> 
+                               <div style="padding-left:27px;"> J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</div>
+                               
+                               <div style="padding-left:27px;"><i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i></div>
+                               <br/>
+                               <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
+                               &nbsp;&nbsp; G. RÉCLAMATION D'UN CLIENT D'UN COURTIER  EN VALEURS MOBILIÈRES FAILLI AU 
+                               <div style="padding-left:28px;"> MONTANT DE        $ </div>
+                               
+                               <div style="padding-left:28px;"><td >J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</td></div>
+                               <div style="padding-left:27px;">(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</div>
+                               <br/>
                         
                               7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
                                <br/><br/>
@@ -659,7 +659,7 @@
                               </table>
                            </div>
                         </div>
-                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                        <br/><br/><br/><br/><br/><br/>
                          <div style="padding-left:40px;">
                              {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                              <br/>

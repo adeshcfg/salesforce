@@ -292,9 +292,10 @@
                            {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c}, {!pocPackage.CFG_Office_Postal_Code__c}
                         </div>
                         <br/>
-                        <div style="padding-left:40px;">
+                        <div style="padding-left:40px;line-height: 18px;">
                            I, <b>Bryan Szemenyei</b>, of the City of London, in the Province of Ontario, do hereby certify:
                            <br/><br/>
+                            <div style="line-height: 18px;">
                            <table>
                               <tr>
                                  <td style="vertical-align:top;">1.</td>
@@ -382,7 +383,7 @@
                                    <br/>
                                    <i>(Give full particulars of the claim, including its history, any acknowledgement or legal action)</i>
                                    <br/>
-                                   <br/>
+                                   
                                    Please see Schedule A for details  
                                 </td>
                              </tr>
@@ -391,13 +392,13 @@
                                  <td style="padding-left:10px;"><i>(Check and complete appropriate category.)</i></td>
                               </tr>
                            </table>
-                            
+                            </div>
                             
                             
                             
                         <!-- page 2nd-->    
                            
-                            
+                                <br/>
                           
                            {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                            <br/>
@@ -444,15 +445,16 @@
                            </b>
                             
                             
-                            <div style="line-height: 30px;">
+                            <div style="line-height: 18px;">
                               <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(other than as a customer contemplated by Section 262 of the Act)</i>
                               <br/>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That in respect of this debt, I do not hold any assets of the debtor as security and
-                              <br/>
-                              <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Check appropriate description.)</i>
+                              
+                                <br/>
+                                <div style="padding-left:26px;"> <i>(Check appropriate description.)</i></div>
+                                
                            </div>
-                            
-                            
+                                 <br/>
                              <apex:inputCheckbox styleClass="my-checkbox" value="{!claimRight}"/>
                            &nbsp;&nbsp;Regarding the amount of 
                            <b>
@@ -559,7 +561,7 @@
                                date of the initial bankruptcy event within the meaning of Section 2 of the Act: (Provide details of 
                                payments, credits and transfers at undervalue.)
                                <div></div> <br/>Please see Schedule A for details</div></div>
-                              <br/><br/><br/><br/>
+                              <br/><br/>
                                <div style="padding-left:10px;">
                               {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                               <br/>
@@ -653,7 +655,7 @@
                               </table>
                            </div>
                         </div>
-                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                        <br/><br/><br/>
                         <div style="padding-left:30px;">
                             {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                             <br/>
@@ -671,13 +673,13 @@
                                     <div style="text-align:center; float:left; width: 100px;">
                                         <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}" width="70" height="70"/>
                                     </div>
-                                    <div style="float:left;width:70%;padding-left:50px">
-                                        <div style="float:left; padding-left:45px;">
+                                    <div style="float:left;width:70%;padding-left:45px">
+                                        <div style="float:left; padding-left:40px;">
                                             Canaccede International Management Ltd.<br/>
                                             {!pocPackage.CFG_Office_Address_1__c}<br/>
                                             {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                                         </div>
-                                        <div  style="padding-left:298px;">
+                                        <div  style="padding-left:301px;">
                                             t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
                                             f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
                                             {!pocPackage.CFG_Office_Website__c}
@@ -724,6 +726,7 @@
                                     hereby understand that:
                                  </td>
                               </tr>
+                               <br/>
                               <tr>
                                  <td style="vertical-align:top;">(a)</td>
                                  <td style="padding-left:8px;">as a creditor who has a proven claim, I may indicate assent to or dissent from the consumer proposal at or
@@ -763,6 +766,7 @@
                                     consumer proposal may have received.                  
                                  </td>
                               </tr>
+                               <br/>
                               <tr>
                                  <td  style="vertical-align:top;text-align:center;">2.</td>
                                  <td  style="padding-left:8px;">I hereby Request: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>(Check and complete appropriate section)</i></td>
@@ -917,7 +921,9 @@
                         <div style="padding-bottom:0px;padding-left: 20px;">
                            <b>Estate #: </b> {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br/><br/>
                            <b>Information regarding paragraph 6 of proof of claim</b>
-                           <h2 style="text-align:center;">Account Background</h2>
+                            <br/>
+                            <br/>
+                            <h2 style="text-align:center;"><b>Account Background</b></h2>
                            <br/>
                            <table style="border: 1px solid; text-align: center; border-collapse: collapse; width:100%; font-weight:bold;">
                               <tr>
@@ -967,7 +973,7 @@
                              </tr>
                            </table>
                         </div>
-                        <br/><br/>
+                        <br/>
                         <div style="text-align:center;"><b>Summary of Account</b></div>
                         <br/><br/>
                         <table border="0" style=" text-align: left; width:555px;">
@@ -998,7 +1004,7 @@
                                 <td style="padding-bottom:10px; padding-left: 20px;vertical-align:top;"><b>Account Open Date:</b></td>
                                 <td style="padding-bottom:10px; padding-left:5px;">
                                     <apex:outputText value="{0,date, dd MMMM',' yyyy}">
-                                        <apex:param value="{!insolvAcc.Account_Original_Open_Date__c}" />
+                                        <apex:param value="{!insolvAcc.Account_Open_date__c}" />
                                     </apex:outputText>
                                 </td>
                              </tr>
@@ -1039,6 +1045,7 @@
                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}"><br/></apex:outputText>
            
                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                          <br/>   
                         <table>
                            <tr>
                              <td style="width: 100px; padding-left: 20px; vertical-align:top;">Note:</td>

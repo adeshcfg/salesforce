@@ -375,7 +375,7 @@
                                                 <b>
                                                     <apex:outputText value="{0,date, dd}">
                                                         <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
-                                                    </apex:outputText>
+                                                    </apex:outputText> 
                                                 </b>
                                                 jour de
                                                 <b>
@@ -543,21 +543,21 @@
                                         <apex:inputCheckbox styleClass="my-checkbox" value="{!claimBySubSec814}"/>
                                         &nbsp;&nbsp;J'ai une réclamation en vertu du paragraphe 81.4(8) de la Loi au montant de      $
                                         <br/><br/>
-                                        <apex:inputCheckbox styleClass="my-checkbox" value="{!claimAgnstDirector}"/>
-                                        &nbsp;&nbsp;F. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $
-                                        <br/>
-                                        <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>
-                                        <div style="padding-left:27px;"> J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $ </div>                  
                                         
-                                        <br/>
-                                        <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
-                                        &nbsp;&nbsp;G. RÉCLAMATION D'UN CLIENT D'UN COURTIER EN VALEURS MOBILIÈRES FAILLI AU <br/> 
-                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  MONTANT   DE       $ 
+                                        <apex:inputCheckbox styleClass="my-checkbox" value="{!claimAgnstDirector}"/>
+                                        &nbsp;&nbsp;F. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $ <br/> 
                                         <div style="padding-left:27px;"><i> (À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.)</i></div> 
                                         <div style="padding-left:27px;"> J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</div>
-                                        
                                         <div style="padding-left:27px;"><i>(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</i></div>
+                                       
                                         <br/>
+                                        <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
+                                        &nbsp;&nbsp; G. RÉCLAMATION D'UN CLIENT D'UN COURTIER  EN VALEURS MOBILIÈRES FAILLI AU 
+                                        <div style="padding-left:28px;"> MONTANT DE        $ </div>
+                                        <div style="padding-left:28px;"><td >J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</td></div>
+                                        <div style="padding-left:27px;">(Donnez tous les détails de la réclamation, y compris les calculs s'y rapportant.)</div>
+                                        <br/>
+                                        
                                          7. Au meilleur de ma connaissance, je ne suis pas ié au débiteur selon l’article 4 de la Loi, et je n’ai pas un lien de dépendance avec le débiteur.
                                         <br/>
                                         <br/>
@@ -728,9 +728,9 @@
                                             <td style="padding-left:8px;">
                                                 Je, Bryan Szemenyei, représentant du créancier dans l'affaire ci-dessus pour la somme de
                                                 <b>
-                                                    <apex:outputText value="{0, number, $#,##0.00}">
+                                                    <apex:outputText value="{0, number, #,##0.00}">
                                                         <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                                    </apex:outputText>
+                                                    </apex:outputText> $
                                                 </b>
                                             </td>
                                         </tr>
@@ -942,10 +942,10 @@
                                             </td>
                                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;"><b>Montant du dernier paiement</b></td>
                                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
-                                                $
+                                                
                                                 <apex:outputText value="{0, number,#,##0.00}">
                                                     <apex:param value="{!insolvAcc.Last_Payment_Amount__c}" />
-                                                </apex:outputText>
+                                                </apex:outputText> $
                                             </td>
                                         </tr>
                                         <tr>
@@ -964,10 +964,10 @@
                                             </td>
                                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;"><b>Montant du deuxième dernier paiement</b></td>
                                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
-                                                $
+                                                
                                                 <apex:outputText value="{0, number,#,##0.00}">
                                                     <apex:param value="{!insolvAcc.Last_Payment_Amount_2__c}" />
-                                                </apex:outputText>
+                                                </apex:outputText> $
                                             </td>
                                         </tr>
                                         <tr>
@@ -986,10 +986,10 @@
                                             </td>
                                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;"><b>Montant du troisième dernier paiement</b></td>
                                             <td style="width:25%; border: 1px solid; padding-bottom:10px; padding-left:5px;">
-                                                $
+                                                
                                                 <apex:outputText value="{0, number,#,##0.00}">
                                                     <apex:param value="{!insolvAcc.Last_Payment_Amount_3__c}" />
-                                                </apex:outputText>
+                                                </apex:outputText> $
                                             </td>
                                         </tr>    
                                     </table>
@@ -1005,10 +1005,10 @@
                                     <tr>
                                         <td style="padding-bottom:10px;padding-left: 20px;"><b>Le solde dû est:</b></td>
                                         <td style="padding-bottom:10px; padding-left:5px;">
-                                            $
+                                            
                                             <apex:outputText value="{0, number,#,##0.00}">
                                                 <apex:param value="{!insolvAcc.Claim_Amount__c}" />
-                                            </apex:outputText>
+                                            </apex:outputText> $
                                         </td>
                                     </tr>
                                     <tr>
