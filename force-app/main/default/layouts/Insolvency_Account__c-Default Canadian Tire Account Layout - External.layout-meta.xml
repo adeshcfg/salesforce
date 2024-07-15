@@ -458,7 +458,6 @@
                 <field>Last_Payment_Amount__c</field>
             </layoutItems>
             <layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Date_2__c</field>
             </layoutItems>
