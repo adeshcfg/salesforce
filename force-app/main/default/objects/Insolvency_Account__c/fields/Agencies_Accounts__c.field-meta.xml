@@ -62,6 +62,71 @@
                 <default>false</default>
                 <label>NA</label>
             </value>
+            <value>
+                <fullName>CANACCEDE</fullName>
+                <default>false</default>
+                <label>CANACCEDE</label>
+            </value>
+            <value>
+                <fullName>CBV</fullName>
+                <default>false</default>
+                <label>CBV</label>
+            </value>
+            <value>
+                <fullName>CRS</fullName>
+                <default>false</default>
+                <label>CRS</label>
+            </value>
+            <value>
+                <fullName>EOS</fullName>
+                <default>false</default>
+                <label>EOS</label>
+            </value>
+            <value>
+                <fullName>FDR</fullName>
+                <default>false</default>
+                <label>FDR</label>
+            </value>
+            <value>
+                <fullName>MAC</fullName>
+                <default>false</default>
+                <label>MAC</label>
+            </value>
+            <value>
+                <fullName>MAX</fullName>
+                <default>false</default>
+                <label>MAX</label>
+            </value>
+            <value>
+                <fullName>MJR</fullName>
+                <default>false</default>
+                <label>MJR</label>
+            </value>
+            <value>
+                <fullName>PCA</fullName>
+                <default>false</default>
+                <label>PCA</label>
+            </value>
+            <value>
+                <fullName>PCR</fullName>
+                <default>false</default>
+                <label>PCR</label>
+            </value>
+            <value>
+                <fullName>PRA</fullName>
+                <default>false</default>
+                <label>PRA</label>
+            </value>
+            <value>
+                <fullName>RAZOR</fullName>
+                <default>false</default>
+                <label>RAZOR</label>
+            </value>
+            <value>
+                <fullName>RESOLVE</fullName>
+                <default>false</default>
+                <label>RESOLVE</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Account Sold</controllingFieldValue>
@@ -98,6 +163,58 @@
         <valueSettings>
             <controllingFieldValue>Account Sold</controllingFieldValue>
             <valueName>Resolve Financial Recovery (RFR)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>CANACCEDE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>CBV</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>CRS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>EOS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>FDR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>MAC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>MAX</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>MJR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>PCA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>PCR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>PRA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>RAZOR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>RESOLVE</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
