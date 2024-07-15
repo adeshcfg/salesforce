@@ -473,7 +473,9 @@
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Amount_3__c</field>
             </layoutItems>
-            <emptySpace>true</emptySpace>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
