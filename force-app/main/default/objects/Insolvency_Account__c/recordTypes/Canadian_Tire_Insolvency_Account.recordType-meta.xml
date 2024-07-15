@@ -25,9 +25,61 @@
     <picklistValues>
         <picklist>Agencies_Accounts__c</picklist>
         <values>
-            <fullName>NA</fullName>
+            <fullName>Pyxis Customer Solutions Ltd</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>CANACCEDE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CBV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EOS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FDR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MAC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MAX</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MJR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PCA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PCR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PRA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RAZOR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RESOLVE</fullName>
+            <default>false</default>
+        </values> 
     </picklistValues>
     <picklistValues>
         <picklist>Asset_Status__c</picklist>
