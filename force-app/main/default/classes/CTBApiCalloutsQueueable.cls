@@ -157,6 +157,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                 if (statusCode.startsWith('2')) {
                     newInsolAccRec.id = insolAccData.id;
                     newInsolAccRec.Insolvency_Sub_Status__c = 'Sent on File';
+                    newInsolAccRec.CTB_Reject_Reason_Code__c = '';
                     newInsolAccRec.CTB_Update_Filename__c = fileNameFormat;
                     newInsolAccRec.CTB_Update_File_Timestamp__c = null;
                     insolAccAndPaymentMap.put(newInsolAccRec.id, newInsolAccRec);
