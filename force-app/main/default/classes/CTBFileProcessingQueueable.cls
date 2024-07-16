@@ -170,11 +170,21 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 }
                 // If validation was successfull
                 if (stagingAcc.Status__c != 'Error') {
+                    String accountId = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
+                    // Check for duplicate accounts and ignore current row if existing account was not rejected as NMAT
+                    // This is only for duplicate account scenario for multiple debtors
+                    if (
+                        accountRecordsToUpdateMap.containsKey(accountId) &&
+                        String.isNotBlank(accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c) &&
+                        accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c != 'NMAT'
+                    ) {
+                        continue;
+                    }
                     Insolvency_Account__c accountToUpdate = new Insolvency_Account__c();
                     if (String.isBlank(stagingAcc.CTB_Reject_Reason_Code__c)) {
                         accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
                     }
-                    accountToUpdate.Id = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
+                    accountToUpdate.Id = accountId;
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
                     accountToUpdate.CTB_Reject_Reason_Code__c = stagingAcc.CTB_Reject_Reason_Code__c;
                     updateAccountStatusAndReason(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c);
