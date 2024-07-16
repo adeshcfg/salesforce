@@ -175,8 +175,8 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     // This is only for duplicate account scenario for multiple debtors
                     if (
                         accountRecordsToUpdateMap.containsKey(accountId) &&
-                        String.isNotBlank(accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c) &&
-                        accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c != 'NMAT'
+                        String.isBlank(accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c) &&
+                        stagingAcc.CTB_Reject_Reason_Code__c == 'NMAT'
                     ) {
                         continue;
                     }
