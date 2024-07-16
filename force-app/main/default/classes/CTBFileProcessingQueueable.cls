@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 06-11-2024
+ * @last modified on  : 07-16-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -171,11 +171,12 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 // If validation was successfull
                 if (stagingAcc.Status__c != 'Error') {
                     Insolvency_Account__c accountToUpdate = new Insolvency_Account__c();
-                    if (stagingAcc.CTB_Reject_Reason_Code__c != 'SOLD') {
+                    if (String.isBlank(stagingAcc.CTB_Reject_Reason_Code__c)) {
                         accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
                     }
                     accountToUpdate.Id = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
+                    accountToUpdate.CTB_Reject_Reason_Code__c = stagingAcc.CTB_Reject_Reason_Code__c;
                     updateAccountStatusAndReason(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c);
                     accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
                 }
@@ -227,6 +228,14 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         if (accountToUpdate.CTB_Reject_Reason_Code__c == 'SOLD') {
             accountToUpdate.Insolvency_Status__c = 'No PoC Required';
             accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Account Sold';
+        }
+        if (accountToUpdate.CTB_Reject_Reason_Code__c == 'DDEC') {
+            accountToUpdate.Insolvency_Status__c = 'No PoC Required';
+            accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Other';
+        }
+        if (accountToUpdate.CTB_Reject_Reason_Code__c == 'NMAT') {
+            accountToUpdate.Insolvency_Status__c = 'For Owner Review';
+            accountToUpdate.Insolvency_Sub_Status__c = 'No Match';
         }
         // Update status only if previous status was For Owner Review
         if (currentStatus != 'For Owner Review') {
