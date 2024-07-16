@@ -8,8 +8,7 @@
     <columns>Insolvency_Type__c</columns>
     <columns>Account_Type__c</columns>
     <columns>Insolvency_Status__c</columns>
-    <columns>Insolvency_Sub_Status__c</columns>
-    <columns>CTB_Reject_Reason_Code__c</columns>
+    <columns>Insolvency_Sub_Status__c</columns>    
     <columns>Insolvency_Account_Owner__c</columns>
     <columns>Insolvency_Status_Last_Changed__c</columns>
     <columns>UPDATEDBY_USER</columns>
