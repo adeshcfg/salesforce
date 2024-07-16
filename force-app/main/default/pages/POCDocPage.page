@@ -331,7 +331,7 @@
                                  <td style="padding-left:10px;">That I am the President of <b> Canaccede International Management Ltd.</b>, servicer for 
                                     <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                                     <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> who is the purchaser of the account from " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
-                                     <apex:outputText value="<b> {!pocPackage.Client_Company_Name__c},</b> who is the purchaser of the account from " escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}" />
+                                     <apex:outputText value="<b> {!pocPackage.Client_Company_Name__c} {!pocPackage.Client_Company_Creditor_Name__c},</b> who is the purchaser of the account from " escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}" />
                                      <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> who is the purchaser of the account from " escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Unsecured') && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}" />
                                      <apex:outputText value="<b>{!pocPackage.Client_Company_Name__c}.</b>" escape="false" rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}"/>
                                     </apex:outputText>
@@ -553,7 +553,9 @@
                               &nbsp;&nbsp;I request that a copy of the report filed by the trustee regarding the bankrupt’s application for discharge pursuant
                               to subsection 170(1) of the Act be sent to the above address.
                               <br/><br/>
-                              Dated at <b>London, ON</b>, this 
+                               <b>Warning</b>: Subsection 201(1) of the Act provides for the imposition of severe penalties in the event that a creditor or person claiming to the be a creditor makes any false claim, proof, declaration or statement of account.
+                              <br/><br/>
+                               Dated at <b>London, ON</b>, this 
                               <b>
                                  <apex:outputText value="{0,date, dd }">
                                     <apex:param value="{!TODAY()}" />
@@ -578,7 +580,7 @@
                                        <b>Canaccede International Management Ltd.,</b><br/>
                                        <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                                        <apex:outputText value="<b>Servicer for {!pocPackage.CFG_Office_Name__c} (creditor)</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
-                                       <apex:outputText value="<b>Servicer for {!pocPackage.Client_Company_Name__c} (creditor)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured')}" />
+                                       <apex:outputText value="<b>Servicer for {!pocPackage.Client_Company_Name__c} {!pocPackage.Client_Company_Creditor_Name__c} (creditor)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured')}" />
                                        <apex:outputText value="<b>Servicer for {!pocPackage.CFG_Office_Name__c} (creditor)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL'))}" />
                                        </apex:outputText>
                                        <apex:outputText value="<b>Servicer for {!pocPackage.CFG_Office_Name_2__c} (creditor)</b>" escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}" />
@@ -782,7 +784,7 @@
                                        <b>Canaccede International Management Ltd., </b><br/>
                                        <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                                        <apex:outputText value="<b>Servicer for {!pocPackage.CFG_Office_Name__c} (creditor)</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
-                                       <apex:outputText value="<b>Servicer for {!pocPackage.Client_Company_Name__c} (creditor)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured')}" />
+                                       <apex:outputText value="<b>Servicer for {!pocPackage.Client_Company_Name__c} {!pocPackage.Client_Company_Creditor_Name__c} (creditor)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured')}" />
                                        <apex:outputText value="<b>Servicer for {!pocPackage.CFG_Office_Name__c} (creditor)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL'))}" />
                                     </apex:outputText>
                                     <apex:outputText value="<b>Servicer for {!pocPackage.CFG_Office_Name_2__c} (creditor)</b>" escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}" />
