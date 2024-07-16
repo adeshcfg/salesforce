@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 06-11-2024
+ * @last modified on  : 07-16-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -53,10 +53,6 @@ public with sharing class CTBFileValidationUtility {
         // If Current Balance owed is null
         if (String.isBlank(csvColumns[CLAIM_AMOUNT])) {
             stagingRecord.Error_Message__c += '; No Current Balance owed provided';
-            stagingRecord.Status__c = 'Error';
-        }
-        if (String.isNotBlank(csvColumns[CTB_REJECT_REASON_CODE]) && csvColumns[CTB_REJECT_REASON_CODE] == 'NMAT') {
-            stagingRecord.Error_Message__c += '; No Match found by CTB(duplicate account with different debtor)';
             stagingRecord.Status__c = 'Error';
         }
         stagingRecord.Name = csvColumns[ACCOUNT_NUMBER];
@@ -123,7 +119,6 @@ public with sharing class CTBFileValidationUtility {
         account.Last_Statement_Amount_2__c = stagingRecord.Last_Statement_Amount_2__c;
         account.Last_Statement_Date_3__c = stagingRecord.Last_Statement_Date_3__c;
         account.Last_Statement_Amount_3__c = stagingRecord.Last_Statement_Amount_3__c;
-        account.Insolvency_Sub_Status__c = null;
         // If payment amount is null or less than 0 or payment date is null or future date, make both fields null
         for (String dateField : dateAmountFieldsMap.keySet()) {
             if (
