@@ -90,7 +90,7 @@ public with sharing class CTBFileValidationUtility {
      * @return Insolvency_Account__c
      **/
     public static Insolvency_Account__c updateInsolvencyAccount(CTB_Staging__c stagingRecord) {
-        List<String> optionalFields = new List<String>{ 'CTB_Reject_Reason_Code__c', 'Previous_Account_Reference__c', 'Additional_Info__c' };
+        List<String> optionalFields = new List<String>{ 'Previous_Account_Reference__c', 'Additional_Info__c' };
         Insolvency_Account__c account = new Insolvency_Account__c();
         // Check if optional field value was not null in csv, only update if it was not null
         for (String fieldApiName : optionalFields) {
