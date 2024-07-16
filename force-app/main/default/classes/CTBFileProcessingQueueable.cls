@@ -242,6 +242,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         if (accountToUpdate.CTB_Reject_Reason_Code__c == 'DDEC') {
             accountToUpdate.Insolvency_Status__c = 'No PoC Required';
             accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Other';
+            accountToUpdate.Reason_for_No_PoC_Required__c = 'Other';
         }
         if (accountToUpdate.CTB_Reject_Reason_Code__c == 'NMAT') {
             accountToUpdate.Insolvency_Status__c = 'For Owner Review';
