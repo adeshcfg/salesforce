@@ -89,6 +89,10 @@
                 <field>Insolvency_Status__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Insolvency_Sub_Status__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Insolvency_Status_Last_Changed__c</field>
             </layoutItems>
@@ -110,10 +114,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>CTB_Balance_as_of_date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Insolvency_Sub_Status__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
