@@ -536,6 +536,7 @@
         }
 		map<ID, Placement_History__c> mapProductPreviouslyPlaced = getDirectPlacementHistoryDetails(setProductID);
         String oldPlacementID ='';
+        Map<id,string> productAgency = new Map<id,string>();
         Decimal placementCommisionRate;
         Map<Id,String> placeStatus = new Map<Id,String>();
         List<ID> prodIds = new List<ID>();
@@ -1387,6 +1388,7 @@
                                         if(mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c <> NULL){
                                             oldPlacementID = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
                                             productInstance.Collection_Agency_Placement__c = mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c;
+                                            productAgency.put(reversedPay.CCS_Account__c,mapProductPreviouslyPlaced.get(reversedPay.CCS_Account__c).Placement__c);
                                         }
                                         productInstance.Assignment_Date__c = Date.today();
                                         placementCommisionRate = productInstance.Collection_Agency_Placement__r.Commission_Rate__c;
@@ -1560,7 +1562,7 @@
 		//Ticket 6494: if reverse SIF/PIF create placement history and call snapshot
         try{
             if (!prodList.isEmpty()) {
-            	DistressedUtilities.createPlacementHistory(prodList,oldPlacementID,placementCommisionRate);
+            	DistressedUtilities.createPlacementHistory(prodList,oldPlacementID,placementCommisionRate,productAgency);
                 Database.executeBatch(new BatchProcessForProdScreen(prodIds,placeStatus,'Product Allocation Individual'), 200);
             }else{
                 if (!setProductIDToReverse.isEmpty()) {

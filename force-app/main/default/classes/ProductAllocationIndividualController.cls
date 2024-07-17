@@ -71,17 +71,7 @@ public with sharing class ProductAllocationIndividualController {
     }
     
     public static void getSnapshortRecords(List<Product__c> prodNew){
-        Map<Id, List<Id>> agencyTo_ProductIdsMap = new Map<Id, List<Id>>();
-        List<Id> productIds = new List<Id>();
-            for(Product__c prod : prodNew){
-                productIds.add(prod.Id);
-                agencyTo_ProductIdsMap.put(prod.Collection_Agency_Placement__c, productIds );
-            }
-            if(!agencyTo_ProductIdsMap.isEmpty()){
-                for(Id agencyId : agencyTo_ProductIdsMap.keySet()){
-                System.enqueueJob(new SnapshotQueueableClass(productIds, agencyId));   
-                }
-            }
+        System.enqueueJob(new SnapshotQueueableClass(prodNew));
     }
     
     public PageReference allocateWithWarning(){
@@ -132,7 +122,7 @@ public with sharing class ProductAllocationIndividualController {
             update product;            
             listProduct.add(product);
             
-            DistressedUtilities.createPlacementHistory(listProduct,oldPlacementID,placement.Commission_Rate__c);
+            DistressedUtilities.createPlacementHistory(listProduct,oldPlacementID,placement.Commission_Rate__c,null);
             
             //Added by satyajit
             Map<Id,String> placeStatus = new Map<Id,String>();
@@ -238,7 +228,7 @@ public with sharing class ProductAllocationIndividualController {
                 
                  listProduct.add(product);
             
-                DistressedUtilities.createPlacementHistory(listProduct,oldPlacementID,placement.Commission_Rate__c);
+                DistressedUtilities.createPlacementHistory(listProduct,oldPlacementID,placement.Commission_Rate__c,null);
                 
                 //Added by satyajit
                 Map<Id,String> placeStatus = new Map<Id,String>();

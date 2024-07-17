@@ -232,7 +232,7 @@ insert prod4;
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         //DistressedUtilities.UpdateSettlement(prodIdList);
         
-        DistressedUtilities.createPlacementHistory(prodList,place.id,10.2);
+        DistressedUtilities.createPlacementHistory(prodList,place.id,10.2,null);
         
         DistressedUtilities.createPlaceHistoryAlloExcel(productStaging,prod2,placeMap,poolMap);
         

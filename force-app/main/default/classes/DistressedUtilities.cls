@@ -31,7 +31,7 @@ public class DistressedUtilities {
         }
     }
     //Method calls for Allocation using Pool and Product screen.
-    public static void createPlacementHistory(List<Product__c> prodList, String oldPlacementID,Decimal placement){
+    public static void createPlacementHistory(List<Product__c> prodList, String oldPlacementID,Decimal placement,map<id,string> prodAgency){
         List<Placement_History__c> PlaceHistoryList = new List<Placement_History__c>(); 
         for(Product__c product : prodList){
             decimal recoverableFee = 0;
@@ -44,7 +44,13 @@ public class DistressedUtilities {
             //Placement__c plceID = [select id,name,Commission_Rate__c from Placement__c where name =: String.valueOf(product.Collection_Agency__c) limit 1];
             Placement_History__c placementHistory = new Placement_History__c();
             placementHistory.Product__c = product.id;
-            placementHistory.Placement__c =  oldPlacementID;    
+            
+            if(prodAgency != NULL && prodAgency.containsKey(product.id)){
+                placementHistory.Placement__c =  prodAgency.get(product.id);
+            }else{
+                placementHistory.Placement__c =  oldPlacementID;
+            }
+                
             //placementHistory.Placement_Recall_Date__c = Date.today();
             placementHistory.Placement_Date__c = product.Assignment_Date__c;
             placementHistory.Placement_Status__c = product.Placement_Status__c;
