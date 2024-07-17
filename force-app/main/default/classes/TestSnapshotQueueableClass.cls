@@ -7,7 +7,7 @@ public class TestSnapshotQueueableClass {
         plcmnt1.Agency_Name__c = 'Testing';
         insert plcmnt1;
         
-        List<Id> prodList1 = new List<Id>();
+        List<String> prodList1 = new List<String>();
         Product__c prod2 = new Product__c();
         prod2.Name = '1566P470';
         prod2.Collection_Sub_Status__c = 'Legal';
@@ -97,11 +97,11 @@ public class TestSnapshotQueueableClass {
         insert docSto2;
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = True;
         
-        Product__c con = [select id,name,Current_Bal_Attorney_Fees__c from Product__c where Id =: prod.id];
+        Product__c con = [select id,name,Current_Bal_Attorney_Fees__c,Collection_Agency_Placement__c from Product__c where Id =: prod.id];
         prodList1.add(con.id);
         
         Test.startTest();
-        SnapshotQueueableClass updater = new SnapshotQueueableClass(prodList1,agencyId);
+        SnapshotQueueableClass updater = new SnapshotQueueableClass(new List<Product__c> {con});
        // SnapshotQueueableClass.getFiles(place.id);
         //SnapshotQueueableClass.getCSVHeaderData(prodList1,plcmnt1.id);
         //SnapshotQueueableClass.notificationCallAPI(place.name,docSto2.Document_Type__c,docSto2.Document_Name__c);

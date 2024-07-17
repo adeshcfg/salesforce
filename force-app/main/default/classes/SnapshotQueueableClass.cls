@@ -1,30 +1,23 @@
-public class SnapshotQueueableClass implements Queueable, Database.AllowsCallouts{
-    private List<Id> prodIds = new List<Id>();
-    private Id placementId;
-    private string finalStr;
-    private String PRODUCT_SNAPSHOT = 'Product Snapshot';
-      public string csvString = '';
-    
+public class SnapshotQueueableClass implements Queueable, Database.AllowsCallouts {
+    private List<Product__c> productList = new List<Product__c>();
+
     Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
-    
-    public SnapshotQueueableClass(List<Id> productIds, Id agencyId) {
-        placementId = agencyId;
-        system.debug('productIds::'+productIds);
-        prodIds = productIds; 
-    }
-    
-    public void execute(QueueableContext context) {
-       
-          Datetime myDate = Datetime.now();
-            String curreTime = myDate.format('HHmmss');
-            string currentDate = Datetime.now().format('yyMMdd');
-            String DocumentStorageId = 'DS_ACC'+currentDate+curreTime;
-        if(!Test.isRunningTest()) {
-            //Call snapshot API.Developer name - satyajit.for ticket 4307
-            SnapShotAPIToPortal.parse(DocumentStorageId,prodIds);
-            //system.debug('parsedResponse in controller: '+parsedResponse);
-            
-        }
+
+    public SnapshotQueueableClass(List<Product__c> productList) {
+        this.productList = productList;
     }
 
+    public void execute(QueueableContext context) {
+        Datetime myDate = Datetime.now();
+        String curreTime = myDate.format('HHmmss');
+        string currentDate = Datetime.now().format('yyMMdd');
+        String documentStorageId = 'DS_ACC' + currentDate + curreTime;
+        List<String> productIds = new List<String>();
+        for (Product__c prod : productList) {
+            productIds.add(prod.Id);
+        }
+        if (!productIds.isEmpty() && !Test.isRunningTest()) {
+            SnapShotAPIToPortal.parse(documentStorageId, productIds);
+        }
+    }
 }

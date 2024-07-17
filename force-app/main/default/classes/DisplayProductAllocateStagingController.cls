@@ -420,33 +420,13 @@ public class DisplayProductAllocateStagingController{
     }
     
     public static void getSnapshortRecords(List<Product__c> prodNew){
-        Map<Id, List<Id>> agencyTo_ProductIdsMap = new Map<Id, List<Id>>();
-        List<Id> productIds = new List<Id>();
-        for(Product__c prod : prodNew){
-            productIds.add(prod.Id);
-            agencyTo_ProductIdsMap.put(prod.Collection_Agency_Placement__c, productIds );
-        }
-        if(!agencyTo_ProductIdsMap.isEmpty()){
-            for(Id agencyId : agencyTo_ProductIdsMap.keySet()){
-                If( Limits.getQueueableJobs() == 0) System.enqueueJob(new SnapshotQueueableClass(agencyTo_ProductIdsMap.get(agencyId), agencyId));
-            }
-        }
-        
+        System.enqueueJob(new SnapshotQueueableClass(prodNew));
     }
+
     public static void getSnapshortRecordsTwo(List<Product__c> prodNew){
-        Map<Id, List<Id>> agencyTo_ProductIdsMap = new Map<Id, List<Id>>();
-        List<Id> productIds = new List<Id>();
-        for(Product__c prod : prodNew){
-            productIds.add(prod.Id);
-            agencyTo_ProductIdsMap.put(prod.Collection_Agency_Placement__c, productIds );
-        }
-        if(!agencyTo_ProductIdsMap.isEmpty()){
-            for(Id agencyId : agencyTo_ProductIdsMap.keySet()){
-                If( Limits.getQueueableJobs() == 0)System.enqueueJob(new SnapshotQueueableClassForExcel(agencyTo_ProductIdsMap.get(agencyId), agencyId));
-            }
-        }
-        
+        System.enqueueJob(new SnapshotQueueableClass(prodNew));
     }
+
     public class productStagingWrapper{
         public Product_Staging__c productStaging {get;set;}
         public boolean selected {get;set;}
