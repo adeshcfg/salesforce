@@ -21,8 +21,8 @@
     </filters>
     <filters>
         <field>Insolvency_Sub_Status__c</field>
-        <operation>notEqual</operation>
-        <value>Sent on file,Pending File</value>
+        <operation>equals</operation>
+        <value>No Match</value>
     </filters>
     <filters>
         <field>CTB_Reject_Reason_Code__c</field>
