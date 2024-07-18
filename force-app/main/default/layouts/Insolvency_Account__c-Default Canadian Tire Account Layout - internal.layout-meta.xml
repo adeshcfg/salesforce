@@ -709,7 +709,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>CTB_Update_File_Timestamp__c</field>
+                <field>CTB_Update_Filename__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

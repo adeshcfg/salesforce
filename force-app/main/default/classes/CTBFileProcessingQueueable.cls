@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 07-16-2024
+ * @last modified on  : 07-17-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -185,6 +185,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
                     }
                     accountToUpdate.Id = accountId;
+                    accountToUpdate.CTB_Update_File_Timestamp__c = Datetime.now();
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
                     accountToUpdate.CTB_Reject_Reason_Code__c = stagingAcc.CTB_Reject_Reason_Code__c;
                     updateAccountStatusAndReason(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c);
