@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 07-17-2024
+ * @last modified on  : 07-18-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -196,6 +196,9 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 Database.insert(stagingRecordsToCreate);
             } catch (DmlException dex) {
                 System.debug('Error updating stging records ' + dex.getDmlMessage(0));
+                docStorage.File_Processing_Status__c = 'Failed';
+                docStorage.File_Processing_Error__c = dex.getDmlMessage(0).substring(0, 255);
+                update docStorage;
                 createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
             }
         }
@@ -204,6 +207,9 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 update accountRecordsToUpdateMap.values();
             } catch (DmlException dex) {
                 System.debug('Error updating account records ' + dex.getDmlMessage(0));
+                docStorage.File_Processing_Status__c = 'Failed';
+                docStorage.File_Processing_Error__c = dex.getDmlMessage(0).substring(0, 255);
+                update docStorage;
                 createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
                 return;
             }
