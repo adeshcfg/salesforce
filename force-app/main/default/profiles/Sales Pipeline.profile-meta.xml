@@ -12059,7 +12059,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Placement_History__c.Agency_Id__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -12159,7 +12159,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Placement_History__c.Placement_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -12179,7 +12179,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Placement_History__c.Placement_Recall_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -12224,7 +12224,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Placement_History__c.Product__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -14104,12 +14104,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Account_Portfolio_Group__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Account_Portfolio_ID__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -14134,7 +14134,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Account_Purchasing_Entity_Value__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -14149,7 +14149,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Account_Statute_Aging__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -14289,7 +14289,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Assignment_Date__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -14984,7 +14984,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Email_Address__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -16004,7 +16004,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Previous_Primary_Account_Number__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -16119,7 +16119,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Provinces__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -16329,7 +16329,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Settlement_Rate__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -16514,7 +16514,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Value_Tier__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -20190,13 +20190,4 @@
         <enabled>true</enabled>
         <name>ViewSetup</name>
     </userPermissions>
-    <objectPermissions>
-        <object>Placement_History__c</object>
-        <allowRead>true</allowRead>
-    </objectPermissions>
-    <objectPermissions>
-        <object>Product__c</object>
-        <allowRead>true</allowRead>
-    </objectPermissions>
-
 </Profile>
