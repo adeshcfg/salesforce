@@ -158,7 +158,8 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                     newInsolAccRec.id = insolAccData.id;
                     newInsolAccRec.Insolvency_Sub_Status__c = 'Sent on File';
                     newInsolAccRec.CTB_Reject_Reason_Code__c = '';
-                    newInsolAccRec.CTB_Update_Filename__c = fileNameFormat;
+                    newInsolAccRec.CTB_Outgoing_Filename__c = fileNameFormat;
+                    newInsolAccRec.CTB_Outgoing_File_Timestamp__c = Datetime.now();
                     newInsolAccRec.CTB_Update_File_Timestamp__c = null;
                     insolAccAndPaymentMap.put(newInsolAccRec.id, newInsolAccRec);
                 } else {
@@ -190,7 +191,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                 if (statusCode.startsWith('2')) {
                     newinsolPayRec.id = insolPayData.id;
                     newinsolPayRec.Payment_Sub_Status__c = 'Sent on File';
-                    newinsolPayRec.CTB_Update_Filename__c = fileNameFormat;
+                    newinsolPayRec.CTB_Update_Filename__c  = fileNameFormat;
                     newinsolPayRec.CTB_Update_File_Timestamp__c = null;
                     insolAccAndPaymentMap.put(newinsolPayRec.id, newinsolPayRec);
                 } else {

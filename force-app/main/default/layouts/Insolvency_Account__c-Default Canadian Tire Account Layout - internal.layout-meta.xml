@@ -717,6 +717,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>CTB_Outgoing_Filename__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CTB_Outgoing_File_Timestamp__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Additional_Info__c</field>
             </layoutItems>
         </layoutColumns>
