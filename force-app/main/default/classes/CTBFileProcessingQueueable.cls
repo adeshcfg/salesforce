@@ -259,6 +259,9 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         if (currentStatus != 'For Owner Review') {
             accountToUpdate.Insolvency_Status__c = currentStatus;
         }
+        if (accountToUpdate.Insolvency_Status__c == 'PoC Details Provided') {
+            accountToUpdate.Error_Message__c = null;
+        }
         return accountToUpdate;
     }
 
