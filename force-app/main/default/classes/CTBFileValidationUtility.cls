@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 07-16-2024
+ * @last modified on  : 07-19-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -60,7 +60,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Debtor_1_Last_Name__c = csvColumns[LAST_NAME];
         stagingRecord.CTB_Date_of_Birth__c = parseDateString(csvColumns[CTB_DOB], 'CTB_Date_of_Birth__c', stagingRecord);
         stagingRecord.Correlation_Id__c = csvColumns[CORRELATION_ID];
-        stagingRecord.CTB_Reject_Reason_Code__c = csvColumns[CTB_REJECT_REASON_CODE];
+        stagingRecord.CTB_Reject_Reason_Code__c = String.isNotBlank(csvColumns[CTB_REJECT_REASON_CODE]) ? csvColumns[CTB_REJECT_REASON_CODE].toUpperCase() : csvColumns[CTB_REJECT_REASON_CODE];
         stagingRecord.Account_Original_Open_Date__c = parseDateString(csvColumns[ACCOUNT_OPEN_DATE], 'Account_Original_Open_Date__c', stagingRecord);
         stagingRecord.Balance_Owed__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Balance_Owed__c', stagingRecord);
         stagingRecord.Claim_Amount__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Claim_Amount__c', stagingRecord);

@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 07-18-2024
+ * @last modified on  : 07-19-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -237,7 +237,10 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
      * @return Insolvency_Account__c
      **/
     public static Insolvency_Account__c updateAccountStatusAndReason(Insolvency_Account__c accountToUpdate, String currentStatus) {
-        accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
+        // Only update status to PoC Details Provided when reject code is null
+        if (String.isBlank(accountToUpdate.CTB_Reject_Reason_Code__c)) {
+            accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
+        }
         if (accountToUpdate.Balance_Owed__c < 100) {
             accountToUpdate.Insolvency_Status__c = 'No PoC Required';
             accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Below Threshold';
@@ -259,7 +262,8 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         if (currentStatus != 'For Owner Review') {
             accountToUpdate.Insolvency_Status__c = currentStatus;
         }
-        if (accountToUpdate.Insolvency_Status__c == 'PoC Details Provided') {
+        // Clear error message field whenever status of account was updated
+        if (accountToUpdate.Insolvency_Status__c != currentStatus) {
             accountToUpdate.Error_Message__c = null;
         }
         return accountToUpdate;
