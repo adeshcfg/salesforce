@@ -63,7 +63,9 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                 }
                 try {
                     if (!mapRecordUpdate.values().isEmpty()) {
+                        InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
                         update mapRecordUpdate.values();
+                        InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
                     }
                 } catch (DMLException dmlEx) {
                     Map<id, sObject> insolvAcctErrorMap = new Map<id, sObject>();
@@ -157,6 +159,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
                 if (statusCode.startsWith('2')) {
                     newInsolAccRec.id = insolAccData.id;
                     newInsolAccRec.Insolvency_Sub_Status__c = 'Sent on File';
+                    newInsolAccRec.Error_Message__c = '';
                     newInsolAccRec.CTB_Reject_Reason_Code__c = '';
                     newInsolAccRec.CTB_Outgoing_Filename__c = fileNameFormat;
                     newInsolAccRec.CTB_Outgoing_File_Timestamp__c = Datetime.now();
