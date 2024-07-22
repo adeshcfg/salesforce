@@ -1862,6 +1862,7 @@ insDetails.add(insDetail);
                     accNew.Error_Message__c = errorMsg /*'Missing data in one or more mandatory fields.'*/;
                 }
                 else if(oldMap.get(accNew.id).Insolvency_Status__c!=accNew.Insolvency_Status__c){
+                    system.debug('fieldMissing##'+fieldMissing);
                     //CTB Automation: set insolvency account processing status and sub-status
                     accNew.CTB_Status_Update_Code__c = '';
                     accNew.Insolvency_Sub_Status__c = '';
@@ -1885,8 +1886,15 @@ insDetails.add(insDetail);
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
                         accNew.Error_Message__c = '';
                     }
+                    if(fieldMissing == False){
+                        accNew.Error_Message__c = '';
+                    }
                 }
                 else{
+                    if(fieldMissing == False){
+                        accNew.Insolvency_Sub_Status__c = 'Pending File';
+                        accNew.Error_Message__c = '';
+                    }
                     if(oldMap.get(accNew.id).Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c && 
                       accNew.Insolvency_Sub_Status__c == 'Pending File'){
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
