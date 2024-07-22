@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 07-19-2024
+ * @last modified on  : 07-22-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -252,7 +252,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         if (accountToUpdate.CTB_Reject_Reason_Code__c == 'DDEC') {
             accountToUpdate.Insolvency_Status__c = 'No PoC Required';
             accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Other';
-            accountToUpdate.Reason_for_No_PoC_Required__c = 'Other';
+            accountToUpdate.Reason_for_No_PoC_Required__c = 'Deceased';
         }
         if (accountToUpdate.CTB_Reject_Reason_Code__c == 'NMAT') {
             accountToUpdate.Insolvency_Status__c = 'For Owner Review';
