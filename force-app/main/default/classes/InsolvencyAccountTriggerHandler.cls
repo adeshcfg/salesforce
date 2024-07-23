@@ -1855,11 +1855,23 @@ insDetails.add(insDetail);
                 }
                 errorMsg = errorMsg.removeEnd(' ,');
                 errorMsg += ' are missing';
-                if (
-                     fieldMissing == TRUE
-                ) {
+                
+                if(fieldMissing == False){
+                    accNew.Error_Message__c = '';
+                }
+                
+                
+                if (fieldMissing == TRUE && accNew.Insolvency_Sub_Status__c != 'Pending File') {
                     accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
                     accNew.Error_Message__c = errorMsg /*'Missing data in one or more mandatory fields.'*/;
+                }else if(fieldMissing == TRUE && accNew.Insolvency_Sub_Status__c == 'Pending File' 
+                        && oldMap.get(accNew.id).Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c){
+                    accNew.Insolvency_Sub_Status__c = 'Pending File';
+                    accNew.Error_Message__c = errorMsg;        
+                }
+                else if(fieldMissing == TRUE ){
+                    accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
+                    accNew.Error_Message__c = errorMsg;
                 }
                 else if(oldMap.get(accNew.id).Insolvency_Status__c!=accNew.Insolvency_Status__c){
                     system.debug('fieldMissing##'+fieldMissing);
@@ -1886,16 +1898,13 @@ insDetails.add(insDetail);
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
                         accNew.Error_Message__c = '';
                     }
-                    if(fieldMissing == False){
-                        accNew.Error_Message__c = '';
-                    }
                 }
                 else{
-                    if(fieldMissing == False){
+                    if(fieldMissing == False && oldMap.get(accNew.id).Insolvency_Sub_Status__c == 'File Error Parsing Record'){
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
                         accNew.Error_Message__c = '';
                     }
-                    if(oldMap.get(accNew.id).Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c && 
+                    if(fieldMissing == False && oldMap.get(accNew.id).Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c && 
                       accNew.Insolvency_Sub_Status__c == 'Pending File'){
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
                     }
