@@ -7,7 +7,7 @@
 *  @date : 11/03/2022
 
 *************************************************************************************************/
-public with sharing class ProductRecallIndividualController {
+public without sharing class ProductRecallIndividualController {
     public map<String, Data_Status_Mapping__c> dataStatusMap = Data_Status_Mapping__c.getAll();
     public map<String, Placement_Status_Mapping__c> placementStatusMap = Placement_Status_Mapping__c.getAll();
     public map<String, Placement_Status_Code_Mapping__c> mapRecallCodeStatus;
