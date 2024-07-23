@@ -14,6 +14,7 @@ public class PortalJudgmentProcessingAPI implements Queueable, Database.AllowsCa
     public static List<API_Error__c> listAPIErrors = new List<API_Error__c>();
     public static map<String, Agency_Portal_Fields_Mapping__c> mapAgencyField = Agency_Portal_Fields_Mapping__c.getAll();
     public static map<String, object> mapAgencyJudgFieldData = new Map<String, object>();
+    public static List<Judgment__c> judgmentDataList = new List<Judgment__c>();
 
     public PortalJudgmentProcessingAPI(String judgmentId) {
         this.judgmentId = judgmentId;
@@ -28,7 +29,7 @@ public class PortalJudgmentProcessingAPI implements Queueable, Database.AllowsCa
         processJudgmentHelper(judgmentId);
     }
 
-    public static void processJudgmentHelper(String judgmentId) {
+    public static List<Judgment__c> processJudgmentHelper(String judgmentId) {
         String Query = 'SELECT ID,Name,Writ_Renewal_Date_Formula__c,Garnishment_Renewal_Date_Formula__c, ';
         for (Agency_Portal_Fields_Mapping__c fieldMappingInstance : fieldMapping) {
             if (fieldMappingInstance.Object_Name__c == 'Judgment') {
@@ -57,7 +58,9 @@ public class PortalJudgmentProcessingAPI implements Queueable, Database.AllowsCa
         JudgmentJSONRequestList.add(JudgmentJSONRequest);
         List<Judgment__c> judList = new List<Judgment__c>();
         judList.add(judgmentInstance);
-
-        AzureUtility.apiCallToPortal('Agency Portal API', JudgmentJSONRequestList, 'SFJudgement', judList, 'Judgment');
+        
+        judgmentDataList = AzureUtility.apiCallToPortal('Agency Portal API', JudgmentJSONRequestList, 'SFJudgement', judList, 'Judgment');
+        return judgmentDataList;
     }
+    
 }

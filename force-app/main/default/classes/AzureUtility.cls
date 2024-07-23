@@ -164,7 +164,7 @@ public class AzureUtility {
         return getRequestToken(apiCallDetails);
     }
 
-    public static String apiCallToPortal(
+    public static List<Judgment__c> apiCallToPortal(
         string apiName,
         List<String> JSONRequestList,
         string replacePdfApiUrl,
@@ -172,75 +172,79 @@ public class AzureUtility {
         string portalApiCall
     ) {
         Judgment__c judInstanceData;
+        List<Judgment__c> listJudgmentupdate = new List<Judgment__c>();
         String name = '';
         String endPoint = '';
         if (portalApiCall == 'Judgment') {
             for (Judgment__c judInstance : (List<Judgment__c>) objectInstance) {
                 name = judInstance.name;
-                endPoint = judInstance.Judgment_Number__c;
+                if(!Test.isRunningTest()){
+                    endPoint = judInstance.Judgment_Number__c;
+                }                
                 judInstance.Outbound_API_Request_Body__c = JSONRequestList[0];
                 judInstanceData = judInstance;
             }
         }
         String accToken = getRequestToken(apiName);
         // Instantiate a new http object
-        for (String JSONRequest : JSONRequestList) {
-            Http h = new Http();
-            // Instantiate a new HTTP request
-            HttpRequest req = new HttpRequest();
-            req.setBody(JSONRequest);
-            req.setHeader('Authorization', 'Bearer ' + accToken);
-            req.setHeader('Content-Type', 'application/json;charset=UTF-8');
-            apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', replacePdfApiUrl);
-            req.setEndpoint(apiCallDetails.PDF_API_URL__c + endPoint);
-            req.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
-            req.setMethod('PUT');
-			Map<String, Object> reqBodyMap = (Map<String, Object>)JSON.deserializeUntyped(req.getBody());
-            string recordName = String.valueOf(reqBodyMap.get('Name'));
-            
-            try {
-                // Send the request, and return a response
-                HttpResponse res = h.send(req);
-                Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
-                if (portalApiCall == 'Judgment') {
-                    judInstanceData.Outbound_API_Response_Body__c = res.getBody();
-                }
-
-                String statusCode = String.valueOf(res.getStatusCode());
-                if (statusCode.startsWith('2') && bodyMap.get('IsSuccess') == String.valueOf('true')) {
-                } else if (!statusCode.startsWith('2')) {
+        if (!JSONRequestList.isEmpty()) {
+            for (String JSONRequest : JSONRequestList) {
+                Http h = new Http();
+                // Instantiate a new HTTP request
+                HttpRequest req = new HttpRequest();
+                req.setBody(JSONRequest);
+                req.setHeader('Authorization', 'Bearer ' + accToken);
+                req.setHeader('Content-Type', 'application/json;charset=UTF-8');
+                apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', replacePdfApiUrl);
+                req.setEndpoint(apiCallDetails.PDF_API_URL__c + endPoint);
+                req.setTimeout(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
+                req.setMethod('PUT');
+                Map<String, Object> reqBodyMap = (Map<String, Object>)JSON.deserializeUntyped(req.getBody());
+                string recordName = String.valueOf(reqBodyMap.get('Name'));
+                
+                try {
+                    // Send the request, and return a response
+                    HttpResponse res = h.send(req);
+                    Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
+                    if (portalApiCall == 'Judgment') {
+                        judInstanceData.Outbound_API_Response_Body__c = res.getBody();
+                    }
+                    
+                    String statusCode = String.valueOf(res.getStatusCode());
+                    if (statusCode.startsWith('2') && bodyMap.get('IsSuccess') == String.valueOf('true')) {
+                    } else if (!statusCode.startsWith('2')) {
+                        String userName = UserInfo.getName();
+                        API_Error__c apiErrorData = new API_Error__c();
+                        apiErrorData.Action__c = 'API Failed';
+                        apiErrorData.Request__c = name;
+                        if (res.getBody().length() > 131071) {
+                            apiErrorData.Response__c = res.getBody().subString(0, 131071);
+                        } else {
+                            apiErrorData.Response__c = res.getBody();
+                        }
+                        ErrorList.add(apiErrorData);
+                        
+                        CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(portalApiCall,recordName,userName, apiErrorData.Response__c, apiErrorData.Action__c);
+                    }
+                } catch (Exception ex) {
                     String userName = UserInfo.getName();
                     API_Error__c apiErrorData = new API_Error__c();
+                    apiErrorData.Error__c = ex.getMessage();
                     apiErrorData.Action__c = 'API Failed';
-                    apiErrorData.Request__c = name;
-                    if (res.getBody().length() > 131071) {
-                        apiErrorData.Response__c = res.getBody().subString(0, 131071);
-                    } else {
-                        apiErrorData.Response__c = res.getBody();
+                    if (!Test.isRunningTest()) {
+                        apiErrorData.Request__c = name;
                     }
                     ErrorList.add(apiErrorData);
-
-                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(portalApiCall,recordName,userName, apiErrorData.Response__c, apiErrorData.Action__c);
+                    
+                    CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(portalApiCall,recordName,userName, apiErrorData.Error__c, apiErrorData.Action__c);
                 }
-            } catch (Exception ex) {
-                String userName = UserInfo.getName();
-                API_Error__c apiErrorData = new API_Error__c();
-                apiErrorData.Error__c = ex.getMessage();
-                apiErrorData.Action__c = 'API Failed';
-                if (!Test.isRunningTest()) {
-                    apiErrorData.Request__c = name;
+                
+                insert ErrorList;
+                if (judInstanceData != null) {
+                    listJudgmentupdate.add(judInstanceData);
                 }
-                ErrorList.add(apiErrorData);
-
-                CFG_EmailNotification.apiFailedEmailNotifyTOCFGSupport(portalApiCall,recordName,userName, apiErrorData.Error__c, apiErrorData.Action__c);
-            }
-
-            insert ErrorList;
-            if (judInstanceData != null) {
-                JudgmentTriggerHandler.runJudgmentTrigger = false;
-                update judInstanceData;
-                JudgmentTriggerHandler.runJudgmentTrigger = true;
-            }
+            } 
+            return listJudgmentupdate;
         }
         return null;
     }

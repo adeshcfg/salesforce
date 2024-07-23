@@ -15,6 +15,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
     public String success;
     public String failed;
     public List<Id> prodIds = new List<Id>();
+    public List<Judgment__c> judgementData = new List<Judgment__c>();
     public List<Product__c> listProductToUpdateBatch { get; set; }
     public CFG_ProcessSuccessRecords(String workAssignmentId, String documentStorageId, String docType) {
         this.workAssignmentId = workAssignmentId;
@@ -112,7 +113,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
     public void execute(Database.BatchableContext BC, List<SObject> scope) {
         if (docType == 'Product Allocation File') {
             //Call product allocation update class. developer - satyajit patil
-            AllocationProductProcessing.allocateProducts(scope, workAssignmentId);
+            judgementData = AllocationProductProcessing.allocateProducts(scope, workAssignmentId);
         } else if (docType == 'Account Status Update File') {
             //Call product recall update class. developer - satyajit patil
             prodIds = RecallProductProcessing.recallProducts(scope, workAssignmentId);
@@ -138,7 +139,8 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
 
         //Call the portal API Batch. Developer: satyajit patil
         if (docType != DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
-            Database.executeBatch(new CFG_ProductBulkApiProcess(documentStorageId, docType), 200);
+            Database.executeBatch(new CFG_ProductBulkApiProcess(documentStorageId, docType, judgementData), 200);
+            
         } else {
             Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
             // Create Success and Error file

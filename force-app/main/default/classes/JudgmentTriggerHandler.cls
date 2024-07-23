@@ -8,7 +8,7 @@
  *
  *************************************************************************************************/
 
-public class JudgmentTriggerHandler {
+ public class JudgmentTriggerHandler {
     public static Map<String, Id> collectionAgency = new Map<String, Id>();
     public static string prodProvinceName;
     public static string ProvinceNameFormat;
@@ -16,6 +16,7 @@ public class JudgmentTriggerHandler {
     public static map<String, Province_Tax_Rate_Mapping__mdt> mapTaxMetadata = Province_Tax_Rate_Mapping__mdt.getAll();
     public static map<String, Province_Tax_Rate_Mapping__mdt> mapProvinceAcronymTaxMetadata = new Map<String, Province_Tax_Rate_Mapping__mdt>();
     public static boolean runJudgmentTrigger = true;
+    public static boolean runJudgmentValidation = true;
     //Bug: 5564 Changes Starts
     public static string SEPARATOR = 'A';
     public static string UNPLACED = 'unplaced';
@@ -38,10 +39,10 @@ public class JudgmentTriggerHandler {
 
         for (Judgment__c judgRecord : listNewJudgments) {
             listJudgmentStatuses.add(judgRecord.Legal_Status__c);
-            if (judgRecord.Court__c == 'Small Claims Court' && judgRecord.Small_Claims_Court__c == null) {
+            if (judgRecord.Court__c == 'Small Claims Court' && judgRecord.Small_Claims_Court__c == null && runJudgmentValidation == true) {
                 judgRecord.Small_Claims_Court__c.addError('Small Claims Court can not be blank');
             }
-            if (judgRecord.Court__c == 'Superior Court of Justice' && judgRecord.Superior_Court__c == null) {
+            if (judgRecord.Court__c == 'Superior Court of Justice' && judgRecord.Superior_Court__c == null && runJudgmentValidation == true) {
                 judgRecord.Superior_Court__c.addError('Superior Court of Justice can not be blank');
             }
 
@@ -99,7 +100,7 @@ public class JudgmentTriggerHandler {
             } else if (judgment.Product_5__c != null) {
                 prodNames.add(judgment.Product_5__c);
             }
-            if (prodNames.size() == 0) {
+            if (prodNames.size() == 0 && runJudgmentValidation == true) {
                 judgment.addError('There should be atleast one product on Judgment');
                 return;
             }
@@ -237,10 +238,10 @@ public class JudgmentTriggerHandler {
         for (Judgment__c judgmentObj : listNewJudgments) {
             listJudgmentStatuses.add(judgmentObj.Legal_Status__c);
 
-            if (judgmentObj.Court__c == 'Small Claims Court' && judgmentObj.Small_Claims_Court__c == null) {
+            if (judgmentObj.Court__c == 'Small Claims Court' && judgmentObj.Small_Claims_Court__c == null && runJudgmentValidation == true) {
                 judgmentObj.Small_Claims_Court__c.addError('Small Claims Court can not be blank');
             }
-            if (judgmentObj.Court__c == 'Superior Court of Justice' && judgmentObj.Superior_Court__c == null) {
+            if (judgmentObj.Court__c == 'Superior Court of Justice' && judgmentObj.Superior_Court__c == null && runJudgmentValidation == true) {
                 judgmentObj.Superior_Court__c.addError('Superior Court of Justice can not be blank');
             }
 
@@ -1128,10 +1129,12 @@ Accure Interest from curDate (last payment's postoing date) to Today
             if (config.Run_Judgment_Update_API_For_Portal__c) {
                 //call API
                 if (judgment.Agency_Initiated_Legal_Action__c != null && judgment.Legal_Agency__c != null) {
-                    if (System.isBatch() && !Test.isRunningTest()) {
-                        System.enqueueJob(new PortalJudgmentProcessingAPI(judgment.Id));
-                    } else {
-                        PortalJudgmentProcessingAPI.processJudgment(judgment.ID);
+                    if(runJudgmentValidation == true){
+                        if (System.isBatch() && !Test.isRunningTest()) {
+                            System.enqueueJob(new PortalJudgmentProcessingAPI(judgment.Id));
+                        } else {
+                            PortalJudgmentProcessingAPI.processJudgment(judgment.ID);
+                        }
                     }
                 }
             }
@@ -1267,8 +1270,8 @@ Accure Interest from curDate (last payment's postoing date) to Today
             }
 
             if ((codes == '220000') || (codes == '220210') || (codes == '220700') || (codes == '220030') || (codes == '220040') || (codes == '220050')) {
-                if (
-                    String.isBlank(judg.Case_Number__c) ||
+                if (runJudgmentValidation == true && 
+                    (String.isBlank(judg.Case_Number__c) ||
                     String.isBlank(Province) ||
                     judg.Suit_Amount__c == null ||
                     String.isBlank(judg.Court__c) ||
@@ -1276,30 +1279,30 @@ Accure Interest from curDate (last payment's postoing date) to Today
                     String.isBlank(Plaintiff) ||
                     String.isBlank(judg.Attorney__c) ||
                     String.isBlank(AgencyLegalAction)
-                ) {
+                )) {
                     judg.addError('Fields should not blank Case Number,Province,Suit Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action');
                 }
-                if (((String.isNotBlank(Product_1)) && (judg.Suit_Amount_1__c == null || judg.Interest_Rate_one__c == null))) {
+                if (String.isNotBlank(Product_1) && runJudgmentValidation == true && (judg.Suit_Amount_1__c == null || judg.Interest_Rate_one__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 1,interest Rate-1,Suit Amount 1'
                     );
                 }
-                if (((String.isNotBlank(judg.Product_2__c)) && (judg.Suit_Amount_2__c == null || judg.Interest_Rate_two__c == null))) {
+                if (String.isNotBlank(judg.Product_2__c) && runJudgmentValidation == true && (judg.Suit_Amount_2__c == null || judg.Interest_Rate_two__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 2,Balance-2,interest Rate-2,Suit Amount 2'
                     );
                 }
-                if (((String.isNotBlank(judg.Product_3__c)) && (judg.Suit_Amount_3__c == null || judg.Interest_Rate_three__c == null))) {
+                if (String.isNotBlank(judg.Product_3__c) && runJudgmentValidation == true && (judg.Suit_Amount_3__c == null || judg.Interest_Rate_three__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 3,Balance-3,interest Rate-3,Suit Amount 3'
                     );
                 }
-                if (((String.isNotBlank(judg.Product_4__c)) && (judg.Suit_Amount_4__c == null || judg.Interest_Rate_four__c == null))) {
+                if (String.isNotBlank(judg.Product_4__c) && runJudgmentValidation == true && (judg.Suit_Amount_4__c == null || judg.Interest_Rate_four__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 4,Balance-4,interest Rate-4,Suit Amount 4'
                     );
                 }
-                if (((String.isNotBlank(judg.Product_5__c)) && (judg.Suit_Amount_5__c == null || judg.Interest_Rate_five__c == null))) {
+                if (String.isNotBlank(judg.Product_5__c) && runJudgmentValidation == true && (judg.Suit_Amount_5__c == null || judg.Interest_Rate_five__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 5,Balance-5,interest Rate-5,Suit Amount 5'
                     );
@@ -1314,8 +1317,8 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 (codes == '299999') ||
                 (codes == '290020')
             ) {
-                if (
-                    String.isBlank(judg.Case_Number__c) ||
+                if (runJudgmentValidation == true && 
+                    (String.isBlank(judg.Case_Number__c) ||
                     String.isBlank(Province) ||
                     judg.Suit_Amount__c == null ||
                     judg.Date_Debtor_Served__c == null ||
@@ -1324,32 +1327,32 @@ Accure Interest from curDate (last payment's postoing date) to Today
                     String.isBlank(Plaintiff) ||
                     String.isBlank(judg.Attorney__c) ||
                     String.isBlank(AgencyLegalAction)
-                ) {
+                )) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,Court,County,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action'
                     );
                 }
-                if (((String.isNotBlank(Product_1)) && (judg.Suit_Amount_1__c == null || judg.Interest_Rate_one__c == null))) {
+                if (String.isNotBlank(Product_1) && runJudgmentValidation == true && (judg.Suit_Amount_1__c == null || judg.Interest_Rate_one__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,Court,County,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 1,interest Rate-1,Suit Amount 1'
                     );
                 }
-                if (((String.isNotBlank(judg.Product_2__c)) && (judg.Suit_Amount_2__c == null || judg.Interest_Rate_two__c == null))) {
+                if (String.isNotBlank(judg.Product_2__c) && runJudgmentValidation == true && (judg.Suit_Amount_2__c == null || judg.Interest_Rate_two__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,Court,County,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 2,Balance-2,interest Rate-2,Suit Amount 2'
                     );
                 }
-                if (((String.isNotBlank(judg.Product_3__c)) && (judg.Suit_Amount_3__c == null || judg.Interest_Rate_three__c == null))) {
+                if (String.isNotBlank(judg.Product_3__c) && runJudgmentValidation == true && (judg.Suit_Amount_3__c == null || judg.Interest_Rate_three__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,Court,County,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 3,Balance-3,interest Rate-3,Suit Amount 3'
                     );
                 }
-                if (((String.isNotBlank(judg.Product_4__c)) && (judg.Suit_Amount_4__c == null || judg.Interest_Rate_four__c == null))) {
+                if (String.isNotBlank(judg.Product_4__c) && runJudgmentValidation == true && (judg.Suit_Amount_4__c == null || judg.Interest_Rate_four__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,Court,County,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 4,Balance-4,interest Rate-4,Suit Amount 4'
                     );
                 }
-                if (((String.isNotBlank(judg.Product_5__c)) && (judg.Suit_Amount_5__c == null || judg.Interest_Rate_five__c == null))) {
+                if (String.isNotBlank(judg.Product_5__c) && runJudgmentValidation == true && (judg.Suit_Amount_5__c == null || judg.Interest_Rate_five__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,Court,County,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 5,Balance-5,interest Rate-5,Suit Amount 5'
                     );
@@ -1371,8 +1374,8 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 (codes == '295080') ||
                 (codes == '295900')
             ) {
-                if (
-                    String.isBlank(judg.Case_Number__c) ||
+                if (runJudgmentValidation == true && 
+                    (String.isBlank(judg.Case_Number__c) ||
                     String.isBlank(Province) ||
                     judg.Suit_Amount__c == null ||
                     judg.Date_Debtor_Served__c == null ||
@@ -1384,51 +1387,51 @@ Accure Interest from curDate (last payment's postoing date) to Today
                     String.isBlank(Plaintiff) ||
                     String.isBlank(judg.Attorney__c) ||
                     String.isBlank(AgencyLegalAction)
-                ) {
+                )) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action'
                     );
                 }
-                if (((String.isNotBlank(Product_1)) && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null))) {
+                if (String.isNotBlank(Product_1) && runJudgmentValidation == true && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 1,Balance-1,interest Rate-1,Suit Amount 1'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_2__c)) &&
+                    String.isNotBlank(judg.Product_2__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_2__c == null ||
                     judg.Balance_two__c == null ||
-                    judg.Interest_Rate_two__c == null))
+                    judg.Interest_Rate_two__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 2,Balance-2,interest Rate-2,Suit Amount 2'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_3__c)) &&
+                    String.isNotBlank(judg.Product_3__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_3__c == null ||
                     judg.Balance_three__c == null ||
-                    judg.Interest_Rate_three__c == null))
+                    judg.Interest_Rate_three__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 3,Balance-3,interest Rate-3,Suit Amount 3'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_4__c)) &&
+                    String.isNotBlank(judg.Product_4__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_4__c == null ||
                     judg.Balance_four__c == null ||
-                    judg.Interest_Rate_four__c == null))
+                    judg.Interest_Rate_four__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 4,Balance-4,interest Rate-4,Suit Amount 4'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_5__c)) &&
+                    String.isNotBlank(judg.Product_5__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_5__c == null ||
                     judg.Balance_five__c == null ||
-                    judg.Interest_Rate_five__c == null))
+                    judg.Interest_Rate_five__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 5,Balance-5,interest Rate-5,Suit Amount 5'
@@ -1436,57 +1439,57 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 }
             }
             if ((codes == '290005')) {
-                if (
-                    String.isBlank(judg.Case_Number__c) ||
+                if (runJudgmentValidation == true && 
+                    (String.isBlank(judg.Case_Number__c) ||
                     String.isBlank(Province) ||
                     judg.Suit_Amount__c == null ||
                     judg.Date_Debtor_Served__c == null ||
                     judg.Judgment_Date__c == null ||
                     judg.Judgment_Amount__c == null ||
-                    judg.Filing_Date__c == null
+                    judg.Filing_Date__c == null)
                 ) {
                     judg.addError('Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date');
                 }
-                if (((String.isNotBlank(Product_1)) && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null))) {
+                if (String.isNotBlank(Product_1) && runJudgmentValidation == true && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Product 1,Balance-1,interest Rate-1,Suit Amount 1'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_2__c)) &&
+                    String.isNotBlank(judg.Product_2__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_2__c == null ||
                     judg.Balance_two__c == null ||
-                    judg.Interest_Rate_two__c == null))
+                    judg.Interest_Rate_two__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Product 2,Balance-2,interest Rate-2,Suit Amount 2'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_3__c)) &&
+                    String.isNotBlank(judg.Product_3__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_3__c == null ||
                     judg.Balance_three__c == null ||
-                    judg.Interest_Rate_three__c == null))
+                    judg.Interest_Rate_three__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Product 3,Balance-3,interest Rate-3,Suit Amount 3'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_4__c)) &&
+                    String.isNotBlank(judg.Product_4__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_4__c == null ||
                     judg.Balance_four__c == null ||
-                    judg.Interest_Rate_four__c == null))
+                    judg.Interest_Rate_four__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Product 4,Balance-4,interest Rate-4,Suit Amount 4'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_5__c)) &&
+                    String.isNotBlank(judg.Product_5__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_5__c == null ||
                     judg.Balance_five__c == null ||
-                    judg.Interest_Rate_five__c == null))
+                    judg.Interest_Rate_five__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Product 5,Balance-5,interest Rate-5,Suit Amount 5'
@@ -1494,8 +1497,8 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 }
             }
             if ((codes == '293000') || (codes == '294000')) {
-                if (
-                    String.isBlank(judg.Case_Number__c) ||
+                if (runJudgmentValidation == true &&
+                    (String.isBlank(judg.Case_Number__c) ||
                     String.isBlank(Province) ||
                     judg.Suit_Amount__c == null ||
                     judg.Date_Debtor_Served__c == null ||
@@ -1509,52 +1512,52 @@ Accure Interest from curDate (last payment's postoing date) to Today
                     String.isBlank(judg.Legal_Firm__c) ||
                     String.isBlank(Plaintiff) ||
                     String.isBlank(judg.Attorney__c) ||
-                    String.isBlank(AgencyLegalAction)
+                    String.isBlank(AgencyLegalAction))
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action'
                     );
                 }
-                if (((String.isNotBlank(Product_1)) && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null))) {
+                if (String.isNotBlank(Product_1) && runJudgmentValidation == true && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 1,Balance-1,interest Rate-1,Suit Amount 1'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_2__c)) &&
+                    String.isNotBlank(judg.Product_2__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_2__c == null ||
                     judg.Balance_two__c == null ||
-                    judg.Interest_Rate_two__c == null))
+                    judg.Interest_Rate_two__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 2,Balance-2,interest Rate2,Suit Amount 2'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_3__c)) &&
+                    String.isNotBlank(judg.Product_3__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_3__c == null ||
                     judg.Balance_three__c == null ||
-                    judg.Interest_Rate_three__c == null))
+                    judg.Interest_Rate_three__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 3,Balance-3,interest Rate-3,Suit Amount 3'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_4__c)) &&
+                    String.isNotBlank(judg.Product_4__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_4__c == null ||
                     judg.Balance_four__c == null ||
-                    judg.Interest_Rate_four__c == null))
+                    judg.Interest_Rate_four__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 4,Balance-4,interest Rate-4,Suit Amount 4'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_5__c)) &&
+                    String.isNotBlank(judg.Product_5__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_5__c == null ||
                     judg.Balance_five__c == null ||
-                    judg.Interest_Rate_five__c == null))
+                    judg.Interest_Rate_five__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 5,Balance-5,interest Rate-5,Suit Amount 5'
@@ -1562,8 +1565,8 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 }
             }
             if ((codes == '295000') || (codes == '295030') || (codes == '295060') || (codes == '295010') || (codes == '295040') || (codes == '295050')) {
-                if (
-                    String.isBlank(judg.Case_Number__c) ||
+                if (runJudgmentValidation == true &&
+                    (String.isBlank(judg.Case_Number__c) ||
                     String.isBlank(Province) ||
                     judg.Suit_Amount__c == null ||
                     judg.Date_Debtor_Served__c == null ||
@@ -1577,52 +1580,52 @@ Accure Interest from curDate (last payment's postoing date) to Today
                     String.isBlank(judg.Legal_Firm__c) ||
                     String.isBlank(Plaintiff) ||
                     String.isBlank(judg.Attorney__c) ||
-                    String.isBlank(AgencyLegalAction)
+                    String.isBlank(AgencyLegalAction))
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action'
                     );
                 }
-                if (((String.isNotBlank(Product_1)) && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null))) {
+                if (String.isNotBlank(Product_1) && runJudgmentValidation == true && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 1,Balance-1,interest Rate-1,Suit Amount 1'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_2__c)) &&
+                    String.isNotBlank(judg.Product_2__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_2__c == null ||
                     judg.Balance_two__c == null ||
-                    judg.Interest_Rate_two__c == null))
+                    judg.Interest_Rate_two__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 2,Balance-2,interest Rate-2,Suit Amount 2'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_3__c)) &&
+                    String.isNotBlank(judg.Product_3__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_3__c == null ||
                     judg.Balance_three__c == null ||
-                    judg.Interest_Rate_three__c == null))
+                    judg.Interest_Rate_three__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 3,Balance-3,interest Rate-3,Suit Amount 3'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_4__c)) &&
+                    String.isNotBlank(judg.Product_4__c) && runJudgmentValidation == true && 
                     (judg.Suit_Amount_4__c == null ||
                     judg.Balance_four__c == null ||
-                    judg.Interest_Rate_four__c == null))
+                    judg.Interest_Rate_four__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 4,Balance-4,interest Rate-4,Suit Amount 4'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_5__c)) &&
+                    String.isNotBlank(judg.Product_5__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_5__c == null ||
                     judg.Balance_five__c == null ||
-                    judg.Interest_Rate_five__c == null))
+                    judg.Interest_Rate_five__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 5,Balance-5,interest Rate-5,Suit Amount 5'
@@ -1630,8 +1633,8 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 }
             }
             if ((codes == '295020')) {
-                if (
-                    String.isBlank(judg.Case_Number__c) ||
+                if (runJudgmentValidation == true &&
+                    (String.isBlank(judg.Case_Number__c) ||
                     String.isBlank(Province) ||
                     judg.Suit_Amount__c == null ||
                     judg.Date_Debtor_Served__c == null ||
@@ -1648,52 +1651,52 @@ Accure Interest from curDate (last payment's postoing date) to Today
                     String.isBlank(judg.Legal_Firm__c) ||
                     String.isBlank(Plaintiff) ||
                     String.isBlank(judg.Attorney__c) ||
-                    String.isBlank(AgencyLegalAction)
+                    String.isBlank(AgencyLegalAction))
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action'
                     );
                 }
-                if (((String.isNotBlank(Product_1)) && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null))) {
+                if (String.isNotBlank(Product_1) && runJudgmentValidation == true && (judg.Suit_Amount_1__c == null || judg.Balance_one__c == null || judg.Interest_Rate_one__c == null)) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 1,Balance-1,interest Rate-1,Suit Amount 1'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_2__c)) &&
+                    String.isNotBlank(judg.Product_2__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_2__c == null ||
                     judg.Balance_two__c == null ||
-                    judg.Interest_Rate_two__c == null))
+                    judg.Interest_Rate_two__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 2,Balance-2,interest Rate-2,Suit Amount 2'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_3__c)) &&
+                    String.isNotBlank(judg.Product_3__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_3__c == null ||
                     judg.Balance_three__c == null ||
-                    judg.Interest_Rate_three__c == null))
+                    judg.Interest_Rate_three__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 3,Balance-3,interest Rate-3,Suit Amount 3'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_4__c)) &&
+                    String.isNotBlank(judg.Product_4__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_4__c == null ||
                     judg.Balance_four__c == null ||
-                    judg.Interest_Rate_four__c == null))
+                    judg.Interest_Rate_four__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 4,Balance-4,interest Rate-4,Suit Amount 4'
                     );
                 }
                 if (
-                    ((String.isNotBlank(judg.Product_5__c)) &&
+                    String.isNotBlank(judg.Product_5__c) && runJudgmentValidation == true &&
                     (judg.Suit_Amount_5__c == null ||
                     judg.Balance_five__c == null ||
-                    judg.Interest_Rate_five__c == null))
+                    judg.Interest_Rate_five__c == null)
                 ) {
                     judg.addError(
                         'Fields should not blank Case Number,Province,Suit Amount,Debtor Served,judgment date,judgment amount,judgment filing date,Writ Number,Writ Amount,Date Writ Issued,Garnishment Number,Date Garnishment Issued,Garnishment Amount,Court,Legal Firm,Plaintiff,Attorney,Agency Initiated Legal Action,Product 5,Balance-5,interest Rate-5,Suit Amount 5'
@@ -1706,11 +1709,11 @@ Accure Interest from curDate (last payment's postoing date) to Today
         for (Judgment__c judg : listJudgment) {
             Judgment__c judgOld = mapOldJudgment.get(judg.id);
 
-            if (judgOld.Legal_Status__c == 'Judgment' && judg.Legal_Status__c == 'Pre-Judgment') {
+            if (judgOld.Legal_Status__c == 'Judgment' && judg.Legal_Status__c == 'Pre-Judgment' && runJudgmentValidation == true) {
                 judg.addError('Invalid status received. The Judgment must be vacated prior to assigning a different status');
             }
             if (
-                judg.Legal_Status__c == 'Post-Judgment' &&
+                judg.Legal_Status__c == 'Post-Judgment' && runJudgmentValidation == true &&
                 (judg.Date_Writ_Issued__c == null ||
                 judg.Writ_Amount__c == null ||
                 judg.Garnishment_Date__c == null ||
@@ -1719,7 +1722,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 judg.addError('A writ date is not found, A writ amount is not found, A garnishment date is not found, A garnishment amount is not found');
             }
             if (
-                judg.Legal_Status__c == 'Pre-Judgment' &&
+                judg.Legal_Status__c == 'Pre-Judgment' && runJudgmentValidation == true &&
                 (judg.Suit_Amount__c == null ||
                 judg.Case_Number__c == null ||
                 judg.Judgment_Province__c == null ||
@@ -1733,7 +1736,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 );
             }
             if (
-                judg.Legal_Status__c == 'Pre-Legal' &&
+                judg.Legal_Status__c == 'Pre-Legal' && runJudgmentValidation == true &&
                 (judg.Judgment_Province__c == null ||
                 judg.Suit_Amount__c == null ||
                 judg.Case_Number__c == null ||
@@ -1749,7 +1752,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
                     'suit amount not found, case number not found, judgment geography not found, court not found, county not found, plaintiff not found, attorney not found and legal firm not found'
                 );
             }
-            if ((judg.Legal_Status__c != 'Judgment' && judg.Legal_Status__c != 'Post-Judgment') && judg.Legal_Sub_Status__c == 'Vacated') {
+            if ((judg.Legal_Status__c != 'Judgment' && judg.Legal_Status__c != 'Post-Judgment') && judg.Legal_Sub_Status__c == 'Vacated' && runJudgmentValidation == true) {
                 judg.addError('There is no judgment on this account to vacate');
             }
             if (
@@ -1758,7 +1761,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 (judg.Legal_Status__c == 'Judgment' ||
                 judg.Legal_Status__c == 'Post-Judgment') &&
                 (judg.Judgment_Amount__c == null ||
-                judg.Judgment_Date__c == null)
+                judg.Judgment_Date__c == null) && runJudgmentValidation == true
             ) {
                 judg.addError('Judgment Amount is required, Judgment Date is required');
             }
@@ -1959,7 +1962,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
             for (Judgment__c judgment : listNewJudgments) {
                 for (decimal pAgency : prodAgency2) {
                     for (decimal ProductAgency : prodAgency3) {
-                        if (ProductAgency <> pAgency) {
+                        if (ProductAgency <> pAgency && runJudgmentValidation == true) {
                             judgment.addError('All Products in the Judgment should be in same agency.');
                         }
                     }
@@ -1999,7 +2002,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
             for (Judgment__c judgment : listNewJudgments) {
                 for (decimal pAgency : prodAgency2) {
                     for (decimal ProductAgency : prodAgency3) {
-                        if (ProductAgency <> pAgency) {
+                        if (ProductAgency <> pAgency && runJudgmentValidation == true) {
                             judgment.addError('All Products in the Judgment should be in same agency.');
                         }
                     }
