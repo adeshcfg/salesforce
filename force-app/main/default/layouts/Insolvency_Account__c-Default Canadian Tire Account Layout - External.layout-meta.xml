@@ -164,6 +164,10 @@
                 <field>Debtor_1_Date_of_Birth__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CTB_Date_of_Birth__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Debtor_1_Employer_Street__c</field>
             </layoutItems>
