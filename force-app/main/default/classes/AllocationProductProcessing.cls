@@ -16,16 +16,18 @@ public class AllocationProductProcessing {
     public static Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
 
     //Allocate product to agency.
-    public static void allocateProducts(List<Product_Staging__c> prodStagingList, String workAssignmentId) {
+    public static List<Judgment__c> allocateProducts(List<Product_Staging__c> prodStagingList, String workAssignmentId) {
         List<Product_Staging__c> listProductStaging = new List<Product_Staging__c>();
         list<Product__c> listProductToUpdate = new List<Product__c>();
         Map<String, Map<String, String>> productIdAgencyInfoMap = new Map<String, Map<String, String>>();
+        List<Judgment__c> judgmentToUpdateList;
         try {
             List<Id> prodIdList = new List<Id>();
             String PLACEMENT_ALLOCATED = 'Placement (3); Allocated';
             String ALLOCATED_DATA_STATUS_CODE = '300000';
             String NEW_ALLOCATION_READY = '100000';
             String PROCESSED = 'Processed';
+            
             //Fetch System Api
             if (lrpSetting.Canaccede_API_User__c != null) {
                 systemName = [SELECT id, Name FROM User WHERE username = :lrpSetting.Canaccede_API_User__c];
@@ -105,7 +107,7 @@ public class AllocationProductProcessing {
 
             for (Product_Staging__c productStaging : prodStagingList) {
                 Product_Staging__c productStaging1 = new Product_Staging__c();
-                productStaging1 = productStaging;
+                productStaging1 = productStaging;                
                 String comment = '';
                 if (String.isNotBlank(productStaging1.Comment__c)) {
                     comment = productStaging1.Comment__c;
@@ -211,14 +213,16 @@ public class AllocationProductProcessing {
             productNames.removeEnd(',');
 
             list<Work_Assignment__c> listWorkAssignmentToUpsert = new List<Work_Assignment__c>();
-
+            
             try {
                 if (listProductToUpdate.size() > 0) {
                     update listProductToUpdate;
                 }
-                List<Judgment__c> judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
+                judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
                 if (!judgmentToUpdateList.isEmpty()) {
+                    JudgmentTriggerHandler.runJudgmentValidation = false;
                     Database.update(judgmentToUpdateList);
+                    JudgmentTriggerHandler.runJudgmentValidation = true;
                 }
                 // Added by satyajit for ticket: 4217
                 if (listPlacementHistory.size() > 0) {
@@ -245,5 +249,6 @@ public class AllocationProductProcessing {
             system.debug('exception success file--+--' + ex.getLineNumber());
             system.debug('exception success file--+--' + ex.getMessage());
         }
+        return judgmentToUpdateList;
     }
 }

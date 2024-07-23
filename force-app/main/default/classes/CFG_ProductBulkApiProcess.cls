@@ -12,10 +12,12 @@ public class CFG_ProductBulkApiProcess implements Database.Batchable<sObject>, D
     public List<id> productIds;
     public String documentStorageId;
     public String documentType;
+    public List<Judgment__c> judgementData;
     
-    public CFG_ProductBulkApiProcess(String documentStorageId, String documentType){
+    public CFG_ProductBulkApiProcess(String documentStorageId, String documentType,List<Judgment__c> judgementData){
         this.documentStorageId = documentStorageId;
         this.documentType = documentType;
+        this.judgementData = judgementData;
     }
     //Fetch records from product staging.
     public Database.QueryLocator start(Database.BatchableContext BC){
@@ -58,7 +60,8 @@ public class CFG_ProductBulkApiProcess implements Database.Batchable<sObject>, D
 		List<Id> listProdIds = new List<Id>();
         //Snapshot API call to portal
         if(!Test.isRunningTest() && documentType == 'Product Allocation File'){
-            SnapShotAPIToPortal.parse(documentStorageId,listProdIds);
+            //SnapShotAPIToPortal.parse(documentStorageId,listProdIds);
+            Database.executeBatch(new JudgmentAPIBatch(judgementData,documentStorageId,listProdIds), 50);
         }
         //Create Error and success file for Account status update. Developer:Satyajit Patil
         else if(documentType == 'Account Status Update File'){
