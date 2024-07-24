@@ -7899,7 +7899,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Remaining_payment_to_be_received__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
