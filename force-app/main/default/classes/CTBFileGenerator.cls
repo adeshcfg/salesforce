@@ -17,6 +17,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static final String borrower = 'borrower';
     String FinalData = '';
     List<sObject> queryData = new List<sObject>();
+    //public static List<Insolvency_Account__c> listSuccessIds = new List<Insolvency_Account__c>();
     String createdDate = '';
     public String dateformate = '';
     public static string headbody = '';
@@ -151,7 +152,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     coDebtorList.add(insolAcctsData);
                 }
             }
-            queryData = query;
+            
            
             // build insolvency daily update file coDebtor body
              wrapperClass coDebtorBatchCnt = new wrapperClass();
@@ -166,6 +167,10 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
             countVariable += batchCnt.batchCountDetail;
             countVariable += coDebtorBatchCnt.batchCountDetail;
+            //system.debug('listSuccessIds%%'+listSuccessIds);
+            //queryData = listSuccessIds;
+            queryData = query;
+            system.debug('queryData%%'+queryData);
         }
         if (CTBBatchName == System.Label.CTB_Payment) {
             queryData = query;
@@ -192,6 +197,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         List<ID> listAccIds = new List<ID>();
         List<ID> listAccSuccessIds = new List<ID>();
         wrapperClass batchCntData = new wrapperClass();
+        //List<Insolvency_Account__c> listSuccessIds = new List<Insolvency_Account__c>();
         Map<id, Insolvency_Account__c> insolvAcctErrorListMap = new Map<id, Insolvency_Account__c>();
 		Insolvency_Account__c insolAccError = new Insolvency_Account__c();
         
@@ -212,7 +218,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             /*******************************************Body Data*************************************************/
             for (Insolvency_Account__c insolAccData : insolvencyAccData) {
                 //If mandatory fields are not null then only build CSV file
-                if (
+                /*if (
                     headerType != null &&
                     memberType != null &&
                     memberID != null &&
@@ -243,7 +249,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     insolAccData.Insolvency__r.Trustee__r.BillingState != null &&
                     insolAccData.Insolvency__r.Trustee__r.BillingPostalCode != null &&
                     insolAccData.Correlation_ID__c != null && trailerRecordType != null || Test.isRunningTest()
-                ) {
+                ) {*/
                     String DebtorFirstName = '';
                     if(borrowerName == borrower){
                         if (insolAccData.Debtor_1_First_Name__c != null) {
@@ -631,7 +637,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '' +'"'+
                         '\r\n';
                     counter++;
-                } else {
+                    //listSuccessIds.add(insolAccData);
+               /* } else {
                     //If mandatory fields are null then dont build CSV file for this record
                     listAccIds.add(insolAccData.id);
 
@@ -642,7 +649,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         insolAccError.Error_Message__c = 'Missing data in one or more mandatory fields.';
                         insolvAcctErrorListMap.put(insolAccError.id, insolAccError);
                     }
-                }
+                }*/
             }
             /*******************************************Body Data Ends*************************************************/
 
@@ -784,11 +791,15 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
     global void finish(Database.BatchableContext BC) {
         try {
+            
             String mainFinalData = '';
             String dailyUpdateFileName = '';
             String paymentFileName = '';
             String Filename;
             if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
+                //system.debug('listSuccessIds**'+listSuccessIds);
+                //queryData = listSuccessIds;
+                //system.debug('queryData**'+queryData);
                 Integer finalrecordCount = 2 + countVariable;
                 String headerType = mapCTBFileAuto.get('Insolvency Daily Update').Header_Record_Type__c;
                 String memberType = mapCTBFileAuto.get('Insolvency Daily Update').Member_Type__c;
@@ -957,7 +968,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             }
             
             insert contentVersionData;
-
+system.debug('queryData&&&'+queryData);
             System.enqueueJob(new CTBApiCalloutsQueueable(contentVersionData.id,queryData,CTBBatchName,Filename));
 
             /**********************Temparory Purpase Added*******************************
