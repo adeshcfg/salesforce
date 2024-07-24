@@ -19380,6 +19380,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>ControlGroupFlag</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>DisplayUnallocatedProcessed</apexPage>
         <enabled>false</enabled>
     </pageAccesses>

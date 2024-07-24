@@ -48,6 +48,13 @@
                 <behavior>Edit</behavior>
                 <field>Review_Account__c</field>
             </layoutItems>
+            <layoutItems>
+                <height>20</height>
+                <page>ControlGroupFlag</page>
+                <showLabel>false</showLabel>
+                <showScrollbars>false</showScrollbars>
+                <width>100%</width>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -348,7 +355,7 @@
                 <behavior>Readonly</behavior>
                 <field>Last_Payment_Amount_2__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Last_Payment_Date_3__c</field>
             </layoutItems>
@@ -379,7 +386,7 @@
                 <behavior>Required</behavior>
                 <field>Last_Statement_Amount__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Charge_Off_Date__c</field>
             </layoutItems>

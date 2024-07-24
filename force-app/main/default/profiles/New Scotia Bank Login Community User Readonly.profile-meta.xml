@@ -19158,6 +19158,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>ControlGroupFlag</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>AccountSearch</apexPage>
         <enabled>false</enabled>
     </pageAccesses>

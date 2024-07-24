@@ -1,0 +1,8 @@
+<apex:page standardController="Insolvency_Account__c" extensions="ControlGroupFlagController" showHeader="false" applyHtmlTag="false">    
+    <apex:form >
+        <div style="padding-left:115px;">           
+            <apex:outputLabel value="{!$ObjectType.Insolvency_Account__c.fields.Control_Group__c.Label} :" rendered="{!hasControlGroupFlag}"/>
+            <apex:outputField value="{!InsolAcc.Control_Group__c}" rendered="{!hasControlGroupFlag}"/>
+        </div>
+   </apex:form>    
+</apex:page>

@@ -18,6 +18,13 @@
                 <behavior>Edit</behavior>
                 <field>Review_Account__c</field>
             </layoutItems>
+            <layoutItems>
+                <height>20</height>
+                <page>ControlGroupFlag</page>
+                <showLabel>false</showLabel>
+                <showScrollbars>false</showScrollbars>
+                <width>100%</width>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -70,10 +77,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Back_to_Collections_Review_Completed__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Control_Group__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -366,7 +369,7 @@
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Amount_2__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Date_3__c</field>
             </layoutItems>
