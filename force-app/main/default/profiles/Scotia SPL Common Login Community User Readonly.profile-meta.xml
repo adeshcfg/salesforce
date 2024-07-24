@@ -18933,6 +18933,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>ControlGroupFlag</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>AccountInitiate</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
