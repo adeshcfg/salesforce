@@ -250,6 +250,11 @@
                 <label>CCS Form</label>
             </value>
             <value>
+                <fullName>Scotia Secured Email</fullName>
+                <default>false</default>
+                <label>Scotia Secured Email</label>
+            </value>
+            <value>
                 <fullName>Rogers</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

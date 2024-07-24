@@ -65,6 +65,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Scotia Secured Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Business Insolvency</fullName>
             <default>false</default>
         </values>
