@@ -298,7 +298,13 @@ public class LoRDemandController{
         Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();
         efa.setFileName(attachmentName);
         if(!Test.isRunningTest()){
-            efa.setBody(Blob.toPDF(attachmentBody)); 
+            if(insolvAcc.Name == 'TestAcctWithImage') {
+                PageReference vfp = new PageReference('/apex/LOR_Demand_VFP');
+                efa.setBody(vfp.getContent());
+            }
+            else {
+                efa.setBody(Blob.toPDF(attachmentBody));
+            }
             
             fileAttachments.add(efa);
             mail.setFileAttachments(fileAttachments);
