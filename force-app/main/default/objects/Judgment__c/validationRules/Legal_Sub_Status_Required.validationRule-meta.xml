@@ -4,6 +4,7 @@
     <active>true</active>
     <description>If Legal Status is populated, Legal Substatus should become mandatory</description>
     <errorConditionFormula>AND(
+$Setup.Application_Config_Settings__c.Bypass_Judgement_Validation__c == true,
     ISPICKVAL(Legal_Sub_Status__c,&apos;&apos;),
     NOT(ISPICKVAL(Legal_Status__c, &apos;&apos;))
 )</errorConditionFormula>

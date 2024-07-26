@@ -3,6 +3,6 @@
     <fullName>Filing_date_greater_than_judgment_date</fullName>
     <active>true</active>
     <description>Filing date should always be less than Judgement date</description>
-    <errorConditionFormula>Filing_Date__c &gt; Judgment_Date__c</errorConditionFormula>
+    <errorConditionFormula>$Setup.Application_Config_Settings__c.Bypass_Judgement_Validation__c == true &amp;&amp; Filing_Date__c &gt; Judgment_Date__c</errorConditionFormula>
     <errorMessage>Filing date should always be less than Judgement date</errorMessage>
 </ValidationRule>

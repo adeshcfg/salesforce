@@ -3,7 +3,7 @@
     <fullName>Number_of_Payments</fullName>
     <active>true</active>
     <description>Number of payments should be greater than  0</description>
-    <errorConditionFormula>Number_of_payments__c &lt;= 0</errorConditionFormula>
+    <errorConditionFormula>$Setup.Application_Config_Settings__c.Bypass_Judgement_Validation__c == true &amp;&amp; Number_of_payments__c &lt;= 0</errorConditionFormula>
     <errorDisplayField>Number_of_payments__c</errorDisplayField>
     <errorMessage>Number of payments should be greater than  0</errorMessage>
 </ValidationRule>
