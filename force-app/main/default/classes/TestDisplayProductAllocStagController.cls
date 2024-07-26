@@ -244,6 +244,23 @@ public class TestDisplayProductAllocStagController {
         product.Purchase_Province__c = 'AB';
         product.Placement_Status__c='900000';
         insert product;
+        List<id> productIds = new List<id>();
+        productIds.add(product.id);
+        
+        Judgment__C judInstance1 = new Judgment__C();
+        judInstance1.Legal_Status__c = 'Judgment';
+        judInstance1.Legal_Sub_Status__c = 'Vacated';
+        judInstance1.Legal_Agency__c = '101';
+        judInstance1.Judgment_Number__c = '123456';
+        insert judInstance1;
+        List<Judgment__C> judgList = new List<Judgment__C>();
+        judgList.add(judInstance1);
+        
+        Account_Judgment__c acctJudgment1 = new Account_Judgment__c();
+        acctJudgment1.Product__c = product.Id;
+        acctJudgment1.judgment__c = judInstance1.Id;
+        acctJudgment1.Status__c = 'Active';
+        insert acctJudgment1;
         
         Placement__c placement1 = new Placement__c();
         placement1.name = '11';
@@ -324,21 +341,16 @@ public class TestDisplayProductAllocStagController {
         successStringSet.add('test');
         set<string> failedStringSet =  new set<string>();
         failedStringSet.add('test');
-        //DisplayProductAllocateStagingController.postDocumentAPI(docStorage.id, workAssignment.id, 2, 2, successStringSet, failedStringSet, 'test', 'test', listprg,'Product Allocation File');
         
         Test.startTest();   
-        // RecallProductProcessing.recallProducts(listprg, 'workAssignmentId');
         DisplayProductAllocateStagingController test2 = new DisplayProductAllocateStagingController();
         test2.getlistProductStagingWrapper();
         test2.failed = 'Test';
         test2.success = 'Test';
         test2.failedRecords = 0;
         test2.successRecords = 0;
-       id jobid = database.executeBatch(new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'Product Allocation File')); 
-        // CFG_ProcessSuccessRecords obj1 = new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'allocate'); 
-       // obj.execute(null,listprg);
-        //CFG_ProductBulkApiProcess.successErrorfileAccStatusUpdate(docStorage.id,'Account Status Update File');
-        //CFG_ProductBulkApiProcess.successErrorfileAccStatusUpdate(docStorage.id,'Product Payment Upload File');
+       	id jobid = database.executeBatch(new CFG_ProcessSuccessRecords(workAssignment.id,docStorage.id,'Product Allocation File')); 
+        database.executeBatch(new JudgmentAPIBatch(judgList,docStorage.id,productIds,'Product Allocation File')); 
         Test.stopTest();
     }
     @istest

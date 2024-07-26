@@ -3,12 +3,14 @@ public class JudgmentAPIBatch implements Database.Batchable<sObject>, Database.S
     public List<id> productIds;
     public String documentStorageId;
     public List<Judgment__c> judgData;
+    public String documentType;
     public List<Judgment__c> judgDataUpdate = new List<Judgment__c>();
     
-    public JudgmentAPIBatch(List<Judgment__c> judgmentUpdateList,String documentStorageId,List<id> productIds){
+    public JudgmentAPIBatch(List<Judgment__c> judgmentUpdateList,String documentStorageId,List<id> productIds, String documentType){
         this.judgmentUpdateList = judgmentUpdateList;
         this.productIds = productIds;
         this.documentStorageId = documentStorageId;
+        this.documentType = documentType;
     }
     
      public List<Judgment__c> start(Database.BatchableContext BC){
@@ -24,7 +26,7 @@ public class JudgmentAPIBatch implements Database.Batchable<sObject>, Database.S
     
     public void finish(Database.BatchableContext BC) {
 		// batch to update outbound request body and outbound response fields on judgment 
-        Database.executeBatch(new PortalJudgmentProcessingAPIBatch(judgDataUpdate,documentStorageId,productIds), 40);
+        Database.executeBatch(new PortalJudgmentProcessingAPIBatch(judgDataUpdate,documentStorageId,productIds,documentType), 40);
         
         
     }

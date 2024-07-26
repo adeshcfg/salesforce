@@ -21,6 +21,7 @@
     public static string SEPARATOR = 'A';
     public static string UNPLACED = 'unplaced';
     public static Agency_Portal_Settings__c configSetting = Agency_Portal_Settings__c.getOrgDefaults();
+    public static Application_Config_Settings__c applicationConfigSetting = Application_Config_Settings__c.getOrgDefaults(); 
     //Bug: 5564 Changes Ends
     static {
         for (Placement__c place : [SELECT id, Name, Agency_Name__c FROM Placement__c]) {
@@ -1840,8 +1841,12 @@ Accure Interest from curDate (last payment's postoing date) to Today
         }
 
         JudgmentTriggerHandler.runJudgmentTrigger = false;
+        applicationConfigSetting.Bypass_Judgement_Validation__c = false;
+        update applicationConfigSetting;
         update judgMap.values();
+        applicationConfigSetting.Bypass_Judgement_Validation__c = true;
         JudgmentTriggerHandler.runJudgmentTrigger = true;
+        update applicationConfigSetting;
     }
     //Bug: 5564 - Nagendra added below method
     //To Populate the Placement Ids on Judgment
