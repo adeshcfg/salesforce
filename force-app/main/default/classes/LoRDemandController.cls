@@ -372,7 +372,13 @@ public class LoRDemandController{
         Attachment attach = new Attachment();
         attach.ParentId = emailmsg.Id;
         attach.name = attachmentName;
-        attach.body = Blob.toPDF(attachmentBody);
+        if(insolvAcc.Name == 'TestAcctWithImage') {
+            PageReference vfp = new PageReference('/apex/LOR_Demand_VFP');
+            attach.body = vfp.getContent();
+        }
+        else {
+            attach.body = Blob.toPDF(attachmentBody);
+        }
         attach.Description = 'LoR Request Document';
         emailMsgAttachments.add(attach);
         
