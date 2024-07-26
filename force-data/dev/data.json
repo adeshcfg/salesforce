@@ -2,16 +2,16 @@
     "dml": {
         "update": [
             {
-                "objectName": "Legal_Status_Codes__c",
-                "recordVariableName": "LegalStatusCodes",
+                "objectName": "Application_Config_Settings__c",
+                "recordVariableName": "applicationConfigSetting",
                 "fields": [
                     {
                         "fieldApiName": "Id",
-                        "fieldValue": "'a4FAs00000Ujqe2MAB'"
+                        "fieldValue": "'a0zf1000004ALI2AAO'"
                     },
                     {
-                        "fieldApiName": "status_codes__c",
-                        "fieldValue": "'210000,210010,210011,210015,210020,210030,210600,220000,220001,220020,220021,220030,220040,220210,220220,220600,220700,290000,290005,290010,290020,290030,290040,290700,291000,293000,293010,293030,294000,295000,295010,295020,295030,295040,295050,295060,295070,295080'"
+                        "fieldApiName": "Bypass_Judgement_Validation__c",
+                        "fieldValue": "true"
                     }
                 ]
             }
