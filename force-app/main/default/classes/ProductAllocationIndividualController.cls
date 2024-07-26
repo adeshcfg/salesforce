@@ -14,7 +14,7 @@ public with sharing class ProductAllocationIndividualController {
     public static final String NEW_ALLOCATION_READY = '100000';
     public static final String ALLOCATED = '300000';
     public static final String PLACEMENT_ALLOCATED = 'Placement (3); Allocated';
-    
+    public static Application_Config_Settings__c applicationConfigSetting = Application_Config_Settings__c.getOrgDefaults(); 
     public String ERROR_MSG {get;set;}
     public String Blank_Agency {get;set;}
     public String productID {get;set;}
@@ -147,13 +147,25 @@ public with sharing class ProductAllocationIndividualController {
                 judgment.Legal_Agency__c = placement.Name;
                 updateJudgments.put(judgment.id,judgment);
             }
+            JudgmentTriggerHandler.runJudgmentValidation = false;
+            //bypass judgment validation rule
+            applicationConfigSetting.Bypass_Judgement_Validation__c = false;
+            update applicationConfigSetting;
             update updateJudgments.values();
-            
+            applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+            JudgmentTriggerHandler.runJudgmentValidation = true;
+            update applicationConfigSetting;
             //Commented by satyajit
             //PortalProductProcessingAPI.processProduct(product.ID);
             
             //Added by satyajit
             Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Product Allocation Individual'), 200);
+            
+            //call judgment API call and notify to portal
+            if(!Test.isRunningTest()){
+                Database.executeBatch(new JudgmentAPIBatch(updateJudgments.values(),null,null,'Product Allocation Individual'), 50);
+            }
+            
             
             ProductTriggerHandler.runProductTrigger = true;
             ERROR_MSG = 'Product Allocated to Agency : ' +placement.Name + ' - ' + placement.Agency_Name__c;
@@ -252,13 +264,22 @@ public with sharing class ProductAllocationIndividualController {
                     judgment.Legal_Agency__c = placement.Name;
                     updateJudgments.put(judgment.id,judgment);
                 }
+                JudgmentTriggerHandler.runJudgmentValidation = false;
+                //bypass judgment validation rule
+                applicationConfigSetting.Bypass_Judgement_Validation__c = false;
+                update applicationConfigSetting;
                 update updateJudgments.values();
+                applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                JudgmentTriggerHandler.runJudgmentValidation = true;
+                update applicationConfigSetting;
                 
-                //Commented by satyajit
-                //PortalProductProcessingAPI.processProduct(product.ID);
-                
-                //Added by satyajit
+                //call product API
                 Database.executeBatch(new BatchProcessForProdScreen(prodListId,placeStatus,'Product Allocation Individual'), 200);
+                
+                //call judgment API call and notify to portal
+                if(!Test.isRunningTest()){
+            		Database.executeBatch(new JudgmentAPIBatch(updateJudgments.values(),null,null,'Product Allocation Individual'), 50);
+                }
                 
                 ProductTriggerHandler.runProductTrigger = true;
                 ERROR_MSG = 'Product Allocated to Agency : ' +placement.Name + ' - ' + placement.Agency_Name__c;

@@ -20,7 +20,7 @@ public without sharing class ProductRecallIndividualController {
     public static final String NEW_ALLOCATION = 'New Allocation - New Allocation';
     public static final String READY = 'Ready';
     public static final String PENDING_ALLOCATION_RECALLED = 'Pending Allocation (1); Recalled';
-
+	public static Application_Config_Settings__c applicationConfigSetting = Application_Config_Settings__c.getOrgDefaults(); 
     public String ERROR_MSG { get; set; }
     public String productID { get; set; }
     public String NewPlacementAgency { get; set; }
@@ -278,27 +278,31 @@ public without sharing class ProductRecallIndividualController {
 
             List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
             if (!judgmentToUpdateList.isEmpty()) {
+                JudgmentTriggerHandler.runJudgmentValidation = false;
+                //bypass judgment validation rule
+                applicationConfigSetting.Bypass_Judgement_Validation__c = false;
+                update applicationConfigSetting;
                 Database.update(judgmentToUpdateList);
+                applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                JudgmentTriggerHandler.runJudgmentValidation = true;
+                update applicationConfigSetting;
             }
 
             if (selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse') {
                 DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0, 1), '9'));
             }
 
-            //Added by satyajit
             Map<Id, String> placeStatus = new Map<Id, String>();
             placeStatus.put(product.id, product.Placement_Status__c);
 
             List<Id> prodListId = new List<Id>();
             prodListId.add(product.Id);
-            //Commented by satyajit
-            //PortalProductStatusBulkAPI.processBulkProducts(product.Name, product.Placement_Status__c, PENDING_ALLOCATION,
-            // String.valueOf(Date.today()),
-            // updateType , placementIdentifier, product.Pool_Name__r.Name);
-            //Added by satyajit
+            //call product API
             Database.executeBatch(new BatchProcessForProdScreen(prodListId, placeStatus, 'Account Status Update File'), 200);
-            //Database.BatchProcessForProdScreen.processProductRecallBulk(prodListId,placeStatus,'Account Status Update File');
-
+            
+            //call judgment API call and notify to portal
+            Database.executeBatch(new JudgmentAPIBatch(judgmentToUpdateList,null,null,'Account Status Update File'), 50);
+            
             ProductTriggerHandler.runProductTrigger = true;
         } catch (Exception ex) {
             ERROR_MSG = ex.getMessage();
@@ -457,31 +461,32 @@ public without sharing class ProductRecallIndividualController {
 
                 List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
                 if (!judgmentToUpdateList.isEmpty()) {
+                    JudgmentTriggerHandler.runJudgmentValidation = false;
+                    //bypass judgment validation rule
+                    applicationConfigSetting.Bypass_Judgement_Validation__c = false;
+                    update applicationConfigSetting;
                     Database.update(judgmentToUpdateList);
+                    applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                    JudgmentTriggerHandler.runJudgmentValidation = true;
+                    update applicationConfigSetting;
                 }
 
                 if (selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse') {
                     DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0, 1), '9'));
                 }
 
-                //Added by satyajit
                 Map<Id, String> placeStatus = new Map<Id, String>();
                 placeStatus.put(product.id, product.Placement_Status__c);
 
                 List<Id> prodListId = new List<Id>();
                 prodListId.add(product.Id);
 
-                //Commented by satyajit
-                // PortalProductStatusBulkAPI.processBulkProducts(product.Name, product.Placement_Status__c, PENDING_ALLOCATION_RECALLED_CODE, String.valueOf(Date.today()),
-                // updateType,placementIdentifier, product.Pool_Name__r.Name);
-                //
-                //
-                //Added by satyajit
-                //ProcessProductStatusUpdateBatchRecall.processProductRecallBulk(prodListId,placeStatus,'Account Status Update File');
-                //
-                //Added by satyajit
+                //call product API
                 Database.executeBatch(new BatchProcessForProdScreen(prodListId, placeStatus, 'Account Status Update File'), 200);
-
+				
+                //call judgment API call and notify to portal
+            	Database.executeBatch(new JudgmentAPIBatch(judgmentToUpdateList,null,null,'Account Status Update File'), 50);
+                
                 ProductTriggerHandler.runProductTrigger = true;
             } catch (Exception ex) {
                 ERROR_MSG = ex.getMessage();
@@ -507,15 +512,9 @@ public without sharing class ProductRecallIndividualController {
             WHERE CCS_Account__c = :product.ID AND Payment_Agency__c = :newPlacement AND Payment_Posting_Date__c = LAST_N_DAYS:60
         ];
 
-        /*if(String.isNotBlank(product.Collection_Sub_Status__c) && product.Collection_Sub_Status__c == 'Legal'){
-            system.debug('recall warning::');
-            ERROR_MSG += '<b>WARNING</b> - '+'Product is in Legal Status'+'<br/>';
-        }*/
-
         //Check Recall Validations
         if (!listProductPayments.isEmpty()) {
             ERROR_MSG += '<b>WARNING</b> - ' + 'Account had a recent payment in last 2 months' + '<br/>';
-            //product.addError('Cannot recall agency as Product is in Legal Status');
         }
 
         if (String.isNotBlank(ERROR_MSG)) {
@@ -527,7 +526,6 @@ public without sharing class ProductRecallIndividualController {
 
     public List<SelectOption> getactionItems() {
         List<SelectOption> actionoptions = new List<SelectOption>();
-        //actionoptions.add(new SelectOption('--Action--','--Action--'));
         if (
             product.Collection_Agency__c != null &&
             product.Collection_Agency__c != 9999 &&
