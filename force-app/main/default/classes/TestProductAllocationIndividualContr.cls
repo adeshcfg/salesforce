@@ -24,6 +24,10 @@ public class TestProductAllocationIndividualContr {
         settings.Scope_Prefix__c = 'scopep.com';
         settings.Scope_Suffix__c = '/.default';
         insert settings;
+        
+        Application_Config_Settings__c applicationConfigSetting = new Application_Config_Settings__c();
+        applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+        insert applicationConfigSetting;
 
         Placement_Status_Mapping__c placeStatus = new Placement_Status_Mapping__c();
         placeStatus.Name = '100000';
@@ -60,14 +64,12 @@ public class TestProductAllocationIndividualContr {
         prod.Current_Principal_Balance__c = 101;
         prod.Current_Interest_Amount__c = 1000;
         prod.Collection_Agency_Placement__c = plcmnt.id;
-        // prod.State__c = 'AB';
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
         prod.Pool_Name__c = pool.Id;
         prod.Current_Principal_Balance__c = 1000;
-
-        //ProductTriggerHandler.runProductTrigger = false;
+		prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         insert prod;
 
         Product_Extension__c prodExt = new Product_Extension__c();
@@ -106,7 +108,6 @@ public class TestProductAllocationIndividualContr {
         controller.allocateProduct();
         controller.allocateWithWarning();
         ProductAllocationIndividualController.getSnapshortRecords(new List<Product__c>{ prod });
-        // ProductTriggerHandler.runProductTrigger = true;
     }
 
     public static testMethod void testConstructor1() {
@@ -123,7 +124,6 @@ public class TestProductAllocationIndividualContr {
         code.Sub_Status__c = 'Ready';
         insert code;
 
-        //list<Pool__c> poolList = new list<Pool__c>();
         Placement__c plcmnt = new Placement__c();
         plcmnt.Name = '89';
         plcmnt.Serviceable_Province__c = 'Nova Scotia';
@@ -132,7 +132,6 @@ public class TestProductAllocationIndividualContr {
         insert plcmnt;
 
         Pool__c pool = new Pool__c();
-        //pool.Name = 'P0001';
         pool.Placement_Agency__c = 89;
         pool.Placement_agency_lookup__c = plcmnt.id;
         pool.Id = ApexPages.currentPage().getParameters().get('id');
@@ -146,7 +145,6 @@ public class TestProductAllocationIndividualContr {
         prod.Current_Interest_Amount__c = 1000;
         prod.Pool_Name__c = pool.Id;
         prod.Collection_Agency__c = 89;
-        //prod.Status__c = 'ON';
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
@@ -157,9 +155,6 @@ public class TestProductAllocationIndividualContr {
         PageReference testPage = Page.AgencyPoolAllocation;
         Test.setCurrentPage(testPage);
         Test.StartTest();
-        //poolList.add(pool);
-        //
-        //
         Placement_History__c placeHist = new Placement_History__c();
         placeHist.product__c = prod.id;
         placeHist.Placement_ID_Text__c = '1';
