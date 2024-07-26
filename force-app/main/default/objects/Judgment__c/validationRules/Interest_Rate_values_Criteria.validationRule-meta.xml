@@ -4,5 +4,5 @@
     <active>true</active>
     <description>Interest Rates can&apos;t be negative values</description>
     <errorConditionFormula>$Setup.Application_Config_Settings__c.Bypass_Judgement_Validation__c == true &amp;&amp; (OR( Interest_Rate_one__c &lt;  0, Interest_Rate_two__c &lt; 0, Interest_Rate_three__c &lt;  0, Interest_Rate_four__c &lt; 0, Interest_Rate_five__c &lt; 0))</errorConditionFormula>
-    <errorMessage>Interest Rate(s) cannot  have values less than or equal to zero</errorMessage>
+    <errorMessage>Interest Rate(s) cannot  have values less than zero</errorMessage>
 </ValidationRule>
