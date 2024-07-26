@@ -3,7 +3,6 @@
     <fullName>Interest_Rate_values_Criteria</fullName>
     <active>true</active>
     <description>Interest Rates can&apos;t be negative values</description>
-    <errorConditionFormula>OR( Interest_Rate_one__c &lt;  0, Interest_Rate_two__c &lt; 0, Interest_Rate_three__c &lt;  0, Interest_Rate_four__c &lt; 0, Interest_Rate_five__c &lt; 0)</errorConditionFormula>
-    <errorDisplayField>Agency_Initiated_Legal_Action__c</errorDisplayField>
+    <errorConditionFormula>$Setup.Application_Config_Settings__c.Bypass_Judgement_Validation__c == true &amp;&amp; (OR( Interest_Rate_one__c &lt;  0, Interest_Rate_two__c &lt; 0, Interest_Rate_three__c &lt;  0, Interest_Rate_four__c &lt; 0, Interest_Rate_five__c &lt; 0))</errorConditionFormula>
     <errorMessage>Interest Rate(s) cannot  have values less than or equal to zero</errorMessage>
 </ValidationRule>
