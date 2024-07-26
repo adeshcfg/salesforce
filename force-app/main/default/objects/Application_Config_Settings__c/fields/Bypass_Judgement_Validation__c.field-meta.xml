@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bypass_Judgement_Validation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Bypass_Judgement_Validation</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Bypass_Judgement_Validation</inlineHelpText>
+    <label>Bypass Judgement Validation</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

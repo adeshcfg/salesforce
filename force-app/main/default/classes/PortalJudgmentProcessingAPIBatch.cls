@@ -3,11 +3,14 @@ public class PortalJudgmentProcessingAPIBatch implements Database.Batchable<SObj
 	List<Judgment__c> listJudgUpdate = new List<Judgment__c>();
     public List<id> productIds;
     public String documentStorageId;
+    public String documentType;
     
-    public PortalJudgmentProcessingAPIBatch(List<Judgment__c> listJudgUpdate,String documentStorageId,List<id> productIds) {
+    public PortalJudgmentProcessingAPIBatch(List<Judgment__c> listJudgUpdate,String documentStorageId,List<id> productIds, String documentType) {
         this.listJudgUpdate = listJudgUpdate;
         this.productIds = productIds;
         this.documentStorageId = documentStorageId;
+        this.documentType = documentType;
+        
         for(Judgment__c judg : listJudgUpdate){
             judgmentId.add(judg.id);
         }
@@ -30,7 +33,7 @@ public class PortalJudgmentProcessingAPIBatch implements Database.Batchable<SObj
 
     public void finish(Database.BatchableContext bc) {
         //call snapshot 
-        if(!Test.isRunningTest()){
+        if(!Test.isRunningTest() && documentType == 'Product Allocation File'){
             SnapShotAPIToPortal.parse(documentStorageId,productIds);
         }
     }

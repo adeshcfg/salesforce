@@ -61,7 +61,7 @@ public class CFG_ProductBulkApiProcess implements Database.Batchable<sObject>, D
         //Snapshot API call to portal
         if(!Test.isRunningTest() && documentType == 'Product Allocation File'){
             //SnapShotAPIToPortal.parse(documentStorageId,listProdIds);
-            Database.executeBatch(new JudgmentAPIBatch(judgementData,documentStorageId,listProdIds), 50);
+            Database.executeBatch(new JudgmentAPIBatch(judgementData,documentStorageId,listProdIds,documentType), 50);
         }
         //Create Error and success file for Account status update. Developer:Satyajit Patil
         else if(documentType == 'Account Status Update File'){

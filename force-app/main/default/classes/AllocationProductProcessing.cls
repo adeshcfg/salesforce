@@ -14,6 +14,7 @@ public class AllocationProductProcessing {
     public static List<User> systemName = new List<User>();
     public static Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
     public static Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
+    public static Application_Config_Settings__c applicationConfigSetting = Application_Config_Settings__c.getOrgDefaults(); 
 
     //Allocate product to agency.
     public static List<Judgment__c> allocateProducts(List<Product_Staging__c> prodStagingList, String workAssignmentId) {
@@ -221,8 +222,14 @@ public class AllocationProductProcessing {
                 judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
                 if (!judgmentToUpdateList.isEmpty()) {
                     JudgmentTriggerHandler.runJudgmentValidation = false;
+                    //bypass judgment validation rule
+                    applicationConfigSetting.Bypass_Judgement_Validation__c = false;
+        			update applicationConfigSetting;
                     Database.update(judgmentToUpdateList);
+                    //bypass judgment validation rule
+                    applicationConfigSetting.Bypass_Judgement_Validation__c = true;
                     JudgmentTriggerHandler.runJudgmentValidation = true;
+                    update applicationConfigSetting;
                 }
                 // Added by satyajit for ticket: 4217
                 if (listPlacementHistory.size() > 0) {
