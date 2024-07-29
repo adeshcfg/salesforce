@@ -259,14 +259,14 @@ public class PortalProductStatusBulkProcessingUtil {
                 if(productIdAgencyInfoMap.values() <> NULL){
                     judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
                     if (!judgmentToUpdateList.isEmpty()) {
-                        JudgmentTriggerHandler.runJudgmentValidation = false;
+                        JudgmentTriggerHandler.runJudgmentTrigger = false;
                         //bypass judgment validation rule
                         applicationConfigSetting.Bypass_Judgement_Validation__c = false;
                         update applicationConfigSetting;
                         Database.update(judgmentToUpdateList);
                         //bypass judgment validation rule
                         applicationConfigSetting.Bypass_Judgement_Validation__c = true;
-                        JudgmentTriggerHandler.runJudgmentValidation = true;
+                        JudgmentTriggerHandler.runJudgmentTrigger = true;
                         update applicationConfigSetting;
                        Database.executeBatch(new JudgmentAPIBatch(judgmentToUpdateList,null,null,'Account Status Update File'), 50);
                     } 
