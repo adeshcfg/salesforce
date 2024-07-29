@@ -145,15 +145,16 @@ public with sharing class ProductAllocationIndividualController {
             if(mapActiveAccountJudgments.containsKey(product.id) && mapActiveAccountJudgments.get(product.id) != NULL){
                 judgment.id = mapActiveAccountJudgments.get(product.id);
                 judgment.Legal_Agency__c = placement.Name;
+                judgment.Legal_Agency_Placement__c = product.Collection_Agency_Placement__c;
                 updateJudgments.put(judgment.id,judgment);
             }
-            JudgmentTriggerHandler.runJudgmentValidation = false;
+            JudgmentTriggerHandler.runJudgmentTrigger = false;
             //bypass judgment validation rule
             applicationConfigSetting.Bypass_Judgement_Validation__c = false;
             update applicationConfigSetting;
             update updateJudgments.values();
             applicationConfigSetting.Bypass_Judgement_Validation__c = true;
-            JudgmentTriggerHandler.runJudgmentValidation = true;
+            JudgmentTriggerHandler.runJudgmentTrigger = true;
             update applicationConfigSetting;
             //Commented by satyajit
             //PortalProductProcessingAPI.processProduct(product.ID);
@@ -262,15 +263,16 @@ public with sharing class ProductAllocationIndividualController {
                 if(mapActiveAccountJudgments.containsKey(product.id) && mapActiveAccountJudgments.get(product.id) != NULL){
                     judgment.id = mapActiveAccountJudgments.get(product.id);
                     judgment.Legal_Agency__c = placement.Name;
+                    judgment.Legal_Agency_Placement__c = product.Collection_Agency_Placement__c;
                     updateJudgments.put(judgment.id,judgment);
                 }
-                JudgmentTriggerHandler.runJudgmentValidation = false;
+                JudgmentTriggerHandler.runJudgmentTrigger = false;
                 //bypass judgment validation rule
                 applicationConfigSetting.Bypass_Judgement_Validation__c = false;
                 update applicationConfigSetting;
                 update updateJudgments.values();
                 applicationConfigSetting.Bypass_Judgement_Validation__c = true;
-                JudgmentTriggerHandler.runJudgmentValidation = true;
+                JudgmentTriggerHandler.runJudgmentTrigger = true;
                 update applicationConfigSetting;
                 
                 //call product API

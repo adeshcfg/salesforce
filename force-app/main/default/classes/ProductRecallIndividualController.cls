@@ -278,13 +278,13 @@ public without sharing class ProductRecallIndividualController {
 
             List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
             if (!judgmentToUpdateList.isEmpty()) {
-                JudgmentTriggerHandler.runJudgmentValidation = false;
+                JudgmentTriggerHandler.runJudgmentTrigger = false;
                 //bypass judgment validation rule
                 applicationConfigSetting.Bypass_Judgement_Validation__c = false;
                 update applicationConfigSetting;
                 Database.update(judgmentToUpdateList);
                 applicationConfigSetting.Bypass_Judgement_Validation__c = true;
-                JudgmentTriggerHandler.runJudgmentValidation = true;
+                JudgmentTriggerHandler.runJudgmentTrigger = true;
                 update applicationConfigSetting;
             }
 
@@ -461,13 +461,13 @@ public without sharing class ProductRecallIndividualController {
 
                 List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
                 if (!judgmentToUpdateList.isEmpty()) {
-                    JudgmentTriggerHandler.runJudgmentValidation = false;
+                    JudgmentTriggerHandler.runJudgmentTrigger = false;
                     //bypass judgment validation rule
                     applicationConfigSetting.Bypass_Judgement_Validation__c = false;
                     update applicationConfigSetting;
                     Database.update(judgmentToUpdateList);
                     applicationConfigSetting.Bypass_Judgement_Validation__c = true;
-                    JudgmentTriggerHandler.runJudgmentValidation = true;
+                    JudgmentTriggerHandler.runJudgmentTrigger = true;
                     update applicationConfigSetting;
                 }
 
@@ -490,6 +490,7 @@ public without sharing class ProductRecallIndividualController {
                 ProductTriggerHandler.runProductTrigger = true;
             } catch (Exception ex) {
                 ERROR_MSG = ex.getMessage();
+                system.debug('exception::----'+ex.getStackTraceString());
             }
         } else {
             system.debug('ERROR_MSG: ' + ERROR_MSG);
