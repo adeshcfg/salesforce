@@ -10,7 +10,9 @@
 public class PortalProductStatusBulkProcessingUtil {
     public static String PLACEMENT_ACTIVE_CODE = '301000';
     public static String PLACEMENT_ACTIVE = 'Placement (3); Active';
-
+	public static Map<String, Map<String, String>> productIdAgencyInfoMap = new Map<String, Map<String, String>>();
+    public static Application_Config_Settings__c applicationConfigSetting = Application_Config_Settings__c.getOrgDefaults(); 
+    
     public class ProductBulkAPIWrapper {
         public String accountList;
         public String PlacementStatus;
@@ -27,7 +29,7 @@ public class PortalProductStatusBulkProcessingUtil {
         map<String, string> mapJudgmentCodes = new map<String, string>();                                            
 		List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
         Map<String, ID> mapProductJudgment = new Map<String, ID>();
-        
+        List<Judgment__c> judgmentToUpdateList;
         ProductBulkAPIWrapper requestWrapper = (ProductBulkAPIWrapper) JSON.deserialize(postJSON, ProductBulkAPIWrapper.class);
         List<String> listProductNames = new List<String>();
         if (String.isNotBlank(requestWrapper.accountList)) {
@@ -173,6 +175,14 @@ public class PortalProductStatusBulkProcessingUtil {
                 product.Sub_Status__c = null;
                 //product.Collection_Sub_Status__c = null; Rasmitha : 27-Dec as per #4177 Collection Sub Status should not get blank on recall
                 product.External_Status_Current__c = null;
+                
+                productIdAgencyInfoMap.put(
+                    product.Id,
+                    new Map<String, String>{
+                        'Agency' => String.valueOf(product.Collection_Agency__c),
+                            'AgencyPlacement' => product.Collection_Agency_Placement__c
+                            }
+                );
             }
             if (requestWrapper.Type == 'Allocation' && String.isNotBlank(requestWrapper.AssignmentDate)) {
                 product.Collection_Agency__c = Decimal.valueOf(requestWrapper.Placement_identifier);
@@ -245,6 +255,23 @@ public class PortalProductStatusBulkProcessingUtil {
                 ProductTriggerHandler.runProductTrigger = true;
                 
                 update accJudgStatusUpdateList;
+                
+                if(productIdAgencyInfoMap.values() <> NULL){
+                    judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
+                    if (!judgmentToUpdateList.isEmpty()) {
+                        JudgmentTriggerHandler.runJudgmentValidation = false;
+                        //bypass judgment validation rule
+                        applicationConfigSetting.Bypass_Judgement_Validation__c = false;
+                        update applicationConfigSetting;
+                        Database.update(judgmentToUpdateList);
+                        //bypass judgment validation rule
+                        applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                        JudgmentTriggerHandler.runJudgmentValidation = true;
+                        update applicationConfigSetting;
+                       Database.executeBatch(new JudgmentAPIBatch(judgmentToUpdateList,null,null,'Account Status Update File'), 50);
+                    } 
+                }
+                
                 return 'Success';
             } catch (Exception ex) {
                 System.debug(ex.getStackTraceString());

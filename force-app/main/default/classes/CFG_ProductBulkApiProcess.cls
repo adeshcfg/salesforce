@@ -65,11 +65,12 @@ public class CFG_ProductBulkApiProcess implements Database.Batchable<sObject>, D
         }
         //Create Error and success file for Account status update. Developer:Satyajit Patil
         else if(documentType == 'Account Status Update File'){
+            //whenever recall account update judgment legal agency and notify portal.
+            if(judgementData <> NULL){
+                Database.executeBatch(new JudgmentAPIBatch(judgementData,documentStorageId,null,documentType), 50);
+            }
             //Create Success and Error file.
             Database.executeBatch(new ErrorCSVFileGenerationBatch(documentStorageId,documentType),200);
-            //successErrorfileAccStatusUpdate(documentStorageId,documentType);
-        }
-        
+        } 
     }
-    
 }
