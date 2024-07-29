@@ -15,9 +15,10 @@ public class RecallProductProcessing {
     public static List<User> systemName= new list<User>();
     public static Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
     public static Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
+    public static Application_Config_Settings__c applicationConfigSetting = Application_Config_Settings__c.getOrgDefaults(); 
     
     //Recall/Account status update of product.
-    public static List<Id> recallProducts(List<Product_Staging__c> prodStagingList,String workAssignmentId){  
+    public static ProdIdsJudgListWrapper recallProducts(List<Product_Staging__c> prodStagingList,String workAssignmentId){  
         List<Product__c> prodList = new List<Product__c>();
         Map<String,Id> PlacementMap = new Map<String,Id>();
         Map<Id,String> PlacementStatusMap = new Map<Id,String>();
@@ -25,7 +26,9 @@ public class RecallProductProcessing {
         set<id> setProductIDs = new set<id>();
         List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
         Map<String, ID> mapProductJudgment = new Map<String, ID>();
-        
+        Map<String, Map<String, String>> productIdAgencyInfoMap = new Map<String, Map<String, String>>();
+        List<Judgment__c> judgmentToUpdateList;
+        ProdIdsJudgListWrapper wrapperData = new ProdIdsJudgListWrapper();
         //Fetch System Api
         if(lrpSetting.Canaccede_API_User__c != NULL){
             systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
@@ -154,6 +157,7 @@ public class RecallProductProcessing {
                         }  
                         if(prod.Collection_Agency__c == 9999){
                             prodIds.add(Prod.Id);
+                            wrapperData.productIds = prodIds;
                             PlacementStatusMap.put(Prod.Id, productStaging.Placement_Status_Code__c);
                             if(prodRTypeIdMap.get('Distressed_Account') == mapProduct.get(productStaging.Product_ID__c).RecordTypeId
                                && prod.Collection_Agency__c != mapProduct.get(productStaging.Product_ID__c).Collection_Agency__c){
@@ -167,6 +171,13 @@ public class RecallProductProcessing {
                                        prod.Previous_Ownership__c = oldOwnerId;
                                    }
                            }
+                            productIdAgencyInfoMap.put(
+                                prod.Id,
+                                new Map<String, String>{
+                                    'Agency' => String.valueOf(prod.Collection_Agency__c),
+                                    'AgencyPlacement' => prod.Collection_Agency_Placement__c
+                                        }
+                            );
                         }
                        //Ticket 6430 : Point 2
                        if(System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
@@ -194,14 +205,29 @@ public class RecallProductProcessing {
                     AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
                     update accJudgStatusUpdateList;
                     AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
+                    if(productIdAgencyInfoMap.values() <> NULL){
+                        judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
+                        if (!judgmentToUpdateList.isEmpty()) {
+                            JudgmentTriggerHandler.runJudgmentValidation = false;
+                            //bypass judgment validation rule
+                            applicationConfigSetting.Bypass_Judgement_Validation__c = false;
+                            update applicationConfigSetting;
+                            Database.update(judgmentToUpdateList);
+                            //bypass judgment validation rule
+                            applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                            JudgmentTriggerHandler.runJudgmentValidation = true;
+                            update applicationConfigSetting;
+                            wrapperData.judgmentList = judgmentToUpdateList;
+                        }
+                    }
                 }
                 
                 // Added by satyajit for ticket: 4217
                 if(prodIds.size() > 0){
-                //Update Placement history when product is recalled.
-                DistressedUtilities.updatePlacementHistory_New(ProdIds,PlacementStatusMap);
-             
-            }
+                    //Update Placement history when product is recalled.
+                    DistressedUtilities.updatePlacementHistory_New(ProdIds,PlacementStatusMap);
+                }
+                
             }catch(Exception ex){
 
                 for(Product_Staging__c productStaging: listproductstaging){
@@ -218,18 +244,16 @@ public class RecallProductProcessing {
                 update listproductstaging;
             }
             system.debug('prodIds::'+prodIds);
-            
-            // Commented by satyajit for ticket: 4217
-           /* if(prodIds.size() > 0){
-                //Update Placement history when product is recalled.
-                DistressedUtilities.updatePlacementHistory_New(ProdIds,PlacementStatusMap);
-             
-            }*/
-            
+
         }catch(Exception ex){
             system.debug('exception success file--+--'+ex.getLineNumber());
             system.debug('exception success file--+--'+ex.getMessage());
         }
-        return prodIds;
+        return wrapperData;
+    }
+    
+    public class ProdIdsJudgListWrapper{
+        public List<String> productIds {get;set;}
+        public List<Judgment__c> judgmentList {get;set;}
     }
 }

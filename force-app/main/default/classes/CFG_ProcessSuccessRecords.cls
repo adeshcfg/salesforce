@@ -116,7 +116,9 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             judgementData = AllocationProductProcessing.allocateProducts(scope, workAssignmentId);
         } else if (docType == 'Account Status Update File') {
             //Call product recall update class. developer - satyajit patil
-            prodIds = RecallProductProcessing.recallProducts(scope, workAssignmentId);
+            RecallProductProcessing.ProdIdsJudgListWrapper wrapperDetails =  RecallProductProcessing.recallProducts(scope, workAssignmentId);
+            prodIds = wrapperDetails.productIds;
+            judgementData = wrapperDetails.judgmentList;
         } else if (docType == DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
             List<Id> scopedProdIds = new List<Id>();
             scopedProdIds = DisplayCustomerContInfoStagingController.processRecords(scope);
@@ -127,7 +129,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             }
         }
         if (Test.isRunningTest()) {
-            prodIds = RecallProductProcessing.recallProducts(scope, workAssignmentId);
+            RecallProductProcessing.ProdIdsJudgListWrapper wrapperDetails = RecallProductProcessing.recallProducts(scope, workAssignmentId);
         }
     }
 
@@ -148,18 +150,8 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             // Call Portal API to update product records on Portal
             PortalProductProcessingAPI.processProductBulkBatch(prodIds, new List<Product__c>());
         }
-
-        /* List<id> successfailedRecord = new List<id>();
-        set<string> failedStringSet = new Set<string>();
-        Set<String> successStringSet = new Set<String>();
-        List<Id> prodIdList = new List<Id>(); */
-
-        //Commented by satyajit
-        /*  if(workAssignmentId != null) {
-            system.enqueueJob(new CFG_ProcessWorkAssignment(workAssignmentId));
-        } */
     }
-
+    
     public void generateCustomerStagingSuccessErrorFile() {
         List<Customer_Staging__c> listCustomerStaging = [
             SELECT
