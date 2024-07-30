@@ -1959,16 +1959,27 @@ Accure Interest from curDate (last payment's postoing date) to Today
         if (prodNames.size() > 1) {
             list<decimal> prodAgency2 = new List<decimal>();
             list<decimal> prodAgency3 = new List<decimal>();
-            list<Product__c> prodList = [SELECT id, Collection_Agency__c FROM product__c WHERE name IN :(prodNames)];
+            list<string> prodProvince2 = new List<string>();
+            list<string> prodProvince3 = new List<string>();
+            list<Product__c> prodList = [SELECT id, Collection_Agency__c,Purchase_Province__c FROM product__c WHERE name IN :(prodNames)];
             for (product__c p : prodList) {
                 prodAgency2.add(p.Collection_Agency__C);
                 prodAgency3.add(p.Collection_Agency__C);
+                prodProvince2.add(p.Purchase_Province__c);
+                prodProvince3.add(p.Purchase_Province__c);
             }
             for (Judgment__c judgment : listNewJudgments) {
                 for (decimal pAgency : prodAgency2) {
                     for (decimal ProductAgency : prodAgency3) {
                         if (ProductAgency <> pAgency && runJudgmentValidation == true) {
                             judgment.addError('All Products in the Judgment should be in same agency.');
+                        }
+                    }
+                }
+                for (string province : prodProvince2) {
+                    for (string ProductProvince : prodProvince3) {
+                        if (ProductProvince <> province && runJudgmentValidation == true) {
+                            judgment.addError('All Products in the Judgment should be in same province.');
                         }
                     }
                 }
