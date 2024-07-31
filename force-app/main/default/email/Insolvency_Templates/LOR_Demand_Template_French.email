@@ -1,8 +1,8 @@
 <div style="font-family": 'Arial Unicode MS'; font-size: 10px;">
-<br/><br/><br/>
-<div style="width:100%; text-align:center;">
-<img src='{!imageURL}' style=""width: 200px; height:40px""/>
+<div style="text-align:center;">
+<img src="{!imageURL}" style="height:100px" />
 </div>
+<br/><br/><br/>
 <div style="font-size: 9.5px;" >
 <b>{!TODAY()}</b></div><br/>
 <b>
