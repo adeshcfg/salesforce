@@ -110,7 +110,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             query =
                 ' Select id,name,Insolvency_Received_Date__c,Insolvency__r.Insolvency_Type__c,Debtor_1_First_Name__c,' +
                 'Debtor_1_Last_Name__c,Province_Formula__c,Insolvency__r.Debtor_1_Mailing_Country__c,Debtor_1_Mailing_Postal_Code__c,' +
-                'Debtor_1_SIN__c,Debtor_1_Date_of_Birth__c,Insolvency__r.Insolvency_Date__c,Insolvency__r.name,Trustee_Company__c,Correlation_ID__c,' +
+                'Debtor_1_SIN__c,Debtor_1_Date_of_Birth__c,Insolvency__r.Insolvency_Date__c,Insolvency__r.name,Insolvency__r.Debtor_2_Estate_Number__c,Trustee_Company__c,Correlation_ID__c,' +
                 'Insolvency__r.Trustee__r.BillingStreet,Insolvency__r.Debtor_1_First_Name__c,Insolvency__r.Debtor_1_Last_Name__c,Insolvency__r.Trustee__r.BillingCity,Insolvency__r.Trustee__r.BillingState,CTB_Date_of_Birth__c,' +
                 'Insolvency__r.Trustee__r.BillingPostalCode,Debtor_1_Mailing_Street__c,CTB_Status_Update_Code__c,Insolvency__r.Debtor_1_Middle_Name__c,Debtor_1_Mailing_City__c,' +
                 'Debtor_2_First_Name__c,Insolvency__r.Debtor_2_First_Name__c,Insolvency__r.Debtor_2_Middle_Name__c,Debtor_2_Last_Name__c,Insolvency__r.Debtor_2_Last_Name__c, Street_Name_Number__c, City__c,Province__c,Insolvency__r.Debtor_2_Mailing_Country__c,Postal_Code__c,Insolvency__r.Debtor_2_SIN__c,Debtor_2_Date_of_Birth__c ' +
@@ -478,9 +478,17 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         openDate = convertDateToString(insolAccData.Insolvency_Received_Date__c);
                     }
                     String estateNumber = '';
-                    if (insolAccData.Insolvency__r.name != null) {
-                        estateNumber = insolAccData.Insolvency__r.name;
+                	if(borrowerName == borrower){
+                        if (insolAccData.Insolvency__r.name != null) {
+                            estateNumber = insolAccData.Insolvency__r.name;
+                        }
                     }
+                	if(borrowerName == coDebtor){
+                        if (insolAccData.Insolvency__r.Debtor_2_Estate_Number__c != null) {
+                            estateNumber = insolAccData.Insolvency__r.Debtor_2_Estate_Number__c;
+                        }
+                    }
+                    
                     String trusteeCompany = '';
                     if (insolAccData.Trustee_Company__c != null) {
                         if (insolAccData.Trustee_Company__c.length() > 80) {
