@@ -1,27 +1,27 @@
 <apex:page controller="LorVfTemplateController" renderAs="pdf" showHeader="false">
     <!-- English Template -->
     <apex:outputPanel rendered="{!otherInfo.isEnglish}">
-        <div style="font-family: 'Arial Unicode MS'; font-size: 10px;">
+        <div style="font-size: 10px;">
             <div style="text-align:center;">
                 <img src="{!otherInfo.imageUrl}" style="height:100px" />
             </div>
             <br />
             <br />
             <br />
-            <div style="font-size: 9.5px;">
+            <div style="font-size: 12px;">
                 <b>{!otherInfo.today}</b>
             </div>
             <br />
             <b>
-                <div class="view-font" style="font-size: 9.5px;">{!UPPER(insolvAcc.Trustee_Company__c)} {!IF(insolvAcc.Trustee_Office__c != null, '(' + (UPPER(insolvAcc.Trustee_Office__c))
+                <div class="view-font" style="font-size: 12px;">{!UPPER(insolvAcc.Trustee_Company__c)} {!IF(insolvAcc.Trustee_Office__c != null, '(' + (UPPER(insolvAcc.Trustee_Office__c))
                     + ')', '')}</div>
                 <br />
-                <div style="font-size: 9.5px;">
+                <div style="font-size: 12px;">
                     Attention: Estate Trustee
                 </div>
             </b>
             <br />
-            <table style="width: 100%; font-size: 9.5px;">
+            <table style="width: 100%; font-size: 12px;">
                 <tr>
                     <td style="width:20%; vertical-align: text-bottom; padding-bottom: 10px;">
                         <b>Re: Bankruptcy of</b>
@@ -60,11 +60,11 @@
                 </tr>
             </table>
             <br />
-            <div style="font-size: 9.5px;">
+            <div style="font-size: 12px;">
                 Dear Madam/Sir:
             </div>
             <br />
-            <div style="font-size: 9.5px;">
+            <div style="font-size: 12px; line-height: 18px;">
                 Please be advised that Canaccede International Management Ltd. (“we” and “us”) is acting on behalf of the secured creditor,
                 <b>{!otherInfo.clientCompanyName}</b>, in connection with the above noted matter. On
                 <b>{!otherInfo.insolvencyStatusLastChanged}</b>, we forwarded to your office a proof of claim for the above
@@ -103,27 +103,27 @@
     </apex:outputPanel>
     <!-- French Template -->
     <apex:outputPanel rendered="{!!otherInfo.isEnglish}">
-        <div style="font-family: 'Arial Unicode MS'; font-size: 10px;">
+        <div style="font-size: 10px;">
             <div style="text-align:center;">
                 <img src="{!otherInfo.imageUrl}" style="height:100px" />
             </div>
             <br />
             <br />
             <br />
-            <div style="font-size: 9.5px;">
+            <div style="font-size: 12px;">
                 <b>{!otherInfo.today}</b>
             </div>
             <br />
             <b>
-                <div class="view-font" style="font-size: 9.5px;">{!UPPER(insolvAcc.Trustee_Company__c)} {!IF(insolvAcc.Trustee_Office__c != null, '(' + (UPPER(insolvAcc.Trustee_Office__c))
+                <div class="view-font" style="font-size: 12px;">{!UPPER(insolvAcc.Trustee_Company__c)} {!IF(insolvAcc.Trustee_Office__c != null, '(' + (UPPER(insolvAcc.Trustee_Office__c))
                     + ')', '')}</div>
                 <br />
-                <div style="font-size: 9.5px;">
+                <div style="font-size: 12px;">
                     Attention: Syndic d'insolvabilité
                 </div>
             </b>
             <br />
-            <table style="width: 100%; font-size: 9.5px;">
+            <table style="width: 100%; font-size: 12px;">
                 <tr>
                     <td style="width:20%; vertical-align: text-bottom; padding-bottom: 10px;">
                         <b>Objet: Faillite de</b>
@@ -162,11 +162,11 @@
                 </tr>
             </table>
             <br />
-            <div style="font-size: 9.5px;">
+            <div style="font-size: 12px;">
                 Cher(ère) Monsieur / Madame,
             </div>
             <br />
-            <div style="font-size: 9.5px;">
+            <div style="font-size: 12px; line-height: 18px;">
                 Veuillez prendre note que Canaccede International Management Ltd. (« nous ») agit au nom du créancier garanti,
                 <b>{!pocPackage.Client_Company_Name_French__c}</b>, relativement au dossier susmentionnée. Le
                 <b>{!otherInfo.insolvencyStatusLastChanged}</b>, nous avons transmis à votre bureau une preuve de réclamation
