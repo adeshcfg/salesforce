@@ -16,7 +16,7 @@
      * @author adesh.ikhar@canaccede.com | 04-08-2024
      * @return String
      **/
-    public static String generateUniqueHashCode(String uniqueIdentifier) {
+    /* public static String generateUniqueHashCode(String uniqueIdentifier) {
         // Get the current datetime
         DateTime now = DateTime.now();
         // Convert datetime to string
@@ -28,7 +28,7 @@
         // Get the first 15 characters of the base64 encoded hash
         String fifteenCharHash = base64Hash.substring(0, 15);
         return fifteenCharHash;
-    }
+    } */
 
     //Create full name
     public static String createFullName(String firstName, String lastName){
@@ -273,6 +273,24 @@
         attach.ParentId = parentId;
         attach.name = fileName;
         attach.body = Blob.toPDF(contentsString);
+        attach.Description = fileType;
+        insert attach;
+    }
+
+
+    /**
+    * @description : Create attachment record related to another object record
+    * @author adesh.ikhar@canaccede.com | 07-31-2024 
+    * @param parentId 
+    * @param pdfAttachment 
+    * @param fileName 
+    * @param fileType 
+    **/
+    public static void saveAttachment(String parentId, Blob pdfAttachment, String fileName, String fileType){
+        Attachment attach = new Attachment();
+        attach.ParentId = parentId;
+        attach.name = fileName;
+        attach.body = pdfAttachment;
         attach.Description = fileType;
         insert attach;
     }

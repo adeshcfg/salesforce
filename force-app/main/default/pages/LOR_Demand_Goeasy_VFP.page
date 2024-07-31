@@ -1,0 +1,230 @@
+<apex:page controller="LorVfTemplateController" renderAs="pdf" showHeader="false" applyBodyTag="false">
+    <head>
+        <style>
+            @page { 
+                size: A4;
+            }
+            table {
+                table-layout: fixed ;
+                width: 100% ;
+            }
+            td {
+                width: 25% ;
+            }
+        </style>
+    </head>
+    <!-- English Template -->
+    <apex:outputPanel rendered="{!otherInfo.isEnglish}" style="font-family: Arial Unicode MS">
+        <table style="font-size: 12px">
+            <tr>
+                <td>
+                    <img src="{!otherInfo.imageUrl}" />
+                </td>
+                <td>
+                    {!pocPackage.CFG_French_Office_Name__c}
+                    <br/> {!pocPackage.CFG_Office_Address_1__c}
+                    <br/> {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                </td>
+                <td style="text-align: right;">
+                    t. {!pocPackage.CFG_Office_Phone_Number__c}
+                    <br/> f. {!pocPackage.CFG_Office_Fax_Number__c}
+                    <br/> {!pocPackage.CFG_Office_Website__c}
+                </td>
+            </tr>
+        </table>
+        <div style="font-size: 12px;">
+            <b>{!otherInfo.today}</b>
+        </div>
+        <br/>
+        <b>
+            <div style="font-size: 12px;" class="view-font">{!UPPER(insolvAcc.Trustee_Company__c)} {!IF(insolvAcc.Trustee_Office__c != null, '(' + (UPPER(insolvAcc.Trustee_Office__c))
+                + ')', '')}</div>
+            <br/>
+            <div style="font-size: 12px;">
+                Attention: Estate Trustee
+            </div>
+        </b>
+        <br/>
+        <table style="width: 100%;font-size: 12px; ">
+            <tr>
+                <td style=" width:20%; vertical-align: text-bottom; padding-bottom: 10px;">
+                    <b>Re: Bankruptcy of</b>
+                </td>
+                <td class="second-column">
+                    <b>{!otherInfo.debitors}</b>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 10px">
+                    <b>Security:</b>
+                </td>
+                <td>
+                    <b>{!insolvAcc.Security_Description__c}</b>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 10px;">
+                    <b>V.I.N:</b>
+                </td>
+                <td>
+                    <b>{!insolvAcc.Vehicle_Identification_Number__c}</b>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 10px;">
+                    <b>Secured Creditor:</b>
+                </td>
+                <td>
+                    <b>{!pocPackage.Client_Company_Name__c}</b>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <br/>
+        <div style="font-size: 12px;">
+            Dear Madam/Sir: </div>
+        <br/>
+        <div style="font-size: 12px; line-height: 18px;">
+            Please be advised that Canaccede International Management Ltd. (“we” and “us”) is acting on behalf of the secured creditor,
+            <b>{!pocPackage.Client_Company_Name__c}</b>, in connection with the above noted matter. On
+            <b>{!otherInfo.insolvencyStatusLastChanged}</b>, we forwarded to your office a proof of claim for the above referenced
+            security (the “Security”) on behalf of {!otherInfo.companyName}, along with the Bankruptcy and Insolvency Act
+            Section 130 request for trustee election.
+            <br/> It has been more than 30 days since the proof of claim and the request for election were filed with you. As
+            per section 130 of the Bankruptcy and Insolvency Act, because the trustee has not indicated within 30 days of
+            the request by the secured creditor whether it intends to exercise its power of redemption or require the security
+            to be realized, the election has been lost and its interests in the Security are now vested in {!otherInfo.companyName}.
+            <br/> We request that you provide us with confirmation that the trustee releases its interest in the Security by the
+            close of business on
+            <b>{!otherInfo.fiveBusinessDays}</b>. If a response is not received, then {!otherInfo.companyName} will exercise
+            any of its rights with respect to the Security without further notice or action. Should we be unable to locate
+            the Security, we will be in contact with your office again to ascertain the location of same.
+            <br/> Should you have any questions or require further information, please do not hesitate to contact
+            <br/>
+            <b>Canaccede International Management Ltd.</b>
+            <br/>
+            <b>Phone: {!pocPackage.CFG_Office_Phone_Number__c}</b>
+            <br/>
+            <b>Fax: {!pocPackage.CFG_Office_Fax_Number__c}</b>
+            <br/>
+            <b>Email: {!pocPackage.CFG_Office_Email_Address__c}</b>
+            <br/>
+            <br/> Sincerely,
+            <br/> Insolvency Department
+            <br/> Canaccede International Management Ltd.
+            <br/>
+        </div>
+    </apex:outputPanel>
+    <!-- French Template -->
+    <apex:outputPanel rendered="{!!otherInfo.isEnglish}" style="font-family: Arial Unicode MS">
+        <table style="font-size: 12px">
+            <tr>
+                <td>
+                    <img src="{!otherInfo.imageUrl}" />
+                </td>
+                <td>
+                    {!pocPackage.CFG_French_Office_Name__c}
+                    <br/> {!pocPackage.CFG_Office_Address_1__c}
+                    <br/> {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                </td>
+                <td style="text-align: right;">
+                    t. {!pocPackage.CFG_Office_Phone_Number__c}
+                    <br/> f. {!pocPackage.CFG_Office_Fax_Number__c}
+                    <br/> {!pocPackage.CFG_Office_Website__c}
+                </td>
+            </tr>
+        </table>
+        <div style="font-size: 12px;">
+            <b>{!otherInfo.today}</b>
+        </div>
+        <br/>
+        <b>
+            <div style="font-size: 12px;" class="view-font">{!UPPER(insolvAcc.Trustee_Company__c)} {!IF(insolvAcc.Trustee_Office__c != null, '(' + (UPPER(insolvAcc.Trustee_Office__c))
+                + ')', '')}</div>
+            <br/>
+            <div style="font-size: 12px;">
+                Attention: Syndic d'insolvabilité
+            </div>
+        </b>
+        <br/>
+        <table style="width: 100%;font-size: 12px; ">
+            <tr>
+                <td style=" width:20%; vertical-align: text-bottom; padding-bottom: 10px;">
+                    <b>Objet: Faillite de</b>
+                </td>
+                <td class="second-column">
+                    <b>{!otherInfo.debitors}</b>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 10px">
+                    <b>Actif:</b>
+                </td>
+                <td>
+                    <b>{!insolvAcc.Security_Description__c}</b>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 10px;">
+                    <b>N.I.V:</b>
+                </td>
+                <td>
+                    <b>{!insolvAcc.Vehicle_Identification_Number__c}</b>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 10px;">
+                    <b>Créancier Garanti:</b>
+                </td>
+                <td>
+                    <b>{!pocPackage.Client_Company_Name__c}</b>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <br/>
+        <div style="font-size: 12px;">
+            Cher(ère) Monsieur / Madame, </div>
+        <br/>
+        <div style="font-size: 12px; line-height: 18px;">
+            Veuillez prendre note que Canaccede International Management Ltd. (« nous ») agit au nom du créancier garanti,
+            <b>{!pocPackage.Client_Company_Name__c}</b>{!otherInfo.clientCompanyNameSuffix}, relativement au dossier susmentionnée.
+            Le
+            <b>{!otherInfo.insolvencyStatusLastChanged}</b>, nous avons transmis à votre bureau une preuve de réclamation pour
+            l’Actif susmentionné (l’ « Actif ») au nom de {!pocPackage.Client_Company_Name_French__c}, ainsi qu’unqu’un avis
+            écrit exigeant que vous choisissier d’exercer votre pouvoir de rachater la garantie ou de la faire réaliser en
+            vertu de l’article 130 de la Loi sur la faillite et l’insolvabilité.
+            <br/> Plus de 30 jours se sont écoulés depuis le dépôt de la preuve de réclamation et de l’avis écrit. Conformément
+            à l’article 130 de la Loi sur la faillite et l’insolvabilité, le syndic n’ayant pas indiqué dans les 30 jours
+            suivant la demande du créancier garanti s’il entend exercer son pouvoir de rachat ou exiger la réalisation de
+            la garantie,ce choix a été perdu et ses intérêts dans les biens compris dans la garantie qui s sont maintenant
+            dévolus à {!pocPackage.Client_Company_Name_French__c}.
+            <br/> Nous vous demandons de nous fournir la confirmation que le Syndicrenonce à sa participation dans les biens compris
+            dans la garantie d’ici le
+            <b>{!otherInfo.fiveBusinessDays}</b>. Si aucune réponse n’est reçue, {!pocPackage.Client_Company_Name_French__c}
+            exercera ses droits à l’égard des biens compris dans la garantie sans autre avis ni délai. Si nous ne sommes
+            pas en mesure de localiser lesdit biens garantis, nous communiquerons de nouveau avec votre bureau pour vérifier
+            leuremplacement.
+            <br/> Si vous avez des questions, n’hésitez pas à communiquer avec notre bureau.
+            <br/>
+            <b>Canaccede International Management Ltd.</b>
+            <br/>
+            <b>Téléphone: {!pocPackage.CFG_Office_Phone_Number__c}</b>
+            <br/>
+            <b>Télécopieur: {!pocPackage.CFG_Office_Fax_Number__c}</b>
+            <br/>
+            <b>Email: {!pocPackage.CFG_Office_Email_Address__c}</b>
+            <br/>
+            <br/> Sincèrement,
+            <br/> Département de l'insolvabilité
+            <br/> Canaccede International Management Ltd.
+            <br/>
+        </div>
+    </apex:outputPanel>
+</apex:page>
