@@ -201,8 +201,18 @@ public class DistressedUtilities {
         placementHistory.Placed_Settlement_Rate__c = productStaging1.Placed_Settlement_Rate__c;
         
         placementHistory.Placement_Date__c = Date.today();
-        placementHistory.Placement_Status_Description__c = 'New Allocation (1.0); Ready';
-        placementHistory.Placement_Status__c = '100000';
+        
+        if(productStaging1.Placement_Main_Status__c != NULL){
+            placementHistory.Placement_Status_Description__c = productStaging1.Placement_Main_Status__c;
+        }else{
+            placementHistory.Placement_Status_Description__c = 'New Allocation (1.0); Ready';
+        }
+        if(productStaging1.Placement_Status_Code__c != NULL){
+            placementHistory.Placement_Status__c = productStaging1.Placement_Status_Code__c;
+        }else{
+            placementHistory.Placement_Status__c = '100000';
+        }
+        
         placementHistory.Current_Principal_Balance__c = productToRefer.Current_Principal_Balance__c;
         placementHistory.Current_Interest_Balance__c = productToRefer.Current_Interest_Amount__c;
         placementHistory.Interest_Rate__c = productToRefer.Interest_Rate__c;

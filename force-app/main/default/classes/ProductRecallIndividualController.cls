@@ -38,7 +38,8 @@ public without sharing class ProductRecallIndividualController {
     public List<User> systemName = new List<User>();
     public Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
     public Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
-
+	public List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
+    public Map<String, ID> mapProductJudgment = new Map<String, ID>();
     public ProductRecallIndividualController(ApexPages.StandardController stdController) {
         placement = [
             SELECT ID, Name
@@ -142,6 +143,12 @@ public without sharing class ProductRecallIndividualController {
         for (RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product__c']) {
             prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
         }
+        
+        for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c, Product__r.Name FROM Account_Judgment__c
+                                                  WHERE Product__c = :productID
+                                                  AND Status__c = 'Active']){
+                mapProductJudgment.put(accJudgment.Product__c, accJudgment.id);
+        }
     }
 
     public PageReference recallWithWarning() {
@@ -158,7 +165,10 @@ public without sharing class ProductRecallIndividualController {
         String mainStatus = mapRecallCodeStatus.get(selectedRecallReason).Status__c;
         String subStatus = mapRecallCodeStatus.get(selectedRecallReason).Sub_Status__c;
         map<String, String> mapDataStatus = new Map<String, String>();
-
+        Set<id> setProductIDs = new Set<id>();
+        setProductIDs.add(product.id);
+		Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
+        
         if (selectedValueAction == PENDING_RECALL) {
             ERROR_MSG = 'Product set to Pending Recall Status from Agency:' + NewPlacementAgency;
             placementIdentifier = String.valueOf(product.Collection_Agency__c);
@@ -175,6 +185,14 @@ public without sharing class ProductRecallIndividualController {
                 product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
             }
         } else if (selectedValueAction == 'Send To Warehouse') {
+            //Ticket 6430 : Point 2
+            if(!Test.isRunningTest() && System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) 
+               && mapProductJudgment.containsKey(product.id)){
+                   Account_Judgment__c accJudgment = new Account_Judgment__c();
+                   accJudgment.id =  mapProductJudgment.get(product.id);  
+                   accJudgment.Status__c = 'Inactive';
+                   accJudgStatusUpdateList.add(accJudgment);
+               }
             product.Collection_Agency__c = 9999;
             product.Collection_Agency_Placement__c = placement.id;
             product.Recalled_Date__c = Date.today();
@@ -203,9 +221,16 @@ public without sharing class ProductRecallIndividualController {
                 }
             }
             //clear the fields once acount recalled and sent to warehouse
-            product.Placement_Status__c = null;
-            product.Status__c = null;
-            product.Sub_Status__c = null;
+            if(placementMainStatusMap.containskey(product.id)){
+                product.Status__c = placementMainStatusMap.get(product.id).Status__c;
+                product.Sub_Status__c = placementMainStatusMap.get(product.id).Sub_Status__c;
+                product.Placement_Status__c = placementMainStatusMap.get(product.id).Placement_Status__c;
+            }else{
+                product.Placement_Status__c = null;
+                product.Status__c = null;
+                product.Sub_Status__c = null;
+            }
+            
             product.Collection_Agency__c = 9999;
             product.Collection_Agency_Placement__c = placement.id;
             product.Status_Changed_Date__c = Date.today();
@@ -218,6 +243,7 @@ public without sharing class ProductRecallIndividualController {
                 product.Closed_Date__c = Date.today();
             }
             placementIdentifier = String.valueOf(product.Collection_Agency__c);
+            
         } else if (selectedValueAction == 'Pending Allocation') {
             product.Collection_Agency__c = 9999;
             product.Collection_Agency_Placement__c = placement.id;
@@ -275,15 +301,21 @@ public without sharing class ProductRecallIndividualController {
             DistressedUtilities.UpdateSettlement(prodId);
             ProductTriggerHandler.runProductTrigger = false;
             update product;
-
+			
+            AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
+            update accJudgStatusUpdateList;
+            AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
+            
             List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
             if (!judgmentToUpdateList.isEmpty()) {
                 JudgmentTriggerHandler.runJudgmentTrigger = false;
+                JudgmentTriggerHandler.runJudgmentValidation = false;
                 //bypass judgment validation rule
                 applicationConfigSetting.Bypass_Judgement_Validation__c = false;
                 update applicationConfigSetting;
                 Database.update(judgmentToUpdateList);
                 applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                JudgmentTriggerHandler.runJudgmentValidation = true;
                 JudgmentTriggerHandler.runJudgmentTrigger = true;
                 update applicationConfigSetting;
             }
@@ -332,7 +364,11 @@ public without sharing class ProductRecallIndividualController {
                 dataStatusMapping
             );
         }
-
+		
+        Set<id> setProductIDs = new Set<id>();
+        setProductIDs.add(product.id);
+		Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
+        
         if (error == false) {
             product.Invalid_Submission__c = false;
             product.Timestamp_Of_Invalid_Submission__c = null;
@@ -355,6 +391,14 @@ public without sharing class ProductRecallIndividualController {
                     product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
                 }
             } else if (selectedValueAction == 'Send To Warehouse') {
+                //Ticket 6430 : Point 2
+                if(System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) 
+                   && mapProductJudgment.containsKey(product.id)){
+                       Account_Judgment__c accJudgment = new Account_Judgment__c();
+                       accJudgment.id =  mapProductJudgment.get(product.id);  
+                       accJudgment.Status__c = 'Inactive';
+                       accJudgStatusUpdateList.add(accJudgment);
+                   }
                 product.Collection_Agency__c = 9999;
                 product.Collection_Agency_Placement__c = placement.id;
                 product.Recalled_Date__c = Date.today();
@@ -384,9 +428,15 @@ public without sharing class ProductRecallIndividualController {
                 }
 
                 //clear the fields once acount recalled and sent to warehouse
-                product.Placement_Status__c = null;
-                product.Status__c = null;
-                product.Sub_Status__c = null;
+                if(placementMainStatusMap.containskey(product.id)){
+                    product.Status__c = placementMainStatusMap.get(product.id).Status__c;
+                    product.Sub_Status__c = placementMainStatusMap.get(product.id).Sub_Status__c;
+                    product.Placement_Status__c = placementMainStatusMap.get(product.id).Placement_Status__c;
+                }else{
+                    product.Placement_Status__c = null;
+                    product.Status__c = null;
+                    product.Sub_Status__c = null;
+                }
                 product.Collection_Agency__c = 9999;
                 product.Collection_Agency_Placement__c = placement.id;
                 product.Status_Changed_Date__c = Date.today();
@@ -400,6 +450,7 @@ public without sharing class ProductRecallIndividualController {
                     product.Closed_Date__c = Date.today();
                 }
                 placementIdentifier = String.valueOf(product.Collection_Agency__c);
+                
             } else if (selectedValueAction == 'Pending Allocation') {
                 product.Collection_Agency__c = 9999;
                 product.Collection_Agency_Placement__c = placement.id;
@@ -458,15 +509,21 @@ public without sharing class ProductRecallIndividualController {
                 DistressedUtilities.UpdateSettlement(prodId);
                 ProductTriggerHandler.runProductTrigger = false;
                 update product;
-
+				
+                AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
+                update accJudgStatusUpdateList;
+                AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
+                
                 List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
                 if (!judgmentToUpdateList.isEmpty()) {
                     JudgmentTriggerHandler.runJudgmentTrigger = false;
+                    JudgmentTriggerHandler.runJudgmentValidation = false;
                     //bypass judgment validation rule
                     applicationConfigSetting.Bypass_Judgement_Validation__c = false;
                     update applicationConfigSetting;
                     Database.update(judgmentToUpdateList);
                     applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                    JudgmentTriggerHandler.runJudgmentValidation = true;
                     JudgmentTriggerHandler.runJudgmentTrigger = true;
                     update applicationConfigSetting;
                 }

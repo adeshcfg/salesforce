@@ -15,6 +15,7 @@
     public static string provinceAcronymFormat;
     public static map<String, Province_Tax_Rate_Mapping__mdt> mapTaxMetadata = Province_Tax_Rate_Mapping__mdt.getAll();
     public static map<String, Province_Tax_Rate_Mapping__mdt> mapProvinceAcronymTaxMetadata = new Map<String, Province_Tax_Rate_Mapping__mdt>();
+    public static map<String, Judgment_product_codes_mapping__c> mapAccountJudgmentCodes = new Map<String, Judgment_product_codes_mapping__c>();
     public static boolean runJudgmentTrigger = true;
     public static boolean runJudgmentValidation = true;
     //Bug: 5564 Changes Starts
@@ -31,6 +32,13 @@
         //Tax rate mapping by Province Acronym
         for (Province_Tax_Rate_Mapping__mdt taxMetadata : mapTaxMetadata.values()) {
             mapProvinceAcronymTaxMetadata.put(taxMetadata.Province_Acronym__c, taxMetadata);
+        }
+        
+        for (Judgment_product_codes_mapping__c mapping : [
+            SELECT Id, Name, Codes__c, Product_Status__c, Product_Sub_status__c, Judgment_Legal_Status__c, Judgment_Legal_Sub_Status__c
+            FROM Judgment_product_codes_mapping__c
+        ]) {
+            mapAccountJudgmentCodes.put(mapping.Judgment_Legal_Status__c + mapping.Judgment_Legal_Sub_Status__c, mapping);
         }
     }
 
@@ -152,7 +160,7 @@
         Map<Id, Product__c> productMap = new Map<Id, Product__c>();
         Map<String, List<String>> judgmentIdProductListMap = new Map<String, List<String>>();
         list<Account_Judgment__c> listActiveJudgments = new List<Account_Judgment__c>();
-        map<String, Judgment_product_codes_mapping__c> mapAccountJudgmentCodes = new Map<String, Judgment_product_codes_mapping__c>();
+        //map<String, Judgment_product_codes_mapping__c> mapAccountJudgmentCodes = new Map<String, Judgment_product_codes_mapping__c>();
         map<ID, ID> mapActiveAccountJudgments = new Map<ID, ID>();
         Map<String, Judgment__c> mapJudgmentIdJudgment = new Map<String, Judgment__c>();
         Set<ID> mapProdId = new Set<ID>();
@@ -160,13 +168,13 @@
         map<String, ID> mapProductName = new Map<String, ID>();
         List<String> judgmentProductNames = new List<String>();
 
-        for (Judgment_product_codes_mapping__c mapping : [
+        /*for (Judgment_product_codes_mapping__c mapping : [
             SELECT Id, Name, Codes__c, Product_Status__c, Product_Sub_status__c, Judgment_Legal_Status__c, Judgment_Legal_Sub_Status__c
             FROM Judgment_product_codes_mapping__c
             WHERE Product_Parent__c IN :listLegalStatuses
         ]) {
             mapAccountJudgmentCodes.put(mapping.Judgment_Legal_Status__c + mapping.Judgment_Legal_Sub_Status__c, mapping);
-        }
+        }*/
 
         for (Judgment__c judgment : listNewJudgments) {
             mapJudgmentIdJudgment.put(judgment.Id, judgment);
@@ -1213,15 +1221,15 @@ Accure Interest from curDate (last payment's postoing date) to Today
         map<ID, ID> mapActiveAccountJudgments = new Map<ID, ID>();
         Set<ID> mapProdId = new Set<ID>();
         map<ID, Product__c> mapProd = new Map<ID, Product__c>();
-        map<String, Judgment_product_codes_mapping__c> mapAccountJudgmentCodes = new Map<String, Judgment_product_codes_mapping__c>();
+        //map<String, Judgment_product_codes_mapping__c> mapAccountJudgmentCodes = new Map<String, Judgment_product_codes_mapping__c>();
 
-        for (Judgment_product_codes_mapping__c mapping : [
+        /*for (Judgment_product_codes_mapping__c mapping : [
             SELECT Id, Name, Codes__c, Product_Status__c, Product_Sub_status__c, Judgment_Legal_Status__c, Judgment_Legal_Sub_Status__c
             FROM Judgment_product_codes_mapping__c
             WHERE Product_Parent__c IN :listLegalStatuses
         ]) {
             mapAccountJudgmentCodes.put(mapping.Judgment_Legal_Status__c + mapping.Judgment_Legal_Sub_Status__c, mapping);
-        }
+        }*/
         for (Account_Judgment__c accJudgment : [
             SELECT ID, Judgment__c, Product__c
             FROM Account_Judgment__c
@@ -2141,4 +2149,34 @@ Accure Interest from curDate (last payment's postoing date) to Today
     }
 
     //Bug: 5476 changes ends
+     public static Map<String, Product__c> updatePlacementMainStatus(Set<id> productIds) {
+         system.debug('productIds::'+productIds);
+         Map<String, Product__c> prodPlacementStatusUpdate = new Map<String, Product__c>();
+         Product__c prodUpdate = new product__c();
+        for (Account_Judgment__c activeProductJudgment : [
+            SELECT Judgment__c, Judgment__r.Legal_Status__c,Judgment__r.Legal_Sub_Status__c,
+            Product__c,Product__r.Status__c,Product__r.Sub_Status__c,
+            Product__r.Placement_Status__c
+            FROM Account_Judgment__c
+            WHERE Product__c IN :productIds AND Status__c = 'Active'
+        ]) {
+                if(activeProductJudgment.Product__r.Placement_Status__c != NULL  && 
+                   !System.Label.Exclude_Judgment_Codes.contains(activeProductJudgment.Product__r.Placement_Status__c)){
+                if (mapAccountJudgmentCodes.containsKey(activeProductJudgment.Judgment__r.Legal_Status__c + activeProductJudgment.Judgment__r.Legal_Sub_Status__c)) {
+                    prodUpdate.Status__c = mapAccountJudgmentCodes.get(activeProductJudgment.Judgment__r.Legal_Status__c + activeProductJudgment.Judgment__r.Legal_Sub_Status__c)
+                        .Product_Status__c;
+                }
+                if (mapAccountJudgmentCodes.containsKey(activeProductJudgment.Judgment__r.Legal_Status__c + activeProductJudgment.Judgment__r.Legal_Sub_Status__c)) {
+                    prodUpdate.Sub_Status__c = mapAccountJudgmentCodes.get(activeProductJudgment.Judgment__r.Legal_Status__c + activeProductJudgment.Judgment__r.Legal_Sub_Status__c)
+                        .Product_Sub_status__c;
+                }
+                if (mapAccountJudgmentCodes.containsKey(activeProductJudgment.Judgment__r.Legal_Status__c + activeProductJudgment.Judgment__r.Legal_Sub_Status__c)) {
+                    prodUpdate.Placement_Status__c = mapAccountJudgmentCodes.get(activeProductJudgment.Judgment__r.Legal_Status__c + activeProductJudgment.Judgment__r.Legal_Sub_Status__c)
+                        .Codes__c;
+                }
+                prodPlacementStatusUpdate.put(activeProductJudgment.Product__c,prodUpdate);
+            }
+        }
+        return prodPlacementStatusUpdate;
+     }
 }
