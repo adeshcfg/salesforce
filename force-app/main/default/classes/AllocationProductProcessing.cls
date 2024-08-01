@@ -22,6 +22,7 @@ public class AllocationProductProcessing {
         list<Product__c> listProductToUpdate = new List<Product__c>();
         Map<String, Map<String, String>> productIdAgencyInfoMap = new Map<String, Map<String, String>>();
         List<Judgment__c> judgmentToUpdateList;
+        Map<string,Judgment__c> judgMapValues = new Map<string,Judgment__c>();
         try {
             List<Id> prodIdList = new List<Id>();
             String PLACEMENT_ALLOCATED = 'Placement (3); Allocated';
@@ -105,7 +106,8 @@ public class AllocationProductProcessing {
                     WHERE ID IN :setProductIDs
                 ]
             );
-
+			Map<String,Product__c> placementStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
+            
             for (Product_Staging__c productStaging : prodStagingList) {
                 Product_Staging__c productStaging1 = new Product_Staging__c();
                 productStaging1 = productStaging;                
@@ -126,12 +128,23 @@ public class AllocationProductProcessing {
                     product.Assignment_Accepted_Date__c = null;
                     product.Recalled_Date__c = null;
                     //set placement status for new allocation
-                    product.Placement_Status__c = NEW_ALLOCATION_READY;
+                    
                     product.Status_Changed_Date__c = Date.today();
                     product.Product_Status__c = ALLOCATED_DATA_STATUS_CODE;
                     product.Data_Status_Description__c = PLACEMENT_ALLOCATED;
-                    product.Status__c = 'New Allocation - New Allocation';
-                    product.Sub_Status__c = 'Ready';
+                    if(placementStatusMap.containskey(productStaging1.Product_ID__c)){
+                        product.Status__c = placementStatusMap.get(productStaging1.Product_ID__c).Status__c;
+                        product.Sub_Status__c = placementStatusMap.get(productStaging1.Product_ID__c).Sub_Status__c;
+                        product.Placement_Status__c = placementStatusMap.get(productStaging1.Product_ID__c).Placement_Status__c;
+                        productStaging1.Placement_Main_Status__c = placementStatusMap.get(productStaging1.Product_ID__c).Status__c;
+                        productStaging1.Placement_Sub_Status__c = placementStatusMap.get(productStaging1.Product_ID__c).Sub_Status__c;
+                        productStaging1.Placement_Status_Code__c = placementStatusMap.get(productStaging1.Product_ID__c).Placement_Status__c;
+                    }else{
+                        product.Status__c = 'New Allocation - New Allocation';
+                        product.Sub_Status__c = 'Ready';
+                        product.Placement_Status__c = NEW_ALLOCATION_READY;
+                    }
+                  
                     product.Collection_Sub_Status__c = null;
                     product.RecordTypeId = productStaging1.Record_Type_ID__c;
                     product.Commission_Rate_at_Time_of_Placement__c = productStaging1.Placed_Commission_Rate__c;
@@ -221,13 +234,18 @@ public class AllocationProductProcessing {
                 }
                 judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
                 if (!judgmentToUpdateList.isEmpty()) {
+                    for(Judgment__c judgData : judgmentToUpdateList){
+                        judgMapValues.put(judgData.id,judgData);
+                    }
                     JudgmentTriggerHandler.runJudgmentTrigger = false;
+                    JudgmentTriggerHandler.runJudgmentValidation = false;
                     //bypass judgment validation rule
                     applicationConfigSetting.Bypass_Judgement_Validation__c = false;
         			update applicationConfigSetting;
-                    Database.update(judgmentToUpdateList);
+                    Database.update(judgMapValues.values());
                     //bypass judgment validation rule
                     applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                    JudgmentTriggerHandler.runJudgmentValidation = true;
                     JudgmentTriggerHandler.runJudgmentTrigger = true;
                     update applicationConfigSetting;
                 }
@@ -256,6 +274,6 @@ public class AllocationProductProcessing {
             system.debug('exception success file--+--' + ex.getLineNumber());
             system.debug('exception success file--+--' + ex.getMessage());
         }
-        return judgmentToUpdateList;
+        return judgMapValues.values();
     }
 }

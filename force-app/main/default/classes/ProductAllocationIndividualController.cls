@@ -75,6 +75,10 @@ public with sharing class ProductAllocationIndividualController {
     }
     
     public PageReference allocateWithWarning(){
+        Set<id> setProductIDs = new Set<id>();
+        setProductIDs.add(product.id);
+		Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
+        
         if(prodRTypeIdMap.get('Distressed_Account') == product.RecordTypeId
            && Decimal.valueOf(placement.Name) != product.Collection_Agency__c){
                Id oldOwnerId = product.OwnerId;
@@ -112,11 +116,21 @@ public with sharing class ProductAllocationIndividualController {
         product.Collection_Sub_Status__c = null;
         product.Run_Identifier_Check_On__c = System.today();
         oldPlacementID = product.Collection_Agency_Placement__c; 
-        if(!mapRecallCodeStatus.isEmpty()){
+        /*if(!mapRecallCodeStatus.isEmpty()){
             product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
             product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
+        }*/
+        if(placementMainStatusMap.containskey(product.id)){
+            product.Status__c = placementMainStatusMap.get(product.id).Status__c;
+            product.Sub_Status__c = placementMainStatusMap.get(product.id).Sub_Status__c;
+            product.Placement_Status__c = placementMainStatusMap.get(product.id).Placement_Status__c;
+        }else{
+            if(!mapRecallCodeStatus.isEmpty()){
+                product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
+                product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
+            }
+            product.Placement_Status__c = NEW_ALLOCATION_READY;
         }
-        
         try{
             ProductTriggerHandler.runProductTrigger = false;
             update product;            
@@ -149,11 +163,13 @@ public with sharing class ProductAllocationIndividualController {
                 updateJudgments.put(judgment.id,judgment);
             }
             JudgmentTriggerHandler.runJudgmentTrigger = false;
+            JudgmentTriggerHandler.runJudgmentValidation = false;
             //bypass judgment validation rule
             applicationConfigSetting.Bypass_Judgement_Validation__c = false;
             update applicationConfigSetting;
             update updateJudgments.values();
             applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+            JudgmentTriggerHandler.runJudgmentValidation = true;
             JudgmentTriggerHandler.runJudgmentTrigger = true;
             update applicationConfigSetting;
             //Commented by satyajit
@@ -181,6 +197,10 @@ public with sharing class ProductAllocationIndividualController {
     
     //Allocate Product
     public PageReference allocateProduct(){
+        Set<id> setProductIDs = new Set<id>();
+        setProductIDs.add(product.id);
+		Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
+        
         NewPlacementAgency = product.Collection_Agency_Placement__c;  
         if(String.isBlank(NewPlacementAgency)){
             Blank_Agency = 'Please enter agency to allocate';
@@ -230,11 +250,21 @@ public with sharing class ProductAllocationIndividualController {
             product.Run_Identifier_Check_On__c = System.today();
             oldPlacementID = product.Collection_Agency_Placement__c; 
             
-            if(!mapRecallCodeStatus.isEmpty()){
+            /*if(!mapRecallCodeStatus.isEmpty()){
                 product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
                 product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
+            }*/
+            if(placementMainStatusMap.containskey(product.id)){
+                product.Status__c = placementMainStatusMap.get(product.id).Status__c;
+                product.Sub_Status__c = placementMainStatusMap.get(product.id).Sub_Status__c;
+                product.Placement_Status__c = placementMainStatusMap.get(product.id).Placement_Status__c;
+            }else{
+                if(!mapRecallCodeStatus.isEmpty()){
+                    product.Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +' - ' +mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
+                    product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
+                }
+                product.Placement_Status__c = NEW_ALLOCATION_READY;
             }
-            
             try{
                 ProductTriggerHandler.runProductTrigger = false;
                 update product;
@@ -267,11 +297,13 @@ public with sharing class ProductAllocationIndividualController {
                     updateJudgments.put(judgment.id,judgment);
                 }
                 JudgmentTriggerHandler.runJudgmentTrigger = false;
+                JudgmentTriggerHandler.runJudgmentValidation = false;
                 //bypass judgment validation rule
                 applicationConfigSetting.Bypass_Judgement_Validation__c = false;
                 update applicationConfigSetting;
                 update updateJudgments.values();
                 applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                JudgmentTriggerHandler.runJudgmentValidation = true;
                 JudgmentTriggerHandler.runJudgmentTrigger = true;
                 update applicationConfigSetting;
                 

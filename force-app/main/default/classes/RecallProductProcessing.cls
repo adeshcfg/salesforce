@@ -61,6 +61,8 @@ public class RecallProductProcessing {
                                                                    Placement_Status__c
                                                                        FROM Product__c WHERE ID IN :setProductIDs]);
         try {
+            Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
+            
             for(Product_Staging__c productStaging : prodStagingList){
                 //Regex to check MM/DD/YYYY (text format in excel)
                 String dateRegex = '^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4})$';
@@ -119,6 +121,14 @@ public class RecallProductProcessing {
                 if(productStaging.Status__c != 'Processed' || Test.isRunningTest()) {
                     productStaging1.id = productStaging.id;
                     productStaging1.Status__c = 'Processed';
+                    //Ticket 6430 : Point 2
+                    if(System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
+                       && mapProductJudgment.containsKey(productStaging.Product_ID__c)){
+                           Account_Judgment__c accJudgment = new Account_Judgment__c();
+                           accJudgment.id =  mapProductJudgment.get(productStaging.Product_ID__c);  
+                           accJudgment.Status__c = 'Inactive';
+                           accJudgStatusUpdateList.add(accJudgment);
+                       }
                     prod.id = productStaging.Product_ID__c;
                     prod.Placement_Status__c = productStaging.Placement_Status_Code__c;
                     prod.Status__c = productStaging.Placement_Main_Status__c;
@@ -132,10 +142,19 @@ public class RecallProductProcessing {
                                 prod.Data_Status_Description__c = codeMapping.get(prod.Placement_Status__c).Data_Status_Description__c;
                             }
                         }
-                        
-                        prod.Placement_Status__c = null;
-                        prod.Status__c = null;
-                        prod.Sub_Status__c = null;   
+                        if(placementMainStatusMap.containskey(productStaging1.Product_ID__c)){
+                            prod.Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Status__c;
+                            prod.Sub_Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Sub_Status__c;
+                            prod.Placement_Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Placement_Status__c;
+                            productStaging1.Placement_Main_Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Status__c;
+                            productStaging1.Placement_Sub_Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Sub_Status__c;
+                            productStaging1.Placement_Status_Code__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Placement_Status__c;
+                        }else{
+                            prod.Placement_Status__c = null;
+                            prod.Status__c = null;
+                            prod.Sub_Status__c = null;
+                        }
+                           
                         //prod.Collection_Sub_Status__c = null; Rasmitha : 27-Dec as per #4177 Collection Sub Status should not get blank on recall
                         prod.External_Status_Current__c = null;
                         prod.Collection_Agency__c = 9999;
@@ -179,14 +198,7 @@ public class RecallProductProcessing {
                                         }
                             );
                         }
-                       //Ticket 6430 : Point 2
-                       if(System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
-                          && mapProductJudgment.containsKey(productStaging.Product_ID__c)){
-                              Account_Judgment__c accJudgment = new Account_Judgment__c();
-                              accJudgment.id =  mapProductJudgment.get(productStaging.Product_ID__c);  
-                              accJudgment.Status__c = 'Inactive';
-                              accJudgStatusUpdateList.add(accJudgment);
-                          }
+                       
                            
                  
                     }else{
@@ -206,18 +218,24 @@ public class RecallProductProcessing {
                     update accJudgStatusUpdateList;
                     AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
                     if(productIdAgencyInfoMap.values() <> NULL){
+                        Map<string,Judgment__c> judgMapValues = new Map<string,Judgment__c>();
                         judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
                         if (!judgmentToUpdateList.isEmpty()) {
+                            for(Judgment__c judgData : judgmentToUpdateList){
+                                judgMapValues.put(judgData.id,judgData);
+                            }
                             JudgmentTriggerHandler.runJudgmentTrigger = false;
+                            JudgmentTriggerHandler.runJudgmentValidation = false;
                             //bypass judgment validation rule
                             applicationConfigSetting.Bypass_Judgement_Validation__c = false;
                             update applicationConfigSetting;
-                            Database.update(judgmentToUpdateList);
+                            Database.update(judgMapValues.values());
                             //bypass judgment validation rule
                             applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                            JudgmentTriggerHandler.runJudgmentValidation = true;
                             JudgmentTriggerHandler.runJudgmentTrigger = true;
                             update applicationConfigSetting;
-                            wrapperData.judgmentList = judgmentToUpdateList;
+                            wrapperData.judgmentList = judgMapValues.values();
                         }
                     }
                 }

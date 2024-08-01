@@ -522,10 +522,11 @@ public class ProductTriggerHandler {
                 }
 
                 if (prodOld1.Status__c != null) {
+                    //Ticket 6993: commented Refer_to_Legal__c == 'For Review' condition.
                     if (
                         (prodOld1.Status__c.startsWith('Pre - Legal') && prod.Status__c != prodOld1.Status__c) ||
-                        (prodOld1.Refer_to_Legal__c == 'For Review' &&
-                        prod.Status__c != prodOld1.Status__c) ||
+                        /*(prodOld1.Refer_to_Legal__c == 'For Review' &&
+                        prod.Status__c != prodOld1.Status__c) ||*/
                         (prodOld1.Status__c.startsWith('Pre - Legal') && prod.Sub_Status__c != prodOld1.Sub_Status__c)
                     ) {
                         prod.addError('Status can not change if refer to legal is in For review/placement status is in Pre-Legal.');

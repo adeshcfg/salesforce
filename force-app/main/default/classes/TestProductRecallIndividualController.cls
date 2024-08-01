@@ -67,6 +67,7 @@ public class TestProductRecallIndividualController {
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
         prod.OwnerId= UserInfo.getUserId();
+        prod.Placement_Status__c = '290700';
         ProductTriggerHandler.runProductTrigger = False;
         insert prod;
         ProductTriggerHandler.runProductTrigger = True;
