@@ -1,17 +1,37 @@
 {
     "dml": {
-        "update": [
+        "insert": [
             {
-                "objectName": "Application_Config_Settings__c",
-                "recordVariableName": "applicationConfigSetting",
+                "objectName": "Judgment_product_codes_mapping__c",
+                "recordVariableName": "judgmentProductCodes",
                 "fields": [
                     {
-                        "fieldApiName": "Id",
-                        "fieldValue": "'a0zf1000004ALI2AAO'"
+                        "fieldApiName": "Name",
+                        "fieldValue": "'A-0056'"
                     },
                     {
-                        "fieldApiName": "Bypass_Judgement_Validation__c",
-                        "fieldValue": "true"
+                        "fieldApiName": "Codes__c",
+                        "fieldValue": "'295090'"
+                    },
+                    {
+                        "fieldApiName": "Judgment_Legal_Status__c",
+                        "fieldValue": "'Post-Judgment'"
+                    },
+                    {
+                        "fieldApiName": "Judgment_Legal_Sub_Status__c",
+                        "fieldValue": "'Enforcement of Judgement Land'"
+                    },
+                    {
+                        "fieldApiName": "Product_Parent__c",
+                        "fieldValue": "'Post-Judgment'"
+                    },
+                    {
+                        "fieldApiName": "Product_Status__c",
+                        "fieldValue": "'Post - Judgment - In Process'"
+                    },
+                    {
+                        "fieldApiName": "Product_Sub_status__c",
+                        "fieldValue": "'Enforcement of Judgement Land'"
                     }
                 ]
             }
