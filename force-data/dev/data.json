@@ -1,37 +1,21 @@
 {
     "dml": {
-        "insert": [
+        "update": [
             {
                 "objectName": "Judgment_product_codes_mapping__c",
                 "recordVariableName": "judgmentProductCodes",
                 "fields": [
                     {
-                        "fieldApiName": "Name",
-                        "fieldValue": "'A-0056'"
-                    },
-                    {
-                        "fieldApiName": "Codes__c",
-                        "fieldValue": "'295090'"
-                    },
-                    {
-                        "fieldApiName": "Judgment_Legal_Status__c",
-                        "fieldValue": "'Post-Judgment'"
+                        "fieldApiName": "id",
+                        "fieldValue": "'a3BAs000000sXevMAE'"
                     },
                     {
                         "fieldApiName": "Judgment_Legal_Sub_Status__c",
-                        "fieldValue": "'Enforcement of Judgement Land'"
-                    },
-                    {
-                        "fieldApiName": "Product_Parent__c",
-                        "fieldValue": "'Post-Judgment'"
-                    },
-                    {
-                        "fieldApiName": "Product_Status__c",
-                        "fieldValue": "'Post - Judgment - In Process'"
+                        "fieldValue": "'Enforcement of Judgment Against Land'"
                     },
                     {
                         "fieldApiName": "Product_Sub_status__c",
-                        "fieldValue": "'Enforcement of Judgement Land'"
+                        "fieldValue": "'Enforcement of Judgment Against Land'"
                     }
                 ]
             }
