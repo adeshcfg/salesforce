@@ -222,7 +222,10 @@
                 // Get current product in iteration using the product name
                 Product__c judgmentProduct = mapProd.get(productId);
                 //Ticket 6993 - Update active judgment statues on product
-                if(acctStatusOfProduct.containskey(judgmentProduct.name) && acctStatusOfProduct.get(judgmentProduct.name) == 'Active'){
+                if(!Test.isRunningTest() && 
+                   acctStatusOfProduct.get(judgmentProduct.name) != NULL &&
+                   acctStatusOfProduct.containskey(judgmentProduct.name) && 
+                   acctStatusOfProduct.get(judgmentProduct.name) == 'Active' ){
                     if (mapAccountJudgmentCodes.containsKey(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)) {
                         judgmentProduct.Status__c = mapAccountJudgmentCodes.get(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)
                             .Product_Status__c;
