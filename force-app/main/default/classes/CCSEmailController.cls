@@ -134,7 +134,6 @@ global class CCSEmailController {
         logoVisiblity = '<div ' + style + '> ' + '<img src= ' + imageUrl + ' style="height:' + height + ';width:' + width + '"/>' + '</div>';
         recordType = pro.RecordType.name;
         toEmail = pro.CCS_Agency__r.Business_Email__c;
-        system.debug(pro);
         loadEmailTemplates();
         listTempletsDropdown();
         populateValuesInTemplate();
@@ -299,7 +298,6 @@ global class CCSEmailController {
             toEmail = toEmail.subString(0, toEmail.length() - 1);
         }
         List<String> toEmails = new List<String>(toEmail.split(';'));
-
         // read email body from VF page and bind with format of new lines
         String emailBodyCustomized = '';
         if (emailBody != null) {
@@ -307,7 +305,6 @@ global class CCSEmailController {
                 emailBodyCustomized = emailBodyCustomized + s + '<br/>';
             }
         }
-
         mail.setToAddresses(toEmails);
         mail.setOrgWideEmailAddressId(CCSPackage.Trustee_Email_Org_Wide_Address_Id__c);
         mail.setSubject(subject);
@@ -327,31 +324,37 @@ global class CCSEmailController {
             (pro.Customer__r.name != null ? pro.Customer__r.name : '') +
             '.pdf';
         // attach the pdf to email templates
+        Blob pdfAttachment;
         List<Messaging.Emailfileattachment> fileAttachments = new List<Messaging.Emailfileattachment>();
         Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();
         efa.setFileName(attachmentName);
-        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
-           && selectedTempalteName != 'Missed Payment Followup') {
-            efa.setBody(Blob.toPDF(attachmentBody));
+        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop' && selectedTempalteName != 'Missed Payment Followup') {
+            // efa.setBody(Blob.toPDF(attachmentBody));
+            PageReference vfp = new PageReference('/apex/CCS_Email_VFP');
+            vfp.getParameters().put('Id', ApexPages.currentPage().getParameters().get('Id'));
+            vfp.getParameters().put('template', selectedTempalteName);
+            pdfAttachment = vfp.getContent();
+            efa.setBody(pdfAttachment);
         }
-
         fileAttachments.add(efa);
-        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
-           && selectedTempalteName != 'Missed Payment Followup') {
+        if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop' && selectedTempalteName != 'Missed Payment Followup') {
             mail.setFileAttachments(fileAttachments);
         }
-        if(!Test.isRunningTest()) {
+        if (!Test.isRunningTest()) {
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
             // Create Attachment copy in Activity history
             Task emailTask = [SELECT id FROM Task WHERE whatID = :pro.id ORDER BY CreatedDate DESC LIMIT 1];
             EmailMessage emailmsg = [SELECT Id, parentId FROM EmailMessage WHERE activityId = :emailTask.Id];
-            if (selectedTempalteName != 'Product Default Template' && selectedTempalteName != 'Program drop'
-            && selectedTempalteName != 'Missed Payment Followup') {
+            if (
+                selectedTempalteName != 'Product Default Template' &&
+                selectedTempalteName != 'Program drop' &&
+                selectedTempalteName != 'Missed Payment Followup'
+            ) {
                 list<Attachment> emailMsgAttachments = new List<Attachment>();
                 Attachment attach = new Attachment();
                 attach.ParentId = emailmsg.Id;
                 attach.name = attachmentName;
-                attach.body = Blob.toPDF(attachmentBody);
+                attach.body = pdfAttachment;
                 attach.Description = '';
                 emailMsgAttachments.add(attach);
 
@@ -360,7 +363,6 @@ global class CCSEmailController {
                 }
             }
         }
-
         return null;
     }
 }
