@@ -214,9 +214,7 @@ public class RecallProductProcessing {
                     ProductTriggerHandler.runProductTrigger = false;
                     update prodList;
                     ProductTriggerHandler.runProductTrigger = true;
-                    AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
-                    update accJudgStatusUpdateList;
-                    AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
+                    
                     if(productIdAgencyInfoMap.values() <> NULL){
                         Map<string,Judgment__c> judgMapValues = new Map<string,Judgment__c>();
                         judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
@@ -238,6 +236,10 @@ public class RecallProductProcessing {
                             wrapperData.judgmentList = judgMapValues.values();
                         }
                     }
+                    
+                    AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
+                    update accJudgStatusUpdateList;
+                    AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
                 }
                 
                 // Added by satyajit for ticket: 4217
