@@ -1986,7 +1986,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
                 }
                 for (string province : prodProvince2) {
                     for (string ProductProvince : prodProvince3) {
-                        if (ProductProvince <> province && runJudgmentValidation == true) {
+                        if (ProductProvince <> province) {
                             judgment.addError('All Products in the Judgment should be in same province.');
                         }
                     }
