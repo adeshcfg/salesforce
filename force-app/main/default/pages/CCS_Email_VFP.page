@@ -1,0 +1,327 @@
+<apex:page controller="CcsVfTemplateController" renderAs="pdf" showHeader="false">
+    <apex:outputPanel rendered="{!otherInfo.template == 'Balance Request'}">
+        <br/>
+        <br/>
+        <br/>
+        <apex:outputText value="{!otherInfo.logoVisiblity}" escape="false" />
+        <br/>
+        <p style="font-family: 'Arial Unicode MS'; font-size: 11px;">
+            Date: {!otherInfo.today}
+            <br/>
+            <br/> {!product.CCS_Agency__r.Name}
+            <br/>
+            <br/> RE: Account Balance Confirmation.
+            <br/> CCS Office File ID Number: {!product.CCS_Client_ID__c}
+            <br/> Name of Customer: {!product.Customer__r.Name}
+            <br/> Account Number: {!product.Name}
+            <br/>
+            <br/>
+            <br/> Dear Sir /Madam,
+            <br/>
+            <br/> As per your recent request for confirmation of the account balance. Our records show that we still have a remaining
+            balance of {!otherInfo.currentBalance}.
+            <br/>
+            <br/> The last payment we show for this account was for {!otherInfo.grossPaymentAmount} which was received on the
+            {!otherInfo.paymentCreatedDate}.
+            <br/>
+            <br/> If you have any questions or concerns, please do not hesitate to contact us.
+            <br/>
+            <br/> Sincerely,
+            <br/>
+            <br/> {!ccsPackage.CFG_Name__c}
+            <br/> {!ccsPackage.CFG_Office_Name__c}
+            <br/> {!otherInfo.servicerName}
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </p>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!otherInfo.template == 'Lower Monthly Payments'}">
+        <br/>
+        <br/>
+        <br/>
+        <apex:outputText value="{!otherInfo.logoVisiblity}" escape="false" />
+        <br/>
+        <p style="font-family: 'Arial Unicode MS'; font-size: 11px;">Date: {!otherInfo.today}
+            <br/>
+            <br/> {!product.CCS_Agency__r.Name}
+            <br/>
+            <br/> RE: Monthly Payment Adjustment.
+            <br/> CCS Office File ID Number: {!product.CCS_Client_ID__c}
+            <br/> Name of Customer: {!product.Customer__r.Name}
+            <br/> Account Number: {!product.Name}
+            <br/>
+            <br/>
+            <br/> Dear Sir /Madam,
+            <br/>
+            <br/> As per your recent request we can confirm that Canaccede International Management Ltd will authorize your office
+            to lower the monthly payments {!product.Manually_Fill__c} to {!otherInfo.monthlyPaymentAmount}. Our records show
+            that we still have a remaining balance of {!otherInfo.currentBalance}.
+            <br/>
+            <br/> The last payment we show for this account was for {!otherInfo.paymentAmount} which was received on the {!otherInfo.paymentCreatedDate}.
+            <br/>
+            <br/> If you have any questions or concerns, please do not hesitate to contact us.
+            <br/>
+            <br/> Sincerely,
+            <br/>
+            <br/> {!ccsPackage.CFG_Name__c}
+            <br/> {!ccsPackage.CFG_Office_Name__c}
+            <br/> {!otherInfo.servicerName}
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </p>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!otherInfo.template == 'Paid in Full'}">
+        <br/>
+        <br/>
+        <br/>
+        <apex:outputText value="{!otherInfo.logoVisiblity}" escape="false" />
+        <br/>
+        <p style="font-family: 'Arial Unicode MS'; font-size: 11px;">Date: {!otherInfo.today}
+            <br/>
+            <br/> {!product.CCS_Agency__r.Name}
+            <br/>
+            <br/> RE: Paid in Full Confirmation.
+            <br/> CCS Office File ID Number: {!product.CCS_Client_ID__c}
+            <br/> Name of Customer: {!product.Customer__r.Name}
+            <br/> Account Number: {!product.Name}
+            <br/>
+            <br/>
+            <br/> Dear Sir /Madam
+            <br/>
+            <br/> Please be advised the customer mentioned above has paid the account in full, with a last payment of {!otherInfo.grossPaymentAmount}
+            which was received on the {!otherInfo.paymentCreatedDate}.
+            <br/>
+            <br/> If you have any questions or concerns, please do not hesitate to contact us.
+            <br/>
+            <br/> Sincerely,
+            <br/>
+            <br/> {!ccsPackage.CFG_Name__c}
+            <br/> {!ccsPackage.CFG_Office_Name__c}
+            <br/> {!otherInfo.servicerName}
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </p>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!otherInfo.template == 'Response to proposal'}">
+        <div style="font-family: 'Arial Unicode MS'; font-size: 8px;">
+            <br />
+            <br /> &nbsp;
+            <apex:outputText value="{!otherInfo.logoVisiblity}" escape="false" /> &nbsp;
+            <p style="font-family: 'Arial Unicode MS'; font-size: 8px; line-height:10px;">Date: {!otherInfo.today}
+                <br />
+                <br /> {!product.CCS_Agency__r.Name}
+                <br /> {!product.CCS_Agency__r.BillingStreet}
+                <br /> {!product.CCS_Agency__r.BillingCity}
+                <br /> {!product.CCS_Agency__r.BillingPostalCode}
+                <br /> {!product.CCS_Agency__r.BillingState}
+                <br /> {!product.CCS_Agency__r.Fax}
+                <br />
+                <br /> RE:Your Account #: {!product.CCS_Client_ID__c}
+                <br /> Customer Name: {!product.Customer__r.Name}
+                <br /> Customer Account #: {!product.Name}
+                <br /> Original Creditor: {!product.Originating_Creditor__c}
+                <br />
+                <br /> Pursuant to the notice received by the Creditor, the above customer has applied for a debt management program
+                with your office.
+                <br />
+                <br /> You are seeking the Creditor&rsquo;s approval to this debt liquidation under the following proposal:
+                <br /> CCS Proposed Payment Amount: {!otherInfo.ccsProposedPaymentAmount}
+                <br /> Proposed Payment Amount: {!otherInfo.proposedPaymentAmount}
+                <br /> Payment Frequency: {!product.Payment_Frequency__c}
+                <br /> Proposed Donation: {!otherInfo.proposedDonationRate}
+                <br /> Expected First disbursement date: {!otherInfo.expectedFirstDisbursementDate}
+                <br />
+                <br /> Upon review we can confirm that we will {!product.Proposal_Status__c} the Debt Management Proposal for the
+                customer under the following terms:
+                <br /> Current Balance: {!otherInfo.currentBalance}
+                <br /> Accepted Interest rate: {!otherInfo.acceptedInterestRate}
+                <br /> Accepted Payment Amount:{!otherInfo.acceptedPaymentAmount}
+                <br /> Payment Frequency: {!product.Payment_Frequency__c}
+                <br /> Accepted Donation Rate: {!otherInfo.acceptedDonationRate}
+                <br /> Expected First Disbursement Date: {!otherInfo.expectedFirstDisbursementDate}
+                <br /> Date of last payment: {!otherInfo.paymentCreatedDate}
+                <br /> Amount of last payment: {!otherInfo.paymentAmount}
+                <br /> Reason for Decline: {!product.Proposal_Reject_Reason__c}
+                <br /> &nbsp;
+            </p>
+            <p style="font-family: 'Arial Unicode MS'; font-size: 8px;  line-height:10px;">1. If the creditor has agreed to pay your organization a donation which is set out in the terms above, then please
+                deduct the donation per the Creditors accepted donation rate from each payment.
+                <br /> 2. Personal cheques from customers will not be accepted.
+                <br /> 3. The above noted account number must be provided on ALL payments to ensure accuracy of processing the
+                payments.
+                <br /> 4. If no payments are received for 3 consecutive months, the proposed terms will be deemed to be in default
+                and the proposal null and void.
+                <br /> 5. Please ensure all payments are made payable to Canaccede International Management Ltd.
+                <br />
+                <br />
+                <br /> Sincerely,
+                <br />
+                <br /> {!ccsPackage.CFG_Name__c}
+                <br /> {!ccsPackage.CFG_Office_Name__c}
+                <br /> {!otherInfo.servicerName}
+                <br/>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+            </p>
+        </div>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!otherInfo.template == 'Response to Proposal - Money'}">
+        <br/>
+        <br/>
+        <br/>
+        <div style="width:100%;">
+            <apex:outputText value="{!otherInfo.logoVisiblity}" escape="false" />
+        </div>
+        <br/>
+        <p style="font-family: 'Arial Unicode MS'; font-size: 11px;">
+            Date: {!otherInfo.today}
+            <br/>
+            <br/> {!product.CCS_Agency__r.Name}
+            <br/>
+            <br/> RE: Consent of Creditor.
+            <br/> File ID Number: {!product.CCS_Client_ID__c}
+            <br/> Account Number: {!product.Name}
+            <br/> Creditor: {!product.Originating_Creditor__c}
+            <br/>
+            <br/>
+            <br/> Dear Agency,
+            <br/>
+            <br/> I hear by certify that {!otherInfo.currentBalance} is our net balance outstanding as of {!otherInfo.today}
+            <br/>
+            <br/> Legal Name of Creditor: Easyfinancial Services Ltd.
+            <br/> Account serviced by: Canaccede International Management
+            <br/> Address: Station B - P.O Box 9, London, ON, N6A 4V3
+            <br/> Ph #: 1-844-827-9225 Fax: 1-844-827-9226
+            <br/>
+            <br/> If you have any questions or concerns, please do not hesitate to contact us.
+            <br/>
+            <br/> Sincerely,
+            <br/>
+            <br/> {!ccsPackage.CFG_Name__c}
+            <br/> {!ccsPackage.CFG_Office_Name__c}
+            <br/> {!otherInfo.servicerName}
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </p>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!otherInfo.template == 'Settled in Full'}">
+        <br/>
+        <br/>
+        <br/>
+        <apex:outputText value="{!otherInfo.logoVisiblity}" escape="false" />
+        <br/>
+        <p style="font-family: 'Arial Unicode MS'; font-size: 11px;">Date: {!otherInfo.today}
+            <br/>
+            <br/> {!product.CCS_Agency__r.Name}
+            <br/>
+            <br/> RE: {!otherInfo.settleReference}
+            <br/> CCS Office File ID Number: {!product.CCS_Client_ID__c}
+            <br/> Name of Customer: {!product.Customer__r.Name}
+            <br/> Account Number: {!product.Name}
+            <br/>
+            <br/>
+            <br/> Dear Sir /Madam,
+            <br/>
+            <br/> As per your recent communication we confirm that our mutual customer mentioned above has settled the account
+            in full, with a last payment of {!otherInfo.grossPaymentAmount} which was received on the {!otherInfo.paymentCreatedDate}.
+            <br/>
+            <br/> If you have any questions or concerns, please do not hesitate to contact us.
+            <br/>
+            <br/> Sincerely,
+            <br/>
+            <br/> {!ccsPackage.CFG_Name__c}
+            <br/> {!ccsPackage.CFG_Office_Name__c}
+            <br/> {!otherInfo.servicerName}
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </p>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!otherInfo.template == 'Settlement Offer'}">
+        <br/>
+        <br/>
+        <br/>
+        <apex:outputText value="{!otherInfo.logoVisiblity}" escape="false" />
+        <br/>
+        <p style="font-family: 'Arial Unicode MS'; font-size: 11px;">Date: {!otherInfo.today}
+            <br/>
+            <br/> {!product.CCS_Agency__r.Name}
+            <br/>
+            <br/> RE: Settlement Offer
+            <br/> CCS Office File ID Number: {!product.CCS_Client_ID__c}
+            <br/> Name of Customer: {!product.Customer__r.Name}
+            <br/> Account Number: {!product.Name}
+            <br/>
+            <br/>
+            <br/> Dear Sir /Madam
+            <br/>
+            <br/> This letter is regarding the settlement offer request for the debtor mentioned above. On a without prejudice
+            basis we are willing to accept settlement of {!otherInfo.settlementAmount} on this account as long as the payment
+            is received in our office no later than {!otherInfo.settlementManualDate}.
+            <br/>
+            <br/> Please note, if funds are not received as outlined above, this offer shall become null and void and the full
+            balance, plus interest will become due immediately.
+            <br/>
+            <br/> If you have any questions or concerns, please do not hesitate to contact us.
+            <br/>
+            <br/> Sincerely,
+            <br/>
+            <br/> {!CCSPackage.CFG_Name__c}
+            <br/> {!CCSPackage.CFG_Office_Name__c}
+            <br/> {!otherInfo.servicerName}
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </p>
+    </apex:outputPanel>
+    <p style="text-align:center;">
+        <b>{!ccsPackage.CFG_Office_Name__c} </b>
+        <br/> {!ccsPackage.CFG_Office_Address_1__c} | {!ccsPackage.CFG_Office_City__c} | {!ccsPackage.CFG_Office_Province__c}
+        | {!ccsPackage.CFG_Office_Postal_Code__c}
+        <br/> Tel: {!ccsPackage.CFG_Office_Phone_Number__c} | Fax: {!ccsPackage.CFG_Office_Fax_Number__c}
+        <br/> Email: {!ccsPackage.CFG_Office_Website__c}
+    </p>
+</apex:page>

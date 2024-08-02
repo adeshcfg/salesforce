@@ -71,6 +71,7 @@ insert prod;
         insert att; 
         
         ApexPages.currentPage().getParameters().put('Id', prod.Id);
+        ApexPages.currentPage().getParameters().put('template', 'Balance Request');
         
         CCSEmailController obj= new CCSEmailController();
         obj.toEmail = 'test@test.com';
@@ -94,7 +95,7 @@ obj.attachmentSelected();
         obj.listTempletsDropdown();
         obj.populateValuesInTemplate();
         
-        
+        CcsVfTemplateController vfController = new CcsVfTemplateController();
     } 
     
 }
