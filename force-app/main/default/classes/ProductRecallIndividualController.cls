@@ -302,10 +302,6 @@ public without sharing class ProductRecallIndividualController {
             ProductTriggerHandler.runProductTrigger = false;
             update product;
 			
-            AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
-            update accJudgStatusUpdateList;
-            AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
-            
             List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
             if (!judgmentToUpdateList.isEmpty()) {
                 JudgmentTriggerHandler.runJudgmentTrigger = false;
@@ -319,6 +315,10 @@ public without sharing class ProductRecallIndividualController {
                 JudgmentTriggerHandler.runJudgmentTrigger = true;
                 update applicationConfigSetting;
             }
+            
+            AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
+            update accJudgStatusUpdateList;
+            AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
 
             if (selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse') {
                 DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0, 1), '9'));
@@ -509,10 +509,6 @@ public without sharing class ProductRecallIndividualController {
                 DistressedUtilities.UpdateSettlement(prodId);
                 ProductTriggerHandler.runProductTrigger = false;
                 update product;
-				
-                AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
-                update accJudgStatusUpdateList;
-                AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
                 
                 List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
                 if (!judgmentToUpdateList.isEmpty()) {
@@ -527,7 +523,11 @@ public without sharing class ProductRecallIndividualController {
                     JudgmentTriggerHandler.runJudgmentTrigger = true;
                     update applicationConfigSetting;
                 }
-
+				
+                AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
+                update accJudgStatusUpdateList;
+                AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
+                
                 if (selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse') {
                     DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0, 1), '9'));
                 }
