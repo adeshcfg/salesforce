@@ -204,7 +204,15 @@
         ]) {
             mapProd.put(prod.Name, prod);
         }
-
+        map<string,string> acctStatusOfProduct = new map<string,string>();
+		for (Account_Judgment__c accJud : [ SELECT product__c,product__r.name,judgment__c,status__c from Account_Judgment__c
+            WHERE judgment__c IN :mapJudgmentIdJudgment.keySet()
+        ]){
+            if(mapProd.containsKey(accJud.product__r.name)){
+                acctStatusOfProduct.put(accJud.product__r.name,accJud.Status__c);
+            }
+        }
+        
         // Loop on list of judgments
         for (String judgmentId : judgmentIdProductListMap.keySet()) {
             // Get the current judgment record in iteration
@@ -213,17 +221,20 @@
             for (String productId : judgmentIdProductListMap.get(judgmentId)) {
                 // Get current product in iteration using the product name
                 Product__c judgmentProduct = mapProd.get(productId);
-                if (mapAccountJudgmentCodes.containsKey(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)) {
-                    judgmentProduct.Status__c = mapAccountJudgmentCodes.get(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)
-                        .Product_Status__c;
-                }
-                if (mapAccountJudgmentCodes.containsKey(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)) {
-                    judgmentProduct.Sub_Status__c = mapAccountJudgmentCodes.get(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)
-                        .Product_Sub_status__c;
-                }
-                if (mapAccountJudgmentCodes.containsKey(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)) {
-                    judgmentProduct.Placement_Status__c = mapAccountJudgmentCodes.get(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)
-                        .Codes__c;
+                //Ticket 6993 - Update active judgment statues on product
+                if(acctStatusOfProduct.containskey(judgmentProduct.name) && acctStatusOfProduct.get(judgmentProduct.name) == 'Active'){
+                    if (mapAccountJudgmentCodes.containsKey(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)) {
+                        judgmentProduct.Status__c = mapAccountJudgmentCodes.get(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)
+                            .Product_Status__c;
+                    }
+                    if (mapAccountJudgmentCodes.containsKey(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)) {
+                        judgmentProduct.Sub_Status__c = mapAccountJudgmentCodes.get(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)
+                            .Product_Sub_status__c;
+                    }
+                    if (mapAccountJudgmentCodes.containsKey(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)) {
+                        judgmentProduct.Placement_Status__c = mapAccountJudgmentCodes.get(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)
+                            .Codes__c;
+                    }
                 }
                 if (judgmentProduct != null) {
                     productMap.put(judgmentProduct.Id, judgmentProduct);
@@ -388,6 +399,7 @@
             prod.Legal_Status__c = newJudgments.get(judgmentId).Legal_Status__c + ' - ' + newJudgments.get(judgmentId).Legal_Sub_Status__c;
             prodList.add(prod);
         }
+        system.debug('prodList'+prodList);
         if (!prodList.isEmpty()) {
             update prodList;
         }
