@@ -1991,6 +1991,11 @@ Accure Interest from curDate (last payment's postoing date) to Today
                         }
                     }
                 }
+                
+                if(judgment.Legal_Status__c == 'Judgment' || judgment.Legal_Status__c == 'Post-Judgment' || 
+                   (judgment.Legal_Status__c == 'Pre-Judgment' && judgment.Legal_Sub_Status__c == 'Claim Served')){
+                       judgment.addError('You cannot add this record on product becuase this is in judgment state');
+                   }
             }
         }
     }
