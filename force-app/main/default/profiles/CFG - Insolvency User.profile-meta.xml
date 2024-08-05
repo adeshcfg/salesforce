@@ -20832,6 +20832,10 @@
         <apexPage>LOR_Demand_VFP</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+    <pageAccesses>
+        <apexPage>LOR_Demand_Goeasy_VFP</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Agency_User__c.Agency_Contact</recordType>
