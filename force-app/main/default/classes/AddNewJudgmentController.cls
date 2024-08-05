@@ -251,8 +251,7 @@ public class AddNewJudgmentController {
         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+ judgment.Legal_Sub_Status__c)){
             Codes = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;  
         }
-        if(judgment.Legal_Status__c == 'Judgment' || judgment.Legal_Status__c == 'Post-Judgment' || 
-           (judgment.Legal_Status__c == 'Pre-Judgment' && judgment.Legal_Sub_Status__c == 'Claim Served')){
+        if(!System.Label.Exclude_Judgment_Codes.contains(mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c)){
             ErrorMsg = 'You cannot add this record on product becuase this is in judgment state';
             listError.add(ErrorMsg);
         }
