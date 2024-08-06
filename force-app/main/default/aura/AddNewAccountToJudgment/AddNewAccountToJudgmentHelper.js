@@ -103,6 +103,7 @@
                         mode: 'pester'
                     });
                     toastEvent.fire();
+                     $A.get('e.force:closeQuickAction ').fire();
                 }
                 else {
                     component.set("v.showSpinner", true);
