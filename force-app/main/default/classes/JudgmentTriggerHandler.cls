@@ -2006,9 +2006,6 @@ Accure Interest from curDate (last payment's postoing date) to Today
                         }
                     }
                 }
-                if(!System.Label.Exclude_Judgment_Codes.contains(mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c)){
-                    judgment.addError('You cannot add this record on product becuase this is in judgment state');
-                }
             }
         }
     }

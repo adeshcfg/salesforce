@@ -81,6 +81,36 @@
         });
         $A.enqueueAction(action);
     },
+    validationCheck:function(component){
+        var judgId = component.get("v.recordId");
+        var action = component.get("c.validationCheck");
+        action.setParams({
+            "judgId" : judgId,
+        });
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                var result = response.getReturnValue();
+                if (response.getReturnValue().length > 0) {
+                    var message = response.getReturnValue();
+                    var toastEvent = $A.get("e.force:showToast");
+                    toastEvent.setParams({
+                        title: 'Error',
+                        message: message,
+                        duration: ' 9000',
+                        key: 'info_alt',
+                        type: 'error',
+                        mode: 'pester'
+                    });
+                    toastEvent.fire();
+                }
+                else {
+                    component.set("v.showSpinner", true);
+                }
+            }
+        });
+        $A.enqueueAction(action);
+    },
     deactivateAccJudgsRelatedToProducts: function(component, judgId){
        
         var action = component.get("c.deactivateAccJudgRelatedAccounts");

@@ -108,6 +108,32 @@ public class AddNewAccountToJudgmentController {
         ];
         return existingProdList;
     }
+    
+    @AuraEnabled
+    public static String validationCheck(Id judgId) {
+        String ErrorMsg = '';
+        String judgLegalStatus = '';
+        String judgLegalSubStatus = '';
+        map<String, Judgment_product_codes_mapping__c> mapAccountJudgmentCodes = new map<String, Judgment_product_codes_mapping__c>();
+        
+        for (Account_Judgment__c accJudg : [SELECT Id, Product__c,Judgment__r.Legal_Status__c,Judgment__r.Legal_Sub_Status__c FROM Account_Judgment__c WHERE Judgment__c = :judgId]) {
+			judgLegalStatus = accJudg.Judgment__r.Legal_Status__c;
+            judgLegalSubStatus = accJudg.Judgment__r.Legal_Sub_Status__c;
+        }
+		for(Judgment_product_codes_mapping__c mapping : [SELECT Id,Name,Codes__c, Product_Status__c,
+                                                                Product_Sub_status__c,Judgment_Legal_Status__c,
+                                                                Judgment_Legal_Sub_Status__c
+                                                         FROM Judgment_product_codes_mapping__c
+                                                          WHERE Product_Parent__c = :judgLegalStatus]){
+          mapAccountJudgmentCodes.put(mapping.Judgment_Legal_Status__c+mapping.Judgment_Legal_Sub_Status__c, mapping);                                                                                   
+        }
+        
+        if(!System.Label.Exclude_Judgment_Codes.contains(mapAccountJudgmentCodes.get(judgLegalStatus+judgLegalSubStatus).Codes__c)){
+            ErrorMsg = 'You cannot add new product on this judgment because legal status is "'+judgLegalStatus+'" & legal sub status is "'+ judgLegalSubStatus+'"';
+        }
+        return ErrorMsg;
+    }
+    
     @AuraEnabled
     public static void deactivateAccJudgRelatedAccounts(Id judgId) {
         List<Id> prodIDs = new List<Id>();

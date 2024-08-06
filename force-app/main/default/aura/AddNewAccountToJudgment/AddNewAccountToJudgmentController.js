@@ -1,6 +1,7 @@
 ({
 	doInit: function(component,event, helper) {
         component.set('v.showSpinner',true);
+        helper.validationCheck(component);
         helper.fetchLinkedAccounts(component);
     },
     selectAll : function(component, event, helper) {
