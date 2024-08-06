@@ -252,7 +252,7 @@ public class AddNewJudgmentController {
             Codes = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;  
         }
         if(!System.Label.Exclude_Judgment_Codes.contains(mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c)){
-            ErrorMsg = 'You cannot add this record on product becuase this is in judgment state';
+            ErrorMsg = 'You cannot add new product on this judgment because legal status is "'+judgment.Legal_Status__c+'" & legal sub status is "'+ judgment.Legal_Sub_Status__c+'"';
             listError.add(ErrorMsg);
         }
         if(prod.Collection_Agency__c == NULL){
