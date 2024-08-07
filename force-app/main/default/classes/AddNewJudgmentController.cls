@@ -197,10 +197,11 @@ public class AddNewJudgmentController {
         if(judgId != null){
         	 judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c,
                          Case_Number__c,Suit_Amount__c,Date_Debtor_Served__c,Product_1__c,Balance_one__c,Interest_Rate_one__c,Suit_Amount_1__c,
-                         Court__c,Legal_Firm__c,Plaintiff__c,Attorney__c,Product_2__c,Balance_two__c,Suit_Amount_2__c,
-                         Interest_Rate_two__c,County__c,Product_3__c,Balance_three__c,Interest_Rate_three__c,Suit_Amount_3__c,
-                         Product_4__c,Balance_four__c,Interest_Rate_four__c,Suit_Amount_4__c,Product_5__c,Balance_five__c,
-                         Interest_Rate_five__c,Suit_Amount_5__c,Judgment_Date__c,Judgment_Amount__c,Filing_Date__c,Legal_Agency__c
+                         Court__c,Legal_Firm__c,Plaintiff__c,Attorney__c,Product_2__c,Balance_two__c,Suit_Amount_2__c,Garnishment_Amount__c,
+                         Interest_Rate_two__c,County__c,Product_3__c,Balance_three__c,Interest_Rate_three__c,Suit_Amount_3__c,Garnishment_Date__c,
+                         Product_4__c,Balance_four__c,Interest_Rate_four__c,Suit_Amount_4__c,Product_5__c,Balance_five__c,Garnishment_Number__c,
+                         Interest_Rate_five__c,Suit_Amount_5__c,Judgment_Date__c,Judgment_Amount__c,Filing_Date__c,Legal_Agency__c,
+                         Date_Writ_Issued__c,Writ_Number__c,Writ_Amount__c
                          FROM Judgment__c where Id  =: judgId];
         }
 
