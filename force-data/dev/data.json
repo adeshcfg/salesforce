@@ -1,21 +1,353 @@
 {
     "dml": {
-        "update": [
+        "insert": [
             {
-                "objectName": "Judgment_product_codes_mapping__c",
-                "recordVariableName": "judgmentProductCodes",
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping",
                 "fields": [
                     {
-                        "fieldApiName": "id",
-                        "fieldValue": "'a3BAs000000sXevMAE'"
+                        "fieldApiName": "Name",
+                        "fieldValue": "'210030'"
                     },
                     {
-                        "fieldApiName": "Judgment_Legal_Sub_Status__c",
-                        "fieldValue": "'Enforcement of Judgment Against Land'"
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Pre-Legal (2.1); In Process [Settlement Letter Sent]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping1",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'220030'"
                     },
                     {
-                        "fieldApiName": "Product_Sub_status__c",
-                        "fieldValue": "'Enforcement of Judgment Against Land'"
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Pre-Judgment (2.2); In Process [Settlement Proposal Accepted]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping2",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'220040'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Pre-Judgment (2.2); In Process [Entered Credit Counselling]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping3",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'220050'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Pre-Judgment (2.2); In Process [Entered Insolvency]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping4",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'290030'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Judgment Verdict (2.90); Granted [Settlement Proposal Accepted]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping5",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'290040'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Judgment Verdict (2.90); Granted [Entered Credit Counselling]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping6",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'290050'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Judgment Verdict (2.90); Granted [Entered Insolvency]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping7",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'293040'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.93); In Process [Entered Credit Counselling]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping8",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'293050'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.93); In Process [Entered Insolvency]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping9",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'295080'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.95); In Process [Enforcement Lost]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping10",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'295060'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.95); In Process [Writ & Judicial Sale]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping11",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'293030'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.93); In Process [Settlement Proposal Accepted]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping12",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'210015'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Pre-Legal (2.1); In Process [Reviewing for Legal action]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping13",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'220910'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Pre-Judgment (2.2); Inactive [Abandonned Claim]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping14",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'290005'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Judgment Verdict (2.90); Granted [Consent Judgment]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping15",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'290020'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Judgment Verdict (2.90); Granted [Defended Action]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping16",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'293010'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.93); In Process [Voluntary assignment of wages]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping17",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'295010'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.95); In Process [Certificate of Execution]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping18",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'295040'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.95); In Process [Writ & Enforcement by Sheriff off]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping19",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'295050'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.95); In Process [Writ & Locating Enforcement]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping20",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'295070'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.95); In Process [No Writ & Locating Enforcement]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping21",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'210011'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Pre-Legal (2.1); In Process [Claim Sent to Court]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping22",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'220021'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Pre-Judgment (2.2); In Process [Judgment Sent to Court]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping23",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'220001'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Pre-Judgment (2.2); In Process [Motion For Substituted Service Filed]'"
+                    }
+                ]
+            },
+            {
+                "objectName": "Placement_Status_Mapping__c",
+                "recordVariableName": "placement_status_mapping24",
+                "fields": [
+                    {
+                        "fieldApiName": "Name",
+                        "fieldValue": "'295090'"
+                    },
+                    {
+                        "fieldApiName": "Description__c",
+                        "fieldValue": "'Post-Judgment (2.95); In Process [Enforcement of Judgment Against Land]'"
                     }
                 ]
             }
