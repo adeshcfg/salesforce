@@ -2,7 +2,7 @@
  * @description       : Queueable class to get file list and store other API callout methods for incoming file
  * @author            : adesh.ikhar@canaccede.com
  * @group             :
- * @last modified on  : 08-06-2024
+ * @last modified on  : 08-07-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallouts {
@@ -10,7 +10,7 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
     public static final String FILE_TYPE_PARAMETER = 'csv';
     public void execute(QueueableContext context) {
         // Call API to get the list of files
-        List<String> fileNameList = getFileList(API_TYPE_PARAMETER, null);
+        List<String> fileNameList = getFileList(API_TYPE_PARAMETER, FILE_TYPE_PARAMETER);
         if (!fileNameList.isEmpty()) {
             for (Document_Storage__c doc : [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c IN :fileNameList]) {
                 // Check if we already have document storage record for any file
@@ -55,14 +55,17 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
                 FileListWrapper fileList = (FileListWrapper) System.JSON.deserialize(res.getBody(), FileListWrapper.class);
                 if (fileList.files != null && !fileList.files.isEmpty()) {
                     for (String fileName : fileList.files) {
-                        // If no file type is provided, add all files except zip extension
-                        if (String.isBlank(fileType) && fileName.substring(fileName.length() - 3, fileName.length()) != 'zip') {
+                        // If filetype is csv and the file name contains drnbkruptupd consider it as a csv
+                        if (fileType ==  FILE_TYPE_PARAMETER && fileName.split('.').contains('drnbkruptupd')) {
                             fileNameList.add(fileName.substringAfterLast('/'));
                         }
-                        // Only add files in the list for the given file type
-                        if (String.isNotBlank(fileType) && fileName.substring(fileName.length() - 3, fileName.length()) == fileType) {
-                            // Get only the file name from the file path and remove file extension
-                            fileNameList.add(fileName.substringAfterLast('/'));
+                        // If filetype is zip and the file name contains zip as well as stmt consider it as a zip file
+                        if (fileType ==  GetZipFilesListQueueable.FILE_TYPE_PARAMETER) {
+                            List<String> splitFileName = fileName.split('.');
+                            if (splitFileName.contains(GetZipFilesListQueueable.FILE_TYPE_PARAMETER) && splitFileName.contains('stmt')) {
+                                // Get only the file name from the file path and remove file extension
+                                fileNameList.add(fileName.substringAfterLast('/'));
+                            }
                         }
                     }
                 }

@@ -1,7 +1,7 @@
 /**
  * @description       : Mock callout class for SFTP API callout test classes
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 05-09-2024
+ * @last modified on  : 08-07-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class SftpApiCalloutMock implements HttpCalloutMock {
@@ -19,7 +19,7 @@ public class SftpApiCalloutMock implements HttpCalloutMock {
             responseString = '{"result":{"Token":"testtoken"}}';
         }
         if (req.getEndpoint().contains('filter')) {
-            responseString = '{"$id":"1","hasMore":false,"files":["ctbsftpinbox/20240504/DRN_DailyUpdate_20240506024618.csv"]}';
+            responseString = '{"$id":"1","hasMore":false,"files":["ctbsftpinbox/20240504/ptd.drn.drnbkruptupd.date.time","ctbsftpinbox/20240504/ptd.drn.inactive.stmt.reprint.zip.date.time"]}';
         }
         if (req.getEndpoint().contains('sobjects/folders/')) {
             responseString =
