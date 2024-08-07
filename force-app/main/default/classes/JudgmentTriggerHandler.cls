@@ -2172,7 +2172,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
      public static Map<String, Product__c> updatePlacementMainStatus(Set<id> productIds) {
          system.debug('productIds::'+productIds);
          Map<String, Product__c> prodPlacementStatusUpdate = new Map<String, Product__c>();
-         Product__c prodUpdate = new product__c();
+         
         for (Account_Judgment__c activeProductJudgment : [
             SELECT Judgment__c, Judgment__r.Legal_Status__c,Judgment__r.Legal_Sub_Status__c,
             Product__c,Product__r.Status__c,Product__r.Sub_Status__c,
@@ -2182,6 +2182,7 @@ Accure Interest from curDate (last payment's postoing date) to Today
         ]) {
                 if(activeProductJudgment.Product__r.Placement_Status__c != NULL  && 
                    !System.Label.Exclude_Judgment_Codes.contains(activeProductJudgment.Product__r.Placement_Status__c)){
+                    Product__c prodUpdate = new product__c();
                 if (mapAccountJudgmentCodes.containsKey(activeProductJudgment.Judgment__r.Legal_Status__c + activeProductJudgment.Judgment__r.Legal_Sub_Status__c)) {
                     prodUpdate.Status__c = mapAccountJudgmentCodes.get(activeProductJudgment.Judgment__r.Legal_Status__c + activeProductJudgment.Judgment__r.Legal_Sub_Status__c)
                         .Product_Status__c;
