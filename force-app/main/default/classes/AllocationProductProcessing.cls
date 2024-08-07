@@ -256,16 +256,7 @@ public class AllocationProductProcessing {
                     PlacementHistoryTriggerHandler.runPlacementHistoryTrigger = true;
                 }
             } catch (Exception ex) {
-                for (Product_Staging__c productStaging : listProductStaging) {
-                    String msg = '<b>ERROR</b>-' + ex.getMessage();
-                    if (msg.length() > 254) {
-                        msg = msg.substring(0, 254);
-                    }
-                    productStaging.Comment__c = msg;
-                    productStaging.status__c = 'Pending';
-
-                    successRecords -= 1;
-                }
+                listProductStaging = errorHandling(listProductStaging,ex.getMessage());
             }
             if (listProductStaging.size() > 0) {
                 update listProductStaging;
@@ -273,7 +264,26 @@ public class AllocationProductProcessing {
         } catch (Exception ex) {
             system.debug('exception success file--+--' + ex.getLineNumber());
             system.debug('exception success file--+--' + ex.getMessage());
+            listProductStaging = errorHandling(listProductStaging,ex.getMessage());
+            if (listProductStaging.size() > 0) {
+                update listProductStaging;
+            }
         }
         return judgMapValues.values();
+    }
+    public static List<Product_Staging__c> errorHandling(List<Product_Staging__c> listProductStaging,string errorMsg){
+        List<Product_Staging__c> errorHandlingLisg = new List<Product_Staging__c>();
+        for (Product_Staging__c productStaging : listProductStaging) {
+            String msg = '<b>ERROR</b>-' + errorMsg;
+            if (msg.length() > 254) {
+                msg = msg.substring(0, 254);
+            }
+            productStaging.Comment__c = msg;
+            productStaging.status__c = 'Pending';
+            
+            successRecords -= 1;
+            errorHandlingLisg.add(productStaging);
+        }
+        return errorHandlingLisg;
     }
 }
