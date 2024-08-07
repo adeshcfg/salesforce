@@ -84,7 +84,7 @@
         getJudgmentBalance(listNewJudgments);
 
         //Added below line part od Bug-5564
-        if (!test.isRunningTest())
+      	if (!test.isRunningTest())
             updateAgencyOnJudgment(listNewJudgments);
     }
     //Bug: 5564 - Updated the below method to remove reference of AccountJudgment records
@@ -844,11 +844,16 @@
                         Principal_Balance = ProductNewInstance.Current_Principal_Balance__c.setScale(2, RoundingMode.HALF_UP);
                         ProductNewInstance.Current_Interest_Amount__c = productToUpdateMap.get(prodPayment.CCS_Account__c).Current_Interest_Amount__c;
                         //Round off Interest balance accrued to 2 decimal places
-                        Current_Interest = ProductNewInstance.Current_Interest_Amount__c.setScale(2, RoundingMode.HALF_UP);
-
-                        Principal_Payment_Amount = prodPayment.Principal_Payment_Amount__c.setScale(2, RoundingMode.HALF_UP);
-                        Interest_Payment_Amount = prodPayment.Interest_Payment_Amount__c.setScale(2, RoundingMode.HALF_UP);
-
+                        if(ProductNewInstance.Current_Interest_Amount__c != NULL){
+                            Current_Interest = ProductNewInstance.Current_Interest_Amount__c.setScale(2, RoundingMode.HALF_UP);
+                        }
+                        if(prodPayment.Principal_Payment_Amount__c != NULL){
+                           Principal_Payment_Amount = prodPayment.Principal_Payment_Amount__c.setScale(2, RoundingMode.HALF_UP); 
+                        }
+                        if(prodPayment.Interest_Payment_Amount__c != NULL){
+                            Interest_Payment_Amount = prodPayment.Interest_Payment_Amount__c.setScale(2, RoundingMode.HALF_UP);
+                        }
+                        
                         NoOfDays = (Date.valueOf(CurrentDate).daysBetween(prodPayment.Payment_Posting_Date__c));
                         NoOfDays = NoOfDays / 365;
                         //round of no of days to 4 decimal places
