@@ -56,12 +56,12 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
                 if (fileList.files != null && !fileList.files.isEmpty()) {
                     for (String fileName : fileList.files) {
                         // If filetype is csv and the file name contains drnbkruptupd consider it as a csv
-                        if (fileType ==  FILE_TYPE_PARAMETER && fileName.split('.').contains('drnbkruptupd')) {
+                        if (fileType ==  FILE_TYPE_PARAMETER && fileName.split('\\.').contains('drnbkruptupd')) {
                             fileNameList.add(fileName.substringAfterLast('/'));
                         }
                         // If filetype is zip and the file name contains zip as well as stmt consider it as a zip file
                         if (fileType ==  GetZipFilesListQueueable.FILE_TYPE_PARAMETER) {
-                            List<String> splitFileName = fileName.split('.');
+                            List<String> splitFileName = fileName.split('\\.');
                             if (splitFileName.contains(GetZipFilesListQueueable.FILE_TYPE_PARAMETER) && splitFileName.contains('stmt')) {
                                 // Get only the file name from the file path and remove file extension
                                 fileNameList.add(fileName.substringAfterLast('/'));
