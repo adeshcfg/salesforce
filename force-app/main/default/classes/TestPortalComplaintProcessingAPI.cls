@@ -15,6 +15,7 @@ public class TestPortalComplaintProcessingAPI {
         API_Call_Details__c  settings = new API_Call_Details__c ();
         settings.Name = 'Agency Portal API';
         settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
+        settings.API_Request_Timeout__c = 90000;
         settings.Tenand_ID__c = '123';
         settings.Proxy_Client_ID__c = '123';
         settings.Client_ID__c = '1234';

@@ -129,6 +129,7 @@ public class PortalComplaintProcessingAPI {
             HttpRequest req = new HttpRequest();
             system.debug('complaintJSONRequest: '+complaintJSONRequest);
             req.setBody(complaintJSONRequest);
+            req.setTimeOut(Integer.valueOf(apiCallDetails.API_Request_Timeout__c));
             req.setHeader('Authorization', 'Bearer ' + accToken);
             req.setHeader('Content-Type', 'application/json;charset=UTF-8');
             apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SFComplain');
