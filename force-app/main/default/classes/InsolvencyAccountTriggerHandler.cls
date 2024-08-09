@@ -1032,13 +1032,15 @@ insolMap.put(insol.id, insol);
                 }
                 if(validStatusChange == False){
                     insolAccntNew.addError('Invalid Status change from ' + insolAccntOld.Insolvency_Status__c + ' to ' + insolAccntNew.Insolvency_Status__c);
+                    
+                }
                 // added for 7069 //
-                }else
-                {if( insolAccntOld.Insolvency_Status__c == 'Claim Filed' && insolAccntNew.Insolvency_Status__c == 'PoC Details Provided'){
-                      insolAccntNew.Amended_Claim_Flag__c = true;
-                    }
-                }                 
-             }
+                if(validStatusChange == true){
+                    if( insolAccntOld.Insolvency_Status__c == 'Claim Filed' && insolAccntNew.Insolvency_Status__c == 'PoC Details Provided'){
+                        insolAccntNew.Amended_Claim_Flag__c = true;
+                    }             
+                }
+            }
             
             insolAccntNew.Do_Not_Run_Status_Validation__c = False;
         } 
