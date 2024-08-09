@@ -167,6 +167,8 @@ public class InsolvencyAcctStatusValidationController {
                 return true;
             if (oldValue == 'Trustee Followup' && newValue == 'PoC Details Provided')
                 return true;
+            if (oldValue == 'Claim Filed' && newValue == 'PoC Details Provided')  
+                return true;              
             if (oldValue == 'For Owner Review' && newValue == 'Wait / Hold')
                 return true;
             if (oldValue == 'For Owner Review' && newValue == 'No PoC Required')
