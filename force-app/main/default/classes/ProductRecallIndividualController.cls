@@ -157,7 +157,8 @@ public without sharing class ProductRecallIndividualController {
         Map<String, Map<String, String>> productIdAgencyInfoMap = new Map<String, Map<String, String>>();
         String updateType = RECALL;
         String placementIdentifier = '';
-
+		Set<String> recallProdIds = new Set<String>();
+        List<ID> prodToRecallList = new List<ID>();
         product.Invalid_Submission__c = false;
         product.Timestamp_Of_Invalid_Submission__c = null;
         product.Invalid_Submission_Reason__c = null;
@@ -169,6 +170,9 @@ public without sharing class ProductRecallIndividualController {
         map<String, String> mapDataStatus = new Map<String, String>();
         Set<id> setProductIDs = new Set<id>();
         setProductIDs.add(product.id);
+        Map<id,String> allProdToRecallList = new Map<id,String>();
+        prodStatusAccJudgStatus wrapperData = new prodStatusAccJudgStatus();
+        
 		Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
         
         if (selectedValueAction == PENDING_RECALL) {
@@ -194,6 +198,15 @@ public without sharing class ProductRecallIndividualController {
                    }
                }
         } else if (selectedValueAction == 'Send To Warehouse') {
+            recallProdIds.add(product.Id);
+            wrapperData = getActiveProdIdsFromJudg(recallProdIds);
+            mapProductJudgment = wrapperData.prodIdsAcctJudId;
+            allProdToRecallList = wrapperData.prodIdsProductStatus;
+            
+            for(Id prodIds : allProdToRecallList.keySet()){
+                prodToRecallList.add(prodIds);
+            }
+
             //Ticket 6430 : Point 2
             if(!Test.isRunningTest() && System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) 
                && mapProductJudgment.containsKey(product.id)){
@@ -334,10 +347,16 @@ public without sharing class ProductRecallIndividualController {
             update accJudgStatusUpdateMap.values();
             AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
 
-            if (selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse') {
+            if (selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse'
+               && !allProdToRecallList.containsKey(product.id)) {
                 DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0, 1), '9'));
             }
-
+			
+            if (selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse'
+               && allProdToRecallList.containsKey(product.id)) {
+                DistressedUtilities.updatePlacementHistory_New(prodToRecallList, allProdToRecallList);
+            }
+            
             Map<Id, String> placeStatus = new Map<Id, String>();
             placeStatus.put(product.id, product.Placement_Status__c);
 
@@ -368,6 +387,11 @@ public without sharing class ProductRecallIndividualController {
         String subStatus = mapRecallCodeStatus.get(selectedRecallReason).Sub_Status__c;
         map<String, String> mapDataStatus = new Map<String, String>();
         map<String, Data_Status_Mapping__c> mapProductStatusCodes = new Map<String, Data_Status_Mapping__c>();
+        Set<String> recallProdIds = new Set<String>();
+        Map<id,String> allProdToRecallList = new Map<id,String>();
+        List<ID> prodToRecallList = new List<ID>();
+        prodStatusAccJudgStatus wrapperData = new prodStatusAccJudgStatus();
+        
         for (Data_Status_Mapping__c dataStatusMapping : [
             SELECT Description1__c, Description2__c, Name, Description__c
             FROM Data_Status_Mapping__c
@@ -412,6 +436,15 @@ public without sharing class ProductRecallIndividualController {
                        }
                    }
             } else if (selectedValueAction == 'Send To Warehouse') {
+                recallProdIds.add(product.Id);
+                wrapperData = getActiveProdIdsFromJudg(recallProdIds);
+                mapProductJudgment = wrapperData.prodIdsAcctJudId;
+                allProdToRecallList = wrapperData.prodIdsProductStatus;
+                
+                for(Id prodIds : allProdToRecallList.keySet()){
+                    prodToRecallList.add(prodIds);
+                }
+                
                 //Ticket 6430 : Point 2
                 if(System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) 
                    && mapProductJudgment.containsKey(product.id)){
@@ -555,10 +588,16 @@ public without sharing class ProductRecallIndividualController {
                 update accJudgStatusUpdateMap.values(); 
                 AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
                 
-                if (selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse') {
+                if((selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse') 
+                   && !allProdToRecallList.containsKey(product.id)) {
                     DistressedUtilities.updatePlacementHistory(product.id, selectedRecallReason.replaceFirst(selectedRecallReason.substring(0, 1), '9'));
                 }
-
+                
+                if((selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse') 
+                   && allProdToRecallList.containsKey(product.id)) {
+                    DistressedUtilities.updatePlacementHistory_New(prodToRecallList, allProdToRecallList);
+                }
+					
                 Map<Id, String> placeStatus = new Map<Id, String>();
                 placeStatus.put(product.id, product.Placement_Status__c);
 
@@ -657,7 +696,58 @@ public without sharing class ProductRecallIndividualController {
         }
         return judgmentToUpdateList;
     }
-
+	
+    public static prodStatusAccJudgStatus getActiveProdIdsFromJudg(Set<String> prodIds) {
+        Map<ID,String> prodIdsProdStatus = new Map<ID,String>();
+        Map<String,String> prodIdsAcctJudIds = new Map<String,String>();
+        Set<String> prodNames = new Set<String>();
+        prodStatusAccJudgStatus wrapperData = new prodStatusAccJudgStatus();
+        
+        for (Account_Judgment__c prodPresentOnJudg : [
+            SELECT Judgment__c, Judgment__r.Product_1__c, Judgment__r.Product_2__c, Judgment__r.Product_3__c,
+            Judgment__r.Product_4__c, Judgment__r.Product_5__c
+            FROM Account_Judgment__c
+            WHERE Product__c IN :prodIds AND Status__c = 'Active'
+        ]) {
+            if(prodPresentOnJudg.Judgment__r.Product_1__c <> NULL){
+                prodNames.add(prodPresentOnJudg.Judgment__r.Product_1__c);
+            }
+            if(prodPresentOnJudg.Judgment__r.Product_2__c <> NULL){
+                prodNames.add(prodPresentOnJudg.Judgment__r.Product_2__c);
+            }
+            if(prodPresentOnJudg.Judgment__r.Product_3__c <> NULL){
+                prodNames.add(prodPresentOnJudg.Judgment__r.Product_3__c);
+            }
+            if(prodPresentOnJudg.Judgment__r.Product_4__c <> NULL){
+                prodNames.add(prodPresentOnJudg.Judgment__r.Product_4__c);
+            }
+            if(prodPresentOnJudg.Judgment__r.Product_5__c <> NULL){
+                prodNames.add(prodPresentOnJudg.Judgment__r.Product_5__c);
+            }
+            
+        }
+        
+        List<Account_Judgment__c> activeProductJudgment = [
+            SELECT Judgment__c, Product__c,Product__r.Placement_Status__c
+            FROM Account_Judgment__c
+            WHERE Product__r.name IN :prodNames AND Status__c = 'Active'];
+        
+        for(Account_Judgment__c accJud : activeProductJudgment){
+            prodIdsProdStatus.put(accJud.Product__c,accJud.Product__r.Placement_Status__c);  
+            prodIdsAcctJudIds.put(accJud.Product__c,accJud.id);
+        }
+        wrapperData.prodIdsProductStatus = prodIdsProdStatus;
+        wrapperData.prodIdsAcctJudId = prodIdsAcctJudIds;
+        
+        system.debug('prodIdsProdStatus&&'+prodIdsProdStatus);
+        return wrapperData;
+    }
+    
+    public class prodStatusAccJudgStatus{
+        public Map<ID,String> prodIdsProductStatus {get;set;}
+        public Map<String,String> prodIdsAcctJudId {get;set;}
+    }
+    
     public pageReference redirectToProduct() {
         PageReference pageRef = new PageReference('/' + productID);
         pageRef.setRedirect(true);

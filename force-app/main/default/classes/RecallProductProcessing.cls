@@ -30,6 +30,10 @@ public class RecallProductProcessing {
         List<Judgment__c> judgmentToUpdateList;
         ProdIdsJudgListWrapper wrapperData = new ProdIdsJudgListWrapper();
         String placeStatus = '';
+        Set<String> recallProdIds = new Set<String>();
+        List<ID> prodToRecallList = new List<ID>();
+        Map<id,String> allProdToRecallList = new Map<id,String>();
+        
         //Fetch System Api
         if(lrpSetting.Canaccede_API_User__c != NULL){
             systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
@@ -52,6 +56,9 @@ public class RecallProductProcessing {
         
         for(Product_Staging__c productStaging : prodStagingList){
             setProductIDs.add(productStaging.Product_ID__c);
+            if((String.isNotBlank(productStaging.Placement_Status_Code__c) && productStaging.Placement_Status_Code__c.startsWith('9'))){ 
+            	recallProdIds.add(productStaging.Product_ID__c);
+            }
         }
         for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c, Product__r.Name FROM Account_Judgment__c
                                                   WHERE Product__c IN :setProductIDs
@@ -124,6 +131,14 @@ public class RecallProductProcessing {
                 if(productStaging.Status__c != 'Processed' || Test.isRunningTest()) {
                     productStaging1.id = productStaging.id;
                     productStaging1.Status__c = 'Processed';
+                    
+                    ProductRecallIndividualController.prodStatusAccJudgStatus prodStatusWapper = ProductRecallIndividualController.getActiveProdIdsFromJudg(recallProdIds);
+                    mapProductJudgment = prodStatusWapper.prodIdsAcctJudId;
+                    allProdToRecallList = prodStatusWapper.prodIdsProductStatus;
+                    
+                    for(Id productIds : allProdToRecallList.keySet()){
+                        prodToRecallList.add(productIds);
+                    }
                     //Ticket 6430 : Point 2
                     if(System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
                        && mapProductJudgment.containsKey(productStaging.Product_ID__c)){
