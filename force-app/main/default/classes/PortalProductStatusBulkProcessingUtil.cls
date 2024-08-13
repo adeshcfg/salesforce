@@ -149,20 +149,22 @@ public class PortalProductStatusBulkProcessingUtil {
                 }
 				
                 //Ticket 6430 : Point 2
-                if(mapJudgmentCode.containsKey(product.id) && System.Label.Exclude_Judgment_Codes.contains(mapJudgmentCode.get(product.id)) 
-                   && mapProductJudgment.containsKey(product.id)){
+                if(mapJudgmentCode.containsKey(product.id) && mapJudgmentCode.get(product.id) != NULL &&
+                   System.Label.Exclude_Judgment_Codes.contains(mapJudgmentCode.get(product.id)) 
+                   && mapProductJudgment.containsKey(product.id) && mapProductJudgment.get(product.id) != NULL){
                        Account_Judgment__c accJudgment = new Account_Judgment__c();
                        accJudgment.id =  mapProductJudgment.get(product.id);  
                        accJudgment.Status__c = 'Inactive';
                        accJudgStatusUpdateList.add(accJudgment);
                    }
-                if (product.Placement_Status__c.startsWith('8')) {
+                if (product.Placement_Status__c != NULL && product.Placement_Status__c.startsWith('8')) {
                     product.Placement_Status__c = product.Placement_Status__c.Replace('8', '9');
                 }
 
                 if (
                     mapStatusCodes.containsKey(product.Placement_Status__c) &&
-                    String.isNotBlank(mapStatusCodes.get(product.Placement_Status__c).Data_Status_Code__c)
+                    String.isNotBlank(mapStatusCodes.get(product.Placement_Status__c).Data_Status_Code__c) &&
+                    String.isNotBlank(mapStatusCodes.get(product.Placement_Status__c).Data_Status_Description__c)
                 ) {
                     product.Product_Status__c = mapStatusCodes.get(product.Placement_Status__c).Data_Status_Code__c;
                     product.Data_Status_Description__c = mapStatusCodes.get(product.Placement_Status__c).Data_Status_Description__c;
@@ -185,8 +187,12 @@ public class PortalProductStatusBulkProcessingUtil {
                 );
             }
             if (requestWrapper.Type == 'Allocation' && String.isNotBlank(requestWrapper.AssignmentDate)) {
-                product.Collection_Agency__c = Decimal.valueOf(requestWrapper.Placement_identifier);
-                product.Collection_Agency_Placement__c = placementID;
+                if(String.isNotBlank(requestWrapper.Placement_identifier)){
+                    product.Collection_Agency__c = Decimal.valueOf(requestWrapper.Placement_identifier);
+                }
+                if(placementID != NULL){
+                    product.Collection_Agency_Placement__c = placementID;
+                }
                 product.Assignment_Accepted_Date__c = Date.Today();
                 product.Product_Status__c = PLACEMENT_ACTIVE_CODE;
                 product.Data_Status_Description__c = PLACEMENT_ACTIVE;
@@ -254,23 +260,25 @@ public class PortalProductStatusBulkProcessingUtil {
                 //end CPU Time Limit
                 ProductTriggerHandler.runProductTrigger = true;
                 
-                update accJudgStatusUpdateList;
-                
                 if(productIdAgencyInfoMap.values() <> NULL){
                     judgmentToUpdateList = ProductRecallIndividualController.updateJudgmentAgency(productIdAgencyInfoMap);
                     if (!judgmentToUpdateList.isEmpty()) {
                         JudgmentTriggerHandler.runJudgmentTrigger = false;
+                        JudgmentTriggerHandler.runJudgmentValidation = false;
                         //bypass judgment validation rule
                         applicationConfigSetting.Bypass_Judgement_Validation__c = false;
                         update applicationConfigSetting;
                         Database.update(judgmentToUpdateList);
                         //bypass judgment validation rule
                         applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+                        JudgmentTriggerHandler.runJudgmentValidation = true;
                         JudgmentTriggerHandler.runJudgmentTrigger = true;
                         update applicationConfigSetting;
                        Database.executeBatch(new JudgmentAPIBatch(judgmentToUpdateList,null,null,'Account Status Update File'), 50);
                     } 
                 }
+                
+                 update accJudgStatusUpdateList;
                 
                 return 'Success';
             } catch (Exception ex) {

@@ -32,7 +32,19 @@ public class TestPortalProductStatusBulkProcessor {
     }
     
     public static testMethod void PortalProductStatusBulkProcessingUtil(){
-     
+     	Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        API_Call_Details__c settings = new API_Call_Details__c();
+        settings.Name = 'Agency Portal API';
+        settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
+        settings.Tenand_ID__c = '123';
+        settings.Proxy_Client_ID__c = '123';
+        settings.Client_ID__c = '1234';
+        settings.Client_Secret__c = '1234';
+        settings.PDF_API_URL__c = 'https://test.com/endpointurl';
+        settings.Scope_Prefix__c = 'scopep.com';
+        settings.Scope_Suffix__c = '/.default';
+        insert settings;
+        
         String postJSON;
         list <Product__c> prodList = new list<Product__c>();
         
@@ -56,6 +68,16 @@ public class TestPortalProductStatusBulkProcessor {
         poolInstance1.Placement_Agency__c = 29;
         poolInstance1.Placement_agency_lookup__c = place.id;
         insert poolInstance1;
+        
+        Judgment_product_codes_mapping__c mapping = new Judgment_product_codes_mapping__c();
+        mapping.name = 'A-0010';
+        mapping.Codes__c = '220000';
+        mapping.Judgment_Legal_Status__c = 'Pre-Judgment';
+        mapping.Judgment_Legal_Sub_Status__c = 'Claim Issued';
+        mapping.Product_Parent__c = 'Pre-Judgment';
+        mapping.Product_Status__c = 'Pre - Judgment - In Process';
+        mapping.Product_Sub_status__c = 'Claim Issued';
+        insert mapping;
         
         Agency_Portal_Fields_Mapping__c FieldMap = new Agency_Portal_Fields_Mapping__c();
         FieldMap.Field_API__c = 'Name';
@@ -97,14 +119,15 @@ public class TestPortalProductStatusBulkProcessor {
         prod.Current_Principal_Balance__c= 101;
         prod.Current_Interest_Amount__c= 1000;
         prod.Placement_Status__c = '800300';
-        prod.Pool_Name__c = poolInstance1.Id;
-        
-        
-      // ProductTriggerHandler.runProductTrigger = false;
+        prod.Pool_Name__c = poolInstance1.Id; 
         INSERT prod;
-      // ProductTriggerHandler.runProductTrigger = true;
         prodList.add(prod);
         listPoolId.add(prod.Pool_Name__c);
+        
+        Account_Judgment__c addJudg = new Account_Judgment__c();
+        addJudg.status__C = 'Active';
+        addJudg.Product__c = prod.id;
+        insert addJudg;
         
         Placement_History__c placeHist = new Placement_History__c();
         placeHist.product__c = prod.id;
@@ -117,6 +140,10 @@ public class TestPortalProductStatusBulkProcessor {
         Placement__c plcgy = new  Placement__c();      
         plcgy.Name='12';
         insert plcgy;
+        
+        Agency_User__c agencyUser = new Agency_User__c();
+        agencyUser.Email_Address__c = 'test@gmail.com';
+        insert agencyUser;
         
         Work_Assignment__c workAgt = new Work_Assignment__c();       
         workAgt.Title__c = 'Test';
@@ -151,19 +178,14 @@ public class TestPortalProductStatusBulkProcessor {
        
         map<String, String> paramMap = new map<String, String>();
         paramMap.put('AccountList', '1000P00');
-        paramMap.put('SubmittedBy', 'Test Status');
+        paramMap.put('SubmittedBy', 'test@gmail.com');
         paramMap.put('Placement_Status', '920210');
         paramMap.put('Placement_Identifier', 'Test');
-        
+        paramMap.put('Type', 'Allocation');
+        paramMap.put('PlacementStatus', '111000');
+        paramMap.put('AssignmentDate', '2024-08-12');
         postJSON = '{"accountList":"647P1545", "PlacementStatus":"800300", "Type":"Recall", "SubmittedBy":"TestABC", "Placement_Identifier":null}';
-       
-     /*  postJSON = '[{"accountList":"1000008","PlacementStatus":"800300","Type":"Allocation","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"656P177","PlacementStatus":"800100","Type":"Allocation","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"656P17744556","PlacementStatus":"800200","Type":"Allocation","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"","PlacementStatus":"800300","Type":"Recall","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"656P178","PlacementStatus":"800300","Type":"Recall","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"1000P005","PlacementStatus":"800300","Type":"Recall","SubmittedBy":"TestABC","Placement_Identifier":null}'+
-                            ']';*/
+
         PortalProductStatusBulkProcessingUtil.processBulkProducts(postJSON);
     }
     
@@ -232,13 +254,9 @@ public class TestPortalProductStatusBulkProcessor {
         prod.Previously_Reviewed_for_Legal_Action__c=True;
         prod.Current_Principal_Balance__c= 101;
         prod.Current_Interest_Amount__c= 1000;
-        prod.Placement_Status__c = '800300';
+        prod.Placement_Status__c = '111010';
         prod.Pool_Name__c = poolInstance1.Id;
-        
-        
-      // ProductTriggerHandler.runProductTrigger = false;
         INSERT prod;
-      // ProductTriggerHandler.runProductTrigger = true;
         prodList.add(prod);
         listPoolId.add(prod.Pool_Name__c);
         
@@ -277,11 +295,13 @@ public class TestPortalProductStatusBulkProcessor {
           
         map<String, Placement_Status_Code_Mapping__c> mapCodes = new map<String, Placement_Status_Code_Mapping__c>();
         Placement_Status_Code_Mapping__c placementCode = new Placement_Status_Code_Mapping__c();
-        placementCode.Name = 'Name';
-        placementCode.Parent_Status__c = 'Test Data';
-        placementCode.Status__c = 'Test Status';
-        placementCode.Placement_Status_Code__c = '210000';
-        placementCode.Sub_Status__c = 'Test Substatus';
+        placementCode.Name = '111010';
+        placementCode.Parent_Status__c = 'Demand Letters';
+        placementCode.Status__c = 'In Process';
+        placementCode.Placement_Status_Code__c = '111010';
+        placementCode.Sub_Status__c = 'Initial Letter Sent';
+        placementCode.Data_Status_Description__c = 'Initial Letter Sent';
+        placementCode.Data_Status_Code__c = '111010';
         insert placementCode;
         mapCodes.put(placementCode.Placement_Status_Code__c,placementCode);
        
@@ -292,14 +312,7 @@ public class TestPortalProductStatusBulkProcessor {
         paramMap.put('Placement_Identifier', 'Test');
         
         postJSON = '{"accountList":"647P1545", "PlacementStatus":"800300", "Type":"Allocation", "SubmittedBy":"TestABC", "Placement_Identifier":null}';
-       
-     /*  postJSON = '[{"accountList":"1000008","PlacementStatus":"800300","Type":"Allocation","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"656P177","PlacementStatus":"800100","Type":"Allocation","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"656P17744556","PlacementStatus":"800200","Type":"Allocation","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"","PlacementStatus":"800300","Type":"Recall","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"656P178","PlacementStatus":"800300","Type":"Recall","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"1000P005","PlacementStatus":"800300","Type":"Recall","SubmittedBy":"TestABC","Placement_Identifier":null}'+
-                            ']';*/
+
         PortalProductStatusBulkProcessingUtil.processBulkProducts(postJSON);
     }
     
@@ -370,11 +383,7 @@ public class TestPortalProductStatusBulkProcessor {
         prod.Current_Interest_Amount__c= 1000;
         prod.Placement_Status__c = '800300';
         prod.Pool_Name__c = poolInstance1.Id;
-        
-        
-      // ProductTriggerHandler.runProductTrigger = false;
         INSERT prod;
-      // ProductTriggerHandler.runProductTrigger = true;
         prodList.add(prod);
         listPoolId.add(prod.Pool_Name__c);
         
@@ -428,14 +437,7 @@ public class TestPortalProductStatusBulkProcessor {
         paramMap.put('Placement_Identifier', 'Test');
         
         postJSON = '{"accountList":"647P1545", "PlacementStatus":"800300", "Type":"InvalidSubmission", "SubmittedBy":"TestABC", "Placement_Identifier":null}';
-       
-     /*  postJSON = '[{"accountList":"1000008","PlacementStatus":"800300","Type":"Allocation","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"656P177","PlacementStatus":"800100","Type":"Allocation","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"656P17744556","PlacementStatus":"800200","Type":"Allocation","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"","PlacementStatus":"800300","Type":"Recall","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"656P178","PlacementStatus":"800300","Type":"Recall","SubmittedBy":"TestABC","Placement_Identifier":null},'+
-                        '{"accountList":"1000P005","PlacementStatus":"800300","Type":"Recall","SubmittedBy":"TestABC","Placement_Identifier":null}'+
-                            ']';*/
+
         PortalProductStatusBulkProcessingUtil.processBulkProducts(postJSON);
     }
 
