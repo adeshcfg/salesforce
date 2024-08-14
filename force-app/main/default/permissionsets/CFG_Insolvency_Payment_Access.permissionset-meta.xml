@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>give Payment Reversal date edit access</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Payment__c.Payment_Reversal_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>CFG Insolvency Payment Access</label>
+</PermissionSet>
