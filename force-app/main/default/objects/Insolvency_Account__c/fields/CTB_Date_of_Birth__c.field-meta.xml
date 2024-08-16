@@ -6,7 +6,7 @@
     <inlineHelpText>Field to store DOB provided by CTB</inlineHelpText>
     <label>CTB Date of Birth</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Date</type>
 </CustomField>
