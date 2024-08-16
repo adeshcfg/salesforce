@@ -7,7 +7,7 @@
     <inlineHelpText>Field used to store date/time when CTB insolvency file was generated</inlineHelpText>
     <label>CTB Outgoing File Timestamp</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>DateTime</type>
 </CustomField>
