@@ -25,7 +25,7 @@
         }
         if(!listID.isEmpty()){
         listCases = [select id, subject, status, New_Email_on_Case__c, recordType.DeveloperName 
-                                from Case where id in :listID and Reason != 'Duplicate'];
+                                from Case where id in :listID];
         }
         List<Case> listCaseUpdate = new List<Case>();
       if(!listCases.isEmpty()){
