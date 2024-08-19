@@ -9,6 +9,8 @@ for the Client to send return detailed information to DRN.
 global class CTBFileGenerator implements Database.Batchable<sobject>, Database.Stateful, Database.AllowsCallouts {
     public static map<String, CTB_File_Automation__mdt> mapCTBFileAutomation = CTB_File_Automation__mdt.getAll();
     public map<String, CTB_File_Automation__mdt> mapCTBFileAuto = new Map<String, CTB_File_Automation__mdt>();
+    public static Map<String, Insolvency_type_mapping__mdt> insolTypeMap = Insolvency_type_mapping__mdt.getAll();
+    public Map<String, Insolvency_type_mapping__mdt> insolTypeMappingData = new Map<String, Insolvency_type_mapping__mdt>();
     public static Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     public String CTBBatchName;
     public static final String recordType = 'Canadian_Tire_Insolvency_Account';
@@ -99,6 +101,10 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         }
         createdDate = convertDateToString(System.today());
         dateformate = Datetime.now().format('HH:mm:ss');
+        
+        for(Insolvency_type_mapping__mdt insolTypeMapping : insolTypeMap.values()){
+            insolTypeMappingData.put(insolTypeMapping.MasterLabel, insolTypeMapping);
+        }
     }
 
     // Start Method
@@ -156,11 +162,11 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
            
             // build insolvency daily update file coDebtor body
              wrapperClass coDebtorBatchCnt = new wrapperClass();
-            coDebtorBatchCnt = getInsolvencyAccountFile(mapCTBFileAuto, coDebtorList, createdDate, dateformate, CTBBatchName,coDebtor);  
+            coDebtorBatchCnt = getInsolvencyAccountFile(mapCTBFileAuto, insolTypeMappingData, coDebtorList, createdDate, dateformate, CTBBatchName,coDebtor);  
             
             // build insolvency daily update file Borrower body
             wrapperClass batchCnt = new wrapperClass();
-            batchCnt = getInsolvencyAccountFile(mapCTBFileAuto, query, createdDate, dateformate, CTBBatchName,borrower);
+            batchCnt = getInsolvencyAccountFile(mapCTBFileAuto, insolTypeMappingData, query, createdDate, dateformate, CTBBatchName,borrower);
 
             FinalData += batchCnt.finalDetailBody;
             FinalData += coDebtorBatchCnt.finalDetailBody;
@@ -186,6 +192,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     // Build body for Insolvency Daily Update file generation
     public static wrapperClass getInsolvencyAccountFile(
         map<String, CTB_File_Automation__mdt> mapCTBFileAuto,
+        map<String, Insolvency_type_mapping__mdt> insolTypeMappingData,
         List<Insolvency_Account__c> insolvencyAccData,
         String createdDate,
         String dateformate,
@@ -546,6 +553,11 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                             correlationID = insolAccData.Correlation_ID__c;
                         }
                     }
+                	string insolvencyType = ''; 
+                	if(insolTypeMappingData.containsKey(insolAccData.Insolvency__r.Insolvency_Type__c)){
+                        insolvencyType = insolTypeMappingData.get(insolAccData.Insolvency__r.Insolvency_Type__c).Insolvency_Type__c;
+                	}
+                
                     // buld final body data
                     mainbody +=
                         '"'+detailRecordType +
@@ -558,7 +570,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '","' +
                         insolAccData.name +
                         '","' +
-                        insolAccData.Insolvency__r.Insolvency_Type__c +
+                        insolvencyType +
                         '","' +
                         productDesc +
                         '","' +
