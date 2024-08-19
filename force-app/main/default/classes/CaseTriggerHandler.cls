@@ -66,7 +66,7 @@
         for (Case caseNew : casesNew){
             listOfSubject.add(caseNew.Subject);
         }
-        List<Case> listOfOldCases = [select id from Case where Subject in : listOfSubject 
+        List<Case> listOfOldCases = [select id, Subject from Case where Subject in : listOfSubject 
                                         and Status != 'Closed' 
                                         and Status != 'Completed'
                                         order by CreatedDate Desc];//Older record last
