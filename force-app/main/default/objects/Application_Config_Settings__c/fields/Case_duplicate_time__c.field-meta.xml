@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_duplicate_time__c</fullName>
+    <defaultValue>2</defaultValue>
+    <description>Number of minutes before which system will mark newly created case with same email subject and attachment name as closed and duplicate</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number of minutes before which system will mark newly created case with same email subject and attachment name as closed and duplicate</inlineHelpText>
+    <label>Case duplicate time</label>
+    <precision>2</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
