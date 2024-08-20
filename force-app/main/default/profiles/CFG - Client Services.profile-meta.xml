@@ -18225,7 +18225,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Product__c.Exclude_for_Reporting__c</field>
         <readable>true</readable>
     </fieldPermissions>
