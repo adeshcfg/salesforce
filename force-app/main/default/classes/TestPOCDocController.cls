@@ -77,6 +77,8 @@ public class TestPOCDocController{
         insolAcct.Claim_Type__c = 'Unsecured';
         insolAcct.Reasons_for_Duplicate_Account_Number__c='Test';
         insolAcct.Client_Identifier__c = 'Scotia Bank';
+        insolAcct.Client_Identifier__c = 'Fidem';
+        insolAcct.Client_Identifier__c = 'Canadian Tire'; 
         insolAcct.Portfolio_Group_Name__c='CAL005';
         insolAcct.recordTypeId = devRecordTypeId;
         insolAcct.Last_Payment_Date__c = Date.newInstance(2020, 01, 05);
@@ -146,6 +148,7 @@ public class TestPOCDocController{
         insolAcct.Borrower_Primary__c = '';    
         insolAcct.Type_of_Service__c = '';
         insolAcct.Claim_Type__c = 'Secured';
+        insolAcct.Proof_of_Claim_Required__c = false;
         insolAcct.Reasons_for_Duplicate_Account_Number__c='Test';
         insolAcct.Client_Identifier__c = 'Scotia Bank';
         insolAcct.Portfolio_Group_Name__c='CAL005';
@@ -163,8 +166,44 @@ public class TestPOCDocController{
           
           POCDocController obj = new POCDocController();
           obj.language = 'en_US';
-          obj.savePOCDoc();
+          obj.pageName = 'Canaccede';  
+          obj.savePOCDoc(); 
+          // fr //  
+          POCDocController objCa = new POCDocController();
+          objCa.language = 'fr';
+          objCa.pageName = 'Canaccede';  
+          objCa.savePOCDoc();    
+   		  		 
+          POCDocController obj1 = new POCDocController();          
+          obj1.language = 'en_US';
+          obj1.pageName = 'Fidem';  
+          obj1.savePOCDoc(); 
+           // fr //   
+          POCDocController objFi = new POCDocController();          
+          objFi.language = 'fr';
+          objFi.pageName = 'Fidem';  
+          objFi.savePOCDoc();  
           
+          POCDocController obj2 = new POCDocController();          
+          obj2.language = 'en_US';
+          obj2.pageName = 'GoEasyUnSecured';  
+          obj2.savePOCDoc();
+          //fr//
+          POCDocController objGo = new POCDocController();          
+          objGo.language = 'fr';
+          objGo.pageName = 'GoEasyUnSecured';  
+          objGo.savePOCDoc();  
+            
+          POCDocController obj3 = new POCDocController();          
+          obj3.language = 'en_US';
+          obj3.pageName = 'Canadian Tire';  
+          obj3.savePOCDoc(); 
+          //fr//
+          POCDocController objCn = new POCDocController();          
+          objCn.language = 'fr';
+          objCn.pageName = 'Canadian Tire';  
+          objCn.savePOCDoc();  
+            
           try{
              throw new DMLException('My DML EXCEPTION'); 
           }catch(Exception ex){
@@ -192,6 +231,14 @@ public class TestPOCDocController{
         
           obj.language = 'fr';
           obj.pageName = 'Scotia';
+          obj.changeLanguage();
+        
+          obj.language = 'en_US';
+          obj.pageName = 'Fidem';
+          obj.changeLanguage();
+        
+          obj.language = 'en_US';
+          obj.pageName = 'GoEasyUnSecured';
           obj.changeLanguage();
           
           try{
