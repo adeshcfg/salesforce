@@ -16572,7 +16572,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.TransUnion_Reported_As_Complete_Count__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
