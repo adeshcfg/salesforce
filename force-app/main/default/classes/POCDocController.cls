@@ -275,8 +275,8 @@ public class POCDocController {
                 canaccedeError = true;
                 canaccedeErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account has Vendor value, Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
             }
-
-            if (
+            // commented for - 6886 //
+            /*if (
                 'Fidem' == insolvAcc.Client_Identifier__c &&
                 (insolvAcc.Portfolio_Group_Name__c == null ||
                 insolvAcc.Portfolio_Name_Lookup__c == null ||
@@ -284,7 +284,7 @@ public class POCDocController {
             ) {
                 canaccedeError = true;
                 canaccedeErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account has Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
-            }
+            }*/
 
             //Check trustee is Service Nova Scotia or not for Account masking
             List<String> trusteeCheckList = new List<String>();
