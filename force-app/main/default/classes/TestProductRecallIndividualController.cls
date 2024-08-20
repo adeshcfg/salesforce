@@ -68,6 +68,7 @@ public class TestProductRecallIndividualController {
         prod.Product_Status__c = 'Test';
         prod.OwnerId= UserInfo.getUserId();
         prod.Placement_Status__c = '290700';
+        prod.Collection_Agency__c = 32;
         ProductTriggerHandler.runProductTrigger = False;
         insert prod;
         ProductTriggerHandler.runProductTrigger = True;
@@ -79,12 +80,18 @@ public class TestProductRecallIndividualController {
         placementCode.Status__c = 'Test Status';
         placementCode.Placement_Status_Code__c = '210000';
         placementCode.Sub_Status__c = 'Test Substatus';
+        placementCode.Data_Status_Code__c = '300000';
         insert placementCode;
         mapCodes.put(placementCode.Placement_Status_Code__c,placementCode);
         
         Judgment__c judg = new Judgment__c();
         judg.legal_Agency__c = '9999';
         judg.Legal_Agency_Placement__c = placement.id;
+        judg.Product_1__c = '123456789';
+        judg.Product_2__c = '123456788';
+        judg.Product_3__c = '123456780';
+        judg.Product_4__c = '123456787';
+        judg.Product_5__c = '123456786';
         insert judg;
         
         Account_judgment__c accJud = new Account_judgment__c();
@@ -121,7 +128,11 @@ public class TestProductRecallIndividualController {
         controller.recallProduct();
         controller.recallWithWarning();
         
-        
+        prod.Collection_Agency__c = 9999;
+        update prod;
+        ApexPages.StandardController sc1 = new ApexPages.standardController(prod);
+        ProductRecallIndividualController controller1 = new ProductRecallIndividualController(sc1);
+        controller1.getactionItems();
     }
     
 }
