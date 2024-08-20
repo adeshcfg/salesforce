@@ -52,7 +52,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static final string extra4Spaces = blankString.leftPad(4);
     public static final string mailTelephoneIndicator = blankString.leftPad(1);
     public static final string extensionRecordIndicator = blankString.leftPad(1);
-    public static final String defAuthorizationCode = blankString.leftPad(6);
+    // public static final String defAuthorizationCode = blankString.leftPad(6);
     public static final string extra38Spaces = blankString.leftPad(38);
     public static final string extra40Spaces = blankString.leftPad(40);
     public static final string extra15Spaces = blankString.leftPad(15);
@@ -724,8 +724,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             String drftsMerhDBACategoryCode = mapCTBFileAuto.get('Insolvency Payment Update').Drfts_Merh_DBA_Category_Code__c;
             String drftsAuthCode = mapCTBFileAuto.get('Insolvency Payment Update').Drfts_Auth_Code__c;
 
-            String authorizationCode = defAuthorizationCode;
-            authorizationCode = getSpaceAndZeroAdded(String.ValueOf(drftsAuthCode), 6, false, true, false);
+            // String authorizationCode = defAuthorizationCode;
+            String authorizationCode = getSpaceAndZeroAdded(String.ValueOf(drftsAuthCode), 6, false, true, true);
 
             /*******************************************Body Data*************************************************/
             for (Insolvency_Payment__c insolPayData : insolvencyPayData) {
@@ -780,8 +780,9 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 draftSeuNum++;
             }
             /*******************************************Body Data Ends*************************************************/
-            try {
-                //Batch count is assigned SEQUENTIAL batch number, starting at 1.  Each batch number must be one number greater than the last received regardless if the file is test or production.  This will ensure files aren’t accidentally sent twice or missed
+            // We won't be updating batch count, it will always start with 0001
+            /* try {
+                //Batch count is assigned SEQUENTIAL batch number, starting at 1.
                 Decimal paymentBatchCount = config.Payment_Batch_Count__c == null ? 0 : config.Payment_Batch_Count__c;
                 config.Payment_Batch_Count__c = paymentBatchCount + 1;
                 update config;
@@ -789,7 +790,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 system.debug('Exception msg@@' + dmlEx.getStackTraceString());
                 exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, CTBBatchName);
                 CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Payment batch count update Failed');
-            }
+            } */
         } catch (Exception ex) {
             system.debug('Exception msg**' + ex.getStackTraceString());
             exceptionHandling(ex.getMessage(), ex.getStackTraceString(), null, insolvencyPayData, CTBBatchName);
@@ -1062,12 +1063,15 @@ system.debug('queryData&&&'+queryData);
 
         String transDescription = defTransmissionDesc;
         transDescription = getSpaceAndZeroAdded(String.ValueOf(transmissionDescription), 6, false, true, false);
+
+        Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
+        String batchNumber = getSpaceAndZeroAdded(String.ValueOf(batchCount), 4, true, false, false);
         //build THEAD body data
         theadBodyData =
             SeqNumber +
             transCode +
             bankNumber +
-            transmissionNumber +
+            batchNumber +
             transName +
             extra12Spaces +
             julianDateCal +
@@ -1076,8 +1080,8 @@ system.debug('queryData&&&'+queryData);
             extra5Spaces +
             commingledFileProcessingFlag +
             multiCurrencyCurrencyCode +
-            extra64Spaces +
-            transmissionIdentifierFlag +
+            '000'.leftPad(37) +
+            transmissionIdentifierFlag.leftPad(28) +
             '\r\n';
 
         return theadBodyData;
