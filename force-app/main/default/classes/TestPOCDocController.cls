@@ -59,6 +59,13 @@ public class TestPOCDocController{
         insolAcct.Is_Duplicate_Resolved__c=False;
         insolAcct.Insolvency_Type__c='Bankruptcy';
         insolAcct.Insolvency_Date__c=Date.newInstance(2020,04, 11);
+         insolAcct.Last_Payment_Date_2__c =Date.newInstance(2020,02, 11);
+        insolAcct.Last_Payment_Date_3__c =Date.newInstance(2020,02, 14);
+        insolAcct.Account_Original_Open_Date__c =Date.newInstance(2020,02, 10); 
+        insolAcct.Account_Open_date__c =Date.newInstance(2020,01, 08);
+        insolAcct.Charge_Off_Date__c =Date.newInstance(2020,02, 16);
+        insolAcct.Debt_Due_as_off_date__c =Date.newInstance(2020,02, 20);
+        insolAcct.Acknowledgement_date__c =Date.newInstance(2020,02, 18);
         insolAcct.Product_Code__c='MOR';
         insolAcct.Debtor__c='test';
         insolAcct.PoC_Created_Date__c=DateTime.newInstance(2020, 01, 08);
@@ -123,6 +130,13 @@ public class TestPOCDocController{
         insolAcct.Is_Duplicate_Resolved__c=False;
         insolAcct.Insolvency_Type__c='Bankruptcy';
         insolAcct.Insolvency_Date__c=Date.newInstance(2020,04, 11);
+        insolAcct.Last_Payment_Date_2__c =Date.newInstance(2020,02, 11);
+        insolAcct.Last_Payment_Date_3__c =Date.newInstance(2020,02, 14);
+        insolAcct.Account_Original_Open_Date__c =Date.newInstance(2020,02, 10); 
+        insolAcct.Account_Open_date__c =Date.newInstance(2020,01, 08);
+        insolAcct.Charge_Off_Date__c =Date.newInstance(2020,02, 16);
+        insolAcct.Debt_Due_as_off_date__c =Date.newInstance(2020,02, 20);
+        insolAcct.Acknowledgement_date__c =Date.newInstance(2020,02, 18); 
         insolAcct.Product_Code__c='MOR';
         insolAcct.Debtor__c='test';
         insolAcct.PoC_Created_Date__c=DateTime.newInstance(2020, 01, 08);
