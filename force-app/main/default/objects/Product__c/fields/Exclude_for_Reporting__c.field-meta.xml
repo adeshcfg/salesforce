@@ -2,9 +2,10 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Exclude_for_Reporting__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>Using bureau reporting to exclude accounts to report</description>
+    <description>When checked, this account is excluded from CIML credit bureau reporting.</description>
     <externalId>false</externalId>
-    <label>Exclude for Reporting</label>
+    <inlineHelpText>When checked, this account is excluded from CIML credit bureau reporting.</inlineHelpText>
+    <label>Exclude from CIML Bureau Reporting</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
