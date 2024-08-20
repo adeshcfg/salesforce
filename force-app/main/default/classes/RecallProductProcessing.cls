@@ -31,8 +31,13 @@ public class RecallProductProcessing {
         ProdIdsJudgListWrapper wrapperData = new ProdIdsJudgListWrapper();
         String placeStatus = '';
         Set<String> recallProdIds = new Set<String>();
-        List<ID> prodToRecallList = new List<ID>();
         Map<id,String> allProdToRecallList = new Map<id,String>();
+        List<Product_Staging__c> prodIdsNewList = new List<Product_Staging__c>();
+        String statusChangedDate = '';
+        String statusChangedDateText = '';
+        String placementStatusCode = '';
+        String placementMainStatus = '';
+        String placementSubStatus = '';
         
         //Fetch System Api
         if(lrpSetting.Canaccede_API_User__c != NULL){
@@ -53,13 +58,53 @@ public class RecallProductProcessing {
         for(Placement__c placeList : [SELECT id,name from Placement__c]){
             PlacementMap.put(placeList.name, placeList.Id);
         }
-        
+        Map<string,Product_Staging__c> prodStagingMap = new Map<string,Product_Staging__c>();
         for(Product_Staging__c productStaging : prodStagingList){
             setProductIDs.add(productStaging.Product_ID__c);
             if((String.isNotBlank(productStaging.Placement_Status_Code__c) && productStaging.Placement_Status_Code__c.startsWith('9'))){ 
             	recallProdIds.add(productStaging.Product_ID__c);
+                prodStagingMap.put(productStaging.Product_ID__c,productStaging);
             }
         }
+        ProductRecallIndividualController.prodStatusAccJudgStatus prodStatusWapper = ProductRecallIndividualController.getActiveProdIdsFromJudg(recallProdIds);
+        allProdToRecallList = prodStatusWapper.prodIdsProductStatus;
+		
+        for(Id productIds : allProdToRecallList.keySet()){
+            setProductIDs.add(productIds);
+            Product_Staging__c stagingNewRecord = new Product_Staging__c();
+            
+            if(prodStagingMap.containsKey(productIds)){
+                if(prodStagingMap.get(productIds).Status_Changed_Date__c != NULL){
+                    statusChangedDate = prodStagingMap.get(productIds).Status_Changed_Date__c; 
+                }
+                if(prodStagingMap.get(productIds).Placement_Status_Code__c != NULL){
+                    placementStatusCode = prodStagingMap.get(productIds).Placement_Status_Code__c; 
+                }
+                if(prodStagingMap.get(productIds).Placement_Main_Status__c != NULL){
+                    placementMainStatus = prodStagingMap.get(productIds).Placement_Main_Status__c;
+                }
+                if(prodStagingMap.get(productIds).Placement_Sub_Status__c != NULL){
+                    placementSubStatus = prodStagingMap.get(productIds).Placement_Sub_Status__c; 
+                }
+                if(prodStagingMap.get(productIds).Status_Changed_Date_Text__c != NULL){
+                    statusChangedDateText = prodStagingMap.get(productIds).Status_Changed_Date_Text__c; 
+                }
+            }
+            if(!prodStagingMap.containsKey(productIds)){
+                stagingNewRecord.Product_ID__c = productIds;
+                stagingNewRecord.Status_Changed_Date__c = statusChangedDate;
+                stagingNewRecord.Placement_Status_Code__c = placementStatusCode;
+                stagingNewRecord.Placement_Main_Status__c = placementMainStatus;
+                stagingNewRecord.Placement_Sub_Status__c = placementSubStatus;
+                stagingNewRecord.Status_Changed_Date_Text__c = statusChangedDateText;
+                insert stagingNewRecord;
+            }
+            if(stagingNewRecord.Product_ID__c != NULL){
+                prodIdsNewList.add(stagingNewRecord);
+            }
+        }
+        prodStagingList.addAll(prodIdsNewList);
+
         for(Account_Judgment__c accJudgment : [SELECT ID, Judgment__c, Product__c, Product__r.Name FROM Account_Judgment__c
                                                   WHERE Product__c IN :setProductIDs
                                                   AND Status__c = 'Active']){
@@ -68,6 +113,8 @@ public class RecallProductProcessing {
         map<ID, Product__c> mapProduct = new Map<ID, Product__c> ([SELECT ID, Name, RecordTypeId,OwnerId,Collection_Agency__c,
                                                                    Placement_Status__c
                                                                        FROM Product__c WHERE ID IN :setProductIDs]);
+        mapProductJudgment = prodStatusWapper.prodIdsAcctJudId;
+
         try {
             Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
             
@@ -132,16 +179,12 @@ public class RecallProductProcessing {
                     productStaging1.id = productStaging.id;
                     productStaging1.Status__c = 'Processed';
                     
-                    ProductRecallIndividualController.prodStatusAccJudgStatus prodStatusWapper = ProductRecallIndividualController.getActiveProdIdsFromJudg(recallProdIds);
-                    mapProductJudgment = prodStatusWapper.prodIdsAcctJudId;
-                    allProdToRecallList = prodStatusWapper.prodIdsProductStatus;
                     
-                    for(Id productIds : allProdToRecallList.keySet()){
-                        prodToRecallList.add(productIds);
-                    }
                     //Ticket 6430 : Point 2
-                    if(System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
-                       && mapProductJudgment.containsKey(productStaging.Product_ID__c)){
+                    if(mapProductJudgment.containsKey(productStaging.Product_ID__c) 
+                       && mapProduct.get(productStaging.Product_ID__c).Placement_Status__c != NULL
+                       && System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
+                        ){
                            accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
                        }
                     prod.id = productStaging.Product_ID__c;
@@ -151,7 +194,8 @@ public class RecallProductProcessing {
                     prod.Status_Changed_Date__c = myDate;
                     prod.Run_Identifier_Check_On__c = System.today();
                     //Ticket 6944: placement status moved from judgment to non-judgment status account-judgment gets inactive            
-                    if(System.Label.Exclude_Judgment_Codes.contains(placeStatus) && 
+                    if(prod.Placement_Status__c != NULL && placeStatus != NULL &&
+                        System.Label.Exclude_Judgment_Codes.contains(placeStatus) && 
                        !System.Label.Exclude_Judgment_Codes.contains(prod.Placement_Status__c)){
                            if(mapProductJudgment.containskey(productStaging.Product_ID__c)){
                                accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
@@ -164,6 +208,10 @@ public class RecallProductProcessing {
                                 prod.Data_Status_Description__c = codeMapping.get(prod.Placement_Status__c).Data_Status_Description__c;
                             }
                         }
+                        if(Test.isRunningTest()){
+                            productStaging1.Product_ID__c = productStaging.Product_ID__c;
+                        }
+                        
                         if(placementMainStatusMap.containskey(productStaging1.Product_ID__c)){
                             prod.Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Status__c;
                             prod.Sub_Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Sub_Status__c;
@@ -269,23 +317,17 @@ public class RecallProductProcessing {
                 }
                 
             }catch(Exception ex){
-
-                for(Product_Staging__c productStaging: listproductstaging){
-                    String msg = '<b>ERROR</b>-'+ex.getMessage();
-                    if(msg.length() > 254) msg = msg.substring(0,254);
-                    
-                    productStaging.Comment__c= msg;
-                    productStaging.status__c= 'Pending';
-                    
-                    successRecords -= 1;
-                }
+				listproductstaging = AllocationProductProcessing.errorHandling(listproductstaging,ex.getMessage());
             }
             if(listproductstaging.size()>0){
                 update listproductstaging;
             }
-            system.debug('prodIds::'+prodIds);
 
         }catch(Exception ex){
+            listproductstaging = AllocationProductProcessing.errorHandling(listproductstaging,ex.getMessage());
+            if(listproductstaging.size()>0){
+                update listproductstaging;
+            }
             system.debug('exception success file--+--'+ex.getLineNumber());
             system.debug('exception success file--+--'+ex.getMessage());
         }

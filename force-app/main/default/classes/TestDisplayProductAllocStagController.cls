@@ -44,6 +44,19 @@ public class TestDisplayProductAllocStagController {
         listmapping.add(mapping6); 
         insert listmapping;
         
+        Loan_ReEngineering__c lrpSetting = new Loan_ReEngineering__c();
+        lrpSetting.Canaccede_API_User__c = 'canaccede user';
+        insert lrpSetting;
+        
+        Judgment_product_codes_mapping__c mapping = new Judgment_product_codes_mapping__c();
+        mapping.name = 'A-0010';
+        mapping.Codes__c = '220000';
+        mapping.Judgment_Legal_Status__c = 'Pre-Judgment';
+        mapping.Judgment_Legal_Sub_Status__c = 'Claim Issued';
+        mapping.Product_Parent__c = 'Pre-Judgment';
+        mapping.Product_Status__c = 'Pre - Judgment - In Process';
+        mapping.Product_Sub_status__c = 'Claim Issued';
+        insert mapping;
     }
     
     public static testMethod void testAccStatusUpdate(){
@@ -366,20 +379,35 @@ public class TestDisplayProductAllocStagController {
         insert docStorage;
         
         Product__c product = new Product__c();
-        product.name = 'Test Product';
+        product.name = '123456789';
         product.Purchase_Province__c = 'AB';
-        product.Placement_Status__c='900000';
         product.Collection_Agency__c=88;
-        insert product;        
+        product.Placement_Status__c = '290700';
+        insert product;  
+        
         Product__c product1 = new Product__c();
         product1.name = 'Test Product';
         product1.Purchase_Province__c = 'AB';
         product1.Placement_Status__c='800000';
         product1.Collection_Agency__c=88;
         insert product1;
+		
+		Judgment__c judg = new Judgment__c();
+        judg.legal_Agency__c = '9999';
+        judg.Legal_Status__c = 'Pre-Judgment';
+        judg.Legal_Sub_Status__c = 'Claim Issued';
+        judg.Product_1__c = '123456789';
+        judg.Product_2__c = '123456788';
+        judg.Product_3__c = '123456780';
+        judg.Product_4__c = '123456787';
+        judg.Product_5__c = '123456786';
+        insert judg;
+        List<Judgment__c> judgList = new List<Judgment__c>();
+        judgList.add(judg);
         
         Account_Judgment__c acctJudgment1 = new Account_Judgment__c();
         acctJudgment1.Product__c = product.Id;
+        acctJudgment1.Judgment__c = judg.id;
         acctJudgment1.Status__c = 'Active';
         insert acctJudgment1;
         
@@ -396,6 +424,7 @@ public class TestDisplayProductAllocStagController {
         productStaging.Placement_Agency__c = '1';
         productStaging.Pool_Name_ID__c = poolData.id;
         productStaging.Placement_Status_Code__c='800000';
+        productStaging.Status_Changed_Date__c = '08/20/2024';
         insert productStaging;
         
         Placement_Status_Code_Mapping__c PlacementCode = new Placement_Status_Code_Mapping__c();
@@ -411,6 +440,6 @@ public class TestDisplayProductAllocStagController {
         list<Product_Staging__c>  listprg = new list<Product_Staging__c>() ;  
         listprg.add(productStaging);
         RecallProductProcessing.recallProducts(listprg, 'workAssignmentId');
-        AllocationProductProcessing.allocateProducts(listprg, 'workAssignmentId');
+        AllocationProductProcessing.allocateProducts(listprg, 'workAssignmentId');   
     }
 }
