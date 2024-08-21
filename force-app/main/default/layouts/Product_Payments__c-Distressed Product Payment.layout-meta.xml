@@ -175,6 +175,10 @@
                 <behavior>Edit</behavior>
                 <field>Original_Of_Payment_Reversal__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Memo__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

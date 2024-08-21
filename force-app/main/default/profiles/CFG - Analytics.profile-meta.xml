@@ -6907,6 +6907,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Product_Payments__c.Memo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Bank_Name__c</field>
         <readable>true</readable>

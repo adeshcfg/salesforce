@@ -13539,6 +13539,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Payments__c.Memo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Payments__c.Attorney_Fees_After_Payment__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -186,6 +186,17 @@
 
                 prodPayment.CCS_Account__c = mapAccountNumberID.get(wrapRecord.data_id);
                 prodPayment.CCS_Account_Name__c = wrapRecord.data_id;
+                //Story #7007
+                              
+                if(String.isNotBlank(wrapRecord.memo)) {
+                    Integer maxSize = 254;
+                    if(wrapRecord.memo.length() > maxSize ){
+                        prodPayment.Memo__c = wrapRecord.memo.substring(0, maxSize);                        
+                    } else {
+                        prodPayment.Memo__c = wrapRecord.memo;   
+                    } 
+                                  
+                }                
 
                 if (String.isNotBlank(wrapRecord.tran_amount)) {
                     // && wrapRecord.tran_amount.isNumeric() == true
@@ -1974,6 +1985,12 @@
             if (prodPayment.Agency_Calculated_Comm__c != null) {
                 payStaging.Agency_Calculated_Comm__c = String.valueOF(prodPayment.Agency_Calculated_Comm__c);
             }
+            
+            //#7007
+            if (prodPayment.Memo__c != null) {
+                payStaging.Memo__c = String.valueOF(prodPayment.Memo__c);
+            }
+            
 
             payStaging.Original_Of_Payment_Reversal__c = prodPayment.Original_Of_Payment_Reversal__c;
             payStaging.Payment_Amount__c = prodPayment.Payment_Amount__c;
@@ -2053,5 +2070,8 @@
         public String payment_agency { get; set; }
         public String commission_rate { get; set; }
         public String pri_acctno { get; set; }
+        //#7007
+        public String memo {get; set;}
+        // to be added memo
     }
 }

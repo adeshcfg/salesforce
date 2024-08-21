@@ -13371,6 +13371,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Payments__c.Memo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Payments__c.Agency_Commission_Rate__c</field>
         <readable>true</readable>
     </fieldPermissions>
