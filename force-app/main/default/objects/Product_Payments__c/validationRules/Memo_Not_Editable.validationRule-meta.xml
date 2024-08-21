@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Memo_Not_Editable</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(  ISCHANGED(Memo__c) ,NOT(ISNEW()))</errorConditionFormula>
+    <errorDisplayField>Memo__c</errorDisplayField>
+    <errorMessage>Memo details cannot be modified</errorMessage>
+</ValidationRule>

@@ -33,7 +33,7 @@ public class TestDisplayProdPymntStagingController {
         insert portalSettings;
 	}
     
-    /* @isTest
+    @isTest
     static void testMethod1(){
 		Placement__c placement1 = new Placement__c();
         placement1.name = '11';
@@ -148,7 +148,7 @@ public class TestDisplayProdPymntStagingController {
         DisplayProductPaymentStagingController.productPaymentStagingWrapper wrapper = new DisplayProductPaymentStagingController.productPaymentStagingWrapper(productpaymentstagingcObj, true);
         wrapper.selected = true;
         instance.save();
-    } */
+    }
     
     @isTest
     static void testMethod2() {

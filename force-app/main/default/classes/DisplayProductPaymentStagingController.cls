@@ -67,7 +67,7 @@ public class DisplayProductPaymentStagingController {
                                  Product_Commission_Rate__c, Agency_Commission_Rate__c, Pool_Commission_Rate__c,Pay_Posting_Date__c,
                                  Payment_Type_Description__c, Fee_Type__c, Billing_Entity__c, Primary_Account_Number__c,Product_Payment_Agency__c,
                                  Tax_Type__c,Tax_Province__c,Tax_Province_Rate__c,Legal_Product_Identifier__c, Document_Storage__r.Direct_Payment__c,
-                                 Direct_Payment_Type__c,Portfolio_Group_Name__c,Legal_Entity__c,Document_Storage__r.Balance_Adjustment__c
+                                 Direct_Payment_Type__c,Portfolio_Group_Name__c,Legal_Entity__c,Document_Storage__r.Balance_Adjustment__c,Memo__c
                                  FROM Product_Payment_Staging__c
                                  WHERE Identifier__c = :recordIdentfier
                                  order by Pay_Posting_Date__c ASC
@@ -183,6 +183,9 @@ public class DisplayProductPaymentStagingController {
                    prodPayment.CCS_Account__c = payStaging.Product_ID__c;
                    prodPayment.Payment_Amount__c = payStaging.Payment_Amount__c;
                    prodPayment.Payment_Posting_Date__c = payStaging.Pay_Posting_Date__c;
+                   //#7007
+                   prodPayment.Memo__c = payStaging.Memo__c;
+                  // prodPayment.CCS_Account__c = payStaging.CCS_Account__c;
                    prodPayment.Payment_Created__c = Date.today();
                    //updating the code to populate payment posting month from Payment created instead of Payment Posting date Ticket: 4546
                    monthInt = String.valueOf(prodPayment.Payment_Created__c.month());

@@ -254,6 +254,11 @@
                     <apex:facet name="header">Status</apex:facet>
                     <apex:outputfield value="{!payment.payStaging.Status__c}"></apex:outputfield>
                 </apex:column>
+                <!--#7007-->
+                <apex:column style="width:8%;vertical-align:baseline">
+                    <apex:facet name="header">Memo</apex:facet>
+                    <apex:outputfield value="{!payment.payStaging.Memo__c}"></apex:outputfield>
+                </apex:column>
             </apex:datatable>
             <apex:actionStatus id="status">
             <apex:facet name="start">
