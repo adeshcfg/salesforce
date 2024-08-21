@@ -2473,7 +2473,8 @@
                                         CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                     }
                                     prodPayment.Pay_Due__c = null;
-
+									prodPayment.Tax_Amount__c = null; //Ticket 6836: If pay_due null then tax amount should be also null 
+                                    
                                     prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                                     if (lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
                                         //if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
@@ -2855,6 +2856,7 @@
                                     CommissionRate = mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                 }
                                 prodPayment.Pay_Due__c = null;
+                                prodPayment.Tax_Amount__c = null; //Ticket 6836: If pay_due null then tax amount should be also null 
                                 prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                                 if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                                     if (mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement__c != null) {
