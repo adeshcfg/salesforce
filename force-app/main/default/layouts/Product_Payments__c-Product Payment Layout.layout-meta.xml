@@ -49,6 +49,10 @@
                 <behavior>Readonly</behavior>
                 <field>Placement_History_External__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Memo__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
