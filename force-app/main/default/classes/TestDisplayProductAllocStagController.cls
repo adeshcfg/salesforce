@@ -14,7 +14,24 @@ public class TestDisplayProductAllocStagController {
         PlacementCode.Placement_Status_Code__c = '900000';
         placementCode.Data_Status_Code__c = '200000';
         insert PlacementCode;
-        system.debug('PlacementCode test class' +PlacementCode);
+        
+        Placement_Status_Code_Mapping__c PlacementCode2 = new Placement_Status_Code_Mapping__c();
+        PlacementCode2.name = '800000';
+        PlacementCode2.Parent_Status__c = 'New Allocation';
+        PlacementCode2.Status__c = 'New Allocation';
+        PlacementCode2.Sub_Status__c = 'Ready';
+        PlacementCode2.Placement_Status_Code__c = '800000';
+        PlacementCode2.Data_Status_Code__c = '200000';
+        insert PlacementCode2;
+        
+        Placement_Status_Code_Mapping__c PlacementCode1 = new Placement_Status_Code_Mapping__c();
+        PlacementCode1.name = '801100';
+        PlacementCode1.Parent_Status__c = 'New Allocation';
+        PlacementCode1.Status__c = 'New Allocation';
+        PlacementCode1.Sub_Status__c = 'Ready';
+        PlacementCode1.Placement_Status_Code__c = '801100';
+        PlacementCode1.Data_Status_Code__c = '200000';
+        insert PlacementCode1;
         
         list<Agency_Portal_Fields_Mapping__c> listmapping = new list<Agency_Portal_Fields_Mapping__c>();
         Agency_Portal_Fields_Mapping__c mapping1 = new Agency_Portal_Fields_Mapping__c(Name = 'Name', Object_Name__c = 'Product', 
@@ -50,13 +67,18 @@ public class TestDisplayProductAllocStagController {
         
         Judgment_product_codes_mapping__c mapping = new Judgment_product_codes_mapping__c();
         mapping.name = 'A-0010';
-        mapping.Codes__c = '220000';
+        mapping.Codes__c = '800000';
         mapping.Judgment_Legal_Status__c = 'Pre-Judgment';
         mapping.Judgment_Legal_Sub_Status__c = 'Claim Issued';
         mapping.Product_Parent__c = 'Pre-Judgment';
         mapping.Product_Status__c = 'Pre - Judgment - In Process';
         mapping.Product_Sub_status__c = 'Claim Issued';
         insert mapping;
+        
+        Application_Config_Settings__c applicationConfigSetting = new Application_Config_Settings__c();
+        applicationConfigSetting.Bypass_Judgement_Validation__c = true;
+        insert applicationConfigSetting;
+        
     }
     
     public static testMethod void testAccStatusUpdate(){
@@ -382,35 +404,32 @@ public class TestDisplayProductAllocStagController {
         product.name = '123456789';
         product.Purchase_Province__c = 'AB';
         product.Collection_Agency__c=88;
-        product.Placement_Status__c = '290700';
+        product.Placement_Status__c = '801100';
+        product.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         insert product;  
         
         Product__c product1 = new Product__c();
-        product1.name = 'Test Product';
+        product1.name = '123456784';
         product1.Purchase_Province__c = 'AB';
-        product1.Placement_Status__c='800000';
         product1.Collection_Agency__c=88;
-        insert product1;
-		
+        product1.Placement_Status__c = '801100';
+        product1.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        insert product1; 
+        
 		Judgment__c judg = new Judgment__c();
-        judg.legal_Agency__c = '9999';
+        judg.legal_Agency__c = '88';
         judg.Legal_Status__c = 'Pre-Judgment';
         judg.Legal_Sub_Status__c = 'Claim Issued';
         judg.Product_1__c = '123456789';
         judg.Product_2__c = '123456788';
-        judg.Product_3__c = '123456780';
-        judg.Product_4__c = '123456787';
-        judg.Product_5__c = '123456786';
         insert judg;
-        List<Judgment__c> judgList = new List<Judgment__c>();
-        judgList.add(judg);
-        
+
         Account_Judgment__c acctJudgment1 = new Account_Judgment__c();
         acctJudgment1.Product__c = product.Id;
         acctJudgment1.Judgment__c = judg.id;
         acctJudgment1.Status__c = 'Active';
         insert acctJudgment1;
-        
+
         Pool__c poolData = new Pool__c();
         poolData.Placement_Agency__c = 89;
         insert poolData;
@@ -423,22 +442,31 @@ public class TestDisplayProductAllocStagController {
         productStaging.Identifier__c = docStorage.ID;
         productStaging.Placement_Agency__c = '1';
         productStaging.Pool_Name_ID__c = poolData.id;
-        productStaging.Placement_Status_Code__c='800000';
+        productStaging.Placement_Status_Code__c='901100';
+        productStaging.Placement_Main_Status__c = 'Testing';
+        productStaging.Placement_Sub_Status__c = 'Testing';
+        productStaging.Status_Changed_Date_Text__c = '08/20/2024';
         productStaging.Status_Changed_Date__c = '08/20/2024';
         insert productStaging;
         
-        Placement_Status_Code_Mapping__c PlacementCode = new Placement_Status_Code_Mapping__c();
-        PlacementCode.name = '800000';
-        PlacementCode.Parent_Status__c = 'New Allocation';
-        PlacementCode.Status__c = 'New Allocation';
-        PlacementCode.Sub_Status__c = 'Ready';
-        PlacementCode.Placement_Status_Code__c = '800000';
-        placementCode.Data_Status_Code__c = '200000';
-        insert PlacementCode;
-        map<String, Placement_Status_Code_Mapping__c> codeMapping = new map<String, Placement_Status_Code_Mapping__c>();
-        codeMapping.put(PlacementCode.name,PlacementCode);
+        Product_Staging__c productStaging1 = new Product_Staging__c();
+        productStaging1.Product_ID__c = product1.ID;
+        productStaging1.Document_Storage__c = docStorage.ID;
+        productStaging1.Comment__c = 'ERROR - Testing';
+        productStaging1.status__c='Pending';
+        productStaging1.Identifier__c = docStorage.ID;
+        productStaging1.Placement_Agency__c = '1';
+        productStaging1.Pool_Name_ID__c = poolData.id;
+        productStaging1.Placement_Status_Code__c='801100';
+        productStaging1.Placement_Main_Status__c = 'Testing';
+        productStaging1.Placement_Sub_Status__c = 'Testing';
+        productStaging1.Status_Changed_Date_Text__c = '08/20/2024';
+        productStaging1.Status_Changed_Date__c = '08/20/2024';
+        insert productStaging1;
+
         list<Product_Staging__c>  listprg = new list<Product_Staging__c>() ;  
         listprg.add(productStaging);
+        listprg.add(productStaging1);
         RecallProductProcessing.recallProducts(listprg, 'workAssignmentId');
         AllocationProductProcessing.allocateProducts(listprg, 'workAssignmentId');   
     }
