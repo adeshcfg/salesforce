@@ -68,7 +68,7 @@ public class RecallProductProcessing {
         }
         ProductRecallIndividualController.prodStatusAccJudgStatus prodStatusWapper = ProductRecallIndividualController.getActiveProdIdsFromJudg(recallProdIds);
         allProdToRecallList = prodStatusWapper.prodIdsProductStatus;
-		
+
         for(Id productIds : allProdToRecallList.keySet()){
             setProductIDs.add(productIds);
             Product_Staging__c stagingNewRecord = new Product_Staging__c();
@@ -117,7 +117,7 @@ public class RecallProductProcessing {
 
         try {
             Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
-            
+
             for(Product_Staging__c productStaging : prodStagingList){
                 //Regex to check MM/DD/YYYY (text format in excel)
                 String dateRegex = '^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4})$';
@@ -151,16 +151,13 @@ public class RecallProductProcessing {
                     
                     if(MyMatcher1.matches() == true){
                         myDate = date.newInstance(Integer.valueOf(datelist[2]), Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]));
-                        //product.Status_Changed_Date__C = myDate;
                     }
                     //matching of date when entered in Date format in excel file  product.Status_Changed_Date__c 
                     else if(MyMatcher2.matches() == true){
-                        //  list<String> datelist = productStaging.Status_Changed_Date__c.split('/');
                         myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                         
                     }
                     else if(MyMatcher3.matches() == true){
-                        // list<String> datelist = productStaging.Status_Changed_Date__c.split('/');
                         myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                        
                     }
@@ -201,24 +198,21 @@ public class RecallProductProcessing {
                                accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
                            }
                        } 
-                    if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9')) || Test.isRunningTest()){   
+                    if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9'))){   
                         if(codeMapping.containsKey(prod.Placement_Status__c) ){
                             if(codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c != NULL){
                                 prod.Product_Status__c = codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c;
                                 prod.Data_Status_Description__c = codeMapping.get(prod.Placement_Status__c).Data_Status_Description__c;
                             }
                         }
-                        if(Test.isRunningTest()){
-                            productStaging1.Product_ID__c = productStaging.Product_ID__c;
-                        }
                         
-                        if(placementMainStatusMap.containskey(productStaging1.Product_ID__c)){
-                            prod.Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Status__c;
-                            prod.Sub_Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Sub_Status__c;
-                            prod.Placement_Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Placement_Status__c;
-                            productStaging1.Placement_Main_Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Status__c;
-                            productStaging1.Placement_Sub_Status__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Sub_Status__c;
-                            productStaging1.Placement_Status_Code__c = placementMainStatusMap.get(productStaging1.Product_ID__c).Placement_Status__c;
+                        if(placementMainStatusMap.containskey(productStaging.Product_ID__c)){
+                            prod.Status__c = placementMainStatusMap.get(productStaging.Product_ID__c).Status__c;
+                            prod.Sub_Status__c = placementMainStatusMap.get(productStaging.Product_ID__c).Sub_Status__c;
+                            prod.Placement_Status__c = placementMainStatusMap.get(productStaging.Product_ID__c).Placement_Status__c;
+                            productStaging1.Placement_Main_Status__c = placementMainStatusMap.get(productStaging.Product_ID__c).Status__c;
+                            productStaging1.Placement_Sub_Status__c = placementMainStatusMap.get(productStaging.Product_ID__c).Sub_Status__c;
+                            productStaging1.Placement_Status_Code__c = placementMainStatusMap.get(productStaging.Product_ID__c).Placement_Status__c;
                         }else{
                             prod.Placement_Status__c = null;
                             prod.Status__c = null;
@@ -231,10 +225,8 @@ public class RecallProductProcessing {
                         prod.Collection_Agency_Placement__c = PlacementMap.get(String.valueOf(prod.Collection_Agency__c));
                         prod.Recalled_Date__c = Date.today();
                         prod.External_Status_Current__c = null;
-                        if(Test.isRunningTest())  prod.Placement_Status__c ='800000';
+
                         if((String.isNotBlank(prod.Placement_Status__c) &&  prod.Placement_Status__c.startsWith('8'))){
-                           system.debug('prod.Placement_Status__c--->'+prod.Placement_Status__c);
-                            system.debug('codeMapping--->'+codeMapping);
                             if(codeMapping.containsKey(prod.Placement_Status__c) ){
                                 if(codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c != NULL){
                                     prod.Product_Status__c = codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c;
@@ -242,7 +234,6 @@ public class RecallProductProcessing {
                                     prod.External_Status_Current__c = null;
                                 }
                             }
-                            
                         }  
                         if(prod.Collection_Agency__c == 9999){
                             prodIds.add(Prod.Id);
