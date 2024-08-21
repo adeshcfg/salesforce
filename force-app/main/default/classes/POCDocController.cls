@@ -18,6 +18,7 @@ public class POCDocController {
     public Remittance_Group_Mapping_For_PoC__c remGroupMap { get; set; }
     public Boolean isAnyException { get; set; }
     public String insolAccName { get; set; }
+    public String pocDocError { get; set; }
 
     // Boolean check for paragraphs
     public Boolean unSecClaim { get; set; }
@@ -65,12 +66,7 @@ public class POCDocController {
 
     public POCDocController() {
         isAnyException = false;
-        canaccedeError = false;
-        canaccedeErrorMsg = '';
         amendedPOCcheck = false;
-        EligibleVoting = true;
-        AssetError = false;
-        AssetErrorMsg = '';
         mapPOCPackageSettingTranslation = new Map<String, String>();
         mapPOCPackageSettingTranslation.put('The Bank of Nova Scoatia', 'LA BANQUE DE NOUVELLE-ÉCOSSE');
         mapPOCPackageSettingTranslation.put('Bankruptcy', 'la faillite');
@@ -79,19 +75,7 @@ public class POCDocController {
 
         try {
             // Add those two properties in your Apex controller
-            Map<Integer, String> frenchDates = new Map<Integer, String>();
-            frenchDates.put(1, 'Janvier');
-            frenchDates.put(2, 'Février');
-            frenchDates.put(3, 'Mars');
-            frenchDates.put(4, 'Avril');
-            frenchDates.put(5, 'Mai');
-            frenchDates.put(6, 'Juin');
-            frenchDates.put(7, 'Juillet');
-            frenchDates.put(8, 'Août');
-            frenchDates.put(9, 'Septembre');
-            frenchDates.put(10, 'Octobre');
-            frenchDates.put(11, 'Novembre');
-            frenchDates.put(12, 'Décembre');
+            Map<Integer, String> frenchDates = PocDocUtility.frenchDates;
 
             insolvAcc = [
                 SELECT
@@ -306,58 +290,8 @@ public class POCDocController {
             if (insolvAcc.PoC_Created_Date__c <> null && insolvAcc.Amended_Claim_Flag__c == false) {
                 amendedPOCcheck = true;
             }
-            if (insolvAcc.Proof_of_Claim_Required__c == false) {
-                pocDocError = 'Sorry, you cannot generate a proof of claim unless "Proof of Claim Required" checkbox is checked on this account';
-            }
-            if (insolvAcc.Insolvency_Status__c != 'PoC Details Provided') {
-                statusError = 'Sorry, you cannot generate a proof of claim unless this account is in "PoC Details Provided" status';
-            }
-
-            /* Commented the code on 19.06.20 to revert changes
-             * if((null == insolvAcc.Insolvency__r.Eligible_For_Voting_Decision__c  || insolvAcc.Insolvency__r.Eligible_For_Voting_Decision__c == false)){
-                                                                                         
-             EligibleVotingError = 'Sorry, you cannot generate a proof of claim when related Insolvency is not Eligible for Voting';
-             EligibleVoting=false;
-            }*/
-
-            // updated if condition only to check voting decision 19.06.20
-            if (insolvAcc.Insolvency__r.Voting_Decision__c == 'Needs Manual Review') {
-                EligibleVotingError = 'Sorry, you cannot generate a proof of claim when Voting Decision is Needs Manual Review';
-                EligibleVoting = false;
-            }
-            if ('Canaccede' == insolvAcc.Client_Identifier__c && insolvAcc.Vendor_Orginator__c == null) {
-                canaccedeError = true;
-                canaccedeErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account has Vendor value populated on the account';
-            }
-
-            if (
-                insolvAcc.Asset_Status__c != 'Purchased' &&
-                insolvAcc.Asset_Status__c != 'Debt Purchase' &&
-                insolvAcc.Asset_Status__c != 'Bulk Purchased' &&
-                insolvAcc.Asset_Status__c != 'Duplicate Purchased'
-            ) {
-                AssetError = true;
-                AssetErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account is in Purchased / Debt Purchase / Bulk Purchased / Duplicate Purchased status';
-            }
-            if (
-                'Canaccede' == insolvAcc.Client_Identifier__c &&
-                (insolvAcc.Portfolio_Group_Name__c == null ||
-                insolvAcc.Portfolio_Name_Lookup__c == null ||
-                insolvAcc.Investment_Group__c == null)
-            ) {
-                canaccedeError = true;
-                canaccedeErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account has Vendor value, Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
-            }
-            // commented for - 6886 //
-            /*if (
-                'Fidem' == insolvAcc.Client_Identifier__c &&
-                (insolvAcc.Portfolio_Group_Name__c == null ||
-                insolvAcc.Portfolio_Name_Lookup__c == null ||
-                insolvAcc.Investment_Group__c == null)
-            ) {
-                canaccedeError = true;
-                canaccedeErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account has Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
-            }*/
+            // Check if account is eligible to generate POC
+            pocDocError = PocDocUtility.validateRecord(insolvAcc);
 
             //Check trustee is Service Nova Scotia or not for Account masking
             List<String> trusteeCheckList = new List<String>();
@@ -379,14 +313,6 @@ public class POCDocController {
             isAnyException = true;
         }
     }
-    public String pocDocError { get; set; }
-    public String statusError { get; set; }
-    public Boolean AssetError { get; set; }
-    public String AssetErrorMsg { get; set; }
-    public Boolean canaccedeError { get; set; }
-    public String canaccedeErrorMsg { get; set; }
-    public String EligibleVotingError { get; set; }
-    public Boolean EligibleVoting { get; set; }
 
     /* Method used to save poc package as pdf to insolvancy account */
     public PageReference savePOCDoc() {
