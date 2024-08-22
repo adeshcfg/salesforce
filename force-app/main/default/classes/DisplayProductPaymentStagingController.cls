@@ -1175,46 +1175,41 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                   
                                                   
                                                   //Populate latest last payment date and last payment amount on product
-                                                  
-                                                  if(payProductInstance.Payment_Type__c == '1000' || payProductInstance.Payment_Type__c == '1001' || payProductInstance.Payment_Type__c == '1002' ||payProductInstance.Payment_Type__c == '8000'
+                                                  //Ticket 6834: last payment date and last payment amount should not update on 8000 OR 8003 payments
+                                                  if(payProductInstance.Payment_Type__c == '1000' || payProductInstance.Payment_Type__c == '1001' || payProductInstance.Payment_Type__c == '1002' /*||payProductInstance.Payment_Type__c == '8000'*/
                                                      && (productInstance.Last_Payment_Date__c <= payProductInstance.Payment_Posting_Date__c || productInstance.Last_Payment_Date__c == null)){
                                                          
                                                          //set old date and amount on product payment
                                                          prodPayToUpdate.Last_Payment_Date__c = productInstance.Last_Payment_Date__c;
                                                          prodPayToUpdate.Last_Payment_Amount__c= productInstance.Last_Payment_Amount__c;
                                                          
-                                                         //Ticket 6834: last payment date and last payment amount should not update on 8000 OR 8003 payments
-                                                         if(payProductInstance.Payment_Type__c != '8000' || payProductInstance.Payment_Type__c != '8003'){
-                                                             //set new latest date and amount on product
-                                                             productInstance.Last_Payment_Date__c = payProductInstance.Payment_Posting_Date__c;
-                                                             productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
-                                                         }
+                                                         //set new latest date and amount on product
+                                                         productInstance.Last_Payment_Date__c = payProductInstance.Payment_Posting_Date__c;
+                                                         productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                          
                                                      }
                                                   
-                                                  if(payProductInstance.Payment_Type__c != '8000' || payProductInstance.Payment_Type__c != '8003'){
-                                                      if(payProductInstance.payment_type__c == '1003' && productInstance.Last_Payment_Date__c == payProductInstance.Payment_Posting_Date__c && productInstance.Last_Payment_Amount__c == (payProductInstance.Payment_Amount__c*-1)){
-                                                          if(prodPaymentId !=null ){
-                                                              List<Product_Payments__C> latestPayment1 = [select Id,name,Payment_Posting_Date__c,Payment_Amount__c
-                                                                                                          from Product_Payments__C where CCS_Account__c =: payProductInstance.CCS_Account__c
-                                                                                                          AND Payment_Amount__c > 0
-                                                                                                          AND Payment_Posting_Date__c <=: productInstance.Last_Payment_Date__c
-                                                                                                          AND (Payment_Type__c = '1000' OR Payment_Type__c = '1001' OR Payment_Type__c = '1002') 
-                                                                                                          AND Id NOT IN: prodPaymentId order by Payment_Posting_Date__c desc limit 1];
-                                                              if(!latestPayment1.isEmpty()){
-                                                                  for(Product_Payments__C prodPay : latestPayment1){
-                                                                      productInstance.Last_Payment_Date__c = prodPay.Payment_Posting_Date__c;
-                                                                      productInstance.Last_Payment_Amount__c = prodPay.Payment_Amount__c;
-                                                                  }
-                                                              }else{
-                                                                  product_Payments__c prodOldDate = [select id,name,Last_Payment_Date__c,Last_Payment_Amount__c from product_Payments__c 
-                                                                                                     where CCS_Account__c =: payProductInstance.CCS_Account__c 
-                                                                                                     AND (Payment_Type__c = '1000' OR Payment_Type__c = '1001' OR Payment_Type__c = '1002') order by name ASC limit 1];
-                                                                  productInstance.Last_Payment_Date__c = prodOldDate.Last_Payment_Date__c;
-                                                                  productInstance.Last_Payment_Amount__c = prodOldDate.Last_Payment_Amount__c;
+                                                  if(payProductInstance.payment_type__c == '1003' && productInstance.Last_Payment_Date__c == payProductInstance.Payment_Posting_Date__c && productInstance.Last_Payment_Amount__c == (payProductInstance.Payment_Amount__c*-1)){
+                                                      if(prodPaymentId !=null ){
+                                                          List<Product_Payments__C> latestPayment1 = [select Id,name,Payment_Posting_Date__c,Payment_Amount__c
+                                                                                                      from Product_Payments__C where CCS_Account__c =: payProductInstance.CCS_Account__c
+                                                                                                      AND Payment_Amount__c > 0
+                                                                                                      AND Payment_Posting_Date__c <=: productInstance.Last_Payment_Date__c
+                                                                                                      AND (Payment_Type__c = '1000' OR Payment_Type__c = '1001' OR Payment_Type__c = '1002') 
+                                                                                                      AND Id NOT IN: prodPaymentId order by Payment_Posting_Date__c desc limit 1];
+                                                          if(!latestPayment1.isEmpty()){
+                                                              for(Product_Payments__C prodPay : latestPayment1){
+                                                                  productInstance.Last_Payment_Date__c = prodPay.Payment_Posting_Date__c;
+                                                                  productInstance.Last_Payment_Amount__c = prodPay.Payment_Amount__c;
                                                               }
-                                                              
+                                                          }else{
+                                                              product_Payments__c prodOldDate = [select id,name,Last_Payment_Date__c,Last_Payment_Amount__c from product_Payments__c 
+                                                                                                 where CCS_Account__c =: payProductInstance.CCS_Account__c 
+                                                                                                 AND (Payment_Type__c = '1000' OR Payment_Type__c = '1001' OR Payment_Type__c = '1002') order by name ASC limit 1];
+                                                              productInstance.Last_Payment_Date__c = prodOldDate.Last_Payment_Date__c;
+                                                              productInstance.Last_Payment_Amount__c = prodOldDate.Last_Payment_Amount__c;
                                                           }
+                                                          
                                                       }
                                                   }
                                                   
@@ -1222,7 +1217,7 @@ productInstance.Last_Payment_Amount__c = payProductInstance.Payment_Amount__c;
                                                   mapProductToAdjustInterestFinal.put(productInstance.ID, productInstance);
                                                   listProdPaymentToUpdate.add(prodPayToUpdate);
                                                   //prodList.add(productInstance);
-                    							  //prodIds.add(productInstance.ID);
+                                                  //prodIds.add(productInstance.ID);
                                               }
                                           }
         
