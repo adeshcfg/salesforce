@@ -51,6 +51,14 @@ public class POCDocController {
     public String formattedDateToday { get; set; }
     public String formattedLastpaymentDate { get; set; }
     public String formattedDateTodayHeader { get; set; }
+    public String formattedLastPayDate { get; set; }
+    public String formattedSecondLastPayDate { get; set; }
+    public String formattedThridLastPayDate { get; set; }
+    public String formattedAcknowledgementDate { get; set; }
+    public String formattedDebtDueOffDate { get; set; }
+    public String formattedAccountOpenDate {get; set;}
+    public String formattedAccountChargedoffDate {get; set;}
+    public String formattedAccountOriginalOpenDate {get; set;}
 
     //Language options French Translation
     public string language { get; set; }
@@ -150,6 +158,18 @@ public class POCDocController {
             pocDocError = pocDocErrorMap.get('Reason_for_POC_Automation_Failure__c');
             Map<String, String> variableMap = PocDocUtility.getVariableMap(insolvAcc);
             pageName = variableMap.get('pageName');
+            formattedDate = variableMap.get('formattedDate');
+            formattedDateToday = variableMap.get('formattedDateToday');
+            formattedLastpaymentDate = variableMap.get('formattedLastpaymentDate');
+            formattedDateTodayHeader = variableMap.get('formattedDateTodayHeader');
+            formattedLastPayDate = variableMap.get('formattedLastPayDate');
+            formattedSecondLastPayDate = variableMap.get('formattedSecondLastPayDate');
+            formattedThridLastPayDate = variableMap.get('formattedThridLastPayDate');
+            formattedAcknowledgementDate = variableMap.get('formattedAcknowledgementDate');
+            formattedDebtDueOffDate = variableMap.get('formattedDebtDueOffDate');
+            formattedAccountOpenDate = variableMap.get('formattedAccountOpenDate');
+            formattedAccountChargedoffDate = variableMap.get('formattedAccountChargedoffDate');
+            formattedAccountOriginalOpenDate = variableMap.get('formattedAccountOriginalOpenDate');
             statementOfAccount = Boolean.valueOf(variableMap.get('statementOfAccount'));
             form31 = Boolean.valueOf(variableMap.get('form31'));
             form37 = Boolean.valueOf(variableMap.get('form37'));

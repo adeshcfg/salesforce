@@ -1,7 +1,7 @@
 /**
  * @description       : Class to hold utility/common methods for POC document generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 08-26-2024
+ * @last modified on  : 08-27-2024
  * @last modified by  : adesh.ikhar@canaccede.com
 **/
 public class PocDocUtility {
@@ -84,6 +84,18 @@ public class PocDocUtility {
         Boolean voteForAcceptance = false;
         Boolean voteAgainstAcceptance = false;
         Boolean meetingOfCredits = false;
+        String formattedDate = '';
+        String formattedDateToday = '';
+        String formattedLastpaymentDate = '';
+        String formattedDateTodayHeader = '';
+        String formattedLastPayDate = '';
+        String formattedSecondLastPayDate = '';
+        String formattedThridLastPayDate = '';
+        String formattedAcknowledgementDate = '';
+        String formattedDebtDueOffDate = '';
+        String formattedAccountOpenDate = '';
+        String formattedAccountChargedoffDate = '';
+        String formattedAccountOriginalOpenDate = '';
 
         String insolAccName = insolvAcc.Name;
         if (
@@ -92,6 +104,102 @@ public class PocDocUtility {
             insolvAcc.Excluded_from_Purchase__c == true
         ) {
             pageName = 'GoEasyUnSecured';
+        }
+
+        Datetime dateNow = Datetime.now();
+        if (insolvAcc.Insolvency__r.Insolvency_Date__c != null) {
+            formattedDate = String.valueOf(
+                ' ' +
+                frenchDates.get(insolvAcc.Insolvency__r.Insolvency_Date__c.month()) +
+                ' ' +
+                String.valueOf(insolvAcc.Insolvency__r.Insolvency_Date__c.year())
+            );
+        }
+
+        formattedDateToday = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + String.valueOf(dateNow.year()));
+        if (insolvAcc.Last_Payment_Date__c != null) {
+            formattedLastpaymentDate = String.valueOf(
+                String.valueOf(insolvAcc.Last_Payment_Date__c.month()) +
+                ' ' +
+                frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
+                ' ' +
+                String.valueOf(insolvAcc.Last_Payment_Date__c.year())
+            );
+        }
+        formattedDateTodayHeader = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ' ' + String.valueOf(dateNow.year()));
+
+        if (insolvAcc.Last_Payment_Date__c != null) {
+            formattedLastpaymentDate = String.valueOf(
+                String.valueOf(insolvAcc.Last_Payment_Date__c.month()) +
+                ' ' +
+                frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
+                ' ' +
+                String.valueOf(insolvAcc.Last_Payment_Date__c.year())
+            );
+        }
+        if (insolvAcc.Acknowledgement_date__c != null) {
+            formattedAcknowledgementDate = String.valueOf(
+                ' ' +
+                frenchDates.get(insolvAcc.Acknowledgement_date__c.month()) +
+                ' ' +
+                String.valueOf(insolvAcc.Acknowledgement_date__c.year())
+            );
+        }
+        if (insolvAcc.Debt_Due_as_off_date__c != null) {
+            formattedDebtDueOffDate = String.valueOf(
+                ' ' +
+                frenchDates.get(insolvAcc.Debt_Due_as_off_date__c.month()) +
+                ' ' +
+                String.valueOf(insolvAcc.Debt_Due_as_off_date__c.year())
+            );
+        }
+        if (insolvAcc.Last_Payment_Date__c != null) {
+            formattedLastPayDate = String.valueOf(
+            ' ' +
+                frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
+                ', ' +
+                String.valueOf(insolvAcc.Last_Payment_Date__c.year())
+            );
+        }
+        if (insolvAcc.Last_Payment_Date_2__c != null) {
+            formattedSecondLastPayDate = String.valueOf(
+                ' ' +
+                frenchDates.get(insolvAcc.Last_Payment_Date_2__c.month()) +
+                ', ' +
+                String.valueOf(insolvAcc.Last_Payment_Date_2__c.year())
+            );
+        }
+        if (insolvAcc.Last_Payment_Date_3__c != null) {
+            formattedThridLastPayDate = String.valueOf(
+                ' ' +
+                frenchDates.get(insolvAcc.Last_Payment_Date_3__c.month()) +
+                ', ' +
+                String.valueOf(insolvAcc.Last_Payment_Date_3__c.year())
+            );
+        }
+        if (insolvAcc.Account_Open_date__c != null) {
+                formattedAccountOpenDate = String.valueOf(
+                ' ' +
+                frenchDates.get(insolvAcc.Account_Open_date__c.month()) +
+                ', ' +
+                String.valueOf(insolvAcc.Account_Open_date__c.year())
+            );
+        }
+        if (insolvAcc.Charge_Off_Date__c != null) {
+            formattedAccountChargedoffDate = String.valueOf(
+                ' ' +
+                frenchDates.get(insolvAcc.Charge_Off_Date__c.month()) +
+                ', ' +
+                String.valueOf(insolvAcc.Charge_Off_Date__c.year())
+            );
+        }
+        if (insolvAcc.Account_Original_Open_Date__c != null) {
+            formattedAccountOriginalOpenDate = String.valueOf(
+                ' ' +
+                frenchDates.get(insolvAcc.Account_Original_Open_Date__c.month()) +
+                ', ' +
+                String.valueOf(insolvAcc.Account_Original_Open_Date__c.year())
+            );
         }
 
         statementOfAccount = insolvAcc.Proof_of_Claim_Required__c;
@@ -131,6 +239,16 @@ public class PocDocUtility {
         }
         return new Map<String, String>{
             'pageName' => pageName,
+            'formattedDate' => formattedDate,
+            'formattedDateToday' => formattedDateToday,
+            'formattedLastpaymentDate' => formattedLastpaymentDate,
+            'formattedDateTodayHeader' => formattedDateTodayHeader,
+            'formattedLastPayDate' => formattedLastPayDate,
+            'formattedSecondLastPayDate' => formattedSecondLastPayDate,
+            'formattedThridLastPayDate' => formattedThridLastPayDate,
+            'formattedAcknowledgementDate' => formattedAcknowledgementDate,
+            'formattedDebtDueOffDate' => formattedDebtDueOffDate,
+            'formattedAccountOpenDate' => formattedAccountOpenDate,
             'statementOfAccount' => String.valueOf(statementOfAccount),
             'form31' => String.valueOf(form31),
             'form37' => String.valueOf(form37),
