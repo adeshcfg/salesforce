@@ -18,6 +18,13 @@ public class POCDocDataController {
     public String formattedDate { get; set; }
     public String formattedDateToday { get; set; }
     public String formattedLastpaymentDate { get; set; }
+    public String formattedSecondLastPayDate {get; set;}
+    public String formattedThridLastPayDate {get; set;}
+    public String formattedAccountOriginalOpenDate {get; set;}
+    public String formattedAccountOpenDate {get; set;}
+    public String formattedDebtDueOffDate {get; set;}
+    public String formattedAcknowledgementDate {get; set;}
+    public String formattedAccountChargedoffDate {get; set;}
     public String formattedDateTodayHeader { get; set; }
     public Boolean spaceCount { get; set; }
 
@@ -129,13 +136,74 @@ public class POCDocDataController {
         formattedDateToday = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + String.valueOf(dateNow.year()));
         if (insolvAcc.Last_Payment_Date__c != null) {
             formattedLastpaymentDate = String.valueOf(
-                String.valueOf(insolvAcc.Last_Payment_Date__c.month()) +
+               // String.valueOf(insolvAcc.Last_Payment_Date__c.month()) +
                     ' ' +
                     frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
                     ' ' +
                     String.valueOf(insolvAcc.Last_Payment_Date__c.year())
             );
         }
+        if (insolvAcc.Last_Payment_Date_2__c != null) {
+                formattedSecondLastPayDate = String.valueOf(
+                    //String.valueOf(insolvAcc.Last_Payment_Date_2__c.month()) +
+                    ' ' +
+                        frenchDates.get(insolvAcc.Last_Payment_Date_2__c.month()) +
+                        ', ' +
+                        String.valueOf(insolvAcc.Last_Payment_Date_2__c.year())
+                );
+            }
+            if (insolvAcc.Last_Payment_Date_3__c != null) {
+                formattedThridLastPayDate = String.valueOf(
+                    
+                    ' ' +
+                        frenchDates.get(insolvAcc.Last_Payment_Date_3__c.month()) +
+                        ', ' +
+                        String.valueOf(insolvAcc.Last_Payment_Date_3__c.year())
+                );
+            }
+        if (insolvAcc.Account_Original_Open_Date__c != null) {
+            formattedAccountOriginalOpenDate = String.valueOf(
+                    ' ' +
+                        frenchDates.get(insolvAcc.Account_Original_Open_Date__c.month()) +
+                        ', ' +
+                        String.valueOf(insolvAcc.Account_Original_Open_Date__c.year())
+                );
+            }   
+        if (insolvAcc.Account_Open_date__c != null) {
+            formattedAccountOpenDate = String.valueOf(
+                    ' ' +
+                        frenchDates.get(insolvAcc.Account_Open_date__c.month()) +
+                        ', ' +
+                        String.valueOf(insolvAcc.Account_Open_date__c.year())
+                );
+            }   
+            if (insolvAcc.Charge_Off_Date__c != null) {
+                formattedAccountChargedoffDate = String.valueOf(
+                    ' ' +
+                        frenchDates.get(insolvAcc.Charge_Off_Date__c.month()) +
+                        ', ' +
+                        String.valueOf(insolvAcc.Charge_Off_Date__c.year())
+                );
+            }
+        if (insolvAcc.Debt_Due_as_off_date__c != null) {
+                formattedDebtDueOffDate = String.valueOf(
+                    ' ' +
+                        frenchDates.get(insolvAcc.Debt_Due_as_off_date__c.month()) +
+                        ' ' +
+                        String.valueOf(insolvAcc.Debt_Due_as_off_date__c.year())
+                );
+            }
+        if (insolvAcc.Acknowledgement_date__c != null) {
+                formattedAcknowledgementDate = String.valueOf(
+                    ' ' +
+                        frenchDates.get(insolvAcc.Acknowledgement_date__c.month()) +
+                        ' ' +
+                        String.valueOf(insolvAcc.Acknowledgement_date__c.year())
+                );
+            }
+        
+        
+        
 
         formattedDateTodayHeader = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ' ' + String.valueOf(dateNow.year()));
         // Read poc Package custom setting to fetch related data
