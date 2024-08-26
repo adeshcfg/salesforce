@@ -51,14 +51,6 @@ public class POCDocController {
     public String formattedDateToday { get; set; }
     public String formattedLastpaymentDate { get; set; }
     public String formattedDateTodayHeader { get; set; }
-    public String formattedLastPayDate { get; set; }
-    public String formattedSecondLastPayDate { get; set; }
-    public String formattedThridLastPayDate { get; set; }
-    public String formattedAcknowledgementDate { get; set; }
-    public String formattedDebtDueOffDate { get; set; }
-    public String formattedAccountOpenDate {get; set;}
-    public String formattedAccountChargedoffDate {get; set;}
-    public String formattedAccountOriginalOpenDate {get; set;}
 
     //Language options French Translation
     public string language { get; set; }
