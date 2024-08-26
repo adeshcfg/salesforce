@@ -271,13 +271,7 @@ public class POCDocController {
     }
 
     public void handleException(Exception ex) {
-        Insolvency_Error__c inslErr = new Insolvency_Error__c();
-        inslErr.Insolvency_Account__c = insolvAcc.Id;
-        inslErr.Action__c = 'PoC Generation';
-        inslErr.Error__c = 'Exception: ' + ex.getTypeName();
-        inslErr.Error__c += '\nMessage: ' + ex.getMessage();
-        inslErr.Error__c += '\nStack trace:\n' + ex.getStackTraceString();
-
+        Insolvency_Error__c inslErr = PocDocUtility.handleException(ex, insolvAcc.Id);
         try {
             insert inslErr;
         } catch (DMLException inslErrEx) {

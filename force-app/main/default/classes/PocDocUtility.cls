@@ -235,4 +235,19 @@ public class PocDocUtility {
         }
         return insolvAcc;
     }
+
+    /**
+    * @description : Method to create error record in case of exception
+    * @author adesh.ikhar@canaccede.com | 08-26-2024 
+    * @param ex 
+    **/
+    public static Insolvency_Error__c handleException(Exception ex, String recordId) {
+        Insolvency_Error__c inslErr = new Insolvency_Error__c();
+        inslErr.Insolvency_Account__c = recordId;
+        inslErr.Action__c = 'PoC Generation';
+        inslErr.Error__c = 'Exception: ' + ex.getTypeName();
+        inslErr.Error__c += '\nMessage: ' + ex.getMessage();
+        inslErr.Error__c += '\nStack trace:\n' + ex.getStackTraceString();
+        return inslErr;
+    }
 }
