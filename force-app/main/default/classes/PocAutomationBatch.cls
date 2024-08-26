@@ -53,9 +53,11 @@ public class PocAutomationBatch implements Database.Batchable<SObject> {
             Map<String, String> variableMap = PocDocUtility.getVariableMap(insolvAcc);
             String vfPageName = PocDocUtility.getPdfVfPageName(variableMap.get('pageName'), insolvAcc.Insolvency__r.Trustee_Communication_Preference_Formula__c);
             Blob pdf = generatePdf(vfPageName, variableMap);
-            attachmentInsertList.add(PocDocUtility.generateAttachmentRecord(variableMap.get('insolAccName'), insolvAcc));
+            Attachment pdfAttachment = PocDocUtility.generateAttachmentRecord(variableMap.get('insolAccName'), insolvAcc);
+            pdfAttachment.Body = pdf;
+            attachmentInsertList.add(pdfAttachment);
             updateAcctList.add(PocDocUtility.updateAccountFields(insolvAcc));
-            insolvencyIdListToUpdate.add(insolvAcc.Id);
+            insolvencyIdListToUpdate.add(insolvAcc.Insolvency__c);
         }
         if(!insolvencyIdListToUpdate.isEmpty()) {
             insolvencyListToUpdate = getInsolvencyListToUpdate(insolvencyIdListToUpdate);
@@ -99,19 +101,7 @@ public class PocAutomationBatch implements Database.Batchable<SObject> {
     **/
     public Blob generatePdf(String pdfPageName, Map<String, String> variableMap) {
         PageReference pdf;
-        // Dynamically generate page reference for PDF
-        ApexPage apexPage = [
-            SELECT Name, NamespacePrefix
-            FROM ApexPage
-            WHERE Name = :pdfPageName
-        ];
-
-        String templatePageName = apexPage.Name;
-        // append namespace if page is packaged
-        if (String.isNotEmpty(apexPage.NamespacePrefix)) {
-            templatePageName = apexPage.NamespacePrefix + '__' + templatePageName;
-        }
-        String partialPageUrl = appConfig.Use_new_POC_templates__c ? '/apex/' + templatePageName + 'New' : '/apex/' + templatePageName;
+        String partialPageUrl = appConfig.Use_new_POC_templates__c ? '/apex/' + pdfPageName + 'New' : '/apex/' + pdfPageName;
         pdf = new PageReference(partialPageUrl);
         pdf.getParameters().put('id', variableMap.get('accntId'));
         pdf.getParameters().put('statementOfAccount', variableMap.get('statementOfAccount'));
