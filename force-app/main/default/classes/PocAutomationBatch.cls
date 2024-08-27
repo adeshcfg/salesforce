@@ -21,7 +21,7 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
             startProcessing(insolvAccList);
         } catch (Exception ex) {
             System.debug('Exception in PocAutomationBatch ' + ex.getStackTraceString());
-            // To do : Update all records with system error
+            PocDocUtility.updateErrorAccounts(insolvAccList, ex.getStackTraceString());
             insert PocDocUtility.handleException(ex, insolvAccList[0].Id);
         }
     }

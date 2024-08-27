@@ -371,4 +371,20 @@ public class PocDocUtility {
         inslErr.Error__c += '\nStack trace:\n' + ex.getStackTraceString();
         return inslErr;
     }
+
+    /**
+    * @description : Method to update accounts with System Error exception
+    * @author adesh.ikhar@canaccede.com | 08-27-2024 
+    * @param insolvAccList 
+    * @param errorMessage 
+    **/
+    public static void updateErrorAccounts(List<Insolvency_Account__c> insolvAccList, String errorMessage) {
+        for(Insolvency_Account__c acc : insolvAccList) {
+            acc.Reason_for_POC_Automation_Failure__c = errorMessage;
+            acc.Auto_POC_Exception_Reported__c = 'System Error';
+        }
+        InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+        Database.update(insolvAccList);
+        InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
+    }
 }
