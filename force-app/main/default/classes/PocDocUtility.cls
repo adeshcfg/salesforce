@@ -18,15 +18,19 @@ public class PocDocUtility {
         String exceptionMsg = '';
         String errorMsg = '';
         if (insolvAcc.Proof_of_Claim_Required__c == false) {
+            exceptionMsg += 'Missing Information';
             errorMsg += 'Cannot generate a proof of claim unless "Proof of Claim Required" checkbox is checked on this account';
         }
         if (insolvAcc.Insolvency_Status__c != 'PoC Details Provided') {
+            exceptionMsg += 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account is in "PoC Details Provided" status';
         }
         if (insolvAcc.Insolvency__r.Voting_Decision__c == 'Needs Manual Review') {
+            exceptionMsg += 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim when Voting Decision is Needs Manual Review';
         }
         if (insolvAcc.Client_Identifier__c == 'Canaccede' && insolvAcc.Vendor_Orginator__c == null) {
+            exceptionMsg += 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account has Vendor value populated on the account';
         }
         if (
@@ -35,6 +39,7 @@ public class PocDocUtility {
             insolvAcc.Asset_Status__c != 'Bulk Purchased' &&
             insolvAcc.Asset_Status__c != 'Duplicate Purchased'
         ) {
+            exceptionMsg += 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account is in Purchased / Debt Purchase / Bulk Purchased / Duplicate Purchased status';
         }
         if (
@@ -43,6 +48,7 @@ public class PocDocUtility {
             insolvAcc.Portfolio_Name_Lookup__c == null ||
             insolvAcc.Investment_Group__c == null)
         ) {
+            exceptionMsg += 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account has Vendor value, Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
         }
         if((insolvAcc.Insolvency_Type__c == 'Bankruptcy' || insolvAcc.Insolvency_Type__c == 'Division 1 Proposal') &&
