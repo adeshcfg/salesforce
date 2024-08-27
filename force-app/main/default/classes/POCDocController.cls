@@ -55,6 +55,7 @@ public class POCDocController {
     public String formattedThridLastPayDate { get; set; }
     public String formattedAcknowledgementDate { get; set; }
     public String formattedDebtDueOffDate { get; set; }
+    public String formattedAccountOpenDate {get; set;}
 
     //Language options French Translation
     public string language { get; set; }
@@ -180,64 +181,72 @@ public class POCDocController {
             }
             Datetime dateNow = Datetime.now();
             if (insolvAcc.Insolvency__r.Insolvency_Date__c != null) {
-                formattedDate = String.valueOf(
-                    ' ' +
-                        frenchDates.get(insolvAcc.Insolvency__r.Insolvency_Date__c.month()) +
-                        ' ' +
-                        String.valueOf(insolvAcc.Insolvency__r.Insolvency_Date__c.year())
-                );
+            formattedDate = String.valueOf(
+            ' ' +
+                frenchDates.get(insolvAcc.Insolvency__r.Insolvency_Date__c.month()) +
+                ' ' +
+                String.valueOf(insolvAcc.Insolvency__r.Insolvency_Date__c.year())
+            );
             }
 
             formattedDateToday = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + String.valueOf(dateNow.year()));
             if (insolvAcc.Last_Payment_Date__c != null) {
-                formattedLastpaymentDate = String.valueOf(
-                    String.valueOf(insolvAcc.Last_Payment_Date__c.month()) +
-                        ' ' +
-                        frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
-                        ' ' +
-                        String.valueOf(insolvAcc.Last_Payment_Date__c.year())
-                );
+            formattedLastpaymentDate = String.valueOf(
+            String.valueOf(insolvAcc.Last_Payment_Date__c.month()) +
+                ' ' +
+                frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
+                ' ' +
+                String.valueOf(insolvAcc.Last_Payment_Date__c.year())
+            );
             }
             if (insolvAcc.Acknowledgement_date__c != null) {
-                formattedAcknowledgementDate = String.valueOf(
-                    ' ' +
-                        frenchDates.get(insolvAcc.Acknowledgement_date__c.month()) +
-                        ' ' +
-                        String.valueOf(insolvAcc.Acknowledgement_date__c.year())
-                );
+            formattedAcknowledgementDate = String.valueOf(
+            ' ' +
+                frenchDates.get(insolvAcc.Acknowledgement_date__c.month()) +
+                ' ' +
+                String.valueOf(insolvAcc.Acknowledgement_date__c.year())
+            );
             }
             if (insolvAcc.Debt_Due_as_off_date__c != null) {
-                formattedDebtDueOffDate = String.valueOf(
-                    ' ' +
-                        frenchDates.get(insolvAcc.Debt_Due_as_off_date__c.month()) +
-                        ' ' +
-                        String.valueOf(insolvAcc.Debt_Due_as_off_date__c.year())
-                );
+            formattedDebtDueOffDate = String.valueOf(
+            ' ' +
+                frenchDates.get(insolvAcc.Debt_Due_as_off_date__c.month()) +
+                ' ' +
+                String.valueOf(insolvAcc.Debt_Due_as_off_date__c.year())
+            );
             }
-        if (insolvAcc.Last_Payment_Date__c != null) {
+            if (insolvAcc.Last_Payment_Date__c != null) {
             formattedLastPayDate = String.valueOf(
             ' ' +
-                frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
-                ', ' +
-                String.valueOf(insolvAcc.Last_Payment_Date__c.year())
-        );
-    }
-    if (insolvAcc.Last_Payment_Date_2__c != null) {
-        formattedSecondLastPayDate = String.valueOf(
+            frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
+            ', ' +
+            String.valueOf(insolvAcc.Last_Payment_Date__c.year())
+            );
+            }
+            if (insolvAcc.Last_Payment_Date_2__c != null) {
+            formattedSecondLastPayDate = String.valueOf(
             ' ' +
-                frenchDates.get(insolvAcc.Last_Payment_Date_2__c.month()) +
-                ', ' +
-                String.valueOf(insolvAcc.Last_Payment_Date_2__c.year())
-        );
-    }
-    if (insolvAcc.Last_Payment_Date_3__c != null) {
-        formattedThridLastPayDate = String.valueOf(
+            frenchDates.get(insolvAcc.Last_Payment_Date_2__c.month()) +
+            ', ' +
+            String.valueOf(insolvAcc.Last_Payment_Date_2__c.year())
+            );
+            }
+            if (insolvAcc.Last_Payment_Date_3__c != null) {
+            formattedThridLastPayDate = String.valueOf(
             ' ' +
-                frenchDates.get(insolvAcc.Last_Payment_Date_3__c.month()) +
-                ', ' +
-                String.valueOf(insolvAcc.Last_Payment_Date_3__c.year())
-        );
-    }
+            frenchDates.get(insolvAcc.Last_Payment_Date_3__c.month()) +
+            ', ' +
+            String.valueOf(insolvAcc.Last_Payment_Date_3__c.year())
+            );
+            }
+            if (insolvAcc.Account_Open_date__c != null) {
+            formattedAccountOpenDate = String.valueOf(
+            ' ' +
+            frenchDates.get(insolvAcc.Account_Open_date__c.month()) +
+            ', ' +
+            String.valueOf(insolvAcc.Account_Open_date__c.year())
+            );
+            } 
 
             formattedDateTodayHeader = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ' ' + String.valueOf(dateNow.year()));
             // Read poc Package custom setting to fetch related data
