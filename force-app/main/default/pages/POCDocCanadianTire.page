@@ -105,17 +105,17 @@
                </div>
             </div>
          </apex:outputPanel>
-         <apex:outputPanel rendered="{!IF((insolvAcc.Insolvency_Status__c <> 'PoC Details Provided' || insolvAcc.Proof_of_Claim_Required__c ==  false || EligibleVoting == false), true, false)}">
+         <apex:outputPanel rendered="{!pocDocError <> null}">
             <div class="slds-notify_container">
-               <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
-                  <h2>    
-                     {!statusError}<br/>{!pocDocError}<br/>{!EligibleVotingError}
-                  </h2>
-                  <br/>
-               </div>
+                <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
+                    <h2>    
+                        {!pocDocError}<br/>
+                    </h2>
+                    <br/>
+                </div>
             </div>
-         </apex:outputPanel>
-         <apex:outputPanel rendered="{!IF((insolvAcc.Insolvency_Status__c == 'PoC Details Provided' && insolvAcc.Proof_of_Claim_Required__c && EligibleVoting), true, false)}">
+        </apex:outputPanel>
+         <apex:outputPanel rendered="{!IF((insolvAcc.Insolvency_Status__c == 'PoC Details Provided' && insolvAcc.Proof_of_Claim_Required__c && pocDocError == null), true, false)}">
             <apex:ActionStatus id="spinner">
                <apex:facet name="start">
                   <div class="slds-spinner_container">

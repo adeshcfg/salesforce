@@ -18,6 +18,7 @@ public class POCDocController {
     public Remittance_Group_Mapping_For_PoC__c remGroupMap { get; set; }
     public Boolean isAnyException { get; set; }
     public String insolAccName { get; set; }
+    public String pocDocError { get; set; }
 
     // Boolean check for paragraphs
     public Boolean unSecClaim { get; set; }
@@ -65,12 +66,7 @@ public class POCDocController {
 
     public POCDocController() {
         isAnyException = false;
-        canaccedeError = false;
-        canaccedeErrorMsg = '';
         amendedPOCcheck = false;
-        EligibleVoting = true;
-        AssetError = false;
-        AssetErrorMsg = '';
         mapPOCPackageSettingTranslation = new Map<String, String>();
         mapPOCPackageSettingTranslation.put('The Bank of Nova Scoatia', 'LA BANQUE DE NOUVELLE-ÉCOSSE');
         mapPOCPackageSettingTranslation.put('Bankruptcy', 'la faillite');
@@ -79,20 +75,7 @@ public class POCDocController {
 
         try {
             // Add those two properties in your Apex controller
-            Map<Integer, String> frenchDates = new Map<Integer, String>();
-            frenchDates.put(1, 'Janvier');
-            frenchDates.put(2, 'Février');
-            frenchDates.put(3, 'Mars');
-            frenchDates.put(4, 'Avril');
-            frenchDates.put(5, 'Mai');
-            frenchDates.put(6, 'Juin');
-            frenchDates.put(7, 'Juillet');
-            frenchDates.put(8, 'Août');
-            frenchDates.put(9, 'Septembre');
-            frenchDates.put(10, 'Octobre');
-            frenchDates.put(11, 'Novembre');
-            frenchDates.put(12, 'Décembre');
-
+            Map<Integer, String> frenchDates = PocDocUtility.frenchDates;
             insolvAcc = [
                 SELECT
                     Id,
@@ -101,14 +84,13 @@ public class POCDocController {
                     Secured_Name__c,
                     Business_Account__c,
                     Insolvency_Type__c,
-                    //Debtor_1_Estate_Number__c, Debtor_2_Estate_Number__c,
+                    Voting_Decision__c,
                     Insolvency__r.Name,
                     Insolvency__r.Debtor_2_Estate_Number__c,
                     Insolvency__r.Eligible_For_Voting_Decision__c,
                     Insolvency__r.Voting_Decision__c,
                     Insolvency__r.Debtor_1_Mailing_City__c,
                     Insolvency__r.Debtor_1_Mailing_State_Province__c,
-                    //Added for DebtNext Changes
                     Insolvency__r.Insolvency_Type__c,
                     Portfolio_Group_Name__c,
                     Vendor_Orginator__c,
@@ -119,13 +101,11 @@ public class POCDocController {
                     Insolvency__r.Trustee__r.BillingState,
                     Insolvency__r.Trustee__r.BillingPostalCode,
                     Insolvency__r.Trustee__r.BillingCountry,
-                    //Added for Affirm PoC
                     Insolvency__r.Debtor_1_Mailing_Street__c,
                     Insolvency__r.Debtor_2_Mailing_Street__c,
                     Insolvency__r.Debtor_2_Mailing_City__c,
                     Insolvency__r.Debtor_1_Mailing_Postal_Code__c,
                     Insolvency__r.Debtor_2_Mailing_Postal_Code__c,
-                    //Debtor_1_Court_Number__c, Debtor_2_Court_Number__c,
                     Insolvency__r.Debtor_1_Court_Number__c,
                     Insolvency__r.Debtor_2_Court_Number__c,
                     Insolvency__r.Court_District_Name__c,
@@ -173,258 +153,50 @@ public class POCDocController {
                 FROM Insolvency_Account__c
                 WHERE Id = :ApexPages.currentPage().getParameters().get('Id')
             ];
-            pageName = insolvAcc.Client_Identifier__c;
-            if (
-                insolvAcc.Client_Identifier__c == 'Goeasy' &&
-                insolvAcc.Account_Type__c == 'Unsecured Installment Loan' &&
-                insolvAcc.Excluded_from_Purchase__c == true
-            ) {
-                pageName = 'GoEasyUnSecured';
-            }
-            Datetime dateNow = Datetime.now();
-            if (insolvAcc.Insolvency__r.Insolvency_Date__c != null) {
-            formattedDate = String.valueOf(
-            ' ' +
-                frenchDates.get(insolvAcc.Insolvency__r.Insolvency_Date__c.month()) +
-                ' ' +
-                String.valueOf(insolvAcc.Insolvency__r.Insolvency_Date__c.year())
-            );
-            }
-
-            formattedDateToday = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + String.valueOf(dateNow.year()));
-            if (insolvAcc.Last_Payment_Date__c != null) {
-            formattedLastpaymentDate = String.valueOf(
-            String.valueOf(insolvAcc.Last_Payment_Date__c.month()) +
-                ' ' +
-                frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
-                ' ' +
-                String.valueOf(insolvAcc.Last_Payment_Date__c.year())
-            );
-            }
-            if (insolvAcc.Acknowledgement_date__c != null) {
-            formattedAcknowledgementDate = String.valueOf(
-            ' ' +
-                frenchDates.get(insolvAcc.Acknowledgement_date__c.month()) +
-                ' ' +
-                String.valueOf(insolvAcc.Acknowledgement_date__c.year())
-            );
-            }
-            if (insolvAcc.Debt_Due_as_off_date__c != null) {
-            formattedDebtDueOffDate = String.valueOf(
-            ' ' +
-                frenchDates.get(insolvAcc.Debt_Due_as_off_date__c.month()) +
-                ' ' +
-                String.valueOf(insolvAcc.Debt_Due_as_off_date__c.year())
-            );
-            }
-            if (insolvAcc.Last_Payment_Date__c != null) {
-            formattedLastPayDate = String.valueOf(
-            ' ' +
-            frenchDates.get(insolvAcc.Last_Payment_Date__c.month()) +
-            ', ' +
-            String.valueOf(insolvAcc.Last_Payment_Date__c.year())
-            );
-            }
-            if (insolvAcc.Last_Payment_Date_2__c != null) {
-            formattedSecondLastPayDate = String.valueOf(
-            ' ' +
-            frenchDates.get(insolvAcc.Last_Payment_Date_2__c.month()) +
-            ', ' +
-            String.valueOf(insolvAcc.Last_Payment_Date_2__c.year())
-            );
-            }
-            if (insolvAcc.Last_Payment_Date_3__c != null) {
-            formattedThridLastPayDate = String.valueOf(
-            ' ' +
-            frenchDates.get(insolvAcc.Last_Payment_Date_3__c.month()) +
-            ', ' +
-            String.valueOf(insolvAcc.Last_Payment_Date_3__c.year())
-            );
-            }
-            if (insolvAcc.Account_Open_date__c != null) {
-            formattedAccountOpenDate = String.valueOf(
-            ' ' +
-            frenchDates.get(insolvAcc.Account_Open_date__c.month()) +
-            ', ' +
-            String.valueOf(insolvAcc.Account_Open_date__c.year())
-            );
-            } 
-            if (insolvAcc.Charge_Off_Date__c != null) {
-                formattedAccountChargedoffDate = String.valueOf(
-                    ' ' +
-                        frenchDates.get(insolvAcc.Charge_Off_Date__c.month()) +
-                        ', ' +
-                        String.valueOf(insolvAcc.Charge_Off_Date__c.year())
-                );
-            }
-            if (insolvAcc.Account_Original_Open_Date__c != null) {
-                formattedAccountOriginalOpenDate = String.valueOf(
-                        ' ' +
-                            frenchDates.get(insolvAcc.Account_Original_Open_Date__c.month()) +
-                            ', ' +
-                            String.valueOf(insolvAcc.Account_Original_Open_Date__c.year())
-                    );
-                } 
-
-            formattedDateTodayHeader = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ' ' + String.valueOf(dateNow.year()));
-            // Read poc Package custom setting to fetch related data
-            pocPackage = (PoC_Package_Settings__c) PoC_Package_Settings__c.getValues(insolvAcc.Client_Identifier__c);
-
-            //Fetch first 3 letters of Portfolio Group Name
-            //String portGroupMapShort = LEFT(insolvAcc.Portfolio_Group_Name__c,3);
+            // Check if account is eligible to generate POC
+            Map<String, String> pocDocErrorMap = PocDocUtility.validateRecord(insolvAcc);
+            pocDocError = pocDocErrorMap.get('Reason_for_POC_Automation_Failure__c');
+            Map<String, String> variableMap = PocDocUtility.getVariableMap(insolvAcc);
+            pageName = variableMap.get('pageName');
+            formattedDate = variableMap.get('formattedDate');
+            formattedDateToday = variableMap.get('formattedDateToday');
+            formattedLastpaymentDate = variableMap.get('formattedLastpaymentDate');
+            formattedDateTodayHeader = variableMap.get('formattedDateTodayHeader');
+            formattedLastPayDate = variableMap.get('formattedLastPayDate');
+            formattedSecondLastPayDate = variableMap.get('formattedSecondLastPayDate');
+            formattedThridLastPayDate = variableMap.get('formattedThridLastPayDate');
+            formattedAcknowledgementDate = variableMap.get('formattedAcknowledgementDate');
+            formattedDebtDueOffDate = variableMap.get('formattedDebtDueOffDate');
+            formattedAccountOpenDate = variableMap.get('formattedAccountOpenDate');
+            formattedAccountChargedoffDate = variableMap.get('formattedAccountChargedoffDate');
+            formattedAccountOriginalOpenDate = variableMap.get('formattedAccountOriginalOpenDate');
+            statementOfAccount = Boolean.valueOf(variableMap.get('statementOfAccount'));
+            form31 = Boolean.valueOf(variableMap.get('form31'));
+            form37 = Boolean.valueOf(variableMap.get('form37'));
+            voteForAcceptance = Boolean.valueOf(variableMap.get('voteForAcceptance'));
+            voteAgainstAcceptance = Boolean.valueOf(variableMap.get('voteAgainstAcceptance'));
+            meetingOfCredits = Boolean.valueOf(variableMap.get('meetingOfCredits'));
+            secureClaim = Boolean.valueOf(variableMap.get('secureClaim'));
+            unSecClaim = Boolean.valueOf(variableMap.get('unSecClaim'));
+            dontClaim = Boolean.valueOf(variableMap.get('dontClaim'));
+            amendedPOCcheck = Boolean.valueOf(variableMap.get('amendedPOCcheck'));
+            insolAccName = variableMap.get('insolAccName');
             if (insolvAcc.Portfolio_Group_Name__c != null) {
                 String portGroupMapShort = insolvAcc.Portfolio_Group_Name__c.LEFT(3);
                 // Read Remittance group mapping custom setting to fetch related data
                 remGroupMap = (Remittance_Group_Mapping_For_PoC__c) Remittance_Group_Mapping_For_PoC__c.getValues(portGroupMapShort);
-            }
-            //read whether to display or not sections
-            //statementOfAccount = insolvAcc.Statements_Required__c;
-            statementOfAccount = insolvAcc.Proof_of_Claim_Required__c;
-            form31 = insolvAcc.Proof_of_Claim_Required__c;
-            //form37 = insolvAcc.Include_Voting_Letter__c;
-            if ('Canaccede' == insolvAcc.Client_Identifier__c && 'Bankruptcy' == insolvAcc.Insolvency__r.Insolvency_Type__c) {
-                form37 = false;
-            } else {
-                form37 = insolvAcc.Include_Voting_Letter__c;
-            }
-
-            //Default checks for paragraphs
-            copyOfReport = true;
-            if (insolvAcc.Voting_Options__c == 'Vote Accept') {
-                voteForAcceptance = true;
-            } else if (insolvAcc.Voting_Options__c == 'Vote: Decline - No Meeting Requested') {
-                voteAgainstAcceptance = true;
-            } else if (insolvAcc.Voting_Options__c == 'Vote: Decline - With Creditor Meeting Request') {
-                meetingOfCredits = true;
-            }
-            if (insolvAcc.Claim_Type__c == 'Secured') {
-                secureClaim = true;
-            } else if (insolvAcc.Claim_Type__c == 'Unsecured') {
-                unSecClaim = true;
-                dontClaim = true;
-            }
-            if (insolvAcc.PoC_Created_Date__c <> null && insolvAcc.Amended_Claim_Flag__c == false) {
-                amendedPOCcheck = true;
-            }
-            if (insolvAcc.Proof_of_Claim_Required__c == false) {
-                pocDocError = 'Sorry, you cannot generate a proof of claim unless "Proof of Claim Required" checkbox is checked on this account';
-            }
-            if (insolvAcc.Insolvency_Status__c != 'PoC Details Provided') {
-                statusError = 'Sorry, you cannot generate a proof of claim unless this account is in "PoC Details Provided" status';
-            }
-
-            /* Commented the code on 19.06.20 to revert changes
-             * if((null == insolvAcc.Insolvency__r.Eligible_For_Voting_Decision__c  || insolvAcc.Insolvency__r.Eligible_For_Voting_Decision__c == false)){
-                                                                                         
-             EligibleVotingError = 'Sorry, you cannot generate a proof of claim when related Insolvency is not Eligible for Voting';
-             EligibleVoting=false;
-            }*/
-
-            // updated if condition only to check voting decision 19.06.20
-            if (insolvAcc.Insolvency__r.Voting_Decision__c == 'Needs Manual Review') {
-                EligibleVotingError = 'Sorry, you cannot generate a proof of claim when Voting Decision is Needs Manual Review';
-                EligibleVoting = false;
-            }
-            if ('Canaccede' == insolvAcc.Client_Identifier__c && insolvAcc.Vendor_Orginator__c == null) {
-                canaccedeError = true;
-                canaccedeErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account has Vendor value populated on the account';
-            }
-
-            if (
-                insolvAcc.Asset_Status__c != 'Purchased' &&
-                insolvAcc.Asset_Status__c != 'Debt Purchase' &&
-                insolvAcc.Asset_Status__c != 'Bulk Purchased' &&
-                insolvAcc.Asset_Status__c != 'Duplicate Purchased'
-            ) {
-                AssetError = true;
-                AssetErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account is in Purchased / Debt Purchase / Bulk Purchased / Duplicate Purchased status';
-            }
-            if (
-                'Canaccede' == insolvAcc.Client_Identifier__c &&
-                (insolvAcc.Portfolio_Group_Name__c == null ||
-                insolvAcc.Portfolio_Name_Lookup__c == null ||
-                insolvAcc.Investment_Group__c == null)
-            ) {
-                canaccedeError = true;
-                canaccedeErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account has Vendor value, Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
-            }
-            // commented for - 6886 //
-            /*if (
-                'Fidem' == insolvAcc.Client_Identifier__c &&
-                (insolvAcc.Portfolio_Group_Name__c == null ||
-                insolvAcc.Portfolio_Name_Lookup__c == null ||
-                insolvAcc.Investment_Group__c == null)
-            ) {
-                canaccedeError = true;
-                canaccedeErrorMsg = 'Sorry, you cannot generate a proof of claim unless this account has Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
-            }*/
-
-            //Check trustee is Service Nova Scotia or not for Account masking
-            List<String> trusteeCheckList = new List<String>();
-            String idWithAccountStatement = pocPackage.Account_Statement_Not_Allowed__c;
-            trusteeCheckList = idWithAccountStatement.split(',');
-            Boolean isTrusteeSerNovSco = false;
-            for (String trusteeCheck : trusteeCheckList) {
-                if (insolvAcc.Insolvency__r.Trustee__r.ParentId == trusteeCheck) {
-                    isTrusteeSerNovSco = true;
-                }
-            }
-            if (isTrusteeSerNovSco == true) {
-                insolAccName = insolvAcc.Secured_Name__c;
-            } else {
-                insolAccName = insolvAcc.Name;
             }
         } catch (Exception ex) {
             system.debug('exception' + ex.getStackTraceString());
             isAnyException = true;
         }
     }
-    public String pocDocError { get; set; }
-    public String statusError { get; set; }
-    public Boolean AssetError { get; set; }
-    public String AssetErrorMsg { get; set; }
-    public Boolean canaccedeError { get; set; }
-    public String canaccedeErrorMsg { get; set; }
-    public String EligibleVotingError { get; set; }
-    public Boolean EligibleVoting { get; set; }
 
     /* Method used to save poc package as pdf to insolvancy account */
     public PageReference savePOCDoc() {
-        String pdfPageName = '';
+        String pdfPageName = PocDocUtility.getPdfVfPageName(pageName, language);
         // Read pdf and pass all necessary parameters to pocdoc page
         PageReference pdf;
-        //create PDF for POCDoc based on client identifier and language selected on page
-        if (pageName == 'Canaccede') {
-            if (language == 'en_US') {
-                pdfPageName = 'POCDocDataCanaccede';
-            }
-            if (language == 'fr') {
-                pdfPageName = 'POCDocDataFrenchCanaccede';
-            }
-        } else if (pageName == 'Fidem') {
-            pdfPageName = 'POCDocDataAffirm';
-        } else if (pageName == 'Canadian Tire' || pageName == 'CanadianTire') {
-            if (language == 'en_US') {
-                pdfPageName = 'POCDocDataCanadianTire';
-            }
-            if (language == 'fr') {
-                pdfPageName = 'POCDocDataFrenchCanadianTire';
-            }
-        } else if (pageName == 'GoEasyUnSecured') {
-            if (language == 'en_US') {
-                pdfPageName = 'POCDocDataEasyFinancial';
-            }
-            if (language == 'fr') {
-                pdfPageName = 'POCDocDataFrenchEasyFinancial';
-            }
-        } else {
-            if (language == 'en_US') {
-                pdfPageName = 'POCDocData';
-            }
-            if (language == 'fr') {
-                pdfPageName = 'POCDocDataFrenchStream';
-            }
-        }
         // Dynamically generate page reference for PDF
         ApexPage apexPage = [
             SELECT Name, NamespacePrefix
@@ -463,7 +235,7 @@ public class POCDocController {
         pdf.getParameters().put('meetingOfCredits', String.valueOf(meetingOfCredits));
 
         // Create attachment
-        Attachment attach = new Attachment();
+        Attachment attach = PocDocUtility.generateAttachmentRecord(insolAccName, insolvAcc);
         Blob body;
         try {
             if (!Test.IsRunningTest()) {
@@ -477,59 +249,22 @@ public class POCDocController {
             handleException(ex);
             return null;
         }
-
         attach.Body = body;
-        DateTime d = Date.Today();
-        String dateStr = d.formatGMT('yyyy-MM-dd');
-        attach.Name =
-            (insolvAcc.Amended_Claim_Flag__c ? 'Amended PoC - ' : 'PoC - ') +
-            dateStr +
-            ' - ' +
-            insolvAcc.Insolvency__r.Name +
-            ' - ' +
-            insolAccName +
-            ' - ' +
-            (insolvAcc.Insolvency__r.Debtor_1_First_Name__c != null ? insolvAcc.Insolvency__r.Debtor_1_First_Name__c : '') +
-            ' ' +
-            (insolvAcc.Insolvency__r.Debtor_1_Last_Name__c != null ? insolvAcc.Insolvency__r.Debtor_1_Last_Name__c : '') +
-            '.pdf';
-        attach.IsPrivate = false;
-        attach.Description = POC_DOC_DESCRIPTION;
-        attach.ParentId = insolvAcc.Id;
         insert attach;
-
-        /*
-        //Don't run validation rules
-        Application_Config_Settings__c config = [SELECT Run_Insolvency_Status_Validations__c FROM Application_Config_Settings__c FOR UPDATE];
-        
-        // Read and store actuall value about running validation rule
-        Boolean storeCustomsettingValue = config.Run_Insolvency_Status_Validations__c;
-        config.Run_Insolvency_Status_Validations__c = false;
-        update config;
-        */
 
         //Don't run InsolvencyAccountTrigger
         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
 
         try {
             // Update status value of Insolvancy account
-            insolvAcc.Insolvency_Status__c = 'PoC Package Generated';
-            insolvAcc.Insolvency_Status_Last_Changed__c = System.now();
-
-            if (insolvAcc.PoC_Created_Date__c == null) {
-                insolvAcc.PoC_Created_Date__c = system.now();
-            } else {
-                insolvAcc.Amended_PoC_Created_Date__c = system.now();
-            }
-
+            PocDocUtility.updateAccountFields(insolvAcc);
             update insolvAcc;
 
             //update the No of POC Details Provided on Insolvency for Scotia
-            Id insolvencyId = insolvAcc.Insolvency__c;
-            Insolvency__c insolvencyObj = new Insolvency__c(Id = insolvencyId);
+            Insolvency__c insolvencyObj = new Insolvency__c(Id = insolvAcc.Insolvency__c);
             insolvencyObj.Number_of_POC_Details_Provided_Accounts__c = database.countQuery(
                 'select count() from insolvency_account__c where insolvency_status__C = \'PoC Details provided\'' +
-                +'and Insolvency__c = :insolvencyId and (RecordType.DeveloperName = \'Scotia_Bank_Insolvency_Account\' OR RecordType.DeveloperName = \'SDA_Insolvency_Account\' OR RecordType.DeveloperName = \'SPL_Insolvency_Account\' OR RecordType.DeveloperName = \'Fairstone_Insolvency_Account\' OR RecordType.DeveloperName = \'Canadian_Tire_Insolvency_Account\')'
+                +'and Insolvency__c = :insolvAcc.Insolvency__c and (RecordType.DeveloperName = \'Scotia_Bank_Insolvency_Account\' OR RecordType.DeveloperName = \'SDA_Insolvency_Account\' OR RecordType.DeveloperName = \'SPL_Insolvency_Account\' OR RecordType.DeveloperName = \'Fairstone_Insolvency_Account\' OR RecordType.DeveloperName = \'Canadian_Tire_Insolvency_Account\')'
             );
             InsolvencyTriggerHandler.runInsolvencyTrigger = false;
             update insolvencyObj;
@@ -556,17 +291,11 @@ public class POCDocController {
     }
 
     public void handleException(Exception ex) {
-        Insolvency_Error__c inslErr = new Insolvency_Error__c();
-        inslErr.Insolvency_Account__c = insolvAcc.Id;
-        inslErr.Action__c = 'PoC Generation';
-        inslErr.Error__c = 'Exception: ' + ex.getTypeName();
-        inslErr.Error__c += '\nMessage: ' + ex.getMessage();
-        inslErr.Error__c += '\nStack trace:\n' + ex.getStackTraceString();
-
+        Insolvency_Error__c inslErr = PocDocUtility.handleException(ex, insolvAcc.Id);
         try {
             insert inslErr;
-        } catch (Exception inslErrEx) {
-            system.debug('inslErr Message :' + inslErrEx.getMessage());
+        } catch (DMLException inslErrEx) {
+            system.debug('inslErr Message :' + inslErrEx.getDmlMessage(0));
         }
     }
 

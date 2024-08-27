@@ -104,37 +104,17 @@
                     </div>
                 </div>
             </apex:outputPanel>
-            <apex:outputPanel rendered="{!IF((insolvAcc.Insolvency_Status__c <> 'PoC Details Provided' || insolvAcc.Proof_of_Claim_Required__c == false), true, false)}">
+            <apex:outputPanel rendered="{!pocDocError <> null}">
                 <div class="slds-notify_container">
                     <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
                         <h2>    
-                            {!statusError}<br/>{!pocDocError}<br/>
+                            {!pocDocError}<br/>
                         </h2>
                         <br/>
                     </div>
                 </div>
             </apex:outputPanel>
-            <apex:outputPanel rendered="{!IF(('Fidem' == insolvAcc.Client_Identifier__c && canaccedeError), true, false)}">
-                <div class="slds-notify_container">
-                    <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
-                        <h2>    
-                            {!canaccedeErrorMsg}<br/>
-                        </h2>
-                        <br/>
-                    </div>
-                </div>
-            </apex:outputPanel>
-            <apex:outputPanel rendered="{!AssetError}">
-                <div class="slds-notify_container">
-                    <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" style="font-family:Arial !important;">
-                        <h2>    
-                            {!AssetErrorMsg}<br/>
-                        </h2>
-                        <br/>
-                    </div>
-                </div>
-            </apex:outputPanel>
-            <apex:outputPanel rendered="{!IF((insolvAcc.Insolvency_Status__c == 'PoC Details Provided' && insolvAcc.Proof_of_Claim_Required__c && !canaccedeError && !AssetError), true, false)}">
+            <apex:outputPanel rendered="{!IF((insolvAcc.Insolvency_Status__c == 'PoC Details Provided' && insolvAcc.Proof_of_Claim_Required__c && pocDocError == null), true, false)}">
                 <apex:ActionStatus id="spinner">
                     <apex:facet name="start">
                         <div class="slds-spinner_container">
