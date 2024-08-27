@@ -85,6 +85,7 @@ public class POCDocController {
                     Business_Account__c,
                     Insolvency_Type__c,
                     Voting_Decision__c,
+                    Insolvency__c,
                     Insolvency__r.Name,
                     Insolvency__r.Debtor_2_Estate_Number__c,
                     Insolvency__r.Eligible_For_Voting_Decision__c,
@@ -155,8 +156,10 @@ public class POCDocController {
             ];
             // Check if account is eligible to generate POC
             Map<String, String> pocDocErrorMap = PocDocUtility.validateRecord(insolvAcc);
-            pocDocError = pocDocErrorMap.get('Reason_for_POC_Automation_Failure__c');
+            pocDocError = pocDocErrorMap.get('Reason_for_POC_Automation_Failure__c').replace(';', ' &');
             Map<String, String> variableMap = PocDocUtility.getVariableMap(insolvAcc);
+            // Read poc Package custom setting to fetch related data
+            pocPackage = (PoC_Package_Settings__c)PoC_Package_Settings__c.getValues(insolvAcc.Client_Identifier__c);
             pageName = variableMap.get('pageName');
             formattedDate = variableMap.get('formattedDate');
             formattedDateToday = variableMap.get('formattedDateToday');
@@ -261,10 +264,11 @@ public class POCDocController {
             update insolvAcc;
 
             //update the No of POC Details Provided on Insolvency for Scotia
-            Insolvency__c insolvencyObj = new Insolvency__c(Id = insolvAcc.Insolvency__c);
+            String insolvencyId = insolvAcc.Insolvency__c;
+            Insolvency__c insolvencyObj = new Insolvency__c(Id = insolvencyId);
             insolvencyObj.Number_of_POC_Details_Provided_Accounts__c = database.countQuery(
                 'select count() from insolvency_account__c where insolvency_status__C = \'PoC Details provided\'' +
-                +'and Insolvency__c = :insolvAcc.Insolvency__c and (RecordType.DeveloperName = \'Scotia_Bank_Insolvency_Account\' OR RecordType.DeveloperName = \'SDA_Insolvency_Account\' OR RecordType.DeveloperName = \'SPL_Insolvency_Account\' OR RecordType.DeveloperName = \'Fairstone_Insolvency_Account\' OR RecordType.DeveloperName = \'Canadian_Tire_Insolvency_Account\')'
+                +'and Insolvency__c = :insolvencyId and (RecordType.DeveloperName = \'Scotia_Bank_Insolvency_Account\' OR RecordType.DeveloperName = \'SDA_Insolvency_Account\' OR RecordType.DeveloperName = \'SPL_Insolvency_Account\' OR RecordType.DeveloperName = \'Fairstone_Insolvency_Account\' OR RecordType.DeveloperName = \'Canadian_Tire_Insolvency_Account\')'
             );
             InsolvencyTriggerHandler.runInsolvencyTrigger = false;
             update insolvencyObj;
