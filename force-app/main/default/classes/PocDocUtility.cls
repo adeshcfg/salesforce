@@ -272,35 +272,37 @@ public class PocDocUtility {
     * @return String 
     **/
     public static String getPdfVfPageName(String pageName, String language) {
-        String pdfPageName = '';
+        String pdfPageName = 'POCDocData';
+        List<String> englishNames = new List<String>{'en_US', 'English'};
+        List<String> frenchNames = new List<String>{'fr', 'French'};
         if (pageName == 'Canaccede') {
-            if (language == 'en_US') {
+            if (englishNames.contains(language)) {
                 pdfPageName = 'POCDocDataCanaccede';
             }
-            if (language == 'fr') {
+            if (frenchNames.contains(language)) {
                 pdfPageName = 'POCDocDataFrenchCanaccede';
             }
         } else if (pageName == 'Fidem') {
             pdfPageName = 'POCDocDataAffirm';
         } else if (pageName == 'Canadian Tire' || pageName == 'CanadianTire') {
-            if (language == 'en_US') {
+            if (englishNames.contains(language)) {
                 pdfPageName = 'POCDocDataCanadianTire';
             }
-            if (language == 'fr') {
+            if (frenchNames.contains(language)) {
                 pdfPageName = 'POCDocDataFrenchCanadianTire';
             }
         } else if (pageName == 'GoEasyUnSecured') {
-            if (language == 'en_US') {
+            if (englishNames.contains(language)) {
                 pdfPageName = 'POCDocDataEasyFinancial';
             }
-            if (language == 'fr') {
+            if (frenchNames.contains(language)) {
                 pdfPageName = 'POCDocDataFrenchEasyFinancial';
             }
         } else {
-            if (language == 'en_US') {
+            if (englishNames.contains(language)) {
                 pdfPageName = 'POCDocData';
             }
-            if (language == 'fr') {
+            if (frenchNames.contains(language)) {
                 pdfPageName = 'POCDocDataFrenchStream';
             }
         }
@@ -345,7 +347,8 @@ public class PocDocUtility {
     public static Insolvency_Account__c updateAccountFields(Insolvency_Account__c insolvAcc) {
         insolvAcc.Insolvency_Status__c = 'PoC Package Generated';
         insolvAcc.Insolvency_Status_Last_Changed__c = System.now();
-
+        insolvAcc.Reason_for_POC_Automation_Failure__c = null;
+        insolvAcc.Auto_POC_Exception_Reported__c = null;
         if (insolvAcc.PoC_Created_Date__c == null) {
             insolvAcc.PoC_Created_Date__c = system.now();
         } else {
