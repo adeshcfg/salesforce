@@ -17,14 +17,16 @@ public Class ProcessInsolvencyStriplistBatch implements Database.Batchable<Strip
     public Remittance__c dividendRecord = new Remittance__c();
     public Attachment allocatedPayment = new Attachment();
     public Attachment unallocatedPayment = new Attachment();
+    public String selectedBankName;
     
     list<StriplistUtil.paymentRecordsWrapper> paymentRecordList = new list<StriplistUtil.paymentRecordsWrapper>();
     
     //Constructor
-    public ProcessInsolvencyStriplistBatch(List<StriplistUtil.paymentRecordsWrapper> paymentRecordList, Remittance__c dividendRecord){
+    public ProcessInsolvencyStriplistBatch(List<StriplistUtil.paymentRecordsWrapper> paymentRecordList, Remittance__c dividendRecord,String selectedBankName){
         system.debug('constructor');
         this.paymentRecordList.addAll(paymentRecordList);
         this.dividendRecord = dividendRecord;
+        this.selectedBankName = selectedBankName;
         system.debug('paymentRecordList: '+paymentRecordList);
         system.debug('paymentRecordList size: '+paymentRecordList.size());
     }
@@ -87,7 +89,7 @@ public Class ProcessInsolvencyStriplistBatch implements Database.Batchable<Strip
             //Fetch Insolvency Accounts with matching Account Number,Estate Number and Debtor Name
             //Ticket#944 -Remove Asset Status criteria from Insolvency Account Matching in Striplist Payment Processing
             //Task #5430 - Updated the SOQL query to include Insolvency__r.Name while fetching Insolvency Accounts
-            List<Insolvency_Account__c> listAccount = [SELECT id, Name, Debtor_1_Estate_Number__c, Debtor_Name_Formula__c, 
+            List<Insolvency_Account__c> listAccount = [SELECT id, Name, Debtor_1_Estate_Number__c, Debtor_Name_Formula__c,recordtype.DeveloperName, 
                                                        		  Account_Number_Without_Space__c, Account_No_without_Prefix__c,Previous_Account_Reference__c
                                                        FROM Insolvency_Account__c 
                                                        WHERE (Account_No_without_Prefix__c IN :setAccountNumbers
@@ -112,22 +114,47 @@ public Class ProcessInsolvencyStriplistBatch implements Database.Batchable<Strip
             for(Insolvency_Account__c accountRecord : listAccount ){
                 system.debug('mapAccountId: '+mapAccountId);
                 system.debug('mapAccountwithDebtor: '+mapAccountwithDebtor);
-                if(setAccountNumbers.contains(accountRecord.Account_No_without_Prefix__c)){
-                	if(mapAccountId.containsKey(accountRecord.Account_No_without_Prefix__c	 + ':'+
-                                 			accountRecord.Debtor_1_Estate_Number__c)){
-                    mapAccountId.remove(accountRecord.Account_No_without_Prefix__c	 + ':'+
-                                 		accountRecord.Debtor_1_Estate_Number__c);
-                    mapAccountwithDebtor.put(accountRecord.Account_No_without_Prefix__c + ':'+
-                                             accountRecord.Debtor_1_Estate_Number__c + ':' + 
-                                             accountRecord.Debtor_Name_Formula__c.toLowerCase().trim(), 
-                                 			 accountRecord.id);
-                    }
-                    else{
-                        system.debug('mapAccountId inside else '+mapAccountId);
-                        mapAccountId.put(accountRecord.Account_No_without_Prefix__c + ':'+
-                                         accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);
-                    }    
+                if(accountRecord.recordtype.DeveloperName == selectedBankName){
+                    if(setAccountNumbers.contains(accountRecord.Account_No_without_Prefix__c)){
+                        if(mapAccountId.containsKey(accountRecord.Account_No_without_Prefix__c	 + ':'+
+                                                //accountRecord.recordtype.DeveloperName + ':' + 
+                                                accountRecord.Debtor_1_Estate_Number__c)){
+                        mapAccountId.remove(accountRecord.Account_No_without_Prefix__c	 + ':'+
+                                            //accountRecord.recordtype.DeveloperName + ':' + 
+                                            accountRecord.Debtor_1_Estate_Number__c);
+                        mapAccountwithDebtor.put(accountRecord.Account_No_without_Prefix__c + ':'+
+                                                 //accountRecord.recordtype.DeveloperName + ':' + 
+                                                 accountRecord.Debtor_1_Estate_Number__c + ':' + 
+                                                 accountRecord.Debtor_Name_Formula__c.toLowerCase().trim(), 
+                                                 accountRecord.id);
+                        }
+                        else{
+                            system.debug('mapAccountId inside else '+mapAccountId);
+                            mapAccountId.put(accountRecord.Account_No_without_Prefix__c + ':'+
+                                             //accountRecord.recordtype.DeveloperName + ':' + 
+                                             accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);
+                        }    
+                	}
                 }
+                else if(selectedBankName == 'Direct File'){
+                    if(setAccountNumbers.contains(accountRecord.Account_No_without_Prefix__c)){
+                        if(mapAccountId.containsKey(accountRecord.Account_No_without_Prefix__c	 + ':'+
+                                                accountRecord.Debtor_1_Estate_Number__c)){
+                        mapAccountId.remove(accountRecord.Account_No_without_Prefix__c	 + ':'+
+                                            accountRecord.Debtor_1_Estate_Number__c);
+                        mapAccountwithDebtor.put(accountRecord.Account_No_without_Prefix__c + ':'+
+                                                 accountRecord.Debtor_1_Estate_Number__c + ':' + 
+                                                 accountRecord.Debtor_Name_Formula__c.toLowerCase().trim(), 
+                                                 accountRecord.id);
+                        }
+                        else{
+                            system.debug('mapAccountId inside else '+mapAccountId);
+                            mapAccountId.put(accountRecord.Account_No_without_Prefix__c + ':'+
+                                             accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);
+                        }    
+                	}
+                }
+                
                 //Ticket#944 -Remove Asset Status criteria from Insolvency Account Matching in Striplist Payment Processing.docx
                 if(setAccountNumbers.contains(accountRecord.Previous_Account_Reference__c)){
                 	if(mapPreviousAccountNumberId.containsKey(accountRecord.Previous_Account_Reference__c	 + ':'+

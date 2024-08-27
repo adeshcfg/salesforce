@@ -7,6 +7,8 @@ public class StriplistInsolPaymentUploadController {
     public boolean showFileUpload { get; set; }
     public Remittance__c remittanceInstance { get; set; }
     public String postingDate { get; set; }
+    public String selectedValueAction { get; set; }
+    public List<SelectOption> listBankName{get;set;}
 
     //EFT_Processing_Config__c eftConfigInstance;
 
@@ -14,6 +16,8 @@ public class StriplistInsolPaymentUploadController {
         showButtons = false;
         showStriplistTab = false;
         Id dividendId = ApexPages.currentPage().getParameters().get('id');
+        listBankName = getBankNameList();
+        
         remittanceInstance = new Remittance__c();
 
         if (dividendId != null) {
@@ -37,7 +41,7 @@ public class StriplistInsolPaymentUploadController {
                 FROM Remittance__c
                 WHERE Id = :dividendId
             ][0];
-
+			
             if (remittanceInstance.File_Processing_Status__c == 'Completed') {
                 showButtons = true;
             }
@@ -53,6 +57,7 @@ public class StriplistInsolPaymentUploadController {
             }
             //postingDate = String.valueOf(remittanceInstance.Posting_Date__c);
         }
+        selectedValueAction = '';
         showFileUpload = true;
     }
 
@@ -61,15 +66,22 @@ public class StriplistInsolPaymentUploadController {
      * @author adesh.ikhar@canaccede.com | 02-14-2024
      **/
     public void processExcelFile() {
+        if(selectedValueAction == NULL || selectedValueAction == ''){
+            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR, 'Please select Bank Name'));
+            return;
+        }
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         HttpRequest documentApiReq = getExcelToJsonRequest(apiCallDetails);
-        documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
+        if(excelFile != NULL){
+            documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
+        }
+        
         // Free up view state
         excelFile = '';
         try {
             HttpResponse response = new Http().send(documentApiReq);
             if (response.getStatusCode() == 200 && String.isNotBlank(response.getBody())) {
-                importDatatoApex(response.getBody());
+                importDatatoApex(response.getBody(),selectedValueAction);
             } else {
                 insertApiError(response.getBody(), apiCallDetails.PDF_API_URL__c + 'converters/excel', response.getStatus());
                 Apexpages.addMessage(
@@ -124,7 +136,7 @@ public class StriplistInsolPaymentUploadController {
         return documentApiReq;
     }
 
-    public void importDatatoApex(String outputJSON) {
+    public void importDatatoApex(String outputJSON,String selectedBankName) {
         List<StriplistUtil.paymentRecordsWrapper> listPaymentRecordWrapper = new List<StriplistUtil.paymentRecordsWrapper>();
 
         StriplistUtil striplistUtilInstance = new StriplistUtil();
@@ -196,7 +208,7 @@ public class StriplistInsolPaymentUploadController {
             Apexpages.addMessage(
                 new ApexPages.message(Apexpages.Severity.INFO, 'File is being processed. You will receive email once processing is completed.')
             );
-            ProcessInsolvencyStriplistBatch batchInstance = new ProcessInsolvencyStriplistBatch(listPaymentRecordWrapper, remittanceInstance);
+            ProcessInsolvencyStriplistBatch batchInstance = new ProcessInsolvencyStriplistBatch(listPaymentRecordWrapper, remittanceInstance,selectedBankName);
             database.executeBatch(batchInstance);
         } catch (Exception ex) {
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, ex.getMessage()));
@@ -222,5 +234,18 @@ public class StriplistInsolPaymentUploadController {
         retURL = new PageReference('/' + remittanceInstance.Id);
         retURL.setRedirect(true);
         return retURL;
+    }
+    
+    public List<SelectOption> getBankNameList(){
+        List<SelectOption> bankNameList = new List<SelectOption>();
+        List <RecordType> recordTypes = [Select Id, DeveloperName,name From RecordType where sobjecttype = 'Insolvency_Account__c'];
+        bankNameList.add(new SelectOption('None','None'));
+        for(RecordType recordType : recordTypes){
+            
+            bankNameList.add(new SelectOption(recordType.DeveloperName, recordType.name));
+        }
+        bankNameList.add(new SelectOption('Direct File','Direct File'));
+        
+        return bankNameList;
     }
 }
