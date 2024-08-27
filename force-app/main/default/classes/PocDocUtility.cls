@@ -45,14 +45,14 @@ public class PocDocUtility {
         ) {
             errorMsg += '; Cannot generate a proof of claim unless this account has Vendor value, Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
         }
-        if(!((insolvAcc.Insolvency_Type__c == 'Bankruptcy' || insolvAcc.Insolvency_Type__c == 'Division 1 Proposal') &&
-            eligibleVotingDecisions.contains(insolvAcc.Voting_Decision__c))
+        if((insolvAcc.Insolvency_Type__c == 'Bankruptcy' || insolvAcc.Insolvency_Type__c == 'Division 1 Proposal') &&
+            !eligibleVotingDecisions.contains(insolvAcc.Voting_Decision__c)
         ) {
             exceptionMsg += 'Missing Information';
             errorMsg += '; Voting Decision is not set correctly';
         }
-        if(!((insolvAcc.Insolvency_Type__c == 'Bankruptcy' || insolvAcc.Insolvency_Type__c == 'Consumer Proposal') &&
-            !insolvAcc.Include_Voting_Letter__c)
+        if((insolvAcc.Insolvency_Type__c == 'Bankruptcy' || insolvAcc.Insolvency_Type__c == 'Consumer Proposal') &&
+            !insolvAcc.Include_Voting_Letter__c
         ) {
             exceptionMsg += 'Missing Information';
             errorMsg += '; Voting Letter is not Checked';
