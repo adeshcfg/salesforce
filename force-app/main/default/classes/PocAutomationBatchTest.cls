@@ -1,7 +1,7 @@
 /**
  * @description       : Test class for PocAutomationBatch
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 08-26-2024
+ * @last modified on  : 08-27-2024
  * @last modified by  : adesh.ikhar@canaccede.com
 **/
 @isTest
@@ -33,7 +33,7 @@ public class PocAutomationBatchTest {
         insolv.Insolvency_Date__c = Date.Today().addMonths(-1);
         insolv.Insolvency_Type__c='Bankruptcy';
         insolv.Debtor_2_Estate_Number__c='1234';
-        insolv.Voting_Decision__c = 'Needs Manual Review';
+        insolv.Voting_Decision__c = 'Auto Approved';
         insert insolv;
          
         String devRecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
@@ -74,18 +74,28 @@ public class PocAutomationBatchTest {
         insolAcct.recordTypeId = devRecordTypeId;
         insolAcct.Last_Payment_Date__c = Date.newInstance(2020, 01, 05);
         insolAcct.Voting_Options__c = 'Vote: Decline - With Creditor Meeting Request';
-        insolAcct.Proof_of_Claim_Required__c = false;
+        insolAcct.Proof_of_Claim_Required__c = true;
+        insolAcct.Include_Voting_Letter__c = true;
 
         Insolvency_Account__c insolAcctPoc = insolAcct.clone();
         insolAcctPoc.Insolvency_Status__c = 'PoC Details Provided';
         insolAcctPoc.Asset_Status__c = 'Putback';
+        insolAcctPoc.Claim_Amount__c = 50;
+        InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
         insert new List<Insolvency_Account__c>{insolAcct, insolAcctPoc};
     }
 
     @isTest
-    static void testNoAccounts() {
+    static void testBatch() {
         Test.startTest();
         Database.executeBatch(new PocAutomationBatch());
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testScheduler() {
+        Test.startTest();
+        System.schedule('TestJob', '0 0 23 * * ?', new PocAutomationBatch());
         Test.stopTest();
     }
 }
