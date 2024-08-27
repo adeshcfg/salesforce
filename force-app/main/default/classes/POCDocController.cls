@@ -56,6 +56,8 @@ public class POCDocController {
     public String formattedAcknowledgementDate { get; set; }
     public String formattedDebtDueOffDate { get; set; }
     public String formattedAccountOpenDate {get; set;}
+    public String formattedAccountChargedoffDate {get; set;}
+    public String formattedAccountOriginalOpenDate {get; set;}
 
     //Language options French Translation
     public string language { get; set; }
@@ -247,6 +249,22 @@ public class POCDocController {
             String.valueOf(insolvAcc.Account_Open_date__c.year())
             );
             } 
+            if (insolvAcc.Charge_Off_Date__c != null) {
+                formattedAccountChargedoffDate = String.valueOf(
+                    ' ' +
+                        frenchDates.get(insolvAcc.Charge_Off_Date__c.month()) +
+                        ', ' +
+                        String.valueOf(insolvAcc.Charge_Off_Date__c.year())
+                );
+            }
+            if (insolvAcc.Account_Original_Open_Date__c != null) {
+                formattedAccountOriginalOpenDate = String.valueOf(
+                        ' ' +
+                            frenchDates.get(insolvAcc.Account_Original_Open_Date__c.month()) +
+                            ', ' +
+                            String.valueOf(insolvAcc.Account_Original_Open_Date__c.year())
+                    );
+                } 
 
             formattedDateTodayHeader = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ' ' + String.valueOf(dateNow.year()));
             // Read poc Package custom setting to fetch related data
