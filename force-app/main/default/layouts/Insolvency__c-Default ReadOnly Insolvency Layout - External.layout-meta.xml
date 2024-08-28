@@ -187,6 +187,30 @@
                 <behavior>Readonly</behavior>
                 <field>Debtor_Deceased__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Used_a_Financial_Advisor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Name_of_Financial_Advisor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Organization_for_the_Financial_Advisor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Address_of_Financial_Advisor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Total_paid_to_Financial_Advisor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Total_to_be_paid_to_Financial_Advisor__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -235,6 +259,18 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Debtor_1_Employer_Country__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Employment_Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Employment_From_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Employment_To_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -445,6 +481,18 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Ever_been_Bankrupt_Before__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Amount_Bankrupt_will_pay_to_repurchase__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Residual_amount_paid_into_the_estate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Surplus_Income_Form65__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -665,6 +713,18 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Child_Tax_Benefit_Debtor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_government_benefits_Debtor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_other_benefits_Debtor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_other_insurance_benefits_Debtor__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -912,6 +972,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Internet_Expenses__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Cable_Expenses__c</field>
             </layoutItems>
             <layoutItems>
@@ -1050,6 +1114,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Payment_To_Secured_Creditor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Payment_to_Financial_Advisor__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
