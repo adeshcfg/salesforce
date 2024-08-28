@@ -590,4 +590,50 @@
             <default>false</default>
         </values>
     </picklistValues>
+    <picklistValues>
+        <picklist>Employment_Status__c</picklist>
+        <values>
+            <fullName>Employed-full-time</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employed-part-time</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employed-Seasonal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Self-employed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retired</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deceased</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not employed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Used_a_Financial_Advisor__c</picklist>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
