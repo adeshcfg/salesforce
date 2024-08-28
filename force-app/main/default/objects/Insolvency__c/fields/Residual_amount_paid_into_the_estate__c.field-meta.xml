@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Residual_amount_paid_into_the_estate__c</fullName>
+    <description>Residual amount paid into the estate</description>
     <externalId>false</externalId>
-    <label>Residual amount paid into the estate</label>
+    <inlineHelpText>Residual amount paid into the estate</inlineHelpText>
+    <label>Residual Amount Paid Into The Estate</label>
     <precision>12</precision>
     <required>false</required>
     <scale>2</scale>

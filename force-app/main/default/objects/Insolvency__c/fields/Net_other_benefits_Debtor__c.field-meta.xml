@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Net_other_benefits_Debtor__c</fullName>
-    <description>Monthly other benefit</description>
+    <description>Monthly Other Benefits</description>
     <externalId>false</externalId>
-    <inlineHelpText>Monthly other benefit</inlineHelpText>
-    <label>Net other benefits</label>
+    <inlineHelpText>Monthly Other Benefits</inlineHelpText>
+    <label>Net Other Benefits</label>
     <precision>12</precision>
     <required>false</required>
     <scale>2</scale>

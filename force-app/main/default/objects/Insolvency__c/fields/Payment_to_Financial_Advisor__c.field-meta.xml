@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Payment_to_Financial_Advisor__c</fullName>
-    <defaultValue>0</defaultValue>
     <description>Monthly payment to financial advisor</description>
     <externalId>false</externalId>
     <inlineHelpText>Monthly payment to financial advisor</inlineHelpText>

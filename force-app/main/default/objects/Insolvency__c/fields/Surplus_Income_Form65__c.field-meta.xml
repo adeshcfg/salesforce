@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Surplus_Income_Form65__c</fullName>
+    <description>Monthly amount required to be paid to the estate by the Bankrupt/Debtor as surplus income obligation</description>
     <externalId>false</externalId>
+    <inlineHelpText>Monthly amount required to be paid to the estate by the Bankrupt/Debtor as surplus income obligation</inlineHelpText>
     <label>Surplus Income Form65</label>
     <precision>12</precision>
     <required>false</required>
