@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Net_government_benefits_Debtor__c</fullName>
-    <description>Monthly government benefit</description>
+    <description>Monthly Government Benefits</description>
     <externalId>false</externalId>
-    <inlineHelpText>Monthly government benefit</inlineHelpText>
-    <label>Net government benefits</label>
+    <inlineHelpText>Monthly Government Benefits</inlineHelpText>
+    <label>Net Government Benefits</label>
     <precision>12</precision>
     <required>false</required>
     <scale>2</scale>
