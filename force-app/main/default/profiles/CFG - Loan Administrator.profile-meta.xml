@@ -19587,10 +19587,6 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>MegasysPaymentCSVRequest</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>MicrobatchSelfReg</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
