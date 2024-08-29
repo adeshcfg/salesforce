@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>MegaSys_Payments_CSV</description>
-    <label>MegaSys Payments CSV</label>
-    <motif>Custom20: Airplane</motif>
-    <page>MegasysPaymentCSVRequest</page>
-</CustomTab>

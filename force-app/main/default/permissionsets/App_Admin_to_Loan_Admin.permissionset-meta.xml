@@ -17,14 +17,6 @@
         <object>MegaSys_Payments__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-    <pageAccesses>
-        <apexPage>MegasysPaymentCSVRequest</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <tabSettings>
-        <tab>MegaSys_Payments_CSV</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
     <tabSettings>
         <tab>MegaSys_Payments__c</tab>
         <visibility>Visible</visibility>
