@@ -250,9 +250,13 @@ public class DocumentResponseParser {
                     parseForm69Parts(res.Form69Parts, insolv);
                 }
 
-                // Form65Parts
+                // Form65Parts (for old format xml)
                 if (res.Form65Parts != null) {
                     parseForm65Parts(res.Form65Parts, insolv);
+                }
+                // Form65BisParts (for new format xml)
+                else if(res.Form65Parts == null && res.form65BisParts != null) {
+                    parseForm65BisParts(res.form65BisParts, insolv);
                 }
 
                 // Form79Parts
@@ -311,27 +315,6 @@ public class DocumentResponseParser {
                     listInsolvAttach.add(newAttach);
                 }
                 insert listInsolvAttach;
-
-                /*
-               //ContentVersion Creation
-               ContentVersion attachContent = new ContentVersion(); 
-               attachContent.VersionData = attach[0].body;
-               attachContent.Title = attach[0].name;
-               attachContent.PathOnClient = attach[0].name;
-               //tcicnvr.ContentLocation = 'S'; 
-               insert attachContent;
-                
-               // First get the Content Document Id from ContentVersion Object
-               Id conDoc = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =:attachContent.Id].ContentDocumentId;
-                
-               //ContentDocumentLink Creation
-               ContentDocumentLink attachFile = new ContentDocumentLink();
-               attachFile.ContentDocumentId = conDoc;
-               attachFile.LinkedEntityId = insolv.id;
-               attachFile.ShareType = 'I'; 
-               attachFile.Visibility = 'AllUsers';
-               insert attachFile;
-               */
             } catch (Exception ex) {
                 parsedResponse.Error_Details__c = ex.getMessage();
                 parsedResponse.Status__c = 'Error';
@@ -433,22 +416,42 @@ public class DocumentResponseParser {
         insolv.Insolvency_Type__c = 'Bankruptcy';
     }
 
-    //parseForm65Parts
+    public static void parseCommonForm65Parts(
+        MonthlyIncome monthlyIncome, 
+        MonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses,
+        MonthlyDiscretionaryExpenses monthlyDiscretionaryExpenses,
+        Insolvency__c insolv) 
+    {
+        if (monthlyIncome != null) {
+            parseMonthlyIncome(monthlyIncome, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses != null) {
+            parseMonthlyNonDiscretionaryExpenses(monthlyNonDiscretionaryExpenses, insolv);
+        }
+        if (monthlyDiscretionaryExpenses != null) {
+            parseMonthlyDiscretionaryExpenses(monthlyDiscretionaryExpenses, insolv);
+        }
+    }
+
     public static void parseForm65Parts(Form65Parts form65Parts, Insolvency__c insolv) {
-        // monthlyIncome
-        if (Form65Parts.monthlyIncome != null) {
-            parseMonthlyIncome(Form65Parts.monthlyIncome, insolv);
-        }
+        parseCommonForm65Parts(form65Parts.monthlyIncome, form65Parts.monthlyNonDiscretionaryExpenses, form65Parts.monthlyDiscretionaryExpenses, insolv);
+    }
 
-        // monthlyNonDiscretionaryExpenses
-        if (Form65Parts.monthlyNonDiscretionaryExpenses != null) {
-            parseMonthlyNonDiscretionaryExpenses(Form65Parts.monthlyNonDiscretionaryExpenses, insolv);
-        } // monthlyNonDiscretionaryExpenses END
-
-        // monthlyDiscretionaryExpenses
-        if (Form65Parts.monthlyDiscretionaryExpenses != null) {
-            parseMonthlyDiscretionaryExpenses(Form65Parts.monthlyDiscretionaryExpenses, insolv);
+    public static void parseForm65BisParts(Form65BisParts form65BisParts, Insolvency__c insolv) {
+        parseCommonForm65Parts(form65BisParts.monthlyIncome, form65BisParts.monthlyNonDiscretionaryExpenses, form65BisParts.monthlyDiscretionaryExpenses, insolv);
+        if(form65BisParts?.agreedToPay?.Debtor != null) {
+            insolv.Payment_Amount__c = getSumOfAmounts(form65BisParts.agreedToPay.Debtor);
         }
+        if(form65BisParts?.repurchaseAssets?.Debtor != null) {
+            insolv.Amount_Bankrupt_will_pay_to_repurchase__c = getSumOfAmounts(form65BisParts.repurchaseAssets.Debtor);
+        }
+        if(form65BisParts?.residualAmount?.Debtor != null) {
+            insolv.Residual_amount_paid_into_the_estate__c = getSumOfAmounts(form65BisParts.residualAmount.Debtor);
+        }
+        if(form65BisParts?.requiredMonthlyAmount?.Debtor != null) {
+            insolv.Surplus_Income_Form65__c = getSumOfAmounts(form65BisParts.requiredMonthlyAmount.Debtor);
+        }
+        // To do : add condition for difference field
     }
 
     //monthlyIncome
