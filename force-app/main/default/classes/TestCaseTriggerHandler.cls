@@ -109,7 +109,8 @@ private class TestCaseTriggerHandler{
         insert insolv;
                 
         //Cases
-        List<Case> cases = new List<Case>();   
+        List<Case> cases = new List<Case>(); 
+        List<Case> cases2 = new List<Case>(); 
         
         Case cseInsolv1 = new Case();
         cseInsolv1.subject = 'Review Insolvency';
@@ -118,29 +119,56 @@ private class TestCaseTriggerHandler{
         cseInsolv1.Insolvency__c = insolv.id;
         cseInsolv1.RecordTypeId=[select id from recordtype where DeveloperName='Remittance' AND sobjecttype = 'Case' LIMIT 1].id;
         insert cseInsolv1;
+        
+        Case cseInsolv3 = new Case();
+        cseInsolv3.subject = 'Review Insolvency';
+        cseInsolv3.status = 'New';
+        cseInsolv3.Assign_To__c = 'Scotia Bank';
+        cseInsolv3.Insolvency__c = insolv.id;
+        cseInsolv3.RecordTypeId=[select id from recordtype where DeveloperName='CCS_Dividend' AND sobjecttype = 'Case' LIMIT 1].id;
+        insert cseInsolv3;
+        
         Case cseInsolv2 = new Case();
         cseInsolv2.subject = 'Review Insolvency';
         cseInsolv2.status = 'New';
         cseInsolv2.Assign_To__c = 'CFG';
         cseInsolv2.Insolvency__c = insolv.id;  
         cseInsolv2.RecordTypeId=[select id from recordtype where DeveloperName='EmailToCase'].id;
-        insert cseInsolv2;     
+        insert cseInsolv2; 
         
+        Case cseInsolv4 = new Case();
+        cseInsolv4.subject = 'Review Insolvency';
+        cseInsolv4.status = 'New';
+        cseInsolv4.Assign_To__c = 'CFG';
+        cseInsolv4.Insolvency__c = insolv.id;  
+        cseInsolv4.RecordTypeId=[select id from recordtype where DeveloperName='EmailToCase'].id;
+        insert cseInsolv4; 
+        
+      	cases2.add(cseInsolv3);
         cases.add(cseInsolv1);
         
         //Test Insert  
         CaseTriggerHandler.handleBeforeInsert(cases);      
         CaseTriggerHandler.handleAfterInsert(cases);
+        CaseTriggerHandler.handleBeforeInsert(cases2);
+        CaseTriggerHandler.handleAfterInsert(cases2);
+       
         
         //Test Update 
         Map<ID, Case> caseMap = new Map<ID, Case>();
         caseMap.put(cseInsolv1.id, cseInsolv2);     
         CaseTriggerHandler.handleBeforeUpdate(cases, caseMap); 
-        CaseTriggerHandler.handleAfterUpdate(cases, caseMap);  
+        CaseTriggerHandler.handleAfterUpdate(cases, caseMap);
+             
+        Map<ID, Case> caseMap2 = new Map<ID, Case>();
+        caseMap2.put(cseInsolv3.id, cseInsolv4);     
+        CaseTriggerHandler.handleBeforeUpdate(cases2, caseMap2); 
+        CaseTriggerHandler.handleAfterUpdate(cases2, caseMap2);
         
         //Test Delete 
-        CaseTriggerHandler.handleAfterDelete(cases, caseMap);                         
-    }
+        CaseTriggerHandler.handleAfterDelete(cases, caseMap);
+        CaseTriggerHandler.handleAfterDelete(cases2, caseMap2);
+      }
     
     //Test Insolvency Account Cases
     static testMethod void caseTriggerHandlerTestInsAccnt(){
