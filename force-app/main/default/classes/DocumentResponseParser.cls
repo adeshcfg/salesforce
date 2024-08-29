@@ -1670,7 +1670,9 @@ public class DocumentResponseParser {
         public Form48Parts Form48Parts;
         public Form49Parts Form49Parts;
         public Form65Parts Form65Parts;
+        public Form65BisParts form65BisParts;
         public Form79Parts Form79Parts;
+        public Form79BisParts form79BisParts;
         public Form69Parts Form69Parts;
     }
 
@@ -1744,6 +1746,39 @@ public class DocumentResponseParser {
         public String maritalStatus;
         public String nameOfPresentEmployer;
         public String occupation;
+        // form79bisParts properties
+        public String numberOfPersonsInHousehold;
+        public String numberOfPersonsSeventeenOrLess;
+        public String everMadeProposal;
+        public String everBeenBankruptBefore;
+        public String spouseFirstName;
+        public String spouseLastName;
+        public String employmentStatus;
+        public String fromWhenEmployed;
+        public String toWhenEmployed;
+        public String adviceReceived;
+        public List<MaritalStatusEvents> maritalStatusEvents;
+        public List<AdvisorInformation> advisorInformation;
+    }
+
+    // form79bisParts properties
+    public class MaritalStatusEvents {
+        public String maritalStatus;
+        public String whenMaritalStatusChanged;
+    }
+
+    // form79bisParts properties
+    public class AdvisorInformation {
+        public String firstName;
+        public String middleName;
+        public String lastName;
+        public String org;
+        public String streetAddress;
+        public String city;
+        public String province;
+        public String postalCode;
+        public String amountPaid;
+        public String amountCommitted;
     }
 
     public class Form49Parts {
@@ -1762,6 +1797,17 @@ public class DocumentResponseParser {
         public MonthlyIncome monthlyIncome;
         public MonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses;
         public MonthlyDiscretionaryExpenses monthlyDiscretionaryExpenses;
+    }
+
+    public class Form65BisParts {
+        public MonthlyIncome monthlyIncome;
+        public MonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses;
+        public MonthlyDiscretionaryExpenses monthlyDiscretionaryExpenses;
+        public FamilyMembers agreedToPay;
+        public FamilyMembers repurchaseAssets;
+        public FamilyMembers residualAmount;
+        public FamilyMembers requiredMonthlyAmount;
+        public FamilyMembers requiredAmountDifference;
     }
 
     public class MonthlyIncome {
@@ -1784,7 +1830,7 @@ public class DocumentResponseParser {
         public String[] Debtor;
         public String[] Spouse;
         public String[] Others;
-        public String[] Total;
+        public String Total;
         public sObject MontlhyIncomeIgnore; // ignore this attribute we do not use any where
     }
 
@@ -1896,5 +1942,14 @@ public class DocumentResponseParser {
         //ToDo - add actual business logic
         public String everMadeProposal;
         public String everBeenBankruptBefore;
+    }
+
+    public class Form79BisParts {
+        public List<Debtors> debtors;
+        public String totalSecuredClaims;
+        public String totalUnsecuredClaims;
+        public String totalAssets;
+        public Assets assets;
+        public Liability liabilities;
     }
 }
