@@ -466,56 +466,45 @@ public class DocumentResponseParser {
         if (monthlyIncome.grossSelfEmploymentIncome != null) {
             insolv.Gross_Self_Employment_Income__c = getSumOfAmounts(monthlyIncome.grossSelfEmploymentIncome);
         }
-
-        // childTaxBenefit
         if (monthlyIncome.childTaxBenefit != null) {
             parseChildTaxBenefit(monthlyIncome.childTaxBenefit, insolv);
-        } // childTaxBenefit END
-
-        // netChildSupport
+        }
         if (monthlyIncome.netChildSupport != null) {
             parseNetChildSupport(monthlyIncome.netChildSupport, insolv);
-        } // netChildSupport END
-
-        // netPensionAnnuities
+        }
         if (monthlyIncome.netPensionAnnuities != null) {
             parseNetPensionAnnuities(monthlyIncome.netPensionAnnuities, insolv);
-        } // netChildSupport END
-
-        // netSelfEmploymentIncome
+        }
         if (monthlyIncome.netSelfEmploymentIncome != null) {
             parseNetSelfEmploymentIncome(monthlyIncome.netSelfEmploymentIncome, insolv);
-        } // netSelfEmploymentIncome END
-
-        // netSocialAssistance
+        }
         if (monthlyIncome.netSocialAssistance != null) {
             parseNetSocialAssistance(monthlyIncome.netSocialAssistance, insolv);
-        } // netSocialAssistance END
-
-        // netSpousalSupport
+        }
         if (monthlyIncome.netSpousalSupport != null) {
             parseNetSpousalSupport(monthlyIncome.netSpousalSupport, insolv);
-        } // netSpousalSupport END
-
-        // newEmploymentIncome
+        }
         if (monthlyIncome.netEmploymentIncome != null) {
             parseNetEmploymentIncome(monthlyIncome.netEmploymentIncome, insolv);
-        } // newEmploymentIncome END
-
-        // netEmploymentInsuranceBenefits
+        }
         if (monthlyIncome.netEmploymentInsuranceBenefits != null) {
             parseNetEmploymentInsuranceBenefits(monthlyIncome.netEmploymentInsuranceBenefits, insolv);
-        } // netEmploymentInsuranceBenefits END
-
-        // otherNetIncome
+        }
         if (monthlyIncome.otherNetIncome != null) {
             parseOtherNetIncome(monthlyIncome.otherNetIncome, insolv);
-        } // otherNetIncome END
-
-        // totalMonthlyIncome
+        }
         if (monthlyIncome.totalMonthlyIncome != null) {
             parseTotalMonthlyIncome(monthlyIncome.totalMonthlyIncome, insolv);
-        } // totalMonthlyIncome END
+        }
+        if (monthlyIncome?.netOtherInsuranceBenefits?.Debtor != null) {
+            insolv.Net_other_insurance_benefits_Debtor__c = getSumOfAmounts(monthlyIncome.netOtherInsuranceBenefits.Debtor);
+        }
+        if (monthlyIncome?.netGovernmentBenefits?.Debtor != null) {
+            insolv.Net_government_benefits_Debtor__c = getSumOfAmounts(monthlyIncome.netGovernmentBenefits.Debtor);
+        }
+        if (monthlyIncome?.netOtherBenefits?.Debtor != null) {
+            insolv.Net_other_benefits_Debtor__c = getSumOfAmounts(monthlyIncome.netOtherBenefits.Debtor);
+        }
     }
 
     // parseMonthlyNonDiscretionaryExpenses
@@ -653,45 +642,30 @@ public class DocumentResponseParser {
         if (monthlyDiscretionaryExpenses.totalFamilyUnitMonthlyDiscretionaryExpenses != null) {
             insolv.Monthly_Discretionary_Expenses_Of_Family__c = getDecimalValue(monthlyDiscretionaryExpenses.totalFamilyUnitMonthlyDiscretionaryExpenses);
         }
-
         if (monthlyDiscretionaryExpenses.familyUnitMonthlySurplusOrDeficit != null) {
             insolv.Monthly_Surplus_Deficit_Of_Family__c = getDecimalValue(monthlyDiscretionaryExpenses.familyUnitMonthlySurplusOrDeficit);
         }
-
-        // housingExpenses
         if (monthlyDiscretionaryExpenses.housingExpenses != null) {
             parseHousingExpenses(monthlyDiscretionaryExpenses.housingExpenses, insolv);
         }
-
-        // insuranceExpenses
         if (monthlyDiscretionaryExpenses.insuranceExpenses != null) {
             parseInsuranceExpenses(monthlyDiscretionaryExpenses.insuranceExpenses, insolv);
-        } // insuranceExpenses END
-
-        // livingExpenses
+        }
         if (monthlyDiscretionaryExpenses.livingExpenses != null) {
             parseLivingExpenses(monthlyDiscretionaryExpenses.livingExpenses, insolv);
-        } // livingExpenses END
-
-        // nonRecoverableMedicalExpenses
+        }
         if (monthlyDiscretionaryExpenses.nonRecoverableMedicalExpenses != null) {
             parseNonRecoverableMedicalExpenses(monthlyDiscretionaryExpenses.nonRecoverableMedicalExpenses, insolv);
-        } // nonRecoverableMedicalExpenses END
-
-        // payments
+        }
         if (monthlyDiscretionaryExpenses.payments != null) {
             parsePayments(monthlyDiscretionaryExpenses.payments, insolv);
-        } // payments END
-
-        // personalExpenses
+        }
         if (monthlyDiscretionaryExpenses.personalExpenses != null) {
             parsePersonalExpenses(monthlyDiscretionaryExpenses.personalExpenses, insolv);
-        } // personalExpenses END
-
-        // transportationExpenses
+        }
         if (monthlyDiscretionaryExpenses.transportationExpenses != null) {
             parseTransportationExpenses(monthlyDiscretionaryExpenses.transportationExpenses, insolv);
-        } // transportationExpenses END
+        }
     }
 
     public static void parseCommonForm79Parts(
@@ -1184,6 +1158,9 @@ public class DocumentResponseParser {
         if (housingExpenses.other != null) {
             insolv.Other_Housing_Expenses__c = getSumOfAmounts(housingExpenses.other);
         }
+        if (housingExpenses.internet != null) {
+            insolv.Internet_Expenses__c = getSumOfAmounts(housingExpenses.internet);
+        }
     }
 
     // insuranceExpenses
@@ -1250,6 +1227,9 @@ public class DocumentResponseParser {
         }
         if (payments.other != null) {
             insolv.Other_Payments__c = getSumOfAmounts(payments.other);
+        }
+        if (payments.otherFinancialAdvisor != null) {
+            insolv.Payment_to_Financial_Advisor__c = getSumOfAmounts(payments.otherFinancialAdvisor);
         }
     }
 
@@ -1977,6 +1957,10 @@ public class DocumentResponseParser {
         public String totalMonthlyIncomeOfTheFamilyUnit;
         public String[] grossSelfEmploymentIncome;
         public FamilyMembers netSelfEmploymentIncome;
+        // New property for Form65BisParts
+        public FamilyMembers netOtherInsuranceBenefits;
+        public FamilyMembers netGovernmentBenefits;
+        public FamilyMembers netOtherBenefits;
     }
 
     public class FamilyMembers {
@@ -2045,6 +2029,8 @@ public class DocumentResponseParser {
         public String[] water;
         public String[] furniture;
         public String[] other;
+        // New property for Form65BisParts
+        public String[] internet;
     }
 
     public class PersonalExpenses {
@@ -2091,6 +2077,8 @@ public class DocumentResponseParser {
         public String[] toSecuredCreditor;
         public String[] other;
         public String[] otherThanMortgageAndVehicle;
+        // New property for Form65BisParts
+        public String[] otherFinancialAdvisor;
     }
     /*
     // Creditor Id and Liability Id form Creditor Package
