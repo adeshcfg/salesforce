@@ -524,6 +524,10 @@
                 <behavior>Edit</behavior>
                 <field>Surplus_Income_Form65__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Residual_amount_paid_surplus_income__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

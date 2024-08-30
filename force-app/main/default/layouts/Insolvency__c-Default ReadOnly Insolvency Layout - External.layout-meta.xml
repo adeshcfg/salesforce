@@ -494,6 +494,10 @@
                 <behavior>Readonly</behavior>
                 <field>Surplus_Income_Form65__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Residual_amount_paid_surplus_income__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

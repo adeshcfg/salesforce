@@ -18393,6 +18393,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Insolvency__c.Residual_amount_paid_surplus_income__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Insolvency__c.Internet_Expenses__c</field>
         <readable>true</readable>
     </fieldPermissions>
