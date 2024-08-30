@@ -1,14 +1,14 @@
 /**
  * @description       : Batch class for automation POC generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 08-27-2024
+ * @last modified on  : 08-30-2024
  * @last modified by  : adesh.ikhar@canaccede.com
 **/
 public class PocAutomationBatch implements Schedulable, Database.Batchable<SObject> {
     public Application_Config_Settings__c appConfig = Application_Config_Settings__c.getInstance();
     public Database.Querylocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            'SELECT Id,Name,Excluded_from_Purchase__c,Secured_Name__c,Business_Account__c,Insolvency_Type__c,Voting_Decision__c,Insolvency__r.Name,Insolvency__r.Debtor_2_Estate_Number__c,Insolvency__r.Eligible_For_Voting_Decision__c,Insolvency__r.Voting_Decision__c,Insolvency__r.Debtor_1_Mailing_City__c,Insolvency__r.Debtor_1_Mailing_State_Province__c,Insolvency__r.Insolvency_Type__c,Insolvency__r.Trustee_Communication_Preference_Formula__c,Portfolio_Group_Name__c,Vendor_Orginator__c,Portfolio_Name_Lookup__c,Investment_Group__c,Insolvency__r.Trustee__r.BillingStreet,Insolvency__r.Trustee__r.BillingCity,Insolvency__r.Trustee__r.BillingState,Insolvency__r.Trustee__r.BillingPostalCode,Insolvency__r.Trustee__r.BillingCountry,Insolvency__r.Trustee__r.Preferred_Language__c,Insolvency__r.Debtor_1_Mailing_Street__c,Insolvency__r.Debtor_2_Mailing_Street__c,Insolvency__r.Debtor_2_Mailing_City__c,Insolvency__r.Debtor_1_Mailing_Postal_Code__c,Insolvency__r.Debtor_2_Mailing_Postal_Code__c,Insolvency__r.Debtor_1_Court_Number__c,Insolvency__r.Debtor_2_Court_Number__c,Insolvency__r.Court_District_Name__c,Insolvency__r.Court_Division_Number__c,Insolvency__r.Court_Province__c,Insolvency__r.Insolvency_Date__c,Secured_Asset_Amount__c,Security_Description__c,Vehicle_Identification_Number__c,Voting_Letter_Comments__c,Claim_Type__c,Claim_Amount__c,Amended_Claim_Flag__c,Insolvency__r.Trustee__r.Name,Insolvency__r.Trustee__r.Parent.Name,Client_Identifier__c,Last_Payment_Date__c,Last_Payment_Amount__c,Interest_Rate__c,Insolvency_Status__c,Asset_Status__c,Insolvency__r.Debtor_1_First_Name__c,Insolvency__r.Debtor_1_Last_Name__c,Insolvency__r.Debtor_1_Middle_Name__c,Insolvency__r.Debtor_2_First_Name__c,Insolvency__r.Debtor_2_Last_Name__c,Insolvency__r.Debtor_2_Middle_Name__c,Bank_Name__c,Statements_Required__c,Proof_of_Claim_Required__c,Voting_Options__c,Include_Voting_Letter__c,Amended_PoC_Created_Date__c,PoC_Created_Date__c,Account_Type__c,Charge_Off_Date__c,Account_Original_Open_Date__c,Last_Payment_Date_2__c,Last_Payment_Date_3__c,Last_Payment_Amount_2__c,Last_Payment_Amount_3__c,Acknowledgement_date__c,Debt_Due_as_off_date__c,Account_Open_date__c FROM Insolvency_Account__c Where Insolvency_Status__c = \'PoC Details Provided\''
+            'SELECT Id,Name,Excluded_from_Purchase__c,Secured_Name__c,Business_Account__c,Insolvency_Type__c,Voting_Decision__c,Insolvency__r.Name,Insolvency__r.Debtor_2_Estate_Number__c,Insolvency__r.Eligible_For_Voting_Decision__c,Insolvency__r.Voting_Decision__c,Insolvency__r.Debtor_1_Mailing_City__c,Insolvency__r.Debtor_1_Mailing_State_Province__c,Insolvency__r.Insolvency_Type__c,Insolvency__r.Trustee_Communication_Preference_Formula__c,Portfolio_Group_Name__c,Vendor_Orginator__c,Portfolio_Name_Lookup__c,Investment_Group__c,Insolvency__r.Trustee__r.BillingStreet,Insolvency__r.Trustee__r.BillingCity,Insolvency__r.Trustee__r.BillingState,Insolvency__r.Trustee__r.BillingPostalCode,Insolvency__r.Trustee__r.BillingCountry,Insolvency__r.Trustee__r.Preferred_Language__c,Insolvency__r.Debtor_1_Mailing_Street__c,Insolvency__r.Debtor_2_Mailing_Street__c,Insolvency__r.Debtor_2_Mailing_City__c,Insolvency__r.Debtor_1_Mailing_Postal_Code__c,Insolvency__r.Debtor_2_Mailing_Postal_Code__c,Insolvency__r.Debtor_1_Court_Number__c,Insolvency__r.Debtor_2_Court_Number__c,Insolvency__r.Court_District_Name__c,Insolvency__r.Court_Division_Number__c,Insolvency__r.Court_Province__c,Insolvency__r.Insolvency_Date__c,Secured_Asset_Amount__c,Security_Description__c,Vehicle_Identification_Number__c,Voting_Letter_Comments__c,Claim_Type__c,Claim_Amount__c,Amended_Claim_Flag__c,Insolvency__r.Trustee__r.Name,Insolvency__r.Trustee__r.Parent.Name,Client_Identifier__c,Last_Payment_Date__c,Last_Payment_Amount__c,Interest_Rate__c,Insolvency_Status__c,Asset_Status__c,Insolvency__r.Debtor_1_First_Name__c,Insolvency__r.Debtor_1_Last_Name__c,Insolvency__r.Debtor_1_Middle_Name__c,Insolvency__r.Debtor_2_First_Name__c,Insolvency__r.Debtor_2_Last_Name__c,Insolvency__r.Debtor_2_Middle_Name__c,Bank_Name__c,Statements_Required__c,Proof_of_Claim_Required__c,Voting_Options__c,Include_Voting_Letter__c,Amended_PoC_Created_Date__c,PoC_Created_Date__c,Account_Type__c,Charge_Off_Date__c,Account_Original_Open_Date__c,Last_Payment_Date_2__c,Last_Payment_Date_3__c,Last_Payment_Amount_2__c,Last_Payment_Amount_3__c,Acknowledgement_date__c,Debt_Due_as_off_date__c,Account_Open_date__c FROM Insolvency_Account__c Where Insolvency_Status__c = \'PoC Details Provided\' AND Auto_POC_Exception_Reported__c = null'
         );
     }
 
@@ -39,7 +39,6 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
         List<String> insolvencyIdListToUpdate = new List<String>();
         List<Insolvency_Account__c> updateAcctList = new List<Insolvency_Account__c>();
         List<Attachment> attachmentInsertList = new List<Attachment>();
-        List<Insolvency__c> insolvencyListToUpdate = new List<Insolvency__c>();
         Map<Integer, String> frenchDates = PocDocUtility.frenchDates;
         for(Insolvency_Account__c insolvAcc : insolvAccList) {
             // Check if account is eligible to generate POC
@@ -64,10 +63,7 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
             updateAcctList.add(PocDocUtility.updateAccountFields(insolvAcc));
             insolvencyIdListToUpdate.add(insolvAcc.Insolvency__c);
         }
-        if(!insolvencyIdListToUpdate.isEmpty()) {
-            insolvencyListToUpdate = getInsolvencyListToUpdate(insolvencyIdListToUpdate);
-        }
-        updateData(attachmentInsertList, updateAcctList, insolvencyListToUpdate);
+        updateData(attachmentInsertList, updateAcctList, insolvencyIdListToUpdate);
     }
 
     /**
@@ -75,9 +71,10 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
     * @author adesh.ikhar@canaccede.com | 08-22-2024 
     * @param attachmentInsertList 
     * @param updateAcctList 
-    * @param insolvencyListToUpdate 
+    * @param insolvencyIdListToUpdate 
     **/
-    public void updateData(List<Attachment> attachmentInsertList, List<Insolvency_Account__c> updateAcctList, List<Insolvency__c> insolvencyListToUpdate) {
+    public void updateData(List<Attachment> attachmentInsertList, List<Insolvency_Account__c> updateAcctList, List<String> insolvencyIdListToUpdate) {
+        List<Insolvency__c> insolvencyListToUpdate = new List<Insolvency__c>();
         Savepoint sp = Database.setSavepoint();
         try {
             InsolvencyTriggerHandler.runInsolvencyTrigger = false;
@@ -88,8 +85,11 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
             if(!updateAcctList.isEmpty()) {
                 Database.update(updateAcctList);
             }
-            if(!insolvencyListToUpdate.isEmpty()) {
-                Database.update(insolvencyListToUpdate);
+            if(!insolvencyIdListToUpdate.isEmpty()) {
+                insolvencyListToUpdate = getInsolvencyListToUpdate(insolvencyIdListToUpdate);
+                if(!insolvencyListToUpdate.isEmpty()) {
+                    Database.update(insolvencyListToUpdate);
+                }
             }
             InsolvencyTriggerHandler.runInsolvencyTrigger = true;
             InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
