@@ -4,7 +4,7 @@
     <description>Amount Bankrupt/Debtor has agreed to pay to repurchase assets</description>
     <externalId>false</externalId>
     <inlineHelpText>Amount Bankrupt/Debtor has agreed to pay to repurchase assets</inlineHelpText>
-    <label>Amount to repurchase assets</label>
+    <label>Amount To Repurchase Assets</label>
     <precision>12</precision>
     <required>false</required>
     <scale>2</scale>
