@@ -1,723 +1,82 @@
 @isTest(seeAllData = false)
 public class TestDocumentResponseParser {
+    public static string sampleJSON = '{"estateNo":["77-77787"],"courtDivision":"01 - Montréal","courtDistrict":"QC","courtProvince":"QC","form01Dot1Parts":{"trusteeCorporateName":"Aryza Insolv - QA121"},"form47Parts":{"notice1":"Payment to Secure Creditors","notice4":"Obligation","notice6":"Additional Terms"},"form48Parts":{"notice4":"Financial Support of Others","notice5":"Explanation of Reasonableness"},"form49Parts":{"insolvencyDate":"05/08/2024"},"form65bisParts":{"agreedToPay":{"Debtor":["1000.00"]},"repurchaseAssets":{"Debtor":["400.00"]},"residualAmount":{"Debtor":["600.00"]},"requiredMonthlyAmount":{"Debtor":["670.00"]},"requiredAmountDifference":{"Debtor":["70.00"]},"monthlyIncome":{"netEmploymentIncome":{"total":"4000.00","Debtor":["4000.00"]},"otherNetIncome":{"total":"1000.00","Debtor":["1000.00"]},"netPensionAnnuities":{"total":"50.00","Debtor":["50.00"]},"netChildSupport":{"total":"20.00","Debtor":["20.00"]},"netSpousalSupport":{"total":"30.00","Debtor":["30.00"]},"netEmploymentInsuranceBenefits":{"total":"70.00","Debtor":["70.00"]},"netOtherInsuranceBenefits":{"total":"10.00","Debtor":["10.00"]},"netSocialAssistance":{"total":"5.00","Debtor":["5.00"]},"netSelfEmploymentIncome":{"total":"4.00","Debtor":["4.00"]},"netGovernmentBenefits":{"total":"14.00","Debtor":["14.00"]},"netOtherBenefits":{"total":"18.00","Debtor":["18.00"]},"totalMonthlyIncome":{"Debtor":["5230.00"]},"totalMonthlyIncomeOfTheFamilyUnit":"5230.00","totalMonthlyIncomeOtherMembers":"0.00","headings":["Debtor"]},"monthlyNonDiscretionaryExpenses":{"totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit":"580.00","totalMonthlyNonDiscretionaryExpenses":{"Debtor":["580.00"]},"medicalConditionExpenses":{"total":"100.00","Debtor":["100.00"]},"childSupportPayments":{"total":"50.00","Debtor":["50.00"]},"spousalSupportPayments":{"total":"10.00","Debtor":["10.00"]},"childCare":{"total":"110.00","Debtor":["110.00"]},"finesPenaltiesImposedByTheCourt":{"total":"90.00","Debtor":["90.00"]},"expensesAsAConditionOfEmployment":{"total":"60.00","Debtor":["60.00"]},"debtsWhereStayHasBeenLifted":{"total":"30.00","Debtor":["30.00"]},"otherExpenses":{"total":"130.00","Debtor":["130.00"]},"availableMonthlyIncomeOfTheDebtor":{"Debtor":["3950.00"]},"availableMonthlyIncomeOfTheFamilyUnit":"3950.00","debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit":{"Debtor":["100"]},"headings":["Debtor"]},"monthlyDiscretionaryExpenses":{"totalFamilyUnitMonthlyDiscretionaryExpenses":"3321.00","familyUnitMonthlySurplusOrDeficit":"629.00","housingExpenses":{"other":["100.00"],"furniture":["1000.00"],"water":["40.00"],"hydro":["100.00"],"internet":["50.00"],"cable":["50.00"],"telephone":["50.00"],"heatingGasOil":["100.00"],"propertyTaxesCondoFees":["100.00"],"rentMortgageHypothec":["110.00"]},"personalExpenses":{"other":["100.00"],"allowances":["50.00"],"giftsCharitableDonations":["50.00"],"entertainmentSports":["150.00"],"diningLunchesRestaurants":["100.00"],"alcohol":["50.00"],"smoking":["25.00"]},"livingExpenses":{"foodGrocery":["25.00"],"laundryDryCleaning":["15.00"],"groomingToiletries":["10.00"],"clothing":["10.00"],"other":["10.00"]},"transportationExpenses":{"carLeasePayments":["10.00"],"repairMaintenanceGas":["10.00"],"publicTransportation":["10.00"],"other":["10.00"]},"insuranceExpenses":{"vehicle":["10.00"],"house":["10.00"],"furnitureContents":["11.00"],"lifeInsurance":["15.00"],"other":["15.00"]},"paymentsExpenses":{"paymentsToTheProposal":["1000.00"],"otherFinancialAdvisor":["25.00"],"otherSecuredCreditor":["25.00"],"other":["25.00"]}}},"form79bisParts":{"debtors":[{"firstName":"Anngie","lastName":"Steves","occupation":"Architect","dateOfBirth":"05/08/1999","alsoKnownAs":"John Wick","streetAddress":"1443, Test Street","city":"Toronto","province":"AB","postalCode":"N7N 6E6","maritalStatusEvents":[{"maritalStatus":"Married","whenMaritalStatusChanged":"2024-08"},{"maritalStatus":"Divorced","whenMaritalStatusChanged":"2023-03"}],"spouseFirstName":"Yuvi","spouseLastName":"Johns","spouseOccupation":"Engineer","employmentStatus":"Employed-full-time","fromWhenEmployed":"2020-09","toWhenEmployed":"2022-09","numberOfPersonsInHousehold":"3","numberOfPersonsSeventeenOrLess":"1","previouslyBankruptOrMadeProposal":"Yes","everMadeProposal":"No","everBeenBankruptBefore":"Yes","adviceReceived":"Yes","advisorInformation":[{"amountPaid":"100.00","amountCommitted":"1100.00","firstName":"Advisor","middleName":"GivenN","lastName":"Advisor F","org":"200","streetAddress":"123,ABC street","city":"lakeside","province":"ON","postalCode":"N8N 6T6"}]}],"assets":{"totalEstimatedDollarValue":"289900.00","totalSecuredAmountOrLiens":"225000.00","totalEstimatedNetRealizableDollarValue":"252800.00","items":[{"type":"Cash on Hand","description":"Money","estimatedDollarValue":"500.00","exemptPropertyNo":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"500.00"},{"type":"Estimated Tax Refund","description":"2020-2024","estimatedDollarValue":"0.00","exemptPropertyNo":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Recreational Equipment","description":"Old Trailer Tent","estimatedDollarValue":"500.00","exemptPropertyNo":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"500.00"},{"type":"Other Motor Vehicle","description":"Old Snowmobile","estimatedDollarValue":"100.00","exemptPropertyNo":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Automobile","description":"Red Car","estimatedDollarValue":"10000.00","exemptPropertyNo":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"5000.00"},{"type":"Other real property","description":"Other Real Proporty","estimatedDollarValue":"5000.00","exemptPropertyNo":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"5000.00"},{"type":"Land","description":"Small Land","estimatedDollarValue":"20000.00","exemptPropertyNo":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"15000.00"},{"type":"Principal residence","description":"Principal House","estimatedDollarValue":"250000.00","exemptPropertyNo":"x","securedAmountOrLiens":"225000.00","estimatedNetRealizableDollarValue":"225000.00"},{"type":"Securities","description":"Securities","estimatedDollarValue":"1000.00","exemptPropertyNo":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"900.00"},{"type":"Cash Surrender Value","description":"Life Insurance","estimatedDollarValue":"1000.00","exemptPropertyNo":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"900.00"},{"type":"Personal Effects","description":"Personnal effects","estimatedDollarValue":"500.00","exemptPropertyYes":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Furniture","description":"Old Furniture","estimatedDollarValue":"100.00","exemptPropertyYes":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Recreational vehicle","description":"Old Recreational vehicle","estimatedDollarValue":"100.00","exemptPropertyYes":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Intangible assets","description":"Old Intangible assets","estimatedDollarValue":"100.00","exemptPropertyYes":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"House","description":"test house","estimatedDollarValue":"200.00","exemptPropertyYes":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Cottage","description":"test Cottage","estimatedDollarValue":"500.00","exemptPropertyYes":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Other Asset","description":"test Other Asset","estimatedDollarValue":"300.00","exemptPropertyYes":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"}]},"liabilities":{"totalUnsecuredLiabilities":"80100.00","totalSecuredLiabilities":"226000.00","totalPreferredLiabilities":"5000.00","items":[{"creditor":"Scotia BNS","creditorAddress":"123, Street Toronto ON H0H 0H0 CA","accountNumber":"XXXXX789","preferredDebt":"5000.00","ltc":"4"},{"creditor":"Easyfi","creditorAddress":"123, Street Quebec QC H0H 0H0 CA","accountNumber":"00856789","unsecuredDebt":"50000.00","ltc":"2"},{"creditor":"Fairstone 7787","creditorAddress":"123, Street London ON H0H 0H0 CA","accountNumber":"88899989","unsecuredDebt":"100.00","ltc":"9"},{"creditor":"MBNA","creditorAddress":"123, Street Toronto ON H0H 0H0 CA","accountNumber":"16623456789","unsecuredDebt":"0.00","ltc":"7"},{"creditor":"CreditorC10","creditorAddress":"123, Street Toronto ON H0H 0H0 CA","accountNumber":"78000009","unsecuredDebt":"5000.00","ltc":"8"},{"creditor":"Big Bank","creditorAddress":"123,Test Street Torino- Italy ON H0H 0H0 CA","accountNumber":"123456789","securedDebt":"225000.00","unsecuredDebt":"25000.00","ltc":"1"},{"creditor":"fidem","creditorAddress":"123,Test Street Torino- Italy ON H0H 0H0 CA","accountNumber":"128888789","securedDebt":"1000.00","ltc":"3"}]},"totalSecuredClaims":"226000.00","totalUnsecuredClaims":"80100.00","totalAssets":"289900.00"}}';
+    public static string sampleJSON1= '{"courtNo":"98-30002417","estateNo":["98-30002444"],"courtDivision":"01- Edmonton","courtDistrict":"AB","courtProvince":"AB","form01Dot1Parts":{"trusteeCorporateName":"Bromwich & Smith Inc."},"form47Parts":{"paymentAmount":"1000","paymentFrequency":"Monthly","numberOfPayments":"60","notice1":"That payments ","notice4":"I will ","notice6":"A. The creditors"},"form48Parts":{"notice4":"- Loss of ","notice5":"The 60"},"form49Parts":{"insolvencyDate":"26/10/2023"},"form65Parts":{"monthlyIncome":{"netEmploymentIncome":{"Debtor":["5741.00"]},"netPensionAnnuities":{"Debtor":["0.00"]},"netChildSupport":{"Debtor":["0.00"]},"netSpousalSupport":{"Debtor":["0.00"]},"netEmploymentInsuranceBenefits":{"Debtor":["0.00"]},"netSocialAssistance":{"Debtor":["0.00"]},"otherNetIncome":{"Debtor":["0.00"]},"netSelfEmploymentIncome":{"Debtor":["0.00"]},"totalMonthlyIncome":{"Debtor":["5741.00"],"Other":["0.00"]},"totalMonthlyIncomeOfTheFamilyUnit":"5741.00","headings":["Debtor","Other"]},"monthlyNonDiscretionaryExpenses":{"totalMonthlyNonDiscretionaryExpenses":{"Debtor":["0.00"],"Other":["0.00"]},"totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit":"0.00","childSupportPayments":{"Debtor":["0.00"]},"spousalSupportPayments":{"Debtor":["0.00"]},"childCare":{"Debtor":["0.00"]},"medicalConditionExpenses":{"Debtor":["0.00"]},"finesPenaltiesImposedByTheCourt":{"Debtor":["0.00"]},"expensesAsAConditionOfEmployment":{"Debtor":["0.00"]},"debtsWhereStayHasBeenLifted":{"Debtor":["0.00"]},"otherExpenses":{"Debtor":["0.00"]},"availableMonthlyIncomeOfTheDebtor":["5741.00"],"availableMonthlyIncomeOfTheFamilyUnit":"5741.00","debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit":["100.00"],"headings":["Debtor","Other"]},"monthlyDiscretionaryExpenses":{"totalFamilyUnitMonthlyDiscretionaryExpenses":"5941.00","familyUnitMonthlySurplusOrDeficit":"-200.00","housingExpenses":{"rentMortgageHypothec":["1752.00"],"propertyTaxesCondoFees":["150.00"],"heatingGasOil":["75.00"],"telephone":["50.00"],"cable":["75.00"],"hydro":["500.00"],"water":["0.00"],"furniture":["0.00"],"other":["0.00"]},"personalExpenses":{"smoking":["0.00"],"alcohol":["0.00"],"diningLunchesRestaurants":["0.00"],"entertainmentSports":["0.00"],"giftsCharitableDonations":["0.00"],"allowances":["0.00"],"other":["0.00"]},"nonRecoverableMedicalExpenses":{"prescriptions":["0.00"],"dental":["0.00"],"other":["0.00"]},"livingExpenses":{"foodGrocery":["665.00"],"laundryDryCleaning":["0.00"],"groomingToiletries":["0.00"],"clothing":["0.00"],"other":["468.00"]},"transportationExpenses":{"carLeasePayments":["781.00"],"repairMaintenanceGas":["250.00"],"publicTransportation":["0.00"],"other":["0.00"]},"insuranceExpenses":{"vehicle":["175.00"],"house":["0.00"],"furnitureContents":["0.00"],"lifeInsurance":["0.00"],"other":["0.00"]},"paymentsExpenses":{"paymentsToTheProposal":["1000.00"],"other":["0.00"]}}},"form79Parts":{"debtors":[{"firstName":"Davin","middleName":"Geoffry","lastName":"Stevens","dateOfBirth":"27/04/1976","streetAddress":"1163 36 Ave NW","city":"Edmonton","province":"AB","postalCode":"T6T 0G2","maritalStatus":"Married","nameOfPresentEmployer":"Solanic Wood Designs","occupation":"Cabinet Maker"}],"numberOfPersonsInHousehold":"3","numberOfPersonsSeventeenOrLess":"1","assets":{"totalEstimatedDollarValue":"434908.00","totalSecuredAmountOrLiens":"334261.00","totalEstimatedNetRealizableDollarValue":"41112.00","items":[{"type":"Furniture","description":"Household","estimatedDollarValue":"1500.00","exemptPropertyYes":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Personal Effects","description":"Clothing","estimatedDollarValue":"750.00","exemptPropertyYes":"x","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"House","description":"1163","estimatedDollarValue":"367769.00","exemptPropertyYes":"x","securedAmountOrLiens":"269372.00","estimatedNetRealizableDollarValue":"41112.00"},{"type":"Automobile","description":"2019","estimatedDollarValue":"23539.00","exemptPropertyYes":"x","securedAmountOrLiens":"23539.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Other Asset","description":"2018","estimatedDollarValue":"41350.00","exemptPropertyYes":"x","securedAmountOrLiens":"41350.00","estimatedNetRealizableDollarValue":"0.00"}]},"liabilities":{"totalUnsecuredLiabilities":"45066.00","totalSecuredLiabilities":"334261.00","totalPreferredLiabilities":"0.00","totalLiabilities":"379327.00","items":[{"LiabilityId":"223-594983","CreditorId":"223-47392","creditor":"BNS","creditorAddress":"PO BOX 53, STATION B LONDON ONTARIO N6A 4V3 CANADA","accountNumber":"239067642777","securedDebt":"23539.00","ltc":"4"},{"LiabilityId":"223-594982","CreditorId":"223-167681","creditor":"CANADIAN TIRE","creditorAddress":"PO Box 758 Stn B London ON N6A 4Y8 CA","accountNumber":"6678996617","securedDebt":"41350.00","ltc":"9"},{"LiabilityId":"223-594981","CreditorId":"223-47194","creditor":"Money Mart- FDR Asset Recovery Group Canada Ltd.","creditorAddress":"c/o Bankruptcy Highway-Teranet Collateral Management Services , PO Box 57100 Etobicoke ON M8Y 3Y2 CA","accountNumber":"289144199091","unsecuredDebt":"1500.00","ltc":"9"},{"LiabilityId":"223-594980","CreditorId":"223-47614","creditor":"CRA - Tax - Prairies","creditorAddress":"Surrey National Verification and Collection Centre, 9755 King George Blvd Surrey BC V3T 5E1 CA","accountNumber":"xxx-xxx-889","unsecuredDebt":"3000.00","ltc":"6"},{"LiabilityId":"223-594978","CreditorId":"223-46807","creditor":"Curo Canada Corp, dba Cash Money Cheque Cashing","creditorAddress":"c/o FCT Default Solutions PO Box 2514, Station B London ON N6A 4G9 CA","accountNumber":"983840899880","unsecuredDebt":"5701.00","ltc":"3"},{"LiabilityId":"223-594975","CreditorId":"223-46593","creditor":"CashCo Financial Inc.","creditorAddress":"200-4803 87 St NW Edmonton AB T6E 0V3 CA","accountNumber":"185996","unsecuredDebt":"6707.00","ltc":"3"},{"LiabilityId":"223-594973","CreditorId":"223-237718","creditor":"Easyfinancial - CFG Canada Funding, LLC","creditorAddress":"PO Box 758 STN B London ON N6A 4Y8 CA","accountNumber":"16908889899343","unsecuredDebt":"10000.00","ltc":"3"},{"LiabilityId":"223-594971","CreditorId":"223-47194","creditor":"Money Mart- FDR Asset Recovery Group Canada Ltd.","creditorAddress":"c/o Bankruptcy Highway-Teranet Collateral Management Services , PO Box 57100 Etobicoke ON M8Y 3Y2 CA","accountNumber":"28914411","unsecuredDebt":"11325.00","ltc":"9"},{"LiabilityId":"223-594969","CreditorId":"223-140375","creditor":"Fidem Finance","creditorAddress":"PO Box 53, Station B London ON N6A 4V3 CA","accountNumber":"8889889","unsecuredDebt":"1000.00","ltc":"5"},{"LiabilityId":"223-594966","CreditorId":"223-167681","creditor":"Scotiabank c/o CFG Canada Funding, LLC.","creditorAddress":"PO Box 758 Stn B London ON N6A 4Y8 CA","accountNumber":"2413345","securedDebt":"241565.00","ltc":"1"},{"LiabilityId":"223-594965","CreditorId":"223-167681","creditor":"CANADIAN TIER","creditorAddress":"PO Box 758 Stn B London ON N6A 4Y8 CA","accountNumber":"453738009354023","securedDebt":"27807.00","ltc":"1"},{"LiabilityId":"223-594964","CreditorId":"223-167681","creditor":"Fairstone","creditorAddress":"PO Box 758 Stn B London ON N6A 4Y8 CA","accountNumber":"45350988918","unsecuredDebt":"5833.00","ltc":"4"}]},"totalSecuredClaims":"334261.00","totalUnsecuredClaims":"45066.00","totalAssets":"434908.00","everMadeProposal":"Yes","everBeenBankruptBefore":"No"}}';
+    
     @TestSetup
     static void makeData(){
-     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-     config.Run_Insolvency_Account_Trigger__c = true;
-     config.Run_Insolvency_Trigger__c = false;
-     config.Run_Insolvency_Account_Duplicate_Check__c = true;
-     config.Ignore_Account_Number_for_DuplicateCheck__c = '123123';
-     config.Profile_Eligible_for_Duplicate_Check__c = 'System Administrator';
-     config.Eligible_for_Validn_Needed_Calculation__c = 'test';
-     config.Bank_Eligible_for_Duplicate_Check__c = 'test';
-     config.Eligible_for_Claim_Type_Calculation__c = 'test';
-     insert config;   
+        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
+        config.Run_Insolvency_Account_Trigger__c = true;
+        config.Run_Insolvency_Trigger__c = false;
+        config.Run_Insolvency_Account_Duplicate_Check__c = true;
+        config.Ignore_Account_Number_for_DuplicateCheck__c = '123123';
+        config.Profile_Eligible_for_Duplicate_Check__c = 'System Administrator';
+        config.Eligible_for_Validn_Needed_Calculation__c = 'test';
+        config.Bank_Eligible_for_Duplicate_Check__c = 'test';
+        config.Eligible_for_Claim_Type_Calculation__c = 'test';
+        insert config;   
+        
+        Trustee_Fees__c trusteeFees = Trustee_Fees__c.getOrgDefaults();
+        trusteeFees.Trustee_Administration_Fee__c = 10;
+        trusteeFees.Counselling_Fee__c = 10;
+        trusteeFees.Receiver_Fee__c = 10;
+        trusteeFees.Trustee_Variable_Fee_Rate__c = 10;
+        insert trusteeFees;
     }
-   
-    static @IsTest
-    public void methodName(){
-         //Case record creation
-         Case caseObj = new Case();
-         caseObj.Status = 'InProgress';
-         caseObj.Insolvency_Assignment_Type__c = 'Business Insolvency';
-         INSERT caseObj;
-         
-         //Attachment record creation
-         Attachment att = new Attachment();
-         att.parentId = caseObj.Id;
-         att.Body = Blob.valueOf('Test Attach');
-         att.Name= 'Test';
-         att.Description = 'Creditors Package';
-         att.IsPrivate = false;
-         INSERT att;
-         
-         Parsed_Response_Holder__c parseResponse = new Parsed_Response_Holder__c();
-         parseResponse.Status__c = 'Pending';
-         parseResponse.Parsed_Response_Formatted__c = sampleJSON;
-         parseResponse.Assignment__c = caseObj.Id;
-         insert parseResponse;
-         parseResponse = [SELECT Status__c, Parsed_Response__c, Error_Details__c FROM Parsed_Response_Holder__c WHERE Id =: parseResponse.Id LIMIT 1];
-         
-         //Commented as test class is failing in Production
-         //System.assertEquals('Processed', parseResponse.Status__c);
-         
-         system.debug('Error_Details__c '+parseResponse.Error_Details__c);
-         
-         parseResponse.Parsed_Response_Formatted__c ='{';
-         parseResponse.Status__c='Pending';
-         update parseResponse;
-         parseResponse = [SELECT Status__c FROM Parsed_Response_Holder__c WHERE Id =: parseResponse.Id LIMIT 1];
-         System.assertEquals('Error', parseResponse.Status__c);
-
+    
+    @IsTest
+    static void methodName(){
+        //Case record creation
+        Case caseObj = new Case();
+        caseObj.Status = 'InProgress';
+        caseObj.Insolvency_Assignment_Type__c = 'Business Insolvency';
+        INSERT caseObj;
+        
+        //Attachment record creation
+        Attachment att = new Attachment();
+        att.parentId = caseObj.Id;
+        att.Body = Blob.valueOf('Test Attach');
+        att.Name= 'Test';
+        att.Description = 'Creditors Package';
+        att.IsPrivate = false;
+        INSERT att;
+        
+        Parsed_Response_Holder__c parseResponse = new Parsed_Response_Holder__c();
+        parseResponse.Status__c = 'Pending';
+        parseResponse.Parsed_Response_Formatted__c = sampleJSON;
+        parseResponse.Assignment__c = caseObj.Id;
+        insert parseResponse;
+        parseResponse = [SELECT Status__c, Parsed_Response__c, Error_Details__c FROM Parsed_Response_Holder__c WHERE Id =: parseResponse.Id LIMIT 1];
+        parseResponse.Parsed_Response_Formatted__c ='{';
+        parseResponse.Status__c='Pending';
+        update parseResponse;
+        parseResponse = [SELECT Status__c FROM Parsed_Response_Holder__c WHERE Id =: parseResponse.Id LIMIT 1];
+        System.assertEquals('Error', parseResponse.Status__c);
+        
     }
-
-    static @IsTest
-    public void methodName2(){
-         //Case record creation
-         Case caseObj = new Case();
-         caseObj.Status = 'InProgress';
-         caseObj.Insolvency_Assignment_Type__c = 'Business Insolvency';
-         INSERT caseObj;
-         
-         //Attachment record creation
-         Attachment att = new Attachment();
-         att.parentId = caseObj.Id;
-         att.Body = Blob.valueOf('Test Attach');
-         att.Name= 'Test';
-         att.Description = 'Creditors Package';
-         att.IsPrivate = false;
-         INSERT att;
-         
-         Parsed_Response_Holder__c parseResponse = new Parsed_Response_Holder__c();
-         parseResponse.Status__c = 'Pending';
-         parseResponse.Parsed_Response_Formatted__c = sampleJSON1;
-         parseResponse.Assignment__c = caseObj.Id;
-         insert parseResponse;
-         parseResponse = [SELECT Status__c, Parsed_Response__c, Error_Details__c FROM Parsed_Response_Holder__c WHERE Id =: parseResponse.Id LIMIT 1];
-         
-         //Commented as test class is failing in Production
-         //System.assertEquals('Processed', parseResponse.Status__c);
-         
-         system.debug('Error_Details__c '+parseResponse.Error_Details__c);
+    
+    @IsTest
+    static void methodName2(){
+        //Case record creation
+        Case caseObj = new Case();
+        caseObj.Status = 'InProgress';
+        caseObj.Insolvency_Assignment_Type__c = 'Business Insolvency';
+        INSERT caseObj;
+        
+        //Attachment record creation
+        Attachment att = new Attachment();
+        att.parentId = caseObj.Id;
+        att.Body = Blob.valueOf('Test Attach');
+        att.Name= 'Test';
+        att.Description = 'Creditors Package';
+        att.IsPrivate = false;
+        INSERT att;
+        
+        Parsed_Response_Holder__c parseResponse = new Parsed_Response_Holder__c();
+        parseResponse.Status__c = 'Pending';
+        parseResponse.Parsed_Response_Formatted__c = sampleJSON1;
+        parseResponse.Assignment__c = caseObj.Id;
+        insert parseResponse;
+        parseResponse = [SELECT Status__c, Parsed_Response__c, Error_Details__c FROM Parsed_Response_Holder__c WHERE Id =: parseResponse.Id LIMIT 1];
     }
-
-    public static string sampleJSON = '{'+
-    '"courtNo":"24-2458454",'+
-    '"estateNo":['+
-       '"24-2458454"'+
-    '],'+
-    '"courtDivision":"1",'+
-    '"courtDistrict":"1",'+
-    '"courtProvince":"Alberta",'+
-    '"form01Dot1Parts":{'+
-       '"trusteeCorporateName":"Hudson & Company Insolvency Trustees Inc.",'+
-       '"trusteeAddress":"200 625 11 Avenue SW Calgary AB T2R 0E1"'+
-    '},'+
-    '"form47Parts":{'+
-       '"paymentAmount":"225.00",'+
-       '"paymentFrequency":"Monthly",'+
-       '"numberOfPayments":"60",'+
-       '"notice1":"      That secured creditors will be paid ine",'+
-       '"notice4":"   dfdfd   ",'+
-       '"notice6":"     rerere   "'+
-    '},'+
-    '"form48Parts":{'+
-       '"notice4":" sdsdsds ",'+
-       '"notice5":" greater.  These values are esti  "'+
-    '},'+
-    '"form49Parts":{'+
-       '"insolvencyDate":"21/12/2018"'+
-    '},'+
-    '"form65Parts":{'+
-       '"monthlyIncome":{'+
-
-       '"childTaxBenefit":{'+
-               '"Debtor":['+
-                    '"2834.00"'+
-               '],'+
-               '"Others":['+
-                    '"0.00"'+
-               '],'+
-               '"Total":['+
-                    '"2834.00"'+
-               '],'+
-               '"Spouse":['+
-                    '"2834.00"'+
-               ']'+
-          '},'+
-          '"netChildSupport":{'+
-               '"Debtor":['+
-                    '"2834.00"'+
-               '],'+
-               '"Others":['+
-                    '"0.00"'+
-               '],'+
-               '"Total":['+
-                    '"2834.00"'+
-               '],'+
-               '"Spouse":['+
-                    '"2834.00"'+
-               ']'+
-          '},'+
-          '"netPensionAnnuities":{'+
-               '"Debtor":['+
-                    '"2834.00"'+
-               '],'+
-               '"Others":['+
-                    '"0.00"'+
-               '],'+
-               '"Total":['+
-                    '"2834.00"'+
-               '],'+
-               '"Spouse":['+
-                    '"2834.00"'+
-               ']'+
-          '},'+
-          '"netSelfEmploymentIncome":{'+
-               '"Debtor":['+
-                    '"2834.00"'+
-               '],'+
-               '"Others":['+
-                    '"0.00"'+
-               '],'+
-               '"Total":['+
-                    '"2834.00"'+
-               '],'+
-               '"Spouse":['+
-                    '"2834.00"'+
-               ']'+
-          '},'+
-          '"netSocialAssistance":{'+
-               '"Debtor":['+
-                    '"2834.00"'+
-               '],'+
-               '"Others":['+
-                    '"0.00"'+
-               '],'+
-               '"Total":['+
-                    '"2834.00"'+
-               '],'+
-               '"Spouse":['+
-                    '"2834.00"'+
-               ']'+
-          '},'+
-          '"netSpousalSupport":{'+
-               '"Debtor":['+
-                    '"2834.00"'+
-               '],'+
-               '"Others":['+
-                    '"0.00"'+
-               '],'+
-               '"Total":['+
-                    '"2834.00"'+
-               '],'+
-               '"Spouse":['+
-                    '"2834.00"'+
-               ']'+
-          '},'+
-          '"netEmploymentIncome":{'+
-               '"Debtor":['+
-                    '"2834.00"'+
-               '],'+
-               '"Others":['+
-                    '"0.00"'+
-               '],'+
-               '"Total":['+
-                    '"2834.00"'+
-               '],'+
-               '"Spouse":['+
-                    '"2834.00"'+
-               ']'+
-          '},'+
-          '"netEmploymentInsuranceBenefits":{'+
-               '"Debtor":['+
-                    '"2834.00"'+
-               '],'+
-               '"Others":['+
-                    '"0.00"'+
-               '],'+
-               '"Total":['+
-                    '"2834.00"'+
-               '],'+
-               '"Spouse":['+
-                    '"2834.00"'+
-               ']'+
-          '},'+
-          '"otherNetIncome":{'+
-               '"Debtor":['+
-                    '"2834.00"'+
-               '],'+
-               '"Others":['+
-                    '"0.00"'+
-               '],'+
-               '"Total":['+
-                    '"2834.00"'+
-               '],'+
-               '"Spouse":['+
-                    '"2834.00"'+
-               ']'+
-          '},'+
-          '"totalMonthlyIncome":{'+
-          '"Debtor":['+
-               '"2834.00"'+
-          '],'+
-          '"Others":['+
-               '"0.00"'+
-          '],'+
-          '"Spouse":['+
-               '"2834.00"'+
-          '],'+
-          '"Total":['+
-                    '"0.00"'+
-               ']'+
-          '},'+
-          '"totalMonthlyIncomeOfTheFamilyUnit":"2834.00",'+
-          '"grossSelfEmploymentIncome":['+
-             '"6250.00"'+
-          '],'+
-          '"headings":['+
-             '"Description",'+
-             '"Debtor",'+
-             '"Others",'+
-             '"Total"'+
-          ']'+
-       '},'+
-       '"monthlyNonDiscretionaryExpenses":{'+
-          '"totalMonthlyNonDiscretionaryExpenses":{'+
-             '"Debtor":['+
-                '"0.00"'+
-             '],'+
-             '"Others":['+
-                '"0.00"'+
-             '],'+
-             '"Spouse":['+
-                '"0.00"'+
-             ']'+
-          '},'+
-          '"childCare":{'+
-             '"Debtor":['+
-                '"0.00"'+
-             '],'+
-             '"Others":['+
-                '"0.00"'+
-             '],'+
-             '"Spouse":['+
-                '"0.00"'+
-             ']'+
-          '},'+
-          '"childSupportPayments":{'+
-             '"Debtor":['+
-                '"0.00"'+
-             '],'+
-             '"Others":['+
-                '"0.00"'+
-             '],'+
-             '"Spouse":['+
-                '"0.00"'+
-             ']'+
-          '},'+
-          '"debtsWhereStayHasBeenLifted":{'+
-             '"Debtor":['+
-                '"0.00"'+
-             '],'+
-             '"Others":['+
-                '"0.00"'+
-             '],'+
-             '"Spouse":['+
-                '"0.00"'+
-             ']'+
-          '},'+
-          '"expensesAsAConditionOfEmployment":{'+
-             '"Debtor":['+
-                '"0.00"'+
-             '],'+
-             '"Others":['+
-                '"0.00"'+
-             '],'+
-             '"Spouse":['+
-                '"0.00"'+
-             ']'+
-          '},'+
-          '"finesPenaltiesImposedByTheCourt":{'+
-               '"Debtor":['+
-               '"0.00"'+
-               '],'+
-               '"Others":['+
-               '"0.00"'+
-               '],'+
-               '"Spouse":['+
-               '"0.00"'+
-               ']'+
-          '},'+
-          '"medicalConditionExpenses":{'+
-               '"Debtor":['+
-               '"0.00"'+
-               '],'+
-               '"Others":['+
-               '"0.00"'+
-               '],'+
-               '"Spouse":['+
-               '"0.00"'+
-               ']'+
-          '},'+
-          '"otherExpenses":{'+
-               '"Debtor":['+
-               '"0.00"'+
-               '],'+
-               '"Others":['+
-               '"0.00"'+
-               '],'+
-               '"Spouse":['+
-               '"0.00"'+
-               ']'+
-          '},'+
-          '"spousalSupportPayments":{'+
-               '"Debtor":['+
-               '"0.00"'+
-               '],'+
-               '"Others":['+
-               '"0.00"'+
-               '],'+
-               '"Spouse":['+
-               '"0.00"'+
-               ']'+
-          '},'+
-
-          '"debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit":['+
-               '"2834.00"'+
-          '],'+
-          '"totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit":"0.00",'+
-          '"availableMonthlyIncomeOfTheDebtor":['+
-             '"2834.00"'+
-          '],'+
-          '"availableMonthlyIncomeOfTheFamilyUnit":"2834.00",'+
-          '"headings":['+
-             '"Description",'+
-             '"Debtor",'+
-             '"Others",'+
-             '"Total"'+
-          ']'+
-       '},'+
-       '"monthlyDiscretionaryExpenses":{'+
-          '"totalFamilyUnitMonthlyDiscretionaryExpenses":"2830.00",'+
-          '"familyUnitMonthlySurplusOrDeficit":"4.00",'+
-          '"housingExpenses":{'+
-             '"rentMortgageHypothec":['+
-                '"950.00"'+
-             '],'+
-             '"telephone":['+
-                '"90.00"'+
-             '],'+
-             '"cable":['+
-                '"50.00"'+
-             '],'+
-             '"hydro":['+
-                '"75.00"'+
-             '],'+
-             '"propertyTaxesCondoFees":['+
-               '"75.00"'+
-             '],'+
-             '"heatingGasOil":['+
-               '"75.00"'+
-             '],'+
-             '"water":['+
-               '"75.00"'+
-             '],'+
-             '"furniture":['+
-               '"75.00"'+
-             '],'+
-             '"other":['+
-               '"75.00"'+
-             ']'+
-          '},'+
-          '"nonRecoverableMedicalExpenses":{'+
-               '"prescriptions":['+
-                    '"950.00"'+
-               '],'+
-               '"dental":['+
-                    '"90.00"'+
-               '],'+
-               '"other":['+
-                    '"50.00"'+
-               ']'+
-          '},'+
-          '"payments":{'+
-               '"paymentsToTheProposal":['+
-                    '"950.00"'+
-               '],'+
-               '"toSecuredCreditor":['+
-                    '"90.00"'+
-               '],'+
-               '"other":['+
-                    '"50.00"'+
-               '],'+
-               '"otherThanMortgageAndVehicle":['+
-                    '"50.00"'+
-               ']'+
-          '},'+
-          
-          
-          '"personalExpenses":{'+
-             '"diningLunchesRestaurants":['+
-                '"25.00"'+
-             '],'+
-             '"entertainmentSports":['+
-                '"50.00"'+
-             '],'+
-             '"smoking":['+
-                '"50.00"'+
-             '],'+
-             '"giftsCharitableDonations":['+
-                '"50.00"'+
-             '],'+
-             '"allowances":['+
-                '"50.00"'+
-             '],'+
-             '"other":['+
-                '"50.00"'+
-             '],'+
-             '"alcohol":['+
-                '"50.00"'+
-             ']'+             
-          '},'+
-          '"livingExpenses":{'+
-             '"foodGrocery":['+
-                '"200.00"'+
-             '],'+
-             '"laundryDryCleaning":['+
-                '"200.00"'+
-             '],'+
-             '"groomingToiletries":['+
-                '"200.00"'+
-             '],'+
-             '"clothing":['+
-                '"200.00"'+
-             '],'+
-             '"other":['+
-                '"200.00"'+
-             ']'+
-          '},'+
-          '"transportationExpenses":{'+
-             '"carLeasePayments":['+
-                '"570.00"'+
-             '],'+
-             '"repairMaintenanceGas":['+
-                '"275.00"'+
-             '],'+
-             '"publicTransportation":['+
-                '"275.00"'+
-             '],'+
-             '"other":['+
-                '"275.00"'+
-             ']'+
-          '},'+
-          '"insuranceExpenses":{'+
-             '"vehicle":['+
-                '"135.00"'+
-             '],'+
-             '"house":['+
-                '"135.00"'+
-             '],'+
-             '"furnitureContents":['+
-                '"135.00"'+
-             '],'+
-             '"lifeInsurance":['+
-                '"135.00"'+
-             '],'+
-             '"other":['+
-                '"135.00"'+
-             ']'+
-          '},'+
-          '"paymentsExpenses":{'+
-             '"paymentsToTheProposal":['+
-                '"225.00"'+
-             ']'+
-          '}'+
-       '}'+
-    '},'+
-    '"form79Parts":{'+
-       '"debtors":['+
-          '{'+
-             '"lastName":"Green",'+
-             '"firstName":"Walter",'+
-             '"middleName":"Randolph",'+
-             '"maritalStatus":"Single",'+
-             '"dateOfBirth":"09/06/1958",'+
-             '"streetAddress":"1801 10531 90 Street NW",'+
-             '"city":"Edmonton",'+
-             '"nameOfPresentEmployer":"nameOfPresentEmployer",'+
-             '"alsoKnownAs":"alsoKnownAs",'+
-             '"gender":"Male",'+
-             '"province":"Alberta",'+
-             '"postalCode":"T5H 4E7",'+
-             '"occupation":"T5H 4E7"'+
-          '},'+
-          '{'+
-               '"lastName":"Green",'+
-               '"firstName":"Walter",'+
-               '"middleName":"Randolph",'+
-               '"maritalStatus":"Single",'+
-               '"dateOfBirth":"09/06/1958",'+
-               '"streetAddress":"1801 10531 90 Street NW",'+
-               '"city":"Edmonton",'+
-               '"nameOfPresentEmployer":"nameOfPresentEmployer",'+
-               '"alsoKnownAs":"alsoKnownAs",'+
-               '"gender":"Male",'+
-               '"province":"Alberta",'+
-               '"postalCode":"T5H 4E7",'+
-               '"occupation":"T5H 4E7"'+
-          '}'+
-       '],'+
-       '"numberOfPersonsInHousehold":"1",'+
-       '"numberOfPersonsSeventeenOrLess":"0",'+
-       '"assets":{'+
-          '"totalEstimatedDollarValue":"34258.41",'+
-          '"totalSecuredAmountOrLiens":"33858.41",'+
-          '"totalEstimatedNetRealizableDollarValue":"0.00",'+
-          '"items":['+
-             '{'+
-                '"type":"1. Cash on Hand",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"2. Furniture",'+
-                '"description":"Household Furnishings",'+
-                '"estimatedDollarValue":"400.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"3. Personal Effects",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"4. Cash-surrender values of lifeinsurance policies,     RRSPs,  etc.",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"5. Securities",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"6. Real property - House",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"Real property - Cottage",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"Real property - Land",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"Real property - Building",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"  Real property - Building AndLand",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"7. Motor Vehicle - Automobile",'+
-                '"description":"2015 Dodge Journey            VIN#3CPDCCG0FT751804 (Encumb.)",'+
-                '"estimatedDollarValue":"33858.41",'+
-                '"securedAmountOrLiens":"33858.41",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"Motor Vehicle - Motorcycle",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"Motor Vehicle - Snowmobile",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"Motor Vehicle - Other",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"8. Recreational Equipment",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"9. Estimated Tax Refund",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '},'+
-             '{'+
-                '"type":"10. Other Assets",'+
-                '"estimatedDollarValue":"0.00",'+
-                '"securedAmountOrLiens":"0.00",'+
-                '"estimatedNetRealizableDollarValue":"0.00"'+
-             '}'+
-          ']'+
-       '},'+
-       '"liabilities":{'+
-          '"items":['+
-             '{'+
-                '"creditor":"SCOTIABANK Financial",'+
-                '"creditorAddress":"#325 8170 - 50 Street NW Edmonton,Alberta, Canada, T6B 1E6",'+
-                '"accountNumber":"23348",'+
-                '"unsecuredDebt":"3800.00",'+
-                '"securedDebt":"1.00",'+
-                '"preferredDebt":"1.00",'+
-                '"ltc":"3"'+
-             '},'+
-             '{'+
-                '"creditor":"AFFIRM Financial Inc./ c/oBankruptcyHighway",'+
-                '"creditorAddress":"D+H/BankruptcyHighway.com   M8Y 3Y2",'+
-                '"unsecuredDebt":"15000.00",'+
-                '"securedDebt":"1.00",'+
-                '"preferredDebt":"0.00",'+
-                '"ltc":"3"'+
-             '},'+
-             '{'+
-                '"creditor":"SDA MART",'+
-                '"creditorAddress":"NATIONAL COLLECTION CENTRE  Victoria, BritishColumbia, Canada, V8T 5M3",'+
-                '"accountNumber":"8346132",'+
-                '"unsecuredDebt":"1500.00",'+
-                '"securedDebt":"0.00",'+
-                '"preferredDebt":"0.00",'+
-                '"ltc":"3"'+
-             '},'+
-             '{'+
-                '"creditor":"MONEY MART",'+
-                '"creditorAddress":"NATIONAL COLLECTION CENTRE 401 GARBALLY ROAD Victoria, BritishColumbia, Canada, V8T 5M3",'+
-                '"accountNumber":"1145777-041117- 01",'+
-                '"unsecuredDebt":"3000.00",'+
-                '"securedDebt":"0.00",'+
-                '"preferredDebt":"0.00",'+
-                '"ltc":"3"'+
-             '},'+
-             '{'+
-                '"creditor":"THE BANK OF NOVA   SCOTIAc/o CanaccedeInternational",'+
-                '"creditorAddress":"Canaccede International Management Ltd. P.O. Box 758, Station B London, Ontario,Canada, N6A 4Y8",'+
-                '"accountNumber":"A52642",'+
-                '"unsecuredDebt":"0.00",'+
-                '"securedDebt":"33858.41",'+
-                '"preferredDebt":"0.00",'+
-                '"ltc":"2"'+
-             '}'+
-          '],'+
-          '"totalUnsecuredLiabilities":"28380.00",'+
-          '"totalSecuredLiabilities":"33858.41",'+
-          '"totalPreferredLiabilities":"0.00",'+
-          '"totalLiabilities":"62238.41"'+
-       '},'+
-       '"totalSecuredClaims":"33858.41",'+
-       '"totalUnsecuredClaims":"28380.00",'+
-       '"totalAssets":"34258.41"'+
-    '}'+
- '}';
-    public static string sampleJSON1= '{"courtNo":"24-2458454","estateNo":["24-2458454", "12-1231234"],"courtDivision":"1","courtDistrict":"1","courtProvince":"Alberta","form47Parts":{"paymentAmount":"225.00","paymentFrequency":"Monthly","numberOfPayments":"60","notice1":"      That secured creditors will be paid in accordance with the terms of their existing contracts and will not be                       eligible for any dividends within this proposal                                                                              ","notice4":"       A total sum of $13,500.00 at a rate of $225.00 per month for 60 months. The payments will commence                                 on February 28, 2019. If payments in excess of the required monthly payments are made, I will have                                 the option to eliminate or reduce future payments.                                                                          ","notice6":"            Any outstanding liability to Canada Revenue Agency for personal taxes for the current year, as of the                        date   of  this  proposal,   will  be  included  in  this  proposal  as  identified  in  the      CAIRP  /  CRA  Standard  of      Professional Practice No. 03-1 issued January 22, 2004.                                                                      "},"form48Parts":{"notice4":"       Debtors hours were reduced drastically and debtor is not able to keep up with bills as they become due.                     ","notice5":"       The creditors will receive a larger recovery under the Proposal than under Bankruptcy.                                              Supplemental Information:                                                                                                           - The secured creditors will be treated in accordance to Term #1 of the Consumer Proposal.                                          - Asset valuations are based on information supplied by the debtor in consultation with the Administrator of                        the Consumer Proposal.                                                                                                              - The exemptions identified are based on the Civil Enforcement Act of Alberta and other applicable                                  legislation (i.e. Pension Act, Indian Act, Insurance Act etc.).                                                                     - The payments in a bankruptcy are based on any potential Surplus Income Obligation that would be                                   available in a bankruptcy according to Directive 11R2, or the minimum voluntary fee as set by Goth &                                                     Company Ltd, whichever is greater.  These values are esti  "},"form49Parts":{"insolvencyDate":"21/12/2018"},"form65Parts":{"monthlyIncome":{"netEmploymentIncome":{"Debtor":["2834.00"],"Others":["0.00"],"Total":["2834.00"]},"totalMonthlyIncome":{"Debtor":["2834.00"],"Others":["0.00"]},"totalMonthlyIncomeOfTheFamilyUnit":"2834.00","headings":["Description","Debtor","Others","Total"]},"monthlyNonDiscretionaryExpenses":{"totalMonthlyNonDiscretionaryExpenses":{"Debtor":["0.00"],"Others":["0.00"]},"totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit":"0.00","availableMonthlyIncomeOfTheDebtor":["2834.00"],"availableMonthlyIncomeOfTheFamilyUnit":"2834.00","headings":["Description","Debtor","Others","Total"]},"monthlyDiscretionaryExpenses":{"totalFamilyUnitMonthlyDiscretionaryExpenses":"2830.00","familyUnitMonthlySurplusOrDeficit":"4.00","housingExpenses":{"rentMortgageHypothec":["950.00"],"telephone":["90.00"],"cable":["50.00"],"hydro":["75.00"]},"personalExpenses":{"diningLunchesRestaurants":["25.00"],"entertainmentSports":["50.00"]},"livingExpenses":{"foodGrocery":["200.00"]},"transportationExpenses":{"carLeasePayments":["570.00"],"repairMaintenanceGas":["275.00"]},"insuranceExpenses":{"vehicle":["135.00"]},"paymentsExpenses":{"paymentsToTheProposal":["225.00"]}}},"form79Parts":{"debtors":[{"lastName":"Green","firstName":"Walter","middleName":"Randolph","maritalStatus":"Single","dateOfBirth":"09/06/1958","streetAddress":"1801 10531 90 Street NW","city":"Edmonton","province":"Alberta","postalCode":"T5H 4E7"}],"numberOfPersonsInHousehold":"1","numberOfPersonsSeventeenOrLess":"0","assets":{"totalEstimatedDollarValue":"34258.41","totalSecuredAmountOrLiens":"33858.41","totalEstimatedNetRealizableDollarValue":"0.00","items":[{"type":"1. Cash on Hand","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"2. Furniture","description":"Household Furnishings","estimatedDollarValue":"400.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"3. Personal Effects","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"4. Cash-surrender values of lifeinsurance policies,     RRSPs,  etc.","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"5. Securities","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"6. Real property - House","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Real property - Cottage","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Real property - Land","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Real property - Building","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"  Real property - Building AndLand","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"7. Motor Vehicle - Automobile","description":"2015 Dodge Journey            VIN#3CPDCCG0FT751804 (Encumb.)","estimatedDollarValue":"33858.41","securedAmountOrLiens":"33858.41","estimatedNetRealizableDollarValue":"0.00"},{"type":"Motor Vehicle - Motorcycle","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Motor Vehicle - Snowmobile","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"Motor Vehicle - Other","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"8. Recreational Equipment","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"9. Estimated Tax Refund","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"},{"type":"10. Other Assets","estimatedDollarValue":"0.00","securedAmountOrLiens":"0.00","estimatedNetRealizableDollarValue":"0.00"}]},"liabilities":{"items":[{"creditor":"CashCo Financial","creditorAddress":"#325 8170 - 50 Street NW Edmonton,Alberta, Canada, T6B 1E6","accountNumber":"23348","unsecuredDebt":"3800.00","securedDebt":"0.00","preferredDebt":"0.00","ltc":"3"},{"creditor":"Fairstone Financial Inc./ c/oBankruptcyHighway","creditorAddress":"D+H/BankruptcyHighway.com         P.O. Box 57100 Etobicoke, Ontario,Canada, M8Y 3Y2","unsecuredDebt":"15000.00","securedDebt":"0.00","preferredDebt":"0.00","ltc":"3"},{"creditor":"MONEY MART","creditorAddress":"NATIONAL COLLECTION CENTRE         401 GARBALLY ROAD Victoria, BritishColumbia, Canada, V8T 5M3","accountNumber":"8346132","unsecuredDebt":"1500.00","securedDebt":"0.00","preferredDebt":"0.00","ltc":"3"},{"creditor":"MONEY MART","creditorAddress":"NATIONAL COLLECTION CENTRE         401 GARBALLY ROAD Victoria, BritishColumbia, Canada, V8T 5M3","accountNumber":"1145777-041117- 01","unsecuredDebt":"3000.00","securedDebt":"0.00","preferredDebt":"0.00","ltc":"3"},{"creditor":"THE BANK OF NOVA   SCOTIAc/o CanaccedeInternational","creditorAddress":"Canaccede International Management Ltd. P.O. Box 758, Station B London, Ontario,Canada, N6A 4Y8","accountNumber":"A52642","unsecuredDebt":"0.00","securedDebt":"33858.41","preferredDebt":"0.00","ltc":"2"}],"totalUnsecuredLiabilities":"28380.00","totalSecuredLiabilities":"33858.41","totalPreferredLiabilities":"0.00","totalLiabilities":"62238.41"},"totalSecuredClaims":"33858.41","totalUnsecuredClaims":"28380.00","totalAssets":"34258.41"}}';
-
 }
