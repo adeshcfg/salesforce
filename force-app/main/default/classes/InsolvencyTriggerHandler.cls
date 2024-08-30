@@ -488,10 +488,13 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
             }
         }*/
         List<Id> insolvIdsToUpdateAccounts = new List<Id>();
+        List<String> insolvencyIds = new List<String>();
         for(Id insolvId : insolvNewMap.keySet()){
             
             Insolvency__c newIns =  insolvNewMap.get(insolvId);
             Insolvency__c oldIns =  insolvOldMap.get(insolvId);
+            
+            insolvencyIds.add(insolvId);
             
             // Add Insolvency whose any of the below field is updated
             if (
@@ -601,6 +604,19 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
             Insolvency_Account__c updatedAcc = InsolvencyAccountTriggerHandler.updatePercentageOfIncreasedReturn(insolvAcc);
             if(updatedAcc != null) {
                 insolvAccsToUpdateForFlow.add(updatedAcc);
+            }
+        }
+
+        List<Insolvency_Account__c > insolvAccsUpdateDeceasedStatusCode = new List<Insolvency_Account__c >();
+        for (Insolvency_Account__c insolvAccData : [
+            SELECT Id, CTB_Status_Update_Code__c
+            FROM Insolvency_Account__c
+            WHERE Insolvency__c IN :insolvencyIds AND RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account'
+            AND Insolvency__r.Debtor_Deceased__c = TRUE
+        ]) {
+            insolvAccData.CTB_Status_Update_Code__c = 'DDCE';
+            if(insolvAccData.CTB_Status_Update_Code__c != null) {
+                insolvAccsUpdateDeceasedStatusCode.add(insolvAccData);
             }
         }
 
@@ -752,6 +768,17 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
             try {
                 InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
                 update insolvAccsToUpdateForFlow;
+                InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
+            }
+            catch(DmlException ex) {
+                System.debug('DML Exception in update ' + ex.getDmlMessage(0));
+            }
+        }
+        
+        if(!insolvAccsUpdateDeceasedStatusCode.isEmpty()) {
+            try {
+                InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+                update insolvAccsUpdateDeceasedStatusCode;
                 InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
             }
             catch(DmlException ex) {
