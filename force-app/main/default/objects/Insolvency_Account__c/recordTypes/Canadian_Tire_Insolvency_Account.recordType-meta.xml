@@ -2542,4 +2542,19 @@
             <default>false</default>
         </values>
     </picklistValues>
+    <picklistValues>
+        <picklist>CTB_Status_Update_Code__c</picklist>
+        <values>
+            <fullName>PCOM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RREV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DDEC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
