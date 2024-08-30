@@ -612,7 +612,7 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
             SELECT Id, CTB_Status_Update_Code__c
             FROM Insolvency_Account__c
             WHERE Insolvency__c IN :insolvencyIds AND RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account'
-            AND Insolvency__r.Debtor_Deceased__c = TRUE
+            AND (Insolvency__r.Debtor_Deceased__c = TRUE OR Insolvency__r.Co_Debtor_Deceased__c = TRUE)
         ]) {
             insolvAccData.CTB_Status_Update_Code__c = 'DDEC';
             if(insolvAccData.CTB_Status_Update_Code__c != null) {
