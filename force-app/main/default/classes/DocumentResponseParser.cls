@@ -96,7 +96,14 @@ public class DocumentResponseParser {
     };
 
     //Yes/No Value Map Form79
-    public static Map<String, String> yesNoValueMap = new Map<String, String>{ 'OUI' => 'Yes', 'NON' => 'No', 'YES' => 'Yes', 'NO' => 'No' };
+    public static Map<String, String> yesNoValueMap = new Map<String, String>{
+        'OUI' => 'Yes',
+        'NON' => 'No',
+        'YES' => 'Yes',
+        'NO' => 'No',
+        'RECEIVED' => 'Yes',
+        'NOT RECEIVED' => 'No'
+    };
 
     //Payment Frequency Map Form47
     public static Map<String, String> paymentFrequencyValueMap = new Map<String, String>{ 'MOIS' => 'Monthly', 'MENSUELS' => 'Monthly' };
@@ -172,7 +179,7 @@ public class DocumentResponseParser {
             String parseJson = parsedResponse.Parsed_Response_Formatted__c;
             //parseJson = DocumentParser.formatJson(parseJson);
             try {
-                ResponseParser res = (ResponseParser) JSON.deserializeStrict(parseJson, ResponseParser.class);
+                ResponseParser res = (ResponseParser) JSON.deserialize(parseJson, ResponseParser.class);
                 Insolvency__c insolv = new Insolvency__c();
                 List<Insolvency_Account__c> insolvAccounts = new List<Insolvency_Account__c>();
                 List<Creditor_Account__c> creditorAccounts = new List<Creditor_Account__c>();
@@ -243,15 +250,22 @@ public class DocumentResponseParser {
                     parseForm69Parts(res.Form69Parts, insolv);
                 }
 
-                // Form65Parts
+                // Form65Parts (for old format xml)
                 if (res.Form65Parts != null) {
                     parseForm65Parts(res.Form65Parts, insolv);
+                }
+                // Form65BisParts (for new format xml)
+                else if(res.Form65Parts == null && res.form65BisParts != null) {
+                    parseForm65BisParts(res.form65BisParts, insolv);
                 }
 
                 // Form79Parts
                 if (res.Form79Parts != null) {
                     parseForm79Parts(res.Form79Parts, insolv, insolvAccounts, creditorAccounts);
-                } // Form79Parts ENDS
+                }
+                else if(res.Form79Parts == null && res.form79BisParts != null) {
+                    parseForm79BisParts(res.form79BisParts, insolv, insolvAccounts, creditorAccounts);
+                }
                 insolv = populateInsolvency(insolv, caseRecord);
                 List<Insolvency__c> existingInsolvency = [SELECT Id FROM Insolvency__c WHERE Name = :insolv.Name];
                 // Don't do anything if Insolvency already exists
@@ -301,27 +315,6 @@ public class DocumentResponseParser {
                     listInsolvAttach.add(newAttach);
                 }
                 insert listInsolvAttach;
-
-                /*
-               //ContentVersion Creation
-               ContentVersion attachContent = new ContentVersion(); 
-               attachContent.VersionData = attach[0].body;
-               attachContent.Title = attach[0].name;
-               attachContent.PathOnClient = attach[0].name;
-               //tcicnvr.ContentLocation = 'S'; 
-               insert attachContent;
-                
-               // First get the Content Document Id from ContentVersion Object
-               Id conDoc = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =:attachContent.Id].ContentDocumentId;
-                
-               //ContentDocumentLink Creation
-               ContentDocumentLink attachFile = new ContentDocumentLink();
-               attachFile.ContentDocumentId = conDoc;
-               attachFile.LinkedEntityId = insolv.id;
-               attachFile.ShareType = 'I'; 
-               attachFile.Visibility = 'AllUsers';
-               insert attachFile;
-               */
             } catch (Exception ex) {
                 parsedResponse.Error_Details__c = ex.getMessage();
                 parsedResponse.Status__c = 'Error';
@@ -423,21 +416,45 @@ public class DocumentResponseParser {
         insolv.Insolvency_Type__c = 'Bankruptcy';
     }
 
-    //parseForm65Parts
-    public static void parseForm65Parts(Form65Parts form65Parts, Insolvency__c insolv) {
-        // monthlyIncome
-        if (Form65Parts.monthlyIncome != null) {
-            parseMonthlyIncome(Form65Parts.monthlyIncome, insolv);
+    public static void parseCommonForm65Parts(
+        MonthlyIncome monthlyIncome, 
+        MonthlyDiscretionaryExpenses monthlyDiscretionaryExpenses,
+        Insolvency__c insolv) 
+    {
+        if (monthlyIncome != null) {
+            parseMonthlyIncome(monthlyIncome, insolv);
         }
+        if (monthlyDiscretionaryExpenses != null) {
+            parseMonthlyDiscretionaryExpenses(monthlyDiscretionaryExpenses, insolv);
+        }
+    }
 
-        // monthlyNonDiscretionaryExpenses
-        if (Form65Parts.monthlyNonDiscretionaryExpenses != null) {
-            parseMonthlyNonDiscretionaryExpenses(Form65Parts.monthlyNonDiscretionaryExpenses, insolv);
-        } // monthlyNonDiscretionaryExpenses END
+    public static void parseForm65Parts(Form65Parts form65Parts, Insolvency__c insolv) {
+        parseCommonForm65Parts(form65Parts.monthlyIncome, form65Parts.monthlyDiscretionaryExpenses, insolv);
+        if (form65Parts.monthlyNonDiscretionaryExpenses != null) {
+            parseMonthlyNonDiscretionaryExpenses(form65Parts.monthlyNonDiscretionaryExpenses, insolv);
+        }
+    }
 
-        // monthlyDiscretionaryExpenses
-        if (Form65Parts.monthlyDiscretionaryExpenses != null) {
-            parseMonthlyDiscretionaryExpenses(Form65Parts.monthlyDiscretionaryExpenses, insolv);
+    public static void parseForm65BisParts(Form65BisParts form65BisParts, Insolvency__c insolv) {
+        parseCommonForm65Parts(form65BisParts.monthlyIncome, form65BisParts.monthlyDiscretionaryExpenses, insolv);
+        if (form65BisParts.monthlyNonDiscretionaryExpenses != null) {
+            parseNewMonthlyNonDiscretionaryExpenses(form65BisParts.monthlyNonDiscretionaryExpenses, insolv);
+        }
+        if(form65BisParts?.agreedToPay?.Debtor != null) {
+            insolv.Payment_Amount__c = getSumOfAmounts(form65BisParts.agreedToPay.Debtor);
+        }
+        if(form65BisParts?.repurchaseAssets?.Debtor != null) {
+            insolv.Amount_Bankrupt_will_pay_to_repurchase__c = getSumOfAmounts(form65BisParts.repurchaseAssets.Debtor);
+        }
+        if(form65BisParts?.residualAmount?.Debtor != null) {
+            insolv.Residual_amount_paid_into_the_estate__c = getSumOfAmounts(form65BisParts.residualAmount.Debtor);
+        }
+        if(form65BisParts?.requiredMonthlyAmount?.Debtor != null) {
+            insolv.Surplus_Income_Form65__c = getSumOfAmounts(form65BisParts.requiredMonthlyAmount.Debtor);
+        }
+        if(form65BisParts?.requiredAmountDifference?.Debtor != null) {
+            insolv.Residual_amount_paid_surplus_income__c = getSumOfAmounts(form65BisParts.requiredAmountDifference.Debtor);
         }
     }
 
@@ -578,6 +595,59 @@ public class DocumentResponseParser {
         // totalMonthlyNonDiscretionaryExpenses END
     }
 
+    // Used for form65Bis
+    public static void parseNewMonthlyNonDiscretionaryExpenses(NewMonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses, Insolvency__c insolv) {
+        if (monthlyNonDiscretionaryExpenses.totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit != null) {
+            insolv.Total_Non_Discretionary_Expenses_Family__c = getDecimalValue(
+                monthlyNonDiscretionaryExpenses.totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit
+            );
+        }
+        if (
+            monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheDebtor != null &&
+            monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheDebtor.Debtor != null
+        ) {
+            insolv.Available_Monthly_Income_Of_Debtor__c = getSumOfAmounts(monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheDebtor.Debtor);
+        }
+        if (monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheFamilyUnit != null) {
+            insolv.Available_Monthly_Income_Of_Family__c = getDecimalValue(monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheFamilyUnit);
+        }
+        if (
+            monthlyNonDiscretionaryExpenses.debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit != null &&
+            monthlyNonDiscretionaryExpenses.debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit.Debtor != null
+        ) {
+            insolv.Debtor_Portion_Of_Monthly_Income__c = getSumOfAmounts(
+                monthlyNonDiscretionaryExpenses.debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit.Debtor
+            );
+        }
+        if (monthlyNonDiscretionaryExpenses.childCare != null) {
+            parsechildCare(monthlyNonDiscretionaryExpenses.childCare, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.childSupportPayments != null) {
+            parseChildSupportPayments(monthlyNonDiscretionaryExpenses.childSupportPayments, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.debtsWhereStayHasBeenLifted != null) {
+            parseDebtsWhereStayHasBeenLifted(monthlyNonDiscretionaryExpenses.debtsWhereStayHasBeenLifted, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.expensesAsAConditionOfEmployment != null) {
+            parseExpensesAsAConditionOfEmployment(monthlyNonDiscretionaryExpenses.expensesAsAConditionOfEmployment, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.finesPenaltiesImposedByTheCourt != null) {
+            parseFinesPenaltiesImposedByTheCourt(monthlyNonDiscretionaryExpenses.finesPenaltiesImposedByTheCourt, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.medicalConditionExpenses != null) {
+            parseMedicalConditionExpenses(monthlyNonDiscretionaryExpenses.medicalConditionExpenses, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.otherExpenses != null) {
+            parseOtherExpenses(monthlyNonDiscretionaryExpenses.otherExpenses, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.spousalSupportPayments != null) {
+            parseSpousalSupportPayments(monthlyNonDiscretionaryExpenses.spousalSupportPayments, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.totalMonthlyNonDiscretionaryExpenses != null) {
+            parseTotalMonthlyNonDiscretionaryExpenses(monthlyNonDiscretionaryExpenses.totalMonthlyNonDiscretionaryExpenses, insolv);
+        }
+    }
+
     // monthlyDiscretionaryExpenses
     public static void parseMonthlyDiscretionaryExpenses(MonthlyDiscretionaryExpenses monthlyDiscretionaryExpenses, Insolvency__c insolv) {
         if (monthlyDiscretionaryExpenses.totalFamilyUnitMonthlyDiscretionaryExpenses != null) {
@@ -624,45 +694,15 @@ public class DocumentResponseParser {
         } // transportationExpenses END
     }
 
-    // Form79Parts
-    public static void parseForm79Parts(
-        Form79Parts form79Parts,
+    public static void parseCommonForm79Parts(
+        Assets assets, 
+        List<Debtors> debtors, 
+        Liability liabilities, 
         Insolvency__c insolv,
         List<Insolvency_Account__c> insolvAccounts,
         List<Creditor_Account__c> creditorAccounts
     ) {
-        if (form79Parts.everMadeProposal != null) {
-            insolv.Ever_Made_Proposal__c = getYesNoValues(form79Parts.everMadeProposal);
-        }
-
-        if (form79Parts.everBeenBankruptBefore != null) {
-            insolv.Ever_been_Bankrupt_Before__c = getYesNoValues(form79Parts.everBeenBankruptBefore);
-        }
-
-        if (form79Parts.numberOfPersonsInHousehold != null) {
-            insolv.Number_Of_Persons_In_Household__c = getDecimalValue(form79Parts.numberOfPersonsInHousehold);
-        }
-
-        if (form79Parts.numberOfPersonsSeventeenOrLess != null) {
-            insolv.Number_Of_Persons_In_Household_Below_17__c = getDecimalValue(form79Parts.numberOfPersonsSeventeenOrLess);
-        }
-
-        if (form79Parts.totalSecuredClaims != null) {
-            insolv.Total_Secured_Claims__c = getDecimalValue(form79Parts.totalSecuredClaims);
-        }
-
-        if (form79Parts.totalUnsecuredClaims != null) {
-            insolv.Total_Unsecured_Claims__c = getDecimalValue(form79Parts.totalUnsecuredClaims);
-        }
-
-        if (form79Parts.totalAssets != null) {
-            insolv.Total_Assets__c = getDecimalValue(form79Parts.totalAssets);
-        }
-
-        // Form79Parts:Assets
-        if (form79Parts.assets != null) {
-            Assets assets = form79Parts.assets;
-
+        if (assets != null) {
             if (assets.totalEstimatedDollarValue != null) {
                 insolv.Total_Estimated_Dollar_Value__c = getDecimalValue(assets.totalEstimatedDollarValue);
             }
@@ -674,17 +714,14 @@ public class DocumentResponseParser {
             if (assets.totalEstimatedNetRealizableDollarValue != null) {
                 insolv.Total_Estimated_Realizable_Value__c = getDecimalValue(assets.totalEstimatedNetRealizableDollarValue);
             }
-        } // Form79Parts:Assets ENDS
-
-        // Form79Parts:debtors
-        if (Form79Parts.debtors != null) {
-            insolv = createDebtors(Form79Parts.debtors, insolv);
         }
-        // Form79Parts:debtors ENDS
 
-        // Form79Parts:liabilities
-        if (Form79Parts.liabilities != null) {
-            Liability liability = Form79Parts.liabilities;
+        if (debtors != null) {
+            insolv = createDebtors(debtors, insolv);
+        }
+
+        if (liabilities != null) {
+            Liability liability = liabilities;
 
             if (liability.totalUnsecuredLiabilities != null) {
                 insolv.Total_Insolvency_Unsecured_Liabilities__c = getDecimalValue(liability.totalUnsecuredLiabilities);
@@ -702,12 +739,116 @@ public class DocumentResponseParser {
                 insolv.Total_Liabilities__c = getDecimalValue(liability.totalLiabilities);
             }
 
-            // if(liability.liabilities != NULL)
-
             if (liability.items != null) {
                 createInsolvencyAccounts(liability.items, insolv, insolvAccounts, creditorAccounts);
             }
-        } // Form79Parts:liabilities ENDS
+        }
+    }
+
+    // Form79Parts
+    public static void parseForm79Parts(
+        Form79Parts form79Parts,
+        Insolvency__c insolv,
+        List<Insolvency_Account__c> insolvAccounts,
+        List<Creditor_Account__c> creditorAccounts
+    ) {
+        if (form79Parts.everMadeProposal != null) {
+            insolv.Ever_Made_Proposal__c = getYesNoValues(form79Parts.everMadeProposal);
+        }
+        if (form79Parts.everBeenBankruptBefore != null) {
+            insolv.Ever_been_Bankrupt_Before__c = getYesNoValues(form79Parts.everBeenBankruptBefore);
+        }
+        if (form79Parts.numberOfPersonsInHousehold != null) {
+            insolv.Number_Of_Persons_In_Household__c = getDecimalValue(form79Parts.numberOfPersonsInHousehold);
+        }
+        if (form79Parts.numberOfPersonsSeventeenOrLess != null) {
+            insolv.Number_Of_Persons_In_Household_Below_17__c = getDecimalValue(form79Parts.numberOfPersonsSeventeenOrLess);
+        }
+        if (form79Parts.totalSecuredClaims != null) {
+            insolv.Total_Secured_Claims__c = getDecimalValue(form79Parts.totalSecuredClaims);
+        }
+        if (form79Parts.totalUnsecuredClaims != null) {
+            insolv.Total_Unsecured_Claims__c = getDecimalValue(form79Parts.totalUnsecuredClaims);
+        }
+        if (form79Parts.totalAssets != null) {
+            insolv.Total_Assets__c = getDecimalValue(form79Parts.totalAssets);
+        }
+        parseCommonForm79Parts(form79Parts.assets, form79Parts.debtors, form79Parts.liabilities, insolv, insolvAccounts, creditorAccounts);
+    }
+
+    public static void parseFinancialAdvisorInfo(List<AdvisorInformation> advisorInformation, Insolvency__c insolv) {
+        AdvisorInformation advisorInfo = advisorInformation[0];
+        if(advisorInfo.firstName != null || advisorInfo.middleName != null || advisorInfo.lastName != null) {
+            insolv.Name_of_Financial_Advisor__c = advisorInfo.firstName + advisorInfo.middleName + advisorInfo.lastName;
+        }
+        if(advisorInfo.org != null) {
+            insolv.Organization_for_the_Financial_Advisor__c = advisorInfo.org;
+        }
+        if(advisorInfo.streetAddress != null || advisorInfo.city != null || advisorInfo.province != null || advisorInfo.postalCode != null) {
+            insolv.Address_of_Financial_Advisor__c = advisorInfo.streetAddress + ',' + advisorInfo.city + ',' + advisorInfo.province + ',' + advisorInfo.postalCode;
+        }
+        if(advisorInfo.amountPaid != null) {
+            insolv.Total_paid_to_Financial_Advisor__c = getDecimalValue(advisorInfo.amountPaid);
+        }
+        if(advisorInfo.amountCommitted != null) {
+            insolv.Total_to_be_paid_to_Financial_Advisor__c = getDecimalValue(advisorInfo.amountCommitted);
+        }
+    }
+
+    // Form79BisParts
+    public static void parseForm79BisParts(
+        Form79BisParts form79BisParts,
+        Insolvency__c insolv,
+        List<Insolvency_Account__c> insolvAccounts,
+        List<Creditor_Account__c> creditorAccounts
+    ) {
+        if (form79BisParts?.debtors != null && !form79BisParts.debtors.isEmpty()) {
+            if(form79BisParts.debtors[0].maritalStatusEvents != null && !form79BisParts.debtors[0].maritalStatusEvents.isEmpty()) {
+                List<MaritalStatusEvents> debtorMaritalStatusEvents = form79BisParts.debtors[0].maritalStatusEvents;
+                debtorMaritalStatusEvents.sort();
+                insolv.Debtor_1_Marital_Status__c = getMaritalStaus(debtorMaritalStatusEvents[0].maritalStatus);
+            }
+            if(form79BisParts.debtors[0].everMadeProposal != null) {
+                insolv.Ever_Made_Proposal__c = getYesNoValues(form79BisParts.debtors[0].everMadeProposal);
+            }
+            if(form79BisParts.debtors[0].everBeenBankruptBefore != null) {
+                insolv.Ever_been_Bankrupt_Before__c = getYesNoValues(form79BisParts.debtors[0].everBeenBankruptBefore);
+            }
+            if(form79BisParts.debtors[0].numberOfPersonsInHousehold != null) {
+                insolv.Number_Of_Persons_In_Household__c = getDecimalValue(form79BisParts.debtors[0].numberOfPersonsInHousehold);
+            }
+            if(form79BisParts.debtors[0].numberOfPersonsSeventeenOrLess != null) {
+                insolv.Number_Of_Persons_In_Household_Below_17__c = getDecimalValue(form79BisParts.debtors[0].numberOfPersonsSeventeenOrLess);
+            }
+            if(form79BisParts.debtors[0].spouseFirstName != null || form79BisParts.debtors[0].spouseLastName != null) {
+                insolv.Debtor_1_Spouse_CommonLaw_Partner_Name__c = form79BisParts.debtors[0].spouseFirstName + ' ' + form79BisParts.debtors[0].spouseLastName;
+            }
+            if(form79BisParts.debtors[0].employmentStatus != null) {
+                insolv.Employment_Status__c = form79BisParts.debtors[0].employmentStatus;
+            }
+            if(form79BisParts.debtors[0].fromWhenEmployed != null) {
+                insolv.Employment_From_Date__c = Date.valueOf(form79BisParts.debtors[0].fromWhenEmployed + '-01');
+            }
+            if(form79BisParts.debtors[0].toWhenEmployed != null) {
+                insolv.Employment_To_Date__c = Date.valueOf(form79BisParts.debtors[0].toWhenEmployed + '-01');
+            }
+            if(form79BisParts.debtors[0].adviceReceived != null) {
+                insolv.Used_a_Financial_Advisor__c = getYesNoValues(form79BisParts.debtors[0].adviceReceived);
+            }
+            if(insolv.Used_a_Financial_Advisor__c == 'Yes') {
+                parseFinancialAdvisorInfo(form79BisParts.debtors[0].advisorInformation, insolv);
+            }
+        }
+        if (form79BisParts.totalSecuredClaims != null) {
+            insolv.Total_Secured_Claims__c = getDecimalValue(form79BisParts.totalSecuredClaims);
+        }
+        if (form79BisParts.totalUnsecuredClaims != null) {
+            insolv.Total_Unsecured_Claims__c = getDecimalValue(form79BisParts.totalUnsecuredClaims);
+        }
+        if (form79BisParts.totalAssets != null) {
+            insolv.Total_Assets__c = getDecimalValue(form79BisParts.totalAssets);
+        }
+        parseCommonForm79Parts(form79BisParts.assets, form79BisParts.debtors, form79BisParts.liabilities, insolv, insolvAccounts, creditorAccounts);
     }
 
     // childTaxBenefit
@@ -1670,7 +1811,9 @@ public class DocumentResponseParser {
         public Form48Parts Form48Parts;
         public Form49Parts Form49Parts;
         public Form65Parts Form65Parts;
+        public Form65BisParts form65BisParts;
         public Form79Parts Form79Parts;
+        public Form79BisParts form79BisParts;
         public Form69Parts Form69Parts;
     }
 
@@ -1744,6 +1887,51 @@ public class DocumentResponseParser {
         public String maritalStatus;
         public String nameOfPresentEmployer;
         public String occupation;
+        // form79bisParts properties
+        public String numberOfPersonsInHousehold;
+        public String numberOfPersonsSeventeenOrLess;
+        public String everMadeProposal;
+        public String everBeenBankruptBefore;
+        public String spouseFirstName;
+        public String spouseLastName;
+        public String employmentStatus;
+        public String fromWhenEmployed;
+        public String toWhenEmployed;
+        public String adviceReceived;
+        public List<MaritalStatusEvents> maritalStatusEvents;
+        public List<AdvisorInformation> advisorInformation;
+    }
+
+    // form79bisParts properties
+    public class MaritalStatusEvents implements Comparable {
+        public String maritalStatus;
+        public String whenMaritalStatusChanged;
+
+        // Comparator to sort JSON by whenMaritalStatusChanged key in descending order
+        public Integer compareTo(Object compareTo) {
+            MaritalStatusEvents compareToEvent = (MaritalStatusEvents)compareTo;
+            if (Date.valueOf(this.whenMaritalStatusChanged + '-01') == Date.valueOf(compareToEvent.whenMaritalStatusChanged + '-01')) {
+                return 0;
+            }
+            if (Date.valueOf(this.whenMaritalStatusChanged + '-01') < Date.valueOf(compareToEvent.whenMaritalStatusChanged + '-01')) {
+                return 1;
+            }
+            return -1;        
+        }
+    }
+
+    // form79bisParts properties
+    public class AdvisorInformation {
+        public String firstName;
+        public String middleName;
+        public String lastName;
+        public String org;
+        public String streetAddress;
+        public String city;
+        public String province;
+        public String postalCode;
+        public String amountPaid;
+        public String amountCommitted;
     }
 
     public class Form49Parts {
@@ -1762,6 +1950,17 @@ public class DocumentResponseParser {
         public MonthlyIncome monthlyIncome;
         public MonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses;
         public MonthlyDiscretionaryExpenses monthlyDiscretionaryExpenses;
+    }
+
+    public class Form65BisParts {
+        public MonthlyIncome monthlyIncome;
+        public NewMonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses;
+        public MonthlyDiscretionaryExpenses monthlyDiscretionaryExpenses;
+        public FamilyMembers agreedToPay;
+        public FamilyMembers repurchaseAssets;
+        public FamilyMembers residualAmount;
+        public FamilyMembers requiredMonthlyAmount;
+        public FamilyMembers requiredAmountDifference;
     }
 
     public class MonthlyIncome {
@@ -1784,7 +1983,7 @@ public class DocumentResponseParser {
         public String[] Debtor;
         public String[] Spouse;
         public String[] Others;
-        public String[] Total;
+        public String Total;
         public sObject MontlhyIncomeIgnore; // ignore this attribute we do not use any where
     }
 
@@ -1803,6 +2002,24 @@ public class DocumentResponseParser {
         public String[] availableMonthlyIncomeOfTheDebtor;
         public String availableMonthlyIncomeOfTheFamilyUnit;
         public String[] debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit;
+    }
+
+    // New structure for Form65BisParts
+    public class NewMonthlyNonDiscretionaryExpenses {
+        public FamilyMembers childSupportPayments;
+        public FamilyMembers spousalSupportPayments;
+        public FamilyMembers childCare;
+        public FamilyMembers medicalConditionExpenses;
+        public FamilyMembers finesPenaltiesImposedByTheCourt;
+        public FamilyMembers expensesAsAConditionOfEmployment;
+        public FamilyMembers debtsWhereStayHasBeenLifted;
+        public FamilyMembers otherExpenses;
+        public FamilyMembers totalMonthlyNonDiscretionaryExpenses;
+        public String[] headings;
+        public String totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit;
+        public FamilyMembers availableMonthlyIncomeOfTheDebtor;
+        public String availableMonthlyIncomeOfTheFamilyUnit;
+        public FamilyMembers debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit;
     }
 
     public class MonthlyDiscretionaryExpenses {
@@ -1896,5 +2113,14 @@ public class DocumentResponseParser {
         //ToDo - add actual business logic
         public String everMadeProposal;
         public String everBeenBankruptBefore;
+    }
+
+    public class Form79BisParts {
+        public List<Debtors> debtors;
+        public String totalSecuredClaims;
+        public String totalUnsecuredClaims;
+        public String totalAssets;
+        public Assets assets;
+        public Liability liabilities;
     }
 }
