@@ -614,7 +614,7 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
             WHERE Insolvency__c IN :insolvencyIds AND RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account'
             AND Insolvency__r.Debtor_Deceased__c = TRUE
         ]) {
-            insolvAccData.CTB_Status_Update_Code__c = 'DDCE';
+            insolvAccData.CTB_Status_Update_Code__c = 'DDEC';
             if(insolvAccData.CTB_Status_Update_Code__c != null) {
                 insolvAccsUpdateDeceasedStatusCode.add(insolvAccData);
             }

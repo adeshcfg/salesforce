@@ -22,6 +22,11 @@
                 <default>false</default>
                 <label>RREV</label>
             </value>
+            <value>
+                <fullName>DDEC</fullName>
+                <default>false</default>
+                <label>DDEC</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
