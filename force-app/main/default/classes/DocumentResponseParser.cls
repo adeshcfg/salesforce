@@ -418,15 +418,11 @@ public class DocumentResponseParser {
 
     public static void parseCommonForm65Parts(
         MonthlyIncome monthlyIncome, 
-        MonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses,
         MonthlyDiscretionaryExpenses monthlyDiscretionaryExpenses,
         Insolvency__c insolv) 
     {
         if (monthlyIncome != null) {
             parseMonthlyIncome(monthlyIncome, insolv);
-        }
-        if (monthlyNonDiscretionaryExpenses != null) {
-            parseMonthlyNonDiscretionaryExpenses(monthlyNonDiscretionaryExpenses, insolv);
         }
         if (monthlyDiscretionaryExpenses != null) {
             parseMonthlyDiscretionaryExpenses(monthlyDiscretionaryExpenses, insolv);
@@ -434,11 +430,17 @@ public class DocumentResponseParser {
     }
 
     public static void parseForm65Parts(Form65Parts form65Parts, Insolvency__c insolv) {
-        parseCommonForm65Parts(form65Parts.monthlyIncome, form65Parts.monthlyNonDiscretionaryExpenses, form65Parts.monthlyDiscretionaryExpenses, insolv);
+        parseCommonForm65Parts(form65Parts.monthlyIncome, form65Parts.monthlyDiscretionaryExpenses, insolv);
+        if (form65Parts.monthlyNonDiscretionaryExpenses != null) {
+            parseMonthlyNonDiscretionaryExpenses(form65Parts.monthlyNonDiscretionaryExpenses, insolv);
+        }
     }
 
     public static void parseForm65BisParts(Form65BisParts form65BisParts, Insolvency__c insolv) {
-        parseCommonForm65Parts(form65BisParts.monthlyIncome, form65BisParts.monthlyNonDiscretionaryExpenses, form65BisParts.monthlyDiscretionaryExpenses, insolv);
+        parseCommonForm65Parts(form65BisParts.monthlyIncome, form65BisParts.monthlyDiscretionaryExpenses, insolv);
+        if (form65BisParts.monthlyNonDiscretionaryExpenses != null) {
+            parseNewMonthlyNonDiscretionaryExpenses(form65BisParts.monthlyNonDiscretionaryExpenses, insolv);
+        }
         if(form65BisParts?.agreedToPay?.Debtor != null) {
             insolv.Payment_Amount__c = getSumOfAmounts(form65BisParts.agreedToPay.Debtor);
         }
@@ -451,7 +453,9 @@ public class DocumentResponseParser {
         if(form65BisParts?.requiredMonthlyAmount?.Debtor != null) {
             insolv.Surplus_Income_Form65__c = getSumOfAmounts(form65BisParts.requiredMonthlyAmount.Debtor);
         }
-        // To do : add condition for difference field
+        if(form65BisParts?.requiredAmountDifference?.Debtor != null) {
+            insolv.Residual_amount_paid_surplus_income__c = getSumOfAmounts(form65BisParts.requiredAmountDifference.Debtor);
+        }
     }
 
     //monthlyIncome
@@ -589,6 +593,59 @@ public class DocumentResponseParser {
             parseTotalMonthlyNonDiscretionaryExpenses(monthlyNonDiscretionaryExpenses.totalMonthlyNonDiscretionaryExpenses, insolv);
         }
         // totalMonthlyNonDiscretionaryExpenses END
+    }
+
+    // Used for form65Bis
+    public static void parseNewMonthlyNonDiscretionaryExpenses(NewMonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses, Insolvency__c insolv) {
+        if (monthlyNonDiscretionaryExpenses.totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit != null) {
+            insolv.Total_Non_Discretionary_Expenses_Family__c = getDecimalValue(
+                monthlyNonDiscretionaryExpenses.totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit
+            );
+        }
+        if (
+            monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheDebtor != null &&
+            monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheDebtor.Debtor != null
+        ) {
+            insolv.Available_Monthly_Income_Of_Debtor__c = getSumOfAmounts(monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheDebtor.Debtor);
+        }
+        if (monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheFamilyUnit != null) {
+            insolv.Available_Monthly_Income_Of_Family__c = getDecimalValue(monthlyNonDiscretionaryExpenses.availableMonthlyIncomeOfTheFamilyUnit);
+        }
+        if (
+            monthlyNonDiscretionaryExpenses.debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit != null &&
+            monthlyNonDiscretionaryExpenses.debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit.Debtor != null
+        ) {
+            insolv.Debtor_Portion_Of_Monthly_Income__c = getSumOfAmounts(
+                monthlyNonDiscretionaryExpenses.debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit.Debtor
+            );
+        }
+        if (monthlyNonDiscretionaryExpenses.childCare != null) {
+            parsechildCare(monthlyNonDiscretionaryExpenses.childCare, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.childSupportPayments != null) {
+            parseChildSupportPayments(monthlyNonDiscretionaryExpenses.childSupportPayments, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.debtsWhereStayHasBeenLifted != null) {
+            parseDebtsWhereStayHasBeenLifted(monthlyNonDiscretionaryExpenses.debtsWhereStayHasBeenLifted, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.expensesAsAConditionOfEmployment != null) {
+            parseExpensesAsAConditionOfEmployment(monthlyNonDiscretionaryExpenses.expensesAsAConditionOfEmployment, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.finesPenaltiesImposedByTheCourt != null) {
+            parseFinesPenaltiesImposedByTheCourt(monthlyNonDiscretionaryExpenses.finesPenaltiesImposedByTheCourt, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.medicalConditionExpenses != null) {
+            parseMedicalConditionExpenses(monthlyNonDiscretionaryExpenses.medicalConditionExpenses, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.otherExpenses != null) {
+            parseOtherExpenses(monthlyNonDiscretionaryExpenses.otherExpenses, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.spousalSupportPayments != null) {
+            parseSpousalSupportPayments(monthlyNonDiscretionaryExpenses.spousalSupportPayments, insolv);
+        }
+        if (monthlyNonDiscretionaryExpenses.totalMonthlyNonDiscretionaryExpenses != null) {
+            parseTotalMonthlyNonDiscretionaryExpenses(monthlyNonDiscretionaryExpenses.totalMonthlyNonDiscretionaryExpenses, insolv);
+        }
     }
 
     // monthlyDiscretionaryExpenses
@@ -768,6 +825,12 @@ public class DocumentResponseParser {
             }
             if(form79BisParts.debtors[0].employmentStatus != null) {
                 insolv.Employment_Status__c = form79BisParts.debtors[0].employmentStatus;
+            }
+            if(form79BisParts.debtors[0].fromWhenEmployed != null) {
+                insolv.Employment_From_Date__c = Date.valueOf(form79BisParts.debtors[0].fromWhenEmployed + '-01');
+            }
+            if(form79BisParts.debtors[0].toWhenEmployed != null) {
+                insolv.Employment_To_Date__c = Date.valueOf(form79BisParts.debtors[0].toWhenEmployed + '-01');
             }
             if(form79BisParts.debtors[0].adviceReceived != null) {
                 insolv.Used_a_Financial_Advisor__c = getYesNoValues(form79BisParts.debtors[0].adviceReceived);
@@ -1891,7 +1954,7 @@ public class DocumentResponseParser {
 
     public class Form65BisParts {
         public MonthlyIncome monthlyIncome;
-        public MonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses;
+        public NewMonthlyNonDiscretionaryExpenses monthlyNonDiscretionaryExpenses;
         public MonthlyDiscretionaryExpenses monthlyDiscretionaryExpenses;
         public FamilyMembers agreedToPay;
         public FamilyMembers repurchaseAssets;
@@ -1939,6 +2002,24 @@ public class DocumentResponseParser {
         public String[] availableMonthlyIncomeOfTheDebtor;
         public String availableMonthlyIncomeOfTheFamilyUnit;
         public String[] debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit;
+    }
+
+    // New structure for Form65BisParts
+    public class NewMonthlyNonDiscretionaryExpenses {
+        public FamilyMembers childSupportPayments;
+        public FamilyMembers spousalSupportPayments;
+        public FamilyMembers childCare;
+        public FamilyMembers medicalConditionExpenses;
+        public FamilyMembers finesPenaltiesImposedByTheCourt;
+        public FamilyMembers expensesAsAConditionOfEmployment;
+        public FamilyMembers debtsWhereStayHasBeenLifted;
+        public FamilyMembers otherExpenses;
+        public FamilyMembers totalMonthlyNonDiscretionaryExpenses;
+        public String[] headings;
+        public String totalMonthlyNonDiscretionaryExpensesOfTheFamilyUnit;
+        public FamilyMembers availableMonthlyIncomeOfTheDebtor;
+        public String availableMonthlyIncomeOfTheFamilyUnit;
+        public FamilyMembers debtorsPortionOfTheAvailableMonthlyIncomeOfTheFamilyUnit;
     }
 
     public class MonthlyDiscretionaryExpenses {
