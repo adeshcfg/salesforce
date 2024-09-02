@@ -1983,7 +1983,8 @@ public class DocumentResponseParser {
         public String[] Debtor;
         public String[] Spouse;
         public String[] Others;
-        public String Total;
+        // We don't map this to any field
+        // public String Total;
         public sObject MontlhyIncomeIgnore; // ignore this attribute we do not use any where
     }
 
