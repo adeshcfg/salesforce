@@ -753,7 +753,7 @@ public class DocumentResponseParser {
     public static void parseFinancialAdvisorInfo(List<AdvisorInformation> advisorInformation, Insolvency__c insolv) {
         AdvisorInformation advisorInfo = advisorInformation[0];
         if(advisorInfo.firstName != null || advisorInfo.middleName != null || advisorInfo.lastName != null) {
-            insolv.Name_of_Financial_Advisor__c = advisorInfo.firstName + advisorInfo.middleName + advisorInfo.lastName;
+            insolv.Name_of_Financial_Advisor__c = advisorInfo.firstName + ' ' + checkAndGetStringValue(advisorInfo.middleName) + ' ' + advisorInfo.lastName;
         }
         if(advisorInfo.org != null) {
             insolv.Organization_for_the_Financial_Advisor__c = advisorInfo.org;
@@ -1777,6 +1777,19 @@ public class DocumentResponseParser {
         }
 
         return listAccount;
+    }
+
+    /**
+    * @description : Method to check string value and return '' if not null
+    * @author adesh.ikhar@canaccede.com | 09-02-2024 
+    * @param value 
+    * @return String 
+    **/
+    public static String checkAndGetStringValue(String value) {
+        if (String.isNotBlank(value)) {
+            return value;
+        }
+        return '';
     }
 
     // Note: Do not change any of the wrapper calss variable names, because it should match with JSON attirbute names for parsing
