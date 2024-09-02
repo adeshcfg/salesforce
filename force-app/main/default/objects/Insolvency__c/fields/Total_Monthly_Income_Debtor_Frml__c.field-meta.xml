@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <formula>Monthly_Net_Employment_Income_Debtor__c+ Monthly_Net_Pension_Annuities_Debtor__c +Monthly_Net_Child_Support_Debtor__c+
 Monthly_Net_Spoucal_Support_Debtor__c+Monthly_Net_Social_Assistance_Debtor__c+Child_Tax_Benefit_Debtor__c+
-Other_Net_Income_Debtor__c+Net_Self_Employment_Income_Debtor__c+Monthly_Net_Empl_Ins_Benefits_Debtor__c</formula>
+Other_Net_Income_Debtor__c+Net_Self_Employment_Income_Debtor__c+Monthly_Net_Empl_Ins_Benefits_Debtor__c + Net_government_benefits_Debtor__c + Net_other_benefits_Debtor__c + Net_other_insurance_benefits_Debtor__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Total Monthly Income Debtor Formula</inlineHelpText>
     <label>Total Monthly Income Debtor Frml</label>
