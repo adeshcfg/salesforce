@@ -136,7 +136,7 @@ public Class ProcessInsolvencyStriplistBatch implements Database.Batchable<Strip
                         }    
                 	}
                 }
-                else if(selectedBankName == 'Direct File'){
+                else if(selectedBankName == 'Trustee Payment Files'){
                     if(setAccountNumbers.contains(accountRecord.Account_No_without_Prefix__c)){
                         if(mapAccountId.containsKey(accountRecord.Account_No_without_Prefix__c	 + ':'+
                                                 accountRecord.Debtor_1_Estate_Number__c)){
