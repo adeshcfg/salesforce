@@ -244,7 +244,7 @@ public class StriplistInsolPaymentUploadController {
             
             bankNameList.add(new SelectOption(recordType.DeveloperName, recordType.name));
         }
-        bankNameList.add(new SelectOption('Direct File','Direct File'));
+        bankNameList.add(new SelectOption('Trustee Payment Files','Trustee Payment Files'));
         
         return bankNameList;
     }
