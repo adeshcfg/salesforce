@@ -1231,6 +1231,9 @@ public class DocumentResponseParser {
         if (payments.otherFinancialAdvisor != null) {
             insolv.Payment_to_Financial_Advisor__c = getSumOfAmounts(payments.otherFinancialAdvisor);
         }
+        if (payments.otherSecuredCreditor != null) {
+            insolv.Payments_Other_Than_Mortgage_Vehicle__c = getSumOfAmounts(payments.otherSecuredCreditor);
+        }
     }
 
     // personalExpenses
@@ -2092,6 +2095,7 @@ public class DocumentResponseParser {
         public String[] otherThanMortgageAndVehicle;
         // New property for Form65BisParts
         public String[] otherFinancialAdvisor;
+        public String[] otherSecuredCreditor;
     }
     /*
     // Creditor Id and Liability Id form Creditor Package
