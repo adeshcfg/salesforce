@@ -794,8 +794,8 @@ public class DocumentResponseParser {
             if(form79BisParts.debtors[0].numberOfPersonsSeventeenOrLess != null) {
                 insolv.Number_Of_Persons_In_Household_Below_17__c = getDecimalValue(form79BisParts.debtors[0].numberOfPersonsSeventeenOrLess);
             }
-            if(form79BisParts.debtors[0].spouseFirstName != null || form79BisParts.debtors[0].spouseLastName != null) {
-                insolv.Debtor_1_Spouse_CommonLaw_Partner_Name__c = form79BisParts.debtors[0].spouseFirstName + ' ' + form79BisParts.debtors[0].spouseLastName;
+            if(form79BisParts.debtors[0].spouseFirstName != null || form79BisParts.debtors[0].spouseMiddleName != null || form79BisParts.debtors[0].spouseLastName != null) {
+                insolv.Debtor_1_Spouse_CommonLaw_Partner_Name__c = form79BisParts.debtors[0].spouseFirstName + ' ' + checkAndGetStringValue(form79BisParts.debtors[0].spouseMiddleName) + ' ' + form79BisParts.debtors[0].spouseLastName;
             }
             if(form79BisParts.debtors[0].employmentStatus != null) {
                 insolv.Employment_Status__c = form79BisParts.debtors[0].employmentStatus;
@@ -1889,6 +1889,7 @@ public class DocumentResponseParser {
         public String everMadeProposal;
         public String everBeenBankruptBefore;
         public String spouseFirstName;
+        public String spouseMiddleName;
         public String spouseLastName;
         public String employmentStatus;
         public String fromWhenEmployed;
