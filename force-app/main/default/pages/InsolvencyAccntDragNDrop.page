@@ -38,11 +38,11 @@
                                              </center>
                                           </div>
                                        </div>
-                                       <p id="upload" class="hidden">
-                                        <label>Drag and drop not supported by your browser, but you can still upload via this input field:
+                                       <p id="upload">
+                                        <!-- <label>Drag and drop not supported by your browser, but you can still upload via this input field: -->
                                           <br />
                                           <input id="uploadButton" multiple="true" type="file" onchange="readfiles(this.files)" />
-                                        </label>
+                                        <!-- </label> -->
                                       </p>
                                       <p id="filereader">File API and FileReader API not supported</p>
                                       <p id="success" class="hidden">File attached successfully</p>
