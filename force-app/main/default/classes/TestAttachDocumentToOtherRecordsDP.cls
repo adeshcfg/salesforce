@@ -144,6 +144,13 @@ public class TestAttachDocumentToOtherRecordsDP   {
 
     @IsTest
     static void testMethodNewCaseuberbase() {
+        Trustee_Fees__c trusteeFees = Trustee_Fees__c.getOrgDefaults();
+        trusteeFees.Trustee_Administration_Fee__c = 10;
+        trusteeFees.Counselling_Fee__c = 10;
+        trusteeFees.Receiver_Fee__c = 10;
+        trusteeFees.Trustee_Variable_Fee_Rate__c = 10;
+        insert trusteeFees;
+
         API_Call_Details__c docParseApi = new API_Call_Details__c(
                         Name = 'Document Parser API',
                         authorizationtUrl__c = 'https://login.autherizationUrl.com/{{dptenandId}}/oauth2/v2.0/token',
@@ -191,8 +198,8 @@ public class TestAttachDocumentToOtherRecordsDP   {
 
         //Insolvency record creation
         Insolvency__c insolvencyRec = new Insolvency__c();
-        insolvencyRec.Name = 'INSOL-90809';
-        //insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
+        insolvencyRec.Name = '98-30002444';
+        insolvencyRec.Insolvency_Type__c = 'Consumer Proposal';
         insolvencyRec.Insolvency_Status__c = 'Staging';
         INSERT insolvencyRec;
 
@@ -210,7 +217,7 @@ public class TestAttachDocumentToOtherRecordsDP   {
         caseObj.Subject = 'INSOL-908092';
         caseObj.Assigned_To__c = UserInfo.getUserId();
         caseObj.Status = 'InProgress';
-        caseObj.Insolvency_Account__c = insolvencyAccount.Id;
+        caseObj.Insolvency__c = insolvencyRec.Id;
         caseObj.Document_Id__c = 'ee';
         INSERT caseObj;
         
