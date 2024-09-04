@@ -1323,6 +1323,12 @@ public class DocumentResponseParser {
             }
         }
 
+        for (String str : canadianTireBins) {
+            if (lrpSetting.Turn_On_CTB__c == true && creditorAccountNumber != null && creditorAccountNumber.startsWith(str)) {
+                return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
+            }
+        }
+
         for (String str : canaccedeBank) {
             if (creditorName.contains(str)) {
                 return insolvencyRecordTypeMap.get('Canaccede_Insolvency_Account');
@@ -1366,16 +1372,6 @@ public class DocumentResponseParser {
         for (String str : splBank) {
             if (creditorAccountNumber.startsWith(str)) {
                 return insolvencyRecordTypeMap.get('SPL_Insolvency_Account');
-            }
-        }
-        return null;
-    }
-
-    // Read Insolvency Record types based on account number starts with specific sequence as defined
-    public static Id getCanadianTireInsolvencyRecordTypeAccountNumber(String creditorAccountNumber) {
-        for (String str : canadianTireBins) {
-            if (creditorAccountNumber.startsWith(str) && lrpSetting.Turn_On_CTB__c == true) {
-                return insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account');
             }
         }
         return null;
@@ -1433,7 +1429,6 @@ public class DocumentResponseParser {
 
                 // Check if this is SPL or Fairstone account
                 if (insolvAccount.RecordTypeId == null) {
-                    insolvAccount.RecordTypeId = getCanadianTireInsolvencyRecordTypeAccountNumber(liability.accountNumber);
                     insolvAccount.RecordTypeId = getInsolvencyRecordTypeAccountNumber(liability.accountNumber);
                     insolvAccount.RecordTypeId = getFairstoneInsolvencyRecordTypeAccNumber(liability.accountNumber);
                 }
