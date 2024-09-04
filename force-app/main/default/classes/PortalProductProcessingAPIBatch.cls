@@ -5,6 +5,7 @@ global class PortalProductProcessingAPIBatch implements Database.Batchable<SObje
     List<Id> productId = new List<Id>();
     List<Product__c> productListToCreateJudgment = new List<Product__c>();
     global List<Product__c> listProductUpdate = new List<Product__c>();
+    boolean createAccJudg = true;
 
     global PortalProductProcessingAPIBatch(List<Id> prodIds) {
         productId = prodIds;
@@ -13,6 +14,12 @@ global class PortalProductProcessingAPIBatch implements Database.Batchable<SObje
     global PortalProductProcessingAPIBatch(List<Id> prodIds, List<Product__c> productListToCreateJudgment) {
         productId = prodIds;
         this.productListToCreateJudgment = productListToCreateJudgment;
+    }
+    
+    global PortalProductProcessingAPIBatch(List<Id> prodIds, List<Product__c> productListToCreateJudgment, boolean createAccJudg) {
+        productId = prodIds;
+        this.productListToCreateJudgment = productListToCreateJudgment;
+        this.createAccJudg = createAccJudg;
     }
 
     global database.QueryLocator start(Database.BatchableContext bc) {
@@ -37,7 +44,7 @@ global class PortalProductProcessingAPIBatch implements Database.Batchable<SObje
             update listProductUpdate;
         }
         ProductTriggerHandler.runProductTrigger = true;
-        if (!productListToCreateJudgment.isEmpty()) {
+        if (!productListToCreateJudgment.isEmpty() && createAccJudg) {
             System.enqueueJob(new BulkDmlQueueable(productListToCreateJudgment, 'AccountJudgmentProcessing'));
         }
     }

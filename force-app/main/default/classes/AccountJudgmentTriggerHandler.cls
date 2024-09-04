@@ -127,16 +127,23 @@ public class AccountJudgmentTriggerHandler{
                 prod.Sub_Status__c = prodStatus.get(prod.id).get('PlacementSubStatus');
                 prod.Placement_Status__c = prodStatus.get(prod.id).get('PlacementStatus');
             }
+            //Ticket 7279 - updating product statuses with trigger off and make API call
+            ProductTriggerHandler.runProductTrigger = false;
             config.Run_Product_Coll_Sub_Status_Validation__c = false; 
             update config;
             try{
                 system.debug('BlockRunProductUpdate');
-                update prodList;
+                update prodList; 
             }Catch(Exception ex){
                 throw ex;
             }
             config.Run_Product_Coll_Sub_Status_Validation__c = true; 
             update config;
+            if(Test.isRunningTest()){
+                Database.executeBatch(new PortalProductProcessingAPIBatch(prodIds, prodList,false), 40);
+            }
+            
+            ProductTriggerHandler.runProductTrigger = true;
         }
         //populateProductNameOnJudgment(prodJudgList);
     }
