@@ -139,7 +139,7 @@ public class AccountJudgmentTriggerHandler{
             }
             config.Run_Product_Coll_Sub_Status_Validation__c = true; 
             update config;
-            if(Test.isRunningTest()){
+            if(!Test.isRunningTest()){
                 Database.executeBatch(new PortalProductProcessingAPIBatch(prodIds, prodList,false), 40);
             }
             
