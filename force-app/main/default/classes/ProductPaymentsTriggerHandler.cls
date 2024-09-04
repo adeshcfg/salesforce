@@ -2493,7 +2493,8 @@
                                         //}
                                     }
                                 }
-                                if (!lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
+                                if (!lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c) &&
+                                   !mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
                                     Decimal CommRate = mapProduct.get(prodPayment.CCS_Account__c).Commission_Rate__c;
                                     Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
                                     if (CommRate == null) {
@@ -2505,9 +2506,11 @@
                                     if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
                                         CommRate = CommRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
                                     }
+                                    system.debug('CommRate::'+CommRate);
                                     if (prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)) {
                                         prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommRate) / 100;
                                     }
+                                    system.debug('prodPayment Pay_Due__c::'+prodPayment.Pay_Due__c);
                                 }
                             }
                         }
