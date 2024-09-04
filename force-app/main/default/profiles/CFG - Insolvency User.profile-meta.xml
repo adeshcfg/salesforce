@@ -20602,6 +20602,10 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>POCDocAffirmNew</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>POCDocCanaccede</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -20611,6 +20615,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>POCDocDataAffirm</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>POCDocDataAffirmNew</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
@@ -20870,7 +20878,15 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>POCDocDataEasyFinancialNew</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>POCDocDataFrenchEasyFinancial</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>POCDocDataFrenchEasyFinancialNew</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
