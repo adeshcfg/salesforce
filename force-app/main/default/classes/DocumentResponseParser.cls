@@ -1291,6 +1291,13 @@ public class DocumentResponseParser {
                 return insolvencyRecordTypeMap.get('SDA_Insolvency_Account');
             }
         }
+
+        for (String str : splBank) {
+            if (creditorAccountNumber != null && creditorAccountNumber.startsWith(str)) {
+                return insolvencyRecordTypeMap.get('SPL_Insolvency_Account');
+            }
+        }
+
         //Ticket 4587: Added excluded account
         String acctNameCS = '676';
         String acctNameCS1 = '6030';
@@ -1308,6 +1315,12 @@ public class DocumentResponseParser {
                 if (creditorName.contains(str) && creditorAccountNumber == null && InsolvencyAccDate > Date.newInstance(2023, 5, 23)) {
                     return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
                 }
+            }
+        }
+
+        for (String str : fairstoneAcc) {
+            if (creditorAccountNumber != null && creditorAccountNumber.startsWith(str) && InsolvencyAccDate > Date.newInstance(2023, 5, 23)) {
+                return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
             }
         }
 
@@ -1354,26 +1367,6 @@ public class DocumentResponseParser {
             }
         }
 
-        return null;
-    }
-
-    // Read Insolvency Record types based on account number starts with specific sequence as defined
-    public static Id getFairstoneInsolvencyRecordTypeAccNumber(String creditorAccountNumber) {
-        for (String str : fairstoneAcc) {
-            if (creditorAccountNumber.startsWith(str) && InsolvencyAccDate > Date.newInstance(2023, 5, 23)) {
-                return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
-            }
-        }
-        return null;
-    }
-
-    // Read Insolvency Record types based on account number starts with specific sequence as defined
-    public static Id getInsolvencyRecordTypeAccountNumber(String creditorAccountNumber) {
-        for (String str : splBank) {
-            if (creditorAccountNumber.startsWith(str)) {
-                return insolvencyRecordTypeMap.get('SPL_Insolvency_Account');
-            }
-        }
         return null;
     }
 
@@ -1426,12 +1419,6 @@ public class DocumentResponseParser {
                 insolvAccount.Name = Other_RECORD_NAME;
             }
             */
-
-                // Check if this is SPL or Fairstone account
-                if (insolvAccount.RecordTypeId == null) {
-                    insolvAccount.RecordTypeId = getInsolvencyRecordTypeAccountNumber(liability.accountNumber);
-                    insolvAccount.RecordTypeId = getFairstoneInsolvencyRecordTypeAccNumber(liability.accountNumber);
-                }
             }
 
             // Set default values for Canadian Tire account
