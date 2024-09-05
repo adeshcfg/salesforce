@@ -19,7 +19,7 @@ jest.config.js/
 package.json/
 README.md/
 sfdx-project.json/
-
+package-lock.json
 
 
 # LWC VSCode autocomplete

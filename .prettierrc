@@ -1,15 +1,31 @@
 {
-  "trailingComma": "none",
-  "tabWidth": 4,
-  "printWidth": 160,
-  "overrides": [
-    {
-      "files": "**/lwc/**/*.html",
-      "options": { "parser": "lwc" }
-    },
-    {
-      "files": "*.{cmp,page,component}",
-      "options": { "parser": "html" }
-    }
-  ]
+    "trailingComma": "none",
+    "tabWidth": 4,
+    "printWidth": 160,
+    "overrides": [
+        {
+            "files": "**/lwc/**/*.html",
+            "options": {
+                "parser": "lwc"
+            }
+        },
+        {
+            "files": "*.{cmp,page,component}",
+            "options": {
+                "parser": "html"
+            }
+        },
+        {
+            "files": "*.{trigger,cls}",
+            "options": {
+                "parser": "apex"
+            }
+        },
+        {
+            "files": "*.{apex}",
+            "options": {
+                "parser": "apex-anonymous"
+            }
+        }
+    ]
 }
