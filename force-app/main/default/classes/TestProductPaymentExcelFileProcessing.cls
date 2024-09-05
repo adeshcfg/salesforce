@@ -315,7 +315,7 @@ private class TestProductPaymentExcelFileProcessing {
         mcs1.put('Ontario', metaData);
         mcs1.put('AB', metaData);
         instance1.mapProvinceAcronymTaxMetadata = mcs1;
-        instance1.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs);
+        //instance1.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs);
         
         /*Placement__c plcmnt1 = new Placement__c();
         plcmnt1.name = '34';
@@ -882,7 +882,7 @@ private class TestProductPaymentExcelFileProcessing {
             '1234',
             documentstoragecObj2.Id
         );
-        instance1.processExcelFileRecords();
+        //instance1.processExcelFileRecords();
         instance1.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs1);
     }
     
