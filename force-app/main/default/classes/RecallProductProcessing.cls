@@ -29,6 +29,15 @@ public class RecallProductProcessing {
         Map<String, Map<String, String>> productIdAgencyInfoMap = new Map<String, Map<String, String>>();
         List<Judgment__c> judgmentToUpdateList;
         ProdIdsJudgListWrapper wrapperData = new ProdIdsJudgListWrapper();
+        Set<String> recallProdIds = new Set<String>();
+        Map<id,String> allProdToRecallList = new Map<id,String>();
+        List<Product_Staging__c> prodIdsNewList = new List<Product_Staging__c>();
+        String statusChangedDate = '';
+        String statusChangedDateText = '';
+        String placementStatusCode = '';
+        String placementMainStatus = '';
+        String placementSubStatus = '';
+        
         //Fetch System Api
         if(lrpSetting.Canaccede_API_User__c != NULL){
             systemName = [Select id, Name from User where username =: lrpSetting.Canaccede_API_User__c];    
