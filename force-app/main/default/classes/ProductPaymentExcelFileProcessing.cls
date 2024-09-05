@@ -761,22 +761,21 @@
 
             //Regex to check MM/DD/YYYY (text format in excel)
             String dateRegex = '^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4})$';
-			
-            //Ticket 7018: only mm/dd/yyyy or mm-dd-yyyy dateformat will use.
+            //String dateRegex = '^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4}|[0-9]{2})$';
+
             //Regex to check YYYY/MM/DD (Date format in excel)
-            /*String dateRegex2 = '^([0-9]{2})[./-]([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$';
+            String dateRegex2 = '^([0-9]{2})[./-]([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$';
 
             String dateRegex3 = '^([0-9]{4}|[0-9]{2})[./-]([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$';
             Pattern MyPattern3 = Pattern.compile(dateRegex3);
-            Pattern MyPattern2 = Pattern.compile(dateRegex2);*/
             Pattern MyPattern1 = Pattern.compile(dateRegex);
+            Pattern MyPattern2 = Pattern.compile(dateRegex2);
             Matcher MyMatcher1;
 
             if (String.isNotBlank(prodPayment.Payment_Posting_Date_Text__c)) {
                 MyMatcher1 = MyPattern1.matcher(prodPayment.Payment_Posting_Date_Text__c);
-                //Ticket 7018: only mm/dd/yyyy or mm-dd-yyyy dateformat will use.
-                /*Matcher MyMatcher2 = MyPattern2.matcher(prodPayment.Payment_Posting_Date_Text__c);
-                Matcher MyMatcher3 = MyPattern3.matcher(prodPayment.Payment_Posting_Date_Text__c);*/
+                Matcher MyMatcher2 = MyPattern2.matcher(prodPayment.Payment_Posting_Date_Text__c);
+                Matcher MyMatcher3 = MyPattern3.matcher(prodPayment.Payment_Posting_Date_Text__c);
 
                 //Invalid Payment date (pmt date must exist, be formatted correctly and cannot be in the future)
                 //matching of date when entered in Text format in excel file
@@ -786,9 +785,8 @@
                     prodPayment.Payment_Posting_Date__c = myDate;
                     prodPayment.Payment_Posting_Date_Text__c = myDate.month() + '/' + myDate.day() + '/' + myDate.year();
                 }
-                //Ticket 7018: only mm/dd/yyyy or mm-dd-yyyy dateformat will use.
                 //matching of date when entered in Date format in excel file
-                /*else if (MyMatcher2.matches() == true) {
+                else if (MyMatcher2.matches() == true) {
                     list<String> datelist = prodPayment.Payment_Posting_Date_Text__c.split('/');
                     date myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                     prodPayment.Payment_Posting_Date__c = myDate;
@@ -810,7 +808,7 @@
                         '/' +
                         String.valueOf(datelist[0]);
                     prodPayment.Payment_Posting_Date_Text__c = myDate.month() + '/' + myDate.day() + '/' + myDate.year();
-                }*/
+                }
             }
 
             //------------------------Common Validation Starts--------------------------//

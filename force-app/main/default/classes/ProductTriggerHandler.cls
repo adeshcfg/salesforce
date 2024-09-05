@@ -907,14 +907,12 @@ public class ProductTriggerHandler {
         config.Run_Product_Coll_Sub_Status_Validation__c = true;
         update config;
         list<id> prodIds = new List<id>();
-        set<String> productIds = new set<String>();
         List<Product__c> productListToCreateJudgment = new List<Product__c>();
         List<String> legalProdIds = new List<String>();
         Map<String, Account_Judgment__c> activeJudgmentMap = new Map<String, Account_Judgment__c>();
 
         for (Product__c product : listNewProducts) {
             Product__c prodOld = mapOldProducts.get(product.id);
-            productIds.add(product.Id);
             // Create Judgment records if refer to legal approved
             if (product.Refer_to_Legal__c == 'Approved' && prodOld.Refer_to_Legal__c != product.Refer_to_Legal__c) {
                 // creatJudgment(product);
@@ -929,7 +927,7 @@ public class ProductTriggerHandler {
         for (Account_Judgment__c accJudg : [SELECT id, product__c FROM Account_Judgment__c WHERE product__c IN :legalProdIds AND Status__C = 'Active']) {
             activeJudgmentMap.put(accJudg.Product__c, accJudg);
         }
-        
+
         for (Product__c prodLegal : productListToCreateJudgment) {
             if (prodLegal.Purchase_Province__c == null) {
                 prodLegal.addError('Product Province is required');
@@ -938,28 +936,6 @@ public class ProductTriggerHandler {
                 prodLegal.addError('Active Judgment is present on this account');
             }
         }
-        
-        for (Account_Judgment__c accJudg : [SELECT id, product__c FROM Account_Judgment__c WHERE product__c IN :productIds AND Status__C = 'Active']) {
-            activeJudgmentMap.put(accJudg.Product__c, accJudg);
-        }
-        Map<String,Account_Judgment__c> accJudgStatusUpdateMap = new Map<String,Account_Judgment__c>();
-        for (Product__c productData : listNewProducts) {
-            Product__c prodOldData = mapOldProducts.get(productData.id);
-            if(prodOldData.Placement_Status__c != NULL && productData.Placement_Status__c != NULL &&
-               System.Label.Exclude_Judgment_Codes.contains(prodOldData.Placement_Status__c) && 
-               !System.Label.Exclude_Judgment_Codes.contains(productData.Placement_Status__c)){
-                   if(activeJudgmentMap.containskey(productData.id)){
-                       Account_Judgment__c accJudgment = new Account_Judgment__c();
-                       accJudgment.id =  activeJudgmentMap.get(productData.id).id;  
-                       accJudgment.Status__c = 'Inactive';
-                       accJudgStatusUpdateMap.put(accJudgment.id,accJudgment);
-                   }
-               }
-        }
-        AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
-        update accJudgStatusUpdateMap.values();
-        AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
-        
         //Bug: 5142 - Added !system.isBatch() to below IF loop
         if (runProductAPITrigger && !system.isBatch()) {
             PortalProductProcessingAPI.processProductBulkBatch(prodIds, productListToCreateJudgment);

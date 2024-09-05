@@ -135,7 +135,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
 
     public void finish(Database.BatchableContext BC) {
         //Deactivate active placement when product is recalled from agency.
-        if (prodIds != NULL && !prodIds.isEmpty() && docType == 'Account Status Update File') {
+        if (!prodIds.isEmpty() && docType == 'Account Status Update File') {
             DistressedUtilities.UpdateSettlement(prodIds);
         }
 

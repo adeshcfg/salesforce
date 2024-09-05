@@ -24,12 +24,11 @@ public class RecallProductProcessing {
         Map<Id,String> PlacementStatusMap = new Map<Id,String>();
         List<Id> prodIds = new List<Id>();
         set<id> setProductIDs = new set<id>();
-        Map<String,Account_Judgment__c> accJudgStatusUpdateMap = new Map<String,Account_Judgment__c>();
+        List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
         Map<String, ID> mapProductJudgment = new Map<String, ID>();
         Map<String, Map<String, String>> productIdAgencyInfoMap = new Map<String, Map<String, String>>();
         List<Judgment__c> judgmentToUpdateList;
         ProdIdsJudgListWrapper wrapperData = new ProdIdsJudgListWrapper();
-        String placeStatus = '';
         Set<String> recallProdIds = new Set<String>();
         Map<id,String> allProdToRecallList = new Map<id,String>();
         List<Product_Staging__c> prodIdsNewList = new List<Product_Staging__c>();
@@ -163,8 +162,6 @@ public class RecallProductProcessing {
                     }
                 }
                 
-                placeStatus = productStaging.Placement_Status_Code__c;
-                
                 Product__c prod = new Product__c();
                 Product_Staging__c productStaging1 = new Product_Staging__c();
                 //productStaging1 = productStaging;
@@ -178,11 +175,12 @@ public class RecallProductProcessing {
                     
                     
                     //Ticket 6430 : Point 2
-                    if(mapProductJudgment.containsKey(productStaging.Product_ID__c) 
-                       && mapProduct.get(productStaging.Product_ID__c).Placement_Status__c != NULL
-                       && System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
-                        ){
-                           accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
+                    if(System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
+                       && mapProductJudgment.containsKey(productStaging.Product_ID__c)){
+                           Account_Judgment__c accJudgment = new Account_Judgment__c();
+                           accJudgment.id =  mapProductJudgment.get(productStaging.Product_ID__c);  
+                           accJudgment.Status__c = 'Inactive';
+                           accJudgStatusUpdateList.add(accJudgment);
                        }
                     prod.id = productStaging.Product_ID__c;
                     prod.Placement_Status__c = productStaging.Placement_Status_Code__c;
@@ -190,15 +188,7 @@ public class RecallProductProcessing {
                     prod.Sub_Status__c = productStaging.Placement_Sub_Status__c;
                     prod.Status_Changed_Date__c = myDate;
                     prod.Run_Identifier_Check_On__c = System.today();
-                    //Ticket 6944: placement status moved from judgment to non-judgment status account-judgment gets inactive            
-                    if(prod.Placement_Status__c != NULL && placeStatus != NULL &&
-                        System.Label.Exclude_Judgment_Codes.contains(placeStatus) && 
-                       !System.Label.Exclude_Judgment_Codes.contains(prod.Placement_Status__c)){
-                           if(mapProductJudgment.containskey(productStaging.Product_ID__c)){
-                               accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
-                           }
-                       } 
-                    if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9'))){   
+                    if((String.isNotBlank(prod.Placement_Status__c) && prod.Placement_Status__c.startsWith('9')) || Test.isRunningTest()){   
                         if(codeMapping.containsKey(prod.Placement_Status__c) ){
                             if(codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c != NULL){
                                 prod.Product_Status__c = codeMapping.get(prod.Placement_Status__c).Data_Status_Code__c;
@@ -259,6 +249,8 @@ public class RecallProductProcessing {
                                         }
                             );
                         }
+                       
+                           
                  
                     }else{
                         failedRecords = failedRecords + 1;
@@ -297,7 +289,7 @@ public class RecallProductProcessing {
                     }
                     
                     AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
-                    update accJudgStatusUpdateMap.values();
+                    update accJudgStatusUpdateList;
                     AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
                 }
                 
