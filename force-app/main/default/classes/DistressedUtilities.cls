@@ -708,24 +708,25 @@ productStaging.Include_in_Processing__c = true;
             String dateRegex = '^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4})$';
             //String dateRegex = '^([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0-9]{4}|[0-9]{2})$';
             
-            //Ticket 7018: only mm/dd/yyyy or mm-dd-yyyy dateformat will use.
             //Regex to check YYYY/MM/DD (Date format in excel)
-            /*String dateRegex2 = '^([0-9]{2})[./-]([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$';
+            String dateRegex2 = '^([0-9]{2})[./-]([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$';
             
-            //Regex to check YYYY/MM/DD or YY/MM/DD (Date format in excel)
             String dateRegex3 = '^([0-9]{4}|[0-9]{2})[./-]([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$';
             Pattern MyPattern3 = Pattern.compile(dateRegex3);
-            Pattern MyPattern2 = Pattern.compile(dateRegex2);*/
             
-            Pattern MyPattern1 = Pattern.compile(dateRegex);  
+            
+            
+            Pattern MyPattern1 = Pattern.compile(dateRegex);
+            
+            Pattern MyPattern2 = Pattern.compile(dateRegex2);
+            
             Matcher MyMatcher1;
             date myDate;
             // Added product.Status_Changed_Date__c.contains('-') to if loop part of Bug 4932
             if(String.isNotBlank(product.Status_Changed_Date__c) && (product.Status_Changed_Date__c.contains('/') || product.Status_Changed_Date__c.contains('-'))){
                 MyMatcher1 = MyPattern1.matcher(product.Status_Changed_Date__c);  
-                //Ticket 7018: only mm/dd/yyyy or mm-dd-yyyy dateformat will use.
-                /*Matcher MyMatcher2 = MyPattern2.matcher(product.Status_Changed_Date__c);  
-                Matcher MyMatcher3 = MyPattern3.matcher(product.Status_Changed_Date__c);*/
+                Matcher MyMatcher2 = MyPattern2.matcher(product.Status_Changed_Date__c);  
+                Matcher MyMatcher3 = MyPattern3.matcher(product.Status_Changed_Date__c);
                 //Invalid Payment date (pmt date must exist, be formatted correctly and cannot be in the future)
                 //matching of date when entered in Text format in excel file
                 
@@ -741,9 +742,8 @@ productStaging.Include_in_Processing__c = true;
                     myDate = date.newInstance(Integer.valueOf(datelist[2]), Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]));
                     product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year();
                 }
-                //Ticket 7018: only mm/dd/yyyy or mm-dd-yyyy dateformat will use.
                 //matching of date when entered in Date format in excel file  product.Status_Changed_Date__c 
-                /*else if(MyMatcher2.matches() == true){
+                else if(MyMatcher2.matches() == true){
                     list<String> datelist =new list<String>();
                     //Added below IF loops  part of bug 4932
                     if(product.Status_Changed_Date__c.contains('/')){
@@ -768,7 +768,7 @@ productStaging.Include_in_Processing__c = true;
                     myDate = date.newInstance(Integer.valueOf(datelist[0]), Integer.valueOf(datelist[1]), Integer.valueOf(datelist[2]));
                     //product.Status_Changed_Date__C = String.valueOf(myDate);
                    product.Status_Changed_Date_Text__c = myDate.month() + '/'+ myDate.day()+'/'+myDate.year(); 
-                }*/
+                }
             }
             
              if(product.Data_Id__c == null && product.Name__c == null){
@@ -780,10 +780,7 @@ productStaging.Include_in_Processing__c = true;
             //If user enters dd/mm/yyyy formate then shows the below error
             // Added product.Status_Changed_Date__c.contains('-') to if loop part of Bug 4932
             if(product.Status_Changed_Date__C != NULL && (product.Status_Changed_Date__C.contains('/') || product.Status_Changed_Date__C.contains('-'))){
-                Integer statusChangedDate;
-                if(product.Status_Changed_Date_Text__c != null){
-                   statusChangedDate = Integer.valueOf(product.Status_Changed_Date_Text__c.substring(0,1));
-                }
+                Integer statusChangedDate = Integer.valueOf(product.Status_Changed_Date_Text__c.substring(0,1));
                 // Added product.Status_Changed_Date__c.contains('-') to if loop part of Bug 4932
                 if(statusChangedDate > 12){
                     ERROR_MSG += '<b>ERROR</b> - Invalid Status Changed date.<br/>';
@@ -802,12 +799,7 @@ productStaging.Include_in_Processing__c = true;
                 ERROR_MSG += '<b>ERROR</b> : Invalid status changed date.<br/>';
                     EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY or MM-DD-YYYY)<br/>'; 
                
-             }     */ 
-            //Ticket 7018: only mm/dd/yyyy or mm-dd-yyyy dateformat will use.
-            if(product.Status_Changed_Date_Text__c == NULL){
-                ERROR_MSG += '<b>ERROR</b> - Invalid Status Changed date.\n';
-                EXPECTED += 'Status Changed Date should be in proper format.(MM/DD/YYYY or MM-DD-YYYY)<br/>';
-            }
+             }     */       
             if(product.Status_Changed_Date__C != NULL){
                 if(myDate > Date.today()){
                     ERROR_MSG += '<b>ERROR</b> - Invalid date.<br/>';
