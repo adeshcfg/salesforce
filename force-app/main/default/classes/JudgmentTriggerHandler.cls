@@ -2200,17 +2200,4 @@ Accure Interest from curDate (last payment's postoing date) to Today
         }
         return prodPlacementStatusUpdate;
      }
-     
-     public static Map<String, Account_Judgment__c> inactiveAcctJudStatus(Map<String,String> prodAccJudgIds) {
-         Map<String,Account_Judgment__c> mapAcctJudg = new Map<String,Account_Judgment__c>();
-         for(String prodId : prodAccJudgIds.keyset()){
-             Account_Judgment__c accJudgment = new Account_Judgment__c();
-             accJudgment.id =  prodAccJudgIds.get(prodId);  
-             accJudgment.Status__c = 'Inactive';
-             mapAcctJudg.put(accJudgment.id,accJudgment);
-         }
-         
-         
-         return mapAcctJudg;
-     }
 }

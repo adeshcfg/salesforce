@@ -84,21 +84,6 @@ public class TestProductRecallIndividualController {
         insert placementCode;
         mapCodes.put(placementCode.Placement_Status_Code__c,placementCode);
         
-        Judgment__c judg = new Judgment__c();
-        judg.legal_Agency__c = '9999';
-        judg.Legal_Agency_Placement__c = placement.id;
-        judg.Product_1__c = '123456789';
-        judg.Product_2__c = '123456788';
-        judg.Product_3__c = '123456780';
-        judg.Product_4__c = '123456787';
-        judg.Product_5__c = '123456786';
-        insert judg;
-        
-        Account_judgment__c accJud = new Account_judgment__c();
-        accJud.Judgment__c = judg.id;
-        accJud.product__c = prod.id;
-        accJud.Status__c = 'Active';
-        insert accJud;
         
         Work_Assignment__c workAssData2 = new Work_Assignment__c();
         workAssData2.Title__c = 'This task for Test class';
