@@ -28,7 +28,10 @@ private class TestProductPaymentExcelFileProcessing {
         plcmnt.Apply_Ontario_Rate_on_Legal_Account__c = true;
         insert plcmnt;
         
-        
+        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
+        config.Run_Product_Coll_Sub_Status_Validation__c = true;
+        config.Run_JudgmentTrigger__c = true;
+        insert config;
     }
 
     @isTest
