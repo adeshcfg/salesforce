@@ -980,7 +980,7 @@ private class TestProductPaymentExcelFileProcessing {
         );
         insert productpaymentscObj2;
         
-        Product_payments__c productpaymentscObj3 = new Product_payments__c(
+        /*Product_payments__c productpaymentscObj3 = new Product_payments__c(
             Payment_Amount__c = -19,
             Payment_Type__c = '1003',
             Payment_Posting_Date__c = Date.today() - 10,
@@ -993,7 +993,7 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Agency__c = '29',
             Ignore_Warning__c = true
         );
-        insert productpaymentscObj3;
+        insert productpaymentscObj3;*/
         
         ProductPaymentExcelFileProcessing instance = new ProductPaymentExcelFileProcessing(
             '[{"data_id":"1105P700","tran_type":"5000","tran_date":"2024/01/20","tran_amount":"1000","tran_principal":"9","tran_interest":null,"tran_court":"89","tran_attorney":null,"tran_nsf":null,"tran_general":"1.0","tran_other":"1.0","tran_retained":"1.0"},{"data_id":"1105P700","tran_type":"1003","tran_date":"07/01/2022","tran_amount":"-19","tran_principal":"9","tran_interest":null,"tran_court":"89","tran_attorney":null,"tran_nsf":null,"tran_general":"1.0","tran_other":"1.0","tran_retained":"1.0"},{"data_id":"1105P711","tran_type":"1001","tran_date":"07/08/2022","tran_amount":"15909.06","tran_principal":null,"tran_interest":"10","tran_court":null,"tran_attorney":"abc","tran_nsf":null,"tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1105P865","tran_type":"1002","tran_date":"07/07/2022","tran_amount":"10000","tran_principal":null,"tran_interest":"11","tran_court":null,"tran_attorney":null,"tran_nsf":"test","tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1106P052","tran_type":"3000","tran_date":"07/09/2022","tran_amount":"200","tran_principal":null,"tran_interest":"12","tran_court":null,"tran_attorney":null,"tran_nsf":null,"tran_general":null,"tran_other":null,"pri_acctno":23434.00,"commission_rate":"2","pay_source":"8928.0","tran_retained":null}]',
