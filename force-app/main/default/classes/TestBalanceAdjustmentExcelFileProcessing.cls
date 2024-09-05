@@ -23,6 +23,11 @@ private class TestBalanceAdjustmentExcelFileProcessing{
         portalSettings.Excel_File_Processing_Status__c = 'Requested,In Progress,Completed';
         portalSettings.Valid_Payment_Types__c='3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
         insert portalSettings;
+
+        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
+        config.Run_Product_Coll_Sub_Status_Validation__c = true;
+        config.Run_JudgmentTrigger__c = true;
+        insert config;
     }
     
     @isTest static void testMethod1(){
