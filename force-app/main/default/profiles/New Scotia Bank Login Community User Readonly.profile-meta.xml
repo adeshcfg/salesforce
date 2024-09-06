@@ -18334,7 +18334,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Insolvency_Account__c.Debt_Due_as_off_date__c</field>
+        <field>Insolvency_Account__c.Debt_Due_As_Of_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
