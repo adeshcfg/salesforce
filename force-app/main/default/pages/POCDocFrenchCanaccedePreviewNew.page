@@ -352,13 +352,13 @@
                                                 Paiement au créancier par le débiteur pour cette créance est recevable (ou le débiteur est en demeure) depuis le 
                                                 <b>
                                                     <apex:outputText value="{0,date, dd}">
-                                                        <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
+                                                        <apex:param value="{!insolvAcc.Debt_Due_As_Of_Date__c}" />
                                                     </apex:outputText>
                                                 </b>
                                                 jour de 
                                                 <b>
                                                     <apex:outputText value="{!formattedDebtDueOffDate}">
-                                                        <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
+                                                        <apex:param value="{!insolvAcc.Debt_Due_As_Of_Date__c}" />
                                                     </apex:outputText>
                                                 </b>
                                                 et le plus récent paiement au créancier par le débiteur pour cette créance, si quelque paiement a été effectué, a été fait le
