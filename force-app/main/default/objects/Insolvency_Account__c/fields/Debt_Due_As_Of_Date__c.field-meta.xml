@@ -3,8 +3,8 @@
     <fullName>Debt_Due_As_Of_Date__c</fullName>
     <description>Date debt became due</description>
     <externalId>false</externalId>
+    <formula>IF(NOT(ISPICKVAL(Insolvency_Status__c, &apos;New&apos;) || ISPICKVAL(Insolvency_Status__c, &apos;For Owner Review&apos;) || ISPICKVAL(Insolvency_Status__c, &apos;Wait / Hold&apos;)), IF(NOT(ISBLANK(Last_Payment_Date__c)), Last_Payment_Date__c + 30, IF(NOT(ISBLANK(Account_Open_date__c)), Account_Open_date__c + 30, IF(NOT(ISBLANK(Acknowledgement_date__c)), Acknowledgement_date__c + 30, null))), null)</formula>
     <inlineHelpText>Date debt became due</inlineHelpText>
-    <formula>IF(NOT(ISPICKVAL(Insolvency_Status__c, &apos;New&apos;) || ISPICKVAL(Insolvency_Status__c, &apos;For Owner Review&apos;) || ISPICKVAL(Insolvency_Status__c, &apos;Wait / Hold&apos;)), IF(NOT(ISBLANK(Last_Payment_Date__c)), Last_Payment_Date__c, IF(NOT(ISBLANK(Account_Open_date__c)), Account_Open_date__c, IF(NOT(ISBLANK(Acknowledgement_date__c)), Acknowledgement_date__c, null))), null)</formula>
     <label>Debt Due As Of Date</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
