@@ -24,7 +24,7 @@ public class RecallProductProcessing {
         Map<Id,String> PlacementStatusMap = new Map<Id,String>();
         List<Id> prodIds = new List<Id>();
         set<id> setProductIDs = new set<id>();
-        List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
+        Map<String,Account_Judgment__c> accJudgStatusUpdateMap = new Map<String,Account_Judgment__c>();
         Map<String, ID> mapProductJudgment = new Map<String, ID>();
         Map<String, Map<String, String>> productIdAgencyInfoMap = new Map<String, Map<String, String>>();
         List<Judgment__c> judgmentToUpdateList;
@@ -177,10 +177,7 @@ public class RecallProductProcessing {
                     //Ticket 6430 : Point 2
                     if(System.Label.Exclude_Judgment_Codes.contains(mapProduct.get(productStaging.Product_ID__c).Placement_Status__c) 
                        && mapProductJudgment.containsKey(productStaging.Product_ID__c)){
-                           Account_Judgment__c accJudgment = new Account_Judgment__c();
-                           accJudgment.id =  mapProductJudgment.get(productStaging.Product_ID__c);  
-                           accJudgment.Status__c = 'Inactive';
-                           accJudgStatusUpdateList.add(accJudgment);
+                           accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
                        }
                     prod.id = productStaging.Product_ID__c;
                     prod.Placement_Status__c = productStaging.Placement_Status_Code__c;
@@ -289,7 +286,7 @@ public class RecallProductProcessing {
                     }
                     
                     AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
-                    update accJudgStatusUpdateList;
+                    update accJudgStatusUpdateMap.values();
                     AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
                 }
                 

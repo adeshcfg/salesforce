@@ -40,6 +40,8 @@ public without sharing class ProductRecallIndividualController {
     public Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
 	public List<Account_Judgment__c> accJudgStatusUpdateList = new List<Account_Judgment__c>();
     public Map<String, ID> mapProductJudgment = new Map<String, ID>();
+    public Map<String,Account_Judgment__c> accJudgStatusUpdateMap = new Map<String,Account_Judgment__c>();
+    
     public ProductRecallIndividualController(ApexPages.StandardController stdController) {
         placement = [
             SELECT ID, Name
@@ -197,10 +199,7 @@ public without sharing class ProductRecallIndividualController {
             //Ticket 6430 : Point 2
             if(!Test.isRunningTest() && System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) 
                && mapProductJudgment.containsKey(product.id)){
-                   Account_Judgment__c accJudgment = new Account_Judgment__c();
-                   accJudgment.id =  mapProductJudgment.get(product.id);  
-                   accJudgment.Status__c = 'Inactive';
-                   accJudgStatusUpdateList.add(accJudgment);
+                   accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
                }
             product.Collection_Agency__c = 9999;
             product.Collection_Agency_Placement__c = placement.id;
@@ -252,6 +251,26 @@ public without sharing class ProductRecallIndividualController {
                 product.Closed_Date__c = Date.today();
             }
             placementIdentifier = String.valueOf(product.Collection_Agency__c);
+            
+            prodNewRecordList.add(product);
+            
+            for(Id prodIds : allProdToRecallList.keySet()){
+                prodToRecallList.add(prodIds);
+                if(!recallProdIds.contains(prodIds)){
+                    Product__c newProductRecords = new Product__c();
+                    newProductRecords.Id = prodIds;
+                    newProductRecords.Status_Changed_Date__c = Date.today();
+                    newProductRecords.Placement_Status__c = product.Placement_Status__c;
+                    newProductRecords.Status__c = product.Status__c;
+                    newProductRecords.Sub_Status__c = product.Sub_Status__c;
+                    newProductRecords.Collection_Agency__c = product.Collection_Agency__c;
+                    newProductRecords.Collection_Agency_Placement__c = product.Collection_Agency_Placement__c;
+                    newProductRecords.Recalled_Date__c = product.Recalled_Date__c;
+                    newProductRecords.Product_Status__c = product.Product_Status__c;
+                    newProductRecords.Data_Status_Description__c = product.Data_Status_Description__c;
+                    prodNewRecordList.add(newProductRecords);
+                }
+            }
             
         } else if (selectedValueAction == 'Pending Allocation') {
             product.Collection_Agency__c = 9999;
@@ -327,7 +346,7 @@ public without sharing class ProductRecallIndividualController {
             }
             
             AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
-            update accJudgStatusUpdateList;
+            update accJudgStatusUpdateMap.values(); 
             AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
 
             if (selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse'
@@ -421,10 +440,7 @@ public without sharing class ProductRecallIndividualController {
                 //Ticket 6430 : Point 2
                 if(System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) 
                    && mapProductJudgment.containsKey(product.id)){
-                       Account_Judgment__c accJudgment = new Account_Judgment__c();
-                       accJudgment.id =  mapProductJudgment.get(product.id);  
-                       accJudgment.Status__c = 'Inactive';
-                       accJudgStatusUpdateList.add(accJudgment);
+                       accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
                    }
                 product.Collection_Agency__c = 9999;
                 product.Collection_Agency_Placement__c = placement.id;
@@ -477,6 +493,26 @@ public without sharing class ProductRecallIndividualController {
                     product.Closed_Date__c = Date.today();
                 }
                 placementIdentifier = String.valueOf(product.Collection_Agency__c);
+                
+                prodNewRecordList.add(product);
+            
+                for(Id prodIds : allProdToRecallList.keySet()){
+                    prodToRecallList.add(prodIds);
+                    if(!recallProdIds.contains(prodIds)){
+                        Product__c newProductRecords = new Product__c();
+                        newProductRecords.Id = prodIds;
+                        newProductRecords.Status_Changed_Date__c = Date.today();
+                        newProductRecords.Placement_Status__c = product.Placement_Status__c;
+                        newProductRecords.Status__c = product.Status__c;
+                        newProductRecords.Sub_Status__c = product.Sub_Status__c;
+                        newProductRecords.Collection_Agency__c = product.Collection_Agency__c;
+                        newProductRecords.Collection_Agency_Placement__c = product.Collection_Agency_Placement__c;
+                        newProductRecords.Recalled_Date__c = product.Recalled_Date__c;
+                        newProductRecords.Product_Status__c = product.Product_Status__c;
+                        newProductRecords.Data_Status_Description__c = product.Data_Status_Description__c;
+                        prodNewRecordList.add(newProductRecords);
+                    }
+                }
                 
             } else if (selectedValueAction == 'Pending Allocation') {
                 product.Collection_Agency__c = 9999;
@@ -553,7 +589,7 @@ public without sharing class ProductRecallIndividualController {
                 }
 				
                 AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = false;
-                update accJudgStatusUpdateList;
+                update accJudgStatusUpdateMap.values(); 
                 AccountJudgmentTriggerHandler.runAccountJudgmentTrigger = true;
                 
                 if((selectedValueAction == 'Pending Allocation' || selectedValueAction == 'Send To Warehouse') 
