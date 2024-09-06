@@ -438,8 +438,8 @@
                 <field>Interest_Rate__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Debt_Due_as_off_date__c</field>
+                <behavior>Readonly</behavior>
+                <field>Debt_Due_As_Of_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
