@@ -103,7 +103,7 @@ public class POCDocDataController {
                 Last_Payment_Amount_2__c,
                 Last_Payment_Amount_3__c,
                 Acknowledgement_date__c,
-                Debt_Due_as_off_date__c,
+                Debt_Due_As_Of_Date__c,
                 Account_Open_date__c
             FROM Insolvency_Account__c
             WHERE Id = :ApexPages.currentPage().getParameters().get('Id')
@@ -185,12 +185,12 @@ public class POCDocDataController {
                         String.valueOf(insolvAcc.Charge_Off_Date__c.year())
                 );
             }
-        if (insolvAcc.Debt_Due_as_off_date__c != null) {
+        if (insolvAcc.Debt_Due_As_Of_Date__c != null) {
                 formattedDebtDueOffDate = String.valueOf(
                     ' ' +
-                        frenchDates.get(insolvAcc.Debt_Due_as_off_date__c.month()) +
+                        frenchDates.get(insolvAcc.Debt_Due_As_Of_Date__c.month()) +
                         ' ' +
-                        String.valueOf(insolvAcc.Debt_Due_as_off_date__c.year())
+                        String.valueOf(insolvAcc.Debt_Due_As_Of_Date__c.year())
                 );
             }
         if (insolvAcc.Acknowledgement_date__c != null) {

@@ -1,8 +1,8 @@
 /**
  * @description       : Test class for PocAutomationBatch
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 08-27-2024
- * @last modified by  : adesh.ikhar@canaccede.com
+ * @last modified on  : 09-06-2024
+ * @last modified by  : adeshi@a5econsulting.net
 **/
 @isTest
 public class PocAutomationBatchTest {
@@ -57,7 +57,6 @@ public class PocAutomationBatchTest {
         insolAcct.Account_Original_Open_Date__c =Date.newInstance(2020,02, 10); 
         insolAcct.Account_Open_date__c =Date.newInstance(2020,01, 08);
         insolAcct.Charge_Off_Date__c =Date.newInstance(2020,02, 16);
-        insolAcct.Debt_Due_as_off_date__c =Date.newInstance(2020,02, 20);
         insolAcct.Acknowledgement_date__c =Date.newInstance(2020,02, 18);
         insolAcct.Product_Code__c='MOR';
         insolAcct.Debtor__c='test';
