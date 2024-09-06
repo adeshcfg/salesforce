@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Debt_Due_As_Of_Date__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(Insolvency_Status__c, &apos;New&apos;) || ISPICKVAL(Insolvency_Status__c, &apos;For Owner Review&apos;) || ISPICKVAL(Insolvency_Status__c, &apos;Wait / Hold&apos;), IF(Last_Payment_Date__c &lt;&gt; null, Last_Payment_Date__c, IF(Account_Open_date__c &lt;&gt; null, Account_Open_date__c, IF(Acknowledgement_date__c &lt;&gt; null, Acknowledgement_date__c, null))), null)</formula>
+    <label>Debt Due As Of Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>
