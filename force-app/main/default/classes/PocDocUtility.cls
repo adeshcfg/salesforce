@@ -1,8 +1,8 @@
 /**
  * @description       : Class to hold utility/common methods for POC document generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 08-27-2024
- * @last modified by  : adesh.ikhar@canaccede.com
+ * @last modified on  : 09-06-2024
+ * @last modified by  : adeshi@a5econsulting.net
 **/
 public class PocDocUtility {
     public static Map<Integer, String> frenchDates = new Map<Integer, String>{1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril', 5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août', 9 => 'Septembre', 10 => 'Octobre', 11 => 'Novembre', 12 => 'Décembre'};
@@ -151,12 +151,12 @@ public class PocDocUtility {
                 String.valueOf(insolvAcc.Acknowledgement_date__c.year())
             );
         }
-        if (insolvAcc.Debt_Due_as_off_date__c != null) {
+        if (insolvAcc.Debt_Due_As_Of_Date__c != null) {
             formattedDebtDueOffDate = String.valueOf(
                 ' ' +
-                frenchDates.get(insolvAcc.Debt_Due_as_off_date__c.month()) +
+                frenchDates.get(insolvAcc.Debt_Due_As_Of_Date__c.month()) +
                 ' ' +
-                String.valueOf(insolvAcc.Debt_Due_as_off_date__c.year())
+                String.valueOf(insolvAcc.Debt_Due_As_Of_Date__c.year())
             );
         }
         if (insolvAcc.Last_Payment_Date__c != null) {

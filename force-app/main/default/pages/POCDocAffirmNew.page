@@ -345,13 +345,13 @@
                                             That payment for this debt by the debtor to the creditor has been due (or has been in default) since the
                                             <b>
                                                 <apex:outputText value="{0,date, dd}">
-                                                   <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
+                                                   <apex:param value="{!insolvAcc.Debt_Due_As_Of_Date__c}" />
                                                 </apex:outputText>
                                              </b>
                                              day of 
                                              <b>
                                                 <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                                   <apex:param value="{!insolvAcc.Debt_Due_as_off_date__c}" />
+                                                   <apex:param value="{!insolvAcc.Debt_Due_As_Of_Date__c}" />
                                                 </apex:outputText>
                                              </b>
                                              , and that the last payment, of ay, on this debt by the debtor to the creditor was made on the

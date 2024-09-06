@@ -149,7 +149,7 @@ public class POCDocController {
                     Last_Payment_Amount_2__c,
                     Last_Payment_Amount_3__c,
                     Acknowledgement_date__c,
-                    Debt_Due_as_off_date__c,
+                    Debt_Due_As_Of_Date__c,
                     Account_Open_date__c
                 FROM Insolvency_Account__c
                 WHERE Id = :ApexPages.currentPage().getParameters().get('Id')
