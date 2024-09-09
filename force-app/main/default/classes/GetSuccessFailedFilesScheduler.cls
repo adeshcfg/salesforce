@@ -1,7 +1,7 @@
 /**
  * @description       : Scheduler and Batch class to get and upload success and failure files for CTB statement processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 06-18-2024
+ * @last modified on  : 09-09-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful {
@@ -13,7 +13,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
 
     public Database.Querylocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            'SELECT Id, Document_Name__c, Bulk_API_Job_ID__c, Comment__c From Document_Storage__c WHERE CreatedDate = TODAY AND Document_Extension__c = \'zip\' AND Statement_Processing_Status__c = \'Processing\''
+            'SELECT Id, Document_Name__c, Bulk_API_Job_ID__c, Comment__c, (Select Insolvency_Account__c From Document_Storages__r Where Insolvency_Account__c != null) From Document_Storage__c WHERE CreatedDate = TODAY AND Document_Extension__c = \'zip\' AND Statement_Processing_Status__c = \'Processing\''
         );
     }
 
@@ -47,6 +47,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
      * @param docStorageList
      **/
     public void startProcessing(List<Document_Storage__c> docStorageList) {
+        Map<String, Insolvency_Account__c> uniqueAccountsToUpdateMap = new Map<String, Insolvency_Account__c>();
         Map<String, String> mapSkippedFileNameDocStorageId = new Map<String, String>();
         List<ContentVersion> conVersionToInsertList = new List<ContentVersion>();
         Integer successRecordsCount = 0;
@@ -54,6 +55,9 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
         for (Document_Storage__c doc : docStorageList) {
             if (String.isBlank(doc.Bulk_API_Job_ID__c)) {
                 continue;
+            }
+            if (!doc.Document_Storages__r.isEmpty()) {
+                uniqueAccountsToUpdateMap = updateStatementIdentifier(doc.Document_Storages__r, uniqueAccountsToUpdateMap);
             }
             List<ContentVersion> conVersionToInsertListPerDocStorage = new List<ContentVersion>();
             mapSkippedFileNameDocStorageId.put('Skipped' + '_' + doc.Document_Name__c.remove('.zip'), doc.Id);
@@ -87,13 +91,18 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
             docStorageToUpdateList.add(doc);
             docStorageIdConVersionToInsertMap.put(doc.Id, conVersionToInsertListPerDocStorage);
         }
-        if (!conVersionToInsertList.isEmpty()) {
-            try {
+        try {
+            if (!conVersionToInsertList.isEmpty()) {
                 Database.insert(conVersionToInsertList);
-            } catch (DmlException ex) {
-                System.debug('DMLException in GetSuccessFailedFilesScheduler ' + ex.getDmlMessage(0));
-                CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
             }
+            if (!uniqueAccountsToUpdateMap.values().isEmpty()) {
+                InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+                Database.update(uniqueAccountsToUpdateMap.values());
+                InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
+            }
+        } catch (DmlException ex) {
+            System.debug('DMLException in GetSuccessFailedFilesScheduler ' + ex.getDmlMessage(0));
+            CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
         }
         // Check for skipped csv
         for (ContentVersion skippedConVer : [
@@ -103,6 +112,26 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
         ]) {
             docStorageIdConVersionToInsertMap.get(mapSkippedFileNameDocStorageId.get(skippedConVer.Title)).add(skippedConVer);
         }
+    }
+
+    /**
+     * @description : Method to check statement received checkbox for accounts who got statements attached
+     * @author adeshi@a5econsulting.net | 09-06-2024
+     * @param statementDocStorageList
+     * @param uniqueAccountsToUpdateMap
+     * @return Map<String, Insolvency_Account__c>
+     **/
+    public static Map<String, Insolvency_Account__c> updateStatementIdentifier(
+        List<Document_Storage__c> statementDocStorageList,
+        Map<String, Insolvency_Account__c> uniqueAccountsToUpdateMap
+    ) {
+        for (Document_Storage__c statementDoc : statementDocStorageList) {
+            uniqueAccountsToUpdateMap.put(
+                statementDoc.Insolvency_Account__c,
+                new Insolvency_Account__c(Id = statementDoc.Insolvency_Account__c, CTB_Statements_Received__c = true)
+            );
+        }
+        return uniqueAccountsToUpdateMap;
     }
 
     /**
