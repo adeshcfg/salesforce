@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Org_for_the_Financial_Advisor_Debtor1__c</fullName>
+    <description>Name the firm/organization of the individual provider of professional financial advice</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Name the firm/organization of the individual provider of professional financial advice</inlineHelpText>
+    <label>Organization for the Financial Advisor</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
