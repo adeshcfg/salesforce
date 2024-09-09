@@ -1249,6 +1249,10 @@
                 <behavior>Readonly</behavior>
                 <field>Voting_Influence_Percentage__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>MOC_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
