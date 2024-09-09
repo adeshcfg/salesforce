@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MOC_Date__c</fullName>
+    <description>Utilize this field to track the date when the meeting of creditors is being held on the proposal.
+It will help to attend these meetings</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>The creditors meeting is being held to discuss the proposal</inlineHelpText>
+    <label>MOC Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>
