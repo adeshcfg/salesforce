@@ -228,6 +228,10 @@
                 <behavior>Readonly</behavior>
                 <field>Total_to_be_paid_to_Financial_Advisor__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Number_Of_Persons_In_Household__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -289,6 +293,10 @@
                 <behavior>Readonly</behavior>
                 <field>Employment_To_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Number_Of_Persons_In_Household_Below_17__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -345,6 +353,34 @@
                 <behavior>Readonly</behavior>
                 <field>Co_Debtor_Deceased__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Used_a_Financial_Advisor_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Name_of_Financial_Advisor_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Org_for_the_Financial_Advisor_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Address_of_Financial_Advisor_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Total_paid_to_Financial_Advisor_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Total_to_be_paid_to_Fin_Adv_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Number_Of_Persons_In_Household_Debtor1__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -394,6 +430,22 @@
                 <behavior>Readonly</behavior>
                 <field>Debtor_2_Employer_Country__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Employment_Status_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Employment_From_Date_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Employment_To_Date_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>No_Of_Persons_In_House_Below_17_Debtor1__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -403,10 +455,6 @@
         <editHeading>true</editHeading>
         <label>Creditor Package Summary</label>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Number_Of_Persons_In_Household__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Estate_Level_Unsecured_Debt_Pct_Frml__c</field>
@@ -454,10 +502,6 @@
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Number_Of_Persons_In_Household_Below_17__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Surplus_Bankruptcy_Payment_Frml__c</field>
