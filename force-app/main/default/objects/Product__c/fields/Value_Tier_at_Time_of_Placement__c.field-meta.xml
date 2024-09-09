@@ -67,6 +67,11 @@
                 <default>false</default>
                 <label>J</label>
             </value>
+            <value>
+                <fullName>Z</fullName>
+                <default>false</default>
+                <label>Z</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
