@@ -840,6 +840,18 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Net_government_benefits_Spouse__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_other_benefits_Spouse__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_other_insurance_benefits_Spouse__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Other_Net_Income_Spouse__c</field>
             </layoutItems>
             <layoutItems>
@@ -884,6 +896,18 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Child_Tax_Benefit_Other__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_government_benefits_Other__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_other_benefits_Other__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_other_insurance_benefits_Other__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
