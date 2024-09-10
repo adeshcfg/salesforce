@@ -493,7 +493,7 @@ public class InsolvencyAccountTriggerHandler {
                 Sent_For_Owner_Review_Date__c,
                 Sent_For_Owner_Review_By__c,
                 Revival_Date__c,
-                Court_Province__c,
+                Debtor_1_Mailing_State_Province__c,
                 //Query updated to consider Insolvency Owner fields
                 Scotia_Record_Owner__c,
                 SDA_Record_Owner__c,
@@ -872,14 +872,14 @@ insolMap.put(insol.id, insol);
                     if (
                         insolAccntNew.Last_Payment_Date__c != null &&
                         insolAccntNew.Insolvency_Date__c != null &&
-                        !validateDateCriteria(insolAccntNew.Last_Payment_Date__c, insolAccntNew.Insolvency_Date__c, dbInsol.Court_Province__c)
+                        !validateDateCriteria(insolAccntNew.Last_Payment_Date__c, insolAccntNew.Insolvency_Date__c, dbInsol.Debtor_1_Mailing_State_Province__c)
                     ) {
                         insolAccntNew.addError('Last Payment date/Last Acknowledgment Date entered outside statue of limitations');
                     }
                     if (
                         insolAccntNew.Acknowledgement_date__c != null &&
                         insolAccntNew.Insolvency_Date__c != null &&
-                        !validateDateCriteria(insolAccntNew.Acknowledgement_date__c, insolAccntNew.Insolvency_Date__c, dbInsol.Court_Province__c)
+                        !validateDateCriteria(insolAccntNew.Acknowledgement_date__c, insolAccntNew.Insolvency_Date__c, dbInsol.Debtor_1_Mailing_State_Province__c)
                     ) {
                         insolAccntNew.addError('Last Payment date/Last Acknowledgment Date entered outside statue of limitations');
                     }
@@ -2092,6 +2092,10 @@ insDetails.add(insDetail);
      * @return Boolean
      **/
     public static Boolean validateDateCriteria(Date inputDate, Date insolvencyDate, String province) {
+        // Fail the validation if province is null
+        if(String.isBlank(province)) {
+            return false;
+        }
         Integer validMonthDifference = 0;
         for (String key : provinceYearValidYearDifferenceMap.keySet()) {
             if (key.split(',').contains(province)) {
