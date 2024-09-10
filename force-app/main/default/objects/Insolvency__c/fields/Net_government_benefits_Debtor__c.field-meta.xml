@@ -4,7 +4,7 @@
     <description>Monthly Government Benefits</description>
     <externalId>false</externalId>
     <inlineHelpText>Monthly Government Benefits</inlineHelpText>
-    <label>Net Government Benefits</label>
+    <label>Net Government Benefits Other</label>
     <precision>12</precision>
     <required>false</required>
     <scale>2</scale>

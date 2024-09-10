@@ -4,7 +4,7 @@
     <description>Monthly Other Benefits</description>
     <externalId>false</externalId>
     <inlineHelpText>Monthly Other Benefits</inlineHelpText>
-    <label>Net Other Benefits</label>
+    <label>Net Other Benefits Debtor</label>
     <precision>12</precision>
     <required>false</required>
     <scale>2</scale>
