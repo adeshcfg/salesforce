@@ -5,7 +5,8 @@
     <externalId>false</externalId>
     <formula>Monthly_Net_Employment_Income_Spouse__c+Monthly_Net_Pension_Annuities_Spouse__c+Monthly_Net_Child_Support_Spouse__c
 +Monthly_Net_Spoucal_Support_Spouse__c+Monthly_Net_Social_Assistance_Spouse__c+Child_Tax_Benefit_Spouse__c
-+Other_Net_Income_Spouse__c+Net_Self_Employment_Income_Spouse__c+Monthly_Net_Empl_Ins_Benefits_Spouse__c</formula>
++Other_Net_Income_Spouse__c+Net_Self_Employment_Income_Spouse__c+Monthly_Net_Empl_Ins_Benefits_Spouse__c
++ Net_government_benefits_Spouse__c + Net_other_benefits_Spouse__c + Net_other_insurance_benefits_Spouse__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Total Monthly Income Spouse Formula</inlineHelpText>
     <label>Total Monthly Income Spouse Frml</label>
