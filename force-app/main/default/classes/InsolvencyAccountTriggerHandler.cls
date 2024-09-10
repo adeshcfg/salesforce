@@ -874,14 +874,14 @@ insolMap.put(insol.id, insol);
                         insolAccntNew.Insolvency_Date__c != null &&
                         !validateDateCriteria(insolAccntNew.Last_Payment_Date__c, insolAccntNew.Insolvency_Date__c, dbInsol.Debtor_1_Mailing_State_Province__c)
                     ) {
-                        insolAccntNew.addError('Last Payment date/Last Acknowledgment Date entered outside statue of limitations');
+                        insolAccntNew.addError('Last Payment date/Last Acknowledgment Date entered outside statute of limitations');
                     }
                     if (
                         insolAccntNew.Acknowledgement_date__c != null &&
                         insolAccntNew.Insolvency_Date__c != null &&
                         !validateDateCriteria(insolAccntNew.Acknowledgement_date__c, insolAccntNew.Insolvency_Date__c, dbInsol.Debtor_1_Mailing_State_Province__c)
                     ) {
-                        insolAccntNew.addError('Last Payment date/Last Acknowledgment Date entered outside statue of limitations');
+                        insolAccntNew.addError('Last Payment date/Last Acknowledgment Date entered outside statute of limitations');
                     }
                 }
 
