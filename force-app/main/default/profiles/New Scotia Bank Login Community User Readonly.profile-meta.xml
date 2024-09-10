@@ -18487,6 +18487,36 @@
         <field>Insolvency__c.No_Of_Persons_In_House_Below_17_Debtor1__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Net_government_benefits_Spouse__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Net_other_benefits_Spouse__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Net_other_insurance_benefits_Spouse__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Net_government_benefits_Other__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Net_other_benefits_Other__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency__c.Net_other_insurance_benefits_Other__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
