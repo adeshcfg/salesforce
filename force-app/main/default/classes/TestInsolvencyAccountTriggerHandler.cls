@@ -66,7 +66,7 @@ private class TestInsolvencyAccountTriggerHandler {
         insolv1.Insolvency_Type__c = 'Bankruptcy';
         insolv1.Insolvency_Status__c = 'For Owner Review';
         insolv1.Trustee__c = accInstance.id;
-        insolv1.Court_Province__c = 'Nunavut';
+        insolv1.Debtor_1_Mailing_State_Province__c = 'Nunavut';
         insert insolv1;
 
         //Portfolio record
