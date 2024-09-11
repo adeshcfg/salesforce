@@ -879,7 +879,11 @@ insolMap.put(insol.id, insol);
                     if (
                         insolAccntNew.Acknowledgement_date__c != null &&
                         insolAccntNew.Insolvency_Date__c != null &&
-                        !validateDateCriteria(insolAccntNew.Acknowledgement_date__c, insolAccntNew.Insolvency_Date__c, dbInsol.Debtor_1_Mailing_State_Province__c)
+                        !validateDateCriteria(
+                            insolAccntNew.Acknowledgement_date__c,
+                            insolAccntNew.Insolvency_Date__c,
+                            dbInsol.Debtor_1_Mailing_State_Province__c
+                        )
                     ) {
                         insolAccntNew.addError('Last Payment date/Last Acknowledgment Date entered outside statute of limitations');
                     }
@@ -2093,17 +2097,22 @@ insDetails.add(insDetail);
      **/
     public static Boolean validateDateCriteria(Date inputDate, Date insolvencyDate, String province) {
         // Fail the validation if province is null
-        if(String.isBlank(province)) {
+        if (String.isBlank(province)) {
             return false;
         }
         Integer validMonthDifference = 0;
+        Integer monthsDifference = inputDate.monthsBetween(insolvencyDate);
+        // Increment number of months to accomodate end date past the start date of same month
+        if (insolvencyDate.day() > inputDate.day()) {
+            monthsDifference++;
+        }
         for (String key : provinceYearValidYearDifferenceMap.keySet()) {
             if (key.split(',').contains(province)) {
                 validMonthDifference = provinceYearValidYearDifferenceMap.get(key);
                 break;
             }
         }
-        if (validMonthDifference != 0 && inputDate.monthsBetween(insolvencyDate) > validMonthDifference) {
+        if (monthsDifference > validMonthDifference) {
             return false;
         }
         return true;
