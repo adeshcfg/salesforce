@@ -193,6 +193,10 @@
             <fullName>Pursuing Non-Bankrupt Co-Signor</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Deceased</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Insolvency_Account_Document_Type__c</picklist>
