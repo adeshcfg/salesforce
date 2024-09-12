@@ -37,6 +37,11 @@
                 <default>false</default>
                 <label>Pending voting decision</label>
             </value>
+            <value>
+                <fullName>Deceased</fullName>
+                <default>false</default>
+                <label>Deceased</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
