@@ -156,6 +156,65 @@
             </div>
           </div>
         </span>
+        <!-- Display related insolvency Attachments of type Creditor Package STARTS-->
+        <apex:outputPanel rendered="{!insolvAttList.size>0}">
+          <div class="slds-grid slds-m-top--large" style="margin-bottom: {!IF(isCommunityUser, '0.5rem', '0.5rem')}">
+             <div class="slds-col ">
+                <div class="slds-card" style="margin-left:2%;margin-right:2%;border-bottom:0px;border-left: 1px solid #d8dde6;border-right: 1px solid #d8dde6;">
+                   <header class="slds-card__header slds-grid">
+                      <div class="slds-col slds-media slds-media--center slds-text-heading--medium">
+                        Insolvency Creditors Package
+                      </div>
+                    </header>
+                   <section class="slds-card__body">
+                      <div class="slds-scrollable--x">
+                         <table class="slds-table slds-table--bordered">
+                            <thead>
+                               <tr class="slds-no-hover">
+                                  <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Name</th>
+                                  <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
+                                  <th class="slds-text-heading--label slds-size--3-of-12" style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}" scope="col">Uploaded By</th>
+                                  <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
+                               </tr>
+                            </thead>
+                            <tbody>
+                               <apex:repeat value="{!insolvAttList}" var="att">
+                                  <tr>
+                                     <td style="max-width:250px;">
+                                        <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
+                                           <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(NOT(isGoeasyBankCommunityUser), "", "none;")}'>
+                                           <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!att.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!att.Name}</a>
+                                           </span>
+                                           <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(isGoeasyBankCommunityUser, "", "none;")}'>
+                                              <a href="/servlet/servlet.FileDownload?file={!att.Id}" target="_blank" >{!att.Name}</a>  
+                                            </span>
+                                        </li>
+                                     </td>
+                                     <td>
+                                        <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}" >
+                                           <apex:param value="{!att.createdDate + offset}" />
+                                        </apex:outputText>
+                                     </td>
+                                     <td style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}">
+                                       <apex:outputText value="{!att.owner.Name}">
+                                       </apex:outputText>
+                                    </td>
+                                     <td>
+                                        <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}" >
+                                           <apex:param value="{!att.LastModifiedDate + offset}" />
+                                        </apex:outputText>
+                                     </td>
+                                  </tr>
+                               </apex:repeat>
+                            </tbody>
+                         </table>
+                      </div>
+                   </section>
+                </div>
+             </div>
+          </div>
+       </apex:outputPanel>
+       <!-- Display related insolvency Attachments of type Creditor Package ENDS -->
       </apex:form>
       <apex:stylesheet value="{!URLFOR($Resource.LightningDesign, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
       <style>
