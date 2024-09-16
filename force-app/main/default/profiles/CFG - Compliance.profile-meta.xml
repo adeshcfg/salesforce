@@ -16012,7 +16012,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Product__c.Placement_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
