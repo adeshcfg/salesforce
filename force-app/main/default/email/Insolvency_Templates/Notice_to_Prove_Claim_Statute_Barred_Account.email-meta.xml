@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notice to Prove Claim – Statute Barred Account for Canaccede accounts only</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Notice to Prove Claim – Statute Barred Account</name>
+    <style>none</style>
+    <subject>Notice to prove claim for Estate Number “{!Insolvency__r.Name}” and Account Number &quot;{!Insolvency_Account__c.Secured_Name__c}&quot;</subject>
+    <textOnly>Dear Sir / Madam,
+
+We recently received your notice to prove claim.
+
+The reason that we have not filed a claim on the above-mentioned account is that it was statute barred as at the date of insolvency. 
+
+As verified by the OSB, due to the statute of limitations having expired, the debt is not a claim provable in the insolvent estate and as a result does not fall within the debts impacted by the insolvency proceedings.  
+
+Please note that while a creditor cannot initiate a legal proceeding for recovery of a debt if the applicable statute of limitations on such debt has expired, that does not operate to prohibit a creditor’s right to continue other collection activity as permitted in accordance with the applicable provincial legislative regime. We also note that the time period a creditor is permitted to report a debt on a consumer’s credit bureau in accordance with the applicable credit reporting act is different than the time period for commencing a legal action on a debt in most provinces.
+
+Thank You,
+
+Canaccede Insolvency Processing
+
+Email: {!pocPackage.CFG_Office_Email_Address__c}
+Facsimile: {!pocPackage.CFG_Office_Fax_Number__c}
+Telephone: {!pocPackage.CFG_Office_Phone_Number__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
