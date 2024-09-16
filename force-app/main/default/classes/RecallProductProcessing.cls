@@ -69,8 +69,7 @@ public class RecallProductProcessing {
         allProdToRecallList = prodStatusWapper.prodIdsProductStatus;
 
         for(Id productIds : allProdToRecallList.keySet()){
-            setProductIDs.add(productIds);
-            Product_Staging__c stagingNewRecord = new Product_Staging__c();
+            setProductIDs.add(productIds);            
             
             if(prodStagingMap.containsKey(productIds)){
                 if(prodStagingMap.get(productIds).Status_Changed_Date__c != NULL){
@@ -89,13 +88,27 @@ public class RecallProductProcessing {
                     statusChangedDateText = prodStagingMap.get(productIds).Status_Changed_Date_Text__c; 
                 }
             }
-            if(!prodStagingMap.containsKey(productIds)){
-                stagingNewRecord.Product_ID__c = productIds;
-                stagingNewRecord.Status_Changed_Date__c = statusChangedDate;
-                stagingNewRecord.Placement_Status_Code__c = placementStatusCode;
-                stagingNewRecord.Placement_Main_Status__c = placementMainStatus;
-                stagingNewRecord.Placement_Sub_Status__c = placementSubStatus;
-                stagingNewRecord.Status_Changed_Date_Text__c = statusChangedDateText;
+            
+        }
+        for(Id productRecallIds : allProdToRecallList.keySet()){
+            Product_Staging__c stagingNewRecord = new Product_Staging__c();
+            if(!prodStagingMap.containsKey(productRecallIds)){
+                stagingNewRecord.Product_ID__c = productRecallIds;
+                if(statusChangedDate != NULL){
+                    stagingNewRecord.Status_Changed_Date__c = statusChangedDate;
+                }
+                if(placementStatusCode != NULL){
+                    stagingNewRecord.Placement_Status_Code__c = placementStatusCode;
+                }
+                if(placementMainStatus != NULL){
+                    stagingNewRecord.Placement_Main_Status__c = placementMainStatus;
+                }
+                if(placementSubStatus != NULL){
+                    stagingNewRecord.Placement_Sub_Status__c = placementSubStatus;
+                }
+                if(statusChangedDateText != NULL){
+                    stagingNewRecord.Status_Changed_Date_Text__c = statusChangedDateText;
+                }
                 insert stagingNewRecord;
             }
             if(stagingNewRecord.Product_ID__c != NULL){
