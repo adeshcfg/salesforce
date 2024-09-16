@@ -66,6 +66,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Mallette Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Media Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CCS Form</fullName>
             <default>false</default>
         </values>

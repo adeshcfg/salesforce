@@ -59,6 +59,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Mallette Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Media Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Bulk Response</fullName>
             <default>false</default>
         </values>

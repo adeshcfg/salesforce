@@ -86,6 +86,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Mallette Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Media Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Business Insolvency</fullName>
             <default>false</default>
         </values>
