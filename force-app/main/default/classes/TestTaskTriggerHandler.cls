@@ -273,13 +273,22 @@ public class TestTaskTriggerHandler{
     
     public static List<Settlement__c> createSettlement(){
         
+        Product__c prd1 = new Product__c();
+        prd1.name = '10000P122';
+        prd1.source_system__c = 'Megasys';
+        prd1.Branch_Number__c = 1;
+        prd1.Charged_Off_Date__c = System.Today();
+        prd1.Charged_Off_Code__c = 'None';
+        prd1.Current_Balance__c = null;
+        insert prd1;
+        
         List<Product__c> listProd = createProduct();
         List<Judgment__c> listJudg = createJudgment();
         
         List<Settlement__c> settles = new List<Settlement__c>();
         Settlement__c settle = new Settlement__c();
         
-        settle.Product__c = listProd[2].id;
+        settle.Product__c = prd1.id;
         settle.Proposal_Amount__c = 150;
         settle.Status__c = 'New';
         settle.Employment__c ='Yes';
