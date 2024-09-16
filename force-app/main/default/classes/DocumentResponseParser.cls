@@ -789,10 +789,12 @@ public class DocumentResponseParser {
                 insolv.Ever_been_Bankrupt_Before__c = getYesNoValues(form79BisParts.debtors[0].everBeenBankruptBefore);
             }
             if(form79BisParts.debtors[0].numberOfPersonsInHousehold != null) {
-                insolv.Number_Of_Persons_In_Household__c = getDecimalValue(form79BisParts.debtors[0].numberOfPersonsInHousehold);
+                insolv.Number_Of_Persons_In_Household_Debtor__c = getDecimalValue(form79BisParts.debtors[0].numberOfPersonsInHousehold);
+                insolv.Number_Of_Persons_In_Household__c = insolv.Number_Of_Persons_In_Household_Debtor__c;
             }
             if(form79BisParts.debtors[0].numberOfPersonsSeventeenOrLess != null) {
-                insolv.Number_Of_Persons_In_Household_Below_17__c = getDecimalValue(form79BisParts.debtors[0].numberOfPersonsSeventeenOrLess);
+                insolv.No_Of_Persons_In_House_Below_17_Debtor__c = getDecimalValue(form79BisParts.debtors[0].numberOfPersonsSeventeenOrLess);
+                insolv.Number_Of_Persons_In_Household_Below_17__c = insolv.No_Of_Persons_In_House_Below_17_Debtor__c;
             }
             if(form79BisParts.debtors[0].spouseFirstName != null || form79BisParts.debtors[0].spouseMiddleName != null || form79BisParts.debtors[0].spouseLastName != null) {
                 insolv.Debtor_1_Spouse_CommonLaw_Partner_Name__c = form79BisParts.debtors[0].spouseFirstName + ' ' + checkAndGetStringValue(form79BisParts.debtors[0].spouseMiddleName) + ' ' + form79BisParts.debtors[0].spouseLastName;
@@ -2106,6 +2108,8 @@ public class DocumentResponseParser {
 
     public class Form79BisParts {
         public List<Debtors> debtors;
+        public String numberOfPersonsInHousehold;
+        public String numberOfPersonsSeventeenOrLess;
         public String totalSecuredClaims;
         public String totalUnsecuredClaims;
         public String totalAssets;
