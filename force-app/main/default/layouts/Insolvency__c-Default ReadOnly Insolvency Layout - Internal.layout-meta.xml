@@ -304,11 +304,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Number_Of_Persons_In_Household__c</field>
+                <field>Number_Of_Persons_In_Household_Debtor__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Number_Of_Persons_In_Household_Below_17__c</field>
+                <field>No_Of_Persons_In_House_Below_17_Debtor__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
