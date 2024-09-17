@@ -255,16 +255,6 @@
                 <label>Scotia Secured Email</label>
             </value>
             <value>
-                <fullName>Mallette Email</fullName>
-                <default>false</default>
-                <label>Mallette Email</label>
-            </value>
-            <value>
-                <fullName>Media Request</fullName>
-                <default>false</default>
-                <label>Media Request</label>
-            </value>
-            <value>
                 <fullName>Rogers</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
