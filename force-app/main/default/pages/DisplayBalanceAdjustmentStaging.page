@@ -186,8 +186,8 @@
                          <!--<apex:actionSupport event="onchange" />-->
                     </apex:inputCheckbox>
                 </apex:column>
-                <apex:column rendered="{!showTypeColumn}">
-                    <apex:facet name="header"><apex:outputText value="Direct_Payment_Type"/></apex:facet>
+                <apex:column rendered="{!showTypeColumn}" style="width:6%">
+                    <apex:facet name="header"><apex:outputText value="Direct Payment Type"/></apex:facet>
                     	<apex:outputField value="{!payment.payStaging.Direct_Payment_Type__c}"/>
                 </apex:column>
                 <apex:column >
@@ -244,6 +244,10 @@
                 <apex:column >
                     <apex:facet name="header">Status</apex:facet>
                     <apex:outputfield value="{!payment.payStaging.Status__c}"></apex:outputfield>
+                </apex:column>
+                <apex:column style="width:8%;vertical-align:baseline">
+                    <apex:facet name="header">Memo</apex:facet>
+                    <apex:outputfield value="{!payment.payStaging.Memo__c}"></apex:outputfield>
                 </apex:column>
             </apex:datatable>
             <apex:actionStatus id="status">

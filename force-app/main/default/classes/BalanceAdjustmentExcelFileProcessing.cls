@@ -172,6 +172,17 @@
                         wrapRecord.data_id = wrapRecord.data_id.substringBefore('.');
                     }
                 }
+                
+                // 7007
+                if (String.isNotBlank(wrapRecord.memo) &&
+                    wrapRecord.memo.length() > 254) {
+                        wrapRecord.memo = wrapRecord.memo.substring(0, 254);
+                        
+                    }
+                
+                if(String.isNotBlank(wrapRecord.memo)){
+                    prodPayment.Memo__c = wrapRecord.memo;
+                }
 
                 prodPayment.CCS_Account__c = mapAccountNumberID.get(wrapRecord.data_id);
                 prodPayment.CCS_Account_Name__c = wrapRecord.data_id;
@@ -1132,6 +1143,8 @@
             payStaging.Fee_Type__c = prodPayment.Fee_Type__c;
             payStaging.Billing_Entity__c = prodPayment.Billing_Entity__c;
             paySTaging.Direct_Payment_Type__c = prodPayment.Direct_Payment_Type__c;
+            // 7007
+            payStaging.Memo__c = prodPayment.Memo__c;
 
             if (String.isBlank(ERROR_MSG)) {
                 payStaging.Comment__c = 'SUCCESS';
@@ -1159,5 +1172,7 @@
         public String commission_rate_override { get; set; }
         public String pay_source { get; set; }
         public String direct_payment_type { get; set; }
+        // 7007
+        public String memo {get; set;}   
     }
 }

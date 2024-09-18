@@ -450,6 +450,7 @@ public class DisplayProductPaymentStagingController {
                    if(portalSettings.Distressed_Payment_RecordType_ID__c != NULL){
                        prodPayment.RecordTypeID = portalSettings.Distressed_Payment_RecordType_ID__c;
                    }
+                   prodPayment.Memo__c = payStaging.Memo__c;
                    listProdPayment.add(prodPayment);
                    if(String.isNotBlank(payStaging.Original_Of_Payment_Reversal__c)){
                        Product_payments__c prodPayToUpdate = new Product_payments__c();
