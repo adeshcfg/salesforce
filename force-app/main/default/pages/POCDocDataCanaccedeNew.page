@@ -674,7 +674,7 @@
                         {!insolvAcc.Voting_Letter_Comments__c}
                     </div>
                 </div>
-                
+                <br/>
                 Dated at London, Ontario, this <span  style="font-family: sans-serif; font-weight:bold;">
                 <apex:outputText value="{0,date, dd }">
                     <apex:param value="{!TODAY()}" /> 
