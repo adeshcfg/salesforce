@@ -23,7 +23,7 @@
 }
 </style>
 
-<body>
+<apex:form >
 
 <div style = "border: 1px solid;padding: 1%;">
 	<div style = "font-weight:bold;font-size:large">
@@ -31,9 +31,21 @@
     </div>
     <table style = "width:80%">
         <tr>
-            <td>Posting Date :<input type = "date" value="{!eftInstance.Posting_Date__c}" id = "postingDateVal"/></td>
-            <td>URL for Source file :<input type = "text" value="{!eftInstance.Text_URL__c}" id = "shortUrlVal"/></td>
+            <td>Posting Date : <input type = "date" value="{!eftInstance.Posting_Date__c}" id = "postingDateVal"/></td>
+            <td>URL for Source file : <input type = "text" value="{!eftInstance.Text_URL__c}" id = "shortUrlVal"/></td> 
         </tr>
+      
+        <tr>  
+            <td><br />
+                <label class="slds-form-element__label" for="text-input-id-47">Select Bank Name : </label>
+                
+                <apex:selectList value="{!selectedValueAction}" size="1" style="width: 210px;">
+                <apex:selectOptions value="{!listBankName}" />
+                <apex:actionSupport event="onchange" reRender="none" action="{!processExcelFile}" />
+                </apex:selectList>
+            </td>
+        
+        </tr>        
         <tr>
         	<td style = "padding-top: 25px;"> <input type="file" class="upload" id="f_UploadExcel"/><br />
                 <pre> Upload EFT Excel </pre>
@@ -55,7 +67,7 @@
     </tr>    
   </table>
 </div>
-</body>
+</apex:form>
 <script>
     var fileName;
     var postingDate;

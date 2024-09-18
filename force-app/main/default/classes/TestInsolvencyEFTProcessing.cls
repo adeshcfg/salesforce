@@ -92,7 +92,7 @@ public class TestInsolvencyEFTProcessing {
         InsolvencyPaymentUploadController controller = new InsolvencyPaymentUploadController();
         //upload error
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON);
+        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
 
         //account no null
         testOutputJSON =
@@ -107,8 +107,9 @@ public class TestInsolvencyEFTProcessing {
             '"GrossPayment":500.0' +
             '}]';
         controller = new InsolvencyPaymentUploadController();
+        controller.selectedValueAction = 'Trustee Payment Files';
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON);
+        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
 
         //net payment null
         testOutputJSON =
@@ -124,7 +125,7 @@ public class TestInsolvencyEFTProcessing {
             '}]';
         controller = new InsolvencyPaymentUploadController();
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON);
+        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
 
         //success
         testOutputJSON =
@@ -150,7 +151,7 @@ public class TestInsolvencyEFTProcessing {
             '}]';
         controller = new InsolvencyPaymentUploadController();
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON);
+        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
 
         EFT_Files__c eftInstance = new EFT_Files__c();
         insert eftInstance;
@@ -177,7 +178,7 @@ public class TestInsolvencyEFTProcessing {
         eft.Posting_Date__c = system.today();
         insert eft;
 
-        ProcessInsolvencyEFTBatch batch1 = new ProcessInsolvencyEFTBatch(listPaymentRecordWrapper, eft);
+        ProcessInsolvencyEFTBatch batch1 = new ProcessInsolvencyEFTBatch(listPaymentRecordWrapper, eft,'Trustee Payment Files');
         database.executeBatch(batch1);
     }
 
@@ -277,6 +278,7 @@ public class TestInsolvencyEFTProcessing {
         InsolvencyPaymentUploadController controller = new InsolvencyPaymentUploadController();
         controller.excelFile = excelFile;
         Test.startTest();
+        controller.selectedValueAction = 'Trustee Payment Files';
         controller.processExcelFile();
         Test.stopTest();
     }

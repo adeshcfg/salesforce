@@ -14,10 +14,14 @@ public class InsolvencyPaymentUploadController {
     public EFT_Files__c eftInstance { get; set; }
     public String postingDate { get; set; }
     EFT_Processing_Config__c eftConfigInstance;
+    public String selectedValueAction { get; set; }
+    public List<SelectOption> listBankName{get;set;}
 
     public InsolvencyPaymentUploadController() {
         showButtons = false;
         Id EFTRecordId = ApexPages.currentPage().getParameters().get('id');
+        listBankName = getBankNameList();
+        
         eftInstance = new EFT_Files__c();
         if (EFTRecordId != null) {
             eftInstance = [
@@ -40,6 +44,7 @@ public class InsolvencyPaymentUploadController {
             showButtons = true;
             postingDate = String.valueOf(eftInstance.Posting_Date__c);
         }
+        selectedValueAction = '';
         showFileUpload = true;
         eftConfigInstance = EFT_Processing_Config__c.getOrgDefaults();
     }
@@ -49,16 +54,23 @@ public class InsolvencyPaymentUploadController {
      * @author adesh.ikhar@canaccede.com | 02-15-2024
      **/
     public void processExcelFile() {
+        if(selectedValueAction == NULL || selectedValueAction == ''){
+            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR, 'Please select Bank Name'));
+            return;
+        }
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         String accessToken = AzureUtility.getRequestToken(apiCallDetails);
         HttpRequest documentApiReq = StriplistInsolPaymentUploadController.getExcelToJsonRequest(apiCallDetails);
-        documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
+        if(excelFile != NULL){
+            documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
+        }
+        
         // Free up view state
         excelFile = '';
         try {
             HttpResponse response = new Http().send(documentApiReq);
             if (response.getStatusCode() == 200 && String.isNotBlank(response.getBody())) {
-                importDatatoApex(response.getBody());
+                importDatatoApex(response.getBody(),selectedValueAction);
             } else {
                 StriplistInsolPaymentUploadController.insertApiError(
                     response.getBody(),
@@ -87,7 +99,7 @@ public class InsolvencyPaymentUploadController {
         }
     }
 
-    public void importDatatoApex(String outputJSON) {
+    public void importDatatoApex(String outputJSON,String selectedBankName) {
         List<EFTUtil.paymentRecordsWrapper> listPaymentRecordWrapper = new List<EFTUtil.paymentRecordsWrapper>();
 
         EFTUtil eftUtilInstance = new EFTUtil();
@@ -147,7 +159,7 @@ public class InsolvencyPaymentUploadController {
             Apexpages.addMessage(
                 new ApexPages.message(Apexpages.Severity.INFO, 'File is being processed.  You will receive email once processing is completed.')
             );
-            ProcessInsolvencyEFTBatch batchInstance = new ProcessInsolvencyEFTBatch(listPaymentRecordWrapper, eftInstance);
+            ProcessInsolvencyEFTBatch batchInstance = new ProcessInsolvencyEFTBatch(listPaymentRecordWrapper, eftInstance,selectedBankName);
             database.executeBatch(batchInstance);
         } catch (Exception ex) {
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, ex.getMessage()));
@@ -170,5 +182,18 @@ public class InsolvencyPaymentUploadController {
         }
         retURL.setRedirect(true);
         return retURL;
+    }
+    
+    public List<SelectOption> getBankNameList(){
+        List<SelectOption> bankNameList = new List<SelectOption>();
+        List <RecordType> recordTypes = [Select Id, DeveloperName,name From RecordType where sobjecttype = 'Insolvency_Account__c'];
+        bankNameList.add(new SelectOption('None','None'));
+        for(RecordType recordType : recordTypes){
+            
+            bankNameList.add(new SelectOption(recordType.DeveloperName, recordType.name));
+        }
+        bankNameList.add(new SelectOption('Trustee Payment Files','Trustee Payment Files'));
+        
+        return bankNameList;
     }
 }

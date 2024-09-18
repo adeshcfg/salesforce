@@ -109,7 +109,7 @@ public class TestInsolvencyStriplistParsing {
         StriplistInsolPaymentUploadController controller = new StriplistInsolPaymentUploadController(sc);
         //upload error
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
+        controller.importDatatoApex(testOutputJSON);
 		
         //account no null
         testOutputJSON =
@@ -121,9 +121,8 @@ public class TestInsolvencyStriplistParsing {
             '"Amount":39.0,' +
             '}]';
         controller = new StriplistInsolPaymentUploadController(sc);
-        controller.selectedValueAction = 'Trustee Payment Files';
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
+        controller.importDatatoApex(testOutputJSON);
 		
         //EstateNumber null
         testOutputJSON =
@@ -136,7 +135,7 @@ public class TestInsolvencyStriplistParsing {
             '}]';
         controller = new StriplistInsolPaymentUploadController(sc);
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
+        controller.importDatatoApex(testOutputJSON);
 		
         //net payment null
         testOutputJSON =
@@ -149,7 +148,7 @@ public class TestInsolvencyStriplistParsing {
             '}]';
         controller = new StriplistInsolPaymentUploadController(sc);
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
+        controller.importDatatoApex(testOutputJSON);
 
         remittanceInstance.Cheque_Amount__c = 313.53;
         update remittanceInstance;
@@ -185,7 +184,7 @@ public class TestInsolvencyStriplistParsing {
             ']';
         controller = new StriplistInsolPaymentUploadController(sc);
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
+        controller.importDatatoApex(testOutputJSON);
         controller.backToDividend();
 
         Test.setCurrentPageReference(new PageReference('InsolvencyPaymentUpload'));
@@ -215,7 +214,7 @@ public class TestInsolvencyStriplistParsing {
         wrapper.amount = '65.0';
         listPaymentRecordWrapper.add(wrapper);
 
-        ProcessInsolvencyStriplistBatch batch1 = new ProcessInsolvencyStriplistBatch(listPaymentRecordWrapper, remittance,'Trustee Payment Files');
+        ProcessInsolvencyStriplistBatch batch1 = new ProcessInsolvencyStriplistBatch(listPaymentRecordWrapper, remittance);
         database.executeBatch(batch1);
     }
 
@@ -322,7 +321,6 @@ public class TestInsolvencyStriplistParsing {
         StriplistInsolPaymentUploadController controller = new StriplistInsolPaymentUploadController(sc);
         controller.excelFile = excelFile;
         Test.startTest();
-        controller.selectedValueAction = 'Trustee Payment Files';
         controller.processExcelFile();
         Test.stopTest();
     }

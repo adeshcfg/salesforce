@@ -23,7 +23,7 @@
 }
 </style>
 
-<apex:form >
+<body>
 
 <div style = "border: 1px solid;padding: 1%;" id="body1">
 	<div style = "font-weight:bold;font-size:large" >
@@ -31,17 +31,6 @@
         </div><br/>
     <div> <a href="/{!remittanceInstance.Id}">{!remittanceInstance.Name}</a> </div>
     <table style = "width:80%">
-        <tr>
-        <label class="slds-form-element__label" for="text-input-id-47">Select Bank Name: </label>
-            <br/>
-            <apex:selectList value="{!selectedValueAction}" size="1">
-                <apex:selectOptions value="{!listBankName}" />
-                <apex:actionSupport event="onchange" reRender="none" action="{!processExcelFile}" />
-        	</apex:selectList>
-            
-            
-            
-        </tr>
         <tr>
         	<td style = "padding-top: 25px;"> <input type="file" class="upload" id="f_UploadExcel"/><br />
                 <pre> Upload StripList Excel </pre>
@@ -60,7 +49,7 @@
     </tr>    
   </table>
 </div>
-            </apex:form>
+</body>
 <script>        
 	$( document ).ready(function() {
         if({!showButtons} == true){
