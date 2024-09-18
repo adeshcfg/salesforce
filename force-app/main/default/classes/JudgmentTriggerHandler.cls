@@ -1870,11 +1870,16 @@ Accure Interest from curDate (last payment's postoing date) to Today
 
         JudgmentTriggerHandler.runJudgmentTrigger = false;
         applicationConfigSetting.Bypass_Judgement_Validation__c = false;
-        update applicationConfigSetting;
+        
+        if(applicationConfigSetting.Id != NULL){ // Abhijeet (18/09/2024) - Null check on record Id prior to update
+            update applicationConfigSetting;
+        }
         update judgMap.values();
         applicationConfigSetting.Bypass_Judgement_Validation__c = true;
         JudgmentTriggerHandler.runJudgmentTrigger = true;
-        update applicationConfigSetting;
+        if(applicationConfigSetting.Id != NULL){ // Abhijeet (18/09/2024) - Null check on record Id prior to update
+            update applicationConfigSetting;
+        }
     }
     //Bug: 5564 - Nagendra added below method
     //To Populate the Placement Ids on Judgment
