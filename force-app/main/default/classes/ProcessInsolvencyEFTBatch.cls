@@ -68,7 +68,7 @@ public Class ProcessInsolvencyEFTBatch implements Database.Batchable<EFTUtil.pay
             }
             
             //Fetch canaccede and fidem accounts
-            List<Insolvency_Account__c> listAccount = [select id, Name,Previous_Account_Reference__c,recordtype.DeveloperName 
+            List<Insolvency_Account__c> listAccount = [select id, Name,Previous_Account_Reference__c,recordtype.DeveloperName,Debtor_1_Estate_Number__c  
                                                        from Insolvency_Account__c 
                                                        where (name in :setAccountNumbers OR 
                                                              (Previous_Account_Reference__c != NULL and Previous_Account_Reference__c IN : setAccountNumbers)  )
@@ -82,20 +82,24 @@ public Class ProcessInsolvencyEFTBatch implements Database.Batchable<EFTUtil.pay
                 //Check if insolvency account present with matching Account Number
                 if(accountRecord.recordtype.DeveloperName == selectedBankName){
                     if(setAccountNumbers.contains(accountRecord.Name)){
-                        mapAccountNumberID.put(accountRecord.name, accountRecord.id);    
+                        mapAccountNumberID.put(accountRecord.name + ':'+
+                                               accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);    
                     }
                     //Else Check if insolvency account present with matching Alternate Account Number
                     else if(setAccountNumbers.contains(accountRecord.Previous_Account_Reference__c)){
-                        mapAlternateAccountNumberID.put(accountRecord.Previous_Account_Reference__c, accountRecord.id);
+                        mapAlternateAccountNumberID.put(accountRecord.Previous_Account_Reference__c + ':'+
+                                                accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);
                     }
                 }
                 else if(selectedBankName == 'Trustee Payment Files'){
                     if(setAccountNumbers.contains(accountRecord.Name)){
-                        mapAccountNumberID.put(accountRecord.name, accountRecord.id);    
+                        mapAccountNumberID.put(accountRecord.name + ':'+
+                                               accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);    
                     }
                     //Else Check if insolvency account present with matching Alternate Account Number
                     else if(setAccountNumbers.contains(accountRecord.Previous_Account_Reference__c)){
-                        mapAlternateAccountNumberID.put(accountRecord.Previous_Account_Reference__c, accountRecord.id);
+                        mapAlternateAccountNumberID.put(accountRecord.Previous_Account_Reference__c + ':'+
+                                                        accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);
                     }
                 }
                 
@@ -104,10 +108,12 @@ public Class ProcessInsolvencyEFTBatch implements Database.Batchable<EFTUtil.pay
             //Populate the data from Canaccede accounts and Fidem account into allocated file
             for(EFTUtil.paymentRecordsWrapper wrapRecord : wrapList){
                 String accountID = '';
-                accountID = mapAccountNumberID.get(wrapRecord.accountNumber);
+                accountID = mapAccountNumberID.get(wrapRecord.accountNumber + ':'+ 
+                                                   wrapRecord.estateNumber);
                 //if no record found with matching account number, get matching alternate account number
                 if(String.isBlank(accountID)){
-                    accountID = mapAlternateAccountNumberID.get(wrapRecord.accountNumber);
+                    accountID = mapAlternateAccountNumberID.get(wrapRecord.accountNumber + ':'+ 
+                                                   wrapRecord.estateNumber);
                 }
 				system.debug('accountID: '+accountID);
                 if(String.isNotBlank(wrapRecord.accountNumber)){
@@ -147,7 +153,7 @@ public Class ProcessInsolvencyEFTBatch implements Database.Batchable<EFTUtil.pay
             //listAccount = [select id, name from Insolvency_Account__c where name in :accountNumberList and client_identifier__c != 'Canaccede' and client_identifier__c != 'Fidem' and asset_status__c in ('Purchased', 'Bulk Purchased', 'Debt Purchase')];
             
             /*Ticket#904 - Remove Insolvency Account 'Asset Status' filter from matching criteria while allocating payments from EFT file upload*/
-            listAccount = [SELECT ID, Name,Previous_Account_Reference__c,recordtype.DeveloperName 
+            listAccount = [SELECT ID, Name,Previous_Account_Reference__c,recordtype.DeveloperName,Debtor_1_Estate_Number__c 
                            FROM Insolvency_Account__c 
                            WHERE (Name IN :setAccountNumbers OR (Previous_Account_Reference__c!= NULL and Previous_Account_Reference__c IN :setAccountNumbers) )
                            and Client_Identifier__c != 'Canaccede' and Client_Identifier__c != 'Fidem'];
@@ -162,22 +168,26 @@ public Class ProcessInsolvencyEFTBatch implements Database.Batchable<EFTUtil.pay
                 if(accountRecord.recordtype.DeveloperName == selectedBankName){
                     if(!mapAccountNumberID.containsKey(accountRecord.Name) && !mapAlternateAccountNumberIDAll.containsKey(accountRecord.Name)){
                         if(setAccountNumbers.contains(accountRecord.Name)){
-                            mapAccountNumberIDAll.put(accountRecord.name, accountRecord.id);    
+                            mapAccountNumberIDAll.put(accountRecord.name + ':'+
+                                             accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);    
                         }
                         //Else Check if insolvency account present with matching Alternate Account Number
                         else if(setAccountNumbers.contains(accountRecord.Previous_Account_Reference__c)){
-                            mapAlternateAccountNumberIDAll.put(accountRecord.Previous_Account_Reference__c, accountRecord.id);
+                            mapAlternateAccountNumberIDAll.put(accountRecord.Previous_Account_Reference__c + ':'+
+                                              accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);
                         }    
                     }
                 }
                 else if(selectedBankName == 'Trustee Payment Files'){
                     if(!mapAccountNumberID.containsKey(accountRecord.Name) && !mapAlternateAccountNumberIDAll.containsKey(accountRecord.Name)){
                         if(setAccountNumbers.contains(accountRecord.Name)){
-                            mapAccountNumberIDAll.put(accountRecord.name, accountRecord.id);    
+                            mapAccountNumberIDAll.put(accountRecord.name + ':'+
+                                              accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);    
                         }
                         //Else Check if insolvency account present with matching Alternate Account Number
                         else if(setAccountNumbers.contains(accountRecord.Previous_Account_Reference__c)){
-                            mapAlternateAccountNumberIDAll.put(accountRecord.Previous_Account_Reference__c, accountRecord.id);
+                            mapAlternateAccountNumberIDAll.put(accountRecord.Previous_Account_Reference__c + ':'+
+                                               accountRecord.Debtor_1_Estate_Number__c, accountRecord.id);
                         }    
                     }
                 }
@@ -190,11 +200,13 @@ public Class ProcessInsolvencyEFTBatch implements Database.Batchable<EFTUtil.pay
             //Populate the data from purchased non Canaccede accounts and non Fidem account into allocated file
             for(EFTUtil.paymentRecordsWrapper wrapRecord : unallocatedWrapList){
                 String accountID = '';
-                accountID = mapAccountNumberIDAll.get(wrapRecord.accountNumber);
+                accountID = mapAccountNumberIDAll.get(wrapRecord.accountNumber + ':'+ 
+                                                     wrapRecord.estateNumber);
                 
                 //if no record found with matching account number, get matching alternate account number
                 if(String.isBlank(accountID)){
-                    accountID = mapAlternateAccountNumberIDAll.get(wrapRecord.accountNumber);
+                    accountID = mapAlternateAccountNumberIDAll.get(wrapRecord.accountNumber + ':'+ 
+                                                       wrapRecord.estateNumber);
                 }
                 system.debug('accountID 2 : '+accountID);
                 
