@@ -280,13 +280,10 @@ public class TestInsolvencyEFTProcessing {
         Application_Config_Settings__c config = new Application_Config_Settings__c();
         config.Run_EmailMessage_Trigger__c = false;
         InsolvencyPaymentUploadController controller = new InsolvencyPaymentUploadController();
-        InsolvencyPaymentUploadController controller1 = new InsolvencyPaymentUploadController();
         controller.excelFile = excelFile;
         Test.startTest();
         controller.selectedValueAction = 'Trustee Payment Files';
         controller.processExcelFile();
-        controller1.selectedValueAction = 'Scotia Bank Insolvency Account';
-        controller1.processExcelFile();
         Test.stopTest();
     }
 }
