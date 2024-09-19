@@ -68,6 +68,7 @@ public class TestInsolvencyEFTProcessing {
         insolvencyAccount.Portfolio_Group_Name__c = 'CCL001';
         insolvencyAccount.Investment_Group__c = 'AFFIRM';
         insolvencyAccount.Portfolio_Name_Lookup__c = portfolioName.id;
+        insolvencyAccount.Debtor_1_Estate_Number__c = '00-000001';
         insert insolvencyAccount;
 
         API_Call_Details__c portalApi = new API_Call_Details__c();
@@ -109,7 +110,7 @@ public class TestInsolvencyEFTProcessing {
         controller = new InsolvencyPaymentUploadController();
         controller.selectedValueAction = 'Trustee Payment Files';
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
+        controller.importDatatoApex(testOutputJSON,'Scotia Bank Insolvency Account');
 
         //net payment null
         testOutputJSON =
@@ -125,7 +126,7 @@ public class TestInsolvencyEFTProcessing {
             '}]';
         controller = new InsolvencyPaymentUploadController();
         controller.excelFile = testOutputJSON;
-        controller.importDatatoApex(testOutputJSON,'Trustee Payment Files');
+        controller.importDatatoApex(testOutputJSON,'Scotia Bank Insolvency Account');
 
         //success
         testOutputJSON =
@@ -180,6 +181,9 @@ public class TestInsolvencyEFTProcessing {
 
         ProcessInsolvencyEFTBatch batch1 = new ProcessInsolvencyEFTBatch(listPaymentRecordWrapper, eft,'Trustee Payment Files');
         database.executeBatch(batch1);
+        
+        ProcessInsolvencyEFTBatch batch2 = new ProcessInsolvencyEFTBatch(listPaymentRecordWrapper, eft,'Scotia Bank Insolvency Account');
+        database.executeBatch(batch2);
     }
 
     public static testMethod void testInsertInsolvencyPaymentBatch() {
