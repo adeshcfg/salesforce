@@ -1119,6 +1119,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Exclude_for_Reporting__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>TransUnion_Reported_As_Complete_Count__c</field>
             </layoutItems>
         </layoutColumns>
