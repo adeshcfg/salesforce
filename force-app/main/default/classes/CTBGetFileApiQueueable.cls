@@ -2,27 +2,44 @@
  * @description       : Queueable class to get file list and store other API callout methods for incoming file
  * @author            : adesh.ikhar@canaccede.com
  * @group             :
- * @last modified on  : 08-07-2024
+ * @last modified on  : 09-19-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallouts {
     public static final String API_TYPE_PARAMETER = 'incoming_decrypted';
     public static final String FILE_TYPE_PARAMETER = 'csv';
     public void execute(QueueableContext context) {
+        List<String> filteredFileList = new List<String>();
         // Call API to get the list of files
         List<String> fileNameList = getFileList(API_TYPE_PARAMETER, FILE_TYPE_PARAMETER);
         if (!fileNameList.isEmpty()) {
-            for (Document_Storage__c doc : [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c IN :fileNameList]) {
+            filteredFileList.addAll(fileNameList);
+            for (String fileName : fileNameList) {
+                // Only include files which match the naming convention
+                if (!fileName.split('\\.').contains('drnbkruptupd')) {
+                    filteredFileList.remove(filteredFileList.indexOf(fileName));
+                }
+            }
+            // If file list from server was not empty but after filtering no files matched the criteria
+            if (filteredFileList.isEmpty()) {
+                CTBFileValidationUtility.sendEmail(
+                    'Account files processing status : No files processed',
+                    'No files were found on the server containing drnbkruptupd in the name',
+                    System.Label.CTB_File_Processing_Emails
+                );
+                return;
+            }
+            for (Document_Storage__c doc : [SELECT Id, Document_Name__c FROM Document_Storage__c WHERE Document_Name__c IN :filteredFileList]) {
                 // Check if we already have document storage record for any file
-                if (fileNameList.contains(doc.Document_Name__c)) {
+                if (filteredFileList.contains(doc.Document_Name__c)) {
                     // Remove the file name if we already have a document storage record
-                    fileNameList.remove(fileNameList.indexOf(doc.Document_Name__c));
+                    filteredFileList.remove(filteredFileList.indexOf(doc.Document_Name__c));
                 }
             }
         }
         // Enqueue the file processing class
-        if (!fileNameList.isEmpty() && !Test.isRunningTest()) {
-            System.enqueueJob(new CTBFileProcessingQueueable(fileNameList, System.Label.CTB_Insolvency_Account));
+        if (!filteredFileList.isEmpty() && !Test.isRunningTest()) {
+            System.enqueueJob(new CTBFileProcessingQueueable(filteredFileList, System.Label.CTB_Insolvency_Account));
         } else {
             CTBFileValidationUtility.sendEmail(
                 'Account files processing status : No files processed',
@@ -55,12 +72,12 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
                 FileListWrapper fileList = (FileListWrapper) System.JSON.deserialize(res.getBody(), FileListWrapper.class);
                 if (fileList.files != null && !fileList.files.isEmpty()) {
                     for (String fileName : fileList.files) {
-                        // If filetype is csv and the file name contains drnbkruptupd consider it as a csv
-                        if (fileType ==  FILE_TYPE_PARAMETER && fileName.split('\\.').contains('drnbkruptupd')) {
+                        // If filetype is csv return complete list of files, filtering will be done later
+                        if (fileType == FILE_TYPE_PARAMETER) {
                             fileNameList.add(fileName.substringAfterLast('/'));
                         }
                         // If filetype is zip and the file name contains zip as well as stmt consider it as a zip file
-                        if (fileType ==  GetZipFilesListQueueable.FILE_TYPE_PARAMETER) {
+                        if (fileType == GetZipFilesListQueueable.FILE_TYPE_PARAMETER) {
                             List<String> splitFileName = fileName.split('\\.');
                             if (splitFileName.contains(GetZipFilesListQueueable.FILE_TYPE_PARAMETER) || splitFileName.contains('stmt')) {
                                 // Get only the file name from the file path and remove file extension
