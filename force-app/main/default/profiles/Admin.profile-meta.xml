@@ -13334,6 +13334,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product_Payment_Staging__c.Memo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product_Payment_Staging__c.Expected_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
