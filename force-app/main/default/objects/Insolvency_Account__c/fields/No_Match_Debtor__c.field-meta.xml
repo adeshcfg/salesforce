@@ -5,7 +5,7 @@
     <description>Will be checked when CTB is unable to find this Debtor on their end</description>
     <externalId>false</externalId>
     <inlineHelpText>Will be checked when CTB is unable to find this Debtor on their end</inlineHelpText>
-    <label>No Match</label>
+    <label>Debtor No Match</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
