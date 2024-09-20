@@ -176,6 +176,10 @@
                 <field>Debtor_1_Mailing_Postal_Code__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>No_Match_Debtor__c</field>
+            </layoutItems>
+            <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
         </layoutColumns>
@@ -191,6 +195,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Co_Debtor_Deceased__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>No_Match_Co_Debtor__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>

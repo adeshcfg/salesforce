@@ -133,6 +133,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>No_Match_Debtor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Gender_Formula__c</field>
             </layoutItems>
             <layoutItems>
@@ -187,6 +191,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Co_Debtor_Deceased__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>No_Match_Co_Debtor__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
