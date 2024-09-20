@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 08-07-2024
+ * @last modified on  : 09-20-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -139,7 +139,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         // Query existing account with the correlation Ids from the csv and create map with correlation id and account
         if (!correlationIdSet.isEmpty() && !stagingRecordsToCreate.isEmpty() && !invalidFile) {
             for (Insolvency_Account__c acc : [
-                SELECT Id, Correlation_Id__c, Insolvency_Status__c
+                SELECT Id, Correlation_Id__c, Insolvency_Status__c, Debtor_1_Estate_Number__c, Debtor_2_Estate_Number__c, Debtor__c, Co_Debtor__c
                 FROM Insolvency_Account__c
                 WHERE Correlation_Id__c IN :correlationIdSet
             ]) {
@@ -189,6 +189,9 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
                     accountToUpdate.CTB_Reject_Reason_Code__c = stagingAcc.CTB_Reject_Reason_Code__c;
                     updateAccountStatusAndReason(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c);
+                    if (accountToUpdate.Insolvency_Sub_Status__c == 'No Match') {
+                        checkNoMatchDebtor(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
+                    }
                     accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
                 }
             }
@@ -227,6 +230,33 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         );
         // Update doc storage with processing status and error message if failed
         update docStorage;
+    }
+
+    /**
+     * @description : Update no match flag for appropriate debtor in case of NMAT rejection code
+     * @author adesh.ikhar@canaccede.com | 09-20-2024
+     * @param accountToUpdate
+     * @param existingAccount
+     * @param stagingAcc
+     **/
+    public static void checkNoMatchDebtor(Insolvency_Account__c accountToUpdate, Insolvency_Account__c existingAccount, CTB_Staging__c stagingAcc) {
+        // Match debtor with full name if name fields are provided
+        if (String.isNotBlank(stagingAcc.Debtor_1_First_Name__c) && String.isNotBlank(stagingAcc.Debtor_1_Last_Name__c)) {
+            String fullDebtorName = stagingAcc.Debtor_1_First_Name__c + ' ' + stagingAcc.Debtor_1_Last_Name__c;
+            if (existingAccount.Debtor__c == fullDebtorName) {
+                accountToUpdate.No_Match_Debtor__c = true;
+            } else if (existingAccount.Co_Debtor__c == fullDebtorName) {
+                accountToUpdate.No_Match_Co_Debtor__c = true;
+            }
+        }
+        // Match debtor with estate number in case of no name fields
+        else {
+            if (stagingAcc.Debtor_Estate_Number__c == existingAccount.Debtor_1_Estate_Number__c) {
+                accountToUpdate.No_Match_Debtor__c = true;
+            } else if (stagingAcc.Debtor_Estate_Number__c == existingAccount.Debtor_2_Estate_Number__c) {
+                accountToUpdate.No_Match_Co_Debtor__c = true;
+            }
+        }
     }
 
     /**

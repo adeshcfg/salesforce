@@ -24,6 +24,15 @@ public class CTBFileProcessingTest {
         documentObj.Name = 'My Document';
         documentObj.FolderId = [SELECT Id FROM folder WHERE DeveloperName = 'Metadata_Content'].Id;
 
+        String csvStringNoMatch = '"H","2","999","0000001","08/15/2008","12:32:06","P","DRN00001"\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","0000000008PCOM","","NMAT","9/15/2023","50","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123"\n"T","2","999","3","1","08/15/2008","12:32:06"';
+        Document documentObjNoMatch = new Document();
+        documentObjNoMatch.Body = Blob.valueOf(csvStringNoMatch);
+        documentObjNoMatch.ContentType = 'text/csv';
+        documentObjNoMatch.DeveloperName = 'my_document_no_match';
+        documentObjNoMatch.IsPublic = true;
+        documentObjNoMatch.Name = 'my_document_no_match';
+        documentObjNoMatch.FolderId = [SELECT Id FROM folder WHERE DeveloperName = 'Metadata_Content'].Id;
+
         String csvString1 = '"H","2","999","0000001","08/15/2008","12:32:06","P","DRN00001","D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","0000000008PCOM","","","9/15/2023","500","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123"\n"T","2","999","3","1","08/15/2008","12:32:06"';
         Document documentObjNoOfRows = new Document();
         documentObjNoOfRows.Body = Blob.valueOf(csvString1);
@@ -41,7 +50,7 @@ public class CTBFileProcessingTest {
         documentObjNoOfCols.IsPublic = true;
         documentObjNoOfCols.Name = 'my_document_noofcols';
         documentObjNoOfCols.FolderId = [SELECT Id FROM folder WHERE DeveloperName = 'Metadata_Content'].Id;
-        insert new List<Document>{ documentObj, documentObjNoOfRows, documentObjNoOfCols };
+        insert new List<Document>{ documentObj, documentObjNoOfRows, documentObjNoOfCols, documentObjNoMatch };
 
         Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
         config.Run_Insolvency_Account_Trigger__c = true;
@@ -95,6 +104,17 @@ public class CTBFileProcessingTest {
     @isTest
     static void processFileTest() {
         Document doc = [SELECT Id, Name FROM Document WHERE DeveloperName = 'my_document' LIMIT 1];
+        Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(doc.Id));
+        Test.startTest();
+        CTBFileProcessingScheduler scheduler = new CTBFileProcessingScheduler();
+        scheduler.execute(null);
+        System.enqueueJob(new CTBFileProcessingQueueable(new List<String>{ doc.Name }, System.Label.CTB_Insolvency_Account));
+        Test.stopTest();
+    }
+
+    @isTest
+    static void processFileTestNoMatch() {
+        Document doc = [SELECT Id, Name FROM Document WHERE DeveloperName = 'my_document_no_match' LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(doc.Id));
         Test.startTest();
         CTBFileProcessingScheduler scheduler = new CTBFileProcessingScheduler();
