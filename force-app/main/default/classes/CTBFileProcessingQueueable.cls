@@ -178,9 +178,11 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         String.isBlank(accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c) &&
                         stagingAcc.CTB_Reject_Reason_Code__c == 'NMAT'
                     ) {
+                        // Check which debtor is not a match and continue
+                        checkNoMatchDebtor(accountRecordsToUpdateMap.get(accountId), mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
                         continue;
                     }
-                    Insolvency_Account__c accountToUpdate = new Insolvency_Account__c();
+                    Insolvency_Account__c accountToUpdate = new Insolvency_Account__c(No_Match_Debtor__c = false, No_Match_Co_Debtor__c = false);
                     if (String.isBlank(stagingAcc.CTB_Reject_Reason_Code__c)) {
                         accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
                     }
@@ -191,6 +193,15 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     updateAccountStatusAndReason(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c);
                     if (accountToUpdate.Insolvency_Sub_Status__c == 'No Match') {
                         checkNoMatchDebtor(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
+                    }
+                    // When duplicate account with NMAT reject code is already processed preserve it's no match fields
+                    if (
+                        accountRecordsToUpdateMap.containsKey(accountId) &&
+                        String.isNotBlank(accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c) &&
+                        accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c == 'NMAT'
+                    ) {
+                        accountToUpdate.No_Match_Debtor__c = accountRecordsToUpdateMap.get(accountId).No_Match_Debtor__c;
+                        accountToUpdate.No_Match_Co_Debtor__c = accountRecordsToUpdateMap.get(accountId).No_Match_Co_Debtor__c;
                     }
                     accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
                 }
