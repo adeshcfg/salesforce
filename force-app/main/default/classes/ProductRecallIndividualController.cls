@@ -190,6 +190,7 @@ public without sharing class ProductRecallIndividualController {
                 product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
                 product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
             }
+            prodNewRecordList.add(product);
         } else if (selectedValueAction == 'Send To Warehouse') {
             recallProdIds.add(product.Id);
             wrapperData = getActiveProdIdsFromJudg(recallProdIds);
@@ -305,6 +306,7 @@ public without sharing class ProductRecallIndividualController {
             product.Sub_Status__c = null;
             product.Placement_Status__c = null;
             placementIdentifier = String.valueOf(product.Collection_Agency__c);
+            prodNewRecordList.add(product);
         }
         if (product.Collection_Agency__c == 9999) {
             productIdAgencyInfoMap.put(
@@ -431,6 +433,7 @@ public without sharing class ProductRecallIndividualController {
                     product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
                     product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
                 }
+                prodNewRecordList.add(product);
             } else if (selectedValueAction == 'Send To Warehouse') {
                 recallProdIds.add(product.Id);
                 wrapperData = getActiveProdIdsFromJudg(recallProdIds);
@@ -546,6 +549,7 @@ public without sharing class ProductRecallIndividualController {
                 product.Sub_Status__c = null;
                 product.Placement_Status__c = null;
                 placementIdentifier = String.valueOf(product.Collection_Agency__c);
+                prodNewRecordList.add(product);
             }
             if (product.Collection_Agency__c == 9999) {
                 productIdAgencyInfoMap.put(
