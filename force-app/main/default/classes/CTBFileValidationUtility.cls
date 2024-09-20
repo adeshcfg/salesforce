@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 07-19-2024
+ * @last modified on  : 09-20-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -10,6 +10,7 @@ public with sharing class CTBFileValidationUtility {
     public static final Integer ACCOUNT_NUMBER = 4;
     public static final Integer FIRST_NAME = 7;
     public static final Integer LAST_NAME = 8;
+    public static final Integer ESTATE_NUMBER = 18;
     public static final Integer CTB_DOB = 17;
     public static final Integer CORRELATION_ID = 26;
     public static final Integer CTB_REJECT_REASON_CODE = 28;
@@ -58,6 +59,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Name = csvColumns[ACCOUNT_NUMBER];
         stagingRecord.Debtor_1_First_Name__c = csvColumns[FIRST_NAME];
         stagingRecord.Debtor_1_Last_Name__c = csvColumns[LAST_NAME];
+        stagingRecord.Debtor_Estate_Number__c = csvColumns[ESTATE_NUMBER];
         stagingRecord.CTB_Date_of_Birth__c = parseDateString(csvColumns[CTB_DOB], 'CTB_Date_of_Birth__c', stagingRecord);
         stagingRecord.Correlation_Id__c = csvColumns[CORRELATION_ID];
         stagingRecord.CTB_Reject_Reason_Code__c = String.isNotBlank(csvColumns[CTB_REJECT_REASON_CODE])
