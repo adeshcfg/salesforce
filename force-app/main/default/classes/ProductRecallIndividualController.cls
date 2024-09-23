@@ -172,6 +172,7 @@ public without sharing class ProductRecallIndividualController {
         setProductIDs.add(product.id);
         Map<id,String> allProdToRecallList = new Map<id,String>();
         prodStatusAccJudgStatus wrapperData = new prodStatusAccJudgStatus();
+        Set<Id> prodListId = new Set<Id>();
         
 		Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
         
@@ -257,6 +258,7 @@ public without sharing class ProductRecallIndividualController {
             
             for(Id prodIds : allProdToRecallList.keySet()){
                 prodToRecallList.add(prodIds);
+                prodListId.add(prodIds);
                 if(!recallProdIds.contains(prodIds)){
                     Product__c newProductRecords = new Product__c();
                     newProductRecords.Id = prodIds;
@@ -363,11 +365,9 @@ public without sharing class ProductRecallIndividualController {
             
             Map<Id, String> placeStatus = new Map<Id, String>();
             placeStatus.put(product.id, product.Placement_Status__c);
-
-            List<Id> prodListId = new List<Id>();
             prodListId.add(product.Id);
             //call product API
-            Database.executeBatch(new BatchProcessForProdScreen(prodListId, placeStatus, 'Account Status Update File'), 200);
+            Database.executeBatch(new BatchProcessForProdScreen(new List<Id>(prodListId), placeStatus, 'Account Status Update File'), 200);
             
             //call judgment API call and notify to portal
             Database.executeBatch(new JudgmentAPIBatch(judgmentToUpdateList,null,null,'Account Status Update File'), 50);
@@ -396,6 +396,7 @@ public without sharing class ProductRecallIndividualController {
         List<ID> prodToRecallList = new List<ID>();
         List<Product__c> prodNewRecordList = new List<Product__c>();
         prodStatusAccJudgStatus wrapperData = new prodStatusAccJudgStatus();
+        Set<Id> prodListId = new Set<Id>();
         
         for (Data_Status_Mapping__c dataStatusMapping : [
             SELECT Description1__c, Description2__c, Name, Description__c
@@ -501,6 +502,7 @@ public without sharing class ProductRecallIndividualController {
             
                 for(Id prodIds : allProdToRecallList.keySet()){
                     prodToRecallList.add(prodIds);
+                    prodListId.add(prodIds);
                     if(!recallProdIds.contains(prodIds)){
                         Product__c newProductRecords = new Product__c();
                         newProductRecords.Id = prodIds;
@@ -608,12 +610,10 @@ public without sharing class ProductRecallIndividualController {
 					
                 Map<Id, String> placeStatus = new Map<Id, String>();
                 placeStatus.put(product.id, product.Placement_Status__c);
-
-                List<Id> prodListId = new List<Id>();
                 prodListId.add(product.Id);
 
                 //call product API
-                Database.executeBatch(new BatchProcessForProdScreen(prodListId, placeStatus, 'Account Status Update File'), 200);
+                Database.executeBatch(new BatchProcessForProdScreen(new List<Id>(prodListId), placeStatus, 'Account Status Update File'), 200);
 				
                 //call judgment API call and notify to portal
             	Database.executeBatch(new JudgmentAPIBatch(judgmentToUpdateList,null,null,'Account Status Update File'), 50);
