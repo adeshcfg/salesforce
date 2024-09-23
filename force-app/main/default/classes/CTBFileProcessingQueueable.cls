@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 09-20-2024
+ * @last modified on  : 09-23-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -261,7 +261,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
             }
         }
         // Match debtor with estate number in case of no name fields
-        else {
+        else if (!accountToUpdate.No_Match_Debtor__c && !accountToUpdate.No_Match_Co_Debtor__c) {
             if (stagingAcc.Debtor_Estate_Number__c == existingAccount.Debtor_1_Estate_Number__c) {
                 accountToUpdate.No_Match_Debtor__c = true;
             } else if (stagingAcc.Debtor_Estate_Number__c == existingAccount.Debtor_2_Estate_Number__c) {
