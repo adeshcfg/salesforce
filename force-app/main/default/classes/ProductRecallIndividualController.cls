@@ -153,6 +153,26 @@ public without sharing class ProductRecallIndividualController {
         }
     }
 
+    /**
+    * @description : Method to copy field data to all products which need to be recalled
+    * @author adesh.ikhar@canaccede.com | 09-24-2024 
+    * @param productId 
+    * @param originalProduct 
+    * @return Product__c 
+    **/
+    public Product__c populateProductData(String productId, Product__c originalProduct) {
+        List<String> fieldsToCopy = new List<String> {'Placement_Status__c', 'Status__c', 'Sub_Status__c', 'Collection_Agency_Placement__c', 'Product_Status__c', 'Data_Status_Description__c'};
+        Product__c newProduct = new Product__c();
+        newProduct.Id = productId;
+        newProduct.Status_Changed_Date__c = Date.today();
+        newProduct.Recalled_Date__c = originalProduct.Recalled_Date__c;
+        newProduct.Collection_Agency__c = originalProduct.Collection_Agency__c;
+        for(String field : fieldsToCopy) {
+            newProduct.put(field, String.valueOf(originalProduct.get(field)));
+        }
+        return newProduct;
+    }
+
     public PageReference recallWithWarning() {
         Map<String, Map<String, String>> productIdAgencyInfoMap = new Map<String, Map<String, String>>();
         String updateType = RECALL;
@@ -173,6 +193,10 @@ public without sharing class ProductRecallIndividualController {
         Map<id,String> allProdToRecallList = new Map<id,String>();
         prodStatusAccJudgStatus wrapperData = new prodStatusAccJudgStatus();
         Set<Id> prodListId = new Set<Id>();
+        recallProdIds.add(product.Id);
+        wrapperData = getActiveProdIdsFromJudg(recallProdIds);
+        mapProductJudgment = wrapperData.prodIdsAcctJudId;
+        allProdToRecallList = wrapperData.prodIdsProductStatus;
         
 		Map<String,Product__c> placementMainStatusMap = JudgmentTriggerHandler.updatePlacementMainStatus(setProductIDs);
         
@@ -193,11 +217,6 @@ public without sharing class ProductRecallIndividualController {
             }
             prodNewRecordList.add(product);
         } else if (selectedValueAction == 'Send To Warehouse') {
-            recallProdIds.add(product.Id);
-            wrapperData = getActiveProdIdsFromJudg(recallProdIds);
-            mapProductJudgment = wrapperData.prodIdsAcctJudId;
-            allProdToRecallList = wrapperData.prodIdsProductStatus;
-            
             //Ticket 6430 : Point 2
             if(!Test.isRunningTest() && System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) 
                && mapProductJudgment.containsKey(product.id)){
@@ -260,18 +279,7 @@ public without sharing class ProductRecallIndividualController {
                 prodToRecallList.add(prodIds);
                 prodListId.add(prodIds);
                 if(!recallProdIds.contains(prodIds)){
-                    Product__c newProductRecords = new Product__c();
-                    newProductRecords.Id = prodIds;
-                    newProductRecords.Status_Changed_Date__c = Date.today();
-                    newProductRecords.Placement_Status__c = product.Placement_Status__c;
-                    newProductRecords.Status__c = product.Status__c;
-                    newProductRecords.Sub_Status__c = product.Sub_Status__c;
-                    newProductRecords.Collection_Agency__c = product.Collection_Agency__c;
-                    newProductRecords.Collection_Agency_Placement__c = product.Collection_Agency_Placement__c;
-                    newProductRecords.Recalled_Date__c = product.Recalled_Date__c;
-                    newProductRecords.Product_Status__c = product.Product_Status__c;
-                    newProductRecords.Data_Status_Description__c = product.Data_Status_Description__c;
-                    prodNewRecordList.add(newProductRecords);
+                    prodNewRecordList.add(populateProductData(prodIds, product));
                 }
             }
             
@@ -309,6 +317,13 @@ public without sharing class ProductRecallIndividualController {
             product.Placement_Status__c = null;
             placementIdentifier = String.valueOf(product.Collection_Agency__c);
             prodNewRecordList.add(product);
+            for(Id prodId : allProdToRecallList.keySet()){
+                prodToRecallList.add(prodId);
+                prodListId.add(prodId);
+                if(!recallProdIds.contains(prodId)){
+                    prodNewRecordList.add(populateProductData(prodId, product));
+                }
+            }
         }
         if (product.Collection_Agency__c == 9999) {
             productIdAgencyInfoMap.put(
@@ -397,6 +412,10 @@ public without sharing class ProductRecallIndividualController {
         List<Product__c> prodNewRecordList = new List<Product__c>();
         prodStatusAccJudgStatus wrapperData = new prodStatusAccJudgStatus();
         Set<Id> prodListId = new Set<Id>();
+        recallProdIds.add(product.Id);
+        wrapperData = getActiveProdIdsFromJudg(recallProdIds);
+        mapProductJudgment = wrapperData.prodIdsAcctJudId;
+        allProdToRecallList = wrapperData.prodIdsProductStatus;
         
         for (Data_Status_Mapping__c dataStatusMapping : [
             SELECT Description1__c, Description2__c, Name, Description__c
@@ -436,11 +455,6 @@ public without sharing class ProductRecallIndividualController {
                 }
                 prodNewRecordList.add(product);
             } else if (selectedValueAction == 'Send To Warehouse') {
-                recallProdIds.add(product.Id);
-                wrapperData = getActiveProdIdsFromJudg(recallProdIds);
-                mapProductJudgment = wrapperData.prodIdsAcctJudId;
-                allProdToRecallList = wrapperData.prodIdsProductStatus;
-                
                 //Ticket 6430 : Point 2
                 if(System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) 
                    && mapProductJudgment.containsKey(product.id)){
@@ -504,18 +518,7 @@ public without sharing class ProductRecallIndividualController {
                     prodToRecallList.add(prodIds);
                     prodListId.add(prodIds);
                     if(!recallProdIds.contains(prodIds)){
-                        Product__c newProductRecords = new Product__c();
-                        newProductRecords.Id = prodIds;
-                        newProductRecords.Status_Changed_Date__c = Date.today();
-                        newProductRecords.Placement_Status__c = product.Placement_Status__c;
-                        newProductRecords.Status__c = product.Status__c;
-                        newProductRecords.Sub_Status__c = product.Sub_Status__c;
-                        newProductRecords.Collection_Agency__c = product.Collection_Agency__c;
-                        newProductRecords.Collection_Agency_Placement__c = product.Collection_Agency_Placement__c;
-                        newProductRecords.Recalled_Date__c = product.Recalled_Date__c;
-                        newProductRecords.Product_Status__c = product.Product_Status__c;
-                        newProductRecords.Data_Status_Description__c = product.Data_Status_Description__c;
-                        prodNewRecordList.add(newProductRecords);
+                        prodNewRecordList.add(populateProductData(prodIds, product));
                     }
                 }
                 
@@ -552,6 +555,13 @@ public without sharing class ProductRecallIndividualController {
                 product.Placement_Status__c = null;
                 placementIdentifier = String.valueOf(product.Collection_Agency__c);
                 prodNewRecordList.add(product);
+                for(Id prodId : allProdToRecallList.keySet()){
+                    prodToRecallList.add(prodId);
+                    prodListId.add(prodId);
+                    if(!recallProdIds.contains(prodId)){
+                        prodNewRecordList.add(populateProductData(prodId, product));
+                    }
+                }
             }
             if (product.Collection_Agency__c == 9999) {
                 productIdAgencyInfoMap.put(
