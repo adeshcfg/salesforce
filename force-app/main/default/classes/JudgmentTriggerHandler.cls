@@ -198,7 +198,8 @@
         }
 
         for (Product__c prod : [
-            SELECT Id, Name, Collection_Agency__c, Collection_Agency_Placement__c, State__c, Status__c, Sub_Status__c, Account_Purchasing_Entity_Value__c
+            SELECT Id, Name, Collection_Agency__c, Collection_Agency_Placement__c, State__c, Status__c, Sub_Status__c, Account_Purchasing_Entity_Value__c,
+            Refer_to_Legal__c,Legal_Decision_Date__c ,Legal_Decision_by__c 
             FROM Product__c
             WHERE Name IN :judgmentProductNames
         ]) {
@@ -238,6 +239,14 @@
                         judgmentProduct.Placement_Status__c = mapAccountJudgmentCodes.get(currentJudgment.Legal_Status__c + currentJudgment.Legal_Sub_Status__c)
                             .Codes__c;
                     }
+                }
+                //Ticket 7373 : if product in refer to legal state and we add existing judgment then refer to legal 
+                //automatically get updated to Approved.
+                if(!Test.isRunningTest() && judgmentProduct.Refer_to_Legal__c != '' && judgmentProduct.Refer_to_Legal__c != NULL &&
+                   judgmentProduct.Refer_to_Legal__c == 'For Review'){
+                    judgmentProduct.Refer_to_Legal__c = 'Approved';
+                    judgmentProduct.Legal_Decision_Date__c = System.now();
+                    judgmentProduct.Legal_Decision_by__c = UserInfo.getUserId();
                 }
                 if (judgmentProduct != null) {
                     productMap.put(judgmentProduct.Id, judgmentProduct);
