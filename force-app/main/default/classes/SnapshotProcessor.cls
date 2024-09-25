@@ -107,19 +107,8 @@ public with sharing class SnapshotProcessor {
     }*/
      //Added by Satyajit
      @AuraEnabled
-    public static string uploadDocumentProxy(string documentURL){
-        //Commented by satyajit because we usind document URL directly instead of document id
-        //Document_Storage__c docObj = [Select id,product__c,Document_Extension__c,Document_Name__c,Document_URL__c from Document_storage__c where document_Id__c=:documentId][0];
-      
-        //  Document documents = [SELECT Id, FolderId, Folder.Name FROM Document WHERE Folder.Name ='Metadata_Content' LIMIT 1];
-       Folder documents = [SELECT Id, Name FROM Folder where Name = 'Metadata_Content' Limit 1];
-        system.debug('documents::'+documents);
-       String fileToDownloadID =DocumentApiClient.createDocumentFromAzure(documents.Id,documentURL);
-        //Building the URL to downlowd the file from salesforce
-           String fileToDownload =URL.getSalesforceBaseUrl().toExternalForm()+'/servlet/servlet.FileDownload?file='+fileToDownloadID;
-       //Api call
-        system.debug('testing::'+fileToDownload);
-        return fileToDownload;  
+    public static string uploadDocumentProxy(string documentURL){        
+       return FileUploadToAzureController.uploadDocumentProxy(documentURL);       
     }
     
     private static string getCSVHeader(){
