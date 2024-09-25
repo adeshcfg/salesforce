@@ -23,12 +23,12 @@
     Boolean directPPayment = false;
     Decimal ComissionRate;
     Decimal agencyCommissionRate;
-    Decimal ontarioTaxRate;
-    Decimal DebtorProvinceTaxRate;
-    Decimal CanadaTaxRate;
-    string prodProvinceName;
-    string ProvinceNameFormat;
-    String provinceAcronymFormat;
+    static Decimal ontarioTaxRate;
+    static Decimal DebtorProvinceTaxRate;
+    static Decimal CanadaTaxRate;
+    static string prodProvinceName;
+    static string ProvinceNameFormat;
+    static String provinceAcronymFormat;
     @testVisible
     String warehouseAgencyId = '';
     string warehouseAgencyName = '';
@@ -385,7 +385,8 @@
                     ComissionRate = null;
 
                     //calculate tax amount
-                    DebtorProvinceTaxRate = 0;
+                    calculateTaxAmount(prodPayment,mapProductJudgmentClaimIssuedID,mapPlacementIDs,mapProduct);
+                    /*DebtorProvinceTaxRate = 0;
                     CanadaTaxRate = 0;
                     prodProvinceName = mapProduct.get(prodPayment.CCS_Account__c).State__c;
                     ProvinceNameFormat = nameFormat(prodProvinceName);
@@ -439,7 +440,7 @@
                                 }
                             }
                         }
-                    }
+                    }*/
                 } else if (
                     String.isNotBlank(prodPayment.CCS_Account__c) &&
                     mapProduct.containsKey(prodPayment.CCS_Account__c) &&
@@ -735,7 +736,7 @@
         if (docStorage.Document_Type__c == 'Direct Payment Upload File' || docStorage.Document_Type__c == 'Product Payment Upload File') {
             mapProductPreviouslyPlaced = getDirectPlacementHistoryDetails(setProductNames);
         }
-
+						
         String prodPayStatus = '';
         String productAgency = '';
         String ERROR_MSG = '';
@@ -1153,14 +1154,15 @@
 									prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
 									//Tax Amount calculation:
 									//calculate tax amount
-									DebtorProvinceTaxRate = 0;
+									//calculateTaxAmount(prodPayment,mapProductJudgmentClaimIssuedID,mapPlacementIDs,mapProduct);
+                                    /*DebtorProvinceTaxRate = 0;
 									CanadaTaxRate = 0;
 									prodProvinceName = mapProduct.get(prodPayment.CCS_Account__c).State__c;
 									ProvinceNameFormat = nameFormat(prodProvinceName);
 									if (String.isNotBlank(prodProvinceName)) {
 										provinceAcronymFormat = prodProvinceName.toUpperCase();
 									}
-
+									
 									//Calculate Tax Amount for acocunts that are not in legal Status or claim issued
 									if (
 										mapPlacementIDs.containsKey(mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c) &&
@@ -1203,7 +1205,7 @@
 												}
 											}
 										}
-									}
+									}*/
 
 									//calculate tax amount ends
 									//prodPayment.Product_Agency__c = mapProduct.get(prodPayment.CCS_Account__c).COllection_Agency_placement__c;
@@ -1341,7 +1343,7 @@
 								) {
 									if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
 										Decimal CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Product_Commission_rate__C;
-										if (CommissionRate == null) {
+                                        if (CommissionRate == null) {
 											CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Commission_Rate__c;
 										}
 										if (CommissionRate == null) {
@@ -1359,7 +1361,8 @@
 
 											//Tax Amount calculation:
 											//calculate tax amount
-											DebtorProvinceTaxRate = 0;
+											//calculateTaxAmount(prodPayment,mapProductJudgmentClaimIssuedID,mapPlacementIDs,mapProduct);
+											/*DebtorProvinceTaxRate = 0;
 											CanadaTaxRate = 0;
 											prodProvinceName = mapProduct.get(prodPayment.CCS_Account__c).State__c;
 											ProvinceNameFormat = nameFormat(prodProvinceName);
@@ -1410,7 +1413,7 @@
 														}
 													}
 												}
-											}
+											}*/
 
 											//calculate tax amount ends
 											prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
@@ -1621,7 +1624,8 @@
                             prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                             //Tax Amount calculation:
                             //calculate tax amount
-                            DebtorProvinceTaxRate = 0;
+                            //calculateTaxAmount(prodPayment,mapProductJudgmentClaimIssuedID,mapPlacementIDs,mapProduct);
+                            /*DebtorProvinceTaxRate = 0;
                             CanadaTaxRate = 0;
                             prodProvinceName = mapProduct.get(prodPayment.CCS_Account__c).State__c;
                             ProvinceNameFormat = nameFormat(prodProvinceName);
@@ -1670,7 +1674,7 @@
                                         }
                                     }
                                 }
-                            }
+                            }*/
 
                             //calculate tax amount ends
                             //prodPayment.Product_Agency__c = mapProduct.get(prodPayment.CCS_Account__c).COllection_Agency_placement__c;
@@ -1793,7 +1797,8 @@
                                 }
                                 //Tax Amount calculation:
                                 //calculate tax amount
-                                DebtorProvinceTaxRate = 0;
+                                //calculateTaxAmount(prodPayment,mapProductJudgmentClaimIssuedID,mapPlacementIDs,mapProduct);
+                                /*DebtorProvinceTaxRate = 0;
                                 CanadaTaxRate = 0;
                                 prodProvinceName = mapProduct.get(prodPayment.CCS_Account__c).State__c;
                                 ProvinceNameFormat = nameFormat(prodProvinceName);
@@ -1843,7 +1848,7 @@
                                             }
                                         }
                                     }
-                                }
+                                }*/
 
                                 //calculate tax amount ends
                                 prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
@@ -1945,7 +1950,9 @@
             if (prodPayment.Payment_Type__c == PAYTYPE_REGULAR && prodPayment.Payment_Amount__c < 0) {
                 ERROR_MSG += '<b>ERROR</b> - Invalid Transaction Type. Amount must be positive.<br/>';
             }
-
+            //Ticket 6836: Calculate Tax Amount
+			calculateTaxAmount(prodPayment,mapProductJudgmentClaimIssuedID,mapPlacementIDs,mapProduct);
+            
             payStaging = new Product_Payment_Staging__c();
             payStaging.CCS_Account__c = prodPayment.CCS_Account_Name__c;
 
@@ -2058,4 +2065,65 @@
         public String memo {get; set;}
         // to be added memo
     }
+     
+     public static void calculateTaxAmount (Product_Payments__c prodPayment,
+                                     map<ID, ID> mapProductJudgmentClaimIssuedID,
+                                     map<id, Placement__c> mapPlacementIDs,
+                                     map<ID, Product__c> mapProduct)
+     {
+         map<String, Province_Tax_Rate_Mapping__mdt> mapTaxMetadata = Province_Tax_Rate_Mapping__mdt.getAll();
+         map<String, Province_Tax_Rate_Mapping__mdt> mapProvinceAcronymTaxMetadata = new Map<String, Province_Tax_Rate_Mapping__mdt>();
+         DebtorProvinceTaxRate = 0;
+         CanadaTaxRate = 0;
+         prodProvinceName = mapProduct.get(prodPayment.CCS_Account__c).State__c;
+         ProvinceNameFormat = nameFormat(prodProvinceName);
+         if (String.isNotBlank(prodProvinceName)) {
+             provinceAcronymFormat = prodProvinceName.toUpperCase();
+         }
+         //Calculate Tax Amount for acocunts that are not in legal Status or claim issued
+         if (
+             mapPlacementIDs.containsKey(mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c) &&
+             mapPlacementIDs.get(mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c)
+             .Apply_Ontario_Rate_on_Legal_Account__c == true
+         ) {
+             if (prodPayment.Pay_Due__c != null && ontarioTaxRate != null) {
+                 prodPayment.Tax_Type__c = mapTaxMetadata.get('Ontario').Tax_Type__c;
+                 prodPayment.Tax_Province__c = mapTaxMetadata.get('Ontario').Province_Acronym__c;
+                 prodPayment.Tax_Province_Rate__c = mapTaxMetadata.get('Ontario').Total_Tax_Rate__c;
+                 prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (ontarioTaxRate)) / 100;
+             }
+         } else {
+             if (!mapProductJudgmentClaimIssuedID.containsKey(prodPayment.CCS_Account__c)) {
+                 if (prodPayment.Pay_Due__c != null && ontarioTaxRate != null) {
+                     prodPayment.Tax_Type__c = mapTaxMetadata.get('Ontario').Tax_Type__c;
+                     prodPayment.Tax_Province__c = mapTaxMetadata.get('Ontario').Province_Acronym__c;
+                     prodPayment.Tax_Province_Rate__c = mapTaxMetadata.get('Ontario').Total_Tax_Rate__c;
+                     
+                     prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (ontarioTaxRate)) / 100;
+                 }
+             } else {
+                 if (String.isNotBlank(mapProduct.get(prodPayment.CCS_Account__c).State__c)) {
+                     if (mapTaxMetadata.containsKey(ProvinceNameFormat)) {
+                         DebtorProvinceTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Province_Tax_rate__c;
+                         CanadaTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Canada_Tax_rate__c;
+                         prodPayment.Tax_Type__c = mapTaxMetadata.get(ProvinceNameFormat).Tax_Type__c;
+                         prodPayment.Tax_Province__c = mapTaxMetadata.get(ProvinceNameFormat).Province_Acronym__c;
+                         prodPayment.Tax_Province_Rate__c = mapTaxMetadata.get(ProvinceNameFormat).Total_Tax_Rate__c;
+                     } else if (mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)) {
+                         DebtorProvinceTaxRate = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Tax_rate__c;
+                         CanadaTaxRate = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Canada_Tax_rate__c;
+                         prodPayment.Tax_Type__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Tax_Type__c;
+                         prodPayment.Tax_Province__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Acronym__c;
+                         prodPayment.Tax_Province_Rate__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Total_Tax_Rate__c;
+                     }
+                     if (prodPayment.Pay_Due__c != null) {
+                         prodPayment.Legal_Product_Identifier__c = 'Yes';
+                         prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (DebtorProvinceTaxRate + CanadaTaxRate)) / 100;
+                     }
+                 }
+             }
+         }
+         
+         //calculate tax amount ends
+     }
 }

@@ -2192,7 +2192,7 @@
 
                                 //Tax Amount calculation:
                                 //calculate tax amount
-                                DebtorProvinceTaxRate = 0;
+                                /*DebtorProvinceTaxRate = 0;
                                 CanadaTaxRate = 0;
                                 prodProvinceName = mapProductDetails.get(prodPayment.CCS_Account__c).State__c;
                                 ProvinceNameFormat = nameFormat(prodProvinceName);
@@ -2242,7 +2242,7 @@
                                             }
                                         }
                                     }
-                                }
+                                }*/
 
                                 //calculate tax amount ends
                             }
@@ -2335,185 +2335,192 @@
                     //assigned to agency
                     if (mapProduct.containsKey(prodPayment.CCS_Account__c) && (productAgency != '9999' && String.isNotBlank(productAgency))) {
                         //This account is recalled before 15 days
-                        if (
-                            mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) &&
-                            mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) > 15
-                        ) {
-                            prodPayment.Payment_Provided_Agency__c = productAgencyID;
-                            prodPayment.Payment_Agency__c = productAgency;
-                            ERROR_MSG += '<b>WARINING</b> - <b>WARINING</b> - Account was recalled before 15 days and is currently placed with agency.<br/>';
-                            		
-                            if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
-                                EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
-                                if (prodPayment.Ignore_Warning__c == false) {
-                                    prodPayment.addError(
-                                        'WARNING - Account was recalled before 15 days and is currently placed with agency.' +
-                                        'Commission Amount ' +
-                                        prodPayment.Pay_Due__c +
-                                        ' will be paid to Agency ' +
-                                        productAgency
-                                    );
+                        if (prodPayment.Payment_Agency__c == productAgency) {
+								prodPayment.Payment_Provided_Agency__c = productAgencyID;
+								prodPayment.Payment_Agency__c = productAgency;
+                        }else{
+                            if (
+                                mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) &&
+                                mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) > 15
+                            ) {
+                                prodPayment.Payment_Provided_Agency__c = productAgencyID;
+                                prodPayment.Payment_Agency__c = productAgency;
+                                ERROR_MSG += '<b>WARINING</b> - <b>WARINING</b> - Account was recalled before 15 days and is currently placed with agency.<br/>';
+                                
+                                if(prodPayment.Payment_Type__c != PAYTYPE_REVERSAL){
+                                    EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + prodPayment.Payment_Agency__c + '<br/>';
+                                    if (prodPayment.Ignore_Warning__c == false) {
+                                        prodPayment.addError(
+                                            'WARNING - Account was recalled before 15 days and is currently placed with agency.' +
+                                            'Commission Amount ' +
+                                            prodPayment.Pay_Due__c +
+                                            ' will be paid to Agency ' +
+                                            productAgency
+                                        );
+                                    }
                                 }
-                            }
-                            if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
-                                if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
-                                   && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
-                                       EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c + '<br/>';
-                                       if (prodPayment.Ignore_Warning__c == false) {
-                                           prodPayment.addError(
-                                               'WARNING - Account was recalled before 15 days and is currently placed with agency.' +
-                                               'Commission Amount ' +
-                                               prodPayment.Pay_Due__c +
-                                               ' will be paid to Agency ' +
-                                               mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c
-                                           );
+                                if(prodPayment.Payment_Type__c == PAYTYPE_REVERSAL){
+                                    if(mapPayment.containsKey(prodPayment.Original_Of_Payment_Reversal__c) 
+                                       && mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c != NULL){
+                                           EXPECTED += 'Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to Agency ' + mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c + '<br/>';
+                                           if (prodPayment.Ignore_Warning__c == false) {
+                                               prodPayment.addError(
+                                                   'WARNING - Account was recalled before 15 days and is currently placed with agency.' +
+                                                   'Commission Amount ' +
+                                                   prodPayment.Pay_Due__c +
+                                                   ' will be paid to Agency ' +
+                                                   mapPayment.get(prodPayment.Original_Of_Payment_Reversal__c).Payment_Agency__c
+                                               );
+                                           }
                                        }
-                                   }
-                            }	
-                        }
-                        //This account is recalled within 15 days and
-                        else if (
-                            mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) &&
-                            mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) <= 15
-                        ) {
-                            if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                                Decimal CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Product_Commission_rate__C; //Commission_Rate__c;
+                                }	
+                            }
+                            //This account is recalled within 15 days and
+                            else if (
+                                mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) &&
+                                mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) <= 15
+                            ) {
+                                if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
+                                    Decimal CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Product_Commission_rate__C; //Commission_Rate__c;
+                                    
+                                    if (CommissionRate == null) {
+                                        CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Commission_Rate__c;
+                                    }
+                                    if (CommissionRate == null) {
+                                        CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Pool_Commission_Rate__c;
+                                    }
+                                    if (CommissionRate != null) {
+                                        Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
+                                        //if commission adjustment is added to product, adjust Commission Rate
+                                        if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
+                                            CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
+                                        }
+                                        if (prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)) {
+                                            prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
+                                        }
+                                        //Tax Amount calculation:
+                                        //calculate tax amount
+                                        /*DebtorProvinceTaxRate = 0;
+CanadaTaxRate = 0;
+prodProvinceName = mapProductDetails.get(prodPayment.CCS_Account__c).State__c;
+ProvinceNameFormat = nameFormat(prodProvinceName);
+if (String.isNotBlank(prodProvinceName)) {
+provinceAcronymFormat = prodProvinceName.toUpperCase();
+}
 
-                                if (CommissionRate == null) {
-                                    CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Commission_Rate__c;
-                                }
-                                if (CommissionRate == null) {
-                                    CommissionRate = mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Pool_Commission_Rate__c;
-                                }
-                                if (CommissionRate != null) {
-                                    Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
-                                    //if commission adjustment is added to product, adjust Commission Rate
-                                    if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
-                                        CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
-                                    }
-                                    if (prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)) {
-                                        prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommissionRate) / 100;
-                                    }
-                                    //Tax Amount calculation:
-                                    //calculate tax amount
-                                    DebtorProvinceTaxRate = 0;
-                                    CanadaTaxRate = 0;
-                                    prodProvinceName = mapProductDetails.get(prodPayment.CCS_Account__c).State__c;
-                                    ProvinceNameFormat = nameFormat(prodProvinceName);
-                                    if (String.isNotBlank(prodProvinceName)) {
-                                        provinceAcronymFormat = prodProvinceName.toUpperCase();
-                                    }
+//Calculate Tax Amount for acocunts that are not in legal Status or claim issued
+if (
+mapPlacementIDs.containsKey(mapProductDetails.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c) &&
+mapPlacementIDs.get(mapProductDetails.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c)
+.Apply_Ontario_Rate_on_Legal_Account__c == true
+) {
+if (prodPayment.Pay_Due__c != null && ontarioTaxRate != null) {
+prodPayment.Tax_Type__c = mapTaxMetadata.get('Ontario').Tax_Type__c;
+prodPayment.Tax_Province__c = mapTaxMetadata.get('Ontario').Province_Acronym__c;
+prodPayment.Tax_Province_Rate__c = mapTaxMetadata.get('Ontario').Total_Tax_Rate__c;
+prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (ontarioTaxRate)) / 100;
+}
+} else {
+if (!mapProductJudgmentClaimIssuedID.containsKey(prodPayment.CCS_Account__c)) {
+if (prodPayment.Pay_Due__c != null && ontarioTaxRate != null) {
+prodPayment.Tax_Type__c = mapTaxMetadata.get('Ontario').Tax_Type__c;
+prodPayment.Tax_Province__c = mapTaxMetadata.get('Ontario').Province_Acronym__c;
+prodPayment.Tax_Province_Rate__c = mapTaxMetadata.get('Ontario').Total_Tax_Rate__c;
 
-                                    //Calculate Tax Amount for acocunts that are not in legal Status or claim issued
-                                    if (
-                                        mapPlacementIDs.containsKey(mapProductDetails.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c) &&
-                                        mapPlacementIDs.get(mapProductDetails.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c)
-                                            .Apply_Ontario_Rate_on_Legal_Account__c == true
-                                    ) {
-                                        if (prodPayment.Pay_Due__c != null && ontarioTaxRate != null) {
-                                            prodPayment.Tax_Type__c = mapTaxMetadata.get('Ontario').Tax_Type__c;
-                                            prodPayment.Tax_Province__c = mapTaxMetadata.get('Ontario').Province_Acronym__c;
-                                            prodPayment.Tax_Province_Rate__c = mapTaxMetadata.get('Ontario').Total_Tax_Rate__c;
-                                            prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (ontarioTaxRate)) / 100;
+prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (ontarioTaxRate)) / 100;
+}
+} else {
+if (String.isNotBlank(mapProductDetails.get(prodPayment.CCS_Account__c).State__c)) {
+if (mapTaxMetadata.containsKey(ProvinceNameFormat)) {
+DebtorProvinceTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Province_Tax_rate__c;
+CanadaTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Canada_Tax_rate__c;
+prodPayment.Tax_Type__c = mapTaxMetadata.get(ProvinceNameFormat).Tax_Type__c;
+prodPayment.Tax_Province__c = mapTaxMetadata.get(ProvinceNameFormat).Province_Acronym__c;
+prodPayment.Tax_Province_Rate__c = mapTaxMetadata.get(ProvinceNameFormat).Total_Tax_Rate__c;
+} else if (mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)) {
+DebtorProvinceTaxRate = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Tax_rate__c;
+CanadaTaxRate = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Canada_Tax_rate__c;
+prodPayment.Tax_Type__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Tax_Type__c;
+prodPayment.Tax_Province__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Acronym__c;
+prodPayment.Tax_Province_Rate__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat)
+.Total_Tax_Rate__c;
+}
+if (prodPayment.Pay_Due__c != null) {
+prodPayment.Legal_Product_Identifier__c = 'Yes';
+prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (DebtorProvinceTaxRate + CanadaTaxRate)) / 100;
+}
+}
+}
+}*/
+                                        
+                                        //calculate tax amount ends
+                                        prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
+                                        if (lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
+                                            //if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
+                                            if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c != null) {
+                                                prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
+                                            }
+                                            if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
+                                                prodPayment.Payment_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c;
+                                            }
+                                            
+                                            if (prodPayment.Ignore_Warning__c == false && prodPayment.Pay_Due__c != null) {
+                                                prodPayment.addError(
+                                                    'WARNING - Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to ' + prodPayment.Payment_Agency__c
+                                                );
+                                            }
+                                            //}
                                         }
                                     } else {
-                                        if (!mapProductJudgmentClaimIssuedID.containsKey(prodPayment.CCS_Account__c)) {
-                                            if (prodPayment.Pay_Due__c != null && ontarioTaxRate != null) {
-                                                prodPayment.Tax_Type__c = mapTaxMetadata.get('Ontario').Tax_Type__c;
-                                                prodPayment.Tax_Province__c = mapTaxMetadata.get('Ontario').Province_Acronym__c;
-                                                prodPayment.Tax_Province_Rate__c = mapTaxMetadata.get('Ontario').Total_Tax_Rate__c;
-
-                                                prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (ontarioTaxRate)) / 100;
+                                        //if commission adjustment is added to product, adjust Commission Rate
+                                        if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
+                                            CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
+                                        }
+                                        prodPayment.Pay_Due__c = null;
+                                        prodPayment.Tax_Amount__c = null; //Ticket 6836: If pay_due null then tax amount should be also null 
+                                        
+                                        prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
+                                        if (lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
+                                            //if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
+                                            if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c != null) {
+                                                prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
                                             }
-                                        } else {
-                                            if (String.isNotBlank(mapProductDetails.get(prodPayment.CCS_Account__c).State__c)) {
-                                                if (mapTaxMetadata.containsKey(ProvinceNameFormat)) {
-                                                    DebtorProvinceTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Province_Tax_rate__c;
-                                                    CanadaTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Canada_Tax_rate__c;
-                                                    prodPayment.Tax_Type__c = mapTaxMetadata.get(ProvinceNameFormat).Tax_Type__c;
-                                                    prodPayment.Tax_Province__c = mapTaxMetadata.get(ProvinceNameFormat).Province_Acronym__c;
-                                                    prodPayment.Tax_Province_Rate__c = mapTaxMetadata.get(ProvinceNameFormat).Total_Tax_Rate__c;
-                                                } else if (mapProvinceAcronymTaxMetadata.containsKey(provinceAcronymFormat)) {
-                                                    DebtorProvinceTaxRate = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Tax_rate__c;
-                                                    CanadaTaxRate = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Canada_Tax_rate__c;
-                                                    prodPayment.Tax_Type__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Tax_Type__c;
-                                                    prodPayment.Tax_Province__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat).Province_Acronym__c;
-                                                    prodPayment.Tax_Province_Rate__c = mapProvinceAcronymTaxMetadata.get(provinceAcronymFormat)
-                                                        .Total_Tax_Rate__c;
-                                                }
-                                                if (prodPayment.Pay_Due__c != null) {
-                                                    prodPayment.Legal_Product_Identifier__c = 'Yes';
-                                                    prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (DebtorProvinceTaxRate + CanadaTaxRate)) / 100;
-                                                }
+                                            if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
+                                                prodPayment.Payment_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c;
                                             }
+                                            
+                                            if (prodPayment.Ignore_Warning__c == false && prodPayment.Pay_Due__c != null) {
+                                                prodPayment.addError(
+                                                    'WARNING - Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to ' + prodPayment.Payment_Agency__c
+                                                );
+                                            }
+                                            //}
                                         }
                                     }
-
-                                    //calculate tax amount ends
-                                    prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
-                                    if (lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
-                                        //if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
-                                        if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c != null) {
-                                            prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
+                                    if (!lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c) &&
+                                        !mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
+                                            Decimal CommRate = mapProduct.get(prodPayment.CCS_Account__c).Commission_Rate__c;
+                                            Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
+                                            if (CommRate == null) {
+                                                CommRate = mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__r.Commission_Rate__c;
+                                            }
+                                            if (CommRate == null) {
+                                                CommRate = mapProduct.get(prodPayment.CCS_Account__c).Pool_Name__r.Commission_Rate__c;
+                                            }
+                                            if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
+                                                CommRate = CommRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
+                                            }
+                                            system.debug('CommRate::'+CommRate);
+                                            if (prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)) {
+                                                prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommRate) / 100;
+                                            }
+                                            system.debug('prodPayment Pay_Due__c::'+prodPayment.Pay_Due__c);
                                         }
-                                        if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
-                                            prodPayment.Payment_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c;
-                                        }
-
-                                        if (prodPayment.Ignore_Warning__c == false && prodPayment.Pay_Due__c != null) {
-                                            prodPayment.addError(
-                                                'WARNING - Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to ' + prodPayment.Payment_Agency__c
-                                            );
-                                        }
-                                        //}
-                                    }
-                                } else {
-                                    //if commission adjustment is added to product, adjust Commission Rate
-                                    if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
-                                        CommissionRate = CommissionRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
-                                    }
-                                    prodPayment.Pay_Due__c = null;
-									prodPayment.Tax_Amount__c = null; //Ticket 6836: If pay_due null then tax amount should be also null 
-                                    
-                                    prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
-                                    if (lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c)) {
-                                        //if(lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c == prodPayment.Payment_Provided_Agency__c){
-                                        if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c != null) {
-                                            prodPayment.Payment_Provided_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Placement__c;
-                                        }
-                                        if (lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c != null) {
-                                            prodPayment.Payment_Agency__c = lastAgencyRecallDate.get(prodPayment.CCS_Account__c).Agency_Id__c;
-                                        }
-
-                                        if (prodPayment.Ignore_Warning__c == false && prodPayment.Pay_Due__c != null) {
-                                            prodPayment.addError(
-                                                'WARNING - Commission Amount ' + prodPayment.Pay_Due__c + ' will be paid to ' + prodPayment.Payment_Agency__c
-                                            );
-                                        }
-                                        //}
-                                    }
-                                }
-                                if (!lastAgencyRecallDate.containsKey(prodPayment.CCS_Account__c) &&
-                                   !mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
-                                    Decimal CommRate = mapProduct.get(prodPayment.CCS_Account__c).Commission_Rate__c;
-                                    Decimal feeRecovery = mapProduct.get(prodPayment.CCS_Account__c).Fee_Recovery__c;
-                                    if (CommRate == null) {
-                                        CommRate = mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__r.Commission_Rate__c;
-                                    }
-                                    if (CommRate == null) {
-                                        CommRate = mapProduct.get(prodPayment.CCS_Account__c).Pool_Name__r.Commission_Rate__c;
-                                    }
-                                    if (mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c != null) {
-                                        CommRate = CommRate + mapProduct.get(prodPayment.CCS_Account__c).Commission_Adjustment__c;
-                                    }
-                                    system.debug('CommRate::'+CommRate);
-                                    if (prodPayment.Payment_Amount__c != null && (feeRecovery == null || feeRecovery == 0)) {
-                                        prodPayment.Pay_Due__c = (prodPayment.Payment_Amount__c * CommRate) / 100;
-                                    }
-                                    system.debug('prodPayment Pay_Due__c::'+prodPayment.Pay_Due__c);
                                 }
                             }
                         }
+                        
+                        
                     }
                 }
             }
@@ -2631,7 +2638,7 @@
                             prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                             //Tax Amount calculation:
                             //calculate tax amount
-                            DebtorProvinceTaxRate = 0;
+                            /*DebtorProvinceTaxRate = 0;
                             CanadaTaxRate = 0;
                             prodProvinceName = mapProductDetails.get(prodPayment.CCS_Account__c).State__c;
                             ProvinceNameFormat = nameFormat(prodProvinceName);
@@ -2680,7 +2687,7 @@
                                         }
                                     }
                                 }
-                            }
+                            }*/
 
                             //calculate tax amount ends
                         }
@@ -2760,7 +2767,11 @@
                 //assigned to agency
                 if (mapProduct.containsKey(prodPayment.CCS_Account__c) && (productAgency != '9999' && String.isNotBlank(productAgency))) {
                     //This account is recalled before 15 days
-                    if (
+                    if (!mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
+                        prodPayment.Payment_Provided_Agency__c = productAgencyID;
+                        prodPayment.Payment_Agency__c = productAgency;
+                    }
+                    else if (
                         mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c) &&
                         mapProductPreviouslyPlaced.get(prodPayment.CCS_Account__c).Placement_Recall_Date__c.daysBetween(Date.today()) > 15
                     ) {
@@ -2793,7 +2804,7 @@
                                 prodPayment.Commission_Rate_for_Payment__c = CommissionRate;
                                 //Tax Amount calculation:
                                 //calculate tax amount
-                                DebtorProvinceTaxRate = 0;
+                                /*DebtorProvinceTaxRate = 0;
                                 CanadaTaxRate = 0;
                                 prodProvinceName = mapProductDetails.get(prodPayment.CCS_Account__c).State__c;
                                 ProvinceNameFormat = nameFormat(prodProvinceName);
@@ -2842,7 +2853,7 @@
                                             }
                                         }
                                     }
-                                }
+                                }*/
 
                                 //calculate tax amount ends
                                 if (mapProductPreviouslyPlaced.containsKey(prodPayment.CCS_Account__c)) {
@@ -3014,6 +3025,9 @@
                     prodPayment.addError('WARNING - Cannot post Protective Disbursment to the account. Account is not in Legal Status');
                 }
             }
+            //Ticket 6836: Calculate Tax Amount
+            ProductPaymentExcelFileProcessing.calculateTaxAmount(prodPayment,mapProductJudgmentClaimIssuedID,mapPlacementIDs,mapProductDetails);
+            
             if (prodPayment.Pay_Due__c == 0) {
                 prodPayment.Tax_Amount__c = 0;
             }
