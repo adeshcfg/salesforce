@@ -602,6 +602,13 @@ public without sharing class  FileUploadToAzureController {
         
        //Pass the document URL directly : change made by satyajit
        String fileToDownloadID =DocumentApiClient.createDocumentFromAzure(documents.Id,documentURL);
+        
+        // File name update from document object - Nagendra - 4336//
+        Document_Storage__c docObj = [Select id,Document_Name__c,Document_URL__c from Document_storage__c where document_URL__c=:documentURL][0];
+		        
+        Document document = new Document(Id = fileToDownloadID, name = docObj.Document_Name__c);
+        update document;
+                    
         //Building the URL to downlowd the file from salesforce
            String fileToDownload =URL.getSalesforceBaseUrl().toExternalForm()+'/servlet/servlet.FileDownload?file='+fileToDownloadID;
        //Api call
