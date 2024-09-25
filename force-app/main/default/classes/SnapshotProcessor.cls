@@ -115,6 +115,13 @@ public with sharing class SnapshotProcessor {
        Folder documents = [SELECT Id, Name FROM Folder where Name = 'Metadata_Content' Limit 1];
         system.debug('documents::'+documents);
        String fileToDownloadID =DocumentApiClient.createDocumentFromAzure(documents.Id,documentURL);
+        
+         // File name update from document object - Nagendra - 4336//
+        Document_Storage__c docObj1 = [Select id,Document_Name__c,Document_URL__c from Document_storage__c where document_URL__c=:documentURL][0];
+		        
+        Document document = new Document(Id = fileToDownloadID, name = docObj1.Document_Name__c);
+        update document;              
+       
         //Building the URL to downlowd the file from salesforce
            String fileToDownload =URL.getSalesforceBaseUrl().toExternalForm()+'/servlet/servlet.FileDownload?file='+fileToDownloadID;
        //Api call
