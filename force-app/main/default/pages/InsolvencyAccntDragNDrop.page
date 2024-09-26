@@ -1,223 +1,327 @@
-<apex:page standardController="Insolvency_Account__c" extensions="InsolvencyAccntDragNDropController" docType="html-5.0" >
+<apex:page standardController="Insolvency_Account__c" extensions="InsolvencyAccntDragNDropController" docType="html-5.0">
     <apex:form id="form" styleClass="LightningDesignWinter17">
-        <apex:actionFunction name="uploadCompleteAction" action="{!refreshAttList}" rerender="relatedListBodypannel"/>
+        <apex:actionFunction name="uploadCompleteAction" action="{!refreshAttList}" rerender="relatedListBodypannel" />
         <apex:actionFunction name="deletAttHelper" status="spinner" action="{!deleteAttachment}" rerender="relatedListBodypannel">
-          <apex:param name="attId" value="" assignTo="{!selectedAttId}"/>
+            <apex:param name="attId" value="" assignTo="{!selectedAttId}" />
         </apex:actionFunction>
         <apex:outputpanel rendered="{!!isCommunityReadOnlyUser }">
-               <div class="slds-notify_container success-notifier slds-hide" id="target">
-                  <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
-                     <span class="slds-assistive-text-override">Document Type updated successfully</span>
-                     <h2>
+            <div class="slds-notify_container success-notifier slds-hide" id="target">
+                <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
+                    <span class="slds-assistive-text-override">Document Type updated successfully</span>
+                    <h2>
                         <div class="slds-text-heading--medium"></div>
-                     </h2>
-                  </div>
-               </div>
-               <div id="dropArea">
-                  <div id="j_id0:j_id1:j_id2:j_id8:box" class="box">
-                     <div class="myapp">
-                        <div class="slds-grid slds-m-top--large">
-                           <div class="slds-col slds-col-rule--right ">
-                              <div class="slds-card" style="margin-left:2%;margin-right:2%; padding-bottom:10px;">
-                                 <section class="slds-card__body">
-                                    <div class="slds-box slds-theme--default">
-                                       Document Type:
-                                       <apex:selectList value="{!description}" size="1" id="documentType" styleclass="documentType" onchange="checkDocType()" >
-                                          <apex:selectOptions value="{!DocumentOptions}"   />
-                                       </apex:selectList><span class="slds-hide" id="descriptionError" style="color: #c23934;"> * Please select Document type</span>
-                                       <br/><br/>
-                                       <div class="slds-box slds-theme--shade" id="holder" style="border: 2px dashed rgb(204, 204, 204);">
-                                          <div class="slds-text-heading--medium">
-                                             <center>
-                                                <span class="slds-icon__container slds-icon slds-icon--medium">
-                                                   <svg aria-hidden="true" class="slds-icon slds-icon--medium">
-                                                      <use href="{!URLFOR($Resource.LightningDesign, '/assets/icons/utility-sprite/svg/symbols.svg#upload')}"></use>
-                                                   </svg>
-                                                </span>
-                                                Drop files here or click to browse.
-                                             </center>
-                                          </div>
-                                       </div>
-                                       <p id="upload">
-                                        <!-- <label>Drag and drop not supported by your browser, but you can still upload via this input field: -->
-                                          <br />
-                                          <input id="uploadButton" multiple="true" type="file" onchange="readfiles(this.files)" />
-                                        <!-- </label> -->
-                                      </p>
-                                      <p id="filereader">File API and FileReader API not supported</p>
-                                      <p id="success" class="hidden">File attached successfully</p>
-                                    </div>
-                                    <div id="uploadStatusContainer" class="slds-hide" style="width: 100%;padding:10px;min-height: 70px;">
-                                       <div class="uploadBoxes" style="display: table-cell;">
-                                       </div>
-                                    </div>
-                                 </section>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </apex:outputpanel>
-        <span id="relatedListOP">
-          <apex:ActionStatus id="spinner">
-            <apex:facet name="start">
-               <div class="slds-spinner_container">
-                  <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
-                     <span class="slds-assistive-text">Loading</span>
-                     <div class="slds-spinner__dot-a"></div>
-                     <div class="slds-spinner__dot-b"></div>
-                  </div>
-               </div>
-            </apex:facet>
-         </apex:ActionStatus>
-          <div class="myapp">
-            <div class="slds-grid slds-m-top--large">
-              <div class="slds-col slds-col-rule--right ">
-                <div class="slds-card" style="margin-left:2%;margin-right:2%;padding-bottom: 10px;">
-                  <apex:outputpanel rendered="{!!isCommunityUser}">
-                    <header class="slds-card__header slds-grid">
-                      <div class="slds-col slds-media slds-media--center">
-                        <apex:commandButton status="spinner" onComplete="target();" styleClass="slds-button slds-button--neutral" value="Update Document Type"
-                          action="{!updateAtList}" rerender="relatedListBodypannel" rendered="{! IF(attList.size > 0, true, false)}"
-                        />
-                      </div>
-                    </header>
-                  </apex:outputpanel>
-                  <apex:outputPanel id="relatedListBodypannel">
-                    <section class="slds-card__body">
-                      <div class="slds-scrollable--x">
-                        <table class="slds-table slds-table--bordered">
-                          <thead>
-                            <tr class="slds-no-hover">
-                              <th class="slds-text-heading--label slds-size--1-of-12" style="display:{!IF(isCommunityUser, 'none;', '; width:1%;')}" scope="col"></th>
-                              <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Name</th>
-                              <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Type</th>
-                              <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
-                              <th class="slds-text-heading--label slds-size--3-of-12" style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isCanadianTireCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
-                                scope="col">Uploaded By</th>
-                              <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
-                            </tr>
-                          </thead>
-                          <tbody id="relatedListBody">
-                            <apex:repeat value="{!attList}" var="att">
-                              <tr>
-                                <td style="display:{!IF(OR(isCommunityReadOnlyUser,isGoeasyBankCommunityUser), 'none;', ';')}">
-                                  <input type="button" Class="slds-button slds-button--neutral" value="Delete" onclick="deletAtt('{!att.Id}', this)" />
-                                </td>
-                                <td style="max-width:250px;">
-                                  <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
-                                    <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style='display:{!IF(NOT(isGoeasyBankCommunityUser), "", "none;")}'>
-                                      <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!att.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!att.Name}</a>
-                                    </span>
-                                    <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style='display:{!IF(isLightningCommunity, "", "none;")}'>
-                                      <a href="{!urlPathPrefix}servlet/servlet.FileDownload?file={!att.Id}" target="_blank">{!att.Name}</a>
-                                    </span>
-                                  </li>
-                                </td>
-                                <td>
-                                  <apex:selectList value="{!att.Description}" size="1" rendered="{!!isCommunityUser}">
-                                    <apex:selectOptions value="{!fileDocumentOptions}" />
-                                  </apex:selectList>
-                                  <apex:outputText value="{!att.Description}" rendered="{!isCommunityUser}" />
-                                </td>
-                                <td>
-                                  <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
-                                    <apex:param value="{!att.createdDate + offset}" />
-                                  </apex:outputText>
-                                </td>
-                                <td style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isCanadianTireCommunityUser,NOT(isCommunityUser)), ';', 'none;')}">
-                                  <apex:outputText value="{!att.owner.Name}">
-                                  </apex:outputText>
-                                </td>
-                                <td>
-                                  <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
-                                    <apex:param value="{!att.LastModifiedDate + offset}" />
-                                  </apex:outputText>
-                                </td>
-                              </tr>
-                            </apex:repeat>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </apex:outputPanel>
-                  <apex:outputpanel rendered="{!!isCommunityUser}">
-                    <header class="slds-card__header slds-grid">
-                      <div class="slds-col slds-media slds-media--center">
-                        <apex:commandButton status="spinner" onComplete="target();" styleClass="slds-button slds-button--neutral" value="Update Document Type"
-                          action="{!updateAtList}" rerender="relatedListBodypannel" rendered="{! IF(attList.size > 0, true, false)}"
-                        />
-                      </div>
-                    </header>
-                  </apex:outputpanel>
+                    </h2>
                 </div>
-              </div>
             </div>
-          </div>
+            <div id="dropArea">
+                <div id="j_id0:j_id1:j_id2:j_id8:box" class="box">
+                    <div class="myapp">
+                        <div class="slds-grid slds-m-top--large">
+                            <div class="slds-col slds-col-rule--right">
+                                <div class="slds-card" style="margin-left: 2%; margin-right: 2%; padding-bottom: 10px">
+                                    <section class="slds-card__body">
+                                        <div class="slds-box slds-theme--default">
+                                            Document Type:
+                                            <apex:selectList
+                                                value="{!description}"
+                                                size="1"
+                                                id="documentType"
+                                                styleclass="documentType"
+                                                onchange="checkDocType()"
+                                            >
+                                                <apex:selectOptions value="{!DocumentOptions}" /> </apex:selectList
+                                            ><span class="slds-hide" id="descriptionError" style="color: #c23934"> * Please select Document type</span>
+                                            <br /><br />
+                                            <div class="slds-box slds-theme--shade" id="holder" style="border: 2px dashed rgb(204, 204, 204)">
+                                                <div class="slds-text-heading--medium">
+                                                    <center>
+                                                        <span class="slds-icon__container slds-icon slds-icon--medium">
+                                                            <svg aria-hidden="true" class="slds-icon slds-icon--medium">
+                                                                <use
+                                                                    href="{!URLFOR($Resource.LightningDesign, '/assets/icons/utility-sprite/svg/symbols.svg#upload')}"
+                                                                ></use>
+                                                            </svg>
+                                                        </span>
+                                                        Drop files here or click to browse.
+                                                    </center>
+                                                </div>
+                                            </div>
+                                            <p id="upload">
+                                                <!-- <label>Drag and drop not supported by your browser, but you can still upload via this input field: -->
+                                                <br />
+                                                <input id="uploadButton" multiple="true" type="file" onchange="readfiles(this.files)" />
+                                                <!-- </label> -->
+                                            </p>
+                                            <p id="filereader">File API and FileReader API not supported</p>
+                                            <p id="success" class="hidden">File attached successfully</p>
+                                        </div>
+                                        <div id="uploadStatusContainer" class="slds-hide" style="width: 100%; padding: 10px; min-height: 70px">
+                                            <div class="uploadBoxes" style="display: table-cell"></div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </apex:outputpanel>
+        <span id="relatedListOP">
+            <apex:ActionStatus id="spinner">
+                <apex:facet name="start">
+                    <div class="slds-spinner_container">
+                        <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
+                        </div>
+                    </div>
+                </apex:facet>
+            </apex:ActionStatus>
+            <div class="myapp">
+                <div class="slds-grid slds-m-top--large">
+                    <div class="slds-col slds-col-rule--right">
+                        <div class="slds-card" style="margin-left: 2%; margin-right: 2%; padding-bottom: 10px">
+                            <apex:outputpanel rendered="{!!isCommunityUser}">
+                                <header class="slds-card__header slds-grid">
+                                    <div class="slds-col slds-media slds-media--center">
+                                        <apex:commandButton
+                                            status="spinner"
+                                            onComplete="target();"
+                                            styleClass="slds-button slds-button--neutral"
+                                            value="Update Document Type"
+                                            action="{!updateAtList}"
+                                            rerender="relatedListBodypannel"
+                                            rendered="{! IF(attList.size > 0, true, false)}"
+                                        />
+                                    </div>
+                                </header>
+                            </apex:outputpanel>
+                            <apex:outputPanel id="relatedListBodypannel">
+                                <section class="slds-card__body">
+                                    <div class="slds-scrollable--x">
+                                        <table class="slds-table slds-table--bordered">
+                                            <thead>
+                                                <tr class="slds-no-hover">
+                                                    <th
+                                                        class="slds-text-heading--label slds-size--1-of-12"
+                                                        style="display:{!IF(attList.size > 0, ';', 'none;')}"
+                                                        scope="col"
+                                                    ></th>
+                                                    <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Name</th>
+                                                    <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Type</th>
+                                                    <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
+                                                    <th
+                                                        class="slds-text-heading--label slds-size--3-of-12"
+                                                        style="display:{!IF(OR(isGoeasyBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
+                                                        scope="col"
+                                                    >
+                                                        Uploaded By
+                                                    </th>
+                                                    <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="relatedListBody">
+                                                <apex:repeat value="{!attList}" var="att">
+                                                    <tr>
+                                                        <td style="display:{!IF(OR(isCommunityReadOnlyUser,isGoeasyBankCommunityUser), 'none;', ';')}">
+                                                            <input
+                                                                type="button"
+                                                                class="slds-button slds-button--neutral"
+                                                                value="Delete"
+                                                                onclick="deletAtt('{!att.Id}', this)"
+                                                            />
+                                                        </td>
+                                                        <td style="max-width: 250px">
+                                                            <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
+                                                                <span
+                                                                    class="slds-m-left_xx-small slds-truncate"
+                                                                    title="{!att.Name}"
+                                                                    style='display:{!IF(NOT(isGoeasyBankCommunityUser), "", "none;")}'
+                                                                >
+                                                                    <a
+                                                                        href="#"
+                                                                        onclick='window.open("../servlet/servlet.FileDownload?file={!att.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'
+                                                                        >{!att.Name}</a
+                                                                    >
+                                                                </span>
+                                                                <span
+                                                                    class="slds-m-left_xx-small slds-truncate"
+                                                                    title="{!att.Name}"
+                                                                    style='display:{!IF(isLightningCommunity, "", "none;")}'
+                                                                >
+                                                                    <a href="{!urlPathPrefix}servlet/servlet.FileDownload?file={!att.Id}" target="_blank"
+                                                                        >{!att.Name}</a
+                                                                    >
+                                                                </span>
+                                                            </li>
+                                                        </td>
+                                                        <td>
+                                                            <apex:selectList value="{!att.Description}" size="1" rendered="{!!isCommunityUser}">
+                                                                <apex:selectOptions value="{!fileDocumentOptions}" />
+                                                            </apex:selectList>
+                                                            <apex:outputText value="{!att.Description}" rendered="{!isCommunityUser}" />
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                                                <apex:param value="{!att.createdDate + offset}" />
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td style="display:{!IF(OR(isGoeasyBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}">
+                                                            <apex:outputText value="{!att.owner.Name}"> </apex:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                                                <apex:param value="{!att.LastModifiedDate + offset}" />
+                                                            </apex:outputText>
+                                                        </td>
+                                                    </tr>
+                                                </apex:repeat>
+                                                <apex:repeat
+                                                    value="{!downloadFile}"
+                                                    var="docAtt"
+                                                    rendered="{!insAcc.RecordType.Name == 'Canadian Tire Insolvency Account' && downloadFile.size>0}"
+                                                >
+                                                    <tr>
+                                                        <td style="display:{!IF(attList.size > 0, ';', 'none;')}"></td>
+                                                        <td style="max-width: 250px">
+                                                            <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
+                                                                <span class="slds-m-left_xx-small slds-truncate" title="{!docAtt.documetName}">
+                                                                    <apex:outputLink
+                                                                        value="javascript:void(0);"
+                                                                        onclick="getDownloadUrl('{!docAtt.documetName}')"
+                                                                        >{!docAtt.documetName}</apex:outputLink
+                                                                    >
+                                                                </span>
+                                                            </li>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{!docAtt.documetType}"> </apex:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                                                <apex:param value="{!docAtt.createdDate + offset}" />
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td style="display:{!IF(NOT(isCommunityUser), ';', 'none;')}">
+                                                            <apex:outputText value="{!docAtt.createdBy}"> </apex:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                                                <apex:param value="{!docAtt.LastModifiedDate + offset}" />
+                                                            </apex:outputText>
+                                                        </td>
+                                                    </tr>
+                                                </apex:repeat>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
+                            </apex:outputPanel>
+                            <apex:outputpanel rendered="{!!isCommunityUser}">
+                                <header class="slds-card__header slds-grid">
+                                    <div class="slds-col slds-media slds-media--center">
+                                        <apex:commandButton
+                                            status="spinner"
+                                            onComplete="target();"
+                                            styleClass="slds-button slds-button--neutral"
+                                            value="Update Document Type"
+                                            action="{!updateAtList}"
+                                            rerender="relatedListBodypannel"
+                                            rendered="{! IF(attList.size > 0, true, false)}"
+                                        />
+                                    </div>
+                                </header>
+                            </apex:outputpanel>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </span>
         <!-- Display related insolvency Attachments of type Creditor Package STARTS-->
         <apex:outputPanel rendered="{!insolvAttList.size>0}">
-          <div class="slds-grid slds-m-top--large" style="margin-bottom: {!IF(isCommunityUser, '0.5rem', '0.5rem')}">
-             <div class="slds-col ">
-                <div class="slds-card" style="margin-left:2%;margin-right:2%;border-bottom:0px;border-left: 1px solid #d8dde6;border-right: 1px solid #d8dde6;">
-                   <header class="slds-card__header slds-grid">
-                      <div class="slds-col slds-media slds-media--center slds-text-heading--medium">
-                        Insolvency Creditors Package
-                      </div>
-                    </header>
-                   <section class="slds-card__body">
-                      <div class="slds-scrollable--x">
-                         <table class="slds-table slds-table--bordered">
-                            <thead>
-                               <tr class="slds-no-hover">
-                                  <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Name</th>
-                                  <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
-                                  <th class="slds-text-heading--label slds-size--3-of-12" style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}" scope="col">Uploaded By</th>
-                                  <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
-                               </tr>
-                            </thead>
-                            <tbody>
-                               <apex:repeat value="{!insolvAttList}" var="att">
-                                  <tr>
-                                     <td style="max-width:250px;">
-                                        <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
-                                           <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(NOT(isGoeasyBankCommunityUser), "", "none;")}'>
-                                           <a href="#" onclick='window.open("../servlet/servlet.FileDownload?file={!att.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!att.Name}</a>
-                                           </span>
-                                           <span class="slds-m-left_xx-small slds-truncate" title="{!att.Name}" style ='display:{!IF(isLightningCommunity, "", "none;")}'>
-                                            <a href="{!urlPathPrefix}servlet/servlet.FileDownload?file={!att.Id}" target="_blank">{!att.Name}</a>  
-                                           </span>
-                                        </li>
-                                     </td>
-                                     <td>
-                                        <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}" >
-                                           <apex:param value="{!att.createdDate + offset}" />
-                                        </apex:outputText>
-                                     </td>
-                                     <td style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}">
-                                       <apex:outputText value="{!att.owner.Name}">
-                                       </apex:outputText>
-                                    </td>
-                                     <td>
-                                        <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}" >
-                                           <apex:param value="{!att.LastModifiedDate + offset}" />
-                                        </apex:outputText>
-                                     </td>
-                                  </tr>
-                               </apex:repeat>
-                            </tbody>
-                         </table>
-                      </div>
-                   </section>
+            <div class="slds-grid slds-m-top--large" style="margin-bottom: {!IF(isCommunityUser, '0.5rem', '0.5rem')}">
+                <div class="slds-col">
+                    <div
+                        class="slds-card"
+                        style="margin-left: 2%; margin-right: 2%; border-bottom: 0px; border-left: 1px solid #d8dde6; border-right: 1px solid #d8dde6"
+                    >
+                        <header class="slds-card__header slds-grid">
+                            <div class="slds-col slds-media slds-media--center slds-text-heading--medium">Insolvency Creditors Package</div>
+                        </header>
+                        <section class="slds-card__body">
+                            <div class="slds-scrollable--x">
+                                <table class="slds-table slds-table--bordered">
+                                    <thead>
+                                        <tr class="slds-no-hover">
+                                            <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Name</th>
+                                            <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
+                                            <th
+                                                class="slds-text-heading--label slds-size--3-of-12"
+                                                style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
+                                                scope="col"
+                                            >
+                                                Uploaded By
+                                            </th>
+                                            <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Last Modified Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <apex:repeat value="{!insolvAttList}" var="att">
+                                            <tr>
+                                                <td style="max-width: 250px">
+                                                    <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
+                                                        <span
+                                                            class="slds-m-left_xx-small slds-truncate"
+                                                            title="{!att.Name}"
+                                                            style='display:{!IF(NOT(isGoeasyBankCommunityUser), "", "none;")}'
+                                                        >
+                                                            <a
+                                                                href="#"
+                                                                onclick='window.open("../servlet/servlet.FileDownload?file={!att.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'
+                                                                >{!att.Name}</a
+                                                            >
+                                                        </span>
+                                                        <span
+                                                            class="slds-m-left_xx-small slds-truncate"
+                                                            title="{!att.Name}"
+                                                            style='display:{!IF(isLightningCommunity, "", "none;")}'
+                                                        >
+                                                            <a href="{!urlPathPrefix}servlet/servlet.FileDownload?file={!att.Id}" target="_blank"
+                                                                >{!att.Name}</a
+                                                            >
+                                                        </span>
+                                                    </li>
+                                                </td>
+                                                <td>
+                                                    <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                                        <apex:param value="{!att.createdDate + offset}" />
+                                                    </apex:outputText>
+                                                </td>
+                                                <td
+                                                    style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
+                                                >
+                                                    <apex:outputText value="{!att.owner.Name}"> </apex:outputText>
+                                                </td>
+                                                <td>
+                                                    <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                                        <apex:param value="{!att.LastModifiedDate + offset}" />
+                                                    </apex:outputText>
+                                                </td>
+                                            </tr>
+                                        </apex:repeat>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
                 </div>
-             </div>
-          </div>
-       </apex:outputPanel>
-       <!-- Display related insolvency Attachments of type Creditor Package ENDS -->
-      </apex:form>
-      <apex:stylesheet value="{!URLFOR($Resource.LightningDesign, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
-      <style>
+            </div>
+        </apex:outputPanel>
+        <!-- Display related insolvency Attachments of type Creditor Package ENDS -->
+    </apex:form>
+    <apex:stylesheet value="{!URLFOR($Resource.LightningDesign, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <style>
         .LightningDesignWinter17 .slds-icon {
         width: 2rem;
         height: 2rem;
@@ -253,7 +357,7 @@
         border-bottom: 1px solid #d8dde6;
         border-top: 1px solid #d8dde6;
         border-radius: 0px;
-        } 
+        }
         .modal-container {
         width: 90% !important;
         max-width: 960px !important;
@@ -272,220 +376,249 @@
         }
         .hidden { display: none;}
         .dragDropComponentSize{ overflow-y:auto;}
-        </style>
-        <script src="../soap/ajax/61.0/connection.js" type="text/javascript"></script>
-        <script>
-            var __sfdcSessionId = '{!GETSESSIONID()}'; 
-            sforce.connection.sessionId = '{!GETSESSIONID()}';
-            var holder = document.getElementById('holder');
-            var success = document.getElementById('success');
-        
-            tests = {
-              filereader: typeof FileReader != 'undefined',
-              dnd: 'draggable' in document.createElement('span'),
-              formdata: !!window.FormData,
-            },
-            support = {
-              filereader: document.getElementById('filereader')
-            },
-            progress = document.getElementById('uploadprogress'),
-            fileupload = document.getElementById('upload');
-        
-            holder.onclick = function() {
-              document.getElementById('uploadButton').click();
-            };
-        
-            if (tests["filereader"] === false) {
-                support["filereader"].className = 'fail';
+    </style>
+    <script src="../soap/ajax/61.0/connection.js" type="text/javascript"></script>
+    <script>
+        var __sfdcSessionId = "{!GETSESSIONID()}";
+        sforce.connection.sessionId = "{!GETSESSIONID()}";
+        var holder = document.getElementById("holder");
+        var success = document.getElementById("success");
+
+        (tests = {
+            filereader: typeof FileReader != "undefined",
+            dnd: "draggable" in document.createElement("span"),
+            formdata: !!window.FormData
+        }),
+            (support = {
+                filereader: document.getElementById("filereader")
+            }),
+            (progress = document.getElementById("uploadprogress")),
+            (fileupload = document.getElementById("upload"));
+
+        holder.onclick = function () {
+            document.getElementById("uploadButton").click();
+        };
+
+        if (tests["filereader"] === false) {
+            support["filereader"].className = "fail";
+        } else {
+            support["filereader"].className = "hidden";
+        }
+
+        // function to check whether successfully or not
+        function target() {
+            var element = document.getElementById("target");
+            element.classList.remove("slds-hide");
+            setTimeout((element) => {
+                document.getElementById("target").classList.add("slds-hide");
+            }, 2000);
+        }
+
+        function checkDocType() {
+            var e = document.getElementsByClassName("documentType")[0];
+            if (e.options[e.selectedIndex].value == "") {
+                document.getElementById("descriptionError").classList.remove("slds-hide");
+                document.getElementById("uploadButton").value = null;
+                return false;
             } else {
-                support["filereader"].className = 'hidden';
+                document.getElementById("descriptionError").classList.add("slds-hide");
             }
+            return true;
+        }
 
-            // function to check whether successfully or not
-            function target(){
-                var element = document.getElementById("target");
-                element.classList.remove('slds-hide');
-                setTimeout((element) => {
-                    document.getElementById("target").classList.add('slds-hide');
-                }, 2000);
+        function deletAtt(attid, ele) {
+            var retVal = confirm("Do you want to continue ?");
+            if (retVal == true) {
+                ele.disabled = true;
+                deletAttHelper(attid);
+            } else {
+                return false;
             }
+        }
 
-            function checkDocType(){
-                var e = document.getElementsByClassName("documentType")[0];
-                if(e.options[e.selectedIndex].value == ''){
-                    document.getElementById('descriptionError').classList.remove('slds-hide');
-                    document.getElementById('uploadButton').value = null;
-                    return false;
-                }else{
-                    document.getElementById('descriptionError').classList.add('slds-hide');
+        function redirectToAttachment(fileId) {
+            if ("Theme3" == "Theme4d") {
+                sforce.one.navigateToSObject(fileId);
+            } else {
+                window.open(
+                    "/servlet/servlet.FileDownload?file=" + fileId,
+                    "_blank",
+                    "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700"
+                );
+            }
+        }
+
+        function getDownloadUrl(selectedDocId) {
+            InsolvencyAccntDragNDropController.getDocumentId(selectedDocId, "{!insAcc.Id}", function (result, event) {
+                var isLightningCommunity = "{!isLightningCommunity}" === "true";
+                if (event.status) {
+                    if (isLightningCommunity) {
+                        window.open("{!urlPathPrefix}" + `servlet/servlet.FileDownload?file=${result}`);
+                    } else {
+                        redirectToAttachment(result);
+                    }
+                } else if (event.type === "exception") {
+                    console.log(event.message + "\n" + event.where);
+                } else {
+                    console.log(event.message + "\n" + event.where);
                 }
-                return true;
-            }
+            });
+        }
 
-            function deletAtt(attid, ele){
-                var retVal = confirm("Do you want to continue ?");
-                if( retVal == true ){
-                  ele.disabled = true;
-                  deletAttHelper(attid);
-                }
-                else{
-                  return false;
-                }
+        function prepareUpload(filelist) {
+            document.getElementById("uploadStatusContainer").classList.remove("slds-hide");
+            for (var i = 0; i < filelist.length; i++) {
+                var file = filelist[i];
+                var divToAppend = document.createElement("div");
+                divToAppend.style.cssText = "width:180px;margin-top:10px;padding-left: 10px;";
+                divToAppend.className = "uploadStatus uploadStatusCompleted" + i;
+                var childDiv1 = document.createElement("div");
+                childDiv1.style.cssText = "width: 25px;float: left;";
+                childDiv1.className = "upload-status-mark" + i + " dropzone-right";
+                divToAppend.appendChild(childDiv1);
+                var childDiv2 = document.createElement("div");
+                childDiv2.style.cssText = "width: 25px;float: left;";
+                childDiv2.className = "dropzone-progress dropzone-left dropzone-progress-" + i;
+                childDiv1.appendChild(childDiv2);
+                var childDiv3 = document.createElement("div");
+                childDiv3.style.cssText = "float: left;padding: 10px;";
+                childDiv3.className = "dropzone-list-div";
+                childDiv1.appendChild(childDiv3);
+                var childDiv4 = document.createElement("div");
+                childDiv4.className = "progress-container dropzone-right";
+                childDiv3.appendChild(childDiv4);
+                var childDiv5 = document.createElement("div");
+                childDiv5.className = "progress-container dropzone-right";
+                childDiv4.appendChild(childDiv5);
+                var childDiv6 = document.createElement("div");
+                childDiv6.className = "dropzone-fileName dropzone-left";
+                childDiv5.appendChild(childDiv6);
+                var childSpan = document.createElement("span");
+                childSpan.className = "file-name";
+                childSpan.style.cssText = "z-index:5;position: relative;font-size: 10px;color:#000;";
+                childSpan.textContent = file.name.length > 25 ? file.name.substring(0, 25) + "..." : file.name;
+                childDiv6.appendChild(childSpan);
+                document.getElementsByClassName("uploadBoxes")[0].appendChild(divToAppend);
             }
+        }
 
-            function prepareUpload(filelist){
-              document.getElementById("uploadStatusContainer").classList.remove('slds-hide');
-                for (var i = 0; i < filelist.length; i++) {
-                    var file = filelist[i];
-                    var divToAppend = document.createElement('div');
-                    divToAppend.style.cssText = 'width:180px;margin-top:10px;padding-left: 10px;';
-                    divToAppend.className  = 'uploadStatus uploadStatusCompleted'+i;
-                    var childDiv1 = document.createElement('div');
-                    childDiv1.style.cssText = 'width: 25px;float: left;';
-                    childDiv1.className  = 'upload-status-mark' + i + ' dropzone-right';
-                    divToAppend.appendChild(childDiv1);
-                    var childDiv2 = document.createElement('div');
-                    childDiv2.style.cssText = 'width: 25px;float: left;';
-                    childDiv2.className  = 'dropzone-progress dropzone-left dropzone-progress-'+i;
-                    childDiv1.appendChild(childDiv2);
-                    var childDiv3 = document.createElement('div');
-                    childDiv3.style.cssText = 'float: left;padding: 10px;';
-                    childDiv3.className  = 'dropzone-list-div';
-                    childDiv1.appendChild(childDiv3);
-                    var childDiv4 = document.createElement('div');
-                    childDiv4.className  = 'progress-container dropzone-right';
-                    childDiv3.appendChild(childDiv4);
-                    var childDiv5 = document.createElement('div');
-                    childDiv5.className  = 'progress-container dropzone-right';
-                    childDiv4.appendChild(childDiv5);
-                    var childDiv6 = document.createElement('div');
-                    childDiv6.className  = 'dropzone-fileName dropzone-left';
-                    childDiv5.appendChild(childDiv6);
-                    var childSpan = document.createElement('span');
-                    childSpan.className  = 'file-name';
-                    childSpan.style.cssText = 'z-index:5;position: relative;font-size: 10px;color:#000;';
-                    childSpan.textContent  = (file.name.length>25 ? file.name.substring(0,25)+'...' : file.name);
-                    childDiv6.appendChild(childSpan);
-                    document.getElementsByClassName("uploadBoxes")[0].appendChild(divToAppend);   
-                }
-            }
+        function updateUIForUploading(uploadNum) {
+            var spanToAppend = document.createElement("span");
+            spanToAppend.className = "slds-icon_container slds-icon-standard-task2";
+            var imgToAppend = document.createElement("img");
+            imgToAppend.setAttribute("src", "{!URLFOR($Resource.Attachment_Icons, '/images/loading.png')}");
+            spanToAppend.appendChild(imgToAppend);
+            document.getElementsByClassName("dropzone-progress-" + uploadNum)[0].appendChild(spanToAppend);
+        }
 
-            function updateUIForUploading(uploadNum){
-              var spanToAppend = document.createElement('span');
-              spanToAppend.className = 'slds-icon_container slds-icon-standard-task2';
-              var imgToAppend = document.createElement('img');
-              imgToAppend.setAttribute('src', "{!URLFOR($Resource.Attachment_Icons, '/images/loading.png')}");
-              spanToAppend.appendChild(imgToAppend);
-              document.getElementsByClassName('dropzone-progress-'+uploadNum)[0].appendChild(spanToAppend); 
+        function updateUIForSuccessUpload(uploadNum) {
+            var dropzoneProgress = document.getElementsByClassName("dropzone-progress-" + uploadNum)[0];
+            while (dropzoneProgress.firstChild) {
+                dropzoneProgress.removeChild(dropzoneProgress.firstChild);
             }
+            var childSpan = document.createElement("span");
+            childSpan.className = "dropzone-span-progress";
+            childSpan.style.cssText = "width: 100%;";
+            dropzoneProgress.appendChild(childSpan);
+            var uploadStatusMark = document.getElementsByClassName("upload-status-mark" + uploadNum)[0];
+            uploadStatusMark.classList.add("success-mark");
+            var spanToAppend = document.createElement("span");
+            spanToAppend.className = "slds-icon_container slds-icon-standard-task2";
+            var imgToAppend = document.createElement("img");
+            imgToAppend.setAttribute("src", "{!URLFOR($Resource.Attachment_Icons, '/images/green_tick.png')}");
+            spanToAppend.appendChild(imgToAppend);
+            document.getElementsByClassName("upload-status-mark" + uploadNum)[0].appendChild(spanToAppend);
+            dropzoneProgress.classList.add("green");
+        }
 
-            function updateUIForSuccessUpload(uploadNum){
-                var dropzoneProgress = document.getElementsByClassName('dropzone-progress-'+uploadNum)[0]
-                while (dropzoneProgress.firstChild) {
-                  dropzoneProgress.removeChild(dropzoneProgress.firstChild);
-                }
-                var childSpan = document.createElement('span');
-                childSpan.className = 'dropzone-span-progress';
-                childSpan.style.cssText = 'width: 100%;';
-                dropzoneProgress.appendChild(childSpan);
-                var uploadStatusMark = document.getElementsByClassName('upload-status-mark'+uploadNum)[0]
-                uploadStatusMark.classList.add('success-mark');
-                var spanToAppend = document.createElement('span');
-                spanToAppend.className = 'slds-icon_container slds-icon-standard-task2';
-                var imgToAppend = document.createElement('img');
-                imgToAppend.setAttribute('src', "{!URLFOR($Resource.Attachment_Icons, '/images/green_tick.png')}");
-                spanToAppend.appendChild(imgToAppend); 
-                document.getElementsByClassName('upload-status-mark'+uploadNum)[0].appendChild(spanToAppend);
-                dropzoneProgress.classList.add('green');
-            }
+        function formatBytes(bytes, decimals) {
+            if (bytes == 0) return "0 Byte";
+            var k = 1000;
+            var dm = decimals + 1 || 3;
+            var sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+            var i = Math.floor(Math.log(bytes) / Math.log(k));
+            return (bytes / Math.pow(k, i)).toPrecision(dm) + " " + sizes[i];
+        }
 
-            function formatBytes(bytes,decimals) {
-               if(bytes == 0) return '0 Byte';
-               var k = 1000;
-               var dm = decimals + 1 || 3;
-               var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-               var i = Math.floor(Math.log(bytes) / Math.log(k));
-               return (bytes / Math.pow(k, i)).toPrecision(dm) + ' ' + sizes[i];
-            }
-        
-            function readfiles(files) {
-              var uploadBoxes = document.getElementsByClassName('uploadBoxes')[0];
-              // Clear upload status UI
-              while (uploadBoxes.firstChild) {
+        function readfiles(files) {
+            var uploadBoxes = document.getElementsByClassName("uploadBoxes")[0];
+            // Clear upload status UI
+            while (uploadBoxes.firstChild) {
                 uploadBoxes.removeChild(uploadBoxes.firstChild);
-                }
-                var formData = tests.formdata ? new FormData() : null;
-                if(!checkDocType()) {
+            }
+            var formData = tests.formdata ? new FormData() : null;
+            if (!checkDocType()) {
+                return;
+            }
+            prepareUpload(files);
+            Object.keys(files).forEach((i) => {
+                var fileNumber = i;
+                var file = files[i];
+                if (file.size > 25000000) {
+                    console.error("File size cannot exceed 25 MB\n" + "Selected file size: " + formatBytes(file.size));
                     return;
                 }
-                prepareUpload(files);
-                Object.keys(files).forEach(i => {
-                  var fileNumber = i;
-                  var file = files[i];
-                    if(file.size > 25000000){
-                        console.error('File size cannot exceed 25 MB\n' + 'Selected file size: ' + formatBytes(file.size));
-                        return;
-                    }
-                    if (tests.formdata) {
-                        var reader = new FileReader();
-                        reader.file = file;
-                        //attach event handlers here...
-                        reader.onerror = function(e) {
-                            console.error('error')
-                        };
-                        reader.onloadend = function(e) {
-                            if (e.target.readyState == FileReader.DONE) { //Make sure read was successful, DONE == 2
-                              document.getElementById("uploadStatusContainer").classList.remove('slds-hide');
-                              var description = document.getElementsByClassName("documentType")[0];
-                                var att = new sforce.SObject("Attachment");
-                                att.Name = this.file.name;
-                                att.ContentType = this.file.type;
-                                att.Description = description.options[description.selectedIndex].value;
-                                att.ParentId = '{!insAcc.Id}';
-        
-                                var binary = "";
-                                var bytes = new Uint8Array(e.target.result);
-                                var length = bytes.byteLength;
-                                //Update UI to show that uploading in progress
-                                updateUIForUploading(fileNumber);
-                                for (var i = 0; i < length; i++) {
-                                    binary += String.fromCharCode(bytes[i]);
-                                }
-                                att.Body = (new sforce.Base64Binary(binary)).toString();
-                                sforce.connection.create([att], {
-                                    onSuccess: function(result, source) {
-                                        if (result[0].getBoolean("success")) {
-                                            updateUIForSuccessUpload(fileNumber);
-                                            uploadCompleteAction();
-                                        } else {
-                                            console.error("An Error occured - " + result[0]);
-                                        }
-                                    },
-                                    onFailure: function(error, source) {
-                                        console.error("an error has occurred " + error);
-                                    }
-                                });
+                if (tests.formdata) {
+                    var reader = new FileReader();
+                    reader.file = file;
+                    //attach event handlers here...
+                    reader.onerror = function (e) {
+                        console.error("error");
+                    };
+                    reader.onloadend = function (e) {
+                        if (e.target.readyState == FileReader.DONE) {
+                            //Make sure read was successful, DONE == 2
+                            document.getElementById("uploadStatusContainer").classList.remove("slds-hide");
+                            var description = document.getElementsByClassName("documentType")[0];
+                            var att = new sforce.SObject("Attachment");
+                            att.Name = this.file.name;
+                            att.ContentType = this.file.type;
+                            att.Description = description.options[description.selectedIndex].value;
+                            att.ParentId = "{!insAcc.Id}";
+
+                            var binary = "";
+                            var bytes = new Uint8Array(e.target.result);
+                            var length = bytes.byteLength;
+                            //Update UI to show that uploading in progress
+                            updateUIForUploading(fileNumber);
+                            for (var i = 0; i < length; i++) {
+                                binary += String.fromCharCode(bytes[i]);
                             }
-                        };
-                        reader.readAsArrayBuffer(file);
-                    }
-                })
-            }
-        
-            if (tests.dnd) {
-              holder.ondragover = function() {
-                  holder.style.cssText = 'border: 2px dashed #3385E2; background: #C4FFCE';
-                  return false;
-              };
-              holder.ondragleave = function() {
-                  holder.style.cssText = 'background: #FFF';
-                  return false;
-              };
-              holder.ondrop = function(e) {
-                  e.preventDefault();
-                  holder.style.cssText = 'border: 2px dashed #ccc; background: #FFF';
-                  readfiles(e.dataTransfer.files);
-              }
-            }
-        </script>
+                            att.Body = new sforce.Base64Binary(binary).toString();
+                            sforce.connection.create([att], {
+                                onSuccess: function (result, source) {
+                                    if (result[0].getBoolean("success")) {
+                                        updateUIForSuccessUpload(fileNumber);
+                                        uploadCompleteAction();
+                                    } else {
+                                        console.error("An Error occured - " + result[0]);
+                                    }
+                                },
+                                onFailure: function (error, source) {
+                                    console.error("an error has occurred " + error);
+                                }
+                            });
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                }
+            });
+        }
+
+        if (tests.dnd) {
+            holder.ondragover = function () {
+                holder.style.cssText = "border: 2px dashed #3385E2; background: #C4FFCE";
+                return false;
+            };
+            holder.ondragleave = function () {
+                holder.style.cssText = "background: #FFF";
+                return false;
+            };
+            holder.ondrop = function (e) {
+                e.preventDefault();
+                holder.style.cssText = "border: 2px dashed #ccc; background: #FFF";
+                readfiles(e.dataTransfer.files);
+            };
+        }
+    </script>
 </apex:page>
