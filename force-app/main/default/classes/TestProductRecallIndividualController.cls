@@ -8,14 +8,9 @@
  *************************************************************************************************/
 @isTest
 public class TestProductRecallIndividualController {
-    
-    public static testMethod void testConstructor(){
-        
-        String mainStatus;
-        
-        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
-        
-        API_Call_Details__c  settings = new API_Call_Details__c ();
+    @TestSetup
+    static void makeData() {
+        API_Call_Details__c settings = new API_Call_Details__c();
         settings.Name = 'Agency Portal API';
         settings.AuthorizationtUrl__c = 'https://test.com/portalapi';
         settings.Tenand_ID__c = '123';
@@ -26,54 +21,58 @@ public class TestProductRecallIndividualController {
         settings.Scope_Prefix__c = 'scopep.com';
         settings.Scope_Suffix__c = '/.default';
         insert settings;
-        
+
         Agency_Portal_Fields_Mapping__c FieldMap = new Agency_Portal_Fields_Mapping__c();
         FieldMap.Field_API__c = 'Name';
-        FieldMap.Field_JSON_Tag__c ='Name';
+        FieldMap.Field_JSON_Tag__c = 'Name';
         FieldMap.Object_Name__c = 'Product';
-        FieldMap.Name = 'Name';        
+        FieldMap.Name = 'Name';
         insert FieldMap;
-        
+
         Agency_Portal_Fields_Mapping__c FieldMap1 = new Agency_Portal_Fields_Mapping__c();
         FieldMap1.Field_API__c = 'Product_Status__c';
-        FieldMap1.Field_JSON_Tag__c ='Product_Status';
+        FieldMap1.Field_JSON_Tag__c = 'Product_Status';
         FieldMap1.Object_Name__c = 'Product';
-        FieldMap1.Name = 'Product Status';        
+        FieldMap1.Name = 'Product Status';
         insert FieldMap1;
-        
+
         Agency_Portal_Fields_Mapping__c FieldMap2 = new Agency_Portal_Fields_Mapping__c();
         FieldMap2.Field_API__c = 'Charged_Off_Date__c';
-        FieldMap2.Field_JSON_Tag__c ='Charged_Off_Date';
+        FieldMap2.Field_JSON_Tag__c = 'Charged_Off_Date';
         FieldMap2.Object_Name__c = 'Product';
-        FieldMap2.Name = 'Charged Off Date';        
+        FieldMap2.Name = 'Charged Off Date';
         insert FieldMap2;
-        
-        Placement__c placement= new Placement__c();      
-        placement.Name= '9999'; 
+
+        Placement__c placement = new Placement__c();
+        placement.Name = '9999';
         placement.Serviceable_Province__c = 'AB';
         placement.Agency_Name__c = 'Warehouse';
-        insert placement; 
-        
+        insert placement;
+
         //Product Record Creation
         Product__C prod = new Product__c();
-        string recrdid= [SELECT id from RecordType where sobjecttype='product__c' 
-                         AND RecordType.Name='Distressed Account'].id;
-        prod.RecordTypeId=recrdid;
-        prod.Name ='123456789';
-        prod.Previously_Reviewed_for_Legal_Action__c=True;
-        prod.Current_Principal_Balance__c=101;
-        prod.Current_Interest_Amount__c=1000;
+        string recrdid = [
+            SELECT id
+            FROM RecordType
+            WHERE sobjecttype = 'product__c' AND RecordType.Name = 'Distressed Account'
+        ]
+        .id;
+        prod.RecordTypeId = recrdid;
+        prod.Name = '123456789';
+        prod.Previously_Reviewed_for_Legal_Action__c = true;
+        prod.Current_Principal_Balance__c = 101;
+        prod.Current_Interest_Amount__c = 1000;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
         prod.Product_Status__c = 'Test';
-        prod.OwnerId= UserInfo.getUserId();
+        prod.OwnerId = UserInfo.getUserId();
         prod.Placement_Status__c = '290700';
         prod.Collection_Agency__c = 32;
-        ProductTriggerHandler.runProductTrigger = False;
+        ProductTriggerHandler.runProductTrigger = false;
         insert prod;
-        ProductTriggerHandler.runProductTrigger = True;
-        
-        map<String, Placement_Status_Code_Mapping__c> mapCodes = new map<String, Placement_Status_Code_Mapping__c> ();
+        ProductTriggerHandler.runProductTrigger = true;
+
+        map<String, Placement_Status_Code_Mapping__c> mapCodes = new Map<String, Placement_Status_Code_Mapping__c>();
         Placement_Status_Code_Mapping__c placementCode = new Placement_Status_Code_Mapping__c();
         placementCode.Name = 'Name';
         placementCode.Parent_Status__c = 'Test Data';
@@ -82,19 +81,22 @@ public class TestProductRecallIndividualController {
         placementCode.Sub_Status__c = 'Test Substatus';
         placementCode.Data_Status_Code__c = '300000';
         insert placementCode;
-        mapCodes.put(placementCode.Placement_Status_Code__c,placementCode);
-        
-        
+        mapCodes.put(placementCode.Placement_Status_Code__c, placementCode);
+
         Work_Assignment__c workAssData2 = new Work_Assignment__c();
         workAssData2.Title__c = 'This task for Test class';
         workAssData2.Description__c = 'This task is for settlement record';
-        workAssData2.Product_Identifier__c = prod.id ;
-            
-        workAssData2.Placement_Agency_Identifier__c=null;
-        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = False;
+        workAssData2.Product_Identifier__c = prod.id;
+
+        workAssData2.Placement_Agency_Identifier__c = null;
+        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
         insert workAssData2;
-        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = True;
-        
+        WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
+    }
+    public static testMethod void testConstructor() {
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        Product__c prod = [SELECT Id FROM Product__c LIMIT 1];
+        Test.startTest();
         ApexPages.currentPage().getParameters().put('id', prod.Id);
         ApexPages.StandardController sc = new ApexPages.standardController(prod);
         ProductRecallIndividualController controller = new ProductRecallIndividualController(sc);
@@ -108,16 +110,38 @@ public class TestProductRecallIndividualController {
         controller.selectedValueAction = 'Send To Warehouse';
         controller.recallProduct();
         controller.recallWithWarning();
-        controller.selectedRecallReason = '210000';
-        controller.selectedValueAction = 'Pending Allocation';
-        controller.recallProduct();
-        controller.recallWithWarning();
-        
+
         prod.Collection_Agency__c = 9999;
         update prod;
         ApexPages.StandardController sc1 = new ApexPages.standardController(prod);
         ProductRecallIndividualController controller1 = new ProductRecallIndividualController(sc1);
         controller1.getactionItems();
+        Test.stopTest();
     }
-    
+
+    public static testMethod void testPendingAllocationRecall() {
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        Product__c prod = [SELECT Id FROM Product__c LIMIT 1];
+        Test.startTest();
+        ApexPages.currentPage().getParameters().put('id', prod.Id);
+        ApexPages.StandardController sc = new ApexPages.standardController(prod);
+        ProductRecallIndividualController controller = new ProductRecallIndividualController(sc);
+        controller.selectedRecallReason = '210000';
+        controller.selectedValueAction = 'Pending Allocation';
+        controller.recallProduct();
+        Test.stopTest();
+    }
+
+    public static testMethod void testPendingAllocationRecallWithWarning() {
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        Product__c prod = [SELECT Id FROM Product__c LIMIT 1];
+        Test.startTest();
+        ApexPages.currentPage().getParameters().put('id', prod.Id);
+        ApexPages.StandardController sc = new ApexPages.standardController(prod);
+        ProductRecallIndividualController controller = new ProductRecallIndividualController(sc);
+        controller.selectedRecallReason = '210000';
+        controller.selectedValueAction = 'Pending Allocation';
+        controller.recallWithWarning();
+        Test.stopTest();
+    }
 }
