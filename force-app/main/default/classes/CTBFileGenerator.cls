@@ -12,20 +12,19 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static Map<String, Insolvency_type_mapping__mdt> insolTypeMap = Insolvency_type_mapping__mdt.getAll();
     public Map<String, Insolvency_type_mapping__mdt> insolTypeMappingData = new Map<String, Insolvency_type_mapping__mdt>();
     public static Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
-    public String CTBBatchName;
+    public String ctbBatchName;
     public static final String recordType = 'Canadian_Tire_Insolvency_Account';
     public static final String clientIdentifier = 'Canadian Tire';
     public static final String coDebtor = 'coDebtor';  
     public static final String borrower = 'borrower';
-    String FinalData = '';
+    String finalData = '';
     List<sObject> queryData = new List<sObject>();
-    //public static List<Insolvency_Account__c> listSuccessIds = new List<Insolvency_Account__c>();
     String createdDate = '';
-    public String dateformate = '';
-    public static string headbody = '';
-    public static string trailerbody = '';
-    public static string Theadbody = '';
-    public static string Bheadbody = '';
+    public String dateFormate = '';
+    public static string headBody = '';
+    public static string trailerBody = '';
+    public static string TheadBody = '';
+    public static string BheadBody = '';
     public static string BTRAL = '';
     public static string TTRAL = '';
     Integer countVariable = 0;
@@ -84,7 +83,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static String transmissionDescription;
     public static String julianDateCal;
     public static String gregorianDate;
-    public static String bheadsequenceNumber;
+    public static String bheadSequenceNumber;
     public static String bheadTransCode;
     public static String bheadBankNumber;
     public static String bheadFormatIdentifier;
@@ -94,13 +93,13 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
     global CTBFileGenerator(String batchName) {
         //get Batch Name from Scheduler
-        CTBBatchName = batchName;
+        ctbBatchName = batchName;
         // get value from CTB File Automation custom metadata
         for (CTB_File_Automation__mdt metaData : mapCTBFileAutomation.values()) {
             mapCTBFileAuto.put(metaData.MasterLabel, metaData);
         }
         createdDate = convertDateToString(System.today());
-        dateformate = Datetime.now().format('HH:mm:ss');
+        dateFormate = Datetime.now().format('HH:mm:ss');
         
         for(Insolvency_type_mapping__mdt insolTypeMapping : insolTypeMap.values()){
             insolTypeMappingData.put(insolTypeMapping.MasterLabel, insolTypeMapping);
@@ -112,20 +111,20 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         //List<String> listNames = new List<String>{'101010','010101'};
         String query = '';
         //fetch records based on batchName
-        if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
+        if (ctbBatchName == System.Label.CTB_Insolvency_Account) {
             query =
                 ' Select id,name,Insolvency_Received_Date__c,Insolvency__r.Insolvency_Type__c,Debtor_1_First_Name__c,' +
                 'Debtor_1_Last_Name__c,Province_Formula__c,Insolvency__r.Debtor_1_Mailing_Country__c,Debtor_1_Mailing_Postal_Code__c,' +
                 'Debtor_1_SIN__c,Debtor_1_Date_of_Birth__c,Insolvency__r.Insolvency_Date__c,Insolvency__r.name,Insolvency__r.Debtor_2_Estate_Number__c,Trustee_Company__c,Correlation_ID__c,' +
                 'Insolvency__r.Trustee__r.BillingStreet,Insolvency__r.Debtor_1_First_Name__c,Insolvency__r.Debtor_1_Last_Name__c,Insolvency__r.Trustee__r.BillingCity,Insolvency__r.Trustee__r.BillingState,CTB_Date_of_Birth__c,' +
-                'Insolvency__r.Trustee__r.BillingPostalCode,Debtor_1_Mailing_Street__c,CTB_Status_Update_Code__c,Insolvency__r.Debtor_1_Middle_Name__c,Debtor_1_Mailing_City__c,' +
+                'Insolvency__r.Trustee__r.BillingPostalCode,Debtor_1_Mailing_Street__c,CTB_Status_Update_Code__c,Insolvency__r.Debtor_1_Middle_Name__c,Debtor_1_Mailing_City__c,No_Match_Debtor__c,No_Match_Co_Debtor__c,' +
                 'Debtor_2_First_Name__c,Insolvency__r.Debtor_2_First_Name__c,Insolvency__r.Debtor_2_Middle_Name__c,Debtor_2_Last_Name__c,Insolvency__r.Debtor_2_Last_Name__c, Street_Name_Number__c, City__c,Province__c,Insolvency__r.Debtor_2_Mailing_Country__c,Postal_Code__c,Insolvency__r.Debtor_2_SIN__c,Debtor_2_Date_of_Birth__c ' +
                 'FROM Insolvency_Account__c ' +
                 'WHERE ' +
                 'RecordType.developerName = :recordType AND ' +
                 'Insolvency_Sub_Status__c = \'Pending File\'';
         }
-        if (CTBBatchName == System.Label.CTB_Payment) {
+        if (ctbBatchName == System.Label.CTB_Payment) {
             if (Test.isRunningTest()) {
                 query =
                     ' Select id,name,Account_Number__c,Payment_Posting_Date__c,Transaction_Id__c,Payment_Type__c,Payment_Amount__c,' +
@@ -152,7 +151,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     //Execute Method: based on batch name call respective method
     global void execute(Database.BatchableContext BC, List<sObject> query) {
         List<Insolvency_Account__c> coDebtorList = new List<Insolvency_Account__c>();
-        if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
+        if (ctbBatchName == System.Label.CTB_Insolvency_Account) {
             for(Insolvency_Account__c insolAcctsData :(List<Insolvency_Account__c>) query){
                 if(insolAcctsData.Insolvency__r.Debtor_2_First_Name__c <> NULL && insolAcctsData.Insolvency__r.Debtor_2_Last_Name__c <> NULL){
                     coDebtorList.add(insolAcctsData);
@@ -162,28 +161,25 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
            
             // build insolvency daily update file coDebtor body
              wrapperClass coDebtorBatchCnt = new wrapperClass();
-            coDebtorBatchCnt = getInsolvencyAccountFile(mapCTBFileAuto, insolTypeMappingData, coDebtorList, createdDate, dateformate, CTBBatchName,coDebtor);  
+            coDebtorBatchCnt = getInsolvencyAccountFile(mapCTBFileAuto, insolTypeMappingData, coDebtorList, createdDate, dateFormate, ctbBatchName,coDebtor);  
             
             // build insolvency daily update file Borrower body
             wrapperClass batchCnt = new wrapperClass();
-            batchCnt = getInsolvencyAccountFile(mapCTBFileAuto, insolTypeMappingData, query, createdDate, dateformate, CTBBatchName,borrower);
+            batchCnt = getInsolvencyAccountFile(mapCTBFileAuto, insolTypeMappingData, query, createdDate, dateFormate, ctbBatchName,borrower);
 
-            FinalData += batchCnt.finalDetailBody;
-            FinalData += coDebtorBatchCnt.finalDetailBody;
+            finalData += batchCnt.finalDetailBody;
+            finalData += coDebtorBatchCnt.finalDetailBody;
 
             countVariable += batchCnt.batchCountDetail;
             countVariable += coDebtorBatchCnt.batchCountDetail;
-            //system.debug('listSuccessIds%%'+listSuccessIds);
-            //queryData = listSuccessIds;
             queryData = query;
-            system.debug('queryData%%'+queryData);
         }
-        if (CTBBatchName == System.Label.CTB_Payment) {
+        if (ctbBatchName == System.Label.CTB_Payment) {
             queryData = query;
             wrapperClass batchCnt = new wrapperClass();
             // build insolvency payment update file body
-            batchCnt = getInsolvencyPaymentFile(mapCTBFileAuto, query, createdDate, dateformate, CTBBatchName);
-            FinalData += batchCnt.finalDetailBody;
+            batchCnt = getInsolvencyPaymentFile(mapCTBFileAuto, query, createdDate, dateFormate, ctbBatchName);
+            finalData += batchCnt.finalDetailBody;
             countVariable += batchCnt.batchCountDetail;
             batchExecuteCount++;
         }
@@ -195,19 +191,18 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         map<String, Insolvency_type_mapping__mdt> insolTypeMappingData,
         List<Insolvency_Account__c> insolvencyAccData,
         String createdDate,
-        String dateformate,
-        string CTBBatchName,
+        String dateFormate,
+        string ctbBatchName,
         string borrowerName
     ) {
         Integer counter = 0;
-        string mainbody = '';
+        string mainBody = '';
         List<ID> listAccIds = new List<ID>();
         List<ID> listAccSuccessIds = new List<ID>();
         wrapperClass batchCntData = new wrapperClass();
-        //List<Insolvency_Account__c> listSuccessIds = new List<Insolvency_Account__c>();
         Map<id, Insolvency_Account__c> insolvAcctErrorListMap = new Map<id, Insolvency_Account__c>();
 		Insolvency_Account__c insolAccError = new Insolvency_Account__c();
-        
+        Map<String,String>  getCommonBodyMapData = getCommonBodyData(insolvencyAccData,insolTypeMappingData);
         try {
             //retrive data from CTB File Automation custom metadata
             String headerType = mapCTBFileAuto.get('Insolvency Daily Update').Header_Record_Type__c;
@@ -257,13 +252,34 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     insolAccData.Insolvency__r.Trustee__r.BillingPostalCode != null &&
                     insolAccData.Correlation_ID__c != null && trailerRecordType != null || Test.isRunningTest()
                 ) {*/
-                    String DebtorFirstName = '';
+                    String debtorFirstName = '';
+                	String debtorLastName = '';
+                	String addressLine1 = '';
+                	String debtorMailingCity = '';
+                	String province = '';
+                	String mailingCountry = '';
+                	String mailingPostalCode = '';
+                	String SIN = '';
+                	String dateOfBirth = '';
+                	String estateNumber = '';
+                	String insolvencyDate = '';
+                	String openDate = '';
+                    String trusteeCompany = '';
+                	String trusteeAddress = '';
+                	String trusteeCity = '';
+                	String trusteeState = '';
+                	String trusteePostalCode = '';
+                	string ctbStatusUpdateCode = '';
+                	string correlationID = '';
+                	string insolvencyType = '';
+                	
+                if(insolAccData.No_Match_Debtor__c != TRUE){
                     if(borrowerName == borrower){
                         if (insolAccData.Debtor_1_First_Name__c != null) {
                             if (insolAccData.Debtor_1_First_Name__c.length() > 40) {
-                                DebtorFirstName = insolAccData.Debtor_1_First_Name__c.subString(0, 40);
+                                debtorFirstName = insolAccData.Debtor_1_First_Name__c.subString(0, 40);
                             } else {
-                                DebtorFirstName = insolAccData.Debtor_1_First_Name__c;
+                                debtorFirstName = insolAccData.Debtor_1_First_Name__c;
                             }
                         }else{
                             if (insolAccData.Insolvency__r.Debtor_1_First_Name__c != null 
@@ -280,24 +296,94 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                                     } else {
                                         debtorMiddleName = insolAccData.Insolvency__r.Debtor_1_Middle_Name__c;
                                     }
-                                    DebtorFirstName = inslodebtorFirstName + debtorMiddleName;
+                                    debtorFirstName = inslodebtorFirstName + debtorMiddleName;
                                 }else{
                                     if (insolAccData.Insolvency__r.Debtor_1_First_Name__c != null){
                                         if (insolAccData.Insolvency__r.Debtor_1_First_Name__c.length() > 40) {
-                                            DebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c.subString(0, 40);
+                                            debtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c.subString(0, 40);
                                         } else {
-                                            DebtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c;
+                                            debtorFirstName = insolAccData.Insolvency__r.Debtor_1_First_Name__c;
                                         }
                                     }
                                 }
                         }
+                        if (insolAccData.Debtor_1_Last_Name__c != null) {
+                            if (insolAccData.Debtor_1_Last_Name__c.length() > 40) {
+                                debtorLastName = insolAccData.Debtor_1_Last_Name__c.subString(0, 40);
+                            } else {
+                                debtorLastName = insolAccData.Debtor_1_Last_Name__c;
+                            }
+                        }else{
+                            if(insolAccData.Insolvency__r.Debtor_1_Last_Name__c != null){
+                                if (insolAccData.Insolvency__r.Debtor_1_Last_Name__c.length() > 40) {
+                                    debtorLastName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c.subString(0, 40);
+                                } else {
+                                    debtorLastName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c;
+                                }    
+                            }
+                        }
+                        if (insolAccData.Debtor_1_Mailing_Street__c != null) {
+                            if (insolAccData.Debtor_1_Mailing_Street__c.length() > 80) {
+                                addressLine1 = insolAccData.Debtor_1_Mailing_Street__c.subString(0, 80);
+                            } else {
+                                addressLine1 = insolAccData.Debtor_1_Mailing_Street__c;
+                            }
+                        }
+                        if (insolAccData.Debtor_1_Mailing_City__c != null) {
+                            if (insolAccData.Debtor_1_Mailing_City__c.length() > 40) {
+                                debtorMailingCity = insolAccData.Debtor_1_Mailing_City__c.subString(0, 40);
+                            } else {
+                                debtorMailingCity = insolAccData.Debtor_1_Mailing_City__c;
+                            }
+                        }
+                        if (insolAccData.Province_Formula__c != null) {
+                            province = CustomerProcessingBatchHelper.getProvinceCode(insolAccData.Province_Formula__c);
+                        }
+                        if (insolAccData.Insolvency__r.Debtor_1_Mailing_Country__c != null) {
+                            mailingCountry = CustomerProcessingBatchHelper.getMailingCountry(insolAccData.Insolvency__r.Debtor_1_Mailing_Country__c);
+                        }
+                        if (insolAccData.Debtor_1_Mailing_Postal_Code__c != null) {
+                            if (insolAccData.Debtor_1_Mailing_Postal_Code__c.length() > 15) {
+                                mailingPostalCode = insolAccData.Debtor_1_Mailing_Postal_Code__c.subString(0, 15);
+                            } else {
+                                mailingPostalCode = insolAccData.Debtor_1_Mailing_Postal_Code__c;
+                            }
+                        }
+                        if (insolAccData.Debtor_1_SIN__c != null) {
+                            if (insolAccData.Debtor_1_SIN__c.length() > 8) {
+                                SIN = insolAccData.Debtor_1_SIN__c.subString(0, 8);
+                            } else {
+                                SIN = insolAccData.Debtor_1_SIN__c;
+                            }
+                        } 
+                        if (insolAccData.CTB_Date_of_Birth__c != null) {
+                            dateOfBirth = convertDateToString(insolAccData.CTB_Date_of_Birth__c);
+                        } else {
+                            dateOfBirth = convertDateToString(insolAccData.Debtor_1_Date_of_Birth__c);
+                        }
+                        if (insolAccData.Insolvency__r.name != null) {
+                            estateNumber = insolAccData.Insolvency__r.name;
+                        }
                     }
+                	insolvencyDate = getCommonBodyMapData.get(insolAccData.id+insolvencyDate);
+                	insolvencyDate = getCommonBodyMapData.get(insolAccData.id+insolvencyDate);	
+                	openDate = getCommonBodyMapData.get(insolAccData.id+openDate);
+                	trusteeCompany = getCommonBodyMapData.get(insolAccData.id+trusteeCompany);
+                	trusteeAddress = getCommonBodyMapData.get(insolAccData.id+trusteeAddress);
+                	trusteeCity = getCommonBodyMapData.get(insolAccData.id+trusteeCity);
+                	trusteeState = getCommonBodyMapData.get(insolAccData.id+trusteeState);
+                	trusteePostalCode = getCommonBodyMapData.get(insolAccData.id+trusteePostalCode);
+                	ctbStatusUpdateCode = getCommonBodyMapData.get(insolAccData.id+ctbStatusUpdateCode);
+                	insolvencyType = getCommonBodyMapData.get(insolAccData.id+insolvencyType);
+                }
+                    
+                if(insolAccData.No_Match_Co_Debtor__c != TRUE){
                     if(borrowerName == coDebtor){
                         if (insolAccData.Debtor_2_First_Name__c != null) {
                             if (insolAccData.Debtor_2_First_Name__c.length() > 40) {
-                                DebtorFirstName = insolAccData.Debtor_2_First_Name__c.subString(0, 40);
+                                debtorFirstName = insolAccData.Debtor_2_First_Name__c.subString(0, 40);
                             } else {
-                                DebtorFirstName = insolAccData.Debtor_2_First_Name__c;
+                                debtorFirstName = insolAccData.Debtor_2_First_Name__c;
                             }
                         }else{
                             if (insolAccData.Insolvency__r.Debtor_2_First_Name__c != null 
@@ -314,65 +400,32 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                                     } else {
                                         debtorMiddleName = insolAccData.Insolvency__r.Debtor_2_Middle_Name__c;
                                     }
-                                    DebtorFirstName = inslodebtorFirstName + debtorMiddleName;
+                                    debtorFirstName = inslodebtorFirstName + debtorMiddleName;
                                 }else{
                                     if (insolAccData.Insolvency__r.Debtor_2_First_Name__c != null){
                                         if (insolAccData.Insolvency__r.Debtor_2_First_Name__c.length() > 40) {
-                                            DebtorFirstName = insolAccData.Insolvency__r.Debtor_2_First_Name__c.subString(0, 40);
+                                            debtorFirstName = insolAccData.Insolvency__r.Debtor_2_First_Name__c.subString(0, 40);
                                         } else {
-                                            DebtorFirstName = insolAccData.Insolvency__r.Debtor_2_First_Name__c;
+                                            debtorFirstName = insolAccData.Insolvency__r.Debtor_2_First_Name__c;
                                         }
                                     }
                                 }
                         }
-                    }
-                    
-                    String DebtorLaseName = '';
-                    if(borrowerName == borrower){
-                        if (insolAccData.Debtor_1_Last_Name__c != null) {
-                            if (insolAccData.Debtor_1_Last_Name__c.length() > 40) {
-                                DebtorLaseName = insolAccData.Debtor_1_Last_Name__c.subString(0, 40);
-                            } else {
-                                DebtorLaseName = insolAccData.Debtor_1_Last_Name__c;
-                            }
-                        }else{
-                            if(insolAccData.Insolvency__r.Debtor_1_Last_Name__c != null){
-                                if (insolAccData.Insolvency__r.Debtor_1_Last_Name__c.length() > 40) {
-                                    DebtorLaseName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c.subString(0, 40);
-                                } else {
-                                    DebtorLaseName = insolAccData.Insolvency__r.Debtor_1_Last_Name__c;
-                                }    
-                            }
-                        }
-                    }
-                    if(borrowerName == coDebtor){
                         if (insolAccData.Debtor_2_Last_Name__c != null) {
                             if (insolAccData.Debtor_2_Last_Name__c.length() > 40) {
-                                DebtorLaseName = insolAccData.Debtor_2_Last_Name__c.subString(0, 40);
+                                debtorLastName = insolAccData.Debtor_2_Last_Name__c.subString(0, 40);
                             } else {
-                                DebtorLaseName = insolAccData.Debtor_2_Last_Name__c;
+                                debtorLastName = insolAccData.Debtor_2_Last_Name__c;
                             }
                         }else{
                             if(insolAccData.Insolvency__r.Debtor_2_Last_Name__c != null){
                                 if (insolAccData.Insolvency__r.Debtor_2_Last_Name__c.length() > 40) {
-                                    DebtorLaseName = insolAccData.Insolvency__r.Debtor_2_Last_Name__c.subString(0, 40);
+                                    debtorLastName = insolAccData.Insolvency__r.Debtor_2_Last_Name__c.subString(0, 40);
                                 } else {
-                                    DebtorLaseName = insolAccData.Insolvency__r.Debtor_2_Last_Name__c;
+                                    debtorLastName = insolAccData.Insolvency__r.Debtor_2_Last_Name__c;
                                 }    
                             }
                         }
-                    }
-                    String addressLine1 = '';
-                    if(borrowerName == borrower){
-                        if (insolAccData.Debtor_1_Mailing_Street__c != null) {
-                            if (insolAccData.Debtor_1_Mailing_Street__c.length() > 80) {
-                                addressLine1 = insolAccData.Debtor_1_Mailing_Street__c.subString(0, 80);
-                            } else {
-                                addressLine1 = insolAccData.Debtor_1_Mailing_Street__c;
-                            }
-                        }
-                    }
-                    if(borrowerName == coDebtor){
                         if (insolAccData.Street_Name_Number__c != null) {
                             if (insolAccData.Street_Name_Number__c.length() > 80) {
                                 addressLine1 = insolAccData.Street_Name_Number__c.subString(0, 80);
@@ -380,59 +433,19 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                                 addressLine1 = insolAccData.Street_Name_Number__c;
                             }
                         }
-                    }
-                    String DebtorMailingCity = '';
-                    if(borrowerName == borrower){
-                        if (insolAccData.Debtor_1_Mailing_City__c != null) {
-                            if (insolAccData.Debtor_1_Mailing_City__c.length() > 40) {
-                                DebtorMailingCity = insolAccData.Debtor_1_Mailing_City__c.subString(0, 40);
-                            } else {
-                                DebtorMailingCity = insolAccData.Debtor_1_Mailing_City__c;
-                            }
-                        }
-                    }
-                    if(borrowerName == coDebtor){
                         if (insolAccData.City__c != null) {
                             if (insolAccData.City__c.length() > 40) {
-                                DebtorMailingCity = insolAccData.City__c.subString(0, 40);
+                                debtorMailingCity = insolAccData.City__c.subString(0, 40);
                             } else {
-                                DebtorMailingCity = insolAccData.City__c;
+                                debtorMailingCity = insolAccData.City__c;
                             }
                         }
-                    }
-                    String province = '';
-                    if(borrowerName == borrower){
-                        if (insolAccData.Province_Formula__c != null) {
-                            province = CustomerProcessingBatchHelper.getProvinceCode(insolAccData.Province_Formula__c);
-                        }
-                    }
-                    if(borrowerName == coDebtor){
                         if (insolAccData.Province__c != null) {
                             province = CustomerProcessingBatchHelper.getProvinceCode(insolAccData.Province__c);
                         } 
-                    }
-                    String mailingCountry = '';
-                    if(borrowerName == borrower){
-                        if (insolAccData.Insolvency__r.Debtor_1_Mailing_Country__c != null) {
-                            mailingCountry = CustomerProcessingBatchHelper.getMailingCountry(insolAccData.Insolvency__r.Debtor_1_Mailing_Country__c);
-                        }
-                    }
-                    if(borrowerName == coDebtor){
                         if (insolAccData.Insolvency__r.Debtor_2_Mailing_Country__c != null) {
                             mailingCountry = CustomerProcessingBatchHelper.getMailingCountry(insolAccData.Insolvency__r.Debtor_2_Mailing_Country__c);
                         }
-                    }
-                    String mailingPostalCode = '';
-                    if(borrowerName == borrower){
-                        if (insolAccData.Debtor_1_Mailing_Postal_Code__c != null) {
-                            if (insolAccData.Debtor_1_Mailing_Postal_Code__c.length() > 15) {
-                                mailingPostalCode = insolAccData.Debtor_1_Mailing_Postal_Code__c.subString(0, 15);
-                            } else {
-                                mailingPostalCode = insolAccData.Debtor_1_Mailing_Postal_Code__c;
-                            }
-                        }
-                    }
-                    if(borrowerName == coDebtor){
                        if (insolAccData.Postal_Code__c != null) {
                             if (insolAccData.Postal_Code__c.length() > 15) {
                                 mailingPostalCode = insolAccData.Postal_Code__c.subString(0, 15);
@@ -440,19 +453,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                                 mailingPostalCode = insolAccData.Postal_Code__c;
                             }
                         } 
-                    }
-                    
-                    String SIN = '';
-                    if(borrowerName == borrower){
-                        if (insolAccData.Debtor_1_SIN__c != null) {
-                            if (insolAccData.Debtor_1_SIN__c.length() > 8) {
-                                SIN = insolAccData.Debtor_1_SIN__c.subString(0, 8);
-                            } else {
-                                SIN = insolAccData.Debtor_1_SIN__c;
-                            }
-                        } 
-                    }
-                    if(borrowerName == coDebtor){
                        if (insolAccData.Insolvency__r.Debtor_2_SIN__c != null) {
                             if (insolAccData.Insolvency__r.Debtor_2_SIN__c.length() > 8) {
                                 SIN = insolAccData.Insolvency__r.Debtor_2_SIN__c.subString(0, 8);
@@ -460,106 +460,30 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                                 SIN = insolAccData.Insolvency__r.Debtor_2_SIN__c;
                             }
                         } 
-                    }
-                    String dateOfBirth = '';
-                    if(borrowerName == borrower){
-                        if (insolAccData.CTB_Date_of_Birth__c != null) {
-                            dateOfBirth = convertDateToString(insolAccData.CTB_Date_of_Birth__c);
-                        } else {
-                            dateOfBirth = convertDateToString(insolAccData.Debtor_1_Date_of_Birth__c);
-                        }
-                    }
-                    if(borrowerName == coDebtor){
                         if (insolAccData.CTB_Date_of_Birth__c != null) {
                             dateOfBirth = convertDateToString(insolAccData.CTB_Date_of_Birth__c);
                         } else {
                             dateOfBirth = convertDateToString(insolAccData.Debtor_2_Date_of_Birth__c);
                         }
-                    }
-                    String insolvencyDate = '';
-                    if (insolAccData.Insolvency__r.Insolvency_Date__c != null) {
-                        insolvencyDate = convertDateToString(insolAccData.Insolvency__r.Insolvency_Date__c);
-                    }
-                    String openDate = '';
-                    if (insolAccData.Insolvency_Received_Date__c != null) {
-                        openDate = convertDateToString(insolAccData.Insolvency_Received_Date__c);
-                    }
-                    String estateNumber = '';
-                	if(borrowerName == borrower){
-                        if (insolAccData.Insolvency__r.name != null) {
-                            estateNumber = insolAccData.Insolvency__r.name;
-                        }
-                    }
-                	if(borrowerName == coDebtor){
                         if (insolAccData.Insolvency__r.Debtor_2_Estate_Number__c != null) {
                             estateNumber = insolAccData.Insolvency__r.Debtor_2_Estate_Number__c;
                         }
                     }
-                    
-                    String trusteeCompany = '';
-                    if (insolAccData.Trustee_Company__c != null) {
-                        if (insolAccData.Trustee_Company__c.length() > 80) {
-                            trusteeCompany = insolAccData.Trustee_Company__c.subString(0, 80);
-                        } else {
-                            trusteeCompany = insolAccData.Trustee_Company__c;
-                        }
-                    }
-                    String trusteeAddress = '';
-                    if (insolAccData.Insolvency__r.Trustee__r.BillingStreet != null) {
-                        if (String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingStreet).length() > 80) {
-                            trusteeAddress = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingStreet).subString(0, 80);
-                        } else {
-                            trusteeAddress = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingStreet);
-                        }
-                        trusteeAddress = trusteeAddress.escapeUnicode();
-                    }
-                    String trusteeCity = '';
-                    if (insolAccData.Insolvency__r.Trustee__r.BillingCity != null) {
-                        if (String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity).length() > 39) {
-                            trusteeCity = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity).subString(0, 39);
-                        } else {
-                            trusteeCity = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity);
-                        }
-                    }
-                    String trusteeState = '';
-                    if (insolAccData.Insolvency__r.Trustee__r.BillingState != null) {
-                        if (String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingState).length() > 2) {
-                            trusteeState = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingState).subString(0, 2);
-                        } else {
-                            trusteeState = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingState);
-                        }
-                    }
-                    String trusteePostalCode = '';
-                    if (insolAccData.Insolvency__r.Trustee__r.BillingPostalCode != null) {
-                        if (String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingPostalCode).length() > 15) {
-                            trusteePostalCode = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingPostalCode).subString(0, 15);
-                        } else {
-                            trusteePostalCode = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingPostalCode);
-                        }
-                    }
-                    string ctbStatusUpdateCode = '';
-                    if(insolAccData.CTB_Status_Update_Code__c != null) {
-                        if (insolAccData.CTB_Status_Update_Code__c.length() > 20) {
-                            ctbStatusUpdateCode = insolAccData.CTB_Status_Update_Code__c.subString(0, 20);
-                        } else {
-                            ctbStatusUpdateCode = insolAccData.CTB_Status_Update_Code__c;
-                        }
-                    }    
-                    string correlationID = '';
-                    if(insolAccData.Correlation_ID__c != null) {
-                        if (insolAccData.Correlation_ID__c.length() > 15) {
-                            correlationID = insolAccData.Correlation_ID__c.subString(0, 15);
-                        } else {
-                            correlationID = insolAccData.Correlation_ID__c;
-                        }
-                    }
-                	string insolvencyType = ''; 
-                	if(insolTypeMappingData.containsKey(insolAccData.Insolvency__r.Insolvency_Type__c)){
-                        insolvencyType = insolTypeMappingData.get(insolAccData.Insolvency__r.Insolvency_Type__c).Insolvency_Type__c;
-                	}
+                    insolvencyDate = getCommonBodyMapData.get(insolAccData.id+insolvencyDate);
+                	insolvencyDate = getCommonBodyMapData.get(insolAccData.id+insolvencyDate);	
+                	openDate = getCommonBodyMapData.get(insolAccData.id+openDate);
+                	trusteeCompany = getCommonBodyMapData.get(insolAccData.id+trusteeCompany);
+                	trusteeAddress = getCommonBodyMapData.get(insolAccData.id+trusteeAddress);
+                	trusteeCity = getCommonBodyMapData.get(insolAccData.id+trusteeCity);
+                	trusteeState = getCommonBodyMapData.get(insolAccData.id+trusteeState);
+                	trusteePostalCode = getCommonBodyMapData.get(insolAccData.id+trusteePostalCode);
+                	ctbStatusUpdateCode = getCommonBodyMapData.get(insolAccData.id+ctbStatusUpdateCode);
+                	insolvencyType = getCommonBodyMapData.get(insolAccData.id+insolvencyType);
+                }
                 
-                    // buld final body data
-                    mainbody +=
+                if(!string.isBlank(debtorFirstName)){
+                    // buld final body data insolAccData.No_Match_Debtor__c != TRUE
+                    mainBody +=
                         '"'+detailRecordType +
                         '","' +
                         memberType +
@@ -574,15 +498,15 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '","' +
                         productDesc +
                         '","' +
-                        DebtorFirstName +
+                        debtorFirstName +
                         '","' +
-                        DebtorLaseName +
+                        debtorLastName +
                         '","' +
                         addressLine1 +
                         '","' +
                         '' +
                         '","' +
-                        DebtorMailingCity +
+                        debtorMailingCity +
                         '","' +
                         province +
                         '","' +
@@ -657,6 +581,9 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '' +'"'+
                         '\r\n';
                     counter++;
+                }    
+                                
+                    
                     //listSuccessIds.add(insolAccData);
                /* } else {
                     //If mandatory fields are null then dont build CSV file for this record
@@ -691,15 +618,15 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 if(insolvAcctErrorListMap != null && !insolvAcctErrorListMap.isEmpty()) {
                     update insolvAcctErrorListMap.values();
                 }
-                exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, CTBBatchName);
+                exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, ctbBatchName);
                 CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Account batch count update Failed');
             }
         } catch (Exception ex) {
             system.debug('Exception msg**' + ex.getStackTraceString());
-            exceptionHandling(ex.getMessage(), ex.getStackTraceString(), null, insolvencyAccData, CTBBatchName);
+            exceptionHandling(ex.getMessage(), ex.getStackTraceString(), null, insolvencyAccData, ctbBatchName);
             CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), ex.getStackTraceString(), 'CTB Account Automation Process Failed');
         }
-        batchCntData.finalDetailBody = mainbody;
+        batchCntData.finalDetailBody = mainBody;
         batchCntData.batchCountDetail = counter;
         return batchCntData;
     }
@@ -709,12 +636,12 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         map<String, CTB_File_Automation__mdt> mapCTBFileAuto,
         List<Insolvency_Payment__c> insolvencyPayData,
         String createdDate,
-        String dateformate,
-        string CTBBatchName
+        String dateFormate,
+        string ctbBatchName
     ) {
-        string mainbody = '';
+        string mainBody = '';
         Integer counter = 0;
-        Integer draftSeuNum = 3;
+        Integer draftSeqNum = 3;
         wrapperClass batchCntData = new wrapperClass();
         try {
             //retrive data from CTB File Automation custom metadata
@@ -734,7 +661,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     paymentPostingDateData = formatDate_MM_DD_YY(insolPayData.Payment_Posting_Date__c);
                 }
                 String sequenceCode = defSeqNumber;
-                sequenceCode = getSpaceAndZeroAdded(String.ValueOf(draftSeuNum), 7, true, false, false);
+                sequenceCode = getSpaceAndZeroAdded(String.ValueOf(draftSeqNum), 7, true, false, false);
 
                 String drftTransCode = defDrftTransCode;
                 drftTransCode = getSpaceAndZeroAdded(String.ValueOf(dRFTSTransCode), 4, false, true, false);
@@ -743,7 +670,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
                 String payAmount = defPayAmount;
                 if (insolPayData.Payment_Amount__c != null) {
-                    //payAmount = String.ValueOf(insolPayData.Payment_Amount__c.setScale(0));
                     payAmount = String.ValueOf((insolPayData.Payment_Amount__c * mapCTBFileAuto.get('Insolvency Payment Update').Convert_Dollars_To_Cents__c).setScale(0));
                     payAmount = getSpaceAndZeroAdded(String.ValueOf(payAmount), 9, true, false, false);
                 }
@@ -756,7 +682,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
                 String referenceNumber = getSpaceAndZeroAdded((insolPayData.Name).substringAfter('-'), 23, false, true, true);
 
-                mainbody +=
+                mainBody +=
                     sequenceCode +
                     drftTransCode +
                     accNumber +
@@ -777,7 +703,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     extensionRecordIndicator +
                     '\r\n';
                 counter++;
-                draftSeuNum++;
+                draftSeqNum++;
             }
             /*******************************************Body Data Ends*************************************************/
             // We won't be updating batch count, it will always start with 0001
@@ -788,15 +714,15 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 update config;
             } catch (DMLException dmlEx) {
                 system.debug('Exception msg@@' + dmlEx.getStackTraceString());
-                exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, CTBBatchName);
+                exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, ctbBatchName);
                 CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Payment batch count update Failed');
             } */
         } catch (Exception ex) {
             system.debug('Exception msg**' + ex.getStackTraceString());
-            exceptionHandling(ex.getMessage(), ex.getStackTraceString(), null, insolvencyPayData, CTBBatchName);
+            exceptionHandling(ex.getMessage(), ex.getStackTraceString(), null, insolvencyPayData, ctbBatchName);
             CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), ex.getStackTraceString(), 'CTB Payment Automation Process Failed');
         }
-        batchCntData.finalDetailBody = mainbody;
+        batchCntData.finalDetailBody = mainBody;
         batchCntData.batchCountDetail = counter;
         return batchCntData;
     }
@@ -816,12 +742,12 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             String mainFinalData = '';
             String dailyUpdateFileName = '';
             String paymentFileName = '';
-            String Filename;
-            if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
+            String fileName;
+            if (ctbBatchName == System.Label.CTB_Insolvency_Account) {
                 //system.debug('listSuccessIds**'+listSuccessIds);
                 //queryData = listSuccessIds;
                 //system.debug('queryData**'+queryData);
-                Integer finalrecordCount = 2 + countVariable;
+                Integer finalRecordCount = 2 + countVariable;
                 String headerType = mapCTBFileAuto.get('Insolvency Daily Update').Header_Record_Type__c;
                 String memberType = mapCTBFileAuto.get('Insolvency Daily Update').Member_Type__c;
                 String memberID = mapCTBFileAuto.get('Insolvency Daily Update').Member_ID__c;
@@ -831,7 +757,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String trailerRecordType = mapCTBFileAuto.get('Insolvency Daily Update').Trailer_Record_Type__c;
                 dailyUpdateFileName = mapCTBFileAuto.get('Insolvency Daily Update').File_Name__c;
                 //build heder body data
-                headbody =
+                headBody =
                     '"'+headerType +
                     '","' +
                     memberType +
@@ -842,32 +768,32 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     '","' +
                     createdDate +
                     '","' +
-                    dateformate +
+                    dateFormate +
                     '","' +
                     fileType +
                     '","' +
                     fileFormatIdenfier + '"'+
                     '\r\n';
                 //build trailer body data
-                trailerbody =
+                trailerBody =
                     '"'+trailerRecordType +
                     '","' +
                     memberType +
                     '","' +
                     memberID +
                     '","' +
-                    finalrecordCount +
+                    finalRecordCount +
                     '","' +
                     countVariable +
                     '","' +
                     createdDate +
                     '","' +
-                    dateformate +'"'+
+                    dateFormate +'"'+
                     '\r\n';
                 //build final string to parse
-                mainFinalData = headbody + FinalData + trailerbody;
+                mainFinalData = headBody + finalData + trailerBody;
             }
-            if (CTBBatchName == System.Label.CTB_Payment) {
+            if (ctbBatchName == System.Label.CTB_Payment) {
                 List<ID> listOfPaymentIds = new List<ID>();
                 Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
                 sequenceNumber = mapCTBFileAuto.get('Insolvency Payment Update').Sequence_Number__c;
@@ -875,7 +801,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 theadBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Thead_Bank_Number__c;
                 theadTransName = mapCTBFileAuto.get('Insolvency Payment Update').Thead_Trans_Name__c;
                 transmissionDescription = mapCTBFileAuto.get('Insolvency Payment Update').Thead_Trans_Desc__c;
-                bheadsequenceNumber = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Sequence_Number__c;
+                bheadSequenceNumber = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Sequence_Number__c;
                 bheadTransCode = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Trans_Code__c;
                 bheadBankNumber = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Bank_Number__c;
                 bheadFormatIdentifier = mapCTBFileAuto.get('Insolvency Payment Update').Bhead_Format_Identifier__c;
@@ -932,8 +858,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 String countVariableData = getSpaceAndZeroAdded(String.ValueOf(countVariable), 6, true, false, false);
                 String transmissionNumber = getSpaceAndZeroAdded(String.ValueOf(batchCount), 4, true, false, false);
 
-                Theadbody = buildTHEADBodyData();
-                Bheadbody = buildBHEADBodyData();
+                TheadBody = buildTHEADBodyData();
+                BheadBody = buildBHEADBodyData();
 
                 //build BTRAL body data countVariable
                 BTRAL =
@@ -970,40 +896,40 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     '\r\n';
 
                 //build final string to parse
-                mainFinalData = Theadbody + Bheadbody + FinalData + BTRAL + TTRAL;
+                mainFinalData = TheadBody + BheadBody + finalData + BTRAL + TTRAL;
             }
 
             // Create Content Version
             ContentVersion contentVersionData = new ContentVersion();
             contentVersionData.ContentLocation = 'S';
             contentVersionData.VersionData = Blob.valueof(mainFinalData);
-            if(CTBBatchName == System.Label.CTB_Payment){
-                Filename = paymentFileName + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
+            if(ctbBatchName == System.Label.CTB_Payment){
+                fileName = paymentFileName + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
                 contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
                 contentVersionData.PathOnClient = 'DRN_PaymentUpdate.csv';
             }
-            if(CTBBatchName == System.Label.CTB_Insolvency_Account){
-                Filename = dailyUpdateFileName + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
+            if(ctbBatchName == System.Label.CTB_Insolvency_Account){
+                fileName = dailyUpdateFileName + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
                 contentVersionData.Title = 'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
                 contentVersionData.PathOnClient = 'DRN_DailyUpdate.csv';
             }
             
             insert contentVersionData;
 system.debug('queryData&&&'+queryData);
-            System.enqueueJob(new CTBApiCalloutsQueueable(contentVersionData.id,queryData,CTBBatchName,Filename));
+            System.enqueueJob(new CTBApiCalloutsQueueable(contentVersionData.id,queryData,ctbBatchName,fileName));
 
             /**********************Temparory Purpase Added*******************************
             DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
             Blob fileBlob = Blob.valueOf(mainFinalData);
             //parse string and get response
             if (!Test.isRunningTest()) {
-                if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
+                if (ctbBatchName == System.Label.CTB_Insolvency_Account) {
                     parsedResponse = DocumentAPIClient.postDocument(
                         fileBlob,
                         'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss') + '.csv',
                         'account'
                     );
-                } else if (CTBBatchName == System.Label.CTB_Payment) {
+                } else if (ctbBatchName == System.Label.CTB_Payment) {
                     parsedResponse = DocumentAPIClient.postDocument(
                         fileBlob,
                         'DRN_PaymentUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') + '.csv',
@@ -1016,17 +942,17 @@ system.debug('queryData&&&'+queryData);
             }
             //To DO : We do not need to create Document Storage and in place of it we have to update each insolvency account with CTB Update File Name and CTB Update File Timestamp on rach insolvency account records.
             Document_Storage__c docInfo = new Document_Storage__c();
-            if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
+            if (ctbBatchName == System.Label.CTB_Insolvency_Account) {
                 docInfo.Document_Type__c = 'Insolvency Daily Update';
-            } else if (CTBBatchName == System.Label.CTB_Payment) {
+            } else if (ctbBatchName == System.Label.CTB_Payment) {
                 docInfo.Document_Type__c = 'Insolvency Payment Update';
             }
             docInfo.Work_Assignment__c = 'a3LS0000000h6NCMAY';
             docInfo.Document_URL__c = parsedResponse.docUrl;
             docInfo.Document_Extension__c = 'csv';
-            if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
+            if (ctbBatchName == System.Label.CTB_Insolvency_Account) {
                 docInfo.Document_Name__c = 'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
-            } else if (CTBBatchName == System.Label.CTB_Payment) {
+            } else if (ctbBatchName == System.Label.CTB_Payment) {
                 docInfo.Document_Name__c = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') + '.csv';
             }
             docInfo.Document_Id__c = parsedResponse.docId;
@@ -1041,7 +967,7 @@ system.debug('queryData&&&'+queryData);
             CFG_EmailNotification.apiFailedEmailNotify(
                 UserInfo.getUserId(),
                 ex.getMessage() + ' ' + ex.getStackTraceString(),
-                CTBBatchName + ' file generation failed'
+                ctbBatchName + ' file generation failed'
             );
         }
     }
@@ -1049,8 +975,8 @@ system.debug('queryData&&&'+queryData);
     public static string buildTHEADBodyData() {
         string theadBodyData;
 
-        String SeqNumber = defSeqNumber;
-        SeqNumber = getSpaceAndZeroAdded(String.ValueOf(sequenceNumber), 7, false, true, false);
+        String seqNumber = defSeqNumber;
+        seqNumber = getSpaceAndZeroAdded(String.ValueOf(sequenceNumber), 7, false, true, false);
 
         String transCode = defTransCode;
         transCode = getSpaceAndZeroAdded(String.ValueOf(theadTransCode), 4, false, true, false);
@@ -1068,7 +994,7 @@ system.debug('queryData&&&'+queryData);
         String batchNumber = getSpaceAndZeroAdded(String.ValueOf(batchCount), 4, true, false, false);
         //build THEAD body data
         theadBodyData =
-            SeqNumber +
+            seqNumber +
             transCode +
             bankNumber +
             batchNumber +
@@ -1089,8 +1015,8 @@ system.debug('queryData&&&'+queryData);
 
     global string buildBHEADBodyData() {
         string bheadBodyData;
-        String bheadseqNumber = defBheadSeqNum;
-        bheadseqNumber = getSpaceAndZeroAdded(String.ValueOf(bheadsequenceNumber), 7, false, true, false);
+        String bheadSeqNumber = defBheadSeqNum;
+        bheadSeqNumber = getSpaceAndZeroAdded(String.ValueOf(bheadSequenceNumber), 7, false, true, false);
 
         String bheadTransCodeData = defBheadTransCode;
         bheadTransCodeData = getSpaceAndZeroAdded(String.ValueOf(bheadTransCode), 4, false, true, false);
@@ -1109,7 +1035,7 @@ system.debug('queryData&&&'+queryData);
 
         //build BHEAD body data
         bheadBodyData =
-            bheadseqNumber +
+            bheadSeqNumber +
             bheadTransCodeData +
             bheadBankNum +
             bheadFormatIden +
@@ -1133,7 +1059,7 @@ system.debug('queryData&&&'+queryData);
         if (!String.isEmpty(myString)) {
             lastCharacter = myString.substring(myString.length() - 1);
         }
-        string newstring = myString.removeEnd(lastCharacter);
+        string newString = myString.removeEnd(lastCharacter);
         string cobolAmount = '';
 
         if (paymentAmountSum > 0) {
@@ -1201,15 +1127,15 @@ system.debug('queryData&&&'+queryData);
                 cobolAmount += lastCharacter.replace('9', 'R');
             }
         }
-        cobolAmount = newstring + cobolAmount;
+        cobolAmount = newString + cobolAmount;
         return cobolAmount;
     }
 
     //handle any exception occur while file generation and create Insolvency Error record.
-    public static void exceptionHandling(string errorMsg, string stackTrace, string dataId, List<sObject> Data, string CTBBatchName) {
+    public static void exceptionHandling(string errorMsg, string stackTrace, string dataId, List<sObject> Data, string ctbBatchName) {
         Map<id, sObject> errorMapData = new Map<id, sObject>();
         if (Data <> null) {
-            if (CTBBatchName == System.Label.CTB_Insolvency_Account) {
+            if (ctbBatchName == System.Label.CTB_Insolvency_Account) {
                 for (insolvency_account__c insolAccData : (List<insolvency_account__c>) Data) {
                     insolAccData.Insolvency_Sub_Status__c = 'File Error Parsing Record';
                     if(stackTrace == NULL || stackTrace == ''){
@@ -1220,7 +1146,7 @@ system.debug('queryData&&&'+queryData);
                     errorMapData.put(insolAccData.id, insolAccData);
                 }
             }
-            if (CTBBatchName == System.Label.CTB_Payment && Data <> null) {
+            if (ctbBatchName == System.Label.CTB_Payment && Data <> null) {
                 for (Insolvency_Payment__c insolPayData : (List<Insolvency_Payment__c>) Data) {
                     insolPayData.Payment_Sub_Status__c = 'File Error Parsing Record';
                     errorMapData.put(insolPayData.id, insolPayData);
@@ -1301,5 +1227,95 @@ system.debug('queryData&&&'+queryData);
         year = string.valueof(year).right(2);
         returnValue = month + day + year;
         return returnValue;
+    }
+    
+    public static Map<String,String> getCommonBodyData(List<Insolvency_Account__c> insolvencyAccData,map<String, 
+                                                       Insolvency_type_mapping__mdt> insolTypeMappingData)
+    {
+        Map<String,String> commonBodyMap = new Map<String,String>();
+        String insolvencyDate = '';
+        String openDate = '';
+        String trusteeCompany = '';
+        String trusteeAddress = '';
+        String trusteeCity = '';
+        String trusteeState = '';
+        String trusteePostalCode = '';
+        string ctbStatusUpdateCode = '';
+        string correlationID = '';
+        string insolvencyType = '';
+        
+        for(Insolvency_Account__c insolAccData : insolvencyAccData){
+            if (insolAccData.Insolvency__r.Insolvency_Date__c != null) {
+                insolvencyDate = convertDateToString(insolAccData.Insolvency__r.Insolvency_Date__c);
+                commonBodyMap.put(insolAccData.id+'insolvencyDate',insolvencyDate);
+            }
+            if (insolAccData.Insolvency_Received_Date__c != null) {
+                openDate = convertDateToString(insolAccData.Insolvency_Received_Date__c);
+                commonBodyMap.put(insolAccData.id+'openDate',openDate);
+            }
+            if (insolAccData.Trustee_Company__c != null) {
+                if (insolAccData.Trustee_Company__c.length() > 80) {
+                    trusteeCompany = insolAccData.Trustee_Company__c.subString(0, 80);
+                } else {
+                    trusteeCompany = insolAccData.Trustee_Company__c;
+                }
+                commonBodyMap.put(insolAccData.id+'trusteeCompany',trusteeCompany);
+            }
+            if (insolAccData.Insolvency__r.Trustee__r.BillingStreet != null) {
+                if (String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingStreet).length() > 80) {
+                    trusteeAddress = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingStreet).subString(0, 80);
+                } else {
+                    trusteeAddress = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingStreet);
+                }
+                trusteeAddress = trusteeAddress.escapeUnicode();
+                commonBodyMap.put(insolAccData.id+'trusteeAddress',trusteeAddress);
+            }
+            if (insolAccData.Insolvency__r.Trustee__r.BillingCity != null) {
+                if (String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity).length() > 39) {
+                    trusteeCity = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity).subString(0, 39);
+                } else {
+                    trusteeCity = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingCity);
+                }
+                commonBodyMap.put(insolAccData.id+'trusteeCity',trusteeCity);
+            }
+            if (insolAccData.Insolvency__r.Trustee__r.BillingState != null) {
+                if (String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingState).length() > 2) {
+                    trusteeState = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingState).subString(0, 2);
+                } else {
+                    trusteeState = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingState);
+                }
+                commonBodyMap.put(insolAccData.id+'trusteeState',trusteeState);
+            }
+            if (insolAccData.Insolvency__r.Trustee__r.BillingPostalCode != null) {
+                if (String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingPostalCode).length() > 15) {
+                    trusteePostalCode = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingPostalCode).subString(0, 15);
+                } else {
+                    trusteePostalCode = String.valueOf(insolAccData.Insolvency__r.Trustee__r.BillingPostalCode);
+                }
+                commonBodyMap.put(insolAccData.id+'trusteePostalCode',trusteePostalCode);
+            }
+            if(insolAccData.CTB_Status_Update_Code__c != null) {
+                if (insolAccData.CTB_Status_Update_Code__c.length() > 20) {
+                    ctbStatusUpdateCode = insolAccData.CTB_Status_Update_Code__c.subString(0, 20);
+                } else {
+                    ctbStatusUpdateCode = insolAccData.CTB_Status_Update_Code__c;
+                }
+                commonBodyMap.put(insolAccData.id+'ctbStatusUpdateCode',ctbStatusUpdateCode);
+            }    
+            if(insolAccData.Correlation_ID__c != null) {
+                if (insolAccData.Correlation_ID__c.length() > 15) {
+                    correlationID = insolAccData.Correlation_ID__c.subString(0, 15);
+                } else {
+                    correlationID = insolAccData.Correlation_ID__c;
+                }
+                commonBodyMap.put(insolAccData.id+'correlationID',correlationID);
+            }
+            if(insolTypeMappingData.containsKey(insolAccData.Insolvency__r.Insolvency_Type__c)){
+                insolvencyType = insolTypeMappingData.get(insolAccData.Insolvency__r.Insolvency_Type__c).Insolvency_Type__c;
+                commonBodyMap.put(insolAccData.id+'insolvencyType',insolvencyType);
+            }
+        }
+        
+        return commonBodyMap;
     }
 }
