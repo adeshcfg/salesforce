@@ -284,6 +284,10 @@ public without sharing class ProductRecallIndividualController {
             }
             
         } else if (selectedValueAction == 'Pending Allocation') {
+            // Deactivate account judgment for recalled products
+            if (System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && mapProductJudgment.containsKey(product.id)) {
+                accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
+            }
             product.Collection_Agency__c = 9999;
             product.Collection_Agency_Placement__c = placement.id;
             product.Recalled_Date__c = Date.today();
@@ -523,6 +527,10 @@ public without sharing class ProductRecallIndividualController {
                 }
                 
             } else if (selectedValueAction == 'Pending Allocation') {
+                // Deactivate account judgment for recalled products
+                if (System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && mapProductJudgment.containsKey(product.id)) {
+                    accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
+                }
                 product.Collection_Agency__c = 9999;
                 product.Collection_Agency_Placement__c = placement.id;
                 product.Recalled_Date__c = Date.today();
