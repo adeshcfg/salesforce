@@ -11707,6 +11707,16 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.R_D_issued_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Missing_div_follow_up_completed_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Open_Assignment_Insolvency_Account__c.Number_of_Open_Assignments__c</field>
         <readable>false</readable>
