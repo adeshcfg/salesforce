@@ -18290,6 +18290,16 @@
         <field>Insolvency_Account__c.CTB_Status_Update_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.R_D_issued_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency_Account__c.Missing_div_follow_up_completed_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>Insolvency_Account__c.Insolvency_Sub_Status__c</field>
