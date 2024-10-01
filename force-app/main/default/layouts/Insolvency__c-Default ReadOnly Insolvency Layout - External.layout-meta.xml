@@ -55,6 +55,14 @@
             <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>MOC_Time__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>MOC_Notes__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

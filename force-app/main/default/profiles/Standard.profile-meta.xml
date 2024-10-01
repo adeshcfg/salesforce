@@ -18503,6 +18503,16 @@
         <layout>Insolvency__c-Default Insolvency Layout - Internal</layout>
         <recordType>Insolvency__c.Insolvency</recordType>
     </layoutAssignments>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.MOC_Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.MOC_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Integration_Last_Run_Time__c-Talend Last Successful Jobs Layout</layout>
     </layoutAssignments>

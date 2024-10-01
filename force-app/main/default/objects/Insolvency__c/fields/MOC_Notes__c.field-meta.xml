@@ -4,6 +4,7 @@
     <description>The fields to be populated for a report that needs to be worked for CTB.</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
+    <inlineHelpText>Details/Outcome of MOC</inlineHelpText>
     <label>MOC Notes</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

@@ -3,6 +3,7 @@
     <fullName>MOC_Time__c</fullName>
     <description>The field is to be populated for a report that needs to be worked for CTB.</description>
     <externalId>false</externalId>
+    <inlineHelpText>Time the next MOC will take place</inlineHelpText>
     <label>MOC Time</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
