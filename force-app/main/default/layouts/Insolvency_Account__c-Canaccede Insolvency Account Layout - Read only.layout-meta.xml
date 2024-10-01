@@ -393,6 +393,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Judgement_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Account_Open_date__c</field>
             </layoutItems>
             <layoutItems>
