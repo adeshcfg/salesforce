@@ -18303,6 +18303,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.Judgement_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency__c.Employment_Status_Debtor1__c</field>
         <readable>true</readable>
     </fieldPermissions>
