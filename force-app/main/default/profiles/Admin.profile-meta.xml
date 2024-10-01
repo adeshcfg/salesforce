@@ -19094,6 +19094,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.Judgement_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Account__c.Auto_POC_Exception_Reported__c</field>
         <readable>true</readable>
     </fieldPermissions>

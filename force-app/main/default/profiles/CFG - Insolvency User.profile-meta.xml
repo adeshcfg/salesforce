@@ -18612,6 +18612,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.Judgement_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Account__c.Reason_for_POC_Automation_Failure__c</field>
         <readable>true</readable>
     </fieldPermissions>
