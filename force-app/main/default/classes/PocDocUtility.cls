@@ -273,6 +273,7 @@ public class PocDocUtility {
             'dontClaim' => String.valueOf(dontClaim),
             'amendedPOCcheck' => String.valueOf(amendedPOCcheck),
             'insolAccName' => insolAccName,
+            'formattedJudgmentDate' => formattedJudgmentDate,
             'accntId' => insolvAcc.Id
         };
     }
