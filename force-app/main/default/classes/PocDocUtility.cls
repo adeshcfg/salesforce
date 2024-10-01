@@ -101,6 +101,7 @@ public class PocDocUtility {
         String formattedDebtDueOffDate = '';
         String formattedAccountOpenDate = '';
         String formattedAccountChargedoffDate = '';
+        String formattedJudgmentDate = '';
         String formattedAccountOriginalOpenDate = '';
 
         String insolAccName = insolvAcc.Name;
@@ -197,6 +198,12 @@ public class PocDocUtility {
                 frenchDates.get(insolvAcc.Charge_Off_Date__c.month()) +
                 ', ' +
                 String.valueOf(insolvAcc.Charge_Off_Date__c.year())
+            );
+        }
+        if (insolvAcc.Judgement_Date__c != null) {
+            formattedJudgmentDate = String.valueOf(
+                ' ' + frenchDates.get(insolvAcc.Judgement_Date__c.month()) + 
+                ', ' + String.valueOf(insolvAcc.Judgement_Date__c.year())
             );
         }
         if (insolvAcc.Account_Original_Open_Date__c != null) {

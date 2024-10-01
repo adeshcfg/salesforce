@@ -932,6 +932,21 @@
                         </span>
                     </td>
                 </tr>
+                    <tr>
+                        <td style=" padding-bottom:5px; padding-left:5px;">
+                            <span style="font-family: sans-serif; font-weight:bold;">Date du jugement:</span>
+                        </td>
+                        <td style="padding-bottom:5px; padding-left:5px;">
+                            <span style="font-family: sans-serif;">
+                                <apex:outputText value="{0,date, dd}">
+                                    <apex:param value="{!insolvAcc.Judgement_Date__c}" />
+                                </apex:outputText>
+                                <apex:outputText value="{!formattedJudgmentDate}">
+                                    <apex:param value="{!insolvAcc.Judgement_Date__c}" />
+                                </apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                         <tr>
                             <td style="padding-bottom:5px; padding-left: 5px;vertical-align:top;"><span  style="font-family: sans-serif; font-weight:bold;">Description de l'actif garanti:</span></td>

@@ -25,6 +25,7 @@ public class POCDocDataController {
     public String formattedDebtDueOffDate {get; set;}
     public String formattedAcknowledgementDate {get; set;}
     public String formattedAccountChargedoffDate {get; set;}
+    public String formattedJudgmentDate {get; set;}
     public String formattedDateTodayHeader { get; set; }
     public Boolean spaceCount { get; set; }
 
@@ -104,7 +105,8 @@ public class POCDocDataController {
                 Last_Payment_Amount_3__c,
                 Acknowledgement_date__c,
                 Debt_Due_As_Of_Date__c,
-                Account_Open_date__c
+                Account_Open_date__c,
+            	Judgement_Date__c
             FROM Insolvency_Account__c
             WHERE Id = :ApexPages.currentPage().getParameters().get('Id')
         ];
@@ -185,6 +187,15 @@ public class POCDocDataController {
                         String.valueOf(insolvAcc.Charge_Off_Date__c.year())
                 );
             }
+        	if (insolvAcc.Judgement_Date__c != null) {
+                formattedJudgmentDate = String.valueOf(
+                    ' ' +
+                        frenchDates.get(insolvAcc.Judgement_Date__c.month()) +
+                        ', ' +
+                        String.valueOf(insolvAcc.Judgement_Date__c.year())
+                );
+            }
+        
         if (insolvAcc.Debt_Due_As_Of_Date__c != null) {
                 formattedDebtDueOffDate = String.valueOf(
                     ' ' +
