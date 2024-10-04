@@ -3,6 +3,7 @@
     <fullName>Judgement_Date__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
+    <inlineHelpText>Date judgement was granted</inlineHelpText>
     <label>Judgement Date</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
