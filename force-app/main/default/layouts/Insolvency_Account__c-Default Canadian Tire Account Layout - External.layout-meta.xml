@@ -115,6 +115,18 @@
                 <behavior>Edit</behavior>
                 <field>CTB_Balance_as_of_date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reason_for_No_PoC_Required_Dropdown__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reason_for_No_PoC_Required__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Agencies_Accounts__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -349,10 +361,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Reason_for_No_PoC_Required_Dropdown__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Reason_for_Claim_Withdrawal__c</field>
             </layoutItems>
         </layoutColumns>
@@ -384,14 +392,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Disallowance_Reasons__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Reason_for_No_PoC_Required__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Agencies_Accounts__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -441,7 +441,7 @@
             <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Date__c</field>
             </layoutItems>
@@ -457,7 +457,7 @@
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Amount_2__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Last_Payment_Date_3__c</field>
             </layoutItems>
