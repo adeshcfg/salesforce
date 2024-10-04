@@ -106,6 +106,18 @@
                 <behavior>Readonly</behavior>
                 <field>Revival_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reason_for_No_PoC_Required_Dropdown__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reason_for_No_PoC_Required__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Agencies_Accounts__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -356,10 +368,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Reason_for_No_PoC_Required_Dropdown__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Reason_for_Claim_Withdrawal__c</field>
             </layoutItems>
         </layoutColumns>
@@ -391,14 +399,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Disallowance_Reasons__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Reason_for_No_PoC_Required__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Agencies_Accounts__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
