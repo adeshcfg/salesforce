@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 09-23-2024
+ * @last modified on  : 10-07-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -121,7 +121,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         for (Integer i = 1; i < csvRows.size() - 1; i++) {
             // Split the current row into columns
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
-            if (csvColumns.size() != 48) {
+            if (csvColumns.size() != 49) {
                 docStorage = CTBFileValidationUtility.updateDocStorageDetails(
                     docStorage,
                     'Failed',
