@@ -365,16 +365,15 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                             estateNumber = insolAccData.Insolvency__r.name;
                         }
                     }
-                	insolvencyDate = getCommonBodyMapData.get(insolAccData.id+insolvencyDate);
-                	insolvencyDate = getCommonBodyMapData.get(insolAccData.id+insolvencyDate);	
-                	openDate = getCommonBodyMapData.get(insolAccData.id+openDate);
-                	trusteeCompany = getCommonBodyMapData.get(insolAccData.id+trusteeCompany);
-                	trusteeAddress = getCommonBodyMapData.get(insolAccData.id+trusteeAddress);
-                	trusteeCity = getCommonBodyMapData.get(insolAccData.id+trusteeCity);
-                	trusteeState = getCommonBodyMapData.get(insolAccData.id+trusteeState);
-                	trusteePostalCode = getCommonBodyMapData.get(insolAccData.id+trusteePostalCode);
-                	ctbStatusUpdateCode = getCommonBodyMapData.get(insolAccData.id+ctbStatusUpdateCode);
-                	insolvencyType = getCommonBodyMapData.get(insolAccData.id+insolvencyType);
+                    insolvencyDate = getCommonBodyMapData.get(insolAccData.id+'insolvencyDate');	
+                	openDate = getCommonBodyMapData.get(insolAccData.id+'openDate');
+                	trusteeCompany = getCommonBodyMapData.get(insolAccData.id+'trusteeCompany');
+                	trusteeAddress = getCommonBodyMapData.get(insolAccData.id+'trusteeAddress');
+                	trusteeCity = getCommonBodyMapData.get(insolAccData.id+'trusteeCity');
+                	trusteeState = getCommonBodyMapData.get(insolAccData.id+'trusteeState');
+                	trusteePostalCode = getCommonBodyMapData.get(insolAccData.id+'trusteePostalCode');
+                	ctbStatusUpdateCode = getCommonBodyMapData.get(insolAccData.id+'ctbStatusUpdateCode');
+                	insolvencyType = getCommonBodyMapData.get(insolAccData.id+'insolvencyType');
                 }
                     
                 if(insolAccData.No_Match_Co_Debtor__c != TRUE){
@@ -469,16 +468,15 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                             estateNumber = insolAccData.Insolvency__r.Debtor_2_Estate_Number__c;
                         }
                     }
-                    insolvencyDate = getCommonBodyMapData.get(insolAccData.id+insolvencyDate);
-                	insolvencyDate = getCommonBodyMapData.get(insolAccData.id+insolvencyDate);	
-                	openDate = getCommonBodyMapData.get(insolAccData.id+openDate);
-                	trusteeCompany = getCommonBodyMapData.get(insolAccData.id+trusteeCompany);
-                	trusteeAddress = getCommonBodyMapData.get(insolAccData.id+trusteeAddress);
-                	trusteeCity = getCommonBodyMapData.get(insolAccData.id+trusteeCity);
-                	trusteeState = getCommonBodyMapData.get(insolAccData.id+trusteeState);
-                	trusteePostalCode = getCommonBodyMapData.get(insolAccData.id+trusteePostalCode);
-                	ctbStatusUpdateCode = getCommonBodyMapData.get(insolAccData.id+ctbStatusUpdateCode);
-                	insolvencyType = getCommonBodyMapData.get(insolAccData.id+insolvencyType);
+                	insolvencyDate = getCommonBodyMapData.get(insolAccData.id+'insolvencyDate');	
+                	openDate = getCommonBodyMapData.get(insolAccData.id+'openDate');
+                	trusteeCompany = getCommonBodyMapData.get(insolAccData.id+'trusteeCompany');
+                	trusteeAddress = getCommonBodyMapData.get(insolAccData.id+'trusteeAddress');
+                	trusteeCity = getCommonBodyMapData.get(insolAccData.id+'trusteeCity');
+                	trusteeState = getCommonBodyMapData.get(insolAccData.id+'trusteeState');
+                	trusteePostalCode = getCommonBodyMapData.get(insolAccData.id+'trusteePostalCode');
+                	ctbStatusUpdateCode = getCommonBodyMapData.get(insolAccData.id+'ctbStatusUpdateCode');
+                	insolvencyType = getCommonBodyMapData.get(insolAccData.id+'insolvencyType');
                 }
                 
                 if(!string.isBlank(debtorFirstName)){
