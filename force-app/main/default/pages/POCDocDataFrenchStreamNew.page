@@ -1001,7 +1001,7 @@
                                 <apex:outputText value="{0,date, dd}">
                                     <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
                                 </apex:outputText>
-                                <apex:outputText value="{!formattedDebtDueOffDate}">
+                                <apex:outputText value="{!formattedAccountChargedoffDate}">
                                     <apex:param value="{!insolvAcc.Charge_Off_Date__c}" />
                                 </apex:outputText>
                             </span>
