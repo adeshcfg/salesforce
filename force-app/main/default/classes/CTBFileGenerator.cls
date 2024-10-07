@@ -374,6 +374,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 	trusteePostalCode = getCommonBodyMapData.get(insolAccData.id+'trusteePostalCode');
                 	ctbStatusUpdateCode = getCommonBodyMapData.get(insolAccData.id+'ctbStatusUpdateCode');
                 	insolvencyType = getCommonBodyMapData.get(insolAccData.id+'insolvencyType');
+					correlationID = getCommonBodyMapData.get(insolAccData.id+'correlationID');                    
                 }
                     
                 if(insolAccData.No_Match_Co_Debtor__c != TRUE){
@@ -477,6 +478,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 	trusteePostalCode = getCommonBodyMapData.get(insolAccData.id+'trusteePostalCode');
                 	ctbStatusUpdateCode = getCommonBodyMapData.get(insolAccData.id+'ctbStatusUpdateCode');
                 	insolvencyType = getCommonBodyMapData.get(insolAccData.id+'insolvencyType');
+                    correlationID = getCommonBodyMapData.get(insolAccData.id+'correlationID');
                 }
                 
                 if(!string.isBlank(debtorFirstName)){
