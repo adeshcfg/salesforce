@@ -232,13 +232,13 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         Integer failedRecordCount = stagingRecordsToCreate.size() - successRecordCount;
         if (!invalidFile) {
             docStorage.File_Processing_Status__c = 'Processed';
+            CTBFileValidationUtility.sendEmail(
+                'CTB Account file successfully processed',
+                'File ' + docStorage.Document_Name__c + ' was successfully processed',
+                System.Label.CTB_File_Processing_Emails
+            );
         }
         docStorage.Comment__c = 'Success Records : ' + String.valueOf(successRecordCount) + '\n' + 'Failed Records : ' + String.valueOf(failedRecordCount);
-        CTBFileValidationUtility.sendEmail(
-            'CTB Account file successfully processed',
-            'File ' + docStorage.Document_Name__c + ' was successfully processed',
-            System.Label.CTB_File_Processing_Emails
-        );
         // Update doc storage with processing status and error message if failed
         update docStorage;
     }

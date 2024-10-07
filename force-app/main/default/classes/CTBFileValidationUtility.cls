@@ -96,7 +96,7 @@ public with sharing class CTBFileValidationUtility {
      * @return Insolvency_Account__c
      **/
     public static Insolvency_Account__c updateInsolvencyAccount(CTB_Staging__c stagingRecord) {
-        List<String> optionalFields = new List<String>{ 'Previous_Account_Reference__c', 'Additional_Info__c', 'Charge_Off_Date__c' };
+        List<String> optionalFields = new List<String>{ 'Previous_Account_Reference__c', 'Additional_Info__c' };
         Insolvency_Account__c account = new Insolvency_Account__c();
         // Check if optional field value was not null in csv, only update if it was not null
         for (String fieldApiName : optionalFields) {
@@ -125,6 +125,10 @@ public with sharing class CTBFileValidationUtility {
         account.Last_Statement_Amount_2__c = stagingRecord.Last_Statement_Amount_2__c;
         account.Last_Statement_Date_3__c = stagingRecord.Last_Statement_Date_3__c;
         account.Last_Statement_Amount_3__c = stagingRecord.Last_Statement_Amount_3__c;
+        // Only update Charge Off Date if it was not null in CSV
+        if (stagingRecord.Charge_Off_Date__c != null) {
+            account.Charge_Off_Date__c = stagingRecord.Charge_Off_Date__c;
+        }
         // If payment amount is null or less than 0 or payment date is null or future date, make both fields null
         for (String dateField : dateAmountFieldsMap.keySet()) {
             if (
