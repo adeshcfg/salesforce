@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 09-20-2024
+ * @last modified on  : 10-07-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -32,6 +32,7 @@ public with sharing class CTBFileValidationUtility {
     public static final Integer LAST_STATEMENT_AMOUNT_3 = 44;
     public static final Integer PREVIOUS_ACCOUNT_REFERENCE = 46;
     public static final Integer ADDITIONAL_INFO = 47;
+    public static final Integer CHARGED_OFF_DATE = 48;
     public static Map<String, String> dateAmountFieldsMap = new Map<String, String>{
         'Last_Payment_Date__c' => 'Last_Payment_Amount__c',
         'Last_Payment_Date_2__c' => 'Last_Payment_Amount_2__c',
@@ -84,6 +85,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Last_Statement_Amount_3__c = parseDoubleString(csvColumns[LAST_STATEMENT_AMOUNT_3], 'Last_Statement_Amount_3__c', stagingRecord);
         stagingRecord.Previous_Account_Reference__c = csvColumns[PREVIOUS_ACCOUNT_REFERENCE];
         stagingRecord.Additional_Info__c = csvColumns[ADDITIONAL_INFO];
+        stagingRecord.Charge_Off_Date__c = parseDateString(csvColumns[CHARGED_OFF_DATE], 'Charge_Off_Date__c', stagingRecord);
         return stagingRecord;
     }
 
@@ -94,7 +96,7 @@ public with sharing class CTBFileValidationUtility {
      * @return Insolvency_Account__c
      **/
     public static Insolvency_Account__c updateInsolvencyAccount(CTB_Staging__c stagingRecord) {
-        List<String> optionalFields = new List<String>{ 'Previous_Account_Reference__c', 'Additional_Info__c' };
+        List<String> optionalFields = new List<String>{ 'Previous_Account_Reference__c', 'Additional_Info__c', 'Charge_Off_Date__c' };
         Insolvency_Account__c account = new Insolvency_Account__c();
         // Check if optional field value was not null in csv, only update if it was not null
         for (String fieldApiName : optionalFields) {
