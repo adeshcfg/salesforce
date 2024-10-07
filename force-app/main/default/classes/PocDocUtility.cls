@@ -274,6 +274,8 @@ public class PocDocUtility {
             'amendedPOCcheck' => String.valueOf(amendedPOCcheck),
             'insolAccName' => insolAccName,
             'formattedJudgmentDate' => formattedJudgmentDate,
+            'formattedAccountChargedoffDate' => formattedAccountChargedoffDate,
+            'formattedAccountOriginalOpenDate' => formattedAccountOriginalOpenDate,
             'accntId' => insolvAcc.Id
         };
     }
