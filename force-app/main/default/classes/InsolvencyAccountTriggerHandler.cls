@@ -509,7 +509,13 @@ public class InsolvencyAccountTriggerHandler {
         for (Insolvency_Account__c accNew : insolAccntsNew) {
             Insolvency_Account__c insolAccntNew = insolAccntsNew[0];
             Insolvency_Account__c insolAccntOld = oldMap.get(insolAccntNew.id);
-
+			
+            //Ticket 7404
+            if(insolAccntNew.Voting_Options__c != insolAccntOld.Voting_Options__c 
+               && insolAccntNew.Voting_Letter_Comments__c != ''){
+                insolAccntNew.Voting_Letter_Comments__c = '';
+            }
+            
             //Client Identifier based on record type
             if (insolAccntOld.recordTypeId != insolAccntnew.recordTypeId) {
                 //Only allowing record type change with processing status as below
@@ -2009,6 +2015,7 @@ insDetails.add(insDetail);
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
                         accNew.Error_Message__c = '';
                     }
+                    system.debug('inside insolAcc::');
                     if (accNew.Insolvency_Status__c == 'Annulled' || accNew.Insolvency_Status__c == 'Refused' || accNew.Insolvency_Status__c == 'Withdrawn') {
                         accNew.CTB_Status_Update_Code__c = 'RREV';
                         accNew.Insolvency_Sub_Status__c = 'Pending File';
