@@ -1422,7 +1422,11 @@ public class DocumentResponseParser {
             }
             */
             }
-
+			//Ticket 7478: if account number blank then set "unknow" as insolvency account name
+            if(liability.accountNumber == ''){
+                insolvAccount.Name = UNKNOWN_RECORD_NAME;
+            }
+            
             // Set default values for Canadian Tire account
             if (
                 String.isNotBlank(insolvAccount.RecordTypeId) && insolvAccount.RecordTypeId == insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account')
@@ -1545,7 +1549,10 @@ public class DocumentResponseParser {
         }
         */
         }
-
+		//Ticket 7478: if account number blank then set "unknow" as insolvency account name
+        if(liability.accountNumber == ''){
+            creditorAccount.Name = UNKNOWN_RECORD_NAME;
+        }
         // Unsecured Account
         if (liability.unsecuredDebt != null) {
             creditorAccount.Unsecured_Asset_Amount__c = getDecimalValue(liability.unsecuredDebt);
