@@ -56,10 +56,10 @@ public class POCDocController {
     public String formattedThridLastPayDate { get; set; }
     public String formattedAcknowledgementDate { get; set; }
     public String formattedDebtDueOffDate { get; set; }
-    public String formattedAccountOpenDate {get; set;}
-    public String formattedAccountChargedoffDate {get; set;}
-    public String formattedJudgmentDate {get; set;}
-    public String formattedAccountOriginalOpenDate {get; set;}
+    public String formattedAccountOpenDate { get; set; }
+    public String formattedAccountChargedoffDate { get; set; }
+    public String formattedJudgmentDate { get; set; }
+    public String formattedAccountOriginalOpenDate { get; set; }
 
     //Language options French Translation
     public string language { get; set; }
@@ -152,7 +152,9 @@ public class POCDocController {
                     Acknowledgement_date__c,
                     Debt_Due_As_Of_Date__c,
                     Account_Open_date__c,
-                	Judgement_Date__c
+                    Judgement_Date__c,
+                    (SELECT Name, Description FROM Attachments),
+                    (SELECT Name FROM Document_Storages__r)
                 FROM Insolvency_Account__c
                 WHERE Id = :ApexPages.currentPage().getParameters().get('Id')
             ];
@@ -161,7 +163,7 @@ public class POCDocController {
             pocDocError = pocDocErrorMap.get('Reason_for_POC_Automation_Failure__c').replace(';', ' &');
             Map<String, String> variableMap = PocDocUtility.getVariableMap(insolvAcc);
             // Read poc Package custom setting to fetch related data
-            pocPackage = (PoC_Package_Settings__c)PoC_Package_Settings__c.getValues(insolvAcc.Client_Identifier__c);
+            pocPackage = (PoC_Package_Settings__c) PoC_Package_Settings__c.getValues(insolvAcc.Client_Identifier__c);
             pageName = variableMap.get('pageName');
             formattedDate = variableMap.get('formattedDate');
             formattedDateToday = variableMap.get('formattedDateToday');
