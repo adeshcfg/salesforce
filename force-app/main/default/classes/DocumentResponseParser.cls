@@ -1401,7 +1401,7 @@ public class DocumentResponseParser {
             if (liability.creditorAddress != null) {
                 insolvAccount.Address_of_Creditor__c = liability.creditorAddress;
             }
-            if (liability.accountNumber != null) {
+            if (liability.accountNumber != null && liability.accountNumber != '') {
                 //remove white spaces from Insolvency Account Name
                 String formattedName = liability.accountNumber.deleteWhitespace();
 
@@ -1422,7 +1422,7 @@ public class DocumentResponseParser {
             }
             */
             }
-
+            
             // Set default values for Canadian Tire account
             if (
                 String.isNotBlank(insolvAccount.RecordTypeId) && insolvAccount.RecordTypeId == insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account')
@@ -1524,7 +1524,7 @@ public class DocumentResponseParser {
             creditorAccount.Liability_Id__c = liability.liabilityId;
         }
 
-        if (liability.accountNumber != null) {
+        if (liability.accountNumber != null && liability.accountNumber != '') {
             //remove white spaces from Insolvency Account Name
             String formattedName = liability.accountNumber.deleteWhitespace();
 
@@ -1545,7 +1545,7 @@ public class DocumentResponseParser {
         }
         */
         }
-
+		
         // Unsecured Account
         if (liability.unsecuredDebt != null) {
             creditorAccount.Unsecured_Asset_Amount__c = getDecimalValue(liability.unsecuredDebt);
