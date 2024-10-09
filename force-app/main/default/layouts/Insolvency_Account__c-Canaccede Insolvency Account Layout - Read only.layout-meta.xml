@@ -683,7 +683,7 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Total_Paid_To_Date_On_Interim__c</field>
-        </layoutItems>
+            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Total_Paid_To_Date_by_Trustee__c</field>
@@ -691,6 +691,25 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Remaining_payment_to_be_received__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>POC Automation Details</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Auto_POC_Exception_Reported__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reason_for_POC_Automation_Failure__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
