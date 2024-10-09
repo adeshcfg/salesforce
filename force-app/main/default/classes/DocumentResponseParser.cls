@@ -1423,7 +1423,7 @@ public class DocumentResponseParser {
             */
             }
 			//Ticket 7478: if account number blank then set "unknow" as insolvency account name
-            if(liability.accountNumber == ''){
+            if(liability.accountNumber == null || liability.accountNumber == ''){
                 insolvAccount.Name = UNKNOWN_RECORD_NAME;
             }
             
@@ -1550,7 +1550,7 @@ public class DocumentResponseParser {
         */
         }
 		//Ticket 7478: if account number blank then set "unknow" as insolvency account name
-        if(liability.accountNumber == ''){
+        if(liability.accountNumber == null || liability.accountNumber == ''){
             creditorAccount.Name = UNKNOWN_RECORD_NAME;
         }
         // Unsecured Account
