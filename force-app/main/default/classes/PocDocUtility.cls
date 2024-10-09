@@ -79,7 +79,9 @@ public class PocDocUtility {
             exceptionMsg = 'Missing Information';
             errorMsg += '; Voting Letter is not Checked';
         }
+        // Only check when POC is being generated from batch
         if (
+            System.isBatch() &&
             insolvAcc.Client_Identifier__c != 'Goeasy' &&
             insolvAcc.Client_Identifier__c != 'Canadian Tire' &&
             !checkAttachmentTypePresence('Account Statement', insolvAcc.Attachments)
@@ -87,11 +89,13 @@ public class PocDocUtility {
             exceptionMsg = 'Missing Information';
             errorMsg += '; No Account Statements attached';
         }
-        if (insolvAcc.Client_Identifier__c == 'Canadian Tire' && insolvAcc.Document_Storages__r.size() == 0) {
+        // Only check when POC is being generated from batch
+        if (System.isBatch() && insolvAcc.Client_Identifier__c == 'Canadian Tire' && insolvAcc.Document_Storages__r.size() == 0) {
             exceptionMsg = 'Missing Information';
             errorMsg += '; No Account Statements attached';
         }
-        if (insolvAcc.Claim_Type__c == 'Secured' && !checkAttachmentTypePresence('Proof of Security', insolvAcc.Attachments)) {
+        // Only check when POC is being generated from batch
+        if (System.isBatch() && insolvAcc.Claim_Type__c == 'Secured' && !checkAttachmentTypePresence('Proof of Security', insolvAcc.Attachments)) {
             exceptionMsg = 'Missing Information';
             errorMsg += '; No Security documents attached';
         }
@@ -232,8 +236,7 @@ public class PocDocUtility {
         }
         if (insolvAcc.Judgement_Date__c != null) {
             formattedJudgmentDate = String.valueOf(
-                ' ' + frenchDates.get(insolvAcc.Judgement_Date__c.month()) + 
-                ', ' + String.valueOf(insolvAcc.Judgement_Date__c.year())
+                ' ' + frenchDates.get(insolvAcc.Judgement_Date__c.month()) + ', ' + String.valueOf(insolvAcc.Judgement_Date__c.year())
             );
         }
         if (insolvAcc.Account_Original_Open_Date__c != null) {

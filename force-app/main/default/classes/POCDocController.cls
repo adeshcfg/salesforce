@@ -152,9 +152,7 @@ public class POCDocController {
                     Acknowledgement_date__c,
                     Debt_Due_As_Of_Date__c,
                     Account_Open_date__c,
-                    Judgement_Date__c,
-                    (SELECT Name, Description FROM Attachments),
-                    (SELECT Name FROM Document_Storages__r)
+                    Judgement_Date__c
                 FROM Insolvency_Account__c
                 WHERE Id = :ApexPages.currentPage().getParameters().get('Id')
             ];
