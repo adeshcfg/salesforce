@@ -827,8 +827,8 @@
                     ERROR_MSG += '<b>ERROR</b> - 1000 series payment type cannot be club with any other payment type (3000, 4000, 5000, 8000).<br/>';
                 }  
             }
-            if(docStorage.Uploaded_By__c == 'External User' && ((regular5000PaymentCount >= 1 && feesPaymentCount == 0) || 
-               (regular4000PaymentCount >= 1 && feesPaymentCount == 0))){
+            if((regular5000PaymentCount >= 1 && feesPaymentCount == 0) || 
+               (regular4000PaymentCount >= 1 && feesPaymentCount == 0)){
                  ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type.<br/>';
             }
             if (
