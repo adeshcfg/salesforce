@@ -827,10 +827,7 @@
                     ERROR_MSG += '<b>ERROR</b> - 1000 series payment type cannot be club with any other payment type (3000, 4000, 5000, 8000).<br/>';
                 }  
             }
-            if((regular5000PaymentCount >= 1 && feesPaymentCount == 0) || 
-               (regular4000PaymentCount >= 1 && feesPaymentCount == 0)){
-                 ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type.<br/>';
-            }
+            
             if (
                 setOldTransaction.containsKey(
                     prodPayment.Payment_Amount__c + '' + prodPayment.Payment_Type__c + prodPayment.Payment_Posting_Date_Text__c + prodPayment.CCS_Account__c
@@ -1121,7 +1118,10 @@
                         prodPayment.Payment_Agency__c +
                         '<br/>';
                 }
-
+                if((regular5000PaymentCount >= 1 && feesPaymentCount == 0) || 
+                   (regular4000PaymentCount >= 1 && feesPaymentCount == 0)){
+                       ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type.<br/>';
+                }
 				if (mapProduct.containsKey(prodPayment.CCS_Account__c)) {
 					//if product Recall date is blank then fetch Recall date from placement history
 					if (mapProduct.get(prodPayment.CCS_Account__c).Recalled_Date__c == null) {
