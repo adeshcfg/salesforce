@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <decisions>
+        <name>myRule_1</name>
+        <label>Update Approved fields based on picklist value</label>
+        <locationX>670</locationX>
+        <locationY>371</locationY>
+        <defaultConnector>
+            <targetReference>myRule_5</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Update Approved fields based on picklist value</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Approved</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>TRUE_Update Approved fields based on picklist value</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_5</name>
+        <label>Update Rejected fields based on picklist value</label>
+        <locationX>868</locationX>
+        <locationY>479</locationY>
+        <defaultConnectorLabel>FALSE_Update Rejected fields based on picklist value</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_myRule_5</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Rejected</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_5_A1</targetReference>
+            </connector>
+            <label>TRUE_Update Rejected fields based on picklist value</label>
+        </rules>
+    </decisions>
+    <description>Update user and date whenever settlement status picklist value is updated with Approved/Rejected</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>formula_1_myRule_1_A1_3662736833</name>
+        <dataType>String</dataType>
+        <expression>{!$User.Id}</expression>
+    </formulas>
+    <formulas>
+        <name>formula_2_myRule_1_A1_7826935202</name>
+        <dataType>DateTime</dataType>
+        <expression>now()</expression>
+    </formulas>
+    <formulas>
+        <name>formula_3_myRule_5_A1_5463625473</name>
+        <dataType>String</dataType>
+        <expression>{!$User.Id}</expression>
+    </formulas>
+    <formulas>
+        <name>formula_4_myRule_5_A1_4068535233</name>
+        <dataType>DateTime</dataType>
+        <expression>now()</expression>
+    </formulas>
+    <interviewLabel>Update Approved/Rejected details on Settlement_1 {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Approved/Rejected details on Settlement_1</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>myRule_1_A1</name>
+        <label>Update Approved fields on settlement record</label>
+        <locationX>472</locationX>
+        <locationY>479</locationY>
+        <inputAssignments>
+            <field>Approved_By__c</field>
+            <value>
+                <elementReference>formula_1_myRule_1_A1_3662736833</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Approved_Date__c</field>
+            <value>
+                <elementReference>formula_2_myRule_1_A1_7826935202</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>myRule_5_A1</name>
+        <label>Update rejected fields on settlement record</label>
+        <locationX>736</locationX>
+        <locationY>587</locationY>
+        <inputAssignments>
+            <field>Rejected_By__c</field>
+            <value>
+                <elementReference>formula_3_myRule_5_A1_5463625473</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Rejected_Date__c</field>
+            <value>
+                <elementReference>formula_4_myRule_5_A1_4068535233</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>518</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>myRule_1</targetReference>
+        </connector>
+        <object>Settlement__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
