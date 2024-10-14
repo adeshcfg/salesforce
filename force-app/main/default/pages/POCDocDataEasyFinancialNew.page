@@ -159,41 +159,37 @@
                             the
                             <span style="font-family: sans-serif; font-weight:bold;">
                                 <apex:outputText value="{0,date, dd}">
-                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                    <apex:param value="{!insolvAcc.Debt_Due_As_Of_Date__c}" />
                                 </apex:outputText>
                             </span>
                             day of
                             <span style="font-family: sans-serif; font-weight:bold;">
                                 <apex:outputText value="{0,date, MMMM',' yyyy}">
-                                    <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
+                                    <apex:param value="{!insolvAcc.Debt_Due_As_Of_Date__c}" />
                                 </apex:outputText>
                             </span>
                             , and that the last payment, if any, on this debt by the debtor to the creditor was made on the
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                $
-                                <apex:outputText value="{0, number,#,##0.00}">
-                                    <apex:param value="{!insolvAcc.Claim_Amount__c}" />
+                                <apex:outputText value="{0,date, dd}">
+                                    <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
                                 </apex:outputText>
                             </span>
                             day of
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                $
-                                <apex:outputText value="{0, number,#,##0.00}">
-                                    <apex:param value="{!insolvAcc.Claim_Amount__c}" />
+                                <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                    <apex:param value="{!insolvAcc.Last_Payment_Date__c}" />
                                 </apex:outputText>
                             </span>
                             , and/or that the last acknowledgment, if any, of liability for this debt by the debtor to the creditor was made on the
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                $
-                                <apex:outputText value="{0, number,#,##0.00}">
-                                    <apex:param value="{!insolvAcc.Claim_Amount__c}" />
+                                <apex:outputText value="{0,date, dd}">
+                                    <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                 </apex:outputText>
                             </span>
                             day of
                             <span style="font-family: sans-serif; font-weight:bold;">
-                                $
-                                <apex:outputText value="{0, number,#,##0.00}">
-                                    <apex:param value="{!insolvAcc.Claim_Amount__c}" />
+                                <apex:outputText value="{0,date, MMMM',' yyyy}">
+                                    <apex:param value="{!insolvAcc.Acknowledgement_date__c}" />
                                 </apex:outputText>
                             </span>
                             , as follows:
