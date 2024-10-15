@@ -956,12 +956,12 @@
                                 </div>
                                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}"><br/><br/></apex:outputText>
                                 <br/>
-                                
-                              <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}">
+
+                                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                                     <table>
                                         <tr>
-                                            <td style="width: 100px; padding-left: 50px; vertical-align:top;">Observation:</td>
-                                            <td style="padding-left: 50px; vertical-align:top;">Conformément à l'article 130 de la Loi sur la faillite et l'insolvabilité, nous vous demandons de fournir une confirmation écrite si vous allez exercer le pouvoir de rachat du titre ou si vous aller exiger qu'il soit réalisé.
+                                            <td style="width: 100px; padding-left: 20px; vertical-align:top;">Observation:</td>
+                                            <td style="padding-left: 20px; vertical-align:top;">Conformément à l'article 130 de la Loi sur la faillite et l'insolvabilité, nous vous demandons de fournir une confirmation écrite si vous allez exercer le pouvoir de rachat du titre ou si vous aller exiger qu'il soit réalisé.
                                             </td>
                                         </tr>
                                     </table>
