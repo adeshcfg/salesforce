@@ -799,7 +799,7 @@
             
             
           
-                    
+                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                     <table>
                         <tr>
                             <td style="width: 100px; vertical-align:top;">Observation:</td>
@@ -807,6 +807,7 @@
                         </tr>
                         
                     </table>
+                </apex:outputText>    
                
      
                        

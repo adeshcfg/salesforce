@@ -957,7 +957,7 @@
                                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}"><br/><br/></apex:outputText>
                                 <br/>
                                 
-                               <!-- <apex:outputText >
+                              <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}">
                                     <table>
                                         <tr>
                                             <td style="width: 100px; padding-left: 50px; vertical-align:top;">Observation:</td>
@@ -965,7 +965,7 @@
                                             </td>
                                         </tr>
                                     </table>
-                                </apex:outputText>-->
+                                </apex:outputText>
                                 <br/>
                                 <div style="padding-left: 20px;">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                                     <br/>

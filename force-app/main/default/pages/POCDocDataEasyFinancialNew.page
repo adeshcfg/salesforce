@@ -954,7 +954,7 @@
                         </span>
                     </td>
                 </tr>
-                <apex:outputText >
+                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                     <tr>
                         <td style="padding-bottom:5px; padding-left: 5px;vertical-align:top;">
                             <span style="font-family: sans-serif; font-weight:bold;">Security Asset Description:</span>
@@ -975,7 +975,7 @@
             </table>
         </div>
         <div style='font-family: "Arial Unicode MS"; font-size:13px; padding-left:15px;'>
-            <apex:outputText >
+            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                 <table>
                     <tr>
                         <td style="width: 100px; vertical-align:top;">Note:</td>
