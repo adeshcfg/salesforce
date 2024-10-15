@@ -802,10 +802,12 @@
                 null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}
                 <br/>
                 <br/>
+                <span style="font-family: sans-serif; font-weight:bold;">Information regarding paragraph 6 of proof of claim</span>
+                <br/>
                 <h3 style="text-align:center;">
                     <span style="font-family: sans-serif; font-weight:bold;">Account Background</span>
                 </h3>
-                <br/>
+            
                 <table style="border: 1px solid; text-align: center; border-collapse: collapse; width:100%; font-weight:bold;">
                     <tr>
                         <td style="width:25%; border: 1px solid; padding-bottom:5px; padding-left:5px;">
