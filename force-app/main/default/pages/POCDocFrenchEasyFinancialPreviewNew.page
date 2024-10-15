@@ -807,6 +807,7 @@
                                 </table>
                                 <div style="padding-bottom:0px;padding-left: 20px;">
                                     <b>No dossier: </b> {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br/><br/>
+                                    <b> Informations relatives au paragraphe 6 de la preuve de la Preuve de réclamation </b> <br/>
                                     <h2 style="text-align:center;">Contexte du compte</h2>
                                    <br/>
                            <table style="border: 1px solid; text-align: center; border-collapse: collapse; width:100%; font-weight:bold;">

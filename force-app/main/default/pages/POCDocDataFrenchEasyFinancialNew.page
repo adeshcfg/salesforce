@@ -726,7 +726,7 @@
                 
                 <div style="padding-bottom:0px; clear:both; font-size:13px;">
                     <span  style="font-family: sans-serif; font-weight:bold;">No dossier: </span> {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br/>
-                    Informations relatives au paragraphe 6 de la preuve de la Preuve de réclamation <br/>
+                    <span  style="font-family: sans-serif; font-weight:bold;"> Informations relatives au paragraphe 6 de la preuve de la Preuve de réclamation </span><br/>
                     <h3 style="text-align:center;"><span  style="font-family: sans-serif; font-weight:bold;">Contexte du compte</span></h3>
                   
                     <table style="border: 1px solid; text-align: center; border-collapse: collapse; width:100%; font-weight:bold;">
