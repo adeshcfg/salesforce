@@ -875,7 +875,7 @@
                     </tr>
                 </table>
             </div>
-            <br/>
+        
             <br/>
             <div style="text-align:center;">
                 <span style="font-family: sans-serif; font-weight:bold;">Summary of Account</span>
@@ -990,9 +990,9 @@
             <br/>
         </div>
         <div style='font-family: "Arial Unicode MS"; font-size:13px;padding-left:20px;'>
-            <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}">
+          <!--  <div style="{!IF((insolvAcc.Insolvency__r.Debtor_2_First_Name__c== null && insolvAcc.Insolvency__r.Debtor_2_Last_Name__c == null ), 'display:block;', 'display:none;')}">
                 <br/>
-            </div>
+            </div> -->
             {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)}
             <br/> {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
         </div>

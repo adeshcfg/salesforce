@@ -947,9 +947,9 @@
                                     </apex:outputText>
                                 </table>
                                 <br/><br/>
-                                <div style="padding-left:20px;">
+                             <!--   <div style="padding-left:20px;">
                        			 Si elles sont disponibles, veuillez consulter les états ci-joints pour connaître tous les détails des paiements, crédits et virements survenus au cours des trois mois précédant la date de l’insolvabilité.
-                        		</div><br/>
+                        		</div>--><br/> 
                                 <div style="padding-left:30px;">
                                     <!-- <apex:outputText value="*Need to include more details for secured claim (Give full particulars of the security, including the date on which the security was given and the value at which you assess the security, and attach a copy of the security documents.)" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"/> -->
                                     <apex:outputText value="<br/><br/><br/>" escape="false"/>
@@ -966,6 +966,7 @@
                                         </tr>
                                     </table>
                                 </apex:outputText>
+ 
                                 <br/>
                                 <div style="padding-left: 20px;">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} 
                                     <br/>
