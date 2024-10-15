@@ -111,7 +111,7 @@
                         </td>
                         <td style="padding-left:10px;">That I am the President of
                             <span style="font-family: sans-serif; font-weight:bold;">Canaccede International Management Ltd.,</span> servicer for
-                            <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
+                            <apex:outputText>
                                 <span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.Client_Company_Name__c}.</span>
                             </apex:outputText>
                         </td>
