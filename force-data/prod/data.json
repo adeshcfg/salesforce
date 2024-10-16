@@ -2,16 +2,16 @@
     "dml": {
         "update": [
             {
-                "objectName": "Judgment_product_codes_mapping__c",
-                "recordVariableName": "judgment_product_code",
+                "objectName": "Placement_Status_Code_Mapping__c",
+                "recordVariableName": "Placement_Status_Code_Mapping",
                 "fields": [
                     {
                         "fieldApiName": "id",
-                        "fieldValue": "'a3B3a000000T1y9EAC'"
+                        "fieldValue": "'a3E3a00000B3hsBEAR'"
                     },
                     {
-                        "fieldApiName": "Judgment_Legal_Sub_Status__c",
-                        "fieldValue": "'Legal Action Rejected'"
+                        "fieldApiName": "Data_Status_Description__c",
+                        "fieldValue": "'Warehouse: Recalled Complaints'"
                     }
                 ]
             }
