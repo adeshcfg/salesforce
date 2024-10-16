@@ -5039,6 +5039,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CommSubscription.CommunicationSubscriptionCode</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>wbsendit__Subscriber_List__c.wbsendit__Max_Segment_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
