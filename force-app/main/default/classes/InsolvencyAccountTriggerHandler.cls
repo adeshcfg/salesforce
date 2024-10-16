@@ -512,7 +512,8 @@ public class InsolvencyAccountTriggerHandler {
 			
             //Ticket 7404
             if(insolAccntNew.Voting_Options__c != insolAccntOld.Voting_Options__c 
-               && string.isNotBlank(insolAccntOld.Voting_Letter_Comments__c)){
+               && string.isNotBlank(insolAccntOld.Voting_Letter_Comments__c) 
+               && insolAccntNew.Voting_Letter_Comments__c == insolAccntOld.Voting_Letter_Comments__c){
                 insolAccntNew.Voting_Letter_Comments__c = '';
             }
             
