@@ -1243,6 +1243,7 @@ update config;
         List<Insolvency_Account__c> insolAccntsToProcess = new List<Insolvency_Account__c>();
         ID oldInsolvencyID;
         for (Insolvency_Account__c insolAccntNew : insolAccntsNew) {
+            mandatePocDetailsProvided(insolAccntNew);
             Insolvency_Account__c insolAccntOld = oldMap.get(insolAccntNew.id);
             oldInsolvencyID = insolAccntOld.Insolvency__c;
             if (
@@ -1270,12 +1271,33 @@ update config;
         handleAfterInsertUpdate(insolAccntsToProcess, oldInsolvencyID);
     }
 
+    /**
+     * @description : Method to check for mandatory fields for PoC details provided status
+     * @author adesh.ikhar@canaccede.com | 10-16-2024
+     * @param insolAccnt
+     **/
+    public static void mandatePocDetailsProvided(Insolvency_Account__c insolAccnt) {
+        if (
+            insolAccnt.Insolvency_Status__c == 'PoC Details Provided' &&
+            (insolAccnt.Last_Payment_Amount__c == null ||
+            insolAccnt.Last_Payment_Date__c == null) &&
+            insolAccnt.Acknowledgement_date__c == null &&
+            insolAccnt.Account_Open_date__c == null &&
+            insolAccnt.Judgement_Date__c == null
+        ) {
+            insolAccnt.addError(
+                'Last Payment date and amount or Acknowledgement date or Account Open date or Judgement date are mandatory to set account as POC details provided'
+            );
+        }
+    }
+
     //Utility method for after insert and update
     public static void handleAfterInsertUpdate(List<Insolvency_Account__c> insolAccnts, id oldInsolvencyID) {
         Set<Id> insolvenciesIds = new Set<Id>();
         /*Calculate Total Claim Amount*/
         set<ID> setInsolvencyClaimFailedID = new Set<ID>();
         for (Insolvency_Account__c insolAccnt : insolAccnts) {
+            mandatePocDetailsProvided(insolAccnt);
             if (insAccntRecorTypeMap.get(insolAccnt.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
                 Insolvency_Account__c updatedAcc = updatePercentageOfIncreasedReturn(insolAccnt);
                 if (updatedAcc != null) {
