@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>POC_details_provided_mandate</fullName>
-    <active>true</active>
+    <active>false</active>
     <description>Rule that will mandate one of the following data fields is provided in order to set an account to POC Details provided: 
 Last Payment date and amount 
 Or, Acknowledgement date 
