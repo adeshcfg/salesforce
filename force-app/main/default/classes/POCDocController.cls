@@ -186,6 +186,7 @@ public class POCDocController {
             unSecClaim = Boolean.valueOf(variableMap.get('unSecClaim'));
             dontClaim = Boolean.valueOf(variableMap.get('dontClaim'));
             amendedPOCcheck = Boolean.valueOf(variableMap.get('amendedPOCcheck'));
+            copyOfReport = Boolean.valueOf(variableMap.get('copyOfReport'));
             insolAccName = variableMap.get('insolAccName');
             if (insolvAcc.Portfolio_Group_Name__c != null) {
                 String portGroupMapShort = insolvAcc.Portfolio_Group_Name__c.LEFT(3);

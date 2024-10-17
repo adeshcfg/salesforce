@@ -143,6 +143,7 @@ public class PocDocUtility {
         Boolean dontClaim = false;
         Boolean secureClaim = false;
         Boolean voteForAcceptance = false;
+        Boolean copyOfReport = true;
         Boolean voteAgainstAcceptance = false;
         Boolean meetingOfCredits = false;
         String formattedDate = '';
@@ -253,7 +254,7 @@ public class PocDocUtility {
         } else {
             form37 = insolvAcc.Include_Voting_Letter__c;
         }
-
+        
         if (insolvAcc.Voting_Options__c == 'Vote Accept') {
             voteForAcceptance = true;
         } else if (insolvAcc.Voting_Options__c == 'Vote: Decline - No Meeting Requested') {
@@ -306,6 +307,7 @@ public class PocDocUtility {
             'formattedJudgmentDate' => formattedJudgmentDate,
             'formattedAccountChargedoffDate' => formattedAccountChargedoffDate,
             'formattedAccountOriginalOpenDate' => formattedAccountOriginalOpenDate,
+            'copyOfReport' => String.valueOf(copyOfReport),
             'accntId' => insolvAcc.Id
         };
     }
