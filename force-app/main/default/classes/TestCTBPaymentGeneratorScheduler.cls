@@ -237,7 +237,7 @@ public class TestCTBPaymentGeneratorScheduler {
         insert insolAcct1;
         
         Insolvency_Payment__c payment1 = new Insolvency_Payment__c();
-        payment1.Payment_Amount__c = 1023456789;
+        payment1.Payment_Amount__c = 167;
         payment1.Insolvency_Account__c =insolAcct1.id;
         payment1.Deposit_Account_Type__c = 'CIH';
         insert payment1;
