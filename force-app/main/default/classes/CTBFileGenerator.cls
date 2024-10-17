@@ -626,6 +626,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             exceptionHandling(ex.getMessage(), ex.getStackTraceString(), null, insolvencyAccData, ctbBatchName);
             CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), ex.getStackTraceString(), 'CTB Account Automation Process Failed');
         }
+        mainBody = mainBody.replaceAll('null', '');
         batchCntData.finalDetailBody = mainBody;
         batchCntData.batchCountDetail = counter;
         return batchCntData;
