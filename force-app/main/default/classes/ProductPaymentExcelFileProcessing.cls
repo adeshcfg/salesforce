@@ -640,9 +640,6 @@
         map<Id, Decimal> mapProductPaymentAmount = new Map<ID, Decimal>();
         //set hacing product name and payment amount
         map<String, Decimal> mapProductNameAmount = new Map<String, Decimal>();
-		Integer regular4000PaymentCount = 0;
-        Integer regular5000PaymentCount = 0;
-        Integer feesPaymentCount = 0;
         
         validPaymentTypes = portalSettings.Valid_Payment_Types__c.split(',');
         set<Id> setProductNames = new Set<Id>();
@@ -676,19 +673,6 @@
                 );
             }
             
-            if(prodPayment.Payment_Type__c <> NULL){
-                if(prodPayment.Payment_Type__c == '1000' || prodPayment.Payment_Type__c == '1001'
-                  || prodPayment.Payment_Type__c == '1002' || prodPayment.Payment_Type__c == '1003'
-                  || prodPayment.Payment_Type__c == '3000' || prodPayment.Payment_Type__c == '8000'){
-                    feesPaymentCount ++;
-                }
-                if(prodPayment.Payment_Type__c == '4000'){
-                    regular4000PaymentCount ++;
-                }
-                if(prodPayment.Payment_Type__c == '5000'){
-                    regular5000PaymentCount ++;
-                }
-            }
                  
             if (mapProductPaymentAmount.containsKey(prodPayment.CCS_Account__c)) {
                 Decimal payAmount = mapProductPaymentAmount.get(prodPayment.CCS_Account__c);
@@ -817,15 +801,11 @@
             if (prodPayment.Payment_Amount__C != null) {
                 prodPayment.Payment_Amount__C = prodPayment.Payment_Amount__C.setScale(2, RoundingMode.HALF_UP);
             }
-			if (regular4000PaymentCount >= 1 && feesPaymentCount >= 1) {
-                if(prodPayment.Payment_Type__c == '4000'){
-                    ERROR_MSG += '<b>ERROR</b> - 1000 series payment type cannot be club with any other payment type (3000, 4000, 5000, 8000).<br/>';
-                }  
+            if(prodPayment.Payment_Type__c == '4000'){
+                ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type.<br/>';
             }
-            if (regular5000PaymentCount >= 1 && feesPaymentCount >= 1) {
-                if(prodPayment.Payment_Type__c == '5000'){
-                    ERROR_MSG += '<b>ERROR</b> - 1000 series payment type cannot be club with any other payment type (3000, 4000, 5000, 8000).<br/>';
-                }  
+            if(prodPayment.Payment_Type__c == '5000'){
+                ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type.<br/>';
             }
             
             if (
@@ -1118,9 +1098,8 @@
                         prodPayment.Payment_Agency__c +
                         '<br/>';
                 }
-                if((regular5000PaymentCount >= 1 && feesPaymentCount == 0) || 
-                   (regular4000PaymentCount >= 1 && feesPaymentCount == 0)){
-                       ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type.<br/>';
+                if(prodPayment.Payment_Type__c == '3000'){
+                    ERROR_MSG += '<b>ERROR</b> - Invalid Payment Type.<br/>';
                 }
 				if (mapProduct.containsKey(prodPayment.CCS_Account__c)) {
 					//if product Recall date is blank then fetch Recall date from placement history
