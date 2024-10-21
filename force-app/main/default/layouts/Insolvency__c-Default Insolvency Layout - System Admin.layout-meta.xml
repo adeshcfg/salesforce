@@ -1318,6 +1318,10 @@
                 <field>Voting_Decision__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Voting_Letter_Comments__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Previous_Voting_Decision__c</field>
             </layoutItems>
