@@ -10236,6 +10236,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.Voting_Letter_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency__c.Trustee_Communication_Preference_Formula__c</field>
         <readable>true</readable>

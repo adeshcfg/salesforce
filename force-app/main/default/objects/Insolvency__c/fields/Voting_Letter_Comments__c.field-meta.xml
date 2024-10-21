@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Voting_Letter_Comments__c</fullName>
+    <description>The comments to add to the end of the Voting Letter when the Proof of Claim package is generated; no comments are added if blank.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>The comments to add to the end of the Voting Letter when the Proof of Claim package is generated; no comments are added if blank.</inlineHelpText>
+    <label>Voting Letter Comments</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>
