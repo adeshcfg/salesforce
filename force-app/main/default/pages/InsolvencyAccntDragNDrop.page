@@ -274,7 +274,7 @@
                                                         <span
                                                             class="slds-m-left_xx-small slds-truncate"
                                                             title="{!att.Name}"
-                                                            style='display:{!IF(NOT(isGoeasyBankCommunityUser), "", "none;")}'
+                                                            style='display:{!IF(NOT(isLightningCommunity), "", "none;")}'
                                                         >
                                                             <a
                                                                 href="#"
