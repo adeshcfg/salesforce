@@ -59,8 +59,7 @@ public class InsolvencyAccountTriggerHandler {
         List<Insolvency_Account__c> latestCtbAccount = [
             SELECT Id, Correlation_Id__c
             FROM Insolvency_Account__c
-            WHERE RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account'
-            AND Correlation_Id__c != null
+            WHERE RecordType.DeveloperName = 'Canadian_Tire_Insolvency_Account' AND Correlation_Id__c != NULL
             ORDER BY Correlation_Id__c DESC
             LIMIT 1
         ];
@@ -90,11 +89,7 @@ public class InsolvencyAccountTriggerHandler {
             }
 
             // Create unique correlation Id for new CTB accounts
-            if (
-                String.isNotBlank(accNew.RecordTypeId) &&
-                String.isBlank(accNew.Correlation_Id__c) &&
-                insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account'
-            ) {
+            if (String.isNotBlank(accNew.RecordTypeId) && insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
                 accNew.Correlation_Id__c = String.valueOf(Integer.valueOf(correlationId) + 1).leftPad(15, '0');
                 correlationId = accNew.Correlation_Id__c;
             }
