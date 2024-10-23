@@ -1,7 +1,7 @@
 /**
  * @description       : Scheduler and Batch class to get and upload success and failure files for CTB statement processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 09-09-2024
+ * @last modified on  : 10-23-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful {
@@ -13,7 +13,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
 
     public Database.Querylocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            'SELECT Id, Document_Name__c, Bulk_API_Job_ID__c, Comment__c, (Select Insolvency_Account__c From Document_Storages__r Where Insolvency_Account__c != null) From Document_Storage__c WHERE CreatedDate = TODAY AND Document_Extension__c = \'zip\' AND Statement_Processing_Status__c = \'Processing\''
+            'SELECT Id, Document_Name__c, Bulk_API_Job_ID__c, Comment__c, (Select Insolvency_Account__c, Insolvency_Account__r.CTB_Statements_Received_Date__c From Document_Storages__r Where Insolvency_Account__c != null) From Document_Storage__c WHERE CreatedDate = TODAY AND Document_Extension__c = \'zip\' AND Statement_Processing_Status__c = \'Processing\''
         );
     }
 
@@ -126,10 +126,12 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
         Map<String, Insolvency_Account__c> uniqueAccountsToUpdateMap
     ) {
         for (Document_Storage__c statementDoc : statementDocStorageList) {
-            uniqueAccountsToUpdateMap.put(
-                statementDoc.Insolvency_Account__c,
-                new Insolvency_Account__c(Id = statementDoc.Insolvency_Account__c, CTB_Statements_Received__c = true)
-            );
+            Insolvency_Account__c account = new Insolvency_Account__c(Id = statementDoc.Insolvency_Account__c, CTB_Statements_Received__c = true);
+            // Update statements received date with today's date only for accounts which don't have this field already populated
+            if (statementDoc.Insolvency_Account__r.CTB_Statements_Received_Date__c == null) {
+                account.CTB_Statements_Received_Date__c = System.today();
+            }
+            uniqueAccountsToUpdateMap.put(statementDoc.Insolvency_Account__c, account);
         }
         return uniqueAccountsToUpdateMap;
     }
