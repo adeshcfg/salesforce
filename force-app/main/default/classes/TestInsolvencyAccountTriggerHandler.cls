@@ -446,6 +446,145 @@
          ia1.Insolvency_Status__c = 'Trustee Followup';
          ia1.Insolvency__c = insolv.Id;
          ia1.Trustee_Not_Providing_LoR__c = true;
+         ia1.Sent_For_Owner_Review_Date_Updated__c = Date.newInstance(2016, 12, 9);
+         iaList.add(ia1);
+         User cfgUser = [Select Id From User Where Username = 'InsolvencyUser@testOrg.com'];
+         try {
+             Test.startTest();
+             System.runAs(cfgUser) {
+                 update iaList;
+             }
+             Test.stopTest();
+         } catch (exception E) {
+             system.debug('exception occured -->' + E);
+         }
+     }
+ 	
+     //Test Before Update
+     static testMethod void insolvencyBeforeUpdateTest1() {
+         //Insolvency Record
+         Insolvency__c insolv = [
+             SELECT id
+             FROM Insolvency__c
+             WHERE name = '12456783' OR Client_Identifiers__c = 'SPL' OR Insolvency_Type__c = 'Bankruptcy'
+             LIMIT 1
+         ];
+         List<Insolvency_Account__c> iaList = new List<Insolvency_Account__c>();
+         Account accInstance1 = new Account();
+         string recrdid3 = [
+             SELECT id
+             FROM RecordType
+             WHERE sobjecttype = 'Account' AND RecordType.Name = 'Canaccede Customer'
+         ]
+         .id;
+         accInstance1.RecordTypeId = recrdid3;
+         accInstance1.FirstName = 'Ana';
+         accInstance1.LastName = 'Starrk';
+         accInstance1.Number_Of_Open_Complaint__c = 6;
+         accInstance1.Phone_Number__pc = '123';
+         insert accInstance1;
+ 
+         //Product Record
+         Product__c prod = new Product__c();
+         prod.name = '848085644';
+         prod.Payment_Setup_Status__c = 'Automated';
+         prod.Funding_Status__c = 'Pending';
+         prod.Funding_Type__c = 'Automated';
+         prod.Disbursement_Amount__c = 3000.00;
+         prod.Collection_Agency__c = 68;
+         prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
+         prod.Investment_Group__c = 'BNS1 INSOLVENT';
+         prod.Portfolio_Group_Name__c = 'AAL001';
+         prod.Account_Purchasing_Entity__c = '14';
+         prod.Originating_Creditor__c = 'CUETS';
+         prod.Portfolio_Name__c = 'AFSCARDS';
+         prod.Status__c = 'New Allocation - New Allocation';
+         prod.Sub_Status__c = 'Ready';
+         prod.Product_Status__c = 'Test';
+         prod.Customer__c = accInstance1.id;
+         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+         insert prod;
+ 
+         list<RecordType> recordTypeList1 = new List<RecordType>(
+             [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND Name LIKE '%SPL%']
+         );
+         Insolvency_Account__c ia3 = [
+             SELECT
+                 Id,
+                 Name,
+                 RecordTypeId,
+                 Claim_Type__c,
+                 Client_Identifier__c,
+                 Insolvency_Status__c,
+                 Distressed_Data_Id__c,
+                 Claim_Filed_Date__c,
+                 Sent_For_Owner_Review_Date_External__c,
+                 Do_Not_Run_Status_Validation__c,
+                 Claim_Amount__c,
+                 Total_Account_Recovery__c,
+                 Revival_Date__c,
+                 Sent_For_Owner_Review_Date_Original__c
+             FROM Insolvency_Account__c
+             WHERE Distressed_Data_Id__c = '3'
+         ];
+         Insolvency_Account__c ia2 = [
+             SELECT
+                 Id,
+                 Name,
+                 RecordTypeId,
+                 Claim_Type__c,
+                 Client_Identifier__c,
+                 Insolvency_Status__c,
+                 Distressed_Data_Id__c,
+                 Claim_Filed_Date__c,
+                 Sent_For_Owner_Review_Date_External__c,
+                 Do_Not_Run_Status_Validation__c,
+                 Claim_Amount__c,
+                 Total_Account_Recovery__c
+             FROM Insolvency_Account__c
+             WHERE Distressed_Data_Id__c = '2'
+         ];
+         Insolvency_Account__c ia1 = [
+             SELECT
+                 Id,
+                 Name,
+                 RecordTypeId,
+                 Claim_Type__c,
+                 Client_Identifier__c,
+                 Insolvency_Status__c,
+                 Distressed_Data_Id__c,
+                 Claim_Filed_Date__c,
+                 Sent_For_Owner_Review_Date_External__c,
+                 Do_Not_Run_Status_Validation__c,
+                 Claim_Amount__c,
+                 Total_Account_Recovery__c
+             FROM Insolvency_Account__c
+             WHERE Distressed_Data_Id__c = '1'
+         ];
+ 
+         //ia3.RecordTypeId = recordTypeList1[0].Id;
+         ia3.Name = 'Test-0001';
+         ia3.Insolvency_Status__c = 'Discharged';
+         ia3.Asset_Status__c = 'Duplicate';
+         ia3.Insolvency__c = insolv.Id;
+         ia3.Distressed_Data_Id__c = '848085644';
+         ia3.Trustee_Not_Providing_LoR__c = true;
+         ia3.Revival_Date__c = Date.today();
+         iaList.add(ia3);
+ 
+         ia2.RecordTypeId = recordTypeList1[0].Id;
+         ia2.Name = 'Test- 0 01';
+         ia2.Insolvency_Status__c = 'Discharged';
+         ia2.Insolvency__c = insolv.Id;
+         ia2.Trustee_Not_Providing_LoR__c = true;
+         iaList.add(ia2);
+ 
+         ia1.RecordTypeId = recordTypeList1[0].Id;
+         ia1.Name = 'Test- 0 02';
+         ia1.Insolvency_Status__c = 'PoC Details Provided';
+         ia1.Insolvency__c = insolv.Id;
+         ia1.Trustee_Not_Providing_LoR__c = true;
+         ia1.Sent_For_Owner_Review_Date_Updated__c = Date.newInstance(2016, 12, 9);
          iaList.add(ia1);
          User cfgUser = [Select Id From User Where Username = 'InsolvencyUser@testOrg.com'];
          try {

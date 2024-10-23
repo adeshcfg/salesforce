@@ -506,11 +506,12 @@ public class InsolvencyAccountTriggerHandler {
             Insolvency_Account__c insolAccntOld = oldMap.get(insolAccntNew.id);
 			
             //Ticket 7404
-            /*if(insolAccntNew.Voting_Options__c != insolAccntOld.Voting_Options__c 
+            if(insolAccntNew.Voting_Options__c != insolAccntOld.Voting_Options__c 
                && string.isNotBlank(insolAccntOld.Voting_Letter_Comments__c) 
-               && insolAccntNew.Voting_Letter_Comments__c == insolAccntOld.Voting_Letter_Comments__c){
+               && insolAccntNew.Voting_Letter_Comments__c == insolAccntOld.Voting_Letter_Comments__c
+               && insolAccntNew.Voting_Options__c == 'Vote Accept'){
                 insolAccntNew.Voting_Letter_Comments__c = '';
-            }*/
+            }
             
             //Client Identifier based on record type
             if (insolAccntOld.recordTypeId != insolAccntnew.recordTypeId) {

@@ -154,6 +154,8 @@ private class TestInsolvencyTriggerHandler{
         Insolvency__c insolv11 = new Insolvency__c();
         insolv11.Name = '32-2499565552';
         insolv11.Insolvency_Status__c = 'Conditional Discharge';
+        insolv11.Voting_Decision__c = 'Auto Approved';
+        insolv11.Voting_Letter_Comments__c = 'testing';
         insolvList.add(insolv11);
         
         Insolvency__c insolv14 = new Insolvency__c();
