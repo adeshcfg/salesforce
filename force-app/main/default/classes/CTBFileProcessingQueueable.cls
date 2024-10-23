@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 10-07-2024
+ * @last modified on  : 10-23-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -139,7 +139,15 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         // Query existing account with the correlation Ids from the csv and create map with correlation id and account
         if (!correlationIdSet.isEmpty() && !stagingRecordsToCreate.isEmpty() && !invalidFile) {
             for (Insolvency_Account__c acc : [
-                SELECT Id, Correlation_Id__c, Insolvency_Status__c, Debtor_1_Estate_Number__c, Debtor_2_Estate_Number__c, Debtor__c, Co_Debtor__c
+                SELECT
+                    Id,
+                    Correlation_Id__c,
+                    Insolvency_Status__c,
+                    Debtor_1_Estate_Number__c,
+                    Debtor_2_Estate_Number__c,
+                    Debtor__c,
+                    Co_Debtor__c,
+                    Last_Payment_Date__c
                 FROM Insolvency_Account__c
                 WHERE Correlation_Id__c IN :correlationIdSet
             ]) {
@@ -185,6 +193,14 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     Insolvency_Account__c accountToUpdate = new Insolvency_Account__c(No_Match_Debtor__c = false, No_Match_Co_Debtor__c = false);
                     if (String.isBlank(stagingAcc.CTB_Reject_Reason_Code__c)) {
                         accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
+                    }
+                    // If last payment date is null in the file and on existing account and charged off date is present in the file, calculate last payment date as charged off date minus 7 months
+                    if (
+                        stagingAcc.Last_Payment_Date__c == null &&
+                        mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Last_Payment_Date__c == null &&
+                        stagingAcc.Charge_Off_Date__c != null
+                    ) {
+                        accountToUpdate.Last_Payment_Date__c = stagingAcc.Charge_Off_Date__c.addMonths(-7);
                     }
                     accountToUpdate.Id = accountId;
                     accountToUpdate.CTB_Update_File_Timestamp__c = Datetime.now();
