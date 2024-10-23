@@ -23,6 +23,6 @@
     </filters>
     <label>Sent on File</label>
     <sharedTo>
-        <group>Insolvency_Canadian_Tire_Users</group>
+        <allInternalUsers></allInternalUsers>
     </sharedTo>
 </ListView>
