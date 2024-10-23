@@ -3043,6 +3043,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Account__c.CTB_Statements_Received_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency__c.Employment_Status_Debtor1__c</field>
         <readable>true</readable>
     </fieldPermissions>
