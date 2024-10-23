@@ -768,6 +768,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>CTB_Statements_Received_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Error_Message__c</field>
             </layoutItems>
         </layoutColumns>
