@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 10-07-2024
+ * @last modified on  : 10-23-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -66,7 +66,7 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.CTB_Reject_Reason_Code__c = String.isNotBlank(csvColumns[CTB_REJECT_REASON_CODE])
             ? csvColumns[CTB_REJECT_REASON_CODE].toUpperCase()
             : csvColumns[CTB_REJECT_REASON_CODE];
-        stagingRecord.Account_Original_Open_Date__c = parseDateString(csvColumns[ACCOUNT_OPEN_DATE], 'Account_Original_Open_Date__c', stagingRecord);
+        stagingRecord.Account_Original_Open_Date__c = parseDateString(csvColumns[ACCOUNT_OPEN_DATE], 'Account_Open_date__c', stagingRecord);
         stagingRecord.Balance_Owed__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Balance_Owed__c', stagingRecord);
         stagingRecord.Claim_Amount__c = parseDoubleString(csvColumns[CLAIM_AMOUNT], 'Claim_Amount__c', stagingRecord);
         stagingRecord.CTB_Balance_as_of_date__c = parseDateString(csvColumns[CTB_AS_OF_DATE], 'CTB_Balance_as_of_date__c', stagingRecord);
@@ -108,7 +108,7 @@ public with sharing class CTBFileValidationUtility {
         // account.Name = stagingRecord.Name;
         account.CTB_Date_of_Birth__c = stagingRecord.CTB_Date_of_Birth__c;
         account.Correlation_Id__c = stagingRecord.Correlation_Id__c;
-        account.Account_Original_Open_Date__c = stagingRecord.Account_Original_Open_Date__c;
+        account.Account_Open_date__c = stagingRecord.Account_Original_Open_Date__c;
         account.Balance_Owed__c = stagingRecord.Balance_Owed__c;
         account.Claim_Amount__c = stagingRecord.Claim_Amount__c;
         account.CTB_Balance_as_of_date__c = stagingRecord.CTB_Balance_as_of_date__c;
