@@ -4,7 +4,7 @@
     <columns>Insolvency__c</columns>
     <columns>NAME</columns>
     <columns>Bank_Name__c</columns>
-    <columns>Statements_Requested__c</columns>
+    <columns>CTB_Statements_Received_Date__c</columns>
     <columns>Borrower_Primary__c</columns>
     <columns>Insolvency_Status__c</columns>
     <columns>Number_Of_Days_In_Current_Status__c</columns>
