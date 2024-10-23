@@ -489,12 +489,16 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
         }*/
         List<Id> insolvIdsToUpdateAccounts = new List<Id>();
         List<String> insolvencyIds = new List<String>();
+        List<String> votingDecisionChangeinsolIds = new List<String>();
         for(Id insolvId : insolvNewMap.keySet()){
             
             Insolvency__c newIns =  insolvNewMap.get(insolvId);
             Insolvency__c oldIns =  insolvOldMap.get(insolvId);
             
             insolvencyIds.add(insolvId);
+            if(newIns.Voting_Decision__c != oldIns.Voting_Decision__c){
+                votingDecisionChangeinsolIds.add(newIns.id);
+            }
             
             // Add Insolvency whose any of the below field is updated
             if (
@@ -593,6 +597,10 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
         
         }
         //update listProductToUpdate;
+        
+        //Ticket 7404: Voting Decision and Voting Letter Comments
+        updateVotingDecision(votingDecisionChangeinsolIds);
+        
         
         List<Insolvency_Account__c > insolvAccList = new List<Insolvency_Account__c >();
         List<Insolvency_Account__c > insolvAccsToUpdateForFlow = new List<Insolvency_Account__c >();
@@ -852,6 +860,35 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
         }
         if(!deletedRecords.isEmpty()){
             insert deletedRecords;
+        }
+     }
+     
+     public static void updateVotingDecision(List<String> votingDecisionUpdateInsolIds){
+         List<Insolvency_Account__c> allInsolvAcctList = new List<Insolvency_Account__c>();
+        for(Insolvency_Account__c insolAccUpdate : [select id,Insolvency__r.Voting_Letter_Comments__c,
+                                                 Voting_Letter_Comments__c,Voting_Options__c,Insolvency__r.Voting_Decision__c 
+                                                FROM Insolvency_Account__c
+                                                WHERE Insolvency__c =: votingDecisionUpdateInsolIds]){
+            if(String.isNotBlank(insolAccUpdate.Insolvency__r.Voting_Letter_Comments__c)){
+                insolAccUpdate.Voting_Letter_Comments__c = insolAccUpdate.Insolvency__r.Voting_Letter_Comments__c;
+            }
+            if(insolAccUpdate.Insolvency__r.Voting_Decision__c == ''){
+            	insolAccUpdate.Voting_Options__c = '';
+            }else if((insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Manually Approved' || 
+                     insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Auto Approved') && 
+                    insolAccUpdate.Voting_Options__c != 'Vote Accept'){
+                        system.debug('before update Voting_Options__c'+insolAccUpdate.Voting_Options__c);
+                insolAccUpdate.Voting_Options__c = 'Vote Accept';                                        
+            }else if(insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Manually Rejected' ||
+                    insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Manually Rejected - Majority Approved'){
+                insolAccUpdate.Voting_Options__c = 'Vote: Decline - With Creditor Meeting Request';
+            }                                        
+            allInsolvAcctList.add(insolAccUpdate);
+        }
+        if(!allInsolvAcctList.isEmpty()){
+            InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
+            update allInsolvAcctList;
+            InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
         }
      }
 }
