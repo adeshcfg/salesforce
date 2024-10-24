@@ -872,6 +872,14 @@ insolMap.put(insol.id, insol);
 
             if (insolAccntNew.Insolvency_Status__c != insolAccntOld.Insolvency_Status__c) {
                 if (insolAccntNew.Insolvency_Status__c == 'PoC Details Provided') {
+                    // Auto populate last payment date for CTB accounts when updated to POC details provided if charged off date is present and last payment date is null
+                    if (
+                        insolAccntNew.Client_Identifier__c == 'Canadian Tire' &&
+                        insolAccntNew.Last_Payment_Date__c == null &&
+                        insolAccntNew.Charge_Off_Date__c != null
+                    ) {
+                        insolAccntNew.Last_Payment_Date__c = insolAccntNew.Charge_Off_Date__c.addMonths(-7);
+                    }
                     if (
                         insolAccntNew.Last_Payment_Date__c != null &&
                         insolAccntNew.Insolvency_Date__c != null &&
