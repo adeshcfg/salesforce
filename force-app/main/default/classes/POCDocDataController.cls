@@ -28,6 +28,7 @@ public class POCDocDataController {
     public String formattedJudgmentDate {get; set;}
     public String formattedDateTodayHeader { get; set; }
     public Boolean spaceCount { get; set; }
+    public String formattedFrenchTodayDate { get; set; }
 
     public POCDocDataController() {
         mapPOCPackageSettingTranslation = new Map<String, String>();
@@ -124,9 +125,19 @@ public class POCDocDataController {
         frenchDates.put(10, 'Octobre');
         frenchDates.put(11, 'Novembre');
         frenchDates.put(12, 'Décembre');
+        
+       
+        Map<Integer, String> frenchWeeks = PocDocUtility.frenchWeeks;
 
         Datetime dateNow = Datetime.now();
-
+        
+		//Fetch week day of date
+        Date dateParam = Date.today(); 
+        //Recover the day of the week
+        Date startOfWeek   = dateParam.toStartOfWeek();
+        Integer dayOfWeek  = dateParam.day() - startOfWeek.day();
+        formattedFrenchTodayDate = String.valueOf(' ' + frenchWeeks.get(dayOfWeek) + ', ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ', ' + String.valueOf(dateNow.year()));
+        
         if (insolvAcc.Insolvency__r.Insolvency_Date__c != null) {
             formattedDate = String.valueOf(
                 ' ' +

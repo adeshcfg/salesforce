@@ -51,6 +51,7 @@ public class POCDocController {
     public String formattedDateToday { get; set; }
     public String formattedLastpaymentDate { get; set; }
     public String formattedDateTodayHeader { get; set; }
+    public String formattedFrenchTodayDate { get; set; }
     public String formattedLastPayDate { get; set; }
     public String formattedSecondLastPayDate { get; set; }
     public String formattedThridLastPayDate { get; set; }
@@ -188,6 +189,8 @@ public class POCDocController {
             amendedPOCcheck = Boolean.valueOf(variableMap.get('amendedPOCcheck'));
             copyOfReport = Boolean.valueOf(variableMap.get('copyOfReport'));
             insolAccName = variableMap.get('insolAccName');
+            formattedFrenchTodayDate = variableMap.get('formattedFrenchDateToday');
+            
             if (insolvAcc.Portfolio_Group_Name__c != null) {
                 String portGroupMapShort = insolvAcc.Portfolio_Group_Name__c.LEFT(3);
                 // Read Remittance group mapping custom setting to fetch related data
