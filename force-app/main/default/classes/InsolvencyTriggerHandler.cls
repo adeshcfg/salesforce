@@ -871,18 +871,17 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
                                                 WHERE Insolvency__c =: votingDecisionUpdateInsolIds]){
             if(String.isNotBlank(insolAccUpdate.Insolvency__r.Voting_Letter_Comments__c)){
                 insolAccUpdate.Voting_Letter_Comments__c = insolAccUpdate.Insolvency__r.Voting_Letter_Comments__c;
-            }
-            if(insolAccUpdate.Insolvency__r.Voting_Decision__c == ''){
+            } 
+            if(insolAccUpdate.Insolvency__r.Voting_Decision__c == '' || 
+               insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Needs Manual Review'){
             	insolAccUpdate.Voting_Options__c = '';
-            }else if((insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Manually Approved' || 
-                     insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Auto Approved') && 
-                    insolAccUpdate.Voting_Options__c != 'Vote Accept'){
-                        system.debug('before update Voting_Options__c'+insolAccUpdate.Voting_Options__c);
+            }else if(insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Manually Approved' || 
+                     insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Auto Approved'){
                 insolAccUpdate.Voting_Options__c = 'Vote Accept';                                        
             }else if(insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Manually Rejected' ||
-                    insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Manually Rejected - Majority Approved'){
+                    insolAccUpdate.Insolvency__r.Voting_Decision__c == 'Manually Rejected - Majority Approved'){                       
                 insolAccUpdate.Voting_Options__c = 'Vote: Decline - With Creditor Meeting Request';
-            }                                        
+            }    
             allInsolvAcctList.add(insolAccUpdate);
         }
         if(!allInsolvAcctList.isEmpty()){
