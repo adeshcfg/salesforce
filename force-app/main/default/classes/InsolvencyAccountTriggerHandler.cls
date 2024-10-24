@@ -879,6 +879,18 @@ insolMap.put(insol.id, insol);
                         insolAccntNew.Charge_Off_Date__c != null
                     ) {
                         insolAccntNew.Last_Payment_Date__c = insolAccntNew.Charge_Off_Date__c.addMonths(-7);
+                    } else if (
+                        insolAccntNew.Client_Identifier__c == 'Canadian Tire' &&
+                        insolAccntNew.Last_Payment_Date__c == null &&
+                        insolAccntNew.Charge_Off_Date__c == null
+                    ) {
+                        if (insolAccntNew.Account_Open_date__c == null) {
+                            insolAccntNew.Last_Payment_Date__c = System.Today().addMonths(-6);
+                        } else {
+                            insolAccntNew.Last_Payment_Date__c = System.Today().addMonths(-6) > insolAccntNew.Account_Open_date__c
+                                ? System.Today().addMonths(-6)
+                                : null;
+                        }
                     }
                     if (
                         insolAccntNew.Last_Payment_Date__c != null &&
