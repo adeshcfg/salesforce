@@ -126,14 +126,8 @@ public class POCDocDataController {
         frenchDates.put(11, 'Novembre');
         frenchDates.put(12, 'Décembre');
         
-        Map<Integer, String> frenchWeeks = new Map<Integer, String>();
-        frenchWeeks.put(1,'Lundi'); //Monday
-        frenchWeeks.put(2,'Mardi'); //Tuesday
-        frenchWeeks.put(3,'Mercredi'); //Wednesday
-        frenchWeeks.put(4,'Jeudi'); //Thursday
-        frenchWeeks.put(5,'Vendredi'); //Friday
-        frenchWeeks.put(6,'Samedi'); //Saturday
-        frenchWeeks.put(7,'Dimanche'); //Sunday
+       
+        Map<Integer, String> frenchWeeks = PocDocUtility.frenchWeeks;
 
         Datetime dateNow = Datetime.now();
         
