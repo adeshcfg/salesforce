@@ -19,6 +19,15 @@ public class PocDocUtility {
         11 => 'Novembre',
         12 => 'Décembre'
     };
+    public static Map<Integer, String> frenchWeeks = new Map<Integer, String>{
+        1 => 'Lundi', //Monday
+        2 => 'Mardi', //Tuesday
+        3 => 'Mercredi', //Wednesday
+        4 => 'Jeudi', //Thursday
+        5 => 'Vendredi', //Friday
+        6 => 'Samedi', //Saturday
+        7 => 'Dimanche' //Sunday
+    };
 
     /**
      * @description : Method to check field validations before generating POC
@@ -159,6 +168,7 @@ public class PocDocUtility {
         String formattedAccountChargedoffDate = '';
         String formattedJudgmentDate = '';
         String formattedAccountOriginalOpenDate = '';
+        String formattedFrenchDateToday = '';
 
         String insolAccName = insolvAcc.Name;
         if (
@@ -178,7 +188,7 @@ public class PocDocUtility {
                     String.valueOf(insolvAcc.Insolvency__r.Insolvency_Date__c.year())
             );
         }
-
+		
         formattedDateToday = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + String.valueOf(dateNow.year()));
         if (insolvAcc.Last_Payment_Date__c != null) {
             formattedLastpaymentDate = String.valueOf(
@@ -190,7 +200,14 @@ public class PocDocUtility {
             );
         }
         formattedDateTodayHeader = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ' ' + String.valueOf(dateNow.year()));
-
+		
+        //Fetch week day of date
+        Date dateParam = Date.today(); 
+        //Recover the day of the week
+        Date startOfWeek   = dateParam.toStartOfWeek();
+        Integer dayOfWeek  = dateParam.day() - startOfWeek.day();
+        formattedFrenchDateToday = String.valueOf(' ' + frenchWeeks.get(dayOfWeek) + ', ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ', ' + String.valueOf(dateNow.year()));
+        
         if (insolvAcc.Last_Payment_Date__c != null) {
             formattedLastpaymentDate = String.valueOf(
                 String.valueOf(insolvAcc.Last_Payment_Date__c.month()) +
@@ -308,6 +325,7 @@ public class PocDocUtility {
             'formattedAccountChargedoffDate' => formattedAccountChargedoffDate,
             'formattedAccountOriginalOpenDate' => formattedAccountOriginalOpenDate,
             'copyOfReport' => String.valueOf(copyOfReport),
+            'formattedFrenchDateToday' => formattedFrenchDateToday,
             'accntId' => insolvAcc.Id
         };
     }

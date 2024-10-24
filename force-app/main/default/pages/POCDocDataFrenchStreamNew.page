@@ -1071,7 +1071,70 @@
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
             </div>
         </apex:outputPanel>
+        <br/><br/><br/>
         <!-- PAGE 5 ENDS-->
+        <!-- Ticket 7563: Letters to go with SDA Secured POCs -->
+        <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'SDA' && insolvAcc.Claim_Type__c == 'Secured'}">
+             <div style='font-family: "Arial Unicode MS";clear:both; margin:auto; margin-bottom:-19px; line-height: 15px; width:100%;' class="myfont">
+
+                    <div style="text-align:left; float:left; width:200px;">
+                        <apex:image value="{!pocPackage.Header_logo__c}"/>
+                    </div>
+                    <div style='font-size:13px; float:left;width:455px; margin-top:10px; '>
+                        <span style="float:left; padding-left:25px;">
+                            {!pocPackage.CFG_French_Office_Name__c}<br/>
+                            {!pocPackage.CFG_Office_Address_1__c}<br/>
+                            {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                        </span>
+                        <span style="float:right; text-align:right;">
+                            t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
+                            f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                            {!pocPackage.CFG_Office_Website__c}
+                        </span>
+                    </div>
+
+                <div style="font-size: 13px; margin:auto;line-height: 17px; width:100%;">
+                    <div style="clear:both;">
+                        <br/>
+                    </div>
+                    Date: <apex:outputText value="{!formattedFrenchTodayDate}">
+                    </apex:outputText>
+                    <br/><br/>
+                    {!insolvAcc.Insolvency__r.Trustee__r.Parent.Name}
+                    <br/><br/>
+                    <span  style="font-family: sans-serif; font-weight:bold;">Objet : Récupération de véhicules ou autres biens meubles enregistrés sous la RDPRM (QC)</span>
+                    <hr style="border-color:black;margin: 11px 0px 18px 0px;"/>
+                    À qui cela peut concerner,
+                    <br/><br/>
+                    Avantage concessionnaire Scotia demande par la présente votre collaboration immédiate en ce qui concerne la récupération 
+                    et l'entreposage de biens (tels que des véhicules, des véhicules récréatifs, des bateaux, des motos, etc.) 
+                    financés par Avantage concessionnaire Scotia et sur lesquels ils détiennent un droit enregistré au titre de la Sûreté des biens personnels. Loi (QUEBEC) (« RDPRM »).
+                    <br/><br/>
+                    Nous vous demandons de confier la récupération et l'entreposage de ces types de biens à Collateral Management Solutions et/ou ses fournisseurs autorisés, lorsque votre 
+                    client souhaite céder les biens dans le cadre d'une faillite ou d'une proposition de consommateur.
+                    <br/><br/>
+                    Veuillez noter que si vous ne vous conformez pas ; Avantage concessionnaire Scotia se réserve le droit de refuser de payer les frais et débours facturés par votre fournisseur, 
+                    qui dépassent ce que à Collateral Management Solutions aurait facturé.
+                    <br/><br/>
+                    Pour attribuer la propriété à Collateral Management Solutions veuillez envoyer un courriel à recovery@trader.ca et Collateral Management Solutions sécurisera le véhicule. 
+                    Veuillez inclure les informations suivantes dans votre courriel :
+                    <br/><br/>
+                    Nom(s) du débiteur<br/>
+                    Coordonnées du débiteur pour organiser la récupération du véhicule.<br/>
+                    Informations sur le véhicule (année/marque/modèle/numéro VIN)
+                    <br/><br/>
+                    Veuillez noter que vous n’aurez pas à assurer les véhicules immobilisés en attente de reprise de possession. De plus, dès la possession de la propriété par Collateral Management Solutions,
+                    vous serez libéré de toute responsabilité concernant la propriété.
+                    <br/><br/>
+                    En conclusion, Avantage concessionnaire Scotia demande que cette lettre soit distribuée à votre personnel et à toutes les succursales afin qu'ils puissent y donner suite.
+                    Merci pour votre temps et votre considération,
+                    <br/><br/>
+                    Cordialement,<br/>
+                    Canaccede International Management Ltd.<br/>
+                    Prestataire de Services pour Scotia Dealer Advantage
+                </div>
+            </div>
+        </apex:outputPanel>
     </html>
     
 </apex:page>
