@@ -1103,7 +1103,75 @@
                         </div>
                         <br/><br/>
                      </div>
+                      <div class="pageSeperator" style="clear:both;">
+                      </div>
                   </apex:outputPanel>
+                   <!-- Ticket 7563: Letters to go with SDA Secured POCs -->
+                   <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'SDA' && insolvAcc.Claim_Type__c == 'Secured'}">
+                       <div style="font-size: 13px; margin:auto; padding-top:20px; line-height: 17px; width:90%;">
+                           <div style="padding-bottom:10px;">
+                               <br/>
+                               <div style="text-align:center; float:left; width:17%;padding-bottom:10px;">
+                                   <apex:image value="{!pocPackage.Header_logo__c}" width="70" height="70" />
+                               </div>
+                               <div style="float:left;width:73%;padding-left:66px">
+                                   <div style="float:left; padding-left:0px;">
+                                       Canaccede International Management Ltd.<br/>
+                                       {!pocPackage.CFG_Office_Address_1__c} <br/>
+                                       {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                                   </div>
+                                   <div style="padding-left:300px;">
+                                       t. {!pocPackage.CFG_Office_Phone_Number__c} <br/>
+                                       f. {!pocPackage.CFG_Office_Fax_Number__c} <br/>
+                                       {!pocPackage.CFG_Office_Website__c}
+                                   </div>
+                               </div>
+                           </div>
+                           <div style="font-size: 13px; margin:auto;line-height: 17px; width:94%;">
+                               <div style="clear:both;">
+                                   <br/>
+                               </div>
+                               Date: <apex:outputText value="{0,date, EEEE',' MMMM dd',' yyyy}">
+                               <apex:param value="{!TODAY()}" />
+                               </apex:outputText>
+                               <br/><br/>
+                               {!insolvAcc.Insolvency__r.Trustee__r.Parent.Name}
+                               <br/><br/>
+                               <b>Re: Recovery of vehicles or other movable property registered under the P.P.S.A</b>
+                               <hr style="border-color:black;margin: 11px 0px 18px 0px;"/>
+                               To whom it may concern,
+                               <br/><br/>
+                               Scotia Dealer Advantage hereby requests your immediate collaboration in relation to the recovery and storage of property 
+                               (such as vehicles, recreational vehicles, boats, motorcycles, etc.) financed by Scotia Dealer Advantage and on which 
+                               they hold a right registered under the Personal Property Security Act (“PPSA”).
+                               <br/><br/>
+                               We ask that you entrust the recovery and storage of these types of property to Collateral Management Solutions and or its authorized suppliers, 
+                               when your client wishes to surrender the property as part of a bankruptcy or a consumer proposal.
+                               <br/><br/>
+                               Please be advised that should you fail to comply; Scotia Dealer Advantage reserves the right to refuse to pay the fees and disbursements charged 
+                               by your supplier, <b>which are in excess</b> of what Collateral Management Solutions would have charged.
+                               <br/><br/>
+                               To assign the property to Collateral Management Solutions, please email recovery@trader.ca and Collateral Management Solutions will secure the vehicle. 
+                               Please include the following information in your email.
+                               <br/><br/>
+                               Debtor name(s)<br/>
+                               Debtor contact information to arrange for pickup of the vehicle.<br/>
+                               Vehicle Information (Year/Make/Model/VIN Number) <br/><br/>
+                               Please note that you will not have to insure vehicles that are immobilized while awaiting repossession. Moreover, upon Collateral Management Solutions’ 
+                               possession of the property, you will be released from any liability regarding the property.
+                               <br/><br/>
+                               In closing, Scotia Dealer Advantage asks that this letter please be circulated throughout your staff and across all branches so that they can follow up on it
+                               <br/><br/>
+                               Thank you for your time and consideration,
+                               <br/><br/>
+                               Best regards,<br/>
+                               Canaccede Internation Management Ltd. <br/>
+                               Servicer for Scotia Dealer Advantage
+                               <br/><br/>
+                           </div>
+                       </div>
+                       <br/><br/><br/>
+                   </apex:outputPanel>
                </article>
               <div class="slds-grid slds-m-around_xx-small slds-p-top_medium">
                   <div class="slds-col slds-align_absolute-center">
