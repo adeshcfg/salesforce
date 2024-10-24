@@ -6,10 +6,10 @@
     <formula>IF(NOT(ISPICKVAL(Insolvency_Status__c, &apos;New&apos;) || ISPICKVAL(Insolvency_Status__c, &apos;For Owner Review&apos;) || ISPICKVAL(Insolvency_Status__c, &apos;Wait / Hold&apos;)),
 IF(NOT(ISBLANK(Last_Payment_Date__c)), IF(NOT(ISBLANK(Insolvency_Date__c)) &amp;&amp; (Last_Payment_Date__c + 30) &gt; Insolvency_Date__c, Insolvency_Date__c, Last_Payment_Date__c + 30),
 IF(NOT(ISPICKVAL(Client_Identifier__c, &apos;Canadian Tire&apos;)) &amp;&amp; NOT(ISBLANK(Account_Open_date__c)), IF(NOT(ISBLANK(Insolvency_Date__c)) &amp;&amp; (Account_Open_date__c + 30) &gt; Insolvency_Date__c, Insolvency_Date__c, Account_Open_date__c + 30),
-IF(ISPICKVAL(Client_Identifier__c, &apos;Canadian Tire&apos;) &amp;&amp; NOT(ISBLANK(Charge_Off_Date__c)), ADDMONTHS(Charge_Off_Date__c, -7),
+IF(ISPICKVAL(Client_Identifier__c, &apos;Canadian Tire&apos;) &amp;&amp; NOT(ISBLANK(Charge_Off_Date__c)), IF(NOT(ISBLANK(Insolvency_Date__c)) &amp;&amp; ADDMONTHS(Charge_Off_Date__c, -7) &gt; Insolvency_Date__c, Insolvency_Date__c, ADDMONTHS(Charge_Off_Date__c, -7)),
 IF(NOT(ISPICKVAL(Client_Identifier__c, &apos;Canadian Tire&apos;)) &amp;&amp; NOT(ISBLANK(Acknowledgement_date__c)), IF(NOT(ISBLANK(Insolvency_Date__c)) &amp;&amp; (Acknowledgement_date__c + 30) &gt; Insolvency_Date__c, Insolvency_Date__c, Acknowledgement_date__c + 30),
 IF(NOT(ISBLANK(Judgement_Date__c)), IF(NOT(ISBLANK(Insolvency_Date__c)), Insolvency_Date__c, Judgement_Date__c + 30),
-IF(ISPICKVAL(Client_Identifier__c, &apos;Canadian Tire&apos;), IF(ISBLANK(Account_Open_date__c), ADDMONTHS(TODAY(), -6), IF(ADDMONTHS(TODAY(), -6) &gt; (Account_Open_date__c + 30), ADDMONTHS(TODAY(), -6), (Account_Open_date__c + 30))),
+IF(ISPICKVAL(Client_Identifier__c, &apos;Canadian Tire&apos;), IF(ISBLANK(Account_Open_date__c), IF(NOT(ISBLANK(Insolvency_Date__c)) &amp;&amp; ADDMONTHS(TODAY(), -6) &gt; Insolvency_Date__c, Insolvency_Date__c, ADDMONTHS(TODAY(), -6)), IF(ADDMONTHS(TODAY(), -6) &gt; (Account_Open_date__c + 30), IF(NOT(ISBLANK(Insolvency_Date__c)) &amp;&amp; ADDMONTHS(TODAY(), -6) &gt; Insolvency_Date__c, Insolvency_Date__c, ADDMONTHS(TODAY(), -6)), IF(NOT(ISBLANK(Insolvency_Date__c)) &amp;&amp; (Account_Open_date__c + 30) &gt; Insolvency_Date__c, Insolvency_Date__c, (Account_Open_date__c + 30)))),
 null)))))), null)</formula>
     <inlineHelpText>Date debt became due</inlineHelpText>
     <label>Debt Due As Of Date</label>
