@@ -1134,49 +1134,54 @@
             <sortOrder>1</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Product__c.New_Settlement_proposal</actionName>
-            <actionType>QuickAction</actionType>
+            <actionName>Generate_Document</actionName>
+            <actionType>CustomButton</actionType>
             <sortOrder>2</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Product__c.Payoff_Calculator</actionName>
+            <actionName>Product__c.New_Settlement_proposal</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Product__c.Request_Fund</actionName>
+            <actionName>Product__c.Payoff_Calculator</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Allocate_Agency</actionName>
-            <actionType>CustomButton</actionType>
+            <actionName>Product__c.Request_Fund</actionName>
+            <actionType>QuickAction</actionType>
             <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Recall_Agency</actionName>
+            <actionName>Allocate_Agency</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>6</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Reject_Invalid_Submission</actionName>
+            <actionName>Recall_Agency</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>7</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Product_Ledger</actionName>
+            <actionName>Reject_Invalid_Submission</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>Product_Ledger</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>9</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>Task</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>9</sortOrder>
+            <sortOrder>10</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Payment_Report</actionName>
             <actionType>CustomButton</actionType>
-            <sortOrder>10</sortOrder>
+            <sortOrder>11</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>
