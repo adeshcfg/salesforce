@@ -805,7 +805,7 @@
                 <div style='text-align:center;clear:both; '>
                     <h3 style='margin-top:-5px;'><span  style="font-family: sans-serif; font-weight:bold;">SCHEDULE A – Statement of Account</span></h3>
                 </div>
-                <br/>
+                
                 <table style="font-size:13px;width:100%;">
                     <tr>
                         <td style=" text-align:left; width:100px; vertical-align:top;">
@@ -817,7 +817,8 @@
                             {!insolvAcc.Insolvency__r.Debtor_2_First_Name__c} {!insolvAcc.Insolvency__r.Debtor_2_Last_Name__c}
                         </td>
                     </tr>
-                </table><br/>
+                </table>
+                <br/>
                 <table style="float:right;font-size:13px; clear:both;width:100%;">
                     <tr>
                         <td style="text-align:right; padding-top:0px;">
@@ -946,7 +947,7 @@
                     </tr>
                     </table>
                 </div>  
-                <div style="text-align:center;"><span  style="font-family: sans-serif; font-weight:bold;">Summary of Account</span></div><br/>
+                <div style="text-align:center;"><span  style="font-family: sans-serif; font-weight:bold;">Summary of Account</span></div>
                 <table border="0" style=" text-align: left; width:600px; font-size:13px;">
                     <tr>
                         <td style="padding-bottom:10px; padding-left:5px;width: 230px;"><span  style="font-family: sans-serif; font-weight:bold;">Account Number:</span></td>
@@ -1033,8 +1034,8 @@
                 </div>
                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}"><br/></apex:outputText>
             </div>
-            
             <br/>
+           
             <div style='font-family: "Arial Unicode MS"; font-size:13px; padding-left:5px;'>
                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' || (insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                     
@@ -1056,9 +1057,10 @@
                 <br/>
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} 
             </div>
+            <br/><br/><br/>
         </apex:outputPanel>
         <!-- PAGE 5 ENDS-->
-        <br/><br/><br/>
+  
         <!-- Ticket 7563: Letters to go with SDA Secured POCs -->
         <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'SDA' && insolvAcc.Claim_Type__c == 'Secured'}">
             <div style='font-family: "Arial Unicode MS";clear:both; margin:auto; margin-bottom:-19px; line-height: 15px; width:100%;' class="myfont">
