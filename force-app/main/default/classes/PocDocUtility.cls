@@ -1,7 +1,7 @@
 /**
  * @description       : Class to hold utility/common methods for POC document generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 10-09-2024
+ * @last modified on  : 10-28-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocDocUtility {
@@ -38,6 +38,7 @@ public class PocDocUtility {
     public static Map<String, String> validateRecord(Insolvency_Account__c insolvAcc) {
         Map<String, String> exceptionErrorMessageMap = new Map<String, String>();
         List<String> eligibleVotingDecisions = new List<String>{ 'Auto Approved', 'Manually Approved', 'Manually Rejected' };
+        List<String> mandatoryStatementBanks = new List<String>{ 'Scotia Bank', 'SDA', 'SPL', 'Fairstone' };
         String exceptionMsg = '';
         String errorMsg = '';
         if (!insolvAcc.Proof_of_Claim_Required__c) {
@@ -91,8 +92,7 @@ public class PocDocUtility {
         // Only check when POC is being generated from batch
         if (
             System.isBatch() &&
-            insolvAcc.Client_Identifier__c != 'Goeasy' &&
-            insolvAcc.Client_Identifier__c != 'Canadian Tire' &&
+            mandatoryStatementBanks.contains(insolvAcc.Client_Identifier__c) &&
             !checkAttachmentTypePresence('Account Statement', insolvAcc.Attachments)
         ) {
             exceptionMsg = 'Missing Information';
