@@ -2011,7 +2011,8 @@ insDetails.add(insDetail);
                 }else if(fieldMissing == TRUE && accNew.Insolvency_Sub_Status__c == 'Pending File' 
                         && oldMap.get(accNew.id).Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c){
                     accNew.Insolvency_Sub_Status__c = 'Pending File';
-                    accNew.Error_Message__c = errorMsg;        
+                    accNew.Error_Message__c = errorMsg;   
+                    accNew.CTB_Status_Update_Code__c = '';        
                 }
                 else if(fieldMissing == TRUE ){
                     accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
