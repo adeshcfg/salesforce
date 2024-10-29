@@ -377,10 +377,9 @@
                 <apex:ActionFunction name="attachmentRemoved"  action="{!attachmentRemoved}" reRender="none" status="spinner">
                     <apex:param name="attachmentRemoved" value="attachmentRemoved" assignTo="{!attachmentSelected}"/>
                 </apex:ActionFunction>
-                
                 <apex:ActionStatus id="spinner">
                     <apex:facet name="start">
-                        <div class="slds-spinner_container">
+                        <div class="slds-spinner_container" style="position:fixed">
                             <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
                                 <span class="slds-assistive-text">Loading</span>
                                 <div class="slds-spinner__dot-a"></div>
@@ -389,6 +388,7 @@
                         </div>
                     </apex:facet>
                 </apex:ActionStatus>
+                
                 
                 <article class="slds-card stripes-grey slds-m-top_small">
                     <div class="slds-p-around_small stripes-grey">
@@ -498,7 +498,6 @@
                                         </Apex:repeat>
                                     </tbody>
                                 </table>
-                                
                                 <div class="slds-grid slds-p-around_medium slds-border_top slds-theme--default via-border-bottom-corners">
                                     <div class="slds-col slds-align_absolute-center">
                                         <apex:commandButton id="EmailTrusteeBtn"  onclick=" validateAtt();"  styleclass="slds-button slds-button_neutral" value="Email Trustee"  reRender="mmm" rendered="{!isActive}"/>
