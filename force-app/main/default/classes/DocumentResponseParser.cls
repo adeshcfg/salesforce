@@ -665,6 +665,27 @@ public class DocumentResponseParser {
         }
     }
 
+    /**
+     * @description : Parse and populate assets
+     * @author adesh.ikhar@canaccede.com | 10-29-2024
+     * @param assetList
+     * @param insolv
+     **/
+    public static void parseAssets(List<Type> assetList, Insolvency__c insolv) {
+        List<String> homeAssetTypes = new List<String>{ 'Principal Residence', 'House', 'Cottage' };
+        Decimal otherAssets = 0;
+        Decimal homeAssets = 0;
+        for (Type asset : assetList) {
+            if (homeAssetTypes.contains(asset.type)) {
+                homeAssets += Decimal.valueOf(asset.estimatedDollarValue);
+            }
+            otherAssets += Decimal.valueOf(asset.estimatedDollarValue);
+        }
+        otherAssets = otherAssets - homeAssets;
+        insolv.Home_Assets__c = homeAssets == 0 ? null : homeAssets;
+        insolv.Other_Assets__c = otherAssets == 0 ? null : otherAssets;
+    }
+
     public static void parseCommonForm79Parts(
         Assets assets,
         List<Debtors> debtors,
@@ -684,6 +705,9 @@ public class DocumentResponseParser {
 
             if (assets.totalEstimatedNetRealizableDollarValue != null) {
                 insolv.Total_Estimated_Realizable_Value__c = getDecimalValue(assets.totalEstimatedNetRealizableDollarValue);
+            }
+            if (assets.items != null && !assets.items.isEmpty()) {
+                parseAssets(assets.items, insolv);
             }
         }
 
@@ -1551,7 +1575,7 @@ public class DocumentResponseParser {
         }
         */
         }
-		
+
         // Unsecured Account
         if (liability.unsecuredDebt != null) {
             creditorAccount.Unsecured_Asset_Amount__c = getDecimalValue(liability.unsecuredDebt);
