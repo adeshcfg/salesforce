@@ -180,8 +180,10 @@
                     <apex:column headerValue="Claim Type" id="claimType">
                         <apex:inputField value="{!wrap.insolvAcc.Claim_Type__c}" required="true"/>
                     </apex:column>
-                    
-                    <!-- Optional fields -->
+                    <apex:column headerValue="Processing Status" id="processingStatus">
+                        <apex:inputField value="{!wrap.insolvAcc.Insolvency_Status__c}" required="true"/>
+                    </apex:column>
+                   <!--  Optional fields -->
                     <apex:column headerValue="Security Type" id="secType">
                         <apex:inputField value="{!wrap.insolvAcc.Security_Type__c}"/>
                     </apex:column>
