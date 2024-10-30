@@ -2011,8 +2011,7 @@ insDetails.add(insDetail);
                 }else if(fieldMissing == TRUE && accNew.Insolvency_Sub_Status__c == 'Pending File' 
                         && oldMap.get(accNew.id).Insolvency_Sub_Status__c!=accNew.Insolvency_Sub_Status__c){
                     accNew.Insolvency_Sub_Status__c = 'Pending File';
-                    accNew.Error_Message__c = errorMsg;   
-                    accNew.CTB_Status_Update_Code__c = '';        
+                    accNew.Error_Message__c = errorMsg;
                 }
                 else if(fieldMissing == TRUE ){
                     accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
@@ -2070,6 +2069,9 @@ insDetails.add(insDetail);
                         accNew.Insolvency_Sub_Status__c == 'Sent on file'
                     ) {
                         accNew.Insolvency_Sub_Status__c.addError('You cannot set directly Sent on file as Processing Sub Status.');
+                    }
+                    if (accNew.Insolvency_Sub_Status__c == 'Pending File' && oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c) {
+                        accNew.CTB_Status_Update_Code__c = '';
                     }
                 }
             }
