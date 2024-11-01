@@ -86,7 +86,7 @@
             <useReportChart>false</useReportChart>
         </components>
     </rightSection>
-    <runningUser>nagendra.yanadigalla@canaccede.com</runningUser>
+    <runningUser>devadminuser@canaccede.com</runningUser>
     <textColor>#000000</textColor>
     <title>Queue Summary by Product Code</title>
     <titleColor>#000000</titleColor>

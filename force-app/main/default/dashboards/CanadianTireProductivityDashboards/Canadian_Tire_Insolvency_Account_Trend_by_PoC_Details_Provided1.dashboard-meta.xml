@@ -117,7 +117,7 @@
     </dashboardGridLayout>
     <dashboardType>SpecifiedUser</dashboardType>
     <isGridLayout>true</isGridLayout>
-    <runningUser>nagendra.yanadigalla@canaccede.com</runningUser>
+    <runningUser>devadminuser@canaccede.com</runningUser>
     <textColor>#000000</textColor>
     <title>Canadian Tire Insolvency Account Trend by PoC Details Provided</title>
     <titleColor>#000000</titleColor>
