@@ -672,11 +672,11 @@ public class DocumentResponseParser {
      * @param insolv
      **/
     public static void parseAssets(List<Type> assetList, Insolvency__c insolv) {
-        List<String> homeAssetTypes = new List<String>{ 'Principal Residence', 'House', 'Cottage' };
+        List<String> homeAssetTypes = new List<String>{ 'PRINCIPAL RESIDENCE', 'HOUSE', 'COTTAGE' };
         Decimal otherAssets = 0;
         Decimal homeAssets = 0;
         for (Type asset : assetList) {
-            if (homeAssetTypes.contains(asset.type)) {
+            if (homeAssetTypes.contains(asset.type.toUpperCase())) {
                 homeAssets += Decimal.valueOf(asset.estimatedDollarValue);
             }
             otherAssets += Decimal.valueOf(asset.estimatedDollarValue);
