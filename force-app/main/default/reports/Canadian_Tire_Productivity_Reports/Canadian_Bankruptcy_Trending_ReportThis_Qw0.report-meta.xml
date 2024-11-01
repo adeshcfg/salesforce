@@ -36,7 +36,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>contains</operator>
-            <value>Luisa Gutierrez,Nagendra Yanadigalla,Sonali Thombare</value>
+            <value>Tina Morabitoweston,Nathalie Sullivan,Nancy Dmytrow,Kimberley Kyle,Cindy Vanstone,Grace Sciarra,Bernadette McNeill,Nancy Kronowetter,Lise Clark,Michael Parks</value>
         </criteriaItems>
         <criteriaItems>
             <column>Insolvency_Account__c.Insolvency_Type__c</column>
