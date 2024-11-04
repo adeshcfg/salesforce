@@ -288,6 +288,14 @@
                 <behavior>Readonly</behavior>
                 <field>No_Of_Persons_In_House_Below_17_Debtor__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Ever_Made_Proposal__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Ever_been_Bankrupt_Before__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -437,6 +445,14 @@
                 <behavior>Readonly</behavior>
                 <field>No_Of_Persons_In_House_Below_17_Debtor1__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Ever_Made_Proposal_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Ever_been_Bankrupt_Before_Debtor1__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -488,13 +504,6 @@
                 <behavior>Readonly</behavior>
                 <field>Reason_For_Individual_Becoming_Insolvent__c</field>
             </layoutItems>
-            <layoutItems>
-                <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Ever_Made_Proposal__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -534,13 +543,6 @@
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
-                <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Ever_been_Bankrupt_Before__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
