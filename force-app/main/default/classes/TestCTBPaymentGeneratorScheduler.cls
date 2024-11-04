@@ -150,6 +150,11 @@ public class TestCTBPaymentGeneratorScheduler {
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         API_Call_Details__c api = testDocumentAPI();
         
+        Application_Config_Settings__c cs = new Application_Config_Settings__c(Insolvency_Account_Batch_Count__c = 1,Profile_Eligible_for_Duplicate_Check__c = 'Scotia',
+                                                                              Bank_Eligible_for_Duplicate_Check__c = 'Scotia',Eligible_for_Validn_Needed_Calculation__c = 'Scotia',
+                                                                              Eligible_for_Claim_Type_Calculation__c = 'SPL',Ignore_Account_Number_for_DuplicateCheck__c = 'TRAILER');
+        insert cs;
+
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
