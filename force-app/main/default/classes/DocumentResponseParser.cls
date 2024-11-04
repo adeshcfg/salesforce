@@ -805,51 +805,119 @@ public class DocumentResponseParser {
         List<Creditor_Account__c> creditorAccounts
     ) {
         if (form79BisParts?.debtors != null && !form79BisParts.debtors.isEmpty()) {
-            if (form79BisParts.debtors[0].maritalStatusEvents != null && !form79BisParts.debtors[0].maritalStatusEvents.isEmpty()) {
-                List<MaritalStatusEvents> debtorMaritalStatusEvents = form79BisParts.debtors[0].maritalStatusEvents;
+            Debtors primaryDebtor = form79BisParts.debtors[0];
+            if (primaryDebtor.maritalStatusEvents != null && !primaryDebtor.maritalStatusEvents.isEmpty()) {
+                List<MaritalStatusEvents> debtorMaritalStatusEvents = primaryDebtor.maritalStatusEvents;
                 debtorMaritalStatusEvents.sort();
                 insolv.Debtor_1_Marital_Status__c = getMaritalStaus(debtorMaritalStatusEvents[0].maritalStatus);
             }
-            if (form79BisParts.debtors[0].everMadeProposal != null) {
-                insolv.Ever_Made_Proposal__c = getYesNoValues(form79BisParts.debtors[0].everMadeProposal);
+            if (primaryDebtor.everMadeProposal != null) {
+                insolv.Ever_Made_Proposal__c = getYesNoValues(primaryDebtor.everMadeProposal);
             }
-            if (form79BisParts.debtors[0].everBeenBankruptBefore != null) {
-                insolv.Ever_been_Bankrupt_Before__c = getYesNoValues(form79BisParts.debtors[0].everBeenBankruptBefore);
+            if (primaryDebtor.everBeenBankruptBefore != null) {
+                insolv.Ever_been_Bankrupt_Before__c = getYesNoValues(primaryDebtor.everBeenBankruptBefore);
             }
-            if (form79BisParts.debtors[0].numberOfPersonsInHousehold != null) {
-                insolv.Number_Of_Persons_In_Household_Debtor__c = getDecimalValue(form79BisParts.debtors[0].numberOfPersonsInHousehold);
+            if (primaryDebtor.numberOfPersonsInHousehold != null) {
+                insolv.Number_Of_Persons_In_Household_Debtor__c = getDecimalValue(primaryDebtor.numberOfPersonsInHousehold);
                 insolv.Number_Of_Persons_In_Household__c = insolv.Number_Of_Persons_In_Household_Debtor__c;
             }
-            if (form79BisParts.debtors[0].numberOfPersonsSeventeenOrLess != null) {
-                insolv.No_Of_Persons_In_House_Below_17_Debtor__c = getDecimalValue(form79BisParts.debtors[0].numberOfPersonsSeventeenOrLess);
+            if (primaryDebtor.numberOfPersonsSeventeenOrLess != null) {
+                insolv.No_Of_Persons_In_House_Below_17_Debtor__c = getDecimalValue(primaryDebtor.numberOfPersonsSeventeenOrLess);
                 insolv.Number_Of_Persons_In_Household_Below_17__c = insolv.No_Of_Persons_In_House_Below_17_Debtor__c;
             }
-            if (
-                form79BisParts.debtors[0].spouseFirstName != null ||
-                form79BisParts.debtors[0].spouseMiddleName != null ||
-                form79BisParts.debtors[0].spouseLastName != null
-            ) {
+            if (primaryDebtor.spouseFirstName != null || primaryDebtor.spouseMiddleName != null || primaryDebtor.spouseLastName != null) {
                 insolv.Debtor_1_Spouse_CommonLaw_Partner_Name__c =
-                    form79BisParts.debtors[0].spouseFirstName +
+                    primaryDebtor.spouseFirstName +
                     ' ' +
-                    checkAndGetStringValue(form79BisParts.debtors[0].spouseMiddleName) +
+                    checkAndGetStringValue(primaryDebtor.spouseMiddleName) +
                     ' ' +
-                    form79BisParts.debtors[0].spouseLastName;
+                    primaryDebtor.spouseLastName;
             }
-            if (form79BisParts.debtors[0].employmentStatus != null) {
-                insolv.Employment_Status__c = form79BisParts.debtors[0].employmentStatus;
+            if (primaryDebtor.employmentStatus != null) {
+                insolv.Employment_Status__c = primaryDebtor.employmentStatus;
             }
-            if (form79BisParts.debtors[0].fromWhenEmployed != null) {
-                insolv.Employment_From_Date__c = Date.valueOf(form79BisParts.debtors[0].fromWhenEmployed + '-01');
+            if (primaryDebtor.fromWhenEmployed != null) {
+                insolv.Employment_From_Date__c = Date.valueOf(primaryDebtor.fromWhenEmployed + '-01');
             }
-            if (form79BisParts.debtors[0].toWhenEmployed != null) {
-                insolv.Employment_To_Date__c = Date.valueOf(form79BisParts.debtors[0].toWhenEmployed + '-01');
+            if (primaryDebtor.toWhenEmployed != null) {
+                insolv.Employment_To_Date__c = Date.valueOf(primaryDebtor.toWhenEmployed + '-01');
             }
-            if (form79BisParts.debtors[0].adviceReceived != null) {
-                insolv.Used_a_Financial_Advisor__c = getYesNoValues(form79BisParts.debtors[0].adviceReceived);
+            if (primaryDebtor.adviceReceived != null) {
+                insolv.Used_a_Financial_Advisor__c = getYesNoValues(primaryDebtor.adviceReceived);
             }
             if (insolv.Used_a_Financial_Advisor__c == 'Yes') {
-                parseFinancialAdvisorInfo(form79BisParts.debtors[0].advisorInformation, insolv);
+                parseFinancialAdvisorInfo(primaryDebtor.advisorInformation, insolv);
+            }
+            // Secondary debtor field mapping
+            if (form79BisParts.debtors.size() > 1) {
+                Debtors secondaryDebtor = form79BisParts.debtors[1];
+                if (secondaryDebtor.maritalStatusEvents != null && !secondaryDebtor.maritalStatusEvents.isEmpty()) {
+                    List<MaritalStatusEvents> debtorMaritalStatusEvents = secondaryDebtor.maritalStatusEvents;
+                    debtorMaritalStatusEvents.sort();
+                    insolv.Debtor_2_Marital_Status__c = getMaritalStaus(debtorMaritalStatusEvents[0].maritalStatus);
+                }
+                /* if (secondaryDebtor.everMadeProposal != null) {
+                    insolv.Ever_Made_Proposal__c = getYesNoValues(secondaryDebtor.everMadeProposal);
+                }
+                if (secondaryDebtor.everBeenBankruptBefore != null) {
+                    insolv.Ever_been_Bankrupt_Before__c = getYesNoValues(secondaryDebtor.everBeenBankruptBefore);
+                } */
+                if (secondaryDebtor.numberOfPersonsInHousehold != null) {
+                    insolv.Number_Of_Persons_In_Household_Debtor1__c = getDecimalValue(secondaryDebtor.numberOfPersonsInHousehold);
+                }
+                if (secondaryDebtor.numberOfPersonsSeventeenOrLess != null) {
+                    insolv.No_Of_Persons_In_House_Below_17_Debtor1__c = getDecimalValue(secondaryDebtor.numberOfPersonsSeventeenOrLess);
+                }
+                if (secondaryDebtor.spouseFirstName != null || secondaryDebtor.spouseMiddleName != null || secondaryDebtor.spouseLastName != null) {
+                    insolv.Debtor_2_Spouse_CommonLaw_Partner_Name__c =
+                        secondaryDebtor.spouseFirstName +
+                        ' ' +
+                        checkAndGetStringValue(secondaryDebtor.spouseMiddleName) +
+                        ' ' +
+                        secondaryDebtor.spouseLastName;
+                }
+                if (secondaryDebtor.employmentStatus != null) {
+                    insolv.Employment_Status_Debtor1__c = secondaryDebtor.employmentStatus;
+                }
+                if (secondaryDebtor.fromWhenEmployed != null) {
+                    insolv.Employment_From_Date_Debtor1__c = Date.valueOf(secondaryDebtor.fromWhenEmployed + '-01');
+                }
+                if (secondaryDebtor.toWhenEmployed != null) {
+                    insolv.Employment_To_Date_Debtor1__c = Date.valueOf(secondaryDebtor.toWhenEmployed + '-01');
+                }
+                if (secondaryDebtor.adviceReceived != null) {
+                    insolv.Used_a_Financial_Advisor_Debtor1__c = getYesNoValues(secondaryDebtor.adviceReceived);
+                }
+                if (insolv.Used_a_Financial_Advisor_Debtor1__c == 'Yes') {
+                    AdvisorInformation advisorInfo = secondaryDebtor.advisorInformation[0];
+                    if (advisorInfo.firstName != null || advisorInfo.middleName != null || advisorInfo.lastName != null) {
+                        insolv.Name_of_Financial_Advisor_Debtor1__c =
+                            advisorInfo.firstName +
+                            ' ' +
+                            checkAndGetStringValue(advisorInfo.middleName) +
+                            ' ' +
+                            advisorInfo.lastName;
+                    }
+                    if (advisorInfo.org != null) {
+                        insolv.Org_for_the_Financial_Advisor_Debtor1__c = advisorInfo.org;
+                    }
+                    if (advisorInfo.streetAddress != null || advisorInfo.city != null || advisorInfo.province != null || advisorInfo.postalCode != null) {
+                        insolv.Address_of_Financial_Advisor_Debtor1__c =
+                            advisorInfo.streetAddress +
+                            ',' +
+                            advisorInfo.city +
+                            ',' +
+                            advisorInfo.province +
+                            ',' +
+                            advisorInfo.postalCode;
+                    }
+                    if (advisorInfo.amountPaid != null) {
+                        insolv.Total_paid_to_Financial_Advisor_Debtor1__c = getDecimalValue(advisorInfo.amountPaid);
+                    }
+                    if (advisorInfo.amountCommitted != null) {
+                        insolv.Total_to_be_paid_to_Fin_Adv_Debtor1__c = getDecimalValue(advisorInfo.amountCommitted);
+                    }
+                }
             }
         }
         if (form79BisParts.totalSecuredClaims != null) {
