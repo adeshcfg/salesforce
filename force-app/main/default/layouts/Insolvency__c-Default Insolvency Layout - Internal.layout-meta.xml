@@ -311,6 +311,14 @@
                 <behavior>Edit</behavior>
                 <field>No_Of_Persons_In_House_Below_17_Debtor__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Ever_Made_Proposal__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Ever_been_Bankrupt_Before__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -463,6 +471,14 @@
                 <behavior>Edit</behavior>
                 <field>No_Of_Persons_In_House_Below_17_Debtor1__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Ever_Made_Proposal_Debtor1__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Ever_been_Bankrupt_Before_Debtor1__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -494,13 +510,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Adjusted_Unsecured_Amount_Frml__c</field>
-            </layoutItems>
-            <layoutItems>
-                <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Ever_Made_Proposal__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -545,13 +554,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Secured_Debts_Unsecured_Portion__c</field>
-            </layoutItems>
-            <layoutItems>
-                <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Ever_been_Bankrupt_Before__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
