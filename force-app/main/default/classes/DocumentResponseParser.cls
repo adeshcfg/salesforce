@@ -856,12 +856,12 @@ public class DocumentResponseParser {
                     debtorMaritalStatusEvents.sort();
                     insolv.Debtor_2_Marital_Status__c = getMaritalStaus(debtorMaritalStatusEvents[0].maritalStatus);
                 }
-                /* if (secondaryDebtor.everMadeProposal != null) {
-                    insolv.Ever_Made_Proposal__c = getYesNoValues(secondaryDebtor.everMadeProposal);
+                if (secondaryDebtor.everMadeProposal != null) {
+                    insolv.Ever_Made_Proposal_Debtor1__c = getYesNoValues(secondaryDebtor.everMadeProposal);
                 }
                 if (secondaryDebtor.everBeenBankruptBefore != null) {
-                    insolv.Ever_been_Bankrupt_Before__c = getYesNoValues(secondaryDebtor.everBeenBankruptBefore);
-                } */
+                    insolv.Ever_been_Bankrupt_Before_Debtor1__c = getYesNoValues(secondaryDebtor.everBeenBankruptBefore);
+                }
                 if (secondaryDebtor.numberOfPersonsInHousehold != null) {
                     insolv.Number_Of_Persons_In_Household_Debtor1__c = getDecimalValue(secondaryDebtor.numberOfPersonsInHousehold);
                 }
