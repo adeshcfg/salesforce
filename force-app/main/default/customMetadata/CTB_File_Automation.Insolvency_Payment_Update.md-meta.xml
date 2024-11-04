@@ -96,7 +96,7 @@
     </values>
     <values>
         <field>File_Type__c</field>
-        <value xsi:type="xsd:string">T</value>
+        <value xsi:type="xsd:string">P</value>
     </values>
     <values>
         <field>Header_Record_Type__c</field>
