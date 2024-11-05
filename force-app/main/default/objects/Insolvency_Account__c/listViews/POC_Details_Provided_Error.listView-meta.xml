@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>POC_Details_Provided_Error</fullName>
+    <columns>Insolvency__c</columns>
+    <columns>NAME</columns>
+    <columns>Bank_Name__c</columns>
+    <columns>Auto_POC_Exception_Reported__c</columns>
+    <columns>Statements_Requested__c</columns>
+    <columns>Insolvency_Status__c</columns>
+    <columns>Number_Of_Days_In_Current_Status__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>Claim_Type__c</columns>
+    <columns>Account_Type__c</columns>
+    <columns>Insolvency_Account_Owner__c</columns>
+    <columns>Product_Code__c</columns>
+    <columns>Claim_Amount__c</columns>
+    <columns>Insolvency_Status_Last_Changed__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Insolvency_Status__c</field>
+        <operation>equals</operation>
+        <value>PoC Details Provided</value>
+    </filters>
+    <filters>
+        <field>Auto_POC_Exception_Reported__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <label>POC Details Provided - Error Accounts</label>
+    <sharedTo>
+        <group>Insolvency_CFG_BS</group>
+        <group>Insolvency_CFG_Users</group>
+        <group>Insolvency_Fairstone_Users</group>
+        <group>Insolvency_Goeasy_Users</group>
+        <group>Insolvency_SDA_Users</group>
+        <group>Insolvency_SPL_Users</group>
+        <group>Insolvency_Scotia_Users</group>
+    </sharedTo>
+</ListView>
