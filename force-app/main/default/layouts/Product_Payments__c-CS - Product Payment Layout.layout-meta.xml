@@ -58,6 +58,10 @@
                 <field>Payment_Provided_Agency_Name__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Payment_Agency__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Product_Agency__c</field>
             </layoutItems>
