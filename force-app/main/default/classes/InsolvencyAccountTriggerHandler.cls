@@ -2146,17 +2146,4 @@ insDetails.add(insDetail);
         return true;
     }
 
-    public static void handleBeforeDelete(List<Insolvency_Account__c> insolAccntOld) {
-        list<Deleted_Records__c> deletedRecords = new List<Deleted_Records__c>();
-        for (Insolvency_Account__c insolAccnt : insolAccntOld) {
-            ID recordID = insolAccnt.ID;
-            Deleted_Records__c deletedRec = new Deleted_Records__c();
-            deletedRec.Object_Name__c = recordId.getSObjectType().getDescribe().getName();
-            deletedRec.Salesforce_Record_Id__c = insolAccnt.External_Correlation_ID__c;
-            deletedRecords.add(deletedRec);
-        }
-        if (!deletedRecords.isEmpty()) {
-            insert deletedRecords;
-        }
-    }
 }
