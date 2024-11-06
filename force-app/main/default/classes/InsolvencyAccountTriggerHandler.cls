@@ -1912,9 +1912,10 @@ insDetails.add(insDetail);
         ]) {
             trusteeData.put(accData.id, accData);
         }
-        String errorMsg = '';
+        String errorMsg;
         boolean fieldMissing = false;
         for (Insolvency_Account__c accNew : insolAccntsNew) {
+            errorMsg = '';
             if (insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()) {
                 if (accNew.Insolvency_Received_Date__c == null) {
                     errorMsg = 'Insolvency Received Date ,';
@@ -2143,5 +2144,19 @@ insDetails.add(insDetail);
             return false;
         }
         return true;
+    }
+
+    public static void handleBeforeDelete(List<Insolvency_Account__c> insolAccntOld) {
+        list<Deleted_Records__c> deletedRecords = new List<Deleted_Records__c>();
+        for (Insolvency_Account__c insolAccnt : insolAccntOld) {
+            ID recordID = insolAccnt.ID;
+            Deleted_Records__c deletedRec = new Deleted_Records__c();
+            deletedRec.Object_Name__c = recordId.getSObjectType().getDescribe().getName();
+            deletedRec.Salesforce_Record_Id__c = insolAccnt.External_Correlation_ID__c;
+            deletedRecords.add(deletedRec);
+        }
+        if (!deletedRecords.isEmpty()) {
+            insert deletedRecords;
+        }
     }
 }
