@@ -1912,9 +1912,10 @@ insDetails.add(insDetail);
         ]) {
             trusteeData.put(accData.id, accData);
         }
-        String errorMsg = '';
+        String errorMsg;
         boolean fieldMissing = false;
         for (Insolvency_Account__c accNew : insolAccntsNew) {
+            errorMsg = '';
             if (insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()) {
                 if (accNew.Insolvency_Received_Date__c == null) {
                     errorMsg = 'Insolvency Received Date ,';
@@ -2144,4 +2145,5 @@ insDetails.add(insDetail);
         }
         return true;
     }
+
 }
