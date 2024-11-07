@@ -6,6 +6,6 @@
 Last Payment date and amount 
 Or, Acknowledgement date 
 Or, Account Open date</description>
-    <errorConditionFormula>AND(ISPICKVAL(Insolvency_Status__c, &apos;PoC Details Provided&apos;), AND(OR(ISBLANK(Last_Payment_Amount__c), ISBLANK(Last_Payment_Date__c)), ISBLANK(Acknowledgement_date__c), ISBLANK(Account_Open_date__c), ISBLANK(Judgement_Date__c)))</errorConditionFormula>
+    <errorConditionFormula>AND(RecordType.DeveloperName &lt;&gt; &apos;Canadian_Tire_Insolvency_Account&apos;, ISPICKVAL(Insolvency_Status__c, &apos;PoC Details Provided&apos;), AND(OR(ISBLANK(Last_Payment_Amount__c), ISBLANK(Last_Payment_Date__c)), ISBLANK(Acknowledgement_date__c), ISBLANK(Account_Open_date__c), ISBLANK(Judgement_Date__c)))</errorConditionFormula>
     <errorMessage>Last Payment date and amount or Acknowledgement date or Account Open date or Judgement date are mandatory to set account as POC details provided</errorMessage>
 </ValidationRule>
