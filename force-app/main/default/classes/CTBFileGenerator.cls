@@ -729,9 +729,17 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             String paymentFileName = '';
             String fileName;
             if (ctbBatchName == System.Label.CTB_Insolvency_Account) {
-                //system.debug('listSuccessIds**'+listSuccessIds);
-                //queryData = listSuccessIds;
-                //system.debug('queryData**'+queryData);
+                try {
+                    //Batch count is assigned SEQUENTIAL batch number, starting at 1.  Each batch number must be one number greater than the last received regardless if the file is test or production.  This will ensure files aren’t accidentally sent twice or missed
+                    Decimal accountBatchCount = config.Insolvency_Account_Batch_Count__c == null ? 0 : config.Insolvency_Account_Batch_Count__c;
+                    config.Insolvency_Account_Batch_Count__c = accountBatchCount + 1;
+                    update config;
+                }
+                catch (DMLException dmlEx) {
+                    system.debug('Exception msg@@' + dmlEx.getStackTraceString());
+                    exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, ctbBatchName);
+                    CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Payment batch count update Failed');
+                }
                 Integer finalRecordCount = 2 + countVariable;
                 String headerType = mapCTBFileAuto.get('Insolvency Daily Update').Header_Record_Type__c;
                 String memberType = mapCTBFileAuto.get('Insolvency Daily Update').Member_Type__c;
@@ -779,6 +787,16 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 mainFinalData = headBody + finalData + trailerBody;
             }
             if (ctbBatchName == System.Label.CTB_Payment) {
+                try {
+                    // Batch count is assigned SEQUENTIAL batch number, starting at 1.
+                    Decimal paymentBatchCount = config.Payment_Batch_Count__c == null ? 0 : config.Payment_Batch_Count__c;
+                    config.Payment_Batch_Count__c = paymentBatchCount + 1;
+                    update config;
+                } catch (DMLException dmlEx) {
+                    system.debug('Exception msg@@' + dmlEx.getStackTraceString());
+                    exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, ctbBatchName);
+                    CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Account batch count update Failed');
+                }
                 List<ID> listOfPaymentIds = new List<ID>();
                 Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
                 sequenceNumber = mapCTBFileAuto.get('Insolvency Payment Update').Sequence_Number__c;
@@ -892,32 +910,11 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 fileName = paymentFileName + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
                 contentVersionData.Title = 'DRN_PaymentUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
                 contentVersionData.PathOnClient = 'DRN_PaymentUpdate.csv';
-                try {
-                    // Batch count is assigned SEQUENTIAL batch number, starting at 1.
-                    Decimal paymentBatchCount = config.Payment_Batch_Count__c == null ? 0 : config.Payment_Batch_Count__c;
-                    config.Payment_Batch_Count__c = paymentBatchCount + 1;
-                    update config;
-                } catch (DMLException dmlEx) {
-                    system.debug('Exception msg@@' + dmlEx.getStackTraceString());
-                    exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, ctbBatchName);
-                    CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Account batch count update Failed');
-                }
             }
             if(ctbBatchName == System.Label.CTB_Insolvency_Account){
                 fileName = dailyUpdateFileName + Datetime.now().format('yyyyMMddHHmmss') + '.csv';
                 contentVersionData.Title = 'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
                 contentVersionData.PathOnClient = 'DRN_DailyUpdate.csv';
-                try {
-                    //Batch count is assigned SEQUENTIAL batch number, starting at 1.  Each batch number must be one number greater than the last received regardless if the file is test or production.  This will ensure files aren’t accidentally sent twice or missed
-                    Decimal accountBatchCount = config.Insolvency_Account_Batch_Count__c == null ? 0 : config.Insolvency_Account_Batch_Count__c;
-                    config.Insolvency_Account_Batch_Count__c = accountBatchCount + 1;
-                    update config;
-                }
-                catch (DMLException dmlEx) {
-                    system.debug('Exception msg@@' + dmlEx.getStackTraceString());
-                    exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, ctbBatchName);
-                    CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Payment batch count update Failed');
-                }
             }
             
             insert contentVersionData;
