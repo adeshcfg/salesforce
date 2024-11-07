@@ -32,6 +32,11 @@
                 <default>false</default>
                 <label>No Match</label>
             </value>
+            <value>
+                <fullName>Stat-barred Account</fullName>
+                <default>false</default>
+                <label>Stat-barred Account</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

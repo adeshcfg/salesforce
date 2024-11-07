@@ -897,7 +897,12 @@ insolMap.put(insol.id, insol);
                         insolAccntNew.Insolvency_Date__c != null &&
                         !validateDateCriteria(insolAccntNew.Last_Payment_Date__c, insolAccntNew.Insolvency_Date__c, dbInsol.Debtor_1_Mailing_State_Province__c)
                     ) {
-                        insolAccntNew.addError('Last Payment date/Last Acknowledgment Date entered outside statute of limitations');
+                        if (insolAccntNew.Client_Identifier__c != 'Canadian Tire') {
+                            insolAccntNew.addError('Last Payment date entered outside statute of limitations for account ' + insolAccntNew.Name);
+                        } else {
+                            insolAccntNew.Insolvency_Status__c = insolAccntOld.Insolvency_Status__c;
+                            insolAccntNew.Insolvency_Sub_Status__c = 'Stat-barred Account';
+                        }
                     }
                     if (
                         insolAccntNew.Acknowledgement_date__c != null &&
@@ -908,13 +913,19 @@ insolMap.put(insol.id, insol);
                             dbInsol.Debtor_1_Mailing_State_Province__c
                         )
                     ) {
-                        insolAccntNew.addError('Last Payment date/Last Acknowledgment Date entered outside statute of limitations');
+                        if (insolAccntNew.Client_Identifier__c != 'Canadian Tire') {
+                            insolAccntNew.addError('Last Acknowledgment Date entered outside statute of limitations for account ' + insolAccntNew.Name);
+                        } else {
+                            insolAccntNew.Insolvency_Status__c = insolAccntOld.Insolvency_Status__c;
+                            insolAccntNew.Insolvency_Sub_Status__c = 'Stat-barred Account';
+                        }
                     }
                 }
 
                 //Insolvency__c dbInsol = insolMap.get(insolAccntnew.Insolvency__c);
-
-                insolAccntNew.Insolvency_Status_Last_Changed__c = dtNow;
+                if (insolAccntNew.Insolvency_Status__c != insolAccntOld.Insolvency_Status__c) {
+                    insolAccntNew.Insolvency_Status_Last_Changed__c = dtNow;
+                }
 
                 //Insolvency Status dates for SLA tracking
                 if (String.isNotBlank(insolAccntnew.Insolvency_Status__c)) {
@@ -2145,5 +2156,4 @@ insDetails.add(insDetail);
         }
         return true;
     }
-
 }
