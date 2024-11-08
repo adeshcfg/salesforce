@@ -893,6 +893,7 @@ insolMap.put(insol.id, insol);
                         }
                     }
                     if (
+                        insolAccntNew.Judgement_Date__c == null &&
                         insolAccntNew.Last_Payment_Date__c != null &&
                         insolAccntNew.Insolvency_Date__c != null &&
                         !validateDateCriteria(insolAccntNew.Last_Payment_Date__c, insolAccntNew.Insolvency_Date__c, dbInsol.Debtor_1_Mailing_State_Province__c)
@@ -905,6 +906,7 @@ insolMap.put(insol.id, insol);
                         }
                     }
                     if (
+                        insolAccntNew.Judgement_Date__c == null &&
                         insolAccntNew.Acknowledgement_date__c != null &&
                         insolAccntNew.Insolvency_Date__c != null &&
                         !validateDateCriteria(
