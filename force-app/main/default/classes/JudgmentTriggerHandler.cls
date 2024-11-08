@@ -243,7 +243,7 @@
                 //Ticket 7373 : if product in refer to legal state and we add existing judgment then refer to legal 
                 //automatically get updated to Approved.
                 if(!Test.isRunningTest() && judgmentProduct.Refer_to_Legal__c != '' && judgmentProduct.Refer_to_Legal__c != NULL &&
-                   judgmentProduct.Refer_to_Legal__c == 'For Review'){
+                    judgmentProduct.Refer_to_Legal__c != 'Declined' && judgmentProduct.Refer_to_Legal__c == 'For Review'){
                     judgmentProduct.Refer_to_Legal__c = 'Approved';
                     judgmentProduct.Legal_Decision_Date__c = System.now();
                     judgmentProduct.Legal_Decision_by__c = UserInfo.getUserId();
