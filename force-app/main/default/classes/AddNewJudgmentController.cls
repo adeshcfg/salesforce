@@ -205,7 +205,7 @@ public class AddNewJudgmentController {
                          FROM Judgment__c where Id  =: judgId];
         }
 
-        Product__c prod = [SELECT Id,Name, Legal_Status__c,Collection_Agency__c,Purchase_Province__c,State__c,Invalid_Submission_Reason__c FROM Product__c WHERE Id =: prodId];
+        Product__c prod = [SELECT Id,Name, Legal_Status__c,Refer_to_Legal__c,Collection_Agency__c,Purchase_Province__c,State__c,Invalid_Submission_Reason__c FROM Product__c WHERE Id =: prodId];
 		
         if(prod.Purchase_Province__c != NULL){
             purchaseProvince = prod.Purchase_Province__c;
@@ -251,6 +251,11 @@ public class AddNewJudgmentController {
         
         if(mapAccountJudgmentCodes.containsKey(judgment.Legal_Status__c+ judgment.Legal_Sub_Status__c)){
             Codes = mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c;  
+        }
+        //Ticket 7373: if refer to legal declined then judgment will not added on account.
+        if(prod.Refer_to_Legal__c == 'Declined'){
+            ErrorMsg = 'Product in Declined Refer to legal Status then Judgment should not be added';
+            listError.add(ErrorMsg);
         }
         if(!System.Label.Exclude_Judgment_Codes.contains(mapAccountJudgmentCodes.get(judgment.Legal_Status__c+judgment.Legal_Sub_Status__c).Codes__c)){
             ErrorMsg = 'You cannot add new product on this judgment because legal status is "'+judgment.Legal_Status__c+'" & legal sub status is "'+ judgment.Legal_Sub_Status__c+'"';
