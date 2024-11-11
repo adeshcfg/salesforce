@@ -50,7 +50,7 @@ public class AddNewJudgmentController {
         if(judgId != null){
         	Judgment__c judgment = [SELECT Id,Name,Legal_Status__c, Legal_Sub_Status__c,Agency_Initiated_Legal_Action__c, Judgment_Province__c FROM Judgment__c where Id  =: judgId];
         }
-        Product__c prod = [SELECT Id,Name,Status__c, Legal_Status__c,Collection_Agency__c,Purchase_Province__c,State__c,Account_Purchasing_Entity_Value__c
+        Product__c prod = [SELECT Id,Name,Status__c, Legal_Status__c,Refer_to_Legal__c,Collection_Agency__c,Purchase_Province__c,State__c,Account_Purchasing_Entity_Value__c
                            FROM Product__c WHERE Id =: prodId];
 
         //Added below IF loop for #4586
@@ -63,6 +63,10 @@ public class AddNewJudgmentController {
         }
         else if(string.isBlank(judgMap.get('Legal_Status__c')) || string.isBlank(judgMap.get('Legal_Sub_Status__c'))){
           ErrorMsg='Judgment Legal Status, Legal SubStatus are Mandatory. Please select the values for Legal Status, Legal SubStatus fields';
+        }
+        //Ticket 7373: if refer to legal declined then judgment will not added on account.
+        if(prod.Refer_to_Legal__c == 'Declined'){
+            ErrorMsg = 'Product in Declined Refer to legal Status then Judgment should not be added';
         }
         //Bug:5631 changes ends
         if(prod.Purchase_Province__c != NULL){
