@@ -413,7 +413,9 @@
         }
         system.debug('prodList'+prodList);
         if (!prodList.isEmpty()) {
+            ProductTriggerHandler.runProductTrigger = false;
             update prodList;
+            ProductTriggerHandler.runProductTrigger = true;
         }
     }
 
