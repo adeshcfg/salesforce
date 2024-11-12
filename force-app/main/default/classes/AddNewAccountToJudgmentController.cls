@@ -15,13 +15,26 @@ public class AddNewAccountToJudgmentController {
     @AuraEnabled
     public static String saveAccountJudgmentRecord(List<Product__c> prodList, Id judgId) {
         List<Account_Judgment__c> prodJudgList = new List<Account_Judgment__c>();
+        Set<ID> productIds = new Set<ID>();
+        String errorMessage = '';
         for (Product__c prod : prodList) {
             Account_Judgment__c profJudg = new Account_Judgment__c();
             profJudg.Judgment__c = judgId;
             profJudg.Product__c = prod.Id;
             profJudg.Status__c = 'Active';
             prodJudgList.add(profJudg);
+            productIds.add(prod.Id);
         }
+
+        List<Product__c> prodListData = [select id,Refer_to_Legal__c from Product__c where id IN: productIds];
+    
+        for(Product__c prodData : prodListData){
+            if(prodData.Refer_to_Legal__c == 'Declined'){
+                errorMessage = 'Product in Declined Refer to legal Status then Judgment should not be added';
+                return errorMessage;
+            } 
+        }
+        
         if (!prodJudgList.isEmpty()) {
             try {
                 Judgment__c judgmentToUpdate = updateJudgmentProducts(prodList, judgId);
