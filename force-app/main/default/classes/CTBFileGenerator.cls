@@ -787,7 +787,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 mainFinalData = headBody + finalData + trailerBody;
             }
             if (ctbBatchName == System.Label.CTB_Payment) {
-                try {
+                // Batch count should always remain 1, no need to increment
+                /* try {
                     // Batch count is assigned SEQUENTIAL batch number, starting at 1.
                     Decimal paymentBatchCount = config.Payment_Batch_Count__c == null ? 0 : config.Payment_Batch_Count__c;
                     config.Payment_Batch_Count__c = paymentBatchCount + 1;
@@ -796,7 +797,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     system.debug('Exception msg@@' + dmlEx.getStackTraceString());
                     exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, ctbBatchName);
                     CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Account batch count update Failed');
-                }
+                } */
                 List<ID> listOfPaymentIds = new List<ID>();
                 Integer batchCount = Integer.valueof(config.Payment_Batch_Count__c);
                 sequenceNumber = mapCTBFileAuto.get('Insolvency Payment Update').Sequence_Number__c;
