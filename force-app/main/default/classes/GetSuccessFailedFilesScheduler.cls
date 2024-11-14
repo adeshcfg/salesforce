@@ -66,19 +66,30 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
                 doc.Statement_Processing_Status__c = 'Processed';
                 String successCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'successfulResults');
                 successRecordsCount = successCsv.split(ProcessStatementZipFilesBatch.lineBreak).size() - 1;
+                // Generate success file if returned csv contains mroe than 2 rows(including header)
                 if (successRecordsCount > 0) {
                     ContentVersion successCv = createConVersion('Success', doc.Document_Name__c, successCsv);
                     conVersionToInsertList.add(successCv);
                     conVersionToInsertListPerDocStorage.add(successCv);
                 } else {
+                    // If status is jobcomplete but no success records were returned, check and generate failed file
                     doc.Statement_Processing_Status__c = 'Failed';
+                    String failedCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'failedResults');
+                    failedRecordsCount = failedCsv.split(ProcessStatementZipFilesBatch.lineBreak).size() - 1;
+                    if (failedRecordsCount > 0) {
+                        ContentVersion failedCv = createConVersion('Failed', doc.Document_Name__c, failedCsv);
+                        conVersionToInsertList.add(failedCv);
+                        conVersionToInsertListPerDocStorage.add(failedCv);
+                    }
                 }
             } else if (bulkJobStatus == 'Failed') {
                 String failedCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'failedResults');
                 failedRecordsCount = failedCsv.split(ProcessStatementZipFilesBatch.lineBreak).size() - 1;
-                ContentVersion failedCv = createConVersion('Failed', doc.Document_Name__c, failedCsv);
-                conVersionToInsertList.add(failedCv);
-                conVersionToInsertListPerDocStorage.add(failedCv);
+                if (failedRecordsCount > 0) {
+                    ContentVersion failedCv = createConVersion('Failed', doc.Document_Name__c, failedCsv);
+                    conVersionToInsertList.add(failedCv);
+                    conVersionToInsertListPerDocStorage.add(failedCv);
+                }
             } else {
                 doc.Statement_Processing_Status__c = 'Failed';
             }
