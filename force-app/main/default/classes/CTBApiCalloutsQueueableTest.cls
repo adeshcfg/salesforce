@@ -132,7 +132,7 @@ public class CTBApiCalloutsQueueableTest {
         insert insolAcct1;
 
         Insolvency_Payment__c payment1 = new Insolvency_Payment__c();
-        payment1.Payment_Amount__c = 1023456789;
+        payment1.Payment_Amount__c = 1000;
         payment1.Insolvency_Account__c = insolAcct1.id;
         payment1.Deposit_Account_Type__c = 'CIH';
         insert payment1;
@@ -222,7 +222,7 @@ public class CTBApiCalloutsQueueableTest {
         insert insolAcct1;
 
         Insolvency_Payment__c payment1 = new Insolvency_Payment__c();
-        payment1.Payment_Amount__c = 1023456789;
+        payment1.Payment_Amount__c = 1234;
         payment1.Insolvency_Account__c = insolAcct1.id;
         payment1.Deposit_Account_Type__c = 'CIH';
         insert payment1;
@@ -304,7 +304,7 @@ public class CTBApiCalloutsQueueableTest {
         insolvencyAccounts.add(insolAcct1);
 
         Insolvency_Payment__c payment1 = new Insolvency_Payment__c();
-        payment1.Payment_Amount__c = 1023456789;
+        payment1.Payment_Amount__c = 4450;
         payment1.Insolvency_Account__c = insolAcct1.id;
         payment1.Deposit_Account_Type__c = 'CIH';
         insert payment1;
