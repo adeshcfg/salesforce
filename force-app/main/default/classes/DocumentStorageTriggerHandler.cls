@@ -93,8 +93,7 @@ public class DocumentStorageTriggerHandler {
     //Method to handle after update of record
     public static void handleAfterUpdate(list<Document_Storage__c> listNewDocumentStorages, map<ID, Document_Storage__c> mapOldDocuments){
         Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
-        system.debug('config.Run_Doc_Storage_Update_API_for_Portal__c::'+config.Run_Doc_Storage_Update_API_for_Portal__c);
-        system.debug('runDocumentStorageAPI::'+runDocumentStorageAPI);
+        List<String> noCalloutDocTypes = new List<String> {'ctb_statement_output', 'Statement Processing File', 'Statement Result File', 'Insolvency Daily Update'};
         if(config.Run_Doc_Storage_Update_API_for_Portal__c && runDocumentStorageAPI){
             Set<id> wrkAssId = new Set<id>();
             Map<id,Work_Assignment__c> mapWorkAssignment = new Map<id,Work_Assignment__c>();
@@ -108,7 +107,7 @@ public class DocumentStorageTriggerHandler {
             }
             for(Document_Storage__c documentStorage: listNewDocumentStorages){
                 //call API
-                if(documentStorage.Portfolio__c == null && (documentStorage.Document_Type__c != 'Putback Order Form'
+                if(!noCalloutDocTypes.contains(documentStorage.Document_Type__c) && documentStorage.Portfolio__c == null && (documentStorage.Document_Type__c != 'Putback Order Form'
                   && documentStorage.Document_Type__c != 'Buyback Order Form' && documentStorage.Document_Type__c != 'Putback Documentation'
                   && documentStorage.Document_Type__c != 'Buyback Documentation'))
                 {
