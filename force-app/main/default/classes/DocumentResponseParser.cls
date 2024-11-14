@@ -1484,8 +1484,6 @@ public class DocumentResponseParser {
         List<Insolvency_Account__c> insolvAccounts,
         List<Creditor_Account__c> creditorAccounts
     ) {
-        // For non CTB accounts
-        Integer maxNameLength = 20;
         // Insolvency calculated fields over accounts
         insolv.Total_Unsecured_Liabilities_Clc__c = 0;
         insolv.Total_Secured_Liabilities_Clc__c = 0;
@@ -1508,25 +1506,34 @@ public class DocumentResponseParser {
             if (liability.creditorAddress != null) {
                 insolvAccount.Address_of_Creditor__c = liability.creditorAddress;
             }
+            if (liability.accountNumber != null && liability.accountNumber != '') {
+                //remove white spaces from Insolvency Account Name
+                String formattedName = liability.accountNumber.deleteWhitespace();
 
+                //Set default name if value is greater than 20
+                if (formattedName.length() <= 20) {
+                    insolvAccount.Name = formattedName;
+                } else {
+                    insolvAccount.Name = Other_RECORD_NAME;
+                }
+
+                /*
+            //Set default name if value is greater than 20
+            if(liability.accountNumber.length() <= 20){
+               insolvAccount.Name = liability.accountNumber;
+            }
+            else{
+                insolvAccount.Name = Other_RECORD_NAME;
+            }
+            */
+            }
+            
             // Set default values for Canadian Tire account
             if (
                 String.isNotBlank(insolvAccount.RecordTypeId) && insolvAccount.RecordTypeId == insolvencyRecordTypeMap.get('Canadian_Tire_Insolvency_Account')
             ) {
-                maxNameLength = 16;
                 insolvAccount.Claim_Type__c = 'Unsecured';
                 insolvAccount.Type_of_Service__c = 'Service Only';
-            }
-
-            if (liability.accountNumber != null && liability.accountNumber != '') {
-                //remove white spaces from Insolvency Account Name
-                String formattedName = liability.accountNumber.deleteWhitespace();
-                //Set default name if value is greater than maxNameLength (16 for CTB and 20 for other banks) or name is non numeric for CTB
-                if (formattedName.length() > maxNameLength || (maxNameLength == 16 && !formattedName.isNumeric())) {
-                    insolvAccount.Name = Other_RECORD_NAME;
-                } else {
-                    insolvAccount.Name = formattedName;
-                }
             }
 
             // Unsecured Account
