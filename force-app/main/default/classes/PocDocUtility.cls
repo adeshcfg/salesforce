@@ -57,7 +57,7 @@ public class PocDocUtility {
             exceptionMsg = 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account has Vendor value populated on the account';
         }
-        if (
+        /*if (
             insolvAcc.Asset_Status__c != 'Purchased' &&
             insolvAcc.Asset_Status__c != 'Debt Purchase' &&
             insolvAcc.Asset_Status__c != 'Bulk Purchased' &&
@@ -65,7 +65,7 @@ public class PocDocUtility {
         ) {
             exceptionMsg = 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account is in Purchased / Debt Purchase / Bulk Purchased / Duplicate Purchased status';
-        }
+        }*/
         if (
             insolvAcc.Client_Identifier__c == 'Canaccede' &&
             (insolvAcc.Portfolio_Group_Name__c == null ||
