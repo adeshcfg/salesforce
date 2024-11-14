@@ -1,7 +1,7 @@
 /**
  * @description       : Scheduler and Batch class to get and upload success and failure files for CTB statement processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 10-23-2024
+ * @last modified on  : 11-14-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful {
@@ -62,14 +62,16 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
             List<ContentVersion> conVersionToInsertListPerDocStorage = new List<ContentVersion>();
             mapSkippedFileNameDocStorageId.put('Skipped' + '_' + doc.Document_Name__c.remove('.zip'), doc.Id);
             String bulkJobStatus = getJobStatus(doc.Bulk_API_Job_ID__c);
-            doc.Statement_Processing_Status__c = 'Processed';
             if (bulkJobStatus == 'JobComplete') {
+                doc.Statement_Processing_Status__c = 'Processed';
                 String successCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'successfulResults');
                 successRecordsCount = successCsv.split(ProcessStatementZipFilesBatch.lineBreak).size() - 1;
                 if (successRecordsCount > 0) {
                     ContentVersion successCv = createConVersion('Success', doc.Document_Name__c, successCsv);
                     conVersionToInsertList.add(successCv);
                     conVersionToInsertListPerDocStorage.add(successCv);
+                } else {
+                    doc.Statement_Processing_Status__c = 'Failed';
                 }
             } else if (bulkJobStatus == 'Failed') {
                 String failedCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'failedResults');
