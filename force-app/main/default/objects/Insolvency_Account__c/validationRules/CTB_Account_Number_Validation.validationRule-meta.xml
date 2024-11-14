@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CTB_Account_Number_Validation</fullName>
-    <active>true</active>
+    <active>false</active>
     <description>Account Number should be numeric and not more than 16 characters excluding spaces</description>
     <errorConditionFormula>RecordType.DeveloperName = &apos;Canadian_Tire_Insolvency_Account&apos; &amp;&amp; Name != &apos;unknown&apos; &amp;&amp; Name != &apos;other&apos; &amp;&amp; (NOT(ISNUMBER(SUBSTITUTE(Name, &apos; &apos;, &apos;&apos;))) || LEN(SUBSTITUTE(Name, &apos; &apos;, &apos;&apos;)) &gt; 16)</errorConditionFormula>
     <errorMessage>Account Number should be numeric and not more than 16 characters excluding spaces</errorMessage>
