@@ -68,6 +68,10 @@ public class CTBFileProcessingTest {
         insolv.Name = '12456789';
         insolv.Client_Identifiers__c = 'New';
         insolv.Insolvency_Type__c = 'Bankruptcy';
+        insolv.Debtor_1_First_Name__c = 'Test';
+        insolv.Debtor_1_Last_Name__c = 'Debtor';
+        insolv.Debtor_2_First_Name__c = 'Co';
+        insolv.Debtor_2_Last_Name__c = 'Debtor';
         insert insolv;
 
         //Portfolio record

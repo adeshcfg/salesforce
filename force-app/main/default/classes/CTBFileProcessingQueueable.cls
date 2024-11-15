@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 10-07-2024
+ * @last modified on  : 11-15-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -182,7 +182,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         checkNoMatchDebtor(accountRecordsToUpdateMap.get(accountId), mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
                         continue;
                     }
-                    Insolvency_Account__c accountToUpdate = new Insolvency_Account__c(No_Match_Debtor__c = false, No_Match_Co_Debtor__c = false);
+                    Insolvency_Account__c accountToUpdate = new Insolvency_Account__c();
                     if (String.isBlank(stagingAcc.CTB_Reject_Reason_Code__c)) {
                         accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
                     }
@@ -191,7 +191,14 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
                     accountToUpdate.CTB_Reject_Reason_Code__c = stagingAcc.CTB_Reject_Reason_Code__c;
                     updateAccountStatusAndReason(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c);
-                    if (accountToUpdate.Insolvency_Sub_Status__c == 'No Match') {
+                    // Only update no match fields if account has co debtor
+                    if (
+                        accountToUpdate.Insolvency_Sub_Status__c == 'No Match' &&
+                        String.isNotBlank(mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Co_Debtor__c)
+                    ) {
+                        // Default fields to false
+                        accountToUpdate.No_Match_Debtor__c = false; 
+                        accountToUpdate.No_Match_Co_Debtor__c = false;
                         checkNoMatchDebtor(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
                     }
                     // When duplicate account with NMAT reject code is already processed preserve it's no match fields
