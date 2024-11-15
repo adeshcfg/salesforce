@@ -18,7 +18,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static final String coDebtor = 'coDebtor';  
     public static final String borrower = 'borrower';
     String finalData = '';
-    List<sObject> queryData = new List<sObject>();
+    public List<sObject> queryData = new List<sObject>();
     String createdDate = '';
     public String dateFormate = '';
     public static string headBody = '';
@@ -171,7 +171,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
             countVariable += batchCnt.batchCountDetail;
             countVariable += coDebtorBatchCnt.batchCountDetail;
-            queryData.addAll(query);
         }
         if (ctbBatchName == System.Label.CTB_Payment) {
             queryData.addAll(query);
@@ -185,7 +184,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     }
 
     // Build body for Insolvency Daily Update file generation
-    public static wrapperClass getInsolvencyAccountFile(
+    public wrapperClass getInsolvencyAccountFile(
         map<String, CTB_File_Automation__mdt> mapCTBFileAuto,
         map<String, Insolvency_type_mapping__mdt> insolTypeMappingData,
         List<Insolvency_Account__c> insolvencyAccData,
@@ -373,7 +372,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 	trusteePostalCode = getCommonBodyMapData.get(insolAccData.id+'trusteePostalCode');
                 	ctbStatusUpdateCode = getCommonBodyMapData.get(insolAccData.id+'ctbStatusUpdateCode');
                 	insolvencyType = getCommonBodyMapData.get(insolAccData.id+'insolvencyType');
-					correlationID = getCommonBodyMapData.get(insolAccData.id+'correlationID');                    
+					correlationID = getCommonBodyMapData.get(insolAccData.id+'correlationID');
                 }
                     
                 if(insolAccData.No_Match_Co_Debtor__c != TRUE){
@@ -580,9 +579,9 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '' +'"'+
                         '\r\n';
                     counter++;
-                }    
-                                
-                    
+                    queryData.add(insolAccData);
+                }
+
                     //listSuccessIds.add(insolAccData);
                /* } else {
                     //If mandatory fields are null then dont build CSV file for this record
