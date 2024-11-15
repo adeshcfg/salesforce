@@ -197,7 +197,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         String.isNotBlank(mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Co_Debtor__c)
                     ) {
                         // Default fields to false
-                        accountToUpdate.No_Match_Debtor__c = false; 
+                        accountToUpdate.No_Match_Debtor__c = false;
                         accountToUpdate.No_Match_Co_Debtor__c = false;
                         checkNoMatchDebtor(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
                     }
@@ -207,8 +207,14 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         String.isNotBlank(accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c) &&
                         accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c == 'NMAT'
                     ) {
-                        accountToUpdate.No_Match_Debtor__c = accountRecordsToUpdateMap.get(accountId).No_Match_Debtor__c;
-                        accountToUpdate.No_Match_Co_Debtor__c = accountRecordsToUpdateMap.get(accountId).No_Match_Co_Debtor__c;
+                        // If current row is also NMAT then don't mark any debtor as no match
+                        if (accountToUpdate.CTB_Reject_Reason_Code__c == 'NMAT') {
+                            accountToUpdate.No_Match_Debtor__c = false;
+                            accountToUpdate.No_Match_Co_Debtor__c = false;
+                        } else {
+                            accountToUpdate.No_Match_Debtor__c = accountRecordsToUpdateMap.get(accountId).No_Match_Debtor__c;
+                            accountToUpdate.No_Match_Co_Debtor__c = accountRecordsToUpdateMap.get(accountId).No_Match_Co_Debtor__c;
+                        }
                     }
                     accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
                 }
