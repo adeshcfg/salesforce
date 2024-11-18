@@ -3,7 +3,8 @@
     <fullName>Value_tier_Validation</fullName>
     <active>true</active>
     <description>The value tier supports only alphabetic and special characters only.</description>
-    <errorConditionFormula>AND(ISCHANGED(Value_Tier__c),
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false,
+ISCHANGED(Value_Tier__c),
 OR(
 if(NOT(REGEX(Text(Value_Tier__c), &quot;^[a-zA-Z!@#$&amp;?!*%()\\-`.+,/\&quot;]*$&quot;)),true,false),
 if((REGEX(Text(Value_Tier__c), &quot;^[!@#$&amp;?!*%()\\-`.+,/\&quot;]*$&quot;)),true,false),

@@ -3,9 +3,9 @@
     <fullName>Collection_Sub_Status_Change</fullName>
     <active>true</active>
     <description>not to allow status change directly to Legal status. Legal status will only be changed automatically after Judgment record is added</description>
-    <errorConditionFormula>($Setup.Application_Config_Settings__c.Run_Product_Coll_Sub_Status_Validation__c == True) &amp;&amp;
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false ,($Setup.Application_Config_Settings__c.Run_Product_Coll_Sub_Status_Validation__c == True) &amp;&amp;
 (ISNEW() || ISCHANGED(Collection_Sub_Status__c)) &amp;&amp;
-(ISPICKVAL(Collection_Sub_Status__c, &quot;Legal&quot;))</errorConditionFormula>
-    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+(ISPICKVAL(Collection_Sub_Status__c, &quot;Legal&quot;)))</errorConditionFormula>
+    <errorDisplayField>Collection_Sub_Status__c</errorDisplayField>
     <errorMessage>Status cannot be set to Legal</errorMessage>
 </ValidationRule>

@@ -2,6 +2,8 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Initial_Second_Third_Proposal_Date_Inval</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(NOT(ISNULL(Fourth_Proposal_Date__c )),OR(ISNULL(Third_Proposal_Date__c),ISNULL(Second_Proposal_Date__c),ISNULL(Initial_Proposal_Date__c)))</errorConditionFormula>
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false,
+NOT(ISNULL(Fourth_Proposal_Date__c)),
+OR(ISNULL(Third_Proposal_Date__c),ISNULL(Second_Proposal_Date__c),ISNULL(Initial_Proposal_Date__c)))</errorConditionFormula>
     <errorMessage>Please Enter Initial, Second, and Third Proposal Date</errorMessage>
 </ValidationRule>

@@ -3,7 +3,8 @@
     <fullName>Interest_Waiver_Dates_Validation</fullName>
     <active>true</active>
     <description>Interest Waiver Start Date must be less than End Date</description>
-    <errorConditionFormula>Interest_Waived_Off_Start_Date__c &gt; Interest_Waived_Of_End_Date__c</errorConditionFormula>
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false,
+Interest_Waived_Off_Start_Date__c &gt; Interest_Waived_Of_End_Date__c)</errorConditionFormula>
     <errorDisplayField>Interest_Waived_Off_Start_Date__c</errorDisplayField>
     <errorMessage>Interest Waived off Start Date must be less than Interest Waived off End Date</errorMessage>
 </ValidationRule>

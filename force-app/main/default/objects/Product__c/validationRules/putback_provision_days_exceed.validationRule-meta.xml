@@ -3,7 +3,7 @@
     <fullName>putback_provision_days_exceed</fullName>
     <active>true</active>
     <description>The difference between the purchase date and today should be less than putback provision days.</description>
-    <errorConditionFormula>AND(
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false ,AND(
 ISCHANGED(Purchase_Status__c),
 ((TODAY() - Purchase_Date__c) &gt; Putback_Provision_Days__c),
 OR(ISPICKVAL(PRIORVALUE(Purchase_Status__c),&quot;NULL&quot;),
@@ -12,6 +12,6 @@ ISPICKVAL(Purchase_Status__c, &apos;Putback Initiated&apos;),
 ISPICKVAL(Purchase_Status__c, &apos;Putback Requested&apos;),
 ISPICKVAL(Purchase_Status__c, &apos;Putback Rejected&apos;),
 ISPICKVAL(Purchase_Status__c, &apos;Putback Approved&apos;))
-)</errorConditionFormula>
+))</errorConditionFormula>
     <errorMessage>Cannot Process Putback. putback provision days exceed</errorMessage>
 </ValidationRule>

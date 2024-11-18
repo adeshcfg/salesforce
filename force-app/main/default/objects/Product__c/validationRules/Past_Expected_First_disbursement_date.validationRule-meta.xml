@@ -3,7 +3,7 @@
     <fullName>Past_Expected_First_disbursement_date</fullName>
     <active>true</active>
     <description>Expected First disbursement date should not be less than Proposal date</description>
-    <errorConditionFormula>RecordType.DeveloperName = &apos;GoEasy_CCS_Account&apos; &amp;&amp; ((NOT(ISNULL(Expected_First_disbursement_date__c )) &amp;&amp; ISNULL(Proposal_Received_Date__c)) 
+    <errorConditionFormula>$Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false &amp;&amp; RecordType.DeveloperName = &apos;GoEasy_CCS_Account&apos; &amp;&amp; ((NOT(ISNULL(Expected_First_disbursement_date__c )) &amp;&amp; ISNULL(Proposal_Received_Date__c)) 
 || (Expected_First_disbursement_date__c &lt; Proposal_Received_Date__c))</errorConditionFormula>
     <errorDisplayField>Expected_First_disbursement_date__c</errorDisplayField>
     <errorMessage>Proposal Received date cannot be blank and Expected First disbursement date cannot be less than Proposal Received date</errorMessage>

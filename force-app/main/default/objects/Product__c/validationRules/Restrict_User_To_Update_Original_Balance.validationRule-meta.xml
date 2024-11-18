@@ -2,13 +2,13 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Restrict_User_To_Update_Original_Balance</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(RecordType.DeveloperName &lt;&gt; &apos;GoEasy_CCS_Account&apos;,
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false ,AND(RecordType.DeveloperName &lt;&gt; &apos;GoEasy_CCS_Account&apos;,
 
    ISCHANGED(Original_Balance__c),
 
    NOT ISBLANK(PRIORVALUE(Original_Balance__c))
 
-)</errorConditionFormula>
-    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+))</errorConditionFormula>
+    <errorDisplayField>Original_Balance__c</errorDisplayField>
     <errorMessage>Original Balance Can Not Be Modified</errorMessage>
 </ValidationRule>

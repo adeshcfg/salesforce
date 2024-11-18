@@ -3,7 +3,7 @@
     <fullName>Name_field_non_editable</fullName>
     <active>true</active>
     <description>Name field to be non editable for Credit Card and Loan records</description>
-    <errorConditionFormula>AND
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false ,AND
 (
 $Profile.Name != &apos;System Administrator&apos;,
 OR(
@@ -12,7 +12,6 @@ ISPICKVAL(Source_System__c , &apos;Megasys&apos;)
 ),
 Not(ISNEW()),
 AND(ISCHANGED(Name), Not(ISBLANK(PRIORVALUE(Name))))
-)</errorConditionFormula>
-    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+))</errorConditionFormula>
     <errorMessage>User cannot update the Account Number</errorMessage>
 </ValidationRule>

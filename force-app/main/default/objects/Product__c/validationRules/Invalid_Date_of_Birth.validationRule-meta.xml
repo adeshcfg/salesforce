@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Invalid_Date_of_Birth</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false,
 ISCHANGED(Date_of_Birth__c), 
 TODAY() - 6570 &lt; Date_of_Birth__c
 )</errorConditionFormula>
