@@ -71,8 +71,6 @@ public class InsolvencyAccountTriggerHandler {
 
     //Before Insert
     public static void handleBeforeInsert(List<Insolvency_Account__c> insolAccntsNew) {
-        // Default correlation Id, will be set for the first ever CTB account created
-        String correlationId = getLatestCorrelationId();
         //for Account number without space
         for (Insolvency_Account__c accNew : insolAccntsNew) {
             if (accNew.Name != null) {
@@ -86,12 +84,6 @@ public class InsolvencyAccountTriggerHandler {
 
             if (accNew.Trustee_Not_Providing_LoR__c == true) {
                 accNew.Review_Account__c = false;
-            }
-
-            // Create unique correlation Id for new CTB accounts
-            if (String.isNotBlank(accNew.RecordTypeId) && insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
-                accNew.Correlation_Id__c = String.valueOf(Integer.valueOf(correlationId) + 1).leftPad(15, '0');
-                correlationId = accNew.Correlation_Id__c;
             }
 
             //this change is for Insolvency Account Loading and portfolio mapping enhancement
@@ -500,7 +492,6 @@ public class InsolvencyAccountTriggerHandler {
         for (Insolvency__c insol : dbInsolList) {
             insolMap.put(insol.id, insol);
         }
-        String correlationId = getLatestCorrelationId();
         for (Insolvency_Account__c accNew : insolAccntsNew) {
             Insolvency_Account__c insolAccntNew = insolAccntsNew[0];
             Insolvency_Account__c insolAccntOld = oldMap.get(insolAccntNew.id);
@@ -524,11 +515,6 @@ public class InsolvencyAccountTriggerHandler {
                 ) {
                     Insolvency__c dbInsol = insolMap.get(insolAccntnew.Insolvency__c);
                     insolAccntnew.Client_Identifier__c = getClientIdentifierBasedOnRecordType(insolAccntNew.recordTypeId);
-                    // Populate correlation Id if record type was updated to CTB
-                    if (insAccntRecorTypeMap.get(insolAccntnew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
-                        insolAccntnew.Correlation_Id__c = String.valueOf(Integer.valueOf(correlationId) + 1).leftPad(15, '0');
-                        correlationId = accNew.Correlation_Id__c;
-                    }
                     // Remove correlation Id if record type was changed from CTB
                     if (insAccntRecorTypeMap.get(insolAccntOld.RecordTypeId) == 'Canadian_Tire_Insolvency_Account') {
                         insolAccntnew.Correlation_Id__c = null;
@@ -2006,10 +1992,6 @@ insDetails.add(insDetail);
                         errorMsg += 'Trustee Postal Code ,';
                         fieldMissing = true;
                     }
-                }
-                if (accNew.Correlation_ID__c == null) {
-                    errorMsg += 'Correlation Id ,';
-                    fieldMissing = true;
                 }
                 errorMsg = errorMsg.removeEnd(' ,');
                 errorMsg += ' are missing';
