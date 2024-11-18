@@ -19,6 +19,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static final String borrower = 'borrower';
     String finalData = '';
     public List<sObject> queryData = new List<sObject>();
+    public static List<Insolvency_Payment__c> finalPaymentData = new List<Insolvency_Payment__c>();
     String createdDate = '';
     public String dateFormate = '';
     public static string headBody = '';
@@ -173,10 +174,11 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             countVariable += coDebtorBatchCnt.batchCountDetail;
         }
         if (ctbBatchName == System.Label.CTB_Payment) {
-            queryData.addAll(query);
+            //queryData.addAll(query);
             wrapperClass batchCnt = new wrapperClass();
             // build insolvency payment update file body
             batchCnt = getInsolvencyPaymentFile(mapCTBFileAuto, query, createdDate, dateFormate, ctbBatchName);
+            queryData.addAll(finalPaymentData);
             finalData += batchCnt.finalDetailBody;
             countVariable += batchCnt.batchCountDetail;
             batchExecuteCount++;
@@ -637,6 +639,9 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         string mainBody = '';
         Integer counter = 0;
         Integer draftSeqNum = 3;
+        String accNumberRegex = '^[0-9]+$';
+        Pattern MyPattern1 = Pattern.compile(accNumberRegex);
+        Matcher MyMatcher1;
         wrapperClass batchCntData = new wrapperClass();
         try {
             //retrive data from CTB File Automation custom metadata
@@ -651,54 +656,58 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
             /*******************************************Body Data*************************************************/
             for (Insolvency_Payment__c insolPayData : insolvencyPayData) {
-                String paymentPostingDateData = defPaymentPostingDateData;
-                if (insolPayData.Payment_Posting_Date__c != null) {
-                    paymentPostingDateData = formatDate_MM_DD_YY(insolPayData.Payment_Posting_Date__c);
+                MyMatcher1 = MyPattern1.matcher(insolPayData.Account_Number__c);
+                if (insolPayData.Account_Number__c != null && MyMatcher1.matches() == True) {    
+                    String paymentPostingDateData = defPaymentPostingDateData;
+                    if (insolPayData.Payment_Posting_Date__c != null) {
+                        paymentPostingDateData = formatDate_MM_DD_YY(insolPayData.Payment_Posting_Date__c);
+                    }
+                    String sequenceCode = defSeqNumber;
+                    sequenceCode = getSpaceAndZeroAdded(String.ValueOf(draftSeqNum), 7, true, false, false);
+                    
+                    String drftTransCode = defDrftTransCode;
+                    drftTransCode = getSpaceAndZeroAdded(String.ValueOf(dRFTSTransCode), 4, false, true, false);
+                    
+                    String accNumber = getSpaceAndZeroAdded(String.ValueOf(insolPayData.Account_Number__c).deleteWhiteSpace(), 16, false, true, true);
+                    
+                    String payAmount = defPayAmount;
+                    if (insolPayData.Payment_Amount__c != null) {
+                        payAmount = String.ValueOf((insolPayData.Payment_Amount__c * mapCTBFileAuto.get('Insolvency Payment Update').Convert_Dollars_To_Cents__c).setScale(0));
+                        payAmount = getSpaceAndZeroAdded(String.ValueOf(payAmount), 9, true, false, false);
+                    }
+                    
+                    String drftMerhDesc = defDrftMerhDesc;
+                    drftMerhDesc = getSpaceAndZeroAdded(String.ValueOf(dRFTSMerhDesc), 1, false, true, false);
+                    
+                    String drftMerhDBACC = defDrftsMerhDBACountryCode;
+                    drftMerhDBACC = getSpaceAndZeroAdded(String.ValueOf(drftsMerhDBACountryCode), 3, false, true, false);
+                    
+                    String referenceNumber = getSpaceAndZeroAdded((insolPayData.Name).substringAfter('-'), 23, false, true, true);
+                    
+                    mainBody +=
+                        sequenceCode +
+                        drftTransCode +
+                        accNumber +
+                        paymentPostingDateData +
+                        forceAuthorizationIndicator +
+                        payAmount +
+                        merchantDBAName +
+                        merchantDBACityStatDesc +
+                        merchantDBAState +
+                        drftMerhDesc +
+                        referenceNumber +
+                        extra4Spaces +
+                        drftMerhDBACC +
+                        drftsMerhDBACategoryCode +
+                        'N' +
+                        authorizationCode +
+                        mailTelephoneIndicator +
+                        extensionRecordIndicator +
+                        '\r\n';
+                    counter++;
+                    draftSeqNum++;
+                    finalPaymentData.add(insolPayData);
                 }
-                String sequenceCode = defSeqNumber;
-                sequenceCode = getSpaceAndZeroAdded(String.ValueOf(draftSeqNum), 7, true, false, false);
-
-                String drftTransCode = defDrftTransCode;
-                drftTransCode = getSpaceAndZeroAdded(String.ValueOf(dRFTSTransCode), 4, false, true, false);
-
-                String accNumber = getSpaceAndZeroAdded(String.ValueOf(insolPayData.Account_Number__c).deleteWhiteSpace(), 16, false, true, true);
-
-                String payAmount = defPayAmount;
-                if (insolPayData.Payment_Amount__c != null) {
-                    payAmount = String.ValueOf((insolPayData.Payment_Amount__c * mapCTBFileAuto.get('Insolvency Payment Update').Convert_Dollars_To_Cents__c).setScale(0));
-                    payAmount = getSpaceAndZeroAdded(String.ValueOf(payAmount), 9, true, false, false);
-                }
-
-                String drftMerhDesc = defDrftMerhDesc;
-                drftMerhDesc = getSpaceAndZeroAdded(String.ValueOf(dRFTSMerhDesc), 1, false, true, false);
-
-                String drftMerhDBACC = defDrftsMerhDBACountryCode;
-                drftMerhDBACC = getSpaceAndZeroAdded(String.ValueOf(drftsMerhDBACountryCode), 3, false, true, false);
-
-                String referenceNumber = getSpaceAndZeroAdded((insolPayData.Name).substringAfter('-'), 23, false, true, true);
-
-                mainBody +=
-                    sequenceCode +
-                    drftTransCode +
-                    accNumber +
-                    paymentPostingDateData +
-                    forceAuthorizationIndicator +
-                    payAmount +
-                    merchantDBAName +
-                    merchantDBACityStatDesc +
-                    merchantDBAState +
-                    drftMerhDesc +
-                    referenceNumber +
-                    extra4Spaces +
-                    drftMerhDBACC +
-                    drftsMerhDBACategoryCode +
-                    'N' +
-                    authorizationCode +
-                    mailTelephoneIndicator +
-                    extensionRecordIndicator +
-                    '\r\n';
-                counter++;
-                draftSeqNum++;
             }
             /*******************************************Body Data Ends*************************************************/
         } catch (Exception ex) {
@@ -916,7 +925,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 contentVersionData.Title = 'DRN_DailyUpdate_' + Datetime.now().format('yyyyMMddHHmmss');
                 contentVersionData.PathOnClient = 'DRN_DailyUpdate.csv';
             }
-            
             insert contentVersionData;
             System.enqueueJob(new CTBApiCalloutsQueueable(contentVersionData.id,queryData,ctbBatchName,fileName));
 
