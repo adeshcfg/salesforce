@@ -19,7 +19,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static final String borrower = 'borrower';
     String finalData = '';
     public List<sObject> queryData = new List<sObject>();
-    public static List<Insolvency_Payment__c> finalPaymentData = new List<Insolvency_Payment__c>();
     String createdDate = '';
     public String dateFormate = '';
     public static string headBody = '';
@@ -178,7 +177,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             wrapperClass batchCnt = new wrapperClass();
             // build insolvency payment update file body
             batchCnt = getInsolvencyPaymentFile(mapCTBFileAuto, query, createdDate, dateFormate, ctbBatchName);
-            queryData.addAll(finalPaymentData);
             finalData += batchCnt.finalDetailBody;
             countVariable += batchCnt.batchCountDetail;
             batchExecuteCount++;
@@ -629,7 +627,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     }
 
     // Build body for Insolvency Daily Update file generation
-    public static wrapperClass getInsolvencyPaymentFile(
+    public wrapperClass getInsolvencyPaymentFile(
         map<String, CTB_File_Automation__mdt> mapCTBFileAuto,
         List<Insolvency_Payment__c> insolvencyPayData,
         String createdDate,
@@ -657,7 +655,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             /*******************************************Body Data*************************************************/
             for (Insolvency_Payment__c insolPayData : insolvencyPayData) {
                 MyMatcher1 = MyPattern1.matcher(insolPayData.Account_Number__c);
-                if (insolPayData.Account_Number__c != null && MyMatcher1.matches() == True) {    
+                if (insolPayData.Account_Number__c != null && MyMatcher1.matches() == True) {
                     String paymentPostingDateData = defPaymentPostingDateData;
                     if (insolPayData.Payment_Posting_Date__c != null) {
                         paymentPostingDateData = formatDate_MM_DD_YY(insolPayData.Payment_Posting_Date__c);
@@ -706,7 +704,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         '\r\n';
                     counter++;
                     draftSeqNum++;
-                    finalPaymentData.add(insolPayData);
+                    queryData.add(insolPayData);
                 }
             }
             /*******************************************Body Data Ends*************************************************/
