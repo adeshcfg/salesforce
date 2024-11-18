@@ -3,8 +3,8 @@
     <fullName>CCS_Counter_Amount</fullName>
     <active>true</active>
     <description>Please enter the Counter Amount</description>
-    <errorConditionFormula>AND(ISPICKVAL(Proposal_Status__c , &apos;Counter&apos;) ,
-ISBLANK(Counter__c))</errorConditionFormula>
-    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false ,AND(ISPICKVAL(Proposal_Status__c , &apos;Counter&apos;) ,
+ISBLANK(Counter__c)))</errorConditionFormula>
+    <errorDisplayField>Counter__c</errorDisplayField>
     <errorMessage>Please enter the Counter Amount</errorMessage>
 </ValidationRule>

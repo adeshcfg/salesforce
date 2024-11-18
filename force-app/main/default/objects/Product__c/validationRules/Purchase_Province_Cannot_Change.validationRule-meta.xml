@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Purchase_Province_Cannot_Change</fullName>
     <active>true</active>
-    <errorConditionFormula>RecordType.DeveloperName =&apos;Distressed_Account&apos; &amp;&amp; NOT(ISBLANK( Purchase_Province__c )) &amp;&amp; ISCHANGED(Purchase_Province__c )</errorConditionFormula>
-    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+    <errorConditionFormula>$Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false &amp;&amp; RecordType.DeveloperName =&apos;Distressed_Account&apos; &amp;&amp; NOT(ISBLANK( Purchase_Province__c )) &amp;&amp; ISCHANGED(Purchase_Province__c )</errorConditionFormula>
+    <errorDisplayField>Purchase_Province__c</errorDisplayField>
     <errorMessage>We cannot update Purchase Province field</errorMessage>
 </ValidationRule>

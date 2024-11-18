@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Invalid_Customer_Record</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false,
 $Profile.Name &lt;&gt; &apos;System Administrator&apos;,
 OR(ISNEW(), ISCHANGED( Customer__c)), 
 OR(

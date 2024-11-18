@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Approve_Decline_Only_Para_Legal_and_Lead</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(  
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false ,AND(  
 NOT(OR(
 $Profile.Name = &quot;CFG -Distressed Team Lead&quot;,
 $Profile.Name = &quot;CFG-Distressed ParaLegal Only&quot;,
@@ -14,7 +14,7 @@ OR(
  ISPICKVAL( Refer_to_Legal__c , &apos;Approved&apos;) ,
  ISPICKVAL( Refer_to_Legal__c , &apos;Declined&apos;)
 )
-)</errorConditionFormula>
+))</errorConditionFormula>
     <errorDisplayField>Refer_to_Legal__c</errorDisplayField>
     <errorMessage>Only Para-Legal or Team-Lead can approve or decline the status.</errorMessage>
 </ValidationRule>

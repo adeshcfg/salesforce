@@ -3,7 +3,7 @@
     <fullName>Mandatory_reason_for_legal_referral</fullName>
     <active>true</active>
     <description>Reason for legal referral is mandatory when sending for Review</description>
-    <errorConditionFormula>OR(
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false ,OR(
 AND(
 NOT(ISPICKVAL(Refer_to_Legal__c , &apos;&apos;)),
 ISPICKVAL(Reason_for_Legal__c, &apos;&apos; )
@@ -12,8 +12,8 @@ AND(
 ISCHANGED(Refer_to_Legal__c),
 ISPICKVAL(Refer_to_Legal__c , &apos;&apos;)
 )
-)</errorConditionFormula>
-    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+))</errorConditionFormula>
+    <errorDisplayField>Reason_for_Legal__c</errorDisplayField>
     <errorMessage>Once refer to legal is set, it cannot be reset to blank.
 
 Reason for legal referral is required when refer to legal is not blank.</errorMessage>

@@ -2,10 +2,10 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CCS_Proposal_Status</fullName>
     <active>true</active>
-    <errorConditionFormula>AND( 
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false ,AND( 
 ISPICKVAL(Proposal_Status__c , &apos;Reject&apos; )  || ISPICKVAL(Proposal_Status__c , &apos;Counter&apos; ) ,
 ISBLANK(Proposal_Reject_Reason__c)
-)</errorConditionFormula>
-    <errorDisplayField>Accepted_Donation_Rate__c</errorDisplayField>
+))</errorConditionFormula>
+    <errorDisplayField>Proposal_Reject_Reason__c</errorDisplayField>
     <errorMessage>Please enter the DMP Rejected Reason</errorMessage>
 </ValidationRule>

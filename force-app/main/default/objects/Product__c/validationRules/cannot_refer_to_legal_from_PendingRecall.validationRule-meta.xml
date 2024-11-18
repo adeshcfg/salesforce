@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cannot_refer_to_legal_from_PendingRecall</fullName>
     <active>true</active>
-    <errorConditionFormula>AND( 
+    <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c== false ,AND( 
     ISCHANGED(  Refer_to_Legal__c ),
     OR(
 ISPICKVAL(  PRIORVALUE(Status__c) , &apos;Pending Recall - Client Request&apos;) ,
@@ -31,6 +31,6 @@ ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - On Hold - Buy Back Pen
 ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Buy Back To Seller&apos;) ,
 ISPICKVAL(  PRIORVALUE(Status__c) ,&apos;Pending Recall - Other&apos;) 
 )
-)</errorConditionFormula>
+))</errorConditionFormula>
     <errorMessage>We cannot update Refer to Legal when Placement Main Status is Pending Recall</errorMessage>
 </ValidationRule>
