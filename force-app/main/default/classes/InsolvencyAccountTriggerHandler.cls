@@ -1926,8 +1926,8 @@ insDetails.add(insDetail);
             trusteeData.put(accData.id, accData);
         }
         String errorMsg;
-        boolean fieldMissing = false;
         for (Insolvency_Account__c accNew : insolAccntsNew) {
+            Boolean fieldMissing = false;
             errorMsg = '';
             if (insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()) {
                 if (accNew.Insolvency_Received_Date__c == null) {
