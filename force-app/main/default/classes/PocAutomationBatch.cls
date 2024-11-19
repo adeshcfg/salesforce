@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class for automation POC generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 11-07-2024
+ * @last modified on  : 11-19-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocAutomationBatch implements Schedulable, Database.Batchable<SObject>, Database.Stateful {
@@ -14,7 +14,7 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
     }
 
     public void execute(SchedulableContext sc) {
-        Database.executeBatch(new PocAutomationBatch(), 80);
+        Database.executeBatch(new PocAutomationBatch(), 20);
     }
 
     public void execute(Database.BatchableContext bc, List<Insolvency_Account__c> insolvAccList) {
