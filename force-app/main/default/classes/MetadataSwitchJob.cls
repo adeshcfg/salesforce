@@ -21,20 +21,23 @@ public class MetadataSwitchJob implements Schedulable {
     //to deactivate Metadata on Product object
     public static void deactivateProductMetadata(){
         system.debug('Block run');
-        updateProductMetadata(false);
+        updateProductMetadata(true);
     }
     
     //to activate Metadata on Product object
     public static void activateProductMetadata(){
-        updateProductMetadata(true);         
+        updateProductMetadata(false);         
     }
     
     @future(callout=true)
     //to deactivate Metadata on Product object
     public static void updateProductMetadata(Boolean status){
-        
+        Disable_Metadata_Settings__c  disMeta = [Select Id,Disable_Product_Validation_WF__c  from Disable_Metadata_Settings__c where SetupOwnerId =:UserInfo.getUserId()];
+		disMeta.Disable_Product_Validation_WF__c  = status;
+		update disMeta;
+         
         //Get validation rule on Product
-        MetadataService.MetadataPort service;
+        /*MetadataService.MetadataPort service;
         service = createService();
         // Read Validation Rules
         List<Metadata_Object__c> metaData = [select id, name, Object_Name__c, Metadata_Type__c, Metadata_Rule_Name__c
@@ -69,11 +72,11 @@ public class MetadataSwitchJob implements Schedulable {
                 workflowRuleList.add(workflowRule);            
                 handleSaveResults(service.updateMetadata(new MetadataService.Metadata[] { workflowRule })[0]);
             }
-        }
+        }*/
     }
     
     //Create metadata service
-    private static MetadataService.MetadataPort createService() {
+    /*private static MetadataService.MetadataPort createService() {
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
         service.SessionHeader = new MetadataService.SessionHeader_element();
         service.SessionHeader.sessionId = UserInfo.getSessionId();
@@ -104,6 +107,6 @@ public class MetadataSwitchJob implements Schedulable {
         }
         if(!saveResult.success)
             system.debug('Request failed with no specified error');
-    }
+    }*/
     
 }
