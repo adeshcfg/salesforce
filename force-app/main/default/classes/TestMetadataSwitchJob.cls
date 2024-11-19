@@ -43,6 +43,10 @@ public class TestMetadataSwitchJob {
     }*/
     
     public static testMethod void testschedule() {
+        Disable_Metadata_Settings__c disMeta = new Disable_Metadata_Settings__c();
+        disMeta.Disable_Product_Validation_WF__c = true;
+        insert disMeta;
+        
         //Test.setMock(WebServiceMock.class, new MetadataServiceTest());
        Metadata_Object__c metaData = new Metadata_Object__c();
         //metaData.name =
