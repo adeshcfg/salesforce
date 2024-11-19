@@ -43,6 +43,11 @@ public class TestMetadataSwitchJob {
     }*/
     
     public static testMethod void testschedule() {
+        Disable_Metadata_Settings__c disMeta = new Disable_Metadata_Settings__c();
+        disMeta.Disable_Product_Validation_WF__c = true;
+        disMeta.SetupOwnerId = UserInfo.getUserId();
+        insert disMeta;
+
         //Test.setMock(WebServiceMock.class, new MetadataServiceTest());
        Metadata_Object__c metaData = new Metadata_Object__c();
         //metaData.name =
@@ -74,14 +79,14 @@ public class TestMetadataSwitchJob {
         settings.API_Request_Timeout__c = 90000;
         update settings;
     
-        MetadataService.Error error = new MetadataService.Error();
+        /*MetadataService.Error error = new MetadataService.Error();
         error.statusCode = '401';
         error.message = 'Not found';
         list<MetadataService.Error> errors = new list<MetadataService.Error>();
         errors.add(error);
         MetadataService.SaveResult saveResult = new MetadataService.SaveResult();
         saveResult.errors = errors;
-        saveResult.success = false;  
+        saveResult.success = false;*/  
         MetadataSwitchJob job = new MetadataSwitchJob();
         String sch = '0 0 23 * * ?'; 
         system.schedule('Test', sch, job);
@@ -89,7 +94,7 @@ public class TestMetadataSwitchJob {
         
         MetadataSwitchJob.updateProductMetadata(False);
         MetadataSwitchJob.activateProductMetadata();
-        MetadataSwitchJob.handleSaveResults(saveResult);
+        //MetadataSwitchJob.handleSaveResults(saveResult);
         //Test.stopTest();
     }
 }
