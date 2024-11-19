@@ -1,7 +1,7 @@
 /**
  * @description       : Scheduler and Batch class to get and upload success and failure files for CTB statement processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 11-14-2024
+ * @last modified on  : 11-19-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful {
@@ -13,7 +13,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
 
     public Database.Querylocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            'SELECT Id, Document_Name__c, Bulk_API_Job_ID__c, Comment__c, (Select Insolvency_Account__c, Insolvency_Account__r.CTB_Statements_Received_Date__c From Document_Storages__r Where Insolvency_Account__c != null) From Document_Storage__c WHERE CreatedDate = TODAY AND Document_Extension__c = \'zip\' AND Statement_Processing_Status__c = \'Processing\''
+            'SELECT Id, Document_Name__c, Bulk_API_Job_ID__c, Comment__c From Document_Storage__c WHERE CreatedDate = TODAY AND Document_Extension__c = \'zip\' AND Statement_Processing_Status__c = \'Processing\''
         );
     }
 
@@ -42,11 +42,37 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
     }
 
     /**
+     * @description : Method to update statement fields on accounts
+     * @author adesh.ikhar@canaccede.com | 11-19-2024
+     * @param parentDocStorageIdList
+     * @return Map<String, Insolvency_Account__c>
+     **/
+    public Map<String, Insolvency_Account__c> getAccountsToUpdate(List<String> parentDocStorageIdList) {
+        Map<String, Insolvency_Account__c> uniqueAccountsToUpdateMap = new Map<String, Insolvency_Account__c>();
+        // Query created statement doc storage records and update statement fields on their accounts
+        for (Document_Storage__c childDoc : [
+            SELECT Insolvency_Account__c, Insolvency_Account__r.CTB_Statements_Received_Date__c, Document_Storage__c
+            FROM Document_Storage__c
+            WHERE Insolvency_Account__c != NULL AND Document_Storage__c IN :parentDocStorageIdList AND Document_Storage__r.Bulk_API_Job_ID__c != NULL
+        ]) {
+            Insolvency_Account__c account = new Insolvency_Account__c(Id = childDoc.Insolvency_Account__c, CTB_Statements_Received__c = true);
+            // Update statements received date with today's date only for accounts which don't have this field already populated
+            if (childDoc.Insolvency_Account__r.CTB_Statements_Received_Date__c == null) {
+                account.CTB_Statements_Received_Date__c = System.today();
+            }
+            uniqueAccountsToUpdateMap.put(childDoc.Insolvency_Account__c, account);
+        }
+        return uniqueAccountsToUpdateMap;
+    }
+
+    /**
      * @description : Method to check Bulk API job status and get result CSVs
      * @author adesh.ikhar@canaccede.com | 06-06-2024
      * @param docStorageList
      **/
     public void startProcessing(List<Document_Storage__c> docStorageList) {
+        List<String> parentDocStorageIdList = new List<String>();
+        Map<String, List<Document_Storage__c>> childDocStorageMap = new Map<String, List<Document_Storage__c>>();
         Map<String, Insolvency_Account__c> uniqueAccountsToUpdateMap = new Map<String, Insolvency_Account__c>();
         Map<String, String> mapSkippedFileNameDocStorageId = new Map<String, String>();
         List<ContentVersion> conVersionToInsertList = new List<ContentVersion>();
@@ -56,9 +82,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
             if (String.isBlank(doc.Bulk_API_Job_ID__c)) {
                 continue;
             }
-            if (!doc.Document_Storages__r.isEmpty()) {
-                uniqueAccountsToUpdateMap = updateStatementIdentifier(doc.Document_Storages__r, uniqueAccountsToUpdateMap);
-            }
+            parentDocStorageIdList.add(doc.Id);
             List<ContentVersion> conVersionToInsertListPerDocStorage = new List<ContentVersion>();
             mapSkippedFileNameDocStorageId.put('Skipped' + '_' + doc.Document_Name__c.remove('.zip'), doc.Id);
             String bulkJobStatus = getJobStatus(doc.Bulk_API_Job_ID__c);
@@ -104,6 +128,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
             docStorageToUpdateList.add(doc);
             docStorageIdConVersionToInsertMap.put(doc.Id, conVersionToInsertListPerDocStorage);
         }
+        uniqueAccountsToUpdateMap = getAccountsToUpdate(parentDocStorageIdList);
         try {
             if (!conVersionToInsertList.isEmpty()) {
                 Database.insert(conVersionToInsertList);
@@ -125,28 +150,6 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
         ]) {
             docStorageIdConVersionToInsertMap.get(mapSkippedFileNameDocStorageId.get(skippedConVer.Title)).add(skippedConVer);
         }
-    }
-
-    /**
-     * @description : Method to check statement received checkbox for accounts who got statements attached
-     * @author adeshi@a5econsulting.net | 09-06-2024
-     * @param statementDocStorageList
-     * @param uniqueAccountsToUpdateMap
-     * @return Map<String, Insolvency_Account__c>
-     **/
-    public static Map<String, Insolvency_Account__c> updateStatementIdentifier(
-        List<Document_Storage__c> statementDocStorageList,
-        Map<String, Insolvency_Account__c> uniqueAccountsToUpdateMap
-    ) {
-        for (Document_Storage__c statementDoc : statementDocStorageList) {
-            Insolvency_Account__c account = new Insolvency_Account__c(Id = statementDoc.Insolvency_Account__c, CTB_Statements_Received__c = true);
-            // Update statements received date with today's date only for accounts which don't have this field already populated
-            if (statementDoc.Insolvency_Account__r.CTB_Statements_Received_Date__c == null) {
-                account.CTB_Statements_Received_Date__c = System.today();
-            }
-            uniqueAccountsToUpdateMap.put(statementDoc.Insolvency_Account__c, account);
-        }
-        return uniqueAccountsToUpdateMap;
     }
 
     /**
