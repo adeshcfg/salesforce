@@ -123,7 +123,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                 'Debtor_2_First_Name__c,Insolvency__r.Debtor_2_First_Name__c,Insolvency__r.Debtor_2_Middle_Name__c,Debtor_2_Last_Name__c,Insolvency__r.Debtor_2_Last_Name__c, Street_Name_Number__c, City__c,Province__c,Insolvency__r.Debtor_2_Mailing_Country__c,Postal_Code__c,Insolvency__r.Debtor_2_SIN__c,Debtor_2_Date_of_Birth__c ' +
                 'FROM Insolvency_Account__c ' +
                 'WHERE ' +
-                'RecordType.developerName = :recordType AND ' +
+                'RecordType.developerName = :recordType AND Correlation_Id__c != null AND ' +
                 'Insolvency_Sub_Status__c = \'Pending File\'';
         }
         if (ctbBatchName == System.Label.CTB_Payment) {
