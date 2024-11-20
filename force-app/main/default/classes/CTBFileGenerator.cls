@@ -90,6 +90,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     public static Integer batchCount;
     public static String transReferenceNum;
     global Integer batchExecuteCount = 0;
+    public Integer sequenceCountNumberCnt = 0;
 
     global CTBFileGenerator(String batchName) {
         //get Batch Name from Scheduler
@@ -108,6 +109,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
 
     // Start Method
     global Database.Querylocator start(Database.BatchableContext BC) {
+        sequenceCountNumberCnt = 3;
         //List<String> listNames = new List<String>{'101010','010101'};
         String query = '';
         //fetch records based on batchName
@@ -636,7 +638,6 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
     ) {
         string mainBody = '';
         Integer counter = 0;
-        Integer draftSeqNum = 3;
         String accNumberRegex = '^[0-9]+$';
         Pattern MyPattern1 = Pattern.compile(accNumberRegex);
         Matcher MyMatcher1;
@@ -661,7 +662,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         paymentPostingDateData = formatDate_MM_DD_YY(insolPayData.Payment_Posting_Date__c);
                     }
                     String sequenceCode = defSeqNumber;
-                    sequenceCode = getSpaceAndZeroAdded(String.ValueOf(draftSeqNum), 7, true, false, false);
+                    sequenceCode = getSpaceAndZeroAdded(String.ValueOf(sequenceCountNumberCnt), 7, true, false, false);
                     
                     String drftTransCode = defDrftTransCode;
                     drftTransCode = getSpaceAndZeroAdded(String.ValueOf(dRFTSTransCode), 4, false, true, false);
@@ -703,7 +704,7 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                         extensionRecordIndicator +
                         '\r\n';
                     counter++;
-                    draftSeqNum++;
+                    sequenceCountNumberCnt++;
                     queryData.add(insolPayData);
                 }
             }
