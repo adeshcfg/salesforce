@@ -656,7 +656,8 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
             /*******************************************Body Data*************************************************/
             for (Insolvency_Payment__c insolPayData : insolvencyPayData) {
                 MyMatcher1 = MyPattern1.matcher(insolPayData.Account_Number__c);
-                if (insolPayData.Account_Number__c != null && MyMatcher1.matches() == True) {
+                if (insolPayData.Account_Number__c != null && MyMatcher1.matches() == True && 
+                   insolPayData.Account_Number__c.length() <= 16) {
                     String paymentPostingDateData = defPaymentPostingDateData;
                     if (insolPayData.Payment_Posting_Date__c != null) {
                         paymentPostingDateData = formatDate_MM_DD_YY(insolPayData.Payment_Posting_Date__c);
