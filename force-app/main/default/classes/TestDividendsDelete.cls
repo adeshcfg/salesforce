@@ -1,3 +1,10 @@
+/**
+ * @description       : Test class for DividendsDelete
+ * @author            : nagendra.yanadigalla@canaccede.com
+ * @last modified on  : 2024-11-19
+ * @last modified by  : nagendra.yanadigalla@canaccede.com
+ **/
+
 @isTest
 public class TestDividendsDelete {
 

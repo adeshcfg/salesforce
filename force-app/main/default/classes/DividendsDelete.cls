@@ -1,3 +1,10 @@
+/**
+ * @description       : Dividend delation with the related payments and Assignment records.
+ * @author            : nagendra.yanadigalla@canaccede.com
+ * @last modified on  : 2024-11-18
+ * @last modified by  : nagendra.yanadigalla@canaccede.com
+ **/
+
 public class DividendsDelete {
     public static boolean displayPopup;
     
