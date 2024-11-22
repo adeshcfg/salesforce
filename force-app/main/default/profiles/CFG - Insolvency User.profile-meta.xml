@@ -18562,6 +18562,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Insolvency_Payment__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Insolvency_Payment__c.Transaction_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
