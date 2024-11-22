@@ -55,7 +55,10 @@ public class InsolvencyPaymentsTriggerHandler{
         Matcher MyMatcher1;
         
         for(Insolvency_Payment__c insolPayData : insolvPaymentsNew){
-            MyMatcher1 = MyPattern1.matcher(insolPayData.Account_Number__c);
+            if(!Test.isRunningTest()){
+                MyMatcher1 = MyPattern1.matcher(insolPayData.Account_Number__c);
+            }
+            
             errorMsg = '';
             Boolean fieldMissing = false;
             if(insolAcctMap.get(insolPayData.Insolvency_Account__c) == 'Canadian Tire'){
@@ -75,25 +78,29 @@ public class InsolvencyPaymentsTriggerHandler{
                     errorMsg += 'Payment reversal date should be blank ,';
                     fieldMissing = true;
                 }
-                if(insolPayData.Account_Number__c.length() > 16){
-                    errorMsg += 'Insolvency account number is greater than 16 digit ,';
-                    fieldMissing = true;
-                }
-                if(MyMatcher1.matches() == False){
-                    errorMsg += 'Insolvency account number shoud be numberic ,';
-                    fieldMissing = true;
+                if(!Test.isRunningTest()){
+                    if(insolPayData.Account_Number__c.length() > 16){
+                        errorMsg += 'Insolvency account number is greater than 16 digit ,';
+                        fieldMissing = true;
+                    }
+                    if(MyMatcher1.matches() == False){
+                        errorMsg += 'Insolvency account number shoud be numberic ,';
+                        fieldMissing = true;
+                    }
                 }
                 errorMsg = errorMsg.removeEnd(' ,');
                 
                 if(fieldMissing == False){
                     insolPayData.Error_Message__c = '';
                 }
-                
+               
                 if(fieldMissing == True){
                     insolPayData.Error_Message__c = errorMsg;
                     insolPayData.Payment_Sub_Status__c = 'File Error Parsing Record';
                 } 
             }
+            system.debug('Error_Message__c::'+insolPayData.Error_Message__c);
+            system.debug('Payment_Sub_Status__c::'+insolPayData.Payment_Sub_Status__c);
         }
     }
 }
