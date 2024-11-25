@@ -16,6 +16,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Fairstone2</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>SDA</fullName>
             <default>false</default>
         </values>

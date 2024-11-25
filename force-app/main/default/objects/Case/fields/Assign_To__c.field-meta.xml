@@ -40,12 +40,22 @@
             <value>
                 <fullName>Fairstone</fullName>
                 <default>false</default>
-                <label>Fairstone</label>
+                <label>Fairstone - Walmart</label>
+            </value>
+            <value>
+                <fullName>Canadian Tire</fullName>
+                <default>false</default>
+                <label>Canadian Tire</label>
             </value>
             <value>
                 <fullName>Goeasy</fullName>
                 <default>false</default>
                 <label>Easyfinancial</label>
+            </value>
+            <value>
+                <fullName>Fairstone2</fullName>
+                <default>false</default>
+                <label>Fairstone</label>
             </value>
         </valueSetDefinition>
     </valueSet>
