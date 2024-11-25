@@ -20,6 +20,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Fairstone2</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Goeasy</fullName>
             <default>false</default>
         </values>

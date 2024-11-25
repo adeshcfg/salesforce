@@ -15,6 +15,10 @@
             <fullName>Fairstone</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Fairstone2</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>CCS_Assignment_Type__c</picklist>
