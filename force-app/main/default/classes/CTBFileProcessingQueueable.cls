@@ -96,6 +96,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
     public static void processCTBStagingAccounts(String csvContents, Document_Storage__c docStorage) {
         List<CTB_Staging__c> stagingRecordsToCreate = new List<CTB_Staging__c>();
         Map<Id, Insolvency_Account__c> accountRecordsToUpdateMap = new Map<Id, Insolvency_Account__c>();
+        Integer invalidInsolvencyStatusAccounts = 0;
         Set<String> correlationIdSet = new Set<String>();
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
         List<String> validOldInsolvencyStatuses = System.Label.CTB_Valid_Insolvency_Statuses.split(',');
@@ -171,6 +172,8 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     accountToUpdate.CTB_Update_File_Timestamp__c = Datetime.now();
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
                     accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
+                    // Used to mark these as failed records
+                    invalidInsolvencyStatusAccounts++;
                 }
                 // Remove ; from start of the string if it starts with ;
                 if (String.isNotBlank(stagingAcc.Error_Message__c)) {
@@ -247,7 +250,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 return;
             }
         }
-        Integer successRecordCount = accountRecordsToUpdateMap.size();
+        Integer successRecordCount = accountRecordsToUpdateMap.size() - invalidInsolvencyStatusAccounts;
         Integer failedRecordCount = stagingRecordsToCreate.size() - successRecordCount;
         if (!invalidFile) {
             docStorage.File_Processing_Status__c = 'Processed';
