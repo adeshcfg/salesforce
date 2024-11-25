@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 11-15-2024
+ * @last modified on  : 11-25-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -148,10 +148,14 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         }
         if (!stagingRecordsToCreate.isEmpty() && !invalidFile) {
             for (CTB_Staging__c stagingAcc : stagingRecordsToCreate) {
+                Insolvency_Account__c accountToUpdate = new Insolvency_Account__c();
+                String accountId = '';
                 // If no account exists with correlation Id provided in the csv
                 if (!mapCorrelationIdAccount.containsKey(stagingAcc.Correlation_Id__c) && !stagingAcc.Error_Message__c.contains('No Correlation Id provided')) {
                     stagingAcc.Status__c = 'Error';
                     stagingAcc.Error_Message__c += '; No Account with given Correlation Id found in SF';
+                } else {
+                    accountId = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
                 }
                 // Check if status can be updated to PoC Details Provided
                 if (
@@ -163,6 +167,10 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         '; Current Insolvency status is ' +
                         mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c +
                         ', so cannot update the record';
+                    accountToUpdate.Id = accountId;
+                    accountToUpdate.CTB_Update_File_Timestamp__c = Datetime.now();
+                    accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
+                    accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
                 }
                 // Remove ; from start of the string if it starts with ;
                 if (String.isNotBlank(stagingAcc.Error_Message__c)) {
@@ -170,7 +178,6 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 }
                 // If validation was successfull
                 if (stagingAcc.Status__c != 'Error') {
-                    String accountId = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
                     // Check for duplicate accounts and ignore current row if existing account was not rejected as NMAT
                     // This is only for duplicate account scenario for multiple debtors
                     if (
@@ -182,7 +189,6 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         checkNoMatchDebtor(accountRecordsToUpdateMap.get(accountId), mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
                         continue;
                     }
-                    Insolvency_Account__c accountToUpdate = new Insolvency_Account__c();
                     if (String.isBlank(stagingAcc.CTB_Reject_Reason_Code__c)) {
                         accountToUpdate = CTBFileValidationUtility.updateInsolvencyAccount(stagingAcc);
                     }
