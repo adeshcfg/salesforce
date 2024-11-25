@@ -43,6 +43,11 @@
                 <label>Fairstone - Walmart</label>
             </value>
             <value>
+                <fullName>Canadian Tire</fullName>
+                <default>false</default>
+                <label>Canadian Tire</label>
+            </value>
+            <value>
                 <fullName>Goeasy</fullName>
                 <default>false</default>
                 <label>Easyfinancial</label>
