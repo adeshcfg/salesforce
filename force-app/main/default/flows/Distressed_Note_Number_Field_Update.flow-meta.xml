@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <name>UnArchival_Check</name>
+        <label>UnArchival Check</label>
+        <locationX>218</locationX>
+        <locationY>314</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Not_UnArchiver_User</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.DataArchiverUser</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>mainUpdate</targetReference>
+            </connector>
+            <label>Is Not UnArchiver User</label>
+        </rules>
+    </decisions>
+    <description>Distressed Note Number Field Update with record name</description>
+    <environments>Default</environments>
+    <interviewLabel>Distressed Note Number Field Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Distressed Note Number Field Update</label>
+    <migratedFromWorkflowRuleName>Distressed Note Number Field Update</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Distressed Note Number Field Update</description>
+        <name>mainUpdate</name>
+        <label>mainUpdate</label>
+        <locationX>584</locationX>
+        <locationY>371</locationY>
+        <inputAssignments>
+            <field>Distressed_Notes_Number__c</field>
+            <value>
+                <elementReference>$Record.Name</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>458</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>UnArchival_Check</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Distressed_Notes_Number__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Distressed_notes__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
