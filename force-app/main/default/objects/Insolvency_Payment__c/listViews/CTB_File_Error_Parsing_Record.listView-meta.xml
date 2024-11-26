@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CTB_File_Error_Parsing_Record</fullName>
+    <columns>NAME</columns>
+    <columns>Account_Number__c</columns>
+    <columns>Payment_Amount__c</columns>
+    <columns>Is_Payment_Remitted__c</columns>
+    <columns>Payment_Reversed__c</columns>
+    <columns>Payment_Reversal_Date__c</columns>
+    <columns>Error_Message__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Payment_Sub_Status__c</field>
+        <operation>equals</operation>
+        <value>File Error Parsing Record</value>
+    </filters>
+    <label>CTB File Error Parsing Record</label>
+</ListView>
