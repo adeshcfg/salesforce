@@ -190,7 +190,7 @@ public class POCDocController {
             copyOfReport = Boolean.valueOf(variableMap.get('copyOfReport'));
             insolAccName = variableMap.get('insolAccName');
             formattedFrenchTodayDate = variableMap.get('formattedFrenchDateToday');
-            
+
             if (insolvAcc.Portfolio_Group_Name__c != null) {
                 String portGroupMapShort = insolvAcc.Portfolio_Group_Name__c.LEFT(3);
                 // Read Remittance group mapping custom setting to fetch related data
@@ -219,7 +219,9 @@ public class POCDocController {
         if (String.isNotEmpty(apexPage.NamespacePrefix)) {
             templatePageName = apexPage.NamespacePrefix + '__' + templatePageName;
         }
-        String partialPageUrl = appConfig.Use_new_POC_templates__c ? '/apex/' + templatePageName + 'New' : '/apex/' + templatePageName;
+        String partialPageUrl = appConfig.Use_new_POC_templates__c && pageName != 'FairstoneNew'
+            ? '/apex/' + templatePageName + 'New'
+            : '/apex/' + templatePageName;
         pdf = new PageReference(partialPageUrl);
         pdf.getParameters().put('id', ApexPages.currentPage().getParameters().get('Id'));
         pdf.getParameters().put('statementOfAccount', String.valueOf(statementOfAccount));
@@ -321,6 +323,8 @@ public class POCDocController {
                 redirectPageName = '/apex/POCDocFrenchCanadianTirePreview';
             } else if (pageName == 'GoEasyUnSecured') {
                 redirectPageName = '/apex/POCDocFrenchEasyFinancialPreview';
+            } else if (pageName == 'FairstoneNew') {
+                redirectPageName = '/apex/POCDocFrenchFairstonePreview';
             } else {
                 redirectPageName = '/apex/POCDocFrenchStreamPreview';
             }
@@ -333,11 +337,13 @@ public class POCDocController {
                 redirectPageName = '/apex/POCDocEasyFiEnglish';
             } else if (pageName == 'Fidem') {
                 redirectPageName = '/apex/POCDocAffirm';
+            } else if (pageName == 'FairstoneNew') {
+                redirectPageName = '/apex/POCDocFairstonePreview';
             } else {
                 redirectPageName = '/apex/POCDocPage';
             }
         }
-        redirectPageName = appConfig.Use_new_POC_templates__c ? redirectPageName + 'New' : redirectPageName;
+        redirectPageName = appConfig.Use_new_POC_templates__c && pageName != 'FairstoneNew' ? redirectPageName + 'New' : redirectPageName;
         pageRef = new PageReference(redirectPageName + '?Id=' + insolvAcc.Id);
         pageRef.setRedirect(true);
         return pageRef;
