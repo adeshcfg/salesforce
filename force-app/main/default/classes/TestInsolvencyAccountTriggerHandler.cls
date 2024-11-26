@@ -320,6 +320,7 @@
          insert iaList;
  
          InsolvencyAccountTriggerHandler.handleBeforeInsert(iaList);
+         InsolvencyAccountTriggerHandler.getLatestCorrelationId();
      }
  
      //Test Before Update
@@ -845,7 +846,51 @@
          update accToUpdate;
          Test.stopTest();
      }
- 
+     
+     public static testMethod void testupdateProcessingSubStatus() {
+         Map<String, String> insolAccountIdInsolId = new Map<String, String>();
+         Insolvency__c insolv = [
+             SELECT id
+             FROM Insolvency__c
+             WHERE name = '12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy'
+             LIMIT 1
+         ];
+         insolv.Debtor_1_Mailing_Country__c = null;
+         update insolv;
+         
+         Insolvency_Account__c accToUpdate = new Insolvency_Account__c();
+         accToUpdate.Claim_Filed_Date__c = null;
+         accToUpdate.Sent_For_Owner_Review_Date_Original__c = DateTime.now().addDays(-10);
+         accToUpdate.Sent_For_Owner_Review_Date_External__c = null;
+         accToUpdate.Insolvency_Status__c = 'For Owner Review';
+         accToUpdate.Insolvency_Date__c = System.today();
+         accToUpdate.Insolvency__c = insolv.id;
+         accToUpdate.Account_Number_Without_Space__c = '1234456';
+         accToUpdate.Voting_Options__c = 'Vote Accept';
+         accToUpdate.Voting_Letter_Comments__c = 'testing';
+         insert accToUpdate;
+         List<Insolvency_Account__c> insolAcctData  = new List<Insolvency_Account__c>();
+         insolAcctData.add(accToUpdate);
+         insolAccountIdInsolId.put(accToUpdate.id, accToUpdate.Insolvency__c);
+         
+         Map<Id, Insolvency_Account__c> oldMap = new  Map<Id, Insolvency_Account__c>();
+         
+         Insolvency_Account__c accToUpdate1 = new Insolvency_Account__c();
+         accToUpdate1.Claim_Filed_Date__c = null;
+         accToUpdate1.Sent_For_Owner_Review_Date_Original__c = DateTime.now().addDays(-10);
+         accToUpdate1.Sent_For_Owner_Review_Date_External__c = null;
+         accToUpdate1.Insolvency_Status__c = 'Annulled';
+         accToUpdate1.Insolvency_Date__c = System.today();
+         accToUpdate1.Insolvency__c = insolv.id;
+         accToUpdate1.Account_Number_Without_Space__c = '1234';
+         accToUpdate1.Voting_Options__c = 'Vote: Decline - No Meeting Requested';
+         accToUpdate1.Voting_Letter_Comments__c = 'testing';
+         insert accToUpdate1;
+         oldMap.put(accToUpdate1.id,accToUpdate1);
+         
+         InsolvencyAccountTriggerHandler.updateProcessingSubStatus(insolAcctData,oldMap,insolAccountIdInsolId);
+     }
+     
      public class MyException extends Exception {
      }
  }

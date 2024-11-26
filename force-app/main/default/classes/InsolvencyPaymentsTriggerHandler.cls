@@ -8,6 +8,8 @@
  
  *************************************************************************************************/
 public class InsolvencyPaymentsTriggerHandler{
+    public static boolean runInsolvencyPaymentTrigger = true;
+    
 	public static void handleBeforeDelete(List<Insolvency_Payment__c> insolvPaymentRecords){
 		list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
 		for(Insolvency_Payment__c insolvPayment: insolvPaymentRecords){
@@ -35,8 +37,17 @@ public class InsolvencyPaymentsTriggerHandler{
         
         
 	}
+    //Before Update
+    public static void handleBeforeUpdate(List<Insolvency_Payment__c> insolvPaymentsNew, Map<Id, Insolvency_Payment__c> oldMap) {
+        updateCTBInsolvencyPaymentStatus(insolvPaymentsNew,true);
+    }
+    
     //Before Insert
     public static void handleBeforeInsert(List<Insolvency_Payment__c> insolvPaymentsNew){
+        updateCTBInsolvencyPaymentStatus(insolvPaymentsNew,true);
+    }
+    
+    public static void updateCTBInsolvencyPaymentStatus(List<Insolvency_Payment__c> insolvPaymentsNew,boolean checkStatus){
         Set<ID> insolAcctIds = new Set<ID>();
         for(Insolvency_Payment__c insolvPayment : insolvPaymentsNew){
             insolAcctIds.add(insolvPayment.Insolvency_Account__c);
@@ -53,16 +64,15 @@ public class InsolvencyPaymentsTriggerHandler{
         String accNumberRegex = '^[0-9]+$';
         Pattern MyPattern1 = Pattern.compile(accNumberRegex);
         Matcher MyMatcher1;
-        
+        Map<string,Insolvency_Payment__c> insolPaymentMap = new Map<string,Insolvency_Payment__c>();
         for(Insolvency_Payment__c insolPayData : insolvPaymentsNew){
             if(!Test.isRunningTest()){
                 MyMatcher1 = MyPattern1.matcher(insolPayData.Account_Number__c);
             }
-            
             errorMsg = '';
             Boolean fieldMissing = false;
             if(insolAcctMap.get(insolPayData.Insolvency_Account__c) == 'Canadian Tire'){
-                if(insolPayData.Payment_Amount__c < 0){
+                if(insolPayData.Payment_Amount__c < 0 || insolPayData.Payment_Amount__c == 0){
                     errorMsg = 'Payment amount should be greater than zero ,';
                     fieldMissing = true;
                 } 
@@ -92,15 +102,19 @@ public class InsolvencyPaymentsTriggerHandler{
                 
                 if(fieldMissing == False){
                     insolPayData.Error_Message__c = '';
+                    insolPayData.Payment_Sub_Status__c = 'Pending File';
                 }
                
                 if(fieldMissing == True){
                     insolPayData.Error_Message__c = errorMsg;
                     insolPayData.Payment_Sub_Status__c = 'File Error Parsing Record';
                 } 
+                insolPaymentMap.put(insolPayData.id,insolPayData);
             }
-            system.debug('Error_Message__c::'+insolPayData.Error_Message__c);
-            system.debug('Payment_Sub_Status__c::'+insolPayData.Payment_Sub_Status__c);
+        }
+        
+        if(checkStatus == false){
+            update insolPaymentMap.values();
         }
     }
 }
