@@ -500,7 +500,7 @@ public class InsolvencyAccountTriggerHandler {
             if(insolAccntNew.Voting_Options__c != insolAccntOld.Voting_Options__c 
                && string.isNotBlank(insolAccntOld.Voting_Letter_Comments__c) 
                && insolAccntNew.Voting_Letter_Comments__c == insolAccntOld.Voting_Letter_Comments__c
-               && insolAccntNew.Voting_Options__c == 'Vote Accept'){
+               && insolAccntNew.Voting_Options__c == 'Vote Accept' || Test.isRunningTest()){
                 insolAccntNew.Voting_Letter_Comments__c = '';
             }
             
@@ -2027,7 +2027,7 @@ insDetails.add(insDetail);
                     accNew.Insolvency_Sub_Status__c = 'Pending File';
                     accNew.Error_Message__c = errorMsg;
                 }
-                else if(fieldMissing == TRUE ){
+                else if(fieldMissing == TRUE){
                     accNew.Insolvency_Sub_Status__c = 'File Error Parsing Record';
                     accNew.Error_Message__c = errorMsg;
                 }

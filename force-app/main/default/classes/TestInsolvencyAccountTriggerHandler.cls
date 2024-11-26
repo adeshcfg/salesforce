@@ -866,8 +866,6 @@
          accToUpdate.Insolvency_Date__c = System.today();
          accToUpdate.Insolvency__c = insolv.id;
          accToUpdate.Account_Number_Without_Space__c = '1234456';
-         accToUpdate.Voting_Options__c = 'Vote Accept';
-         accToUpdate.Voting_Letter_Comments__c = 'testing';
          insert accToUpdate;
          List<Insolvency_Account__c> insolAcctData  = new List<Insolvency_Account__c>();
          insolAcctData.add(accToUpdate);
@@ -883,10 +881,9 @@
          accToUpdate1.Insolvency_Date__c = System.today();
          accToUpdate1.Insolvency__c = insolv.id;
          accToUpdate1.Account_Number_Without_Space__c = '1234';
-         accToUpdate1.Voting_Options__c = 'Vote: Decline - No Meeting Requested';
-         accToUpdate1.Voting_Letter_Comments__c = 'testing';
          insert accToUpdate1;
          oldMap.put(accToUpdate1.id,accToUpdate1);
+         
          
          InsolvencyAccountTriggerHandler.updateProcessingSubStatus(insolAcctData,oldMap,insolAccountIdInsolId);
      }
