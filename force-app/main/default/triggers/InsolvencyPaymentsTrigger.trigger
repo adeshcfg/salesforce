@@ -8,7 +8,7 @@
  * 
  *************************************************************************************************/
 
-trigger InsolvencyPaymentsTrigger on Insolvency_Payment__c (after insert, before delete, before insert) {
+trigger InsolvencyPaymentsTrigger on Insolvency_Payment__c (after insert, before delete, before insert, before update) {
     
     list<Insolvency_Payment__c> insolPaymentRecords=new list<Insolvency_Payment__c>();
     //On-Off switch for trigger
@@ -27,6 +27,10 @@ trigger InsolvencyPaymentsTrigger on Insolvency_Payment__c (after insert, before
             //Before Insert
             if(trigger.isInsert){
                 InsolvencyPaymentsTriggerHandler.handleBeforeInsert(trigger.new);
+            }
+            //Before Update
+            if(Trigger.isUpdate){
+                InsolvencyPaymentsTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
             }
             
         }
