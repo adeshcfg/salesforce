@@ -646,8 +646,8 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
         }
         Messaging.sendEmail(mapInsolvAcctoEmail.values());
 
-        Map<String, Task> emailTaskMap = new Map<String, Task>([SELECT Id FROM Task WHERE WhatId IN :acctIds AND TaskSubtype = 'Email' ORDER BY CreatedDate]);
-        for (EmailMessage emailmsg : [SELECT Id, RelatedToId FROM EmailMessage WHERE ActivityId IN :emailTaskMap.keySet()]) {
+        Map<String, Task> emailTaskMap = new Map<String, Task>([SELECT Id FROM Task WHERE WhatId IN :acctIds AND TaskSubtype = 'Email' ORDER BY CreatedDate Desc]);
+        for (EmailMessage emailmsg : [SELECT Id, RelatedToId FROM EmailMessage WHERE ActivityId IN :emailTaskMap.keySet() ORDER BY CreatedDate Desc]) {
             // Only store latest email message Id for each account
             if (!acctIdEmailMsgIdMap.containsKey(emailmsg.RelatedToId)) {
                 acctIdEmailMsgIdMap.put(emailmsg.RelatedToId, emailmsg.Id);
