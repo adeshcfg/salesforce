@@ -146,40 +146,17 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
 
     public Map<String, Messaging.SingleEmailMessage> emailTemplatechanged(List<Insolvency_Account__c> lstInsolvencyAccs, list<Id> insolTemplateWithHeaderList) {
         Map<String, Messaging.SingleEmailMessage> insolvAcctoEmailMap = new Map<String, Messaging.SingleEmailMessage>();
-        Map<String, String> emailSetupDatamap = new Map<String, String>();
-        List<String> followUpEmailRequiredTemplatesList = new List<String>();
-        Boolean flagForTrusteeFollowUpEmail = false;
         String subject = '';
         String emailName = '';
         String emailBody = '';
         String htmlEmailheader = '';
         String htmlEmailFooter = '';
         String toEmail = '';
-        String toFollowUpEmail = '';
         PoC_Package_Settings__c pocPackage;
 
         for (Insolvency_Account__c insolvAcc : lstInsolvencyAccs) {
-            //get ID's of template for follow-up email.
-            toFollowUpEmail = insolvAcc.Insolvency__r.Trustee__r.Follow_up_Email__c;
             pocPackage = (PoC_Package_Settings__c) PoC_Package_Settings__c.getValues(insolvAcc.Client_Identifier__c);
-            String idforTrusteeFollowupEmail = pocPackage.Follow_Up_Email_Required_Templates__c;
-            //checking if the selected tepmplate needs trustee follow-up email.
-            if (idforTrusteeFollowupEmail != null) {
-                followUpEmailRequiredTemplatesList = idforTrusteeFollowupEmail.split(',');
-            }
-            //Default Template
-            if (followUpEmailRequiredTemplatesList != null) {
-                if (followUpEmailRequiredTemplatesList.contains(mapofInsolvAcctoEmailTemplate.get(insolvAcc.Id).Id)) {
-                    flagForTrusteeFollowUpEmail = true;
-                } else {
-                    flagForTrusteeFollowUpEmail = false;
-                }
-            }
-            if (toFollowUpEmail != null && flagForTrusteeFollowUpEmail) {
-                toEmail = toFollowUpEmail;
-            } else {
-                toEmail = insolvAcc.Insolvency__r.Trustee__r.Business_Email__c;
-            }
+            toEmail = insolvAcc.Insolvency__r.Trustee__r.Business_Email__c;
 
             // Update merge fields in the template
             if (mapofInsolvAcctoEmailTemplate != null && mapofInsolvAcctoEmailTemplate.get(insolvAcc.Id) != null) {
