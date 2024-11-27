@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Populate Payment Reversal Date from Insolvency Payment when Payment is reversed</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Update_Payment_Reversal_DateFormula</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()</expression>
+    </formulas>
+    <interviewLabel>Populate Payment Reversal Date on Insolvency Payment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Populate Payment Reversal Date on Insolvency Payment</label>
+    <migratedFromWorkflowRuleName>Populate Payment Reversal Date on Insolvency Payment</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update Payment Reversal Date</description>
+        <name>mainUpdate</name>
+        <label>mainUpdate</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <inputAssignments>
+            <field>Payment_Reversal_Date__c</field>
+            <value>
+                <elementReference>Update_Payment_Reversal_DateFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterFormula>AND ( ISBLANK( {!$Record.Payment_Reversal_Date__c} ), ISCHANGED( {!$Record.Payment_Reversed__c} ),  NOT( ISBLANK(TEXT({!$Record.Payment_Reversed__c} )) ))</filterFormula>
+        <object>Insolvency_Payment__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
