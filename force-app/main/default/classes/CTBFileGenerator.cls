@@ -1071,71 +1071,35 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
         }
         string newString = myString.removeEnd(lastCharacter);
         string cobolAmount = '';
-
-        if (paymentAmountSum > 0) {
-            if (lastCharacter.contains('0')) {
-                cobolAmount += lastCharacter.replace('0', '{');
-            }
-            if (lastCharacter.contains('1')) {
-                cobolAmount += lastCharacter.replace('1', 'A');
-            }
-            if (lastCharacter.contains('2')) {
-                cobolAmount += lastCharacter.replace('2', 'B');
-            }
-            if (lastCharacter.contains('3')) {
-                cobolAmount += lastCharacter.replace('3', 'C');
-            }
-            if (lastCharacter.contains('4')) {
-                cobolAmount += lastCharacter.replace('4', 'D');
-            }
-            if (lastCharacter.contains('5')) {
-                cobolAmount += lastCharacter.replace('5', 'E');
-            }
-            if (lastCharacter.contains('6')) {
-                cobolAmount += lastCharacter.replace('6', 'F');
-            }
-            if (lastCharacter.contains('7')) {
-                cobolAmount += lastCharacter.replace('7', 'G');
-            }
-            if (lastCharacter.contains('8')) {
-                cobolAmount += lastCharacter.replace('8', 'H');
-            }
-            if (lastCharacter.contains('9')) {
-                cobolAmount += lastCharacter.replace('9', 'I');
-            }
+        if (lastCharacter.contains('0')) {
+            cobolAmount += lastCharacter.replace('0', '}');
         }
-
-        if (paymentAmountSum < 0) {
-            if (lastCharacter.contains('0')) {
-                cobolAmount += lastCharacter.replace('0', '}');
-            }
-            if (lastCharacter.contains('1')) {
-                cobolAmount += lastCharacter.replace('1', 'J');
-            }
-            if (lastCharacter.contains('2')) {
-                cobolAmount += lastCharacter.replace('2', 'K');
-            }
-            if (lastCharacter.contains('3')) {
-                cobolAmount += lastCharacter.replace('3', 'L');
-            }
-            if (lastCharacter.contains('4')) {
-                cobolAmount += lastCharacter.replace('4', 'M');
-            }
-            if (lastCharacter.contains('5')) {
-                cobolAmount += lastCharacter.replace('5', 'N');
-            }
-            if (lastCharacter.contains('6')) {
-                cobolAmount += lastCharacter.replace('6', 'O');
-            }
-            if (lastCharacter.contains('7')) {
-                cobolAmount += lastCharacter.replace('7', 'P');
-            }
-            if (lastCharacter.contains('8')) {
-                cobolAmount += lastCharacter.replace('8', 'Q');
-            }
-            if (lastCharacter.contains('9')) {
-                cobolAmount += lastCharacter.replace('9', 'R');
-            }
+        if (lastCharacter.contains('1')) {
+            cobolAmount += lastCharacter.replace('1', 'J');
+        }
+        if (lastCharacter.contains('2')) {
+            cobolAmount += lastCharacter.replace('2', 'K');
+        }
+        if (lastCharacter.contains('3')) {
+            cobolAmount += lastCharacter.replace('3', 'L');
+        }
+        if (lastCharacter.contains('4')) {
+            cobolAmount += lastCharacter.replace('4', 'M');
+        }
+        if (lastCharacter.contains('5')) {
+            cobolAmount += lastCharacter.replace('5', 'N');
+        }
+        if (lastCharacter.contains('6')) {
+            cobolAmount += lastCharacter.replace('6', 'O');
+        }
+        if (lastCharacter.contains('7')) {
+            cobolAmount += lastCharacter.replace('7', 'P');
+        }
+        if (lastCharacter.contains('8')) {
+            cobolAmount += lastCharacter.replace('8', 'Q');
+        }
+        if (lastCharacter.contains('9')) {
+            cobolAmount += lastCharacter.replace('9', 'R');
         }
         cobolAmount = newString + cobolAmount;
         return cobolAmount;
