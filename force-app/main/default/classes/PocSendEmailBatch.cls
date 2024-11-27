@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class for sending email
  * @author            : Abhijeet
- * @last modified on  : 10-09-2024
+ * @last modified on  : 11-27-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 
@@ -88,6 +88,11 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
                     }
                 }
             } else {
+                if (insolvAcc.Amended_Claim_Flag__c) {
+                    mapofInsolvAcctoEmailTemplate.put(insolvAcc.Id, mapofEmailTemplates.get('AMENDED_PROOF_OF_CLAIM'));
+                } else {
+                    mapofInsolvAcctoEmailTemplate.put(insolvAcc.Id, mapofEmailTemplates.get('Insolvency_Template'));
+                }
                 language = 'en_US';
             }
 
@@ -664,11 +669,14 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
         }
         Messaging.sendEmail(mapInsolvAcctoEmail.values());
 
-        Map<String, Task> emailTaskMap = new Map<String, Task>([SELECT Id FROM Task WHERE WhatId IN :acctIds ORDER BY CreatedDate DESC LIMIT 1]);
+        Map<String, Task> emailTaskMap = new Map<String, Task>([SELECT Id FROM Task WHERE WhatId IN :acctIds AND TaskSubtype = 'Email' ORDER BY CreatedDate]);
         for (EmailMessage emailmsg : [SELECT Id, RelatedToId FROM EmailMessage WHERE ActivityId IN :emailTaskMap.keySet()]) {
-            acctIdEmailMsgIdMap.put(emailmsg.RelatedToId, emailmsg.Id);
+            // Only store latest email message Id for each account
+            if (!acctIdEmailMsgIdMap.containsKey(emailmsg.RelatedToId)) {
+                acctIdEmailMsgIdMap.put(emailmsg.RelatedToId, emailmsg.Id);
+            }
         }
-        // Attach sent files to the email message record crated after sending the mail
+        // Attach sent files to the email message record created after sending the mail
         for (String acctId : accountIdEmailAttachmentsMap.keySet()) {
             for (Attachment sentAttachment : accountIdEmailAttachmentsMap.get(acctId)) {
                 Attachment emailAttachment = sentAttachment.clone();
