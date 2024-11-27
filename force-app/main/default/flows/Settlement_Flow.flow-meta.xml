@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <description>Settlement Number Field Update</description>
+        <name>Settalement</name>
+        <label>Settlement criteria</label>
+        <locationX>446</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Settlement_Number</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Settlement_Number__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>IsRecordNew</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Settlement_Name</targetReference>
+            </connector>
+            <label>Settlement Number</label>
+        </rules>
+        <rules>
+            <name>Rejected_Date</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Rejected_Date_Text__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Rejected_Date</targetReference>
+            </connector>
+            <label>Rejected Date</label>
+        </rules>
+        <rules>
+            <name>Approved_Date</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Approved_Date_Text__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Approved_Date</targetReference>
+            </connector>
+            <label>Approved Date</label>
+        </rules>
+    </decisions>
+    <description>Update Approved Date, Update Rejected Date, Settlement Number Field Update.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>ApprovedDate</name>
+        <dataType>DateTime</dataType>
+        <expression>DATETIMEVALUE({!$Record.Approved_Date_Text__c})</expression>
+    </formulas>
+    <formulas>
+        <name>IsRecordNew</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
+    <formulas>
+        <name>rejectedDate</name>
+        <dataType>DateTime</dataType>
+        <expression>DATETIMEVALUE({!$Record.Rejected_Date_Text__c})</expression>
+    </formulas>
+    <formulas>
+        <name>SettlementNumberFormula</name>
+        <dataType>String</dataType>
+        <expression>&quot;SC-&quot; &amp; TRIM(RIGHT({!$Record.Name}, LEN({!$Record.Name}) - 2))</expression>
+    </formulas>
+    <interviewLabel>Settlement Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Settlement Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Approved_Date</name>
+        <label>Update Approved Date</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Approved_Date__c</field>
+            <value>
+                <elementReference>ApprovedDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Rejected_Date</name>
+        <label>Update Rejected Date</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Rejected_Date__c</field>
+            <value>
+                <elementReference>rejectedDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Settlement_Name</name>
+        <label>Update Settlement Name</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Settlement_Number__c</field>
+            <value>
+                <elementReference>SettlementNumberFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>320</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Settalement</targetReference>
+        </connector>
+        <object>Settlement__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
