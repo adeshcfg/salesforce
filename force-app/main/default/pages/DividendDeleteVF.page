@@ -1,11 +1,29 @@
-<apex:page standardController="Remittance__c" extensions="DividendsDelete" action="{!deleteDividend}">
+<apex:page standardController="Remittance__c" extensions="DividendsDelete">
     <apex:form >
-        <apex:pageMessages />
-        <apex:outputPanel id="popup">
-            <apex:outputPanel styleClass="customPopup" layout="block">
-            
-                <div id="deleteModal" styleClass="customPopup" class="slds-modal slds-fade-in-open">
-                    <div class="slds-modal__container">
+ 
+        <apex:messages styleClass="customPopup" layout="block"/>
+        <!-- Confirmation Popup -->
+       
+        <apex:outputPanel id="confirmationPopup" style="text-align: center;width: fit-content;" styleClass="slds-modal slds-fade-in-open confirmationPopup">
+            <div class="slds-modal__container" style="background-color:lightgrey;">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium"><b>Delete Dividend</b></h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>Are you sure you want to delete the dividend?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <apex:actionFunction action="{!deleteDividend}" name="deleteDividend" rerender="nPbt"></apex:actionFunction>
+                    <apex:commandButton value="Yes" onclick="closeConfirmationPopup();" styleClass="slds-button slds-button_neutral slds-margin:8px" rerender="successPopup"/>
+                    <apex:commandButton value="No" action="{!closePopup}" styleClass="slds-button slds-button_neutral"/>
+                </footer>
+            </div>
+        </apex:outputPanel>
+        
+        <!-- Success Popup -->
+        <apex:outputPanel id="popup" >
+            <apex:outputPanel id="successPopup" style="display:none;text-align: center;" styleClass="slds-modal slds-fade-in-open successPopup">          
+                  <div class="slds-modal__container" style="background-color:lightgrey;">
                         <header class="slds-modal__header">
                             <h2 class="slds-text-heading_medium"><b>Delete Dividend</b></h2>
                         </header>
@@ -17,43 +35,36 @@
                             <apex:commandButton value="Close" action="{!closePopup}" />
                         </footer>
                     </div>
-                </div>
-                
-            </apex:outputPanel>
+             </apex:outputPanel>
         </apex:outputPanel>
-              
-        <div id="overlay" style="display:none;" class="slds-backdrop slds-backdrop_open"></div>
-
-	<style type="text/css">
-       .customPopup{
-            background-color: white;
-            border-style: solid;
-            border-width: 2px;
-            left: 50%;
-            padding:10px;
-            position: absolute;
-            z-index: 9999;
-            /* These are the 3 css properties you will need to tweak so the pop 
-            up displays in the center of the screen. First set the width. Then set 
-            margin-left to negative half of what the width is. You can also add 
-            the height property for a fixed size pop up.*/
-            width: 500px;
-            margin-left: -250px;
-            top:100px;
+        <!-- JavaScript to open confirmation dialog -->
+        <script>
+        /*function openConfirmationPopup() {
+            var confirmation = confirm("Are you sure you want to delete the dividend?");
+            if (confirmation) {
+                // If user clicks Yes, deletion will process
+                deleteDividend();
+            }
         }
-    </style>
-        <script type="text/javascript">
-            function showModal() {
-                document.getElementById('deleteModal').style.display = 'block';
-                document.getElementById('overlay').style.display = 'block';
+        
+        function deleteDividend() {
+          
+            document.getElementById("{!$Component.form}").submit();
+        }
+        
+        // Close Popup
+        function closePopup() {
+            document.getElementById("confirmationPopup").style.display = "none";
+            document.getElementById("successPopup").style.display = "none";
+        }*/
+        
+        function closeConfirmationPopup(event){
+            deleteDividend();
+            document.getElementsByClassName('confirmationPopup')[0].style.display = 'none';
+            document.getElementsByClassName('successPopup')[0].style.display = 'block';
+            event.preventDefault();
+            
             }
-
-            function closeModal() {
-                document.getElementById('deleteModal').style.display = 'none';
-                document.getElementById('overlay').style.display = 'none';
-                // Redirect to List View after deletion
-                window.location.href = '/lightning/o/Remittance__c/list';
-            }
-        </script>
+        </script>        
     </apex:form>
 </apex:page>
