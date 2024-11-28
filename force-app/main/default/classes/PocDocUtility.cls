@@ -1,7 +1,7 @@
 /**
  * @description       : Class to hold utility/common methods for POC document generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 10-28-2024
+ * @last modified on  : 11-28-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocDocUtility {
@@ -169,6 +169,7 @@ public class PocDocUtility {
         String formattedJudgmentDate = '';
         String formattedAccountOriginalOpenDate = '';
         String formattedFrenchDateToday = '';
+        Set<String> fairstoneProductTypes = new Set<String>{ 'Secured', 'PL Unsecured', 'PL Secured', 'PL Auto Secured', 'Retail', 'Auto Loans' };
 
         String insolAccName = insolvAcc.Name;
         if (
@@ -177,6 +178,10 @@ public class PocDocUtility {
             insolvAcc.Excluded_from_Purchase__c == true
         ) {
             pageName = 'GoEasyUnSecured';
+        }
+
+        if (insolvAcc.Client_Identifier__c == 'Fairstone' && fairstoneProductTypes.contains(insolvAcc.Account_Type__c)) {
+            pageName = 'FairstoneNew';
         }
 
         Datetime dateNow = Datetime.now();
@@ -188,7 +193,7 @@ public class PocDocUtility {
                     String.valueOf(insolvAcc.Insolvency__r.Insolvency_Date__c.year())
             );
         }
-		
+
         formattedDateToday = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + String.valueOf(dateNow.year()));
         if (insolvAcc.Last_Payment_Date__c != null) {
             formattedLastpaymentDate = String.valueOf(
@@ -200,14 +205,16 @@ public class PocDocUtility {
             );
         }
         formattedDateTodayHeader = String.valueOf(' ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ' ' + String.valueOf(dateNow.year()));
-		
+
         //Fetch week day of date
-        Date dateParam = Date.today(); 
+        Date dateParam = Date.today();
         //Recover the day of the week
-        Date startOfWeek   = dateParam.toStartOfWeek();
-        Integer dayOfWeek  = dateParam.day() - startOfWeek.day();
-        formattedFrenchDateToday = String.valueOf(' ' + frenchWeeks.get(dayOfWeek) + ', ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ', ' + String.valueOf(dateNow.year()));
-        
+        Date startOfWeek = dateParam.toStartOfWeek();
+        Integer dayOfWeek = dateParam.day() - startOfWeek.day();
+        formattedFrenchDateToday = String.valueOf(
+            ' ' + frenchWeeks.get(dayOfWeek) + ', ' + frenchDates.get(dateNow.month()) + ' ' + dateNow.day() + ', ' + String.valueOf(dateNow.year())
+        );
+
         if (insolvAcc.Last_Payment_Date__c != null) {
             formattedLastpaymentDate = String.valueOf(
                 String.valueOf(insolvAcc.Last_Payment_Date__c.month()) +
@@ -271,7 +278,7 @@ public class PocDocUtility {
         } else {
             form37 = insolvAcc.Include_Voting_Letter__c;
         }
-        
+
         if (insolvAcc.Voting_Options__c == 'Vote Accept') {
             voteForAcceptance = true;
         } else if (insolvAcc.Voting_Options__c == 'Vote: Decline - No Meeting Requested') {
@@ -363,6 +370,13 @@ public class PocDocUtility {
             }
             if (frenchNames.contains(language)) {
                 pdfPageName = 'POCDocDataFrenchEasyFinancial';
+            }
+        } else if (pageName == 'FairstoneNew') {
+            if (englishNames.contains(language)) {
+                pdfPageName = 'POCDocDataFairstone';
+            }
+            if (frenchNames.contains(language)) {
+                pdfPageName = 'POCDocDataFrenchFairstone';
             }
         } else {
             if (englishNames.contains(language)) {
