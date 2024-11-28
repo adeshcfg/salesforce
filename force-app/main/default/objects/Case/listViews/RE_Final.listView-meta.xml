@@ -36,7 +36,7 @@
     <filters>
         <field>Assign_To__c</field>
         <operation>notEqual</operation>
-        <value>CFG</value>
+        <value>CFG,Fairstone2</value>
     </filters>
     <label>09. Final</label>
     <sharedTo>

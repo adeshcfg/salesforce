@@ -23,6 +23,11 @@
         <value>New,In Progress</value>
     </filters>
     <filters>
+        <field>Assign_To__c</field>
+        <operation>notEqual</operation>
+        <value>Fairstone2</value>
+    </filters>
+    <filters>
         <field>Record_Visible_in_List_View__c</field>
         <operation>equals</operation>
         <value>1</value>

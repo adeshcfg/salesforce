@@ -28,6 +28,11 @@
         <value>1</value>
     </filters>
     <filters>
+        <field>Assign_To__c</field>
+        <operation>notEqual</operation>
+        <value>Fairstone2</value>
+    </filters>
+    <filters>
         <field>CASES.ORIGIN</field>
         <operation>notEqual</operation>
         <value>Canaccede Email</value>
