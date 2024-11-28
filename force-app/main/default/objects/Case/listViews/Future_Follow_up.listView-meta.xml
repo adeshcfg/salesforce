@@ -17,6 +17,11 @@
         <value>TODAY</value>
     </filters>
     <filters>
+        <field>Assign_To__c</field>
+        <operation>notEqual</operation>
+        <value>Fairstone2</value>
+    </filters>
+    <filters>
         <field>CASES.STATUS</field>
         <operation>notEqual</operation>
         <value>Closed</value>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>MyOpenCases</fullName>
+    <fullName>Fairstone_My_Open_Assignments</fullName>
     <columns>CASES.CASE_NUMBER</columns>
     <columns>Account_Number__c</columns>
     <columns>Insolvency__c</columns>
@@ -25,19 +25,16 @@
     <filters>
         <field>Assign_To__c</field>
         <operation>notEqual</operation>
-        <value>Fairstone2</value>
+        <value>Fairstone</value>
     </filters>
     <filters>
         <field>Record_Visible_in_List_View__c</field>
         <operation>equals</operation>
         <value>1</value>
     </filters>
-    <label>11. My Open Assignments</label>
+    <label>Fairstone - 11. My Open Assignments</label>
     <sharedTo>
         <group>Insolvency_CFG_Users</group>
-        <group>Insolvency_Canadian_Tire_Users</group>
-        <group>Insolvency_Fairstone_Users</group>
-        <group>Insolvency_Goeasy_Users</group>
-        <group>Insolvency_Scotia_Users</group>
+        <group>New_fairstone_users_access</group>
     </sharedTo>
 </ListView>
