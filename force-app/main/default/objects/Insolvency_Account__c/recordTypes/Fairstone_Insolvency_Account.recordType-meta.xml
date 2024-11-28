@@ -22,6 +22,30 @@
             <fullName>World Walmart Rewards Mastercard</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Secured</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PL Unsecured</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PL Secured</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PL Auto Secured</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Auto Loans</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Active_Status__c</picklist>

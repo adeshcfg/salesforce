@@ -132,6 +132,36 @@
                 <default>false</default>
                 <label>Credit Card</label>
             </value>
+            <value>
+                <fullName>Secured</fullName>
+                <default>false</default>
+                <label>Secured</label>
+            </value>
+            <value>
+                <fullName>PL Unsecured</fullName>
+                <default>false</default>
+                <label>PL Unsecured</label>
+            </value>
+            <value>
+                <fullName>PL Secured</fullName>
+                <default>false</default>
+                <label>PL Secured</label>
+            </value>
+            <value>
+                <fullName>PL Auto Secured</fullName>
+                <default>false</default>
+                <label>PL Auto Secured</label>
+            </value>
+            <value>
+                <fullName>Retail</fullName>
+                <default>false</default>
+                <label>Retail</label>
+            </value>
+            <value>
+                <fullName>Auto Loans</fullName>
+                <default>false</default>
+                <label>Auto Loans</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
