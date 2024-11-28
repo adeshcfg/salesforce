@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fairstone_Annulled_Filed</fullName>
+    <columns>Insolvency__c</columns>
+    <columns>NAME</columns>
+    <columns>Bank_Name__c</columns>
+    <columns>Borrower_Primary__c</columns>
+    <columns>Number_Of_Days_In_Current_Status__c</columns>
+    <columns>Claim_Type__c</columns>
+    <columns>Account_Type__c</columns>
+    <columns>Insolvency_Account_Owner__c</columns>
+    <columns>Product_Code__c</columns>
+    <columns>Claim_Amount__c</columns>
+    <columns>Insolvency_Status__c</columns>
+    <columns>Insolvency_Status_Last_Changed__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Insolvency_Status__c</field>
+        <operation>equals</operation>
+        <value>Annulled - Filed New</value>
+    </filters>
+    <filters>
+        <field>Account_Type__c</field>
+        <operation>equals</operation>
+        <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans</value>
+    </filters>
+    <label>Fairstone - Annulled – Filed</label>
+    <sharedTo>
+        <group>Insolvency_CFG_BS</group>
+        <group>Insolvency_CFG_Users</group>
+        <group>New_fairstone_users_access</group>
+    </sharedTo>
+</ListView>
