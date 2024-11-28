@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fairstone_My_Open_Assignments</fullName>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>Account_Number__c</columns>
+    <columns>Insolvency__c</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>CASES.STATUS</columns>
+    <columns>CASES.PRIORITY</columns>
+    <columns>Number_Of_Days_Since_Last_Updated__c</columns>
+    <columns>Assigned_To__c</columns>
+    <columns>CASES.CREATED_DATE</columns>
+    <columns>Next_Follow_Up_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CASES.CLOSED</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Assigned_To_User_Logged_In__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Assign_To__c</field>
+        <operation>notEqual</operation>
+        <value>Fairstone</value>
+    </filters>
+    <filters>
+        <field>Record_Visible_in_List_View__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Fairstone - 11. My Open Assignments</label>
+    <sharedTo>
+        <group>Insolvency_CFG_Users</group>
+        <group>New_fairstone_users_access</group>
+    </sharedTo>
+</ListView>
