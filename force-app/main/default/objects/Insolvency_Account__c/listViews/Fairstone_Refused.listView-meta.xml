@@ -47,7 +47,7 @@
         <operation>equals</operation>
         <value>0</value>
     </filters>
-    <label>Fairstone Refused</label>
+    <label>Fairstone - Refused</label>
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
