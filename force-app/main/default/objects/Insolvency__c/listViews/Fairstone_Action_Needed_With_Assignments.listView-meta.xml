@@ -30,7 +30,7 @@
         <operation>greaterThan</operation>
         <value>0</value>
     </filters>
-    <label>Fairstone - Action Needed - With Assignments</label>
+    <label>Fairstone-Action Needed-With Assignments</label>
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>       
