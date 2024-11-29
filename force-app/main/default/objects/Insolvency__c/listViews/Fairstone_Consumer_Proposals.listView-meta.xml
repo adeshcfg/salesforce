@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>All</fullName>
+    <fullName>Fairstone_Consumer_Proposals</fullName>
     <columns>NAME</columns>
     <columns>Insolvency_Date__c</columns>
     <columns>Insolvency_Type__c</columns>
@@ -11,18 +11,17 @@
     <columns>Debtor_1_Last_Name__c</columns>
     <columns>Insolvency_Status__c</columns>
     <columns>Insolvency_Status_Last_Changed__c</columns>
-    <columns>Num_of_Accounts_Needing_Validation__c</columns>
     <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
-    <label>All</label>
+    <filters>
+        <field>Insolvency_Type__c</field>
+        <operation>equals</operation>
+        <value>Consumer Proposal</value>
+    </filters>
+    <label>Fairstone - Consumer Proposals</label>
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
-        <group>Insolvency_CFG_Users</group>
-        <group>Insolvency_Fairstone_Users</group>
-        <group>Insolvency_Goeasy_Users</group>
-        <group>Insolvency_SDA_Users</group>
-        <group>Insolvency_SPL_Users</group>
-        <group>Insolvency_Scotia_Users</group>
-        <group>Insolvency_Canadian_Tire_Users</group>        
+        <group>Insolvency_CFG_Users</group>        
+        <group>New_fairstone_users_access</group>
     </sharedTo>
 </ListView>
