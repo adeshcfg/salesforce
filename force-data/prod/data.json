@@ -1,20 +1,3 @@
 {
-    "dml": {
-        "update": [
-            {
-                "objectName": "Placement_Status_Code_Mapping__c",
-                "recordVariableName": "Placement_Status_Code_Mapping",
-                "fields": [
-                    {
-                        "fieldApiName": "id",
-                        "fieldValue": "'a3E3a00000B3hsBEAR'"
-                    },
-                    {
-                        "fieldApiName": "Data_Status_Description__c",
-                        "fieldValue": "'Warehouse: Recalled Complaints'"
-                    }
-                ]
-            }
-        ]
-    }
+    "apexCode": "PoC_Package_Settings__c pocPackage = PoC_Package_Settings__c.getValues('Fairstone');\r\npocPackage.Client_Company_Creditor_Name__c = 'Fairstone Financial Inc.';\r\nupdate pocPackage;"
 }
