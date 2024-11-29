@@ -1,7 +1,7 @@
 /**
  * @description       : Scheduler and Batch class to get and upload success and failure files for CTB statement processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 11-19-2024
+ * @last modified on  : 11-29-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful {
@@ -85,11 +85,12 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
             parentDocStorageIdList.add(doc.Id);
             List<ContentVersion> conVersionToInsertListPerDocStorage = new List<ContentVersion>();
             mapSkippedFileNameDocStorageId.put('Skipped' + '_' + doc.Document_Name__c.remove('.zip'), doc.Id);
-            String bulkJobStatus = getJobStatus(doc.Bulk_API_Job_ID__c);
+            Map<String, Object> bulkJobInfo = getJobStatus(doc.Bulk_API_Job_ID__c);
+            String bulkJobStatus = (String) bulkJobInfo.get('state');
             if (bulkJobStatus == 'JobComplete') {
                 doc.Statement_Processing_Status__c = 'Processed';
                 String successCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'successfulResults');
-                successRecordsCount = successCsv.split(ProcessStatementZipFilesBatch.lineBreak).size() - 1;
+                successRecordsCount = (Integer) bulkJobInfo.get('numberRecordsProcessed');
                 // Generate success file if returned csv contains mroe than 2 rows(including header)
                 if (successRecordsCount > 0) {
                     ContentVersion successCv = createConVersion('Success', doc.Document_Name__c, successCsv);
@@ -99,7 +100,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
                     // If status is jobcomplete but no success records were returned, check and generate failed file
                     doc.Statement_Processing_Status__c = 'Failed';
                     String failedCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'failedResults');
-                    failedRecordsCount = failedCsv.split(ProcessStatementZipFilesBatch.lineBreak).size() - 1;
+                    failedRecordsCount = (Integer) bulkJobInfo.get('numberRecordsFailed');
                     if (failedRecordsCount > 0) {
                         ContentVersion failedCv = createConVersion('Failed', doc.Document_Name__c, failedCsv);
                         conVersionToInsertList.add(failedCv);
@@ -108,7 +109,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
                 }
             } else if (bulkJobStatus == 'Failed') {
                 String failedCsv = getresultCsv(doc.Bulk_API_Job_ID__c, 'failedResults');
-                failedRecordsCount = failedCsv.split(ProcessStatementZipFilesBatch.lineBreak).size() - 1;
+                failedRecordsCount = (Integer) bulkJobInfo.get('numberRecordsFailed');
                 if (failedRecordsCount > 0) {
                     ContentVersion failedCv = createConVersion('Failed', doc.Document_Name__c, failedCsv);
                     conVersionToInsertList.add(failedCv);
@@ -203,13 +204,13 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
     }
 
     /**
-     * @description : Method to get Bulk API job status
+     * @description : Method to get Bulk API job info
      * @author adesh.ikhar@canaccede.com | 06-06-2024
      * @param jobId
-     * @return String
+     * @return Map<String, Object>
      **/
-    public static String getJobStatus(String jobId) {
-        String jobStatus = '';
+    public static Map<String, Object> getJobStatus(String jobId) {
+        Map<String, Object> jobInfo = new Map<String, Object>();
         HttpRequest request = new HttpRequest();
         request.setMethod('GET');
         request.setEndpoint(URl.getOrgDomainUrl().toExternalForm() + '/services/data/v60.0/jobs/ingest/' + jobId);
@@ -218,8 +219,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
         try {
             HttpResponse resp = h.send(request);
             if (resp.getStatusCode() <= 299) {
-                Map<String, Object> respMap = (Map<String, Object>) Json.deserializeUntyped(resp.getBody());
-                jobStatus = (String) respMap.get('state');
+                jobInfo = (Map<String, Object>) Json.deserializeUntyped(resp.getBody());
             } else {
                 CTBGetFileApiQueueable.createApiError(String.valueOf(resp.getStatusCode()), resp.getBody());
             }
@@ -227,7 +227,7 @@ public class GetSuccessFailedFilesScheduler implements Schedulable, Database.Bat
             CTBGetFileApiQueueable.createApiError(ex.getMessage(), ex.getStackTraceString());
             System.debug('Exception in getJobStatus ' + ex.getStackTraceString());
         }
-        return jobStatus;
+        return jobInfo;
     }
 
     /**

@@ -695,7 +695,7 @@ public class CTBApiCalloutsQueueableTest {
     public class GetSuccessFailedFilesSchedulerMock1 implements HttpCalloutMock {
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
-            String responseBody = '{"access_token": "test","IsSuccess": true,"state":"JobComplete"}';
+            String responseBody = '{"access_token": "test","IsSuccess": true,"state":"JobComplete","numberRecordsProcessed":3416,"numberRecordsFailed":0}';
             if (req.getEndpoint().contains('successfulResults') || req.getEndpoint().contains('failedResults')) {
                 responseBody = 'sf__Id,sf__Created,Document_Name__c,Document_URL__c,Document_Type__c,Document_Extension__c,Statement_Processing_Status__c,Document_Related_To__c,Insolvency_Account__c,Uploaded_By__c,Creator__c,Visibility__c,RecordTypeId,Document_Storage__c\n"a39As00000109VlIAI","true","000000000000010_20241111_CTStatements.pdf","000000000000010_20241111_CTStatements.pdf","ctb_statement_output","pdf","Processed","Insolvency Account","a11As000001ZSYlIAO","System","System","CFG only","0123a000000LLE5AAO","a39As00000109E3IAI"';
             }
