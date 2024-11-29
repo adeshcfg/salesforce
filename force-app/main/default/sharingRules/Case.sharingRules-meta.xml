@@ -53,7 +53,7 @@
         <sharedTo>
             <group>Insolvency_Fairstone_Users</group>
         </sharedTo>
-        <booleanFilter>(1 OR (2 AND (3 OR 4) ) )</booleanFilter>
+        <booleanFilter>(1 OR (2 AND (3 OR 4 OR 5) ) )</booleanFilter>
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
@@ -67,11 +67,16 @@
         <criteriaItems>
             <field>Assign_To__c</field>
             <operation>equals</operation>
-            <value>Fairstone</value>
+            <value>Fairstone - Walmart</value>
         </criteriaItems>
         <criteriaItems>
             <field>Entity_Identifiers__c</field>
             <operation>contains</operation>
+            <value>Fairstone</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
             <value>Fairstone</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
@@ -109,6 +114,42 @@
             <field>RecordTypeId</field>
             <operation>equals</operation>
             <value>CCS Case</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Insolvency_Cases_New_Fairstone_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Insolvency Cases for new Fairstone Users</description>
+        <label>Share Insolvency Cases New Fairstone Users</label>
+        <sharedTo>
+            <group>New_fairstone_users_access</group>
+        </sharedTo>
+        <booleanFilter>(1 OR (2 AND (3 OR 4 OR 5) ) )</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Fairstone Community Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>Fairstone</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Entity_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Fairstone</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>Fairstone - Walmart</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

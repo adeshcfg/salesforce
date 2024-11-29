@@ -64,6 +64,27 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Share_New_Fairstone_Insolvency</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing for new Fairstone Insolvency user</description>
+        <label>Share New Fairstone Insolvency</label>
+        <sharedTo>
+            <group>New_fairstone_users_access</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Fairstone</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Staging</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_SDA_Insolvency</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share SDA Insolvency</description>
