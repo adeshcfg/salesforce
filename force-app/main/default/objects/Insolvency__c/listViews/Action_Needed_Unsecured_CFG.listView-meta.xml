@@ -43,7 +43,6 @@
         <group>Insolvency_SDA_Users</group>
         <group>Insolvency_SPL_Users</group>
         <group>Insolvency_Scotia_Users</group>
-        <group>Insolvency_Canadian_Tire_Users</group>
-        <group>New_fairstone_users_access</group>
+        <group>Insolvency_Canadian_Tire_Users</group>        
     </sharedTo>
 </ListView>
