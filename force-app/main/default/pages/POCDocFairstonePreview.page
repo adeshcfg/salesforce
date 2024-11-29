@@ -1023,17 +1023,6 @@
                                 <div style="padding-left: 30px">
                                     <apex:outputText value="<br/><br/><br/>" escape="false" />
                                 </div>
-                                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                    <table>
-                                        <tr>
-                                            <td style="width: 100px; padding-left: 20px; vertical-align: top">Note:</td>
-                                            <td style="padding-left: 50px; vertical-align: top">
-                                                As per section 130 of the Bankruptcy and Insolvency Act, we request that you provide written confirmation
-                                                whether you will exercise the power of redeeming the security or requiring it to be realized.
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </apex:outputText>
                                 <br /><br />
                                 <div style="padding-left: 20px">
                                     {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)}

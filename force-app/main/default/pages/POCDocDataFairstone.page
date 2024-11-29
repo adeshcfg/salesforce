@@ -960,12 +960,6 @@
                         <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Vehicle_Identification_Number__c}</td>
                     </tr>
                 </table>
-                <div style="padding-left: 7px">
-                    <span style="font-family: sans-serif; font-size: 13px">
-                        If available, please see statements attached for the full details of payments, credits and transfers that occurred in the 3 months prior
-                        to the date of insolvency.</span
-                    >
-                </div>
                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}"><br /></apex:outputText>
             </div>
             <br />
