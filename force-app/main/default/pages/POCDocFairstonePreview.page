@@ -130,8 +130,7 @@
                     </div>
                 </div>
             </apex:outputPanel>
-            <apex:outputPanel
-                rendered="{!IF((insolvAcc.Insolvency_Status__c == 'PoC Details Provided' && insolvAcc.Proof_of_Claim_Required__c && pocDocError == null), true, false)}"
+            <apex:outputPanel rendered="{!IF((insolvAcc.Insolvency_Status__c == 'PoC Details Provided' && insolvAcc.Proof_of_Claim_Required__c && pocDocError == null), true, false)}"
             >
                 <apex:ActionStatus id="spinner">
                     <apex:facet name="start">
@@ -153,8 +152,7 @@
                 <body class="slds-scope" style="width: 700px; margin: auto; background: #d8edff; padding-top: 20px">
                     <div class="slds-grid slds-m-around_xx-small slds-p-top_medium">
                         <div class="slds-col slds-align_absolute-center">
-                            <apex:commandButton
-                                style="font-family: Arial; font-size: 14px"
+                            <apex:commandButton style="font-family: Arial; font-size: 14px"
                                 styleclass="slds-button slds-button_neutral"
                                 action="{!changeLanguage}"
                                 value="Translate to French"
@@ -164,8 +162,7 @@
                                 <apex:param name="languagetoTranslate" assignTo="{!language}" value="fr" />
                                 <apex:param name="pageNameToTranslate" assignTo="{!pageName}" value="FairstoneNew" />
                             </apex:commandButton>
-                            <apex:commandButton
-                                style="font-family: Arial; font-size: 14px"
+                            <apex:commandButton style="font-family: Arial; font-size: 14px"
                                 styleclass="slds-button slds-button_neutral"
                                 action="{!savePOCDoc}"
                                 value="Generate Poc Package & attach it to Insolvency Account"
@@ -186,6 +183,84 @@
                         </div>
                     </div>
                     <article class="slds-card slds-p-top_medium ArialUnicodeMSFont" style="background: #fff">
+                        
+                        <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Insolvency_Type__c != 'Division 1 Proposal' && insolvAcc.Business_Account__c == False}">      
+                            <div style='font-family: "Arial Unicode MS"; width:86%; margin:auto; font-size:14px; display:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "block;", "none;")}'>
+                                <div style="text-align:center;padding-top: 20px;">
+                                    <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>  
+                                </div>
+                                <br/>
+                                <h2 style="text-align:center;padding-top: 20px;font-weight:bold;">
+                                    FORM OF ASSIGNMENT NOTICE <br/>
+                                    FOR PROOF OF CLAIM FILING <br/>
+                                    [on Fairstone letterhead] 
+                                </h2>
+                                <apex:outputText value="{0,date, MMMM dd',' yyyy}">
+                                    <apex:param value="{!TODAY()}" />
+                                </apex:outputText>
+                                <br/>
+                                
+                                {!insolvAcc.Insolvency__r.Trustee__r.Parent.Name}
+                                <br/><br/>
+                                The Insolvency Practitioner  <br/><br/>
+                                Dear Sirs/Mesdames:<br/><br/>
+                                <table>
+                                    <tr>
+                                        <td style="vertical-align:top;"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Re:</span></td>
+                                        <td style="padding-left:40px;"><span style="font-family: 'Arial Unicode MS'; font-weight:bold;">Notice of Assignment of Accounts by {!UPPER(pocPackage.Fairstone_New_Product_Company_Detail__c)} (“Seller”) to {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).</span> </td>  
+                                    </tr>
+                                </table>
+                                <hr style="border-color:black;margin: 11px 0px 18px 0px;"/>
+                                We are writing to notify you that the account and related claim owing to us (the "Account") by the debtor (the "Debtors") described in the attached proof of
+                                claim is in the process of being purchased by {!pocPackage.CFG_Office_Name_2__c}. We understand the Debtor is subject to proceedings under the
+                                <span style=" font-style:italic;">Bankruptcy and Insolvency Act </span>(Canada) in respect of which you have been appointed as bankruptcy trustee or proposal trustee, as the case may be.
+                                <br/><br/>
+                                We hereby authorize {!pocPackage.CFG_Office_Name_2__c}. to file the attached proof of claim for the account described in the proof of claim in the name of {!pocPackage.CFG_Office_Name_2__c}.
+                                <br/><br/>
+                                If you have any queries, please do not hesitate to contact Canaccede International Management Ltd.,authorized servicer for CFG Canada Funding, LLC at the following contact details: 
+                                <br/><br/>
+                                <div style="padding-left:30px;">
+                                    Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br/>
+                                    {!pocPackage.CFG_Office_Address_1__c}<br/>
+                                    {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+                                    <table style="width: 320px;">
+                                        <tr>
+                                            <td style="font-family: 'Times New Roman'">Attention:  </td>
+                                            <td style="font-family: 'Times New Roman'">Insolvency Processing</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: 'Times New Roman'">Telephone:  </td>
+                                            <td style="font-family: 'Times New Roman'">{!pocPackage.CFG_Office_Phone_Number__c}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: 'Times New Roman'">Facsimile:  </td>
+                                            <td style="font-family: 'Times New Roman'">{!pocPackage.CFG_Office_Fax_Number__c}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: 'Times New Roman'">Email:</td>
+                                            <td style="font-family: 'Times New Roman'">{!pocPackage.CFG_Office_Email_Address__c}</td>
+                                        </tr>
+                                    </table>
+                                </div><br/>
+                                Yours truly,
+                                <br/><br/>
+                                <span style="font-weight:bold;">{!UPPER(pocPackage.Fairstone_New_Product_Company_Detail__c)}</span>
+                                <span style="padding-left:30px;"> <br/><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/> </span>    
+                                <table style="margin-top:-20px;">
+                                    <tr>
+                                        <td style="vertical-align:top;font-family:'Arial Unicode MS';">By:</td>
+                                        <td style='font-family:"Arial Unicode MS";' >_________________________
+                                            <br/>Name: Jahed Jahed<br/>
+                                            Title: VP Collections and Fraud Operation
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br/><br/>
+                            <div class="pageSeperator" style="display : {!IF(insolvAcc.Claim_Type__c == "Unsecured", 'block;', 'none;')}">
+                            </div>
+                        </apex:outputPanel>
+                       
                         <apex:outputPanel rendered="{!form31}">
                             <div style="font-size: 13px; line-height: 17px; width: 100%; padding-top: 1.25rem; padding-left: 40px">
                                 <div style="padding-bottom: 10px">
@@ -255,7 +330,7 @@
                                     <br />
                                     and the claim of
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                        <b> {!pocPackage.Client_Company_Creditor_Name__c} </b>
+                                        <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                                     </apex:outputText>
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                         <b> {!pocPackage.CFG_Office_Name__c} </b>
@@ -283,13 +358,13 @@
                                             <td style="padding-left: 10px">
                                                 That I am the President of <b> Canaccede International Management Ltd.</b>, servicer for
                                                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                                    <b> {!pocPackage.Client_Company_Creditor_Name__c}</b>
+                                                    <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c}</b>
                                                 </apex:outputText>
                                                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                                     <b> {!pocPackage.CFG_Office_Name__c}</b>
+                                                    , who is the purchaser of the account from
+                                                    <b>{!pocPackage.Fairstone_New_Product_Company_Detail__c}</b>
                                                 </apex:outputText>
-                                                , who is the purchaser of the account from
-                                                <b>{!pocPackage.CFG_Office_Name_2__c}</b>
                                             </td>
                                         </tr>
                                         <tr>
@@ -601,7 +676,7 @@
                                                     <b
                                                         >Servicer for
                                                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                                            {!pocPackage.Client_Company_Creditor_Name__c}
+                                                            {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                                         </apex:outputText>
                                                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                                             {!pocPackage.CFG_Office_Name__c}
@@ -686,7 +761,16 @@
                                         of the City of <b>{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</b>, in the Province of
                                         <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</b>
                                         <br />
-                                        and the claim of <b> {!pocPackage.CFG_Office_Name__c}</b>
+                                        and the claim of 
+                                        <span style="font-weight: bold; font-family: sans-serif">
+                                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                                                <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
+                                            </apex:outputText>
+                                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
+                                                <b> {!pocPackage.CFG_Office_Name__c} </b>
+                                            </apex:outputText>
+                                            (creditor)
+                                        </span>
                                     </div>
                                     <br />
                                     <table>
@@ -813,7 +897,7 @@
                                                 <b
                                                     >Servicer for
                                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                                        {!pocPackage.Client_Company_Creditor_Name__c}
+                                                        {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                                     </apex:outputText>
                                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                                         {!pocPackage.CFG_Office_Name__c}
@@ -982,8 +1066,7 @@
                                         <td style="padding-bottom: 10px; padding-left: 5px">
                                             <span style="font-family: sans-serif">
                                                 <apex:outputText value="{0, number,#,##0.00}">
-                                                    <apex:param value="{!insolvAcc.Interest_Rate__c}" /> </apex:outputText
-                                                >%
+                                                    <apex:param value="{!insolvAcc.Interest_Rate__c}" /> </apex:outputText>%
                                             </span>
                                         </td>
                                     </tr>
@@ -1011,17 +1094,32 @@
                                             </apex:outputText>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td style="padding-bottom: 10px; padding-left: 20px; vertical-align: top"><b>Security Asset Description:</b></td>
-                                        <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Security_Description__c}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding-bottom: 10px; padding-left: 20px; vertical-align: top"><b>VIN:</b></td>
-                                        <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Vehicle_Identification_Number__c}</td>
-                                    </tr>
+                                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                                        <tr>
+                                            <td style="padding-bottom: 10px; padding-left: 20px; vertical-align: top"><b>Security Asset Description:</b></td>
+                                            <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Security_Description__c}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom: 10px; padding-left: 20px; vertical-align: top"><b>VIN:</b></td>
+                                            <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Vehicle_Identification_Number__c}</td>
+                                        </tr>
+                                    </apex:outputText>  
                                 </table>
-                                <div style="padding-left: 30px">
-                                    <apex:outputText value="<br/><br/><br/>" escape="false" />
+                                <div style="padding-left:20px;">
+                                    <span style="font-family: sans-serif; font-size:13px;"> 
+                                        If available, please see statements attached for the full details of payments, credits and transfers that occurred in the 3 months prior to the date of insolvency.
+                                    </span>
+                                </div>
+                                <div style='font-family: "Arial Unicode MS"; font-size:13px; padding-left:30px;'>
+                                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' }">
+                                        <table>
+                                            <tr>
+                                                <td style="width: 100px; vertical-align:top;">Note:</td>
+                                                <td>As per section 130 of the Bankruptcy and Insolvency Act, we request that you provide written confirmation whether you will exercise the power of redeeming the security or requiring it to be realized.</td>
+                                            </tr>
+                                            
+                                        </table>
+                                    </apex:outputText> 
                                 </div>
                                 <br /><br />
                                 <div style="padding-left: 20px">
@@ -1036,8 +1134,7 @@
                     </article>
                     <div class="slds-grid slds-m-around_xx-small slds-p-top_medium">
                         <div class="slds-col slds-align_absolute-center">
-                            <apex:commandButton
-                                style="font-family: Arial; font-size: 14px"
+                            <apex:commandButton style="font-family: Arial; font-size: 14px"
                                 styleclass="slds-button slds-button_neutral"
                                 action="{!savePOCDoc}"
                                 value="Generate Poc Package & attach it to Insolvency Account"

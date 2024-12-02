@@ -300,7 +300,7 @@
                            Et la reclamation de <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}"><b> {!pocPackage.CFG_Office_Name__c}</b> (Créancier)</apex:outputText>
                             <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}"><b> {!pocPackage.CFG_Office_Name__c}</b> (Créancier)</apex:outputText>
-                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c}</b> (Créancier)</apex:outputText>        
+                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c} </b> (Créancier)</apex:outputText>        
                            </apex:outputText>
                            <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><b> {!pocPackage.CFG_Office_Name_2__c}</b> (Créancier)</apex:outputText>
                             <br/><br/>
