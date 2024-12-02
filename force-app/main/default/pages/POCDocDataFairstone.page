@@ -14,6 +14,83 @@
             }
         </style>
         <apex:outputPanel rendered="{! $CurrentPage.parameters.proofOfClaim == 'true'}">
+            <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Insolvency_Type__c != 'Division 1 Proposal' && insolvAcc.Business_Account__c == False}">
+                <!-- Adding new page STARTS-->
+                <div style='font-family: "Times New Roman"; width:90%; margin:auto; font-size:16px; display:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "block;", "none;")}'>
+                    <div style="text-align:center;padding-top: 0px;">
+                        <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>  
+                    </div>
+                    <br/>
+                    <h2 style="text-align:center;padding-top: 20px;font-weight:bold;">
+                        FORM OF ASSIGNMENT NOTICE <br/>
+                        FOR PROOF OF CLAIM FILING <br/>
+                        [on Fairstone letterhead] 
+                    </h2>
+                    <div style="line-height:30px;">
+                        <apex:outputText value="{0,date, MMMM dd',' yyyy}">
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText>               <br/>
+                        {!insolvAcc.Insolvency__r.Trustee__r.Parent.Name}
+                        <br/>
+                        The Insolvency Practitioner  <br/>
+                        Dear Sirs/Mesdames:<br/>
+                    </div>
+                    
+                    <table>
+                        <tr>
+                            <td style="vertical-align:top;"><span style="font-family: Times New Roman; font-weight:bold;">Re:</span></td>
+                            <td style="padding-left:40px;" escape="false"><span style="font-family: Times New Roman; font-weight:bold;">Notice of Assignment of Accounts by {!UPPER(pocPackage.Fairstone_New_Product_Company_Detail__c)} (“Seller”) to {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).<apex:outputText value="{!IF(spaceCount, '&nbsp;&nbsp;&nbsp;&nbsp;','')}" escape="false"/></span> </td>
+                        </tr>
+                    </table>
+                    <hr style="border-color:black;"/>
+                    <br/>
+                    We are writing to notify you that the account and related claim owing to us (the "Account") by the debtor (the "Debtors") described in the attached proof of
+                    claim is in the process of being purchased by {!pocPackage.CFG_Office_Name_2__c}. We understand the Debtor is subject to proceedings under the
+                    <span style="font-family: Times New Roman; font-style:italic;">Bankruptcy and Insolvency Act </span>(Canada) in respect of which you have been appointed as bankruptcy trustee or proposal trustee, as the case may be.
+                    <br/><br/>
+                    We hereby authorize {!pocPackage.CFG_Office_Name_2__c}. to file the attached proof of claim for the account described in the proof of claim in the name of {!pocPackage.CFG_Office_Name_2__c}.
+                    <br/><br/>
+                    If you have any queries, please do not hesitate to contact Canaccede International Management Ltd.,authorized servicer for CFG Canada Funding, LLC at the following contact details: 
+                    <br/><br/>
+                    <div style="padding-left:30px;">
+                        Canaccede International Management Ltd.<br/>
+                        {!pocPackage.CFG_Office_Address_1__c}<br/>
+                        {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
+                        <table style="width: 320px; margin-left:-5px;">
+                            <tr>
+                                <td>Attention:  </td>
+                                <td>Insolvency Processing</td>
+                            </tr>
+                            <tr>
+                                <td>Telephone:  </td>
+                                <td>{!pocPackage.CFG_Office_Phone_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td>Facsimile:  </td>
+                                <td>{!pocPackage.CFG_Office_Fax_Number__c}</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td>{!pocPackage.CFG_Office_Email_Address__c}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    Yours truly,
+                    <br/><br/>
+                    <span style="font-weight:bold;">{!UPPER(pocPackage.Fairstone_New_Product_Company_Detail__c)} </span>
+                    <span style="padding-left:30px;"><br/><apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/><br/><br/></span>
+                    <table style="margin-top:-30px;">
+                        <tr>
+                            <td style="vertical-align:top;">By:</td>
+                            <td >_________________________
+                                <br/>Name: Jahed Jahed<br/>
+                                Title: VP Collections and Fraud Operation</td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </apex:outputPanel>
+   
             <div style="padding-bottom: 10px; margin-top: -2px; font-family: Arial Unicode MS; font-size: 13px">
                 <div style="text-align: left; float: left; width: 200px">
                     <apex:image value="{!pocPackage.Header_logo__c}" style="padding-left: 40px" />
@@ -83,7 +160,7 @@
                     and the claim of
                     <span style="font-weight: bold; font-family: sans-serif">
                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                            <b> {!pocPackage.Client_Company_Creditor_Name__c} </b>
+                            <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                         </apex:outputText>
                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                             <b> {!pocPackage.CFG_Office_Name__c} </b>
@@ -115,14 +192,14 @@
                             <td style="padding-left: 10px">
                                 That I am the President of
                                 <span style="font-family: sans-serif; font-weight: bold">Canaccede International Management Ltd.,</span> servicer for
-                                <span style="font-family: sans-serif; font-weight: bold">
-                                    <apex:outputText style="font-weight: bold" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                        <b> {!pocPackage.Client_Company_Creditor_Name__c}</b>
-                                    </apex:outputText>
-                                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
-                                        <b> {!pocPackage.CFG_Office_Name__c}</b>
-                                    </apex:outputText>
-                                </span>
+                                <apex:outputText style="font-weight: bold" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                                    <span style="font-weight: bold; font-family: sans-serif"> {!pocPackage.Fairstone_New_Product_Company_Detail__c}</span>
+                                </apex:outputText>
+                                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
+                                    <span style="font-weight: bold; font-family: sans-serif"> {!pocPackage.CFG_Office_Name__c}</span>
+                                    , who is the purchaser of the account from
+                                    <span style="font-weight: bold; font-family: sans-serif">{!pocPackage.Fairstone_New_Product_Company_Detail__c}</span>
+                                </apex:outputText>
                             </td>
                         </tr>
                         <tr>
@@ -297,8 +374,7 @@
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimOfLess == 'false'}">
-                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel
-                    ><span style="padding-left: 15px">B. CLAIM OF LESS OR FOR DISCLAIMER OF A LEASE $</span>
+                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel><span style="padding-left: 15px">B. CLAIM OF LESS OR FOR DISCLAIMER OF A LEASE $</span>
                     <br />
                     <span style="padding-left: 25px"
                         >That I hereby make a claim under subsection 65.2(4) of the Act, particulars of which are as follows:
@@ -310,8 +386,7 @@
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.secureClaim == 'false'}">
-                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel
-                    ><span style="padding-left: 15px"
+                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel><span style="padding-left: 15px"
                         >C. SECURED CLAIM OF
                         <span style="font-family: sans-serif; font-weight: bold"
                             >$<apex:outputText value="{0, number,#,##0.00}">
@@ -340,8 +415,7 @@
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimByFarmers == 'false'}">
-                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel
-                    ><span style="padding-left: 15px">D. CLAIM BY FARMER, FISHERMAN OR AQUACULTURIST OF $ </span>
+                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel><span style="padding-left: 15px">D. CLAIM BY FARMER, FISHERMAN OR AQUACULTURIST OF $ </span>
                     <br />
                     <span style="padding-left: 25px"
                         >That I hereby make a claim under subsection 81.2(1) of the Act for the unpaid amount of $ <br /><span
@@ -355,31 +429,27 @@
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimByWage== 'false'}">
-                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel
-                    ><span style="padding-left: 15px">E. CLAIM BY WAGE EARNER OF $ </span>
+                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel><span style="padding-left: 15px">E. CLAIM BY WAGE EARNER OF $ </span>
                     <br />
 
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimBySubSec813== 'true'}">
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimBySubSec813== 'false'}">
-                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel
-                    ><span style="padding-left: 15px">That I hereby make a claim under subsection 81.3(8) of the Act in the amount of $ </span>
+                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel><span style="padding-left: 15px">That I hereby make a claim under subsection 81.3(8) of the Act in the amount of $ </span>
                     <br />
 
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimBySubSec814== 'true'}">
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimBySubSec814== 'false'}">
-                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel
-                    ><span style="padding-left: 15px">That I hereby make a claim under subsection 81.4(8) of the Act in the amount of $ </span> <br /> <br />
+                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel><span style="padding-left: 15px">That I hereby make a claim under subsection 81.4(8) of the Act in the amount of $ </span> <br /> <br />
 
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'true'}">
                         <apex:image value="{!$Resource.check}" width="12" />
                     </apex:outputLabel>
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.claimAgnstDirector== 'false'}">
-                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel
-                    ><span style="padding-left: 15px">F. CLAIM AGAINST DIRECTOR $</span>
+                        <apex:image value="{!$Resource.uncheck}" width="12" /> </apex:outputLabel><span style="padding-left: 15px">F. CLAIM AGAINST DIRECTOR $</span>
                     <br />
                     <td>
                         <span style="font-family: sans-serif; font-style: italic; padding-left: 25px"
@@ -465,8 +535,7 @@
                     to subsection 170(1) of the Act be sent to the above address.
                     <br /><br />Dated at <span style="font-family: sans-serif; font-weight: bold">London, ON</span>, this
                     <span style="font-family: sans-serif; font-weight: bold">
-                        <apex:outputText value="{0,date, dd }"> <apex:param value="{!TODAY()}" /> </apex:outputText
-                    ></span>
+                        <apex:outputText value="{0,date, dd }"> <apex:param value="{!TODAY()}" /> </apex:outputText></span>
                     day of
                     <span style="font-family: sans-serif; font-weight: bold">
                         <apex:outputText value="{0,date, MMMM',' yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText>.
@@ -484,7 +553,7 @@
                                 <b
                                     >Servicer for
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                        {!pocPackage.Client_Company_Creditor_Name__c}
+                                        {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                     </apex:outputText>
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"> {!pocPackage.CFG_Office_Name__c} </apex:outputText>
                                     (creditor)
@@ -579,7 +648,7 @@
                     <br />and the claim of
                     <span style="font-weight: bold; font-family: sans-serif">
                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                            <b> {!pocPackage.Client_Company_Creditor_Name__c} </b>
+                            <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                         </apex:outputText>
                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                             <b> {!pocPackage.CFG_Office_Name__c} </b>
@@ -619,7 +688,7 @@
                     <td style="padding-left: 8px">
                         the administrator of the consumer proposal will be required to call a meeting of creditors only if, pursuant to section 66.15 of the
                         Act:
-                        <br />
+                        
                         -
                         <span style="padding-left: 5px">
                             he/she is directed to do so by the official receiver within the 45-day period after the filing of the consumer proposal; or</span
@@ -658,8 +727,7 @@
                         <span style="font-family: sans-serif; font-weight: bold">FOR</span> the acceptance of the consumer proposal as made on the
                     </span>
                     <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
-                        <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> </apex:outputText
-                    >.
+                        <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> </apex:outputText>.
                     <br />
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.voteAgainstAcceptance == 'true'}">
                         <apex:image value="{!$Resource.check}" width="12" />
@@ -671,8 +739,7 @@
                         the administrator acting with respect to the consumer proposal to record my vote
                         <span style="font-family: sans-serif; font-weight: bold">AGAINST</span> the acceptance of the consumer proposal as made on the
                         <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
-                            <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> </apex:outputText
-                        >.
+                            <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> </apex:outputText>.
                     </span>
                     <br />
                     <apex:outputLabel rendered="{! $CurrentPage.parameters.meetingOfCredits == 'true'}">
@@ -685,16 +752,14 @@
                         the administrator acting with respect to the consumer proposal to record my vote
                         <span style="font-family: sans-serif; font-weight: bold">AGAINST</span> the acceptance of the consumer proposal as made on the
                         <apex:outputText value="{0,date, dd ' day of ' MMMM',' yyyy}">
-                            <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> </apex:outputText
-                        >, and <span style="font-family: sans-serif; font-weight: bold">REQUEST THAT A MEETING OF CREDITORS BE HELD.</span>
+                            <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" /> </apex:outputText>, and <span style="font-family: sans-serif; font-weight: bold">REQUEST THAT A MEETING OF CREDITORS BE HELD.</span>
                     </span>
                     <div style="height: 40px; padding: 10px 0px 0px 0px">{!insolvAcc.Voting_Letter_Comments__c}</div>
                 </div>
                 <br />
                 Dated at London, Ontario, this
                 <span style="font-family: sans-serif; font-weight: bold">
-                    <apex:outputText value="{0,date, dd }"> <apex:param value="{!TODAY()}" /> </apex:outputText
-                ></span>
+                    <apex:outputText value="{0,date, dd }"> <apex:param value="{!TODAY()}" /> </apex:outputText></span>
                 day of
                 <span style="font-family: sans-serif; font-weight: bold">
                     <apex:outputText value="{0,date, MMMM',' yyyy}"> <apex:param value="{!TODAY()}" /> </apex:outputText>.
@@ -714,7 +779,7 @@
                                 >Servicer for
                                 <span style="font-weight: bold; font-family: sans-serif">
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                        {!pocPackage.Client_Company_Creditor_Name__c}
+                                        {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                     </apex:outputText>
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"> {!pocPackage.CFG_Office_Name__c} </apex:outputText>
                                     (creditor)
@@ -724,9 +789,7 @@
                     </td>
                 </tr>
                 <br />
-                <div style=" {!IF($CurrentPage.parameters.proofOfClaim == 'true', 'margin-top:-40px; padding-top:5px;','height:50px;margin-top:-68px;')}">
-                    &nbsp;
-                </div>
+                
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)}
                 <br />
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
@@ -947,29 +1010,47 @@
                             </span>
                         </td>
                     </tr>
-                    <tr>
-                        <td style="padding-bottom: 10px; padding-left: 5px; vertical-align: top">
-                            <span style="font-family: sans-serif; font-weight: bold">Security Asset Description:</span>
-                        </td>
-                        <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Security_Description__c}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding-bottom: 10px; padding-left: 5px; vertical-align: top">
-                            <span style="font-family: sans-serif; font-weight: bold">VIN:</span>
-                        </td>
-                        <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Vehicle_Identification_Number__c}</td>
-                    </tr>
+                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                        <tr>
+                            <td style="padding-bottom: 10px; padding-left: 5px; vertical-align: top">
+                                <span style="font-family: sans-serif; font-weight: bold">Security Asset Description:</span>
+                            </td>
+                            <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Security_Description__c}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 10px; padding-left: 5px; vertical-align: top">
+                                <span style="font-family: sans-serif; font-weight: bold">VIN:</span>
+                            </td>
+                            <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Vehicle_Identification_Number__c}</td>
+                        </tr>
+                    </apex:outputText>
                 </table>
-                <apex:outputText rendered="{!insolvAcc.Claim_Type__c != 'Secured'}"><br /></apex:outputText>
+                
             </div>
             <br />
-            <div style="font-family: Arial Unicode MS; font-size: 13px; padding-left: 5px"></div>
+            <div style="padding-left:20px;">
+                <span style="font-family: sans-serif; font-size:13px;"> 
+                    If available, please see statements attached for the full details of payments, credits and transfers that occurred in the 3 months prior to the date of insolvency.
+                </span>
+            </div>
+            <br />
+            <div style='font-family: "Arial Unicode MS"; font-size:13px; padding-left:30px;'>
+                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured' }">
+                    <table>
+                        <tr>
+                            <td style="width: 100px; vertical-align:top;">Note:</td>
+                            <td>As per section 130 of the Bankruptcy and Insolvency Act, we request that you provide written confirmation whether you will exercise the power of redeeming the security or requiring it to be realized.</td>
+                        </tr>
+                        
+                    </table>
+                </apex:outputText> 
+            </div><br />
             <div style="font-family: Arial Unicode MS; font-size: 13px; padding-left: 5px">
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)}
                 <br />
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
             </div>
-            <br /><br /><br /><br />
+            
         </apex:outputPanel>
         <!-- PAGE 5 ENDS-->
     </html>

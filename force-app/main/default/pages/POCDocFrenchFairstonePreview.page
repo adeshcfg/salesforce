@@ -190,7 +190,11 @@
                                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>  
                                 </div>
                                 <br/>
-                                
+                                <h2  style="text-align:center;padding-top: 20px;font-weight:bold;">
+                                    FORMULAIRE D'AVIS DE CESSION POUR LE DÉPÔT DE LA <br/>
+                                    PREUVE DE RÉCLAMATION <br/>
+                                    
+                                </h2>
                                 <apex:outputText value="{!formattedDateTodayHeader}">
                                 </apex:outputText>
                                 <br/>
@@ -206,7 +210,7 @@
                                         </td>
                                         <td>
                                             <span style="font-family: 'Arial Unicode MS'; font-weight:bold;">
-                                                Avis de cession de comptes par {!UPPER(pocPackage.Client_Company_Name_French__c)} BANK OF CANADA (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).
+                                                Avis de cession de comptes par {!UPPER(pocPackage.Fairstone_New_Product_Company_Detail__c)} (“Vendeur”) à {!UPPER(pocPackage.CFG_Office_Name_2__c)} (“CFG CANADA”).
                                             </span> 
                                         </td>  
                                     </tr>
@@ -217,11 +221,11 @@
                                     {!pocPackage.CFG_Office_Name_2__c}.
                                 </apex:outputText> 
                                  Nous comprenons que le débiteur est soumis à une procédures en vertu de la
-                                <span style=" font-style:italic;">Nous comprenons que le débiteur est soumis à une procédures en vertu de la </span>(Canada) à l'égard de laquelle vous avez été nommé syndic de faillite
+                                Loi sur la faillite et l'insolvabilité (Canada) à l'égard de laquelle vous avez été nommé syndic de faillite
                                 <br/><br/>
                                  Nous autorisons par la présente {!pocPackage.CFG_Office_Name_2__c}. à déposer la preuve de réclamation ci-jointe pour le compte décrit dans la preuve de réclamation au nom de {!pocPackage.CFG_Office_Name_2__c}.
                                 <br/><br/>
-                                Si vous avez des questions, n'hésitez pas à contacter Canaccede International Management Ltd. aux coordonnées suivantes:
+                                Si vous avez des questions, n'hésitez pas à contacter {!pocPackage.CFG_Office_Name__c}. aux coordonnées suivantes:
                                 <br/><br/>
                                 <div style="padding-left:30px;">
                                     Canaccede International Management Ltd.<br/>
@@ -249,7 +253,7 @@
                                 Sincèrement,
                                 <br/><br/>
                                 <span style="font-weight:bold;">
-                                    {!UPPER(pocPackage.Client_Company_Name__c)} BANK OF CANADA
+                                    {!UPPER(pocPackage.Fairstone_New_Product_Company_Detail__c)}
                                 </span>
                                 <span style="padding-left:30px;"><br/><br/> 
                                     <apex:image value="{!pocPackage.Unsecured_Type_Signature__c}"/>
@@ -338,7 +342,7 @@
                                     <br />
                                     Et la reclamation de 
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                        <b> {!pocPackage.Client_Company_Creditor_Name__c} </b>
+                                        <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                                     </apex:outputText>
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                         <b> {!pocPackage.CFG_Office_Name__c} </b>
@@ -349,7 +353,7 @@
                                 </div>
                                 <div style="font-weight: bold; text-align: center; padding-top: 10px">
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                        <b> {!pocPackage.Client_Company_Creditor_Name__c} C/O {!pocPackage.CFG_French_Office_Name__c} </b>
+                                        <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} C/O {!pocPackage.CFG_French_Office_Name__c} </b>
                                     </apex:outputText>
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                         <b> {!pocPackage.CFG_French_Office_Name__c} </b>
@@ -366,7 +370,7 @@
                                             <td style="padding-left: 10px">
                                                 Que je suis le président de <b> {!pocPackage.CFG_French_Office_Name__c} </b>, prestataire de services pour
                                                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                                    <b> {!pocPackage.Client_Company_Creditor_Name__c}</b>
+                                                    <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c}</b>
                                                 </apex:outputText>
                                                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                                     <b> {!pocPackage.CFG_Office_Name__c}</b>
@@ -582,18 +586,8 @@
                                         <apex:inputCheckbox styleClass="my-checkbox" value="{!claimBySubSec814}" />
                                         &nbsp;&nbsp;J'ai une réclamation en vertu du paragraphe 81.4(8) de la Loi au montant de      $
                                         <br /><br />
-                                        <apex:inputCheckbox styleClass="my-checkbox" value="{!claimAgnstDirector}" />
-                                        &nbsp;&nbsp;F. RÉCLAMATION D’UN EMPLOYÉ RELATIVE AU RÉGIME DE PENSION AU MONTANT DE      $  
-                                        <br />
-                                        <div style="padding-left: 28px">
-                                            J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $  
-                                            <br />
-                                             J'ai une réclamation en vertu du paragraphe 81.5 de la Loi au montant de      $  
-                                            <br />
-                                        </div>
-                                        <br />
                                         <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}" />
-                                        &nbsp;&nbsp;G. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $  
+                                        &nbsp;&nbsp;F. RÉCLAMATION CONTRE LES ADMINISTRATEURS AU MONTANT DE      $  
                                         <br />
                                         <div style="padding-left: 28px">
                                             <i>(À compléter lorsqu'une proposition prévoit le compromis des réclamations contre les administrateurs.) </i>
@@ -604,7 +598,7 @@
                                         </div>
                                         <br /> 
                                         <apex:inputCheckbox styleClass="my-checkbox" value="{!claimForCustomer}"/>
-                                        &nbsp;&nbsp; H. RÉCLAMATION D'UN CLIENT D'UN COURTIER  EN VALEURS MOBILIÈRES FAILLI AU 
+                                        &nbsp;&nbsp; G. RÉCLAMATION D'UN CLIENT D'UN COURTIER  EN VALEURS MOBILIÈRES FAILLI AU 
                                          &nbsp;&nbsp;&nbsp;&nbsp;MONTANT DE    &nbsp;&nbsp; $ 
                                         <div style="padding-left:28px;">
                                             <td >J'ai une réclamation en tant que client en conformité avec l'article 262 de la Loi pour des capitaux nets, dont les détails sont mentionnés ci-après:</td>
@@ -687,7 +681,7 @@
                                                     <b>Bryan Szemenyei, Président</b><br /> <b>Canaccede International Management Ltd.</b><br />
                                                     <b>Prestataire de Services pour
                                                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                                            {!pocPackage.Client_Company_Creditor_Name__c}
+                                                            {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                                         </apex:outputText>
                                                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                                             {!pocPackage.CFG_Office_Name__c}
@@ -761,7 +755,7 @@
                                     </div>
                                     <div style="text-align: center">
                                         Formulaire 37.1<br />  Formulaire de Votation (Proposition de Consomateur) <br /> (alinéa 66.15(3)c) de la Loi) <br /><br />
-                                        Dans l'affaire de la proposition de consommateur (ou la proposition, ou la mise sous séquestre) de
+                                        Dans l'affaire de la proposition de consommateur <br /> (ou la proposition, ou la mise sous séquestre) de
                                         <br />
                                         <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} </b>
                                         <br />
@@ -770,14 +764,21 @@
                                         De la Ville de <b>{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</b>, dans la province de
                                         <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</b>
                                         <br />
-                                        Et la reclamation de <b> {!pocPackage.CFG_Office_Name__c}</b>
+                                        Et la reclamation de 
+                                        <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                                            <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
+                                        </apex:outputText>
+                                        <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
+                                            <b> {!pocPackage.CFG_Office_Name__c} </b>
+                                        </apex:outputText>
+                                        (Créancier)
                                     </div>
                                     <br />
                                     <table>
                                         <tr style="text-align: left">
                                             <td style="vertical-align: top">1.</td>
                                             <td style="padding-left: 8px">
-                                                Je, représentant du créancier dans l'affaire ci-dessus pour la somme de
+                                                Je, Bryan Szemenyei, représentant du créancier dans l'affaire ci-dessus pour la somme de
                                                 <b>
                                                     <apex:outputText value="{0, number, $#,##0.00}">
                                                         <apex:param value="{!insolvAcc.Claim_Amount__c}" />
@@ -863,11 +864,12 @@
                                     <apex:inputCheckbox styleClass="my-checkbox" value="{!meetingOfCredits}" />
                                     <span style="padding-left: 5px">
                                         à l’administrateur agissant relativement à la proposition de consommateur d’enregistrer 
-                                        mon vote <b>CONTRE</b> de la proposition de consommateur faite le 
+                                        mon vote <b>CONTRE</b> l’acceptation de la proposition de consommateur faite le 
                                         <apex:outputText value="{0,date, dd ' jour de '}">{!formattedDate}
                                             <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                                         </apex:outputText>
-                                        , et <b>JE DEMANDE QU’UNE ASSEMBLÉE SOIT CONVOQUÉE.</b>
+                                        , et <b>JE DEMANDE QU’UNE ASSEMBLÉE SOIT CONVOQUÉE.</b><br/><br/>
+                                        CONTRE-OFFRE: ____$ pour X mois totalisant ______$. 
                                     </span>
                                     <br /><br />{!insolvAcc.Voting_Letter_Comments__c}<br />
                                     <br />
@@ -894,7 +896,7 @@
                                                 <b>Bryan Szemenyei, Président</b><br /> <b>Canaccede International Management Ltd., </b><br />
                                                 <b>Prestataire de Services pour
                                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
-                                                        {!pocPackage.Client_Company_Creditor_Name__c}
+                                                        {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                                     </apex:outputText>
                                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                                         {!pocPackage.CFG_Office_Name__c}
@@ -1111,14 +1113,16 @@
                                             </apex:outputText>
                                         </td>
                                     </tr>
-                                    <!-- <tr>
-                                        <td style="padding-bottom: 10px; padding-left: 20px; vertical-align: top"><b>Security Asset Description:</b></td>
-                                        <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Security_Description__c}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding-bottom: 10px; padding-left: 20px; vertical-align: top"><b>VIN:</b></td>
-                                        <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Vehicle_Identification_Number__c}</td>
-                                    </tr> -->
+                                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                                        <tr>
+                                            <td style="padding-bottom: 10px; padding-left: 20px; vertical-align: top"><b>Security Asset Description:</b></td>
+                                            <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Security_Description__c}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom: 10px; padding-left: 20px; vertical-align: top"><b>VIN:</b></td>
+                                            <td style="padding-bottom: 10px; padding-left: 5px">{!insolvAcc.Vehicle_Identification_Number__c}</td>
+                                        </tr>
+                                    </apex:outputText>
                                 </table>
                                 <div style="padding-left: 30px">
                                     <apex:outputText value="<br/><br/><br/>" escape="false" />
