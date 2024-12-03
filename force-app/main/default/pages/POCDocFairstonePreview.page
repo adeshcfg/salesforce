@@ -193,7 +193,7 @@
                                 <h2 style="text-align:center;padding-top: 20px;font-weight:bold;">
                                     FORM OF ASSIGNMENT NOTICE <br/>
                                     FOR PROOF OF CLAIM FILING <br/>
-                                    [on Fairstone letterhead] 
+                                    
                                 </h2>
                                 <apex:outputText value="{0,date, MMMM dd',' yyyy}">
                                     <apex:param value="{!TODAY()}" />
@@ -988,6 +988,7 @@
                                 <div style="padding-bottom: 0px; padding-left: 20px">
                                     <b>Estate #: </b> {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c !=
                                     null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br /><br />
+                                    <b>Information regarding paragraph 6 of proof of claim</b>
                                     <h2 style="text-align: center">Account Background</h2>
                                     <br />
                                     <table style="border: 1px solid; text-align: center; border-collapse: collapse; width: 100%; font-weight: bold">
