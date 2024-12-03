@@ -375,7 +375,7 @@
                                                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                                     <b> {!pocPackage.CFG_Office_Name__c}</b>
                                                      , qui est l'acheteur du compte de
-                                                    <b>{!pocPackage.CFG_Office_Name_2__c}</b>
+                                                    <b>{!pocPackage.Fairstone_New_Product_Company_Detail__c}</b>
                                                 </apex:outputText>
                                             </td>
                                         </tr>
@@ -869,7 +869,7 @@
                                             <apex:param value="{!insolvAcc.Insolvency__r.Insolvency_Date__c}" />
                                         </apex:outputText>
                                         , et <b>JE DEMANDE QU’UNE ASSEMBLÉE SOIT CONVOQUÉE.</b><br/><br/>
-                                        CONTRE-OFFRE: ____$ pour X mois totalisant ______$. 
+                                        
                                     </span>
                                     <br /><br />{!insolvAcc.Voting_Letter_Comments__c}<br />
                                     <br />
@@ -1131,6 +1131,15 @@
                                     Si elles sont disponibles, veuillez consulter les états ci-joints pour connaître tous les détails des paiements, crédits et virements survenus au cours des trois mois précédant la date de l’insolvabilité.
                                 </div>
                                 <br /><br />
+                                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                                    <table>
+                                        <tr>
+                                            <td style="width: 100px; padding-left: 20px; vertical-align:top;">Observation:</td>
+                                            <td style="padding-left: 50px; vertical-align:top;">Conformément à l'article 130 de la Loi sur la faillite et l'insolvabilité, nous vous demandons de fournir une confirmation écrite si vous allez exercer le pouvoir de rachat du titre ou si vous aller exiger qu'il soit réalisé.
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </apex:outputText>
                                 <div style="padding-left: 20px">
                                     {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)}
                                     <br />

@@ -24,7 +24,7 @@
                     <h2 style="text-align:center;padding-top: 20px;font-weight:bold;">
                         FORM OF ASSIGNMENT NOTICE <br/>
                         FOR PROOF OF CLAIM FILING <br/>
-                        [on Fairstone letterhead] 
+                        
                     </h2>
                     <div style="line-height:30px;">
                         <apex:outputText value="{0,date, MMMM dd',' yyyy}">
@@ -89,6 +89,7 @@
                     </table>
                     
                 </div>
+                <br/><br/><br/>
             </apex:outputPanel>
    
             <div style="padding-bottom: 10px; margin-top: -2px; font-family: Arial Unicode MS; font-size: 13px">
