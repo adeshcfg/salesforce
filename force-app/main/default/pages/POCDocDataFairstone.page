@@ -89,6 +89,7 @@
                     </table>
                     
                 </div>
+                <br/><br/><br/>
             </apex:outputPanel>
    
             <div style="padding-bottom: 10px; margin-top: -2px; font-family: Arial Unicode MS; font-size: 13px">
