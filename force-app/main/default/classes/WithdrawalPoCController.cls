@@ -100,6 +100,7 @@
                             Client_Identifier__c,
                             Trustee_Company__c,
                             Is_Active__c,
+                     		Account_Type__c,
                             Insolvency__r.Trustee__r.Name,
                             Insolvency__r.Trustee__r.Parent.Name,
                             Insolvency__r.Trustee__r.BillingStreet, 
@@ -194,7 +195,8 @@
     * return type: void
     **********************************************************/
     public void loadTemplate(String languageValue){
-    
+    	Set<String> fairstoneProductTypes = new Set<String>{ 'Secured', 'PL Unsecured', 'PL Secured', 'PL Auto Secured', 'Retail', 'Auto Loans' };
+            
         EmailTemplate emt = new EmailTemplate();
         
         if(languageValue == 'fr'){
@@ -215,6 +217,10 @@
         }
         if(insolvAcc.Client_Identifier__c == 'Goeasy'){
                 pocPackage.Client_Company_Name__c = pocPackage.Company_Name__c;
+        }
+        if (insolvAcc.Client_Identifier__c == 'Fairstone' && fairstoneProductTypes.contains(insolvAcc.Account_Type__c)) {
+            pocPackage.Client_Company_Name__c = pocPackage.Fairstone_New_Product_Company_Detail__c;
+            pocPackage.Client_Company_Name_French__c = pocPackage.Fairstone_New_Product_Company_Detail__c;
         }
         Map<String, String> emailMergeFields  = new Map<String, String>{
                                                     '{!TODAY()}' => formattedDate,

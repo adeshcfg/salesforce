@@ -108,7 +108,8 @@ public class LoRDemandController {
         subject = '';
         emailBody = '';
         attachmentBody = '';
-
+		Set<String> fairstoneProductTypes = new Set<String>{ 'Secured', 'PL Unsecured', 'PL Secured', 'PL Auto Secured', 'Retail', 'Auto Loans' };
+            
         // Check communication preference and use them to send email
         if (insolvAcc.Insolvency__r.Trustee__r.Communication_Preference__c == 'Fax') {
             toEmail = InsolvencyUtil.formatFaxAsEmail(insolvAcc.Insolvency__r.Trustee__r.Fax);
@@ -150,6 +151,11 @@ public class LoRDemandController {
             if (languageValue == 'fr') {
                 pocPackage.Client_Company_Name_French__c = 'Easyfinancial';
             }
+        }
+        if (insolvAcc.Client_Identifier__c == 'Fairstone' && fairstoneProductTypes.contains(insolvAcc.Account_Type__c)) {
+            clientCompanyName = pocPackage.Fairstone_New_Product_Company_Detail__c;
+            companyName = pocPackage.Fairstone_New_Product_Company_Detail__c;
+            pocPackage.Client_Company_Name_French__c = pocPackage.Fairstone_New_Product_Company_Detail__c;
         }
         // Merge fields used in email template
         Map<String, String> emailMergeFields = new Map<String, String>{

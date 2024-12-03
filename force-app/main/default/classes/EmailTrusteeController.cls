@@ -54,7 +54,7 @@ public class EmailTrusteeController {
     public List<selectOption> templates { get; set; }
     public Id selectedTemplate { get; set; }
     map<Id, EmailTemplate> emailTemplateMap = new Map<Id, EmailTemplate>();
-
+	Set<String> fairstoneProductTypes = new Set<String>{ 'Secured', 'PL Unsecured', 'PL Secured', 'PL Auto Secured', 'Retail', 'Auto Loans' };
     //Language setting
     public List<selectOption> languageList { get; set; }
     public string language { get; set; }
@@ -106,6 +106,7 @@ public class EmailTrusteeController {
                 Insolvency_Status__c,
                 Insolvency__r.Name,
                 Client_Identifier__c,
+            	Account_Type__c,
                 Reason_for_No_PoC_Required_Dropdown__c,
                 Reason_for_No_PoC_Required__c,
                 Amended_Claim_Flag__c,
@@ -255,6 +256,12 @@ public class EmailTrusteeController {
 
     //Load email template body, subject seelcted from drop down
     public void emailTemplatechanged() {
+        if (insolvAcc.Client_Identifier__c == 'Fairstone' && fairstoneProductTypes.contains(insolvAcc.Account_Type__c)) {
+            pocPackage.Company_Name__c = pocPackage.Fairstone_New_Product_Company_Detail__c;
+            pocPackage.Client_Company_Name_French__c = pocPackage.Fairstone_New_Product_Company_Detail__c;
+            pocPackage.Client_Company_Name__c = pocPackage.Fairstone_New_Product_Company_Detail__c;
+        }
+        
         flagForTrusteeFollowUpEmail = false;
         //get ID's of template for follow-up email.
         string idforTrusteeFollowupEmail = pocPackage.Follow_Up_Email_Required_Templates__c;
@@ -550,11 +557,20 @@ public class EmailTrusteeController {
                 return 'Bank of Nova Scotia';
             }
         } else if (insolvAcc.Client_Identifier__c == 'Fairstone') {
-            if (language == 'fr') {
-                return 'Fairstone';
-            } else {
-                return 'Fairstone';
+            if(fairstoneProductTypes.contains(insolvAcc.Account_Type__c)){
+                if (language == 'fr') {
+                    return 'Fairstone Financial Inc.';
+                } else {
+                    return 'Fairstone Financial Inc.';
+                }
+            }else{
+                if (language == 'fr') {
+                    return 'Fairstone';
+                } else {
+                    return 'Fairstone';
+                }
             }
+            
         } else if (insolvAcc.Client_Identifier__c == 'Goeasy') {
             if (language == 'fr') {
                 return 'Easyhome/Easyfinancial Services Ltd';
