@@ -27,12 +27,7 @@
         <field>Asset_Status__c</field>
         <operation>notEqual</operation>
         <value>Purchased,Bulk Purchased,Duplicate Purchased,Duplicate,Debt Purchase</value>
-    </filters>
-    <filters>
-        <field>Bank_Name__c</field>
-        <operation>contains</operation>
-        <value>scotia,spl</value>
-    </filters>
+    </filters>    
     <filters>
         <field>Claim_Type__c</field>
         <operation>equals</operation>
