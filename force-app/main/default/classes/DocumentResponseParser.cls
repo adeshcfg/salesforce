@@ -1489,8 +1489,9 @@ public class DocumentResponseParser {
         insolv.Total_Secured_Liabilities_Clc__c = 0;
         insolv.Total_Preferred_Liabilities_Clc__c = 0;
         insolv.Secured_Debts_Unsecured_Portion__c = 0;
-
+		Decimal claimAmount;
         for (Liabilities liability : liabilities) {
+            claimAmount = 0;
             Insolvency_Account__c insolvAccount = new Insolvency_Account__c();
 
             //insolvAccount.Name = 'unknown';
@@ -1535,18 +1536,19 @@ public class DocumentResponseParser {
                 insolvAccount.Claim_Type__c = 'Unsecured';
                 insolvAccount.Type_of_Service__c = 'Service Only';
             }
-
+            
             // Unsecured Account
             if (liability.unsecuredDebt != null && getDecimalValue(liability.unsecuredDebt) > 0) {
                 insolvAccount.Unsecured_Asset_Amount__c = getDecimalValue(liability.unsecuredDebt);
                 insolv.Total_Unsecured_Liabilities_Clc__c = insolv.Total_Unsecured_Liabilities_Clc__c + insolvAccount.Unsecured_Asset_Amount__c;
+            	claimAmount = insolvAccount.Unsecured_Asset_Amount__c;
             }
             // Secured Account
             if (liability.securedDebt != null && getDecimalValue(liability.securedDebt) > 0) {
                 insolvAccount.Secured_Asset_Amount__c = getDecimalValue(liability.securedDebt);
                 insolvAccount.Claim_Type__c = 'Secured';
                 insolv.Total_Secured_Liabilities_Clc__c = insolv.Total_Secured_Liabilities_Clc__c + insolvAccount.Secured_Asset_Amount__c;
-
+				claimAmount += insolvAccount.Secured_Asset_Amount__c;
                 // If it has both secured and un secured amount
                 if (liability.unsecuredDebt != null && getDecimalValue(liability.unsecuredDebt) > 0) {
                     insolv.Secured_Debts_Unsecured_Portion__c = insolv.Secured_Debts_Unsecured_Portion__c + insolvAccount.Unsecured_Asset_Amount__c;
@@ -1555,6 +1557,7 @@ public class DocumentResponseParser {
             if (liability.preferredDebt != null && getDecimalValue(liability.preferredDebt) > 0) {
                 insolvAccount.Claim_Type__c = null;
                 insolvAccount.Preferred_Amount__c = getDecimalValue(liability.preferredDebt);
+                claimAmount += insolvAccount.Secured_Asset_Amount__c;
                 insolv.Total_Preferred_Liabilities_Clc__c = insolv.Total_Preferred_Liabilities_Clc__c + insolvAccount.Preferred_Amount__c;
             }
             if (liability.ltc != null) {
@@ -1580,7 +1583,12 @@ public class DocumentResponseParser {
                     insolvAccount.Type_of_Service__c = 'Service Only';
                 }
             }
-
+			//Ticket 7740: Parsing debtor amounts on creditor package accounts 
+			//(sum of Secured, Unsecured and preferred amount from LIABILITIES) 
+            if(claimAmount != NULL && claimAmount > 0){
+                insolvAccount.Claim_Amount__c = claimAmount;
+            }
+            
             // Add to insolvency if it is Scotia bank, SPL, or SDA
             if (insolvAccount.RecordTypeId != null) {
                 insolvAccounts.add(insolvAccount);
