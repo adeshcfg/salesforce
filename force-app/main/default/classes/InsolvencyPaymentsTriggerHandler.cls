@@ -39,15 +39,17 @@ public class InsolvencyPaymentsTriggerHandler{
 	}
     //Before Update
     public static void handleBeforeUpdate(List<Insolvency_Payment__c> insolvPaymentsNew, Map<Id, Insolvency_Payment__c> oldMap) {
-        updateCTBInsolvencyPaymentStatus(insolvPaymentsNew,true);
+        updateCTBInsolvencyPaymentStatus(insolvPaymentsNew,'insolvency Payment');
+        InsolvencyPaymentsTriggerHandler.runInsolvencyPaymentTrigger = false;
     }
     
     //Before Insert
     public static void handleBeforeInsert(List<Insolvency_Payment__c> insolvPaymentsNew){
-        updateCTBInsolvencyPaymentStatus(insolvPaymentsNew,true);
+        updateCTBInsolvencyPaymentStatus(insolvPaymentsNew,'insolvency Payment');
+        InsolvencyPaymentsTriggerHandler.runInsolvencyPaymentTrigger = false;
     }
     
-    public static void updateCTBInsolvencyPaymentStatus(List<Insolvency_Payment__c> insolvPaymentsNew,boolean checkStatus){
+    public static void updateCTBInsolvencyPaymentStatus(List<Insolvency_Payment__c> insolvPaymentsNew,String checkStatus){
         Set<ID> insolAcctIds = new Set<ID>();
         for(Insolvency_Payment__c insolvPayment : insolvPaymentsNew){
             insolAcctIds.add(insolvPayment.Insolvency_Account__c);
@@ -99,12 +101,10 @@ public class InsolvencyPaymentsTriggerHandler{
                     }
                 }
                 errorMsg = errorMsg.removeEnd(' ,');
-                
-                if(fieldMissing == False){
+                if(fieldMissing == False && insolPayData.Payment_Sub_Status__c != 'Sent on File'){
                     insolPayData.Error_Message__c = '';
                     insolPayData.Payment_Sub_Status__c = 'Pending File';
                 }
-               
                 if(fieldMissing == True){
                     insolPayData.Error_Message__c = errorMsg;
                     insolPayData.Payment_Sub_Status__c = 'File Error Parsing Record';
@@ -112,9 +112,20 @@ public class InsolvencyPaymentsTriggerHandler{
                 insolPaymentMap.put(insolPayData.id,insolPayData);
             }
         }
-        
-        if(checkStatus == false){
+                
+        string errorValidationRuleMsg = '';
+        if(checkStatus == 'Insolvency Account'){
+            try{
             update insolPaymentMap.values();
+            }catch (DMLException ex) {
+                errorValidationRuleMsg = AddNewAccountToJudgmentController.readDMLMessage(ex);
+                throw new CustomException(errorValidationRuleMsg);
+            }
         }
+      
+    }
+    public class CustomException extends Exception {
+        
+        
     }
 }
