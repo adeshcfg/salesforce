@@ -56,7 +56,7 @@
         <field>Insolvency_Account__c.Insolvency_Status__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Insolvency Accounts by Status - Fairstone</name>
+    <name>Insolvency Accounts by Status-Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>

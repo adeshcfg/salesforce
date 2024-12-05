@@ -58,7 +58,7 @@
         <field>Insolvency_Account__c.PoC_Created_Date__c</field>
         <sortOrder>Desc</sortOrder>
     </groupingsDown>
-    <name>Unsecured Claims Filed by Amount - Fairstone</name>
+    <name>Unsecured Claims Filed by Amt-Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>
