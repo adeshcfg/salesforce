@@ -51,6 +51,13 @@
             <operator>equals</operator>
             <value>Fairstone</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Account_Type__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Auto Loan,Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
@@ -58,7 +65,7 @@
         <field>CUST_NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer NoD Received - Fairstone</name>
+    <name>Fairstone NoD Received - Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>
