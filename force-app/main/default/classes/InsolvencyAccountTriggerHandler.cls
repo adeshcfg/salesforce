@@ -1289,14 +1289,14 @@ update config;
                 insolAccntsToProcess.add(insolAccntNew);
             }
         }
-        if(!Test.isRunningTest()){
+        if(!Test.isRunningTest() && InsolvencyPaymentsTriggerHandler.runInsolvencyPaymentTrigger){
             if(canadianInsolAcctIdSet != NULL){
                 List<Insolvency_payment__c> ctbInsolPayment = [select id,name,Insolvency_Account__c,Payment_Amount__c,
                                                                Is_Payment_Remitted__c,Payment_Reversed__c,Payment_Reversal_Date__c,
                                                                Account_Number__c,Payment_Sub_Status__c,Error_Message__c
                                                                from Insolvency_payment__c 
                                                                where Insolvency_Account__c IN: canadianInsolAcctIdSet];
-                InsolvencyPaymentsTriggerHandler.updateCTBInsolvencyPaymentStatus(ctbInsolPayment,false); 
+                InsolvencyPaymentsTriggerHandler.updateCTBInsolvencyPaymentStatus(ctbInsolPayment,'Insolvency Account'); 
             }
         }
         
