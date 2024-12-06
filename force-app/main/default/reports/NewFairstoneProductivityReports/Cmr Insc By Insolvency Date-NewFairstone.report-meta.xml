@@ -67,7 +67,7 @@
         <field>Insolvency__c.Insolvency_Date__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Insolvencies By Insolvency Date- Fairstone</name>
+    <name>Cmr Insc By Insolvency Date- Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>

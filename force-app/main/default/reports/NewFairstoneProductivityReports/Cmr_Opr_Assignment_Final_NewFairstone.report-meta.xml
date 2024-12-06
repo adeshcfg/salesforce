@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
+        <field>CASE_NUMBER</field>
+    </columns>
+    <columns>
         <field>SUBJECT</field>
-    </columns>
-    <columns>
-        <field>CREATED_DATE</field>
-    </columns>
-    <columns>
-        <field>Case.Insolvency_Assignment_Type__c</field>
     </columns>
     <columns>
         <field>OPEN</field>
     </columns>
     <columns>
-        <field>CLOSED</field>
-    </columns>
-    <columns>
         <field>Case.Estate_ID__c</field>
     </columns>
-    <description>Customer Operational – Next Followup Date - New Fairstone</description>
+    <description>Customer Operational Assignment – Final - new Fairstone</description>
     <filter>
+        <criteriaItems>
+            <column>Case.Insolvency_Assignment_Type__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Final</value>
+        </criteriaItems>
         <criteriaItems>
             <column>Case.Assign_To__c</column>
             <columnToColumn>false</columnToColumn>
@@ -35,20 +36,20 @@
             <value>1</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Case.Next_Follow_Up_Date__c</column>
+            <column>Case.Form_Types__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>greaterOrEqual</operator>
-            <value>TODAY</value>
+            <operator>equals</operator>
+            <value>Final</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Case.Next_Follow_Up_Date__c</field>
+        <field>CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Operational – Next Followup Date - Fairstone</name>
+    <name>C Operational Assignment Final Fairstone</name>
     <params>
         <name>units</name>
         <value>h</value>
@@ -63,7 +64,7 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Case.Next_Follow_Up_Date__c</dateColumn>
+        <dateColumn>CREATED_DATEONLY</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

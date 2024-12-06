@@ -67,7 +67,7 @@
         <field>CUST_CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Insolvency Accounts Per Month- Fairstone</name>
+    <name>Cmr Insc Accounts Per Month- Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>

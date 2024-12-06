@@ -40,7 +40,7 @@
         <field>CUST_CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Insolvencies Per Month - Fairstone</name>
+    <name>Cmr Insolvencies Per Month - Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>

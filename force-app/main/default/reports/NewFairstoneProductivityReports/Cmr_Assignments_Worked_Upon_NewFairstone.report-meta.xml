@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Insolvency_Account__c.Insolvency__c</field>
+        <field>SUBJECT</field>
     </columns>
     <columns>
-        <field>CUST_NAME</field>
+        <field>STATUS</field>
     </columns>
     <columns>
-        <field>Insolvency_Account__c.Insolvency_Status__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Claim_Type__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Claim_Amount__c</field>
+        <field>Case.Insolvency_Assignment_Type__c</field>
     </columns>
     <columns>
         <field>field_key</field>
@@ -24,28 +18,36 @@
     <columns>
         <field>NEWVAL</field>
     </columns>
-    <description>Customer Insolvency Accounts Worked Upon- New Fairstone</description>
+    <columns>
+        <field>Case.Insolvency__c</field>
+    </columns>
+    <columns>
+        <field>Case.Insolvency_Account__c</field>
+    </columns>
+    <columns>
+        <field>Case.Assign_To__c</field>
+    </columns>
+    <columns>
+        <field>CLOSED_DATEONLY</field>
+    </columns>
+    <columns>
+        <field>CASE_LAST_UPDATEONLY</field>
+    </columns>
+    <description>Customer Assignment Worke Upon Fairstone</description>
     <filter>
-        <criteriaItems>
-            <column>field_key</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Processing Status</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Insolvency_Account__c.Client_Identifier__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Fairstone</value>
-        </criteriaItems>
         <criteriaItems>
             <column>CREATED</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>contains</operator>
             <value>Edna Thrasher,Christine Yourth,Maninder Hothi,Catherine Hunt,Renee Kitchin,Deb Murphy,Susan Francis,Karen Haupert,Sharon Eaton,Hirvita Patel</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>field_key</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Status,Assign To</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
@@ -59,19 +61,22 @@
         <field>CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Insolvency Accounts Worked Upon- Fairstone</name>
+    <name>Customer Assignments Worked Upon - Fairstone</name>
+    <params>
+        <name>units</name>
+        <value>d</value>
+    </params>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>CustomEntityAuditHistory$Insolvency_Account__c</reportType>
+    <reportType>CaseAuditHistory</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>CREATED_DATE</dateColumn>
-        <interval>INTERVAL_TODAY</interval>
+        <interval>INTERVAL_THISMONTH</interval>
     </timeFrameFilter>
 </Report>
- 60 changes: 60 additions & 0 deletions60  

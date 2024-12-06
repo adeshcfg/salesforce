@@ -1,21 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Insolvency_Account__c.Insolvency__c</field>
-    </columns>
-    <columns>
         <field>CUST_NAME</field>
     </columns>
     <columns>
-        <field>Insolvency_Account__c.Insolvency_Status__c</field>
+        <field>Insolvency_Account__c.Insolvency__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Claim_Amount__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Type__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Business_Account__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Number_Of_Days_In_Current_Status__c</field>
     </columns>
     <columns>
         <field>Insolvency_Account__c.Claim_Type__c</field>
     </columns>
     <columns>
-        <field>Insolvency_Account__c.Claim_Amount__c</field>
+        <field>Insolvency_Account__c.Insolvency_Date__c</field>
     </columns>
-    <description>Customer Insolvency Accounts created By - New Fairstone </description>
+    <columns>
+        <field>Insolvency_Account__c.Account_Type__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Product_Code__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Status__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Received_Date__c</field>
+    </columns>
+    <description>Customer Insolvency Accounts Per Day- New Fairstone</description>
     <filter>
         <criteriaItems>
             <column>Insolvency_Account__c.Client_Identifier__c</column>
@@ -24,26 +45,14 @@
             <operator>equals</operator>
             <value>Fairstone</value>
         </criteriaItems>
-        <criteriaItems>
-            <column>CUST_CREATED_NAME</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>contains</operator>
-            <value>Edna Thrasher,Christine Yourth,Maninder Hothi,Catherine Hunt,Renee Kitchin,Deb Murphy,Susan Francis,Karen Haupert,Sharon Eaton,Hirvita Patel</value>
-        </criteriaItems>
     </filter>
     <format>Summary</format>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>CUST_CREATED_NAME</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>CUST_CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Insolvency Accounts created By - Fairstone</name>
+    <name>Cmr Insc Accounts Per Day- Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>
@@ -54,7 +63,7 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Insolvency_Account__c.Accounts_Validation_Date__c</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_THISMONTH</interval>
     </timeFrameFilter>
 </Report>

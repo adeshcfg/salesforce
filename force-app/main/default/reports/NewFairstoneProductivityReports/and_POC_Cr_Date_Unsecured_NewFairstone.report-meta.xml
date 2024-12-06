@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Insolvency_Account__c.Insolvency__c</field>
+        <aggregateTypes>Sum</aggregateTypes>
+        <aggregateTypes>Average</aggregateTypes>
+        <field>Insolvency_Account__c.Claim_Amount__c</field>
+    </columns>
+    <columns>
+        <field>CUST_ID</field>
     </columns>
     <columns>
         <field>CUST_NAME</field>
     </columns>
     <columns>
+        <field>Insolvency_Account__c.Insolvency_Type__c</field>
+    </columns>
+    <columns>
         <field>Insolvency_Account__c.Insolvency_Date__c</field>
     </columns>
     <columns>
-        <field>CUST_CREATED_DATE</field>
+        <field>Insolvency_Account__c.Account_Type__c</field>
     </columns>
     <columns>
-        <field>Insolvency_Account__c.Insolvency_Received_Date__c</field>
+        <field>Insolvency_Account__c.Insolvency_Status__c</field>
     </columns>
-    <description>Customer Bankruptcy Trending Report - New Fairstone</description>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Status_Last_Changed__c</field>
+    </columns>
+    <description># and $ POC Created Date Unsecured - Fairstone</description>
     <filter>
-        <criteriaItems>
-            <column>NEWVAL</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>PoC Details Provided,No PoC Required</value>
-        </criteriaItems>
         <criteriaItems>
             <column>Insolvency_Account__c.Client_Identifier__c</column>
             <columnToColumn>false</columnToColumn>
@@ -32,40 +36,43 @@
             <value>Fairstone</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Insolvency_Account__c.Insolvency_Type__c</column>
+            <column>Insolvency_Account__c.PoC_Created_Date__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Bankruptcy</value>
+            <value>LAST_N_DAYS:30</value>
         </criteriaItems>
         <criteriaItems>
-            <column>CREATED</column>
+            <column>Insolvency_Account__c.Claim_Type__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>contains</operator>
-            <value>Edna Thrasher,Christine Yourth,Maninder Hothi,Catherine Hunt,Renee Kitchin,Deb Murphy,Susan Francis,Karen Haupert,Sharon Eaton,Hirvita Patel</value>
+            <operator>equals</operator>
+            <value>Unsecured</value>
         </criteriaItems>
     </filter>
-    <format>Summary</format>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Insolvency_Account__c.Claim_Type__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>CREATED_DATE</field>
+        <field>Insolvency_Account__c.PoC_Created_Date__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Bankruptcy Trending Report - Fairstone</name>
+    <name># and $ POC Cr Dt Unsecured - Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>CustomEntityAuditHistory$Insolvency_Account__c</reportType>
+    <reportType>CustomEntity$Insolvency_Account__c@Insolvency_Account__c.Insolvency__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>Insolvency_Account__c.Insolvency__c</sortColumn>
-    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
-        <dateColumn>CREATED_DATE</dateColumn>
+        <dateColumn>Insolvency_Account__c.Bulk_Payment_Date__c</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

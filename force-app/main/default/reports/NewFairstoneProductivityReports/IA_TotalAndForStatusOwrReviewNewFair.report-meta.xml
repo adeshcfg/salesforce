@@ -35,14 +35,21 @@
         <aggregateTypes>Sum</aggregateTypes>
         <field>Insolvency_Account_Snapshot__c.Number_of_Secured_Accounts__c</field>
     </columns>
-    <description>IA_Total # and $ For Status Wait/hold- New Fairstone</description>
+    <description>IA_Total # and $ for status Owner Review- New Fairstone</description>
     <filter>
+        <criteriaItems>
+            <column>Insolvency_Account_Snapshot__c.Snapshot_Date__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>LAST_N_DAYS:30</value>
+        </criteriaItems>
         <criteriaItems>
             <column>Insolvency_Account_Snapshot__c.Processing_Status__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Wait / Hold</value>
+            <value>For Owner Review</value>
         </criteriaItems>
         <criteriaItems>
             <column>Insolvency_Account_Snapshot__c.Bank_Name__c</column>
@@ -63,7 +70,7 @@
         <field>Insolvency_Account_Snapshot__c.Snapshot_Date__c</field>
         <sortOrder>Desc</sortOrder>
     </groupingsDown>
-    <name>IA_Total # and $ For Status Wait/hold- Fairstone</name>
+    <name>IA_Total # and $ for status Owner Review</name>
     <params>
         <name>co</name>
         <value>0</value>
@@ -75,6 +82,6 @@
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>Insolvency_Account_Snapshot__c.Snapshot_Date__c</dateColumn>
-        <interval>INTERVAL_LASTMONTH</interval>
+        <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

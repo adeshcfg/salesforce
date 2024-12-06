@@ -73,7 +73,7 @@
         <field>Insolvency_Account_Snapshot__c.Snapshot_Date__c</field>
         <sortOrder>Desc</sortOrder>
     </groupingsDown>
-    <name>IA_Total # and $ for status Claim File - Fairstone</name>
+    <name>IA_Total # and $ for status Claim File</name>
     <params>
         <name>co</name>
         <value>0</value>

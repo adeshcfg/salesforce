@@ -51,7 +51,7 @@
         <field>Case.Form_Types__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Operational – Form Types  - Fairstone</name>
+    <name>Cmr Operational - Form Types - Fairstone</name>
     <params>
         <name>units</name>
         <value>h</value>
