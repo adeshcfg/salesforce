@@ -487,7 +487,6 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
         List<Messaging.Emailfileattachment> fileAttachments = new List<Messaging.Emailfileattachment>();
         Map<String, Insolvency_Account__c> mapidtoObject = new Map<String, Insolvency_Account__c>();
         Set<String> attachedPocAccountIds = new Set<String>();
-        Map<String, DateTime> acctIdPocDetailsProvidedDate = new Map<String, DateTime>();
         Map<String, DateTime> acctIdPreviousStatusDate = new Map<String, DateTime>();
         for (Insolvency_Account__c insol : [
             SELECT Id, Client_Identifier__c, Insolvency_Status_Last_Changed__c
@@ -499,22 +498,18 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
             }
         }
 
-        // Get POC details provided date from account history
+        // Get For owner review date from account history
         for (Insolvency_Account__History insolAcctHistory : [
             SELECT NewValue, CreatedDate, Parent.Id
             FROM Insolvency_Account__History
             WHERE Parent.Id IN :insolvAcc AND Field = 'Insolvency_Status__c'
             ORDER BY CreatedDate DESC
         ]) {
-            // Store last status changed date for all accounts - it is the date when status was updated to POC Details Provided
+            // Store For owner review status changed date
             // Will be used to filter out attachments that are not required for the email
-            if (!acctIdPocDetailsProvidedDate.containsKey(insolAcctHistory.Parent.Id) && insolAcctHistory.NewValue == 'POC Details Provided') {
-                acctIdPocDetailsProvidedDate.put(insolAcctHistory.Parent.Id, insolAcctHistory.CreatedDate);
-                continue;
-            }
-            // Store status changed date of status prior to POC Details Provided
-            if (acctIdPocDetailsProvidedDate.containsKey(insolAcctHistory.Parent.Id) && !acctIdPreviousStatusDate.containsKey(insolAcctHistory.Parent.Id)) {
+            if (!acctIdPreviousStatusDate.containsKey(insolAcctHistory.Parent.Id) && insolAcctHistory.NewValue == 'For Owner Review') {
                 acctIdPreviousStatusDate.put(insolAcctHistory.Parent.Id, insolAcctHistory.CreatedDate);
+                continue;
             }
         }
         for (Attachment selectedAtt : [
@@ -523,11 +518,8 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
             WHERE ParentId IN :insolvAcc AND Description = :lstAttachmentTypes
             ORDER BY CreatedDate DESC
         ]) {
-            // Only get attachments created between the time frame of POC Details Provided and status prior to that
-            if (
-                selectedAtt.CreatedDate >= acctIdPreviousStatusDate.get(selectedAtt.ParentId) &&
-                selectedAtt.CreatedDate <= acctIdPocDetailsProvidedDate.get(selectedAtt.ParentId)
-            ) {
+            // Only get attachments created after For owner review status
+            if (selectedAtt.CreatedDate >= acctIdPreviousStatusDate.get(selectedAtt.ParentId)) {
                 if (acctIdAttachmentSizeMap.containsKey(selectedAtt.ParentId)) {
                     acctIdAttachmentSizeMap.put(selectedAtt.ParentId, acctIdAttachmentSizeMap.get(selectedAtt.ParentId) + selectedAtt.BodyLength);
                 } else {
@@ -543,11 +535,8 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
             WHERE Insolvency_Account__c = :mapidtoObject.keySet()
             ORDER BY CreatedDate DESC
         ]) {
-            // Only get attachments created between the time frame of POC Details Provided and status prior to that
-            if (
-                docStorage.CreatedDate >= acctIdPreviousStatusDate.get(docStorage.Insolvency_Account__c) &&
-                docStorage.CreatedDate <= acctIdPocDetailsProvidedDate.get(docStorage.Insolvency_Account__c)
-            ) {
+            // Only get attachments created after For owner review status
+            if (docStorage.CreatedDate >= acctIdPreviousStatusDate.get(docStorage.Insolvency_Account__c)) {
                 // API callout to get the document created in SF for selected attachments
                 String tempVersionId = DocumentAPIClient.getContentVersionIdForAzureFile(docStorage.Document_URL__c, docStorage.Document_Type__c);
                 if (String.isBlank(tempVersionId)) {
@@ -580,11 +569,8 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
                 // Track accounts for which we have added POC attachment
                 attachedPocAccountIds.add(attObj.ParentId);
             }
-            // Only attach files created between the time frame of POC Details Provided and status prior to that
-            if (
-                (attObj.CreatedDate >= acctIdPreviousStatusDate.get(attObj.ParentId) &&
-                attObj.CreatedDate <= acctIdPocDetailsProvidedDate.get(attObj.ParentId))
-            ) {
+            // Only attach files created after For owner review status
+            if ((attObj.CreatedDate >= acctIdPreviousStatusDate.get(attObj.ParentId))) {
                 efa.setFileName(attObj.Name);
                 efa.setBody(attObj.Body);
                 fileAttachments.add(efa);
@@ -648,8 +634,10 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
         }
         Messaging.sendEmail(mapInsolvAcctoEmail.values());
 
-        Map<String, Task> emailTaskMap = new Map<String, Task>([SELECT Id FROM Task WHERE WhatId IN :acctIds AND TaskSubtype = 'Email' ORDER BY CreatedDate Desc]);
-        for (EmailMessage emailmsg : [SELECT Id, RelatedToId FROM EmailMessage WHERE ActivityId IN :emailTaskMap.keySet() ORDER BY CreatedDate Desc]) {
+        Map<String, Task> emailTaskMap = new Map<String, Task>(
+            [SELECT Id FROM Task WHERE WhatId IN :acctIds AND TaskSubtype = 'Email' ORDER BY CreatedDate DESC]
+        );
+        for (EmailMessage emailmsg : [SELECT Id, RelatedToId FROM EmailMessage WHERE ActivityId IN :emailTaskMap.keySet() ORDER BY CreatedDate DESC]) {
             // Only store latest email message Id for each account
             if (!acctIdEmailMsgIdMap.containsKey(emailmsg.RelatedToId)) {
                 acctIdEmailMsgIdMap.put(emailmsg.RelatedToId, emailmsg.Id);
