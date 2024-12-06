@@ -22,6 +22,11 @@
         <operation>equals</operation>
         <value>For Owner Review</value>
     </filters>
+    <filters>
+        <field>Account_Type__c</field>
+        <operation>notEqual</operation>
+        <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans</value>
+    </filters>
     <label>For Owner Review</label>
     <sharedTo>
         <group>Insolvency_Fairstone_Users</group>
