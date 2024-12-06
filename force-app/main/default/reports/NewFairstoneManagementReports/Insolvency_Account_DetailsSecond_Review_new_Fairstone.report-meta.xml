@@ -42,7 +42,7 @@
     <columns>
         <field>Insolvency_Account__c.PoC_Details_Provided_Date__c</field>
     </columns>
-    <description>Insolvency Account Details – Second Review - Fairstone </description>
+    <description>Insolvency Account Details – Second Review - Fairstone</description>
     <filter>
         <criteriaItems>
             <column>Insolvency_Account__c.Second_Review__c</column>
@@ -57,6 +57,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Fairstone</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Account_Type__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

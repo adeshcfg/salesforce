@@ -4,7 +4,7 @@
         <calculatedFormula>FK_Insolvency__c.Unique_Estate__c:SUM</calculatedFormula>
         <datatype>number</datatype>
         <developerName>FORMULA1</developerName>
-        <isActive>true</isActive>
+        <isActive>false</isActive>
         <isCrossBlock>false</isCrossBlock>
         <masterLabel>Unique Estate</masterLabel>
         <scale>2</scale>
@@ -44,10 +44,32 @@
         </values>
     </buckets>
     <columns>
-        <field>CUST_NAME</field>
+        <field>FK_NAME</field>
     </columns>
     <columns>
-        <field>FK_NAME</field>
+        <field>Insolvency_Account__c.Debtor__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Co_Debtor__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Type__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Date__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Status_Formula__c</field>
+    </columns>
+    <columns>
+        <field>FK_$Insolvency__c.Insolvency_Status_Last_Changed__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>FK_$Insolvency__c.Number_Of_Days_In_Current_Status__c</field>
+    </columns>
+    <columns>
+        <field>FK_$Insolvency__c.Insolvency_Received_Date__c</field>
     </columns>
     <description>Insolvency Action Needed New - Fairstone</description>
     <filter>
@@ -85,6 +107,13 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>For Owner Review</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Account_Type__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
