@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class for sending email
  * @author            : Abhijeet
- * @last modified on  : 11-27-2024
+ * @last modified on  : 12-06-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 
@@ -44,7 +44,9 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
     }
 
     public void finish(Database.BatchableContext bc) {
+        InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
         updateInsolvencyAndAccount(insolvencyAccountIds);
+        InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
     }
 
     /**
