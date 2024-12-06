@@ -53,6 +53,8 @@ public class LorVfTemplateController {
      * @param languageValue
      **/
     public void populateInformation(Insolvency_Account__c insolvAcc, String languageValue) {
+        Set<String> fairstoneProductTypes = new Set<String>{ 'Secured', 'PL Unsecured', 'PL Secured', 'PL Auto Secured', 'Retail', 'Auto Loans' };
+            
         pocPackage = PoC_Package_Settings__c.getValues(insolvAcc.Client_Identifier__c);
         Date dateToday = System.Today();
         otherInfo = new LorInformationWrapper();
@@ -85,6 +87,12 @@ public class LorVfTemplateController {
                 pocPackage.Client_Company_Name_French__c = 'Easyfinancial';
             }
         }
+        if (insolvAcc.Client_Identifier__c == 'Fairstone' && fairstoneProductTypes.contains(insolvAcc.Account_Type__c)) {
+            clientCompanyName = pocPackage.Fairstone_New_Product_Company_Detail__c;
+            companyName = pocPackage.Fairstone_New_Product_Company_Detail__c;
+            pocPackage.Client_Company_Name_French__c = pocPackage.Fairstone_New_Product_Company_Detail__c;
+        }
+        
         pocPackage.Client_Company_Name__c = pocPackage.Client_Company_Name__c.toUppercase();
         pocPackage.CFG_Office_Phone_Number__c = pocPackage.CFG_Office_Phone_Number__c.replace('-', '.');
         pocPackage.CFG_Office_Fax_Number__c = pocPackage.CFG_Office_Fax_Number__c.replace('-', '.');
