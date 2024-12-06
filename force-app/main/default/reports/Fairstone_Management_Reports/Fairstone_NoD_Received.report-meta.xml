@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Insolvency_Account__c.Insolvency__c</field>
-    </columns>
-    <columns>
-        <field>CUST_NAME</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Debtor__c</field>
+        <field>Insolvency_Account__c.Insolvency_Date__c</field>
     </columns>
     <columns>
         <field>Insolvency_Account__c.Claim_Amount__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Insolvency_Type__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Claim_Type__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Insolvency_Date__c</field>
     </columns>
     <columns>
         <field>Insolvency_Account__c.Account_Type__c</field>
@@ -27,14 +12,37 @@
     <columns>
         <field>Insolvency_Account__c.Product_Code__c</field>
     </columns>
-    <description>Total Claims Filed</description>
+    <columns>
+        <field>Insolvency_Account__c.Province_Formula__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Date_NOD_received__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Disallowance_Reasons__c</field>
+    </columns>
+    <description>Fairstone NoD Received</description>
     <filter>
         <criteriaItems>
-            <column>Insolvency_Account__c.Insolvency_Status__c</column>
+            <column>field_key</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Claim Filed</value>
+            <value>Date NoD received</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OLDVAL</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>NEWVAL</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
         </criteriaItems>
         <criteriaItems>
             <column>Insolvency_Account__c.Client_Identifier__c</column>
@@ -53,22 +61,22 @@
     </filter>
     <format>Summary</format>
     <groupingsDown>
-        <dateGranularity>Month</dateGranularity>
-        <field>Insolvency_Account__c.PoC_Created_Date__c</field>
-        <sortOrder>Desc</sortOrder>
+        <dateGranularity>Day</dateGranularity>
+        <field>CUST_NAME</field>
+        <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Total Claims Filed</name>
+    <name>Fairstone NoD Received</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>CustomEntity$Insolvency_Account__c</reportType>
+    <reportType>CustomEntityAuditHistory$Insolvency_Account__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Insolvency_Account__c.PoC_Created_Date__c</dateColumn>
-        <interval>INTERVAL_CURPREVQ</interval>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <interval>INTERVAL_LASTMONTH</interval>
     </timeFrameFilter>
 </Report>

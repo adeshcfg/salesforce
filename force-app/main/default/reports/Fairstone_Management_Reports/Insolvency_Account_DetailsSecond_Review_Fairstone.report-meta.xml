@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Insolvency_Account__c.Insolvency__c</field>
-    </columns>
-    <columns>
         <field>CUST_NAME</field>
     </columns>
     <columns>
-        <field>Insolvency_Account__c.Debtor__c</field>
+        <field>FK_NAME</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Account_Owner__c</field>
     </columns>
     <columns>
         <field>Insolvency_Account__c.Claim_Amount__c</field>
     </columns>
     <columns>
-        <field>Insolvency_Account__c.Insolvency_Type__c</field>
+        <field>FK_$Insolvency__c.Insolvency_Type__c</field>
     </columns>
     <columns>
         <field>Insolvency_Account__c.Claim_Type__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Insolvency_Date__c</field>
     </columns>
     <columns>
         <field>Insolvency_Account__c.Account_Type__c</field>
@@ -27,14 +24,32 @@
     <columns>
         <field>Insolvency_Account__c.Product_Code__c</field>
     </columns>
-    <description>Total Claims Filed</description>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Status__c</field>
+    </columns>
+    <columns>
+        <field>FK_$Insolvency__c.Insolvency_Received_Date__c</field>
+    </columns>
+    <columns>
+        <field>CUST_CREATED_DATE</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Date__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.PoC_Details_Provided_By__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.PoC_Details_Provided_Date__c</field>
+    </columns>
+    <description>Insolvency Account Details-Second Review</description>
     <filter>
         <criteriaItems>
-            <column>Insolvency_Account__c.Insolvency_Status__c</column>
+            <column>Insolvency_Account__c.Second_Review__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Claim Filed</value>
+            <value>1</value>
         </criteriaItems>
         <criteriaItems>
             <column>Insolvency_Account__c.Client_Identifier__c</column>
@@ -51,24 +66,21 @@
             <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans</value>
         </criteriaItems>
     </filter>
-    <format>Summary</format>
-    <groupingsDown>
-        <dateGranularity>Month</dateGranularity>
-        <field>Insolvency_Account__c.PoC_Created_Date__c</field>
-        <sortOrder>Desc</sortOrder>
-    </groupingsDown>
-    <name>Total Claims Filed</name>
+    <format>Tabular</format>
+    <name>Insolvency Account Details-Second Review</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>CustomEntity$Insolvency_Account__c</reportType>
+    <reportType>CustomEntity$Insolvency_Account__c@Insolvency_Account__c.Insolvency__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
+    <sortColumn>CUST_CREATED_DATE</sortColumn>
+    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
-        <dateColumn>Insolvency_Account__c.PoC_Created_Date__c</dateColumn>
-        <interval>INTERVAL_CURPREVQ</interval>
+        <dateColumn>Insolvency_Account__c.Insolvency_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

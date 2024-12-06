@@ -1,39 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
-    <buckets>
-        <bucketType>number</bucketType>
-        <developerName>BucketField_71881415</developerName>
-        <masterLabel>Number Of Days In Current Status</masterLabel>
-        <nullTreatment>z</nullTreatment>
-        <sourceColumnName>Insolvency_Account__c.Number_Of_Days_In_Current_Status__c</sourceColumnName>
-        <useOther>false</useOther>
-        <values>
-            <sourceValues>
-                <to>2</to>
-            </sourceValues>
-            <value>0-2 Days</value>
-        </values>
-        <values>
-            <sourceValues>
-                <from>2</from>
-                <to>5</to>
-            </sourceValues>
-            <value>3-5 Days</value>
-        </values>
-        <values>
-            <sourceValues>
-                <from>5</from>
-                <to>10</to>
-            </sourceValues>
-            <value>6-10 Dys</value>
-        </values>
-        <values>
-            <sourceValues>
-                <from>10</from>
-            </sourceValues>
-            <value>10+ Days</value>
-        </values>
-    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <aggregate>Sum</aggregate>
+            <axisBinding>y</axisBinding>
+            <column>Insolvency_Account__c.Claim_Amount__c</column>
+        </chartSummaries>
+        <chartType>HorizontalBar</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Insolvency_Account__c.PoC_Created_Date__c</groupingColumn>
+        <location>CHART_BOTTOM</location>
+        <showAxisLabels>false</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>true</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
     <columns>
         <field>Insolvency_Account__c.Insolvency__c</field>
     </columns>
@@ -41,6 +32,10 @@
         <field>CUST_NAME</field>
     </columns>
     <columns>
+        <field>Insolvency_Account__c.Debtor__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
         <field>Insolvency_Account__c.Claim_Amount__c</field>
     </columns>
     <columns>
@@ -58,26 +53,14 @@
     <columns>
         <field>Insolvency_Account__c.Product_Code__c</field>
     </columns>
-    <columns>
-        <field>Insolvency_Account__c.Insolvency_Status__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Insolvency_Received_Date__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Insolvency_Status_Last_Changed__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Number_Of_Days_In_Current_Status__c</field>
-    </columns>
-    <description>Wait / Hold - Unsecured</description>
+    <description>Claims Filed by the amount -Fairstone</description>
     <filter>
         <criteriaItems>
             <column>Insolvency_Account__c.Insolvency_Status__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Wait / Hold</value>
+            <value>Claim Filed</value>
         </criteriaItems>
         <criteriaItems>
             <column>Insolvency_Account__c.Client_Identifier__c</column>
@@ -87,11 +70,18 @@
             <value>Fairstone</value>
         </criteriaItems>
         <criteriaItems>
+            <column>Insolvency_Account__c.Business_Account__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
             <column>Insolvency_Account__c.Claim_Type__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Unsecured</value>
+            <value>Secured,Unsecured</value>
         </criteriaItems>
         <criteriaItems>
             <column>Insolvency_Account__c.Account_Type__c</column>
@@ -103,11 +93,11 @@
     </filter>
     <format>Summary</format>
     <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>BucketField_71881415</field>
-        <sortOrder>Asc</sortOrder>
+        <dateGranularity>Month</dateGranularity>
+        <field>Insolvency_Account__c.PoC_Created_Date__c</field>
+        <sortOrder>Desc</sortOrder>
     </groupingsDown>
-    <name>Wait / Hold - Unsecured</name>
+    <name>Claims Filed by the amount -Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>
@@ -118,7 +108,7 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>CUST_CREATED_DATE</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <dateColumn>Insolvency_Account__c.PoC_Created_Date__c</dateColumn>
+        <interval>INTERVAL_CURPREVQ</interval>
     </timeFrameFilter>
 </Report>
