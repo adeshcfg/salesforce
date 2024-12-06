@@ -45,6 +45,13 @@
             <operator>contains</operator>
             <value>Edna Thrasher,Christine Yourth,Maninder Hothi,Catherine Hunt,Renee Kitchin,Deb Murphy,Susan Francis,Karen Haupert,Sharon Eaton,Hirvita Patel</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Account_Type__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>

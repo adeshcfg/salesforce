@@ -49,6 +49,13 @@
             <operator>equals</operator>
             <value>Status,Assign To</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case.Assign_To__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Fairstone</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
