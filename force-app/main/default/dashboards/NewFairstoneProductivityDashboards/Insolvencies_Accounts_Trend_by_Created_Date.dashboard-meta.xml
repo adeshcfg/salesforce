@@ -151,7 +151,7 @@
     <isGridLayout>true</isGridLayout>
     <runningUser>devadminuser@canaccede.com</runningUser>
     <textColor>#000000</textColor>
-    <title>Customer Insolvencies & Accounts Trend by Created Date</title>
+    <title>Customer Insolvencies and Accounts Trend by Created Date</title>
     <titleColor>#000000</titleColor>
     <titleSize>12</titleSize>
 </Dashboard>
