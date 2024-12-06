@@ -61,7 +61,7 @@
         <field>CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Assignments Worked Upon - Fairstone</name>
+    <name>Cmr Assignments Worked Upon - Fairstone</name>
     <params>
         <name>units</name>
         <value>d</value>
