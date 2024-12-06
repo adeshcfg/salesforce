@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <aggregate>Sum</aggregate>
+            <axisBinding>y</axisBinding>
+            <column>Insolvency_Account__c.Claim_Amount__c</column>
+        </chartSummaries>
+        <chartType>HorizontalBar</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Insolvency_Account__c.PoC_Created_Date__c</groupingColumn>
+        <location>CHART_BOTTOM</location>
+        <showAxisLabels>false</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>true</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
     <columns>
         <field>Insolvency_Account__c.Insolvency__c</field>
     </columns>
@@ -10,6 +35,7 @@
         <field>Insolvency_Account__c.Debtor__c</field>
     </columns>
     <columns>
+        <aggregateTypes>Sum</aggregateTypes>
         <field>Insolvency_Account__c.Claim_Amount__c</field>
     </columns>
     <columns>
@@ -27,7 +53,7 @@
     <columns>
         <field>Insolvency_Account__c.Product_Code__c</field>
     </columns>
-    <description>Total Claims Filed</description>
+    <description>Claims Filed by the amount -Fairstone</description>
     <filter>
         <criteriaItems>
             <column>Insolvency_Account__c.Insolvency_Status__c</column>
@@ -44,11 +70,18 @@
             <value>Fairstone</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Insolvency_Account__c.Account_Type__c</column>
+            <column>Insolvency_Account__c.Business_Account__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans</value>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Claim_Type__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Secured,Unsecured</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
@@ -57,7 +90,7 @@
         <field>Insolvency_Account__c.PoC_Created_Date__c</field>
         <sortOrder>Desc</sortOrder>
     </groupingsDown>
-    <name>Total Claims Filed</name>
+    <name>Claims Filed by the amount -Fairstone</name>
     <params>
         <name>co</name>
         <value>1</value>

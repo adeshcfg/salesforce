@@ -1,39 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
-    <buckets>
-        <bucketType>number</bucketType>
-        <developerName>BucketField_71881415</developerName>
-        <masterLabel>Number Of Days In Current Status</masterLabel>
-        <nullTreatment>z</nullTreatment>
-        <sourceColumnName>Insolvency_Account__c.Number_Of_Days_In_Current_Status__c</sourceColumnName>
-        <useOther>false</useOther>
-        <values>
-            <sourceValues>
-                <to>2</to>
-            </sourceValues>
-            <value>0-2 Days</value>
-        </values>
-        <values>
-            <sourceValues>
-                <from>2</from>
-                <to>5</to>
-            </sourceValues>
-            <value>3-5 Days</value>
-        </values>
-        <values>
-            <sourceValues>
-                <from>5</from>
-                <to>10</to>
-            </sourceValues>
-            <value>6-10 Dys</value>
-        </values>
-        <values>
-            <sourceValues>
-                <from>10</from>
-            </sourceValues>
-            <value>10+ Days</value>
-        </values>
-    </buckets>
+    <aggregates>
+        <calculatedFormula>Insolvency_Account__c.Claim_Amount__c:AVG</calculatedFormula>
+        <datatype>currency</datatype>
+        <developerName>FORMULA1</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Average Claim Amount</masterLabel>
+        <scale>2</scale>
+    </aggregates>
     <columns>
         <field>Insolvency_Account__c.Insolvency__c</field>
     </columns>
@@ -41,25 +16,16 @@
         <field>CUST_NAME</field>
     </columns>
     <columns>
-        <field>Insolvency_Account__c.Claim_Amount__c</field>
+        <field>CUST_CREATED_NAME</field>
     </columns>
     <columns>
-        <field>Insolvency_Account__c.Insolvency_Type__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Claim_Type__c</field>
+        <field>CUST_CREATED_DATE</field>
     </columns>
     <columns>
         <field>Insolvency_Account__c.Insolvency_Date__c</field>
     </columns>
     <columns>
-        <field>Insolvency_Account__c.Account_Type__c</field>
-    </columns>
-    <columns>
         <field>Insolvency_Account__c.Product_Code__c</field>
-    </columns>
-    <columns>
-        <field>Insolvency_Account__c.Insolvency_Status__c</field>
     </columns>
     <columns>
         <field>Insolvency_Account__c.Insolvency_Received_Date__c</field>
@@ -70,21 +36,25 @@
     <columns>
         <field>Insolvency_Account__c.Number_Of_Days_In_Current_Status__c</field>
     </columns>
-    <description>Wait / Hold - Unsecured</description>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Insolvency_Account__c.Claim_Amount__c</field>
+    </columns>
+    <description>Queue Summary Product Type UnSec Div1</description>
     <filter>
         <criteriaItems>
             <column>Insolvency_Account__c.Insolvency_Status__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Wait / Hold</value>
+            <value>PoC Package Generated,Claim Filed,Annulled,Discharged,Wait / Hold,No PoC Required,New,For Owner Review,PoC Details Provided</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Insolvency_Account__c.Client_Identifier__c</column>
+            <column>Insolvency_Account__c.Insolvency_Type__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Fairstone</value>
+            <value>Division 1 Proposal</value>
         </criteriaItems>
         <criteriaItems>
             <column>Insolvency_Account__c.Claim_Type__c</column>
@@ -94,20 +64,35 @@
             <value>Unsecured</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Insolvency_Account__c.Account_Type__c</column>
+            <column>Insolvency_Account__c.Client_Identifier__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans</value>
+            <operator>equals</operator>
+            <value>Fairstone</value>
         </criteriaItems>
     </filter>
-    <format>Summary</format>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Insolvency_Account__c.Insolvency_Type__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Insolvency_Account__c.Claim_Type__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>BucketField_71881415</field>
+        <field>Insolvency_Account__c.Insolvency_Status__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Wait / Hold - Unsecured</name>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Insolvency_Account__c.Account_Type__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Queue Summary Product Type UnSec Div1</name>
     <params>
         <name>co</name>
         <value>1</value>
@@ -118,7 +103,7 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>CUST_CREATED_DATE</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <dateColumn>Insolvency_Account__c.Insolvency_Status_Last_Changed__c</dateColumn>
+        <interval>INTERVAL_THISMONTH</interval>
     </timeFrameFilter>
 </Report>
