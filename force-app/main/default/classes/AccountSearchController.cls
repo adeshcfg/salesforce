@@ -170,11 +170,13 @@
 					(!setPlacementsToInclude.contains(listProducts[0].Collection_Agency__c) 
                   	|| (listProducts[0].Account_Purchase_Group__c != NULL 
                     	&& listPurchaseGroupToExclude.contains(String.valueOf(listProducts[0].Account_Purchase_Group__c)))
+                    || ((listProducts[0].Portfolio_Name__c != NULL 
+                    	&& listPortfolioNameToExclude.contains(String.valueOf(listProducts[0].Portfolio_Name__c)))
                     || (listProducts[0].Portfolio_Name_Lookup__r.Name != NULL 
                     	&& listPortfolioNameToExclude.contains(String.valueOf(listProducts[0].Portfolio_Name_Lookup__r.Name)))   
                        )
                     )
-                )){
+                ){
                     showMessage = true;
                     message = UNABLE_TO_RETRIEVE_INFO;
 					return null; 
