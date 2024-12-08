@@ -77,7 +77,7 @@ public class SnapshotQueueableClassForExcel implements Queueable, Database.Allow
                         Last_Payment_Amount_Prior_to_CO__c,Account_Portfolio_Code__c,Value_Tier_at_Time_of_Placement__c,Number_Of_Open_Complaint__c,Commission_Rate_at_Time_of_Placement__c,Codebtor_Alias_Name__c,
                         Current_Principal_Amount__c,Extinguished_Status__c,Extinguished_Date__c,Placement_Status__c,Settlement_Rate__c,Allocated_Amount_Principal__c,Allocated_Amount_Interest__c,Allocated_Amount_Fees__c,Total_of_Payments__c,
                         Placed_Settlement_Rate__c,Fee_Recovery__c,Legal_Entity__c,Statute_Status__c,Insolvency_On_File_Secondary_Debtor__c,Insolvency_On_File_Primary_Debtor__c,Credit_Score_Primary_Debtor__c, Credit_Score_Secondary_Debtor__c,
-                        Current_Bal_Attorney_Fees__c,Current_Bal_Court_Fees__c,Current_Bal_General_Fees__c,Current_Bal_NSF_Fees__c,Current_Bal_Other_Fees__c,Product_Type__c,Pool_Name__r.Name,Pool_Name_Text__c,Portfolio_Name__c,Seller__c,Credit_Limit__c,
+                        Current_Bal_Attorney_Fees__c,Current_Bal_Court_Fees__c,Current_Bal_General_Fees__c,Current_Bal_NSF_Fees__c,Current_Bal_Other_Fees__c,Product_Type__c,Pool_Name__r.Name,Pool_Name_Text__c,Portfolio_Name_Lookup__r.Name,Seller__c,Credit_Limit__c,
                 		Company_Name__c,Customer_Language__c,Homeowner__c,Codebtor_SIN__c,Codebtor_Customer_Language__c,Insolvency_Date__c,Insolvency_Type__c,Deceased_Date__c,Co_Borrower_AKA_Name__c,Statute_Date__c,Guarantor_Cell_Phone__c,
                 		Portfolio_Group_Name__c,Account_Purchasing_Entity_Value__c,Investment_Group__c,FDR_Account_ID__c,Insolvency_Discharge_Date__c,Value_Tier__c
                     FROM Product__c
@@ -347,7 +347,7 @@ public class SnapshotQueueableClassForExcel implements Queueable, Database.Allow
                             +PoolName  +'\t'
                             + prod.Name +'\t'
                 			+ '' +'\t'
-                            + prod.Portfolio_Name__c+'\t'
+                            + prod.Portfolio_Name_Lookup__r.Name+'\t'
                             + prod.Placement_Status__c+'\t'
                              +'\''+prod.Previous_Primary_Account_Number__c+'\t'+'\''+prod.Previous_Secondary_Account_Number__c+'\t'+prod.Product_Type__c+'\t'+prod.Originating_Creditor__c+'\t'+prod.Interest_Rate__c+'\t'+''+'\t'+''+'\t'+openDate+'\t'+''+'\t'+''+'\t'+lastPaymentDate+'\t'
                 +prod.Last_Payment_Amount__c+'\t'+delinquencyDate+'\t'+chargeoffDate+'\t'+prod.Charged_Off_Amount__c+'\t'+prod.Current_Balance__c+'\t'+prod.Current_Principal_Balance__c+'\t'+prod.Current_Interest_Amount__c+'\t'+''+'\t'+''+'\t'

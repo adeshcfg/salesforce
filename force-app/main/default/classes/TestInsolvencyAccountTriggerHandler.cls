@@ -199,7 +199,6 @@
          prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
          prod.Originating_Creditor__c = 'CUETS';
-         prod.Portfolio_Name__c = 'AFSCARDS';
          prod.Status__c = 'New Allocation - New Allocation';
          prod.Sub_Status__c = 'Ready';
          prod.Product_Status__c = 'Test';
@@ -218,7 +217,6 @@
          prod1.Portfolio_Group_Name__c = 'AAL001';
          prod1.Account_Purchasing_Entity__c = '14';
          prod1.Originating_Creditor__c = 'CUETS';
-         prod1.Portfolio_Name__c = 'AFSCARDS';
          prod1.Status__c = 'New Allocation - New Allocation';
          prod1.Sub_Status__c = 'Ready';
          prod1.Product_Status__c = 'Test';
@@ -360,7 +358,6 @@
          prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
          prod.Originating_Creditor__c = 'CUETS';
-         prod.Portfolio_Name__c = 'AFSCARDS';
          prod.Status__c = 'New Allocation - New Allocation';
          prod.Sub_Status__c = 'Ready';
          prod.Product_Status__c = 'Test';
@@ -498,7 +495,6 @@
          prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
          prod.Originating_Creditor__c = 'CUETS';
-         prod.Portfolio_Name__c = 'AFSCARDS';
          prod.Status__c = 'New Allocation - New Allocation';
          prod.Sub_Status__c = 'Ready';
          prod.Product_Status__c = 'Test';

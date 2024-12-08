@@ -80,7 +80,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Portfolio_Name__c</field>
+                <field>Portfolio_Name_Lookup__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

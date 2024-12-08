@@ -85,7 +85,7 @@
         <field>Account.Products__r$Email_Address__c</field>
     </columns>
     <columns>
-        <field>Account.Products__r$Portfolio_Name__c</field>
+        <field>Account.Products__r$Portfolio_Name_Lookup__c</field>
     </columns>
     <columns>
         <field>Account.Products__r$Account_Portfolio_ID__c</field>
