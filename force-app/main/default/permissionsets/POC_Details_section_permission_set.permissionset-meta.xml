@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Provide access to Auto_POC_Exception_Reported__c and Reason_for_POC_Automation_Failure__c</description>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Auto_POC_Exception_Reported__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Insolvency_Account__c.Reason_for_POC_Automation_Failure__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>POC Details section permission set</label>
+</PermissionSet>
