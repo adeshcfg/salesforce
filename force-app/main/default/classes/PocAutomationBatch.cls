@@ -136,7 +136,9 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
      **/
     public Blob generatePdf(String pdfPageName, Map<String, String> variableMap) {
         PageReference pdf;
-        String partialPageUrl = appConfig.Use_new_POC_templates__c ? '/apex/' + pdfPageName + 'New' : '/apex/' + pdfPageName;
+        String partialPageUrl = appConfig.Use_new_POC_templates__c && !pdfPageName.contains('Fairstone')
+            ? '/apex/' + pdfPageName + 'New'
+            : '/apex/' + pdfPageName;
         pdf = new PageReference(partialPageUrl);
         pdf.getParameters().put('id', variableMap.get('accntId'));
         pdf.getParameters().put('statementOfAccount', variableMap.get('statementOfAccount'));
