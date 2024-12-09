@@ -116,6 +116,30 @@ public class PocDocUtility {
     }
 
     /**
+     * @description : Check if current date is outside given business date range calculated from the input date
+     * @author adesh.ikhar@canaccede.com | 12-09-2024
+     * @param inputDate
+     * @param noOfBusinessDays
+     * @return Datetime
+     **/
+    public static Boolean isTodayOutsideGivenBusinessDateRange(Datetime inputDate, Integer noOfBusinessDays) {
+        Boolean outsideRange = false;
+        Integer count = 0;
+        Map<Date, Id> mapHolidays = LoRDemandController.mapHoliday();
+        DateTime finalDate;
+        for (Integer i = 0; count < noOfBusinessDays; i++) {
+            finalDate = inputDate + i;
+            if (!(finalDate.format('E') == 'sat' || finalDate.format('E') == 'sun' || mapHolidays.get(finalDate.Date()) != null)) {
+                count++;
+            }
+        }
+        if (System.today() > finalDate.date()) {
+            outsideRange = true;
+        }
+        return outsideRange;
+    }
+
+    /**
      * @description : Check if attachment of specific type is attached to the account
      * @author adesh.ikhar@canaccede.com | 09-30-2024
      * @param type
