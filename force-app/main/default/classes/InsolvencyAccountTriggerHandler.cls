@@ -1290,6 +1290,9 @@ update config;
             }
         }
         if(!Test.isRunningTest() && InsolvencyPaymentsTriggerHandler.runInsolvencyPaymentTrigger){
+            //Bypass Payment validation if payment is remitted and need to update an insolvency account.
+            config.Do_Not_Run_Payment_Validation__c  = true;
+        	update config;
             if(canadianInsolAcctIdSet != NULL){
                 List<Insolvency_payment__c> ctbInsolPayment = [select id,name,Insolvency_Account__c,Payment_Amount__c,
                                                                Is_Payment_Remitted__c,Payment_Reversed__c,Payment_Reversal_Date__c,
@@ -1297,6 +1300,8 @@ update config;
                                                                from Insolvency_payment__c 
                                                                where Insolvency_Account__c IN: canadianInsolAcctIdSet];
                 InsolvencyPaymentsTriggerHandler.updateCTBInsolvencyPaymentStatus(ctbInsolPayment,'Insolvency Account'); 
+                config.Do_Not_Run_Payment_Validation__c  = false;
+                update config;
             }
         }
         

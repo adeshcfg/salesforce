@@ -2,9 +2,9 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Do_not_update_Payment_once_remitted</fullName>
     <active>true</active>
-    <errorConditionFormula>OR( AND(ISCHANGED(Is_Payment_Remitted__c ), Is_Payment_Remitted__c = False),
- AND(PRIORVALUE(Is_Payment_Remitted__c ) = True, Is_Payment_Remitted__c = True)
-)</errorConditionFormula>
+    <errorConditionFormula>AND($Setup.Application_Config_Settings__c.Do_Not_Run_Payment_Validation__c = False, OR( AND(ISCHANGED(Is_Payment_Remitted__c ), Is_Payment_Remitted__c = False),
+AND(PRIORVALUE(Is_Payment_Remitted__c ) = True, Is_Payment_Remitted__c = True)
+))</errorConditionFormula>
     <errorDisplayField>Cheque_Payment_Reference_Number__c</errorDisplayField>
     <errorMessage>Payment is remitted back and now it can not be edited</errorMessage>
 </ValidationRule>
