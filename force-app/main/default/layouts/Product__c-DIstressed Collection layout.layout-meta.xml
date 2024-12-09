@@ -874,10 +874,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Account_Portfolio_Company__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Account_Portfolio_Group__c</field>
             </layoutItems>
             <layoutItems>

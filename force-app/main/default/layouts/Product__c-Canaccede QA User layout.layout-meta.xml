@@ -99,14 +99,6 @@
                 <field>Portfolio_Name_Lookup__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Portfolio_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Portfolio_Name_Lookup_Formula__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Seller__c</field>
             </layoutItems>
@@ -360,10 +352,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Account_Portfolio_Code__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Account_Portfolio_Company__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

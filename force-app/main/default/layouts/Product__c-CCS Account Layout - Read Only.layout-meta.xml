@@ -48,10 +48,6 @@
                 <behavior>Readonly</behavior>
                 <field>Type_of_Service__c</field>
             </layoutItems>            
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Portfolio_Name__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -1852,7 +1852,7 @@ insDetails.add(insDetail);
                     Purchase_Date__c,
                     Investment_Group__c,
                     Portfolio_Group_Name__c,
-                    Portfolio_Name__c,
+                    Portfolio_Name_Lookup__r.Name,
                     Account_Purchasing_Entity_Value__c,
                     Originating_Creditor__c
                 FROM Product__c
@@ -1863,8 +1863,8 @@ insDetails.add(insDetail);
         }
 
         if (distProduct != null) {
-            if (distProduct.Portfolio_Name__c != null) {
-                List<Portfolio_Name__c> portfolios = [SELECT id, name FROM Portfolio_Name__c WHERE name = :distProduct.Portfolio_Name__c LIMIT 1];
+            if (distProduct.Portfolio_Name_Lookup__r.Name != null) {
+                List<Portfolio_Name__c> portfolios = [SELECT id, name FROM Portfolio_Name__c WHERE name = :distProduct.Portfolio_Name_Lookup__r.Name LIMIT 1];
                 if (portfolios.size() > 0) {
                     accNew.Portfolio_Name_Lookup__c = portfolios.get(0).id;
                 }

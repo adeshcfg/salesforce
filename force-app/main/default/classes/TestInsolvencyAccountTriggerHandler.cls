@@ -133,10 +133,30 @@
          ia3.Trustee_Not_Providing_LoR__c = false;
          ia3.Distressed_Data_Id__c = '3';
          ia3.Claim_Filed_Date__c = null;
+         ia3.Account_Number_Without_Space__c = '121121122';
+         
+         Insolvency_Account__c ia4 = new Insolvency_Account__c();
+         ia4.RecordTypeId = recordTypeList[0].Id;
+         ia4.Name = 'Test-0002';
+         ia4.Insolvency_Status__c = 'Pending Assignment to Collection Agency';
+         ia4.Claim_Type__c = 'Secured';
+         ia4.Claim_Amount__c = 1000;
+         ia4.Insolvency__c = insolv.Id;
+         ia4.Portfolio_Group_Name__c = 'CIT002';
+         ia4.Investment_Group__c = 'AFFIRM';
+         ia4.Portfolio_Name_Lookup__c = portfolioName.id;
+         ia4.Asset_Status__c = 'Purchased';
+         ia4.Sent_For_Owner_Review_Date_Original__c = date.today();
+         ia4.Trustee_Not_Providing_LoR__c = false;
+         ia4.Distressed_Data_Id__c = '4';
+         ia4.Claim_Filed_Date__c = null;
+         ia4.Account_Number_Without_Space__c = '121121122';
+         
          //insert ia3;
          iaListNew.add(ia1);
          iaListNew.add(ia2);
          iaListNew.add(ia3);
+         iaListNew.add(ia4);
          insert iaListNew;
  
          Insolvency_Account__History insolAccHisoty = new Insolvency_Account__History();
@@ -199,8 +219,7 @@
          prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
          prod.Originating_Creditor__c = 'CUETS';
-         prod.Portfolio_Name__c = 'AFSCARDS';
-         prod.Status__c = 'New Allocation - New Allocation';
+                  prod.Status__c = 'New Allocation - New Allocation';
          prod.Sub_Status__c = 'Ready';
          prod.Product_Status__c = 'Test';
          prod.Customer__c = accInstance1.id;
@@ -218,7 +237,6 @@
          prod1.Portfolio_Group_Name__c = 'AAL001';
          prod1.Account_Purchasing_Entity__c = '14';
          prod1.Originating_Creditor__c = 'CUETS';
-         prod1.Portfolio_Name__c = 'AFSCARDS';
          prod1.Status__c = 'New Allocation - New Allocation';
          prod1.Sub_Status__c = 'Ready';
          prod1.Product_Status__c = 'Test';
@@ -360,7 +378,6 @@
          prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
          prod.Originating_Creditor__c = 'CUETS';
-         prod.Portfolio_Name__c = 'AFSCARDS';
          prod.Status__c = 'New Allocation - New Allocation';
          prod.Sub_Status__c = 'Ready';
          prod.Product_Status__c = 'Test';
@@ -498,7 +515,6 @@
          prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
          prod.Originating_Creditor__c = 'CUETS';
-         prod.Portfolio_Name__c = 'AFSCARDS';
          prod.Status__c = 'New Allocation - New Allocation';
          prod.Sub_Status__c = 'Ready';
          prod.Product_Status__c = 'Test';
@@ -608,7 +624,7 @@
              WHERE name = '12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy'
              LIMIT 1
          ];
- 
+         
          list<RecordType> recordTypeList = new List<RecordType>(
              [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND name LIKE '%SPL%']
          );
@@ -666,7 +682,7 @@
              WHERE name = '12456789' OR Client_Identifiers__c = 'New' OR Insolvency_Type__c = 'Bankruptcy'
              LIMIT 1
          ];
- 
+ 			
          list<RecordType> recordTypeList = new List<RecordType>(
              [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND name LIKE '%SPL%']
          );
@@ -691,7 +707,7 @@
          ia2.Client_Identifier__c = 'SPL';
          ia2.Claim_Amount__c = 300;
          ia2.Insolvency__c = insolv.id;
- 
+         
          try {
              insert ia2;
              iaRecords.add(ia1);
@@ -703,6 +719,74 @@
          } catch (Exception exp) {
              Boolean expectedExceptionThrown = (exp.getMessage().contains('trigger but was not')) ? true : false;
          }
+     }
+     
+     //Test after insert, update, delete
+     static testMethod void duplicateCheckDiffInsolvency() {
+         
+         Account accInstance = new Account();
+         accInstance.FirstName = 'Ana';
+         accInstance.LastName = 'Starrk';
+         accInstance.Number_Of_Open_Complaint__c = 6;
+         accInstance.Phone_Number__pc = '123';
+         insert accInstance;
+ 
+         Insolvency__c insolv = new Insolvency__c();
+         insolv.Name = '12456786';
+         insolv.Client_Identifiers__c = 'New';
+         insolv.Insolvency_Type__c = 'Bankruptcy';
+         insolv.Sent_For_Owner_Review_Date__c = date.today();
+         insolv.Trustee__c = accInstance.id;
+         insert insolv;
+ 
+         Insolvency__c insolv1 = new Insolvency__c();
+         insolv1.Name = '12456785';
+         insolv1.Client_Identifiers__c = 'SPL';
+         insolv1.Insolvency_Type__c = 'Bankruptcy';
+         insolv1.Insolvency_Status__c = 'For Owner Review';
+         insolv1.Trustee__c = accInstance.id;
+         insolv1.Debtor_1_Mailing_State_Province__c = 'Nunavut';
+         insert insolv1;
+         
+         list<RecordType> recordTypeList = new List<RecordType>(
+             [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND name LIKE '%SPL%']
+         );
+ 
+         //Insolvency Account Records
+         List<Insolvency_Account__c> iaRecords = new List<Insolvency_Account__c>();
+         Insolvency_Account__c ia1 = new Insolvency_Account__c();
+         ia1.RecordTypeId = recordTypeList[0].Id;
+         ia1.name = 'testAccount1';
+         ia1.Insolvency_Status__c = 'New';
+         ia1.Claim_Type__c = 'Unsecured';
+         ia1.Claim_Amount__c = 200;
+         ia1.Client_Identifier__c = 'SPL';
+         ia1.Insolvency__c = insolv.id;
+         insert ia1;
+         
+         Insolvency_Account__c ia4 = new Insolvency_Account__c();
+         ia4.RecordTypeId = recordTypeList[0].Id;
+         ia4.name = 'testAccount1';
+         ia4.Insolvency_Status__c = 'New';
+         ia4.Claim_Type__c = 'Unsecured';
+         ia4.Claim_Amount__c = 200;
+         ia4.Client_Identifier__c = 'SPL';
+         ia4.Insolvency__c = insolv1.id;
+         ia4.Insolvency_Status__c = 'Claim Filed';       
+         
+         Test.startTest();
+         try {
+             insert ia4;
+             iaRecords.add(ia1);
+             iaRecords.add(ia4);
+             Map<ID, Insolvency_Account__c> mapAcc = new Map<ID, Insolvency_Account__c>();
+ 
+             InsolvencyAccountTriggerHandler.handleBeforeInsert(iaRecords);
+             throw new MyException('An exception should have been thrown by the trigger but was not.');
+         } catch (Exception exp) {
+             Boolean expectedExceptionThrown = (exp.getMessage().contains('trigger but was not')) ? true : false;
+         }
+         Test.stopTest();
      }
  
      public static testMethod void testForOwnerReviewExternal() {
