@@ -49,7 +49,7 @@ public class PocDocUtility {
             exceptionMsg = 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account is in "PoC Details Provided" status';
         }
-        if (insolvAcc.Insolvency__r.Voting_Decision__c == 'Needs Manual Review') {
+        if (insolvAcc.Insolvency_Type__c == 'Consumer Proposal' && insolvAcc.Voting_Decision__c == 'Needs Manual Review') {
             exceptionMsg = 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim when Voting Decision is Needs Manual Review';
         }
@@ -74,10 +74,6 @@ public class PocDocUtility {
         ) {
             exceptionMsg = 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account has Vendor value, Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
-        }
-        if (insolvAcc.Insolvency_Type__c == 'Consumer Proposal' && insolvAcc.Voting_Decision__c == 'Needs Manual Review') {
-            exceptionMsg = 'Voting Decision is Needs Manual Review';
-            errorMsg += '; Voting Decision is Needs Manual Review';
         }
         if (
             (insolvAcc.Insolvency_Type__c == 'Division 1 Proposal' || insolvAcc.Insolvency_Type__c == 'Consumer Proposal') &&
