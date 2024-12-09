@@ -75,10 +75,10 @@ public class PocDocUtility {
             exceptionMsg = 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account has Vendor value, Portfolio Group Name, Portfolio Name and Investment Group Name populated on the account';
         }
-        /* if (insolvAcc.Insolvency_Type__c == 'Division 1 Proposal' && !eligibleVotingDecisions.contains(insolvAcc.Voting_Decision__c)) {
-            exceptionMsg = 'Missing Information';
-            errorMsg += '; Voting Decision is not set correctly';
-        } */
+        if (insolvAcc.Insolvency_Type__c == 'Consumer Proposal' && insolvAcc.Voting_Decision__c == 'Needs Manual Review') {
+            exceptionMsg = 'Voting Decision is Needs Manual Review';
+            errorMsg += '; Voting Decision is Needs Manual Review';
+        }
         if (
             (insolvAcc.Insolvency_Type__c == 'Division 1 Proposal' || insolvAcc.Insolvency_Type__c == 'Consumer Proposal') &&
             !insolvAcc.Include_Voting_Letter__c
