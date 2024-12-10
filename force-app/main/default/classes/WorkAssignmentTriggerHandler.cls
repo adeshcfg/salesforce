@@ -571,6 +571,7 @@ public class WorkAssignmentTriggerHandler {
         }
     }
     public static void getComplaintCountOnProductAndCustomer(set<ID> setProductID,ID setCustomerID){
+        setProductID.remove(null);
         System.Debug('inside getComplaintCountOnProductAndCustomer**');
         Id customerID;
         Id custId;
@@ -581,10 +582,10 @@ public class WorkAssignmentTriggerHandler {
         Map<String, AggregateResult> mapProdCompCount = new Map<String, AggregateResult>();
         Map<id, decimal> mapCustomerCompCount = new Map<id, decimal>();
         
-        if(setProductID == NULL && setCustomerID == NULL){
+        if((setProductID == NULL || setProductID.isEmpty()) && setCustomerID == NULL){
             return;
         }
-        if(setCustomerID == NULL && setProductID != NULL){
+        if(setCustomerID == NULL && setProductID != NULL && !setProductID.isEmpty()){
             Product__c prodCustomer = [Select id,name,Customer__c,Customer__r.Number_Of_Open_Complaint__c from product__c where id IN: setProductID]; 
             if(prodCustomer.Customer__c != NULL){
                 customerID = prodCustomer.Customer__c;
