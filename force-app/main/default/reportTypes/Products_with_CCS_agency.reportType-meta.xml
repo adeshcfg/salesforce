@@ -1925,11 +1925,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_Company__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account_Portfolio_Group__c</field>
             <table>Account.Products__r</table>
         </columns>
@@ -2735,11 +2730,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Portfolio_Name__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Legal_Triage_Status__c</field>
             <table>Account.Products__r</table>
         </columns>
@@ -3036,11 +3026,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Guarantor_Province_Abbreviation__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Portfolio_Name_Lookup_Formula__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>

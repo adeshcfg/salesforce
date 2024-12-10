@@ -1174,11 +1174,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_Company__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account_Portfolio_Group__c</field>
             <table>Account.Products__r</table>
         </columns>

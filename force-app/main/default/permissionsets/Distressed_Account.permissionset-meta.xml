@@ -4620,11 +4620,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.Account_Portfolio_Company__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Product__c.Account_Portfolio_Group__c</field>
         <readable>true</readable>
     </fieldPermissions>

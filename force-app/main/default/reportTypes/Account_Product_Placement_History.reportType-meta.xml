@@ -1407,12 +1407,7 @@
             <field>Account_Portfolio_Code__c</field>
             <table>Account.Products__r</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_Company__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
+         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Account_Portfolio_Group__c</field>
             <table>Account.Products__r</table>
@@ -2215,11 +2210,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Statute_Date__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Portfolio_Name__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>

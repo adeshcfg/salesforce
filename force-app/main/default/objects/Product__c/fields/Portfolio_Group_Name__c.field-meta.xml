@@ -2147,6 +2147,16 @@
                 <default>false</default>
                 <label>WFF3CO107</label>
             </value>
+            <value>
+                <fullName>CFL239</fullName>
+                <default>false</default>
+                <label>CFL239</label>
+            </value>
+            <value>
+                <fullName>CFL219</fullName>
+                <default>false</default>
+                <label>CFL219</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
