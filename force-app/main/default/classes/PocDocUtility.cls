@@ -1,7 +1,7 @@
 /**
  * @description       : Class to hold utility/common methods for POC document generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 12-09-2024
+ * @last modified on  : 12-10-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocDocUtility {
@@ -88,11 +88,6 @@ public class PocDocUtility {
             mandatoryStatementBanks.contains(insolvAcc.Client_Identifier__c) &&
             !checkAttachmentTypePresence('Account Statement', insolvAcc.Attachments)
         ) {
-            exceptionMsg = 'Missing Information';
-            errorMsg += '; No Account Statements attached';
-        }
-        // Only check when POC is being generated from batch
-        if (System.isBatch() && insolvAcc.Client_Identifier__c == 'Canadian Tire' && insolvAcc.Document_Storages__r.size() == 0) {
             exceptionMsg = 'Missing Information';
             errorMsg += '; No Account Statements attached';
         }

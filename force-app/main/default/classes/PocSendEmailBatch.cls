@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class for sending email
  * @author            : Abhijeet
- * @last modified on  : 12-06-2024
+ * @last modified on  : 12-10-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 
@@ -512,7 +512,8 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
                 continue;
             }
         }
-        for (Attachment selectedAtt : [
+        // To do : Add attachment size check
+        /* for (Attachment selectedAtt : [
             SELECT Name, Body, BodyLength, ParentId, CreatedDate
             FROM Attachment
             WHERE ParentId IN :insolvAcc AND Description = :lstAttachmentTypes
@@ -526,7 +527,7 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
                     acctIdAttachmentSizeMap.put(selectedAtt.ParentId, selectedAtt.BodyLength);
                 }
             }
-        }
+        } */
         // Query selected document storage records by user if any
         Map<String, String> mapContentIdToInsovencyAccountId = new Map<String, String>();
         for (Document_Storage__c docStorage : [
@@ -570,7 +571,7 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
                 attachedPocAccountIds.add(attObj.ParentId);
             }
             // Only attach files created after For owner review status
-            if ((attObj.CreatedDate >= acctIdPreviousStatusDate.get(attObj.ParentId))) {
+            if (attObj.Description != 'PoC Document' && (attObj.CreatedDate >= acctIdPreviousStatusDate.get(attObj.ParentId))) {
                 efa.setFileName(attObj.Name);
                 efa.setBody(attObj.Body);
                 fileAttachments.add(efa);
