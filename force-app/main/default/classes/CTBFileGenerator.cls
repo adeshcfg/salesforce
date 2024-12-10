@@ -744,9 +744,10 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     update config;
                 }
                 catch (DMLException dmlEx) {
-                    system.debug('Exception msg@@' + dmlEx.getStackTraceString());
+                    system.debug('Exception msg@@' + dmlEx.getDmlMessage(0));
+                    CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getDmlMessage(0), 'Account batch count update Failed');
                     exceptionHandling(dmlEx.getDMLMessage(0), dmlEx.getStackTraceString(), dmlEx.getDmlId(0), null, ctbBatchName);
-                    CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getStackTraceString(), 'Payment batch count update Failed');
+                    return;
                 }
                 Integer finalRecordCount = 2 + countVariable;
                 String headerType = mapCTBFileAuto.get('Insolvency Daily Update').Header_Record_Type__c;
@@ -1126,7 +1127,12 @@ global class CTBFileGenerator implements Database.Batchable<sobject>, Database.S
                     errorMapData.put(insolPayData.id, insolPayData);
                 }
             }
-            update errorMapData.values();
+            try {
+                update errorMapData.values();
+            }
+            catch (DmlException dmlEx) {
+                CFG_EmailNotification.apiFailedEmailNotify(UserInfo.getUserId(), dmlEx.getDmlMessage(0), 'Account update Failed after failure');
+            }
         }
         List<Insolvency_Error__c> listInsolErrors = new List<Insolvency_Error__c>();
         Insolvency_Error__c insolErrorData = new Insolvency_Error__c();
