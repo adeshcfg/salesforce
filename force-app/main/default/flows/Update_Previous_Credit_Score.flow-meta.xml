@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Migrated from the: Update Previous Credit Score workflow rule
+Workflow rule description: Update the Previous Credit Score fields when Credit Score Changes&quot;</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Update_Previous_Credit_Score_Update_DateFormula</name>
+        <dataType>Date</dataType>
+        <expression>PRIORVALUE($Record.Credit_Score_Updated_Date__pc)</expression>
+    </formulas>
+    <formulas>
+        <name>Update_Previous_Credit_ScoreFormula</name>
+        <dataType>Number</dataType>
+        <expression>PRIORVALUE($Record.Credit_Score__pc)</expression>
+        <scale>0</scale>
+    </formulas>
+    <label>Update Previous Credit Score</label>
+    <migratedFromWorkflowRuleName>Update Previous Credit Score</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update Previous Credit Score with Current
+Update Previous Credit Score Updated Date from Credit Score Updated Date</description>
+        <name>mainUpdate</name>
+        <label>mainUpdate</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <inputAssignments>
+            <field>Previous_Credit_Score_Updated_Date__pc</field>
+            <value>
+                <elementReference>Update_Previous_Credit_Score_Update_DateFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Previous_Credit_Score__pc</field>
+            <value>
+                <elementReference>Update_Previous_Credit_ScoreFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterFormula>ISCHANGED({!$Record.Credit_Score__pc}) &amp;&amp;  !ISBLANK({!$Record.Credit_Score__pc})</filterFormula>
+        <object>Account</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
