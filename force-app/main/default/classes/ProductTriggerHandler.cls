@@ -274,9 +274,9 @@ public class ProductTriggerHandler {
                 }
             }
             //Ticket 7242 : interest rate should not be greater than 35% after 1 Jan 2025
-            interestRateValidation(prodData,prodData.Interest_Rate__c);
-            interestRateValidation(prodData,prodData.Current_Interest_Rate__c);
-            interestRateValidation(prodData,prodData.Judgment_Rate__c);
+            interestRateValidation(prodData,prodData.Interest_Rate__c,null);
+            interestRateValidation(prodData,prodData.Current_Interest_Rate__c,null);
+            interestRateValidation(prodData,prodData.Judgment_Rate__c,null);
         }
 
         // Pre load Statute Date from metadata
@@ -753,9 +753,9 @@ public class ProductTriggerHandler {
 
             for (Product__c product : listNewProducts) {
                 //Ticket 7242 : interest rate should not be greater than 35% after 1 Jan 2025
-                interestRateValidation(product,product.Interest_Rate__c);
-                interestRateValidation(product,product.Current_Interest_Rate__c);
-                interestRateValidation(product,product.Judgment_Rate__c);
+                interestRateValidation(product,product.Interest_Rate__c,mapOldProducts.get(product.Id).Interest_Rate__c);
+                interestRateValidation(product,product.Current_Interest_Rate__c,mapOldProducts.get(product.Id).Current_Interest_Rate__c);
+                interestRateValidation(product,product.Judgment_Rate__c,mapOldProducts.get(product.Id).Judgment_Rate__c);
                 
                 // Last Payment Date Changed
                 if (product.Last_Payment_Date__c != mapOldProducts.get(product.Id).Last_Payment_Date__c) {
@@ -1831,25 +1831,25 @@ public class ProductTriggerHandler {
     }
     //Ticket 7242 : interest rate should not be greater than 35% after 1 Jan 2025 and
     // before 1 Jan 2025 interest rate should not be greater than 60%
-    public static void interestRateValidation(Product__c prodData,Decimal interestRateField ){
-        if(prodData.Open_Date__c != NULL){
-            if(prodData.Open_Date__c < applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_60__c){
+    public static void interestRateValidation(Product__c prodData,Decimal interestRateField, Decimal oldInterestRate ){
+        if(prodData.Open_Date__c != NULL && interestRateField != oldInterestRate){
+            if(interestRateField != NULL && prodData.Open_Date__c < applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_60__c){
                 prodData.addError('Interest rate should be less than 60%');
             }else{
-                if(prodData.Open_Date__c >= applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_35__c){
+                if(interestRateField != NULL && prodData.Open_Date__c >= applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_35__c){
                     prodData.addError('Interest rate should be less than 35%');
                 }
             }
-        }else if(prodData.Purchase_Date__c != NULL){
-            if(prodData.Purchase_Date__c < applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_60__c){
+        }else if(prodData.Purchase_Date__c != NULL && interestRateField != oldInterestRate){
+            if(interestRateField != NULL && prodData.Purchase_Date__c < applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_60__c){
                 prodData.addError('Interest rate should be less than 60%');
             }else{
-                if(prodData.Purchase_Date__c >= applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_35__c){
+                if(interestRateField != NULL && prodData.Purchase_Date__c >= applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_35__c){
                     prodData.addError('Interest rate should be less than 35%');
                 }
             }
         }else{
-            if(interestRateField > applConfSetting.Interest_Rate_Less_Than_35__c){
+            if(interestRateField > applConfSetting.Interest_Rate_Less_Than_35__c && interestRateField != oldInterestRate){
                 prodData.addError('Interest rate should be less than 35%');
             }
         }
