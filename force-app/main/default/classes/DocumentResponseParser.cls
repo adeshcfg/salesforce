@@ -1406,11 +1406,11 @@ public class DocumentResponseParser {
         }
 
         //Ticket 4587: Added excluded account
-        String acctNameCS = '676';
-        String acctNameCS1 = '6030';
+        //String acctNameCS = '676';
+        //String acctNameCS1 = '6030';
         //Ticket 4587 and 4581: fairstone account not starts with 676 and 6030 and insolvency date should be greater than 23rd May
         for (String str : fairstone) {
-            if (
+            /*if (
                 creditorName.contains(str) &&
                 creditorAccountNumber != null &&
                 !(creditorAccountNumber.contains(acctNameCS)) &&
@@ -1422,6 +1422,10 @@ public class DocumentResponseParser {
                 if (creditorName.contains(str) && creditorAccountNumber == null && InsolvencyAccDate > Date.newInstance(2023, 5, 23)) {
                     return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
                 }
+            }*/
+            //Ticket 7898: Doc Parsing Logic - Fairstone
+            if (creditorName.contains(str) && InsolvencyAccDate > Date.newInstance(2023, 5, 23)) {
+                return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
             }
         }
 
