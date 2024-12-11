@@ -2089,9 +2089,10 @@ insDetails.add(insDetail);
                     ) {
                         accNew.Insolvency_Sub_Status__c.addError('You cannot set directly Sent on file as Processing Sub Status.');
                     }
-                    if (accNew.Insolvency_Sub_Status__c == 'Pending File' && oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c) {
+                    //Ticket 7911 - CTB Status Code - PCOM
+                    /*if (accNew.Insolvency_Sub_Status__c == 'Pending File' && oldMap.get(accNew.id).Insolvency_Status__c == accNew.Insolvency_Status__c) {
                         accNew.CTB_Status_Update_Code__c = '';
-                    }
+                    }*/
                 }
             }
         }
