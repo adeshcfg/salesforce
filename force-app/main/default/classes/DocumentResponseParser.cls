@@ -1424,13 +1424,13 @@ public class DocumentResponseParser {
                 }
             }*/
             //Ticket 7898: Doc Parsing Logic - Fairstone
-            if (creditorName.contains(str) && InsolvencyAccDate > Date.newInstance(2023, 5, 23)) {
+            if (creditorName.contains(str)) {
                 return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
             }
         }
 
         for (String str : fairstoneAcc) {
-            if (creditorAccountNumber != null && creditorAccountNumber.startsWith(str) && InsolvencyAccDate > Date.newInstance(2023, 5, 23)) {
+            if (creditorAccountNumber != null && creditorAccountNumber.startsWith(str)) {
                 return insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account');
             }
         }
