@@ -261,10 +261,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MetadataService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MetadataSwitchJob</apexClass>
         <enabled>true</enabled>
     </classAccesses>

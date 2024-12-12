@@ -3183,11 +3183,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Previous_Data_Status__c</field>
-            <table>Application__c.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>External_Status_Previous__c</field>
             <table>Application__c.Products__r</table>
         </columns>
@@ -3204,16 +3199,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Previous_Ownership__c</field>
-            <table>Application__c.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Previous_Payment_Amount__c</field>
-            <table>Application__c.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Previous_Payment_Date__c</field>
             <table>Application__c.Products__r</table>
         </columns>
         <columns>
