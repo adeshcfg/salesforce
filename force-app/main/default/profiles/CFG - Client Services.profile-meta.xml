@@ -1713,10 +1713,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SnapshotQueueableClassForExcel</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>StatuteDateUtilities</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -14196,11 +14192,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.Account_Portfolio_Company__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Product__c.Account_Portfolio_Group__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -16055,18 +16046,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Product__c.Portfolio_Name_Lookup_Formula__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.Portfolio_Name_Lookup__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Portfolio_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

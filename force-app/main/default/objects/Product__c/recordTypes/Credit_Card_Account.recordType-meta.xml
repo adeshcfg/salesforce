@@ -170,6 +170,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CET Offshore</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Cease and Desist %E2%80%93 In Writing</fullName>
             <default>false</default>
         </values>
@@ -203,10 +207,6 @@
         </values>
         <values>
             <fullName>Previously Paid with Agency</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CET Offshore</fullName>
             <default>false</default>
         </values>
     </picklistValues>

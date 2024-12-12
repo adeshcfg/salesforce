@@ -6,9 +6,15 @@
     <columns>First_Name__c</columns>
     <columns>Last_Name__c</columns>
     <columns>Active_Distressed_Days__c</columns>
+    <columns>Product_Status__c</columns>
     <columns>Current_Balance__c</columns>
     <columns>Charged_Off_Date__c</columns>
     <columns>Current_Balance_Effective_Date__c</columns>
+    <columns>Collection_Agency__c</columns>
+    <columns>State__c</columns>
+    <columns>Status__c</columns>
+    <columns>Sub_Status__c</columns>
+    <columns>Data_Status_Description__c</columns>
     <columns>Purchase_Status__c</columns>
     <filterScope>Everything</filterScope>
     <filters>

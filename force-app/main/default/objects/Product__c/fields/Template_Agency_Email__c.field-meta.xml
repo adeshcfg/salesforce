@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Template_Agency_Email__c</fullName>
     <externalId>false</externalId>
-    <formula>IF( Collection_Agency__c = 6, &apos;recoveries@canaccede.com&apos;,  IF(Collection_Agency__c = 68, &apos;collections@canaccede.com&apos;, &apos;&apos;) )</formula>
+    <formula>IF( Collection_Agency__c = 6, &apos;recoveries@canaccede.com.invalid&apos;,  IF(Collection_Agency__c = 68, &apos;collections@canaccede.com.invalid&apos;, &apos;&apos;) )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Template Agency Email</label>
     <required>false</required>

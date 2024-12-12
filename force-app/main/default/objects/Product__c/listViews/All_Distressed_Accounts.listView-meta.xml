@@ -4,21 +4,32 @@
     <columns>NAME</columns>
     <columns>First_Name__c</columns>
     <columns>Last_Name__c</columns>
-    <columns>Active_Distressed_Days__c</columns>
-    <columns>Current_Balance__c</columns>
-    <columns>Charged_Off_Date__c</columns>
-    <columns>Current_Balance_Effective_Date__c</columns>
+    <columns>State__c</columns>
+    <columns>Purchase_Province__c</columns>
+    <columns>Status__c</columns>
+    <columns>Sub_Status__c</columns>
+    <columns>Placement_Status__c</columns>
+    <columns>Collection_Agency__c</columns>
+    <columns>Data_Status_Description__c</columns>
+    <columns>Customer__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RECORDTYPE</field>
         <operation>equals</operation>
         <value>Product__c.Distressed_Account</value>
     </filters>
+    <filters>
+        <field>Collection_Agency__c</field>
+        <operation>equals</operation>
+        <value>72</value>
+    </filters>
+    <filters>
+        <field>Purchase_Province__c</field>
+        <operation>equals</operation>
+        <value>on</value>
+    </filters>
     <label>All Records</label>
     <sharedTo>
-        <group>Distressed_CFG_BS</group>
-        <group>Distressed_Collection_User_Group</group>
-        <group>ICT_Group</group>
-        <group>LRT_Group</group>
+        <allInternalUsers></allInternalUsers>
     </sharedTo>
 </ListView>

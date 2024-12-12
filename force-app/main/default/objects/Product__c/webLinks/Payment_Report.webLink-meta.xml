@@ -4,10 +4,17 @@
     <availability>online</availability>
     <displayType>button</displayType>
     <encodingKey>UTF-8</encodingKey>
+    <hasMenubar>false</hasMenubar>
+    <hasScrollbars>true</hasScrollbars>
+    <hasToolbar>false</hasToolbar>
     <height>600</height>
+    <isResizable>true</isResizable>
     <linkType>url</linkType>
     <masterLabel>Payment Report</masterLabel>
-    <openType>noSidebar</openType>
+    <openType>newWindow</openType>
+    <position>none</position>
     <protected>false</protected>
-    <url>https://cfgroup.lightning.force.com/lightning/r/Report/00O3a000005eSNGEA2/view?fv0={!Product__c.Name}</url>
+    <showsLocation>false</showsLocation>
+    <showsStatus>false</showsStatus>
+    <url>https://cfgroup--cfgdev.sandbox.lightning.force.com/lightning/r/Report/00O3a000005eSNGEA2/view?fv0={!Product__c.Name}</url>
 </WebLink>

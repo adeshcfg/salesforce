@@ -42,11 +42,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_Company__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account_Portfolio_Group__c</field>
             <table>Product__c</table>
         </columns>
@@ -2037,17 +2032,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Portfolio_Name__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Portfolio_Name_Lookup__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Portfolio_Name_Lookup_Formula__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -2058,11 +2043,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Postal_Code_Without_Space__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Previous_Data_Status__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -2083,16 +2063,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Previous_Ownership__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Previous_Payment_Amount__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Previous_Payment_Date__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
