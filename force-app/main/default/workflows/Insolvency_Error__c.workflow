@@ -19,6 +19,11 @@
             <field>Insolvency_Error__c.Action__c</field>
             <operation>notEqual</operation>
         </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
         <description>Notify Users on Insolvency Error</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>

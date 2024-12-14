@@ -3,7 +3,7 @@
     <fullName>Community_Users_No_Claim_Withdrawn</fullName>
     <active>true</active>
     <description>Community Users can&apos;t move the Insolvency Account to Claim Withdrawn</description>
-    <errorConditionFormula>AND( 
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,
 CONTAINS($Profile.Name,&quot;Community User&quot;),
 ISCHANGED(Insolvency_Status__c), 
 ISPICKVAL(Insolvency_Status__c,&apos;Claim Withdrawn&apos;)

@@ -73,7 +73,7 @@ public class DistressedNotesTriggerHandler {
     
     //Method to handle after insert of record
     public static void handleAfterInsert(list<Distressed_notes__c> listNewDistressedNotes){
-        system.debug('after insert');
+        ArchiveUnarchiveUtility.assignExternalCorID(listNewDistressedNotes);
         /*for(Distressed_notes__c distressedNotes: listNewDistressedNotes){
             //call API
             PortalDistressedNotesProcessingAPI.processDistressedNotes(distressedNotes.ID);    

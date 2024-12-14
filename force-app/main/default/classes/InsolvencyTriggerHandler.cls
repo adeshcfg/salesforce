@@ -163,11 +163,13 @@
         }
         
         //Fetch all related history records for Insolvency Status
+        Map<id, Insolvency__History> mapInsolHistory = new map<id, Insolvency__History>();
+        if(!Test.isRunningTest()){
         List<Insolvency__History> insolvencyHistoryList = [select id, createdDate, OldValue, NewValue, Field, ParentID 
                                                            from Insolvency__History where 
                                                            ParentID in :InsolvencyIDs and Field = 'Insolvency_Status__c' 
                                                            order by createdDate desc];
-        Map<id, Insolvency__History> mapInsolHistory = new map<id, Insolvency__History>();
+            
         
         //put all latest records for each insolvency into map
         for(Insolvency__History insolHist : insolvencyHistoryList){
@@ -177,7 +179,7 @@
                                                                        mapInsolHistory.put(insolHist.parentId, insolHist);
                                                                    }
         }
-        
+        }
         for (Insolvency__c insol : insolsNew){ 
             
             //Old Insolvency values
@@ -403,11 +405,7 @@
     
     //Handle After Insert
     public static void handleAfterInsert(List<Insolvency__c> insolsNew) {
-        map<ID, Insolvency__c> updateInsolvencies = new Map<ID, Insolvency__c>();
-for(Insolvency__c insolRec : [select id,External_Correlation_ID__c from Insolvency__c where ID IN: insolsNew]){
-insolRec.External_Correlation_ID__c = insolRec.ID;
-             updateInsolvencies.put(insolRec.ID,insolRec);
-}
+        ArchiveUnarchiveUtility.assignExternalCorID(insolsNew);
         for(Insolvency__c insolRec : insolsNew){
             //Doc Parser code
             if(insolRec.Document_ID__c <> null){
@@ -415,13 +413,6 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
                 //InsolvencyAccountCreationFuture.SendPDFtoParser(insolRec.Document_ID__c); 
             }
         }
-        if(!updateInsolvencies.isEmpty()){
-         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=false;
-           InsolvencyTriggerHandler.runInsolvencyTrigger = false;
-           update updateInsolvencies.values();
-         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=TRUE;
-           InsolvencyTriggerHandler.runInsolvencyTrigger = true;
-       }
     }
     
     //Handle After Update
@@ -850,17 +841,7 @@ insolRec.External_Correlation_ID__c = insolRec.ID;
         }
     }
     public static void handleBeforeDelete(List<Insolvency__c> insolvRecords){
-        list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
-        for(Insolvency__c insol: insolvRecords){
-                ID recordID=insol.ID;
-                Deleted_Records__c deletedRec=new Deleted_Records__c();
-                deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
-                deletedRec.Salesforce_Record_Id__c=insol.External_Correlation_ID__c;
-                deletedRecords.add(deletedRec);
-        }
-        if(!deletedRecords.isEmpty()){
-            insert deletedRecords;
-        }
+        ArchiveUnarchiveUtility.insertDeletedRecords(insolvRecords);
      }
      
      public static void updateVotingDecision(List<String> votingDecisionUpdateInsolIds){

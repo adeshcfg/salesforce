@@ -2,10 +2,10 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Required_On_No_Poc_Required_Status</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(
-OR(ISCHANGED(Insolvency_Status__c), AND(ISNEW(),OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )))),
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,
+OR(ISCHANGED(Insolvency_Status__c), ISNEW()),
 ISPICKVAL(Insolvency_Status__c,&apos;No PoC Required&apos;) ,
-ISPICKVAL( Reason_for_No_PoC_Required_Dropdown__c,&apos;&apos;)	
+ISPICKVAL( Reason_for_No_PoC_Required_Dropdown__c,&apos;&apos;)
 )</errorConditionFormula>
     <errorDisplayField>Reason_for_No_PoC_Required_Dropdown__c</errorDisplayField>
     <errorMessage>Please select a Reason for No PoC Required as Processing Status is No PoC Required</errorMessage>

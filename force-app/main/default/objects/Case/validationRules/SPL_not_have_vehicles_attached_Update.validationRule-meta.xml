@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SPL_not_have_vehicles_attached_Update</fullName>
+    <active>true</active>
+    <description>SPL not have vehicles attached Update</description>
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,
+NOT(ISNEW()),
+ISCHANGED(Assign_To__c),
+AND(
+ISPICKVAL(Insolvency_Assignment_Type__c,&apos;Vehicle Pickup Request&apos;),
+OR(
+ISPICKVAL(Assign_To__c, &apos;SPL&apos;),
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c,&apos;SPL&apos;)
+)
+)
+)</errorConditionFormula>
+    <errorMessage>You cannot assign Vehicle Pickup Request for SPL.</errorMessage>
+</ValidationRule>

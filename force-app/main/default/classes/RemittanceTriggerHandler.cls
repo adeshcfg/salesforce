@@ -48,27 +48,9 @@ public class RemittanceTriggerHandler{
         }    
     }
 	public static void handleAfterInsert(List<Remittance__c> remsNew){
-		map<id,Remittance__c> remitMap = new map<id,Remittance__c>();
-		for(Remittance__c remit : [select ID,Name,External_Correlation_ID__c,Dividends_Name_Original__c from Remittance__c where ID IN : remsNew]){
-            remit.External_Correlation_ID__c = remit.ID;
-			remit.Dividends_Name_Original__c = remit.Name;
-            remitMap.put(remit.ID,remit);
-         }
-         if(!remitMap.isEmpty()){
-            update remitMap.values();
-         }
+		ArchiveUnarchiveUtility.assignExternalCorID(remsNew);
 	}
 	public static void handleBeforeDelete(List<Remittance__c> remittanceRecords){
-		list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
-		for(Remittance__c remittance: remittanceRecords){
-				ID recordID=remittance.ID;
-				Deleted_Records__c deletedRec=new Deleted_Records__c();
-				deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
-				deletedRec.Salesforce_Record_Id__c=remittance.External_Correlation_ID__c;
-				deletedRecords.add(deletedRec);
-		}
-		if(!deletedRecords.isEmpty()){
-			insert deletedRecords;
-		}
+		ArchiveUnarchiveUtility.insertDeletedRecords(remittanceRecords);
 	 }
 }

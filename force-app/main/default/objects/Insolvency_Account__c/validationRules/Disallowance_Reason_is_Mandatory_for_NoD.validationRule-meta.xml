@@ -3,7 +3,7 @@
     <fullName>Disallowance_Reason_is_Mandatory_for_NoD</fullName>
     <active>true</active>
     <description>Disallowance Reason is mandatory for Date NoD Received</description>
-    <errorConditionFormula>AND(
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,
 OR(OR(ISCHANGED(Date_NOD_received__c),ISCHANGED(Disallowance_Reasons__c)),ISNEW()),
 ISPICKVAL(Disallowance_Reasons__c,&apos;&apos;),
 NOT(ISNULL( Date_NOD_received__c))

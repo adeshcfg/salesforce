@@ -10,11 +10,13 @@
 
 
 trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before update, before delete, after insert, after update, after delete) {
-    list<Insolvency_Account__c> insolAccntRecords=new list<Insolvency_Account__c>();
-    list<Insolvency_Account__c> insolAccntRecordsBeforeInsert=new list<Insolvency_Account__c>();
     //On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Insolvency_Account_Trigger__c;
+    
+    if(UserInfo.getLastName() == System.label.DataArchiverUser){
+        runTrigger = FALSE;        
+    }
     
     if(runTrigger){   
             if(InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger){
@@ -24,14 +26,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     
                     //Before Insert Trigger
                     if(Trigger.isInsert){
-                        for(Insolvency_Account__c insolAccnt:trigger.new){
-                            if(insolAccnt.CreatedDate == NULL){
-                                insolAccntRecordsBeforeInsert.add(insolAccnt);
-                            }
-                        }
-                        if(!insolAccntRecordsBeforeInsert.isEmpty()){
-                            InsolvencyAccountTriggerHandler.handleBeforeInsert(insolAccntRecordsBeforeInsert);
-                        }
+                    InsolvencyAccountTriggerHandler.handleBeforeInsert(Trigger.New);
                     }
                     
                     //Before Update Trigger
@@ -41,25 +36,15 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     
                     //Before Delete Trigger
                     if(Trigger.isDelete){
-                        user u=[ select id,name from User where name =: System.label.DataArchiverUser LIMIT 1];
-                        if(userinfo.getUserId() != u.id){
                             InsolvencyAccountTriggerHandler.handleBeforeDelete(trigger.old);
                         }
                     }                
-                }   
                 //After Trigger
                 if(Trigger.isAfter) {
                     
                     //After Insert Trigger
                     if(Trigger.isInsert){                        
-                        for(Insolvency_Account__c insolAccnt:trigger.new){
-                            if(insolAccnt.External_Correlation_ID__c==NULL){
-                                insolAccntRecords.add(insolAccnt);
-                            }
-                        }
-                        if(!insolAccntRecords.isEmpty()){
-                            InsolvencyAccountTriggerHandler.handleAfterInsert(insolAccntRecords);
-                        }
+                    InsolvencyAccountTriggerHandler.handleAfterInsert(Trigger.New);
                     }
                     
                     //After Update Trigger
@@ -69,16 +54,7 @@ trigger InsolvencyAccountTrigger on Insolvency_Account__c(before insert, before 
                     
                     //After Delete Trigger
                     if(Trigger.isDelete && !test.isRunningTest()){
-list<Insolvency_Account__C> insolvencyAccounts=new list<Insolvency_Account__C>();
-user u=[ select id,name from User where name =: System.label.DataArchiverUser LIMIT 1];
-for(Insolvency_Account__C insolAcc: trigger.old){
-if(insolAcc.LastModifiedByID != u.ID){
-insolvencyAccounts.add(insolAcc);
-}
-}
-if(!insolvencyAccounts.isEmpty()){
-                        InsolvencyAccountTriggerHandler.handleAfterDelete(insolvencyAccounts, Trigger.oldMap);
-}
+                    InsolvencyAccountTriggerHandler.handleAfterDelete(Trigger.New, Trigger.oldMap);
                     }
                 }              
             }               

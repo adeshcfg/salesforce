@@ -3,14 +3,7 @@
     <fullName>Restrict_Future_Insolvency_Date</fullName>
     <active>true</active>
     <description>Do not allow future insolvency date</description>
-    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),IF((
-((ISNEW()) || (!ISNEW() &amp;&amp; ISCHANGED(Insolvency_Date__c)))
-&amp;&amp;
-(!ISNULL(Insolvency_Date__c ))
-&amp;&amp;
-(Insolvency_Date__c &gt; TODAY())
-), true, false))),
-IF((
+    <errorConditionFormula>AND( $User.LastName  &lt;&gt;  $Label.DataArchiverUser,IF((
 ((ISNEW()) || (!ISNEW() &amp;&amp; ISCHANGED(Insolvency_Date__c)))
 &amp;&amp;
 (!ISNULL(Insolvency_Date__c ))

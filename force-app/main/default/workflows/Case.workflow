@@ -46,6 +46,11 @@
             <operation>equals</operation>
             <value>EmailToCase</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
         <description>Update field Assign To as &quot;Canaccede&quot; when created through email to Case for Canaccede</description>
         <triggerType>onCreateOnly</triggerType>
     </rules>
@@ -61,6 +66,11 @@
             <operation>equals</operation>
             <value>Web to Case</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
         <description>Whenever a Case created, send an email</description>
         <triggerType>onCreateOnly</triggerType>
     </rules>
@@ -71,7 +81,7 @@
             <type>FieldUpdate</type>
         </actions>
         <active>true</active>
-        <booleanFilter>((1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9) AND 10) OR ( 11 AND 12) OR ((13 OR 14) AND 15)</booleanFilter>
+        <booleanFilter>((1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9) AND 10) OR ( 11 AND 12) OR ((13 OR 14) AND 15) AND 16</booleanFilter>
         <criteriaItems>
             <field>Case.Description</field>
             <operation>contains</operation>
@@ -147,6 +157,12 @@
             <operation>contains</operation>
             <value>cred pack</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
+        <failedMigrationToolVersion>252.11.6</failedMigrationToolVersion>
         <triggerType>onCreateOnly</triggerType>
     </rules>
 </Workflow>

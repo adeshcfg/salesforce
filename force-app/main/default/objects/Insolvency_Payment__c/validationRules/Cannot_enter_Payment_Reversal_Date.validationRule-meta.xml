@@ -3,7 +3,6 @@
     <fullName>Cannot_enter_Payment_Reversal_Date</fullName>
     <active>true</active>
     <description>Payment Reversal Date cannot be entered for non reversed payment</description>
-    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),AND( ISBLANK( TEXT(Payment_Reversed__c )) ,  NOT( ISBLANK( Payment_Reversal_Date__c ) ) ))),
-AND( ISBLANK( TEXT(Payment_Reversed__c )) ,  NOT( ISBLANK( Payment_Reversal_Date__c ) ) ))</errorConditionFormula>
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser, ISBLANK( TEXT(Payment_Reversed__c )) , NOT( ISBLANK( Payment_Reversal_Date__c ) ) )</errorConditionFormula>
     <errorMessage>Payment Reversal Date cannot be entered for non-reversed payment</errorMessage>
 </ValidationRule>

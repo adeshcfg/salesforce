@@ -3,11 +3,8 @@
     <fullName>Remitted_Payment_Required_Fields_Approve</fullName>
     <active>true</active>
     <description>Make Manual Approved Reasons mandatory when user changes Voting Decision to Manually Approved.</description>
-    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),AND( ISPICKVAL(Voting_Decision__c, &quot;Manually Approved&quot;) ,
+    <errorConditionFormula>AND($User.LastName  &lt;&gt;  $Label.DataArchiverUser, ISPICKVAL(Voting_Decision__c, &quot;Manually Approved&quot;) ,
 ISBLANK(Manual_Approved_Reason__c)
-))),
-AND( ISPICKVAL(Voting_Decision__c, &quot;Manually Approved&quot;) ,
-ISBLANK(Manual_Approved_Reason__c)
-))</errorConditionFormula>
+)</errorConditionFormula>
     <errorMessage>Manual approved reason is mandatory if voting status is Manually Approved</errorMessage>
 </ValidationRule>

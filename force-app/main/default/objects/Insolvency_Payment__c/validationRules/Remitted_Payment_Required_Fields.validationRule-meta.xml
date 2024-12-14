@@ -3,21 +3,7 @@
     <fullName>Remitted_Payment_Required_Fields</fullName>
     <active>true</active>
     <description>Once payment is remitted, Remitted date, remitted cheque number and remitted to values should be populated</description>
-    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),    OR(
-AND(
-Is_Payment_Remitted__c = True,
-ISBLANK(Remitted_Back_To__c ),
-ISBLANK(Remitted_Cheque_Number__c ),
-ISBLANK(Remitted_Date__c )
-),
-AND(
-NOT(ISBLANK(Remitted_Cheque_Number__c )),
-Is_Payment_Remitted__c = False,
-ISBLANK(Remitted_Back_To__c ),
-ISBLANK(Remitted_Date__c )
-)
-))),
-    OR(
+    <errorConditionFormula>AND( $User.LastName &lt;&gt; $Label.DataArchiverUser,OR(
 AND(
 Is_Payment_Remitted__c = True,
 ISBLANK(Remitted_Back_To__c ),

@@ -3,14 +3,10 @@
     <fullName>Asset_Status_Validation_Rule</fullName>
     <active>true</active>
     <description>Validation Rule For asset Status</description>
-    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),AND(
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,
 ISPICKVAL( Asset_Status__c , &apos;Putback Pending&apos; ) || ISPICKVAL( Asset_Status__c , &apos;Buyback Pending&apos; ) ,
 ISBLANK( Putback_Buyback_Reason__c )
-))),
-AND(
-ISPICKVAL( Asset_Status__c , &apos;Putback Pending&apos; ) || ISPICKVAL( Asset_Status__c , &apos;Buyback Pending&apos; ) ,
-ISBLANK( Putback_Buyback_Reason__c )
-))</errorConditionFormula>
+)</errorConditionFormula>
     <errorDisplayField>Second_Review__c</errorDisplayField>
     <errorMessage>Please enter the putback/buyback reason</errorMessage>
 </ValidationRule>

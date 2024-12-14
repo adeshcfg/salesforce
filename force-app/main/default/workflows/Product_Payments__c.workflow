@@ -164,6 +164,15 @@
         </actions>
         <active>true</active>
         <criteriaItems>
+            <field>Product_Payments__c.Owner__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
+        <criteriaItems>
             <field>Product__c.Current_Balance__c</field>
             <operation>notEqual</operation>
         </criteriaItems>
@@ -172,6 +181,7 @@
             <operation>equals</operation>
             <value>CCS Account</value>
         </criteriaItems>
+        <failedMigrationToolVersion>252.11.6</failedMigrationToolVersion>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>
@@ -190,7 +200,13 @@
             <operation>equals</operation>
             <value>CCS Account</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
         <description>Update Balance Before Payment</description>
+        <failedMigrationToolVersion>252.11.6</failedMigrationToolVersion>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>
@@ -205,11 +221,17 @@
             <operation>notEqual</operation>
         </criteriaItems>
         <criteriaItems>
-            <field>Product__c.RecordTypeId</field>
+            <field>Product_Payments__c.RecordTypeId</field>
             <operation>equals</operation>
             <value>CCS Account</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
         <description>Update Last Payment Amount on Product</description>
+        <failedMigrationToolVersion>252.11.6</failedMigrationToolVersion>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>
@@ -228,6 +250,12 @@
             <operation>equals</operation>
             <value>CCS Account</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
+        <failedMigrationToolVersion>252.11.6</failedMigrationToolVersion>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>
@@ -250,6 +278,7 @@
             <type>FieldUpdate</type>
         </actions>
         <active>true</active>
+        <booleanFilter>(1 AND (2 OR 3)) AND 4</booleanFilter>
         <criteriaItems>
             <field>Product_Payments__c.Payment_Amount__c</field>
             <operation>notEqual</operation>
@@ -259,6 +288,17 @@
             <operation>equals</operation>
             <value>CCS Account</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>Product__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Easyfinancial CCS Account</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
+        <failedMigrationToolVersion>252.11.6</failedMigrationToolVersion>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>
@@ -273,6 +313,12 @@
             <operation>equals</operation>
             <value>CCS Dividend Payment,CCS Product Payment,Balance Adjustments</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>User.LastName</field>
+            <operation>notEqual</operation>
+            <value>OwnBackUpAdminUser</value>
+        </criteriaItems>
+        <failedMigrationToolVersion>252.11.6</failedMigrationToolVersion>
         <triggerType>onCreateOnly</triggerType>
     </rules>
 </Workflow>

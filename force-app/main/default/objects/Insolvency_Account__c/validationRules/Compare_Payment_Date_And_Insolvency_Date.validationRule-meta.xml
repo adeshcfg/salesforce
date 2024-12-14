@@ -3,8 +3,8 @@
     <fullName>Compare_Payment_Date_And_Insolvency_Date</fullName>
     <active>true</active>
     <description>Compare the last payment date and insolvency date</description>
-    <errorConditionFormula>AND(RecordType.DeveloperName &lt;&gt; &apos;Canadian_Tire_Insolvency_Account&apos;,
-OR(AND(ISNEW(),OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate ))), ISCHANGED(Insolvency_Status__c)),
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,RecordType.DeveloperName &lt;&gt; &apos;Canadian_Tire_Insolvency_Account&apos;,
+OR(ISNEW(), ISCHANGED(Insolvency_Status__c)),
 ISPICKVAL(Insolvency_Status__c,&apos;PoC Details Provided&apos;),(Last_Payment_Date__c &gt;= Insolvency_Date__c)
 )</errorConditionFormula>
     <errorMessage>Insolvency date should be greater than last payment date</errorMessage>

@@ -8,31 +8,23 @@
  * 
  *************************************************************************************************/
 
- trigger CreditorAccountTrigger on Creditor_Account__c (before delete, after insert) {
-
-    list<Creditor_Account__c> creditorAccountRecords=new list<Creditor_Account__c>();
+trigger CreditorAccountTrigger on Creditor_Account__c (before insert, before delete, after insert) {
 	//On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Creditor_Account_Trigger__c;
     
+    if(UserInfo.getLastName() == System.label.DataArchiverUser){
+        runTrigger = FALSE;        
+    }
+    
     if(runTrigger){   
         //Before Delete
         if(trigger.isBefore && trigger.isDelete){
-            user u=[ select id,name from User where name =: System.label.DataArchiverUser LIMIT 1];
-            if(userinfo.getuserId() != u.id){
-                CreditorAccountTriggerHandler.handleBeforeDelete(trigger.old);
-            } 
+            CreditorAccountTriggerHandler.handleBeforeDelete(Trigger.Old);
         }
-                    //After Insert Trigger
+        //After Insert
                     if(Trigger.isInsert && Trigger.isAfter){                        
-                        for(Creditor_Account__c creditorAccount:trigger.new){
-                            if(creditorAccount.External_Correlation_ID__c==NULL){
-                                creditorAccountRecords.add(creditorAccount);
-                            }
-                        }
-                        if(!creditorAccountRecords.isEmpty()){
-                            CreditorAccountTriggerHandler.handleAfterInsert(creditorAccountRecords);
-                        }
+            CreditorAccountTriggerHandler.handleAfterInsert(Trigger.New);
                     }             
         }
     }
