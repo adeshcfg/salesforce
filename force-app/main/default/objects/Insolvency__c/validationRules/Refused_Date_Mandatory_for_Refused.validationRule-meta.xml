@@ -3,13 +3,13 @@
     <fullName>Refused_Date_Mandatory_for_Refused</fullName>
     <active>true</active>
     <description>Refused Date Mandatory for Refused</description>
-    <errorConditionFormula>OR((ISCHANGED( Insolvency_Status__c ) &amp;&amp; 
-ISPICKVAL(Insolvency_Status__c , &apos;Refused&apos;)&amp;&amp; 
-ISNULL( Insolvency_Refused_Date__c )), 
-(ISPICKVAL(Insolvency_Status__c , &apos;Refused&apos;)&amp;&amp; 
-ISCHANGED( Insolvency_Refused_Date__c )&amp;&amp; 
-ISNULL(Insolvency_Refused_Date__c )), 
-false)</errorConditionFormula>
+    <errorConditionFormula>AND( $User.LastName  &lt;&gt;  $Label.DataArchiverUser, OR((ISCHANGED( Insolvency_Status__c ) &amp;&amp;
+ISPICKVAL(Insolvency_Status__c , &apos;Refused&apos;)&amp;&amp;
+ISNULL( Insolvency_Refused_Date__c )),
+(ISPICKVAL(Insolvency_Status__c , &apos;Refused&apos;)&amp;&amp;
+ISCHANGED( Insolvency_Refused_Date__c )&amp;&amp;
+ISNULL(Insolvency_Refused_Date__c )),
+false))</errorConditionFormula>
     <errorDisplayField>Insolvency_Refused_Date__c</errorDisplayField>
     <errorMessage>Refused Date is mandatory as Insolvency Status moved to Refused</errorMessage>
 </ValidationRule>

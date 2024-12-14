@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_Insolvency</fullName>
+    <active>true</active>
+    <description>Select either insolvency or Insolvency Account.</description>
+    <errorConditionFormula>And($User.LastName &lt;&gt; $Label.DataArchiverUser, NOT(ISBLANK(Insolvency__c)),(NOT(ISBLANK( Insolvency_Account__c))))</errorConditionFormula>
+    <errorDisplayField>Accept_Assignment__c</errorDisplayField>
+    <errorMessage>Please select either an insolvency or an account record, not both.</errorMessage>
+</ValidationRule>

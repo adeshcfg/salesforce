@@ -3,12 +3,6 @@
     <fullName>Voting_Decision_cannot_be_set_to_null</fullName>
     <active>true</active>
     <description>To restrict users from setting the voting decision to “None”</description>
-    <errorConditionFormula>AND(  
-
-ISCHANGED( Voting_Decision__c ) , 
-
-ISPICKVAL(Voting_Decision__c, &quot;&quot;)  
-
-)</errorConditionFormula>
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser, ISCHANGED( Voting_Decision__c ), ISPICKVAL(Voting_Decision__c, &quot;&quot;))</errorConditionFormula>
     <errorMessage>Voting decision cannot be set to “None”</errorMessage>
 </ValidationRule>

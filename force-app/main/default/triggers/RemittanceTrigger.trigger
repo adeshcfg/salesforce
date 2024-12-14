@@ -9,20 +9,20 @@
  *************************************************************************************************/
 
 trigger RemittanceTrigger on Remittance__c (before insert, before update, before delete, after insert, after update, after delete) {
-    list<Remittance__c> remitRecords=new list<Remittance__c>();
 	//On-Off switch for trigger
     Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
     Boolean runTrigger = config.Run_Remittance_Trigger__c;
+    
+    if(UserInfo.getLastName() == System.label.DataArchiverUser){
+        runTrigger = FALSE;        
+    }
     
     if(runTrigger){   
             if(RemittanceTriggerHandler.runRemittanceTrigger){
                 //Before Delete
                 if(trigger.isBefore && trigger.isDelete){
-                    user u=[ select id,name from User where name =: System.label.DataArchiverUser LIMIT 1];
-                    if(userinfo.getUserId() != u.id){
                         RemittanceTriggerHandler.handleBeforeDelete(trigger.old);   
                     }
-                }
                 //After Trigger
                 if(Trigger.isAfter) {
                     //After Update Trigger
@@ -31,14 +31,7 @@ trigger RemittanceTrigger on Remittance__c (before insert, before update, before
                     }  
                     //After Insert Trigger
                     if(Trigger.isInsert){                        
-                        for(Remittance__c remit:trigger.new){
-                            if(remit.External_Correlation_ID__c==NULL){
-                                remitRecords.add(remit);
-                            }
-                        }
-                        if(!remitRecords.isEmpty()){
-                            RemittanceTriggerHandler.handleAfterInsert(remitRecords);
-                        }
+                    RemittanceTriggerHandler.handleAfterInsert(Trigger.New);
                     }             
                 }               
             }

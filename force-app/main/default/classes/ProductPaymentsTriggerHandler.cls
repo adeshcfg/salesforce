@@ -61,15 +61,9 @@
         map<ID, Product_Payments__c> mapNewPayments = new Map<ID, Product_Payments__c>();
         map<ID, Product_Payments__c> mapNewFees = new Map<ID, Product_Payments__c>();
         Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
-        map<ID, Product_Payments__c> updateproductPayment = new Map<ID, Product_Payments__c>();
-        for(Product_Payments__c productPayment : [select ID,Name,External_Correlation_ID__c,Payment_ID_Original__c from Product_Payments__c where ID IN : listProductPayment]){
-            productPayment.External_Correlation_ID__c = productPayment.ID;
-            productPayment.Payment_ID_Original__c = productPayment.Name;
-            updateproductPayment.put(productPayment.ID,productPayment);
-         }
-         if(!updateproductPayment.isEmpty()){
-            update updateproductPayment.values();
-         }
+		
+        ArchiveUnarchiveUtility.assignExternalCorID(listProductPayment);
+        
         for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product_Payments__c' ]){
             prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
         }
@@ -3107,16 +3101,6 @@ prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (DebtorProvinceTaxRate + C
         return lastAgencyRecallDate;
     }
     public static void handleBeforeDelete(list<Product_Payments__c> prodPayRecords){        
-        list<Deleted_Records__c> deletedRecords=new list<Deleted_Records__c>();
-        for(product_Payments__c prodPayment: prodPayRecords){
-                ID recordID=prodPayment.ID;
-                Deleted_Records__c deletedRec=new Deleted_Records__c();
-                deletedRec.Object_Name__c= recordId.getSObjectType().getDescribe().getName();
-                deletedRec.Salesforce_Record_Id__c=prodPayment.External_Correlation_ID__c;
-                deletedRecords.add(deletedRec);
-        }
-        if(!deletedRecords.isEmpty()){
-            insert deletedRecords;
-        }
+        ArchiveUnarchiveUtility.insertDeletedRecords(prodPayRecords);
     }
 }

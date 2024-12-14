@@ -2,9 +2,9 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Exclude_From_Purchase_Reason</fullName>
     <active>true</active>
-    <errorConditionFormula>AND (
-      Excluded_from_Purchase__c =TRUE,
+    <errorConditionFormula>AND ($User.LastName &lt;&gt; $Label.DataArchiverUser,
+Excluded_from_Purchase__c =TRUE,
 ISBLANK(TEXT( Exclude_from_Purchase_Reason__c ))
-    )</errorConditionFormula>
+)</errorConditionFormula>
     <errorMessage>Please select exclude from purchase reason</errorMessage>
 </ValidationRule>

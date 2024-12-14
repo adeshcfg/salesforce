@@ -3,6 +3,6 @@
     <fullName>Insolvency_not_editable</fullName>
     <active>true</active>
     <description>Community users cannot update Insolvency lookup value on existing Insolvency Account records</description>
-    <errorConditionFormula>CONTAINS($Profile.Name,&quot;Community User&quot;) &amp;&amp; Not(ISNEW()) &amp;&amp; Insolvency__c != PRIORVALUE(Insolvency__c)</errorConditionFormula>
+    <errorConditionFormula>CONTAINS($Profile.Name,&quot;Community User&quot;) &amp;&amp; Not(ISNEW()) &amp;&amp; Insolvency__c != PRIORVALUE(Insolvency__c) &amp;&amp; $User.LastName &lt;&gt; $Label.DataArchiverUser</errorConditionFormula>
     <errorMessage>Sorry, you can&apos;t move this account to another Insolvency filing; contact Canaccede for more information, or if you require assistance with this action</errorMessage>
 </ValidationRule>

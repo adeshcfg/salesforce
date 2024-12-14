@@ -1231,19 +1231,7 @@ update listInsolvency;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
-        /*map<ID, Insolvency_Account__c> updateInsolvencyAccounts = new Map<ID, Insolvency_Account__c>();
-     for(Insolvency_Account__c insolvAccount : [select ID,External_Correlation_ID__c from Insolvency_Account__c where ID IN : insolAccntsNew]){
-         insolvAccount.External_Correlation_ID__c = insolvAccount.ID;
-         updateInsolvencyAccounts.put(insolvAccount.ID,insolvAccount);
-      }
-      if(!updateInsolvencyAccounts.isEmpty()){
-         InsolvencyTriggerHandler.runInsolvencyTrigger=FALSE;
-         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=false;
-         update updateInsolvencyAccounts.values();
-         InsolvencyTriggerHandler.runInsolvencyTrigger=TRUE;
-         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger=true;
-      }
-*/
+		ArchiveUnarchiveUtility.assignExternalCorID(insolAccntsNew);
         handleAfterInsertUpdate(insolAccntsNew, null);
     }
 
@@ -2121,17 +2109,7 @@ insDetails.add(insDetail);
         }
     }
     public static void handleBeforeDelete(List<Insolvency_Account__c> insolAccntOld) {
-        list<Deleted_Records__c> deletedRecords = new List<Deleted_Records__c>();
-        for (Insolvency_Account__c insolAccnt : insolAccntOld) {
-            ID recordID = insolAccnt.ID;
-            Deleted_Records__c deletedRec = new Deleted_Records__c();
-            deletedRec.Object_Name__c = recordId.getSObjectType().getDescribe().getName();
-            deletedRec.Salesforce_Record_Id__c = insolAccnt.External_Correlation_ID__c;
-            deletedRecords.add(deletedRec);
-        }
-        if (!deletedRecords.isEmpty()) {
-            insert deletedRecords;
-        }
+        ArchiveUnarchiveUtility.insertDeletedRecords(insolAccntOld);
     }
 
     /**

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Parent_Id_Not_Editable_Once_Set</fullName>
+    <active>true</active>
+    <description>Insolvency or Insolvency Account cannot be changed once Assignment is created</description>
+    <errorConditionFormula>AND
+($User.LastName &lt;&gt; $Label.DataArchiverUser,
+Not(ISNEW()),
+or(
+AND(ISCHANGED(Insolvency_Account__c), Not(ISBLANK(PRIORVALUE(Insolvency_Account__c)))),
+AND(ISCHANGED(Insolvency__c), Not(ISBLANK(PRIORVALUE(Insolvency__c))))
+)
+)</errorConditionFormula>
+    <errorDisplayField>Accept_Assignment__c</errorDisplayField>
+    <errorMessage>You cannot change Insolvency or Insolvency Account once Assignment is created</errorMessage>
+</ValidationRule>

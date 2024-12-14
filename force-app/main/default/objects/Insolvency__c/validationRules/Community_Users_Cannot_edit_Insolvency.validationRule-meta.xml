@@ -3,7 +3,7 @@
     <fullName>Community_Users_Cannot_edit_Insolvency</fullName>
     <active>true</active>
     <description>Prevent community users from editing the Name of Insolvency</description>
-    <errorConditionFormula>AND( CONTAINS( $Profile.Name , &apos;Community User&apos;),
+    <errorConditionFormula>AND($User.LastName  &lt;&gt;  $Label.DataArchiverUser, CONTAINS( $Profile.Name , &apos;Community User&apos;),
  ISCHANGED( Name )  )</errorConditionFormula>
     <errorMessage>Community User cannot edit the record</errorMessage>
 </ValidationRule>

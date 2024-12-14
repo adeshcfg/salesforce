@@ -3,13 +3,13 @@
     <fullName>Withdrawn_Date_Mandatory_for_Withdrawn</fullName>
     <active>true</active>
     <description>Withdrawn Date Mandatory for Withdrawn</description>
-    <errorConditionFormula>OR((ISCHANGED( Insolvency_Status__c ) &amp;&amp; 
-ISPICKVAL(Insolvency_Status__c , &apos;Withdrawn&apos;)&amp;&amp; 
-ISNULL( Insolvency_Withdrawn_Date__c )), 
-(ISPICKVAL(Insolvency_Status__c , &apos;Withdrawn&apos;)&amp;&amp; 
-ISCHANGED( Insolvency_Withdrawn_Date__c )&amp;&amp; 
-ISNULL(Insolvency_Withdrawn_Date__c )), 
-false)</errorConditionFormula>
+    <errorConditionFormula>AND( $User.LastName &lt;&gt; $Label.DataArchiverUser,OR((ISCHANGED( Insolvency_Status__c ) &amp;&amp;
+ISPICKVAL(Insolvency_Status__c , &apos;Withdrawn&apos;)&amp;&amp;
+ISNULL( Insolvency_Withdrawn_Date__c )),
+(ISPICKVAL(Insolvency_Status__c , &apos;Withdrawn&apos;)&amp;&amp;
+ISCHANGED( Insolvency_Withdrawn_Date__c )&amp;&amp;
+ISNULL(Insolvency_Withdrawn_Date__c )),
+false))</errorConditionFormula>
     <errorDisplayField>Insolvency_Withdrawn_Date__c</errorDisplayField>
     <errorMessage>Withdrawn Date is mandatory as Insolvency Status moved to Withdrawn</errorMessage>
 </ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Do_not_assign_case_to_other_E2C_status</fullName>
+    <active>true</active>
+    <description>Do not allow case to be assigned to other banks if status is in &apos;DocParser Processing&apos;, &apos;Manual Processing&apos;, &apos;System Error&apos;</description>
+    <errorConditionFormula>AND( $User.LastName &lt;&gt; $Label.DataArchiverUser,IF( AND( OR(ISPICKVAL(Status , &apos;DocParser Processing&apos;), ISPICKVAL(Status , &apos;Manually Process&apos;), ISPICKVAL(Status , &apos;System Error&apos;)), ISCHANGED ( Assign_To__c )), True, False))</errorConditionFormula>
+    <errorMessage>Case in this status is not allowed to assign to any bank</errorMessage>
+</ValidationRule>

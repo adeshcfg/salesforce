@@ -3,11 +3,7 @@
     <fullName>Mailing_Postal_Code</fullName>
     <active>true</active>
     <description>Validates that the Mailing Postal Code is in the correct format</description>
-    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),IF( ISBLANK(Debtor_1_Mailing_Postal_Code__c), false,
-AND(Created_By_Doc_Parser__c = false,
-NOT(REGEX(Debtor_1_Mailing_Postal_Code__c, &quot;((?i)[ABCEGHJKLMNPRSTVXY]\\d[A-Z]?\\s?\\d[A-Z]\\d)?&quot;)))
-))),
-IF( ISBLANK(Debtor_1_Mailing_Postal_Code__c), false,
+    <errorConditionFormula>AND( $User.LastName  &lt;&gt;  $Label.DataArchiverUser, IF( ISBLANK(Debtor_1_Mailing_Postal_Code__c), false,
 AND(Created_By_Doc_Parser__c = false,
 NOT(REGEX(Debtor_1_Mailing_Postal_Code__c, &quot;((?i)[ABCEGHJKLMNPRSTVXY]\\d[A-Z]?\\s?\\d[A-Z]\\d)?&quot;)))
 ))</errorConditionFormula>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Payment_Reversed</fullName>
-    <active>false</active>
+    <active>true</active>
     <description>Once Payment is Reversed do not allow payment to be updated</description>
-    <errorConditionFormula>OR(AND(
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,OR(AND(
 ISCHANGED( Payment_Reversed__c ),
 OR(
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;NSF&quot;),
@@ -20,7 +20,7 @@ ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Stopped&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Unauthorised&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Stale Dated&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Payment posted to Incorrect account&quot;)))
-)</errorConditionFormula>
+))</errorConditionFormula>
     <errorDisplayField>Cheque_Payment_Reference_Number__c</errorDisplayField>
     <errorMessage>Once the Payment is reversed, it cannot be updated</errorMessage>
 </ValidationRule>

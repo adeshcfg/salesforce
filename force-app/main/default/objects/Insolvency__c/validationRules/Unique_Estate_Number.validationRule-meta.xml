@@ -3,9 +3,9 @@
     <fullName>Unique_Estate_Number</fullName>
     <active>true</active>
     <description>Validates if Estate Number is unique</description>
-    <errorConditionFormula>IF(ISNEW(), AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),IF( UPPER(Name) == UPPER(VLOOKUP( $ObjectType.Insolvency__c.Fields.Name, $ObjectType.Insolvency__c.Fields.Name, Name)),true , false)), 
+    <errorConditionFormula>AND( $User.LastName  &lt;&gt;  $Label.DataArchiverUser,IF(ISNEW(), IF( UPPER(Name) == UPPER(VLOOKUP( $ObjectType.Insolvency__c.Fields.Name, $ObjectType.Insolvency__c.Fields.Name, Name)),true , false),
 
-AND(ISCHANGED(Name), IF( UPPER(Name) == UPPER(VLOOKUP($ObjectType.Insolvency__c.Fields.Name, $ObjectType.Insolvency__c.Fields.Name, Name)),true,false)))</errorConditionFormula>
+AND(ISCHANGED(Name), IF( UPPER(Name) == UPPER(VLOOKUP($ObjectType.Insolvency__c.Fields.Name, $ObjectType.Insolvency__c.Fields.Name, Name)),true,false))))</errorConditionFormula>
     <errorDisplayField>Name</errorDisplayField>
     <errorMessage>Estate Number is already used, please use different Estate Number</errorMessage>
 </ValidationRule>

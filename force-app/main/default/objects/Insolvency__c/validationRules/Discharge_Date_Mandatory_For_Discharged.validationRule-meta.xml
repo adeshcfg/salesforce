@@ -3,13 +3,13 @@
     <fullName>Discharge_Date_Mandatory_For_Discharged</fullName>
     <active>true</active>
     <description>Discharge Date mandatory for Discharged Status</description>
-    <errorConditionFormula>OR((ISCHANGED( Insolvency_Status__c ) &amp;&amp; 
+    <errorConditionFormula>AND( $User.LastName  &lt;&gt;  $Label.DataArchiverUser, OR((ISCHANGED( Insolvency_Status__c ) &amp;&amp; 
 ISPICKVAL(Insolvency_Status__c , &apos;Discharged&apos;)&amp;&amp; 
 ISNULL( Insolvency_Discharged_Date__c )), 
 (ISPICKVAL(Insolvency_Status__c , &apos;Discharged&apos;)&amp;&amp; 
 ISCHANGED( Insolvency_Discharged_Date__c )&amp;&amp; 
 ISNULL(Insolvency_Discharged_Date__c )), 
-false)</errorConditionFormula>
+false))</errorConditionFormula>
     <errorDisplayField>Insolvency_Discharged_Date__c</errorDisplayField>
     <errorMessage>Discharge Date is mandatory as Insolvency Status moved to Discharged</errorMessage>
 </ValidationRule>

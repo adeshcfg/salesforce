@@ -3,8 +3,8 @@
     <fullName>Mandatory_On_Reason_for_No_Poc_Required</fullName>
     <active>true</active>
     <description>If other option is selected in Reason For No Poc required , This field is mandatory</description>
-    <errorConditionFormula>AND(
-OR(ISCHANGED(Reason_for_No_PoC_Required_Dropdown__c), AND(ISNEW(),OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )))),
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,
+OR(ISCHANGED(Reason_for_No_PoC_Required_Dropdown__c), ISNEW()),
 ISPICKVAL(Reason_for_No_PoC_Required_Dropdown__c,&apos;Other&apos;),
 ISBLANK( Reason_for_No_PoC_Required__c
 ))</errorConditionFormula>
