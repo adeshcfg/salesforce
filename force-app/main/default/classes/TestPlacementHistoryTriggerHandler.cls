@@ -107,7 +107,7 @@ private class TestPlacementHistoryTriggerHandler {
         ProductTriggerHandler.runProductTrigger = True;
         
         Placement__c place = new Placement__c();
-        place.name = '1';
+        place.name = '2';
         insert place;
         
         Placement_History__c placeHist = new Placement_History__c();
