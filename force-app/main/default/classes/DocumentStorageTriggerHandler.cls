@@ -78,7 +78,8 @@ public class DocumentStorageTriggerHandler {
            // PortalDocumentStorageProcessingAPI.processDocumentStorage(documentStorage.ID); 
            if(documentStorage.Placement_Identifier__c != null &&
               documentStorage.Product__c != null){
-                  notificationCallAPI(documentStorage.Placement_Identifier__c,'Document','Document Created','A document for ' + documentStorage.Product_Identifier__c + ' has been created');  
+                //Ticket 7283: document uploaded from product screen then dont send notification to portal  
+                //notificationCallAPI(documentStorage.Placement_Identifier__c,'Document','Document Created','A document for ' + documentStorage.Product_Identifier__c + ' has been created');  
               }
             
         }
