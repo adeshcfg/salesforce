@@ -29,9 +29,9 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
     }
 
     public void finish(Database.BatchableContext bc) {
-        /* if (!setInsolvencyAccountIds.isEmpty()) {
+        if (!setInsolvencyAccountIds.isEmpty()) {
             Database.executeBatch(new PocSendEmailBatch(setInsolvencyAccountIds), 2);
-        } */
+        }
     }
 
     /**
