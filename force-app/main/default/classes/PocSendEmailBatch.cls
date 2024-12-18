@@ -1,27 +1,14 @@
 /**
  * @description       : Batch class for sending email
  * @author            : Abhijeet
- * @last modified on  : 12-10-2024
+ * @last modified on  : 12-18-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 
 public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.AllowsCallouts {
-    public Application_Config_Settings__c config;
-    public Map<Id, EmailTemplate> emailTemplateMap = new Map<Id, EmailTemplate>();
     public Set<String> insolvencyAccountIds = new Set<String>();
     public String language = '';
-    public Map<String, List<Messaging.Emailfileattachment>> mapInsolvAcctoEmailFileAtt;
-    public Map<String, EmailTemplate> mapofInsolvAcctoEmailTemplate = new Map<String, EmailTemplate>();
-    public List<String> lstAttachmentTypes = new List<String>{ 'PoC Document', 'Proof of Security', 'Loan Agreement', 'Account Statement' };
-    public List<String> lstEmailTemplateName = new List<String>{
-        'AMENDED_PROOF_OF_CLAIM',
-        'Insolvency_Template_French',
-        'AMENDED_PROOF_OF_CLAIM_French',
-        'Insolvency_Template'
-    };
-    public List<Document> docsToDelete = new List<Document>();
-    public Map<String, Messaging.SingleEmailMessage> mapInsolvAcctoEmail;
-    public Map<String, List<Attachment>> accountIdEmailAttachmentsMap = new Map<String, List<Attachment>>();
+    public List<String> selectedContentVersionIds = new List<String>();
 
     public PocSendEmailBatch(Set<String> insolvencyAccountIds) {
         this.insolvencyAccountIds = insolvencyAccountIds;
@@ -35,8 +22,6 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
 
     public void execute(Database.BatchableContext bc, List<Insolvency_Account__c> insolvAccList) {
         try {
-            mapInsolvAcctoEmail = new Map<String, Messaging.SingleEmailMessage>();
-            mapInsolvAcctoEmailFileAtt = new Map<String, List<Messaging.Emailfileattachment>>();
             emailPreProcessing(insolvAccList);
         } catch (Exception ex) {
             System.debug('Exception in PocAutomationBatch ' + ex.getStackTraceString());
@@ -55,6 +40,9 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
      * @param
      **/
     public void emailPreProcessing(List<Insolvency_Account__c> lstInsolvencyAccs) {
+        Map<String, List<Messaging.Emailfileattachment>> mapInsolvAcctoEmailFileAtt = new Map<String, List<Messaging.Emailfileattachment>>();
+        Map<String, Messaging.SingleEmailMessage> mapInsolvAcctoEmail = new Map<String, Messaging.SingleEmailMessage>();
+        Map<String, EmailTemplate> mapofInsolvAcctoEmailTemplate = new Map<String, EmailTemplate>();
         list<Id> insolTemplateWithHeaderList = new List<Id>();
         list<Id> insolTemplateWithoutHeaderList = new List<Id>();
         Set<String> setInsolvAccs = new Set<String>();
@@ -64,10 +52,6 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
         PoC_Package_Settings__c pocPackage;
         String toEmail = '';
         String toEmailBefore = '';
-        config = [
-            SELECT Maximum_Email_Attachments_Size_Text__c, Maximum_Email_Attachments_Size__c, Run_Insolvency_Status_Validations__c, Domain_Name__c
-            FROM Application_Config_Settings__c
-        ];
         Map<String, EmailTemplate> mapofEmailTemplates = getEmailTemplate();
 
         for (Insolvency_Account__c insolvAcc : lstInsolvencyAccs) {
@@ -121,17 +105,9 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
                 insolTemplateWithoutHeaderList = idWithoutHeaderList.split(',');
             }
         }
-        for (EmailTemplate emailTemp : [
-            SELECT Id, Name, HtmlValue, Body, Subject
-            FROM EmailTemplate
-            WHERE Id IN :insolTemplateWithHeaderList OR Id IN :insolTemplateWithoutHeaderList
-            ORDER BY Name
-        ]) {
-            emailTemplateMap.put(emailTemp.Id, emailTemp);
-        }
         mapInsolvAcctoEmailFileAtt = attachPOCDocToAccount(setInsolvAccs);
-        mapInsolvAcctoEmail = emailTemplatechanged(lstInsolvencyAccs, insolTemplateWithHeaderList);
-        sendEmail(setInsolvAccs);
+        mapInsolvAcctoEmail = emailTemplatechanged(lstInsolvencyAccs, insolTemplateWithHeaderList, mapofInsolvAcctoEmailTemplate);
+        sendEmail(setInsolvAccs, mapInsolvAcctoEmailFileAtt, mapInsolvAcctoEmail);
     }
 
     private static string formatFaxAsEmail(String faxNo) {
@@ -146,7 +122,11 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
         return formattedFax;
     }
 
-    public Map<String, Messaging.SingleEmailMessage> emailTemplatechanged(List<Insolvency_Account__c> lstInsolvencyAccs, list<Id> insolTemplateWithHeaderList) {
+    public Map<String, Messaging.SingleEmailMessage> emailTemplatechanged(
+        List<Insolvency_Account__c> lstInsolvencyAccs,
+        list<Id> insolTemplateWithHeaderList,
+        Map<String, EmailTemplate> mapofInsolvAcctoEmailTemplate
+    ) {
         Map<String, Messaging.SingleEmailMessage> insolvAcctoEmailMap = new Map<String, Messaging.SingleEmailMessage>();
         String subject = '';
         String emailName = '';
@@ -478,9 +458,10 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
      * @param
      **/
     public map<String, List<Messaging.Emailfileattachment>> attachPOCDocToAccount(Set<string> insolvAcc) {
+        List<String> lstAttachmentTypes = new List<String>{ 'PoC Document', 'Proof of Security', 'Loan Agreement', 'Account Statement' };
+        List<Document> docsToDelete = new List<Document>();
         Boolean accStatementError = false;
         Boolean docException = false;
-        List<String> selectedContentVersionIds = new List<String>();
         Map<String, Integer> acctIdAttachmentSizeMap = new Map<String, Integer>();
         Map<String, Messaging.Emailfileattachment> mapofInsolvAcctoAtt = new Map<String, Messaging.Emailfileattachment>();
         map<String, List<Messaging.Emailfileattachment>> mapInsolvencyAccountIdToListAttachs = new Map<String, List<Messaging.Emailfileattachment>>();
@@ -580,10 +561,8 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
             if (String.isNotBlank(efa.getFileName())) {
                 if (mapInsolvencyAccountIdToListAttachs.containsKey(attObj.ParentId)) {
                     mapInsolvencyAccountIdToListAttachs.get(attObj.ParentId).add(efa);
-                    accountIdEmailAttachmentsMap.get(attObj.ParentId).add(attObj);
                 } else {
                     mapInsolvencyAccountIdToListAttachs.put(attObj.ParentId, new List<Messaging.Emailfileattachment>{ efa });
-                    accountIdEmailAttachmentsMap.put(attObj.ParentId, new List<Attachment>{ attObj });
                 }
             }
         }
@@ -609,6 +588,12 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
      * @param
      **/
     public Map<String, EmailTemplate> getEmailTemplate() {
+        List<String> lstEmailTemplateName = new List<String>{
+            'AMENDED_PROOF_OF_CLAIM',
+            'Insolvency_Template_French',
+            'AMENDED_PROOF_OF_CLAIM_French',
+            'Insolvency_Template'
+        };
         Map<String, EmailTemplate> mapofEmailTemplates = new Map<String, EmailTemplate>();
         for (EmailTemplate emTPt : [SELECT Id, Name, HTMLValue, DeveloperName, Body, Subject FROM EmailTemplate WHERE DeveloperName = :lstEmailTemplateName]) {
             mapofEmailTemplates.put(emTPt.DeveloperName, emTPt);
@@ -621,7 +606,13 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
      * @author adesh.ikhar@canaccede.com | 10-09-2024
      * @param acctIds
      **/
-    public void sendEmail(Set<String> acctIds) {
+    public void sendEmail(
+        Set<String> acctIds,
+        Map<String, List<Messaging.Emailfileattachment>> mapInsolvAcctoEmailFileAtt,
+        Map<String, Messaging.SingleEmailMessage> mapInsolvAcctoEmail
+    ) {
+        Map<String, List<Attachment>> accountIdEmailAttachmentsMap = new Map<String, List<Attachment>>();
+        List<Document> docsToDelete = new List<Document>();
         List<Attachment> emailMsgAttachments = new List<Attachment>();
         Set<String> attachedPocAccountIds = new Set<String>();
         Map<String, String> acctIdEmailMsgIdMap = new Map<String, String>();
@@ -629,6 +620,16 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
             if (mapInsolvAcctoEmailFileAtt.containsKey(key)) {
                 Messaging.SingleEmailMessage emailMsg = mapInsolvAcctoEmail.get(key);
                 List<Messaging.Emailfileattachment> attachments = mapInsolvAcctoEmailFileAtt.get(key);
+                // Add Attachment to Email Message record
+                for (Messaging.Emailfileattachment emailAttachment : attachments) {
+                    Attachment emailAttachmentToCreate = new Attachment(
+                        Body = emailAttachment.getBody(),
+                        Name = emailAttachment.getFileName(),
+                        isPrivate = false
+                    );
+                    emailMsgAttachments.add(emailAttachmentToCreate);
+                }
+                accountIdEmailAttachmentsMap.put(key, emailMsgAttachments);
                 // Adding attachments to the email message
                 emailMsg.setFileAttachments(attachments);
             }
@@ -647,14 +648,16 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
         // Attach sent files to the email message record created after sending the mail
         for (String acctId : accountIdEmailAttachmentsMap.keySet()) {
             for (Attachment sentAttachment : accountIdEmailAttachmentsMap.get(acctId)) {
-                Attachment emailAttachment = sentAttachment.clone();
-                emailAttachment.ParentId = acctIdEmailMsgIdMap.get(acctId);
-                emailAttachment.isPrivate = false;
-                emailMsgAttachments.add(emailAttachment);
+                sentAttachment.ParentId = acctIdEmailMsgIdMap.get(acctId);
             }
         }
         if (emailMsgAttachments.size() > 0) {
             insert emailMsgAttachments;
+        }
+
+        // Populate list of documents to delete once email is sent
+        for (Document conVer : [SELECT Id FROM Document WHERE Id IN :selectedContentVersionIds]) {
+            docsToDelete.add(conVer);
         }
         // Delete created document records for selected attachments
         if (!docsToDelete.isEmpty()) {
