@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class for automation POC generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 12-16-2024
+ * @last modified on  : 12-18-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocAutomationBatch implements Schedulable, Database.Batchable<SObject>, Database.Stateful {
@@ -29,9 +29,9 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
     }
 
     public void finish(Database.BatchableContext bc) {
-        if (!setInsolvencyAccountIds.isEmpty()) {
+        /* if (!setInsolvencyAccountIds.isEmpty()) {
             Database.executeBatch(new PocSendEmailBatch(setInsolvencyAccountIds), 2);
-        }
+        } */
     }
 
     /**
