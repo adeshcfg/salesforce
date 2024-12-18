@@ -347,7 +347,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Portfolio_Group_Name__c</field>
+                <field>Portfolio_Group_Name_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

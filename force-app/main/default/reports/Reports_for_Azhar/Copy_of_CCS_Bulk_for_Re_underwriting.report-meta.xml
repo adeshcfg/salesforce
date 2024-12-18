@@ -32,7 +32,7 @@
         <field>Product__c.Expected_Recovery__c</field>
     </columns>
     <columns>
-        <field>Product__c.Portfolio_Group_Name__c</field>
+        <field>Product__c.Portfolio_Group_Name_Formula__c</field>
     </columns>
     <columns>
         <field>Product__c.Interest_Rate__c</field>

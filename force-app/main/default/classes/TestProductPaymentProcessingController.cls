@@ -65,7 +65,7 @@ public class TestProductPaymentProcessingController {
         insert accInstance1;
 
         //Product record creation
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CIA');
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CIA'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -80,7 +80,7 @@ public class TestProductPaymentProcessingController {
         insert prod;
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'AAL');
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'AAL'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
@@ -224,7 +224,7 @@ public class TestProductPaymentProcessingController {
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
-        prod.Portfolio_Group_Name__c = 'CLP';
+        //prod.Portfolio_Group_Name__c = 'CLP';
         prod.Product_Status__c = 'Test';
         prod.Customer__c = accInstance1.id;
         prod.Initial_Proposal_Date__c = Date.newInstance(2023, 8, 1);
@@ -380,7 +380,7 @@ public class TestProductPaymentProcessingController {
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
-        prod.Portfolio_Group_Name__c = 'CLP';
+        //prod.Portfolio_Group_Name__c = 'CLP';
         prod.Product_Status__c = 'Test';
         prod.Customer__c = accInstance1.id;
         prod.Initial_Proposal_Date__c = Date.newInstance(2023, 8, 1);
@@ -473,8 +473,8 @@ public class TestProductPaymentProcessingController {
         prodpay1.Payment_Type__c = '1000';
         insert prodpay1;
 
-        prod.Portfolio_Group_Name__c = 'CFL';
-        update prod;
+        //prod.Portfolio_Group_Name__c = 'CFL';
+        //update prod;
 
         depAcc1.name = 'CFL';
         depAcc1.Account_Number__c = '123';
@@ -504,7 +504,7 @@ public class TestProductPaymentProcessingController {
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
-        prod.Portfolio_Group_Name__c = 'CIA';
+        //prod.Portfolio_Group_Name__c = 'CIA';
         prod.Product_Status__c = 'Test';
         prod.Customer__c = accInstance1.id;
         prod.Initial_Proposal_Date__c = Date.newInstance(2023, 8, 1);
@@ -519,7 +519,7 @@ public class TestProductPaymentProcessingController {
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
-        prod1.Portfolio_Group_Name__c = 'CFL';
+        //prod1.Portfolio_Group_Name__c = 'CFL';
         prod1.Product_Status__c = 'Test';
         prod1.Customer__c = accInstance1.id;
         prod1.Initial_Proposal_Date__c = Date.newInstance(2023, 8, 1);
@@ -662,7 +662,7 @@ public class TestProductPaymentProcessingController {
 
         prodpay1.CCS_Account__c = prod1.Id;
         update prodpay1;
-        prod.Portfolio_Group_Name__c = 'CAL';
+        //prod.Portfolio_Group_Name__c = 'CAL';
         update prod;
         depAcc1.name = 'CAL';
         depAcc1.Account_Number__c = '123';
@@ -972,7 +972,7 @@ public class TestProductPaymentProcessingController {
         accInstance1.Phone_Number__pc = '123';
         insert accInstance1;
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CIH');
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CIH'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -987,7 +987,7 @@ public class TestProductPaymentProcessingController {
         insert prod;
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CCL');
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CCL'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
@@ -1001,7 +1001,7 @@ public class TestProductPaymentProcessingController {
         prod1.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
         insert prod1;
 
-        Product__c prod2 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'ETC');
+        Product__c prod2 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'ETC'*/);
         prod2.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Sub_Status__c = 'Ready';
@@ -1129,7 +1129,7 @@ public class TestProductPaymentProcessingController {
         accInstance1.Phone_Number__pc = '123';
         insert accInstance1;
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CCL');
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CCL'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -1144,7 +1144,7 @@ public class TestProductPaymentProcessingController {
         insert prod;
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CLP');
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CLP'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
@@ -1277,7 +1277,7 @@ public class TestProductPaymentProcessingController {
         accInstance1.Phone_Number__pc = '123';
         insert accInstance1;
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'AFF');
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'AFF'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -1292,7 +1292,7 @@ public class TestProductPaymentProcessingController {
         insert prod;
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'ETC');
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'ETC'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
@@ -1422,7 +1422,7 @@ public class TestProductPaymentProcessingController {
         accInstance1.Phone_Number__pc = '123';
         insert accInstance1;
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CFL');
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CFL'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -1437,7 +1437,7 @@ public class TestProductPaymentProcessingController {
         insert prod;
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CAL');
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CAL'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
@@ -1569,7 +1569,7 @@ public class TestProductPaymentProcessingController {
         accInstance1.Phone_Number__pc = '123';
         insert accInstance1;
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CIA');
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CIA'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -1584,7 +1584,7 @@ public class TestProductPaymentProcessingController {
         insert prod;
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CFL');
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CFL'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';

@@ -10,7 +10,7 @@
         <field>Product_Payments__c.Payment_Created__c</field>
     </columns>
     <columns>
-        <field>Product__c.Portfolio_Group_Name__c</field>
+        <field>Product__c.Portfolio_Group_Name_Formula__c</field>
     </columns>
     <columns>
         <field>Product__c.Portfolio_Name_Lookup__c</field>

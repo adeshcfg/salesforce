@@ -132,7 +132,7 @@
                     State__c,
                     Fee_Recovery__c,
                     Previous_Primary_Account_Number__c,
-                    Portfolio_Group_Name__c,
+                    Portfolio_Group_Name_Formula__c,
                     Legal_Entity__c,
                     Current_Bal_NSF_Fees__c,
                     Purchase_Status__c
@@ -1953,7 +1953,7 @@
                 payStaging.Value_Tier_at_Time_of_Placement__c = prodPayment.Value_Tier_at_Time_of_Placement__c;
                 payStaging.Pool_Lookup__c = prodPayment.Pool_Lookup__c;
                 payStaging.Legal_Entity__c = mapProduct.get(prodPayment.CCS_Account__c).Legal_Entity__c;
-                payStaging.Portfolio_Group_Name__c = mapProduct.get(prodPayment.CCS_Account__c).Portfolio_Group_Name__c;
+                payStaging.Portfolio_Group_Name__c = mapProduct.get(prodPayment.CCS_Account__c).Portfolio_Group_Name_Formula__c;
             }
 
             if (prodPayment.Agency_Calculated_Comm__c != null) {

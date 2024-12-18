@@ -264,12 +264,12 @@ public class UnallocatedPaymentControllerNew {
         
         prodPay.recordTypeid =  [select id from RecordType where SobjectType = 'Product_Payments__c' and developername = 'CCS_Dividend_Payment'].id;
         
-        Product__c insolAcc = [select id, name, Portfolio_Group_Name__c 
+        Product__c insolAcc = [select id, name, Portfolio_Group_Name_Formula__c 
                                          from Product__c where id = :prodPay.CCS_Account__C];
         System.debug(insolAcc);  
         
-        if(insolAcc.Portfolio_Group_Name__c != null){
-            prodPay.Deposit_Account_Type__c = (insolAcc.Portfolio_Group_Name__c).subString(0,3);
+        if(insolAcc.Portfolio_Group_Name_Formula__c != null){
+            prodPay.Deposit_Account_Type__c = (insolAcc.Portfolio_Group_Name_Formula__c).subString(0,3);
         }else{
             prodPay.Deposit_Account_Type__c = 'CIML';
         }

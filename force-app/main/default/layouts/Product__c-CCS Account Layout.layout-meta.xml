@@ -271,8 +271,8 @@
                 <field>Portfolio_Name_Lookup__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Portfolio_Group_Name__c</field>
+                <behavior>Readonly</behavior>
+                <field>Portfolio_Group_Name_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

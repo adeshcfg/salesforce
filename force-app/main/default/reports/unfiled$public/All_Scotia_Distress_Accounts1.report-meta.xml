@@ -25,7 +25,7 @@
         <field>Product__c.Account_Purchasing_Entity_Value__c</field>
     </columns>
     <columns>
-        <field>Product__c.Portfolio_Group_Name__c</field>
+        <field>Product__c.Portfolio_Group_Name_Formula__c</field>
     </columns>
     <columns>
         <field>Product__c.Portfolio_Name_Lookup__c</field>
@@ -66,7 +66,7 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>Product__c.Portfolio_Group_Name__c</sortColumn>
+    <sortColumn>Product__c.Portfolio_Group_Name_Formula__c</sortColumn>
     <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>Product__c.Account_Purchase_Date__c</dateColumn>

@@ -159,7 +159,7 @@ public class ProductPaymentProcessingController{
             //return;
         }
         
-        for(Product__C prodAcc : [SELECT Id, Name, Portfolio_Group_Name__c, Agency_Company__c, customer__r.name,
+        for(Product__C prodAcc : [SELECT Id, Name, Portfolio_Group_Name_Formula__c, Agency_Company__c, customer__r.name,
                                   CCS_Account_Number__c, CCS_Debtor_Name__c, FairShare_Percentage__c, CCS_Client_ID__c
                                   FROM Product__c
                                   WHERE Id IN :prodAccIDs 
@@ -270,7 +270,7 @@ public class ProductPaymentProcessingController{
             }
             Boolean searchResultsFound = false;
             
-            for(Product__C productAcc : [SELECT Id, name, Agency_Company__c, Portfolio_Group_Name__c, customer__r.name, CCS_Account_Number__c, CCS_Debtor_Name__c, CCS_Agency__r.name, FairShare_Percentage__c, CCS_Client_ID__c FROM Product__C WHERE (Name LIKE : searchList OR CCS_Account_Number__c LIKE : searchList OR CCS_Client_ID__c LIKE : searchList OR customer__r.name LIKE : searchList ) and ID Not IN :listProdAccIDs and (recordtype.name = 'CCS Account' OR recordtype.DeveloperName = 'GoEasy_CCS_Account') ORDER BY NAME ASC LIMIT 1000]){
+            for(Product__C productAcc : [SELECT Id, name, Agency_Company__c, Portfolio_Group_Name_Formula__c, customer__r.name, CCS_Account_Number__c, CCS_Debtor_Name__c, CCS_Agency__r.name, FairShare_Percentage__c, CCS_Client_ID__c FROM Product__C WHERE (Name LIKE : searchList OR CCS_Account_Number__c LIKE : searchList OR CCS_Client_ID__c LIKE : searchList OR customer__r.name LIKE : searchList ) and ID Not IN :listProdAccIDs and (recordtype.name = 'CCS Account' OR recordtype.DeveloperName = 'GoEasy_CCS_Account') ORDER BY NAME ASC LIMIT 1000]){
 
                 if(!ProdAccIds.contains(productAcc.Id)){
                     Product_Payments__C productPayment = new Product_Payments__C();
@@ -984,13 +984,13 @@ public class ProductPaymentProcessingController{
         }
         
         List<Product_Payments__C> listPaymentstoUpdate = [select id, Deposit_Account_Type__c, 
-                                                          CCS_Account__r.Portfolio_Group_Name__c 
+                                                          CCS_Account__r.Portfolio_Group_Name_Formula__c 
                                                           from Product_Payments__C 
                                                           where Dividend__c = :remit.id];
         Set<String> setPortfolioGroupName = new Set<String>();
         for(Product_Payments__C prdPay : listPaymentstoUpdate ){
-            if(null != prdPay.CCS_Account__r.Portfolio_Group_Name__c){
-                String PortfolioGroupName = (prdPay.CCS_Account__r.Portfolio_Group_Name__c).subString(0,3);
+            if(null != prdPay.CCS_Account__r.Portfolio_Group_Name_Formula__c){
+                String PortfolioGroupName = (prdPay.CCS_Account__r.Portfolio_Group_Name_Formula__c).subString(0,3);
                 if(PortfolioGroupName == 'CIA' || PortfolioGroupName == 'AAL'){
                     PortfolioGroupName = 'CIH';
                 }    
@@ -1140,11 +1140,11 @@ public class ProductPaymentProcessingController{
             for(Product_Payments__C insolPay : listPaymentstoUpdate){
                 Map<String, Deposit_Accounts__c> depositAccountMap = Deposit_Accounts__c.getAll();
                 Deposit_Accounts__c depositAccRec = new Deposit_Accounts__c();
-                system.debug('Deposit_Accounts__c : ' + insolPay.CCS_Account__r.Portfolio_Group_Name__c);
-                if(null != insolPay.CCS_Account__r.Portfolio_Group_Name__c){
-                    depositAccRec = depositAccountMap.get((insolPay.CCS_Account__r.Portfolio_Group_Name__c).subString(0,3));
+                system.debug('Deposit_Accounts__c : ' + insolPay.CCS_Account__r.Portfolio_Group_Name_Formula__c);
+                if(null != insolPay.CCS_Account__r.Portfolio_Group_Name_Formula__c){
+                    depositAccRec = depositAccountMap.get((insolPay.CCS_Account__r.Portfolio_Group_Name_Formula__c).subString(0,3));
                 }
-                if(null == insolPay.CCS_Account__r.Portfolio_Group_Name__c ||
+                if(null == insolPay.CCS_Account__r.Portfolio_Group_Name_Formula__c ||
                    null == depositAccRec ){
                        depositAccRec = depositAccountMap.get('CIML');
                    }

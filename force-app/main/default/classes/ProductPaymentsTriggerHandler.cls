@@ -193,7 +193,7 @@
                     Pool_Name__r.Commission_Rate__c,
                     State__c,
                     Legal_Entity__c,
-                    Portfolio_Group_Name__c,
+                    Portfolio_Group_Name_Formula__c,
                     Collection_Agency__c,
                     Recalled_Date__c
                 FROM Product__c
@@ -233,7 +233,7 @@
                         productPayment.Product_Agency__c = mapProducts.get(productPayment.CCS_Account__c).Collection_Agency_Placement__c;
                         productPayment.Pool_Lookup__c = mapProducts.get(productPayment.CCS_Account__c).Pool_Name__c;
                         productPayment.Legal_Entity__c = mapProducts.get(productPayment.CCS_Account__c).Legal_Entity__c;
-                        productPayment.Portfolio_Group_Name__c = mapProducts.get(productPayment.CCS_Account__c).Portfolio_Group_Name__c;
+                        productPayment.Portfolio_Group_Name__c = mapProducts.get(productPayment.CCS_Account__c).Portfolio_Group_Name_Formula__c;
                         if (mapProducts.get(productPayment.CCS_Account__c).Current_Bal_NSF_Fees__c == null)
                             mapProducts.get(productPayment.CCS_Account__c).Current_Bal_NSF_Fees__c = 0;
                     }

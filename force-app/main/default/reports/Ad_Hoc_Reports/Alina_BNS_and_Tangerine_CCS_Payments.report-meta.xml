@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Product__c.Investment_Group__c</field>
+    </columns>
+    <columns>
+        <field>Product__c.Portfolio_Group_Name_Formula__c</field>
+    </columns>
+    <columns>
+        <field>Product__c.Portfolio_Name_Lookup__c</field>
+    </columns>
+    <columns>
+        <field>Product__c.State__c</field>
+    </columns>
+    <columns>
+        <field>Product__c.Product_Type__c</field>
+    </columns>
+    <columns>
+        <field>Product_Payments__c.Payment_Created__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Product_Payments__c.Payment_Amount__c</field>
+    </columns>
+    <filter>
+        <booleanFilter>(1 OR 2) AND 3</booleanFilter>
+        <criteriaItems>
+            <column>Product__c.Investment_Group__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>BNS DISTRESSED FF,BNS INSOLVENT FF</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Product__c.Portfolio_Name_Lookup__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>tangerine</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CUST_RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Product__c.CCS_Account</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Alina - All BNS Accounts - CCS Payments</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntityCustomEntity$Product__c$Product_Payments__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Product__c.Charged_Off_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

@@ -88,7 +88,7 @@
          ia1.Claim_Type__c = 'Unsecured';
          ia1.Claim_Amount__c = 1000;
          ia1.Insolvency__c = insolv1.Id;
-         ia1.Portfolio_Group_Name__c = 'CCL001';
+         //ia1.Portfolio_Group_Name__c = 'CCL001';
          ia1.Investment_Group__c = 'AFFIRM';
          ia1.Portfolio_Name_Lookup__c = portfolioName.id;
          ia1.Asset_Status__c = 'Purchased';
@@ -107,7 +107,7 @@
          ia2.Claim_Type__c = 'Secured';
          ia2.Claim_Amount__c = 1000;
          ia2.Insolvency__c = insolv1.Id;
-         ia2.Portfolio_Group_Name__c = 'CIH002';
+         //ia2.Portfolio_Group_Name__c = 'CIH002';
          ia2.Investment_Group__c = 'AFFIRM';
          ia2.Portfolio_Name_Lookup__c = portfolioName.id;
          ia2.Asset_Status__c = 'Purchased';
@@ -125,7 +125,7 @@
          ia3.Claim_Type__c = 'Secured';
          ia3.Claim_Amount__c = 1000;
          ia3.Insolvency__c = insolv1.Id;
-         ia3.Portfolio_Group_Name__c = 'CIT002';
+         //ia3.Portfolio_Group_Name__c = 'CIT002';
          ia3.Investment_Group__c = 'AFFIRM';
          ia3.Portfolio_Name_Lookup__c = portfolioName.id;
          ia3.Asset_Status__c = 'Purchased';
@@ -142,7 +142,7 @@
          ia4.Claim_Type__c = 'Secured';
          ia4.Claim_Amount__c = 1000;
          ia4.Insolvency__c = insolv.Id;
-         ia4.Portfolio_Group_Name__c = 'CIT002';
+         //ia4.Portfolio_Group_Name__c = 'CIT002';
          ia4.Investment_Group__c = 'AFFIRM';
          ia4.Portfolio_Name_Lookup__c = portfolioName.id;
          ia4.Asset_Status__c = 'Purchased';
@@ -216,7 +216,7 @@
          prod.Collection_Agency__c = 68;
          prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
          prod.Investment_Group__c = 'BNS1 INSOLVENT';
-         prod.Portfolio_Group_Name__c = 'AAL001';
+         //prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
          prod.Originating_Creditor__c = 'CUETS';
                   prod.Status__c = 'New Allocation - New Allocation';
@@ -234,7 +234,7 @@
          prod1.Collection_Agency__c = 68;
          prod1.Purchase_Date__c = Date.newInstance(2016, 12, 9);
          prod1.Investment_Group__c = 'BNS1 INSOLVENT';
-         prod1.Portfolio_Group_Name__c = 'AAL001';
+         //prod1.Portfolio_Group_Name__c = 'AAL001';
          prod1.Account_Purchasing_Entity__c = '14';
          prod1.Originating_Creditor__c = 'CUETS';
          prod1.Status__c = 'New Allocation - New Allocation';
@@ -260,7 +260,7 @@
          ia1.Claim_Type__c = 'Unsecured';
          ia1.Insolvency__c = insolv1.Id;
          ia1.Account_Number_Without_Space__c = 'Test-001';
-         ia1.Portfolio_Group_Name__c = 'CCL001';
+         //ia1.Portfolio_Group_Name__c = 'CCL001';
          ia1.Investment_Group__c = 'AFFIRM';
          ia1.Portfolio_Name_Lookup__c = portfolioName.id;
          ia1.Asset_Status__c = 'Purchased';
@@ -275,7 +275,7 @@
          ia2.Claim_Type__c = 'Secured';
          ia2.Insolvency__c = insolv2.Id;
          ia2.Account_Number_Without_Space__c = 'Test-002';
-         ia2.Portfolio_Group_Name__c = 'CIH002';
+         //ia2.Portfolio_Group_Name__c = 'CIH002';
          ia2.Investment_Group__c = 'AFFIRM';
          ia2.Portfolio_Name_Lookup__c = portfolioName.id;
          ia2.Asset_Status__c = 'Purchased';
@@ -290,7 +290,7 @@
          ia3.Claim_Type__c = 'Unsecured';
          ia3.Insolvency__c = insolv2.Id;
          ia3.Account_Number_Without_Space__c = 'Test-003';
-         ia3.Portfolio_Group_Name__c = 'CIA002';
+         //ia3.Portfolio_Group_Name__c = 'CIA002';
          ia3.Investment_Group__c = 'AFFIRM';
          ia3.Portfolio_Name_Lookup__c = portfolioName.id;
          ia3.Asset_Status__c = 'Purchased';
@@ -301,7 +301,7 @@
          ia4.Insolvency_Status__c = 'Trustee Followup';
          ia4.Claim_Type__c = 'Unsecured';
          ia4.Insolvency__c = insolv2.Id;
-         ia4.Portfolio_Group_Name__c = 'CAL004';
+         //ia4.Portfolio_Group_Name__c = 'CAL004';
          ia4.Investment_Group__c = 'AFFIRM';
          ia4.Portfolio_Name_Lookup__c = portfolioName.id;
          ia4.Asset_Status__c = 'Purchased';
@@ -312,7 +312,7 @@
          ia5.Insolvency_Status__c = 'Claim Filed';
          ia5.Claim_Type__c = 'Unsecured';
          ia5.Insolvency__c = insolv2.Id;
-         ia5.Portfolio_Group_Name__c = 'ETC001';
+         //ia5.Portfolio_Group_Name__c = 'ETC001';
          ia5.Investment_Group__c = 'AFFIRM';
          ia5.Portfolio_Name_Lookup__c = portfolioName.id;
          ia5.Asset_Status__c = 'Purchased';
@@ -323,7 +323,7 @@
          ia6.Insolvency_Status__c = 'Wait / Hold';
          ia6.Claim_Type__c = 'Unsecured';
          ia6.Insolvency__c = insolv2.Id;
-         ia6.Portfolio_Group_Name__c = 'ETC001';
+         //ia6.Portfolio_Group_Name__c = 'ETC001';
          ia6.Investment_Group__c = 'AFFIRM';
          ia6.Portfolio_Name_Lookup__c = portfolioName.id;
          ia6.Asset_Status__c = 'Purchased';
@@ -375,7 +375,7 @@
          prod.Collection_Agency__c = 68;
          prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
          prod.Investment_Group__c = 'BNS1 INSOLVENT';
-         prod.Portfolio_Group_Name__c = 'AAL001';
+         //prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
          prod.Originating_Creditor__c = 'CUETS';
          prod.Status__c = 'New Allocation - New Allocation';
@@ -512,7 +512,7 @@
          prod.Collection_Agency__c = 68;
          prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
          prod.Investment_Group__c = 'BNS1 INSOLVENT';
-         prod.Portfolio_Group_Name__c = 'AAL001';
+         //prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
          prod.Originating_Creditor__c = 'CUETS';
          prod.Status__c = 'New Allocation - New Allocation';
