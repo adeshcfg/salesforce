@@ -162,12 +162,8 @@
     <picklistValues>
         <picklist>Client_Identifier__c</picklist>
         <values>
-            <fullName>Canaccede</fullName>
-            <default>true</default>
-        </values>
-        <values>
             <fullName>Fairstone</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>

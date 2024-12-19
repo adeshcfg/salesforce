@@ -131,7 +131,7 @@
         <picklist>Client_Identifier__c</picklist>
         <values>
             <fullName>Canaccede</fullName>
-            <default>true</default>
+            <default>false</default>
         </values>
         <values>
             <fullName>Fairstone</fullName>
