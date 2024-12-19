@@ -9,7 +9,7 @@
  *************************************************************************************************/
 
 @isTest
-public class TestGenerateDepositProductPDFController {
+public class TestGenerateDepositProductPDFController { 
     @testSetup
     static void testData() {
         Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
