@@ -81,6 +81,10 @@
                 <field>Document_Name__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Buyback_Putback_Evidence__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Document_Type__c</field>
             </layoutItems>
