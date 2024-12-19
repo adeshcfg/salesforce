@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class for sending email
  * @author            : Abhijeet
- * @last modified on  : 12-18-2024
+ * @last modified on  : 12-19-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 
@@ -613,11 +613,12 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
     ) {
         Map<String, List<Attachment>> accountIdEmailAttachmentsMap = new Map<String, List<Attachment>>();
         List<Document> docsToDelete = new List<Document>();
-        List<Attachment> emailMsgAttachments = new List<Attachment>();
         Set<String> attachedPocAccountIds = new Set<String>();
         Map<String, String> acctIdEmailMsgIdMap = new Map<String, String>();
+        List<Attachment> emailMsgAttachmentsToInsert = new List<Attachment>();
         for (String key : mapInsolvAcctoEmail.keySet()) {
             if (mapInsolvAcctoEmailFileAtt.containsKey(key)) {
+                List<Attachment> emailMsgAttachments = new List<Attachment>();
                 Messaging.SingleEmailMessage emailMsg = mapInsolvAcctoEmail.get(key);
                 List<Messaging.Emailfileattachment> attachments = mapInsolvAcctoEmailFileAtt.get(key);
                 // Add Attachment to Email Message record
@@ -649,10 +650,11 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
         for (String acctId : accountIdEmailAttachmentsMap.keySet()) {
             for (Attachment sentAttachment : accountIdEmailAttachmentsMap.get(acctId)) {
                 sentAttachment.ParentId = acctIdEmailMsgIdMap.get(acctId);
+                emailMsgAttachmentsToInsert.add(sentAttachment);
             }
         }
-        if (emailMsgAttachments.size() > 0) {
-            insert emailMsgAttachments;
+        if (emailMsgAttachmentsToInsert.size() > 0) {
+            insert emailMsgAttachmentsToInsert;
         }
 
         // Populate list of documents to delete once email is sent
