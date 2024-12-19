@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class for automation POC generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 12-18-2024
+ * @last modified on  : 12-19-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocAutomationBatch implements Schedulable, Database.Batchable<SObject>, Database.Stateful {
@@ -48,7 +48,7 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
             if (
                 insolvAcc.Client_Identifier__c == 'Canadian Tire' &&
                 !insolvAcc.CTB_Statements_Received__c &&
-                !PocDocUtility.isTodayOutsideGivenBusinessDateRange(insolvAcc.Insolvency_Status_Last_Changed__c, 5)
+                !PocDocUtility.isTodayOutsideGivenBusinessDateRange(insolvAcc.Insolvency_Status_Last_Changed__c, 4)
             ) {
                 continue;
             }
