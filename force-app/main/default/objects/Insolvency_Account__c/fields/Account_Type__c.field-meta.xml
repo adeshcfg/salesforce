@@ -163,9 +163,9 @@
                 <label>Auto Loans</label>
             </value>
             <value>
-                <fullName>Unknown – Not Walmart</fullName>
+                <fullName>Unknown - Not Walmart</fullName>
                 <default>false</default>
-                <label>Unknown – Not Walmart</label>
+                <label>Unknown - Not Walmart</label>
             </value>
         </valueSetDefinition>
     </valueSet>

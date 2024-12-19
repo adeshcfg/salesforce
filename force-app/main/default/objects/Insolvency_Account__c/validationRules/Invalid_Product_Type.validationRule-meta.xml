@@ -30,7 +30,7 @@ NOT(ISPICKVAL(Account_Type__c, &apos;PL Unsecured&apos;)),
 NOT(ISPICKVAL(Account_Type__c, &apos;PL Secured&apos;)),
 NOT(ISPICKVAL(Account_Type__c, &apos;PL Auto Secured&apos;)),
 NOT(ISPICKVAL(Account_Type__c, &apos;Retail&apos;)),
-NOT(ISPICKVAL(Account_Type__c, &apos;Unknown – Not Walmart&apos;)),
+NOT(ISPICKVAL(Account_Type__c, &apos;Unknown - Not Walmart&apos;)),
 NOT(ISPICKVAL(Account_Type__c, &apos;Auto Loans&apos;))
 ),
 

@@ -1535,7 +1535,7 @@ public class DocumentResponseParser {
 
             if(insolvAccount.RecordTypeId == insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account') && 
                !insolvAccount.Name.startsWith('5434') && !insolvAccount.Name.startsWith('5435')){ 
-                   insolvAccount.Account_Type__c = 'Unknown – Not Walmart';
+                   insolvAccount.Account_Type__c = 'Unknown - Not Walmart';
             }
             
             // Set default values for Canadian Tire account
