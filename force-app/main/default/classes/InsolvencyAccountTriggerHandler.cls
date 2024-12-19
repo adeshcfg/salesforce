@@ -1839,7 +1839,7 @@ insDetails.add(insDetail);
                     Name,
                     Purchase_Date__c,
                     Investment_Group__c,
-                    Portfolio_Group_Name__c,
+                    Portfolio_Group_Name_Formula__c,
                     Portfolio_Name_Lookup__r.Name,
                     Account_Purchasing_Entity_Value__c,
                     Originating_Creditor__c
@@ -1866,8 +1866,8 @@ insDetails.add(insDetail);
                 accNew.Investment_Group__c = distProduct.Investment_Group__c;
             }
 
-            if (distProduct.Portfolio_Group_Name__c != null) {
-                accNew.Portfolio_Group_Name__c = distProduct.Portfolio_Group_Name__c;
+            if (distProduct.Portfolio_Group_Name_Formula__c != null) {
+                accNew.Portfolio_Group_Name__c = distProduct.Portfolio_Group_Name_Formula__c;
             }
 
             if (distProduct.Account_Purchasing_Entity_Value__c != null) {

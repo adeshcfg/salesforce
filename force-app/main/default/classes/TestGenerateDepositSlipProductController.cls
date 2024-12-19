@@ -136,7 +136,7 @@ public class TestGenerateDepositSlipProductController {
         //ia1.Claim_Type__c = 'Unsecured';
         //ia1.Insolvency__c = insolv1.Id;
         //ia1.Account_Number_Without_Space__c = 'Test-001';
-        ia1.Portfolio_Group_Name__c = 'CCL001';
+        //ia1.Portfolio_Group_Name__c = 'CCL001';
 
         Product__c ia2 = new Product__c();
         ia2.RecordTypeId = recordTypeList[0].Id;
@@ -145,7 +145,7 @@ public class TestGenerateDepositSlipProductController {
         ia2.Claim_Type__c = 'Unsecured';
         ia2.Insolvency__c = insolv1.Id;
         ia2.Account_Number_Without_Space__c = 'Test-002';*/
-        ia2.Portfolio_Group_Name__c = 'CIH002';
+        //ia2.Portfolio_Group_Name__c = 'CIH002';
 
         Product__c ia3 = new Product__c();
         ia3.RecordTypeId = recordTypeList[0].Id;
@@ -154,7 +154,7 @@ public class TestGenerateDepositSlipProductController {
         ia3.Claim_Type__c = 'Unsecured';
         ia3.Insolvency__c = insolv1.Id;
         ia3.Account_Number_Without_Space__c = 'Test-003';*/
-        ia3.Portfolio_Group_Name__c = 'CIA002';
+        //ia3.Portfolio_Group_Name__c = 'CIA002';
 
         Product__c ia4 = new Product__c();
         ia4.RecordTypeId = recordTypeList[0].Id;
@@ -163,7 +163,7 @@ public class TestGenerateDepositSlipProductController {
         ia4.Claim_Type__c = 'Unsecured';
         ia4.Insolvency__c = insolv1.Id;
         ia4.Account_Number_Without_Space__c = 'Test-004';*/
-        ia4.Portfolio_Group_Name__c = 'CAL004';
+        //ia4.Portfolio_Group_Name__c = 'CAL004';
 
         Product__c ia5 = new Product__c();
         ia5.RecordTypeId = recordTypeList[0].Id;
@@ -172,7 +172,7 @@ public class TestGenerateDepositSlipProductController {
         ia5.Claim_Type__c = 'Unsecured';
         ia5.Insolvency__c = insolv1.Id;
         ia5.Account_Number_Without_Space__c = 'Test-005';*/
-        ia5.Portfolio_Group_Name__c = 'ETC001';
+        //ia5.Portfolio_Group_Name__c = 'ETC001';
 
         iaList.add(ia1);
         iaList.add(ia2);

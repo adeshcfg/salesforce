@@ -292,7 +292,7 @@
                         {!wrap.productAcc.Agency_Company__c}
                     </apex:column>
                     <apex:column headerValue="Portfolio Group Name">
-                        {!wrap.productAcc.Portfolio_Group_Name__c}
+                        {!wrap.productAcc.Portfolio_Group_Name_Formula__c}
                     </apex:column>
                     <apex:column headerValue="Customer Name">
                         {!wrap.productAcc.Customer__r.name}

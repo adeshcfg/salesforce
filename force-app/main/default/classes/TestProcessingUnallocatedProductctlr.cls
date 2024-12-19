@@ -204,7 +204,7 @@ public class TestProcessingUnallocatedProductctlr {
         Product__c prod2 = new Product__c();
         prod2.name = '123456';
         prod2.customer__c = customer.Id;
-        prod2.Portfolio_Group_Name__c = 'AAL001';
+        //prod2.Portfolio_Group_Name__c = 'AAL001';
         prod2.RecordTypeId = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name = 'CCS Account'].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Sub_Status__c = 'Ready';
@@ -276,7 +276,7 @@ public class TestProcessingUnallocatedProductctlr {
         insert customer;
         Product__c prod2 = new Product__c();
         prod2.customer__c = customer.Id;
-        prod2.Portfolio_Group_Name__c = 'AAL001';
+        //prod2.Portfolio_Group_Name__c = 'AAL001';
         prod2.RecordTypeId = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name = 'CCS Account'].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Sub_Status__c = 'Ready';
@@ -361,7 +361,7 @@ public class TestProcessingUnallocatedProductctlr {
         insert customer;
         Product__c prod2 = new Product__c();
         prod2.customer__c = customer.Id;
-        prod2.Portfolio_Group_Name__c = 'AAL001';
+        //prod2.Portfolio_Group_Name__c = 'AAL001';
         prod2.RecordTypeId = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name = 'CCS Account'].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Sub_Status__c = 'Ready';
@@ -435,7 +435,7 @@ public class TestProcessingUnallocatedProductctlr {
         insert customer;
         Product__c prod2 = new Product__c();
         prod2.customer__c = customer.Id;
-        prod2.Portfolio_Group_Name__c = 'AAL001';
+        //prod2.Portfolio_Group_Name__c = 'AAL001';
         prod2.RecordTypeId = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name = 'CCS Account'].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Sub_Status__c = 'Ready';
@@ -509,7 +509,7 @@ public class TestProcessingUnallocatedProductctlr {
         );
         insert customer;
         prod2.customer__c = customer.Id;
-        prod2.Portfolio_Group_Name__c = 'AAL001';
+        //prod2.Portfolio_Group_Name__c = 'AAL001';
         prod2.RecordTypeId = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name = 'CCS Account'].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Sub_Status__c = 'Ready';
