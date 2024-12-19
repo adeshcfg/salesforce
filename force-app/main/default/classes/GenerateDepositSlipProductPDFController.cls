@@ -112,7 +112,7 @@ public class GenerateDepositSlipProductPDFController {
         for(Remittance__C rem : listRemittance ){
             listRemittanceID.add(rem.id);
         }
-        insolvPayList = [SELECT id, name, CCS_Account__r.name, CCS_Account__r.Portfolio_Group_Name__c,
+        insolvPayList = [SELECT id, name, CCS_Account__r.name, CCS_Account__r.Portfolio_Group_Name_Formula__c,
                          Cheque_Number__c, Deposit_Account_Type__c, Payment_Amount__c,
                          Dividend__r.Cheque_Payment_Reference_Number__c, dividend__r.CCS_Agency__r.name
                         from Product_payments__c
