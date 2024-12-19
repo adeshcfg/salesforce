@@ -39,6 +39,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Unknown – Not Walmart</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Retail</fullName>
             <default>false</default>
         </values>

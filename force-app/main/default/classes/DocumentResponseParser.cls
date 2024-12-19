@@ -1507,7 +1507,7 @@ public class DocumentResponseParser {
             if (liability.creditor != null) {
                 insolvAccount.Creditor_Name__c = liability.creditor;
                 insolvAccount.RecordTypeId = getInsolvencyRecordType(liability.creditor, liability.accountNumber, liability.creditorAddress);
-            }
+            }           
             if (liability.creditorAddress != null) {
                 insolvAccount.Address_of_Creditor__c = liability.creditorAddress;
             }
@@ -1531,6 +1531,11 @@ public class DocumentResponseParser {
                 insolvAccount.Name = Other_RECORD_NAME;
             }
             */
+            }
+
+            if(insolvAccount.RecordTypeId == insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account') && 
+               !insolvAccount.Name.startsWith('5434') && !insolvAccount.Name.startsWith('5435')){ 
+                   insolvAccount.Account_Type__c = 'Unknown – Not Walmart';
             }
             
             // Set default values for Canadian Tire account
