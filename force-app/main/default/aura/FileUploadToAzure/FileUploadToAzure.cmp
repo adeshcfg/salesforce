@@ -1,12 +1,16 @@
-<aura:component controller="FileUploadToAzureController" 
-                implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId,force:hasSObjectName" access="global">
+<aura:component
+    controller="FileUploadToAzureController"
+    implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId,force:hasSObjectName"
+    access="global"
+>
     <!-- 'parentId' Aura Attribute for store the Id for Parent Record where we are attach our file -->
-   
-<meta http-equiv="Content-Security-Policy" content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"/>
-	 <ltng:require scripts="{!$Resource.ExceltoJSONService}"
-                  />
-    <aura:attribute name="documents" type="object[]"/>
-     <aura:attribute name="returnURL" type="String" />
+    <meta
+        http-equiv="Content-Security-Policy"
+        content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"
+    />
+    <ltng:require scripts="{!$Resource.ExceltoJSONService}" />
+    <aura:attribute name="documents" type="object[]" />
+    <aura:attribute name="returnURL" type="String" />
     <aura:attribute name="fileName1" type="String" />
     <aura:attribute name="parentId" type="Id" default="" />
     <aura:attribute name="documentid" type="Id" default="" />
@@ -20,231 +24,139 @@
     <aura:attribute name="fileName" type="String" default="No File Selected.." />
     <aura:attribute name="switch" type="boolean" default="true" />
     <aura:attribute name="isMediaRequest" type="boolean" default="false" />
-    <aura:attribute name="files" type="Document_Storage__c[]"/>
-    <aura:attribute name="listDocVisibility" type="String[]"/>
+    <aura:attribute name="files" type="Document_Storage__c[]" />
+    <aura:attribute name="listDocVisibility" type="String[]" />
     <aura:attribute name="acceptFileTypes" type="String" />
     <aura:attribute name="documentVisibility" type="String[]" />
-    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="recordLoadError" type="String" />
     <aura:attribute name="isDocTypeSelected" type="boolean" default="false" />
-    <aura:attribute name="fileURL" type="String"/>
-    <aura:attribute name="pdfContainer" type="Aura.Component[]"/>
-    <aura:attribute name="RELEASE_LETTER" type="String" default="Final Release Letter"/>
-    <aura:attribute name="SETTLEMENT_LETTER" type="String" default="Conditional Release Letter"/>
-    <aura:attribute name="releaseLetter" type="Document_Storage__c"/>
-    <aura:attribute name="settlementLetter" type="Document_Storage__c"/>
-    <aura:attribute name="selectedOffer" type="Document_Storage__c"/>
+    <aura:attribute name="fileURL" type="String" />
+    <aura:attribute name="pdfContainer" type="Aura.Component[]" />
+    <aura:attribute name="RELEASE_LETTER" type="String" default="Final Release Letter" />
+    <aura:attribute name="SETTLEMENT_LETTER" type="String" default="Conditional Release Letter" />
+    <aura:attribute name="releaseLetter" type="Document_Storage__c" />
+    <aura:attribute name="settlementLetter" type="Document_Storage__c" />
+    <aura:attribute name="selectedOffer" type="Document_Storage__c" />
     <aura:attribute name="recordId" type="String" />
-    <aura:attribute name="listDocType" type="List"/>
-    
-    <!--<aura:attribute name="Uploadbttn" type="boolean" default="true" />-->
+    <aura:attribute name="listDocType" type="List" />
     <!-- Initialize the lists -->
     <aura:handler name="init" value="{! this }" action="{! c.doinit }" />
     <aura:handler event="force:refreshView" action="{! c.doinit }" />
-    <lightning:notificationsLibrary aura:id="notifLib"/>
-    <aura:attribute name="showModal" type="boolean" default="false"/>
-    <!--<c:AttachmentInlineEdit aura:id="child" />-->
-    <force:recordData aura:id="recordLoader"
-                      recordId="{!v.recordId}"
-                      fields="Name,Approve_Offers__c,Settlement_Amount__c"
-                      targetFields="{!v.applicationRecord}"
-                      targetError="{!v.recordLoadError}"
-                      />
-    <aura:attribute name="CurrentUser" type="Object"/>
-    <force:recordData recordId="{!$SObjectType.CurrentUser.Id}"
-                      fields="Profile.Name"
-                      targetFields="{!v.CurrentUser}"/>
-
-        <!--<div class="slds-card slds-card_boundary" style="margin-top:10px; padding:10px;">
-            <div class="slds-grid slds-gutters">
-                <div class="slds-col slds-size_2-of-3">
-                    <lightning:select name="offer" aura:id="offerIdMain" label="Offer" onchange="{!c.offerSelected}">
-                        <aura:iteration items="{!v.offers}" var="offer">                             
-                            <option  value="{!offer.Id}">{!offer.Name}</option>                            
-                        </aura:iteration>       
-                    </lightning:select>
-                </div>
-            </div>           
-        </div>-->
-        <div class="slds-form--compound">
-            <!-- Lightning Input with file type and on file change call the 'handleFilesChange' controller -->
-            <aura:if isTrue="{!v.isMediaRequest}">  
-                <!--<div class = "red">
-                    *Media will be uploaded on the Product record <br/><br/>
-                </div>-->
-            	<ui:outputText value="Media will be uploaded on the associated "/>
-                <lightning:formattedUrl value="{!'/' + v.productID}" tooltip="Product" label="Product" target="_blank" />
-                <br/><br/>
-            </aura:if>
-            
-            
-            <!--<aura:renderIf isTrue="{!!v.isMediaRequest}">-->
-            <lightning:select name="documentType" aura:id="documentType" label="Document Type" value='' required="true">
-                <aura:iteration items="{!v.listDocType}" var="ac">
-                    <Option text="{!ac}" value="{!ac}"/>
-                </aura:iteration>
-            </lightning:select>
-            <lightning:select name="documentVisibility" aura:id="documentVisibility" label="Document Visibility" 
-                              required="true">
-                <Option text="--None--" value="--None--"/>
-                <aura:iteration items="{!v.listDocVisibility}" var="ac">
-                    <Option text="{!ac}" value="{!ac}"/>
-                </aura:iteration>
-            </lightning:select>
-           
-            
-            <!--<lightning:input
-                             aura:id="fileId"
-                             accept="{!v.acceptFileTypes}"
-                             onchange="{!c.handleFilesChange}"
-                             type="file"
-                             name="file"
-                             label="Upload Attachment"
-                             multiple="false"
-                             />-->
-            
-     <lightning:fileUpload aura:id="fileId1" label="Upload Attachment1"
-        name="file"  multiple="false" accept="{!v.acceptFileTypes}"
-        recordId="{!v.recordId}" onuploadfinished="{!c.handleUploadFinished}" />
-          <span>Maximum size of a file: 20 MB</span>
-            <div class="slds-text-body_small slds-text-color_error" aura:id="changeIt">{!v.fileName} </div>
-           
-            <!--use aura:if for show-hide the loading spinner image-->
-            <aura:if isTrue="{!v.showLoadingSpinner}">
-                <div class="slds-text-body_small slds-text-color_error"
-                     >Uploading...
-                    <img
-                         src="/auraFW/resources/aura/images/spinner.gif"
-                         class="spinner-img"
-                         alt="Loading"
-                         />
-                </div>
-            </aura:if>
-            
-            <br />
-             <button style="text-align:center;" class="slds-button slds-button_brand" name="callChild" 
-                    
-                    onclick="{!c.handleSendFile}" >Upload Attachment</button> 
-         <!--   <button style="text-align:center;" class="slds-button slds-button_brand" name="callChild" 
-                    
-                    onclick="{!c.uploadAttch}" >Upload Attachment</button> -->
-            
-            <br />
-            <br />
-            
-            <!-- show spinner logo when needed -->
-            <aura:if isTrue="{!v.showLoadingSpinner}">
-                <div class="slds-spinner_container">
-                    <div class="slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
-                        <div class="slds-spinner__dot-a"></div>
-                        <div class="slds-spinner__dot-b"></div>
-                    </div>
-                </div>
-            </aura:if>
-            <!--</aura:renderIf>-->
-        </div>
-    
-    <div class="exampleHolder">
-        <lightning:spinner aura:id="mySpinner" class="slds-hide"/>
-    </div>  
-    <div>
-    <table class=" slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout slds-max-medium-table_stacked-horizontal " aria-labelledby="element-with-table-label other-element-with-table-label">  
-        <!-- hide the table header if file is empty -->
-        <aura:if isTrue="{!not(empty(v.files))}">
-            <thead>  
-                <tr>  
-                    <th>Title</th> 
-                    <th>Document No.</th>
-                    <th>Document Type</th>
-                    <th>Document Visibility</th>
-                    <th>Created Date</th>
-                    <th>Created By</th>
-                    <!--<th>Process File</th>-->
-                </tr>  
-            </thead>  
+    <lightning:notificationsLibrary aura:id="notifLib" />
+    <aura:attribute name="showModal" type="boolean" default="false" />
+    <force:recordData
+        aura:id="recordLoader"
+        recordId="{!v.recordId}"
+        fields="Name,Approve_Offers__c,Settlement_Amount__c"
+        targetFields="{!v.applicationRecord}"
+        targetError="{!v.recordLoadError}"
+    />
+    <aura:attribute name="CurrentUser" type="Object" />
+    <force:recordData recordId="{!$SObjectType.CurrentUser.Id}" fields="Profile.Name" targetFields="{!v.CurrentUser}" />
+    <div class="slds-form--compound">
+        <!-- Lightning Input with file type and on file change call the 'handleFilesChange' controller -->
+        <aura:if isTrue="{!v.isMediaRequest}">
+            <ui:outputText value="Media will be uploaded on the associated " />
+            <lightning:formattedUrl value="{!'/' + v.productID}" tooltip="Product" label="Product" target="_blank" />
+            <br /><br />
         </aura:if>
-        <tbody>
-            <aura:iteration items="{!v.files}" var="f" >  
-                
-                <tr>  
-                   <td class= "slds-truncate">
-                      <!-- <a href="{!v.returnURL}" target="_blank" onclick="{!c.previewFile}">
-                            {!f.Document_Name__c}	
-                        </a> -->
-                           
-                        <!-- <a href="/sfc/servlet.shepherd/version/download/" aura:id="{!f.Document_ID__c}" onclick="{!c.previewFile}" target="_blank" >
-                            {!f.Document_Name__c}	
-                        </a> -->
-                         <a href="javascript:void(0)" aura:id="{!f.Document_ID__c}" title="{!f.Document_Name__c}" 
-                           data-doctype="{!f.Document_Type__c}" 
-                           data-filename="{!f.Document_Name__c}" 
-                           data-documentid="{!f.Document_Id__c}"
-                           data-documenturl="{!f.Document_URL__c}"
-                           data-filetype="{!f.Content_Type__c}" 
-                           onclick="{!c.previewFile}">
-                            {!f.Document_Name__c}	
-                        </a> 
-                       <!-- Added by Rajesh -->
-                   <!--  <td class= "slds-truncate"> 
-                        <a href="javascript:void(0)" aura:id="{!f.Document_ID__c}" 
-                           data-filename="{!f.Document_Name__c}" 
-                           onclick="{!c.previewFile}">
-                            {!f.Document_ID__c}	
-                        </a>  -->
-                        <!-- <aura:set attribute="else">
-                                            <td>
-                                            <a download="{!f.Document_Name__c}" href="{!v.fileURL}" onmouseover="{!c.updateFileURL}" >Download</a>
-                                           </td>
-                                      </aura:set> -->
-                        
-                        
-                    </td>
-                    <td class= "slds-truncate">
-                        <a href="javascript:void(0)" aura:id="{!f.Id}" 
-                           data-documentno="{!f.Id}" 
-                           onclick="{!c.openDocumentRecordNow}">
-                            {!f.Document_Storage_Number__c}	
-                        </a>
-                        <!-- <aura:set attribute="else">
-                                            <td>
-                                            <a download="{!f.Document_Name__c}" href="{!v.fileURL}" onmouseover="{!c.updateFileURL}" >Download</a>
-                                           </td>
-                                      </aura:set> -->
-                        
-                        
-                    </td>
-                    <td class= "slds-truncate">{!f.Document_Type__c}</td>  
-                    <td class= "slds-truncate">{!f.Visibility__c}</td> 
-                    <td class= "slds-truncate" data-label="Completed Date"> 
-                    <ui:outputDateTime value="{!f.CreatedDate}"/>
-                	</td>
-                    <td class= "slds-truncate">{!f.Created_By__c}</td>
-                    <!--<td>
-                        <aura:if isTrue="{! and(f.Document_Type__c == 'Product Payment Upload  File', f.Staging_Records_Created__c != true) }">    
-                            
-                            <a href=""  aura:id = 'processFile'
-                               data-documentid="{!f.Document_Id__c}" 
-                               onclick="{!c.processFile}" >Process File</a>	
-                        </aura:if>		 
-                        <aura:if isTrue="{!and(f.Document_Type__c == 'Account Status Update File', f.Staging_Records_Created__c != true)}">    
-                            <a href=""  aura:id = 'processFile'
-                               data-documentid="{!f.Document_Id__c}" 
-                               onclick="{!c.processFile}" >Process File</a>	
-                        </aura:if>		
-                        <aura:if isTrue="{!and(f.Document_Type__c == 'Account Status (having Judgment) Update File', f.Staging_Records_Created__c != true)}">    
-                            <a href=""  aura:id = 'processFile'
-                               data-documentid="{!f.Document_Id__c}" 
-                               onclick="{!c.processFile}" >Process File</a>	
-                        </aura:if>   
-                        <aura:if isTrue="{!and(f.Document_Type__c == 'Customer Contact Information Update File', f.Staging_Records_Created__c != true)}">    
-                            <a href=""  aura:id = 'processFile'
-                               data-documentid="{!f.Document_Id__c}" 
-                               onclick="{!c.processFile}" >Process File</a>
-                        </aura:if>
-                    </td>-->
-                </tr>  
-                
-            </aura:iteration>  
-        </tbody>  
-    </table>  
+        <lightning:select name="documentType" aura:id="documentType" label="Document Type" value="" required="true">
+            <aura:iteration items="{!v.listDocType}" var="ac">
+                <option text="{!ac}" value="{!ac}" />
+            </aura:iteration>
+        </lightning:select>
+        <lightning:select name="documentVisibility" aura:id="documentVisibility" label="Document Visibility" required="true">
+            <option text="--None--" value="--None--" />
+            <aura:iteration items="{!v.listDocVisibility}" var="ac">
+                <option text="{!ac}" value="{!ac}" />
+            </aura:iteration>
+        </lightning:select>
+        <lightning:input aura:id="evidence" type="checkbox" label="Buyback/Putback Evidence" />
+        <lightning:fileUpload
+            aura:id="fileId1"
+            label="Upload Attachment"
+            name="file"
+            multiple="false"
+            accept="{!v.acceptFileTypes}"
+            recordId="{!v.recordId}"
+            onuploadfinished="{!c.handleUploadFinished}"
+        />
+        <span>Maximum size of a file: 20 MB</span>
+        <div class="slds-text-body_small slds-text-color_error" aura:id="changeIt">{!v.fileName}</div>
+        <!--use aura:if for show-hide the loading spinner image-->
+        <aura:if isTrue="{!v.showLoadingSpinner}">
+            <div class="slds-text-body_small slds-text-color_error">
+                Uploading...
+                <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading" />
+            </div>
+        </aura:if>
+        <br />
+        <button style="text-align: center" class="slds-button slds-button_brand" name="callChild" onclick="{!c.handleSendFile}">Upload Attachment</button>
+        <br />
+        <br />
+        <!-- show spinner logo when needed -->
+        <aura:if isTrue="{!v.showLoadingSpinner}">
+            <div class="slds-spinner_container">
+                <div class="slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+    <div class="exampleHolder">
+        <lightning:spinner aura:id="mySpinner" class="slds-hide" />
+    </div>
+    <div>
+        <table
+            class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout slds-max-medium-table_stacked-horizontal"
+            aria-labelledby="element-with-table-label other-element-with-table-label"
+        >
+            <!-- hide the table header if file is empty -->
+            <aura:if isTrue="{!not(empty(v.files))}">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Document No.</th>
+                        <th>Document Type</th>
+                        <th>Document Visibility</th>
+                        <th>Created Date</th>
+                        <th>Created By</th>
+                    </tr>
+                </thead>
+            </aura:if>
+            <tbody>
+                <aura:iteration items="{!v.files}" var="f">
+                    <tr>
+                        <td class="slds-truncate">
+                            <a
+                                href="javascript:void(0)"
+                                aura:id="{!f.Document_ID__c}"
+                                title="{!f.Document_Name__c}"
+                                data-doctype="{!f.Document_Type__c}"
+                                data-filename="{!f.Document_Name__c}"
+                                data-documentid="{!f.Document_Id__c}"
+                                data-documenturl="{!f.Document_URL__c}"
+                                data-filetype="{!f.Content_Type__c}"
+                                onclick="{!c.previewFile}"
+                            >
+                                {!f.Document_Name__c}
+                            </a>
+                        </td>
+                        <td class="slds-truncate">
+                            <a href="javascript:void(0)" aura:id="{!f.Id}" data-documentno="{!f.Id}" onclick="{!c.openDocumentRecordNow}">
+                                {!f.Document_Storage_Number__c}
+                            </a>
+                        </td>
+                        <td class="slds-truncate">{!f.Document_Type__c}</td>
+                        <td class="slds-truncate">{!f.Visibility__c}</td>
+                        <td class="slds-truncate" data-label="Completed Date">
+                            <ui:outputDateTime value="{!f.CreatedDate}" />
+                        </td>
+                        <td class="slds-truncate">{!f.Created_By__c}</td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
     </div>
 </aura:component>
