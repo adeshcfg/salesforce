@@ -174,8 +174,12 @@
     <picklistValues>
         <picklist>Client_Identifier__c</picklist>
         <values>
-            <fullName>Scotia Bank</fullName>
+            <fullName>Canaccede</fullName>
             <default>true</default>
+        </values>
+        <values>
+            <fullName>Scotia Bank</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>

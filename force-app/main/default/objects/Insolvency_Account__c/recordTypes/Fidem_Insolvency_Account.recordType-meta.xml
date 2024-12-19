@@ -174,8 +174,12 @@
     <picklistValues>
         <picklist>Client_Identifier__c</picklist>
         <values>
-            <fullName>Fidem</fullName>
+            <fullName>Canaccede</fullName>
             <default>true</default>
+        </values>
+        <values>
+            <fullName>Fidem</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>

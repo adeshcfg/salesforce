@@ -166,7 +166,7 @@
         <picklist>Client_Identifier__c</picklist>
         <values>
             <fullName>Canaccede</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Canadian Tire</fullName>

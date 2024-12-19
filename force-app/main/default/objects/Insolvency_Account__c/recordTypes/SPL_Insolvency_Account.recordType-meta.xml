@@ -146,8 +146,12 @@
     <picklistValues>
         <picklist>Client_Identifier__c</picklist>
         <values>
-            <fullName>SPL</fullName>
+            <fullName>Canaccede</fullName>
             <default>true</default>
+        </values>
+        <values>
+            <fullName>SPL</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
