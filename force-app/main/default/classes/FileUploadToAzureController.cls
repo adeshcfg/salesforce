@@ -199,7 +199,8 @@ public without sharing class FileUploadToAzureController {
                     File_Processing_Status__c,
                     Staging_Records_Created__c,
                     Visibility__c,
-                    Product__c
+                    Product__c,
+                    Buyback_Putback_Evidence__c
                 FROM Document_Storage__c
                 WHERE
                     Customer__c IN :customerId
@@ -229,7 +230,8 @@ public without sharing class FileUploadToAzureController {
                     File_Processing_Status__c,
                     Staging_Records_Created__c,
                     Visibility__c,
-                    Product__c
+                    Product__c,
+                    Buyback_Putback_Evidence__c
                 FROM Document_Storage__c
                 WHERE
                     Customer__c = :recordId
