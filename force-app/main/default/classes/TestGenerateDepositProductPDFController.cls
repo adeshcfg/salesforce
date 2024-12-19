@@ -9,7 +9,7 @@
  *************************************************************************************************/
 
 @isTest
-public class TestGenerateDepositProductPDFController { 
+public class TestGenerateDepositProductPDFController {
     @testSetup
     static void testData() {
         Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
@@ -243,7 +243,7 @@ public class TestGenerateDepositProductPDFController {
 
         insolvPay.Deposit_Account_Type__c = 'AFL';
         update insolvPay;
-        obj = new GenerateDepositSlipProductPDFController();
+        //obj = new GenerateDepositSlipProductPDFController();
 
         insolvPay.Deposit_Account_Type__c = 'CAL';
         update insolvPay;
