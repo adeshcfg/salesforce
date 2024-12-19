@@ -21777,7 +21777,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
+        <default>true</default>
         <recordType>Insolvency_Account__c.Canaccede_Insolvency_Account</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -21812,7 +21812,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
+        <default>false</default>
         <personAccountDefault>true</personAccountDefault>
         <recordType>Insolvency_Account__c.Scotia_Bank_Insolvency_Account</recordType>
         <visible>true</visible>
