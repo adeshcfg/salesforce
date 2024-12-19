@@ -14,7 +14,7 @@ public class TestGenerateDepositSlipProductController {
     static void testData() {
         Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
         portalSettings.Valid_Payment_Types__c = '3000,5000,1000,1001,1002,7000,4000,1003,7001,1004,4002,4003,5001,4001,3400,5003,5002';
-        insert portalSettings;
+        insert portalSettings; 
 
         Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
         config.Do_Not_Run_Payment_Validation__c = false;
