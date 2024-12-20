@@ -14,22 +14,22 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Buyback Putback Initiated</fullName>
+                <fullName>Buyback/Putback Initiated</fullName>
                 <default>false</default>
                 <label>Buyback/Putback Initiated</label>
             </value>
             <value>
-                <fullName>Buyback Putback Submitted to Seller</fullName>
+                <fullName>Buyback/Putback Submitted to Seller</fullName>
                 <default>false</default>
                 <label>Buyback/Putback Submitted to Seller</label>
             </value>
             <value>
-                <fullName>Buyback Putback Rejected</fullName>
+                <fullName>Buyback/Putback Rejected</fullName>
                 <default>false</default>
                 <label>Buyback/Putback Rejected</label>
             </value>
             <value>
-                <fullName>Buyback Putback Approved</fullName>
+                <fullName>Buyback/Putback Approved</fullName>
                 <default>false</default>
                 <label>Buyback/Putback Approved</label>
             </value>
