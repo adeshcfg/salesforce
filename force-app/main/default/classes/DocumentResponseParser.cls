@@ -1532,11 +1532,14 @@ public class DocumentResponseParser {
             }
             */
             }
-
-            if(insolvAccount.RecordTypeId == insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account') && 
-               !insolvAccount.Name.startsWith('5434') && !insolvAccount.Name.startsWith('5435')){ 
-                   insolvAccount.Account_Type__c = 'Unknown - Not Walmart';
-            }
+			//Ticket 7956: Logic for Fairstone Doc parsing
+            if(insolvAccount.RecordTypeId == insolvencyRecordTypeMap.get('Fairstone_Insolvency_Account')){
+                if(!insolvAccount.Name.startsWith('5434') && !insolvAccount.Name.startsWith('5435') && insolvAccount.Creditor_Name__c.toUpperCase().contains('FAIRSTONE')) {
+                    insolvAccount.Account_Type__c = 'Unknown';
+                }else{
+                    insolvAccount.Account_Type__c = 'Core Walmart Rewards Mastercard';
+                }
+            }                                            
             
             // Set default values for Canadian Tire account
             if (
