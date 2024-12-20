@@ -872,10 +872,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Purchase_ID_Formula__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Company_Name__c</field>
             </layoutItems>
             <layoutItems>

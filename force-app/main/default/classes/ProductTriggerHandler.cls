@@ -314,12 +314,12 @@ public class ProductTriggerHandler {
             );
             if (prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId && lrpSetting.EnableNewAccountNameCreationLogic__c == true) {
                 if (prod.Purchase_ID_Formula__c != null) {
-                    setAccountPortfolioID.add(prod.Purchase_ID_Formula__c);
+                    setAccountPortfolioID.add(String.valueof(prod.Purchase_ID_Formula__c));
 
-                    if (mapPortfolioNamesCounter.containsKey(prod.Purchase_ID_Formula__c)) {
-                        mapPortfolioNamesCounter.put(prod.Purchase_ID_Formula__c, mapPortfolioNamesCounter.get(prod.Purchase_ID_Formula__c) + 1);
+                    if (mapPortfolioNamesCounter.containsKey(String.valueof(prod.Purchase_ID_Formula__c))) {
+                        mapPortfolioNamesCounter.put(String.valueof(prod.Purchase_ID_Formula__c), mapPortfolioNamesCounter.get(String.valueof(prod.Purchase_ID_Formula__c)) + 1);
                     } else {
-                        mapPortfolioNamesCounter.put(prod.Purchase_ID_Formula__c, 1);
+                        mapPortfolioNamesCounter.put(String.valueof(prod.Purchase_ID_Formula__c), 1);
                     }
                 } else {
                     prod.addError('Account Portfolio ID is mandatory to populate Account ID');
