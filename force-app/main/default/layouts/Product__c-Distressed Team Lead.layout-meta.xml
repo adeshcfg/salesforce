@@ -909,7 +909,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Account_Purchase_Group__c</field>
+                <field>Purchase_ID_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

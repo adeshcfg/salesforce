@@ -16,7 +16,7 @@
         <field>Product__c.Portfolio_Name_Lookup__c</field>
     </columns>
     <columns>
-        <field>Product__c.Account_Portfolio_ID__c</field>
+        <field>Product__c.Purchase_ID_Formula__c</field>
     </columns>
     <columns>
         <field>Product__c.Account_Portfolio_Code__c</field>
@@ -73,7 +73,7 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>Product__c.Account_Portfolio_ID__c</sortColumn>
+    <sortColumn>Product__c.Purchase_ID_Formula__c</sortColumn>
     <sortOrder>Desc</sortOrder>
     <timeFrameFilter>
         <dateColumn>Product__c.Charged_Off_Date__c</dateColumn>

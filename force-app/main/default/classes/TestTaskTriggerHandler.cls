@@ -95,7 +95,7 @@ public class TestTaskTriggerHandler{
         prd.Status__c = 'New Allocation - New Allocation';
         prd.Sub_Status__c = 'Ready';
         prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '826';
+        //prd.Account_Portfolio_ID__c = '826';
         // From Here
         prd.Purchase_Province__c = 'Canada';
         //Upto Here
@@ -121,7 +121,7 @@ public class TestTaskTriggerHandler{
         prd1.Status__c = 'New Allocation - New Allocation';
         prd1.Sub_Status__c = 'Ready';
         prd1.Product_Status__c = 'Test';
-        prd1.Account_Portfolio_ID__c = '825';
+        //prd1.Account_Portfolio_ID__c = '825';
             insert prd1;
         } // Bracket done by me
         //prds.add(prd);
@@ -148,7 +148,7 @@ public class TestTaskTriggerHandler{
         prd.Status__c = 'New Allocation - New Allocation';
         prd.Sub_Status__c = 'Ready';
         prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '830';
+        //prd.Account_Portfolio_ID__c = '830';
                       prd.RecordtypeId= stExam;
         prds.add(prd);
         
@@ -175,7 +175,7 @@ public class TestTaskTriggerHandler{
         prd2.Status__c = 'New Allocation - New Allocation';
         prd2.Sub_Status__c = 'Ready';
         prd2.Product_Status__c = 'Test';
-        prd2.Account_Portfolio_ID__c = '827';
+        //prd2.Account_Portfolio_ID__c = '827';
         prd2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prds.add(prd2);
         
@@ -192,7 +192,7 @@ public class TestTaskTriggerHandler{
         prd.Status__c = 'New Allocation - New Allocation';
         prd.Sub_Status__c = 'Ready';
         prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '828';
+        //prd.Account_Portfolio_ID__c = '828';
         prd.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId();
         prds.add(prd);
         
@@ -209,7 +209,7 @@ public class TestTaskTriggerHandler{
         prd.Status__c = 'New Allocation - New Allocation';
         prd.Sub_Status__c = 'Ready';
         prd.Product_Status__c = 'Test';
-        prd.Account_Portfolio_ID__c = '829';
+        //prd.Account_Portfolio_ID__c = '829';
         prd.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
         prds.add(prd);
         

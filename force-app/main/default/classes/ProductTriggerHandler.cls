@@ -313,13 +313,13 @@ public class ProductTriggerHandler {
                 prod.Purchase_Province__c
             );
             if (prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId && lrpSetting.EnableNewAccountNameCreationLogic__c == true) {
-                if (prod.Account_Portfolio_ID__c != null) {
-                    setAccountPortfolioID.add(prod.Account_Portfolio_ID__c);
+                if (prod.Purchase_ID_Formula__c != null) {
+                    setAccountPortfolioID.add(prod.Purchase_ID_Formula__c);
 
-                    if (mapPortfolioNamesCounter.containsKey(prod.Account_Portfolio_ID__c)) {
-                        mapPortfolioNamesCounter.put(prod.Account_Portfolio_ID__c, mapPortfolioNamesCounter.get(prod.Account_Portfolio_ID__c) + 1);
+                    if (mapPortfolioNamesCounter.containsKey(prod.Purchase_ID_Formula__c)) {
+                        mapPortfolioNamesCounter.put(prod.Purchase_ID_Formula__c, mapPortfolioNamesCounter.get(prod.Purchase_ID_Formula__c) + 1);
                     } else {
-                        mapPortfolioNamesCounter.put(prod.Account_Portfolio_ID__c, 1);
+                        mapPortfolioNamesCounter.put(prod.Purchase_ID_Formula__c, 1);
                     }
                 } else {
                     prod.addError('Account Portfolio ID is mandatory to populate Account ID');
@@ -392,8 +392,8 @@ public class ProductTriggerHandler {
 
                     if (agencyPortalSettings.Run_Product_Name_Logic__c == true) {
                         String purchaseGroup = '';
-                        if (prod.Account_Portfolio_ID__c != null) {
-                            purchaseGroup = String.valueOf(prod.Account_Portfolio_ID__c);
+                        if (prod.Purchase_ID_Formula__c != null) {
+                            purchaseGroup = String.valueOf(prod.Purchase_ID_Formula__c);
                         }
 
                         Integer counterlength;
