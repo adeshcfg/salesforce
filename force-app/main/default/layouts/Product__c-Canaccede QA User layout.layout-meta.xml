@@ -354,7 +354,7 @@
                 <field>Account_Portfolio_Code__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Purchase_ID_Formula__c</field>
             </layoutItems>
             <layoutItems>
