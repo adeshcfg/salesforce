@@ -12,15 +12,13 @@
         
         <thead>
             <tr >
-                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Portfolio Name">
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Settlement Name">
                     <div>Settlement Name</div>
                 </th>
-                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Type">
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Settlement Status">
                     <div>Settlement Status</div>
                 </th>
-                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Group">
-                    <div>Proposal Amount</div>
-                </th>
+                
             </tr>
         </thead>
         <tbody>
@@ -32,26 +30,19 @@
                             class="slds-truncate"
                             style="word-wrap: break-word; padding: 1% 1% 1%;"
                             data-label="{!draftValue.Name}"
-                            title="{!draftValue.Name}"
-                            
-                            >
-                            {!draftValue.Name}</td
-                            >
-                        <td
-                            class="slds-truncate"
-                            style="word-wrap: break-word; padding: 1% 1% 1%;"
-                            data-label="Status"
-                            title="Status"
-                            >
-                            {!draftValue.Status__c}
+                            title="{!draftValue.Name}">
+                            <a href="javascript:void(0)" aura:id="{!draftValue.Id}" 
+                                data-documentno="{!draftValue.Id}" 
+                                onclick="{!c.openSettlementRecordNow}">
+                                {!draftValue.Name}
+                            </a> 
                         </td>
                         <td
                             class="slds-truncate"
                             style="word-wrap: break-word; padding: 1% 1% 1%;"
-                            data-label="Proposal Amount"
-                            title="Proposal Amount" 
-                            >
-                            {!draftValue.Proposal_Amount__c}
+                            data-label="Status"
+                            title="Status">
+                            {!draftValue.Status__c}
                         </td>
                         
                     </tr>
@@ -68,6 +59,47 @@
             </aura:if>
         </tbody>
     </table>    
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">
+        <thead>
+            <tr>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Proposal Amount">
+                    <div>Proposal Amount</div>
+                </th>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Required Amount">
+                    <div>Required Amount</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:if isTrue="{!v.isDataAvailable}">
+                <aura:iteration items="{!v.draftValues}" var="draftValue">
+                    <tr>
+                        <td
+                            class="slds-truncate"
+                            style="word-wrap: break-word; padding: 1% 1% 1%;"
+                            data-label="Proposal Amount"
+                            title="Proposal Amount" >
+                            {!draftValue.Proposal_Amount__c}
+                        </td>
+                        <td
+                            class="slds-truncate"
+                            style="word-wrap: break-word; padding: 1% 1% 1%;"
+                            data-label="Required Amount"
+                            title="Required Amount">
+                            {!draftValue.Required_Amount__c}
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </aura:if>
+            <aura:if isTrue="{!not(v.isDataAvailable)}">
+                <tr>
+                    <td colspan="1" style="text-align: center;">
+                        No Data Available
+                    </td>
+                </tr>
+            </aura:if>
+        </tbody>
+    </table>
     <aura:if isTrue="{!v.isModalOpen}">
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
@@ -96,6 +128,9 @@
                                 </th>
                                 <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Proposal Amount">
                                     <div>Proposal Amount</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Required Amount">
+                                    <div>Required Amount</div>
                                 </th>
                             </tr>
                         </thead>
@@ -127,12 +162,18 @@
                                         >
                                         {!draftValue.Proposal_Amount__c}
                                     </td>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Required Amount"
+                                        title="Required Amount" 
+                                        >
+                                        {!draftValue.Required_Amount__c}
+                                    </td>
                                 </tr>
                             </aura:iteration>
                         </tbody>
-                    </table>
-                    
-                    
+                    </table>                  
                 </div>
                 <!--Modal/Popup Box Footer Starts here-->
                 <footer class="slds-modal__footer">                       

@@ -19,5 +19,11 @@
             }
         });
         $A.enqueueAction(action);
+    },
+    openSettlementRecord: function(component, event, helper){
+        var documentno = event.currentTarget.dataset.documentno;
+      //  console.log('documentno::',documentno);
+        var url = '/'+documentno;
+        window.open(url, '_blank');
     }
 })
