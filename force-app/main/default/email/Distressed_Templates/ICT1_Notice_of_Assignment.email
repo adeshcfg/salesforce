@@ -60,7 +60,7 @@
        </strong>
         <br>
         <hr color="black">
-        <br> We are writing to let you know that, as of {!CASE(MONTH(Product__c.Account_Purchase_Date__c),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")} {!TEXT(DAY(Product__c.Account_Purchase_Date__c))}, {!TEXT(YEAR(Product__c.Account_Purchase_Date__c))}, {!Product__c.Originating_Creditor__c} has sold the following accounts to {!Product__c.Account_Purchasing_Entity__c}.
+        <br> We are writing to let you know that, as of {!CASE(MONTH(Product__c.Purchase_Date_Formula__c),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")} {!TEXT(DAY(Product__c.Purchase_Date_Formula__c))}, {!TEXT(YEAR(Product__c.Account_Purchase_Date__c))}, {!Product__c.Originating_Creditor__c} has sold the following accounts to {!Product__c.Account_Purchasing_Entity__c}.
         <br>
         
 <ul>

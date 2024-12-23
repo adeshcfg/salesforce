@@ -10,7 +10,7 @@ public class TestBuyBackStatusesController {
         Product__c prod1 = new Product__c();
         prod1.Name = '1566P430';
         prod1.Purchase_Status__c = 'Eligible for Buyback';
-        prod1.Purchase_Date__c = Date.newInstance(2022, 07, 19);
+        //prod1.Purchase_Date__c = Date.newInstance(2022, 07, 19);
         prod1.Putback_Provision_Days__c = 15;
         prod1.collection_agency__c = 29;
         prod1.Buyback_Putback_Status_Change_Date__c = Date.newInstance(2022, 08, 03);
@@ -21,7 +21,7 @@ public class TestBuyBackStatusesController {
         Product__c prod2 = new Product__c();
         prod2.Name = '1566P440';
         prod2.Purchase_Status__c = 'Eligible for Putback';
-        prod2.Purchase_Date__c = Date.newInstance(2022, 07, 19);
+        //prod2.Purchase_Date__c = Date.newInstance(2022, 07, 19);
         prod2.Putback_Provision_Days__c = 15;
         prod2.collection_agency__c = 29;
         prod2.Buyback_Putback_Status_Change_Date__c = Date.newInstance(2022, 07, 13);
@@ -32,7 +32,7 @@ public class TestBuyBackStatusesController {
         Product__c prod3 = new Product__c();
         prod3.Name = '1566P450';
         prod3.Purchase_Status__c = 'Buyback Requested';
-        prod3.Purchase_Date__c = Date.newInstance(2022, 07, 19);
+        //prod3.Purchase_Date__c = Date.newInstance(2022, 07, 19);
         prod3.Putback_Provision_Days__c = 15;
         prod3.collection_agency__c = 29;
         prod3.Buyback_Putback_Status_Change_Date__c = Date.newInstance(2022, 07, 13);
@@ -43,7 +43,7 @@ public class TestBuyBackStatusesController {
         Product__c prod4 = new Product__c();
         prod4.Name = '1566P450';
         prod4.Purchase_Status__c = 'Putback Requested';
-        prod4.Purchase_Date__c = Date.newInstance(2022, 07, 19);
+        //prod4.Purchase_Date__c = Date.newInstance(2022, 07, 19);
         prod4.Putback_Provision_Days__c = 15;
         prod4.collection_agency__c = 29;
         prod4.Buyback_Putback_Status_Change_Date__c = Date.newInstance(2022, 07, 13);
@@ -54,7 +54,7 @@ public class TestBuyBackStatusesController {
         Product__c prod5 = new Product__c();
         prod5.Name = '1566P460';
         prod5.Purchase_Status__c = 'Putback Requested';
-        prod5.Purchase_Date__c = Date.newInstance(2022, 07, 19);
+        //prod5.Purchase_Date__c = Date.newInstance(2022, 07, 19);
         prod5.Putback_Provision_Days__c = 15;
         prod5.collection_agency__c = 29;
         prod5.Buyback_Putback_Status_Change_Date__c = Date.newInstance(2022, 07, 13);
@@ -65,7 +65,7 @@ public class TestBuyBackStatusesController {
         Product__c prod6 = new Product__c();
         prod6.Name = '1566P470';
         prod6.Purchase_Status__c = 'Eligible for Buyback';
-        prod6.Purchase_Date__c = Date.newInstance(2022, 07, 19);
+        //prod6.Purchase_Date__c = Date.newInstance(2022, 07, 19);
         prod6.Putback_Provision_Days__c = 15;
         prod6.collection_agency__c = 29;
         prod6.Buyback_Putback_Status_Change_Date__c = Date.newInstance(2022, 07, 13);

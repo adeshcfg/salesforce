@@ -141,7 +141,7 @@ public class TestProductPaymentProcessingController {
         Id portfolio_CIA = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CIA'].Id;	
 
         //Product record creation
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_CIA, Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CIA'*/);
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_CIA/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CIA'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -156,7 +156,7 @@ public class TestProductPaymentProcessingController {
         insert prod;
 		
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_AAL, Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'AAL'*/);
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_AAL/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'AAL'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
@@ -171,7 +171,7 @@ public class TestProductPaymentProcessingController {
         insert prod1;
 
         //Product record creation GoEasy_CCS_Account 278 line //
-        Product__c prod2 = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_AAL, Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'AAL'*/);
+        Product__c prod2 = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_AAL/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'AAL'*/);
         prod2.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND DeveloperName Like '%GoEasy_CCS%' LIMIT 1].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Sub_Status__c = 'Ready';
@@ -313,7 +313,7 @@ public class TestProductPaymentProcessingController {
         insert accInstance1;
 		
         Id portfolio_CIA = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CIA'].Id;
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_CIA, Account_Purchase_Date__c = System.today());
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_CIA/*, Account_Purchase_Date__c = System.today()*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -470,7 +470,7 @@ public class TestProductPaymentProcessingController {
 		
         Id portfolio_CLP = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CLP'].Id;
         
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_CLP, Account_Purchase_Date__c = System.today());
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_CLP/*, Account_Purchase_Date__c = System.today()*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -595,7 +595,7 @@ public class TestProductPaymentProcessingController {
         insert accInstance1;
 		
         Id portfolio_CIA = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CIA'].Id;
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_CIA, Account_Purchase_Date__c = System.today());
+        Product__c prod = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_CIA/*, Account_Purchase_Date__c = System.today()*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -706,7 +706,7 @@ public class TestProductPaymentProcessingController {
         
         Id portfolio_CIA = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CIA'].Id;
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today());
+        Product__c prod = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today()*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -724,7 +724,7 @@ public class TestProductPaymentProcessingController {
 		
         Id portfolio_CFL = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CFL'].Id;
         
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today());
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today()*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Sub_Status__c = 'Ready';
@@ -1186,7 +1186,7 @@ public class TestProductPaymentProcessingController {
         
         Id portfolio_CIH = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CIH'].Id;	
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CIH'*/);
+        Product__c prod = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CIH'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Sub_Status__c = 'Ready';
@@ -1204,7 +1204,7 @@ public class TestProductPaymentProcessingController {
         Id portfolio_CCL = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CCL'].Id;	
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CCL'*/);
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CCL'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Portfolio_Name_Lookup__c = portfolio_CCL;
@@ -1221,7 +1221,7 @@ public class TestProductPaymentProcessingController {
         
         Id portfolio_ETC = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'ETC'].Id;	
 
-        Product__c prod2 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'ETC'*/);
+        Product__c prod2 = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'ETC'*/);
         prod2.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod2.Status__c = 'New Allocation - New Allocation';
         prod2.Portfolio_Name_Lookup__c = portfolio_ETC;
@@ -1352,7 +1352,7 @@ public class TestProductPaymentProcessingController {
 		
         Id portfolio_CCL = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CCL'].Id;	
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CCL'*/);
+        Product__c prod = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CCL'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Portfolio_Name_Lookup__c = portfolio_CCL;
@@ -1370,7 +1370,7 @@ public class TestProductPaymentProcessingController {
         Id portfolio_CLP = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CLP'].Id;	
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CLP'*/);
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CLP'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Portfolio_Name_Lookup__c = portfolio_CLP;
@@ -1506,7 +1506,7 @@ public class TestProductPaymentProcessingController {
 		
         Id portfolio_AFF = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'AFF'].Id;	
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'AFF'*/);
+        Product__c prod = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'AFF'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Portfolio_Name_Lookup__c = portfolio_AFF;
@@ -1524,7 +1524,7 @@ public class TestProductPaymentProcessingController {
         Id portfolio_ETC = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'ETC'].Id;	
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'ETC'*/);
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'ETC'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Portfolio_Name_Lookup__c = portfolio_ETC;
@@ -1657,7 +1657,7 @@ public class TestProductPaymentProcessingController {
 		
         Id portfolio_CFL = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CFL'].Id;	
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CFL'*/);
+        Product__c prod = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CFL'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Portfolio_Name_Lookup__c = portfolio_CFL;
@@ -1675,7 +1675,7 @@ public class TestProductPaymentProcessingController {
         Id portfolio_CAL = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CAL'].Id;	
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CAL'*/);
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CAL'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Portfolio_Name_Lookup__c = portfolio_CAL;
@@ -1810,7 +1810,7 @@ public class TestProductPaymentProcessingController {
 		
         Id portfolio_CIA = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CIA'].Id;	
 
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CIA'*/);
+        Product__c prod = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CIA'*/);
         prod.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod.Status__c = 'New Allocation - New Allocation';
         prod.Portfolio_Name_Lookup__c = portfolio_CIA;
@@ -1828,7 +1828,7 @@ public class TestProductPaymentProcessingController {
         Id portfolio_CFL = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CFL'].Id;	
 
         //Product record creation
-        Product__c prod1 = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today()/*, Portfolio_Group_Name__c = 'CFL'*/);
+        Product__c prod1 = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'CFL'*/);
         prod1.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'product__c' AND name LIKE '%ccs%' LIMIT 1].id;
         prod1.Status__c = 'New Allocation - New Allocation';
         prod1.Portfolio_Name_Lookup__c = portfolio_CFL;

@@ -64,7 +64,7 @@ public class TestCustomerProcessingBatchTU {
             CCS_Stage__c = 'Completed',
             TransUnion_Reported_As_Complete_Count__c = null,
             Investment_Group__c = 'BNS CCS 1',
-            Purchase_Date__c = SYSTEM.Today(),
+            //Purchase_Date__c = SYSTEM.Today(),
             Suppressed_in_TU__c = false,
             Original_Date_of_Delinquency__c = SYSTEM.Today()
         );
@@ -96,7 +96,7 @@ public class TestCustomerProcessingBatchTU {
             TransUnion_Reported_As_Complete_Count__c = 1,
             Investment_Group__c = 'BNS CCS 1',
             Suppressed_in_TU__c = false,
-            Purchase_Date__c = SYSTEM.Today(),
+            //Purchase_Date__c = SYSTEM.Today(),
             Original_Date_of_Delinquency__c = SYSTEM.Today()
         );
         prodList.add(prod2);

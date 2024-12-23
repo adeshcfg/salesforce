@@ -297,8 +297,8 @@
                 <field>Charged_Off_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Purchase_Date__c</field>
+                <behavior>Readonly</behavior>
+                <field>Purchase_Date_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

@@ -10,7 +10,7 @@
         <field>CUST_NAME</field>
     </columns>
     <columns>
-        <field>Product__c.Account_Purchase_Date__c</field>
+        <field>Product__c.Purchase_Date_Formula__c</field>
     </columns>
     <columns>
         <field>Product__c.Customer__c</field>
@@ -69,7 +69,7 @@
     <sortColumn>Product__c.Portfolio_Group_Name_Formula__c</sortColumn>
     <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
-        <dateColumn>Product__c.Account_Purchase_Date__c</dateColumn>
+        <dateColumn>Product__c.Purchase_Date_Formula__c</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

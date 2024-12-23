@@ -60,8 +60,8 @@ public class CustomerProcessingBatchTest {
             Zip_Code__c = '12345',
             Provinces__c = 'Nova Scotia',
             CCS_Stage__c = 'Completed',
-            Investment_Group__c = 'BNS CCS 1',
-            Purchase_Date__c = SYSTEM.Today()
+            Investment_Group__c = 'BNS CCS 1'
+            //Purchase_Date__c = SYSTEM.Today()
         );
         prodList.add(prod);
 
@@ -88,8 +88,8 @@ public class CustomerProcessingBatchTest {
             //State__c = 'A',
             Provinces__c = 'Nova Scotia',
             Zip_Code__c = '123456789',
-            Investment_Group__c = 'BNS CCS 1',
-            Purchase_Date__c = SYSTEM.Today()
+            Investment_Group__c = 'BNS CCS 1'
+            //Purchase_Date__c = SYSTEM.Today()
         );
         prodList.add(prod2);
         insert prodList;

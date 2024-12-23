@@ -1844,11 +1844,11 @@ public class ProductTriggerHandler {
                     prodData.addError('Interest rate should be less than 35%');
                 }
             }
-        }else if(prodData.Purchase_Date__c != NULL && interestRateField != oldInterestRate){
-            if(interestRateField != NULL && prodData.Purchase_Date__c < applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_60__c){
+        }else if(prodData.Purchase_Date_Formula__c != NULL && interestRateField != oldInterestRate){
+            if(interestRateField != NULL && prodData.Purchase_Date_Formula__c < applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_60__c){
                 prodData.addError('Interest rate should be less than 60%');
             }else{
-                if(interestRateField != NULL && prodData.Purchase_Date__c >= applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_35__c){
+                if(interestRateField != NULL && prodData.Purchase_Date_Formula__c >= applConfSetting.Interest_Rate_Valid_Date__c && interestRateField > applConfSetting.Interest_Rate_Less_Than_35__c){
                     prodData.addError('Interest rate should be less than 35%');
                 }
             }

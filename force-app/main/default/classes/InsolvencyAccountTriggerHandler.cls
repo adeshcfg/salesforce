@@ -1837,7 +1837,7 @@ insDetails.add(insDetail);
                 SELECT
                     id,
                     Name,
-                    Purchase_Date__c,
+                    Purchase_Date_Formula__c,
                     Investment_Group__c,
                     Portfolio_Group_Name_Formula__c,
                     Portfolio_Name_Lookup__r.Name,
@@ -1858,8 +1858,8 @@ insDetails.add(insDetail);
                 }
             }
 
-            if (distProduct.Purchase_Date__c != null) {
-                accNew.Purchase_Date__c = distProduct.Purchase_Date__c;
+            if (distProduct.Purchase_Date_Formula__c != null) {
+                accNew.Purchase_Date__c = distProduct.Purchase_Date_Formula__c;
             }
 
             if (distProduct.Investment_Group__c != null) {

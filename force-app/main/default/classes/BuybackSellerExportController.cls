@@ -11,7 +11,7 @@ public class BuybackSellerExportController {
     String headerCSV ;
     
     public BuybackSellerExportController (ApexPages.StandardController stdController){
-        listProducts = [Select id,Name,Originating_Creditor__c,Purchase_Date__c,Customer__c, Customer__r.Name,First_Name__c,Last_Name__c,
+        listProducts = [Select id,Name,Originating_Creditor__c,Purchase_Date_Formula__c,Customer__c, Customer__r.Name,First_Name__c,Last_Name__c,
                         Previous_Secondary_Account_Number__c,Previous_Primary_Account_Number__c,Product_Type__c,Charged_Off_Date__c,
                         Charged_Off_Amount__c,Purchase_Price__c,Putback_Buyback_Amount__c,Putback_Reason__c, Purchase_Status__c,
                         Purchase_Face_Value__c
@@ -74,7 +74,7 @@ public class BuybackSellerExportController {
         for(Product__c prodObj : listProducts){
             system.debug('prodObj'+prodObj.Id);
             String strSeller = formatString(prodObj.Originating_Creditor__c);
-            String purchaseDate = convertDateToString(prodObj.Purchase_Date__c);
+            String purchaseDate = convertDateToString(prodObj.Purchase_Date_Formula__c);
             String Name = prodObj.Customer__c != null ? formatString(prodObj.Customer__r.Name): '';
             String lastName = formatString(prodObj.Last_Name__c);
             String firstName = formatString(prodObj.First_Name__c);

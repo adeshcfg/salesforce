@@ -214,7 +214,7 @@
          prod.Funding_Type__c = 'Automated';
          prod.Disbursement_Amount__c = 3000.00;
          prod.Collection_Agency__c = 68;
-         prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
+         //prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
          prod.Investment_Group__c = 'BNS1 INSOLVENT';
          //prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
@@ -232,7 +232,7 @@
          prod1.Funding_Type__c = 'Automated';
          prod1.Disbursement_Amount__c = 3000.00;
          prod1.Collection_Agency__c = 68;
-         prod1.Purchase_Date__c = Date.newInstance(2016, 12, 9);
+         //prod1.Purchase_Date__c = Date.newInstance(2016, 12, 9);
          prod1.Investment_Group__c = 'BNS1 INSOLVENT';
          //prod1.Portfolio_Group_Name__c = 'AAL001';
          prod1.Account_Purchasing_Entity__c = '14';
@@ -373,7 +373,7 @@
          prod.Funding_Type__c = 'Automated';
          prod.Disbursement_Amount__c = 3000.00;
          prod.Collection_Agency__c = 68;
-         prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
+         //prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
          prod.Investment_Group__c = 'BNS1 INSOLVENT';
          //prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
@@ -510,7 +510,7 @@
          prod.Funding_Type__c = 'Automated';
          prod.Disbursement_Amount__c = 3000.00;
          prod.Collection_Agency__c = 68;
-         prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
+         //prod.Purchase_Date__c = Date.newInstance(2016, 12, 9);
          prod.Investment_Group__c = 'BNS1 INSOLVENT';
          //prod.Portfolio_Group_Name__c = 'AAL001';
          prod.Account_Purchasing_Entity__c = '14';
