@@ -56,7 +56,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Auto Loan,Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail</value>
+            <value>Auto Loan,Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Unknown</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
