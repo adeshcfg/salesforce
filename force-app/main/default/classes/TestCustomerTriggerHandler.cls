@@ -26,7 +26,7 @@ public class TestCustomerTriggerHandler {
         productInstance.Status__c = 'New Allocation - New Allocation';
         productInstance.Sub_Status__c = 'Ready';
         productInstance.Product_Status__c = 'Test';
-        productInstance.Account_Portfolio_ID__c = '825';
+        //productInstance.Account_Portfolio_ID__c = '825';
         update productInstance;
         
         accInstance.FirstName = 'Ana';

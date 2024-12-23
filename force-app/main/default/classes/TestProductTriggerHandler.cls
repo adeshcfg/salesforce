@@ -117,6 +117,15 @@ insert apiCallDetails;*/
         Agency_Portal_Settings__c portalSettings = new Agency_Portal_Settings__c();
         portalSettings.Run_Product_Name_Logic__c = true;
         insert portalSettings;
+        
+        //Portfolio record creation
+        Portfolio_Name__c portfolio_AAL = new Portfolio_Name__c();
+        portfolio_AAL.Name = 'MBNA25';
+        portfolio_AAL.Account_Purchasing_Entity_ID__c = 'test';
+        portfolio_AAL.CIML_Reporting_Name__c = 'testing portfolio'; 
+        portfolio_AAL.Portfolio_Group_Name__c = 'AAL';
+        portfolio_AAL.Purchase_ID__c = 7060;
+        insert portfolio_AAL;
     }
 
     //Test Before Update
@@ -516,6 +525,7 @@ RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canacc
 insert customer1;*/
         /*Account customer = new Account(FirstName = 'FirstName', LastName = 'Last Name',PersonMailingCity = 'Toronto', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Fidem Customer').getRecordTypeId());
          insert customer;*/
+        id prodRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         Account customer1 = new Account(
             FirstName = 'FirstName',
             LastName = 'Last Name',
@@ -523,8 +533,11 @@ insert customer1;*/
             RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Canaccede Customer').getRecordTypeId()
         );
         insert customer1;
-
-        Product__c prod = new Product__c();
+		
+        Map<ID, Product__c> prodMap = new Map<ID, Product__c>();
+        List<Product__c> prodList = new List<Product__c>();
+        
+        /*Product__c prod = new Product__c();
         prod.name = '123451212';
         prod.Payment_Setup_Status__c = 'Automated';
         prod.Funding_Status__c = 'Released Batch';
@@ -547,6 +560,8 @@ insert customer1;*/
         prod.state__c = 'Alberta';
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
         prod.Purchase_Province__c = 'PE';
+        prod.Last_Payment_Date__c = System.today() - 30;
+        prod.Open_Date__c = System.today() - 60;
         //prod.Customer__c = customer1.id;
         insert prod;
 
@@ -578,9 +593,9 @@ insert customer1;*/
 
         insert prod2;
 
-        List<Product__c> prodList = new List<Product__c>();
+        
 
-        Map<ID, Product__c> prodMap = new Map<ID, Product__c>();
+        
         prodMap.put(prod.id, prod);
         prodMap.put(prod2.id, prod2);
 
@@ -628,10 +643,57 @@ insert customer1;*/
         prod4.Purchase_Status__c = 'Eligible for Buyback';
         prod4.product_status__C = '';
         prod4.Zip_Code__c = '887O';
-        prod4.Customer__c = customer1.id;
-
-        prodList.add(prod3);
-        prodList.add(prod4);
+        prod4.Customer__c = customer1.id;*/
+        
+        product__c prod5 = new product__c();
+        prod5.name = '123451234';
+        prod5.RecordTypeId = prodRecordTypeId;
+        prod5.Disbursement_Amount__c = 1000.00;
+        prod5.Collection_Agency__c = null;
+        prod5.Purchase_Province__c = 'PE';
+        prod5.Placement_Status__c = 'Testing';
+        prod5.Status__c = 'In Process';
+        prod5.Pool_Name__c = pool.id;
+        prod5.Open_Date__c = Date.newInstance(2022, 12, 9);
+        prod5.Statute_Date__c = null;
+        prod5.State__c = 'Alberta';
+        prod5.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
+        prod5.Purchase_Status__c = 'Eligible for Buyback';
+        prod5.product_status__C = '';
+        prod5.Zip_Code__c = '887O';
+        prod5.Last_Payment_Date__c = System.today() - 20;
+        prod5.Customer__c = null;
+        prod5.Last_Name__c = 'lastname';
+        insert prod5;
+        
+        product__c prod6 = new product__c();
+        prod6.Id = prod5.Id;
+        prod6.name = '123451234';
+        prod6.RecordTypeId = prodRecordTypeId;
+        prod6.Disbursement_Amount__c = 1000.00;
+        prod6.Collection_Agency__c = null;
+        prod6.Purchase_Province__c = 'PE';
+        prod6.Placement_Status__c = 'Testing';
+        prod6.Status__c = 'In Process';
+        prod6.Pool_Name__c = pool.id;
+        prod6.Open_Date__c = Date.newInstance(2023, 12, 9);
+        prod6.Statute_Date__c = null;
+        prod6.State__c = 'Alberta';
+        prod6.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
+        prod6.Purchase_Status__c = 'Eligible for Buyback';
+        prod6.product_status__C = '';
+        prod6.Zip_Code__c = '887O';
+        prod6.Last_Payment_Date__c = System.today() - 10;
+        prod6.Customer__c = null;
+        prod6.Last_Name__c = 'lastname';
+        
+        prodMap.put(prod5.id, prod6);
+        //prod5.Customer__c = customer1.id;
+                
+        //prodList.add(prod3);
+        //prodList.add(prod4);
+        prodList.add(prod5);
+        
         ProductTriggerHandler.handleBeforeUpdate(prodList, prodMap);
         ProductTriggerHandler.handleAfterUpdateUpdatedate(prodList, prodMap);
         //ProductTriggerHandler.getCustomerRecord(prod.Customer__c);
@@ -866,7 +928,9 @@ insert customer1;*/
         plcgy1.Name = '20';
         plcgy1.Agency_Email__c = 'test@gmail.com';
         insert plcgy1;
-
+		
+        Portfolio_Name__c portfolio = [select id,Purchase_ID__c from Portfolio_Name__c where Name = 'MBNA25'];
+        
         Product__c prod = new Product__c(
             Purchase_Province__c = 'PE',
             Deceased_Date__c = null,
@@ -881,7 +945,8 @@ insert customer1;*/
             Product_Status__c = 'Test',
             Customer__c = customer.Id,
             Source_System__c = 'FDR',
-            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId()
+            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId(),
+            Portfolio_Name_Lookup__c = portfolio.id
         );
         List<Product__c> prodList1 = new List<Product__c>();
         List<Product__c> prodList = new List<Product__c>();
@@ -912,7 +977,8 @@ insert customer1;*/
             Last_Name__c = 'ProdLastName',
             Customer__c = customer.Id,
             Source_System__c = 'FDR',
-            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId()
+            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId(),
+            Portfolio_Name_Lookup__c = portfolio.id
         );
         prod1.Data_Status_Description__c = 'Test';
         prod1.Status__c = 'New Allocation - New Allocation';
@@ -932,7 +998,8 @@ insert customer1;*/
             Last_Name__c = 'ProdLastName',
             Customer__c = customer.Id,
             Source_System__c = 'FDR',
-            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId()
+            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId(),
+            Portfolio_Name_Lookup__c = portfolio.id
         );
         prod12.Data_Status_Description__c = 'Test';
         prod12.Status__c = 'New Allocation - New Allocation';
@@ -990,6 +1057,7 @@ insert customer1;*/
         prodd.City__c = 'Toronto';
         prodd.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prodd.Purchase_Province__c = 'PE';
+        prodd.Portfolio_Name_Lookup__c = portfolio.id;
         insert prodd;
         prodMap1.put(Prodd.id, prodd);
 
@@ -1012,6 +1080,7 @@ insert customer1;*/
         prod2.Company_Name__c = 'Test Company';
         prod2.Is_Future_PTP__c = true;
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prod2.Portfolio_Name_Lookup__c = portfolio.id;
         prodList1.add(prod2);
 
         system.debug('calling 2 start' + prodList);
@@ -1073,6 +1142,7 @@ insert customer1;*/
         prodold.Purchase_Province__c = 'PE';
         prodOld.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prodOld.Customer__c = customer1.id;
+        prodOld.Portfolio_Name_Lookup__c = portfolio.id;
         insert prodOld;
 
         Map<ID, Product__c> oldprodMap = new Map<ID, Product__c>();
@@ -1124,7 +1194,9 @@ insert customer1;*/
         plcgy1.Name = '20';
         plcgy1.Agency_Email__c = 'test@gmail.com';
         insert plcgy1;
-
+		
+        Portfolio_Name__c portfolio = [select id,Purchase_ID__c from Portfolio_Name__c where Name = 'MBNA25'];
+        
         Product__c prod = new Product__c(
             Purchase_Province__c = 'PE',
             Deceased_Date__c = null,
@@ -1138,7 +1210,8 @@ insert customer1;*/
             Product_Status__c = 'Test',
             Customer__c = customer.Id,
             Source_System__c = 'FDR',
-            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId()
+            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId(),
+            Portfolio_Name_Lookup__c = portfolio.id
         );
         List<Product__c> prodList1 = new List<Product__c>();
         List<Product__c> prodList = new List<Product__c>();
@@ -1169,7 +1242,8 @@ insert customer1;*/
             Last_Name__c = 'ProdLastName',
             Customer__c = customer.Id,
             Source_System__c = 'FDR',
-            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId()
+            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId(),
+            Portfolio_Name_Lookup__c = portfolio.id
         );
         prod1.Data_Status_Description__c = 'Test';
         prod1.Status__c = 'New Allocation - New Allocation';
@@ -1189,7 +1263,8 @@ insert customer1;*/
             Last_Name__c = 'ProdLastName',
             Customer__c = customer.Id,
             Source_System__c = 'FDR',
-            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId()
+            RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId(),
+            Portfolio_Name_Lookup__c = portfolio.id
         );
         prod12.Data_Status_Description__c = 'Test';
         prod12.Status__c = 'New Allocation - New Allocation';
@@ -1246,6 +1321,7 @@ insert customer1;*/
         prodd.City__c = 'Toronto';
         prodd.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prodd.Purchase_Province__c = 'PE';
+        prodd.Portfolio_Name_Lookup__c = portfolio.id;
         insert prodd;
         prodMap1.put(Prodd.id, prodd);
 
@@ -1268,6 +1344,7 @@ insert customer1;*/
         prod2.Company_Name__c = 'Test Company';
         prod2.Is_Future_PTP__c = true;
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
+        prod2.Portfolio_Name_Lookup__c = portfolio.id;
         prodList1.add(prod2);
 
         system.debug('calling 2 start' + prodList);
@@ -1329,6 +1406,7 @@ insert customer1;*/
         prodold.Purchase_Province__c = 'PE';
         prodOld.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prodOld.Customer__c = customer1.id;
+        prodOld.Portfolio_Name_Lookup__c = portfolio.id;
         insert prodOld;
 
         Map<ID, Product__c> oldprodMap = new Map<ID, Product__c>();

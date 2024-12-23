@@ -13,7 +13,7 @@ public class ComplaintWorkAssignmentWidgetController {
             //if(proid.product__c <> NULL){
             	prodList = [SELECT Name, First_Name__c,Co_Borrower_First_Name__c,Last_Name__c,Co_Borrower_Last_Name__c,Current_Principal_Balance__c,
                             Current_Interest_Rate__c,Current_Interest_Amount__c,Current_Balance__c,Product_Type__c,Collection_Agency__c,
-                            Collection_Agency_Formula__c,Refer_to_Legal__c,Collection_Sub_Status__c,Interest_Rate__c,Account_Portfolio_ID__c,Originating_Creditor__c
+                            Collection_Agency_Formula__c,Refer_to_Legal__c,Collection_Sub_Status__c,Interest_Rate__c,Purchase_ID_Formula__c,Originating_Creditor__c
                             from Product__C where Id =: proid.product__c];
             //}
             

@@ -51,7 +51,7 @@ public class TestCommissionStatementBatch_New {
         prod2.Sub_Status__c = 'Ready';
         prod2.Product_Status__c = 'Test';
         prod2.Collection_Agency__c = Decimal.valueOf(place.Name);  
-        prod2.Account_Portfolio_ID__c = '825';
+        //prod2.Account_Portfolio_ID__c = '825';
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         insert prod2;
         String mMonth;
@@ -137,7 +137,7 @@ public class TestCommissionStatementBatch_New {
         prod2.Sub_Status__c = 'Ready';
         prod2.Product_Status__c = 'Test';
         prod2.Collection_Agency__c = Decimal.valueOf(place.Name);
-		prod2.Account_Portfolio_ID__c = '825';        
+		//prod2.Account_Portfolio_ID__c = '825';        
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         insert prod2;
         String mMonth;

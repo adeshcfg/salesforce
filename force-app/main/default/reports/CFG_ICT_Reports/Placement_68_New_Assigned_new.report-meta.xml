@@ -88,7 +88,7 @@
         <field>Account.Products__r$Portfolio_Name_Lookup__c</field>
     </columns>
     <columns>
-        <field>Account.Products__r$Account_Portfolio_ID__c</field>
+        <field>Account.Products__r$Purchase_ID_Formula__c</field>
     </columns>
     <columns>
         <field>Account$Do_Not_Mail__c</field>

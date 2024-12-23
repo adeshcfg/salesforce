@@ -4,7 +4,7 @@
         <field>Product__c.Investment_Group__c</field>
     </columns>
     <columns>
-        <field>Product__c.Account_Portfolio_ID__c</field>
+        <field>Product__c.Purchase_ID_Formula__c</field>
     </columns>
     <columns>
         <field>CUST_NAME</field>

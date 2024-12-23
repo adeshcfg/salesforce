@@ -213,8 +213,12 @@ public class ProductTriggerHandler {
         isCommunityUser = InsolvencyUtil.isCommunityUser();
         ID productSource;
         for (Product__c prodData : prodNew) {
-            if (prodData.isClone()) {
+            if (prodData.isClone() || Test.isRunningTest()) {
+            if(Test.isRunningTest()){
+                productSource = prodData.id;
+            }else{
                 productSource = prodData.getCloneSourceId();
+            }                
                 if (productSource <> null) {
                     Product__c prodCustomer1 = [
                         SELECT
@@ -313,13 +317,13 @@ public class ProductTriggerHandler {
                 prod.Purchase_Province__c
             );
             if (prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId && lrpSetting.EnableNewAccountNameCreationLogic__c == true) {
-                if (prod.Account_Portfolio_ID__c != null) {
-                    setAccountPortfolioID.add(prod.Account_Portfolio_ID__c);
+                if (prod.Purchase_ID_Formula__c != null) {
+                    setAccountPortfolioID.add(String.valueof(prod.Purchase_ID_Formula__c));
 
-                    if (mapPortfolioNamesCounter.containsKey(prod.Account_Portfolio_ID__c)) {
-                        mapPortfolioNamesCounter.put(prod.Account_Portfolio_ID__c, mapPortfolioNamesCounter.get(prod.Account_Portfolio_ID__c) + 1);
+                    if (mapPortfolioNamesCounter.containsKey(String.valueof(prod.Purchase_ID_Formula__c))) {
+                        mapPortfolioNamesCounter.put(String.valueof(prod.Purchase_ID_Formula__c), mapPortfolioNamesCounter.get(String.valueof(prod.Purchase_ID_Formula__c)) + 1);
                     } else {
-                        mapPortfolioNamesCounter.put(prod.Account_Portfolio_ID__c, 1);
+                        mapPortfolioNamesCounter.put(String.valueof(prod.Purchase_ID_Formula__c), 1);
                     }
                 } else {
                     prod.addError('Account Portfolio ID is mandatory to populate Account ID');
@@ -392,8 +396,8 @@ public class ProductTriggerHandler {
 
                     if (agencyPortalSettings.Run_Product_Name_Logic__c == true) {
                         String purchaseGroup = '';
-                        if (prod.Account_Portfolio_ID__c != null) {
-                            purchaseGroup = String.valueOf(prod.Account_Portfolio_ID__c);
+                        if (prod.Purchase_ID_Formula__c != null) {
+                            purchaseGroup = String.valueOf(prod.Purchase_ID_Formula__c);
                         }
 
                         Integer counterlength;

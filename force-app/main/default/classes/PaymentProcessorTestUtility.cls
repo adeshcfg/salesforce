@@ -54,7 +54,7 @@ public class PaymentProcessorTestUtility {
         productInstance.Collection_Agency__c = 68;
         productInstance.Status__c = 'New Allocation - New Allocation';
         productInstance.Sub_Status__c = 'Ready';
-        productInstance.Account_Portfolio_ID__c = '825';
+        //productInstance.Account_Portfolio_ID__c = '825';
         productInstance.Product_Status__c = 'Test';
         //productInstance.Previous_Primary_Account_Number__c = '112345655';
         insert productInstance;

@@ -358,12 +358,8 @@
                 <field>Account_Portfolio_Code__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Account_Portfolio_Group__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Account_Purchase_Group__c</field>
+                <behavior>Readonly</behavior>
+                <field>Purchase_ID_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

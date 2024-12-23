@@ -16,7 +16,7 @@
         
         Product__c prodRecord = [select id, name, Customer__r.PersonEmail, Customer__r.Secondary_Email__pc, 
                                  Current_Balance__c, Collection_Agency__c, Portfolio_Name_Lookup__r.Name, 
-                                 Account_Purchase_Group__c, Placement_Status__c 
+                                 Purchase_ID_Formula__c, Placement_Status__c 
                                  from Product__c
                                  where id =: recordId];
         
@@ -41,7 +41,7 @@
     public static String eligibleProduct(String recordId){
     
         Product__c prodRecord = [select id, name, Customer__r.PersonEmail, Customer__r.Secondary_Email__pc, 
-                                 		Account_Purchase_Group__c, Portfolio_Name_Lookup__r.Name, 
+        Purchase_ID_Formula__c, Portfolio_Name_Lookup__r.Name, 
                                  		Collection_Agency__c, Current_Balance__c, Placement_Status__c  
                                 from Product__c 
                                 where id =: recordId];
@@ -82,8 +82,8 @@
         
         String msg = '';
         if(!listPlacementToInclude.contains(String.valueOf(prodRecord.Collection_Agency__c)) 
-            || (prodRecord.Account_Purchase_Group__c != NULL 
-              && listPurchaseGroupToExclude.contains(String.valueOf(prodRecord.Account_Purchase_Group__c)))
+            || (prodRecord.Purchase_ID_Formula__c != NULL 
+              && listPurchaseGroupToExclude.contains(String.valueOf(prodRecord.Purchase_ID_Formula__c)))
             || ((prodRecord.Portfolio_Name_Lookup__r.Name != NULL 
               && listPortfolioNameToExclude.contains(String.valueOf(prodRecord.Portfolio_Name_Lookup__r.Name)))
             /*|| (prodRecord.Portfolio_Name_Lookup__r.Name != NULL 
@@ -93,7 +93,7 @@
             msg += 'Product record is not eligible for payment setup</br>';
             msg += 'Because Collection Agency is '+ (prodRecord.Collection_Agency__c == null? 'blank' : (String.valueOf(prodRecord.Collection_Agency__c))) + '<br/>';
             msg += 'Portfolio is ' + (prodRecord.Portfolio_Name_Lookup__r.Name == null ? 'blank': prodRecord.Portfolio_Name_Lookup__r.Name) + '<br/>';
-            msg += 'Portfolio Group Name is '+ (prodRecord.Account_Purchase_Group__c == null? 'blank': String.valueOf(prodRecord.Account_Purchase_Group__c)) + '<br/>';
+            msg += 'Portfolio Group Name is '+ (prodRecord.Purchase_ID_Formula__c == null? 'blank': String.valueOf(prodRecord.Purchase_ID_Formula__c)) + '<br/>';
         }
         
         if(String.isBlank(prodRecord.Customer__r.PersonEmail) && String.isBlank(prodRecord.Customer__r.Secondary_Email__pc)){
