@@ -25,7 +25,7 @@
     <filters>
         <field>Account_Type__c</field>
         <operation>equals</operation>
-        <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans</value>
+        <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans,Unknown</value>
     </filters>
     <label>Fairstone - For Owner Review</label>
     <sharedTo>
