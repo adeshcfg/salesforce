@@ -1064,8 +1064,7 @@
                 mapProduct.containsKey(prodPayment.CCS_Account__c) &&
                 String.isnotblank(mapProduct.get(prodPayment.CCS_Account__c).Data_Status_Description__c) &&
                 mapProduct.get(prodPayment.CCS_Account__c).Data_Status_Description__c.startsWith('Closed') &&
-                (mapProduct.get(prodPayment.CCS_Account__c).Purchase_Status__c == 'Putback Approved' ||
-                mapProduct.get(prodPayment.CCS_Account__c).Purchase_Status__c == 'Buyback Approved')
+                mapProduct.get(prodPayment.CCS_Account__c).Purchase_Status__c == 'Buyback/Putback Approved'
             ) {
                 ERROR_MSG += '<b>ERROR</b> - Account is closed.<br/>';
             } else {

@@ -821,63 +821,26 @@ public class ProductTriggerHandler {
                 }
                 if (product.Purchase_Status__c != prodOld.Purchase_Status__c) {
                     if (
-                        prodOld.Purchase_Status__c == 'Buyback Initiated' &&
-                        (product.Purchase_Status__c == 'Eligible for Buyback' ||
-                        product.Purchase_Status__c == 'Buyback Approved' ||
-                        product.Purchase_Status__c == 'Buyback Rejected')
+                        prodOld.Purchase_Status__c == 'Buyback/Putback Initiated' &&
+                        (product.Purchase_Status__c == 'Buyback/Putback Approved' ||
+                        product.Purchase_Status__c == 'Buyback/Putback Rejected')
                     ) {
                         product.addError('You cannot assign previous status');
                     }
                     if (
-                        prodOld.Purchase_Status__c == 'Putback Initiated' &&
-                        (product.Purchase_Status__c == 'Eligible for Putback' ||
-                        product.Purchase_Status__c == 'Putback Approved' ||
-                        product.Purchase_Status__c == 'Putback Rejected')
-                    ) {
-                        product.addError('You cannot assign previous status');
-                    }
-                    if (
-                        prodOld.Purchase_Status__c == 'Buyback Requested' &&
-                        (product.Purchase_Status__c == 'Buyback Initiated' ||
-                        product.Purchase_Status__c == 'Eligible for Buyback')
-                    ) {
-                        product.addError('You cannot assign previous status');
-                    }
-                    if (
-                        prodOld.Purchase_Status__c == 'Putback Requested' &&
-                        (product.Purchase_Status__c == 'Putback Initiated' ||
-                        product.Purchase_Status__c == 'Eligible for Putback')
-                    ) {
-                        product.addError('You cannot assign previous status');
-                    }
-                    if (
-                        (prodOld.Purchase_Status__c == 'Buyback Approved' || prodOld.Purchase_Status__c == 'Buyback Rejected') &&
-                        (product.Purchase_Status__c == 'Buyback Requested' ||
-                        product.Purchase_Status__c == 'Buyback Initiated' ||
-                        product.Purchase_Status__c == 'Eligible for Buyback')
-                    ) {
-                        product.addError('You cannot assign previous status');
-                    }
-                    if (
-                        (prodOld.Purchase_Status__c == 'Putback Approved' || prodOld.Purchase_Status__c == 'Putback Rejected') &&
-                        (product.Purchase_Status__c == 'Putback Requested' ||
-                        product.Purchase_Status__c == 'Putback Initiated' ||
-                        product.Purchase_Status__c == 'Eligible for Putback')
+                        (prodOld.Purchase_Status__c == 'Buyback/Putback Approved' || prodOld.Purchase_Status__c == 'Buyback/Putback Rejected') &&
+                        (product.Purchase_Status__c == 'Buyback/Putback Initiated')
                     ) {
                         product.addError('You cannot assign previous status');
                     }
                 }
-                if (product.Purchase_Status__c == 'Buyback Approved' && product.Collection_Agency__c != null && product.Collection_Agency__c != 9999) {
-                    product.addError('Buyback status is approved.You cannot assign agency ');
-                }
-                if (product.Purchase_Status__c == 'Putback Approved' && product.Collection_Agency__c != null && product.Collection_Agency__c != 9999) {
-                    product.addError('Putback status is approved.You cannot assign agency ');
+                if (product.Purchase_Status__c == 'Buyback/Putback Approved' && product.Collection_Agency__c != null && product.Collection_Agency__c != 9999) {
+                    product.addError('Buyback/Putback status is approved.You cannot assign agency ');
                 }
                 if (
                     (product.Collection_Agency__c != null && product.Collection_Agency__c != 9999) &&
                     ((product.Purchase_Status__c != null) &&
-                    (product.Purchase_Status__c != 'Buyback Rejected' &&
-                    product.Purchase_Status__c != 'Putback Rejected'))
+                    product.Purchase_Status__c != 'Buyback/Putback Rejected')
                 ) {
                     product.addError('Please initiated recall process');
                 }

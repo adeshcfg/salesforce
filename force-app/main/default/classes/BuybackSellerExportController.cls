@@ -15,8 +15,8 @@ public class BuybackSellerExportController {
                         Previous_Secondary_Account_Number__c,Previous_Primary_Account_Number__c,Product_Type__c,Charged_Off_Date__c,
                         Charged_Off_Amount__c,Purchase_Price__c,Putback_Buyback_Amount__c,Putback_Reason__c, Purchase_Status__c,
                         Purchase_Face_Value__c
-                        from Product__c Where Purchase_Status__c = 'Buyback Initiated' 
-                       OR Purchase_Status__c = 'Putback Initiated'];
+                        from Product__c Where Purchase_Status__c = 'Buyback/Putback Initiated' 
+                       OR Purchase_Status__c = 'Buyback/Putback Initiated'];
             
         if(listProducts.isEmpty()){
             ERROR_MSG = '&nbsp;&nbsp;No Eligible Product Records to Export';
@@ -159,18 +159,18 @@ public class BuybackSellerExportController {
         
         List<Product__c> listProductUpdate = New List<Product__c>();
         for(Product__c updateProduct : listProducts){
-            if(updateProduct.Purchase_Status__c == 'Buyback Initiated'){
-                updateProduct.Purchase_Status__c = 'Buyback Requested';
+            if(updateProduct.Purchase_Status__c == 'Buyback/Putback Initiated'){
+                updateProduct.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
             }
-            if(updateProduct.Purchase_Status__c == 'Putback Initiated'){
-                updateProduct.Purchase_Status__c = 'Putback Requested';
+            if(updateProduct.Purchase_Status__c == 'Buyback/Putback Initiated'){
+                updateProduct.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
             }
             
             listProductUpdate.add(updateProduct);
         }
         
         update listProductUpdate;
-        ERROR_MSG = '&nbsp;&nbsp;Buyback/Putback Requested Records Exported Successfully';
+        ERROR_MSG = '&nbsp;&nbsp;Buyback/Putback Submitted to Seller Records Exported Successfully';
         DisableExportBtn = true;
         listDocStorage = [Select id,Name,BuyBack_Request__c,File_Processing_Date__c,
                           Document_Type__c,Creator__c,Document_Id__c,Document_URL__c

@@ -27,13 +27,9 @@ public class BuyBackStatusesController {
         countrieLst = new List<SelectOption>();
         //countrieLst.add(new SelectOption('None','None'));
         countrieLst.add(new SelectOption('--None--','--None--'));
-        countrieLst.add(new SelectOption('Buyback Initiated','Buyback Initiated'));
-        countrieLst.add(new SelectOption('Putback Initiated','Putback Initiated'));
-        countrieLst.add(new SelectOption('Buyback Approved','Buyback Approved'));
-        countrieLst.add(new SelectOption('Putback Approved','Putback Approved'));
-        countrieLst.add(new SelectOption('Buyback Rejected','Buyback Rejected'));
-        countrieLst.add(new SelectOption('Putback Rejected','Putback Rejected'));
-        countrieLst.add(new SelectOption('Remove from Buyback/Putback','Remove from Buyback/Putback'));
+        countrieLst.add(new SelectOption('Buyback/Putback Initiated','Buyback/Putback Initiated'));
+        countrieLst.add(new SelectOption('Buyback/Putback Approved','Buyback/Putback Approved'));
+        countrieLst.add(new SelectOption('Buyback/Putback Rejected','Buyback/Putback Rejected'));
         system.debug('options:'+countrieLst);
         system.debug('currentRecordId:'+currentRecordId);
         
@@ -41,7 +37,7 @@ public class BuyBackStatusesController {
     public pageReference statusUpdate(){
         system.debug('inside statusUpdate');
         system.debug('inside selectedCountry' +selectedCountry);
-        if(selectedCountry == 'Buyback Initiated'){
+        if(selectedCountry == 'Buyback/Putback Initiated'){
             showBbInitiateTable = true;
             showPbbInitiateTable = false;
             showBbAppRejTable = false;
@@ -49,19 +45,8 @@ public class BuyBackStatusesController {
             showRemoveReqTable = false;
             prodList =[Select id,name,Purchase_Status__c,collection_agency__c,Buyback_Putback_Status_Change_Date__c
                        ,Putback_buyback_Completed_Date__c
-                       from product__c where Purchase_Status__c = 'Eligible for Buyback'];
-            system.debug('buyback prodList' +prodList);
-        }else if(selectedCountry == 'Putback Initiated'){
-            showBbInitiateTable = false;
-            showPbbInitiateTable = true;
-            showBbAppRejTable = false;
-            showPbAppRejTable = false;
-            showRemoveReqTable = false;
-            prodList =[Select id,name,Purchase_Status__c,collection_agency__c,Buyback_Putback_Status_Change_Date__c
-                       ,Putback_buyback_Completed_Date__c
-                       from product__c where Purchase_Status__c = 'Eligible for Putback'];
-            system.debug('buyback prodList' +prodList);
-        }else if(selectedCountry =='Buyback Approved' || selectedCountry =='Buyback Rejected'){
+                       from product__c where Purchase_Status__c = 'Buyback/Putback Initiated'];
+        }else if(selectedCountry =='Buyback/Putback Approved' || selectedCountry =='Buyback/Putback Rejected'){
             showBbInitiateTable = false;
             showPbbInitiateTable = false;
             showBbAppRejTable = true;
@@ -69,30 +54,7 @@ public class BuyBackStatusesController {
             showRemoveReqTable = false;
             prodList =[Select id,name,Purchase_Status__c,collection_agency__c,Buyback_Putback_Status_Change_Date__c,
                        Putback_buyback_Completed_Date__c
-                       from product__c where Purchase_Status__c = 'Buyback Requested'];
-        }else if(selectedCountry =='Putback Approved' || selectedCountry =='Putback Rejected'){
-            showBbInitiateTable = false;
-            showPbbInitiateTable = false;
-            showBbAppRejTable = false;
-            showPbAppRejTable = true;
-            showRemoveReqTable = false;
-            prodList =[Select id,name,Purchase_Status__c,collection_agency__c,Buyback_Putback_Status_Change_Date__c,
-                       Putback_buyback_Completed_Date__c
-                       from product__c where Purchase_Status__c = 'Putback Requested'];
-        }else if(selectedCountry =='Remove from Buyback/Putback'){
-            showBbInitiateTable = false;
-            showPbbInitiateTable = false;
-            showBbAppRejTable = false;
-            showPbAppRejTable = false;
-            showRemoveReqTable = true;
-            prodList =[Select id,name,Purchase_Status__c,collection_agency__c,Buyback_Putback_Status_Change_Date__c,
-                       Putback_buyback_Completed_Date__c
-                       from product__c where Purchase_Status__c = 'Eligible for Buyback' OR 
-                      Purchase_Status__c = 'Eligible for Putback' OR 
-                      Purchase_Status__c = 'Buyback Initiated' OR 
-                      Purchase_Status__c = 'Putback Initiated' OR 
-                      Purchase_Status__c = 'Buyback Requested' OR 
-                      Purchase_Status__c = 'Putback Requested'];
+                       from product__c where (Purchase_Status__c = 'Buyback/Putback Approved' OR Purchase_Status__c = 'Buyback/Putback Rejected')];
         }
         if(prodList.isEmpty() || prodList == NULL){
             system.debug('buyback prodList***' +prodList);
@@ -147,8 +109,8 @@ public class BuyBackStatusesController {
                    prod.Putback_buyback_Completed_Date__c = Date.Today();
                 }else if((selectedCountry == 'Remove from Buyback/Putback') && (judgStaging.Purchase_Status__c == 'Eligible for Buyback' ||
                       judgStaging.Purchase_Status__c == 'Eligible for Putback' ||
-                      judgStaging.Purchase_Status__c == 'Buyback Initiated' ||
-                      judgStaging.Purchase_Status__c == 'Putback Initiated' ||
+                      judgStaging.Purchase_Status__c == 'Buyback/Putback Initiated' ||
+                      judgStaging.Purchase_Status__c == 'Buyback/Putback Initiated' ||
                       judgStaging.Purchase_Status__c == 'Buyback Requested' || 
                       judgStaging.Purchase_Status__c == 'Putback Requested')){
                    prod.Purchase_Status__c = '';

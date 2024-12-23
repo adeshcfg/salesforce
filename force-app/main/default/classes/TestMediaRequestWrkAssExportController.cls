@@ -6,7 +6,7 @@ public class TestMediaRequestWrkAssExportController {
         
         Product__c prod1 = new Product__c();
         prod1.Name = '1566P430';
-        prod1.Purchase_Status__c = 'Buyback Initiated';
+        prod1.Purchase_Status__c = 'Buyback/Putback Initiated';
         //prod1.Purchase_Date__c = Date.newInstance(2022, 07, 19);
         prod1.Putback_Provision_Days__c = 15;
         prod1.collection_agency__c = 29;
