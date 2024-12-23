@@ -29,10 +29,20 @@ public class CustomerProcessingBatchTest {
         insert metroheaderrecsetiing;
 
         Id ccsRecordTYpeId = getsObjectRecordTypeId('Product__c', 'CCS Account');
-
+		
+        Portfolio_Name__c portfolio_AAL = new Portfolio_Name__c();
+        portfolio_AAL.Name = 'MBNA25';
+        portfolio_AAL.Account_Purchasing_Entity_ID__c = 'test';
+        portfolio_AAL.CIML_Reporting_Name__c = 'testing portfolio'; 
+        portfolio_AAL.Portfolio_Group_Name__c = 'AAL';
+        portfolio_AAL.Purchase_ID__c = 7060;
+        portfolio_AAL.Purchase_date__c = System.today() - 60;
+        insert portfolio_AAL;
+        
         List<Product__c> prodList = new List<Product__c>();
         Product__c prod = new Product__c(
             Name = '1111',
+            Portfolio_Name_Lookup__c = portfolio_AAL.Id,
             RecordTypeId = ccsRecordTYpeId,
             Last_Name__c = 'last name',
             First_Name__c = 'first name',
@@ -67,6 +77,7 @@ public class CustomerProcessingBatchTest {
 
         Product__c prod2 = new Product__c(
             Name = '123451234512345123451234512345',
+            Portfolio_Name_Lookup__c = portfolio_AAL.Id,
             RecordTypeId = ccsRecordTYpeId,
             Last_Name__c = 'last name of length2',
             First_Name__c = 'first name of length 25 c',
