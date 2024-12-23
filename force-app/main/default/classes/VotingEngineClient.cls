@@ -62,28 +62,33 @@ public with sharing class VotingEngineClient {
 
         try {
             parsedResponse.request = votingAutomationApiReq.getBody();
-
             res2 = http.send(votingAutomationApiReq);
-
             //Store request and response
-
             parsedResponse.response = res2.getBody();
+            //check if webservice reply is success
+            if (res2.getStatusCode() == 200) {
+                // Check if web service returned error
+                VotingEngineClientUtil.ErrorResponse errorResponse = (VotingEngineClientUtil.ErrorResponse) JSON.deserialize(
+                    res2.getBody(),
+                    VotingEngineClientUtil.ErrorResponse.class
+                );
+                if (errorResponse?.LeExtendedResults != null && errorResponse.LeExtendedResults.status == '500') {
+                    parsedResponse.votingStatus = 'System Error';
+                    parsedResponse.resultString = 'Error: ' + errorResponse.LeExtendedResults.title;
+                    return parsedResponse;
+                }
+                //get response
+                parsedResponse = parseResponse(res2.getBody(), parsedResponse);
+            } else {
+                //failed to vote
+                parsedResponse.votingStatus = 'System Error';
+                parsedResponse.resultString = 'Unsuccessful voting';
+            }
         } catch (Exception e) {
             // exception generated
             parsedResponse.votingStatus = 'System Error';
-            parsedResponse.resultString = e.getMessage();
+            parsedResponse.resultString = 'Unsuccessful voting - ' + e.getMessage();
         }
-
-        //check if webservice reply is success
-        if (res2.getStatusCode() == 200) {
-            //get response
-            parsedResponse = parseResponse(res2.getBody(), parsedResponse);
-        } else {
-            //failed to vote
-            parsedResponse.votingStatus = 'System Error';
-            parsedResponse.resultString += 'Unsuccessful voting';
-        }
-
         return parsedResponse;
     }
 
@@ -192,9 +197,7 @@ public with sharing class VotingEngineClient {
 
     static List<String> convertToList(String stringValue) {
         List<String> listString = new List<String>();
-
         listString.add(stringValue);
-
         return listString;
     }
 
