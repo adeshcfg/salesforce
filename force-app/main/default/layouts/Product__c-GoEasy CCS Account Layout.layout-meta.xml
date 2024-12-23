@@ -348,7 +348,7 @@
                 <field>Portfolio_Name_Lookup__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Purchase_Date_Formula__c</field>
             </layoutItems>
         </layoutColumns>
