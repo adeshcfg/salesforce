@@ -25,12 +25,7 @@
     <filters>
         <field>Asset_Status__c</field>
         <operation>notEqual</operation>
-        <value>Purchased,Bulk Purchased,Duplicate Purchased,Debt Purchase,Unknown</value>
-    </filters>
-    <filters>
-        <field>Account_Type__c</field>
-        <operation>notEqual</operation>
-        <value>Core Walmart Rewards Mastercard</value>
+        <value>Purchased,Bulk Purchased,Duplicate Purchased,Debt Purchase</value>
     </filters>
     <filters>
         <field>Review_Account__c</field>
