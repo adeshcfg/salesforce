@@ -1739,7 +1739,8 @@ insDetails.add(insDetail);
 
         //Call Voting engine
         if (null != votingAutomationList && votingAutomationList.size() > 0) {
-            VotingEngineFutureCall.votingAutomationCall(votingAutomationList);
+            Database.executeBatch(new VotingEngineBatch(votingAutomationList), 90);
+            // VotingEngineFutureCall.votingAutomationCall(votingAutomationList);
         }
 
         //Update Insolvency records in bulk

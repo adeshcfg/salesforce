@@ -68,6 +68,7 @@ public class TestVotingEngineFutureCall {
 
         Test.startTest();
         VotingEngineFutureCall.votingAutomationCall(listInsolvency);
+        Database.executeBatch(new VotingEngineBatch(listInsolvency), 90);
         Test.stopTest();
     }
 }
