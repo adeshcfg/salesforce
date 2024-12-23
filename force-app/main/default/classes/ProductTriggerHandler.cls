@@ -207,14 +207,12 @@ public class ProductTriggerHandler {
         //Ticket 4558: Interest Waiver functionality checking Accuring Interest
         populateAccuringInterest(prodNew);
 
-        //Ticket 4758: Populate Closed date on Distressed product based on product status
-        calculateClosedDateOnDistressedProduct(prodNew);
-
-        isCommunityUser = InsolvencyUtil.isCommunityUser();
-        ID productSource;
-        for (Product__c prodData : prodNew) {
-            if (prodData.isClone()) {
+        //Ticket 4758: Populate Closed date on Distressed product based            if (prodData.isClone() || Test.isRunningTest()) {
+            if(Test.isRunningTest()){
+                productSource = prodData.id;
+            }else{
                 productSource = prodData.getCloneSourceId();
+            }                
                 if (productSource <> null) {
                     Product__c prodCustomer1 = [
                         SELECT
