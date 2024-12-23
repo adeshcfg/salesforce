@@ -42,7 +42,7 @@ public class TestUnallocatedPaymentControllerNew{
         unAloccPay.recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%Insolvency%'].id;
         insert unAloccPay;
         
-        Product__c prod = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
+        Product__c prod = new Product__c(Name='Test8965412300023'/*,Account_Purchase_Date__c=System.today()*/);
         prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod.Product_Status__c = 'Test';
         insert prod;
@@ -480,7 +480,7 @@ apexpages.currentPage().getparameters().put('sor', null);
         payment2.Deposit_Account_Type__c = 'AAL';
         insert payment2;
         
-        Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
+        Product__c prod1 = new Product__c(Name='Test8965412300023'/*,Account_Purchase_Date__c=System.today()*/);
         prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Product_Status__c = 'Test';
         insert prod1;
@@ -728,7 +728,7 @@ apexpages.currentPage().getparameters().put('sor', null);
         payment2.Deposit_Account_Type__c = 'AAL';
         insert payment2;
         
-        Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
+        Product__c prod1 = new Product__c(Name='Test8965412300023'/*,Account_Purchase_Date__c=System.today()*/);
         prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Product_Status__c = 'Test';
         insert prod1;
@@ -825,7 +825,7 @@ apexpages.currentPage().getparameters().put('sor', null);
         payment2.Cheque_Payment_Reference_Number__c = unAloccPay.Cheque_Number__c;
         insert payment2;
         
-        Product__c prod1 = new Product__c(Name='Test8965412300023',Account_Purchase_Date__c=System.today());
+        Product__c prod1 = new Product__c(Name='Test8965412300023'/*,Account_Purchase_Date__c=System.today()*/);
         prod1.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%' limit 1].id;
         prod1.Product_Status__c = 'Test';
         insert prod1;

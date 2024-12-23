@@ -55,7 +55,7 @@ global class CustomerProcessingBatch implements Database.Batchable<sobject> {
 
         // Query which will be determine the scope of Records fetching the same
         return Database.getQueryLocator(
-            'SELECT Id, Name,RecordType.Name, Open_Date_EQ__c, Closed_Date__C, Createddate,LastModifieddate,Original_Balance__c, Original_Credit_Amount__c,Payment_Frequency__c,Monthly_Payment_Amount__c,FairShare_Percentage__c,Last_Payment_Amount__c,Current_Balance__c,Past_Due_Amount__c,Last_Delinquency_Date__c,CCS_Stage_Last_Changed__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Provinces__c,Zip_Code__c, CCS_Stage__c, Purchase_Date__c, Original_Date_of_Delinquency__c, Equifax_Reported_As_Complete_Count__c FROM Product__c ' +
+            'SELECT Id, Name,RecordType.Name, Open_Date_EQ__c, Closed_Date__C, Createddate,LastModifieddate,Original_Balance__c, Original_Credit_Amount__c,Payment_Frequency__c,Monthly_Payment_Amount__c,FairShare_Percentage__c,Last_Payment_Amount__c,Current_Balance__c,Past_Due_Amount__c,Last_Delinquency_Date__c,CCS_Stage_Last_Changed__c,Last_Payment_Date__c,Last_Name__c,First_Name__c,Middle_Name__c,SIN__c,Phone_Home__c,Date_of_Birth__c,Address_Line1__c,Address_Line2__c,City__c,State__c,Provinces__c,Zip_Code__c, CCS_Stage__c, Purchase_Date_Formula__c, Original_Date_of_Delinquency__c, Equifax_Reported_As_Complete_Count__c FROM Product__c ' +
                 'WHERE ' +
                 'RecordType.Name =: productType AND ' +
                 'CCS_Stage__c != \'Putback\' AND CCS_Stage__c != \'Buyback\' AND ' +
@@ -338,7 +338,7 @@ global class CustomerProcessingBatch implements Database.Batchable<sobject> {
                 }
             } else {
                 // if no payment is made
-                Integer noOfMonths = (prodct.Purchase_Date__c).monthsBetween(system.today()) - 1;
+                Integer noOfMonths = (prodct.Purchase_Date_Formula__c).monthsBetween(system.today()) - 1;
                 Decimal totalPaymentPaid = prodct.Monthly_Payment_Amount__c * noOfMonths;
 
                 pastval = String.valueOf(totalPaymentPaid.setScale(0));

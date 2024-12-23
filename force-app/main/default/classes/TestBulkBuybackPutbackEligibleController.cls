@@ -7,7 +7,7 @@ public class TestBulkBuybackPutbackEligibleController {
 		Product__c prod1 = new Product__c();
         prod1.Name = '1566P430';
         prod1.Purchase_Status__c = 'Buyback Initiated';
-        prod1.Purchase_Date__c = Date.newInstance(2022, 07, 19);
+        //prod1.Purchase_Date__c = Date.newInstance(2022, 07, 19);
         prod1.Putback_Provision_Days__c = 15;
         prod1.collection_agency__c = 29;
         prod1.Buyback_Putback_Status_Change_Date__c = Date.newInstance(2022, 08, 03);

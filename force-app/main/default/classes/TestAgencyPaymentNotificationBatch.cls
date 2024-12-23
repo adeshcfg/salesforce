@@ -62,8 +62,8 @@ public class TestAgencyPaymentNotificationBatch {
                                         State__c = 'A',
                                         Provinces__c = 'Nova Scotia',
                                         Zip_Code__c = '123456789',
-                                        Investment_Group__c = 'BNS CCS 1',
-                                        Purchase_Date__c = SYSTEM.Today()
+                                        Investment_Group__c = 'BNS CCS 1'
+                                        //Purchase_Date__c = SYSTEM.Today()
                                         );
         insert prod2;
         List<Product__c> prodList = [Select id from Product__c ]; 

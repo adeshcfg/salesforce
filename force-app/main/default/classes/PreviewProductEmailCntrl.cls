@@ -26,7 +26,7 @@ public class PreviewProductEmailCntrl{
                 Current_Payoff_Amount__c, Effective_Next_Payment_Amount__c, Minimum_Payment_Amount__c, Current_Balance__c, Name, 
                 Customer__r.Name, Address_Line1__c,Address_Line2__c, city__c/*, State__c*/, Zip_Code__c, Customer__r.Employer_Name__pc, 
                 Payment_Due_Date__c, Product_Type__c,Previous_Primary_Account_Number__c,Originating_Creditor__c, 
-                Account_Purchasing_Entity__c, Account_Purchase_Date__c 
+                Account_Purchasing_Entity__c, Purchase_Date_Formula__c 
                 FROM Product__c 
                 WHERE Id =: prodId];
         
@@ -71,11 +71,11 @@ public class PreviewProductEmailCntrl{
                                              '{!Product__c.Product_Current_Balance_0__c}' =>'$'+ (String.valueOf(((prod.Current_Balance__c != null ? prod.Current_Balance__c : 0)/12).setscale(2))).replaceAll('(\\d)(?=(\\d{3})+(?!\\d))', '$1,'),
                                              '{!Product__c.Product_Type__c}' => prod.Product_Type__c,
                                              '{!CASE(MONTH(Product__c.Charged_Off_Date__c),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")}' => (prod.Charged_Off_Date__c != null ? (datetime.newInstance(prod.Charged_Off_Date__c.year(), prod.Charged_Off_Date__c.month(),prod.Charged_Off_Date__c.day())).format('MMMM') : ''),
-                                             '{!CASE(MONTH(Product__c.Account_Purchase_Date__c),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")}' => (prod.Account_Purchase_Date__c != null ? (datetime.newInstance(prod.Account_Purchase_Date__c.year(), prod.Account_Purchase_Date__c.month(),prod.Account_Purchase_Date__c.day())).format('MMMM') : ''),
+                                             '{!CASE(MONTH(Product__c.Purchase_Date_Formula__c),1, "January",2, "February",3, "March", 4, "April", 5, "May", 6,"June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")}' => (prod.Purchase_Date_Formula__c != null ? (datetime.newInstance(prod.Purchase_Date_Formula__c.year(), prod.Purchase_Date_Formula__c.month(),prod.Purchase_Date_Formula__c.day())).format('MMMM') : ''),
                                              '{!TEXT(DAY(Product__c.Charged_Off_Date__c))}' => (prod.Charged_Off_Date__c != null ? String.valueOf(prod.Charged_Off_Date__c.day()) : ''),
                                              '{!TEXT(YEAR(Product__c.Charged_Off_Date__c))}' => (prod.Charged_Off_Date__c != null ? String.valueOf(prod.Charged_Off_Date__c.year()) : ''),
-                                             '{!TEXT(DAY(Product__c.Account_Purchase_Date__c))}' => (prod.Account_Purchase_Date__c != null ? String.valueOf(prod.Account_Purchase_Date__c.day()) : ''),
-                                             '{!TEXT(YEAR(Product__c.Account_Purchase_Date__c))}' => (prod.Account_Purchase_Date__c != null ? String.valueOf(prod.Account_Purchase_Date__c.year()) : '')
+                                             '{!TEXT(DAY(Product__c.Purchase_Date_Formula__c))}' => (prod.Purchase_Date_Formula__c != null ? String.valueOf(prod.Purchase_Date_Formula__c.day()) : ''),
+                                             '{!TEXT(YEAR(Product__c.Purchase_Date_Formula__c))}' => (prod.Purchase_Date_Formula__c != null ? String.valueOf(prod.Purchase_Date_Formula__c.year()) : '')
                                              };
         // Replacing mere fields with product data
         for(String key : mapBodyParams.keySet()){

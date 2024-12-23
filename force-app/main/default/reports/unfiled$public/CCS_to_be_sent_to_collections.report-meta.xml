@@ -28,7 +28,7 @@
         <field>Product__c.Portfolio_Name_Lookup__c</field>
     </columns>
     <columns>
-        <field>Product__c.Account_Purchase_Date__c</field>
+        <field>Product__c.Purchase_Date_Formula__c</field>
     </columns>
     <columns>
         <field>Product__c.Purchase_Price__c</field>

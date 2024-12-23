@@ -36,7 +36,7 @@ public class TestpaymentReversalController {
         );
         insert customer1;
         //CCS Agency
-        Product__c prod = new Product__c(Name = 'Test8965412300023', Account_Purchase_Date__c = System.today());
+        Product__c prod = new Product__c(Name = 'Test8965412300023'/*, Account_Purchase_Date__c = System.today()*/);
         // Commented by me      prod.recordTypeid = [select id from RecordType where SobjectType = 'product__c' and name like '%ccs%'].id;
         // // From Here
         prod.customer__c = customer1.Id;

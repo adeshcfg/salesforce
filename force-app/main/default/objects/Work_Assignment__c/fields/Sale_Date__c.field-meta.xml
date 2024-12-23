@@ -3,7 +3,7 @@
     <fullName>Sale_Date__c</fullName>
     <description>Purchase Date</description>
     <externalId>false</externalId>
-    <formula>Product__r.Purchase_Date__c</formula>
+    <formula>Product__r.Purchase_Date_Formula__c</formula>
     <inlineHelpText>Purchase Date</inlineHelpText>
     <label>Sale Date</label>
     <required>false</required>
