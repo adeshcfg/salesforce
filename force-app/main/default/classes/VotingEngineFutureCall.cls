@@ -8,56 +8,7 @@
  *
  *************************************************************************************************/
 public with sharing class VotingEngineFutureCall {
-    //future function to call the voting automation web service
-    @future(callout=true)
-    public static void votingAutomationCall(List<ID> insolvencyIdList) {
-        List<Insolvency__c> listInsolvency = [
-            SELECT
-                id,
-                name,
-                Number_Of_Persons_In_Household__c,
-                Number_Of_Persons_In_Household_Below_17__c,
-                Food_Grocery_Expenses__c,
-                Entertainment_Sports_Expenses__c,
-                Gifts_Charitable_Expenses__c,
-                Allowances_Expenses__c,
-                Dining_Expenses__c,
-                Laundry_Dry_Cleaning_Expenses__c,
-                Grooming_Toiletries_Expenses__c,
-                Clothing_Expenses__c,
-                Total_Monthly_Income_Of_Family__c,
-                Monthly_Surplus_Deficit_Of_Family__c,
-                Number_of_Payments__c,
-                Non_Discretionary_Other_Expenditure__c,
-                Death_Clause__c,
-                Acceleration_Clause__c,
-                Trustee_Comments_Notes__c,
-                Insolvency_Type__c,
-                Debtor_1_Mailing_State_Province__c,
-                Debtor_Age__c,
-                Insolvency_Created_Date__c,
-                Total_Unsecured_Liabilities_Clc__c,
-                Secured_Debts_Unsecured_Portion__c,
-                Bulk_Payment_Amount__c,
-                Payment_Amount__c,
-                Total_Estimated_Realizable_Value__c,
-                Is_Spouse_Disclosing_Income__c,
-                Available_Monthly_Income_Of_Family__c,
-                Debtor_Portion_Of_Monthly_Income__c,
-                Ever_been_Bankrupt_Before__c,
-                Other_Expenses__c,
-                Other_Housing_Expenses__c,
-                Other_Insurance_Expenses__c,
-                Other_Living_Expenses__c,
-                Other_Medical_Expenses__c,
-                Other_Personal_Expenses__c,
-                Other_TransportationExpenses__c,
-                Other_Payments__c,
-                Insolvency_Date__c
-            FROM Insolvency__c
-            WHERE id IN :insolvencyIdList
-        ];
-
+    public static List<Insolvency__c> cpvaCall(List<Insolvency__c> listInsolvency) {
         VotingEngineClientUtil.ParsedResponse parsedResponseValue = new VotingEngineClientUtil.ParsedResponse();
         for (Insolvency__c insolv : listInsolvency) {
             parsedResponseValue = new VotingEngineClientUtil.ParsedResponse();
@@ -134,6 +85,61 @@ public with sharing class VotingEngineFutureCall {
             //to track time stamp when voting decision is made
             insolv.Voting_Decision_Time_Stamp__c = system.now();
         }
-        update listInsolvency;
+        return listInsolvency;
+    }
+
+    //future function to call the voting automation web service
+    @future(callout=true)
+    public static void votingAutomationCall(List<Id> insolvencyIdList) {
+        List<Insolvency__c> listInsolvency = [
+            SELECT
+                id,
+                name,
+                Number_Of_Persons_In_Household__c,
+                Number_Of_Persons_In_Household_Below_17__c,
+                Food_Grocery_Expenses__c,
+                Entertainment_Sports_Expenses__c,
+                Gifts_Charitable_Expenses__c,
+                Allowances_Expenses__c,
+                Dining_Expenses__c,
+                Laundry_Dry_Cleaning_Expenses__c,
+                Grooming_Toiletries_Expenses__c,
+                Clothing_Expenses__c,
+                Total_Monthly_Income_Of_Family__c,
+                Monthly_Surplus_Deficit_Of_Family__c,
+                Number_of_Payments__c,
+                Non_Discretionary_Other_Expenditure__c,
+                Death_Clause__c,
+                Acceleration_Clause__c,
+                Trustee_Comments_Notes__c,
+                Insolvency_Type__c,
+                Debtor_1_Mailing_State_Province__c,
+                Debtor_Age__c,
+                Insolvency_Created_Date__c,
+                Total_Unsecured_Liabilities_Clc__c,
+                Secured_Debts_Unsecured_Portion__c,
+                Bulk_Payment_Amount__c,
+                Payment_Amount__c,
+                Total_Estimated_Realizable_Value__c,
+                Is_Spouse_Disclosing_Income__c,
+                Available_Monthly_Income_Of_Family__c,
+                Debtor_Portion_Of_Monthly_Income__c,
+                Ever_been_Bankrupt_Before__c,
+                Other_Expenses__c,
+                Other_Housing_Expenses__c,
+                Other_Insurance_Expenses__c,
+                Other_Living_Expenses__c,
+                Other_Medical_Expenses__c,
+                Other_Personal_Expenses__c,
+                Other_TransportationExpenses__c,
+                Other_Payments__c,
+                Insolvency_Date__c
+            FROM Insolvency__c
+            WHERE id IN :insolvencyIdList
+        ];
+        List<Insolvency__c> listInsolvencyToUpdate = cpvaCall(listInsolvency);
+        if (!listInsolvencyToUpdate.isEmpty()) {
+            update listInsolvencyToUpdate;
+        }
     }
 }
