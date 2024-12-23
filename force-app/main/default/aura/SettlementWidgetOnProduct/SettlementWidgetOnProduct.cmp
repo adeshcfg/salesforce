@@ -1,0 +1,148 @@
+<aura:component controller="SettlementWidgetOnProductController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <!-- attributes -->
+    <aura:attribute name="entityId" type="String" access="public" />
+    <aura:attribute name="draftValues" type="Settlement__c[]" />
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="isDataAvailable" type="boolean" default="false" />
+    
+    <!-- Handler-->
+    <aura:handler name="init" value="{!this }" action="{!c.doinit }" />
+    <table
+           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
+        
+        <thead>
+            <tr >
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Portfolio Name">
+                    <div>Settlement Name</div>
+                </th>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Type">
+                    <div>Settlement Status</div>
+                </th>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Purchase Group">
+                    <div>Proposal Amount</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:if isTrue="{!v.isDataAvailable}">
+                <aura:iteration items="{!v.draftValues}" var="draftValue">
+            
+                    <tr>
+                        <td
+                            class="slds-truncate"
+                            style="word-wrap: break-word; padding: 1% 1% 1%;"
+                            data-label="{!draftValue.Name}"
+                            title="{!draftValue.Name}"
+                            
+                            >
+                            {!draftValue.Name}</td
+                            >
+                        <td
+                            class="slds-truncate"
+                            style="word-wrap: break-word; padding: 1% 1% 1%;"
+                            data-label="Status"
+                            title="Status"
+                            >
+                            {!draftValue.Status__c}
+                        </td>
+                        <td
+                            class="slds-truncate"
+                            style="word-wrap: break-word; padding: 1% 1% 1%;"
+                            data-label="Proposal Amount"
+                            title="Proposal Amount" 
+                            >
+                            {!draftValue.Proposal_Amount__c}
+                        </td>
+                        
+                    </tr>
+
+                </aura:iteration>
+            </aura:if>
+          
+            <aura:if isTrue="{!not(v.isDataAvailable)}">
+                <tr>
+                    <td colspan="1" style="text-align: center;">
+                        No Data Available
+                    </td>
+                </tr>
+            </aura:if>
+        </tbody>
+    </table>    
+    <aura:if isTrue="{!v.isModalOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Settlement Information</h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr >
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Settlement Name">
+                                    <div>Settlement Name</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Settlement Status">
+                                    <div>Settlement Status</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Proposal Amount">
+                                    <div>Proposal Amount</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Settlement Name"
+                                        title="Settlement Name"
+                                        
+                                        >
+                                        {!draftValue.Name}</td
+                                        >
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Settlement Status"
+                                        title="Settlement Status"
+                                        >
+                                        {!draftValue.Status__c}
+                                    </td>
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="Proposal Amount"
+                                        title="Proposal Amount" 
+                                        >
+                                        {!draftValue.Proposal_Amount__c}
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    
+                    
+                </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer">                       
+                    <lightning:button variant="neutral"
+                                      label="OK"
+                                      title="OK"
+                                      onclick="{! c.closeModel }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>
