@@ -27,11 +27,6 @@
         <operation>equals</operation>
         <value>Secured,PL Unsecured,PL Secured,PL Auto Secured,Retail,Auto Loans,Unknown</value>
     </filters>
-    <filters>
-        <field>Account_Type__c</field>
-        <operation>notEqual</operation>
-        <value>Core Walmart Rewards Mastercard</value>
-    </filters>
     <label>Fairstone - PoC Details Provided</label>
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
