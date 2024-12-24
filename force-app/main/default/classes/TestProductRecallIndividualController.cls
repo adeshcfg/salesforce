@@ -134,11 +134,25 @@ public class TestProductRecallIndividualController {
 
     public static testMethod void testPendingAllocationRecallWithWarning() {
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
-        Product__c prod = [SELECT Id FROM Product__c LIMIT 1];
+        Product__c prod = [
+            SELECT
+                Id,
+                Placement_Status__c,
+                Status__c,
+                Sub_Status__c,
+                Collection_Agency_Placement__c,
+                Product_Status__c,
+                Data_Status_Description__c,
+                Recalled_Date__c,
+                Collection_Agency__c
+            FROM Product__c
+            LIMIT 1
+        ];
         Test.startTest();
         ApexPages.currentPage().getParameters().put('id', prod.Id);
         ApexPages.StandardController sc = new ApexPages.standardController(prod);
         ProductRecallIndividualController controller = new ProductRecallIndividualController(sc);
+        controller.populateProductData(prod.Id, prod);
         controller.selectedRecallReason = '210000';
         controller.selectedValueAction = 'Pending Allocation';
         controller.recallWithWarning();
