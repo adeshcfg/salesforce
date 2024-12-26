@@ -693,14 +693,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ExportDuplicatePurchaseAccBatch</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ExportToMegasysController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>FidemApplicationFormController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
