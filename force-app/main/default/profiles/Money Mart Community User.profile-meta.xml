@@ -10875,11 +10875,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Product__c.Account_Purchase_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Product__c.Account_Purchase_Group__c</field>
         <readable>false</readable>
     </fieldPermissions>
