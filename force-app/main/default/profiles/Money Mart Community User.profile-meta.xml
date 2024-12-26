@@ -10870,11 +10870,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Product__c.Account_Portfolio_ID__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Product__c.Account_Purchase_Balance__c</field>
         <readable>false</readable>
     </fieldPermissions>
