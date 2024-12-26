@@ -2,8 +2,8 @@
  * @description       : Queueable class to parse CSV and insert parsed records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 02-05-2024
- * @last modified by  : adeshi@a5econsulting.net
+ * @last modified on  : 12-31-2024
+ * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class BulkDataloadQueueable implements Queueable {
     // Max number of records to be inserted in a single job
@@ -60,7 +60,7 @@ public class BulkDataloadQueueable implements Queueable {
         // Add every row of CSV except the first header row into an array
         while (iterator.hasNext()) {
             String row = iterator.next().trim();
-            if (!(row.contains('Data_Id__c') || row.contains('name__c'))) {
+            if (!(row.containsIgnoreCase('Data_Id__c') || row.containsIgnoreCase('name__c'))) {
                 csvStringList.add(row);
             }
         }
@@ -79,7 +79,6 @@ public class BulkDataloadQueueable implements Queueable {
      **/
     public static void createAndInsertRecordList(List<String> recordListString, Integer startingIndex, Document_Storage__c documentStorage) {
         List<Product_Staging__c> recordsToInsert = new List<Product_Staging__c>();
-
         // Generate end index for iteration on CSV String list, end index can be greater than start index by 10000 at max due to DML limit
         Integer endingIndex = startingIndex + MAX_NUMBER_OF_RECORDS_PER_JOB < recordListString.size()
             ? startingIndex + MAX_NUMBER_OF_RECORDS_PER_JOB
@@ -101,6 +100,15 @@ public class BulkDataloadQueueable implements Queueable {
                 // Check for empty row
                 if (!csvData.isEmpty()) {
                     recordsToInsert.add(createRecallRecord(csvData, documentStorage.Id));
+                }
+            }
+        } else if (documentStorage.Document_Type__c == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
+            for (Integer i = startingIndex; i < endingIndex; i++) {
+                // Split comma separated string of data into an array
+                List<String> csvData = recordListString[i].split(',');
+                // Check for empty row
+                if (!csvData.isEmpty()) {
+                    recordsToInsert.add(createBuybackPutbackRecord(csvData, documentStorage.Id));
                 }
             }
         }
@@ -132,7 +140,6 @@ public class BulkDataloadQueueable implements Queueable {
     public static Product_Staging__c createAllocationRecord(List<String> csvData, String documentStorageId) {
         Product_Staging__c psRecord = new Product_Staging__c();
         // Map array indexes to Product Staging fields
-
         psRecord.Data_Id__c = csvData[0];
         if (csvData[1] != null || csvData[1] != '') {
             psRecord.Placement_Agency__c = csvData[1];
@@ -192,6 +199,26 @@ public class BulkDataloadQueueable implements Queueable {
             psRecord.Status_Changed_Date__c = csvData[2];
         } else {
             psRecord.Status_Changed_Date__c = '';
+        }
+        psRecord.Identifier__c = documentStorageId;
+        return psRecord;
+    }
+
+    public static Product_Staging__c createBuybackPutbackRecord(List<String> csvData, String documentStorageId) {
+        Product_Staging__c psRecord = new Product_Staging__c();
+        // Map array indexes to Product Staging fields
+        psRecord.Data_Id__c = csvData[0];
+        if (String.isNotBlank(csvData[1])) {
+            psRecord.Putback_Buyback_Amount__c = Decimal.valueOf(csvData[1]);
+        }
+        if (String.isNotBlank(csvData[2])) {
+            psRecord.Purchase_Status__c = csvData[2];
+        }
+        if (csvData.size() > 3 && String.isNotBlank(csvData[3])) {
+            psRecord.Product_Status__c = csvData[3];
+        }
+        if (csvData.size() > 4 && String.isNotBlank(csvData[4])) {
+            psRecord.Rejection_Reason__c = csvData[4];
         }
         psRecord.Identifier__c = documentStorageId;
         return psRecord;

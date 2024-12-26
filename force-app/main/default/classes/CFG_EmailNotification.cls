@@ -30,6 +30,8 @@ public class CFG_EmailNotification {
             mail.setSubject('Allocation process link is generated successfully for task '+workAssigName);
         }else if(documentType == recall){
             mail.setSubject('Account status update process link is generated successfully for task '+workAssigName);
+        }else if(documentType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE){
+            mail.setSubject('Account Putback/Buyback Status update process link is generated successfully for task '+workAssigName);
         }
         
         mail.setUseSignature(false);
@@ -37,6 +39,8 @@ public class CFG_EmailNotification {
             mail.setPlainTextBody('For your task '+workAssigName+' '+workAssigTitle+' the allocation process link is generated successfully. \n\nClick to process allocation record link:\n'+processingLink + '\n\n\nThanks,\nCFG support');
         }else if(documentType == recall){
             mail.setPlainTextBody('For your task '+workAssigName+' '+workAssigTitle+' the account status update process link is generated successfully. \n\nClick to process Account Status Update record link:\n'+processingLink + '\n\n\nThanks,\nCFG support');
+        }else if(documentType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE){
+            mail.setPlainTextBody('For your task '+workAssigName+' '+workAssigTitle+' the account Putback/Buyback Status update process link is generated successfully. \n\nClick to process Account Putback/Buyback Status Update record link:\n'+processingLink + '\n\n\nThanks,\nCFG support');
         }
         
         // Send the email you have created.

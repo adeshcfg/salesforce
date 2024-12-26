@@ -9,9 +9,17 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
     String DocType;
     public static Boolean stopSuccessfilegenaration = true;
     public Document_Storage__c docData;
-    
-    public PostDocumentAPI(String DocType,String failed,String success,Integer failedRecords,Integer successRecords,Id workAssignmentId,String visiblity,Id documentID) {
-        system.debug('run bacth');
+
+    public PostDocumentAPI(
+        String DocType,
+        String failed,
+        String success,
+        Integer failedRecords,
+        Integer successRecords,
+        Id workAssignmentId,
+        String visiblity,
+        Id documentID
+    ) {
         this.failed = failed;
         this.success = success;
         this.failedRecords = failedRecords;
@@ -20,79 +28,87 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
         this.visiblity = visiblity;
         this.documentID = documentID;
         this.DocType = DocType;
-
-        docData = [select id,Visibility__c,Placement_Agency__c,Placement_Agency__r.name from Document_Storage__c where id =: documentID];
+        docData = [SELECT id, Visibility__c, Placement_Agency__c, Placement_Agency__r.name FROM Document_Storage__c WHERE id = :documentID];
     }
+
     public void execute(QueueableContext context) {
-        //Database.executeBatch(new ErrorCSVFileGenerationBatch(DocType,failed,success,failedRecords,successRecords,workAssignmentId,visiblity,documentID),2000);                                              
-        Map<String,Object> rawObj;
-        Map<String,Object> rawObj1;
+        //Database.executeBatch(new ErrorCSVFileGenerationBatch(DocType,failed,success,failedRecords,successRecords,workAssignmentId,visiblity,documentID),2000);
+        Map<String, Object> rawObj;
+        Map<String, Object> rawObj1;
         DateTime dT = System.now();
         String oldComments = '';
-		
-        Work_Assignment__c workAssignment = [select id,name,title__c,Task_Number__c,Created_By__c,Status__c,Latest_Comment__c,Comments_History__c,Comment_Reply__c from Work_Assignment__c where id = : workAssignmentId];
-        
+
+        Work_Assignment__c workAssignment = [
+            SELECT id, name, title__c, Task_Number__c, Created_By__c, Status__c, Latest_Comment__c, Comments_History__c, Comment_Reply__c
+            FROM Work_Assignment__c
+            WHERE id = :workAssignmentId
+        ];
+
         //Failed CSV API Call
         DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
 
         Blob fileBlob = Blob.valueOf(failed);
 
-        if(failedRecords > 0){
-            if(String.isNotBlank(DocType)){
-                if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
-                   DocType == 'Balance Adjustment Upload File'){
-                       parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Payment Failed.csv', 'Task');
-                   }else if(DocType == 'Customer Contact Information Update File'){
-                       parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Customer Contact Information Failed.csv', 'Task');
-                   }else if(DocType == 'Account Status (having Judgment) Update File'){
-                       parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Account Judgment Failed.csv', 'Task');
-                   }else if(DocType == 'Account Status Update File'){
-                       parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Account Status Failed.csv', 'Task');
-                   }
+        if (failedRecords > 0) {
+            if (String.isNotBlank(DocType)) {
+                if (DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' || DocType == 'Balance Adjustment Upload File') {
+                    parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Payment Failed.csv', 'Task');
+                } else if (DocType == 'Customer Contact Information Update File') {
+                    parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Customer Contact Information Failed.csv', 'Task');
+                } else if (DocType == 'Account Status (having Judgment) Update File') {
+                    parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Account Judgment Failed.csv', 'Task');
+                } else if (DocType == 'Account Status Update File') {
+                    parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Account Status Failed.csv', 'Task');
+                } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
+                    parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Buyback/Putback Failed.csv', 'Task');
+                }
             }
-            rawObj = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse.response); 
+            rawObj = (Map<String, Object>) JSON.deserializeUntyped(parsedResponse.response);
         }
-        
+
         //Success CSV API Call
         DocumentAPIClientUtil.ParsedResponse parsedResponse1 = new DocumentAPIClientUtil.ParsedResponse();
         Blob fileBlobSuccess = Blob.valueOf(success);
 
-        if(successRecords > 0){
-            if(String.isNotBlank(DocType)){
-                if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File'||
-                   DocType == 'Balance Adjustment Upload File'){
-                       parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Payment Success.csv', 'Task');
-                   }else if(DocType == 'Customer Contact Information Update File'){
-                       parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Customer Contact Information Success.csv', 'Task');
-                   }else if(DocType == 'Account Status (having Judgment) Update File'){
-                       parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Account Judgment Success.csv', 'Task');
-                   }else if(DocType == 'Account Status Update File'){
-                       parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Account Status Success.csv', 'Task');
-                   }
+        if (successRecords > 0) {
+            if (String.isNotBlank(DocType)) {
+                if (DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' || DocType == 'Balance Adjustment Upload File') {
+                    parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Payment Success.csv', 'Task');
+                } else if (DocType == 'Customer Contact Information Update File') {
+                    parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Customer Contact Information Success.csv', 'Task');
+                } else if (DocType == 'Account Status (having Judgment) Update File') {
+                    parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Account Judgment Success.csv', 'Task');
+                } else if (DocType == 'Account Status Update File') {
+                    parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Account Status Success.csv', 'Task');
+                } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
+                    parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Buyback/Putback Success.csv', 'Task');
+                }
             }
-            rawObj1 = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse1.response); 
+            rawObj1 = (Map<String, Object>) JSON.deserializeUntyped(parsedResponse1.response);
         }
 
         //Create Failed CSV Document Storage
-        Document_Storage__c  failedDocStorage = new Document_Storage__c();
-        DocumentStorageTriggerHandler.runDocumentStorageTrigger=false;
-        if(null != parsedResponse && failedRecords > 0){
+        Document_Storage__c failedDocStorage = new Document_Storage__c();
+        DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
+        if (null != parsedResponse && failedRecords > 0) {
             failedDocStorage.Work_Assignment__c = workAssignmentID;
-            if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
-               DocType == 'Balance Adjustment Upload File'){
-                   failedDocStorage.Document_Name__c = 'Product Payment Failed.xls';
-                   failedDocStorage.Document_Type__C = 'Product Payment Upload File';
-               }else if(DocType == 'Customer Contact Information Update File'){
-                   failedDocStorage.Document_Name__c = 'Customer Contact Information Failed.xls';
-                   failedDocStorage.Document_Type__C = 'Customer Contact Information Update File';
-               }else if(DocType == 'Account Status (having Judgment) Update File'){
-                   failedDocStorage.Document_Name__c = 'Account Judgment Failed.xls';
-                   failedDocStorage.Document_Type__C = 'Account Judgment Processing File';
-               }else if(DocType == 'Account Status Update File'){
-                   failedDocStorage.Document_Name__c = 'Account Status Failed.csv';
-                   failedDocStorage.Document_Type__C = 'Account Status Update';
-               }
-            
+            if (DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' || DocType == 'Balance Adjustment Upload File') {
+                failedDocStorage.Document_Name__c = 'Product Payment Failed.xls';
+                failedDocStorage.Document_Type__C = 'Product Payment Upload File';
+            } else if (DocType == 'Customer Contact Information Update File') {
+                failedDocStorage.Document_Name__c = 'Customer Contact Information Failed.xls';
+                failedDocStorage.Document_Type__C = 'Customer Contact Information Update File';
+            } else if (DocType == 'Account Status (having Judgment) Update File') {
+                failedDocStorage.Document_Name__c = 'Account Judgment Failed.xls';
+                failedDocStorage.Document_Type__C = 'Account Judgment Processing File';
+            } else if (DocType == 'Account Status Update File') {
+                failedDocStorage.Document_Name__c = 'Account Status Failed.csv';
+                failedDocStorage.Document_Type__C = 'Account Status Update';
+            } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
+                failedDocStorage.Document_Name__c = 'Product Buyback/Putback Failed.csv';
+                failedDocStorage.Document_Type__C = 'Product Buyback/Putback Processing File';
+            }
+
             failedDocStorage.Document_Extension__c = 'xls';
             failedDocStorage.Document_ID__c = parsedResponse.docId;
             //Ticket 4097: visibility should be same as uploaded document
@@ -110,31 +126,37 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             insert failedDocStorage;
         }
         //API call to portal to visisble failure file on portal
-        if(DocType == 'Product Payment Upload File' || DocType == 'Account Status Update File'
-          || DocType == 'Customer Contact Information Update File'){
-              if(failedDocStorage.ID != NULL){
-                  PortalDocumentStorageProcessingAPI.processDocumentStorage(failedDocStorage.ID); 
-              }
+        if (
+            DocType == 'Product Payment Upload File' ||
+            DocType == 'Account Status Update File' ||
+            DocType == 'Customer Contact Information Update File' ||
+            DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE
+        ) {
+            if (failedDocStorage.ID != null) {
+                PortalDocumentStorageProcessingAPI.processDocumentStorage(failedDocStorage.ID);
+            }
         }
         //Create Success CSV Document Storage
-        Document_Storage__c  SuccessDocStorage = new Document_Storage__c();
-        
-        if(null != parsedResponse1 && successRecords > 0){
+        Document_Storage__c SuccessDocStorage = new Document_Storage__c();
+
+        if (null != parsedResponse1 && successRecords > 0) {
             SuccessDocStorage.Work_Assignment__c = workAssignmentID;
-            if(DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' ||
-               DocType == 'Balance Adjustment Upload File'){
-                   SuccessDocStorage.Document_Name__c = 'Product Payment Success.xls';
-                   SuccessDocStorage.Document_Type__C = 'Product Payment Upload File';
-               }else if(DocType == 'Customer Contact Information Update File'){
-                   SuccessDocStorage.Document_Name__c = 'Customer Contact Information Success.xls';
-                   SuccessDocStorage.Document_Type__C = 'Customer Contact Information Update File';
-               }else if(DocType == 'Account Status (having Judgment) Update File'){
-                   SuccessDocStorage.Document_Name__c = 'Account Judgment Success.xls';
-                   SuccessDocStorage.Document_Type__C = 'Account Judgment Processing File';
-               }else if(DocType == 'Account Status Update File'){
-                   SuccessDocStorage.Document_Name__c = 'Account Status Success.csv';
-                   SuccessDocStorage.Document_Type__C = 'Account Status Update';
-               }
+            if (DocType == 'Product Payment Upload File' || DocType == 'Direct Payment Upload File' || DocType == 'Balance Adjustment Upload File') {
+                SuccessDocStorage.Document_Name__c = 'Product Payment Success.xls';
+                SuccessDocStorage.Document_Type__C = 'Product Payment Upload File';
+            } else if (DocType == 'Customer Contact Information Update File') {
+                SuccessDocStorage.Document_Name__c = 'Customer Contact Information Success.xls';
+                SuccessDocStorage.Document_Type__C = 'Customer Contact Information Update File';
+            } else if (DocType == 'Account Status (having Judgment) Update File') {
+                SuccessDocStorage.Document_Name__c = 'Account Judgment Success.xls';
+                SuccessDocStorage.Document_Type__C = 'Account Judgment Processing File';
+            } else if (DocType == 'Account Status Update File') {
+                SuccessDocStorage.Document_Name__c = 'Account Status Success.csv';
+                SuccessDocStorage.Document_Type__C = 'Account Status Update';
+            } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
+                SuccessDocStorage.Document_Name__c = 'Product Buyback/Putback Success.csv';
+                SuccessDocStorage.Document_Type__C = 'Product Buyback/Putback Processing File';
+            }
 
             SuccessDocStorage.Document_Extension__c = 'xls';
             SuccessDocStorage.Document_ID__c = parsedResponse1.docId;
@@ -153,58 +175,79 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             insert SuccessDocStorage;
         }
         //API call to portal to visisble failure file on portal
-        if(DocType == 'Product Payment Upload File' || DocType == 'Account Status Update File'
-          || DocType == 'Customer Contact Information Update File'){
-              if(SuccessDocStorage.ID != NULL){
-                  PortalDocumentStorageProcessingAPI.processDocumentStorage(SuccessDocStorage.ID); 
-              }
+        if (
+            DocType == 'Product Payment Upload File' ||
+            DocType == 'Account Status Update File' ||
+            DocType == 'Customer Contact Information Update File' ||
+            DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE
+        ) {
+            if (SuccessDocStorage.ID != null) {
+                PortalDocumentStorageProcessingAPI.processDocumentStorage(SuccessDocStorage.ID);
+            }
         }
-        Document_Storage__c docStorageToUpdate = new Document_Storage__c(ID= documentID, File_Processing_Status__c = 'Processed');
+        Document_Storage__c docStorageToUpdate = new Document_Storage__c(ID = documentID, File_Processing_Status__c = 'Processed');
         update docStorageToUpdate;
-        
+
         workAssignment.Status__c = 'Completed';
-        
-        if(DocType == 'Product Payment Upload File' && failedRecords > 0 && successRecords == 0){
+
+        if (DocType == 'Product Payment Upload File' && failedRecords > 0 && successRecords == 0) {
             stopSuccessfilegenaration = false;
         }
         workAssignment.Comment_Reply__c = '';
-        if(stopSuccessfilegenaration == true){
-            if(failedRecords > 0){
-                workAssignment.Comment_Reply__c = 'No. of Records Failed: '+ failedRecords +'\n';
-            }else{
-                workAssignment.Comment_Reply__c = 'No. of Records Failed: 0'+'\n';
+        if (stopSuccessfilegenaration == true) {
+            if (failedRecords > 0) {
+                workAssignment.Comment_Reply__c = 'No. of Records Failed: ' + failedRecords + '\n';
+            } else {
+                workAssignment.Comment_Reply__c = 'No. of Records Failed: 0' + '\n';
             }
-            if(successRecords > 0){
-                workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
-            }else{
+            if (successRecords > 0) {
+                workAssignment.Comment_Reply__c += 'No. of Records Succeeded: ' + successRecords;
+            } else {
                 workAssignment.Comment_Reply__c += 'No. of Records Succeeded: 0';
             }
-        }else if(stopSuccessfilegenaration == false){
+        } else if (stopSuccessfilegenaration == false) {
             workAssignment.Comment_Reply__c += 'Whole transaction is failed because of exception please check the error file and share with support team';
         }
-        
-        if(workAssignment.Comments_History__c !=null){
+
+        if (workAssignment.Comments_History__c != null) {
             oldComments = workAssignment.Comments_History__c;
         }
         workAssignment.Latest_Comment__c = workAssignment.Comment_Reply__c;
         //Bug: 4743 - changes starts
-        workAssignment.Comments_History__c = 'System Generated Comment on behalf of' + ' ' +UserInfo.getName()+' '+ 'on' + ' ' + dT.month() + '/' + dT.day() + '/' + dT.year() + ';' + ' ' + ' ' + workAssignment.Comment_Reply__c + '\n' + '\n';
+        workAssignment.Comments_History__c =
+            'System Generated Comment on behalf of' +
+            ' ' +
+            UserInfo.getName() +
+            ' ' +
+            'on' +
+            ' ' +
+            dT.month() +
+            '/' +
+            dT.day() +
+            '/' +
+            dT.year() +
+            ';' +
+            ' ' +
+            ' ' +
+            workAssignment.Comment_Reply__c +
+            '\n' +
+            '\n';
         //Bug: 4743 - changes ends
-        if(oldComments != null){
+        if (oldComments != null) {
             workAssignment.Comments_History__c += oldComments;
         }
-        
+
         workAssignment.Comment_Reply__c = '';
-        
+
         WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
         update workAssignment;
         stopSuccessfilegenaration = true;
         WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = true;
-        
-        DocumentStorageTriggerHandler.runDocumentStorageTrigger=true; 
-        
+
+        DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+
         //Changes are done by ticket: 4496
-        if(!Test.isRunningTest()){
+        if (!Test.isRunningTest()) {
             system.enqueueJob(new CFG_ProcessWorkAssignment(workAssignment.Id));
         }
     }

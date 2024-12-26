@@ -327,7 +327,51 @@ public class DistressedUtilities {
         for(Settlement__c m :[Select id,name,Product__c from Settlement__c where Product__c in: prodIdList AND (Status__c != 'Withdraw' OR Status__c != 'Rejected')]){
             settlementIDMap.put(m.Product__c, m.id);
         }
-    }   
+    }
+
+    public static List<Product_Staging__c> validatePutbackBuybackRecords(
+        List<Product_Staging__c> batchScope,
+        Map<String, Product__c> mapProductName,
+        String documentStorageId
+    ) {
+        List<String> validProductStatuses = new List<String> {'297000', '298000'};
+        for (Product_Staging__c productStaging : batchScope) {
+            String expected = '';
+            String errorMsg = '';
+            if (productStaging.Data_Id__c == null && productStaging.Name__c == null) {
+                errorMsg += '<b>ERROR</b> - Invalid Account Number.<br/>';
+                expected += 'Account Number cannot be blank<br/>';
+            } else {
+                if (!mapProductName.containsKey(productStaging.Data_Id__c)) {
+                    errorMsg = '<b>ERROR</b>-Invalid Account Number.' + '<br/>';
+                }
+                if (mapProductName.containsKey(productStaging.Data_Id__c) && !validProductStatuses.contains(mapProductName.get(productStaging.Data_Id__c).Product_Status__c)) {
+                    errorMsg = '<b>ERROR</b>-Invalid current Product Status.' + '<br/>';
+                    expected += 'Current Product status should be either 297000 or 298000<br/>';
+                }
+            }
+            if (String.isBlank(errorMsg) && productStaging.Purchase_Status__c == DisplayBuybackPutbackStagingController.BUYBACK_APPROVED) {
+                productStaging.Product_Status__c = mapProductName.get(productStaging.Data_Id__c).Product_Status__c.replaceFirst('2', '9');
+            }
+            productStaging.External_Id__c = productStaging.Data_Id__c + '_' + documentStorageId;
+            productStaging.Name__c = productStaging.Data_Id__c;
+            if (errorMsg.length() > 254) {
+                productStaging.Comment__c = errorMsg.substring(0, 253);
+            } else {
+                productStaging.Comment__c = errorMsg;
+            }
+            productStaging.Status__c = 'Pending';
+            productStaging.Identifier__c = documentStorageId;
+            productStaging.Expected_Value__c = expected;
+            productStaging.Document_Storage__c = documentStorageId;
+            productStaging.Is_Record_Process__c = true;
+            if (String.isBlank(errorMsg)) {
+                productStaging.Comment__c = 'SUCCESS';
+                productStaging.Include_in_Processing__c = true;
+            }
+        }
+        return batchScope;
+    }
     
     //This method runs the validation for product allocation process.
     public static list<Product_staging__c> allocationValidationOnRecordUpdate(List<Product_Staging__c> batchScope,

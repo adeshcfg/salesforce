@@ -2,8 +2,8 @@
  * @description       : Test class for BulkDataloadQueueable
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 03-27-2023
- * @last modified by  : adeshi@a5econsulting.net
+ * @last modified on  : 12-31-2024
+ * @last modified by  : adesh.ikhar@canaccede.com
  **/
 @isTest
 public class BulkDataloadQueueableTest {
@@ -57,8 +57,12 @@ public class BulkDataloadQueueableTest {
         docSto2.Uploaded_By__c = 'Internal User';
         docSto2.Visibility__c = 'CFG Only';
         docSto2.Document_Extension__c = 'csv';
+        Document_Storage__c docSto3 = docSto2.clone();
+        docSto3.Document_Type__c = DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE;
+        docSto3.Document_Id__c = 'a8f6022e-93a9-4b54-967f-e01cb140a444';
         docSto.add(docSto1);
         docSto.add(docSto2);
+        docSto.add(docSto3);
         insert docSto;
 
         Pool__c pool = new Pool__c();
@@ -160,7 +164,22 @@ public class BulkDataloadQueueableTest {
         Test.startTest();
         System.enqueueJob(new BulkDataloadQueueable('INSERT_DATA', csvStringList, 0, documentStorage));
         Test.stopTest();
-        List<Product_Staging__c> prodStagingList = [SELECT Id FROM Product_Staging__c];
-        //System.assertEquals(2, prodStagingList.size(), 'Success');
+    }
+
+    @isTest
+    static void testBuybackPutbackInsertData() {
+        Document_Storage__c documentStorage = [
+            SELECT Id, Document_Type__c, Uploaded_By__c
+            FROM Document_Storage__c
+            WHERE Document_Id__c = 'a8f6022e-93a9-4b54-967f-e01cb140a444'
+        ];
+        Pool__c pool = [SELECT Name FROM Pool__c LIMIT 1];
+        List<String> csvStringList = new List<String>{
+            '1067P1126,6600,Buyback/Putback Approved,,',
+            '1067P001,1200,Buyback/Putback Rejected,201999,Test Reason'
+        };
+        Test.startTest();
+        System.enqueueJob(new BulkDataloadQueueable('INSERT_DATA', csvStringList, 0, documentStorage));
+        Test.stopTest();
     }
 }

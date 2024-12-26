@@ -122,7 +122,7 @@ public class DocumentStorageTriggerHandler {
                    mapWorkAssignment.get(documentStorage.Work_Assignment__c).recordTypeID == config.CFGComplaintWorkAssignmentRecordID__c) && documentStorage.Visibility__c != 'CFG Only'){
                       notificationCallAPI(documentStorage.Placement_Identifier__c,'Document','Complaint No: '+mapWorkAssignment.get(documentStorage.Work_Assignment__c).Name+' Document Uploaded','Document '+documentStorage.Name+' is uploaded and ready to view. Document type is '+documentStorage.Document_Type__c);
                 }
-             if((documentStorage.Document_Type__c == PRODUCT_ALLOCATION_FILE || documentStorage.Document_Type__c == ACCOUNT_STATUS_UPDATE_FILE) && documentStorage.Document_Id__c != NULL && (documentStorage.File_Processing_Status__c == 'Pending'  || String.isBlank(documentStorage.File_Processing_Status__c))){
+             if((documentStorage.Document_Type__c == PRODUCT_ALLOCATION_FILE || documentStorage.Document_Type__c == ACCOUNT_STATUS_UPDATE_FILE || documentStorage.Document_Type__c == PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) && documentStorage.Document_Id__c != NULL && (documentStorage.File_Processing_Status__c == 'Pending'  || String.isBlank(documentStorage.File_Processing_Status__c))){
                         String workAssignmentPlacement = '';
                        if(documentStorage.Work_Assignment_Placement__c != null){
                            workAssignmentPlacement = documentStorage.Work_Assignment_Placement__c;
@@ -158,7 +158,6 @@ public class DocumentStorageTriggerHandler {
                   || documentStorage.Document_Type__c == PRODUCT_RECALL_FILE
                   || documentStorage.Document_Type__c == PRODUCT_BULK_POOL_UPDATE_FILE
                   || documentStorage.Document_Type__c == DIRECT_PAYMENT_UPLOAD_FILE
-                  || documentStorage.Document_Type__c == PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE
                   || documentStorage.Document_Type__c == BALANCE_ADJUSTMENT_UPLOAD_FILE
                   || documentStorage.Document_Type__c == DISTRESSED_NOTES_BULK_UPLOAD_FILE)
                 && documentStorage.Document_Id__c != NULL
