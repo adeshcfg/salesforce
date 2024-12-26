@@ -31,6 +31,9 @@ public class InsolvencyOwnerShipController{
     @TestVisible
     public Boolean isCanadianTireCommunityUser {set;get;}
     
+    @TestVisible
+    public Boolean isMoneyMartCommunityUser {set;get;}
+    
     public InsolvencyOwnerShipController(ApexPages.StandardController controller) {
     	
     	//Initialize the values
@@ -40,7 +43,7 @@ public class InsolvencyOwnerShipController{
         isFairstoneBankCommunityUser = InsolvencyUtil.isFairstoneBankCommunityUser(UserInfo.getProfileId());
         isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(Userinfo.getProfileId());
         isCanadianTireCommunityUser = InsolvencyUtil.isCanadianTireCommunityUser(Userinfo.getProfileId());
-        
+        isMoneyMartCommunityUser = InsolvencyUtil.isMoneyMartCommunityUser(Userinfo.getProfileId());
         //Eligible Insolvency Account Record Type Name 
         String eligibleInsAcctRecordType = InsolvencyUtil.getInsAccntRecordTypeProfile(Userinfo.getProfileId());
  
@@ -53,6 +56,7 @@ public class InsolvencyOwnerShipController{
                       		 Fairstone_Record_Owner__c,
                              Goeasy_Record_Owner__c,
                              Canadian_Tire_Record_Owner__c,
+                      		 Money_Mart_Record_Owner__c,
                              OwnerId, Owner.Name, Insolvency_Owner_Id__c,
                              (SELECT OwnerId 
                                     FROM Insolvency_Accounts__r 
@@ -102,6 +106,12 @@ public class InsolvencyOwnerShipController{
             else if(isCanadianTireCommunityUser){
                 if(insolv.Canadian_Tire_Record_Owner__c == null){
                     insolv.Canadian_Tire_Record_Owner__c = UserInfo.getUserId();
+                    InsolvencyUtil.updateOwnerShip(insolv);
+                }
+            }
+            else if(isMoneyMartCommunityUser){
+                if(insolv.Money_Mart_Record_Owner__c == null){
+                    insolv.Money_Mart_Record_Owner__c = UserInfo.getUserId();
                     InsolvencyUtil.updateOwnerShip(insolv);
                 }
             }
