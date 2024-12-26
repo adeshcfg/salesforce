@@ -7,6 +7,53 @@
     
     <!-- Handler-->
     <aura:handler name="init" value="{!this }" action="{!c.doinit }" />
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right" onclick="{! c.openModel }">
+        <thead>
+            <tr>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Judgment Name">
+                    <div>Judgment Name</div>
+                </th>
+                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Judgment Name">
+                    <div>Account Number</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:if isTrue="{!v.isDataAvailable}">
+                <aura:iteration items="{!v.draftValues}" var="draftValue">
+                    <tr>
+                        <td
+                            class="slds-truncate slds-text-align_center "
+                            style="word-wrap: break-word; padding: 1% 1% 1%;"
+                            data-label="{!draftValue.Judgment__r.Name}"
+                            title="{!draftValue.Judgment__r.Name}">
+                            <aura:if isTrue="{!draftValue.Judgment__r.Name != null}">
+								{!draftValue.Judgment__r.Name}                            
+                            </aura:if>
+                               
+                        </td>						
+                        <td
+                            class="slds-truncate slds-text-align_center "
+                            style="word-wrap: break-word; padding: 1% 1% 1%;"
+                            data-label="{!draftValue.Product__r.Name}"
+                            title="{!draftValue.Product__r.Name}">
+                           
+                            <aura:if isTrue="{!draftValue.Product__r.Name != null}">
+                            	{!draftValue.Product__r.Name}    
+                            </aura:if>   
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </aura:if>
+            <aura:if isTrue="{!not(v.isDataAvailable)}">
+                <tr>
+                    <td colspan="1" style="text-align: center;">
+                        No Data Available
+                    </td>
+                </tr>
+            </aura:if>
+        </tbody>
+    </table>
     <table
            class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right " onclick="{! c.openModel }">
         
@@ -44,6 +91,7 @@
                             title="Status">
                             {!draftValue.Status__c}
                         </td>
+                        
                         
                     </tr>
 
@@ -114,7 +162,49 @@
                 </header>
                 <!--Modal/Popup Box Body Starts here-->
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr >
+                                
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Judgment Name">
+                                    <div>Judgment Name</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Account Number">
+                                    <div>Account Number</div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
+                                    
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!draftValue.Judgment__r.Name}"
+                                        title="{!draftValue.Judgment__r.Name}">
+                                        <aura:if isTrue="{!draftValue.Judgment__r.Name != null}">
+                                            {!draftValue.Judgment__r.Name}                            
+                                        </aura:if>
+                                        
+                                    </td>						
+                                    <td
+                                        class="slds-truncate"
+                                        style="word-wrap: break-word; padding: 1% 1% 1%;"
+                                        data-label="{!draftValue.Product__r.Name}"
+                                        title="{!draftValue.Product__r.Name}">
+                                        
+                                        <aura:if isTrue="{!draftValue.Product__r.Name != null}">
+                                            {!draftValue.Product__r.Name}    
+                                        </aura:if>   
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
                     <table
                            class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
                         
@@ -125,12 +215,6 @@
                                 </th>
                                 <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Settlement Status">
                                     <div>Settlement Status</div>
-                                </th>
-                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Proposal Amount">
-                                    <div>Proposal Amount</div>
-                                </th>
-                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Required Amount">
-                                    <div>Required Amount</div>
                                 </th>
                             </tr>
                         </thead>
@@ -154,6 +238,26 @@
                                         >
                                         {!draftValue.Status__c}
                                     </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                    <table
+                           class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-vertical slds-border_left slds-border_right">
+                        
+                        <thead>
+                            <tr >
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Proposal Amount">
+                                    <div>Proposal Amount</div>
+                                </th>
+                                <th scope="col" class="nobordertop" style="word-wrap: break-word; padding: 1% 1% 1% 1%;" title="Required Amount">
+                                    <div>Required Amount</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.draftValues}" var="draftValue">
+                                <tr>
                                     <td
                                         class="slds-truncate"
                                         style="word-wrap: break-word; padding: 1% 1% 1%;"
