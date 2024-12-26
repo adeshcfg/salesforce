@@ -2129,10 +2129,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>TestExportToMegasysController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TestFidemApplicationFormController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2374,22 +2370,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TestMediaRequestWrkAssExportController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TestMegaSysUtilities</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TestMegasysPaymentCSVUtil</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TestMegasysPaymentController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TestMegasysWSUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
