@@ -973,10 +973,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MegaSysUtilities</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MegasysPaymentCSVUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
