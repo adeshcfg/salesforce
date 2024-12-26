@@ -31,7 +31,8 @@ global class InsolvencyAccntDragNDropController {
     //Ends 5195
     public Boolean isCommunityUser { get; set; }
     public Boolean isEasyFinanacial { get; set; }
-
+	public Boolean isMoneyMartCommunityUser { get; set; }
+    
     public static List<SelectOption> getAllDocumentOptions() {
         Schema.DescribeFieldResult insolAccDocumenttype = Insolvency_Account__c.Insolvency_Account_Document_Type__c.getDescribe();
         List<Schema.PicklistEntry> insolAccDocTypeValues = insolAccDocumenttype.getPicklistValues();
@@ -168,6 +169,7 @@ global class InsolvencyAccntDragNDropController {
         isSDABankCommunityUser = InsolvencyUtil.isSDABankCommunityUser(UserInfo.getProfileId());
         isFairstoneBankCommunityUser = InsolvencyUtil.isFairstoneBankCommunityUser(UserInfo.getProfileId());
         isCanadianTireCommunityUser = InsolvencyUtil.isCanadianTireCommunityUser(UserInfo.getProfileId());
+        isMoneyMartCommunityUser = InsolvencyUtil.isMoneyMartCommunityUser(UserInfo.getProfileId());
         //Ends 5195
         //Checking if read only community user
         isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser();

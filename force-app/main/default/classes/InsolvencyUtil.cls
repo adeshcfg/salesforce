@@ -150,6 +150,17 @@
         }
     }
     
+     //Check whether current user belong to Money Mart Bank Community User or not
+     public static Boolean isMoneyMartCommunityUser(Id profileId){
+         String profileName = [Select Id,Name from Profile where Id=: profileId].Name;
+         if(profileName.contains('Money Mart') ){
+             return true;
+         }
+         else{
+             return false;
+         }
+     }
+     
     //Return InsolvencyAccount Record Type Id DeveloperName Map
     public static Map <Id, String> getInsAccntRecorTypeMap(){
         
@@ -258,7 +269,9 @@
       else if (profileName.contains('Canadian Tire')){
         return 'Canadian Tire Insolvency Account';
      }
-    
+     else if (profileName.contains('Money Mart')){
+        return 'Money Mart Insolvency Account';
+     }
       return null; 
     }
     
@@ -395,6 +408,7 @@
             workOnRecordTypeMap.put('Fairstone', 'Fairstone Insolvency Account');
             workOnRecordTypeMap.put('Goeasy', 'Easyfinancial Insolvency Account');
             workOnRecordTypeMap.put('Canadian Tire', 'Canadian Tire Insolvency Account');
+            workOnRecordTypeMap.put('Money Mart', 'Money Mart Insolvency Account');
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
         }
         return recordTypeToWorkOn;
@@ -446,11 +460,16 @@
                ownerId = insolv.Goeasy_Record_Owner__c;
            }
        }
-       else if(clientIdentifier == 'Canadian Tire'){
-        if(insolv.Canadian_Tire_Record_Owner__c!= null){
-           ownerId = insolv.Canadian_Tire_Record_Owner__c;
-       }
-   }
+        else if(clientIdentifier == 'Canadian Tire'){
+            if(insolv.Canadian_Tire_Record_Owner__c!= null){
+                ownerId = insolv.Canadian_Tire_Record_Owner__c;
+            }
+        }
+        else if(clientIdentifier == 'Money Mart'){
+            if(insolv.Money_Mart_Record_Owner__c!= null){
+                ownerId = insolv.Money_Mart_Record_Owner__c;
+            }
+        }
         
         return ownerId;
     }

@@ -22,15 +22,13 @@
                                     <section class="slds-card__body">
                                         <div class="slds-box slds-theme--default">
                                             Document Type:
-                                            <apex:selectList
-                                                value="{!description}"
+                                            <apex:selectList value="{!description}"
                                                 size="1"
                                                 id="documentType"
                                                 styleclass="documentType"
                                                 onchange="checkDocType()"
                                             >
-                                                <apex:selectOptions value="{!DocumentOptions}" /> </apex:selectList
-                                            ><span class="slds-hide" id="descriptionError" style="color: #c23934"> * Please select Document type</span>
+                                                <apex:selectOptions value="{!DocumentOptions}" /> </apex:selectList><span class="slds-hide" id="descriptionError" style="color: #c23934"> * Please select Document type</span>
                                             <br /><br />
                                             <div class="slds-box slds-theme--shade" id="holder" style="border: 2px dashed rgb(204, 204, 204)">
                                                 <div class="slds-text-heading--medium">
@@ -85,8 +83,7 @@
                             <apex:outputpanel rendered="{!!isCommunityUser}">
                                 <header class="slds-card__header slds-grid">
                                     <div class="slds-col slds-media slds-media--center">
-                                        <apex:commandButton
-                                            status="spinner"
+                                        <apex:commandButton status="spinner"
                                             onComplete="target();"
                                             styleClass="slds-button slds-button--neutral"
                                             value="Update Document Type"
@@ -177,8 +174,7 @@
                                                         </td>
                                                     </tr>
                                                 </apex:repeat>
-                                                <apex:repeat
-                                                    value="{!downloadFile}"
+                                                <apex:repeat value="{!downloadFile}"
                                                     var="docAtt"
                                                     rendered="{!insAcc.RecordType.Name == 'Canadian Tire Insolvency Account' && downloadFile.size>0}"
                                                 >
@@ -187,11 +183,9 @@
                                                         <td style="max-width: 250px">
                                                             <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
                                                                 <span class="slds-m-left_xx-small slds-truncate" title="{!docAtt.documetName}">
-                                                                    <apex:outputLink
-                                                                        value="javascript:void(0);"
+                                                                    <apex:outputLink value="javascript:void(0);"
                                                                         onclick="getDownloadUrl('{!docAtt.documetName}')"
-                                                                        >{!docAtt.documetName}</apex:outputLink
-                                                                    >
+                                                                        >{!docAtt.documetName}</apex:outputLink>
                                                                 </span>
                                                             </li>
                                                         </td>
@@ -221,8 +215,7 @@
                             <apex:outputpanel rendered="{!!isCommunityUser}">
                                 <header class="slds-card__header slds-grid">
                                     <div class="slds-col slds-media slds-media--center">
-                                        <apex:commandButton
-                                            status="spinner"
+                                        <apex:commandButton status="spinner"
                                             onComplete="target();"
                                             styleClass="slds-button slds-button--neutral"
                                             value="Update Document Type"
@@ -258,7 +251,7 @@
                                             <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
                                             <th
                                                 class="slds-text-heading--label slds-size--3-of-12"
-                                                style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
+                                                style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isMoneyMartCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
                                                 scope="col"
                                             >
                                                 Uploaded By
@@ -299,7 +292,7 @@
                                                     </apex:outputText>
                                                 </td>
                                                 <td
-                                                    style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
+                                                    style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isMoneyMartCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
                                                 >
                                                     <apex:outputText value="{!att.owner.Name}"> </apex:outputText>
                                                 </td>

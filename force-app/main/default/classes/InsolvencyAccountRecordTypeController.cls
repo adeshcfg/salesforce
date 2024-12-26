@@ -75,7 +75,7 @@
             workOnRecordTypeMap.put('Fairstone', 'Fairstone Insolvency Account');
             workOnRecordTypeMap.put('Goeasy', 'Easyfinancial Insolvency Account');
             workOnRecordTypeMap.put('Canadian Tire', 'Canadian Tire Insolvency Account');
-            
+            workOnRecordTypeMap.put('Money Mart', 'Money Mart Insolvency Account');
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
             
             System.debug('recordTypeToWorkOn :'+recordTypeToWorkOn);

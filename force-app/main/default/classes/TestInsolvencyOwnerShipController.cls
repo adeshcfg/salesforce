@@ -17,6 +17,7 @@
         Application_Config_Settings__c config = new Application_Config_Settings__c(
           Run_Remittance_Validation__c = false,
           Run_Remittance_Trigger__c = true,
+          Run_Record_Ownership__c = true,
           Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
           Run_Insolvency_Trigger__c = false,
           Run_Insolvency_Account_Duplicate_Check__c = true,

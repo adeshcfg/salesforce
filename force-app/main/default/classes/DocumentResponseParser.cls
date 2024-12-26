@@ -35,7 +35,14 @@ public class DocumentResponseParser {
         'EASY-HOME',
         'EASY HOME',
         'RTO ASSET MANAGEMENT'
-    }; //5093: 'EASYHOME', 'EASY HOME',
+    };
+     public static Set<String> moneyMart = new Set<String>{
+        'MONEY MART',//Money Mart  
+        'NATIONAL MONEY MART',//National Money Mart 
+        'MOMENTUM FINANCIAL SERVICES GROUP',//Momentum Financial Services Group
+        'MONEYMART'//moneymart 
+    };   
+     //5093: 'EASYHOME', 'EASY HOME',
     //public static Set<String> fairstoneExcludeAcc = new Set<String>{'676'};
     //public static Set<String> fairstoneExcludeAccData = new Set<String>{'6030'};
     public static Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
@@ -1477,7 +1484,11 @@ public class DocumentResponseParser {
                 }
             }
         }
-
+        for (String str : moneyMart) {
+            if (creditorName.contains(str)) {
+                return insolvencyRecordTypeMap.get('Money_Mart_Insolvency_Account');
+            }
+        }
         return null;
     }
 
