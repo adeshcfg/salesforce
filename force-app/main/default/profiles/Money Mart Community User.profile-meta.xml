@@ -17335,10 +17335,6 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>ExportToMegasys</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>FidemApplicationForm</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
