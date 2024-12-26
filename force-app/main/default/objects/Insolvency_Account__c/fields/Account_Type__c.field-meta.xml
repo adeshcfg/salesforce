@@ -167,6 +167,21 @@
                 <default>false</default>
                 <label>Unknown - Not Walmart</label>
             </value>
+            <value>
+                <fullName>Instalment Loans</fullName>
+                <default>false</default>
+                <label>Instalment Loans</label>
+            </value>
+            <value>
+                <fullName>Check Cash</fullName>
+                <default>false</default>
+                <label>Check Cash</label>
+            </value>
+            <value>
+                <fullName>Payday Loans</fullName>
+                <default>false</default>
+                <label>Payday Loans</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
