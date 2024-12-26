@@ -1,3 +1,42 @@
 {
-    "apexCode": "PoC_Package_Settings__c pocPackage = PoC_Package_Settings__c.getValues('Fairstone');\r\npocPackage.Client_Company_Creditor_Name__c = 'Fairstone Financial Inc.';\r\nupdate pocPackage;"
+    "dml" : {
+        "update": [
+            {
+                "objectName" : "Application_Config_Settings__c",
+                "recordVariableName" : "Applconfig",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a0zf1000004ALI2AAO'"
+                    },
+                    {
+                        "fieldApiName": "Bank_Eligible_for_Duplicate_Check__c",
+                        "fieldValue": "'Scotia,SPL,SDA,Fidem,Fairstone,Goeasy,Canadian Tire,Money Mart'"
+                    },
+                    {
+                        "fieldApiName": "Eligible_for_Open_Assignment_Calculation__c",
+                        "fieldValue": "'CFG,Scotia Bank,SPL,SDA,Fairstone,Goeasy,Canadian Tire,Money Mart'"
+                    },
+                    {
+                        "fieldApiName": "Eligible_for_Claim_Type_Calculation__c",
+                        "fieldValue": "'Scotia Bank,SPL,SDA,Fairstone,Goeasy,Canadian Tire,Money Mart'"
+                    },
+                    {
+                        "fieldApiName": "Eligible_for_Validn_Needed_Calculation__c",
+                        "fieldValue": "'Scotia Bank,SPL,SDA,Fairstone,Goeasy,Canadian Tire,Money Mart'"
+                    },
+                    {
+                        "fieldApiName": "Profile_Eligible_for_Duplicate_Check__c",
+                        "fieldValue": "'CFG,System Administrator,SPL,SDA,Scotia,Affirm,Fairstone,Goeasy,Canadian Tire,Money Mart'"
+                    },
+                    {
+                        "fieldApiName": "Eligible_for_Voting_Decision__c",
+                        "fieldValue": "'Scotia Bank,SDA,SPL,Canaccede,Fidem,Fairstone,Goeasy,Canadian Tire,Money Mart'"
+                    }
+                ]
+            }
+
+        ]
+
+    }
 }
