@@ -390,6 +390,13 @@ public class PocDocUtility {
             if (frenchNames.contains(language)) {
                 pdfPageName = 'POCDocDataFrenchFairstone';
             }
+        } else if (pageName == 'Money Mart') {
+            if (englishNames.contains(language)) {
+                pdfPageName = 'POCDocDataMoneyMartNew';
+            }
+            if (frenchNames.contains(language)) {
+                pdfPageName = 'POCDocDataFrenchMoneyMartNew';
+            }
         } else {
             if (englishNames.contains(language)) {
                 pdfPageName = 'POCDocData';
