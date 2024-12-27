@@ -219,7 +219,7 @@ public class POCDocController {
         if (String.isNotEmpty(apexPage.NamespacePrefix)) {
             templatePageName = apexPage.NamespacePrefix + '__' + templatePageName;
         }
-        String partialPageUrl = appConfig.Use_new_POC_templates__c && pageName != 'FairstoneNew'
+        String partialPageUrl = appConfig.Use_new_POC_templates__c && pageName != 'FairstoneNew' && pageName != 'Money Mart'
             ? '/apex/' + templatePageName + 'New'
             : '/apex/' + templatePageName;
         pdf = new PageReference(partialPageUrl);
@@ -325,6 +325,8 @@ public class POCDocController {
                 redirectPageName = '/apex/POCDocFrenchEasyFinancialPreview';
             } else if (pageName == 'FairstoneNew') {
                 redirectPageName = '/apex/POCDocFrenchFairstonePreview';
+            } else if (pageName == 'Money Mart') {
+                redirectPageName = '/apex/POCDocFrenchMoneyMartPreview';
             } else {
                 redirectPageName = '/apex/POCDocFrenchStreamPreview';
             }
@@ -339,6 +341,8 @@ public class POCDocController {
                 redirectPageName = '/apex/POCDocAffirm';
             } else if (pageName == 'FairstoneNew') {
                 redirectPageName = '/apex/POCDocFairstonePreview';
+            } else if (pageName == 'Money Mart') {
+                redirectPageName = '/apex/POCDocMoneyMartPreview';
             } else {
                 redirectPageName = '/apex/POCDocPage';
             }
