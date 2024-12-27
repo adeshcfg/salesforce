@@ -93,6 +93,37 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Share_Money_Mart_Insolvency_Accounts</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Money Mart Insolvency Accounts</description>
+        <label>Share Money Mart Insolvency Accounts</label>
+        <sharedTo>
+            <group>Insolvency_Money_Mart_Users</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <criteriaItems>
+            <field>Client_Identifier__c</field>
+            <operation>equals</operation>
+            <value>Money Mart</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Money Mart Insolvency Account</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>notEqual</operation>
+            <value>New</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Purchase_Export_Completed__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_New_Fairstone_Insolvency_Accounts</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share new Fairstone Insolvency Accounts</description>
