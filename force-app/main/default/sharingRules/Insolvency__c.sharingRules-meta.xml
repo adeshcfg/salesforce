@@ -64,6 +64,27 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Share_Money_Mart_Insolvency</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Money Mart Insolvency</description>
+        <label>Share Money Mart Insolvency</label>
+        <sharedTo>
+            <group>Insolvency_Money_Mart_Users</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Money Mart</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Staging</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_New_Fairstone_Insolvency</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Sharing for new Fairstone Insolvency user</description>
