@@ -118,6 +118,37 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Share_Insolvency_Cases_Money_Mart_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Insolvency Cases Money Mart Users</description>
+        <label>Share Insolvency Cases Money Mart Users</label>
+        <sharedTo>
+            <group>Insolvency_Money_Mart_Users</group>
+        </sharedTo>
+        <booleanFilter>(1 OR (2 AND (3 OR 4) ) )</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Money Mart Community Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>Money Mart</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Entity_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Money Mart</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_Insolvency_Cases_New_Fairstone_Users</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Insolvency Cases for new Fairstone Users</description>
