@@ -57,6 +57,11 @@
                 <default>false</default>
                 <label>Fairstone</label>
             </value>
+            <value>
+                <fullName>Money Mart</fullName>
+                <default>false</default>
+                <label>Money Mart</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
