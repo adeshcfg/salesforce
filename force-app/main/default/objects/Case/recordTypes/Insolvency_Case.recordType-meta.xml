@@ -37,6 +37,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Money Mart</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>SPL</fullName>
             <default>false</default>
         </values>
