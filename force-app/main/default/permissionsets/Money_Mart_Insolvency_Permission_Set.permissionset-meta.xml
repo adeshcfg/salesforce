@@ -3285,7 +3285,7 @@
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>
-        <recordType>Insolvency_Account__c.Goeasy_Insolvency_Account</recordType>
+        <recordType>Insolvency_Account__c.Money_Mart_Insolvency_Account</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
