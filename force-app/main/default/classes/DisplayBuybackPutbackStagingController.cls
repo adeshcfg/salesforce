@@ -1,305 +1,565 @@
 public class DisplayBuybackPutbackStagingController {
-	Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
-    public list<Product_Staging__c> listProductStaging {get;set;}
-    public list<productStagingWrapper> listProductStagingWrapper {get;set;}
+    Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
+    public List<Product_Staging__c> listProductStaging { get; set; }
+    public List<productStagingWrapper> listProductStagingWrapper;
     public Map<String, Placement_Status_Code_Mapping__c> mapRecallCodeStatus;
-    public List<Id> prodIdList = new List<Id>();
+    public List<String> prodIdList = new List<String>();
     public static final String PROCESSED = 'Processed';
     public static final String ERROR = 'ERROR';
-    
-    public boolean showButton {get;set;}
-    public boolean displayPanel {get;set;}
-    public boolean executeWarning {get;set;}
-    public Id workAssignmentId {get;set;}
+    public static final String BUYBACK_APPROVED = 'Buyback/Putback Approved';
+    public static final String BUYBACK_REJECTED = 'Buyback/Putback Rejected';
+    String recordIdentfier = ApexPages.currentPage().getParameters().get('id');
+    public Boolean isSelected { get; set; }
+    public Boolean showButton { get; set; }
+    public String showHideisSelected { get; set; }
+    public String showHide { get; set; }
+    public Boolean displayPanel { get; set; }
+    public Boolean executeWarning { get; set; }
+    public String workAssignmentId { get; set; }
     public Decimal successRecords;
     public Decimal failedRecords;
     String placementAgency = '';
     public String success;
     public String failed;
-    Id documentID;
     String productNames = '';
-    
-    //Constructor
-    public DisplayBuybackPutbackStagingController(){
-        showButton = false;
-        displayPanel = false;
-        system.debug('Block run1');
-        String recordIdentfier = ApexPages.currentPage().getParameters().get('id');
-        listProductStaging = [SELECT ID, Name__c, Comment__c, Placement_Agency__c, Status__c, Expected_Value__c,Document_Storage__c,
-                              Document_Storage__r.File_Processing_Status__c, Product_ID__c, Identifier__c,Putback_Buyback_Amount__c,
-                              Document_Storage__r.Work_Assignment_Identifier__c, Document_Storage__r.Work_Assignment__c
-                                 FROM Product_Staging__c
-                                WHERE Identifier__c = :recordIdentfier
-                                //order by Comment__c DESC
-                             ];
-        if(listProductStaging.isEmpty()){
-            //showButton = false;
-            displayPanel = false;
-            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO,'There are no records to display'));
-        }
-        else{
-            listProductStagingWrapper = new list<productStagingWrapper>();
-            for(Product_Staging__c productStaging : listProductStaging){
-                Boolean disabled = false;
-                if(productStaging.Comment__c.contains(ERROR) || (productStaging.Status__c == PROCESSED && productStaging.Comment__c == 'SUCCESS')){
-                    disabled = true;
-                }
-                listProductStagingWrapper.add(new productStagingWrapper(productStaging, disabled));
-                if(productStaging.Status__c != PROCESSED && !productStaging.Comment__c.contains(ERROR)){
-                    showButton = true;
-                }
-            }
-            
-            placementAgency = listProductStaging[0].Placement_Agency__c;
-            documentID = listProductStaging[0].Document_Storage__c;
-            system.debug('documentID: '+documentID);
-            if(listProductStaging[0].Document_Storage__r.File_Processing_Status__c == 'Processed'){
-                showButton = false;
-                Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO,'Records are already processed'));
-            }
-            /*else{
+    Map<String, productStagingWrapper> mapHoldingSelectedRecords = new Map<String, productStagingWrapper>();
+    Map<String, Product_Staging__c> mapHoldingStageSelectedRecords = new Map<String, Product_Staging__c>();
+    public List<Product_Staging__c> listAccountStaging { get; set; }
+    public Integer pageNumber { get; set; }
+    public static final Integer PAGE_SIZE = 20;
+    public Map<String, Product_Staging__c> prodStagMap = new Map<String, Product_Staging__c>();
+    Set<Product_Staging__c> accountStagingSet = new Set<Product_Staging__c>();
+    Set<String> uncheckedProdAccSet = new Set<String>();
+
+    public ApexPages.StandardSetController setCon {
+        get {
+            String rcdIdentifier = recordIdentfier;
+            Document_Storage__c docData = [SELECT id, name, File_Processing_Status__c FROM Document_Storage__c WHERE id = :recordIdentfier];
+            if (docData.File_Processing_Status__c == DisplayProductAllocateStagingController.INPROGRESS) {
+                rcdIdentifier = 'Do not bring record';
+                Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'Processing is in progress'));
                 showButton = true;
-            }*/
-            
+            }
+            if (docData.File_Processing_Status__c == PROCESSED) {
+                rcdIdentifier = 'Do not bring record';
+                Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'Processing is completed'));
+                showButton = true;
+            }
+            if (setCon == null) {
+                setCon = new ApexPages.StandardSetController(
+                    Database.getQueryLocator(
+                        [
+                            SELECT
+                                ID,
+                                Name__c,
+                                Comment__c,
+                                Placement_Agency__c,
+                                Status__c,
+                                Expected_Value__c,
+                                Document_Storage__c,
+                                Document_Storage__r.File_Processing_Status__c,
+                                Product_ID__c,
+                                Identifier__c,
+                                Putback_Buyback_Amount__c,
+                                Document_Storage__r.Work_Assignment_Identifier__c,
+                                Document_Storage__r.Work_Assignment__c,
+                                Purchase_Status__c,
+                                Rejection_Reason__c,
+                                Product_Status__c
+                            FROM Product_Staging__c
+                            WHERE Identifier__c = :recordIdentfier AND Include_in_Processing__c = FALSE
+                            LIMIT 10000
+                        ]
+                    )
+                );
+                setCon.setPageSize(PAGE_SIZE);
+            }
+            return setCon;
+        }
+        set;
+    }
+
+    //Constructor
+    public DisplayBuybackPutbackStagingController() {
+        list<Product_Staging__c> prodstglist = [
+            SELECT ID, Name, Status_Changed_Date_Text__c, Status_Changed_Date__c, Document_Storage__r.Work_Assignment__c
+            FROM Product_Staging__c
+            WHERE Identifier__c = :recordIdentfier AND Status__c = :PROCESSED
+            LIMIT 1
+        ];
+        Product_Staging__c prodstgrec = [
+            SELECT ID, Name, Status_Changed_Date_Text__c, Status_Changed_Date__c, Document_Storage__r.Work_Assignment__c
+            FROM Product_Staging__c
+            WHERE Identifier__c = :recordIdentfier
+            LIMIT 1
+        ];
+
+        if (prodstgrec != null) {
+            workAssignmentId = prodstgrec.Document_Storage__r.Work_Assignment__c;
+        }
+        if (prodstglist.size() > 0) {
+            showButton = true;
+            showHideisSelected = 'hidden';
+            displayPanel = true;
+        } else {
+            showButton = false;
+            displayPanel = false;
         }
     }
-    
-    public pageReference Save(){
-        list<Product__c> listProductToUpdate = new list<Product__c>();
-        list<Placement_History__c> listPlacementHistory = new list<Placement_History__c>();
-        //Create Success and Failure file headers
-        success = 'data_id,buyback_putback_amount';
-        failed = 'data_id,buyback_putback_amount,error';
-        
-        system.debug('debug 2');
-        
-        //Get Placement ID
-        list<Placement__c> listPlacements = [SELECT ID 
-                                             FROM Placement__c 
-                                             WHERE Name= :placementAgency];
-        Id placementID;
-        if(!listPlacements.isEmpty()){
-            placementID = listPlacements[0].ID;
-        }
-        system.debug('executeWarning save: '+executeWarning);
-        
-        successRecords = 0;
-        failedRecords = 0;
-        system.debug('listProductStagingWrapper test::'+listProductStagingWrapper);
-        for(productStagingWrapper productStagingWrap : listProductStagingWrapper){
-            system.debug('executeWarning:: '+executeWarning);
-            system.debug('productStagingWrap.productStaging test::'+productStagingWrap.productStaging);
-            Product_Staging__c productStaging = productStagingWrap.productStaging;
-            system.debug('productStaging test::'+productStaging);
-            String comment = '';
-            if(String.isNotBlank(productStaging.Comment__c)){
-                comment = productStaging.Comment__c;
-            }
-            system.debug('comment:: '+comment);
-            
-            //If No error found, update product record from staging
-            if(productStaging.Status__c != PROCESSED
-            && productStagingWrap.selected == true){
-                system.debug('productStaging procesing: '+productStaging);
-                system.debug('productStaging.Name: '+productStaging.Name__c);
-                
-                productStaging.Status__c = PROCESSED;
-                Product__c product = new Product__c();
-                product.Name = productStaging.Name__c;
-                product.ID = productStaging.Product_ID__c;
-				product.Putback_Buyback_Amount__c = productStaging.Putback_Buyback_Amount__c;
-            	
-                //set placement status for new recall
-                listProductToUpdate.add(product);
-				productNames += product.Name + ',';
-                
-                
-                
-                success += '\n';
-                            success += productStaging.Name__c+','+productStaging.Putback_Buyback_Amount__c;
-                                          
-               //SuccessHasRecord = true;
-               successRecords = successRecords + 1;
-            }
-            else{
-                system.debug('');
-                failed += '\n';
-                String CommentError;
-                if(productStaging.Comment__c!= null){
-                    CommentError = productStaging.Comment__c;
-                    CommentError = CommentError.replaceAll('<br/>','');
-                    CommentError = CommentError.replaceAll('</b>','');
-                    CommentError = CommentError.replaceAll('<b>','');
-                    system.debug('CommentError test::' +CommentError);
+
+    public void selectAll() {
+        for (productStagingWrapper wrapper : listProductStagingWrapper) {
+            if (isSelected == true) {
+                if (wrapper.disabled != true && wrapper.productStaging.Status__c != PROCESSED) {
+                    wrapper.selected = true;
                 }
-                            failed += productStaging.Name__c
-                                   +','+productStaging.Putback_Buyback_Amount__c
-                                   +','+(productStaging.Comment__c!= null ? CommentError : NULL);
-                //FailedHasRecord = true;
+            } else {
+                wrapper.selected = false;
+            }
+        }
+        updateListWrapper(isSelected);
+    }
+
+    //Use For Pagination
+    public void first() {
+        if (isSelected != true) {
+            updateSearchItemsMap();
+            uncheckedProdAccSet.clear();
+        } else {
+            mapHoldingSelectedRecords.clear();
+            mapHoldingStageSelectedRecords.clear();
+            updateSet();
+        }
+        setCon.first();
+    }
+
+    public void updateSet() {
+        for (productStagingWrapper prodSW : listProductStagingWrapper) {
+            if (prodSW.selected == false) {
+                uncheckedProdAccSet.add(prodSW.productStaging.id);
+            } else {
+                uncheckedProdAccSet.remove(prodSW.productStaging.id);
+            }
+        }
+    }
+
+    //Use For Pagination
+    /** returns the last page of the page set*/
+    public void last() {
+        if (isSelected != true) {
+            updateSearchItemsMap();
+            uncheckedProdAccSet.clear();
+        } else {
+            mapHoldingSelectedRecords.clear();
+            mapHoldingStageSelectedRecords.clear();
+            updateSet();
+        }
+        setCon.last();
+    }
+
+    //Use For Pagination
+    /** returns the previous page of the page set*/
+    public void previous() {
+        if (isSelected != true) {
+            updateSearchItemsMap();
+            uncheckedProdAccSet.clear();
+        } else {
+            mapHoldingSelectedRecords.clear();
+            mapHoldingStageSelectedRecords.clear();
+            updateSet();
+        }
+        setCon.previous();
+    }
+
+    public void updateSearchItemsMap() {
+        for (productStagingWrapper wrp : listProductStagingWrapper) {
+            if (wrp.selected) {
+                mapHoldingSelectedRecords.put(wrp.productStaging.id, wrp);
+                mapHoldingStageSelectedRecords.put(wrp.productStaging.id, wrp.productStaging);
+            }
+            if (wrp.selected == false && mapHoldingSelectedRecords.containsKey(wrp.productStaging.id)) {
+                mapHoldingSelectedRecords.remove(wrp.productStaging.id);
+                mapHoldingStageSelectedRecords.remove(wrp.productStaging.id);
+            }
+        }
+    }
+
+    //Use For Pagination
+    /** returns the next page of the page set*/
+    public void next() {
+        if (isSelected != true) {
+            updateSearchItemsMap();
+            uncheckedProdAccSet.clear();
+        } else {
+            mapHoldingSelectedRecords.clear();
+            mapHoldingStageSelectedRecords.clear();
+            updateSet();
+        }
+        setCon.next();
+    }
+
+    public Boolean hasNext {
+        get {
+            return setCon.getHasNext();
+        }
+        set;
+    }
+
+    /** indicates whether there are more records before the current page set.*/
+    public Boolean hasPrevious {
+        get {
+            return setCon.getHasPrevious();
+        }
+        set;
+    }
+
+    /** return total number of pages for page set*/
+    public Integer getTotalPages() {
+        Decimal totalSize = setCon.getResultSize();
+        Decimal pageSize = setCon.getPageSize();
+        Decimal pages = totalSize / pageSize;
+        return (Integer) pages.round(System.RoundingMode.CEILING);
+    }
+
+    public void updateListWrapper(Boolean isSelected) {
+        List<productStagingWrapper> listProductStagingWrapperAll = new List<productStagingWrapper>();
+    }
+
+    //fill wrapper class and handle process button show/hide
+    public List<productStagingWrapper> getlistProductStagingWrapper() {
+        Integer successRecCount = 0;
+        listAccountStaging = (List<Product_Staging__c>) setCon.getRecords();
+        Integer successCount = [
+            SELECT COUNT()
+            FROM Product_Staging__c
+            WHERE Include_in_Processing__c = TRUE AND Identifier__c = :recordIdentfier
+        ];
+        Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'Total Success Records = ' + successCount));
+
+        if (listAccountStaging.isEmpty()) {
+            showHide = 'hidden';
+            displayPanel = false;
+            Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'There are no error or warning records to display '));
+        } else {
+            listProductStagingWrapper = new List<productStagingWrapper>();
+            if (isSelected == true) {
+                for (Product_Staging__c accStaging : listAccountStaging) {
+                    Boolean showMessage = false;
+                    if (accStaging.Comment__c != null && accStaging.Comment__c.contains(ERROR)) {
+                        listProductStagingWrapper.add(new productStagingWrapper(accStaging, true));
+                    } else {
+                        listProductStagingWrapper.add(new productStagingWrapper(accStaging, false));
+                        successRecCount++;
+                    }
+                    if (accStaging.Status__c != PROCESSED) {
+                        if (successRecCount + successCount > 0) {
+                            showButton = false;
+                        } else {
+                            showButton = true;
+                        }
+                    }
+                }
+                for (productStagingWrapper psw : listProductStagingWrapper) {
+                    if (psw.productStaging.Status__c != PROCESSED && !uncheckedProdAccSet.contains(psw.productStaging.id)) {
+                        psw.selected = true;
+                    }
+                    if (psw.productStaging.Status__c != PROCESSED && psw.productStaging.comment__c.contains(ERROR)) {
+                        psw.selected = false;
+                    }
+                }
+            } else {
+                for (Product_Staging__c accStaging : listAccountStaging) {
+                    Boolean showMessage = false;
+                    if (mapHoldingSelectedRecords != null && mapHoldingSelectedRecords.containsKey(accStaging.id)) {
+                        if (accStaging.Comment__c.contains(ERROR)) {
+                            mapHoldingSelectedRecords.get(accStaging.id).disabled = true;
+                        }
+                        mapHoldingSelectedRecords.get(accStaging.id).productStaging = accStaging;
+                        listProductStagingWrapper.add(mapHoldingSelectedRecords.get(accStaging.id));
+                    } else {
+                        if (accStaging.Comment__c != null) {
+                            if (accStaging.Comment__c.contains(ERROR)) {
+                                listProductStagingWrapper.add(new productStagingWrapper(accStaging, true));
+                            } else {
+                                listProductStagingWrapper.add(new productStagingWrapper(accStaging, false));
+                                successRecCount++;
+                            }
+                        } else {
+                            listProductStagingWrapper.add(new productStagingWrapper(accStaging, false));
+                            successRecCount++;
+                        }
+                    }
+                    if (accStaging.Status__c != PROCESSED) {
+                        if (successRecCount + successCount > 0) {
+                            showButton = false;
+                        } else {
+                            showButton = true;
+                        }
+                    }
+                }
+            }
+
+            if (successCount == 0 && successRecCount == 0) {
+                showHideisSelected = 'hidden';
+            }
+
+            List<Product_Staging__c> prodStagingPending = [
+                SELECT ID
+                FROM Product_Staging__c
+                WHERE Identifier__c = :recordIdentfier AND Status__c = 'Pending'
+                LIMIT 1
+            ];
+            if (prodStagingPending.size() == 0) {
+                if (listAccountStaging[0].Document_Storage__r.File_Processing_Status__c == PROCESSED) {
+                    Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'Records are already processed'));
+                } else {
+                    showButton = false;
+                }
+            }
+        }
+        pageNumber = setCon.getPageNumber();
+        return listProductStagingWrapper;
+    }
+
+    public List<Product_Staging__c> getAllRecords() {
+        List<Product_Staging__c> listAccountStagingNew = [
+            SELECT
+                ID,
+                Name__c,
+                Comment__c,
+                Placement_Agency__c,
+                Status__c,
+                Expected_Value__c,
+                Document_Storage__c,
+                Document_Storage__r.File_Processing_Status__c,
+                Product_ID__c,
+                Identifier__c,
+                Putback_Buyback_Amount__c,
+                Document_Storage__r.Work_Assignment_Identifier__c,
+                Document_Storage__r.Work_Assignment__c,
+                Purchase_Status__c,
+                Rejection_Reason__c,
+                Product_Status__c
+            FROM Product_Staging__c
+            WHERE Identifier__c = :recordIdentfier AND Status__c = 'Pending' AND Include_in_Processing__c = FALSE
+            LIMIT 5000
+        ];
+        return listAccountStagingNew;
+    }
+
+    public pageReference save() {
+        transient List<Product_Staging__c> psAllRec = getAllRecords();
+        Integer successCount = [
+            SELECT COUNT()
+            FROM Product_Staging__c
+            WHERE Include_in_Processing__c = TRUE AND Identifier__c = :recordIdentfier
+        ];
+        if (isSelected == true) {
+            Product_Staging__c prodStaging = new Product_Staging__c();
+            for (Product_Staging__c prodStagingWrapper : psAllRec) {
+                if (prodStagingWrapper.Comment__c != null && !prodStagingWrapper.Comment__c.contains('ERROR')) {
+                    prodStagingWrapper.Include_in_Processing__c = true;
+                    successCount += 1;
+                    accountStagingSet.add(prodStagingWrapper);
+                }
+            }
+            List<Product_Staging__c> accStagingLists = new List<Product_Staging__c>(accountStagingSet);
+            if (accStagingLists.size() > 0) {
+                update accStagingLists;
+            }
+        } else {
+            Product_Staging__c prodStaging = new Product_Staging__c();
+            if (mapHoldingSelectedRecords != null && mapHoldingSelectedRecords.size() > 0) {
+                for (productStagingWrapper prodStagingWrapper : mapHoldingSelectedRecords.values()) {
+                    prodStaging = prodStagingWrapper.productStaging;
+                    prodStaging.Id = prodStaging.Id;
+                    if (prodStagingWrapper.selected == true) {
+                        prodStaging.Include_in_Processing__c = true;
+                        successCount += 1;
+                    }
+                    prodStagMap.put(prodStaging.id, prodStaging);
+                }
+                update prodStagMap.values();
+            } else {
+                if (listProductStagingWrapper != null) {
+                    for (productStagingWrapper prodStagingWrapper : listProductStagingWrapper) {
+                        prodStaging = prodStagingWrapper.productStaging;
+                        prodStaging.Id = prodStaging.Id;
+                        if (prodStagingWrapper.selected == true) {
+                            prodStaging.Include_in_Processing__c = true;
+                            successCount += 1;
+                        }
+                        prodStagMap.put(prodStaging.id, prodStaging);
+                    }
+                    update prodStagMap.values();
+                }
+            }
+        }
+
+        DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
+        Document_Storage__c docStorageToUpdate = new Document_Storage__c(
+            Id = recordIdentfier,
+            File_Processing_Status__c = DisplayProductAllocateStagingController.INPROGRESS
+        );
+        update docStorageToUpdate;
+        DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+        showButton = true;
+        //Call Product Update batch for allocation and recall.
+        Database.executeBatch(
+            new CFG_ProcessSuccessRecords(workAssignmentId, recordIdentfier, DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE),
+            100
+        );
+        if (listProductStagingWrapper != null) {
+            listProductStagingWrapper.clear();
+        }
+        if (accountstagingset != null) {
+            accountstagingset.clear();
+        }
+        listAccountStaging = new List<Product_Staging__c>();
+        portalSettings = new Agency_Portal_Settings__c();
+        Apexpages.addMessage(
+            new ApexPages.message(
+                Apexpages.Severity.CONFIRM,
+                'Bulk Record Processing Has Started and running in background. You will receive an email notification once process is completed.'
+            )
+        );
+        displayPanel = true;
+        return null;
+    }
+
+    public static List<String> processRecords(List<Product_Staging__c> listProductStagingToProcess) {
+        Set<String> setProdutNames = new Set<String>();
+        Map<String, String> mapProductNameId = new Map<String, String>();
+        List<Product__c> listProductToUpdate = new List<Product__c>();
+        List<String> productIdsToUpdate = new List<String>();
+        Map<String, String> statusDescriptionMap = new Map<String, String>();
+        for (Data_Status_Mapping__c statusMapping : [SELECT Name, Description__c FROM Data_Status_Mapping__c]) {
+            statusDescriptionMap.put(statusMapping.Name, statusMapping.Description__c);
+        }
+        for (Product_Staging__c productStaging : listProductStagingToProcess) {
+            setProdutNames.add(productStaging.Data_Id__c);
+        }
+        for (Product__c prod : [SELECT Id, Name FROM Product__c WHERE Name IN :setProdutNames]) {
+            mapProductNameId.put(prod.Name, prod.Id);
+        }
+        for (Product_Staging__c productStaging : listProductStagingToProcess) {
+            if (productStaging.Status__c != PROCESSED && productStaging.Include_in_Processing__c == true) {
+                Product__c prod = new Product__c();
+                prod.Id = mapProductNameId.get(productStaging.Data_Id__c);
+                prod.Purchase_Status__c = productStaging.Purchase_Status__c;
+                prod.Rejection_Reason__c = productStaging.Rejection_Reason__c;
+                if (String.isNotBlank(productStaging.Product_Status__c)) {
+                    prod.Product_Status__c = productStaging.Product_Status__c;
+                    prod.Data_Status_Description__c = statusDescriptionMap.get(prod.Product_Status__c);
+                }
+                if (prod.Purchase_Status__c == BUYBACK_APPROVED) {
+                    prod.Putback_Buyback_Amount__c = productStaging.Putback_Buyback_Amount__c;
+                    prod.Buyback_Putback_Status_Change_Date__c = System.today();
+                    prod.Putback_buyback_Completed_Date__c = System.today();
+                }
+                productIdsToUpdate.add(prod.Id);
+                listProductToUpdate.add(prod);
+            }
+        }
+        try {
+            if (!listProductToUpdate.isEmpty()) {
+                ProductTriggerHandler.runProductTrigger = false;
+                Database.update(listProductToUpdate);
+                ProductTriggerHandler.runProductTrigger = true;
+            }
+        } catch (DmlException ex) {
+            for (Product_Staging__c productStaging : listProductStagingToProcess) {
+                String msg = '<b>ERROR</b>-' + ex.getDmlMessage(0);
+                if (msg.length() > 254) {
+                    msg = msg.substring(0, 254);
+                }
+                productStaging.Comment__c = msg;
+                productStaging.Status__c = 'Pending';
+            }
+            Database.update(listProductStagingToProcess);
+        }
+        return productIdsToUpdate;
+    }
+
+    public static void generateSuccessErrorFiles(String documentStorageId, String workAssignmentId) {
+        List<Product_Staging__c> processedStagingRecords = new List<Product_Staging__c>();
+        String success = 'data_id,buyback_putback_amount,buyback_putback_status,product_status,rejection_reason';
+        String failed = 'data_id,buyback_putback_amount,buyback_putback_status,product_status,rejection_reason,error';
+        Integer successRecords = 0;
+        Integer failedRecords = 0;
+        for (Product_Staging__c prodStaging : [
+            SELECT
+                Status__c,
+                Include_in_Processing__c,
+                Product_Status__c,
+                Data_Id__c,
+                Putback_Buyback_Amount__c,
+                Purchase_Status__c,
+                Rejection_Reason__c,
+                Comment__c
+            FROM Product_Staging__c
+            WHERE Identifier__c = :documentStorageId AND Status__c != 'Processed'
+            ORDER BY Include_in_Processing__c
+        ]) {
+            if (prodStaging.Include_in_Processing__c) {
+                prodStaging.Status__c = PROCESSED;
+                success += '\n';
+                success +=
+                    prodStaging.Data_Id__c +
+                    ',' +
+                    prodStaging.Putback_Buyback_Amount__c +
+                    ',' +
+                    prodStaging.Purchase_Status__c +
+                    ',' +
+                    prodStaging.Product_Status__c +
+                    ',' +
+                    prodStaging.Rejection_Reason__c;
+                successRecords = successRecords + 1;
+                processedStagingRecords.add(prodStaging);
+            } else {
+                failed += '\n';
+                String commentError = '';
+                if (String.isNotBlank(prodStaging.Comment__c)) {
+                    commentError = prodStaging.Comment__c;
+                    commentError = commentError.replaceAll('<br/>', '');
+                    commentError = commentError.replaceAll('</b>', '');
+                    commentError = commentError.replaceAll('<b>', '');
+                }
+                failed +=
+                    prodStaging.Data_Id__c +
+                    ',' +
+                    prodStaging.Putback_Buyback_Amount__c +
+                    ',' +
+                    prodStaging.Purchase_Status__c +
+                    ',' +
+                    prodStaging.Product_Status__c +
+                    ',' +
+                    prodStaging.Rejection_Reason__c +
+                    ',' +
+                    (String.isNotBlank(prodStaging.Comment__c) ? commentError : null);
                 failedRecords = failedRecords + 1;
             }
         }
-        
-        system.debug('listProductToUpdate: '+listProductToUpdate);
-        //update product
-        ProductTriggerHandler.runProductTrigger = false;
-        
-        
-        update listProductToUpdate;
-        for(Product__c prodUpdateList : listProductToUpdate){
-            prodIdList.add(prodUpdateList.Id);
-        }
-        productNames.removeEnd(',');
-       
-  		ProductTriggerHandler.runProductTrigger = true;      
-        list<Work_Assignment__c> listWorkAssignmentToUpsert = new list<Work_Assignment__c>();
-        //Create Task record and assign it to Agency
-        Work_Assignment__c workAssignment = new Work_Assignment__c();
-        workAssignment.ID = listProductStaging[0].Document_Storage__r.Work_Assignment__c;
-        workAssignmentId = workAssignment.ID;
-        /*workAssignment.Requested_Date__c = Date.today();
-        workAssignment.Title__c = 'Product Buyback/Putback Status ' + '[' + listProductStaging[0].Document_Storage__r.Work_Assignment_Identifier__c + ']';
-        workAssignment.Description__c = 'Product Buyback/Putback Status';
-        workAssignment.Status__c = 'Requested';
-        workAssignment.Assign_To__c = 'Agency';
-        //workAssignment.Priority__c = 'High';
-        workAssignment.Purpose__c = 'Excel File Processing';
-        workAssignment.Sub_Purpose__c = 'Product Buyback/Putback File';
-        workAssignment.Placement_Agency__c = placementID;
-        workAssignment.Comment_Reply__c = '';
-        workAssignment.RecordTypeID = portalSettings.AgencyExcelProcessingRecordTypeID__c;*/
-        workAssignment.Comment_Reply__c = '';
-        workAssignment.Status__c = 'Completed';
-        if(failedRecords != NULL && failedRecords > 0){
-            workAssignment.Comment_Reply__c = 'No. of Records Failed: '+ failedRecords +'';
-        }
-        if(successRecords!= NULL && successRecords > 0){
-            workAssignment.Comment_Reply__c += 'No. of Records Succeeded: '+ successRecords;
-        }        
-        //bug:4743 : changes starts 
-        WorkAssignmentTriggerHandler.updateCommentHistoryField=FALSE;
-        //bug:4743 : changes ends           
-        update workAssignment;
-        WorkAssignmentTriggerHandler.updateCommentHistoryField=TRUE;//Added part of bug #4743
-        system.debug('workAssignment: '+workAssignment);
-        //workAssignmentId = workAssignment.Id;
-        //WorkAssignmenttriggerHandler.runWorkAssignmentTrigger = false;
-        system.debug('listProductStaging[0] test: '+listProductStaging[0]);
-        system.debug('listProductStaging[0]Document_Storage__r test: '+listProductStaging[0].Document_Storage__r.Work_Assignment__c);
-        update new Work_Assignment__c(Id = listProductStaging[0].Document_Storage__r.Work_Assignment__c, 
-                                                              Status__c = 'Completed');
-        //upsert listWorkAssignmentToUpsert;
-        showButton = true;
-        displayPanel = false;
-        return null;
+        Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
+        system.enqueueJob(
+            new PostDocumentAPI(
+                DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE,
+                failed,
+                success,
+                failedRecords,
+                successRecords,
+                workAssignmentId,
+                portalSettings.Document_Storage_Default_Visibility__c,
+                documentStorageId
+            )
+        );
     }
-    
-    public PageReference postDocumentAPI(){
-        Map<String,Object> rawObj;
-        Map<String,Object> rawObj1;
-        
-        //Failed CSV API Call
-        system.debug('failed: '+failed);
-        DocumentAPIClientUtil.ParsedResponse parsedResponse = new DocumentAPIClientUtil.ParsedResponse();
-        System.debug('@@base64Data '+failed);
-        Blob fileBlob = Blob.valueOf(failed);
 
-        if(failedRecords > 0){
-            if(!Test.isRunningTest()) {
-        		parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Buyback/Putback Failed.csv', 'Task');
-                rawObj = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse.response);
-            }else{
-                parsedResponse.DocUrl = 'Test';
-                parsedResponse.docId = 'Test';
-            }
-            system.debug('parsedResponse in controller: '+parsedResponse);
-        }
-        
-        //Success CSV API Call
-        DocumentAPIClientUtil.ParsedResponse parsedResponse1 = new DocumentAPIClientUtil.ParsedResponse();
-        System.debug('@@base64Data '+success);
-        Blob fileBlobSuccess = Blob.valueOf(success);
-        if(successRecords > 0){
-            if(!Test.isRunningTest()) {
-        		parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Buyback/Putback Success.csv', 'Task');
-                rawObj1 = (Map<String,Object>) JSON.deserializeUntyped(parsedResponse1.response);   
-             }else{
-                parsedResponse.DocUrl = 'Test';
-                parsedResponse.docId = 'Test';
-            }   
-            system.debug('parsedResponse in controller: '+parsedResponse1);
-        }
-        
-        
-        //Create Failed CSV Document Storage
-        Document_Storage__c  failedDocStorage = new Document_Storage__c();
-        
-        if(null != parsedResponse ){
-            
-            system.debug('task creation');
-            failedDocStorage.Work_Assignment__c = workAssignmentID;    
-            failedDocStorage.Document_Name__c = 'Product Buyback/Putback Failed.csv';
-            failedDocStorage.Document_Extension__c = 'csv';
-            //failedDocStorage.Document_ID__c = String.valueOf(rawObj.get('docId'));
-            failedDocStorage.Document_ID__c = parsedResponse.docId;
-            failedDocStorage.Document_Type__C = 'Product Buyback/Putback Processing File';
-            failedDocStorage.Visibility__c = portalSettings.Document_Storage_Default_Visibility__c;
-            //failedDocStorage.Document_URL__c = String.valueOf(rawObj.get('docUrl'));
-            failedDocStorage.Document_URL__c = parsedResponse.DocUrl;
-            failedDocStorage.Uploaded_By__c = 'Internal User';
-            failedDocStorage.Creator__c = UserInfo.getName();
-            failedDocStorage.Document_Related_To__c = 'Task';
-            failedDocStorage.File_Processed_By__c = UserInfo.getName();
-            failedDocStorage.File_Processing_Date__c = Date.today();
-            failedDocStorage.File_Processing_Status__c = 'Processed';
-            insert failedDocStorage;
-            system.debug('failedDocStorage: '+failedDocStorage);          
-        }
-        
-        //Create Success CSV Document Storage
-        Document_Storage__c  SuccessDocStorage = new Document_Storage__c();
-        
-        if(null != parsedResponse1){
-            system.debug('task creation');
-            SuccessDocStorage.Work_Assignment__c = workAssignmentID;                        
-            SuccessDocStorage.Document_Name__c = 'Product Buyback/Putback Success.csv';
-            SuccessDocStorage.Document_Extension__c = 'csv';
-            //SuccessDocStorage.Document_ID__c = String.valueOf(rawObj1.get('docId'));
-            SuccessDocStorage.Document_ID__c = parsedResponse1.docId;
-            SuccessDocStorage.Document_Type__C = 'Product Buyback/Putback File';
-            SuccessDocStorage.Visibility__c = portalSettings.Document_Storage_Default_Visibility__c;
-            //SuccessDocStorage.Document_URL__c = String.valueOf(rawObj1.get('docUrl'));
-            SuccessDocStorage.Document_URL__c = parsedResponse1.DocUrl;
-            SuccessDocStorage.Uploaded_By__c = 'Internal User';
-            SuccessDocStorage.Creator__c = UserInfo.getName();
-            SuccessDocStorage.Document_Related_To__c = 'Task';
-            SuccessDocStorage.File_Processed_By__c = UserInfo.getName();
-            SuccessDocStorage.File_Processing_Date__c = Date.today();
-            SuccessDocStorage.File_Processing_Status__c = 'Processed';
-            insert SuccessDocStorage;
-            system.debug('SuccessDocStorage: '+SuccessDocStorage);
-        }
-        
-        //update Staging records        
-        ProductTriggerHandler.runProductAPI = false;
-        update listProductStaging;
-        ProductTriggerHandler.runProductAPI = true;
-        Document_Storage__c docStorageToUpdate = new Document_Storage__c(ID= documentID, File_Processing_Status__c = 'Processed');
-        update docStorageToUpdate;
-
-        //disable buttoms
-        showButton = false;
-        displayPanel = true;
-        system.debug('showButton: '+showButton);
-        system.debug('displayPanel: '+displayPanel);
-        return null;
-    } 
-    
-    public class productStagingWrapper{
-        public Product_Staging__c productStaging {get;set;}
-        public boolean selected {get;set;}
-        public boolean disabled {get;set;}
-        public productStagingWrapper(Product_Staging__c pay, Boolean disable ){
+    public class productStagingWrapper {
+        public Product_Staging__c productStaging { get; set; }
+        public boolean selected { get; set; }
+        public boolean disabled { get; set; }
+        public productStagingWrapper(Product_Staging__c pay, Boolean disable) {
             productStaging = pay;
             selected = false;
             disabled = disable;

@@ -628,15 +628,10 @@ public class ProductTriggerHandler {
                 }
 
                 if (prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId) {
-                    if (prod.Purchase_Status__c != prodOld1.Purchase_Status__c && prod.Purchase_Status__c == 'Buyback/Putback Approved') {
+                    if (prod.Purchase_Status__c != prodOld1.Purchase_Status__c && prod.Purchase_Status__c == DisplayBuybackPutbackStagingController.BUYBACK_APPROVED) {
                         prod.Buyback_Putback_Status_Change_Date__c = System.today();
                         prod.Putback_buyback_Completed_Date__c = System.today();
-                        if (prodOld1.Product_Status__c == '297000') {
-                            prod.Product_Status__c = '997000';
-                        }
-                        else if (prodOld1.Product_Status__c == '298000') {
-                            prod.Product_Status__c = '998000';
-                        }
+                        prod.Product_Status__c = prodOld1.Product_Status__c.replaceFirst('2', '9');
                     }
                     //Data status mapping
                     if (String.isNotBlank(prod.product_status__C)) {

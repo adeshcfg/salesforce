@@ -23,7 +23,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
         this.docType = docType;
     }
 
-    public Database.QueryLocator start(Database.BatchableContext BC) {
+    public Database.QueryLocator start(Database.BatchableContext bc) {
         if (docType == DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
             return Database.getQueryLocator(
                 [
@@ -99,18 +99,22 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
                         Placed_Settlement_Rate__c,
                         Data_Id__c,
                         Status_Changed_Date__c,
-                        Placement_Main_Status__c
+                        Placement_Main_Status__c,
+                        Putback_Buyback_Amount__c,
+                        Purchase_Status__c,
+                        Rejection_Reason__c,
+                        Product_Status__c
                     FROM Product_Staging__c
                     WHERE
                         Identifier__c = :documentStorageId
                         AND Status__c != 'Processed'
-                        AND Include_in_Processing__c = TRUE /*(COMMENT__C = 'SUCCESS' AND Product_ID__c IN: productIds) AND COMMENT__C = 'SUCCESS' OR COMMENT__C LIKE '%WARNING%' AND (NOT COMMENT__c LIKE '%ERROR%'))*/
+                        AND Include_in_Processing__c = TRUE
                 ]
             );
         }
     }
 
-    public void execute(Database.BatchableContext BC, List<SObject> scope) {
+    public void execute(Database.BatchableContext bc, List<SObject> scope) {
         if (docType == 'Product Allocation File') {
             //Call product allocation update class. developer - satyajit patil
             judgementData = AllocationProductProcessing.allocateProducts(scope, workAssignmentId);
@@ -127,26 +131,30 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             } else {
                 prodIds.addAll(scopedProdIds);
             }
+        } else if (docType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
+            prodIds.addAll(DisplayBuybackPutbackStagingController.processRecords(scope));
         }
         if (Test.isRunningTest()) {
             RecallProductProcessing.ProdIdsJudgListWrapper wrapperDetails = RecallProductProcessing.recallProducts(scope, workAssignmentId);
         }
     }
 
-    public void finish(Database.BatchableContext BC) {
+    public void finish(Database.BatchableContext bc) {
         //Deactivate active placement when product is recalled from agency.
         if (prodIds != null && !prodIds.isEmpty() && docType == 'Account Status Update File') {
             DistressedUtilities.UpdateSettlement(prodIds);
         }
-
         //Call the portal API Batch. Developer: satyajit patil
-        if (docType != DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
+        if (docType == DocumentStorageTriggerHandler.PRODUCT_ALLOCATION_FILE || docType == DocumentStorageTriggerHandler.ACCOUNT_STATUS_UPDATE_FILE) {
             Database.executeBatch(new CFG_ProductBulkApiProcess(documentStorageId, docType, judgementData), 200);
-            
-        } else {
+        } else if (docType == DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
             Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
             // Create Success and Error file
             generateCustomerStagingSuccessErrorFile();
+            // Call Portal API to update product records on Portal
+            PortalProductProcessingAPI.processProductBulkBatch(prodIds, new List<Product__c>());
+        } else if (docType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
+            DisplayBuybackPutbackStagingController.generateSuccessErrorFiles(documentStorageId, workAssignmentId);
             // Call Portal API to update product records on Portal
             PortalProductProcessingAPI.processProductBulkBatch(prodIds, new List<Product__c>());
         }
