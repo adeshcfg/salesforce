@@ -157,6 +157,9 @@ public class LoRDemandController {
             companyName = pocPackage.Fairstone_New_Product_Company_Detail__c;
             pocPackage.Client_Company_Name_French__c = pocPackage.Fairstone_New_Product_Company_Detail__c;
         }
+        if(insolvAcc.Client_Identifier__c == 'Money Mart'){
+            clientCompanyNameSuffix = '';
+        }
         // Merge fields used in email template
         Map<String, String> emailMergeFields = new Map<String, String>{
             '{!TODAY()}' => formattedDate,
