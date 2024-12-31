@@ -20128,6 +20128,24 @@
         <apexPage>LOR_Demand_Goeasy_VFP</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+        <layoutAssignments>
+        <layout>Case-Insolvency Case</layout>
+        <recordType>Case.Insolvency_Money_Mart_Community_Case</recordType>
+    </layoutAssignments>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Case.Insolvency_Money_Mart_Community_Case</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Insolvency_Account__c.Money_Mart_Insolvency_Account</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <layoutAssignments>
+        <layout>Insolvency_Account__c-Default Money Mart Account Layout - internal</layout>
+        <recordType>Insolvency_Account__c.Money_Mart_Insolvency_Account</recordType>
+    </layoutAssignments>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Agency_User__c.Agency_Contact</recordType>
