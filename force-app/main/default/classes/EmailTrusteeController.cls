@@ -584,6 +584,13 @@ public class EmailTrusteeController {
                 return 'Canadian Tire Bank';
             }
         }
+        else if (insolvAcc.Client_Identifier__c == 'Money Mart') {
+            if (language == 'fr') {
+                return 'Money Mart';
+            } else {
+                return 'Money Mart';
+            }
+        }
         return null;
     }
 
