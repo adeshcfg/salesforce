@@ -1,7 +1,7 @@
 /**
  * @description       : Class to hold utility/common methods for POC document generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 12-10-2024
+ * @last modified on  : 12-31-2024
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocDocUtility {
@@ -49,9 +49,13 @@ public class PocDocUtility {
             exceptionMsg = 'Missing Information';
             errorMsg += '; Cannot generate a proof of claim unless this account is in "PoC Details Provided" status';
         }
-        if (insolvAcc.Insolvency_Type__c == 'Consumer Proposal' && insolvAcc.Voting_Decision__c == 'Needs Manual Review') {
+        if (
+            insolvAcc.Insolvency_Type__c == 'Consumer Proposal' &&
+            (insolvAcc.Voting_Decision__c == 'Needs Manual Review' ||
+            insolvAcc.Voting_Decision__c == 'System Error')
+        ) {
             exceptionMsg = 'Missing Information';
-            errorMsg += '; Cannot generate a proof of claim when Voting Decision is Needs Manual Review';
+            errorMsg += '; Cannot generate a proof of claim when Voting Decision is ' + insolvAcc.Voting_Decision__c;
         }
         if (insolvAcc.Client_Identifier__c == 'Canaccede' && insolvAcc.Vendor_Orginator__c == null) {
             exceptionMsg = 'Missing Information';
