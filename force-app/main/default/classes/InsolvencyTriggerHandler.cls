@@ -787,7 +787,7 @@
         
         //Call future method for Voting automation
         if(null != votingAutomationList && votingAutomationList.size() > 0){
-            Database.executeBatch(new VotingEngineBatch(votingAutomationList), 90);
+            Database.executeBatch(new VotingEngineBatch(votingAutomationList), 40);
             // VotingEngineFutureCall.votingAutomationCall(votingAutomationList);
         }
         
