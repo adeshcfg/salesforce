@@ -143,9 +143,10 @@
             <controllingFieldValue>SPL</controllingFieldValue>
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Account Validation</valueName>
         </valueSettings>
         <valueSettings>
@@ -155,8 +156,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Amend Claim</valueName>
         </valueSettings>
         <valueSettings>
@@ -166,8 +168,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Business Insolvency</valueName>
         </valueSettings>
         <valueSettings>
@@ -198,8 +201,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-             <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>More Information Required</valueName>
         </valueSettings>
         <valueSettings>
@@ -209,8 +213,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Needs Documentation</valueName>
         </valueSettings>
         <valueSettings>
@@ -220,8 +225,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Notice of Disallowance</valueName>
         </valueSettings>
         <valueSettings>
@@ -231,8 +237,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Query</valueName>
         </valueSettings>
         <valueSettings>
@@ -242,8 +249,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Refund Request</valueName>
         </valueSettings>
         <valueSettings>
@@ -253,8 +261,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Secured Communications</valueName>
         </valueSettings>
         <valueSettings>
@@ -270,8 +279,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Withdraw PoC</valueName>
         </valueSettings>
         <valueSettings>
@@ -281,8 +291,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>Final</valueName>
         </valueSettings>
         <valueSettings>
@@ -292,8 +303,9 @@
             <controllingFieldValue>SDA</controllingFieldValue>
             <controllingFieldValue>Canaccede</controllingFieldValue>
             <controllingFieldValue>Fairstone</controllingFieldValue>
-            <controllingFieldValue>Fairstone2</controllingFieldValue>
             <controllingFieldValue>Goeasy</controllingFieldValue>
+            <controllingFieldValue>Fairstone2</controllingFieldValue>
+            <controllingFieldValue>Money Mart</controllingFieldValue>
             <valueName>OSB Request</valueName>
         </valueSettings>
         <valueSettings>
