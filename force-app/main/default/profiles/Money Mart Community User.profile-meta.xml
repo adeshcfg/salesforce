@@ -16634,8 +16634,13 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Insolvency__c.Canadian_Tire_Record_Owner__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Insolvency__c.Money_Mart_Record_Owner__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -18672,6 +18677,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Case-Insolvency Community Case - External</layout>
+        <recordType>Case.Insolvency_Money_Mart_Community_Case</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Insolvency Community Case - External</layout>
         <recordType>Case.Insolvency_Fairstone_Community_Case</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -18740,6 +18749,10 @@
     <layoutAssignments>
         <layout>CaseClose-Insolvency Close Case - External</layout>
         <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
+    </layoutAssignments>
+     <layoutAssignments>
+        <layout>CaseClose-Insolvency Close Case - External</layout>
+        <recordType>Case.Insolvency_Money_Mart_Community_Case</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>CaseClose-Insolvency Close Case - External</layout>
@@ -18907,6 +18920,10 @@
     <layoutAssignments>
         <layout>Insolvency_Account__c-Default Canadian Tire Account Layout - External</layout>
         <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Insolvency_Account__c-Default Money Mart Account Layout - External</layout>
+        <recordType>Insolvency_Account__c.Money_Mart_Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Insolvency_Account__c-Default Fairstone Account Layout - External</layout>
@@ -20471,8 +20488,13 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
+        <default>false</default>
         <recordType>Case.Insolvency_Canadian_Tire_Community_Case</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Case.Insolvency_Money_Mart_Community_Case</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
@@ -20521,8 +20543,13 @@
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>true</default>
+        <default>false</default>
         <recordType>Insolvency_Account__c.Canadian_Tire_Insolvency_Account</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+     <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Insolvency_Account__c.Money_Mart_Insolvency_Account</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
