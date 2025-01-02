@@ -7062,7 +7062,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.City__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7732,7 +7732,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Postal_Code__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -7797,7 +7797,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Province__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -8007,7 +8007,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Insolvency_Account__c.Street_Name_Number__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
