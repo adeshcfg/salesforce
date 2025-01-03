@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 10-23-2024
+ * @last modified on  : 01-03-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -38,6 +38,7 @@ public with sharing class CTBFileValidationUtility {
         'Last_Payment_Date_2__c' => 'Last_Payment_Amount_2__c',
         'Last_Payment_Date_3__c' => 'Last_Payment_Amount_3__c'
     };
+    public static List<String> dateFieldsList = new List<String>{ 'Last_Payment_Date__c', 'Last_Payment_Date_2__c', 'Last_Payment_Date_3__c' };
     /**
      * @description : Map and validate fields from csv to CTB Staging for Insolvency Account
      * @author adeshi@a5econsulting.net | 11-23-2023
@@ -105,7 +106,6 @@ public with sharing class CTBFileValidationUtility {
                 account.put(fieldApiName, fieldValue);
             }
         }
-        // account.Name = stagingRecord.Name;
         account.CTB_Date_of_Birth__c = stagingRecord.CTB_Date_of_Birth__c;
         account.Correlation_Id__c = stagingRecord.Correlation_Id__c;
         account.Account_Open_date__c = stagingRecord.Account_Original_Open_Date__c;
@@ -113,12 +113,15 @@ public with sharing class CTBFileValidationUtility {
         account.Claim_Amount__c = stagingRecord.Claim_Amount__c;
         account.CTB_Balance_as_of_date__c = stagingRecord.CTB_Balance_as_of_date__c;
         account.Interest_Rate__c = stagingRecord.Interest_Rate__c;
-        account.Last_Payment_Date__c = stagingRecord.Last_Payment_Date__c;
-        account.Last_Payment_Amount__c = stagingRecord.Last_Payment_Amount__c;
-        account.Last_Payment_Date_2__c = stagingRecord.Last_Payment_Date_2__c;
-        account.Last_Payment_Amount_2__c = stagingRecord.Last_Payment_Amount_2__c;
-        account.Last_Payment_Date_3__c = stagingRecord.Last_Payment_Date_3__c;
-        account.Last_Payment_Amount_3__c = stagingRecord.Last_Payment_Amount_3__c;
+        // Start populating last payment fields in order
+        Integer i = 0;
+        for (String dateField : dateFieldsList) {
+            if (stagingRecord.get(dateAmountFieldsMap.get(dateField)) != null && stagingRecord.get(dateField) != null) {
+                account.put(dateFieldsList[i], Date.valueOf(stagingRecord.get(dateField)));
+                account.put(dateAmountFieldsMap.get(dateFieldsList[i]), Decimal.valueOf(String.valueOf(stagingRecord.get(dateAmountFieldsMap.get(dateField)))));
+                i++;
+            }
+        }
         account.Last_Statement_Date__c = stagingRecord.Last_Statement_Date__c;
         account.Last_Statement_Amount__c = stagingRecord.Last_Statement_Amount__c;
         account.Last_Statement_Date_2__c = stagingRecord.Last_Statement_Date_2__c;
@@ -128,18 +131,6 @@ public with sharing class CTBFileValidationUtility {
         // Only update Charge Off Date if it was not null in CSV
         if (stagingRecord.Charge_Off_Date__c != null) {
             account.Charge_Off_Date__c = stagingRecord.Charge_Off_Date__c;
-        }
-        // If payment amount is null or less than 0 or payment date is null or future date, make both fields null
-        for (String dateField : dateAmountFieldsMap.keySet()) {
-            if (
-                account.get(dateAmountFieldsMap.get(dateField)) == null ||
-                account.get(dateField) == null ||
-                Double.valueOf(account.get(dateAmountFieldsMap.get(dateField))) <= 0 ||
-                Date.valueOf(account.get(dateField)) > System.today()
-            ) {
-                account.put(dateAmountFieldsMap.get(dateField), null);
-                account.put(dateField, null);
-            }
         }
         account.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName()
             .get('Canadian_Tire_Insolvency_Account')
