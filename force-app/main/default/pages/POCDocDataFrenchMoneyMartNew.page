@@ -817,32 +817,23 @@
         </apex:outputPanel>
         <div style="font-family: Arial Unicode MS; font-size: 13px; page-break-after: always"></div>
         <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" >
-            <div style=' margin:auto;padding-left:10px;font-size:12.5px;font-family: "Arial Unicode MS"; line-height:16px; ' >
-                
-                <div style="text-align:left; float:left; width:200px;">
-                    <apex:image value="{!pocPackage.Header_logo__c}"/>
+            <div style="padding-bottom: 10px; margin-top: -2px; font-family: Arial Unicode MS; font-size: 13px">
+                <div style="text-align: left; float: left; width: 200px">
+                    <apex:image value="{!pocPackage.Header_logo__c}" style="padding-left: 40px" />
                 </div>
-                <div style='float:left;width:455px; margin-top:10px; '>
-                    <span style="float:left; padding-left:25px;font-size:13px"><br/>
-                        Canaccede International Management Ltd.<br/>
-                        {!pocPackage.CFG_Office_Address_1__c}<br/>
+                <div style='float:left;width:455px; padding-top:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "40px;", "20px;")}'>
+                    <span style="float: left; padding-left: 25px; font-size: 13px"
+                        ><br /> Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br />
+                        {!pocPackage.CFG_Office_Address_1__c}<br />
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
-                    <span style="float:right; text-align:right;"><br/>
-                        t. {!pocPackage.CFG_Office_Phone_Number__c}<br/>
-                        f. {!pocPackage.CFG_Office_Fax_Number__c}<br/>
+                    <span style="float: right; text-align: right"
+                        ><br /> t. {!pocPackage.CFG_Office_Phone_Number__c}<br /> f. {!pocPackage.CFG_Office_Fax_Number__c}<br />
                         {!pocPackage.CFG_Office_Website__c}
                     </span>
                 </div>
-                
-                <div style="line-height:15px;float:left;">
-                    
-                    District de: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br/>
-                    No division: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br/>
-                    No cour: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br/>
-                    No dossier: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c != null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}
-                </div>
-                
+            </div>
+            <div style="margin: auto; line-height: 17px; width: 90%; font-family: Arial Unicode MS; font-size: 14px; page-break-after: always">
                 <div style="text-align:center;clear:both;">
                     Formulaire 36
                     <br/>
