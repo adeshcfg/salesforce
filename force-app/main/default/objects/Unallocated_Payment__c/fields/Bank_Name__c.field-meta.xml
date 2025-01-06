@@ -87,6 +87,11 @@
                 <default>false</default>
                 <label>Money Mart</label>
             </value>
+            <value>
+                <fullName>NEO</fullName>
+                <default>false</default>
+                <label>NEO</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
