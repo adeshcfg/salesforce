@@ -3216,22 +3216,6 @@
         <apexClass>updateSettlementStatusBatch</apexClass>
         <enabled>false</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>POCDocFrenchMoneyMartPreviewNew</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>POCDocDataFrenchMoneyMartNew</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>POCDocMoneyMartPreviewNew</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>POCDocDataMoneyMartNew</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <tabVisibilities>
         <tab>CTB_Staging__c</tab>
         <visibility>Hidden</visibility>
