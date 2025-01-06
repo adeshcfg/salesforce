@@ -18,6 +18,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>NEO</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Insolvency</fullName>
             <default>false</default>
         </values>
