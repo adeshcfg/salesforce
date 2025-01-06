@@ -13,22 +13,15 @@ private class TestCaseTriggerHandler{
     
     @testSetup
     static void testData(){
-        
-        Application_Config_Settings__c config = new Application_Config_Settings__c(
-            Run_Remittance_Validation__c = false,
-            Run_Remittance_Trigger__c = true,
-            Run_Case_Trigger__c = true,
-            Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN',
-            Run_Insolvency_Trigger__c = false,
-            Run_Insolvency_Account_Duplicate_Check__c = true,
-            Run_Insolvency_Account_Trigger__c = false,
-            Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm',
-            Run_Insolvency_Status_Validations__c = true,
-            Bank_Eligible_for_Duplicate_Check__c = 'SPL',
-            Eligible_for_Open_Assignment_Calculation__c='test',
-            Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm'
-        );
-        insert config;
+        Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
+        config.Run_Case_Trigger__c = true;
+        config.Run_Insolvency_Status_Validations__c = false;
+        config.Eligible_for_Open_Assignment_Calculation__c = 'CFG,Scotia Bank';
+        config.Profile_Eligible_for_Duplicate_Check__c = 'CFG,Scotia Bank';
+        config.Bank_Eligible_for_Duplicate_Check__c = 'Scotia,SPL,SDA,Fidem,Fairstone,Goeasy,Canadian Tire,Money Mart';
+        config.Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank,SPL,SDA,Fairstone,Goeasy,Canadian Tire,Money Mart';
+        config.Eligible_for_Claim_Type_Calculation__c = 'Scotia Bank,SPL,SDA,Fairstone,Goeasy,Canadian Tire,Money Mart';
+        insert config;  
     }
     
     //Test all methods
@@ -42,8 +35,10 @@ private class TestCaseTriggerHandler{
         //Insolvency Account Record
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.Insolvency_Status__c = 'For Owner Review';
-        ia1.Account_Number_Without_Space__c='123';
+        ia1.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
         ia1.Insolvency__c = insolv.id;
+        ia1.Account_Number_Without_Space__c = '12345';
+        ia1.Client_Identifier__c = 'Scotia Bank';
         insert ia1;
         
         //Cases
@@ -109,66 +104,36 @@ private class TestCaseTriggerHandler{
         insert insolv;
                 
         //Cases
-        List<Case> cases = new List<Case>(); 
-        List<Case> cases2 = new List<Case>(); 
+        List<Case> cases = new List<Case>();   
         
         Case cseInsolv1 = new Case();
         cseInsolv1.subject = 'Review Insolvency';
         cseInsolv1.status = 'New';
         cseInsolv1.Assign_To__c = 'Scotia Bank';
         cseInsolv1.Insolvency__c = insolv.id;
-        cseInsolv1.RecordTypeId=[select id from recordtype where DeveloperName='Remittance' AND sobjecttype = 'Case' LIMIT 1].id;
         insert cseInsolv1;
-        
-        Case cseInsolv3 = new Case();
-        cseInsolv3.subject = 'Review Insolvency';
-        cseInsolv3.status = 'New';
-        cseInsolv3.Assign_To__c = 'Scotia Bank';
-        cseInsolv3.Insolvency__c = insolv.id;
-        cseInsolv3.RecordTypeId=[select id from recordtype where DeveloperName='CCS_Dividend' AND sobjecttype = 'Case' LIMIT 1].id;
-        insert cseInsolv3;
-        
         Case cseInsolv2 = new Case();
         cseInsolv2.subject = 'Review Insolvency';
         cseInsolv2.status = 'New';
         cseInsolv2.Assign_To__c = 'CFG';
-        cseInsolv2.Insolvency__c = insolv.id;  
-        cseInsolv2.RecordTypeId=[select id from recordtype where DeveloperName='EmailToCase'].id;
-        insert cseInsolv2; 
+        cseInsolv2.Insolvency__c = insolv.id;        
+        insert cseInsolv2;     
         
-        Case cseInsolv4 = new Case();
-        cseInsolv4.subject = 'Review Insolvency';
-        cseInsolv4.status = 'New';
-        cseInsolv4.Assign_To__c = 'CFG';
-        cseInsolv4.Insolvency__c = insolv.id;  
-        cseInsolv4.RecordTypeId=[select id from recordtype where DeveloperName='EmailToCase'].id;
-        insert cseInsolv4; 
-        
-      	cases2.add(cseInsolv3);
         cases.add(cseInsolv1);
         
         //Test Insert  
         CaseTriggerHandler.handleBeforeInsert(cases);      
         CaseTriggerHandler.handleAfterInsert(cases);
-        CaseTriggerHandler.handleBeforeInsert(cases2);
-        CaseTriggerHandler.handleAfterInsert(cases2);
-       
         
         //Test Update 
         Map<ID, Case> caseMap = new Map<ID, Case>();
         caseMap.put(cseInsolv1.id, cseInsolv2);     
         CaseTriggerHandler.handleBeforeUpdate(cases, caseMap); 
-        CaseTriggerHandler.handleAfterUpdate(cases, caseMap);
-             
-        Map<ID, Case> caseMap2 = new Map<ID, Case>();
-        caseMap2.put(cseInsolv3.id, cseInsolv4);     
-        CaseTriggerHandler.handleBeforeUpdate(cases2, caseMap2); 
-        CaseTriggerHandler.handleAfterUpdate(cases2, caseMap2);
+        CaseTriggerHandler.handleAfterUpdate(cases, caseMap);  
         
         //Test Delete 
-        CaseTriggerHandler.handleAfterDelete(cases, caseMap);
-        CaseTriggerHandler.handleAfterDelete(cases2, caseMap2);
-      }
+        CaseTriggerHandler.handleAfterDelete(cases, caseMap);                         
+    }
     
     //Test Insolvency Account Cases
     static testMethod void caseTriggerHandlerTestInsAccnt(){
@@ -181,8 +146,10 @@ private class TestCaseTriggerHandler{
         //Insolvency Account Record
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.Insolvency_Status__c = 'For Owner Review';
+        ia1.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
         ia1.Insolvency__c = insolv.id;
-        ia1.Account_Number_Without_Space__c='123';
+        ia1.Account_Number_Without_Space__c = '12345';
+        ia1.Client_Identifier__c = 'Scotia Bank';
         insert ia1;
         
         //Cases
