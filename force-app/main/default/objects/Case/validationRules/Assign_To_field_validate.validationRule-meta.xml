@@ -46,6 +46,12 @@ NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos
 )
 ),
 AND(
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;Money Mart&apos;),
+AND(
+NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;Money Mart&apos;))
+)
+),
+AND(
 ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;Canadian Tire&apos;),
 AND(
 NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;Canadian Tire&apos;))
