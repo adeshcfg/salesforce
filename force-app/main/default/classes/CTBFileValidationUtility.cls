@@ -2,7 +2,7 @@
  * @description       : Class to hold all validation methods for CTB Staging processing
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 01-03-2025
+ * @last modified on  : 01-07-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileValidationUtility {
@@ -33,12 +33,15 @@ public with sharing class CTBFileValidationUtility {
     public static final Integer PREVIOUS_ACCOUNT_REFERENCE = 46;
     public static final Integer ADDITIONAL_INFO = 47;
     public static final Integer CHARGED_OFF_DATE = 48;
+    public static final Integer JUDGEMENT_DATE = 49;
+    public static final Integer ACKNOWLEDGEMENT_DATE = 50;
     public static Map<String, String> dateAmountFieldsMap = new Map<String, String>{
         'Last_Payment_Date__c' => 'Last_Payment_Amount__c',
         'Last_Payment_Date_2__c' => 'Last_Payment_Amount_2__c',
         'Last_Payment_Date_3__c' => 'Last_Payment_Amount_3__c'
     };
     public static List<String> dateFieldsList = new List<String>{ 'Last_Payment_Date__c', 'Last_Payment_Date_2__c', 'Last_Payment_Date_3__c' };
+
     /**
      * @description : Map and validate fields from csv to CTB Staging for Insolvency Account
      * @author adeshi@a5econsulting.net | 11-23-2023
@@ -87,16 +90,55 @@ public with sharing class CTBFileValidationUtility {
         stagingRecord.Previous_Account_Reference__c = csvColumns[PREVIOUS_ACCOUNT_REFERENCE];
         stagingRecord.Additional_Info__c = csvColumns[ADDITIONAL_INFO];
         stagingRecord.Charge_Off_Date__c = parseDateString(csvColumns[CHARGED_OFF_DATE], 'Charge_Off_Date__c', stagingRecord);
+        if (csvColumns.size() > JUDGEMENT_DATE && String.isNotBlank(csvColumns[JUDGEMENT_DATE])) {
+            stagingRecord.Judgement_Date__c = parseDateString(csvColumns[JUDGEMENT_DATE], 'Judgement_Date__c', stagingRecord);
+        }
+        if (csvColumns.size() > ACKNOWLEDGEMENT_DATE && String.isNotBlank(csvColumns[ACKNOWLEDGEMENT_DATE])) {
+            stagingRecord.Acknowledgement_date__c = parseDateString(csvColumns[ACKNOWLEDGEMENT_DATE], 'Acknowledgement_date__c', stagingRecord);
+        }
         return stagingRecord;
     }
 
     /**
-     * @description : Method to populate account info from staging record
+     * @description : Method to populate account info from staging record for CTB
      * @author adesh.ikhar@canaccede.com | 04-05-2024
      * @param stagingRecord
      * @return Insolvency_Account__c
      **/
-    public static Insolvency_Account__c updateInsolvencyAccount(CTB_Staging__c stagingRecord) {
+    public static Insolvency_Account__c updateCtbInsolvencyAccount(CTB_Staging__c stagingRecord) {
+        Insolvency_Account__c account = updateCommonAccountFields(stagingRecord);
+        account.CTB_Date_of_Birth__c = stagingRecord.CTB_Date_of_Birth__c;
+        account.CTB_Balance_as_of_date__c = stagingRecord.CTB_Balance_as_of_date__c;
+        account.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName()
+            .get('Canadian_Tire_Insolvency_Account')
+            .getRecordTypeId();
+        return account;
+    }
+
+    /**
+     * @description : Method to populate account info from staging record for MM
+     * @author adesh.ikhar@canaccede.com | 04-05-2024
+     * @param stagingRecord
+     * @return Insolvency_Account__c
+     **/
+    public static Insolvency_Account__c updateMmInsolvencyAccount(CTB_Staging__c stagingRecord) {
+        Insolvency_Account__c account = updateCommonAccountFields(stagingRecord);
+        account.Accounts_Validation_Date__c = stagingRecord.CTB_Balance_as_of_date__c;
+        account.Judgement_Date__c = stagingRecord.Judgement_Date__c;
+        account.Acknowledgement_date__c = stagingRecord.Acknowledgement_date__c;
+        account.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName()
+            .get('Money_Mart_Insolvency_Account')
+            .getRecordTypeId();
+        return account;
+    }
+
+    /**
+     * @description : Method to populate common account info from staging record
+     * @author adesh.ikhar@canaccede.com | 01-07-2025
+     * @param stagingRecord
+     * @return Insolvency_Account__c
+     **/
+    public static Insolvency_Account__c updateCommonAccountFields(CTB_Staging__c stagingRecord) {
         List<String> optionalFields = new List<String>{ 'Previous_Account_Reference__c', 'Additional_Info__c' };
         Insolvency_Account__c account = new Insolvency_Account__c();
         // Check if optional field value was not null in csv, only update if it was not null
@@ -106,12 +148,10 @@ public with sharing class CTBFileValidationUtility {
                 account.put(fieldApiName, fieldValue);
             }
         }
-        account.CTB_Date_of_Birth__c = stagingRecord.CTB_Date_of_Birth__c;
         account.Correlation_Id__c = stagingRecord.Correlation_Id__c;
         account.Account_Open_date__c = stagingRecord.Account_Original_Open_Date__c;
         account.Balance_Owed__c = stagingRecord.Balance_Owed__c;
         account.Claim_Amount__c = stagingRecord.Claim_Amount__c;
-        account.CTB_Balance_as_of_date__c = stagingRecord.CTB_Balance_as_of_date__c;
         account.Interest_Rate__c = stagingRecord.Interest_Rate__c;
         // Start populating last payment fields in order
         Integer i = 0;
@@ -151,7 +191,7 @@ public with sharing class CTBFileValidationUtility {
         docStorage.File_Processing_Error__c = errorMessage;
         if (status == 'Failed') {
             CTBFileValidationUtility.sendEmail(
-                'CTB Account file processing failed',
+                'Account file processing failed',
                 'File processing failed for ' + docStorage.Document_Name__c + '\n' + 'Error - ' + errorMessage,
                 System.Label.CTB_File_Processing_Emails
             );

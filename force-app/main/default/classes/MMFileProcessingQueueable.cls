@@ -1,17 +1,16 @@
 /**
- * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
+ * @description       : Queueable class to parse csv, validate fields and create CTB Staging records for MM accounts
  * @author            : adeshi@a5econsulting.net
- * @group             :
  * @last modified on  : 01-07-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
-public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
+public class MMFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
     // List of file names to process
     public List<String> fileNames = new List<String>();
     // Identifier to know type of file, Account or Payment
     public String fileIdentifier = '';
 
-    public CTBFileProcessingQueueable(List<String> fileNames, String fileIdentifier) {
+    public MMFileProcessingQueueable(List<String> fileNames, String fileIdentifier) {
         this.fileNames = fileNames;
         this.fileIdentifier = fileIdentifier;
     }
@@ -34,11 +33,8 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
             // Create Doc storage record with received file details
             Document_Storage__c docStorage = createDocStorage(fileNames[0], fileToProccess.ContentType);
             if (fileIdentifier == System.Label.CTB_Insolvency_Account) {
-                processCTBStagingAccounts(csvContents, docStorage);
-            } /*  else if (fileIdentifier == System.Label.CTB_Payment) {
-                processCTBStagingPayments(csvContents, docStorage);
-                System.debug('Payment processing');
-            } */
+                processMMStagingAccounts(csvContents, docStorage);
+            }
             // Remove the file which was processed
             fileNames.remove(0);
             delete fileToProccess;
@@ -52,11 +48,11 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 return;
             }
             if (!Test.isRunningTest()) {
-                System.enqueueJob(new CTBFileProcessingQueueable(fileNames, System.Label.CTB_Insolvency_Account));
+                System.enqueueJob(new MMFileProcessingQueueable(fileNames, System.Label.CTB_Insolvency_Account));
             }
         } catch (Exception e) {
-            System.debug('Exception in CTBFileProcessingQueueable ' + e.getMessage() + e.getStackTraceString());
-            createInsolvencyError(e.getMessage(), e.getStackTraceString());
+            System.debug('Exception in MMFileProcessingQueueable ' + e.getMessage() + e.getStackTraceString());
+            CTBFileProcessingQueueable.createInsolvencyError(e.getMessage(), e.getStackTraceString());
         }
     }
 
@@ -82,7 +78,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
             return docInfo;
         } catch (DmlException ex) {
             System.debug('DMLException in createDocStorage ' + ex.getDmlMessage(0));
-            createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
+            CTBFileProcessingQueueable.createInsolvencyError(ex.getDmlMessage(0), ex.getStackTraceString());
             return null;
         }
     }
@@ -93,9 +89,10 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
      * @param csvContents
      * @param docStorage
      **/
-    public static void processCTBStagingAccounts(String csvContents, Document_Storage__c docStorage) {
+    public static void processMMStagingAccounts(String csvContents, Document_Storage__c docStorage) {
         List<CTB_Staging__c> stagingRecordsToCreate = new List<CTB_Staging__c>();
         Map<Id, Insolvency_Account__c> accountRecordsToUpdateMap = new Map<Id, Insolvency_Account__c>();
+        Map<String, Insolvency__c> insolvencyRecordsToUpdateMap = new Map<String, Insolvency__c>();
         Set<String> correlationIdSet = new Set<String>();
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
         List<String> validOldInsolvencyStatuses = System.Label.CTB_Valid_Insolvency_Statuses.split(',');
@@ -121,7 +118,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         for (Integer i = 1; i < csvRows.size() - 1; i++) {
             // Split the current row into columns
             List<String> csvColumns = CTBFileValidationUtility.parseCsv(csvRows[i]);
-            if (csvColumns.size() != 49) {
+            if (csvColumns.size() != 51) {
                 docStorage = CTBFileValidationUtility.updateDocStorageDetails(
                     docStorage,
                     'Failed',
@@ -139,7 +136,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         // Query existing account with the correlation Ids from the csv and create map with correlation id and account
         if (!correlationIdSet.isEmpty() && !stagingRecordsToCreate.isEmpty() && !invalidFile) {
             for (Insolvency_Account__c acc : [
-                SELECT Id, Correlation_Id__c, Insolvency_Status__c, Debtor_1_Estate_Number__c, Debtor_2_Estate_Number__c, Debtor__c, Co_Debtor__c
+                SELECT Id, Correlation_Id__c, Insolvency_Status__c, Debtor_1_Estate_Number__c, Debtor_2_Estate_Number__c, Debtor__c, Co_Debtor__c, Insolvency__c
                 FROM Insolvency_Account__c
                 WHERE Correlation_Id__c IN :correlationIdSet
             ]) {
@@ -181,27 +178,32 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         String.isBlank(accountRecordsToUpdateMap.get(accountId).CTB_Reject_Reason_Code__c) &&
                         stagingAcc.CTB_Reject_Reason_Code__c == 'NMAT'
                     ) {
-                        // Check which debtor is not a match and continue
-                        checkNoMatchDebtor(accountRecordsToUpdateMap.get(accountId), mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
+                        CTBFileProcessingQueueable.checkNoMatchDebtor(
+                            accountRecordsToUpdateMap.get(accountId),
+                            mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c),
+                            stagingAcc
+                        );
                         continue;
                     }
                     if (String.isBlank(stagingAcc.CTB_Reject_Reason_Code__c)) {
-                        accountToUpdate = CTBFileValidationUtility.updateCtbInsolvencyAccount(stagingAcc);
+                        accountToUpdate = CTBFileValidationUtility.updateMmInsolvencyAccount(stagingAcc);
                     }
                     accountToUpdate.Id = accountId;
                     accountToUpdate.CTB_Update_File_Timestamp__c = Datetime.now();
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
                     accountToUpdate.CTB_Reject_Reason_Code__c = stagingAcc.CTB_Reject_Reason_Code__c;
-                    updateAccountStatusAndReason(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c);
+                    if (String.isBlank(accountToUpdate.CTB_Reject_Reason_Code__c)) {
+                        accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
+                    }
                     // Only update no match fields if account has co debtor
                     if (
-                        accountToUpdate.Insolvency_Sub_Status__c == 'No Match' &&
+                        accountToUpdate.CTB_Reject_Reason_Code__c == 'NMAT' &&
                         String.isNotBlank(mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Co_Debtor__c)
                     ) {
                         // Default fields to false
                         accountToUpdate.No_Match_Debtor__c = false;
                         accountToUpdate.No_Match_Co_Debtor__c = false;
-                        checkNoMatchDebtor(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
+                        CTBFileProcessingQueueable.checkNoMatchDebtor(accountToUpdate, mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
                     }
                     // When duplicate account with NMAT reject code is already processed preserve it's no match fields
                     if (
@@ -219,6 +221,13 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         }
                     }
                     accountRecordsToUpdateMap.put(accountToUpdate.Id, accountToUpdate);
+                    if (stagingAcc.CTB_Date_of_Birth__c != null) {
+                        String insolvencyId = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency__c;
+                        insolvencyRecordsToUpdateMap.put(
+                            insolvencyId,
+                            new Insolvency__c(Id = insolvencyId, Debtor_1_Date_of_Birth__c = stagingAcc.CTB_Date_of_Birth__c)
+                        );
+                    }
                 }
             }
             try {
@@ -228,7 +237,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 docStorage.File_Processing_Status__c = 'Failed';
                 docStorage.File_Processing_Error__c = dex.getDmlMessage(0).length() > 255 ? dex.getDmlMessage(0).substring(0, 255) : dex.getDmlMessage(0);
                 update docStorage;
-                createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
+                CTBFileProcessingQueueable.createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
             }
         }
         if (!accountRecordsToUpdateMap.values().isEmpty()) {
@@ -239,7 +248,21 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                 docStorage.File_Processing_Status__c = 'Failed';
                 docStorage.File_Processing_Error__c = dex.getDmlMessage(0).length() > 255 ? dex.getDmlMessage(0).substring(0, 255) : dex.getDmlMessage(0);
                 update docStorage;
-                createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
+                CTBFileProcessingQueueable.createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
+                return;
+            }
+        }
+        if (!insolvencyRecordsToUpdateMap.values().isEmpty()) {
+            try {
+                InsolvencyTriggerHandler.runInsolvencyTrigger = false;
+                update insolvencyRecordsToUpdateMap.values();
+                InsolvencyTriggerHandler.runInsolvencyTrigger = true;
+            } catch (DmlException dex) {
+                System.debug('Error updating Insolvency records ' + dex.getDmlMessage(0));
+                docStorage.File_Processing_Status__c = 'Failed';
+                docStorage.File_Processing_Error__c = dex.getDmlMessage(0).length() > 255 ? dex.getDmlMessage(0).substring(0, 255) : dex.getDmlMessage(0);
+                update docStorage;
+                CTBFileProcessingQueueable.createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
                 return;
             }
         }
@@ -257,105 +280,4 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         // Update doc storage with processing status and error message if failed
         update docStorage;
     }
-
-    /**
-     * @description : Update no match flag for appropriate debtor in case of NMAT rejection code
-     * @author adesh.ikhar@canaccede.com | 09-20-2024
-     * @param accountToUpdate
-     * @param existingAccount
-     * @param stagingAcc
-     **/
-    public static void checkNoMatchDebtor(Insolvency_Account__c accountToUpdate, Insolvency_Account__c existingAccount, CTB_Staging__c stagingAcc) {
-        // Match debtor with full name if name fields are provided
-        if (String.isNotBlank(stagingAcc.Debtor_1_First_Name__c) && String.isNotBlank(stagingAcc.Debtor_1_Last_Name__c)) {
-            String fullDebtorName = stagingAcc.Debtor_1_First_Name__c + ' ' + stagingAcc.Debtor_1_Last_Name__c;
-            if (existingAccount.Debtor__c == fullDebtorName) {
-                accountToUpdate.No_Match_Debtor__c = true;
-            } else if (existingAccount.Co_Debtor__c == fullDebtorName) {
-                accountToUpdate.No_Match_Co_Debtor__c = true;
-            }
-        }
-        // Match debtor with estate number in case of no name fields
-        else if (!accountToUpdate.No_Match_Debtor__c && !accountToUpdate.No_Match_Co_Debtor__c) {
-            if (stagingAcc.Debtor_Estate_Number__c == existingAccount.Debtor_1_Estate_Number__c) {
-                accountToUpdate.No_Match_Debtor__c = true;
-            } else if (stagingAcc.Debtor_Estate_Number__c == existingAccount.Debtor_2_Estate_Number__c) {
-                accountToUpdate.No_Match_Co_Debtor__c = true;
-            }
-        }
-    }
-
-    /**
-     * @description : Method to update correct account status as per criteria
-     * @author adesh.ikhar@canaccede.com | 05-20-2024
-     * @param accountToUpdate
-     * @param currentStatus
-     * @return Insolvency_Account__c
-     **/
-    public static Insolvency_Account__c updateAccountStatusAndReason(Insolvency_Account__c accountToUpdate, String currentStatus) {
-        // Only update status to PoC Details Provided when reject code is null
-        if (String.isBlank(accountToUpdate.CTB_Reject_Reason_Code__c)) {
-            accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
-        }
-        if (accountToUpdate.Balance_Owed__c < 100) {
-            accountToUpdate.Insolvency_Status__c = 'No PoC Required';
-            accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Below Threshold';
-        }
-        if (accountToUpdate.CTB_Reject_Reason_Code__c == 'SOLD') {
-            accountToUpdate.Insolvency_Status__c = 'No PoC Required';
-            accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Account Sold';
-        }
-        if (accountToUpdate.CTB_Reject_Reason_Code__c == 'DDEC') {
-            accountToUpdate.Insolvency_Status__c = 'No PoC Required';
-            accountToUpdate.Reason_for_No_PoC_Required_Dropdown__c = 'Other';
-            accountToUpdate.Reason_for_No_PoC_Required__c = 'Deceased';
-        }
-        if (accountToUpdate.CTB_Reject_Reason_Code__c == 'NMAT') {
-            accountToUpdate.Insolvency_Status__c = 'For Owner Review';
-            accountToUpdate.Insolvency_Sub_Status__c = 'No Match';
-        }
-        // Update status only if previous status was For Owner Review
-        if (currentStatus != 'For Owner Review') {
-            accountToUpdate.Insolvency_Status__c = currentStatus;
-        }
-        // Clear error message field whenever status of account was updated
-        if (accountToUpdate.Insolvency_Status__c != currentStatus) {
-            accountToUpdate.Error_Message__c = null;
-        }
-        return accountToUpdate;
-    }
-
-    /**
-     * @description : Method to create Insolvency error record in case of exception
-     * @author adesh.ikhar@canaccede.com | 05-20-2024
-     * @param errorMsg
-     * @param stackTrace
-     **/
-    public static void createInsolvencyError(String errorMsg, String stackTrace) {
-        Insolvency_Error__c insolErrorData = new Insolvency_Error__c();
-        insolErrorData.Error__c = 'File processing failed due to' + '\n' + errorMsg + ' ' + stackTrace;
-        Database.insert(insolErrorData);
-        CTBFileValidationUtility.sendEmail('Account file processing failed', insolErrorData.Error__c, System.Label.CTB_File_Processing_Emails);
-    }
-
-    /**
-     * @description : Parse, validate and create Staging records for Insolvency Payments
-     * @author adeshi@a5econsulting.net | 11-23-2023
-     * @param csvContents
-     * @param docStorage
-     **/
-    /* public static void processCTBStagingPayments(String csvContents, Document_Storage__c docStorage) {
-        List<CTB_Staging__c> stagingRecordsToCreate = new List<CTB_Staging__c>();
-        List<String> csvRows = csvContents.split('\n');
-        for (Integer i = 1; i < csvRows.size() - 1; i++) {
-            // Split the current row into columns
-            List<String> csvColumns = csvRows[i].split(',');
-            CTB_Staging__c recordToCreate = CTBFileValidationUtility.validatePaymentCTBStagingRecord(csvColumns);
-            recordToCreate.CTB_Update_Filename__c = docStorage.Document_Name__c;
-            stagingRecordsToCreate.add(recordToCreate);
-        }
-        if (!stagingRecordsToCreate.isEmpty()) {
-            insert stagingRecordsToCreate;
-        }
-    } */
 }
