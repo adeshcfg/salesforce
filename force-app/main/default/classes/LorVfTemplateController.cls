@@ -92,7 +92,9 @@ public class LorVfTemplateController {
             companyName = pocPackage.Fairstone_New_Product_Company_Detail__c;
             pocPackage.Client_Company_Name_French__c = pocPackage.Fairstone_New_Product_Company_Detail__c;
         }
-        
+        if (insolvAcc.Client_Identifier__c == 'Money Mart') {
+            clientCompanyNameSuffix = '';   
+        }
         pocPackage.Client_Company_Name__c = pocPackage.Client_Company_Name__c.toUppercase();
         pocPackage.CFG_Office_Phone_Number__c = pocPackage.CFG_Office_Phone_Number__c.replace('-', '.');
         pocPackage.CFG_Office_Fax_Number__c = pocPackage.CFG_Office_Fax_Number__c.replace('-', '.');
