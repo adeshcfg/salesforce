@@ -225,6 +225,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Debtor_2_Date_of_Birth__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Street_Name_Number__c</field>
             </layoutItems>
             <layoutItems>
