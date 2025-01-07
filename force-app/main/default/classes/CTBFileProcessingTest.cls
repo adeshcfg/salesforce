@@ -24,7 +24,7 @@ public class CTBFileProcessingTest {
         documentObj.Name = 'My Document';
         documentObj.FolderId = [SELECT Id FROM folder WHERE DeveloperName = 'Metadata_Content'].Id;
 
-        String csvStringNoMatch = '"H","2","999","0000001","08/15/2008","12:32:06","P","DRN00001"\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","000000000000001","","NMAT","9/15/2023","50","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123",""\n"T","2","999","3","1","08/15/2008","12:32:06"';
+        String csvStringNoMatch = '"H","2","999","0000001","08/15/2008","12:32:06","P","DRN00001"\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","000000000000003","","","9/15/2023","50","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123",""\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","000000000000002","","NMAT","9/15/2023","50","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123",""\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","000000000000002","","","9/15/2023","50","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123",""\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","000000000000001","","","9/15/2023","50","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123",""\n"D","2","999","9/19/2023","41414","Consumer Proposal","Canadian Tire Credit Card","HILDA, test","ZIRK, test","1108-1660 Henderson Hwy, Test","","Winnipeg","MB","CA","R2G 1H7","","11/12/1977","9/15/2023","21-2986827","1","L.C. Taylor & Co. Ltd.","386 Broadway Suite 605","","Winnipeg","MB","R3C3R6","000000000000001","","NMAT","9/15/2023","50","9/15/2023","10","9/15/2023","11","9/16/2023","12","9/16/2023","13","9/17/2023","14","9/18/2023","15","9/19/2023","50","","","Test, Adesh123",""\n"T","2","999","7","5","08/15/2008","12:32:06"';
         Document documentObjNoMatch = new Document();
         documentObjNoMatch.Body = Blob.valueOf(csvStringNoMatch);
         documentObjNoMatch.ContentType = 'text/csv';
@@ -62,6 +62,7 @@ public class CTBFileProcessingTest {
         config.Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN';
         config.Run_Insolvency_Trigger__c = false;
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
+        config.Eligible_for_Voting_Decision__c = 'Canadian Tire';
         insert config;
 
         Insolvency__c insolv = new Insolvency__c();
@@ -81,7 +82,6 @@ public class CTBFileProcessingTest {
         insert portfolioName;
 
         //Insolvency Account records
-        List<Insolvency_Account__c> iaListNew = new List<Insolvency_Account__c>();
         Insolvency_Account__c ia1 = new Insolvency_Account__c();
         ia1.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName()
             .get('Canadian_Tire_Insolvency_Account')
@@ -101,7 +101,14 @@ public class CTBFileProcessingTest {
         ia1.Distressed_Data_Id__c = '1';
         ia1.Claim_Filed_Date__c = System.now();
         ia1.Correlation_Id__c = '000000000000001';
-        iaListNew.add(ia1);
+        Insolvency_Account__c ia2 = ia1.clone();
+        ia2.Name = '001278905454';
+        ia2.Correlation_Id__c = '000000000000002';
+        Insolvency_Account__c ia3 = ia1.clone();
+        ia3.Name = '0012789054678';
+        ia3.Insolvency_Status__c = 'New';
+        ia3.Correlation_Id__c = '000000000000003';
+        List<Insolvency_Account__c> iaListNew = new List<Insolvency_Account__c>{ ia1, ia2, ia3 };
         insert iaListNew;
     }
 
