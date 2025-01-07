@@ -93,16 +93,16 @@
             <b>{!otherInfo.insolvencyStatusLastChanged}</b>, we forwarded to your office a proof of claim for the above referenced
             security (the “Security”) on behalf of {!otherInfo.companyName}, along with the Bankruptcy and Insolvency Act
             Section 130 request for trustee election.
-            <br/> It has been more than 30 days since the proof of claim and the request for election were filed with you. As
+            <br/><br/> It has been more than 30 days since the proof of claim and the request for election were filed with you. As
             per section 130 of the Bankruptcy and Insolvency Act, because the trustee has not indicated within 30 days of
             the request by the secured creditor whether it intends to exercise its power of redemption or require the security
             to be realized, the election has been lost and its interests in the Security are now vested in {!otherInfo.companyName}.
-            <br/> We request that you provide us with confirmation that the trustee releases its interest in the Security by the
+            <br/><br/> We request that you provide us with confirmation that the trustee releases its interest in the Security by the
             close of business on
             <b>{!otherInfo.fiveBusinessDays}</b>. If a response is not received, then {!otherInfo.companyName} will exercise
             any of its rights with respect to the Security without further notice or action. Should we be unable to locate
             the Security, we will be in contact with your office again to ascertain the location of same.
-            <br/> Should you have any questions or require further information, please do not hesitate to contact
+            <br/><br/> Should you have any questions or require further information, please do not hesitate to contact:
             <br/>
             <b>Canaccede International Management Ltd.</b>
             <br/>
@@ -200,18 +200,18 @@
             l’Actif susmentionné (l’ « Actif ») au nom de {!pocPackage.Client_Company_Name_French__c}, ainsi qu’unqu’un avis
             écrit exigeant que vous choisissier d’exercer votre pouvoir de rachater la garantie ou de la faire réaliser en
             vertu de l’article 130 de la Loi sur la faillite et l’insolvabilité.
-            <br/> Plus de 30 jours se sont écoulés depuis le dépôt de la preuve de réclamation et de l’avis écrit. Conformément
+            <br/><br/> Plus de 30 jours se sont écoulés depuis le dépôt de la preuve de réclamation et de l’avis écrit. Conformément
             à l’article 130 de la Loi sur la faillite et l’insolvabilité, le syndic n’ayant pas indiqué dans les 30 jours
             suivant la demande du créancier garanti s’il entend exercer son pouvoir de rachat ou exiger la réalisation de
             la garantie,ce choix a été perdu et ses intérêts dans les biens compris dans la garantie qui s sont maintenant
             dévolus à {!pocPackage.Client_Company_Name_French__c}.
-            <br/> Nous vous demandons de nous fournir la confirmation que le Syndicrenonce à sa participation dans les biens compris
+            <br/><br/> Nous vous demandons de nous fournir la confirmation que le Syndicrenonce à sa participation dans les biens compris
             dans la garantie d’ici le
             <b>{!otherInfo.fiveBusinessDays}</b>. Si aucune réponse n’est reçue, {!pocPackage.Client_Company_Name_French__c}
             exercera ses droits à l’égard des biens compris dans la garantie sans autre avis ni délai. Si nous ne sommes
             pas en mesure de localiser lesdit biens garantis, nous communiquerons de nouveau avec votre bureau pour vérifier
             leuremplacement.
-            <br/> Si vous avez des questions, n’hésitez pas à communiquer avec notre bureau.
+            <br/><br/> Si vous avez des questions, n’hésitez pas à communiquer avec notre bureau:
             <br/>
             <b>Canaccede International Management Ltd.</b>
             <br/>

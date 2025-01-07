@@ -305,7 +305,7 @@ public class LoRDemandController {
 
     // Method is used to send email to trustee, and creates Activity under Insolvency account
     public Void sendEmail() {
-        String attachmentVfPage = insolvAcc.Client_Identifier__c == 'Goeasy' ? 'LOR_Demand_Goeasy_VFP' : 'LOR_Demand_VFP';
+        String attachmentVfPage = insolvAcc.Client_Identifier__c == 'Goeasy' || insolvAcc.Client_Identifier__c == 'Money Mart' ? 'LOR_Demand_Goeasy_VFP' : 'LOR_Demand_VFP';
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         if (toEmail.endsWith(';')) {
             toEmail = toEmail.subString(0, toEmail.length() - 1);
