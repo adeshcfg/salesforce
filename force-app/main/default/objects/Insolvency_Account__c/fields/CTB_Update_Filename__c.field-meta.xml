@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CTB_Update_Filename__c</fullName>
-    <description>This field is created a part of CTB Automation Ticket and this field will store the file name of csv processed for insolvency accounts.</description>
+    <description>This field is created a part of Automation Ticket and this field will store the file name of csv processed for insolvency accounts.</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Field used to store the file name of csv processed for insolvency accounts</inlineHelpText>
-    <label>CTB Incoming Filename</label>
+    <label>Incoming Filename</label>
     <length>200</length>
     <required>false</required>
     <trackHistory>true</trackHistory>
