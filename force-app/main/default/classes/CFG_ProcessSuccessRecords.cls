@@ -105,10 +105,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
                         Rejection_Reason__c,
                         Product_Status__c
                     FROM Product_Staging__c
-                    WHERE
-                        Identifier__c = :documentStorageId
-                        AND Status__c != 'Processed'
-                        AND Include_in_Processing__c = TRUE
+                    WHERE Identifier__c = :documentStorageId AND Status__c != 'Processed' AND Include_in_Processing__c = TRUE
                 ]
             );
         }
@@ -120,7 +117,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             judgementData = AllocationProductProcessing.allocateProducts(scope, workAssignmentId);
         } else if (docType == 'Account Status Update File') {
             //Call product recall update class. developer - satyajit patil
-            RecallProductProcessing.ProdIdsJudgListWrapper wrapperDetails =  RecallProductProcessing.recallProducts(scope, workAssignmentId);
+            RecallProductProcessing.ProdIdsJudgListWrapper wrapperDetails = RecallProductProcessing.recallProducts(scope, workAssignmentId);
             prodIds = wrapperDetails.productIds;
             judgementData = wrapperDetails.judgmentList;
         } else if (docType == DisplayCustomerContInfoStagingController.CUSTOMER_CONTACT_INFO_UPDATE) {
@@ -133,6 +130,8 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             }
         } else if (docType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
             prodIds.addAll(DisplayBuybackPutbackStagingController.processRecords(scope));
+        } else if (docType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
+            prodIds.addAll(DisplayProductStatusStagingController.processRecords(scope));
         }
         if (Test.isRunningTest()) {
             RecallProductProcessing.ProdIdsJudgListWrapper wrapperDetails = RecallProductProcessing.recallProducts(scope, workAssignmentId);
@@ -153,13 +152,18 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             generateCustomerStagingSuccessErrorFile();
             // Call Portal API to update product records on Portal
             PortalProductProcessingAPI.processProductBulkBatch(prodIds, new List<Product__c>());
-        } else if (docType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
-            DisplayBuybackPutbackStagingController.generateSuccessErrorFiles(documentStorageId, workAssignmentId);
+        } else {
+            if (docType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
+                DisplayBuybackPutbackStagingController.generateSuccessErrorFiles(documentStorageId, workAssignmentId);
+            }
+            if (docType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
+                DisplayProductStatusStagingController.generateSuccessErrorFiles(documentStorageId, workAssignmentId);
+            }
             // Call Portal API to update product records on Portal
             PortalProductProcessingAPI.processProductBulkBatch(prodIds, new List<Product__c>());
         }
     }
-    
+
     public void generateCustomerStagingSuccessErrorFile() {
         List<Customer_Staging__c> listCustomerStaging = [
             SELECT

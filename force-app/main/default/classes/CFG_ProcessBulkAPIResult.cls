@@ -63,17 +63,25 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
         try {
             Set<String> productList = new Set<String>();
             Set<String> poolNameList = new Set<String>();
-            for (Product_Staging__c prod : scope) {
-                if (docType == allocate || docType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
+            List<String> dataIdDoctypeList = new List<String>{
+                allocate,
+                DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE,
+                DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE
+            };
+            if (dataIdDoctypeList.contains(docType)) {
+                for (Product_Staging__c prod : scope) {
                     if (prod.Data_Id__c != null) {
                         productList.add(prod.Data_Id__c);
                     }
-                } else if (docType == recall) {
+                    poolNameList.add(prod.Pool_Name__c);
+                }
+            } else {
+                for (Product_Staging__c prod : scope) {
                     if (prod.Name__c != null) {
                         productList.add(prod.Name__c);
                     }
+                    poolNameList.add(prod.Pool_Name__c);
                 }
-                poolNameList.add(prod.pool_Name__c);
             }
             prepareFileProcessingLink(scope, documentStorageId, productList, poolNameList, docType, workAssignmentPlacement, docStorage);
             updateRecordProcessCheck(scope);
@@ -179,6 +187,8 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
             );
         } else if (documentType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
             listProductStaging = DistressedUtilities.validatePutbackBuybackRecords(batchScope, mapProductName, documentStorageID);
+        } else if (documentType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
+            listProductStaging = DistressedUtilities.validateProductStatusUpdateRecords(batchScope, mapProductName, documentStorageID);
         }
         if (listProductStaging != null && !listProductStaging.isEmpty()) {
             Database.UpsertResult[] sr = database.upsert(listProductStaging, Product_Staging__c.Id, true);
@@ -195,12 +205,12 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
     }
 
     public static void updateFileProcessingLink(String documentStorageId, String documentType) {
-        String subject = 'Product Allocation Status';
-        String vfPage = 'DisplayProductAllocateStaging';
-        if (documentType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
-            subject = 'Product Putback/Buyback Status';
-            vfPage = 'DisplayBuybackPutbackStaging';
-        }
+        String subject = documentType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE
+            ? 'Product Putback/Buyback Status'
+            : documentType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE ? 'Product Status Update' : 'Product Allocation Status';
+        String vfPage = documentType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE
+            ? 'DisplayBuybackPutbackStaging'
+            : documentType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE ? 'DisplayProductStatusStaging' : 'DisplayProductAllocateStaging';
         list<Document_Storage__c> listDocuments = [
             SELECT ID, name, Creator__c, Work_Assignment__c, Uploaded_By__c, Work_Assignment__r.Name, Work_Assignment__r.Title__c
             FROM Document_Storage__c

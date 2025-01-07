@@ -61,6 +61,8 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
                     parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Account Status Failed.csv', 'Task');
                 } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
                     parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Buyback/Putback Failed.csv', 'Task');
+                } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
+                    parsedResponse = DocumentAPIClient.postDocument(fileBlob, 'Product Status Update Failed.csv', 'Task');
                 }
             }
             rawObj = (Map<String, Object>) JSON.deserializeUntyped(parsedResponse.response);
@@ -82,6 +84,8 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
                     parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Account Status Success.csv', 'Task');
                 } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
                     parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Buyback/Putback Success.csv', 'Task');
+                } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
+                    parsedResponse1 = DocumentAPIClient.postDocument(fileBlobSuccess, 'Product Status Update Success.csv', 'Task');
                 }
             }
             rawObj1 = (Map<String, Object>) JSON.deserializeUntyped(parsedResponse1.response);
@@ -107,6 +111,9 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
                 failedDocStorage.Document_Name__c = 'Product Buyback/Putback Failed.csv';
                 failedDocStorage.Document_Type__C = 'Product Buyback/Putback Processing File';
+            } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
+                failedDocStorage.Document_Name__c = 'Product Status Update Failed.csv';
+                failedDocStorage.Document_Type__C = 'Product Status Update Processing File';
             }
 
             failedDocStorage.Document_Extension__c = 'xls';
@@ -130,7 +137,8 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             DocType == 'Product Payment Upload File' ||
             DocType == 'Account Status Update File' ||
             DocType == 'Customer Contact Information Update File' ||
-            DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE
+            DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE ||
+            DocType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE
         ) {
             if (failedDocStorage.ID != null) {
                 PortalDocumentStorageProcessingAPI.processDocumentStorage(failedDocStorage.ID);
@@ -156,6 +164,9 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
                 SuccessDocStorage.Document_Name__c = 'Product Buyback/Putback Success.csv';
                 SuccessDocStorage.Document_Type__C = 'Product Buyback/Putback Processing File';
+            } else if (DocType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
+                SuccessDocStorage.Document_Name__c = 'Product Status Update Success.csv';
+                SuccessDocStorage.Document_Type__C = 'Product Status Update Processing File';
             }
 
             SuccessDocStorage.Document_Extension__c = 'xls';
@@ -179,7 +190,8 @@ public class PostDocumentAPI implements Queueable, Database.AllowsCallouts {
             DocType == 'Product Payment Upload File' ||
             DocType == 'Account Status Update File' ||
             DocType == 'Customer Contact Information Update File' ||
-            DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE
+            DocType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE ||
+            DocType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE
         ) {
             if (SuccessDocStorage.ID != null) {
                 PortalDocumentStorageProcessingAPI.processDocumentStorage(SuccessDocStorage.ID);

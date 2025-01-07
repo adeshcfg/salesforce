@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse CSV and insert parsed records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 12-31-2024
+ * @last modified on  : 01-06-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class BulkDataloadQueueable implements Queueable {
@@ -109,6 +109,15 @@ public class BulkDataloadQueueable implements Queueable {
                 // Check for empty row
                 if (!csvData.isEmpty()) {
                     recordsToInsert.add(createBuybackPutbackRecord(csvData, documentStorage.Id));
+                }
+            }
+        } else if (documentStorage.Document_Type__c == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
+            for (Integer i = startingIndex; i < endingIndex; i++) {
+                // Split comma separated string of data into an array
+                List<String> csvData = recordListString[i].split(',');
+                // Check for empty row
+                if (!csvData.isEmpty()) {
+                    recordsToInsert.add(createProductStatusRecord(csvData, documentStorage.Id));
                 }
             }
         }
@@ -219,6 +228,24 @@ public class BulkDataloadQueueable implements Queueable {
         }
         if (csvData.size() > 4 && String.isNotBlank(csvData[4])) {
             psRecord.Rejection_Reason__c = csvData[4];
+        }
+        psRecord.Identifier__c = documentStorageId;
+        return psRecord;
+    }
+
+    /**
+     * @description : Method to map csv columns to correct Product Staging fields in case of Product Status update file
+     * @author adesh.ikhar@canaccede.com | 01-06-2025
+     * @param csvData
+     * @param documentStorageId
+     * @return Product_Staging__c
+     **/
+    public static Product_Staging__c createProductStatusRecord(List<String> csvData, String documentStorageId) {
+        Product_Staging__c psRecord = new Product_Staging__c();
+        // Map array indexes to Product Staging fields
+        psRecord.Data_Id__c = csvData[0];
+        if (String.isNotBlank(csvData[1])) {
+            psRecord.Product_Status__c = csvData[1];
         }
         psRecord.Identifier__c = documentStorageId;
         return psRecord;

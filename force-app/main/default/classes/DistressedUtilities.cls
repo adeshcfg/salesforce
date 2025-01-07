@@ -372,6 +372,49 @@ public class DistressedUtilities {
         }
         return batchScope;
     }
+
+    public static List<Product_Staging__c> validateProductStatusUpdateRecords(
+        List<Product_Staging__c> batchScope,
+        Map<String, Product__c> mapProductName,
+        String documentStorageId
+    ) {
+        Map<String, String> statusDescriptionMap = new Map<String, String>();
+        for (Data_Status_Mapping__c statusMapping : [SELECT Name, Description__c FROM Data_Status_Mapping__c]) {
+            statusDescriptionMap.put(statusMapping.Name, statusMapping.Description__c);
+        }
+        for (Product_Staging__c productStaging : batchScope) {
+            String expected = '';
+            String errorMsg = '';
+            if (productStaging.Data_Id__c == null && productStaging.Name__c == null) {
+                errorMsg += '<b>ERROR</b> - Invalid Account Number.<br/>';
+                expected += 'Account Number cannot be blank<br/>';
+            } else {
+                if (!mapProductName.containsKey(productStaging.Data_Id__c)) {
+                    errorMsg = '<b>ERROR</b>-Invalid Account Number.' + '<br/>';
+                }
+                if (!statusDescriptionMap.containsKey(productStaging.Product_Status__c)) {
+                    errorMsg = '<b>ERROR</b>-Invalid Product Status.' + '<br/>';
+                }
+            }
+            productStaging.External_Id__c = productStaging.Data_Id__c + '_' + documentStorageId;
+            productStaging.Name__c = productStaging.Data_Id__c;
+            if (errorMsg.length() > 254) {
+                productStaging.Comment__c = errorMsg.substring(0, 253);
+            } else {
+                productStaging.Comment__c = errorMsg;
+            }
+            productStaging.Status__c = 'Pending';
+            productStaging.Identifier__c = documentStorageId;
+            productStaging.Expected_Value__c = expected;
+            productStaging.Document_Storage__c = documentStorageId;
+            productStaging.Is_Record_Process__c = true;
+            if (String.isBlank(errorMsg)) {
+                productStaging.Comment__c = 'SUCCESS';
+                productStaging.Include_in_Processing__c = true;
+            }
+        }
+        return batchScope;
+    }
     
     //This method runs the validation for product allocation process.
     public static list<Product_staging__c> allocationValidationOnRecordUpdate(List<Product_Staging__c> batchScope,
