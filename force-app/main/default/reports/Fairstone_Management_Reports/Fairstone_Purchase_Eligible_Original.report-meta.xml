@@ -148,7 +148,7 @@
         <field>Insolvency_Account__c.Insolvency_Type__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Fairstone Purchase Eligible - Original</name>
+    <name>Fairstone Purchase Eligible – Mastercard</name>
     <params>
         <name>co</name>
         <value>1</value>
