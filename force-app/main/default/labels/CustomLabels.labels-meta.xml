@@ -7,4 +7,11 @@
         <shortDescription>DataArchiverUser</shortDescription>
         <value>OwnBackUpAdminUser</value>
     </labels>
+    <labels>
+        <fullName>Money_Mart_Insolvency_Account</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Money Mart Insolvency Account</shortDescription>
+        <value>Money Mart Insolvency Account</value>
+    </labels>
 </CustomLabels>
