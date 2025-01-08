@@ -1227,8 +1227,9 @@ update listInsolvency;
             insolvency.Total_Expected_Account_Recovery__c = expectedAccountRecovery;
             insolvency.Total_Previous_Expected_Account_Recovery__c = previousExpectedAccountRecovery;
         }
-
+        InsolvencyTriggerHandler.runInsolvencyTrigger = false;
         update listInsolvency;
+        InsolvencyTriggerHandler.runInsolvencyTrigger = true;
     }
     //After Insert
     public static void handleAfterInsert(List<Insolvency_Account__c> insolAccntsNew) {
@@ -1752,6 +1753,7 @@ insDetails.add(insDetail);
         }
 
         //Delete Claim_Type_Insolvency__c
+        InsolvencyTriggerHandler.runInsolvencyTrigger = false;
         delete [SELECT id FROM Insolvency_Detail__c WHERE Insolvency__c IN :insolvenciesIds];
 
         //Multibank
@@ -1759,6 +1761,7 @@ insDetails.add(insDetail);
         if (insDetails.size() > 0) {
             upsert insDetails;
         }
+        InsolvencyTriggerHandler.runInsolvencyTrigger = true;
         if (!accountsToUpdate.isEmpty()) {
             InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
             if (!Test.isRunningTest()) {
