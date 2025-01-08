@@ -152,7 +152,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
     ) {
         Map<id, sObject> insolAccAndPaymentMap = new Map<id, sObject>();
         String errResponse = '';
-        if (batchName == System.Label.CTB_Insolvency_Account) {
+        if (batchName == System.Label.CTB_Insolvency_Account || batchName == System.Label.Money_Mart_Insolvency_Account) {
             //if we get success response then update insolvency account fields
             for (insolvency_account__c insolAccData : (List<insolvency_account__c>) listData) {
                 insolvency_account__c newInsolAccRec = new insolvency_account__c();
@@ -222,7 +222,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
 
     public Map<id, sObject> errorProcessingStatusUpdate(string batchName, List<sObject> listData) {
         Map<id, sObject> errorMap = new Map<id, sObject>();
-        if (batchName == System.Label.CTB_Insolvency_Account) {
+        if (batchName == System.Label.CTB_Insolvency_Account || batchName == System.Label.Money_Mart_Insolvency_Account) {
             for (insolvency_account__c insolAccData : (List<insolvency_account__c>) listData) {
                 insolAccData.Insolvency_Sub_Status__c = 'File Error Parsing Record';
                 errorMap.put(insolAccData.id, insolAccData);
@@ -239,7 +239,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
 
     public Map<id, Sobject> populateErrorMesssage(String batchName, string DmlId, string errMsg) {
         Map<id, Sobject> insolvAcctErrorListMap = new Map<id, Sobject>();
-        if (batchName == System.Label.CTB_Insolvency_Account) {
+        if (batchName == System.Label.CTB_Insolvency_Account || batchName == System.Label.Money_Mart_Insolvency_Account) {
             insolvency_account__c insolAccError = new insolvency_account__c();
             insolAccError.id = DmlId;
             insolAccError.Insolvency_Sub_Status__c = 'File Error Parsing Record';
