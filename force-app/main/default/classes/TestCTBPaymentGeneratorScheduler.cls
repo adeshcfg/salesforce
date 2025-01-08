@@ -73,10 +73,21 @@ public class TestCTBPaymentGeneratorScheduler {
         insolAcct1.Debtor_1_Last_Name__c = 'Test';
         insert insolAcct1;
         
+        Insolvency_Account__c insolAcct2 = new Insolvency_Account__c();
+        insolAcct2.name = '2222222234567897';
+        insolAcct2.Insolvency__c = insolv1.id;
+        insolAcct2.RecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Money_Mart_Insolvency_Account').getRecordTypeId();
+        insolAcct2.Correlation_Id__c = null;
+        insolAcct2.Insolvency_Sub_Status__c = 'Pending File';
+        insert insolAcct2;
+        
         test.startTest();
             CTBInsolvencyAccountGeneratorScheduler ctb=new CTBInsolvencyAccountGeneratorScheduler();
             String sch = '0 0 23 * * ?'; 
             system.schedule('Test CTB Check', sch, ctb); 
+        	MoneyMartGeneratorScheduler moneyMart = new MoneyMartGeneratorScheduler();
+            String schedule = '0 0 23 * * ?'; 
+            system.schedule('Test Money Mart Check', schedule, moneyMart); 
         Test.stopTest(); 
     }
     
@@ -150,11 +161,6 @@ public class TestCTBPaymentGeneratorScheduler {
         Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         API_Call_Details__c api = testDocumentAPI();
         
-        Application_Config_Settings__c cs = new Application_Config_Settings__c(Insolvency_Account_Batch_Count__c = 1,Profile_Eligible_for_Duplicate_Check__c = 'Scotia',
-                                                                              Bank_Eligible_for_Duplicate_Check__c = 'Scotia',Eligible_for_Validn_Needed_Calculation__c = 'Scotia',
-                                                                              Eligible_for_Claim_Type_Calculation__c = 'SPL',Ignore_Account_Number_for_DuplicateCheck__c = 'TRAILER');
-        insert cs;
-
         Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Canadian_Tire_Insolvency_Account').getRecordTypeId();
         Insolvency__c insolv1 = new Insolvency__c();
         insolv1.name = 'test';
@@ -185,6 +191,9 @@ public class TestCTBPaymentGeneratorScheduler {
             CTBInsolvencyAccountGeneratorScheduler ctb=new CTBInsolvencyAccountGeneratorScheduler();
             String sch = '0 0 23 * * ?'; 
             system.schedule('Test CTB Check', sch, ctb); 
+        	MoneyMartGeneratorScheduler moneyMart = new MoneyMartGeneratorScheduler();
+            String schedule = '0 0 23 * * ?'; 
+            system.schedule('Test Money Mart Check', schedule, moneyMart); 
         Test.stopTest(); 
     }
     
@@ -271,5 +280,79 @@ public class TestCTBPaymentGeneratorScheduler {
         insert settings;
         return settings;
       
+    }
+    
+    @isTest
+    static void testMethod3(){
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        API_Call_Details__c api = testDocumentAPI();
+        
+        Application_Config_Settings__c cs = new Application_Config_Settings__c(Insolvency_Account_Batch_Count__c = 1,Profile_Eligible_for_Duplicate_Check__c = 'Scotia',
+                                                                              Bank_Eligible_for_Duplicate_Check__c = 'Scotia',Eligible_for_Validn_Needed_Calculation__c = 'Scotia',
+                                                                              Eligible_for_Claim_Type_Calculation__c = 'SPL',Ignore_Account_Number_for_DuplicateCheck__c = 'TRAILER');
+        insert cs;
+        
+        Account accInstance = new Account();
+        accInstance.FirstName = 'Ana';
+        accInstance.LastName = 'Starrk';
+        accInstance.Number_Of_Open_Complaint__c = 6;
+        accInstance.Phone_Number__pc = '123' ;
+        insert accInstance;
+        
+        Trustee_Fees__c trusteeFees = Trustee_Fees__c.getOrgDefaults();
+        trusteeFees.Trustee_Administration_Fee__c = 10;
+        trusteeFees.Counselling_Fee__c = 10;
+        trusteeFees.Receiver_Fee__c = 10;
+        trusteeFees.Trustee_Variable_Fee_Rate__c = 10;
+        insert trusteeFees;
+        
+        Id scotiabank = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByDeveloperName().get('Money_Mart_Insolvency_Account').getRecordTypeId();
+        Insolvency__c insolv1 = new Insolvency__c();
+        insolv1.name = 'test';
+        insolv1.Insolvency_Status__c = 'Active';
+        insolv1.Total_Unsecured_Liabilities_Clc__c = 10;
+        insolv1.Insolvency_Type__c = 'Consumer Proposal';
+        insolv1.Payment_Amount__c = 10;
+        insolv1.Number_of_Payments__c = 5;
+        insolv1.Previous_Trustee_Variable_Fees__c = 70;
+        insolv1.Trustee__c = accInstance.id;
+        insert insolv1;
+        
+        Insolvency_Account__c insolAcct1 = new Insolvency_Account__c();
+        insolAcct1.name = '2221111234567893';
+        insolAcct1.Insolvency_Status__c = 'New';
+        insolAcct1.Insolvency__c = insolv1.id;
+        insolAcct1.Account_Type__c = 'Line of Credit';
+        insolAcct1.Borrower_Primary__c = 'Kajal';
+        insolAcct1.Type_of_Service__c = 'Service Only';
+        insolAcct1.Claim_Type__c = 'Secured';
+        insolAcct1.Is_Duplicate_Resolved__c = false;
+        insolAcct1.RecordTypeId = scotiabank;
+        insolAcct1.Product_Code__c = 'MC';
+        insolAcct1.Account_Type__c = 'Credit Card';
+        insolAcct1.Percent_of_increased_return_from_voting__c = 110;
+        insolAcct1.Claim_Amount__c = 50;
+        insolAcct1.Client_Identifier__c = 'Money Mart'; 
+        insolAcct1.Insolvency_Sub_Status__c = 'Pending File';
+        insolAcct1.Correlation_Id__c = '122334565';
+        insolAcct1.Debtor_1_Last_Name__c = 'test';
+        insolAcct1.No_Match_Co_Debtor__c = false;
+        insolAcct1.CTB_Status_Update_Code__c = 'RREV';
+        insolAcct1.Account_Original_Open_Date__c = System.today();
+        insolAcct1.Balance_Owed__c = 123;
+        insolAcct1.Interest_Rate__c = 12;
+        insolAcct1.Last_Payment_Date__c = System.today();
+        insolAcct1.Last_Payment_Date_2__c = System.today();
+        insolAcct1.Last_Payment_Date_3__c = System.today();
+        insolAcct1.Last_Statement_Date__c = System.today();
+        insolAcct1.Last_Statement_Date_2__c = System.today();
+        insert insolAcct1;
+        
+system.debug('insolAcct1::'+insolAcct1);
+        test.startTest();
+        MoneyMartGeneratorScheduler ctb=new MoneyMartGeneratorScheduler();       
+        String sch = '0 0 23 * * ?'; 
+        system.schedule('Test Money Mart Check', sch, ctb); 
+        Test.stopTest(); 
     }
 }
