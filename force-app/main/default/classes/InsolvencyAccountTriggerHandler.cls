@@ -301,7 +301,8 @@ public class InsolvencyAccountTriggerHandler {
                 Chase_Record_Owner__c,
                 Fairstone_Record_Owner__c,
                 Goeasy_Record_Owner__c,
-                Canadian_Tire_Record_Owner__c
+                Canadian_Tire_Record_Owner__c,
+            	Money_Mart_Record_Owner__c
             FROM Insolvency__c
             WHERE Id IN :insolIdSet
         ];
