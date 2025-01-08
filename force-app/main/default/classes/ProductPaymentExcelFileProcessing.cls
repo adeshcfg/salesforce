@@ -2063,6 +2063,10 @@
          if (String.isNotBlank(prodProvinceName)) {
              provinceAcronymFormat = prodProvinceName.toUpperCase();
          }
+         //Tax rate mapping by Province Acronym
+         for (Province_Tax_Rate_Mapping__mdt taxMetadata : mapTaxMetadata.values()) {
+            mapProvinceAcronymTaxMetadata.put(taxMetadata.Province_Acronym__c, taxMetadata);
+        }
          //Calculate Tax Amount for acocunts that are not in legal Status or claim issued
          if (
              mapPlacementIDs.containsKey(mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c) &&
