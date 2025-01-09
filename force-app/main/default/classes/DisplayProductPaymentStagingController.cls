@@ -128,7 +128,9 @@ public class DisplayProductPaymentStagingController {
         Integer monthSize = null;
         
         for(productPaymentStagingWrapper payStagingWrapper : listProductPayStagingWrapper){
-            setProductId.add(payStagingWrapper.payStaging.Product_ID__c);
+            if(payStagingWrapper.payStaging.Product_ID__c <> NULL){
+                setProductId.add(payStagingWrapper.payStaging.Product_ID__c);
+            }
         }
 
         // 4578 Changes - Get product and placement history details
