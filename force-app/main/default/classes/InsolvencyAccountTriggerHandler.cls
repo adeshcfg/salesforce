@@ -1932,7 +1932,9 @@ insDetails.add(insDetail);
         for (Insolvency_Account__c accNew : insolAccntsNew) {
             Boolean fieldMissing = false;
             errorMsg = '';
-            if (insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' || Test.isRunningTest()) {
+            if (insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Canadian_Tire_Insolvency_Account' 
+                || insAccntRecorTypeMap.get(accNew.RecordTypeId) == 'Money_Mart_Insolvency_Account'
+                || Test.isRunningTest()) {
                 if (accNew.Insolvency_Received_Date__c == null) {
                     errorMsg = 'Insolvency Received Date ,';
                     fieldMissing = true;
