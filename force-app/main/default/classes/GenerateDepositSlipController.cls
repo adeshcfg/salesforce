@@ -108,6 +108,7 @@ public class GenerateDepositSlipController {
                 AND Status__c = 'Processed'
                 AND recordType.Developername = 'Insolvency_Dividend'
                 AND lastmodifiedDate > :LastDepositSlipCreatedDate
+                ORDER BY Trustee_Name__r.name
         ];
         List<ID> listRemittanceID = new List<ID>();
         for (Remittance__C rem : listRemittance) {
@@ -136,7 +137,10 @@ public class GenerateDepositSlipController {
                     remittance__r.Cheque_Payment_Reference_Number__c,
                     remittance__r.Trustee_Name__r.name
                 FROM Insolvency_Payment__c
-                WHERE remittance__c IN :listRemittanceID AND remittance__r.recordtype.Developername = 'Insolvency_Dividend' AND Is_Payment_Remitted__c = FALSE
+                WHERE remittance__c IN :listRemittanceID 
+                AND remittance__r.recordtype.Developername = 'Insolvency_Dividend' 
+                AND Is_Payment_Remitted__c = FALSE
+                ORDER BY remittance__r.Trustee_Name__r.name
             ]) {
                 if (null != insolPay.Deposit_Account_Type__c) {
                     depositAcc = depositAccountMap.get(insolPay.Deposit_Account_Type__c);
@@ -221,6 +225,7 @@ public class GenerateDepositSlipController {
                     AND Allocated__c = FALSE
                     AND Is_Payment_Remitted__c = FALSE
                     AND Is_Payments_Reversed__c = NULL
+                    ORDER BY remittance__r.Trustee_Name__r.name
             ]) {
                 SuspenseWrapper wrp = new SuspenseWrapper();
 
