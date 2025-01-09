@@ -2058,7 +2058,11 @@
          map<String, Province_Tax_Rate_Mapping__mdt> mapProvinceAcronymTaxMetadata = new Map<String, Province_Tax_Rate_Mapping__mdt>();
          DebtorProvinceTaxRate = 0;
          CanadaTaxRate = 0;
+         
+         if(mapProduct.containsKey(prodPayment.CCS_Account__c) && mapProduct.get(prodPayment.CCS_Account__c).State__c <> NULL){
          prodProvinceName = mapProduct.get(prodPayment.CCS_Account__c).State__c;
+         }
+         
          ProvinceNameFormat = nameFormat(prodProvinceName);
          if (String.isNotBlank(prodProvinceName)) {
              provinceAcronymFormat = prodProvinceName.toUpperCase();
@@ -2068,7 +2072,7 @@
             mapProvinceAcronymTaxMetadata.put(taxMetadata.Province_Acronym__c, taxMetadata);
         }
          //Calculate Tax Amount for acocunts that are not in legal Status or claim issued
-         if (
+         if (mapProduct.containsKey(prodPayment.CCS_Account__c) && 
              mapPlacementIDs.containsKey(mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c) &&
              mapPlacementIDs.get(mapProduct.get(prodPayment.CCS_Account__c).Collection_Agency_Placement__c)
              .Apply_Ontario_Rate_on_Legal_Account__c == true
@@ -2089,7 +2093,7 @@
                      prodPayment.Tax_Amount__c = (prodPayment.Pay_Due__c * (ontarioTaxRate)) / 100;
                  }
              } else {
-                 if (String.isNotBlank(mapProduct.get(prodPayment.CCS_Account__c).State__c)) {
+                 if (mapProduct.containsKey(prodPayment.CCS_Account__c) && String.isNotBlank(mapProduct.get(prodPayment.CCS_Account__c).State__c)) {
                      if (mapTaxMetadata.containsKey(ProvinceNameFormat)) {
                          DebtorProvinceTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Province_Tax_rate__c;
                          CanadaTaxRate = mapTaxMetadata.get(ProvinceNameFormat).Canada_Tax_rate__c;
@@ -2110,7 +2114,6 @@
                  }
              }
          }
-         
          //calculate tax amount ends
      }
 }
