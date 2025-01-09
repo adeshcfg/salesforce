@@ -3224,6 +3224,10 @@
         <apexClass>SnapshotQueueablePortalAPI</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>CTBProcessedFilesChecker</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <tabVisibilities>
         <tab>CTB_Staging__c</tab>
         <visibility>DefaultOff</visibility>
