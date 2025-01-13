@@ -165,10 +165,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>CTB_Balance_as_of_date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Reason_for_No_PoC_Required_Dropdown__c</field>
             </layoutItems>
             <layoutItems>
