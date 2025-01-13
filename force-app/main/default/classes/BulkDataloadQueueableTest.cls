@@ -2,7 +2,7 @@
  * @description       : Test class for BulkDataloadQueueable
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 12-31-2024
+ * @last modified on  : 01-13-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 @isTest
@@ -36,7 +36,6 @@ public class BulkDataloadQueueableTest {
         insert place;
 
         // Document Storage insertion
-        List<Document_Storage__c> docSto = new List<Document_Storage__c>();
         Document_Storage__c docSto1 = new Document_Storage__c();
         docSto1.Document_Related_To__c = 'Allocation';
         docSto1.Work_Assignment__c = wrkAss.Id;
@@ -60,10 +59,10 @@ public class BulkDataloadQueueableTest {
         Document_Storage__c docSto3 = docSto2.clone();
         docSto3.Document_Type__c = DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE;
         docSto3.Document_Id__c = 'a8f6022e-93a9-4b54-967f-e01cb140a444';
-        docSto.add(docSto1);
-        docSto.add(docSto2);
-        docSto.add(docSto3);
-        insert docSto;
+        Document_Storage__c docSto4 = docSto2.clone();
+        docSto4.Document_Type__c = DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE;
+        docSto4.Document_Id__c = 'a8f6022e-93a9-4b54-967f-e01cb14023456';
+        insert new List<Document_Storage__c>{ docSto1, docSto2, docSto3, docSto4 };
 
         Pool__c pool = new Pool__c();
         insert pool;
@@ -178,6 +177,19 @@ public class BulkDataloadQueueableTest {
             '1067P1126,6600,Buyback/Putback Approved,,',
             '1067P001,1200,Buyback/Putback Rejected,201999,Test Reason'
         };
+        Test.startTest();
+        System.enqueueJob(new BulkDataloadQueueable('INSERT_DATA', csvStringList, 0, documentStorage));
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testProductStatusInsertData() {
+        Document_Storage__c documentStorage = [
+            SELECT Id, Document_Type__c, Uploaded_By__c
+            FROM Document_Storage__c
+            WHERE Document_Id__c = 'a8f6022e-93a9-4b54-967f-e01cb14023456'
+        ];
+        List<String> csvStringList = new List<String>{ '1067P1126,201000', '1067P001,201010' };
         Test.startTest();
         System.enqueueJob(new BulkDataloadQueueable('INSERT_DATA', csvStringList, 0, documentStorage));
         Test.stopTest();

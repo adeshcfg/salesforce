@@ -23,6 +23,7 @@ public class DocumentStorageTriggerHandler {
     public static String PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE = 'Product Buyback/Putback Update File';
     public static String BALANCE_ADJUSTMENT_UPLOAD_FILE = 'Balance Adjustment Upload File';
     public static String DISTRESSED_NOTES_BULK_UPLOAD_FILE  = 'Distressed Notes Bulk Upload File';
+    public static String PRODUCT_STATUS_UPDATE_FILE  = 'Product Status Update File';
     
     //this inner method populate the comment, comment history and user name.
     public static void handleBeforeInsert(List<Document_Storage__c> docStorage) {
@@ -95,6 +96,7 @@ public class DocumentStorageTriggerHandler {
     public static void handleAfterUpdate(list<Document_Storage__c> listNewDocumentStorages, map<ID, Document_Storage__c> mapOldDocuments){
         Agency_Portal_Settings__c config = Agency_Portal_Settings__c.getOrgDefaults();
         List<String> noCalloutDocTypes = new List<String> {'ctb_statement_output', 'Statement Processing File', 'Statement Result File', 'Insolvency Daily Update'};
+        List<String> queueableDocTypes = new List<String> {PRODUCT_ALLOCATION_FILE, ACCOUNT_STATUS_UPDATE_FILE, PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE, PRODUCT_STATUS_UPDATE_FILE};
         if(config.Run_Doc_Storage_Update_API_for_Portal__c && runDocumentStorageAPI){
             Set<id> wrkAssId = new Set<id>();
             Map<id,Work_Assignment__c> mapWorkAssignment = new Map<id,Work_Assignment__c>();
@@ -122,7 +124,7 @@ public class DocumentStorageTriggerHandler {
                    mapWorkAssignment.get(documentStorage.Work_Assignment__c).recordTypeID == config.CFGComplaintWorkAssignmentRecordID__c) && documentStorage.Visibility__c != 'CFG Only'){
                       notificationCallAPI(documentStorage.Placement_Identifier__c,'Document','Complaint No: '+mapWorkAssignment.get(documentStorage.Work_Assignment__c).Name+' Document Uploaded','Document '+documentStorage.Name+' is uploaded and ready to view. Document type is '+documentStorage.Document_Type__c);
                 }
-             if((documentStorage.Document_Type__c == PRODUCT_ALLOCATION_FILE || documentStorage.Document_Type__c == ACCOUNT_STATUS_UPDATE_FILE || documentStorage.Document_Type__c == PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) && documentStorage.Document_Id__c != NULL && (documentStorage.File_Processing_Status__c == 'Pending'  || String.isBlank(documentStorage.File_Processing_Status__c))){
+             if(queueableDocTypes.contains(documentStorage.Document_Type__c) && documentStorage.Document_Id__c != NULL && (documentStorage.File_Processing_Status__c == 'Pending'  || String.isBlank(documentStorage.File_Processing_Status__c))){
                         String workAssignmentPlacement = '';
                        if(documentStorage.Work_Assignment_Placement__c != null){
                            workAssignmentPlacement = documentStorage.Work_Assignment_Placement__c;
