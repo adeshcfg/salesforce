@@ -812,10 +812,6 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>CTB_Balance_as_of_date__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>CTB_Date_of_Birth__c</field>
             </layoutItems>
