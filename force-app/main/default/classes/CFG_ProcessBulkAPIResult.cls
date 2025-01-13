@@ -52,7 +52,8 @@ public class CFG_ProcessBulkAPIResult implements Database.Batchable<sObject>, Da
                     Current_Settlement_Rate__c,
                     Placement_Status_Code__c,
                     Assignment_Date__c,
-                    Purchase_Status__c
+                    Purchase_Status__c,
+                    Product_Status__c
                 FROM Product_Staging__c
                 WHERE Is_Record_Process__c = FALSE AND Identifier__c = :documentStorageId AND CREATEDDATE = Today
             ]

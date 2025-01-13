@@ -390,10 +390,10 @@ public class DistressedUtilities {
                 expected += 'Account Number cannot be blank<br/>';
             } else {
                 if (!mapProductName.containsKey(productStaging.Data_Id__c)) {
-                    errorMsg = '<b>ERROR</b>-Invalid Account Number.' + '<br/>';
+                    errorMsg += '<b>ERROR</b>-Invalid Account Number.' + '<br/>';
                 }
                 if (!statusDescriptionMap.containsKey(productStaging.Product_Status__c)) {
-                    errorMsg = '<b>ERROR</b>-Invalid Product Status.' + '<br/>';
+                    errorMsg += '<b>ERROR</b>-Invalid Product Status.' + '<br/>';
                 }
             }
             productStaging.External_Id__c = productStaging.Data_Id__c + '_' + documentStorageId;
