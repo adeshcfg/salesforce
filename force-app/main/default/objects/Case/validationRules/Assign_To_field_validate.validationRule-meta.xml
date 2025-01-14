@@ -19,6 +19,12 @@ ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;SPL&apos;),
 AND( 
 NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;SPL&apos;)) 
 ) 
+),
+AND( 
+ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;Fidem&apos;), 
+AND( 
+NOT(ISPICKVAL(Assign_To__c, &apos;CFG&apos;)), NOT(ISPICKVAL(Assign_To__c, &apos;Canaccede&apos;)) 
+) 
 ), 
 AND( 
 ISPICKVAL(Insolvency_Account__r.Client_Identifier__c, &apos;SDA&apos;), 
