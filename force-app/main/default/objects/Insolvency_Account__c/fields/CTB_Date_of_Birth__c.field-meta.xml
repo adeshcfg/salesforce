@@ -4,7 +4,7 @@
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Field to store DOB provided by CTB</inlineHelpText>
-    <label>CTB Date of Birth</label>
+    <label>Date of Birth</label>
     <required>false</required>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
