@@ -5,7 +5,7 @@
     <description>Statements received from CTB and uploaded to the account</description>
     <externalId>false</externalId>
     <inlineHelpText>Statements received from CTB and uploaded to the account</inlineHelpText>
-    <label>CTB Statements Received</label>
+    <label>Statements Received</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -5,7 +5,7 @@
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Canadian tire provided balance as of date</inlineHelpText>
-    <label>CTB - Balance as of date</label>
+    <label>Balance as of date</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
