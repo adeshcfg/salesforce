@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CTB_Statements_Received_Date__c</fullName>
-    <description>Date when statements were received on the account(only used for CTB accounts)</description>
+    <description>Date when statements were received on the account</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <inlineHelpText>Date when statements were received on the account(only used for CTB accounts)</inlineHelpText>
+    <inlineHelpText>Date when statements were received on the account</inlineHelpText>
     <label>Statements Received Date</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

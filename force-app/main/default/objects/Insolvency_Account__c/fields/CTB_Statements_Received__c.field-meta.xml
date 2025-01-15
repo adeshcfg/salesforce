@@ -2,9 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CTB_Statements_Received__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>Statements received from CTB and uploaded to the account</description>
+    <description>Statements received from the bank and uploaded to the account</description>
     <externalId>false</externalId>
-    <inlineHelpText>Statements received from CTB and uploaded to the account</inlineHelpText>
+    <inlineHelpText>Statements received and uploaded to the account</inlineHelpText>
     <label>Statements Received</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
