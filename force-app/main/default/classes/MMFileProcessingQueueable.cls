@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records for MM accounts
  * @author            : adeshi@a5econsulting.net
- * @last modified on  : 01-07-2025
+ * @last modified on  : 01-15-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class MMFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -70,7 +70,7 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
         docInfo.Document_Extension__c = extension;
         docInfo.Document_Name__c = fileName;
         docInfo.File_Processing_Status__c = 'Pending';
-        docInfo.RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('CTB').getRecordTypeId();
+        docInfo.RecordTypeId = Schema.SObjectType.Document_Storage__c.getRecordTypeInfosByName().get('MM').getRecordTypeId();
         try {
             DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
             Database.insert(docInfo);
@@ -91,10 +91,15 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
      **/
     public static void processMMStagingAccounts(String csvContents, Document_Storage__c docStorage) {
         List<CTB_Staging__c> stagingRecordsToCreate = new List<CTB_Staging__c>();
-        Map<Id, Insolvency_Account__c> accountRecordsToUpdateMap = new Map<Id, Insolvency_Account__c>();
+        Map<String, Insolvency_Account__c> accountRecordsToUpdateMap = new Map<String, Insolvency_Account__c>();
         Map<String, Insolvency__c> insolvencyRecordsToUpdateMap = new Map<String, Insolvency__c>();
+        Map<String, Creditor_Account__c> creditorAccountRecordsToDeleteMap = new Map<String, Creditor_Account__c>();
         Set<String> correlationIdSet = new Set<String>();
+        Set<String> accountNumberSet = new Set<String>();
+        Set<String> estateNumberSet = new Set<String>();
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
+        Map<String, Creditor_Account__c> mapCreditorAccountNameAccount = new Map<String, Creditor_Account__c>();
+        Map<String, String> mapInsolvencyNameId = new Map<String, String>();
         List<String> validOldInsolvencyStatuses = System.Label.CTB_Valid_Insolvency_Statuses.split(',');
         Boolean invalidFile = false;
         List<String> csvRows = csvContents.split('\n');
@@ -130,29 +135,125 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
             // Get all correlation Ids
             correlationIdSet.add(csvColumns[CTBFileValidationUtility.CORRELATION_ID]);
             CTB_Staging__c recordToCreate = CTBFileValidationUtility.validateAccountCTBStagingRecord(csvColumns);
+            if (recordToCreate.Error_Message__c.contains('No Correlation Id provided')) {
+                accountNumberSet.add(csvColumns[CTBFileValidationUtility.ACCOUNT_NUMBER]);
+                estateNumberSet.add(csvColumns[CTBFileValidationUtility.ESTATE_NUMBER]);
+            }
             recordToCreate.CTB_Update_Filename__c = docStorage.Document_Name__c;
             stagingRecordsToCreate.add(recordToCreate);
         }
         // Query existing account with the correlation Ids from the csv and create map with correlation id and account
-        if (!correlationIdSet.isEmpty() && !stagingRecordsToCreate.isEmpty() && !invalidFile) {
-            for (Insolvency_Account__c acc : [
-                SELECT Id, Correlation_Id__c, Insolvency_Status__c, Debtor_1_Estate_Number__c, Debtor_2_Estate_Number__c, Debtor__c, Co_Debtor__c, Insolvency__c
-                FROM Insolvency_Account__c
-                WHERE Correlation_Id__c IN :correlationIdSet
-            ]) {
-                mapCorrelationIdAccount.put(acc.Correlation_Id__c, acc);
+        if (!stagingRecordsToCreate.isEmpty() && !invalidFile) {
+            if (!correlationIdSet.isEmpty()) {
+                for (Insolvency_Account__c acc : [
+                    SELECT
+                        Id,
+                        Correlation_Id__c,
+                        Insolvency_Status__c,
+                        Debtor_1_Estate_Number__c,
+                        Debtor_2_Estate_Number__c,
+                        Debtor__c,
+                        Co_Debtor__c,
+                        Insolvency__c
+                    FROM Insolvency_Account__c
+                    WHERE Correlation_Id__c IN :correlationIdSet
+                ]) {
+                    mapCorrelationIdAccount.put(acc.Correlation_Id__c, acc);
+                }
+            }
+            if (!accountNumberSet.isEmpty()) {
+                for (Creditor_Account__c acc : [
+                    SELECT
+                        Id,
+                        Name,
+                        Creditor_Name__c,
+                        Address_of_Creditor__c,
+                        Unsecured_Asset_Amount__c,
+                        Secured_Asset_Amount__c,
+                        Preferred_Amount__c,
+                        Claim_Type__c,
+                        Liabilities_Type_Code__c,
+                        Liability_Id__c,
+                        Creditor_Id__c,
+                        Insolvency__c,
+                        Insolvency__r.Name,
+                        Created_By_Doc_Parser__c
+                    FROM Creditor_Account__c
+                    WHERE Name IN :accountNumberSet
+                ]) {
+                    mapCreditorAccountNameAccount.put(acc.Name + acc.Insolvency__r.Name, acc);
+                }
+            }
+            if (!estateNumberSet.isEmpty()) {
+                for (Insolvency__c insolvency : [SELECT Id, Name FROM Insolvency__c WHERE Name IN :estateNumberSet]) {
+                    mapInsolvencyNameId.put(insolvency.Name, insolvency.Id);
+                }
             }
         }
         if (!stagingRecordsToCreate.isEmpty() && !invalidFile) {
+            String mmRecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Money Mart Insolvency Account').getRecordTypeId();
+            String correlationId = InsolvencyAccountTriggerHandler.getLatestCorrelationId();
             for (CTB_Staging__c stagingAcc : stagingRecordsToCreate) {
                 Insolvency_Account__c accountToUpdate = new Insolvency_Account__c();
                 String accountId = '';
                 // If no account exists with correlation Id provided in the csv
-                if (!mapCorrelationIdAccount.containsKey(stagingAcc.Correlation_Id__c) && !stagingAcc.Error_Message__c.contains('No Correlation Id provided')) {
+                if (!mapCorrelationIdAccount.containsKey(stagingAcc.Correlation_Id__c)) {
+                    // When no correlation Id provided in file and creditor account exists with same number
+                    if (
+                        stagingAcc.Error_Message__c.contains('No Correlation Id provided') &&
+                        mapCreditorAccountNameAccount.containsKey(stagingAcc.Name + stagingAcc.Debtor_Estate_Number__c)
+                    ) {
+                        Creditor_Account__c creditorAcc = mapCreditorAccountNameAccount.get(stagingAcc.Name + stagingAcc.Debtor_Estate_Number__c);
+                        accountToUpdate = CTBFileValidationUtility.updateMmInsolvencyAccount(stagingAcc);
+                        accountToUpdate = CreditorAccountToInsolvencyAccountCntrl.convertCreditorToInsolvencyAccount(
+                            accountToUpdate,
+                            creditorAcc,
+                            mmRecordTypeId
+                        );
+                        accountToUpdate.Insolvency_Status__c = 'For Owner Review';
+                        accountToUpdate.Correlation_Id__c = String.valueOf(Integer.valueOf(correlationId) + 1).leftPad(15, '0');
+                        correlationId = accountToUpdate.Correlation_Id__c;
+                        accountToUpdate.CTB_Update_File_Timestamp__c = Datetime.now();
+                        accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
+                        accountRecordsToUpdateMap.put(accountToUpdate.Correlation_Id__c, accountToUpdate);
+                        if (stagingAcc.CTB_Date_of_Birth__c != null) {
+                            String insolvencyId = creditorAcc.Insolvency__c;
+                            insolvencyRecordsToUpdateMap.put(
+                                insolvencyId,
+                                new Insolvency__c(Id = insolvencyId, Debtor_1_Date_of_Birth__c = stagingAcc.CTB_Date_of_Birth__c)
+                            );
+                        }
+                        creditorAccountRecordsToDeleteMap.put(creditorAcc.Id, creditorAcc);
+                        continue;
+                    }
+                    // When no correlation Id provided in file and no creditor account exists with same number, create new insolvency account
+                    if (
+                        stagingAcc.Error_Message__c.contains('No Correlation Id provided') &&
+                        mapInsolvencyNameId.containsKey(stagingAcc.Debtor_Estate_Number__c)
+                    ) {
+                        accountToUpdate = CTBFileValidationUtility.updateMmInsolvencyAccount(stagingAcc);
+                        accountToUpdate.Name = stagingAcc.Name;
+                        accountToUpdate.Insolvency_Status__c = 'For Owner Review';
+                        accountToUpdate.Insolvency__c = mapInsolvencyNameId.get(stagingAcc.Debtor_Estate_Number__c);
+                        accountToUpdate.Correlation_Id__c = String.valueOf(Integer.valueOf(correlationId) + 1).leftPad(15, '0');
+                        correlationId = accountToUpdate.Correlation_Id__c;
+                        accountToUpdate.CTB_Update_File_Timestamp__c = Datetime.now();
+                        accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
+                        accountRecordsToUpdateMap.put(accountToUpdate.Correlation_Id__c, accountToUpdate);
+                        if (stagingAcc.CTB_Date_of_Birth__c != null) {
+                            String insolvencyId = mapInsolvencyNameId.get(stagingAcc.Debtor_Estate_Number__c);
+                            insolvencyRecordsToUpdateMap.put(
+                                insolvencyId,
+                                new Insolvency__c(Id = insolvencyId, Debtor_1_Date_of_Birth__c = stagingAcc.CTB_Date_of_Birth__c)
+                            );
+                        }
+                        continue;
+                    }
                     stagingAcc.Status__c = 'Error';
                     stagingAcc.Error_Message__c += '; No Account with given Correlation Id found in SF';
                 } else {
                     accountId = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
+                    accountToUpdate.Correlation_Id__c = stagingAcc.Correlation_Id__c;
                 }
                 // Check if status can be updated to PoC Details Provided
                 if (
@@ -192,9 +293,10 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
                     accountToUpdate.CTB_Update_File_Timestamp__c = Datetime.now();
                     accountToUpdate.CTB_Update_Filename__c = docStorage.Document_Name__c;
                     accountToUpdate.CTB_Reject_Reason_Code__c = stagingAcc.CTB_Reject_Reason_Code__c;
-                    if (String.isBlank(accountToUpdate.CTB_Reject_Reason_Code__c)) {
-                        accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
-                    }
+                    CTBFileProcessingQueueable.updateAccountStatusAndReason(
+                        accountToUpdate,
+                        mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Insolvency_Status__c
+                    );
                     // Only update no match fields if account has co debtor
                     if (
                         accountToUpdate.CTB_Reject_Reason_Code__c == 'NMAT' &&
@@ -234,37 +336,17 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
                 Database.insert(stagingRecordsToCreate);
             } catch (DmlException dex) {
                 System.debug('Error updating stging records ' + dex.getDmlMessage(0));
-                docStorage.File_Processing_Status__c = 'Failed';
-                docStorage.File_Processing_Error__c = dex.getDmlMessage(0).length() > 255 ? dex.getDmlMessage(0).substring(0, 255) : dex.getDmlMessage(0);
-                update docStorage;
+                updateFailedDocStorage(docStorage, dex);
                 CTBFileProcessingQueueable.createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
             }
         }
-        if (!accountRecordsToUpdateMap.values().isEmpty()) {
-            try {
-                update accountRecordsToUpdateMap.values();
-            } catch (DmlException dex) {
-                System.debug('Error updating account records ' + dex.getDmlMessage(0));
-                docStorage.File_Processing_Status__c = 'Failed';
-                docStorage.File_Processing_Error__c = dex.getDmlMessage(0).length() > 255 ? dex.getDmlMessage(0).substring(0, 255) : dex.getDmlMessage(0);
-                update docStorage;
-                CTBFileProcessingQueueable.createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
-                return;
-            }
-        }
-        if (!insolvencyRecordsToUpdateMap.values().isEmpty()) {
-            try {
-                InsolvencyTriggerHandler.runInsolvencyTrigger = false;
-                update insolvencyRecordsToUpdateMap.values();
-                InsolvencyTriggerHandler.runInsolvencyTrigger = true;
-            } catch (DmlException dex) {
-                System.debug('Error updating Insolvency records ' + dex.getDmlMessage(0));
-                docStorage.File_Processing_Status__c = 'Failed';
-                docStorage.File_Processing_Error__c = dex.getDmlMessage(0).length() > 255 ? dex.getDmlMessage(0).substring(0, 255) : dex.getDmlMessage(0);
-                update docStorage;
-                CTBFileProcessingQueueable.createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
-                return;
-            }
+        try {
+            updateRecords(accountRecordsToUpdateMap, insolvencyRecordsToUpdateMap, creditorAccountRecordsToDeleteMap, docStorage);
+        } catch (DmlException dex) {
+            System.debug('Error updating records ' + dex.getDmlMessage(0));
+            updateFailedDocStorage(docStorage, dex);
+            CTBFileProcessingQueueable.createInsolvencyError(dex.getDmlMessage(0), dex.getStackTraceString());
+            return;
         }
         Integer successRecordCount = accountRecordsToUpdateMap.size();
         Integer failedRecordCount = stagingRecordsToCreate.size() - successRecordCount;
@@ -278,6 +360,31 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
         }
         docStorage.Comment__c = 'Success Records : ' + String.valueOf(successRecordCount) + '\n' + 'Failed Records : ' + String.valueOf(failedRecordCount);
         // Update doc storage with processing status and error message if failed
+        update docStorage;
+    }
+
+    public static void updateRecords(
+        Map<String, Insolvency_Account__c> accountRecordsToUpdateMap,
+        Map<String, Insolvency__c> insolvencyRecordsToUpdateMap,
+        Map<String, Creditor_Account__c> creditorAccountRecordsToDeleteMap,
+        Document_Storage__c docStorage
+    ) {
+        if (!accountRecordsToUpdateMap.values().isEmpty()) {
+            upsert accountRecordsToUpdateMap.values() Correlation_Id__c;
+        }
+        if (!insolvencyRecordsToUpdateMap.values().isEmpty()) {
+            InsolvencyTriggerHandler.runInsolvencyTrigger = false;
+            update insolvencyRecordsToUpdateMap.values();
+            InsolvencyTriggerHandler.runInsolvencyTrigger = true;
+        }
+        if (!creditorAccountRecordsToDeleteMap.values().isEmpty()) {
+            delete creditorAccountRecordsToDeleteMap.values();
+        }
+    }
+
+    public static void updateFailedDocStorage(Document_Storage__c docStorage, DmlException dex) {
+        docStorage.File_Processing_Status__c = 'Failed';
+        docStorage.File_Processing_Error__c = dex.getDmlMessage(0).length() > 255 ? dex.getDmlMessage(0).substring(0, 255) : dex.getDmlMessage(0);
         update docStorage;
     }
 }
