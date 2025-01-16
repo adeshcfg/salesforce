@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records for MM accounts
  * @author            : adeshi@a5econsulting.net
- * @last modified on  : 01-15-2025
+ * @last modified on  : 01-16-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class MMFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -23,7 +23,7 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
     public void execute(QueueableContext context) {
         try {
             // Call SFTP API to get the file uploaded in SF as a content version record and get it's Id
-            String documentId = CTBGetFileApiQueueable.getDocumentId(fileNames[0]);
+            String documentId = CTBGetFileApiQueueable.getDocumentId(fileNames[0], MMGetFileApiQueueable.API_TYPE_PARAMETER);
             if (String.isBlank(documentId)) {
                 return;
             }
