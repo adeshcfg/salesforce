@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <description>Update Balance Before Payment</description>
+        <name>Balance_Before_Payment</name>
+        <label>Balance Before Payment</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Product.Current_Balance__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Product.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CCS_Account</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Balance_on_CCS_Product</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <description>New Flow of Update Balance Before Payment</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>CCS_Account__r.Current_Balance__c</description>
+        <name>CurrentBalance</name>
+        <dataType>Currency</dataType>
+        <expression>{!$Record.CCS_Account__r.Current_Balance__c}</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>Update Balance Before Payment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Balance Before Payment</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get Product Record</description>
+        <name>Product</name>
+        <label>Product</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Balance_Before_Payment</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>0123a000000LJq1AAG</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Product__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update Balance on CCS Product</description>
+        <name>Balance_on_CCS_Product</name>
+        <label>Balance on CCS Product</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
+        <inputAssignments>
+            <field>Balance_Before_Payment__c</field>
+            <value>
+                <elementReference>CurrentBalance</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Product</targetReference>
+        </connector>
+        <object>Product_Payments__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
