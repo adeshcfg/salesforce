@@ -1,11 +1,11 @@
 /**
  * @description       : Queueable class to get file list and store other API callout methods for MM incoming file
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 01-07-2025
+ * @last modified on  : 01-16-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class MMGetFileApiQueueable implements Queueable, Database.AllowsCallouts {
-    public static final String API_TYPE_PARAMETER = 'incoming_decrypted';
+    public static final String API_TYPE_PARAMETER = 'mm_incoming_decrypted';
 
     public void execute(QueueableContext context) {
         List<String> filteredFileList = new List<String>();

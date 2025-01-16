@@ -2,7 +2,7 @@
  * @description       : Queueable class to get file list and store other API callout methods for incoming file
  * @author            : adesh.ikhar@canaccede.com
  * @group             :
- * @last modified on  : 01-07-2025
+ * @last modified on  : 01-16-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallouts {
@@ -100,9 +100,10 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
      * @description : Method to get specific file uploaded in SF from SFTP
      * @author adesh.ikhar@canaccede.com | 05-07-2024
      * @param fileName
+     * @param type
      * @return String
      **/
-    public static String getDocumentId(String fileName) {
+    public static String getDocumentId(String fileName, String type) {
         String documentId = '';
         Folder downloadFolder = [SELECT Id, Name FROM Folder WHERE Name = 'Metadata_Content' LIMIT 1];
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
@@ -113,7 +114,7 @@ public class CTBGetFileApiQueueable implements Queueable, Database.AllowsCallout
             'sobjects/folders/' +
             downloadFolder.Id +
             '?type=' +
-            API_TYPE_PARAMETER +
+            type +
             '&name=' +
             EncodingUtil.urlEncode(filePath, 'UTF-8');
         Http h = new Http();
