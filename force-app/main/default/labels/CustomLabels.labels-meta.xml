@@ -14,4 +14,11 @@
         <shortDescription>Money Mart Insolvency Account</shortDescription>
         <value>Money Mart Insolvency Account</value>
     </labels>
+    <labels>
+        <fullName>Allowed_Reject_Codes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reject codes to be allowed for data population from file</shortDescription>
+        <value>CONS,BKPT</value>
+    </labels>
 </CustomLabels>
