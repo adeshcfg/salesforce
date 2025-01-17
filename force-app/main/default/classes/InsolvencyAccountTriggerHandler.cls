@@ -1995,21 +1995,23 @@ insDetails.add(insDetail);
                     fieldMissing = true;
                 }
                 if (mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id)) != null && insolAcctIdInsolId.get(accNew.id) != null) {
-                    if (trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingStreet == null) {
+                    if(trusteeData != null && trusteeData.size() > 0){
+                        if (trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingStreet == null) {
                         errorMsg += 'Trustee Street ,';
                         fieldMissing = true;
-                    }
-                    if (trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingCity == null) {
-                        errorMsg += 'Trustee City ,';
-                        fieldMissing = true;
-                    }
-                    if (trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingState == null) {
-                        errorMsg += 'Trustee State ,';
-                        fieldMissing = true;
-                    }
-                    if (trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingPostalCode == null) {
-                        errorMsg += 'Trustee Postal Code ,';
-                        fieldMissing = true;
+                        }
+                        if (trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingCity == null) {
+                            errorMsg += 'Trustee City ,';
+                            fieldMissing = true;
+                        }
+                        if (trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingState == null) {
+                            errorMsg += 'Trustee State ,';
+                            fieldMissing = true;
+                        }
+                        if (trusteeData.get(mapInsolIdTrusteeId.get(insolAcctIdInsolId.get(accNew.id))).BillingPostalCode == null) {
+                            errorMsg += 'Trustee Postal Code ,';
+                            fieldMissing = true;
+                        }
                     }
                 }
                 errorMsg = errorMsg.removeEnd(' ,');
