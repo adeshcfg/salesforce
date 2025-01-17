@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <description>Current total balance and record type</description>
+        <name>Current_total_balance</name>
+        <label>Current total balance</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Product.Current_Balance__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Product.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CCS_Account</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Product_Payment_Balance_After_Payment</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <description>New Flow of Update Balance After Payment</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>CCS_Account__r.Current_Balance__c - Gross_Payment_Amount__c</description>
+        <name>AmountFormula</name>
+        <dataType>Currency</dataType>
+        <expression>{!$Record.CCS_Account__r.Current_Balance__c}-{!$Record.Gross_Payment_Amount__c}</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>Update Balance After Paymen {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Balance After Payment</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Product record get</description>
+        <name>Product</name>
+        <label>Product</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Current_total_balance</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>0123a000000LJq1AAG</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Product__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update Product Payment: Balance After Payment</description>
+        <name>Product_Payment_Balance_After_Payment</name>
+        <label>Product Payment: Balance After Payment</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
+        <inputAssignments>
+            <field>Balance_After_Payment__c</field>
+            <value>
+                <elementReference>AmountFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Product</targetReference>
+        </connector>
+        <object>Product_Payments__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

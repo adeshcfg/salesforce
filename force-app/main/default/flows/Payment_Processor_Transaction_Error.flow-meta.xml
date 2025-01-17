@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Payment_Processor_Transaction_Error_Alert</name>
+        <label>Payment_Transaction__c.Send_Payment_Processor_Transaction_Error_Alert</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <actionName>Payment_Transaction__c.Send_Payment_Processor_Transaction_Error_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <description>New Flow OF Payment Processor Transaction Error workflow rule
+Workflow rule description</description>
+    <environments>Default</environments>
+    <interviewLabel>Payment Processor Transaction Error {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Payment Processor Transaction Error</label>
+    <migratedFromWorkflowRuleName>Payment Processor Transaction Error</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Send_Payment_Processor_Transaction_Error_Alert</targetReference>
+        </connector>
+        <filterFormula>AND (OR( {!$Record.RecordType.DeveloperName} = &apos;One_time_Payment&apos;, {!$Record.RecordType.DeveloperName} = &apos;Recurring_Payment_Child&apos;),   ISCHANGED({!$Record.Status__c}) , ISPICKVAL({!$Record.Status__c} , &apos;Failed&apos;), {!$Record.Parent__r.Product__r.Customer__r.Payment_Success_Failure_Notifications__c}  == true, {!$Record.Parent__r.Product__r.Customer__r.PersonHasOptedOutOfEmail} = false)</filterFormula>
+        <object>Payment_Transaction__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

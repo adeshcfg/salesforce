@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <description>Judgment Number Field Update</description>
+        <name>Judgment_criteria</name>
+        <label>Judgment criteria</label>
+        <locationX>650</locationX>
+        <locationY>378</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Legal_Status</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Legal_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Post-Judgment</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Legal_Sub_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Vacated</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Judgment_Record_Type</targetReference>
+            </connector>
+            <label>Legal Status</label>
+        </rules>
+        <rules>
+            <name>Defended_Action</name>
+            <conditionLogic>(1 OR 2) AND 3</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Legal_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pre-Judgment</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Legal_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Judgment</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Legal_Sub_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Defended Action</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Judgment_Defended_Action</targetReference>
+            </connector>
+            <label>Defended Action</label>
+        </rules>
+    </decisions>
+    <description>Change Page layout to Post-Judgment-Vacated with all fields read-only, Update Defended Action</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Judgment_Number_Field_UpdateFormula</name>
+        <dataType>String</dataType>
+        <expression>&apos;JC&apos;+&apos;-&apos;+$Record.Name</expression>
+    </formulas>
+    <interviewLabel>Judgment Number Field Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Judgment Number Field Update</label>
+    <migratedFromWorkflowRuleName>Judgment Number Field Update</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Judgment: Defended Action</description>
+        <name>Judgment_Defended_Action</name>
+        <label>Judgment Defended Action</label>
+        <locationX>914</locationX>
+        <locationY>465</locationY>
+        <inputAssignments>
+            <field>Defended_Action__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Change Page layout to Post-Judgment-Vacated with all fields read-only</description>
+        <name>Judgment_Record_Type</name>
+        <label>Judgment Record Type</label>
+        <locationX>379</locationX>
+        <locationY>455</locationY>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <stringValue>0123a0000000NDuAAM</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>543</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Judgment_criteria</targetReference>
+        </connector>
+        <object>Judgment__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

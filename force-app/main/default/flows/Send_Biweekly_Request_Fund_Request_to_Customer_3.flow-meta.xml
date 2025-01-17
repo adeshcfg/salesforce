@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Recurring_Biweekly_Request_Funds_Initiate_Email</name>
+        <label>Payment_Transaction__c.Recurring_Biweekly_Request_Funds_Initiate_Email</label>
+        <locationX>920</locationX>
+        <locationY>457</locationY>
+        <actionName>Payment_Transaction__c.Recurring_Biweekly_Request_Funds_Initiate_Email</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Recurring_Monthly_Request_Funds_Initiate_Email</name>
+        <label>Recurring_Monthly_Request_Funds_Initiate_Email</label>
+        <locationX>425</locationX>
+        <locationY>460</locationY>
+        <actionName>Payment_Transaction__c.Recurring_Monthly_Request_Funds_Initiate_Email</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <description>Recurrence_Type__c  =Monthly OR Biweekly</description>
+        <name>Monthly_OR_Biweekly</name>
+        <label>Monthly OR Biweekly</label>
+        <locationX>672</locationX>
+        <locationY>387</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Monthly</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Recurrence_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Monthly</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Recurring_Monthly_Request_Funds_Initiate_Email</targetReference>
+            </connector>
+            <label>Monthly</label>
+        </rules>
+        <rules>
+            <name>Biweekly</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Recurrence_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Biweekly</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Recurring_Biweekly_Request_Funds_Initiate_Email</targetReference>
+            </connector>
+            <label>Biweekly</label>
+        </rules>
+    </decisions>
+    <description>New Flow of Send Biweekly Or Monthly Request Fund to Customer on payment inititation</description>
+    <environments>Default</environments>
+    <interviewLabel>Send Biweekly Request Fund Request to Customer {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Send Biweekly OR Monthly Request Fund to Customer</label>
+    <migratedFromWorkflowRuleName>Send Biweekly Request Fund Request to Customer</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>543</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Monthly_OR_Biweekly</targetReference>
+        </connector>
+        <filterFormula>AND(ISBLANK(PRIORVALUE( {!$Record.Connect_Url__c} )) ,  NOT(ISBLANK({!$Record.Connect_Url__c} )),  {!$Record.RecordType.DeveloperName} = &apos;Request_Funds_Recurring&apos;)</filterFormula>
+        <object>Payment_Transaction__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
