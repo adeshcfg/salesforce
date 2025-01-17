@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 01-16-2025
+ * @last modified on  : 01-17-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -99,6 +99,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
         Set<String> correlationIdSet = new Set<String>();
         Map<String, Insolvency_Account__c> mapCorrelationIdAccount = new Map<String, Insolvency_Account__c>();
         List<String> validOldInsolvencyStatuses = System.Label.CTB_Valid_Insolvency_Statuses.split(',');
+        List<String> allowedRejectCodes = System.Label.Allowed_Reject_Codes.split(',');
         Boolean invalidFile = false;
         List<String> csvRows = csvContents.split('\n');
         // Check for number of rows, should have atleast 3 rows
@@ -185,7 +186,7 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                         checkNoMatchDebtor(accountRecordsToUpdateMap.get(accountId), mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c), stagingAcc);
                         continue;
                     }
-                    if (String.isBlank(stagingAcc.CTB_Reject_Reason_Code__c)) {
+                    if (String.isBlank(stagingAcc.CTB_Reject_Reason_Code__c) || allowedRejectCodes.contains(stagingAcc.CTB_Reject_Reason_Code__c)) {
                         accountToUpdate = CTBFileValidationUtility.updateCtbInsolvencyAccount(stagingAcc);
                     }
                     accountToUpdate.Id = accountId;
