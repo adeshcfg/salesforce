@@ -24,6 +24,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
     public void execute(QueueableContext context) {
         system.debug('inside CTBApiCalloutsQueueable');
         if (String.isNotBlank(batchName)) {
+            String folderName = batchName == System.Label.Money_Mart_Insolvency_Account ? 'mm_outgoing_clear' : 'outgoing_clear';
             //Get access token for http request
             String accToken;
             accToken = AzureUtility.getRequestToken('Agency Portal API');
@@ -35,7 +36,7 @@ public class CTBApiCalloutsQueueable implements Queueable, Database.AllowsCallou
 
                 apiCallDetails.PDF_API_URL__c = apiCallDetails.PDF_API_URL__c.replace('Document', 'SftpProxy');
                 req.setMethod('POST');
-                string apiUrl = apiCallDetails.PDF_API_URL__c + 'sobjects/' + contentVersionDataID + '/outgoing_clear?name=' + fileNameFormat;
+                string apiUrl = apiCallDetails.PDF_API_URL__c + 'sobjects/' + contentVersionDataID + '/' + folderName + '?name=' + fileNameFormat;
                 req.setEndpoint(apiUrl);
 
                 system.debug('Endpoint req body:: ' + req.getEndpoint());
