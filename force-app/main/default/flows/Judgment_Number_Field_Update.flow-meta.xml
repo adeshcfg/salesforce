@@ -5,24 +5,9 @@
         <description>Judgment Number Field Update</description>
         <name>Judgment_criteria</name>
         <label>Judgment criteria</label>
-        <locationX>446</locationX>
-        <locationY>323</locationY>
+        <locationX>650</locationX>
+        <locationY>378</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Judgment_Number</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Judgment_Number__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Judgment_Number_update</targetReference>
-            </connector>
-            <label>Judgment Number</label>
-        </rules>
         <rules>
             <name>Legal_Status</name>
             <conditionLogic>and</conditionLogic>
@@ -75,7 +60,7 @@
             <label>Defended Action</label>
         </rules>
     </decisions>
-    <description>Judgment Number Field Update, Change Page layout to Post-Judgment-Vacated with all fields read-only, Update Defended Action</description>
+    <description>Change Page layout to Post-Judgment-Vacated with all fields read-only, Update Defended Action</description>
     <environments>Default</environments>
     <formulas>
         <name>Judgment_Number_Field_UpdateFormula</name>
@@ -94,7 +79,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
@@ -102,8 +87,8 @@
         <description>Judgment: Defended Action</description>
         <name>Judgment_Defended_Action</name>
         <label>Judgment Defended Action</label>
-        <locationX>578</locationX>
-        <locationY>431</locationY>
+        <locationX>914</locationX>
+        <locationY>465</locationY>
         <inputAssignments>
             <field>Defended_Action__c</field>
             <value>
@@ -113,35 +98,22 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <recordUpdates>
-        <name>Judgment_Number_update</name>
-        <label>Judgment Number update</label>
-        <locationX>50</locationX>
-        <locationY>431</locationY>
-        <inputAssignments>
-            <field>Judgment_Number__c</field>
-            <value>
-                <elementReference>Judgment_Number_Field_UpdateFormula</elementReference>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
-    <recordUpdates>
         <description>Change Page layout to Post-Judgment-Vacated with all fields read-only</description>
         <name>Judgment_Record_Type</name>
         <label>Judgment Record Type</label>
-        <locationX>314</locationX>
-        <locationY>431</locationY>
+        <locationX>379</locationX>
+        <locationY>455</locationY>
         <inputAssignments>
             <field>RecordTypeId</field>
             <value>
-                <stringValue>Post-Judgment-Vacated</stringValue>
+                <stringValue>0123a0000000NDuAAM</stringValue>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>320</locationX>
-        <locationY>0</locationY>
+        <locationX>543</locationX>
+        <locationY>48</locationY>
         <connector>
             <targetReference>Judgment_criteria</targetReference>
         </connector>
@@ -149,5 +121,5 @@
         <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>

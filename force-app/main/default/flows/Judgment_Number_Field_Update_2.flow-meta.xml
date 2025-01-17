@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>New Flow of Judgment Number Field Update workflow rule</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Judgment_Number_Field_UpdateFormula</name>
+        <dataType>String</dataType>
+        <expression>&apos;JC&apos;+&apos;-&apos;+$Record.Name</expression>
+    </formulas>
+    <interviewLabel>Judgment Number Field Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Judgment Number Field Update</label>
+    <migratedFromWorkflowRuleName>Judgment Number Field Update</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Judgment Number Field Update</description>
+        <name>mainUpdate</name>
+        <label>mainUpdate</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <inputAssignments>
+            <field>Judgment_Number__c</field>
+            <value>
+                <elementReference>Judgment_Number_Field_UpdateFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Judgment_Number__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Judgment__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
