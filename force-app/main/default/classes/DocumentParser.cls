@@ -125,7 +125,7 @@ public with sharing class DocumentParser {
                         } else {
                             parsedResponse.Parsed_Response_Formatted__c = formatJson(res2.getBody());
                         }
-                    } else if (res2.getStatusCode() == 400) {
+                    } else if (res2.getStatusCode() == 400 || res2.getStatusCode() == 500) {
                         Map<String, Object> errorResponse = (Map<String, Object>) JSON.deserializeUntyped(res2.getBody());
                         String errorMessage = String.valueOf(errorResponse.get('title')) + ' - ' + String.valueOf(errorResponse.get('detail'));
                         if (errorResponse.containsKey('report')) {
