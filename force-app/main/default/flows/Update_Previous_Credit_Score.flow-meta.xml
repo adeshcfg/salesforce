@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
-    <description>Migrated from the: Update Previous Credit Score workflow rule
-Workflow rule description: Update the Previous Credit Score fields when Credit Score Changes&quot;</description>
+    <description>New Flow of Update Previous Credit Score</description>
     <environments>Default</environments>
     <formulas>
         <name>Update_Previous_Credit_Score_Update_DateFormula</name>
@@ -15,6 +14,7 @@ Workflow rule description: Update the Previous Credit Score fields when Credit S
         <expression>PRIORVALUE($Record.Credit_Score__pc)</expression>
         <scale>0</scale>
     </formulas>
+    <interviewLabel>Update Previous Credit Score {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Update Previous Credit Score</label>
     <migratedFromWorkflowRuleName>Update Previous Credit Score</migratedFromWorkflowRuleName>
     <processMetadataValues>
@@ -36,7 +36,7 @@ Update Previous Credit Score Updated Date from Credit Score Updated Date</descri
         <name>mainUpdate</name>
         <label>mainUpdate</label>
         <locationX>176</locationX>
-        <locationY>323</locationY>
+        <locationY>287</locationY>
         <inputAssignments>
             <field>Previous_Credit_Score_Updated_Date__pc</field>
             <value>
@@ -60,7 +60,7 @@ Update Previous Credit Score Updated Date from Credit Score Updated Date</descri
         <filterFormula>ISCHANGED({!$Record.Credit_Score__pc}) &amp;&amp;  !ISBLANK({!$Record.Credit_Score__pc})</filterFormula>
         <object>Account</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
 </Flow>
