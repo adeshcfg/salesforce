@@ -38,9 +38,9 @@
             <label>Is Not Archival User</label>
         </rules>
     </decisions>
-    <description>Migrated from the: Notify Users on Insolvency Error workflow rule
-Workflow rule description: Notify Users on Insolvency Error&quot;</description>
+    <description>New flow of Notify Users on Insolvency Error</description>
     <environments>Default</environments>
+    <interviewLabel>Notify Users on Insolvency Error {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Notify Users on Insolvency Error</label>
     <migratedFromWorkflowRuleName>Notify Users on Insolvency Error</migratedFromWorkflowRuleName>
     <processMetadataValues>
@@ -62,7 +62,6 @@ Workflow rule description: Notify Users on Insolvency Error&quot;</description>
         <connector>
             <targetReference>Archival_User_Check</targetReference>
         </connector>
-        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Action__c</field>
