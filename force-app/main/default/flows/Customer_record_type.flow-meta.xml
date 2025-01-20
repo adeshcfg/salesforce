@@ -6,7 +6,7 @@
         <name>Account_record_criteria</name>
         <label>Account record criteria</label>
         <locationX>182</locationX>
-        <locationY>323</locationY>
+        <locationY>287</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Set_Record_Type</name>
@@ -51,7 +51,7 @@
         <name>Update_Records_1</name>
         <label>Update Records 1</label>
         <locationX>50</locationX>
-        <locationY>431</locationY>
+        <locationY>395</locationY>
         <inputAssignments>
             <field>Account_Record_type__c</field>
             <value>
@@ -68,7 +68,7 @@
         </connector>
         <object>Account</object>
         <recordTriggerType>Create</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
 </Flow>
