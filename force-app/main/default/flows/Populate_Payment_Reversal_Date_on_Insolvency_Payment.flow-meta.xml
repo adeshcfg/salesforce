@@ -29,7 +29,7 @@
         <name>mainUpdate</name>
         <label>mainUpdate</label>
         <locationX>176</locationX>
-        <locationY>323</locationY>
+        <locationY>287</locationY>
         <inputAssignments>
             <field>Payment_Reversal_Date__c</field>
             <value>
@@ -47,7 +47,7 @@
         <filterFormula>AND ( ISBLANK( {!$Record.Payment_Reversal_Date__c} ), ISCHANGED( {!$Record.Payment_Reversed__c} ),  NOT( ISBLANK(TEXT({!$Record.Payment_Reversed__c} )) ))</filterFormula>
         <object>Insolvency_Payment__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
 </Flow>
