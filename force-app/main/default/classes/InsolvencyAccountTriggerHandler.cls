@@ -1469,7 +1469,7 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
                         }else{
                             insolvency.Eligible_For_Voting_Decision__c = true;
                             insolvency.Voting_Decision__c = 'Needs Manual Review';
-                            insolvency.Manual_Review_Reason__c = 'Total Estimated Realizable Value sholud be less than $20000';
+                            insolvency.Manual_Review_Reason__c = 'Total Estimated Realizable Value should be less than $20000';
                         }
 
                 //Client Identifier - imp
