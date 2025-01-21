@@ -25,6 +25,7 @@ private class TestInsolvencyTriggerHandler{
         config.Bank_Eligible_for_Duplicate_Check__c = 'SPL';
         config.Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN';
         config.Run_Insolvency_Trigger__c = false;
+        config.Eligible_for_Voting_Decision__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
         insert config;  
         
