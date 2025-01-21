@@ -525,7 +525,7 @@ global class MoneyMartFileGenerator implements Database.Batchable<sobject>, Data
                         '","' +
                         judgmentDate +
                         '","' +
-                        acknowledgementDate +
+                        acknowledgementDate +'"'+
                         '\r\n';
                     counter++;
                     queryData.add(insolAccData);
@@ -615,7 +615,7 @@ global class MoneyMartFileGenerator implements Database.Batchable<sobject>, Data
                     '","' +
                     fileType +
                     '","' +
-                    fileFormatIdenfier +
+                    fileFormatIdenfier + '"'+
                     '\r\n';
                 //build trailer body data
                 trailerBody =
@@ -631,7 +631,7 @@ global class MoneyMartFileGenerator implements Database.Batchable<sobject>, Data
                     '","' +
                     createdDate +
                     '","' +
-                    dateFormate +
+                    dateFormate +'"'+
                     '\r\n';
                 //build final string to parse
                 mainFinalData = headBody + finalData + trailerBody;
