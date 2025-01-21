@@ -579,11 +579,7 @@
                 newIns.Eligible_For_Voting_Decision__c == True && newIns.Total_Estimated_Realizable_Value__c < 20000){
                 votingAutomationList.add(newIns.id);
             }
-            if(newIns.Total_Estimated_Realizable_Value__c >= 20000){
-                newIns.Eligible_For_Voting_Decision__c = true;
-                newIns.Voting_Decision__c = 'Needs Manual Review';
-                newIns.Manual_Review_Reason__c = 'Total Estimated Realizable Value sholud be less than $20000';
-            }
+            
             //listProductToUpdate
             //mapProdList
             // Insolvency__c newIns =  insolvNewMap.get(insolvId);
