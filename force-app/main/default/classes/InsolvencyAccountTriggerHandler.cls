@@ -1462,9 +1462,14 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
 
                 //For Voting automation future call for Insolvency list
                 if (insolAccnt.Insolvency_Status__c == 'POC Details Provided')
-                    if (insolvency.Eligible_For_Voting_Decision__c == false)
-                        if ((config.Eligible_for_Voting_Decision__c).contains(insolAccnt.Client_Identifier__c)) {
+                    if (insolvency.Eligible_For_Voting_Decision__c == false )  
+                    if ((config.Eligible_for_Voting_Decision__c).contains(insolAccnt.Client_Identifier__c) 
+                        && insolvency.Total_Estimated_Realizable_Value__c < 20000) {
                             votingAutomationList.add(insolvency.id);
+                        }else{
+                            insolvency.Eligible_For_Voting_Decision__c = true;
+                            insolvency.Voting_Decision__c = 'Needs Manual Review';
+                            insolvency.Manual_Review_Reason__c = 'Total Estimated Realizable Value sholud be less than $20000';
                         }
 
                 //Client Identifier - imp
@@ -1785,6 +1790,7 @@ insDetails.add(insDetail);
                     Total_Unsecured_Claims__c,
                     Total_Claim_Recovered__c,
                     Insolvency_Status__c,
+                	Total_Estimated_Realizable_Value__c,
                     (SELECT Id, Insolvency_Status__c, Client_Identifier__c FROM Insolvency_Accounts__r)
                 FROM Insolvency__c
                 WHERE Id IN :insolvencyIds
