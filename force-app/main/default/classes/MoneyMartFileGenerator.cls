@@ -521,11 +521,11 @@ global class MoneyMartFileGenerator implements Database.Batchable<sobject>, Data
                         '","' +
                         additionalInfo +
                         '","' +
-                        chargeOffDate +'"'+
+                        chargeOffDate +
                         '","' +
-                        judgmentDate +'"'+
+                        judgmentDate +
                         '","' +
-                        acknowledgementDate +'"'+
+                        acknowledgementDate +
                         '\r\n';
                     counter++;
                     queryData.add(insolAccData);
