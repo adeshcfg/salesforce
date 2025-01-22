@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>New flow Populate Customer Email on Product record workflow rule
+Workflow rule description</description>
+    <environments>Default</environments>
+    <interviewLabel>Populate Customer Email on Product record {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Populate Customer Email on Product record</label>
+    <migratedFromWorkflowRuleName>Populate Customer Email on Product record</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>mainUpdate</name>
+        <label>mainUpdate</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <inputAssignments>
+            <field>Email_Address__c</field>
+            <value>
+                <elementReference>$Record.Customer__r.PersonContact.Email</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterFormula>AND(NOT(ISNULL({!$Record.CreatedDate})),OR({!$Record.RecordType.Name} == &apos;Credit Card Account&apos; , {!$Record.RecordType.Name} == &apos;Loan Account&apos;))</filterFormula>
+        <object>Product__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

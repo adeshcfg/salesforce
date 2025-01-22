@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>New Flow of  Update CCS Stage Last Changed field</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Update_CCS_Stage_Last_Changed_fieldFormula</name>
+        <dataType>DateTime</dataType>
+        <expression>NOW()</expression>
+    </formulas>
+    <interviewLabel>Update CCS Stage Last Changed field {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update CCS Stage Last Changed field</label>
+    <migratedFromWorkflowRuleName>Update CCS Stage Last Changed field</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update CCS Stage Last Changed field whenever CCS Stage picklist is changed</description>
+        <name>mainUpdate</name>
+        <label>mainUpdate</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <inputAssignments>
+            <field>CCS_Stage_Last_Changed__c</field>
+            <value>
+                <elementReference>Update_CCS_Stage_Last_Changed_fieldFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterFormula>AND(ISCHANGED( {!$Record.CCS_Stage__c} ),{!$Record.RecordType.DeveloperName}!=&apos;Distressed_Account&apos;)</filterFormula>
+        <object>Product__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
