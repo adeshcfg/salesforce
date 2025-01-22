@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <description>Checking Form type value</description>
+        <name>Form_type</name>
+        <label>Form type</label>
+        <locationX>669</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Interim</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Interim</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Interim</targetReference>
+            </connector>
+            <label>Interim</label>
+        </rules>
+        <rules>
+            <name>Final</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Final</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Final</targetReference>
+            </connector>
+            <label>Final</label>
+        </rules>
+        <rules>
+            <name>Media_Request</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Media Request</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Media_request</targetReference>
+            </connector>
+            <label>Media Request</label>
+        </rules>
+        <rules>
+            <name>Recall_Request</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Recall Request</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Recall_Request</targetReference>
+            </connector>
+            <label>Recall Request</label>
+        </rules>
+        <rules>
+            <name>Status_of_Insolvency</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Status of Insolvency</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Status_of_Insolvency</targetReference>
+            </connector>
+            <label>Status of Insolvency</label>
+        </rules>
+        <rules>
+            <name>Creditor_Package</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Credit Pack</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Creditor’s Package</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Creditors Package</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Creditor Package</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Creditor_Package</targetReference>
+            </connector>
+            <label>Creditor Package</label>
+        </rules>
+    </decisions>
+    <description>Update Form Type according to the Email Subject of Email to case for Assignment</description>
+    <environments>Default</environments>
+    <interviewLabel>For {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Form types update</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Creditor_Package</name>
+        <label>Update Creditor Package</label>
+        <locationX>934</locationX>
+        <locationY>412</locationY>
+        <inputAssignments>
+            <field>Form_Types__c</field>
+            <value>
+                <stringValue>Creditor Package</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Final</name>
+        <label>Update Final</label>
+        <locationX>427</locationX>
+        <locationY>264</locationY>
+        <inputAssignments>
+            <field>Form_Types__c</field>
+            <value>
+                <stringValue>Final</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Interim</name>
+        <label>Update Interim</label>
+        <locationX>423</locationX>
+        <locationY>427</locationY>
+        <inputAssignments>
+            <field>Form_Types__c</field>
+            <value>
+                <stringValue>Interim</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Media_request</name>
+        <label>Update Media request</label>
+        <locationX>564</locationX>
+        <locationY>553</locationY>
+        <inputAssignments>
+            <field>Form_Types__c</field>
+            <value>
+                <stringValue>Media Request</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Recall_Request</name>
+        <label>Update Recall Request</label>
+        <locationX>795</locationX>
+        <locationY>548</locationY>
+        <inputAssignments>
+            <field>Form_Types__c</field>
+            <value>
+                <stringValue>Recall Request</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Status_of_Insolvency</name>
+        <label>Update Status of Insolvency</label>
+        <locationX>923</locationX>
+        <locationY>265</locationY>
+        <inputAssignments>
+            <field>Form_Types__c</field>
+            <value>
+                <stringValue>Status of Insolvency Response</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>543</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Form_type</targetReference>
+        </connector>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
