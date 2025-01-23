@@ -60,7 +60,7 @@
         <field>CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer – Daily accounts worked</name>
+    <name>Money Mart – Daily accounts worked</name>
     <params>
         <name>co</name>
         <value>1</value>

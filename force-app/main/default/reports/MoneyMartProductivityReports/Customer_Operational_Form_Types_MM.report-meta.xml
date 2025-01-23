@@ -51,7 +51,7 @@
         <field>Case.Form_Types__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Operational – Form Types</name>
+    <name>Money Mart Operational – Form Types</name>
     <params>
         <name>units</name>
         <value>h</value>

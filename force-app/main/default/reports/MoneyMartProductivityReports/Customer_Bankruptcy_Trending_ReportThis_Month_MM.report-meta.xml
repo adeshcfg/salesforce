@@ -52,7 +52,7 @@
         <field>CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer BK Trending Report-This Month</name>
+    <name>Money Mart BK Trending Report-This Month</name>
     <params>
         <name>co</name>
         <value>1</value>

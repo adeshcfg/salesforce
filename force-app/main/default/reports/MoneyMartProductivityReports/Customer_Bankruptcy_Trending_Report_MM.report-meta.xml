@@ -52,7 +52,7 @@
         <field>CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Bankruptcy Trending Report</name>
+    <name>Money Mart Bankruptcy Trending Report</name>
     <params>
         <name>co</name>
         <value>1</value>

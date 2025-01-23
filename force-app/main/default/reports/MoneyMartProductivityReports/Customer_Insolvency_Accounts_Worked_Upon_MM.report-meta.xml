@@ -59,7 +59,7 @@
         <field>CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Insolvency Accounts Worked Upon</name>
+    <name>MM Insolvency Accounts Worked Upon</name>
     <params>
         <name>co</name>
         <value>1</value>
