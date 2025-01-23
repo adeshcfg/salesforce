@@ -108,6 +108,7 @@ public class GenerateDepositSlipController {
                 AND Status__c = 'Processed'
                 AND recordType.Developername = 'Insolvency_Dividend'
                 AND lastmodifiedDate > :LastDepositSlipCreatedDate
+                AND Do_Not_Process__c = false
                 ORDER BY Trustee_Name__r.name
         ];
         List<ID> listRemittanceID = new List<ID>();

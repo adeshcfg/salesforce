@@ -50,7 +50,7 @@ public class GenerateDepositSlipRecordsController {
                                               from remittance__C 
                                               where lastmodifiedDate >= :LastDepositSlipCreatedDate
                                               AND Status__c = 'Processed'
-                                              AND recordType.Developername = 'Insolvency_Dividend'
+                                              AND recordType.Developername = 'Insolvency_Dividend' AND Do_Not_Process__c = false
                                               group by Deposit_Account_Name__c ];
         
         if(listAggregateResults.size() == 0){

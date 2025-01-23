@@ -240,6 +240,11 @@
         <field>Insolvency__c.Number_Of_Persons_In_Household_Debtor__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Remittance__c.Do_Not_Process__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>CFG - Insolvency Admin</label>
     <objectPermissions>
