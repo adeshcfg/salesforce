@@ -91,6 +91,7 @@
         <rowHeight>36</rowHeight>
     </dashboardGridLayout>
     <dashboardType>SpecifiedUser</dashboardType>
+    <description>Money Mart Claim Amount and Accounts by POC Created Date</description>
     <isGridLayout>true</isGridLayout>
     <runningUser>devadminuser@canaccede.com</runningUser>
     <textColor>#000000</textColor>
