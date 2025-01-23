@@ -28,4 +28,11 @@
         <shortDescription>Reject codes to be allowed for data population from file</shortDescription>
         <value>CONS,BKPT</value>
     </labels>
+    <labels>
+        <fullName>Putback_Buyback_Email_Ids</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Comma separated Email Ids for Putback/Buyback email notifications</shortDescription>
+        <value>adesh.ikhar@canaccede.com</value>
+    </labels>
 </CustomLabels>
