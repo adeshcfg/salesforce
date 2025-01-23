@@ -40,7 +40,7 @@
         <field>CUST_CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Insolvencies Per Month</name>
+    <name>Money Mart Insolvencies Per Month</name>
     <params>
         <name>co</name>
         <value>1</value>

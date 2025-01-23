@@ -58,7 +58,7 @@
         <field>CUST_NAME</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer NoD Received</name>
+    <name>Money Mart NoD Received</name>
     <params>
         <name>co</name>
         <value>1</value>

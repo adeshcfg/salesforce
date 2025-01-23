@@ -48,7 +48,7 @@
         <field>Case.Next_Follow_Up_Date__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Operational– Next Followup Date</name>
+    <name>MM Operational– Next Followup Date</name>
     <params>
         <name>units</name>
         <value>h</value>

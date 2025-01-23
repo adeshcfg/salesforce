@@ -61,7 +61,7 @@
         <field>CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Assignments Worked Upon</name>
+    <name>Money Mart Assignments Worked Upon</name>
     <params>
         <name>units</name>
         <value>d</value>

@@ -71,7 +71,7 @@
         <field>FK_$Insolvency__c.Insolvency_Date__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Insolvencies by Date-Count/Mont</name>
+    <name>MM Insolvencies by Date-Count/Mont</name>
     <params>
         <name>co</name>
         <value>1</value>
