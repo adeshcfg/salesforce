@@ -18315,6 +18315,11 @@
         <field>Insolvency_Account__c.Judgement_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Remittance__c.Do_Not_Process__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
