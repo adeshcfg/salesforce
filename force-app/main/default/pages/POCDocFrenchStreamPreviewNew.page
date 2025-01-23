@@ -848,6 +848,88 @@
                      <div class="pageSeperator" style="clear:both;">
                      </div>
                   </apex:outputPanel>
+                   <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
+                       <div style="font-size: 13px; margin: auto; padding-top: 20px; line-height: 17px; width: 90%">
+                           <div style="padding-bottom: 10px">
+                               <br />
+                               <div style="text-align: center; float: left; width: 17%; padding-bottom: 10px">
+                                   <apex:image value="{!pocPackage.Header_logo__c}" width="70" height="70" />
+                               </div>
+                               <div style="float: left; width: 73%; padding-left: 20px">
+                                   <div style="float: left; padding-left: 0px">
+                                       Canaccede International Management Ltd.<br /> {!pocPackage.CFG_Office_Address_1__c} <br />
+                                       {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                                   </div>
+                                   <div style="padding-left: 320px">
+                                       t. {!pocPackage.CFG_Office_Phone_Number__c} <br /> f. {!pocPackage.CFG_Office_Fax_Number__c} <br />
+                                       {!pocPackage.CFG_Office_Website__c}
+                                   </div>
+                               </div>
+                           </div>
+                           <br />
+                           <div style="clear: both"></div>
+                           <div style="line-height: 17px; padding-left: 15px">
+                               <div>
+                                   District de: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br /> 
+                                   No division: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br /> 
+                                   No cour: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c !=null,';','')}
+                                   &nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br /> 
+                                   No dossier: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c !=null,';','')}
+                                   &nbsp;{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}<br />
+                               </div>
+                               <div style="text-align: center">
+                                   Formulaire 36<br />  Formulaire de procuration <br /> (paragraphe 102(2) et alinéas 51(1)e) et 66.15(3)b) de la Loi)  <br /><br /><br />
+                                   Dans l’affaire de la faillite (ou la proposition de consommateur, ou la mise sous séquestre) de  
+                                   <br />
+                                   <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} </b>
+                                   <br />
+                                   <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} </b>
+                                   <br />
+                                   De la Ville de <b>{!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</b>, dans la province de
+                                   <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</b>
+                                   <br />
+                               </div>
+                               <br /> 
+                           </div>
+                           <div style="float: left; padding-left: 17px">
+                               Je, Bryan Szemenyei, of Canaccede International Management Ltd, représentant un ou plusieurs créanciers 
+                               dans l'affaire susmentionnée, nomme <b>TRUSTEE COMPANY</b>, mon fondé de pouvoir à tous égards dans l'affaire 
+                               susmentionnée, sauf la réception de dividendes, celui-ci étant habilité à nommer un autre fondé de 
+                               pouvoir à sa place (ou n'étant pas habilité à nommer un autre fondé de pouvoir à sa place). 
+                               <br /><br /><br />
+                               Daté le
+                               <b>
+                                   <apex:outputText value="{0,date, dd }">
+                                       <apex:param value="{!TODAY()}" />
+                                   </apex:outputText>
+                               </b>
+                               jour de
+                               <b>
+                                   <apex:outputText value="{!formattedDateToday}">
+                                   </apex:outputText>, à London, ON.
+                               </b>
+                               <table style="width: 100%">
+                                   <tr style="margin-top: -40px">
+                                       <td style="width: 270px; vertical-align: bottom; padding-right: 85px; padding-bottom: 20px">
+                                           <apex:image style="width: 200px" value="{!pocPackage.Witness_Signature__c}" />
+                                           Témoin
+                                       </td>
+                                       <td>
+                                           <apex:image style="width: 200px" value="{!pocPackage.CEO_Signature__c}" />
+                                           <br />
+                                           <b>Bryan Szemenyei, Président</b><br /> <b>Canaccede International Management Ltd., </b><br />
+                                       </td>
+                                   </tr>
+                               </table>
+                               <br /><br /><br /><br /><br /><br /><br /><br />
+                               {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)}
+                               <br />
+                               {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
+                               <br /><br /><br />
+                           </div>
+                       </div>
+                       <div class="pageSeperator" style="clear: both"></div>
+                   </apex:outputPanel>
                   <apex:outputPanel rendered="{!statementOfAccount}">
                      <div style="font-size: 13px; margin:auto; line-height: 17px; width:90%; padding-top:20px;">
                         <div style="padding-bottom:10px;">
