@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 01-17-2025
+ * @last modified on  : 01-23-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public with sharing class CTBFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -156,7 +156,13 @@ public with sharing class CTBFileProcessingQueueable implements Queueable, Datab
                     stagingAcc.Status__c = 'Error';
                     stagingAcc.Error_Message__c += '; No Account with given Correlation Id found in SF';
                 } else {
-                    accountId = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
+                    if (mapCorrelationIdAccount.containsKey(stagingAcc.Correlation_Id__c)) {
+                        accountId = mapCorrelationIdAccount.get(stagingAcc.Correlation_Id__c).Id;
+                    }
+                    // When No Correlation Id provided in CSV
+                    else {
+                        stagingAcc.Status__c = 'Error';
+                    }
                 }
                 // Check if status can be updated to PoC Details Provided
                 if (
