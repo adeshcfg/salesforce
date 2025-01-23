@@ -56,7 +56,7 @@
     <isGridLayout>true</isGridLayout>
     <runningUser>devadminuser@canaccede.com</runningUser>
     <textColor>#000000</textColor>
-    <title>Customer Insolvency Accounts Created by</title>
+    <title>Money Mart Insolvency Accounts Created by</title>
     <titleColor>#000000</titleColor>
     <titleSize>12</titleSize>
 </Dashboard>
