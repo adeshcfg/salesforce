@@ -81,21 +81,13 @@
         <label>Product: Current Total Balance</label>
         <locationX>50</locationX>
         <locationY>431</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
         <inputAssignments>
             <field>Current_Balance__c</field>
             <value>
                 <elementReference>BalanceFormula</elementReference>
             </value>
         </inputAssignments>
-        <object>Product__c</object>
+        <inputReference>$Record.CCS_Account__r</inputReference>
     </recordUpdates>
     <start>
         <locationX>56</locationX>
