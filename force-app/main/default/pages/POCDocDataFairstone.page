@@ -796,6 +796,93 @@
                 {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
             </div>
         </apex:outputPanel>
+        <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
+            <div style="padding-bottom: 10px; margin-top: -2px; font-family: Arial Unicode MS; font-size: 13px">
+                <div style="text-align: left; float: left; width: 200px">
+                    <apex:image value="{!pocPackage.Header_logo__c}" style="padding-left: 40px" />
+                </div>
+                <div style='float:left;width:455px; padding-top:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "40px;", "20px;")}'>
+                    <span style="float: left; padding-left: 25px; font-size: 13px"
+                        ><br /> Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br />
+                        {!pocPackage.CFG_Office_Address_1__c}<br />
+                        {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
+                    </span>
+                    <span style="float: right; text-align: right"
+                        ><br /> t. {!pocPackage.CFG_Office_Phone_Number__c}<br /> f. {!pocPackage.CFG_Office_Fax_Number__c}<br />
+                        {!pocPackage.CFG_Office_Website__c}
+                    </span>
+                </div>
+            </div>
+            <div style="margin: auto; line-height: 17px; width: 90%; font-family: Arial Unicode MS; font-size: 14px; page-break-after: always">
+
+                <div style="line-height: 15px; float: left">
+                    District of: {!insolvAcc.Insolvency__r.Court_District_Name__c}<br /> Division No: {!insolvAcc.Insolvency__r.Court_Division_Number__c}<br />
+                    Court No: {!insolvAcc.Insolvency__r.Debtor_1_Court_Number__c}{!IF(insolvAcc.Insolvency__r.Debtor_2_Court_Number__c !=
+                    null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Court_Number__c}<br />
+                    Estate No: {!insolvAcc.Insolvency__r.Name}{!IF(insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c !=
+                    null,';','')}{!insolvAcc.Insolvency__r.Debtor_2_Estate_Number__c}
+                </div>
+
+                <div style="text-align: center; clear: both">
+                    Form 36<br /> Proxy <br /> (Subsection 102(2) and paragraphs 51(1)e and 66.15(3)(b) of the Act)
+                    <br /><br /><br />
+                    In the matter of the bankruptcy (or the proposal, or the receivership) of 
+                    <br />
+                    <span style="font-weight: bold; font-family: sans-serif">
+                        <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)} </b>
+                        <br />
+                        <b>{!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)} </b>
+                    </span>
+                    <br />
+                    of the City of <span style="font-family: sans-serif; font-weight: bold"> {!insolvAcc.Insolvency__r.Debtor_1_Mailing_City__c }</span>, in the
+                    Province of
+                    <span style="font-family: sans-serif; font-weight: bold">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
+                    <br />
+                </div>
+                    <br />
+
+                <div style="line-height: 15px; margin-bottom: -8px">
+                    I, Bryan Szemenyei, of Canaccede International Management Ltd, representing a creditor(s) in the above matter, 
+                    hereby appoint <span style="font-family: sans-serif; font-weight: bold">TRUSTEE COMPANY</span>, to be my proxyholder in the above matter, except as to the receipt of dividends,
+                    with (or without) power to appoint another proxyholder in his or her place. 
+                    <br /><br /><br />
+                    Dated at London, Ontario, this
+                    <b>
+                        <apex:outputText value="{0,date, dd }">
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText>
+                    </b>
+                    day of
+                    <b>
+                        <apex:outputText value="{0,date, MMMM',' yyyy}">
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText>
+                        .
+                    </b>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="width: 200px; vertical-align: bottom; padding-right: 90px">
+                                <apex:image style="width:170px height:100px" value="{!pocPackage.Witness_Signature__c}" />
+                                Witness
+                            </td>
+                            <td>
+                                <apex:image style="width: 150px" value="{!pocPackage.CEO_Signature__c}" />
+                                <br />
+                                <span style="font-family: sans-serif; font-weight: bold">
+                                    Bryan Szemenyei, President<br /> Canaccede International Management Ltd.<br />
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <br /><br /><br /><br /><br /><br />
+                    {!UPPER(insolvAcc.Insolvency__r.Debtor_1_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_1_Last_Name__c)}
+                    <br />
+                    {!UPPER(insolvAcc.Insolvency__r.Debtor_2_First_Name__c+' '+insolvAcc.Insolvency__r.Debtor_2_Last_Name__c)}
+                    <br /><br /><br />
+                </div>
+            </div>
+            
+        </apex:outputPanel>
         <!---------------------STATEMENT OF ACCOUNT -------------->
         <!-- PAGE 5-->
         <apex:outputPanel rendered="{! $CurrentPage.parameters.statementOfAccount == 'true'}">
