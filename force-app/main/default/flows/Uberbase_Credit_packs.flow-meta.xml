@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
+    <decisions>
+        <name>DataArchiverUser</name>
+        <label>DataArchiverUser</label>
+        <locationX>528</locationX>
+        <locationY>383</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>true</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.DataArchiverUser</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Form_type</targetReference>
+            </connector>
+            <label>true</label>
+        </rules>
+    </decisions>
     <description>New Flow of Uberbase Credit packs</description>
     <environments>Default</environments>
     <interviewLabel>Uberbase Credit packs {!$Flow.CurrentDateTime}</interviewLabel>
@@ -27,8 +49,8 @@
     <recordUpdates>
         <name>Form_type</name>
         <label>Form type</label>
-        <locationX>659</locationX>
-        <locationY>394</locationY>
+        <locationX>662</locationX>
+        <locationY>518</locationY>
         <inputAssignments>
             <field>Form_Types__c</field>
             <value>
@@ -41,7 +63,7 @@
         <locationX>543</locationX>
         <locationY>48</locationY>
         <connector>
-            <targetReference>Form_type</targetReference>
+            <targetReference>DataArchiverUser</targetReference>
         </connector>
         <filterLogic>((1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9) AND 10) OR ( 11 AND 12) OR ((13 OR 14) AND 15)</filterLogic>
         <filters>
