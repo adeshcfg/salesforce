@@ -25,6 +25,13 @@
                     <stringValue>CCS_Account</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.DataArchiverUser</elementReference>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Update_Last_Payment_Amount_on_Product</targetReference>
             </connector>

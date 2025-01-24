@@ -2,33 +2,34 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
     <decisions>
-        <name>Total_Paid_To_Date</name>
-        <label>Total Paid To Date</label>
+        <description>Product Payment Recordtype</description>
+        <name>Record_Type</name>
+        <label>Record Type</label>
         <locationX>182</locationX>
-        <locationY>431</locationY>
+        <locationY>323</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>True</name>
-            <conditionLogic>1 AND 4 AND (2 OR 3)</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 3) AND 4</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Payment_Amount__c</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <stringValue>CCS_Product_Payment</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Product.RecordType.DeveloperName</leftValueReference>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>CCS_Account</stringValue>
+                    <stringValue>CCS_Dividend_Payment</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Product.RecordType.DeveloperName</leftValueReference>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>GoEasy_CCS_Account</stringValue>
+                    <stringValue>Balance_Adjustments</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -39,21 +40,22 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Product_Total_Paid_To_Date</targetReference>
+                <targetReference>Product_Current_Total_Balance</targetReference>
             </connector>
             <label>True</label>
         </rules>
     </decisions>
-    <description>New Flow of Update Total Paid To Date</description>
+    <description>New flow of Updated Current bal</description>
     <environments>Default</environments>
     <formulas>
-        <name>PaymentAmount</name>
+        <description>CCS_Account__r.Current_Balance__c - Gross_Payment_Amount__c</description>
+        <name>BalanceFormula</name>
         <dataType>Currency</dataType>
-        <expression>{!$Record.CCS_Account__r.Total_Paid_To_Date__c}+{!$Record.Payment_Amount__c}</expression>
+        <expression>{!$Record.CCS_Account__r.Current_Balance__c}-{!$Record.Gross_Payment_Amount__c}</expression>
         <scale>0</scale>
     </formulas>
-    <interviewLabel>Update Total Paid To Date {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Update Total Paid To Date</label>
+    <interviewLabel>Updated Current bal {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Updated Current bal</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -73,40 +75,12 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordLookups>
-        <description>Get Product record</description>
-        <name>Product</name>
-        <label>Product</label>
-        <locationX>182</locationX>
-        <locationY>323</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Total_Paid_To_Date</targetReference>
-        </connector>
-        <filterLogic>or</filterLogic>
-        <filters>
-            <field>RecordTypeId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>0123a000000LJq1</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>RecordTypeId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>0123a000000qjGf</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Product__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordUpdates>
-        <name>Product_Total_Paid_To_Date</name>
-        <label>Product: Total Paid To Date</label>
+        <description>Product: Current Total Balance</description>
+        <name>Product_Current_Total_Balance</name>
+        <label>Product: Current Total Balance</label>
         <locationX>50</locationX>
-        <locationY>539</locationY>
+        <locationY>431</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -116,9 +90,9 @@
             </value>
         </filters>
         <inputAssignments>
-            <field>Total_Paid_To_Date__c</field>
+            <field>Current_Balance__c</field>
             <value>
-                <elementReference>PaymentAmount</elementReference>
+                <elementReference>BalanceFormula</elementReference>
             </value>
         </inputAssignments>
         <object>Product__c</object>
@@ -127,7 +101,7 @@
         <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Product</targetReference>
+            <targetReference>Record_Type</targetReference>
         </connector>
         <object>Product_Payments__c</object>
         <recordTriggerType>Create</recordTriggerType>
