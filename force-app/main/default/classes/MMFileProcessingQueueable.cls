@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records for MM accounts
  * @author            : adeshi@a5econsulting.net
- * @last modified on  : 01-17-2025
+ * @last modified on  : 01-27-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class MMFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -211,7 +211,7 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
                             creditorAcc,
                             mmRecordTypeId
                         );
-                        accountToUpdate.Insolvency_Status__c = 'For Owner Review';
+                        updateNewAccountStatus(accountToUpdate);
                         accountToUpdate.Correlation_Id__c = String.valueOf(Integer.valueOf(correlationId) + 1).leftPad(15, '0');
                         correlationId = accountToUpdate.Correlation_Id__c;
                         accountToUpdate.CTB_Update_File_Timestamp__c = Datetime.now();
@@ -234,7 +234,7 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
                     ) {
                         accountToUpdate = CTBFileValidationUtility.updateMmInsolvencyAccount(stagingAcc);
                         accountToUpdate.Name = stagingAcc.Name;
-                        accountToUpdate.Insolvency_Status__c = 'For Owner Review';
+                        updateNewAccountStatus(accountToUpdate);
                         accountToUpdate.Insolvency__c = mapInsolvencyNameId.get(stagingAcc.Debtor_Estate_Number__c);
                         accountToUpdate.Correlation_Id__c = String.valueOf(Integer.valueOf(correlationId) + 1).leftPad(15, '0');
                         correlationId = accountToUpdate.Correlation_Id__c;
@@ -362,6 +362,24 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
         docStorage.Comment__c = 'Success Records : ' + String.valueOf(successRecordCount) + '\n' + 'Failed Records : ' + String.valueOf(failedRecordCount);
         // Update doc storage with processing status and error message if failed
         update docStorage;
+    }
+
+    /**
+     * @description : Method to update new account status correctly
+     * @author adesh.ikhar@canaccede.com | 01-27-2025
+     * @param accountToUpdate
+     **/
+    public static void updateNewAccountStatus(Insolvency_Account__c accountToUpdate) {
+        accountToUpdate.Insolvency_Status__c = 'For Owner Review';
+        if (
+            String.isBlank(accountToUpdate.CTB_Reject_Reason_Code__c) &&
+            (accountToUpdate.Last_Payment_Date__c != null ||
+            accountToUpdate.Acknowledgement_date__c != null ||
+            accountToUpdate.Account_Open_date__c != null ||
+            accountToUpdate.Judgement_Date__c != null)
+        ) {
+            accountToUpdate.Insolvency_Status__c = 'PoC Details Provided';
+        }
     }
 
     public static void updateRecords(
