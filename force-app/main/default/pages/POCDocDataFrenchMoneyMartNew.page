@@ -21,10 +21,10 @@
             <apex:outputPanel rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Insolvency_Type__c != 'Division 1 Proposal' && insolvAcc.Business_Account__c == False}">
         <!-- Adding new page STARTS-->
             <div style='font-family: "Times New Roman"; width:90%; margin:auto; font-size:16px; display:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "block;", "none;")}'>
-                <div style="text-align:center;padding-top: 0px;">
+                <div style="padding-left: 250px;">
                     <apex:image value="{!pocPackage.Unsecured_Type_Hearder__c}"/>  
                 </div>
-                <br/>
+               
                 <h3  style="text-align:center;padding-top: 0px; font-weight:bold;">
                     FORMULAIRE D'AVIS DE CESSION POUR LE DÉPÔT DE LA <br/>
                     PREUVE DE RÉCLAMATION <br/>
