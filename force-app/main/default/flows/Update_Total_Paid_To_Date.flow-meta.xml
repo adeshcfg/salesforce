@@ -83,19 +83,12 @@
         <connector>
             <targetReference>Total_Paid_To_Date</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>and</filterLogic>
         <filters>
-            <field>RecordTypeId</field>
+            <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>0123a000000LJq1</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>RecordTypeId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>0123a000000qjGf</stringValue>
+                <elementReference>$Record.CCS_Account__r.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
