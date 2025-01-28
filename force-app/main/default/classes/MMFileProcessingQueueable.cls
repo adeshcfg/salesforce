@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records for MM accounts
  * @author            : adeshi@a5econsulting.net
- * @last modified on  : 01-27-2025
+ * @last modified on  : 01-28-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class MMFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -343,6 +343,7 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
         }
         try {
             updateRecords(accountRecordsToUpdateMap, insolvencyRecordsToUpdateMap, creditorAccountRecordsToDeleteMap, docStorage);
+            Database.executeBatch(new InsolvencyAccountStatusUpdateBatch(accountRecordsToUpdateMap.keySet()));
         } catch (DmlException dex) {
             System.debug('Error updating records ' + dex.getDmlMessage(0));
             updateFailedDocStorage(docStorage, dex);
@@ -370,7 +371,7 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
      * @param accountToUpdate
      **/
     public static void updateNewAccountStatus(Insolvency_Account__c accountToUpdate) {
-        accountToUpdate.Insolvency_Status__c = 'For Owner Review';
+        accountToUpdate.Insolvency_Status__c = 'New';
         if (
             String.isBlank(accountToUpdate.CTB_Reject_Reason_Code__c) &&
             (accountToUpdate.Last_Payment_Date__c != null ||
