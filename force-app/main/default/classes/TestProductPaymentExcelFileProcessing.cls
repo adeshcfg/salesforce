@@ -75,7 +75,7 @@ private class TestProductPaymentExcelFileProcessing {
         prod.Non_Recoverable_Fee__c = 3;
         prod.Purchase_Province__c = 'BC';
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('CCS Account').getRecordTypeId();
-        insert prod;
+        //insert prod;
 
         Product__c prod1 = new Product__c();
         prod1.name = '1105P800';
@@ -98,7 +98,7 @@ private class TestProductPaymentExcelFileProcessing {
         prod1.Commission_Adjustment__c = 30;
         prod1.Purchase_Province__c = 'BC';
         prod1.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
-        insert prod1;
+        insert new List<Product__c>{prod1,prod};
 
         Account_judgment__c accountjudgmentcObj = new Account_judgment__c(Product__c = prod1.id);
         insert accountjudgmentcObj;
@@ -109,14 +109,14 @@ private class TestProductPaymentExcelFileProcessing {
             Placement__c = plcmnt.id,
             Pool_Commission_Rate__c = 20
         );
-        insert placementhistorycObj;
+        //insert placementhistorycObj;
 
         Placement_history__c placementhistorycObj1 = new Placement_history__c(
             product__c = prod1.id,
             Placement_Recall_Date__c = Date.today() - 10,
             Placement__c = plcmnt.id
         );
-        insert placementhistorycObj1;
+        insert new List<Placement_history__c>{placementhistorycObj1,placementhistorycObj};
 
         Product_payments__c productpaymentscObj = new Product_payments__c(
             Payment_Amount__c = 5.1,
@@ -129,7 +129,7 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Provided_Agency__c = plcmnt.id,
             Ignore_Warning__c = true
         );
-        insert productpaymentscObj;
+       // insert productpaymentscObj;
 
         Product_payments__c productpaymentscObj1 = new Product_payments__c(
             Payment_Amount__c = 1.1,
@@ -142,7 +142,7 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Provided_Agency__c = plcmnt.id,
             Ignore_Warning__c = true
         );
-        insert productpaymentscObj1;
+        //insert productpaymentscObj1;
 
         Product_payments__c productpaymentscObj2 = new Product_payments__c(
             Payment_Amount__c = 100,
@@ -155,7 +155,7 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Provided_Agency__c = plcmnt.id,
             Ignore_Warning__c = true
         );
-        insert productpaymentscObj2;
+        insert new List<Product_payments__c>{productpaymentscObj2,productpaymentscObj1,productpaymentscObj};
 
         Work_Assignment__c wrkAss = new Work_Assignment__c();
         wrkAss.Assign_To__c = 'CFG';
@@ -164,7 +164,7 @@ private class TestProductPaymentExcelFileProcessing {
         wrkAss.Task_Number__c = 'TA-00007';
         WorkAssignmentTriggerHandler.runWorkAssignmentTrigger = false;
         insert wrkAss;
-
+	Test.startTest();
         ProductPaymentExcelFileProcessing instance = new ProductPaymentExcelFileProcessing(
             '[{"data_id":"1105P700.0","pay_source":"2","tran_type":"3008","tran_date":"07-01-2022T","tran_amount":"1000,0","tran_principal":"9","tran_interest":null,"tran_court":"89","tran_attorney":null,"tran_nsf":null,"tran_general":"1.0","tran_other":"1.0","tran_retained":"1.0"},{"data_id":"1105P811","tran_type":"1000","tran_date":"07/12/2022","tran_amount":"1000.0","tran_principal":null,"tran_interest":"9","tran_court":null,"tran_attorney":null,"tran_nsf":null,"tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1105P711","tran_type":"1001","tran_date":"2022/08/22","tran_amount":"15909.06","tran_principal":null,"tran_interest":"10","tran_court":null,"tran_attorney":"abc","tran_nsf":null,"tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1105P865","tran_type":"1002","tran_date":"07/07/2022","tran_amount":"10000","tran_principal":null,"tran_interest":"11","tran_court":null,"tran_attorney":null,"tran_nsf":"test","tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1106P052","tran_type":"3000","tran_date":"07/09/2022","tran_amount":"200","tran_principal":null,"tran_interest":"12","tran_court":null,"tran_attorney":null,"tran_nsf":null,"tran_general":null,"tran_other":null,"tran_retained":null}]',
             wrkAss.Id,
@@ -180,6 +180,7 @@ private class TestProductPaymentExcelFileProcessing {
         instance.getCommissionRateValues();
         Map<String, Province_Tax_Rate_Mapping__mdt> mcs = new Map<String, Province_Tax_Rate_Mapping__mdt>();
         instance.mapTaxMetadata = mcs;
+    Test.stopTest();    
     }
 
     @isTest
@@ -253,7 +254,7 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Agency__c = '1234',
             Ignore_Warning__c = true
         );
-        
+    Test.startTest();  
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
 
         prodList.add(productpaymentscObj);
@@ -315,6 +316,7 @@ private class TestProductPaymentExcelFileProcessing {
         mcs1.put('Ontario', metaData);
         mcs1.put('AB', metaData);
         instance1.mapProvinceAcronymTaxMetadata = mcs1;
+     Test.stopTest();   
         //instance1.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs);
         
         /*Placement__c plcmnt1 = new Placement__c();
@@ -876,7 +878,7 @@ private class TestProductPaymentExcelFileProcessing {
         insert plcmnt1;
         mapPlacementIDs1.put(plcmnt1.id,plcmnt1);
         
-        
+    Test.startTest();  
         ProductPaymentExcelFileProcessing instance1 = new ProductPaymentExcelFileProcessing(
             '[{"data_id":"1105P700.0","tran_type":"1000","tran_date":"","tran_amount":"","tran_principal":"9","tran_interest":null,"tran_court":"89","tran_attorney":null,"tran_nsf":null,"tran_general":"1.0","tran_other":"1.0","tran_retained":"1.0"},{"data_id":"1105P701","tran_type":"1000","tran_date":"07/12/2022","tran_amount":"1000.0","tran_principal":null,"tran_interest":"9","tran_court":null,"tran_attorney":null,"tran_nsf":null,"tran_general":null,"tran_other":null,"tran_retained":null,"billing_entity":"93","fee_type":"test"},{"data_id":"1105P711","tran_type":"1001","tran_date":"07/08/2022","tran_amount":"15909.06","tran_principal":null,"tran_interest":"10","tran_court":null,"tran_attorney":"abc","tran_nsf":null,"tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1105P865","tran_type":"1002","tran_date":"07/07/2022","tran_amount":"10000","tran_principal":null,"tran_interest":"11","tran_court":null,"tran_attorney":null,"tran_nsf":"test","tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1106P052","tran_type":"3000","tran_date":"07/09/2022","tran_amount":"200","tran_principal":null,"tran_interest":"12","tran_court":null,"tran_attorney":null,"tran_nsf":null,"tran_general":null,"tran_other":null,"pri_acctno":23434.00,"commission_rate":"2","pay_source":"8928.0","tran_retained":null}]',
             '1234',
@@ -884,6 +886,7 @@ private class TestProductPaymentExcelFileProcessing {
         );
         //instance1.processExcelFileRecords();
         instance1.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs1);
+     Test.stopTest();   
     }
     
     @isTest
@@ -959,7 +962,7 @@ private class TestProductPaymentExcelFileProcessing {
             Payment_Agency__c = '29',
             Ignore_Warning__c = true
         );
-
+	Test.startTest();
         mapAccountPrimaryNumber.put(productpaymentscObj.CCS_Account_Name__c, '1263');
 
         prodList.add(productpaymentscObj);
@@ -994,7 +997,7 @@ private class TestProductPaymentExcelFileProcessing {
             Ignore_Warning__c = true
         );
         insert productpaymentscObj3;*/
-        
+
         ProductPaymentExcelFileProcessing instance = new ProductPaymentExcelFileProcessing(
             '[{"data_id":"1105P700","tran_type":"5000","tran_date":"2024/01/20","tran_amount":"1000","tran_principal":"9","tran_interest":null,"tran_court":"89","tran_attorney":null,"tran_nsf":null,"tran_general":"1.0","tran_other":"1.0","tran_retained":"1.0"},{"data_id":"1105P700","tran_type":"1003","tran_date":"07/01/2022","tran_amount":"-19","tran_principal":"9","tran_interest":null,"tran_court":"89","tran_attorney":null,"tran_nsf":null,"tran_general":"1.0","tran_other":"1.0","tran_retained":"1.0"},{"data_id":"1105P711","tran_type":"1001","tran_date":"07/08/2022","tran_amount":"15909.06","tran_principal":null,"tran_interest":"10","tran_court":null,"tran_attorney":"abc","tran_nsf":null,"tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1105P865","tran_type":"1002","tran_date":"07/07/2022","tran_amount":"10000","tran_principal":null,"tran_interest":"11","tran_court":null,"tran_attorney":null,"tran_nsf":"test","tran_general":null,"tran_other":null,"tran_retained":null},{"data_id":"1106P052","tran_type":"3000","tran_date":"07/09/2022","tran_amount":"200","tran_principal":null,"tran_interest":"12","tran_court":null,"tran_attorney":null,"tran_nsf":null,"tran_general":null,"tran_other":null,"pri_acctno":23434.00,"commission_rate":"2","pay_source":"8928.0","tran_retained":null}]',
             '1234',
@@ -1007,7 +1010,8 @@ private class TestProductPaymentExcelFileProcessing {
         metaData.Province_Tax_Rate__c = 10;
         Map<String, Province_Tax_Rate_Mapping__mdt> mcs = new Map<String, Province_Tax_Rate_Mapping__mdt>();
         mcs.put('ON', metaData);
-        instance.mapTaxMetadata = mcs;
+        instance.mapTaxMetadata = mcs;        
+      Test.stopTest();  
         //instance.validationOnRecordUpdate(prodList, productmap, documentstoragecObj2, mapAccountPrimaryNumber, mapPlacementIDs);
     } 
 }
