@@ -97,6 +97,7 @@ public class TestProductPaymentProcessingController {
             Fairshare_Amount__c = 20.00,
             CCS_Agency__c = acc.id,
             Status__c = 'New',
+            RecordTypeId = cssDividendREcordTYpeId,
             Deposit_Account_Name__c = 'CIML'
         );
 
@@ -108,9 +109,9 @@ public class TestProductPaymentProcessingController {
             Deposit_Account_Name__c = 'CIML',
             RecordTypeId = cssDividendREcordTYpeId
         );
-        insert dividWihtouCheque;
-        divid.recordTypeid = cssDividendREcordTYpeId;
-        insert divid;
+        insert new List<Remittance__c>{dividWihtouCheque,divid};
+      	//  divid.recordTypeid = cssDividendREcordTYpeId;
+       
 
         //Unallocated Payment
         Unallocated_Payment__c unAloccPay = new Unallocated_Payment__c(
@@ -153,7 +154,7 @@ public class TestProductPaymentProcessingController {
         prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod;
+       // insert prod;
 		
         //Product record creation
         Product__c prod1 = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_AAL/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'AAL'*/);
@@ -168,7 +169,7 @@ public class TestProductPaymentProcessingController {
         prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod1;
+       // insert prod1;
 
         //Product record creation GoEasy_CCS_Account 278 line //
         Product__c prod2 = new Product__c(Name = 'Test8965412300023', Portfolio_Name_Lookup__c = portfolio_AAL/*, Account_Purchase_Date__c = System.today(), Portfolio_Group_Name__c = 'AAL'*/);
@@ -183,7 +184,7 @@ public class TestProductPaymentProcessingController {
         prod2.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod2.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod2.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod2;
+        insert new List<Product__c>{prod,prod1,prod2};
         system.debug('Goeasy = '+prod2.recordTypeid);
 
         //Product Payment
@@ -196,7 +197,7 @@ public class TestProductPaymentProcessingController {
         prodpay.Payment_Amount__c = 20.00;
         prodpay.Payment_Source__c = '1';
         prodpay.Payment_Type__c = '1000';
-        insert prodpay;
+        //insert prodpay;
 
         //Product Payment    //
         Product_Payments__c prodpay3 = new Product_Payments__c();
@@ -206,7 +207,7 @@ public class TestProductPaymentProcessingController {
         prodpay3.Payment_Amount__c = 10;
         prodpay3.Payment_Source__c = '1';
         prodpay3.Payment_Type__c = '1000';
-        insert prodpay3;
+        insert new List<Product_Payments__c>{prodpay3,prodpay};
 
         //Deposit Account
         Deposit_Accounts__c dp = new Deposit_Accounts__c();
@@ -230,7 +231,7 @@ public class TestProductPaymentProcessingController {
         unAllocPay.Estate_Number__c = '4567';
         unAllocPay.Bank_Name__c = 'MBNA';
         insert unAllocPay;
-
+   
         ApexPages.currentPage().getParameters().put('Id', String.valueOf(divid.Id));
         ApexPages.StandardController sc = new ApexPages.StandardController(divid);
         ProductPaymentProcessingController pppc = new ProductPaymentProcessingController(sc);
@@ -251,7 +252,7 @@ public class TestProductPaymentProcessingController {
             Id prodId = p.CCS_Account__c;
             prodIdset.add(prodId);
         }
-
+Test.startTest();
         pppc.ProdAccIds = prodIdset; //prodAccIds is a Set of product Ids
         pppc.remit = divid;
 
@@ -295,6 +296,7 @@ public class TestProductPaymentProcessingController {
 
         ApexPages.StandardController sc1 = new ApexPages.StandardController(remitance);
         //ProductPaymentProcessingController pppc1 = new ProductPaymentProcessingController(sc1);
+      Test.stopTest();  
     }
 
     static testMethod void testController() {
@@ -434,7 +436,7 @@ public class TestProductPaymentProcessingController {
         depAcc1.Transit_Number__c = '123';
         depAcc1.Entity_Name__c = 'test';
         insert depAcc1;
-
+     Test.startTest();
         ApexPages.currentPage().getParameters().put('Id', String.valueOf(divid1.Id));
         ApexPages.StandardController sc2 = new ApexPages.StandardController(divid1);
         ProductPaymentProcessingController pppc2 = new ProductPaymentProcessingController(sc2);
@@ -451,6 +453,7 @@ public class TestProductPaymentProcessingController {
         prodpay1.Payment_Type__c = '1000';
         prodpay1.Ignore_Warning__c = true;
         insert prodpay1;
+     Test.stopTest();   
     }
 
     static testMethod void testController1() {
@@ -1319,6 +1322,7 @@ public class TestProductPaymentProcessingController {
             Fairshare_Amount__c = 20.00,
             CCS_Agency__c = acc.id,
             Status__c = 'New',
+            RecordTypeId = cssDividendREcordTYpeId,
             Deposit_Account_Name__c = 'CIML'
         );
 
@@ -1330,9 +1334,9 @@ public class TestProductPaymentProcessingController {
             Deposit_Account_Name__c = 'CIML',
             RecordTypeId = cssDividendREcordTYpeId
         );
-        insert dividWihtouCheque;
-        divid1.recordTypeid = cssDividendREcordTYpeId;
-        insert divid1;
+        //insert dividWihtouCheque;
+        //divid1.recordTypeid = cssDividendREcordTYpeId;
+        insert new List<Remittance__c>{divid1,dividWihtouCheque};
         dividWihtouCheque.id = divid1.id;
         update dividWihtouCheque;
 
@@ -1365,7 +1369,7 @@ public class TestProductPaymentProcessingController {
         prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod;
+       // insert prod;
 		
         Id portfolio_CLP = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CLP'].Id;	
 
@@ -1383,7 +1387,7 @@ public class TestProductPaymentProcessingController {
         prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod1;
+        insert new List <Product__c>{prod1,prod};
 
         //Product Payment
         Product_Payments__c prodpay = new Product_Payments__c();
@@ -1395,7 +1399,7 @@ public class TestProductPaymentProcessingController {
         prodpay.Payment_Amount__c = 20.00;
         prodpay.Payment_Source__c = '1';
         prodpay.Payment_Type__c = '1000';
-        insert prodpay;
+       // insert prodpay;
 
         //Product Payment    //
         Product_Payments__c prodpay3 = new Product_Payments__c();
@@ -1407,7 +1411,7 @@ public class TestProductPaymentProcessingController {
         prodpay3.Payment_Amount__c = 22.00;
         prodpay3.Payment_Source__c = '1';
         prodpay3.Payment_Type__c = '1000';
-        insert prodpay3;
+        
 
         //Deposit Account
         Deposit_Accounts__c dp = new Deposit_Accounts__c();
@@ -1416,7 +1420,7 @@ public class TestProductPaymentProcessingController {
         dp.Transit_Number__c = '32162';
         dp.Entity_Name__c = 'Canaccede International Management Ltd';
         insert dp;
-
+    Test.startTest();
         ApexPages.currentPage().getParameters().put('Id', String.valueOf(divid1.Id));
         ApexPages.StandardController sc2 = new ApexPages.StandardController(divid1);
         ProductPaymentProcessingController pppc2 = new ProductPaymentProcessingController(sc2);
@@ -1432,7 +1436,8 @@ public class TestProductPaymentProcessingController {
         prodpay1.Payment_Source__c = '1';
         prodpay1.Payment_Type__c = '1000';
         prodpay1.Ignore_Warning__c = true;
-        insert prodpay1;
+        insert new list <Product_Payments__c>{prodpay3,prodpay,prodpay1};
+     Test.stopTest();   
     }
 
     static testMethod void testController6() {
@@ -1471,6 +1476,7 @@ public class TestProductPaymentProcessingController {
             Fairshare_Amount__c = 20.00,
             CCS_Agency__c = acc.id,
             Status__c = 'New',
+            RecordTypeId = cssDividendREcordTYpeId,
             Deposit_Account_Name__c = 'CIML'
         );
 
@@ -1482,11 +1488,8 @@ public class TestProductPaymentProcessingController {
             Deposit_Account_Name__c = 'CIML',
             RecordTypeId = cssDividendREcordTYpeId
         );
-        insert dividWihtouCheque;
-
-        divid1.recordTypeid = cssDividendREcordTYpeId;
-        insert divid1;
-
+        insert new List <Remittance__c>{dividWihtouCheque,divid1};
+             
         dividWihtouCheque.id = divid1.id;
         update dividWihtouCheque;
 
@@ -1519,7 +1522,7 @@ public class TestProductPaymentProcessingController {
         prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod;
+        //insert prod;
 		
         Id portfolio_ETC = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'ETC'].Id;	
 
@@ -1537,7 +1540,7 @@ public class TestProductPaymentProcessingController {
         prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod1;
+        insert new List <Product__c>{prod1,prod};
 
         //Product Payment
         Product_Payments__c prodpay = new Product_Payments__c();
@@ -1549,7 +1552,7 @@ public class TestProductPaymentProcessingController {
         prodpay.Payment_Amount__c = 20.00;
         prodpay.Payment_Source__c = '1';
         prodpay.Payment_Type__c = '1000';
-        insert prodpay;
+        //insert prodpay;
 
         //Product Payment    //
         Product_Payments__c prodpay3 = new Product_Payments__c();
@@ -1560,7 +1563,7 @@ public class TestProductPaymentProcessingController {
         prodpay3.Payment_Amount__c = 22.00;
         prodpay3.Payment_Source__c = '1';
         prodpay3.Payment_Type__c = '1000';
-        insert prodpay3;
+        //insert prodpay3;
 
         //Deposit Account
         Deposit_Accounts__c dp = new Deposit_Accounts__c();
@@ -1569,7 +1572,7 @@ public class TestProductPaymentProcessingController {
         dp.Transit_Number__c = '32162';
         dp.Entity_Name__c = 'Canaccede International Management Ltd';
         insert dp;
-
+    Test.startTest();
         ApexPages.currentPage().getParameters().put('Id', String.valueOf(divid1.Id));
         ApexPages.StandardController sc2 = new ApexPages.StandardController(divid1);
         ProductPaymentProcessingController pppc2 = new ProductPaymentProcessingController(sc2);
@@ -1585,7 +1588,8 @@ public class TestProductPaymentProcessingController {
         prodpay1.Payment_Source__c = '1';
         prodpay1.Payment_Type__c = '1000';
         prodpay1.Ignore_Warning__c = true;
-        insert prodpay1;
+        insert new List<Product_Payments__c>{prodpay1,prodpay3,prodpay};
+      Test.stopTest();      
     }
 
     static testMethod void testController7() {
@@ -1624,6 +1628,7 @@ public class TestProductPaymentProcessingController {
             Fairshare_Amount__c = 20.00,
             CCS_Agency__c = acc.id,
             Status__c = 'New',
+            RecordTypeId = cssDividendREcordTYpeId,
             Deposit_Account_Name__c = 'CIML'
         );
 
@@ -1635,9 +1640,9 @@ public class TestProductPaymentProcessingController {
             Deposit_Account_Name__c = 'CIML',
             RecordTypeId = cssDividendREcordTYpeId
         );
-        insert dividWihtouCheque;
-        divid1.recordTypeid = cssDividendREcordTYpeId;
-        insert divid1;
+        insert new List<Remittance__c>{dividWihtouCheque,divid1};
+        //divid1.recordTypeid = cssDividendREcordTYpeId;
+        //insert divid1;
         dividWihtouCheque.id = divid1.id;
         update dividWihtouCheque;
 
@@ -1670,7 +1675,7 @@ public class TestProductPaymentProcessingController {
         prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod;
+        //insert prod;
 		
         Id portfolio_CAL = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CAL'].Id;	
 
@@ -1688,7 +1693,7 @@ public class TestProductPaymentProcessingController {
         prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod1;
+        insert new List <Product__c>{prod1,prod};
 
         //Product Payment
         Product_Payments__c prodpay = new Product_Payments__c();
@@ -1700,7 +1705,7 @@ public class TestProductPaymentProcessingController {
         prodpay.Payment_Amount__c = 20.00;
         prodpay.Payment_Source__c = '1';
         prodpay.Payment_Type__c = '1000';
-        insert prodpay;
+        //insert prodpay;
 
         //Product Payment    //
         Product_Payments__c prodpay3 = new Product_Payments__c();
@@ -1711,7 +1716,7 @@ public class TestProductPaymentProcessingController {
         prodpay3.Payment_Amount__c = 22.00;
         prodpay3.Payment_Source__c = '1';
         prodpay3.Payment_Type__c = '1000';
-        insert prodpay3;
+       
 
         //Deposit Account
         Deposit_Accounts__c dp = new Deposit_Accounts__c();
@@ -1720,7 +1725,7 @@ public class TestProductPaymentProcessingController {
         dp.Transit_Number__c = '32162';
         dp.Entity_Name__c = 'Canaccede International Management Ltd';
         insert dp;
-
+  Test.startTest();
         ApexPages.currentPage().getParameters().put('Id', String.valueOf(divid1.Id));
         ApexPages.StandardController sc2 = new ApexPages.StandardController(divid1);
         ProductPaymentProcessingController pppc2 = new ProductPaymentProcessingController(sc2);
@@ -1736,7 +1741,8 @@ public class TestProductPaymentProcessingController {
         prodpay1.Payment_Source__c = '1';
         prodpay1.Payment_Type__c = '1000';
         prodpay1.Ignore_Warning__c = true;
-        insert prodpay1;
+         insert new List<Product_Payments__c>{prodpay3,prodpay,prodpay1};
+      Test.stopTest();  
     }
 
     static testMethod void testController8() {
@@ -1775,6 +1781,7 @@ public class TestProductPaymentProcessingController {
             Fairshare_Amount__c = 20.00,
             CCS_Agency__c = acc.id,
             Status__c = 'New',
+            RecordTypeId = cssDividendREcordTYpeId,
             Deposit_Account_Name__c = 'CIML'
         );
 
@@ -1786,10 +1793,7 @@ public class TestProductPaymentProcessingController {
             Deposit_Account_Name__c = 'CIML',
             RecordTypeId = cssDividendREcordTYpeId
         );
-        insert dividWihtouCheque;
-
-        divid1.recordTypeid = cssDividendREcordTYpeId;
-        insert divid1;
+        insert new List<Remittance__c>{dividWihtouCheque,divid1};
 
         dividWihtouCheque.id = divid1.id;
         update dividWihtouCheque;
@@ -1823,7 +1827,7 @@ public class TestProductPaymentProcessingController {
         prod.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod;
+        //insert prod;
 
         Id portfolio_CFL = [select id from Portfolio_Name__c where Portfolio_Group_Name__c = 'CFL'].Id;	
 
@@ -1841,7 +1845,7 @@ public class TestProductPaymentProcessingController {
         prod1.Fourth_Proposal_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Proposal_Received_Date__c = Date.newInstance(2023, 8, 4);
         prod1.Expected_First_disbursement_date__c = Date.newInstance(2023, 8, 5);
-        insert prod1;
+        insert new List<Product__c>{prod1,prod};
 
         //Product Payment
         Product_Payments__c prodpay = new Product_Payments__c();
@@ -1853,7 +1857,7 @@ public class TestProductPaymentProcessingController {
         prodpay.Payment_Amount__c = 20.00;
         prodpay.Payment_Source__c = '1';
         prodpay.Payment_Type__c = '1000';
-        insert prodpay;
+        //insert prodpay;
 
         //Product Payment
         Product_Payments__c prodpay3 = new Product_Payments__c();
@@ -1864,7 +1868,7 @@ public class TestProductPaymentProcessingController {
         prodpay3.Payment_Amount__c = 22.00;
         prodpay3.Payment_Source__c = '1';
         prodpay3.Payment_Type__c = '1000';
-        insert prodpay3;
+        //insert prodpay3;
 
         //Deposit Account
         Deposit_Accounts__c dp = new Deposit_Accounts__c();
@@ -1873,7 +1877,7 @@ public class TestProductPaymentProcessingController {
         dp.Transit_Number__c = '32162';
         dp.Entity_Name__c = 'Canaccede International Management Ltd';
         insert dp;
-
+   Test.startTest();
         ApexPages.currentPage().getParameters().put('Id', String.valueOf(divid1.Id));
         ApexPages.StandardController sc2 = new ApexPages.StandardController(divid1);
         ProductPaymentProcessingController pppc2 = new ProductPaymentProcessingController(sc2);
@@ -1889,6 +1893,7 @@ public class TestProductPaymentProcessingController {
         prodpay1.Payment_Source__c = '1';
         prodpay1.Payment_Type__c = '1000';
         prodpay1.Ignore_Warning__c = true;
-        insert prodpay1;
+        insert new List<Product_Payments__c>{prodpay1,prodpay,prodpay3};
+      Test.stopTest();      
     }
 }

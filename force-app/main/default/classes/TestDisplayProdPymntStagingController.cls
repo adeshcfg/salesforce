@@ -35,6 +35,7 @@ public class TestDisplayProdPymntStagingController {
     
     @isTest
     static void testMethod1(){
+     Test.startTest();   
 		Placement__c placement1 = new Placement__c();
         placement1.name = '11';
         insert placement1;
@@ -148,10 +149,12 @@ public class TestDisplayProdPymntStagingController {
         DisplayProductPaymentStagingController.productPaymentStagingWrapper wrapper = new DisplayProductPaymentStagingController.productPaymentStagingWrapper(productpaymentstagingcObj, true);
         wrapper.selected = true;
         instance.save();
+    Test.stopTest();    
     }
     
     @isTest
     static void testMethod2() {
+      Test.startTest();  
         Work_Assignment__c wrkAss = new Work_Assignment__c();
         wrkAss.Assign_To__c = 'CFG';
         wrkAss.Status__c = 'Requested';
@@ -241,10 +244,13 @@ public class TestDisplayProdPymntStagingController {
         DisplayProductPaymentStagingController.productPaymentStagingWrapper wrapper = new DisplayProductPaymentStagingController.productPaymentStagingWrapper(productpaymentstagingcObj, true);
         wrapper.selected = true;
         instance.save();
+        Test.stopTest();
     }
     
     @isTest
     static void testMethod3(){
+        
+      Test.startTest();  
         Work_Assignment__c wrkAss = new Work_Assignment__c();
         wrkAss.Assign_To__c = 'CFG';
         wrkAss.Status__c = 'Requested';
@@ -316,11 +322,13 @@ public class TestDisplayProdPymntStagingController {
         DisplayProductPaymentStagingController.productPaymentStagingWrapper wrapper = new DisplayProductPaymentStagingController.productPaymentStagingWrapper(productpaymentstagingcObj, true);
         wrapper.selected = true;
         instance.save();
+        Test.stopTest();
     }
     
     @isTest
     static void testMethod4(){
 
+		Test.startTest();        
         Work_Assignment__c wrkAss = new Work_Assignment__c();
         wrkAss.Assign_To__c = 'CFG';
         wrkAss.Status__c = 'Requested';
@@ -391,10 +399,12 @@ public class TestDisplayProdPymntStagingController {
         DisplayProductPaymentStagingController.productPaymentStagingWrapper wrapper = new DisplayProductPaymentStagingController.productPaymentStagingWrapper(productpaymentstagingcObj, true);
         wrapper.selected = true;
         instance.save();
+        Test.stopTest();
     }
     
     @isTest
     static void testMethod5(){
+       Test.startTest(); 
         Work_Assignment__c wrkAss = new Work_Assignment__c();
         wrkAss.Status__c = 'Requested';
         insert wrkAss;
@@ -458,10 +468,12 @@ public class TestDisplayProdPymntStagingController {
         DisplayProductPaymentStagingController.productPaymentStagingWrapper wrapper = new DisplayProductPaymentStagingController.productPaymentStagingWrapper(productpaymentstagingcObj, true);
         wrapper.selected = true;
         instance.save();
+      Test.stopTest();  
     }
     
     @isTest
     static void testMethod6(){
+     Test.startTest();   
         Work_Assignment__c wrkAss = new Work_Assignment__c();
         wrkAss.Status__c = 'Requested';
         insert wrkAss;
@@ -526,11 +538,12 @@ public class TestDisplayProdPymntStagingController {
         DisplayProductPaymentStagingController.productPaymentStagingWrapper wrapper = new DisplayProductPaymentStagingController.productPaymentStagingWrapper(productpaymentstagingcObj, true);
         wrapper.selected = true;
         instance.SaveBalanceAdjustment();
-        
+       Test.stopTest(); 
       
     }
     
     public static testMethod void testData(){
+        
         map<Id, Product_Payments__c> mapNewProductPayment = new map<Id, Product_Payments__c>();
         
         Product__c prod = new Product__c();
@@ -597,9 +610,9 @@ public class TestDisplayProdPymntStagingController {
        
         mapNewProductPayment.put(prodpay1.id,prodpay1);
         
-        Test.startTest();
+      Test.startTest();
         DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment, sp,workAssignment1.Id,docStorage1.Id);
-        Test.stopTest();
+        
         Product_Payments__c prodpay2= new  Product_Payments__c();
         prodpay2.CCS_Account__c = prod.id;
         prodpay2.Payment_Amount__c = -5000;
@@ -613,9 +626,11 @@ public class TestDisplayProdPymntStagingController {
         
         mapNewProductPayment.put(prodpay2.id,prodpay2);
         DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
+      Test.stopTest();  
     }
     
     public static testMethod void testData1(){
+     Test.startTest();   
         map<Id, Product_Payments__c> mapNewProductPayment = new map<Id, Product_Payments__c>();
 
         Product__c prod = new Product__c();
@@ -680,9 +695,11 @@ public class TestDisplayProdPymntStagingController {
         
         Savepoint sp = Database.setSavepoint();
         DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
+      Test.stopTest();  
     }
     
     public static testMethod void testData2(){
+     Test.startTest();   
         map<Id, Product_Payments__c> mapNewProductPayment = new map<Id, Product_Payments__c>();
 
         Product__c prod = new Product__c();
@@ -746,9 +763,11 @@ public class TestDisplayProdPymntStagingController {
         
         Savepoint sp = Database.setSavepoint();
         DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
+     Test.stopTest();   
     }
     
     public static testMethod void testData3(){
+     Test.startTest();   
         map<Id, Product_Payments__c> mapNewProductPayment = new map<Id, Product_Payments__c>();
 
         Product__c prod = new Product__c();
@@ -815,9 +834,11 @@ public class TestDisplayProdPymntStagingController {
         
         Savepoint sp = Database.setSavepoint();
         DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
+      Test.stopTest();  
     }
     
     public static testMethod void testData4(){
+      Test.startTest();  
         map<Id, Product_Payments__c> mapNewProductPayment = new map<Id, Product_Payments__c>();
 
         Product__c prod = new Product__c();
@@ -872,6 +893,7 @@ public class TestDisplayProdPymntStagingController {
         
         Savepoint sp = Database.setSavepoint();
         DisplayProductPaymentStagingController.calculateBalanceBackdatedPayments(mapNewProductPayment,sp,workAssignment1.Id,docStorage1.Id);
+     Test.stopTest();   
     }
     
     

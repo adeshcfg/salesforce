@@ -236,6 +236,7 @@ public class TestProcessingUnallocatedProductctlr {
             Cheque_Number__c = '12345',
             Is_Payment_Remitted__c = false
         );
+      Test.startTest();  
         unAloccPay.recordTypeId = [SELECT id FROM RecordType WHERE SobjectType = 'unallocated_Payment__C' AND name LIKE '%Insolvency%'].id;
         insert unAloccPay;
 
@@ -265,6 +266,7 @@ public class TestProcessingUnallocatedProductctlr {
         obj = new ProcessingUnallocatedProductController(new ApexPages.StandardController(unAloccPay));
         obj.insolvPay.CCS_Account__C = [SELECT Id FROM Product__c LIMIT 1].Id;
         obj.save();
+      Test.stopTest();  
     }
 
     static testMethod void testController3() {
@@ -284,6 +286,7 @@ public class TestProcessingUnallocatedProductctlr {
         insert prod2;
 
         //Deposit Slip Record creation
+      Test.startTest(); 
         Deposit_Slip__c ds = new Deposit_Slip__c();
         ds.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'Deposit_Slip__c' AND name LIKE '%ccs%'].id;
         insert ds;
@@ -315,7 +318,7 @@ public class TestProcessingUnallocatedProductctlr {
         payment2.Unallocated_Payment__c = unAloccPay.id;
         payment2.Deposit_Account_Type__c = 'CIH';
         payment2.Payment_Type__c = '1000';
-        insert payment2;
+        //insert payment2;
 
         Product_Payments__C payment3 = new Product_Payments__C();
         payment3.Payment_Source__c = '2';
@@ -326,7 +329,7 @@ public class TestProcessingUnallocatedProductctlr {
         payment3.Deposit_Account_Type__c = 'CIA';
         payment3.Payment_Type__c = '1000';
         payment3.Ignore_Warning__c = true;
-        insert payment3;
+        insert new List<Product_Payments__C>{payment3,payment2};
 
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
 
@@ -350,6 +353,7 @@ public class TestProcessingUnallocatedProductctlr {
         obj.insolvPay.CCS_Account__C = [SELECT Id FROM Product__c LIMIT 1].Id;
         obj.isAllocated = false;
        // obj.save();
+    Test.stopTest();
     }
 
     static testMethod void testController4() {
@@ -368,7 +372,8 @@ public class TestProcessingUnallocatedProductctlr {
         prod2.Product_Status__c = 'Test';
         insert prod2;
 
-        //Deposit Slip Record creation
+     Test.startTest();   
+       //Deposit Slip Record creation
         Deposit_Slip__c ds = new Deposit_Slip__c();
         ds.recordTypeid = [SELECT id FROM RecordType WHERE SobjectType = 'Deposit_Slip__c' AND name LIKE '%ccs%'].id;
         insert ds;
@@ -424,6 +429,7 @@ public class TestProcessingUnallocatedProductctlr {
         obj.insolvPay.CCS_Account__C = [SELECT Id FROM Product__c LIMIT 1].Id;
         obj.isAllocated = false;
         obj.save();
+      Test.stopTest();  
     }
 
     static testMethod void testController5() {
@@ -475,7 +481,8 @@ public class TestProcessingUnallocatedProductctlr {
         payment2.Deposit_Account_Type__c = 'AAL';
         payment2.Payment_Type__c = '1000';
         insert payment2;
-
+        
+  Test.startTest();
         ApexPages.currentPage().getParameters().put('id', unAloccPay.Id);
 
         remit.id = unAloccPay.Remittance__c;
@@ -498,6 +505,7 @@ public class TestProcessingUnallocatedProductctlr {
         obj.insolvPay.CCS_Account__C = [SELECT Id FROM Product__c LIMIT 1].Id;
         obj.isAllocated = false;
         obj.save();
+     Test.stopTest();   
     }
 
     static testMethod void testController6() {
