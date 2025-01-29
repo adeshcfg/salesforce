@@ -101,7 +101,7 @@
             <field>RecordTypeId</field>
             <operator>NotEqualTo</operator>
             <value>
-                <stringValue>Distressed Account</stringValue>
+                <stringValue>012f10000015HlJAAU</stringValue>
             </value>
         </filters>
         <object>Product__c</object>

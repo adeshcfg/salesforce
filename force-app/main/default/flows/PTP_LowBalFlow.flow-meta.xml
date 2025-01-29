@@ -47,8 +47,8 @@
     <recordCreates>
         <name>createTask</name>
         <label>createTask</label>
-        <locationX>535</locationX>
-        <locationY>387</locationY>
+        <locationX>458</locationX>
+        <locationY>451</locationY>
         <connector>
             <targetReference>Settlement_Offer_letter_SO1_Action_1</targetReference>
         </connector>
@@ -100,8 +100,8 @@
     <recordUpdates>
         <name>mainUpdate</name>
         <label>mainUpdate</label>
-        <locationX>247</locationX>
-        <locationY>387</locationY>
+        <locationX>647</locationX>
+        <locationY>407</locationY>
         <connector>
             <targetReference>createTask</targetReference>
         </connector>
@@ -178,7 +178,7 @@
             <field>RecordTypeId</field>
             <operator>NotEqualTo</operator>
             <value>
-                <stringValue>Distressed Account</stringValue>
+                <stringValue>012f10000015HlJAAU</stringValue>
             </value>
         </filters>
         <filters>
