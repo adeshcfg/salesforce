@@ -3,7 +3,7 @@
     <fullName>Payment_not_editable</fullName>
     <active>true</active>
     <description>Payment not editable if Deposit Slip is already generated</description>
-    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),AND( $Setup.Application_Config_Settings__c.Do_Not_Run_Payment_Validation__c = False,
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),AND( $Setup.Application_Config_Settings__c.Do_Not_Run_Payment_Validation__c = False,
 OR(
 AND(Deposit_Slip__c != null,
 NOT(ISCHANGED( Is_Payment_Remitted__c )),
@@ -24,7 +24,7 @@ NOT(ISCHANGED( Remitted_Date__c )),
 NOT(ISCHANGED( Payment_Reversed__c ))
 )
 )
-)))</errorConditionFormula>
+))))</errorConditionFormula>
     <errorDisplayField>Balance_After_Payment__c</errorDisplayField>
     <errorMessage>Payment not editable as Deposit Slip is already generated</errorMessage>
 </ValidationRule>

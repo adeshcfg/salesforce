@@ -4,12 +4,9 @@
     <active>true</active>
     <description>Restrict_User_To_Update_Payment</description>
     <errorConditionFormula>AND(
-
+$User.LastName &lt;&gt; $Label.DataArchiverUser,
    ISCHANGED( Payment_Amount__c ),
-
-   NOT ISBLANK(PRIORVALUE( Payment_Amount__c ))
-
-)</errorConditionFormula>
+   NOT ISBLANK(PRIORVALUE( Payment_Amount__c )))</errorConditionFormula>
     <errorDisplayField>Balance_After_Payment__c</errorDisplayField>
     <errorMessage>Payment Amount Can Not Be Modified</errorMessage>
 </ValidationRule>
