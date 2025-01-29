@@ -98,10 +98,10 @@
             </value>
         </filters>
         <filters>
-            <field>RecordTypeId</field>
-            <operator>NotEqualTo</operator>
+            <field>Record_Type_Name__c</field>
+            <operator>EqualTo</operator>
             <value>
-                <stringValue>012f10000015HlJAAU</stringValue>
+                <stringValue>Distressed Account</stringValue>
             </value>
         </filters>
         <object>Product__c</object>

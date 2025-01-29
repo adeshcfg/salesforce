@@ -175,10 +175,10 @@
             </value>
         </filters>
         <filters>
-            <field>RecordTypeId</field>
+            <field>Record_Type_Name__c</field>
             <operator>NotEqualTo</operator>
             <value>
-                <stringValue>012f10000015HlJAAU</stringValue>
+                <stringValue>Distressed Account</stringValue>
             </value>
         </filters>
         <filters>
