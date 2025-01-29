@@ -3,7 +3,7 @@
     <fullName>Payment_Reversed</fullName>
     <active>true</active>
     <description>Once Payment is Reversed do not allow payment to be updated</description>
-    <errorConditionFormula>OR(AND(
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,OR(AND(
 ISCHANGED( Payment_Reversed__c ),
 OR(
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;NSF&quot;),
@@ -12,7 +12,6 @@ ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Unauthorised&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Stale Dated&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Payment posted to Incorrect account&quot;))),
 AND(
-NOT(ISNEW()),
 NOT(ISCHANGED(Payment_Reversed__c)),
 OR(
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;NSF&quot;),
@@ -20,6 +19,6 @@ ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Stopped&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Unauthorised&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Stale Dated&quot;),
 ISPICKVAL(PRIORVALUE(Payment_Reversed__c) , &quot;Payment posted to Incorrect account&quot;)))
-)</errorConditionFormula>
+))</errorConditionFormula>
     <errorMessage>Once the Payment is reversed, it cannot be updated</errorMessage>
 </ValidationRule>

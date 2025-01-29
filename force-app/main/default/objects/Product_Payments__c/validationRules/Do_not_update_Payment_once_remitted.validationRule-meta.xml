@@ -3,11 +3,11 @@
     <fullName>Do_not_update_Payment_once_remitted</fullName>
     <active>true</active>
     <description>Do not update Payment once remitted</description>
-    <errorConditionFormula>If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),OR( AND(ISCHANGED(Is_Payment_Remitted__c ), Is_Payment_Remitted__c = False),
+    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,If( ISNEW(), (AND(OR(ISNULL( CreatedDate ),ISBLANK(CreatedDate )),OR( AND(ISCHANGED(Is_Payment_Remitted__c ), Is_Payment_Remitted__c = False),
 AND(PRIORVALUE(Is_Payment_Remitted__c ) = True, Is_Payment_Remitted__c = True)
 ))),
 (OR( AND(ISCHANGED(Is_Payment_Remitted__c ), Is_Payment_Remitted__c = False),
 AND(NOT(ISCHANGED(External_Correlation_ID__c)),PRIORVALUE(Is_Payment_Remitted__c ) = True, Is_Payment_Remitted__c = True)
-)))</errorConditionFormula>
+))))</errorConditionFormula>
     <errorMessage>Payment is remitted back and now it can not be edited</errorMessage>
 </ValidationRule>
