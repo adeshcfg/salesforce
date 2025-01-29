@@ -39,7 +39,7 @@ Workflow rule description</description>
         <connector>
             <targetReference>mainUpdate</targetReference>
         </connector>
-        <filterFormula>AND(NOT(ISNULL({!$Record.CreatedDate})),OR({!$Record.RecordType.Name} == &apos;Credit Card Account&apos; , {!$Record.RecordType.Name} == &apos;Loan Account&apos;))</filterFormula>
+        <filterFormula>AND(NOT(ISNULL({!$Record.CreatedDate})),OR({!$Record.RecordType.DeveloperName} == &apos;Credit_Card_Account&apos; , {!$Record.RecordType.DeveloperName} == &apos;Loan_Account&apos;))</filterFormula>
         <object>Product__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
