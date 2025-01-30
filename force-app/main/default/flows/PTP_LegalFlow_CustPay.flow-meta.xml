@@ -99,7 +99,7 @@
         </filters>
         <filters>
             <field>Record_Type_Name__c</field>
-            <operator>EqualTo</operator>
+            <operator>NotEqualTo</operator>
             <value>
                 <stringValue>Distressed Account</stringValue>
             </value>
