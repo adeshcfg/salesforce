@@ -720,7 +720,9 @@ public class EmailTrusteeController {
                 Database.delete(docsToDelete);
             }
 
-            EmailTrusteeController.updateInsolvencyAccount(insolvAcc.Id, mySelectedAtt);
+            if (insolTemplateWithManAttachList.contains(selectedTemplate)) {
+                EmailTrusteeController.updateInsolvencyAccount(insolvAcc.Id, mySelectedAtt);
+            }
 
             // Create Attachment against activity history on Insolvency Account
             List<Task> emailTask = [SELECT id FROM Task WHERE whatID = :insolvAcc.Id ORDER BY CreatedDate DESC LIMIT 1];
