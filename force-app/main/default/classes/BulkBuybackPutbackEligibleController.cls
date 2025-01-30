@@ -37,8 +37,7 @@ public class BulkBuybackPutbackEligibleController {
         }
         countrieLst = new List<SelectOption>();
         countrieLst.add(new SelectOption('None','None'));
-        countrieLst.add(new SelectOption('Eligible for Buyback','Eligible for Buyback'));
-        countrieLst.add(new SelectOption('Eligible for Putback','Eligible for Putback'));
+        countrieLst.add(new SelectOption('Buyback/Putback Initiated','Buyback/Putback Initiated'));
        system.debug('prodAccIDs**'+prodAccIDs);    
     }
     // Method search for given Insolvency account, Estate Number, Primary Borrower and Debtor   

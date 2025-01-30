@@ -76,7 +76,7 @@ public class TestPortalProductProcessingAPI {
         prod1.Last_Name__c = 'xyz';
         prod1.Pool_Name__c = pool.id;
         prod1.Placement_Status__c = '100010';
-        prod1.Purchase_Status__c = 'Putback Initiated';
+        prod1.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod1.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId();
         insert prod1;
         
@@ -105,7 +105,7 @@ public class TestPortalProductProcessingAPI {
         prod2.Pool_Name__c = pool.id;
         prod2.Placement_Status__c = '100010';
         prod2.Credit_Counselling_Date__c =null;
-        prod2.Purchase_Status__c = 'Putback Requested';
+        prod2.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
         insert prod2;
@@ -132,7 +132,7 @@ public class TestPortalProductProcessingAPI {
         prod6.Pool_Name__c = pool.id;
         prod6.Placement_Status__c = '100010';
         prod6.Credit_Counselling_Date__c =null;
-        prod6.Purchase_Status__c = 'Buyback Requested';
+        prod6.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
         prod6.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
         insert prod6;
@@ -159,7 +159,7 @@ public class TestPortalProductProcessingAPI {
         prod8.Pool_Name__c = pool.id;
         prod8.Placement_Status__c = '100010';
         prod8.Credit_Counselling_Date__c =null;
-        prod8.Purchase_Status__c = 'Buyback Approved';
+        prod8.Purchase_Status__c = 'Buyback/Putback Approved';
         prod8.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
         insert prod8;
@@ -186,7 +186,7 @@ public class TestPortalProductProcessingAPI {
         prod10.Pool_Name__c = pool.id;
         prod10.Placement_Status__c = '100010';
         prod10.Credit_Counselling_Date__c =null;
-        prod10.Purchase_Status__c = 'Putback Approved';
+        prod10.Purchase_Status__c = 'Buyback/Putback Approved';
         prod10.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
         insert prod10;

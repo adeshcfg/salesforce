@@ -202,7 +202,7 @@ insert apiCallDetails;*/
         prod.Pool_Name__c = pool.id;
         prod.Collection_Agency__c = 30;
         prod.Placement_Status__c = '100010';
-        prod.Purchase_Status__c = 'Buyback Initiated';
+        prod.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod.state__c = 'Alberta';
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
@@ -223,7 +223,7 @@ insert apiCallDetails;*/
         prod1.Last_Name__c = 'xyz';
         prod1.Pool_Name__c = pool.id;
         prod1.Placement_Status__c = '100010';
-        prod1.Purchase_Status__c = 'Putback Initiated';
+        prod1.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod1.Purchase_Province__c = 'PE';
         prod1.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId();
         prod1.Customer__c = customer.id;
@@ -255,7 +255,7 @@ insert apiCallDetails;*/
         prod2.Pool_Name__c = pool.id;
         prod2.Placement_Status__c = '100010';
         prod2.Credit_Counselling_Date__c = null;
-        prod2.Purchase_Status__c = 'Putback Requested';
+        prod2.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
         prod2.Last_Payment_Date__c = Date.newInstance(2016, 12, 5);
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
@@ -285,7 +285,7 @@ insert apiCallDetails;*/
         prod6.Pool_Name__c = pool.id;
         prod6.Placement_Status__c = '100010';
         prod6.Credit_Counselling_Date__c = null;
-        prod6.Purchase_Status__c = 'Buyback Requested';
+        prod6.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
         prod6.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
         prod6.Customer__c = customer1.id;
@@ -314,7 +314,7 @@ insert apiCallDetails;*/
         prod8.Pool_Name__c = pool.id;
         prod8.Placement_Status__c = '100010';
         prod8.Credit_Counselling_Date__c = null;
-        prod8.Purchase_Status__c = 'Buyback Approved';
+        prod8.Purchase_Status__c = 'Buyback/Putback Approved';
         prod8.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prod8.Customer__c = customer1.id;
         prod8.Purchase_Province__c = 'PE';
@@ -343,7 +343,7 @@ insert apiCallDetails;*/
         prod10.Pool_Name__c = pool.id;
         prod10.Placement_Status__c = '100010';
         prod10.Credit_Counselling_Date__c = null;
-        prod10.Purchase_Status__c = 'Putback Approved';
+        prod10.Purchase_Status__c = 'Buyback/Putback Approved';
         prod10.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prod10.Customer__c = customer1.id;
         insert prod10;
@@ -384,7 +384,7 @@ insert apiCallDetails;*/
         //prod3.Date_for_Stat_Barred_calculations__c = Date.newInstance(2022, 8, 9);
         prod3.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod3.Open_Date__c = Date.newInstance(2022, 12, 9);
-        prod3.Purchase_Status__c = 'Putback Initiated';
+        prod3.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod3.Purchase_Province__c = 'PE';
         prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prod3.Customer__c = null;
@@ -404,7 +404,7 @@ insert apiCallDetails;*/
         prod4.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod4.State__c = 'Alberta';
         prod4.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod4.Purchase_Status__c = 'Eligible for Buyback';
+        prod4.Purchase_Status__c = 'Buyback/Putback Initiated';
         //update prod;
 
         product__c prod5 = new product__c();
@@ -418,7 +418,7 @@ insert apiCallDetails;*/
         prod5.Last_Payment_Date__c = Date.newInstance(2022, 10, 9);
         prod5.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod5.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod5.Purchase_Status__c = 'Eligible for Putback';
+        prod5.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod5.Purchase_Province__c = 'PE';
 
         product__c prod7 = new product__c();
@@ -432,7 +432,7 @@ insert apiCallDetails;*/
         prod7.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod7.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
         prod7.Purchase_Province__c = 'PE';
-        prod7.Purchase_Status__c = 'Buyback Initiated';
+        prod7.Purchase_Status__c = 'Buyback/Putback Initiated';
 
         product__c prod9 = new product__c();
         prod9.id = prod8.ID;
@@ -445,7 +445,7 @@ insert apiCallDetails;*/
         prod9.Refer_to_Legal__c = 'Declined';
         prod9.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod9.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod9.Purchase_Status__c = 'Buyback Requested';
+        prod9.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
 
         product__c prod11 = new product__c();
         prod11.id = prod10.ID;
@@ -459,7 +459,7 @@ insert apiCallDetails;*/
         prod11.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod11.Charged_Off_Date__c = Date.newInstance(2020, 12, 15);
         prod11.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod11.Purchase_Status__c = 'Putback Requested';
+        prod11.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
 
         prodList.add(prod3);
         prodList.add(prod4);
@@ -555,7 +555,7 @@ insert customer1;*/
         prod.Pool_Name__c = pool.id;
         prod.Collection_Agency__c = 30;
         prod.Placement_Status__c = '100010';
-        prod.Purchase_Status__c = 'Buyback Initiated';
+        prod.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod.state__c = 'Alberta';
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
@@ -586,7 +586,7 @@ insert customer1;*/
         prod2.Last_Name__c = 'xyz';
         prod2.Placement_Status__c = '100010';
         prod2.Credit_Counselling_Date__c = null;
-        prod2.Purchase_Status__c = 'Putback Requested';
+        prod2.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
         prod2.Last_Payment_Date__c = Date.newInstance(2016, 12, 5);
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prod2.Purchase_Province__c = 'PE';
@@ -640,7 +640,7 @@ insert customer1;*/
         prod4.Statute_Date__c = null;
         prod4.State__c = 'Alberta';
         prod4.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod4.Purchase_Status__c = 'Eligible for Buyback';
+        prod4.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod4.product_status__C = '';
         prod4.Zip_Code__c = '887O';
         prod4.Customer__c = customer1.id;*/
@@ -658,7 +658,7 @@ insert customer1;*/
         prod5.Statute_Date__c = null;
         prod5.State__c = 'Alberta';
         prod5.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod5.Purchase_Status__c = 'Eligible for Buyback';
+        prod5.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod5.product_status__C = '';
         prod5.Zip_Code__c = '887O';
         prod5.Last_Payment_Date__c = System.today() - 20;
@@ -680,7 +680,7 @@ insert customer1;*/
         prod6.Statute_Date__c = null;
         prod6.State__c = 'Alberta';
         prod6.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod6.Purchase_Status__c = 'Eligible for Buyback';
+        prod6.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod6.product_status__C = '';
         prod6.Zip_Code__c = '887O';
         prod6.Last_Payment_Date__c = System.today() - 10;
@@ -1459,7 +1459,7 @@ insert customer1;*/
         prod.Last_Name__c = 'xyz';
         prod.Collection_Agency__c = 30;
         prod.Placement_Status__c = '100010';
-        prod.Purchase_Status__c = 'Buyback Initiated';
+        prod.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod.state__c = 'Alberta';
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
@@ -1506,7 +1506,7 @@ insert customer1;*/
         prod2.Last_Name__c = 'xyz';
         prod2.Collection_Agency__c = 30;
         prod2.Placement_Status__c = '100010';
-        prod2.Purchase_Status__c = 'Buyback Initiated';
+        prod2.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod2.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod2.state__c = 'Alberta';
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
@@ -1534,7 +1534,7 @@ insert customer1;*/
         prod3.Last_Name__c = 'xyz';
         prod3.Collection_Agency__c = 30;
         prod3.Placement_Status__c = '100010';
-        prod3.Purchase_Status__c = 'Buyback Initiated';
+        prod3.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod3.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod3.state__c = 'Alberta';
         prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();

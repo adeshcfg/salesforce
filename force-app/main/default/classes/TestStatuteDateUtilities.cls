@@ -44,7 +44,7 @@ public class TestStatuteDateUtilities {
         prod.Pool_Name__c = pool.id;
         prod.Collection_Agency__c = 30;
         prod.Placement_Status__c = '100010';
-        prod.Purchase_Status__c = 'Buyback Initiated';
+        prod.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod.state__c = 'Manitoba';
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
@@ -74,7 +74,7 @@ public class TestStatuteDateUtilities {
         prod2.Pool_Name__c = pool.id;
         prod2.Placement_Status__c = '100010';
         prod2.Credit_Counselling_Date__c =null;
-        prod2.Purchase_Status__c = 'Putback Requested';
+        prod2.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
         prod2.Last_Payment_Date__c = Date.newInstance(2016, 12, 5);
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
@@ -107,7 +107,7 @@ public class TestStatuteDateUtilities {
         //prod3.Date_for_Stat_Barred_calculations__c = Date.newInstance(2022, 8, 9);
         prod3.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod3.Open_Date__c = Date.newInstance(2022, 12, 9);
-        prod3.Purchase_Status__c = 'Putback Initiated';
+        prod3.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //update prod2;
         system.debug('prod2'+prod2);
@@ -124,7 +124,7 @@ public class TestStatuteDateUtilities {
         prod4.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod4.State__c = 'Alberta';
         prod4.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod4.Purchase_Status__c = 'Eligible for Buyback';
+        prod4.Purchase_Status__c = 'Buyback/Putback Initiated';
         //update prod;
         
         product__c prod5 = new product__c();
@@ -138,7 +138,7 @@ public class TestStatuteDateUtilities {
         prod5.Last_Payment_Date__c = Date.newInstance(2022, 10, 9);
         prod5.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod5.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod5.Purchase_Status__c = 'Eligible for Putback';
+        prod5.Purchase_Status__c = 'Buyback/Putback Initiated';
         
         
         
@@ -194,7 +194,7 @@ public class TestStatuteDateUtilities {
         prod.Pool_Name__c = pool.id;
         prod.Collection_Agency__c = 30;
         prod.Placement_Status__c = '100010';
-        prod.Purchase_Status__c = 'Buyback Initiated';
+        prod.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod.state__c = 'Alberta';
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
@@ -224,7 +224,7 @@ public class TestStatuteDateUtilities {
         prod2.Pool_Name__c = pool.id;
         prod2.Placement_Status__c = '100010';
         prod2.Credit_Counselling_Date__c =null;
-        prod2.Purchase_Status__c = 'Putback Requested';
+        prod2.Purchase_Status__c = 'Buyback/Putback Submitted to Seller';
         prod2.state__c = 'Alberta';
         prod2.Last_Payment_Date__c = Date.newInstance(2016, 12, 5);
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
@@ -258,7 +258,7 @@ public class TestStatuteDateUtilities {
         //prod3.Date_for_Stat_Barred_calculations__c = Date.newInstance(2022, 8, 9);
         prod3.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod3.Open_Date__c = Date.newInstance(2022, 12, 9);
-        prod3.Purchase_Status__c = 'Putback Initiated';
+        prod3.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prod3.state__c = 'Alberta';
         //update prod2;
@@ -276,7 +276,7 @@ public class TestStatuteDateUtilities {
         prod4.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod4.State__c = 'Alberta';
         prod4.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod4.Purchase_Status__c = 'Eligible for Buyback';
+        prod4.Purchase_Status__c = 'Buyback/Putback Initiated';
         //update prod;
         
         product__c prod5 = new product__c();
@@ -290,7 +290,7 @@ public class TestStatuteDateUtilities {
         prod5.Last_Payment_Date__c = Date.newInstance(2022, 10, 9);
         prod5.Statute_Date__c = Date.newInstance(2022, 12, 15);
         prod5.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod5.Purchase_Status__c = 'Eligible for Putback';
+        prod5.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod5.state__c = 'Alberta';
         
         
