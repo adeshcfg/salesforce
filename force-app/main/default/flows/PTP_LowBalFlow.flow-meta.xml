@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Settlement_Offer_letter_SO1_Action_1</name>
-        <label>Settlement Offer letter(SO1) Action 1</label>
-        <locationX>245</locationX>
-        <locationY>507</locationY>
-        <actionName>Product__c.Settlement_Offer_letter_SO1</actionName>
+        <description>VF SO1 - Settlement Offer</description>
+        <name>Settlement_Offer_letter</name>
+        <label>Settlement_Offer_letter</label>
+        <locationX>176</locationX>
+        <locationY>539</locationY>
+        <actionName>Product__c.Settlement_Offer_letter</actionName>
         <actionType>emailAlert</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -40,17 +41,17 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
         <name>createTask</name>
         <label>createTask</label>
-        <locationX>458</locationX>
-        <locationY>451</locationY>
+        <locationX>176</locationX>
+        <locationY>431</locationY>
         <connector>
-            <targetReference>Settlement_Offer_letter_SO1_Action_1</targetReference>
+            <targetReference>Settlement_Offer_letter</targetReference>
         </connector>
         <inputAssignments>
             <field>ActivityDate</field>
@@ -100,8 +101,8 @@
     <recordUpdates>
         <name>mainUpdate</name>
         <label>mainUpdate</label>
-        <locationX>647</locationX>
-        <locationY>407</locationY>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
         <connector>
             <targetReference>createTask</targetReference>
         </connector>
@@ -126,8 +127,8 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>543</locationX>
-        <locationY>48</locationY>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>mainUpdate</targetReference>
         </connector>
