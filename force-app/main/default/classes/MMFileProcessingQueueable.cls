@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records for MM accounts
  * @author            : adeshi@a5econsulting.net
- * @last modified on  : 01-28-2025
+ * @last modified on  : 01-30-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class MMFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -201,7 +201,8 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
                 if (!mapCorrelationIdAccount.containsKey(stagingAcc.Correlation_Id__c)) {
                     // When no correlation Id provided in file and creditor account exists with same number
                     if (
-                        stagingAcc.Error_Message__c.contains('No Correlation Id provided') &&
+                        stagingAcc.Status__c != 'Error' &&
+                        String.isBlank(stagingAcc.Correlation_Id__c) &&
                         mapCreditorAccountNameAccount.containsKey(stagingAcc.Name + stagingAcc.Debtor_Estate_Number__c)
                     ) {
                         Creditor_Account__c creditorAcc = mapCreditorAccountNameAccount.get(stagingAcc.Name + stagingAcc.Debtor_Estate_Number__c);
@@ -229,7 +230,8 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
                     }
                     // When no correlation Id provided in file and no creditor account exists with same number, create new insolvency account
                     if (
-                        stagingAcc.Error_Message__c.contains('No Correlation Id provided') &&
+                        stagingAcc.Status__c != 'Error' &&
+                        String.isBlank(stagingAcc.Correlation_Id__c) &&
                         mapInsolvencyNameId.containsKey(stagingAcc.Debtor_Estate_Number__c)
                     ) {
                         accountToUpdate = CTBFileValidationUtility.updateMmInsolvencyAccount(stagingAcc);
