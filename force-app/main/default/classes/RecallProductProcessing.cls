@@ -130,7 +130,7 @@ public class RecallProductProcessing {
         }
         map<ID, Product__c> mapProduct = new Map<ID, Product__c>(
             [
-                SELECT ID, Name, RecordTypeId, OwnerId, Collection_Agency__c, Placement_Status__c
+                SELECT ID, Name, RecordTypeId, OwnerId, Collection_Agency__c, Placement_Status__c,Refer_to_Legal__c
                 FROM Product__c
                 WHERE ID IN :setProductIDs
             ]
@@ -200,6 +200,10 @@ public class RecallProductProcessing {
                         mapProductJudgment.containsKey(productStaging.Product_ID__c)
                     ) {
                         accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
+                        if(mapProduct.get(productStaging.Product_ID__c).Refer_to_Legal__c == 'Approved'){
+                            prod.Refer_to_Legal__c = '';
+                            prod.Reason_for_Legal__c = '';
+                        }
                     }
                     prod.id = productStaging.Product_ID__c;
                     prod.Placement_Status__c = productStaging.Placement_Status_Code__c;
@@ -280,8 +284,12 @@ public class RecallProductProcessing {
             try {
                 if (prodList.size() > 0) {
                     ProductTriggerHandler.runProductTrigger = false;
+                    applicationConfigSetting.Bypass_Refer_To_Legal_Validation__c = false;
+                	update applicationConfigSetting;
                     update prodList;
                     ProductTriggerHandler.runProductTrigger = true;
+                    applicationConfigSetting.Bypass_Refer_To_Legal_Validation__c = true;
+                	update applicationConfigSetting;
 
                     if (productIdAgencyInfoMap.values() <> null) {
                         Map<string, Judgment__c> judgMapValues = new Map<string, Judgment__c>();

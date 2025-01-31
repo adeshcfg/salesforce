@@ -21,7 +21,11 @@ public class TestProductRecallIndividualController {
         settings.Scope_Prefix__c = 'scopep.com';
         settings.Scope_Suffix__c = '/.default';
         insert settings;
-
+		
+        Application_Config_Settings__c appConfigSetting = new Application_Config_Settings__c();
+        appConfigSetting.Bypass_Refer_To_Legal_Validation__c = false;
+        insert appConfigSetting;
+        
         Agency_Portal_Fields_Mapping__c FieldMap = new Agency_Portal_Fields_Mapping__c();
         FieldMap.Field_API__c = 'Name';
         FieldMap.Field_JSON_Tag__c = 'Name';

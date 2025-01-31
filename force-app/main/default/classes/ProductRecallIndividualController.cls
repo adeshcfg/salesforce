@@ -88,7 +88,9 @@ public without sharing class ProductRecallIndividualController {
                 Current_Balance__c,
                 OwnerId,
                 Previous_Ownership__c,
-                RecordTypeId
+                RecordTypeId,
+            	Refer_to_Legal__c,
+            	Reason_for_Legal__c
             FROM Product__c
             WHERE ID = :productID
         ];
@@ -237,6 +239,10 @@ public without sharing class ProductRecallIndividualController {
                 mapProductJudgment.containsKey(product.id)
             ) {
                 accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
+                if(product.Refer_to_Legal__c == 'Approved'){
+                    product.Refer_to_Legal__c = '';
+                    product.Reason_for_Legal__c = '';
+                }
             }
             product.Collection_Agency__c = 9999;
             product.Collection_Agency_Placement__c = placement.id;
@@ -304,6 +310,10 @@ public without sharing class ProductRecallIndividualController {
             // Deactivate account judgment for recalled products
             if (System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && mapProductJudgment.containsKey(product.id)) {
                 accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
+                if(product.Refer_to_Legal__c == 'Approved'){
+                    product.Refer_to_Legal__c = '';
+                    product.Reason_for_Legal__c = '';
+                }
             }
             product.Collection_Agency__c = 9999;
             product.Collection_Agency_Placement__c = placement.id;
@@ -373,7 +383,11 @@ public without sharing class ProductRecallIndividualController {
             DistressedUtilities.UpdateSettlement(prodId);
             ProductTriggerHandler.runProductTrigger = false;
             //update product;
-            update prodNewRecordList;
+            applicationConfigSetting.Bypass_Refer_To_Legal_Validation__c = false;
+            update applicationConfigSetting;
+            	update prodNewRecordList;
+            applicationConfigSetting.Bypass_Refer_To_Legal_Validation__c = true;
+            update applicationConfigSetting;
 
             List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
             if (!judgmentToUpdateList.isEmpty()) {
@@ -485,6 +499,10 @@ public without sharing class ProductRecallIndividualController {
                 //Ticket 6430 : Point 2
                 if (System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && mapProductJudgment.containsKey(product.id)) {
                     accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
+                    if(product.Refer_to_Legal__c == 'Approved'){
+                        product.Refer_to_Legal__c = '';
+                        product.Reason_for_Legal__c = '';
+                    }
                 }
                 product.Collection_Agency__c = 9999;
                 product.Collection_Agency_Placement__c = placement.id;
@@ -553,6 +571,10 @@ public without sharing class ProductRecallIndividualController {
                 // Deactivate account judgment for recalled products
                 if (System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && mapProductJudgment.containsKey(product.id)) {
                     accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
+                    if(product.Refer_to_Legal__c == 'Approved'){
+                        product.Refer_to_Legal__c = '';
+                        product.Reason_for_Legal__c = '';
+                    }
                 }
                 product.Collection_Agency__c = 9999;
                 product.Collection_Agency_Placement__c = placement.id;
@@ -623,7 +645,11 @@ public without sharing class ProductRecallIndividualController {
                 DistressedUtilities.UpdateSettlement(prodId);
                 ProductTriggerHandler.runProductTrigger = false;
                 //update product;
-                update prodNewRecordList;
+                applicationConfigSetting.Bypass_Refer_To_Legal_Validation__c = false;
+                update applicationConfigSetting;
+                	update prodNewRecordList;
+                applicationConfigSetting.Bypass_Refer_To_Legal_Validation__c = true;
+                update applicationConfigSetting;
 
                 List<Judgment__c> judgmentToUpdateList = updateJudgmentAgency(productIdAgencyInfoMap);
                 if (!judgmentToUpdateList.isEmpty()) {
