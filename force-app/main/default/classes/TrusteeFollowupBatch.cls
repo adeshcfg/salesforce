@@ -37,7 +37,8 @@ public class TrusteeFollowupBatch implements Database.Batchable<sobject> {
                         SELECT Id, Name, Debtor_1_Estate_Number__c, Bank_Name__c
                         FROM Insolvency_Accounts__r
                         WHERE
-                            Asset_Status__c IN :assetStatus
+                            Portfolio_Name_Lookup__r.Non_Servicing_Portfolio__c = FALSE
+                            AND Asset_Status__c IN :assetStatus
                             AND Excluded_from_Purchase__c = FALSE
                             AND Insolvency_Status__c = 'Claim Filed'
                             AND RecordType.DeveloperName IN :insolvencyAccntRecordTypes

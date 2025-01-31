@@ -51,6 +51,10 @@
                 <behavior>Edit</behavior>
                 <field>Purchase_Accounts__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Non_Servicing_Portfolio__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
