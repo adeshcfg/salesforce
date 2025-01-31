@@ -19422,6 +19422,11 @@
         <field>Remittance__c.Do_Not_Process__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Portfolio_Name__c.Non_Servicing_Portfolio__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
