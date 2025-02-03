@@ -28,35 +28,35 @@ public class TestSendToVotingEngineController {
             insolvencyInstance.eligible_for_voting_decision__c = true;
             insolvencyInstance.Debtor_2_Estate_Number__c = '985236987';
             insolvencyInstance.Insolvency_Status__c = 'Active';
-            //insolvencyInstance.Insolvency_Type__c = 'Consumer Proposal';
             insolvencyInstance.Sent_For_Owner_Review_Date__c = null;
-            //insolvencyInstance.Revival_Date__c = System.today();
             insolvencyInstance.Number_Of_Persons_In_Household__c = 3;
             insolvencyInstance.Number_Of_Persons_In_Household_Below_17__c = 1;
             insolvencyInstance.Food_Grocery_Expenses__c = 100;
             insolvencyInstance.Entertainment_Sports_Expenses__c = 50;
             insolvencyInstance.Gifts_Charitable_Expenses__c = 30;
             insolvencyInstance.Allowances_Expenses__c = 20;
-            
             insolvencyInstance.Debtor_1_Mailing_State_Province__c = 'Alberta';
-            //Debtor_Age__c = null,
             insolvencyInstance.Secured_Debts_Unsecured_Portion__c = 100;
             insolvencyInstance.Bulk_Payment_Amount__c = 10;
             insolvencyInstance.Payment_Amount__c = 20;
-            insolvencyInstance.Total_Estimated_Realizable_Value__c = 15;
-            //Is_Spouse_Disclosing_Income__c = true,
+            insolvencyInstance.Total_Estimated_Realizable_Value__c = 20020;
             insolvencyInstance.Available_Monthly_Income_Of_Family__c = 30;
             insolvencyInstance.Debtor_Portion_Of_Monthly_Income__c = 58;
             insolvencyInstance.Ever_been_Bankrupt_Before__c = 'Yes';
-            //Other_Expenses__c = null;
-            //insolvencyInstance.Budgetary_Surplus_Deficit__c = 50;
-         
             insert insolvencyInstance;
             
             ApexPages.currentPage().getParameters().put('id', insolvencyInstance.Id);
             ApexPages.StandardController sc = new ApexPages.StandardController(insolvencyInstance);
-            
             SendToVotingEngineController send = new SendToVotingEngineController(sc);
+        	send.mypageloadingmethod();
+        
+        	insolvencyInstance.Total_Estimated_Realizable_Value__c = 50;
+        	insolvencyInstance.Manual_Review_Reason__c = 'Total Estimated Realizable Value should be less than $20000';
+        	update insolvencyInstance;
+        	ApexPages.currentPage().getParameters().put('id', insolvencyInstance.Id);
+        	ApexPages.StandardController sc1 = new ApexPages.StandardController(insolvencyInstance);
+            SendToVotingEngineController send1 = new SendToVotingEngineController(sc1);
+        
             send.mypageloadingmethod();
 
 
