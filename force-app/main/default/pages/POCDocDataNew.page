@@ -1146,7 +1146,7 @@
             <br/><br/>
         </apex:outputPanel>
         <!-- PAGE 5 ENDS-->
-  
+  		<br/><br/>
         <!-- Ticket 7563: Letters to go with SDA Secured POCs -->
         <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'SDA' && insolvAcc.Claim_Type__c == 'Secured'}">
             <div style='font-family: "Arial Unicode MS";clear:both; margin:auto; margin-bottom:-19px; line-height: 15px; width:100%;' class="myfont">

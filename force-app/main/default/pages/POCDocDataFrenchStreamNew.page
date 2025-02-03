@@ -1150,7 +1150,7 @@
             </div>
             <br/><br/><br/>
         </apex:outputPanel>
-
+		<br/><br/><br/><br/>
         <!-- PAGE 5 ENDS-->
         <!-- Ticket 7563: Letters to go with SDA Secured POCs -->
         <apex:outputPanel rendered="{!insolvAcc.Client_Identifier__c == 'SDA' && insolvAcc.Claim_Type__c == 'Secured'}">
