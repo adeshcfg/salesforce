@@ -854,7 +854,7 @@
                 <div style="line-height:15px; margin-bottom:-8px;">
                     
                     Je, Bryan Szemenyei, of Canaccede International Management Ltd, représentant un ou plusieurs créanciers 
-                    dans l'affaire susmentionnée, nomme <span  style="font-family: sans-serif; font-weight:bold;">TRUSTEE COMPANY</span>, mon fondé de pouvoir à tous égards dans l'affaire 
+                    dans l'affaire susmentionnée, nomme <span  style="font-family: sans-serif; font-weight:bold;">{!insolvAcc.Insolvency__r.Trustee__r.Parent.Name}</span>, mon fondé de pouvoir à tous égards dans l'affaire 
                     susmentionnée, sauf la réception de dividendes, celui-ci étant habilité à nommer un autre fondé de 
                     pouvoir à sa place (ou n'étant pas habilité à nommer un autre fondé de pouvoir à sa place). 
                     <br /><br /><br />
