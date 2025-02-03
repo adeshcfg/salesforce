@@ -2,9 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Non_Servicing_Portfolio__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>Portfolio not serviced by Canaccede</description>
+    <description>Portfolio not serviced by Canaccede. Following operations will be barred - Automatic trustee followup, POC generation and sending, Email to Trustee</description>
     <externalId>false</externalId>
-    <inlineHelpText>Portfolio not serviced by Canaccede</inlineHelpText>
+    <inlineHelpText>Portfolio not serviced by Canaccede. Following operations will be barred - Automatic trustee followup, POC generation and sending, Email to Trustee</inlineHelpText>
     <label>Non Servicing Portfolio</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
