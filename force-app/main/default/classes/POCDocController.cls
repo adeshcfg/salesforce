@@ -153,7 +153,8 @@ public class POCDocController {
                     Acknowledgement_date__c,
                     Debt_Due_As_Of_Date__c,
                     Account_Open_date__c,
-                    Judgement_Date__c
+                    Judgement_Date__c,
+                    Portfolio_Name_Lookup__r.Non_Servicing_Portfolio__c
                 FROM Insolvency_Account__c
                 WHERE Id = :ApexPages.currentPage().getParameters().get('Id')
             ];
@@ -219,7 +220,9 @@ public class POCDocController {
         if (String.isNotEmpty(apexPage.NamespacePrefix)) {
             templatePageName = apexPage.NamespacePrefix + '__' + templatePageName;
         }
-        String partialPageUrl = appConfig.Use_new_POC_templates__c && pageName != 'FairstoneNew' && pageName != 'Money Mart'
+        String partialPageUrl = appConfig.Use_new_POC_templates__c &&
+            pageName != 'FairstoneNew' &&
+            pageName != 'Money Mart'
             ? '/apex/' + templatePageName + 'New'
             : '/apex/' + templatePageName;
         pdf = new PageReference(partialPageUrl);
