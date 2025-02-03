@@ -843,7 +843,7 @@
 
                 <div style="line-height: 15px; margin-bottom: -8px">
                     I, Bryan Szemenyei, of Canaccede International Management Ltd, representing a creditor(s) in the above matter, 
-                    hereby appoint <span style="font-family: sans-serif; font-weight: bold">TRUSTEE COMPANY</span>, to be my proxyholder in the above matter, except as to the receipt of dividends,
+                    hereby appoint <span style="font-family: sans-serif; font-weight: bold">{!insolvAcc.Insolvency__r.Trustee__r.Parent.Name}</span>, to be my proxyholder in the above matter, except as to the receipt of dividends,
                     with (or without) power to appoint another proxyholder in his or her place. 
                     <br /><br /><br />
                     Dated at London, Ontario, this
