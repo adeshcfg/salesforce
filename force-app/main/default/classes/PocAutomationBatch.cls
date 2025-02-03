@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class for automation POC generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 01-31-2025
+ * @last modified on  : 02-03-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocAutomationBatch implements Schedulable, Database.Batchable<SObject>, Database.Stateful {
@@ -136,7 +136,7 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
      **/
     public Blob generatePdf(String pdfPageName, Map<String, String> variableMap) {
         PageReference pdf;
-        String partialPageUrl = appConfig.Use_new_POC_templates__c && !pdfPageName.contains('Fairstone')
+        String partialPageUrl = appConfig.Use_new_POC_templates__c && !(pdfPageName.contains('Fairstone') || pdfPageName.contains('MoneyMart'))
             ? '/apex/' + pdfPageName + 'New'
             : '/apex/' + pdfPageName;
         pdf = new PageReference(partialPageUrl);
