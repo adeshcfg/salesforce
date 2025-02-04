@@ -323,6 +323,7 @@ public class InsolvencyAccountTriggerHandler {
             Insolvency__c dbInsol = insolMap.get(insolAccntnew.Insolvency__c);
             if (nonServicingPortfolioMap != null && String.isNotBlank(insolAccntnew.Portfolio_Name_Lookup__c) && nonServicingPortfolioMap.containsKey(insolAccntnew.Portfolio_Name_Lookup__c)) {
                 insolAccntnew.Reason_for_POC_Automation_Failure__c = 'Non Servicing Portfolio';
+                insolAccntnew.Auto_POC_Exception_Reported__c = 'Non Servicing Portfolio';
             }
 
             //Set  Insolvency_Status_Last_Changed to now
