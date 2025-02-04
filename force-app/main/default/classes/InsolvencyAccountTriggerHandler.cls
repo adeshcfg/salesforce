@@ -72,10 +72,14 @@ public class InsolvencyAccountTriggerHandler {
 
     //Before Insert
     public static void handleBeforeInsert(List<Insolvency_Account__c> insolAccntsNew) {
+        List<String> nonServicingPortfolios = new List<String>();
         //for Account number without space
         for (Insolvency_Account__c accNew : insolAccntsNew) {
             if (accNew.Name != null) {
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
+            }
+            if (String.isNotBlank(accNew.Portfolio_Name_Lookup__c)) {
+                nonServicingPortfolios.add(accNew.Portfolio_Name_Lookup__c);
             }
             //accNew.Account_Owner__c = UserInfo.getUserId();
             // Populate client identifier based on record type
@@ -307,6 +311,9 @@ public class InsolvencyAccountTriggerHandler {
             WHERE Id IN :insolIdSet
         ];
 
+        // Get non servicing portfolios of accounts inserted with a portfolio lookup
+        Map<String, Portfolio_Name__c> nonServicingPortfolioMap = new Map<String, Portfolio_Name__c>([SELECT Id, Name FROM Portfolio_Name__c WHERE Id IN :nonServicingPortfolios AND Non_Servicing_Portfolio__c = true]);
+
         for (Insolvency__c insol : dbInsolList) {
             insolMap.put(insol.id, insol);
         }
@@ -314,6 +321,9 @@ public class InsolvencyAccountTriggerHandler {
         //Fetch corrsponding Insolvency records
         for (Insolvency_Account__c insolAccntnew : insolAccntsNew) {
             Insolvency__c dbInsol = insolMap.get(insolAccntnew.Insolvency__c);
+            if (nonServicingPortfolioMap != null && String.isNotBlank(insolAccntnew.Portfolio_Name_Lookup__c) && nonServicingPortfolioMap.containsKey(insolAccntnew.Portfolio_Name_Lookup__c)) {
+                insolAccntnew.Reason_for_POC_Automation_Failure__c = 'Non Servicing Portfolio';
+            }
 
             //Set  Insolvency_Status_Last_Changed to now
             if (String.isNotBlank(insolAccntNew.Insolvency_Status__c)) {

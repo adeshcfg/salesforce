@@ -73,6 +73,7 @@
          Portfolio_Name__c portfolioName = new Portfolio_Name__c();
          portfolioName.name = 'AFSCARD';
          portfolioName.Account_Purchasing_Entity_ID__c = ' 13';
+         portfolioName.Non_Servicing_Portfolio__c = true;
          insert portfolioName;
  
          list<RecordType> recordTypeList = new List<RecordType>(
