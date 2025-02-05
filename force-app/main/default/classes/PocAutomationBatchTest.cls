@@ -1,7 +1,7 @@
 /**
  * @description       : Test class for PocAutomationBatch
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 10-09-2024
+ * @last modified on  : 02-05-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 @isTest
@@ -25,12 +25,20 @@ public class PocAutomationBatchTest {
         PoC_Package_Settings__c poc = new PoC_Package_Settings__c(Name = 'Scotia Bank', Account_Statement_Not_Allowed__c = '0018A00000uB1Nt,0018A00000uB1Nt');
         insert poc;
 
+        Account accInstance = new Account();
+        accInstance.FirstName = 'Ana';
+        accInstance.LastName = 'Starrk';
+        accInstance.Number_Of_Open_Complaint__c = 6;
+        accInstance.Phone_Number__pc = '123';
+        insert accInstance;
+
         Insolvency__c insolv = new Insolvency__c();
         insolv.name = 'Dup-1';
         insolv.Insolvency_Date__c = Date.Today().addMonths(-1);
         insolv.Insolvency_Type__c = 'Bankruptcy';
         insolv.Debtor_2_Estate_Number__c = '1234';
         insolv.Voting_Decision__c = 'Auto Approved';
+        insolv.Trustee__c = accInstance.Id;
         insert insolv;
 
         String devRecordTypeId = Schema.SObjectType.Insolvency_Account__c.getRecordTypeInfosByName().get('Scotia Bank Insolvency Account').getRecordTypeId();
