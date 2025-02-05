@@ -1,7 +1,7 @@
 /**
  * @description       : Class to hold utility/common methods for POC document generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-03-2025
+ * @last modified on  : 02-05-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocDocUtility {
@@ -99,6 +99,10 @@ public class PocDocUtility {
         if (System.isBatch() && insolvAcc.Claim_Type__c == 'Secured' && !checkAttachmentTypePresence('Proof of Security', insolvAcc.Attachments)) {
             exceptionMsg = 'Missing Information';
             errorMsg += '; No Security documents attached';
+        }
+        if (System.isBatch() && (insolvAcc.Insolvency__r.Trustee__r.Is_Active__c == null || insolvAcc.Insolvency__r.Trustee__r.Is_Active__c == false)) {
+            exceptionMsg = 'Missing Information';
+            errorMsg += '; Trustee missing/inactive';
         }
         if (insolvAcc.Claim_Amount__c < 100) {
             exceptionMsg += '; Claim Amount less than 100';
