@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
+    <decisions>
+        <name>Archival_User_Check</name>
+        <label>Archival User Check</label>
+        <locationX>577</locationX>
+        <locationY>367</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsNotArchivalUser</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.DataArchiverUser</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>mainUpdate</targetReference>
+            </connector>
+            <label>IsNotArchivalUser</label>
+        </rules>
+    </decisions>
     <description>Populate Payment Reversal Date from Insolvency Payment when Payment is reversed</description>
     <environments>Default</environments>
     <formulas>
@@ -20,7 +42,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
@@ -28,8 +50,8 @@
         <description>Update Payment Reversal Date</description>
         <name>mainUpdate</name>
         <label>mainUpdate</label>
-        <locationX>176</locationX>
-        <locationY>287</locationY>
+        <locationX>588</locationX>
+        <locationY>494</locationY>
         <inputAssignments>
             <field>Payment_Reversal_Date__c</field>
             <value>
@@ -39,10 +61,10 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>50</locationX>
-        <locationY>0</locationY>
+        <locationX>458</locationX>
+        <locationY>48</locationY>
         <connector>
-            <targetReference>mainUpdate</targetReference>
+            <targetReference>Archival_User_Check</targetReference>
         </connector>
         <filterFormula>AND ( ISBLANK( {!$Record.Payment_Reversal_Date__c} ), ISCHANGED( {!$Record.Payment_Reversed__c} ),  NOT( ISBLANK(TEXT({!$Record.Payment_Reversed__c} )) ))</filterFormula>
         <object>Insolvency_Payment__c</object>

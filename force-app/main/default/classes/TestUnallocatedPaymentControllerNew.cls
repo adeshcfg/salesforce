@@ -513,6 +513,7 @@ apexpages.currentPage().getparameters().put('sor', null);
         unAloccPay2.recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%Insolvency%'].id;
         insert unAloccPay2;
         
+       Test.startTest(); 
         UnallocatedPaymentControllerNew obj = new UnallocatedPaymentControllerNew(new ApexPages.StandardController(unAloccPay2));
         unAloccPay.Unallocated_Amount__c = 12.00;
         update unAloccPay;
@@ -528,6 +529,7 @@ apexpages.currentPage().getparameters().put('sor', null);
         apexpages.currentPage().getparameters().put('check', null);
         obj.sorSave();
         apexpages.currentPage().getparameters().put('sor', null);
+     Test.stopTest();   
     }
     
     static testMethod void testController6(){
@@ -760,10 +762,11 @@ apexpages.currentPage().getparameters().put('sor', null);
         unAloccPay2.Remittance__c = remit.id;
         unAloccPay2.recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%Insolvency%'].id;
         insert unAloccPay2;
-        
+      Test.startTest();  
         UnallocatedPaymentControllerNew obj = new UnallocatedPaymentControllerNew(new ApexPages.StandardController(unAloccPay2));
         obj.prodPay.CCS_Account__C = [SELECT Id FROM Product__c LIMIT 1].Id;
-        obj.prodpaysave();  
+        obj.prodpaysave(); 
+      Test.stopTest();  
     }
     //From Here
     static testMethod void testController9(){
@@ -857,7 +860,7 @@ apexpages.currentPage().getparameters().put('sor', null);
         unAloccPay2.Remittance__c = remit.id;
         unAloccPay2.recordTypeId = [select id from RecordType where SobjectType = 'unallocated_Payment__C' and name like '%Insolvency%'].id;
         insert unAloccPay2;
-        
+      Test.startTest();  
         UnallocatedPaymentControllerNew obj = new UnallocatedPaymentControllerNew(new ApexPages.StandardController(unAloccPay2));
         obj.prodPay.CCS_Account__C = [SELECT Id FROM Product__c LIMIT 1].Id;
         obj.check();
@@ -865,7 +868,7 @@ apexpages.currentPage().getparameters().put('sor', null);
         apexpages.currentPage().getparameters().put('check', null);
         //obj.selected='FDR';
         obj.prodpaysave();  
-        
+      Test.stopTest(); 
     }
     // Upto Here
     

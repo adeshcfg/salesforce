@@ -44,7 +44,7 @@ public class TestCFG_ProcessBulkAPIResult {
         product3.State__c = 'ON';
         product3.Pool_Name__c = poolInstance.id;
         product3.Data_Status_Description__c = 'Closed-test';
-        product3.Purchase_Status__c = 'Buyback Approved';
+        product3.Purchase_Status__c = 'Buyback/Putback Approved';
         product3.Collection_Sub_Status__c = 'Credit Counselling';
         product3.Purchase_Province__c = 'AB';
         insert product3;	
@@ -59,7 +59,7 @@ public class TestCFG_ProcessBulkAPIResult {
         product4.State__c = 'ON';
         product4.Pool_Name__c = poolInstance.id;
         product4.Data_Status_Description__c = 'Closed-test';
-        product4.Purchase_Status__c = 'Putback Approved';
+        product4.Purchase_Status__c = 'Buyback/Putback Approved';
         product4.Collection_Sub_Status__c = 'Paid in Full Account';
         product4.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         product4.Purchase_Province__c = 'AB';

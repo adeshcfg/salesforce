@@ -521,9 +521,9 @@ global class MoneyMartFileGenerator implements Database.Batchable<sobject>, Data
                         '","' +
                         additionalInfo +
                         '","' +
-                        chargeOffDate +'"'+
+                        chargeOffDate +
                         '","' +
-                        judgmentDate +'"'+
+                        judgmentDate +
                         '","' +
                         acknowledgementDate +'"'+
                         '\r\n';

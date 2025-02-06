@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Authentication_Email_Applicant_Type_1</name>
+        <label>Application__c.Authentication_Email_Applicant_Type_1</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <actionName>Application__c.Authentication_Email_Applicant_Type_1</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <description>New Flow of Send Auto-Authentication Email Applicant Type 1</description>
+    <environments>Default</environments>
+    <interviewLabel>Send Auto-Authentication Email Applicant Type 1 {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Send Auto-Authentication Email Applicant Type 1</label>
+    <migratedFromWorkflowRuleName>Send Auto-Authentication Email Applicant Type 1</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Authentication_Email_Applicant_Type_1</targetReference>
+        </connector>
+        <filterFormula>ISCHANGED({!$Record.Email_Auth_Token__c} )  &amp;&amp;  NOT(ISBLANK({!$Record.Email_Auth_Token__c})) &amp;&amp; (OR ( (ISPICKVAL({!$Record.PcoD_Bankruptcy_State__c}, &quot;Traditional&quot;)),  (ISPICKVAL({!$Record.PcoD_Bankruptcy_State__c}, &quot;BKCP Discharged =&gt; 1 Year&quot;)), (ISPICKVAL({!$Record.PcoD_Bankruptcy_State__c}, &quot;BKCP Discharged &lt; 1 Year&quot;)) ) )</filterFormula>
+        <object>Application__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

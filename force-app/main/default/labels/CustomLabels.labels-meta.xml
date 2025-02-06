@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DataArchiverUser</shortDescription>
-        <value>OwnBackUpAdminUser</value>
+        <value>Admin</value>
     </labels>
     <labels>
         <fullName>Money_Mart_Insolvency_Account</fullName>

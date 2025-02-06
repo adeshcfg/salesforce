@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>New flow of PTP_LegalFlow_CustPay</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>checkRunDateandMetadataDisable</name>
+        <dataType>Boolean</dataType>
+        <expression>AND({!$Record.Workflow_Run_Date__c}&lt;&gt; NOW(),{!$Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c} == false)</expression>
+    </formulas>
+    <formulas>
+        <name>Collection_activity_completedFormula</name>
+        <dataType>DateTime</dataType>
+        <expression>NOW()</expression>
+    </formulas>
+    <interviewLabel>PTP_LegalFlow_CustPay {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PTP_LegalFlow_CustPay</label>
+    <migratedFromWorkflowRuleName>PTP_LegalFlow_CustPay</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>mainUpdate</name>
+        <label>mainUpdate</label>
+        <locationX>537</locationX>
+        <locationY>479</locationY>
+        <inputAssignments>
+            <field>Current_Workflow__c</field>
+            <value>
+                <stringValue>Pre-Legal Flow</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Workflow_Run_Date__c</field>
+            <value>
+                <elementReference>Collection_activity_completedFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>543</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>mainUpdate</targetReference>
+        </connector>
+        <filterLogic>1 AND 2 AND (( 3 AND 4) OR (5 AND 6)) AND 7</filterLogic>
+        <filters>
+            <field>Current_Workflow__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Promise to Pay Flow</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Customer_Paying__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Customer Paying</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>State__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ON</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Current_Balance__c</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <numberValue>2500.0</numberValue>
+            </value>
+        </filters>
+        <filters>
+            <field>State__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>ON</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Current_Balance__c</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <numberValue>4000.0</numberValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Record_Type_Name__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Distressed Account</stringValue>
+            </value>
+        </filters>
+        <object>Product__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

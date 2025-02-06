@@ -9,7 +9,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>True</name>
-            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+            <conditionLogic>1 AND 4 AND (2 OR 3)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Payment_Amount__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -29,6 +29,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>GoEasy_CCS_Account</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.DataArchiverUser</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -76,19 +83,12 @@
         <connector>
             <targetReference>Total_Paid_To_Date</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>and</filterLogic>
         <filters>
-            <field>RecordTypeId</field>
+            <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>0123a000000LJq1</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>RecordTypeId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>0123a000000qjGf</stringValue>
+                <elementReference>$Record.CCS_Account__r.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -100,21 +100,13 @@
         <label>Product: Total Paid To Date</label>
         <locationX>50</locationX>
         <locationY>539</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
         <inputAssignments>
             <field>Total_Paid_To_Date__c</field>
             <value>
                 <elementReference>PaymentAmount</elementReference>
             </value>
         </inputAssignments>
-        <object>Product__c</object>
+        <inputReference>$Record.CCS_Account__r</inputReference>
     </recordUpdates>
     <start>
         <locationX>56</locationX>

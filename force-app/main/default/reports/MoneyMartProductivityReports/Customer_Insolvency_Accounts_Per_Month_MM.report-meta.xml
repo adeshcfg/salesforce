@@ -67,7 +67,7 @@
         <field>CUST_CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Insolvency Accounts Per Month</name>
+    <name>Money Mart Insolvency Accounts Per Month</name>
     <params>
         <name>co</name>
         <value>1</value>

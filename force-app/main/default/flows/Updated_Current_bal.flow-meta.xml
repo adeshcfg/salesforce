@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <description>Product Payment Recordtype</description>
+        <name>Record_Type</name>
+        <label>Record Type</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>(1 OR 2 OR 3) AND 4</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CCS_Product_Payment</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CCS_Dividend_Payment</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Balance_Adjustments</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.DataArchiverUser</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Product_Current_Total_Balance</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <description>New flow of Updated Current bal</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>CCS_Account__r.Current_Balance__c - Gross_Payment_Amount__c</description>
+        <name>BalanceFormula</name>
+        <dataType>Currency</dataType>
+        <expression>{!$Record.CCS_Account__r.Current_Balance__c}-{!$Record.Gross_Payment_Amount__c}</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>Updated Current bal {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Updated Current bal</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Product: Current Total Balance</description>
+        <name>Product_Current_Total_Balance</name>
+        <label>Product: Current Total Balance</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Current_Balance__c</field>
+            <value>
+                <elementReference>BalanceFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.CCS_Account__r</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Record_Type</targetReference>
+        </connector>
+        <object>Product_Payments__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

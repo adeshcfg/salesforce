@@ -31,7 +31,7 @@
         <field>CUST_CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer accounts created</name>
+    <name>Money Mart accounts created</name>
     <params>
         <name>co</name>
         <value>1</value>

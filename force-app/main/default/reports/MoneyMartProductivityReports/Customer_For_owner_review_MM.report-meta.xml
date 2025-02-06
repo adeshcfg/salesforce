@@ -50,7 +50,7 @@
         <field>Insolvency_Account__c.Number_Of_Days_In_Current_Status__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer – For owner review</name>
+    <name>Money Mart – For owner review</name>
     <params>
         <name>co</name>
         <value>1</value>

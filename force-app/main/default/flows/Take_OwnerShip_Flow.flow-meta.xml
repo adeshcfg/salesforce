@@ -18,6 +18,13 @@
                     <elementReference>$User.Id</elementReference>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.DataArchiverUser</elementReference>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Update_owner_and_status</targetReference>
             </connector>

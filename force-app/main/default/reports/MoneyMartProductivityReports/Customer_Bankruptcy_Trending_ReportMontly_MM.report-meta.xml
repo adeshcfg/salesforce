@@ -52,7 +52,7 @@
         <field>CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Customer Bankruptcy Trending Report-Mont</name>
+    <name>MM Bankruptcy Trending Report-Mont</name>
     <params>
         <name>co</name>
         <value>1</value>

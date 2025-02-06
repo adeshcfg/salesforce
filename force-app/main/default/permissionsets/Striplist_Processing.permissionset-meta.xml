@@ -123,6 +123,11 @@
         <field>Unallocated_Payment__c.Created_by_Striplist_Parsing__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Remittance__c.Do_Not_Process__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Striplist Processing</label>
     <objectPermissions>

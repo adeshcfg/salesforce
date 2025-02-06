@@ -210,6 +210,7 @@ public class TestGenerateDepositProductPDFController {
 
     //Test Controller
     static testMethod void testController() {
+       Test.startTest(); 
         ApexPages.currentPage().getParameters().put('type', 'AFF');
         GenerateDepositSlipProductPDFController obj = new GenerateDepositSlipProductPDFController();
 
@@ -247,7 +248,7 @@ public class TestGenerateDepositProductPDFController {
 
         insolvPay.Deposit_Account_Type__c = 'CAL';
         update insolvPay;
-        Test.startTest();
+        
         obj = new GenerateDepositSlipProductPDFController();
         Test.stopTest();
     }

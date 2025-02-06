@@ -50,7 +50,7 @@ public class GenerateDepositSlipRecordsController {
                                               from remittance__C 
                                               where lastmodifiedDate >= :LastDepositSlipCreatedDate
                                               AND Status__c = 'Processed'
-                                              AND recordType.Developername = 'Insolvency_Dividend'
+                                              AND recordType.Developername = 'Insolvency_Dividend' AND Do_Not_Process__c = false
                                               group by Deposit_Account_Name__c ];
         
         if(listAggregateResults.size() == 0){
@@ -174,6 +174,7 @@ public class GenerateDepositSlipRecordsController {
                                               from Insolvency_payment__C
                                               where remittance__r.lastmodifiedDate >= :LastDepositSlipCreatedDate
                                               AND remittance__r.Status__c = 'Processed'
+                                              AND Remittance__r.Do_Not_Process__c = false
                                               AND remittance__r.recordtype.Developername = 'Insolvency_Dividend'
                                               AND Is_Payment_Remitted__c = False];
                                               
@@ -183,6 +184,7 @@ public class GenerateDepositSlipRecordsController {
                                               AND remittance__r.Status__c = 'Processed'
                                               AND remittance__r.recordtype.Developername = 'Insolvency_Dividend'
                                               AND allocated__c = false
+                                              AND Remittance__r.Do_Not_Process__c = false
                                               AND Is_Payment_Remitted__c = false
                                               AND Is_Payments_Reversed__c = null];
         

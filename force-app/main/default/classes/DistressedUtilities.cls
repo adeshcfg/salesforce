@@ -567,23 +567,14 @@ public class DistressedUtilities {
             
             //Buyback/Putback Validation
             if(mapProductName.containsKey(product.Data_Id__c)){
-                if(mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback Approved' && 
+                if(mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback/Putback Approved' && 
                    mapProductName.get(product.Data_Id__c).Collection_Agency__c != NULL){
-                   ERROR_MSG += '<b>ERROR</b> - '+'Buyback status is approved.You cannot assign agency '+'<br/>';
-               }
-            
-               if(mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Putback Approved' && 
-                   mapProductName.get(product.Data_Id__c).Collection_Agency__c != NULL){
-                   ERROR_MSG += '<b>ERROR</b> - '+'Putback status is approved.You cannot assign agency '+'<br/>';
+                   ERROR_MSG += '<b>ERROR</b> - '+'Buyback/Putback status is approved.You cannot assign agency '+'<br/>';
                }
             }
             
             if(mapProductName.containsKey(product.Data_Id__c) && mapProductName.get(product.Data_Id__c).Purchase_Status__c != null){
-            if(mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Eligible for Buyback' || mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Eligible for Putback'
-              || mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback Initiated' || mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Putback Initiated' || 
-              mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback Requested' || mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Putback Requested' || 
-              mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback Approved' || mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Putback Approved'){
-                  
+            if(mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback/Putback Initiated' || mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback/Putback Approved'){
                 ERROR_MSG += '<b>ERROR</b> - Products which are in Buyback/Putback status can not be associated with Agency.<br/>';
             }
             }
@@ -1053,11 +1044,7 @@ EXPECTED += 'Status Date must be >= account Placement Date<br/>';
             
             //Added validation when account is in putback/buyback - developer: satyajit for ticket: 4377
             if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Purchase_Status__c != null){
-            if(mapProduct.get(product.Name__c).Purchase_Status__c == 'Eligible for Buyback' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Eligible for Putback'
-              || mapProduct.get(product.Name__c).Purchase_Status__c == 'Buyback Initiated' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Putback Initiated' || 
-              mapProduct.get(product.Name__c).Purchase_Status__c == 'Buyback Requested' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Putback Requested' || 
-              mapProduct.get(product.Name__c).Purchase_Status__c == 'Buyback Approved' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Putback Approved'){
-                  
+            if(mapProduct.get(product.Name__c).Purchase_Status__c == 'Buyback/Putback Initiated' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Buyback/Putback Approved'){
                 ERROR_MSG += '<b>ERROR</b> : Account is in Buyback / Putback status<br/>';
             }
             }

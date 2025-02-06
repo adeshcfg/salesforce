@@ -18323,6 +18323,7 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>ContentVersion.InsolvencyAccountId__c</field>
+        <field>Remittance__c.Do_Not_Process__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>

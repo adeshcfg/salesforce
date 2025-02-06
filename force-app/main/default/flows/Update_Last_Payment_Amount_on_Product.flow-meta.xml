@@ -25,6 +25,13 @@
                     <stringValue>CCS_Account</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.DataArchiverUser</elementReference>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Update_Last_Payment_Amount_on_Product</targetReference>
             </connector>
@@ -73,10 +80,10 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>RecordTypeId</field>
+            <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>0123a000000LJq1AAG</stringValue>
+                <elementReference>$Record.CCS_Account__r.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -89,21 +96,13 @@
         <label>Update Last Payment Amount on Product</label>
         <locationX>50</locationX>
         <locationY>539</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
         <inputAssignments>
-            <field>Payment_Amount__c</field>
+            <field>Last_Payment_Amount__c</field>
             <value>
-                <elementReference>PaymentAmount</elementReference>
+                <elementReference>$Record.Payment_Amount__c</elementReference>
             </value>
         </inputAssignments>
-        <object>Product__c</object>
+        <inputReference>$Record.CCS_Account__r</inputReference>
     </recordUpdates>
     <start>
         <locationX>56</locationX>

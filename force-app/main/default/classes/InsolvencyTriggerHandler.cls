@@ -579,11 +579,7 @@
                 newIns.Eligible_For_Voting_Decision__c == True && newIns.Total_Estimated_Realizable_Value__c < 20000){
                 votingAutomationList.add(newIns.id);
             }
-            if(newIns.Total_Estimated_Realizable_Value__c >= 20000){
-                newIns.Eligible_For_Voting_Decision__c = true;
-                newIns.Voting_Decision__c = 'Needs Manual Review';
-                newIns.Manual_Review_Reason__c = 'Total Estimated Realizable Value sholud be less than $20000';
-            }
+            
             //listProductToUpdate
             //mapProdList
             // Insolvency__c newIns =  insolvNewMap.get(insolvId);
@@ -833,8 +829,22 @@
     /* Method validates whether Insolvency has Creditor package attachment or not when submitted for Owner Review */
     public static void checkForCreditorPackage(List<Insolvency__c> insolsNew, Map<Id, Insolvency__c> oldMap){
         Set<Id> insolvIds = new Set<Id>();
+        Set<Id> allInsolvIds = new Set<Id>();
+        Map<Id,Id> mapOfConDocLinkAndEntityId = new Map<Id,Id>();
+        for(Insolvency__c insolv : insolsNew){
+            allInsolvIds.add(insolv.Id);
+        }
         for(Attachment att : [SELECT Id, ParentId,Description FROM Attachment WHERE ParentId =:insolsNew AND description = 'Creditors Package']){
             insolvIds.add(att.ParentId);
+        }
+        for(ContentDocumentLink conDocLink : [SELECT Id,LinkedEntityId,ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId in :allInsolvIds]){
+            mapOfConDocLinkAndEntityId.put(conDocLink.ContentDocumentId, conDocLink.LinkedEntityId);
+        }
+        List<ContentVersion> listOfConVer = [SELECT Id,ContentDocumentId from ContentVersion where ContentDocumentId in : mapOfConDocLinkAndEntityId.keyset() and description = 'Creditors Package'];
+        if(listOfConVer.size() > 0){
+            for(ContentVersion conVer : listOfConVer){
+                insolvIds.add(mapOfConDocLinkAndEntityId.get(conVer.ContentDocumentId));
+            }            
         }
         for(Insolvency__c insolv : insolsNew){
             if(oldMap != null && (oldMap.get(insolv.Id).Insolvency_Status__c) != NULL && (oldMap.get(insolv.Id)).Insolvency_Status__c != 'For Owner Review' && insolv.Insolvency_Status__c == 'For Owner Review'){

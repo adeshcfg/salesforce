@@ -111,6 +111,7 @@ public class EmailTrusteeController {
                 Reason_for_No_PoC_Required__c,
                 Amended_Claim_Flag__c,
                 Insolvency_Type__c,
+                Portfolio_Name_Lookup__r.Non_Servicing_Portfolio__c,
                 Claim_Filed_Date__c //for SLA tracking
             FROM Insolvency_Account__c
             WHERE Id = :ApexPages.currentPage().getParameters().get('Id')
@@ -140,6 +141,10 @@ public class EmailTrusteeController {
         if (insolvAcc.Is_Active__c == false) {
             //system.debug('Trustee Office is not Active so email cannot be sent');
             ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR, 'Trustee Office is not Active so email cannot be sent'));
+            isActive = false;
+        }
+        if (insolvAcc.Portfolio_Name_Lookup__r.Non_Servicing_Portfolio__c) {
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR, 'Cannot send email as Account is linked to Non servicing Portfolio'));
             isActive = false;
         }
         insolvAttachList = new List<InsolvAttachments>();

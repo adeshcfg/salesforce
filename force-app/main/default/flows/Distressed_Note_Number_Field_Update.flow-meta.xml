@@ -12,7 +12,7 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$User.LastName</leftValueReference>
-                <operator>EqualTo</operator>
+                <operator>NotEqualTo</operator>
                 <rightValue>
                     <elementReference>$Label.DataArchiverUser</elementReference>
                 </rightValue>

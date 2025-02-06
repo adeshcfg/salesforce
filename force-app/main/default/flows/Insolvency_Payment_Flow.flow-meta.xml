@@ -2,9 +2,31 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
     <decisions>
+        <name>Archival_User_Check</name>
+        <label>Archival User Check</label>
+        <locationX>399</locationX>
+        <locationY>343</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsNotArchivalUser</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Label.DataArchiverUser</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Insolvency_Payment_Criteria</targetReference>
+            </connector>
+            <label>IsNotArchivalUser</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Insolvency_Payment_Criteria</name>
         <label>Insolvency Payment Criteria</label>
-        <locationX>605</locationX>
+        <locationX>604</locationX>
         <locationY>408</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -26,8 +48,8 @@
     <decisions>
         <name>Payment_Amount_not_equal_to_null</name>
         <label>Payment Amount not equal to null</label>
-        <locationX>612</locationX>
-        <locationY>568</locationY>
+        <locationX>602</locationX>
+        <locationY>589</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Insy_Last_Payment_Amount</name>
@@ -86,8 +108,8 @@
         <description>insolvency payment creat time fill the payment amount that payment amount is populated on insolvency account on Insolvency Last Payment Amount</description>
         <name>Update_Insolvency_Last_Payment_Amount</name>
         <label>Update Insolvency Last Payment Amount</label>
-        <locationX>789</locationX>
-        <locationY>601</locationY>
+        <locationX>903</locationX>
+        <locationY>662</locationY>
         <inputAssignments>
             <field>Insolvency_Last_Payment_Amount__c</field>
             <value>
@@ -100,8 +122,8 @@
         <description>when insolvency payment is created at the time update the only last payment date field on insolvency account</description>
         <name>Update_Last_payment_date</name>
         <label>Update Last payment date</label>
-        <locationX>778</locationX>
-        <locationY>449</locationY>
+        <locationX>903</locationX>
+        <locationY>457</locationY>
         <connector>
             <targetReference>Payment_Amount_not_equal_to_null</targetReference>
         </connector>
@@ -117,7 +139,7 @@
         <locationX>490</locationX>
         <locationY>48</locationY>
         <connector>
-            <targetReference>Insolvency_Payment_Criteria</targetReference>
+            <targetReference>Archival_User_Check</targetReference>
         </connector>
         <object>Insolvency_Payment__c</object>
         <recordTriggerType>Create</recordTriggerType>

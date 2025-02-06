@@ -3,11 +3,9 @@
     <fullName>Restrict_User_To_Update_FairshareAmount</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-
+$User.LastName &lt;&gt; $Label.DataArchiverUser,
 ISCHANGED( FairShare_Amount__c   ),
-
 NOT ISBLANK(PRIORVALUE( FairShare_Amount__c ))
-
 )</errorConditionFormula>
     <errorMessage>FairShare Amount Cannot Be Modified</errorMessage>
 </ValidationRule>

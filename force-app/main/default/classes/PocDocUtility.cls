@@ -1,7 +1,7 @@
 /**
  * @description       : Class to hold utility/common methods for POC document generation
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 12-31-2024
+ * @last modified on  : 02-05-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PocDocUtility {
@@ -100,9 +100,17 @@ public class PocDocUtility {
             exceptionMsg = 'Missing Information';
             errorMsg += '; No Security documents attached';
         }
+        if (System.isBatch() && (insolvAcc.Insolvency__r.Trustee__r.Is_Active__c == null || insolvAcc.Insolvency__r.Trustee__r.Is_Active__c == false)) {
+            exceptionMsg = 'Missing Information';
+            errorMsg += '; Trustee missing/inactive';
+        }
         if (insolvAcc.Claim_Amount__c < 100) {
             exceptionMsg += '; Claim Amount less than 100';
             errorMsg += '; Claim Amount less than 100';
+        }
+        if (!System.isBatch() && insolvAcc.Portfolio_Name_Lookup__r.Non_Servicing_Portfolio__c) {
+            exceptionMsg = 'Non servicing Portfolio';
+            errorMsg += 'Cannot generate a proof of claim for Non servicing Portfolio';
         }
         return new Map<String, String>{
             'Auto_POC_Exception_Reported__c' => exceptionMsg.removeStart(';'),

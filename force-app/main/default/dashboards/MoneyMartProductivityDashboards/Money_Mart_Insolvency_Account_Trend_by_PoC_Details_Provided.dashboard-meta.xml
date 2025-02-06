@@ -124,7 +124,7 @@
     <isGridLayout>true</isGridLayout>
     <runningUser>devadminuser@canaccede.com</runningUser>
     <textColor>#000000</textColor>
-    <title>Customer Insolvency Account Trend by PoC Details Provided</title>
+    <title>Money Mart Insolvency Account Trend by PoC Details Provided</title>
     <titleColor>#000000</titleColor>
     <titleSize>12</titleSize>
 </Dashboard>

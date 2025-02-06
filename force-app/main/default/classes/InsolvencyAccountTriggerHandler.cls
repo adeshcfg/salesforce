@@ -72,10 +72,14 @@ public class InsolvencyAccountTriggerHandler {
 
     //Before Insert
     public static void handleBeforeInsert(List<Insolvency_Account__c> insolAccntsNew) {
+        List<String> nonServicingPortfolios = new List<String>();
         //for Account number without space
         for (Insolvency_Account__c accNew : insolAccntsNew) {
             if (accNew.Name != null) {
                 accNew.Account_Number_Without_Space__c = accNew.Name.deleteWhitespace();
+            }
+            if (String.isNotBlank(accNew.Portfolio_Name_Lookup__c)) {
+                nonServicingPortfolios.add(accNew.Portfolio_Name_Lookup__c);
             }
             //accNew.Account_Owner__c = UserInfo.getUserId();
             // Populate client identifier based on record type
@@ -307,6 +311,9 @@ public class InsolvencyAccountTriggerHandler {
             WHERE Id IN :insolIdSet
         ];
 
+        // Get non servicing portfolios of accounts inserted with a portfolio lookup
+        Map<String, Portfolio_Name__c> nonServicingPortfolioMap = new Map<String, Portfolio_Name__c>([SELECT Id, Name FROM Portfolio_Name__c WHERE Id IN :nonServicingPortfolios AND Non_Servicing_Portfolio__c = true]);
+
         for (Insolvency__c insol : dbInsolList) {
             insolMap.put(insol.id, insol);
         }
@@ -314,6 +321,10 @@ public class InsolvencyAccountTriggerHandler {
         //Fetch corrsponding Insolvency records
         for (Insolvency_Account__c insolAccntnew : insolAccntsNew) {
             Insolvency__c dbInsol = insolMap.get(insolAccntnew.Insolvency__c);
+            if (nonServicingPortfolioMap != null && String.isNotBlank(insolAccntnew.Portfolio_Name_Lookup__c) && nonServicingPortfolioMap.containsKey(insolAccntnew.Portfolio_Name_Lookup__c)) {
+                insolAccntnew.Reason_for_POC_Automation_Failure__c = 'Non Servicing Portfolio';
+                insolAccntnew.Auto_POC_Exception_Reported__c = 'Non Servicing Portfolio';
+            }
 
             //Set  Insolvency_Status_Last_Changed to now
             if (String.isNotBlank(insolAccntNew.Insolvency_Status__c)) {
@@ -1469,7 +1480,7 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
                         }else{
                             insolvency.Eligible_For_Voting_Decision__c = true;
                             insolvency.Voting_Decision__c = 'Needs Manual Review';
-                            insolvency.Manual_Review_Reason__c = 'Total Estimated Realizable Value sholud be less than $20000';
+                            insolvency.Manual_Review_Reason__c = 'Total Estimated Realizable Value should be less than $20000';
                         }
 
                 //Client Identifier - imp
