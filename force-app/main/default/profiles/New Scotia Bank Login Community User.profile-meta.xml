@@ -717,10 +717,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ExportToMegasysController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>FidemApplicationFormController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2246,10 +2242,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TestExcelToJSONBatch</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TestExportToMegasysController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -19640,10 +19632,6 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>Exception</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>ExportToMegasys</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
