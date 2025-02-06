@@ -308,7 +308,7 @@
                                     <table>
                                         <tr>
                                             <td style="vertical-align:top;line-height: 30px">1.</td>
-                                            <td style="padding-left:10px;">Que je suis le CEO de <span style="font-family: sans-serif; font-weight:bold;">{!remGroupMap.Entity_Name1__c},</span> cessionnaire de {!insolvAcc.Vendor_Orginator__c}. </td>
+                                            <td style="padding-left:10px;">Que je suis le Président de <span style="font-family: sans-serif; font-weight:bold;">{!remGroupMap.Entity_Name1__c},</span> cessionnaire de {!insolvAcc.Vendor_Orginator__c}. </td>
                                             <!--servicer for <apex:outputText value="<b> Canaccede International Investments Ltd.,</b> who is the purchaser of the account from " escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" /> <b>The Bank of Nova Scotia.</b>-->
                                         </tr>
                                         <tr>
@@ -626,7 +626,7 @@
                                                 <td >
                                                     <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
                                                     <br/>
-                                                    <b>Bryan Szemenyei, CEO</b><br/>
+                                                    <b>Bryan Szemenyei, Président</b><br/>
                                                     <b>{!remGroupMap.Entity_Name1__c} (Créancier)</b>
                                                 </td>
                                             </tr>
@@ -820,7 +820,7 @@
                                             <td >
                                                 <apex:image style="width:200px;"  value="{!pocPackage.CEO_Signature__c}"/>
                                                 <br/>
-                                                <b>Bryan Szemenyei, CEO</b><br/>
+                                                <b>Bryan Szemenyei, Président</b><br/>
                                                 <b>{!remGroupMap.Entity_Name1__c} (Créancier)</b>
                                             </td>
                                         </tr>

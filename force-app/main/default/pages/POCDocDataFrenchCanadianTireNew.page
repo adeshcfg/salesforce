@@ -110,8 +110,8 @@
                     <table >
                         <tr>
                             <td style="vertical-align:top;"><b>1.</b></td>
-                            <td style="padding-left:8x;">Que je suis le président de <span style="font-family: sans-serif; font-weight:bold;">{!pocPackage.CFG_French_Office_Name__c}</span> prestataire de services pour 
-                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" ><span style='font-family: sans-serif; font-weight:bold;'> {!pocPackage.Client_Company_Name__c}.</span> </apex:outputText>
+                            <td style="padding-left:8x;">Que je suis le président de <span style="font-family: sans-serif; font-weight:bold;">{!pocPackage.CFG_French_Office_Name__c}</span>
+                                <apex:outputText escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}" ><span style='font-family: sans-serif; font-weight:bold;'> prestataire de services pour {!pocPackage.Client_Company_Name__c}.</span> </apex:outputText>
                             </td>   
                         </tr>
                         <tr>

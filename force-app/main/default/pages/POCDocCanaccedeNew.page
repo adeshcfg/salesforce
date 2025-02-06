@@ -874,8 +874,8 @@
                                             <b>Bryan Szemenyei, President</b>
                                             <br/>
                                             <b>{!remGroupMap.Entity_Name1__c}</b>
-                                            <apex:outputText value="<br/> <b>Servicer for The {!pocPackage.Client_Company_Name__c} </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"
-                                            /> (creditor)
+                                            <!-- <apex:outputText value="<br/> <b>Servicer for The {!pocPackage.Client_Company_Name__c} </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}"
+                                            /> (creditor) -->
                                         </td>
                                     </tr>
                                 </Table>

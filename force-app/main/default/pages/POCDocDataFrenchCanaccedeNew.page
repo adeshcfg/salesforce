@@ -164,7 +164,7 @@
                     <table >
                         <tr>
                             <td style="vertical-align:top;"><b>1.</b></td>
-                            <td style="padding-left:10px;">Que je suis le CEO de <span style="font-family: sans-serif; font-weight:bold;">{!remGroupMap.Entity_Name1__c},</span> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</td>
+                            <td style="padding-left:10px;">Que je suis le Président de <span style="font-family: sans-serif; font-weight:bold;">{!remGroupMap.Entity_Name1__c},</span> cessionnaire de {!insolvAcc.Vendor_Orginator__c}.</td>
                         </tr>
                         <tr>
                             <td style="vertical-align:top;">2.</td>
@@ -486,7 +486,7 @@
                             <apex:image style="width:150px; height:100px"  value="{!pocPackage.CEO_Signature__c}"/>
                             <br/>
                             <span  style="font-family: sans-serif; font-weight:bold;">
-                                Bryan Szemenyei, CEO<br/>
+                                Bryan Szemenyei, Président<br/>
                                 {!remGroupMap.Entity_Name1__c} (Créancier)
                                 <apex:outputText value="<br/><br/>" escape="false" rendered="{!insolvAcc.Claim_Type__c != 'Secured'}" />
                             </span>
@@ -685,7 +685,7 @@
                         <apex:image style="width:150px; height:100px"  value="{!pocPackage.CEO_Signature__c}"/>
                         <br/>
                         <span  style="font-family: sans-serif; font-weight:bold;">
-                            Bryan Szemenyei, CEO<br/>
+                            Bryan Szemenyei, Président<br/>
                             {!remGroupMap.Entity_Name1__c} (Créancier)
                             
                         </span>
