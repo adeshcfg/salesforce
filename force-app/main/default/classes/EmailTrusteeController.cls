@@ -163,6 +163,25 @@ public class EmailTrusteeController {
             temp.displaySize = InsolvencyUtil.fileSizeToString((attchmt.BodyLength));
             insolvAttachList.add(temp);
         }
+        // Read all contentversions related to insolvacny account
+        Set<Id> conDocIds = new Set<Id>();
+        List<ContentVersion> conVerList = new List<ContentVersion>();
+        for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId from ContentDocumentLink where LinkedEntityid =: insolvAcc.Id]){
+            conDocIds.add(conDocLink.ContentDocumentId);
+        }
+        if(conDocIds.size() > 0){
+            conVerList = [SELECT id, ContentDocumentId, Title, Description, CreatedDate, ContentSize  FROM ContentVersion WHERE contentDocumentId in : conDocIds ORDER BY CreatedDate DESC];
+        }
+        for(ContentVersion conVer: conVerList){
+            InsolvAttachments temp = new InsolvAttachments();
+            temp.attId = conVer.Id;
+            temp.selected = false;
+            temp.fileName = conVer.Title;
+            temp.fileDesc = conVer.Description;
+            temp.fileCreatedDate = conVer.createdDate.addSeconds(offset / 1000);
+            temp.displaySize = InsolvencyUtil.fileSizeToString((conVer.ContentSize));
+            insolvAttachList.add(temp);
+        }
         // Check for statements stored as document storage records
         if (insolvAcc.Client_Identifier__c == 'Canadian Tire') {
             for (Document_Storage__c docStorage : [
@@ -635,6 +654,9 @@ public class EmailTrusteeController {
         for (Attachment selectedAtt : [SELECT Name, Body, BodyLength FROM Attachment WHERE Id IN :mySelectedAtt]) {
             totalFilesize = totalFilesize + selectedAtt.BodyLength;
         }
+        for (ContentVersion conVerSelected : [SELECT id, Title, ContentSize  FROM ContentVersion WHERE Id in : mySelectedAtt]) {
+            totalFilesize = totalFilesize + conVerSelected.ContentSize;
+        }
         // Only for CTB which can have document storage records for statements
         if (insolvAcc.Client_Identifier__c == 'Canadian Tire') {
             // Query selected document storage records by user if any
@@ -704,6 +726,15 @@ public class EmailTrusteeController {
                 efa.setBody(attObj.Body);
                 fileAttachments.add(efa);
             }
+            //7935
+            // Attach files to email
+           	List<ContentVersion> conVerList = [SELECT Title, VersionData, ContentDocumentId FROM ContentVersion WHERE Id IN :mySelectedAtt];
+            for (ContentVersion conVerObj : conVerList) {
+                Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();
+                efa.setFileName(conVerObj.Title);
+                efa.setBody(conVerObj.VersionData);
+                fileAttachments.add(efa);
+            }
             // Attach selected document storage files to email
             for (Document conVer : docsToDelete) {
                 Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();
@@ -740,6 +771,19 @@ public class EmailTrusteeController {
             }
             if (emailMsgAttachments.size() > 0) {
                 insert emailMsgAttachments;
+            }
+            List<ContentDocumentLink> conDocLinks = new List<ContentDocumentLink>();
+            for (ContentVersion conVerObj : conVerList) {
+                // Associate the ContentDocument with an EmailMessage
+                ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
+                contentDocumentLink.ContentDocumentId = conVerObj.ContentDocumentId; // ID of the uploaded ContentDocument
+                contentDocumentLink.LinkedEntityId = emailmsg[0].id; // ID of the EmailMessage record
+                contentDocumentLink.ShareType = 'V'; // 'V' for Viewer access
+                contentDocumentLink.Visibility = 'AllUsers'; // File visibility
+                conDocLinks.add(contentDocumentLink);
+            }
+            if(conDocLinks.size() > 0){
+                insert conDocLinks;
             }
         } catch (Exception ex) {
             system.debug('====' + ex.getMessage());

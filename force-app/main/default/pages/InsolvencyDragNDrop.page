@@ -3,6 +3,7 @@
         <apex:actionFunction name="uploadCompleteAction" action="{!refreshAttList}" rerender="relatedListBodypannel"/>
         <apex:actionFunction name="deletAttHelper" status="spinner" action="{!deleteAttachment}" rerender="relatedListBodypannel">
           <apex:param name="attId" value="" assignTo="{!selectedAttId}"/>
+          <apex:param name="conVerId" value="" assignTo="{!selectedConVerId}" />
         </apex:actionFunction>
         <apex:outputpanel rendered="{!!isCommunityUser }">
                <div class="slds-notify_container success-notifier slds-hide" id="target">
@@ -100,10 +101,47 @@
                             </tr>
                           </thead>
                           <tbody id="relatedListBody">
+                            <apex:repeat value="{!conVerList}" var="conVer">
+                              <tr>
+                                <td style="display:{!IF(isCommunityUser, 'none;', ';')}">
+                                  <input type="button" Class="slds-button slds-button--neutral" value="Delete" onclick="deletAtt(null, '{!conVer.Id}', this)" />
+                                </td>
+                                <td style="max-width:250px;">
+                                  <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
+                                    <span class="slds-m-left_xx-small slds-truncate" title="{!conVer.Title}" style='display:{!IF(NOT(isLightningCommunity), "", "none;")}'>
+                                      <a href="#" onclick='window.open("../sfc/servlet.shepherd/version/renditionDownload?rendition=PDF&versionId={!conVer.Id}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!conVer.Title}</a>
+                                    </span>
+                                    <span class="slds-m-left_xx-small slds-truncate" title="{!conVer.Title}" style='display:{!IF(isLightningCommunity, "", "none;")}'>
+                                      <a href="{!urlPathPrefix}/sfc/servlet.shepherd/version/renditionDownload?rendition=PDF&versionId={!conVer.Id}" target="_blank">{!conVer.Title}</a>
+                                    </span>
+                                  </li>
+                                </td>
+                                <td>
+                                  <apex:selectList value="{!conVer.Description}" size="1" rendered="{!!isCommunityUser}">
+                                    <apex:selectOptions value="{!fileDocumentOptions}" />
+                                  </apex:selectList>
+                                  <apex:outputText value="{!conVer.Description}" rendered="{!isCommunityUser}" />
+                                </td>
+                                <td>
+                                  <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                    <apex:param value="{!conVer.createdDate + offset}" />
+                                  </apex:outputText>
+                                </td>
+                                <td style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isCanadianTireCommunityUser,isMoneyMartCommunityUser,NOT(isCommunityUser)), ';', 'none;')}">
+                                  <apex:outputText value="{!conVer.CreatedBy.Name}">
+                                  </apex:outputText>
+                                </td>
+                                <td>
+                                  <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                    <apex:param value="{!conVer.LastModifiedDate + offset}" />
+                                  </apex:outputText>
+                                </td>
+                              </tr>
+                            </apex:repeat>
                             <apex:repeat value="{!attList}" var="att">
                               <tr>
                                 <td style="display:{!IF(isCommunityUser, 'none;', ';')}">
-                                  <input type="button" Class="slds-button slds-button--neutral" value="Delete" onclick="deletAtt('{!att.Id}', this)" />
+                                  <input type="button" Class="slds-button slds-button--neutral" value="Delete" onclick="deletAtt('{!att.Id}',null, this)" />
                                 </td>
                                 <td style="max-width:250px;">
                                   <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
@@ -263,13 +301,12 @@
                 return true;
             }
 
-            function deletAtt(attid, ele){
+            function deletAtt(attid,conVerId, ele){
                 var retVal = confirm("Do you want to continue ?");
-                if( retVal == true ){
+                if (retVal == true) {
                   ele.disabled = true;
-                  deletAttHelper(attid);
-                }
-                else{
+                    deletAttHelper(attid,conVerId);
+                } else {
                   return false;
                 }
             }
@@ -378,11 +415,12 @@
                             if (e.target.readyState == FileReader.DONE) { //Make sure read was successful, DONE == 2
                               document.getElementById("uploadStatusContainer").classList.remove('slds-hide');
                               var description = document.getElementsByClassName("documentType")[0];
-                                var att = new sforce.SObject("Attachment");
-                                att.Name = this.file.name;
-                                att.ContentType = this.file.type;
-                                att.Description = description.options[description.selectedIndex].value;
-                                att.ParentId = '{!insAcc.Id}';
+                                var conVer = new sforce.SObject("ContentVersion");
+                                var conDocLink = new sforce.SObject("ContentDocumentLink");
+                                conVer.Title = this.file.name;
+                                conVer.PathOnClient = this.file.name;
+                                conVer.IsMajorVersion = true;
+                                conVer.Description = description.options[description.selectedIndex].value;
         
                                 var binary = "";
                                 var bytes = new Uint8Array(e.target.result);
@@ -392,17 +430,38 @@
                                 for (var i = 0; i < length; i++) {
                                     binary += String.fromCharCode(bytes[i]);
                                 }
-                                att.Body = (new sforce.Base64Binary(binary)).toString();
-                                sforce.connection.create([att], {
-                                    onSuccess: function(result, source) {
+                                conVer.VersionData = new sforce.Base64Binary(binary);
+                                                            sforce.connection.create([conVer], {
+                                onSuccess: function (result, source) {
+                                    if (result[0].getBoolean("success")) {
+                                        //Get Content Document record
+                                        var query = "SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id = '"+result[0].id + "'";
+            							var result = sforce.connection.query(query);
+                                        //Create Content Document Link 
+                                        var records = result.getArray("records");
+            							if (records.length > 0) {
+                                            conDocLink.ContentDocumentId = records[0].ContentDocumentId;
+                                            conDocLink.LinkedEntityId = "{!insAcc.Id}";
+                                            conDocLink.ShareType = 'V';
+                                            conDocLink.Visibility = 'AllUsers';
+                                            sforce.connection.create([conDocLink], {
+                                			onSuccess: function (result, source) {
                                         if (result[0].getBoolean("success")) {
                                             updateUIForSuccessUpload(fileNumber);
                                             uploadCompleteAction();
+                                                }
+                                            },
+                                            onFailure: function (error, source) {
+                                    			console.error("an error has occurred " + error);
+                                			}
+                                            });
+                                        }
+                                        
                                         } else {
                                             console.error("An Error occured - " + result[0]);
                                         }
                                     },
-                                    onFailure: function(error, source) {
+                                onFailure: function (error, source) {
                                         console.error("an error has occurred " + error);
                                     }
                                 });

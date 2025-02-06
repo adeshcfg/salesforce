@@ -442,6 +442,52 @@ public class PocDocUtility {
     }
 
     /**
+     * @description : Generate content version record for POC with appropriate data
+     * @author pradeep.kumar@canaccede.com | 01-02-2025
+     * @param insolAccName
+     * @param insolvAcc
+     * @return Content Version
+     **/
+    public static ContentVersion generateContentVersionRecord(String insolAccName, Insolvency_Account__c insolvAcc) {
+        ContentVersion conVer = new ContentVersion();
+        DateTime d = Date.Today();
+        String dateStr = d.formatGMT('yyyy-MM-dd');
+        conVer.Title =
+            (insolvAcc.Amended_Claim_Flag__c ? 'Amended PoC - ' : 'PoC - ') +
+            dateStr +
+            ' - ' +
+            insolvAcc.Insolvency__r.Name +
+            ' - ' +
+            insolAccName +
+            ' - ' +
+            (insolvAcc.Insolvency__r.Debtor_1_First_Name__c != null ? insolvAcc.Insolvency__r.Debtor_1_First_Name__c : '') +
+            ' ' +
+            (insolvAcc.Insolvency__r.Debtor_1_Last_Name__c != null ? insolvAcc.Insolvency__r.Debtor_1_Last_Name__c : '') +
+            '.pdf';
+        
+        conVer.PathOnClient = conVer.Title;
+        conVer.IsMajorVersion = true;
+        conVer.Description = POCDocController.POC_DOC_DESCRIPTION;
+        return conVer;
+    }
+    
+    /**
+     * @description : Generate content document link record for POC with appropriate data
+     * @author pradeep.kumar@canaccede.com | 01-02-2025
+     * @param ContentVersion
+     * @return Content Document Link
+     **/
+    public static ContentDocumentLink generateContentDocLinkRecord(ContentVersion conVersion, Insolvency_Account__c insolvAcc) {
+        conVersion = [select id, ContentDocumentId from contentversion where Id =: conVersion.Id]; 
+        ContentDocumentLink conDocLink = new ContentDocumentLink();
+        conDocLink.ContentDocumentId = conVersion.ContentDocumentId;
+        conDocLink.LinkedEntityId = insolvAcc.Id;
+        conDocLink.ShareType = 'V';
+        conDocLink.Visibility = 'AllUsers';
+        return conDocLink;
+    }
+
+    /**
      * @description : Method to update POC fields on Insolvency account
      * @author adesh.ikhar@canaccede.com | 08-22-2024
      * @param insolvAcc
