@@ -26,8 +26,6 @@ public class TestPOCDocDataController{
         config.Run_Insolvency_Trigger__c = false;
         config.Run_Insolvency_Account_Duplicate_Check__c = true;
         insert config; 
-         String insolvencyRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('Insolvency_Case').getRecordTypeId();
-         Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName();
          PoC_Package_Settings__c poc = new PoC_Package_Settings__c(Name = 'Scotia Bank',Client_Company_Name__c = 'test');
          insert poc;
          
