@@ -82,6 +82,7 @@ global class InsolvencyDragNDropController{
     public void refreshConVerList(){
         Id insolvencyId = ApexPages.currentPage().getPArameters().get('Id');
         Set<Id> conDocIds = new Set<Id>();
+        if(insolvencyId != null){
         for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId from ContentDocumentLink where LinkedEntityid =: insolvencyId]){
             conDocIds.add(conDocLink.ContentDocumentId);
         }
@@ -90,12 +91,14 @@ global class InsolvencyDragNDropController{
         }        
     } 
     
+    } 
+    
     // To update document type of an attachment
     public void updateAtList(){
         if(attList.size()>0){
         update attList;
     }
-        if(conVerList.size()>0){
+        if(conVerList != null && conVerList.size()>0){
             update conVerList;
         }
     }

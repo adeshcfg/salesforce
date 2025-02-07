@@ -50,6 +50,19 @@ public class TestInsolvencyAccntDragNDropController{
          Attachment att = new Attachment(Name = 'testAtt', Body = Blob.valueOf('Test'), parentId = insolvAcc.Id);
          insert att;
          
+        ContentVersion conVer = new ContentVersion(Title='TestConVer',PathOnClient='path',VersionData = EncodingUtil.base64Decode('String'));
+        insert conVer;
+        
+        conVer = [Select id, ContentDocumentId from ContentVersion where id =: conVer.Id];
+        
+        ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
+        contentDocumentLink.ContentDocumentId = conVer.ContentDocumentId; // ID of the uploaded ContentDocument
+        contentDocumentLink.LinkedEntityId = insolvAcc.id; // ID of the EmailMessage record
+        contentDocumentLink.ShareType = 'V'; // 'V' for Viewer access
+        contentDocumentLink.Visibility = 'AllUsers'; // File visibility
+        //conDocLinks.add(contentDocumentLink);
+        insert contentDocumentLink;
+         
      }
      
       // Testing update attachments

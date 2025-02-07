@@ -25,6 +25,19 @@ public class TestInsolvencyDragNDropController{
          Attachment att = new Attachment(Name = 'testAtt', Body = Blob.valueOf('Test'), parentId = insolv.Id);
          insert att;
                                                      
+         ContentVersion conVer = new ContentVersion(Title='TestConVer',PathOnClient='path',VersionData = EncodingUtil.base64Decode('String'));
+        insert conVer;
+        
+        conVer = [Select id, ContentDocumentId from ContentVersion where id =: conVer.Id];
+        
+        ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
+        contentDocumentLink.ContentDocumentId = conVer.ContentDocumentId; // ID of the uploaded ContentDocument
+        contentDocumentLink.LinkedEntityId = insolv.id; // ID of the EmailMessage record
+        contentDocumentLink.ShareType = 'V'; // 'V' for Viewer access
+        contentDocumentLink.Visibility = 'AllUsers'; // File visibility
+        //conDocLinks.add(contentDocumentLink);
+        insert contentDocumentLink;
+                                                     
          Application_Config_Settings__c appConfig = new Application_Config_Settings__c(Run_Insolvency_Status_Validations__c = true);
          insert appConfig;
      }
@@ -33,6 +46,7 @@ public class TestInsolvencyDragNDropController{
      static testMethod void sendEmailTest(){
           Insolvency__c insolv = [SELECT Id FROM Insolvency__c LIMIT 1];
           // call the constructor
+          ApexPages.currentPage().getParameters().put('Id',insolv.Id);
           InsolvencyDragNDropController controller = new InsolvencyDragNDropController(new ApexPages.StandardController(insolv));
           InsolvencyDragNDropController.getDocumentOptions();
           InsolvencyDragNDropController.getfileDocumentOptions();

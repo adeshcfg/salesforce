@@ -9,6 +9,7 @@
 public class TestServicerNoticeToTrusteeController {
     @testSetup
     static void testData() {
+        Test.startTest();
         Application_Config_Settings__c config = new Application_Config_Settings__c(
             Run_Insolvency_Status_Validations__c = true,
             Maximum_Email_Attachments_Size__c = 18874368,
@@ -115,7 +116,7 @@ public class TestServicerNoticeToTrusteeController {
         );
 
         insert insolcAcc;
-        Insolvency_Account__c insolcAcc1 = new Insolvency_Account__c(
+        /*Insolvency_Account__c insolcAcc1 = new Insolvency_Account__c(
             Claim_Type__c = 'Unsecured',
             Proof_of_Claim_Required__c = false,
             Client_Identifier__c = 'Goeasy',
@@ -127,15 +128,31 @@ public class TestServicerNoticeToTrusteeController {
             Account_Number_Without_Space__c = 'Test-001'
         );
 
-        insert insolcAcc1;
+        insert insolcAcc1;*/
         //Attachment insertion on related Insolvency account
         Attachment attch = new Attachment(name = 'Sample Document', body = Blob.valueOf('test Body'), parentId = insolcAcc.id);
         insert attch;
+        
+        ContentVersion conVer = new ContentVersion(Title='TestConVer',PathOnClient='path',VersionData = EncodingUtil.base64Decode('String'));
+        insert conVer;
+        
+        conVer = [Select id, ContentDocumentId from ContentVersion where id =: conVer.Id];
+        
+        ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
+        contentDocumentLink.ContentDocumentId = conVer.ContentDocumentId; // ID of the uploaded ContentDocument
+        contentDocumentLink.LinkedEntityId = insolcAcc.id; // ID of the EmailMessage record
+        contentDocumentLink.ShareType = 'V'; // 'V' for Viewer access
+        contentDocumentLink.Visibility = 'AllUsers'; // File visibility
+        //conDocLinks.add(contentDocumentLink);
+        insert contentDocumentLink;
+        
+        Test.stopTest();
     }
 
     static testMethod void saveDocTest() {
+        Test.startTest();
         Insolvency_Account__c insolAcc = [SELECT Id, Trustee_Company__c FROM Insolvency_Account__c LIMIT 1];
-        Attachment attchObj = [SELECT Name, description FROM attachment LIMIT 1];
+        Attachment attchObj = [SELECT Id, Name, description FROM attachment LIMIT 1];
         ApexPages.currentPage().getParameters().put('Id', insolAcc.Id);
         PageReference pRef = Page.ServicerNoticeToTrustee;
         pRef.getParameters().put('id', insolAcc.Id);
@@ -146,17 +163,19 @@ public class TestServicerNoticeToTrusteeController {
         obj.toEmail = 'test@cfg.com;';
         obj.poulateRecord();
         obj.attachmentRemoved();
-        obj.attachmentSelected = [SELECT Id FROM Attachment LIMIT 1].Id;
+        obj.attachmentSelected = attchObj.Id;
         obj.attachmentSelected();
-        obj.attachmentSelected = [SELECT Id FROM Attachment LIMIT 1].Id;
+        obj.attachmentSelected = attchObj.Id;
         obj.sendEmail();
         obj.isAnyException = false;
+        Test.stopTest();
     }
 
     @isTest
     static void testSaveDocFrench() {
+        Test.startTest();
         Insolvency_Account__c insolAcc = [SELECT Id, Trustee_Company__c FROM Insolvency_Account__c LIMIT 1];
-        Attachment attchObj = [SELECT Name, description FROM attachment LIMIT 1];
+        //Attachment attchObj = [SELECT Name, description FROM attachment LIMIT 1];
         PageReference pRef = Page.ServicerNoticeToTrustee;
         pRef.getParameters().put('id', insolAcc.Id);
         ApexPages.currentPage().getParameters().put('language', 'fr');
@@ -165,5 +184,6 @@ public class TestServicerNoticeToTrusteeController {
         ServicerNoticeToTrusteeController obj = new ServicerNoticeToTrusteeController();
         obj.language = 'fr';
         obj.poulateRecord();
+        Test.stopTest();
     }
 }
