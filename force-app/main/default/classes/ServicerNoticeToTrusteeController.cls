@@ -73,6 +73,37 @@ public class ServicerNoticeToTrusteeController{
             insolvAttachList.add(temp);
         }
         
+            //7935
+        // Read all content versions related to insolvency account
+        Set<Id> conDocIds = new Set<Id>();
+        
+        for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId from ContentDocumentLink where LinkedEntityid =: insolvAcc.Id]){
+            conDocIds.add(conDocLink.ContentDocumentId);
+        }
+        if(conDocIds.size() > 0){        
+        for (ContentVersion conVer : [SELECT id, 
+                                      ContentDocumentId, 
+                                      Title, 
+                                      VersionData, 
+                                      Description, 
+                                      ContentSize, 
+                                      CreatedBy.Name, 
+                                      LastModifiedDate, 
+                                      CreatedDate 
+                                      FROM ContentVersion 
+                                      WHERE contentDocumentId in : conDocIds ORDER BY CreatedDate DESC
+        ]) {
+            InsolvAttachments temp = new InsolvAttachments();
+            temp.attId = conVer.Id;
+            temp.selected = false;
+            temp.fileName = conVer.Title;
+            temp.fileDesc = conVer.Description;
+            temp.fileCreatedDate = conVer.createdDate.addSeconds(offset / 1000);
+            temp.displaySize = InsolvencyUtil.fileSizeToString((conVer.ContentSize));
+            insolvAttachList.add(temp);
+        }
+        }
+        
         //checking if Trustee Office is Active
         if(insolvAcc.Is_Active__c == False){ 
            system.debug('Trustee is not Active so Email cannot be sent');
@@ -245,6 +276,16 @@ public class ServicerNoticeToTrusteeController{
                     fileAttachments.add(att);
                 
             }
+         //7935
+            // Attach files to email
+           	List<ContentVersion> conVerList = [SELECT Title, VersionData, ContentDocumentId FROM ContentVersion WHERE Id IN :mySelectedAtt];
+            for (ContentVersion conVerObj : conVerList) {
+                Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();
+                efa.setFileName(conVerObj.Title);
+                efa.setBody(conVerObj.VersionData);
+                fileAttachments.add(efa);
+            }
+         
         mail.setFileAttachments(fileAttachments);        
         if(!Test.isRunningTest()) {
             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
@@ -315,6 +356,20 @@ public class ServicerNoticeToTrusteeController{
             }         
             if(emailMsgAttachments.size()>0){
                 insert emailMsgAttachments;
+            }
+            
+            List<ContentDocumentLink> conDocLinks = new List<ContentDocumentLink>();
+            for (ContentVersion conVerObj : conVerList) {
+                // Associate the ContentDocument with an EmailMessage
+                ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
+                contentDocumentLink.ContentDocumentId = conVerObj.ContentDocumentId; // ID of the uploaded ContentDocument
+                contentDocumentLink.LinkedEntityId = emailmsg.id; // ID of the EmailMessage record
+                contentDocumentLink.ShareType = 'V'; // 'V' for Viewer access
+                contentDocumentLink.Visibility = 'AllUsers'; // File visibility
+                conDocLinks.add(contentDocumentLink);
+            }
+            if(conDocLinks.size() > 0){
+                insert conDocLinks;
             }
         }
        

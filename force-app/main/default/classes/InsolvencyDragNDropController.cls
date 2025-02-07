@@ -32,6 +32,10 @@ global class InsolvencyDragNDropController{
        //Ends 5195
        public Id selectedAttId {set;get;}
     
+    //7935
+    public List<ContentVersion> conVerList {get; set;}
+    public Id selectedConVerId { get; set; }
+    
     //Utility method to populate Attachment types
     public static List<SelectOption> getAllDocumentOptions() {
         Schema.DescribeFieldResult insolDocumenttype = Insolvency__c.Insolvency_Document_Type__c.getDescribe();
@@ -70,18 +74,40 @@ global class InsolvencyDragNDropController{
     // Fetch all attachments related to Insolvency
     public void refreshAttList(){
         attList = [SELECT Id, Name,Description,Owner.name, CreatedDate, LastModifiedDate FROM Attachment WHERE ParentId =: ApexPages.currentPage().getPArameters().get('Id') ORDER BY CreatedDate DESC];
+        refreshConVerList();
         system.debug('===='+attList);
     }
     
+    // Fetch all content documents related to Insolvency
+    public void refreshConVerList(){
+        Id insolvencyId = ApexPages.currentPage().getPArameters().get('Id');
+        Set<Id> conDocIds = new Set<Id>();
+        if(insolvencyId != null){
+        for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId from ContentDocumentLink where LinkedEntityid =: insolvencyId]){
+            conDocIds.add(conDocLink.ContentDocumentId);
+        }
+        if(conDocIds.size() > 0){
+            conVerList = [SELECT id, ContentDocumentId, Title, Description, CreatedBy.Name, LastModifiedDate, CreatedDate FROM ContentVersion WHERE contentDocumentId in : conDocIds ORDER BY CreatedDate DESC];
+        }        
+    } 
+    
+    } 
+    
     // To update document type of an attachment
     public void updateAtList(){
+        if(attList.size()>0){
         update attList;
+    }
+        if(conVerList != null && conVerList.size()>0){
+            update conVerList;
+        }
     }
     
     // controller to load attachments
     public InsolvencyDragNDropController(ApexPages.StandardController controller) {
         insAcc = (Insolvency__c )controller.getRecord();
         refreshAttList();
+        refreshConVerList();
         
         //Checking if community user
         isCommunityUser = InsolvencyUtil.isCommunityUser();
@@ -106,14 +132,29 @@ global class InsolvencyDragNDropController{
     
     //Delete attachments
     public void deleteAttachment(){
-        try{
-            for(Attachment att :  attList){
-                if(att.Id == selectedAttId )
+        try {
+            String attId = selectedAttId;
+            String conId = selectedConVerId;
+            if(attId != null && attId != '' && String.isNotBlank(attId)){
+                for (Attachment att : attList) {
+                    if (att.Id == selectedAttId)
                     delete att;
             }
             refreshAttList();
-        }catch(Exception ex){
+            }else{
+                for (ContentVersion conVer : conVerList) {
+                    if (conVer.Id == selectedConVerId){
+                        ContentDocument conDoc = [select id from ContentDocument where Id =: conVer.ContentDocumentId];
+                        delete conDoc;
+                    }
+                }
+                refreshConVerList();
+            }
+            
+            
+        } catch (Exception ex) {
             refreshAttList();
+            refreshConVerList();
         }
     }
     

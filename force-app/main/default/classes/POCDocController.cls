@@ -250,7 +250,8 @@ public class POCDocController {
         pdf.getParameters().put('meetingOfCredits', String.valueOf(meetingOfCredits));
 
         // Create attachment
-        Attachment attach = PocDocUtility.generateAttachmentRecord(insolAccName, insolvAcc);
+        //Attachment attach = PocDocUtility.generateAttachmentRecord(insolAccName, insolvAcc);
+        ContentVersion conVersion = PocDocUtility.generateContentVersionRecord(insolAccName, insolvAcc);
         Blob body;
         try {
             if (!Test.IsRunningTest()) {
@@ -264,8 +265,11 @@ public class POCDocController {
             handleException(ex);
             return null;
         }
-        attach.Body = body;
-        insert attach;
+        conVersion.VersionData = body;
+        insert conVersion;
+        
+        ContentDocumentLink conDocLink = PocDocUtility.generateContentDocLinkRecord(conVersion, insolvAcc);        
+        Insert conDocLink;
 
         //Don't run InsolvencyAccountTrigger
         InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;

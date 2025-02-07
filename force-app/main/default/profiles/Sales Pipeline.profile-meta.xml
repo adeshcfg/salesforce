@@ -697,10 +697,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ExportToMegasysController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>FidemApplicationFormController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2226,10 +2222,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TestExcelToJSONBatch</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TestExportToMegasysController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -18172,6 +18164,16 @@
         <field>Account.Exclude_From_Missing_Payment_Mail_List__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.EmailMessageId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.InsolvencyAccountId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>API_Error__c-API Error Layout</layout>
     </layoutAssignments>
@@ -19174,10 +19176,6 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>Exception</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>ExportToMegasys</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>

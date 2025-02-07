@@ -13,6 +13,7 @@ public class TestPOCDocController{
     //Create all necessary Object records in this method
      @testSetup 
      static void testData() {
+         Test.startTest();
          //Custom setting record creation
         Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
         config.Run_Insolvency_Account_Trigger__c = true;
@@ -83,10 +84,12 @@ public class TestPOCDocController{
         insolAcct.Proof_of_Claim_Required__c = false;
         insolAcct.Asset_Status__c = 'Putback';
         insert insolAcct;
+         Test.stopTest();
      }
 
      // Unit test for saving poc pdf document as attachment of insolvancy account
 		static testMethod void savePOCDocTest(){
+            Test.startTest();
           Insolvency_Account__c insolAcct = [SELECT Id FROM Insolvency_Account__c LIMIT 1];
           ApexPages.currentPage().getParameters().put('Id', insolAcct.Id);
           
@@ -135,10 +138,12 @@ public class TestPOCDocController{
           }catch(Exception ex){
               obj.handleException(ex);
           }
+            Test.stopTest();
           //obj.goToInsolvancyAccount();
      }
     
     static testMethod void testChangeLangugae(){
+        Test.startTest();
 		  Insolvency_Account__c insolAcct = [SELECT Id FROM Insolvency_Account__c LIMIT 1];
           ApexPages.currentPage().getParameters().put('Id', insolAcct.Id);
           
@@ -172,6 +177,7 @@ public class TestPOCDocController{
           }catch(Exception ex){
               obj.handleException(ex);
           }
+        Test.stopTest();
           //obj.goToInsolvancyAccount();
     }
 }

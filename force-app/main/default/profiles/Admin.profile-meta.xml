@@ -697,10 +697,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ExportToMegasysController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>FidemApplicationFormController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2226,10 +2222,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TestExcelToJSONBatch</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TestExportToMegasysController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -19419,12 +19411,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Remittance__c.Do_Not_Process__c</field>
+        <field>ContentVersion.EmailMessageId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.InsolvencyAccountId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Portfolio_Name__c.Non_Servicing_Portfolio__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Remittance__c.Do_Not_Process__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
@@ -21127,10 +21129,6 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>Exception</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>ExportToMegasys</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
