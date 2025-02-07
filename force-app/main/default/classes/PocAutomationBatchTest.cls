@@ -8,6 +8,7 @@
 public class PocAutomationBatchTest {
     @TestSetup
     static void makeData() {
+        Test.startTest();
         Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
         config.Run_Insolvency_Account_Trigger__c = true;
         config.Run_Insolvency_Status_Validations__c = true;
@@ -103,6 +104,7 @@ public class PocAutomationBatchTest {
         contentDocumentLink.Visibility = 'AllUsers'; // File visibility
         //conDocLinks.add(contentDocumentLink);
         insert contentDocumentLink;
+        Test.stopTest();
     }
 
     @isTest
