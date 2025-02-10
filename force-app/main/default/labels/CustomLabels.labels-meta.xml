@@ -15,6 +15,13 @@
         <value>Money Mart Insolvency Account</value>
     </labels>
     <labels>
+        <fullName>InsolvencyAccountInline_Voting_Options_c</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsolvencyAccountInline.Voting_Options__c</shortDescription>
+        <value>Voting Options</value>
+    </labels>
+    <labels>
         <fullName>Allowed_Reject_Codes</fullName>
         <language>en_US</language>
         <protected>false</protected>

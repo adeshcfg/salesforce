@@ -93,7 +93,7 @@ public with sharing class InsolvencyAccountInlineController {
         InsolAccList = [select Id, Name, Client_Identifier__c, Bank_Name__c, Account_Number_Without_Space__c, /*Account_Number_AlphaNumeric__c,*/ 
                         Insolvency__c, Insolvency__r.Name, Insolvency_Status__c, Account_Type__c,
                         Product_Code__c, Borrower_Primary__c, Type_of_Service__c, Claim_Type__c, Claim_Amount__c, 
-                        Interest_Rate__c, Expected_Account_Recovery_Ratio__c, Last_Payment_Date__c, Last_Payment_Amount__c, Latest_Payment_Date__c, Amended_Claim_Flag__c, 
+                        Interest_Rate__c, Expected_Account_Recovery_Ratio__c, Last_Payment_Date__c, Last_Payment_Amount__c,Voting_Options__c, Latest_Payment_Date__c, Amended_Claim_Flag__c, 
                         Voting_Letter_Comments__c, Security_Description__c, Secured_Asset_Amount__c,Is_Duplicate_Resolved__c,Total_Remittance_count__c ,recordType.name,
                         recordType.developername
                         from Insolvency_Account__c 
@@ -181,7 +181,7 @@ public with sharing class InsolvencyAccountInlineController {
                 ApexPages.addMessage(msg);
                 mssg = 'NA';
             }
-            if(String.isBlank(iaL.Product_Code__c)){
+            if(String.isBlank(iaL.Voting_Options__c)){
                 msg = new ApexPages.Message(ApexPages.Severity.WARNING, 'Please select Product Code for ' + iaL.Name );
                 ApexPages.addMessage(msg);
                 mssg = 'NA';
