@@ -60,8 +60,8 @@
                     </apex:outputField>  
                 </apex:column> 
                 
-                <apex:column headerValue="{!$Label.InsolvencyAccountInline_Product_Code}">
-                    <apex:outputField value="{!ial.acc.Product_Code__c}">
+                <apex:column headerValue="{!$Label.InsolvencyAccountInline_Voting_Options_c}">
+                    <apex:outputField value="{!ial.acc.Voting_Options__c}">
                         <apex:inlineEditSupport rendered="{!isCommunityUser}" showOnEdit="saveButton" event="ondblclick"/>
                     </apex:outputField>
                 </apex:column>
