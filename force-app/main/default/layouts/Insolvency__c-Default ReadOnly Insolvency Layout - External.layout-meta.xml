@@ -1356,7 +1356,7 @@
         <fields>NAME</fields>
         <fields>Bank_Name__c</fields>
         <fields>Account_Type__c</fields>
-        <fields>Product_Code__c</fields>
+        <fields>Voting_Options__c</fields>
         <fields>Claim_Type__c</fields>
         <fields>Insolvency_Status__c</fields>
         <fields>Claim_Amount__c</fields>
