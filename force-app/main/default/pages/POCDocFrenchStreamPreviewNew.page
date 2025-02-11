@@ -300,7 +300,8 @@
                            Et la reclamation de <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}"><b> {!pocPackage.CFG_Office_Name__c}</b> (Créancier)</apex:outputText>
                             <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}"><b> {!pocPackage.CFG_Office_Name__c}</b> (Créancier)</apex:outputText>
-                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c} </b> (Créancier)</apex:outputText>        
+                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured' && insolvAcc.Client_Identifier__c != 'SDA'}"><b> {!pocPackage.Client_Company_Name_French__c} </b> (Créancier)</apex:outputText>
+                            <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured' && insolvAcc.Client_Identifier__c == 'SDA'}"><b> {!pocPackage.Client_Company_Creditor_Name__c} </b> (Créancier)</apex:outputText>        
                            </apex:outputText>
                            <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><b> {!pocPackage.CFG_Office_Name_2__c}</b> (Créancier)</apex:outputText>
                             <br/><br/>
@@ -326,7 +327,7 @@
                                     <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                                     <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> qui est l'acheteur du compte de <b>{!pocPackage.Client_Company_Name_French__c}.</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
                                     <apex:outputText value="<b> {!pocPackage.Client_Company_Name_French__c}" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SPL' || insolvAcc.Client_Identifier__c == 'Goeasy')}" />
-                                    <apex:outputText value="<b> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c}</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') && (insolvAcc.Client_Identifier__c == 'SDA')}" />        
+                                    <apex:outputText value="<b> {!pocPackage.Client_Company_Creditor_Name__c}</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') && (insolvAcc.Client_Identifier__c == 'SDA')}" />        
                                     <apex:outputText value="<b> {!pocPackage.CFG_Office_Name__c},</b> qui est l'acheteur du compte de <b>{!pocPackage.Client_Company_Name_French__c}.</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Unsecured') && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL')}" />
                                     <apex:outputText value="<b> {!pocPackage.Client_Company_Name_French__c}.</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured') && (insolvAcc.Client_Identifier__c == 'Fairstone')}" />
                                     </apex:outputText>
@@ -632,7 +633,8 @@
                                        <b>Canaccede International Management Ltd.,</b><br/>
                                        <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                                        <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
-                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c} (Créancier)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured')}" />
+                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured' && insolvAcc.Client_Identifier__c != 'SDA')}" />
+                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Creditor_Name__c} (Créancier)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured' && insolvAcc.Client_Identifier__c == 'SDA')}" />    
                                        <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier)</b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL'))}" />
                                        </apex:outputText>
                                        <apex:outputText value="<b>Prestataire de Services pour for {!pocPackage.CFG_Office_Name_2__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}" />
@@ -720,7 +722,8 @@
                               Et la reclamation de 
                               <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                               <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"><b> {!pocPackage.CFG_Office_Name__c}</b> (Créancier)</apex:outputText>
-                              <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured'}"><b> {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c}</b> (Créancier)</apex:outputText>  
+                              <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured' && insolvAcc.Client_Identifier__c != 'SDA'}"><b> {!pocPackage.Client_Company_Name_French__c} </b> (Créancier)</apex:outputText>
+                              <apex:outputText rendered="{!insolvAcc.Claim_Type__c =='Secured' && insolvAcc.Client_Identifier__c == 'SDA'}"><b> {!pocPackage.Client_Company_Creditor_Name__c}</b> (Créancier)</apex:outputText>      
                               </apex:outputText>
                               <apex:outputText rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}"><b> {!pocPackage.CFG_Office_Name_2__c} </b> (Créancier)</apex:outputText>
                            </div>
@@ -831,7 +834,8 @@
                                        <b>Canaccede International Management Ltd., </b><br/>
                                        <apex:outputText rendered="{!NOT(insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product')}">
                                        <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier) </b>" escape="false" rendered="{!insolvAcc.Claim_Type__c == 'Unsecured' && insolvAcc.Client_Identifier__c != 'Scotia Bank' && insolvAcc.Client_Identifier__c != 'SDA' && insolvAcc.Client_Identifier__c != 'SPL'}" />
-                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} {!pocPackage.Client_Company_Creditor_Name__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured')}" />
+                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Name_French__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured' && insolvAcc.Client_Identifier__c != 'SDA')}" />
+                                       <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.Client_Company_Creditor_Name__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Secured' && insolvAcc.Client_Identifier__c == 'SDA')}" />    
                                        <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name__c} (Créancier) </b>" escape="false" rendered="{!(insolvAcc.Claim_Type__c == 'Unsecured' && (insolvAcc.Client_Identifier__c == 'Scotia Bank' || insolvAcc.Client_Identifier__c == 'SDA' || insolvAcc.Client_Identifier__c == 'SPL'))}" />
                                     </apex:outputText>
                                     <apex:outputText value="<b>Prestataire de Services pour {!pocPackage.CFG_Office_Name_2__c} (Créancier)</b>" escape="false" rendered="{!insolvAcc.Client_Identifier__c == 'Goeasy' && insolvAcc.Account_Type__c == 'Leasing product'}" />
