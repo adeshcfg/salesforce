@@ -35,6 +35,7 @@ global class InsolvencyAccntDragNDropController {
     
     //7935
     public List<ContentVersion> conVerList {get; set;}
+    public List<ContentVersion> insolvConVerList { get; set; }
     public Id selectedConVerId { get; set; }
     
     public static List<SelectOption> getAllDocumentOptions() {
@@ -97,7 +98,10 @@ global class InsolvencyAccntDragNDropController {
         }
         if(conDocIds.size() > 0){
             conVerList = [SELECT id, ContentDocumentId, Title, Description, CreatedBy.Name, LastModifiedDate, CreatedDate FROM ContentVersion WHERE contentDocumentId in : conDocIds ORDER BY CreatedDate DESC];
+        }else{
+            conVerList = new List<ContentVersion>();
         }
+        
 		System.debug('conVerList:: '+conVerList);        
     }
 
@@ -141,6 +145,15 @@ global class InsolvencyAccntDragNDropController {
             FROM Attachment
             WHERE ParentID = :insAcc.Insolvency__c AND Description = 'Creditors Package'
         ];
+        Set<Id> conDocIds = new Set<Id>();
+        for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId from ContentDocumentLink where LinkedEntityid =: insAcc.Insolvency__c]){
+            conDocIds.add(conDocLink.ContentDocumentId);
+        }
+        if(conDocIds.size() > 0){
+            insolvConVerList = [SELECT id, ContentDocumentId, Title, Description, CreatedBy.Name, LastModifiedDate, CreatedDate, owner.name FROM ContentVersion WHERE contentDocumentId in : conDocIds ORDER BY CreatedDate DESC];
+        }else{
+            insolvConVerList = new List<ContentVersion>();
+        }
 
         List<Document_Storage__c> docStorageList = new List<Document_Storage__c>();
         docStorageList = [

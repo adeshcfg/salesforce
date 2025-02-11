@@ -288,7 +288,7 @@
             </div>
         </span>
         <!-- Display related insolvency Attachments of type Creditor Package STARTS-->
-        <apex:outputPanel rendered="{!insolvAttList.size>0}">
+        <apex:outputPanel rendered="{!or(insolvAttList.size>0, insolvConVerList.size>0)}">
             <div class="slds-grid slds-m-top--large" style="margin-bottom: {!IF(isCommunityUser, '0.5rem', '0.5rem')}">
                 <div class="slds-col">
                     <div
@@ -355,6 +355,49 @@
                                                 <td>
                                                     <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
                                                         <apex:param value="{!att.LastModifiedDate + offset}" />
+                                                    </apex:outputText>
+                                                </td>
+                                            </tr>
+                                        </apex:repeat>
+                                        <apex:repeat value="{!insolvConVerList}" var="conVer">
+                                            <tr>
+                                                <td style="max-width: 250px">
+                                                    <li class="slds-list__item slds-m-right_large slds-grid slds-truncate_container_25">
+                                                        <span
+                                                            class="slds-m-left_xx-small slds-truncate"
+                                                            title="{!conVer.Title}"
+                                                            style='display:{!IF(NOT(isLightningCommunity), "", "none;")}'
+                                                        >
+                                                            <a
+                                                                href="#"
+                                                                onclick='window.open("../lightning/page/filePreview?selectedRecordId=={!conVer.ContentDocumentId}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'
+                                                                >{!conVer.Title}</a
+                                                            >
+                                                        </span>
+                                                        <span
+                                                            class="slds-m-left_xx-small slds-truncate"
+                                                            title="{!conVer.Title}"
+                                                            style='display:{!IF(isLightningCommunity, "", "none;")}'
+                                                        >
+                                                            <a href="{!urlPathPrefix}/lightning/page/filePreview?selectedRecordId={!conVer.ContentDocumentId}" target="_blank"
+                                                                >{!conVer.Title}</a
+                                                            >
+                                                        </span>
+                                                    </li>
+                                                </td>
+                                                <td>
+                                                    <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                                        <apex:param value="{!conVer.createdDate + offset}" />
+                                                    </apex:outputText>
+                                                </td>
+                                                <td
+                                                    style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isMoneyMartCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
+                                                >
+                                                    <apex:outputText value="{!conVer.owner.Name}"> </apex:outputText>
+                                                </td>
+                                                <td>
+                                                    <apex:outputText value="{0, date, MMMM d',' yyyy hh:mm a}">
+                                                        <apex:param value="{!conVer.LastModifiedDate + offset}" />
                                                     </apex:outputText>
                                                 </td>
                                             </tr>
