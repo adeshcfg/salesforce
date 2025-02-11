@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Notify_Users_on_MegaSys_Error</name>
+        <label>Notify Users on MegaSys Error</label>
+        <locationX>1106</locationX>
+        <locationY>431</locationY>
+        <actionName>API_Error__c.Notify_Users_on_MegaSys_Error</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Notify_Users_on_Power_Curve_Error</name>
+        <label>Notify Users on Power Curve Error</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <actionName>API_Error__c.Notify_Users_on_Power_Curve_Error</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Notify_Users_on_TransUnion_Error</name>
+        <label>Notify Users on TransUnion Error</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <actionName>API_Error__c.Notify_Users_on_TransUnion_Error</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Notify_Users_on_VersaPay_Funding_Error</name>
+        <label>Notify Users on VersaPay Funding Error</label>
+        <locationX>842</locationX>
+        <locationY>431</locationY>
+        <actionName>API_Error__c.Notify_Users_on_VersaPay_Funding_Error</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Notify_Users_on_VersaPay_Payment_Setup_Error</name>
+        <label>Notify Users on VersaPay Payment Setup Error</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <actionName>API_Error__c.Notify_Users_on_VersaPay_Payment_Setup_Error</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <name>API_Error_Criteria</name>
+        <label>API Error Criteria</label>
+        <locationX>710</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Power_Curve_Error</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.End_Point__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>PCoD</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Notify_Users_on_Power_Curve_Error</targetReference>
+            </connector>
+            <label>Power Curve Error</label>
+        </rules>
+        <rules>
+            <name>TransUnion_Error</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.End_Point__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TransUnion</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Notify_Users_on_TransUnion_Error</targetReference>
+            </connector>
+            <label>TransUnion Error</label>
+        </rules>
+        <rules>
+            <name>VersaPay_Payment_Setup_Error</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.End_Point__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>VersaPay Payment</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Notify_Users_on_VersaPay_Payment_Setup_Error</targetReference>
+            </connector>
+            <label>VersaPay Payment Setup Error</label>
+        </rules>
+        <rules>
+            <name>VersaPay_Funding_Error</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.End_Point__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>VersaPay Funding</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Notify_Users_on_VersaPay_Funding_Error</targetReference>
+            </connector>
+            <label>VersaPay Funding Error</label>
+        </rules>
+        <rules>
+            <name>MegaSys_Error</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.End_Point__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>MegaSys</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Notify_Users_on_MegaSys_Error</targetReference>
+            </connector>
+            <label>MegaSys Error</label>
+        </rules>
+    </decisions>
+    <description>End point error Notify to user</description>
+    <environments>Default</environments>
+    <interviewLabel>API Error Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>API Error Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>584</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>API_Error_Criteria</targetReference>
+        </connector>
+        <object>API_Error__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
