@@ -4,7 +4,7 @@
         <name>Email_Alert_On_Agency_User</name>
         <label>Agency_User__c.Email_Alert_On_Agency_User</label>
         <locationX>176</locationX>
-        <locationY>323</locationY>
+        <locationY>515</locationY>
         <actionName>Agency_User__c.Email_Alert_On_Agency_User</actionName>
         <actionType>emailAlert</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -16,9 +16,41 @@
         </inputParameters>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
-    <description>Migrated from the: Agency User Verification Email workflow rule
-Workflow rule description: Agency User Verification Email&quot;</description>
+    <decisions>
+        <name>Record_type</name>
+        <label>Record type</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>Email_Alert_On_Agency_User</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Agnecy_Contact_Portal_User</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Portal_User</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Email_Alert_On_Agency_User</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <description>New flow of Agency User Verification Email workflow rule</description>
     <environments>Default</environments>
+    <interviewLabel>Agency User Verification Email {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Agency User Verification Email</label>
     <migratedFromWorkflowRuleName>Agency User Verification Email</migratedFromWorkflowRuleName>
     <processMetadataValues>
@@ -38,28 +70,14 @@ Workflow rule description: Agency User Verification Email&quot;</description>
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Email_Alert_On_Agency_User</targetReference>
+            <targetReference>Record_type</targetReference>
         </connector>
-        <filterLogic>1 AND (2 OR 3 )</filterLogic>
+        <filterLogic>and</filterLogic>
         <filters>
             <field>Is_Active__c</field>
             <operator>EqualTo</operator>
             <value>
                 <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>RecordTypeId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>0123a000000LLElAAO</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>RecordTypeId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>0123a000000LLEkAAO</stringValue>
             </value>
         </filters>
         <object>Agency_User__c</object>
