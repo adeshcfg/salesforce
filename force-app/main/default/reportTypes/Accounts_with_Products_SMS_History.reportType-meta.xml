@@ -1154,17 +1154,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Purchase_Date__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account_Portfolio_Code__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_Group__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>
@@ -1244,22 +1234,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_ID__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account_Statute_Aging__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>SIN__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account_Purchase_Group__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>

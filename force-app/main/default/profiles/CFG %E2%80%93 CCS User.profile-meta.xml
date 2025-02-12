@@ -16311,7 +16311,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Product__c.Putback_Reason__c</field>
+        <field>Product__c.Buyback_Putback_Reason__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

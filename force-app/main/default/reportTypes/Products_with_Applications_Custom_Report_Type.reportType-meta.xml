@@ -1438,27 +1438,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_Group__c</field>
-            <table>Application__c.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_ID__c</field>
-            <table>Application__c.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account_Purchase_Balance__c</field>
-            <table>Application__c.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account_Purchase_Date__c</field>
-            <table>Application__c.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account_Purchase_Group__c</field>
             <table>Application__c.Products__r</table>
         </columns>
         <columns>
@@ -1643,7 +1623,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Putback_Reason__c</field>
+            <field>Buyback_Putback_Reason__c</field>
             <table>Application__c.Products__r</table>
         </columns>
         <columns>
@@ -3163,11 +3143,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Portfolio_Group_Name__c</field>
-            <table>Application__c.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Portfolio_Name_Lookup__c</field>
             <table>Application__c.Products__r</table>
         </columns>
@@ -3354,11 +3329,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>PTP1_Method__c</field>
-            <table>Application__c.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Purchase_Date__c</field>
             <table>Application__c.Products__r</table>
         </columns>
         <columns>

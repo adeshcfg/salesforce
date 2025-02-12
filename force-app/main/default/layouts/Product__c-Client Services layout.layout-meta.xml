@@ -526,7 +526,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Putback_Reason__c</field>
+                <field>Buyback_Putback_Reason__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
