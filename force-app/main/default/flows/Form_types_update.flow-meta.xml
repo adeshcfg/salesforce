@@ -5,8 +5,8 @@
         <description>Checking Form type value</description>
         <name>Form_type</name>
         <label>Form type</label>
-        <locationX>669</locationX>
-        <locationY>335</locationY>
+        <locationX>672</locationX>
+        <locationY>547</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Interim</name>
@@ -84,7 +84,7 @@
             <label>Status of Insolvency</label>
         </rules>
         <rules>
-            <name>Creditor_Package</name>
+            <name>CreditorPackage</name>
             <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Subject</leftValueReference>
@@ -120,6 +120,28 @@
             <label>Creditor Package</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Record_type</name>
+        <label>Record type</label>
+        <locationX>664</locationX>
+        <locationY>371</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>EmailToCase</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Form_type</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
     <description>Update Form Type according to the Email Subject of Email to case for Assignment</description>
     <environments>Default</environments>
     <interviewLabel>For {!$Flow.CurrentDateTime}</interviewLabel>
@@ -146,8 +168,8 @@
     <recordUpdates>
         <name>Update_Creditor_Package</name>
         <label>Update Creditor Package</label>
-        <locationX>934</locationX>
-        <locationY>412</locationY>
+        <locationX>993</locationX>
+        <locationY>520</locationY>
         <inputAssignments>
             <field>Form_Types__c</field>
             <value>
@@ -159,8 +181,8 @@
     <recordUpdates>
         <name>Update_Final</name>
         <label>Update Final</label>
-        <locationX>427</locationX>
-        <locationY>264</locationY>
+        <locationX>418</locationX>
+        <locationY>350</locationY>
         <inputAssignments>
             <field>Form_Types__c</field>
             <value>
@@ -172,8 +194,8 @@
     <recordUpdates>
         <name>Update_Interim</name>
         <label>Update Interim</label>
-        <locationX>423</locationX>
-        <locationY>427</locationY>
+        <locationX>370</locationX>
+        <locationY>498</locationY>
         <inputAssignments>
             <field>Form_Types__c</field>
             <value>
@@ -185,8 +207,8 @@
     <recordUpdates>
         <name>Update_Media_request</name>
         <label>Update Media request</label>
-        <locationX>564</locationX>
-        <locationY>553</locationY>
+        <locationX>530</locationX>
+        <locationY>692</locationY>
         <inputAssignments>
             <field>Form_Types__c</field>
             <value>
@@ -198,8 +220,8 @@
     <recordUpdates>
         <name>Update_Recall_Request</name>
         <label>Update Recall Request</label>
-        <locationX>795</locationX>
-        <locationY>548</locationY>
+        <locationX>829</locationX>
+        <locationY>688</locationY>
         <inputAssignments>
             <field>Form_Types__c</field>
             <value>
@@ -211,8 +233,8 @@
     <recordUpdates>
         <name>Update_Status_of_Insolvency</name>
         <label>Update Status of Insolvency</label>
-        <locationX>923</locationX>
-        <locationY>265</locationY>
+        <locationX>833</locationX>
+        <locationY>329</locationY>
         <inputAssignments>
             <field>Form_Types__c</field>
             <value>
@@ -222,14 +244,14 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>543</locationX>
-        <locationY>48</locationY>
+        <locationX>544</locationX>
+        <locationY>49</locationY>
         <connector>
-            <targetReference>Form_type</targetReference>
+            <targetReference>Record_type</targetReference>
         </connector>
         <object>Case</object>
         <recordTriggerType>Create</recordTriggerType>
-        <triggerType>RecordBeforeSave</triggerType>
+        <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
 </Flow>
