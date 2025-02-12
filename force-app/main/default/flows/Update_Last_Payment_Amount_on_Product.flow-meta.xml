@@ -45,7 +45,7 @@
         <name>PaymentAmount</name>
         <dataType>Currency</dataType>
         <expression>{!$Record.Payment_Amount__c}</expression>
-        <scale>0</scale>
+        <scale>2</scale>
     </formulas>
     <interviewLabel>Update Last Payment Amount on Product {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Update Last Payment Amount on Product</label>

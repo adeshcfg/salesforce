@@ -45,7 +45,7 @@
         <name>AmountFormula</name>
         <dataType>Currency</dataType>
         <expression>{!$Record.CCS_Account__r.Current_Balance__c}-{!$Record.Gross_Payment_Amount__c}</expression>
-        <scale>0</scale>
+        <scale>2</scale>
     </formulas>
     <interviewLabel>Update Balance After Paymen {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Update Balance After Payment</label>

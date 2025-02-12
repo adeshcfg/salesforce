@@ -45,7 +45,7 @@
         <name>CurrentBalance</name>
         <dataType>Currency</dataType>
         <expression>{!$Record.CCS_Account__r.Current_Balance__c}</expression>
-        <scale>0</scale>
+        <scale>2</scale>
     </formulas>
     <interviewLabel>Update Balance Before Payment {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Update Balance Before Payment</label>
