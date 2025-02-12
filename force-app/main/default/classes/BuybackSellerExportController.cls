@@ -13,7 +13,7 @@ public class BuybackSellerExportController {
     public BuybackSellerExportController (ApexPages.StandardController stdController){
         listProducts = [Select id,Name,Originating_Creditor__c,Purchase_Date_Formula__c,Customer__c, Customer__r.Name,First_Name__c,Last_Name__c,
                         Previous_Secondary_Account_Number__c,Previous_Primary_Account_Number__c,Product_Type__c,Charged_Off_Date__c,
-                        Charged_Off_Amount__c,Purchase_Price__c,Putback_Buyback_Amount__c,Putback_Reason__c, Purchase_Status__c,
+                        Charged_Off_Amount__c,Purchase_Price__c,Putback_Buyback_Amount__c,Buyback_Putback_Reason__c, Purchase_Status__c,
                         Purchase_Face_Value__c
                         from Product__c Where Purchase_Status__c = 'Buyback/Putback Initiated' 
                        OR Purchase_Status__c = 'Buyback/Putback Initiated'];
@@ -87,7 +87,7 @@ public class BuybackSellerExportController {
             String purchasePrice = prodObj.Purchase_Price__c != null ? String.valueOf(prodObj.Purchase_Price__c +'%') : '';
             String purchasedAmount = prodObj.Purchase_Face_Value__c != null ? String.valueOf(prodObj.Purchase_Face_Value__c) : '';
             String buyBackAmount = prodObj.Putback_Buyback_Amount__c != null ? String.valueOf('$'+prodObj.Putback_Buyback_Amount__c) : '';
-            String putbackReason = formatString(prodObj.Putback_Reason__c);
+            String putbackReason = formatString(prodObj.Buyback_Putback_Reason__c);
             
             String mediaRqstCSV = checkComma(strSeller)+',' 
                                 + checkComma(purchaseDate)+',' 

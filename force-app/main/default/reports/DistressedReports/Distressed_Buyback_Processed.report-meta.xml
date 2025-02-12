@@ -23,7 +23,7 @@
         <field>Product__c.Purchase_Price__c</field>
     </columns>
     <columns>
-        <field>Product__c.Putback_Reason__c</field>
+        <field>Product__c.Buyback_Putback_Reason__c</field>
     </columns>
     <description>Distressed Buyback Processed</description>
     <filter>

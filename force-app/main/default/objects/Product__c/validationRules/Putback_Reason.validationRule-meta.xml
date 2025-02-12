@@ -4,7 +4,7 @@
     <active>true</active>
     <description>When purchase status is set to putback then Putback reason should be mandatory</description>
     <errorConditionFormula>$Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false &amp;&amp;
-ISPICKVAL(Purchase_Status__c, &quot;Putback&quot;) &amp;&amp;  ISBLANK( Putback_Reason__c )</errorConditionFormula>
-    <errorDisplayField>Putback_Reason__c</errorDisplayField>
+ISPICKVAL(Purchase_Status__c, &quot;Putback&quot;) &amp;&amp;  ISPICKVAL(Buyback_Putback_Reason__c, '')</errorConditionFormula>
+    <errorDisplayField>Buyback_Putback_Reason__c</errorDisplayField>
     <errorMessage>Please Enter Putback Reason</errorMessage>
 </ValidationRule>

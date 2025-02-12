@@ -1484,17 +1484,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Purchase_Date__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account_Portfolio_Code__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_Group__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>
@@ -1574,22 +1564,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account_Portfolio_ID__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account_Statute_Aging__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>SIN__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account_Purchase_Group__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>
@@ -1864,11 +1844,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Portfolio_Group_Name__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>CCS_Agency_Total_Balance__c</field>
             <table>Account.Products__r</table>
         </columns>
@@ -1894,17 +1869,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Purchase_Date__c</field>
-            <table>Account.Products__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Purchase_Status__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Putback_Reason__c</field>
+            <field>Buyback_Putback_Reason__c</field>
             <table>Account.Products__r</table>
         </columns>
         <columns>

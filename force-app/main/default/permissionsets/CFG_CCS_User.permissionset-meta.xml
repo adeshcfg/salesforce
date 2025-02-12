@@ -491,11 +491,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Account_Portfolio_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Agency_Communication_Preference__c</field>
         <readable>true</readable>
@@ -727,11 +722,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.Portfolio_Group_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Product__c.Portfolio_Name_Lookup__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -791,11 +781,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Purchase_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.Purchase_Factor_Formula__c</field>
         <readable>true</readable>
@@ -817,7 +802,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.Putback_Reason__c</field>
+        <field>Product__c.Buyback_Putback_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -27,7 +27,7 @@
             </apex:column>
             <apex:column >
             	<apex:facet name="header">Buyback/Putback Reason</apex:facet>
-                <apex:outputField value="{!prodRecord.Putback_Reason__c}"/>
+                <apex:outputField value="{!prodRecord.Buyback_Putback_Reason__c}"/>
             </apex:column>  
             
         </apex:pageBlockTable>
