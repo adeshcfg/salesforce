@@ -50,7 +50,7 @@
         <name>PaymentAmount</name>
         <dataType>Currency</dataType>
         <expression>{!$Record.CCS_Account__r.Total_Paid_To_Date__c}+{!$Record.Payment_Amount__c}</expression>
-        <scale>0</scale>
+        <scale>2</scale>
     </formulas>
     <interviewLabel>Update Total Paid To Date {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Update Total Paid To Date</label>
