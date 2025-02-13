@@ -1,0 +1,23 @@
+<template>
+    <lightning-card>
+        <lightning-spinner if:true={showSpinner} alternative-text="Loading..." variant="brand"> </lightning-spinner>
+        <lightning-combobox
+            class="slds-m-around_x-small"
+            name="report Name"
+            label="Report Name"
+            placeholder="Select Report Name"
+            value={selectedReport}
+            options={reportList}
+            onchange={handleChange}
+            required
+        ></lightning-combobox>
+        <lightning-button
+            variant="brand"
+            label="Submit"
+            title="Submit"
+            onclick={handleClick}
+            disabled={disableButton}
+            class="slds-m-around_x-small"
+        ></lightning-button>
+    </lightning-card>
+</template>
