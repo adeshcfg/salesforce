@@ -28,7 +28,7 @@ public class SendToVotingEngineController {
                     message = 'Voting decision cannot be set, if Total Estimated Realizable Value is equal or greater than $20000.'; 
                 }else{
                     if(insolNew.Eligible_For_Voting_Decision__c == true){
-                        if(insolNew.Manual_Review_Reason__c.contains('Total Estimated Realizable Value should be less than $20000')){
+                        if(insolNew.Manual_Review_Reason__c <> NULL && insolNew.Manual_Review_Reason__c.contains('Total Estimated Realizable Value should be less than $20000')){
                             newManualReviewReason = insolNew.Manual_Review_Reason__c.remove('Total Estimated Realizable Value should be less than $20000');
                             insolNew.Manual_Review_Reason__c = newManualReviewReason;
                             listInsolToUpdate.add(insolNew);
