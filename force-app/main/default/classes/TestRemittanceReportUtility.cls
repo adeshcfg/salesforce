@@ -6,8 +6,11 @@ public TestRemittanceReportUtility() {
      insolv1.Name = '00-000001';
      insolv1.Client_Identifiers__c = 'Scotia Bank';
      insolv1.Sent_For_Owner_Review_Date__c = System.today();
-     insolv1.Trustee__c = Trusoff.id;
      insert insolv1;
+
+     list<RecordType> recordTypeList = new List<RecordType>(
+            [SELECT Id, Name FROM RecordType WHERE SobjectType = 'Insolvency_Account__c' AND name LIKE '%SPL%']
+        );
 
      Insolvency_Account__c insolvencyAccount = new Insolvency_Account__c();
         insolvencyAccount.RecordTypeId = recordTypeList[0].Id;
@@ -24,7 +27,7 @@ public TestRemittanceReportUtility() {
         insert insolvencyAccount;
 
         Insolvency_Payment__c paymentInstance2 = new Insolvency_Payment__c();
-        paymentInstance2.Insolvency_Account__c = insolvencyAccount1.ID;
+        paymentInstance2.Insolvency_Account__c = insolvencyAccount.ID;
         paymentInstance2.Payment_Posting_Date__c = system.today();
         paymentInstance2.Payment_Amount__c = -321.98;
         paymentInstance2.Payment_Reversed__c = 'Stopped';
