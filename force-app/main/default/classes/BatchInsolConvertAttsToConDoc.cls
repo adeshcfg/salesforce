@@ -1,3 +1,12 @@
+/**************************************************************************************************
+*
+*  Class:   BatchInsolConvertAttsToConDoc
+*
+*  @description : This class is to convert Attachments to Content Versions
+*  @author : A5E Consulting
+*  @date : 02/13/2025
+*
+*************************************************************************************************/
 public class BatchInsolConvertAttsToConDoc implements Database.Batchable<sObject> {
     public Set<Id> setOfInsolvIds = new Set<Id>();
     public Set<Id> setOfInsolvIdsToProcess = new Set<Id>();
