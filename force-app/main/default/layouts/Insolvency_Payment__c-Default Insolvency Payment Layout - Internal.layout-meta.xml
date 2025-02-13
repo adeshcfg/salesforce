@@ -43,6 +43,10 @@
                 <behavior>Readonly</behavior>
                 <field>Payment_Reporting_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Fee_Amount__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
