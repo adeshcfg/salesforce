@@ -1,4 +1,4 @@
-public RemittanceReportUtility() {
+public class RemittanceReportUtility() {
 
     /**
      * @description : Method to get list of reports to remitttance

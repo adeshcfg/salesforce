@@ -1,6 +1,6 @@
 @isTest
 
-public TestRemittanceReportUtility() {
+public class TestRemittanceReportUtility() {
      //Insolvency Record
      Insolvency__c insolv1 = new Insolvency__c();
      insolv1.Name = '00-000001';
