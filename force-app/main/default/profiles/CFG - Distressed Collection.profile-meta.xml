@@ -3216,6 +3216,14 @@
         <apexClass>SnapshotQueueablePortalAPI</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>StagingRecordsDeleteScheduler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ZipFileStatusChecker</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <tabVisibilities>
         <tab>Credit_Bureau</tab>
         <visibility>Hidden</visibility>
