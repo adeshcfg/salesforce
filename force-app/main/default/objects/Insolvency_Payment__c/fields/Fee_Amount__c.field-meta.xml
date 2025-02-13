@@ -5,11 +5,11 @@
     <externalId>false</externalId>
     <formula>IF((Bank_Name__c == &apos;Scotia Bank&apos; || Bank_Name__c == &apos;Fairstone&apos;) &amp;&amp; (ISPICKVAL(Insolvency_Account__r.Insolvency_Type__c, &apos;Division 1 Proposal&apos;) || ISPICKVAL(Insolvency_Account__r.Insolvency_Type__c, &apos;Consumer Proposal&apos;)),  Payment_Amount__c * 0.02, 
 
-IF((Bank_Name__c == &apos;Scotia Bank&apos; || Bank_Name__c == &apos;Fairstone&apos; || Bank_Name__c == &apos;Goeasy&apos;) &amp;&amp; ISPICKVAL(Insolvency_Account__r.Insolvency_Type__c, &apos;Bankruptcy&apos;),  Payment_Amount__c * 0.04, 
+IF((Bank_Name__c == &apos;Scotia Bank&apos; || Bank_Name__c == &apos;Fairstone&apos; || Bank_Name__c == &apos;Easyfinancial&apos;) &amp;&amp; ISPICKVAL(Insolvency_Account__r.Insolvency_Type__c, &apos;Bankruptcy&apos;),  Payment_Amount__c * 0.04, 
 
-IF(Bank_Name__c == &apos;Goeasy&apos; &amp;&amp; ISPICKVAL(Insolvency_Account__r.Insolvency_Type__c, &apos;Division 1 Proposal&apos;),  Payment_Amount__c * 0.02,
+IF(Bank_Name__c == &apos;Easyfinancial&apos; &amp;&amp; ISPICKVAL(Insolvency_Account__r.Insolvency_Type__c, &apos;Division 1 Proposal&apos;),  Payment_Amount__c * 0.02,
 
-IF(Bank_Name__c == &apos;Goeasy&apos; &amp;&amp; ISPICKVAL(Insolvency_Account__r.Insolvency_Type__c, &apos;Consumer Proposal&apos;),  Payment_Amount__c * 0.025,
+IF(Bank_Name__c == &apos;Easyfinancial&apos; &amp;&amp; ISPICKVAL(Insolvency_Account__r.Insolvency_Type__c, &apos;Consumer Proposal&apos;),  Payment_Amount__c * 0.025,
 
 IF(Bank_Name__c == &apos;Canadian Tire&apos; &amp;&amp; ISPICKVAL(Insolvency_Account__r.Insolvency_Type__c, &apos;Consumer Proposal&apos;),  Payment_Amount__c * 0.03,
 
