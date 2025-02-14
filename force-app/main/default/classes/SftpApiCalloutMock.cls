@@ -1,7 +1,7 @@
 /**
  * @description       : Mock callout class for SFTP API callout test classes
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 08-07-2024
+ * @last modified on  : 02-14-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class SftpApiCalloutMock implements HttpCalloutMock {
@@ -14,6 +14,7 @@ public class SftpApiCalloutMock implements HttpCalloutMock {
         HttpResponse res = new HttpResponse();
         String responseString = '{}';
         res.setHeader('Content-Type', 'application/json');
+        res.setStatusCode(200);
         // Optionally, only send a mock response for a specific endpoint
         if (req.getEndpoint() == 'https://test.com/api/accessToken') {
             responseString = '{"result":{"Token":"testtoken"}}';
@@ -27,8 +28,14 @@ public class SftpApiCalloutMock implements HttpCalloutMock {
                 documentId +
                 '","success":true,"errors":{"$id":"3","$values":[]}}}';
         }
+        if (req.getEndpoint().contains('sobjects/' + documentId)) {
+            responseString = '{"docId":"docId", "DocUrl":"DocUrl", "request":"request", "response":"response"}';
+        }
+        if (req.getEndpoint().contains('background/zip')) {
+            responseString = '{"result":{"Token":"testtoken"}}';
+            res.setStatusCode(202);
+        }
         res.setBody(responseString);
-        res.setStatusCode(200);
         return res;
     }
 }

@@ -81,6 +81,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>docStorageDownload</componentName>
+                <identifier>c_docStorageDownload</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-96243204-da99-4ecc-8943-159c6115f3bd</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>relatedTabContent</value>
@@ -123,6 +133,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-96243204-da99-4ecc-8943-159c6115f3bd</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Document Download</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
