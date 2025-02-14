@@ -3216,6 +3216,22 @@
         <apexClass>ZipFileStatusChecker</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>PutbackBuybackQueueable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PutbackBuybackUtility</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ZipFileProcessingStatusApi</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <tabVisibilities>
+        <tab>Putback_Buyback_Submission_Form</tab>
+        <visibility>DefaultOff</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Credit_Bureau</tab>
         <visibility>Hidden</visibility>
