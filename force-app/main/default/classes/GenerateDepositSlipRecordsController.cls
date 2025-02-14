@@ -16,6 +16,7 @@ public class GenerateDepositSlipRecordsController {
     Application_Config_Settings__c appConfigFinal;//=Application_Config_Settings__c.getOrgDefaults();
     Map<String, Deposit_Accounts__c> depositAccountMap = Deposit_Accounts__c.getAll();
     public Deposit_Accounts__c depositAcc {set;get;}
+    public String action = 'createPdfAttachment';
     
     public GenerateDepositSlipRecordsController(){
         appConfigFinal = [SELECT Final_Deposit_Slip__c, CCS_Final_Deposit_Slip__c, Do_Not_Run_Payment_Validation__c FROM Application_Config_Settings__c FOR UPDATE];//update for lock issue
@@ -30,7 +31,11 @@ public class GenerateDepositSlipRecordsController {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, 'Deposit slip is locked for the day'));
             return;
         }
-        
+        if(checkJobCompletion()){
+            showFinalDepositSlipButton = true;
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, 'Deposit slip is in progress. Notification will be sent over Email.'));
+            return;
+        }
         List<Deposit_Slip__c> depositSlip = [SELECT Id, Name FROM Deposit_Slip__c WHERE CreatedDate = TODAY AND recordType.developerName = 'Insolvency_Deposit_Slip'];
         
         if(depositSlip.isEmpty()){
@@ -42,7 +47,11 @@ public class GenerateDepositSlipRecordsController {
         }
         
     }
-    
+    @RemoteAction
+    public static Boolean checkJobCompletion(){
+        List<AsyncApexJob> listofAsyncJob = [select id,ApexClass.Name,Status, ExtendedStatus, MethodName, CreatedDate from AsyncApexJob where ApexClass.name = 'GenerateDepositSlipQueueable' and createddate = today and status = 'Queued'];
+        return !listofAsyncJob.isEmpty();
+    }
     public void generateDepositSlip(){
         
         DateTime LastDepositSlipCreatedDate = LastDepositSlipCreatedDate();
@@ -74,148 +83,18 @@ public class GenerateDepositSlipRecordsController {
         deposit.CIML_156_Total_Cheque__c = 0;
         deposit.CIML_156_Total_Amount__c = 0.0;
         
-        system.debug('Results : ' + listAggregateResults );
-        for(AggregateResult listAggr : listAggregateResults ){
-            
-            system.debug('listAggr : ' + listAggr);
-            String depoAccName = (String)listAggr.get('Deposit_Account_Name__c');
-            
-            if(null == depoAccName){
-                //depoAccName = 'CIML';
-                continue;
-            }
-            if(flagCCL == false && (depoAccName == 'CCL' || depoAccName == 'CLP')){
-                flagCCL = true;
-            }else if(flagCCL == true && (depoAccName == 'CCL' || depoAccName == 'CLP')){
-                continue;
-            }
-            
-            if(flagETC == false && (depoAccName == 'ETC' || depoAccName == 'AFF')){
-                flagETC = true;
-            }else if(flagETC == true && (depoAccName == 'ETC' || depoAccName == 'AFF')){
-                continue;
-            }
-            
-            PageReference depositSlip = new PageReference('/apex/GenerateSlip');
-            depositSlip.getParameters().put('type', depoAccName);
-            
-            blob pdfBody;
-            if(Test.isRunningTest()) {
-                pdfBody = Blob.valueOf('test');
-            }else{
-                pdfBody = depositSlip.getContent();
-            }
-            
-            createAttachment(pdfBody, (depositAccountMap.get(depoAccName )).Entity_Name__c, deposit.Id);
-            
-            if((String)listAggr.get('Deposit_Account_Name__c') == 'CIML'){
-                PageReference depositSlipCanaccede = new PageReference('/apex/GenerateSlip');
-                depositSlipCanaccede.getParameters().put('type', 'Canaccede_Account_Perticulars');
-                
-                blob pdfBodyCanaccede;
-                if(Test.isRunningTest()) {
-                    pdfBodyCanaccede = Blob.valueOf('test');
-                }else{
-                    pdfBodyCanaccede = depositSlipCanaccede.getContent();
-                }
-                
-                createAttachment(pdfBodyCanaccede, 'Canaccede Suspense Account', deposit.Id);
-            
-            }
-            if((String)listAggr.get('Deposit_Account_Name__c') == 'AFSI'){
-                PageReference depositSlipAffirm = new PageReference('/apex/GenerateSlip');
-                depositSlipAffirm.getParameters().put('type', 'Affirm_Account_Perticulars');
-                
-                blob pdfBodyAffirm;
-                if(Test.isRunningTest()) {
-                    pdfBodyAffirm = Blob.valueOf('test');
-                }else{
-                    pdfBodyAffirm = depositSlipAffirm.getContent();
-                }
-                
-                createAttachment(pdfBodyAffirm, 'Fidem Suspense Account', deposit.Id);
-                
-            }
-            
-            if(depoAccName == 'AAL'){
-                deposit.CIHI_877_Total_Cheque__c = (Integer)listAggr.get('total');
-                deposit.CIHI_877_Total_Amount__c = (Decimal)listAggr.get('amount');
-            }else if(depoAccName == 'ETC' || depoAccName == 'AFF'){
-                deposit.A1LP_394_Total_Cheque__c = (Integer)listAggr.get('total');
-                deposit.A1LP_394_Total_Amount__c = (Decimal)listAggr.get('amount');
-            }else if(depoAccName == 'AFL'){
-                deposit.ACQ_618_Total_Cheque__c = (Integer)listAggr.get('total');
-                deposit.ACQ_618_Total_Amount__c = (Decimal)listAggr.get('amount');
-            }else if(depoAccName == 'CAL'){
-                deposit.CAL_767_Total_Cheque__c = (Integer)listAggr.get('total');
-                deposit.CAL_767_Total_Amount__c = (Decimal)listAggr.get('amount');
-            }else if(depoAccName == 'CIH'){
-                deposit.CIHI_877_Total_Cheque__c = (Integer)listAggr.get('total');
-                deposit.CIHI_877_Total_Amount__c = (Decimal)listAggr.get('amount');
-            }else if(depoAccName == 'CCL' || depoAccName == 'CLP'){
-                deposit.CCLP_130_Total_Cheque__c = (Integer)listAggr.get('total');
-                deposit.CCLP_130_Total_Amount__c = (Decimal)listAggr.get('amount');
-            }else if(depoAccName == 'CIA'){
-                deposit.CIHI_877_Total_Cheque__c = (Integer)listAggr.get('total');
-                deposit.CIHI_877_Total_Amount__c = (Decimal)listAggr.get('amount');
-            }else if(depoAccName == 'CFL'){
-                deposit.CFL_602_Total_Cheque__c = (Integer)listAggr.get('total');
-                deposit.CFL_602_Total_Amount__c = (Decimal)listAggr.get('amount');
-            }else if(depoAccName == 'AFSI'){
-                deposit.AFSI_631_Total_Cheque__c = (Integer)listAggr.get('total');
-                deposit.AFSI_631_Total_Amount__c = (Decimal)listAggr.get('amount');
-            }else {
-                deposit.CIML_156_Total_Cheque__c += (Integer)listAggr.get('total');
-                deposit.CIML_156_Total_Amount__c += (Decimal)listAggr.get('amount');
-            }
+        if(listAggregateResults.size() > 0){
+            System.enqueueJob(new GenerateDepositSlipQueueable(listAggregateResults, deposit, LastDepositSlipCreatedDate, appConfigFinal, action));
         }
-        
-        List<Insolvency_payment__C> listPayment = [select id, name, remittance__r.Deposit_Account_Name__c
-                                              from Insolvency_payment__C
-                                              where remittance__r.lastmodifiedDate >= :LastDepositSlipCreatedDate
-                                              AND remittance__r.Status__c = 'Processed'
-                                              AND Remittance__r.Do_Not_Process__c = false
-                                              AND remittance__r.recordtype.Developername = 'Insolvency_Dividend'
-                                              AND Is_Payment_Remitted__c = False];
-                                              
-        List<Unallocated_payment__C> listUnallocPay = [select id, name, remittance__r.Deposit_Account_Name__c
-                                              from Unallocated_payment__C
-                                              where remittance__r.lastmodifiedDate >= :LastDepositSlipCreatedDate
-                                              AND remittance__r.Status__c = 'Processed'
-                                              AND remittance__r.recordtype.Developername = 'Insolvency_Dividend'
-                                              AND allocated__c = false
-                                              AND Remittance__r.Do_Not_Process__c = false
-                                              AND Is_Payment_Remitted__c = false
-                                              AND Is_Payments_Reversed__c = null];
-        
-        for(Insolvency_payment__C insolPay : listPayment){
-            insolpay.Deposit_Slip__c = deposit.Id;
+        if(checkJobCompletion()){
+            showFinalDepositSlipButton = true;
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.WARNING, 'Deposit slip is in progress. Notification will be sent over Email.'));
+            return;
         }
-        //Application_Config_Settings__c appConfig = Application_Config_Settings__c.getOrgDefaults();
-        appConfigFinal.Do_Not_Run_Payment_Validation__c = true;
-        update appConfigFinal;
-        Set<Insolvency_Payment__c> setPaymentRecords = new Set<Insolvency_Payment__c>(listPayment );
-        List<Insolvency_Payment__c> listPaymentRecordsToUpdate = new List<Insolvency_Payment__c>(setPaymentRecords);
-        update listPaymentRecordsToUpdate;
-        appConfigFinal.Do_Not_Run_Payment_Validation__c = false;
-        update appConfigFinal;
-        
-        //Update Unallocated Payments
-        for(Unallocated_payment__C insolPay : listUnallocPay){
-            insolpay.Deposit_Slip__c = deposit.Id;
-        }
-        update listUnallocPay;
-        
-        update deposit;
-        
-        List<Deposit_Slip__c> depositSlipRecord = [select id, name from Deposit_Slip__c where createdDate = Today AND recordType.developerName = 'Insolvency_Deposit_Slip' order by createdDate];
-        depositSlipAvailable = true;
-        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.CONFIRM, 'Deposit Slip generated successfully : <a href="'+System.Url.getSalesforceBaseURL().toExternalForm() +'/'+depositSlipRecord[0].id+'" target="_blank">'+depositSlipRecord[0].Name+'</a>'));
-        
     }
     
     // Create attachment
-    public void createAttachment(Blob body, String depositSlipType, Id depositId){
+    public static void createAttachment(Blob body, String depositSlipType, Id depositId){
         Attachment attach = new Attachment(); 
         DateTime d = Date.Today() ;
         String dateStr =  d.formatGMT('yyyy-MM-dd') ;
