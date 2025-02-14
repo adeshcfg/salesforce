@@ -1,7 +1,7 @@
 /**
  * @description       : Test class for StagingRecordsDeleteScheduler
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-13-2025
+ * @last modified on  : 02-14-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 @isTest
@@ -18,6 +18,18 @@ public class StagingRecordsDeleteSchedulerTest {
         Database.insert(new List<Document_Storage__c>{ docInfo, docInfo1 });
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
 
+        Account acc = new Account();
+        acc.Name = 'Anea';
+        acc.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Seller').getRecordTypeId();
+        insert acc;
+
+        ContentVersion cv = new ContentVersion();
+        cv.ContentLocation = 'S';
+        cv.VersionData = Blob.valueOf('Test');
+        cv.Title = Datetime.now().addDays(-3).format('yyyyMMdd') + '_' + 'Anea';
+        cv.PathOnClient = cv.Title + '.csv';
+        insert cv;
+
         Product_Staging__c ps = new Product_Staging__c(Identifier__c = docInfo.Id);
         Product_Staging__c ps1 = new Product_Staging__c(Identifier__c = docInfo.Id);
         Product_Staging__c ps2 = new Product_Staging__c(Identifier__c = docInfo1.Id);
@@ -27,6 +39,9 @@ public class StagingRecordsDeleteSchedulerTest {
         DateTime testCreatedDate = DateTime.now().addDays(-4);
         for (Product_Staging__c prodStaging : psRecords) {
             Test.setCreatedDate(prodStaging.Id, testCreatedDate);
+        }
+        for (ContentDocument cd : [SELECT Id FROM ContentDocument]) {
+            Test.setCreatedDate(cd.Id, testCreatedDate);
         }
     }
 

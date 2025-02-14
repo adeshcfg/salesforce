@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class to delete staging records created for putback/buyback and product status update after 3 days
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-12-2025
+ * @last modified on  : 02-14-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class StagingRecordsDeleteScheduler implements Schedulable, Database.Batchable<sObject> {
@@ -38,6 +38,23 @@ public class StagingRecordsDeleteScheduler implements Schedulable, Database.Batc
         }
         if (!productStagingToDelete.isEmpty()) {
             Database.delete(productStagingToDelete);
+        }
+        deleteCsvContentDocs();
+    }
+
+    /**
+     * @description : Method to delete csv content docs which are older than 3 days
+     * @author adesh.ikhar@canaccede.com | 02-14-2025
+     **/
+    public void deleteCsvContentDocs() {
+        List<String> sellerList = PutbackBuybackUtility.getSellerList();
+        List<String> contentDocNames = new List<String>();
+        for (String sellerName : sellerList) {
+            contentDocNames.add(Datetime.now().addDays(-3).format('yyyyMMdd') + '_' + sellerName);
+        }
+        List<ContentDocument> docsToDelete = [SELECT Id FROM ContentDocument WHERE Title IN :contentDocNames AND FileExtension = 'csv'];
+        if (!docsToDelete.isEmpty()) {
+            Database.delete(docsToDelete);
         }
     }
 
