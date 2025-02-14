@@ -1,7 +1,7 @@
 /**
  * @description       : Class to handle Zip File Processing Status API which will be called by Portal
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-13-2025
+ * @last modified on  : 02-14-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 @RestResource(urlMapping='/ZipFileProcessor')
@@ -107,7 +107,9 @@ global class ZipFileProcessingStatusApi {
         zipDocStorage.File_Processing_Status__c = status;
         zipDocStorage.Inbound_API_Request_Body__c = requestBody;
         zipDocStorage.Comment__c = null;
+        DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
         update zipDocStorage;
+        DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
     }
 
     /**
