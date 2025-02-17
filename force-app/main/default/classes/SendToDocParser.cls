@@ -97,7 +97,7 @@ public Class SendToDocParser{
             String errorMessage = '';
             
             try{
-                caseRecord = [select id, Document_ID__c, status, Assigned_To__c, SuppliedEmail from case where id =: strId];
+                caseRecord = [select id, Document_ID__c, status, Assigned_To__c, SuppliedEmail, ParentId from case where id =: strId];
                 emailMsg = [select id, FromAddress from EmailMessage where RelatedToId =: strId];
                 
                 if(emailMsg.size() > 0){
