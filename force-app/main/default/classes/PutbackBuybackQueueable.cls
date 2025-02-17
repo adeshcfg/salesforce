@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class for putback/buyback processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-14-2025
+ * @last modified on  : 02-17-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallouts {
@@ -140,7 +140,11 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
         // Check and Schedule ZipFileStatusChecker if success
         String jobName = 'ZipFileStatusChecker for ' + sellerName;
         List<CronTrigger> existingJob = [SELECT Id FROM CronTrigger WHERE CronJobDetail.Name = :jobName AND State = 'WAITING'];
-        if (existingJob.isEmpty() && !Test.isRunningTest()) {
+        if (!Test.isRunningTest()) {
+            // Abort existing job and schedule new one
+            if (!existingJob.isEmpty()) {
+                System.abortJob(existingJob[0].Id);
+            }
             System.scheduleBatch(new ZipFileStatusChecker(sellerName), jobName, 120);
         }
     }
