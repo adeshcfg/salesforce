@@ -1,4 +1,4 @@
-<apex:page controller="ApplicationRedecideController" action="{!redecideApp}">    
+<apex:page controller="ApplicationRedecideController" action="{!reDecide}">    
         
     <apex:pageBlock rendered="{!!accessAllowed}">
         <h2>Insufficient Privileges Access.</h2>

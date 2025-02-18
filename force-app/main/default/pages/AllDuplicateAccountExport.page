@@ -1,7 +1,7 @@
 <apex:page controller="AllDuplicateAccountController" contentType="application/vnd.ms-excel#DuplicateAccounts.xls" showHeader="false" standardStylesheets="false" readonly="true">
     <apex:pageBlock id="pageBlockID" title="Duplicate Accounts">
                     
-                    <apex:pageblocktable value="{!InslAcctWrappers}" var="acct">
+                    <apex:pageblocktable value="{!accWrappers}" var="acct">
                      
                     <apex:column headerValue="Account Number">
                         <apex:outputfield value="{!acct.acc.Id}"/>

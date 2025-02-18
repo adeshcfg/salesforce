@@ -16,6 +16,8 @@ public with sharing class ApplicationRedecideController{
     public Application_Form_Settings__c appFormSettings {get;set;}
     public Boolean progressBar{get;set;}
     public string errorMessage{get;set;}
+    public Boolean accessAllowed{get;set;}
+    public Boolean isSuccess{get;set;}
     
     public ApplicationRedecideController(){
         
@@ -53,7 +55,7 @@ public with sharing class ApplicationRedecideController{
     }
     
     public pageReference reDecide(){
-        
+        accessAllowed = true;
         DecisionWSUtil.IntegrationResponse intResponse = new DecisionWSUtil.IntegrationResponse();
         system.debug('intResponse: '+intResponse);
         Boolean flagSIN = false;
@@ -78,6 +80,7 @@ public with sharing class ApplicationRedecideController{
             }
             if(application.CurrentBKCP__c != 'None' && flagSIN == false && flagEmployment == false){
                 intResponse = DecisionWS.reDecide(application, afSettings);
+                isSuccess = true;
                 system.debug('intResponse in if:'+intResponse);
                 
                 Application.Redecide_Request__c = intResponse.request;
@@ -89,6 +92,7 @@ public with sharing class ApplicationRedecideController{
             }
         }
         catch(Exception e){
+            isSuccess = false;
             //Application.Name = APP_NAME_INCOMPLETE_POWER_CURVE_ERR;
             Application.Application_Status_Last_Changed_Date__c = system.now();
             Application.Application_Status__c = 'Needs Review';
@@ -195,6 +199,7 @@ public with sharing class ApplicationRedecideController{
             ApplicationTriggerHandler.runApplicationLoadTrigger = true;
             
         }catch(Exception e){
+            isSuccess = false;
             system.debug('Exception : ' + e);
             if(e.getTypeName() == 'System.DmlException'){
                 
