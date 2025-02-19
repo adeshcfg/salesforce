@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <inlineHelpText>Total Liabilities</inlineHelpText>
     <label>Total Liabilities</label>
-    <precision>16</precision>
+    <precision>10</precision>
     <required>false</required>
     <scale>2</scale>
     <trackHistory>false</trackHistory>
