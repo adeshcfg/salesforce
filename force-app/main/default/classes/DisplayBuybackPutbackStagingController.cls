@@ -447,10 +447,12 @@ public class DisplayBuybackPutbackStagingController {
                 Product__c prod = new Product__c();
                 prod.Id = mapProductNameId.get(productStaging.Data_Id__c);
                 prod.Purchase_Status__c = productStaging.Purchase_Status__c;
-                prod.Rejection_Reason__c = productStaging.Rejection_Reason__c;
-                if (String.isNotBlank(productStaging.Product_Status__c)) {
-                    prod.Product_Status__c = productStaging.Product_Status__c;
-                    prod.Data_Status_Description__c = statusDescriptionMap.get(prod.Product_Status__c);
+                if (prod.Purchase_Status__c == BUYBACK_REJECTED) {
+                    prod.Rejection_Reason__c = productStaging.Rejection_Reason__c;
+                    if (String.isNotBlank(productStaging.Product_Status__c)) {
+                        prod.Product_Status__c = productStaging.Product_Status__c;
+                        prod.Data_Status_Description__c = statusDescriptionMap.get(prod.Product_Status__c);
+                    }
                 }
                 if (prod.Purchase_Status__c == BUYBACK_APPROVED) {
                     prod.Putback_Buyback_Amount__c = productStaging.Putback_Buyback_Amount__c;
