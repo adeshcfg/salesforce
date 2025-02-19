@@ -76,6 +76,8 @@ public class InsolvencyAcctStatusValidationController {
                 return true;
             if (oldValue == 'For Owner Review' && newValue == 'PoC Package Generated')
                 return true;
+            if (oldValue == 'Pending Assignment to Collection Agency' && newValue == 'Sent to collections')
+                return true;
             if (
                 (oldValue == 'Annulled' || oldValue == 'Refused' || oldValue == 'Withdrawn' || oldValue == 'Claim Withdrawn') &&
                 newValue == 'Sent to collections'
