@@ -821,15 +821,7 @@ public class ProductTriggerHandler {
                 }
                 if (product.Purchase_Status__c != prodOld.Purchase_Status__c) {
                     if (
-                        prodOld.Purchase_Status__c == 'Buyback/Putback Initiated' &&
-                        (product.Purchase_Status__c == 'Buyback/Putback Approved' ||
-                        product.Purchase_Status__c == 'Buyback/Putback Rejected')
-                    ) {
-                        product.addError('You cannot assign previous status');
-                    }
-                    if (
-                        (prodOld.Purchase_Status__c == 'Buyback/Putback Approved' || prodOld.Purchase_Status__c == 'Buyback/Putback Rejected') &&
-                        (product.Purchase_Status__c == 'Buyback/Putback Initiated')
+                        prodOld.Purchase_Status__c == 'Buyback/Putback Approved' && product.Purchase_Status__c == 'Buyback/Putback Initiated'
                     ) {
                         product.addError('You cannot assign previous status');
                     }
