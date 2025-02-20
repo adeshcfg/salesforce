@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <inlineHelpText>Total Insolvency Preferred Liabilities</inlineHelpText>
     <label>Total Insolvency Preferred Liabilities</label>
-    <precision>10</precision>
+    <precision>14</precision>
     <required>false</required>
     <scale>2</scale>
     <trackHistory>false</trackHistory>
