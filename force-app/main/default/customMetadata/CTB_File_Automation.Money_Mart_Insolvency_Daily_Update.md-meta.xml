@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Money Mart Insolvency Daily Update</label>
+    <protected>false</protected>
+    <values>
+        <field>Bhead_Bank_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bhead_Format_Identifier__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bhead_Sequence_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bhead_Trans_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Btral_Bank_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Btral_Credit_Amount__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Btral_Credit_Trans_Count__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Btral_Debit_Amount__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Btral_Debit_Trans_Count__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Btral_Format_Identifier__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Btral_Record_Type_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Convert_Dollars_To_Cents__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DRFTS_Merh_Desc__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DRFTS_Trans_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DRN_Debt_Product_ID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DRN_Trustee_ID__c</field>
+        <value xsi:type="xsd:string">1</value>
+    </values>
+    <values>
+        <field>Detail_Record_Type__c</field>
+        <value xsi:type="xsd:string">D</value>
+    </values>
+    <values>
+        <field>Drfts_Auth_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Drfts_Merh_DBA_Category_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Drfts_Merh_DBA_Country_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Drfts_Sequence_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>File_Format_Identifier__c</field>
+        <value xsi:type="xsd:string">Canaccede00001</value>
+    </values>
+    <values>
+        <field>File_Name__c</field>
+        <value xsi:type="xsd:string">MoneyMart_DailyUpdate_</value>
+    </values>
+    <values>
+        <field>File_Type__c</field>
+        <value xsi:type="xsd:string">T</value>
+    </values>
+    <values>
+        <field>Header_Record_Type__c</field>
+        <value xsi:type="xsd:string">H</value>
+    </values>
+    <values>
+        <field>Member_ID__c</field>
+        <value xsi:type="xsd:string">999</value>
+    </values>
+    <values>
+        <field>Member_Type__c</field>
+        <value xsi:type="xsd:string">0</value>
+    </values>
+    <values>
+        <field>Product_Description__c</field>
+        <value xsi:type="xsd:string">Money Mart Loan</value>
+    </values>
+    <values>
+        <field>Sequence_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Thead_Bank_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Thead_Trans_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Thead_Trans_Desc__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Thead_Trans_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Trailer_Record_Type__c</field>
+        <value xsi:type="xsd:string">T</value>
+    </values>
+    <values>
+        <field>Transaction_Reference_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Ttral_Bank_Number__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Ttral_Credit_Amount__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Ttral_Debit_Amount__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Ttral_Record_Type_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>File Format Identifier</label>
-    <length>10</length>
+    <length>20</length>
     <required>false</required>
     <type>Text</type>
     <unique>false</unique>
