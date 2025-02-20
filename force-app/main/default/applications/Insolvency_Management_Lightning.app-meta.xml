@@ -32,5 +32,5 @@
     <tabs>Insolvency__c</tabs>
     <tabs>Insolvency_Account__c</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>Insolvency_Management_Lightning_UtilityBar</utilityBar>
+    
 </CustomApplication>
