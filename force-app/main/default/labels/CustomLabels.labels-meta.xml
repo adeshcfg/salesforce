@@ -35,4 +35,18 @@
         <shortDescription>Comma separated Email Ids for Putback/Buyback email notifications</shortDescription>
         <value>adesh.ikhar@canaccede.com</value>
     </labels>
+    <labels>
+        <fullName>Additional_Info_Required_Statuses</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Comma separated statuses for Additional Info required automation</shortDescription>
+        <value>No PoC Required</value>
+    </labels>
+    <labels>
+        <fullName>Additional_Info_Required_Reasons</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Comma separated Reasons for Additional Info required automation</shortDescription>
+        <value>Unable to Locate Account,Unable to Locate</value>
+    </labels>
 </CustomLabels>
