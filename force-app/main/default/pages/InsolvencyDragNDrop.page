@@ -91,7 +91,7 @@
                         <table class="slds-table slds-table--bordered">
                           <thead>
                             <tr class="slds-no-hover">
-                              <th class="slds-text-heading--label slds-size--1-of-12" style="display:{!IF(isCommunityUser, 'none;', '; width:1%;')}" scope="col"></th>
+                              <th class="slds-text-heading--label slds-size--1-of-12" style="display:{!IF(or(!isDelete,isCommunityUser), 'none;', '; width:1%;')}" scope="col"></th>
                               <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Name</th>
                               <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Type</th>
                               <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
@@ -103,7 +103,7 @@
                           <tbody id="relatedListBody">
                             <apex:repeat value="{!conVerList}" var="conVer">
                               <tr>
-                                <td style="display:{!IF(isCommunityUser, 'none;', ';')}">
+                                <td style="display:{!IF(or(!isDelete,isCommunityUser), 'none;', ';')}">
                                   <input type="button" Class="slds-button slds-button--neutral" value="Delete" onclick="deletAtt(null, '{!conVer.Id}', this)" />
                                 </td>
                                 <td style="max-width:250px;">
@@ -140,7 +140,7 @@
                             </apex:repeat>
                             <apex:repeat value="{!attList}" var="att">
                               <tr>
-                                <td style="display:{!IF(isCommunityUser, 'none;', ';')}">
+                                <td style="display:{!IF(or(!isDelete,isCommunityUser), 'none;', ';')}">
                                   <input type="button" Class="slds-button slds-button--neutral" value="Delete" onclick="deletAtt('{!att.Id}',null, this)" />
                                 </td>
                                 <td style="max-width:250px;">

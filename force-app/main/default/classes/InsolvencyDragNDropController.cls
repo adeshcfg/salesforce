@@ -35,7 +35,7 @@ global class InsolvencyDragNDropController{
     //7935
     public List<ContentVersion> conVerList {get; set;}
     public Id selectedConVerId { get; set; }
-    
+    public boolean isDelete {get; set;}
     //Utility method to populate Attachment types
     public static List<SelectOption> getAllDocumentOptions() {
         Schema.DescribeFieldResult insolDocumenttype = Insolvency__c.Insolvency_Document_Type__c.getDescribe();
@@ -105,6 +105,11 @@ global class InsolvencyDragNDropController{
     
     // controller to load attachments
     public InsolvencyDragNDropController(ApexPages.StandardController controller) {
+        String profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
+        isDelete = true;
+        if(profileName == 'QA'){
+            isDelete = false;
+        }
         insAcc = (Insolvency__c )controller.getRecord();
         refreshAttList();
         refreshConVerList();

@@ -19,13 +19,16 @@ public class InsolvencyNoteCntrl{
   public static final String dateFormat = 'MM/dd/yyyy h:mm a';
  public static final String lastmodified = 'MM/dd/yyyy h:mm a';
   //public static final string dateFormat;
-  
+  public Boolean createNewNote{get;set;}
   
     //COnstructor
     public InsolvencyNoteCntrl(ApexPages.StandardController controller) {
         
-       
-       
+       createNewNote = true;
+        String profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
+        if(profileName == 'QA'){
+            createNewNote = false;
+        }
         
         //Insolvency Account Id
         insolvencyId = ApexPages.currentPage().getParameters().get('id');
