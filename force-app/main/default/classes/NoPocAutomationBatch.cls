@@ -1,7 +1,7 @@
 /**
  * @description       : Batch to automate additional information/Trustee follow up
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-24-2025
+ * @last modified on  : 02-25-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class NoPocAutomationBatch implements Schedulable, Database.Batchable<SObject> {
@@ -74,7 +74,7 @@ public class NoPocAutomationBatch implements Schedulable, Database.Batchable<SOb
         Map<String, PoC_Package_Settings__c> clientIdentifierPocPackageMap = new Map<String, PoC_Package_Settings__c>();
         Set<String> templateDevNameSet = new Set<String>(clientIdentifierTemplateNameMap.values());
         for (EmailTemplate template : [
-            SELECT DeveloperName, Subject, HtmlValue
+            SELECT DeveloperName, Subject, Body
             FROM EmailTemplate
             WHERE DeveloperName IN :templateDevNameSet
         ]) {
@@ -96,7 +96,7 @@ public class NoPocAutomationBatch implements Schedulable, Database.Batchable<SOb
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setToAddresses(new List<String>{ insolvAcc.Insolvency__r.Trustee__r.Business_Email__c });
             mail.setSubject(updateSubject(template.subject, insolvAcc));
-            mail.setHTMLBody(updateBody(template.HtmlValue, pocPackageSettings, insolvAcc, language));
+            mail.setHTMLBody(updateBody(template.Body, pocPackageSettings, insolvAcc, language));
             // Set activity true to create activity once email is send
             mail.setSaveAsActivity(true);
             mail.setWhatId(insolvAcc.Id);
@@ -213,6 +213,13 @@ public class NoPocAutomationBatch implements Schedulable, Database.Batchable<SOb
                 'As you are aware, Canaccede International Management Ltd is processing ' + pocPackage.Client_Company_Name__c + ' insolvent accounts'
             );
         }
-        return emailBody;
+        String emailBodyCustomized = '';
+        if (emailBody != null) {
+            for (String s : emailBody.split('\n')) {
+                emailBodyCustomized = emailBodyCustomized + s + '<br/>';
+            }
+        }
+        String htmlBody = '<body style="clear:both;">' + emailBodyCustomized + '</body>';
+        return htmlBody;
     }
 }
