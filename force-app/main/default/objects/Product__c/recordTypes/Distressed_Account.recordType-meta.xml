@@ -2765,43 +2765,19 @@
     <picklistValues>
         <picklist>Purchase_Status__c</picklist>
         <values>
-            <fullName>Buyback Approved</fullName>
+            <fullName>Buyback/Putback Initiated</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Buyback Initiated</fullName>
+            <fullName>Buyback/Putback Submitted to Seller</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Buyback Rejected</fullName>
+            <fullName>Buyback/Putback Rejected</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Buyback Requested</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Eligible for Buyback</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Eligible for Putback</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Putback Approved</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Putback Initiated</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Putback Rejected</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Putback Requested</fullName>
+            <fullName>Buyback/Putback Approved</fullName>
             <default>false</default>
         </values>
     </picklistValues>
