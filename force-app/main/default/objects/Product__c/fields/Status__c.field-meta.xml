@@ -179,7 +179,7 @@
             <value>
                 <fullName>On Hold - Buy Back Pending Research</fullName>
                 <default>false</default>
-                <label>On Hold - Buy Back Pending Research</label>
+                <label>On Hold - BuyBack Pending Research</label>
             </value>
             <value>
                 <fullName>Bankruptcy Process - Active</fullName>
@@ -304,12 +304,12 @@
             <value>
                 <fullName>Pending Recall - On Hold -  Buy Back Pending Research</fullName>
                 <default>false</default>
-                <label>Pending Recall - On Hold -  Buy Back Pending Research</label>
+                <label>Pending Recall - On Hold -  BuyBack Pending Research</label>
             </value>
             <value>
                 <fullName>Pending Recall - Buy Back To Seller</fullName>
                 <default>false</default>
-                <label>Pending Recall - Buy Back To Seller</label>
+                <label>Pending Recall - BuyBack To Seller</label>
             </value>
             <value>
                 <fullName>Pending Recall - Other</fullName>
@@ -434,12 +434,12 @@
             <value>
                 <fullName>Recall - On Hold -  Buy Back Pending Research</fullName>
                 <default>false</default>
-                <label>Recall - On Hold -  Buy Back Pending Research</label>
+                <label>Recall - On Hold -  BuyBack Pending Research</label>
             </value>
             <value>
                 <fullName>Recall - Buy Back To Seller</fullName>
                 <default>false</default>
-                <label>Recall - Buy Back To Seller</label>
+                <label>Recall - BuyBack To Seller</label>
             </value>
             <value>
                 <fullName>Recall - Other</fullName>
