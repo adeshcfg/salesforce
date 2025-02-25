@@ -1,4 +1,4 @@
-<apex:page standardController="Insolvency__c" extensions=",NoteCrtl">
+<apex:page standardController="Insolvency__c" extensions="InsolvencyNoteCntrl,NoteCrtl">
     
     <apex:form id="noteList">
         <apex:pageBlock >
