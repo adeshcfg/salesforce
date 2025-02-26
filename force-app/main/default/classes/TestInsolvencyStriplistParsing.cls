@@ -9,7 +9,7 @@ public class TestInsolvencyStriplistParsing {
             .getRecordTypeId();
         insert config;
 
-      //Application config creation
+        //Application config creation
         Application_Config_Settings__c config1 = new Application_Config_Settings__c(
             Run_Remittance_Validation__c = false,
             Run_Remittance_Trigger__c = true,
@@ -110,7 +110,7 @@ public class TestInsolvencyStriplistParsing {
         //upload error
         controller.excelFile = testOutputJSON;
         controller.importDatatoApex(testOutputJSON);
-		
+
         //account no null
         testOutputJSON =
             '[{' +
@@ -123,7 +123,7 @@ public class TestInsolvencyStriplistParsing {
         controller = new StriplistInsolPaymentUploadController(sc);
         controller.excelFile = testOutputJSON;
         controller.importDatatoApex(testOutputJSON);
-		
+
         //EstateNumber null
         testOutputJSON =
             '[{' +
@@ -136,7 +136,7 @@ public class TestInsolvencyStriplistParsing {
         controller = new StriplistInsolPaymentUploadController(sc);
         controller.excelFile = testOutputJSON;
         controller.importDatatoApex(testOutputJSON);
-		
+
         //net payment null
         testOutputJSON =
             '[{' +
@@ -234,12 +234,19 @@ public class TestInsolvencyStriplistParsing {
 
         InsertInsolvencyPaymentsStriplistBatch batch1 = new InsertInsolvencyPaymentsStriplistBatch(remittance);
         database.executeBatch(batch1);
+
+        remittance.Status__c = 'Processed';
+        update remittance;
+        Test.startTest();
+        database.executeBatch(batch1);
+        Test.stopTest();
     }
 
     public static testMethod void testDisplayAllocatedInsolvencyPayments() {
         Remittance__c remittanceInstance = new Remittance__c();
         insert remittanceInstance;
 
+        Test.startTest();
         Insolvency_Payment__c paymentInstance1 = new Insolvency_Payment__c();
         paymentInstance1.Insolvency_Account__c = [SELECT ID FROM Insolvency_Account__c LIMIT 1][0].ID;
         paymentInstance1.Payment_Posting_Date__c = system.today();
@@ -254,6 +261,7 @@ public class TestInsolvencyStriplistParsing {
         controller = new DisplayStriplistInsolAllocatedController();
         controller.Save();
         controller.Redirect();
+        Test.stopTest();
     }
 
     public static testMethod void testDisplayUnallocatedInsolvencyPayments() {
@@ -271,6 +279,7 @@ public class TestInsolvencyStriplistParsing {
         unallocatedPayment.Body = Blob.valueOf(attachBody);
         insert unallocatedPayment;
 
+        Test.startTest();
         Test.setCurrentPageReference(new PageReference('DisplayStriplistUnallocatedPayments'));
         System.currentPageReference().getParameters().put('id', remittanceInstance.Id);
         DisplayStriplistInsolUnallocController controller = new DisplayStriplistInsolUnallocController();
@@ -278,16 +287,13 @@ public class TestInsolvencyStriplistParsing {
         StriplistUtil.paymentRecordsWrapper wrapper = new StriplistUtil.paymentRecordsWrapper();
         wrapper.insolvencyAccInstance = dividendInstance;
         wrapper.amount = '1000';
-        List<StriplistUtil.paymentRecordsWrapper> listUnallocatedPayment = new List<StriplistUtil.paymentRecordsWrapper>{wrapper};
+        List<StriplistUtil.paymentRecordsWrapper> listUnallocatedPayment = new List<StriplistUtil.paymentRecordsWrapper>{ wrapper };
         controller.wrapperMap.put(0, wrapper);
         controller.Save();
         controller.Cancel();
+        Test.stopTest();
 
-        InsertUnallocatedPaymentsStriplistBatch batch2 = new InsertUnallocatedPaymentsStriplistBatch(
-            listUnallocatedPayment,
-            remittanceInstance,
-            'Insolvency'
-        );
+        InsertUnallocatedPaymentsStriplistBatch batch2 = new InsertUnallocatedPaymentsStriplistBatch(listUnallocatedPayment, remittanceInstance, 'Insolvency');
         database.executeBatch(batch2);
     }
 
@@ -316,6 +322,8 @@ public class TestInsolvencyStriplistParsing {
         config.Run_EmailMessage_Trigger__c = false;
         Remittance__c remittanceInstance = new Remittance__c();
         remittanceInstance.Cheque_Amount__c = 390;
+        remittanceInstance.File_Processing_Status__c = 'In Progress';
+        remittanceInstance.Status__c = 'In Progress';
         insert remittanceInstance;
         ApexPages.StandardController sc = new ApexPages.StandardController(remittanceInstance);
         StriplistInsolPaymentUploadController controller = new StriplistInsolPaymentUploadController(sc);
