@@ -5,7 +5,7 @@
           <apex:param name="attId" value="" assignTo="{!selectedAttId}"/>
           <apex:param name="conVerId" value="" assignTo="{!selectedConVerId}" />
         </apex:actionFunction>
-        <apex:outputpanel rendered="{!!isCommunityUser }">
+        <apex:outputpanel rendered="{!AND(!isCommunityUser, updateDocumentType)}">
                <div class="slds-notify_container success-notifier slds-hide" id="target">
                   <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
                      <span class="slds-assistive-text-override">Document Type updated successfully</span>
@@ -80,7 +80,7 @@
                     <header class="slds-card__header slds-grid">
                       <div class="slds-col slds-media slds-media--center">
                         <apex:commandButton status="spinner" onComplete="target();" styleClass="slds-button slds-button--neutral" value="Update Document Type"
-                          action="{!updateAtList}" rerender="relatedListBodypannel" rendered="{! IF(attList.size > 0, true, false)}"
+                          action="{!updateAtList}" rerender="relatedListBodypannel" rendered="{! IF(AND(updateDocumentType,OR(attList.size > 0, conVerList.size > 0)), true, false)}"
                         />
                       </div>
                     </header>
