@@ -14,7 +14,7 @@ public class StriplistInsolPaymentUploadController {
         showButtons = false;
         showStriplistTab = false;
         Id dividendId = ApexPages.currentPage().getParameters().get('id');
-        
+
         remittanceInstance = new Remittance__c();
 
         if (dividendId != null) {
@@ -38,7 +38,7 @@ public class StriplistInsolPaymentUploadController {
                 FROM Remittance__c
                 WHERE Id = :dividendId
             ][0];
-			
+
             if (remittanceInstance.File_Processing_Status__c == 'Completed') {
                 showButtons = true;
             }
@@ -52,7 +52,6 @@ public class StriplistInsolPaymentUploadController {
                 showButtons = false;
                 Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, 'Cannot upload striplist for Dividend after Payment is Reversed!'));
             }
-            //postingDate = String.valueOf(remittanceInstance.Posting_Date__c);
         }
         showFileUpload = true;
     }
@@ -65,7 +64,7 @@ public class StriplistInsolPaymentUploadController {
         API_Call_Details__c apiCallDetails = API_Call_Details__c.getInstance('Agency Portal API');
         HttpRequest documentApiReq = getExcelToJsonRequest(apiCallDetails);
         documentApiReq.setBodyAsBlob(EncodingUtil.base64decode(excelFile));
-        
+
         // Free up view state
         excelFile = '';
         try {
@@ -186,7 +185,6 @@ public class StriplistInsolPaymentUploadController {
                 }
             }
             if (totalAmount <> remittanceInstance.Cheque_Amount__c) {
-                system.debug('5');
                 Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.ERROR, 'Total Amount in excel file does not match with the Dividend Amount.'));
                 return;
             }
@@ -199,11 +197,10 @@ public class StriplistInsolPaymentUploadController {
                 new ApexPages.message(Apexpages.Severity.INFO, 'File is being processed. You will receive email once processing is completed.')
             );
             ProcessInsolvencyStriplistBatch batchInstance = new ProcessInsolvencyStriplistBatch(listPaymentRecordWrapper, remittanceInstance);
-            database.executeBatch(batchInstance);
+            database.executeBatch(batchInstance, 40);
         } catch (Exception ex) {
             Apexpages.addMessage(new ApexPages.message(Apexpages.Severity.INFO, ex.getMessage()));
         }
-        system.debug('7');
     }
 
     public pageReference showAllocatedProductPayments() {
@@ -225,5 +222,4 @@ public class StriplistInsolPaymentUploadController {
         retURL.setRedirect(true);
         return retURL;
     }
-    
 }
