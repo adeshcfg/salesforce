@@ -10,7 +10,7 @@
 
 public class InsolvencyAccountTriggerHandler {
     public static boolean runInsolvencyAccountTrigger = true;
-    public static List<Insolvency_Account__c> accountsToUpdate = new List<Insolvency_Account__c>();
+    public static Set<Insolvency_Account__c> accountsToUpdate = new Set<Insolvency_Account__c>();
     public static String errorMessageOwnerReview { get; set; }
 
     public static Application_Config_Settings__c config = Application_Config_Settings__c.getOrgDefaults();
@@ -1782,7 +1782,7 @@ insDetails.add(insDetail);
         if (!accountsToUpdate.isEmpty()) {
             InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
             if (!Test.isRunningTest()) {
-                update accountsToUpdate;
+                update new List<Insolvency_Account__c> ( accountsToUpdate );
             }
             InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
         }
