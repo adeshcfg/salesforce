@@ -55,7 +55,7 @@
         <filterItems>
             <field>Account.Name</field>
             <operation>equals</operation>
-            <value>Money Mart</value>
+            <value>Money Mart, BMO</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
