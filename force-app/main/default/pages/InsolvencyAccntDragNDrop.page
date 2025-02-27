@@ -5,7 +5,7 @@
             <apex:param name="attId" value="" assignTo="{!selectedAttId}" />
             <apex:param name="conVerId" value="" assignTo="{!selectedConVerId}" />
         </apex:actionFunction>
-        <apex:outputpanel rendered="{!AND(!isCommunityUser, updateDocumentType)}">
+        <apex:outputpanel rendered="{!!isCommunityReadOnlyUser }">
             <div class="slds-notify_container success-notifier slds-hide" id="target">
                 <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
                     <span class="slds-assistive-text-override">Document Type updated successfully</span>
@@ -90,7 +90,7 @@
                                             value="Update Document Type"
                                             action="{!updateAtList}"
                                             rerender="relatedListBodypannel"
-                                            rendered="{! IF(AND(updateDocumentType,OR(attList.size > 0, conVerList.size > 0)), true, false)}"
+                                            rendered="{! IF(OR(attList.size > 0, conVerList.size > 0), true, false)}"
                                         />
                                     </div>
                                 </header>
@@ -103,7 +103,7 @@
                                                 <tr class="slds-no-hover">
                                                     <th
                                                         class="slds-text-heading--label slds-size--1-of-12"
-                                                        style="display:{!IF(OR(!updateDocumentType,isCommunityReadOnlyUser,isGoeasyBankCommunityUser,attList.size == 0,conVerList.size == 0), 'none;', ';')}"
+                                                        style="display:{!IF(OR(isCommunityReadOnlyUser,isGoeasyBankCommunityUser,attList.size == 0), 'none;', ';')}"
                                                         scope="col"
                                                     ></th>
                                                     <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Name</th>
@@ -122,7 +122,7 @@
                                             <tbody id="relatedListBody">
                                                 <apex:repeat value="{!conVerList}" var="conVer">
                                                     <tr>
-                                                        <td style="display:{!IF(OR(!updateDocumentType,isCommunityReadOnlyUser,isGoeasyBankCommunityUser), 'none;', ';')}">
+                                                        <td style="display:{!IF(OR(isCommunityReadOnlyUser,isGoeasyBankCommunityUser), 'none;', ';')}">
                                                             <input
                                                                 type="button"
                                                                 class="slds-button slds-button--neutral"
@@ -177,7 +177,7 @@
                                                 </apex:repeat>
                                                 <apex:repeat value="{!attList}" var="att">
                                                     <tr>
-                                                        <td style="display:{!IF(OR(!updateDocumentType,isCommunityReadOnlyUser,isGoeasyBankCommunityUser), 'none;', ';')}">
+                                                        <td style="display:{!IF(OR(isCommunityReadOnlyUser,isGoeasyBankCommunityUser), 'none;', ';')}">
                                                             <input
                                                                 type="button"
                                                                 class="slds-button slds-button--neutral"
@@ -277,7 +277,7 @@
                                             value="Update Document Type"
                                             action="{!updateAtList}"
                                             rerender="relatedListBodypannel"
-                                            rendered="{! IF(AND(updateDocumentType,OR(attList.size > 0, conVerList.size > 0)), true, false)}"
+                                            rendered="{! IF(OR(attList.size > 0, conVerList.size > 0), true, false)}"
                                         />
                                     </div>
                                 </header>
@@ -370,7 +370,7 @@
                                                         >
                                                             <a
                                                                 href="#"
-                                                                onclick='window.open("../lightning/page/filePreview?selectedRecordId={!conVer.ContentDocumentId}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'
+                                                                onclick='window.open("../lightning/page/filePreview?selectedRecordId=={!conVer.ContentDocumentId}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'
                                                                 >{!conVer.Title}</a
                                                             >
                                                         </span>

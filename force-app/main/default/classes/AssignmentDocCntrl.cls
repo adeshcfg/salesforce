@@ -22,7 +22,6 @@ public class AssignmentDocCntrl{
     public Boolean isLightningCommunity {get;set;}
     public String urlPathPrefix {get;set;}
     public List<Attachment> attList {set;get;}
-    public Boolean uploadDocument {get; set;}
     //public boolean showOnSD = false;
         
     //Constants
@@ -31,11 +30,7 @@ public class AssignmentDocCntrl{
 
     //Constructor
     public AssignmentDocCntrl(ApexPages.StandardController controller) {
-        uploadDocument = true;
-        String profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
-        if(profileName == 'QA'){
-            uploadDocument = false;
-        }
+        
         //Insolvency Account Id
         assignmentId = ApexPages.currentPage().getParameters().get('id');
         

@@ -12,7 +12,6 @@ public with sharing class CreatePublicNotesCntrl {
     public string noteBody{get;set;}
     public String profileName;
     public String baseUrl{get;set;}
-    public Boolean editNote{get;set;}
     String sobjectType;
 
     
@@ -21,11 +20,6 @@ public with sharing class CreatePublicNotesCntrl {
     
     //Controller
     public CreatePublicNotesCntrl(ApexPages.StandardController controller) {
-    	editNote = true;
-        profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
-        if(profileName == 'QA'){
-            editNote = false;
-        }
     
         parentID = ApexPages.CurrentPage().getParameters().get('parent_id');
         

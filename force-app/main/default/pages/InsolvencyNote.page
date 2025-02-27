@@ -2,9 +2,7 @@
     
     <apex:form id="noteList">
         <apex:pageBlock >
-            <apex:pageBlock rendered="{!createNewNote}">
-                <apex:commandButton value="New Note" id="newNote" onclick="window.open('{!newNoteLink}', '_parent');" rendered="{!!communityUser}"/> 
-            </apex:pageBlock>
+            <apex:commandButton value="New Note" id="newNote" onclick="window.open('{!newNoteLink}', '_parent');" rendered="{!!communityUser}"/> 
             <apex:pageBlockTable value="{!inslNoteWrappers}"  var="inslNoteWrapper" columns="4">
                 <apex:column >
                    <apex:facet name="header">
