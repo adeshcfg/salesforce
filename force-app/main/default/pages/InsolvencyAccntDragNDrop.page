@@ -103,7 +103,7 @@
                                                 <tr class="slds-no-hover">
                                                     <th
                                                         class="slds-text-heading--label slds-size--1-of-12"
-                                                        style="display:{!IF(OR(!updateDocumentType,isCommunityReadOnlyUser,isGoeasyBankCommunityUser,attList.size == 0,conVerList.size == 0), 'none;', ';')}"
+                                                        style="display:{!IF(OR(!updateDocumentType,isCommunityReadOnlyUser,isGoeasyBankCommunityUser,AND(attList.size == 0,conVerList.size == 0)), 'none;', ';')}"
                                                         scope="col"
                                                     ></th>
                                                     <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Name</th>
