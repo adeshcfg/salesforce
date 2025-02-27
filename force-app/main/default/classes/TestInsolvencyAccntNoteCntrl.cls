@@ -11,7 +11,7 @@
 @isTest
 private class TestInsolvencyAccntNoteCntrl{
 	
-    /*@testSetup
+     /*@testSetup
     static void testData(){
 User u = [SELECT Id FROM User WHERE Id != :UserInfo.getUserId() AND Profile.Name = 'System Administrator' AND isActive = TRUE LIMIT 1];
 System.RunAs(u){

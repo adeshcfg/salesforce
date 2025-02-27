@@ -92,14 +92,14 @@ public class InsolvencyAccntNoteCntrl{
     public static string getCommunityUrl(){        
         String ntwrkId = Network.getNetworkId();
         if(!Test.isRunningTest()){
-        ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
-        if (comm.siteAsContainerEnabled) {
-            isLightningCommunity = true;
-            urlPathPrefix = comm.urlPathPrefix;
-            if(comm.siteUrl.contains('sandbox')) {
-                isProduction = false;
+            ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
+            if (comm.siteAsContainerEnabled) {
+                isLightningCommunity = true;
+                urlPathPrefix = comm.urlPathPrefix;
+                if(comm.siteUrl.contains('sandbox')) {
+                    isProduction = false;
+                }
             }
-        }
         // System.debug('comm.siteUrl' + comm.siteUrl);
         return comm.siteUrl;
     } 
