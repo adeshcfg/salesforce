@@ -3,8 +3,8 @@
     <apex:form >
         <apex:pageBlock title="New Public Note">
             <apex:pageblockButtons >
-                <apex:commandButton id="save" value="Save" action="{!save}" rendered="{!editNote}"/>
-                <apex:commandButton id="cancel" value="Cancel" action="{!cancel}"/>
+                <apex:commandButton id="save" value="Save" action="{!save}"/>
+                <apex:commandButton id="cancel" value="Cancel" action="{!Cancel}"/>
             </apex:pageblockButtons>
             
             <apex:pageBlockSection columns="1" title="Public Note Information" collapsible="false">

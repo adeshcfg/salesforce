@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>QA_Access</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>QA Access</label>
-        <sharedTo>
-            <group>QA_Group</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Client_Identifier__c</field>
-            <operation>equals</operation>
-            <value>Canaccede,Scotia Bank</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
         <fullName>Share_Canadian_Tire_Insolvency_Accounts</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Canadian Tire Insolvency Accounts</description>

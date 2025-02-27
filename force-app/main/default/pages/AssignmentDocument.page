@@ -28,7 +28,7 @@
             <apex:param name="attId" value="" assignTo="{!selectedAttId}"/>
         </apex:actionFunction>
         <apex:pageBlock >
-            <apex:outputPanel rendered="{!uploadDocument}">
+            <apex:outputPanel >
                 <apex:pageMessages id="errorMessage"/>
                 <div align="center" draggable="false" >
                     <apex:actionFunction action="{!upload}" name="uploadDocument" />

@@ -20,15 +20,9 @@ public class InsolvencyAccntNoteCntrl{
     //Constants
     public static final String dateFormat = 'MM/dd/yyyy h:mm a';
     public static final String lastmodified = 'MM/dd/yyyy h:mm a';
-    public boolean createNewNote {get; set;}
    //public static final datetime timestamp = System.now(); 
     //COnstructor
     public InsolvencyAccntNoteCntrl(ApexPages.StandardController controller) {
-        String profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
-        createNewNote = true;
-        if(profileName == 'QA'){
-            createNewNote = false;
-        }
          
         //Insolvency Account Id
         insolvencyAccntId = ApexPages.currentPage().getParameters().get('id');
@@ -91,19 +85,16 @@ public class InsolvencyAccntNoteCntrl{
     //Utility method that constructs community url
     public static string getCommunityUrl(){        
         String ntwrkId = Network.getNetworkId();
-        if(!Test.isRunningTest()){
-            ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
-            if (comm.siteAsContainerEnabled) {
-                isLightningCommunity = true;
-                urlPathPrefix = comm.urlPathPrefix;
-                if(comm.siteUrl.contains('sandbox')) {
-                    isProduction = false;
-                }
+        ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
+        if (comm.siteAsContainerEnabled) {
+            isLightningCommunity = true;
+            urlPathPrefix = comm.urlPathPrefix;
+            if(comm.siteUrl.contains('sandbox')) {
+                isProduction = false;
             }
+        }
         // System.debug('comm.siteUrl' + comm.siteUrl);
         return comm.siteUrl;
-    } 
-        return null;
     } 
     
     //Utility method that constructs base url
