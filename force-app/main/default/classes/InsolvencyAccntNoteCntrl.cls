@@ -95,7 +95,6 @@ public class InsolvencyAccntNoteCntrl{
         }
         // System.debug('comm.siteUrl' + comm.siteUrl);
         return comm.siteUrl;
-        return null;
     } 
     
     //Utility method that constructs base url
