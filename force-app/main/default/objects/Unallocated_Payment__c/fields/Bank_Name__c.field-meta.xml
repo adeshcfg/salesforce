@@ -92,6 +92,11 @@
                 <default>false</default>
                 <label>NEO</label>
             </value>
+            <value>
+                <fullName>BMO</fullName>
+                <default>false</default>
+                <label>BMO</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
