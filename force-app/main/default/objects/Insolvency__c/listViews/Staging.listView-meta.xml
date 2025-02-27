@@ -23,6 +23,5 @@
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
-        <group>QA_Group</group>
     </sharedTo>
 </ListView>
