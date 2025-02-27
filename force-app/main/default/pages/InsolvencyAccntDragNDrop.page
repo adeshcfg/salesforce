@@ -5,7 +5,7 @@
             <apex:param name="attId" value="" assignTo="{!selectedAttId}" />
             <apex:param name="conVerId" value="" assignTo="{!selectedConVerId}" />
         </apex:actionFunction>
-        <apex:outputpanel rendered="{!AND(!isCommunityUser, updateDocumentType)}">
+        <apex:outputpanel rendered="{!AND(!isCommunityReadOnlyUser, updateDocumentType)}">
             <div class="slds-notify_container success-notifier slds-hide" id="target">
                 <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
                     <span class="slds-assistive-text-override">Document Type updated successfully</span>
