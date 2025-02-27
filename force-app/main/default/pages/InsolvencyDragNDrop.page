@@ -5,7 +5,7 @@
           <apex:param name="attId" value="" assignTo="{!selectedAttId}"/>
           <apex:param name="conVerId" value="" assignTo="{!selectedConVerId}" />
         </apex:actionFunction>
-        <apex:outputpanel rendered="{!!isCommunityUser }">
+        <apex:outputpanel rendered="{!AND(!isCommunityUser, updateDocumentType)}">
                <div class="slds-notify_container success-notifier slds-hide" id="target">
                   <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
                      <span class="slds-assistive-text-override">Document Type updated successfully</span>
@@ -80,7 +80,7 @@
                     <header class="slds-card__header slds-grid">
                       <div class="slds-col slds-media slds-media--center">
                         <apex:commandButton status="spinner" onComplete="target();" styleClass="slds-button slds-button--neutral" value="Update Document Type"
-                          action="{!updateAtList}" rerender="relatedListBodypannel" rendered="{! IF(attList.size > 0, true, false)}"
+                          action="{!updateAtList}" rerender="relatedListBodypannel" rendered="{! IF(AND(updateDocumentType,OR(attList.size > 0, conVerList.size > 0)), true, false)}"
                         />
                       </div>
                     </header>
@@ -91,7 +91,7 @@
                         <table class="slds-table slds-table--bordered">
                           <thead>
                             <tr class="slds-no-hover">
-                              <th class="slds-text-heading--label slds-size--1-of-12" style="display:{!IF(isCommunityUser, 'none;', '; width:1%;')}" scope="col"></th>
+                              <th class="slds-text-heading--label slds-size--1-of-12" style="display:{!IF(or(!isDelete,isCommunityUser), 'none;', '; width:1%;')}" scope="col"></th>
                               <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Name</th>
                               <th class="slds-text-heading--label slds-size--1-of-12" scope="col">Type</th>
                               <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
@@ -103,7 +103,7 @@
                           <tbody id="relatedListBody">
                             <apex:repeat value="{!conVerList}" var="conVer">
                               <tr>
-                                <td style="display:{!IF(isCommunityUser, 'none;', ';')}">
+                                <td style="display:{!IF(or(!isDelete,isCommunityUser), 'none;', ';')}">
                                   <input type="button" Class="slds-button slds-button--neutral" value="Delete" onclick="deletAtt(null, '{!conVer.Id}', this)" />
                                 </td>
                                 <td style="max-width:250px;">
@@ -140,7 +140,7 @@
                             </apex:repeat>
                             <apex:repeat value="{!attList}" var="att">
                               <tr>
-                                <td style="display:{!IF(isCommunityUser, 'none;', ';')}">
+                                <td style="display:{!IF(or(!isDelete,isCommunityUser), 'none;', ';')}">
                                   <input type="button" Class="slds-button slds-button--neutral" value="Delete" onclick="deletAtt('{!att.Id}',null, this)" />
                                 </td>
                                 <td style="max-width:250px;">
@@ -184,7 +184,7 @@
                     <header class="slds-card__header slds-grid">
                       <div class="slds-col slds-media slds-media--center">
                         <apex:commandButton status="spinner" onComplete="target();" styleClass="slds-button slds-button--neutral" value="Update Document Type"
-                          action="{!updateAtList}" rerender="relatedListBodypannel" rendered="{! IF(attList.size > 0, true, false)}"
+                          action="{!updateAtList}" rerender="relatedListBodypannel" rendered="{! IF(AND(updateDocumentType,OR(attList.size > 0, conVerList.size > 0)), true, false)}"
                         />
                       </div>
                     </header>

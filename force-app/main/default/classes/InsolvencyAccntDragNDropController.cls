@@ -38,6 +38,8 @@ global class InsolvencyAccntDragNDropController {
     public List<ContentVersion> insolvConVerList { get; set; }
     public Id selectedConVerId { get; set; }
     
+            
+    public Boolean updateDocumentType {get; set;}
     public static List<SelectOption> getAllDocumentOptions() {
         Schema.DescribeFieldResult insolAccDocumenttype = Insolvency_Account__c.Insolvency_Account_Document_Type__c.getDescribe();
         List<Schema.PicklistEntry> insolAccDocTypeValues = insolAccDocumenttype.getPicklistValues();
@@ -136,6 +138,11 @@ global class InsolvencyAccntDragNDropController {
 
     // controller to load attachments
     public InsolvencyAccntDragNDropController(ApexPages.StandardController controller) {
+        String profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
+        updateDocumentType = true;
+        if(profileName == 'QA'){
+            updateDocumentType = false;
+        }
         insAcc = (Insolvency_Account__c) controller.getRecord();
         insAcc = [SELECT Insolvency__c, RecordType.Name FROM Insolvency_Account__c WHERE Id = :insAcc.Id];
 
@@ -146,9 +153,11 @@ global class InsolvencyAccntDragNDropController {
             WHERE ParentID = :insAcc.Insolvency__c AND Description = 'Creditors Package'
         ];
         Set<Id> conDocIds = new Set<Id>();
+        if( insAcc.Insolvency__c != null){
         for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId from ContentDocumentLink where LinkedEntityid =: insAcc.Insolvency__c]){
             conDocIds.add(conDocLink.ContentDocumentId);
         }
+        }        
         if(conDocIds.size() > 0){
             insolvConVerList = [SELECT id, ContentDocumentId, Title, Description, CreatedBy.Name, LastModifiedDate, CreatedDate, owner.name FROM ContentVersion WHERE contentDocumentId in : conDocIds ORDER BY CreatedDate DESC];
         }else{
