@@ -18,12 +18,13 @@
     <sharedTo>
         <group>Insolvency_CFG_BS</group>
         <group>Insolvency_CFG_Users</group>
+        <group>Insolvency_Canadian_Tire_Users</group>
         <group>Insolvency_Fairstone_Users</group>
         <group>Insolvency_Goeasy_Users</group>
         <group>Insolvency_Money_Mart_Users</group>
         <group>Insolvency_SDA_Users</group>
         <group>Insolvency_SPL_Users</group>
         <group>Insolvency_Scotia_Users</group>
-        <group>Insolvency_Canadian_Tire_Users</group>        
+        <group>QA_Group</group>
     </sharedTo>
 </ListView>
