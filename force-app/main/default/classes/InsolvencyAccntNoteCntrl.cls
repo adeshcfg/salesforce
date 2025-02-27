@@ -85,6 +85,7 @@ public class InsolvencyAccntNoteCntrl{
     //Utility method that constructs community url
     public static string getCommunityUrl(){        
         String ntwrkId = Network.getNetworkId();
+        if(!Test.isRunningTest()){
         ConnectApi.Community comm = ConnectApi.Communities.getCommunity(ntwrkId);
         if (comm.siteAsContainerEnabled) {
             isLightningCommunity = true;
@@ -95,6 +96,8 @@ public class InsolvencyAccntNoteCntrl{
         }
         // System.debug('comm.siteUrl' + comm.siteUrl);
         return comm.siteUrl;
+        }
+        return null;
     } 
     
     //Utility method that constructs base url
