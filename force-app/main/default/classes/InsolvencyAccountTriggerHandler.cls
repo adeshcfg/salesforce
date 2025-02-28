@@ -1475,7 +1475,8 @@ insolvencyUnsecClaimNbrMap.put(insolvId, null);
                 if (insolAccnt.Insolvency_Status__c == 'POC Details Provided')
                     if (insolvency.Eligible_For_Voting_Decision__c == false )  
                     if ((config.Eligible_for_Voting_Decision__c).contains(insolAccnt.Client_Identifier__c) 
-                        && insolvency.Total_Estimated_Realizable_Value__c < 20000) {
+                        && (insolvency.Total_Estimated_Realizable_Value__c < 20000  
+                           || insolvency.Total_Estimated_Realizable_Value__c == NULL )) {
                             votingAutomationList.add(insolvency.id);
                         }else{
                             insolvency.Eligible_For_Voting_Decision__c = true;
