@@ -29,7 +29,7 @@ public class AssignmentDocCntrl{
     case assignObj = new case();
 
     //Constructor
-    public AssignmentDocCntrl(ApexPages.StandardController controller) {
+    public AssignmentDocCntrl(ApexPages.StandardController controller) { 
         
         //Insolvency Account Id
         assignmentId = ApexPages.currentPage().getParameters().get('id');
