@@ -26,7 +26,7 @@ public with sharing class InsolvencyAccountInlineController {
     public String urlPathPrefix{get;set;}
     public boolean runDuplicateCheckForProfile = false;
     public boolean runDuplicateCheckForBank = false;
-    
+    public Boolean isCommunityQAUser {set;get;}
     public map<Id, Insolvency_Account__c> insolAccMap = new map<Id, Insolvency_Account__c>();
     public set<Id> accIdSet = new set<Id>(); 
     
@@ -61,9 +61,18 @@ public with sharing class InsolvencyAccountInlineController {
        
        //Check whether current user is community user or not
        isCommunityUser = InsolvencyUtil.isCommunityUser();
+        
+       String profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
+        if(profileName == 'QA Community User Readonly'){
+            isCommunityQAUser = true;
+        }
+        else{
+            isCommunityQAUser = false;
+        }
        
        //Check whether current user is readonly profile or not
        isCommunityReadOnly = InsolvencyUtil.isCommunityReadOnlyUser();
+        system.debug('isCommunityReadOnly::'+isCommunityReadOnly);
     //    isGoeasyCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(UserInfo.getProfileId());
        //get the Profile name of current login user
         profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;

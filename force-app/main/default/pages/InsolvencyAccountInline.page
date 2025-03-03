@@ -42,7 +42,7 @@
                     </apex:outputField>
                 </apex:column>
                 
-                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Bank_Name}" rendered="{!!isCommunityUser}">
+                <apex:column headervalue="{!$Label.InsolvencyAccountInline_Bank_Name}" rendered="{!OR(!isCommunityUser,isCommunityQAUser)}">
                     <apex:outputField value="{!ial.acc.Bank_Name__c}">
                      <!--   <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>  -->
                     </apex:outputField>

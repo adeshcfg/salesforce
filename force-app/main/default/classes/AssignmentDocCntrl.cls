@@ -23,7 +23,9 @@ public class AssignmentDocCntrl{
     public String urlPathPrefix {get;set;}
     public List<Attachment> attList {set;get;}
     //public boolean showOnSD = false;
-        
+    
+    public boolean communityQAUser{get;set;}
+    
     //Constants
     public static final String dateFormat = 'MM/dd/yyyy'; 
     case assignObj = new case();
@@ -45,6 +47,7 @@ public class AssignmentDocCntrl{
         attach = new Attachment();
         
         communityUser = isCommunityUser();
+        communityQAUser = isCommunityQAUser();
         //Checking if community user
         if(communityUser) {
             InsolvencyAccntNoteCntrl.getCommunityUrl();
@@ -155,6 +158,17 @@ public class AssignmentDocCntrl{
     private static boolean isCommunityUser(){
         String profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
         if(profileName.contains('Community User')){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    //Utility method that checks if logged user is Community user or not
+    private static boolean isCommunityQAUser(){
+        String profileName = [Select Id,Name from Profile where Id=:userinfo.getProfileId()].Name;
+        if(profileName == 'QA Community User Readonly'){
             return true;
         }
         else{
