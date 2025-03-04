@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata"/>
-
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>QA_Readonly_Access</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>QA Readonly Access</label>
+        <sharedTo>
+            <group>QA_Insolvency_Group</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Creditor_Name__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>
