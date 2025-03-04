@@ -4445,7 +4445,7 @@
         <recordType>Case.Insolvency_Scotia_Community_Case</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Creditor_Account__c-Creditor Account Layout</layout>
+        <layout>Creditor_Account__c-Creditor Account Layout Read only</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Insolvency_Account__c-Canaccede Insolvency Account Read only Layout - QA</layout>
