@@ -94,6 +94,14 @@
             <fullName>Mallette Email</fullName>
             <default>false</default>
         </values>
+         <values>
+            <fullName>BMO Purchased</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creditors Package – Critical</fullName>
+            <default>false</default>
+        </values>         
         <values>
             <fullName>Media Request</fullName>
             <default>false</default>

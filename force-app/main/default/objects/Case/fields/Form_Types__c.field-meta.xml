@@ -265,6 +265,16 @@
                 <label>Media Request</label>
             </value>
             <value>
+                <fullName>BMO Purchased</fullName>
+                <default>false</default>
+                <label>BMO Purchased</label>
+            </value>
+            <value>
+                <fullName>Creditors Package – Critical</fullName>
+                <default>false</default>
+                <label>Creditors Package – Critical</label>
+            </value>
+            <value>
                 <fullName>Rogers</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
