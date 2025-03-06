@@ -1043,11 +1043,11 @@ EXPECTED += 'Status Date must be >= account Placement Date<br/>';
                 }
             
             //Added validation when account is in putback/buyback - developer: satyajit for ticket: 4377
-            if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Purchase_Status__c != null){
+            /* if(mapProduct.containsKey(product.Name__c) && mapProduct.get(product.Name__c).Purchase_Status__c != null){
             if(mapProduct.get(product.Name__c).Purchase_Status__c == 'Buyback/Putback Initiated' || mapProduct.get(product.Name__c).Purchase_Status__c == 'Buyback/Putback Approved'){
                 ERROR_MSG += '<b>ERROR</b> : Account is in Buyback / Putback status<br/>';
             }
-            }
+            } */
             }
             
             
