@@ -9,7 +9,7 @@ html .brandQuaternaryBgr {
         <apex:form styleClass="LightningDesignWinter17" id="info" style="padding-top:7px;">
              
              <!-- Displaying message -->
-             <apex:outputPanel rendered="{! isScotiaBankCommunityUser || isChaseBankCommunityUser || isSDABankCommunityUser || isFairstoneBankCommunityUser || isGoeasyBankCommunityUser || isCanadianTireCommunityUser || isMoneyMartCommunityUser}">
+             <apex:outputPanel rendered="{! isScotiaBankCommunityUser || isChaseBankCommunityUser || isSDABankCommunityUser || isFairstoneBankCommunityUser || isGoeasyBankCommunityUser || isCanadianTireCommunityUser || isMoneyMartCommunityUser || isFlexitiCommunityUser}">
                 <apex:outputText rendered="{!insolv.Insolvency_Owner_Id__c == LEFT($User.Id, 15)}"> {!$Label.Ownership_The_record_is_owned_by_you}</apex:outputText>
                 <apex:outputText rendered="{!insolv.Insolvency_Owner_Id__c != LEFT($User.Id, 15)}">{!$Label.Ownership_Record_is_owned_by} <b>{!insolv.Insolvency_Owner__c}</b></apex:outputText>
              </apex:outputPanel>                   

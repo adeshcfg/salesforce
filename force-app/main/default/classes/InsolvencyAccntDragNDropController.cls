@@ -32,6 +32,7 @@ global class InsolvencyAccntDragNDropController {
     public Boolean isCommunityUser { get; set; }
     public Boolean isEasyFinanacial { get; set; }
 	public Boolean isMoneyMartCommunityUser { get; set; }
+    public Boolean isFlexitiCommunityUser { get; set; }
     
     //7935
     public List<ContentVersion> conVerList {get; set;}
@@ -206,6 +207,7 @@ global class InsolvencyAccntDragNDropController {
         isFairstoneBankCommunityUser = InsolvencyUtil.isFairstoneBankCommunityUser(UserInfo.getProfileId());
         isCanadianTireCommunityUser = InsolvencyUtil.isCanadianTireCommunityUser(UserInfo.getProfileId());
         isMoneyMartCommunityUser = InsolvencyUtil.isMoneyMartCommunityUser(UserInfo.getProfileId());
+        isFlexitiCommunityUser = InsolvencyUtil.isFlexitiCommunityUser(UserInfo.getProfileId());
         //Ends 5195
         //Checking if read only community user
         isCommunityReadOnlyUser = InsolvencyUtil.isCommunityReadOnlyUser();

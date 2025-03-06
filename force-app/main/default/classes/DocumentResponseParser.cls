@@ -42,6 +42,13 @@ public class DocumentResponseParser {
         'MOMENTUM FINANCIAL SERVICES GROUP',//Momentum Financial Services Group
         'MONEYMART'//moneymart 
     };   
+        public static Set<String> flexiti  = new Set<String>{
+        'FLEXITI',//Flexiti 
+        'FLEXITI FINANCIAL',//Flexiti Financial   
+        'FLEXITICARD',//FLEXITICARD 
+        'FLEXITI FINANCIERE', //Flexiti Financiere
+        'FLEXITI FINANCIÈRE'//FLEXITI FINANCIÈRE 
+    }; 
      //5093: 'EASYHOME', 'EASY HOME',
     //public static Set<String> fairstoneExcludeAcc = new Set<String>{'676'};
     //public static Set<String> fairstoneExcludeAccData = new Set<String>{'6030'};
@@ -1489,6 +1496,12 @@ public class DocumentResponseParser {
                 return insolvencyRecordTypeMap.get('Money_Mart_Insolvency_Account');
             }
         }
+        for (String str : flexiti) {
+            if (creditorName.contains(str)) {
+                return insolvencyRecordTypeMap.get('Flexiti_Insolvency_Account');
+            }
+        }
+        
         return null;
     }
 

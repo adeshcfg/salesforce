@@ -31,6 +31,7 @@ public class InsolvencyEditController {
                             Goeasy_Record_Owner__c,
                             Canadian_Tire_Record_Owner__c,
                   			Money_Mart_Record_Owner__c,
+                  			Flexiti_Record_Owner__c,
                             (SELECT OwnerId 
                                 FROM Insolvency_Accounts__r
                                 where RecordType.name =: eligibleInsAcctRecordType
@@ -85,6 +86,12 @@ public class InsolvencyEditController {
             else if(InsolvencyUtil.isMoneyMartCommunityUser(UserInfo.getProfileId())){
                 if(insolv.Money_Mart_Record_Owner__c == null){
                     insolv.Money_Mart_Record_Owner__c = UserInfo.getUserId();
+                    InsolvencyUtil.updateOwnerShip(insolv);
+                }
+            }
+            else if(InsolvencyUtil.isFlexitiCommunityUser(UserInfo.getProfileId())){
+                if(insolv.Flexiti_Record_Owner__c == null){
+                    insolv.Flexiti_Record_Owner__c = UserInfo.getUserId();
                     InsolvencyUtil.updateOwnerShip(insolv);
                 }
             }

@@ -37,6 +37,9 @@ public class InsolvencyAccountOwnerShipController{
     @TestVisible
     Boolean isMoneyMartCommunityUser;
     
+    @TestVisible
+    Boolean isFlexitiCommunityUser;
+    
     
     public InsolvencyAccountOwnerShipController(ApexPages.StandardController controller) {
     
@@ -56,6 +59,7 @@ public class InsolvencyAccountOwnerShipController{
             isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(Userinfo.getProfileId()); 
             isCanadianTireCommunityUser = InsolvencyUtil.isCanadianTireCommunityUser(Userinfo.getProfileId());
             isMoneyMartCommunityUser = InsolvencyUtil.isMoneyMartCommunityUser(Userinfo.getProfileId());
+            isFlexitiCommunityUser = InsolvencyUtil.isFlexitiCommunityUser(Userinfo.getProfileId());
         }
     }
     
@@ -77,7 +81,8 @@ public class InsolvencyAccountOwnerShipController{
               	!InsolvencyUtil.isFairstoneBankCommunityUser(owner.profileId) &&
                 !InsolvencyUtil.isGoeasyBankCommunityUser(owner.profileId) &&
                 !InsolvencyUtil.isCanadianTireCommunityUser(owner.profileId) &&
-              	!InsolvencyUtil.isMoneyMartCommunityUser(owner.profileId)){
+              	!InsolvencyUtil.isMoneyMartCommunityUser(owner.profileId) &&
+              	!InsolvencyUtil.isFlexitiCommunityUser(owner.profileId)){
                 
                 Insolvency__c insolv = [SELECT Scotia_Record_Owner__c, 
                                                 Chase_Record_Owner__c, 
@@ -86,6 +91,7 @@ public class InsolvencyAccountOwnerShipController{
                                                 Goeasy_Record_Owner__c,
                                                 Canadian_Tire_Record_Owner__c,
                                         		Money_Mart_Record_Owner__c,
+                                        		Flexiti_Record_Owner__c,
                                                 (SELECT OwnerId 
                                                     FROM Insolvency_Accounts__r 
                                                     where RecordType.name =: eligibleInsAcctRecordType
@@ -135,6 +141,12 @@ public class InsolvencyAccountOwnerShipController{
                         InsolvencyUtil.updateOwnerShip(insolv);
                     }
                 }
+                else if(isFlexitiCommunityUser){
+                    if(insolv.Flexiti_Record_Owner__c == null){
+                        insolv.Flexiti_Record_Owner__c = UserInfo.getUserId();
+                        InsolvencyUtil.updateOwnerShip(insolv);
+                    }
+                }    
             }
             else if(insolvAcc.OwnerId != Userinfo.getUserId()){
                 eligibleForOwnerShip = true;
@@ -155,7 +167,7 @@ public class InsolvencyAccountOwnerShipController{
         */
         
         
-        if(isScotiaBankCommunityUser || isChaseBankCommunityUser || isSDABankCommunityUser || isFairstoneBankCommunityUser || isGoeasyBankCommunityUser || isCanadianTireCommunityUser || isMoneyMartCommunityUser){
+        if(isScotiaBankCommunityUser || isChaseBankCommunityUser || isSDABankCommunityUser || isFairstoneBankCommunityUser || isGoeasyBankCommunityUser || isCanadianTireCommunityUser || isMoneyMartCommunityUser || isFlexitiCommunityUser){
             insolvAcc.OwnerID = UserInfo.getUserId();
             insolvAcc.Do_Not_Run_Status_Validation__c = True;
             update insolvAcc;

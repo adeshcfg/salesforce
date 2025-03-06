@@ -34,6 +34,9 @@ public class InsolvencyOwnerShipController{
     @TestVisible
     public Boolean isMoneyMartCommunityUser {set;get;}
     
+    @TestVisible
+    public Boolean isFlexitiCommunityUser {set;get;}
+    
     public InsolvencyOwnerShipController(ApexPages.StandardController controller) {
     	
     	//Initialize the values
@@ -44,6 +47,7 @@ public class InsolvencyOwnerShipController{
         isGoeasyBankCommunityUser = InsolvencyUtil.isGoeasyBankCommunityUser(Userinfo.getProfileId());
         isCanadianTireCommunityUser = InsolvencyUtil.isCanadianTireCommunityUser(Userinfo.getProfileId());
         isMoneyMartCommunityUser = InsolvencyUtil.isMoneyMartCommunityUser(Userinfo.getProfileId());
+        isFlexitiCommunityUser = InsolvencyUtil.isFlexitiCommunityUser(Userinfo.getProfileId());
         //Eligible Insolvency Account Record Type Name 
         String eligibleInsAcctRecordType = InsolvencyUtil.getInsAccntRecordTypeProfile(Userinfo.getProfileId());
  
@@ -57,6 +61,7 @@ public class InsolvencyOwnerShipController{
                              Goeasy_Record_Owner__c,
                              Canadian_Tire_Record_Owner__c,
                       		 Money_Mart_Record_Owner__c,
+                      		 Flexiti_Record_Owner__c,
                              OwnerId, Owner.Name, Insolvency_Owner_Id__c,
                              (SELECT OwnerId 
                                     FROM Insolvency_Accounts__r 
@@ -112,6 +117,12 @@ public class InsolvencyOwnerShipController{
             else if(isMoneyMartCommunityUser){
                 if(insolv.Money_Mart_Record_Owner__c == null){
                     insolv.Money_Mart_Record_Owner__c = UserInfo.getUserId();
+                    InsolvencyUtil.updateOwnerShip(insolv);
+                }
+            }
+            else if(isFlexitiCommunityUser){
+                if(insolv.Flexiti_Record_Owner__c == null){
+                    insolv.Flexiti_Record_Owner__c = UserInfo.getUserId();
                     InsolvencyUtil.updateOwnerShip(insolv);
                 }
             }

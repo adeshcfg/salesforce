@@ -307,7 +307,7 @@
                                             <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Created Date</th>
                                             <th
                                                 class="slds-text-heading--label slds-size--3-of-12"
-                                                style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isMoneyMartCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
+                                                style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isMoneyMartCommunityUser,isFlexitiCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
                                                 scope="col"
                                             >
                                                 Uploaded By
@@ -348,7 +348,7 @@
                                                     </apex:outputText>
                                                 </td>
                                                 <td
-                                                    style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isMoneyMartCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
+                                                    style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isMoneyMartCommunityUser,isFlexitiCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
                                                 >
                                                     <apex:outputText value="{!att.owner.Name}"> </apex:outputText>
                                                 </td>
@@ -391,7 +391,7 @@
                                                     </apex:outputText>
                                                 </td>
                                                 <td
-                                                    style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isMoneyMartCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
+                                                    style="display:{!IF(OR(isGoeasyBankCommunityUser,isScotiaBankCommunityUser,isSDABankCommunityUser,isFairstoneBankCommunityUser,isMoneyMartCommunityUser,isFlexitiCommunityUser,NOT(isCommunityUser)), ';', 'none;')}"
                                                 >
                                                     <apex:outputText value="{!conVer.owner.Name}"> </apex:outputText>
                                                 </td>

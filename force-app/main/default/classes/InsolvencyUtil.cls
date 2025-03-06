@@ -161,6 +161,17 @@
          }
      }
      
+     //Check whether current user belong to Flexiti Bank Community User or not
+     public static Boolean isFlexitiCommunityUser(Id profileId){
+         String profileName = [Select Id,Name from Profile where Id=: profileId].Name;
+         if(profileName.contains('Flexiti') ){
+             return true;
+         }
+         else{
+             return false;
+         }
+     }
+     
     //Return InsolvencyAccount Record Type Id DeveloperName Map
     public static Map <Id, String> getInsAccntRecorTypeMap(){
         
@@ -272,6 +283,9 @@
      else if (profileName.contains('Money Mart')){
         return 'Money Mart Insolvency Account';
      }
+     else if (profileName.contains('Flexiti')){
+        return 'Flexiti Insolvency Account	';
+     }   
       return null; 
     }
     
@@ -409,6 +423,7 @@
             workOnRecordTypeMap.put('Goeasy', 'Easyfinancial Insolvency Account');
             workOnRecordTypeMap.put('Canadian Tire', 'Canadian Tire Insolvency Account');
             workOnRecordTypeMap.put('Money Mart', 'Money Mart Insolvency Account');
+            workOnRecordTypeMap.put('Flexiti', 'Flexiti Insolvency Account	');
             recordTypeToWorkOn = workOnRecordTypeMap.get(recordToWorkOn);
         }
         return recordTypeToWorkOn;
@@ -470,7 +485,11 @@
                 ownerId = insolv.Money_Mart_Record_Owner__c;
             }
         }
-        
+        else if(clientIdentifier == 'Flexiti'){
+            if(insolv.Flexiti_Record_Owner__c!= null){
+                ownerId = insolv.Flexiti_Record_Owner__c;
+            }
+        }
         return ownerId;
     }
 }
