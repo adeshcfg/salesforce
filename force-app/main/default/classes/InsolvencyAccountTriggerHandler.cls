@@ -46,6 +46,7 @@ public class InsolvencyAccountTriggerHandler {
         cIRTMap.put('Goeasy_Insolvency_Account', 'Goeasy');
         cIRTMap.put('Canadian_Tire_Insolvency_Account', 'Canadian Tire');
         cIRTMap.put('Money_Mart_Insolvency_Account', 'Money Mart');
+        cIRTMap.put('Flexiti_Insolvency_Account', 'Flexiti');
     }
 
     /**
@@ -306,7 +307,8 @@ public class InsolvencyAccountTriggerHandler {
                 Fairstone_Record_Owner__c,
                 Goeasy_Record_Owner__c,
                 Canadian_Tire_Record_Owner__c,
-            	Money_Mart_Record_Owner__c
+            	Money_Mart_Record_Owner__c,
+            	Flexiti_Record_Owner__c
             FROM Insolvency__c
             WHERE Id IN :insolIdSet
         ];

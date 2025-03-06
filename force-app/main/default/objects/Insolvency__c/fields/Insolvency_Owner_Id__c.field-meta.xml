@@ -26,6 +26,7 @@ $Profile.Name,
 &apos;Goeasy Community User Readonly&apos;, (Goeasy_Record_Owner__c),
 &apos;Canadian Tire Community User&apos;, (Canadian_Tire_Record_Owner__c),
 &apos;Money Mart Community User&apos;, (Money_Mart_Record_Owner__c),
+&apos;Flexiti Community User&apos;, (Flexiti_Record_Owner__c),
 (Owner:User.Id))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Insolvency Owner Id</label>
