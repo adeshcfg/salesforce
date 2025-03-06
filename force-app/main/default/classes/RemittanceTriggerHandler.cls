@@ -43,8 +43,23 @@ public class RemittanceTriggerHandler{
        			paymentToProces.Cheque_Payment_Reference_Number__c = paymentToProces.Remittance__r.Cheque_Payment_Reference_Number__c;
        			paymentToProces.Payment_Posting_Date__c = paymentToProces.Remittance__r.Payment_Posting_Date__c;
        		}
-       		
-       		update paymentsToProces;
+       		try{
+           		 update paymentsToProces;
+            }catch (DMLException ex) {
+                String errorMessage = AddNewAccountToJudgmentController.readDMLMessage(ex);
+                for(Remittance__c rems : remsNew){
+                    If (errorMessage.trim().equalsIgnoreCase('Payment is remitted back and now it can not be edited')){
+                        rems.addError('The Dividend Insolvency payment is remitted back and now it can not be edited');
+                    }else{
+                         rems.addError(errorMessage);
+                    }
+                }
+            }catch(Exception ex){
+                String errorMessage = ex.getMessage();
+                for(Remittance__c rems : remsNew){
+                    rems.addError(errorMessage);
+                }
+            }
         }    
     }
 	public static void handleAfterInsert(List<Remittance__c> remsNew){
@@ -53,4 +68,5 @@ public class RemittanceTriggerHandler{
 	public static void handleBeforeDelete(List<Remittance__c> remittanceRecords){
 		ArchiveUnarchiveUtility.insertDeletedRecords(remittanceRecords);
 	 }
+    
 }
