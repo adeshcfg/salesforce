@@ -431,7 +431,7 @@ Collections -  Collection DD11 NOPTP,Collection DD14 NOPTP(CC),Collection DD18 N
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <elementReference>$Record.Owner_Name__c</elementReference>
+                <elementReference>$Record.OwnerId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
