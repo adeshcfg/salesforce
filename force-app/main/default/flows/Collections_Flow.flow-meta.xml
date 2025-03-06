@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Collection_Email2</name>
         <label>Collection Email2</label>
-        <locationX>336</locationX>
-        <locationY>803</locationY>
+        <locationX>908</locationX>
+        <locationY>732</locationY>
         <actionName>Product__c.Collection_Email2</actionName>
         <actionType>emailAlert</actionType>
         <connector>
@@ -22,31 +22,12 @@
         <description>Collection_Email2_1</description>
         <name>Collection_Email2_1</name>
         <label>Collection_Email2_1</label>
-        <locationX>600</locationX>
-        <locationY>803</locationY>
+        <locationX>1134</locationX>
+        <locationY>722</locationY>
         <actionName>Product__c.Collection_Email2_1</actionName>
         <actionType>emailAlert</actionType>
         <connector>
             <targetReference>MainUpdate8</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>SObjectRowId</name>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <description>Collection Email 2.5</description>
-        <name>Collection_Email_2_5</name>
-        <label>Collection Email 2.5</label>
-        <locationX>72</locationX>
-        <locationY>803</locationY>
-        <actionName>Product__c.Collection_Email_2_5</actionName>
-        <actionType>emailAlert</actionType>
-        <connector>
-            <targetReference>mainUpdate1</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -61,8 +42,8 @@
         <description>WorkFlow rule name Collections</description>
         <name>Collections</name>
         <label>Collections</label>
-        <locationX>842</locationX>
-        <locationY>1295</locationY>
+        <locationX>1561</locationX>
+        <locationY>516</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Collection_DD11_NOPTP</name>
@@ -229,41 +210,12 @@
         <description>Workflow Rule Name Collections</description>
         <name>Collections2</name>
         <label>Collections2</label>
-        <locationX>468</locationX>
-        <locationY>587</locationY>
+        <locationX>1251</locationX>
+        <locationY>449</locationY>
         <defaultConnector>
             <targetReference>Collections</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Collection_DD22_NOPTP</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Workflow_Rule_Name__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Collection DD22</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Exclude_For_Email__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Workflow_run_flag__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Task2</targetReference>
-            </connector>
-            <label>Collection DD22 NOPTP</label>
-        </rules>
         <rules>
             <name>Collection_DD14_NOPTP_CC</name>
             <conditionLogic>and</conditionLogic>
@@ -355,8 +307,8 @@
         <description>Distressed Account and Credit Card Account	 record type</description>
         <name>Record_Type</name>
         <label>Record Type</label>
-        <locationX>842</locationX>
-        <locationY>479</locationY>
+        <locationX>1596</locationX>
+        <locationY>383</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Credit_Card_Account_Equal</name>
@@ -427,7 +379,7 @@
         </rules>
     </decisions>
     <description>The Flow runs based on the collection name and updates the Task, Email alert and update workflow name, flag and date.
-Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 and DD34</description>
+Collections -  Collection DD11 NOPTP,Collection DD14 NOPTP(CC),Collection DD18 NOPTP,Collection DD20 NOPTP,Collection DD25 NOPTP Legal,Collection DD25 NOPTP(CC),Collection DD32 NOPTP,Collection DD34 NOPTP</description>
     <environments>Default</environments>
     <formulas>
         <name>checkMetadataDisable</name>
@@ -465,8 +417,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
         <description>Create task</description>
         <name>Task</name>
         <label>Task</label>
-        <locationX>336</locationX>
-        <locationY>695</locationY>
+        <locationX>908</locationX>
+        <locationY>624</locationY>
         <connector>
             <targetReference>Collection_Email2</targetReference>
         </connector>
@@ -510,57 +462,10 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordCreates>
-        <name>Task2</name>
-        <label>Task2</label>
-        <locationX>72</locationX>
-        <locationY>695</locationY>
-        <connector>
-            <targetReference>Collection_Email_2_5</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value>
-                <elementReference>$Flow.CurrentDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value>
-                <elementReference>$Record.Customer__r.PersonContactId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value>
-                <stringValue>Normal</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value>
-                <stringValue>Completed</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Subject</field>
-            <value>
-                <stringValue>Activity_DD22_Email2.5</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhatId</field>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Task</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
         <name>Task3</name>
         <label>Task3</label>
-        <locationX>50</locationX>
-        <locationY>1403</locationY>
+        <locationX>1613</locationX>
+        <locationY>833</locationY>
         <connector>
             <targetReference>MainUpdate3</targetReference>
         </connector>
@@ -607,8 +512,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
         <description>Activity_DD25_Email2</description>
         <name>Task_Activity_DD25_Email2</name>
         <label>Task Activity_DD25_Email2</label>
-        <locationX>600</locationX>
-        <locationY>695</locationY>
+        <locationX>1133</locationX>
+        <locationY>652</locationY>
         <connector>
             <targetReference>Collection_Email2_1</targetReference>
         </connector>
@@ -654,8 +559,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordCreates>
         <name>Task_SMS_Notification</name>
         <label>Task SMS Notification</label>
-        <locationX>314</locationX>
-        <locationY>1403</locationY>
+        <locationX>1219</locationX>
+        <locationY>932</locationY>
         <connector>
             <targetReference>MainUpdate5</targetReference>
         </connector>
@@ -707,8 +612,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordCreates>
         <name>Task_SMS_Notification2</name>
         <label>Task SMS Notification2</label>
-        <locationX>1106</locationX>
-        <locationY>1403</locationY>
+        <locationX>1441</locationX>
+        <locationY>748</locationY>
         <connector>
             <targetReference>MainUpdate9</targetReference>
         </connector>
@@ -760,8 +665,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordCreates>
         <name>Task_SMS_Notification3</name>
         <label>Task SMS Notification3</label>
-        <locationX>1370</locationX>
-        <locationY>1403</locationY>
+        <locationX>1864</locationX>
+        <locationY>529</locationY>
         <connector>
             <targetReference>MainUpdate10</targetReference>
         </connector>
@@ -813,8 +718,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordCreates>
         <name>TaskSMS_Notification</name>
         <label>TaskSMS Notification</label>
-        <locationX>578</locationX>
-        <locationY>1403</locationY>
+        <locationX>1281</locationX>
+        <locationY>654</locationY>
         <connector>
             <targetReference>MainUpdate6</targetReference>
         </connector>
@@ -867,8 +772,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
         <description>Update product fields</description>
         <name>mainUpdate</name>
         <label>mainUpdate</label>
-        <locationX>336</locationX>
-        <locationY>911</locationY>
+        <locationX>905</locationX>
+        <locationY>859</locationY>
         <inputAssignments>
             <field>Workflow_Rule_Name__c</field>
         </inputAssignments>
@@ -887,33 +792,11 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <recordUpdates>
-        <name>mainUpdate1</name>
-        <label>mainUpdate1</label>
-        <locationX>72</locationX>
-        <locationY>911</locationY>
-        <inputAssignments>
-            <field>Current_Workflow__c</field>
-            <value>
-                <stringValue>Pre-Legal Flow</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Workflow_Rule_Name__c</field>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Workflow_run_flag__c</field>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
-    <recordUpdates>
         <description>Update the product fields.</description>
         <name>MainUpdate10</name>
         <label>MainUpdate10</label>
-        <locationX>1370</locationX>
-        <locationY>1511</locationY>
+        <locationX>1891</locationX>
+        <locationY>679</locationY>
         <inputAssignments>
             <field>Workflow_Rule_Name__c</field>
             <value>
@@ -937,8 +820,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordUpdates>
         <name>MainUpdate3</name>
         <label>MainUpdate3</label>
-        <locationX>50</locationX>
-        <locationY>1511</locationY>
+        <locationX>1625</locationX>
+        <locationY>935</locationY>
         <inputAssignments>
             <field>Workflow_Rule_Name__c</field>
         </inputAssignments>
@@ -959,8 +842,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordUpdates>
         <name>MainUpdate5</name>
         <label>MainUpdate5</label>
-        <locationX>314</locationX>
-        <locationY>1511</locationY>
+        <locationX>1226</locationX>
+        <locationY>1041</locationY>
         <inputAssignments>
             <field>Workflow_Rule_Name__c</field>
         </inputAssignments>
@@ -981,8 +864,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordUpdates>
         <name>MainUpdate6</name>
         <label>MainUpdate6</label>
-        <locationX>578</locationX>
-        <locationY>1511</locationY>
+        <locationX>1287</locationX>
+        <locationY>792</locationY>
         <inputAssignments>
             <field>Workflow_Rule_Name__c</field>
         </inputAssignments>
@@ -1003,8 +886,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordUpdates>
         <name>MainUpdate7</name>
         <label>MainUpdate7</label>
-        <locationX>842</locationX>
-        <locationY>1403</locationY>
+        <locationX>1719</locationX>
+        <locationY>673</locationY>
         <inputAssignments>
             <field>Current_Workflow__c</field>
             <value>
@@ -1031,8 +914,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordUpdates>
         <name>MainUpdate8</name>
         <label>MainUpdate8</label>
-        <locationX>600</locationX>
-        <locationY>911</locationY>
+        <locationX>1135</locationX>
+        <locationY>825</locationY>
         <inputAssignments>
             <field>Workflow_Rule_Name__c</field>
         </inputAssignments>
@@ -1053,8 +936,8 @@ Collections -  DD22, DD11, DD14 (CC), DD18, DD20, DD25 Legal, DD25 (CC), DD32 an
     <recordUpdates>
         <name>MainUpdate9</name>
         <label>MainUpdate9</label>
-        <locationX>1106</locationX>
-        <locationY>1511</locationY>
+        <locationX>1445</locationX>
+        <locationY>841</locationY>
         <inputAssignments>
             <field>Workflow_Rule_Name__c</field>
             <value>
