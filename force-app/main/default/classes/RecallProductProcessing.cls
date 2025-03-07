@@ -274,6 +274,10 @@ public class RecallProductProcessing {
                                 }
                             );
                         }
+                        if (prod.Product_Status__c == '297000' || prod.Product_Status__c == '298000') {
+                            prod.Purchase_Status__c = 'Buyback/Putback Initiated';
+                            prod.Buyback_Putback_Status_Change_Date__c = System.today();
+                        }
                     } else {
                         failedRecords = failedRecords + 1;
                     }
