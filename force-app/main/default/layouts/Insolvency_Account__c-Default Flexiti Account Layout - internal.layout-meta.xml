@@ -2,14 +2,13 @@
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <customButtons>Copy_Fields</customButtons>
     <customButtons>Email_Trustee</customButtons>
-    <customButtons>POC_Document</customButtons>
     <customButtons>Notice_To_Trustee</customButtons>
+    <customButtons>POC_Document_Flexiti</customButtons>
     <customButtons>Withdrawal_PoC</customButtons>
     <customButtons>LOR_Demand</customButtons>
     <excludeButtons>ChangeOwnerOne</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
     <excludeButtons>Delete</excludeButtons>
-    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
