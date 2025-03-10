@@ -148,8 +148,12 @@
                 <default>false</default>
                 <label>Work Assignment Upload File</label>
             </value>
+            <value>
+                <fullName>Product Status Update File</fullName>
+                <default>false</default>
+                <label>Product Status Update File</label>
+            </value>
         </valueSetDefinition>
-        
         <valueSettings>
             <controllingFieldValue>Payment</controllingFieldValue>
             <valueName>Payment</valueName>
@@ -201,6 +205,10 @@
         <valueSettings>
             <controllingFieldValue>Excel File Processing</controllingFieldValue>
             <valueName>Direct Payment Upload File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Product Status Update File</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Bulk Media Request</controllingFieldValue>
