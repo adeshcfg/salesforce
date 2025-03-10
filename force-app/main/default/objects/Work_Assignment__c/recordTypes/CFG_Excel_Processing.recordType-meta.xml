@@ -1021,5 +1021,9 @@
             <fullName>Written %28from consumer%2C not any of the above%29</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Product Status Update File</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
 </RecordType>
