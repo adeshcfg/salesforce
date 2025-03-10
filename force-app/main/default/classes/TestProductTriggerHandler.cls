@@ -202,7 +202,6 @@ insert apiCallDetails;*/
         prod.Pool_Name__c = pool.id;
         prod.Collection_Agency__c = 30;
         prod.Placement_Status__c = '100010';
-        prod.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod.state__c = 'Alberta';
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
@@ -223,7 +222,6 @@ insert apiCallDetails;*/
         prod1.Last_Name__c = 'xyz';
         prod1.Pool_Name__c = pool.id;
         prod1.Placement_Status__c = '100010';
-        prod1.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod1.Purchase_Province__c = 'PE';
         prod1.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId();
         prod1.Customer__c = customer.id;
@@ -658,7 +656,6 @@ insert customer1;*/
         prod5.Statute_Date__c = null;
         prod5.State__c = 'Alberta';
         prod5.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod5.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod5.product_status__C = '';
         prod5.Zip_Code__c = '887O';
         prod5.Last_Payment_Date__c = System.today() - 20;
@@ -680,7 +677,6 @@ insert customer1;*/
         prod6.Statute_Date__c = null;
         prod6.State__c = 'Alberta';
         prod6.Collection_Sub_Status__c = 'Buy back/put back and sale categories';
-        prod6.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod6.product_status__C = '';
         prod6.Zip_Code__c = '887O';
         prod6.Last_Payment_Date__c = System.today() - 10;
@@ -1459,7 +1455,6 @@ insert customer1;*/
         prod.Last_Name__c = 'xyz';
         prod.Collection_Agency__c = 30;
         prod.Placement_Status__c = '100010';
-        prod.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod.state__c = 'Alberta';
         prod.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
@@ -1506,7 +1501,6 @@ insert customer1;*/
         prod2.Last_Name__c = 'xyz';
         prod2.Collection_Agency__c = 30;
         prod2.Placement_Status__c = '100010';
-        prod2.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod2.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod2.state__c = 'Alberta';
         prod2.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();
@@ -1534,7 +1528,6 @@ insert customer1;*/
         prod3.Last_Name__c = 'xyz';
         prod3.Collection_Agency__c = 30;
         prod3.Placement_Status__c = '100010';
-        prod3.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod3.Open_Date__c = Date.newInstance(2022, 12, 5);
         prod3.state__c = 'Alberta';
         prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Loan Account').getRecordTypeId();

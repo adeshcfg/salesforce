@@ -25,10 +25,7 @@ public class TestBuybackPutbackStagingController {
         );
         listmapping.add(mapping2);
         insert listmapping;
-    }
 
-    public static testMethod void testAccStatusUpdate() {
-        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
         Work_Assignment__c workAssignment = new Work_Assignment__c();
         workAssignment.Purpose__c = 'Excel Processing';
         workAssignment.Sub_Purpose__c = 'Product Buyback/Putback File';
@@ -72,7 +69,21 @@ public class TestBuybackPutbackStagingController {
         productStaging2.Comment__c = 'ERROR';
         productStaging2.Placement_Agency__c = '1';
         productStaging2.Identifier__c = docStorage.ID;
+        productStaging3.Putback_Buyback_Amount__c = 300;
         insert productStaging2;
+
+        testDocumentAPI();
+    }
+
+    public static testMethod void testPutbackStatusUpdate() {
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+
+        Document_Storage__c docStorage = [SELECT Id, Document_Type__c, Work_Assignment__c FROM Document_Storage__c LIMIT 1];
+        List<Product_Staging__c> listProductStaging = [
+            SELECT Id, Product_ID__c, Document_Storage__c, Comment__c, Placement_Agency__c, Identifier__c, Putback_Buyback_Amount__c
+            FROM Product_Staging__c
+            ORDER BY Putback_Buyback_Amount__c
+        ];
 
         ApexPages.StandardController sc = new ApexPages.StandardController(docStorage);
         PageReference pageRef = Page.DisplayAccountStatusUpdateStaging;
@@ -81,23 +92,22 @@ public class TestBuybackPutbackStagingController {
 
         DisplayBuybackPutbackStagingController controller = new DisplayBuybackPutbackStagingController();
         DisplayBuybackPutbackStagingController.productStagingWrapper wrap = new DisplayBuybackPutbackStagingController.productStagingWrapper(
-            productStaging,
+            listProductStaging[0],
             true
         );
         wrap.selected = true;
         DisplayBuybackPutbackStagingController.productStagingWrapper wrap1 = new DisplayBuybackPutbackStagingController.productStagingWrapper(
-            productStaging3,
+            listProductStaging[2],
             true
         );
         DisplayBuybackPutbackStagingController.productStagingWrapper wrap2 = new DisplayBuybackPutbackStagingController.productStagingWrapper(
-            productStaging2,
+            listProductStaging[1],
             false
         );
         List<DisplayBuybackPutbackStagingController.productStagingWrapper> wrapList = new List<DisplayBuybackPutbackStagingController.productStagingWrapper>();
         wrapList.add(wrap);
         wrapList.add(wrap1);
         wrapList.add(wrap2);
-        API_Call_Details__c api = testDocumentAPI();
         Test.startTest();
         DisplayBuybackPutbackStagingController test2 = new DisplayBuybackPutbackStagingController();
         test2.listProductStagingWrapper = wrapList;
@@ -121,6 +131,18 @@ public class TestBuybackPutbackStagingController {
         test2.getlistProductStagingWrapper();
         Test.stopTest();
         ProductTriggerHandler.runProductTrigger = true;
+    }
+
+    public static testMethod void testAccStatusUpdate() {
+        Test.setMock(HttpCalloutMock.class, new PortalAPIMockResponse());
+        Document_Storage__c docStorage = [SELECT Id, Document_Type__c, Work_Assignment__c FROM Document_Storage__c LIMIT 1];
+        Test.startTest();
+        DisplayBuybackPutbackStagingController.generateSuccessErrorFiles(
+            docStorage.Id,
+            docStorage.Work_Assignment__c,
+            DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE
+        );
+        Test.stopTest();
     }
 
     public static API_Call_Details__c testDocumentAPI() {

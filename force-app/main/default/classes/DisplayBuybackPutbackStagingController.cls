@@ -483,69 +483,112 @@ public class DisplayBuybackPutbackStagingController {
         return productIdsToUpdate;
     }
 
-    public static void generateSuccessErrorFiles(String documentStorageId, String workAssignmentId) {
+    public static void generateSuccessErrorFiles(String documentStorageId, String workAssignmentId, String docType) {
         List<Product_Staging__c> processedStagingRecords = new List<Product_Staging__c>();
         String success = 'data_id,buyback_putback_amount,buyback_putback_status,product_status,rejection_reason';
         String failed = 'data_id,buyback_putback_amount,buyback_putback_status,product_status,rejection_reason,error';
         Integer successRecords = 0;
         Integer failedRecords = 0;
-        for (Product_Staging__c prodStaging : [
-            SELECT
-                Status__c,
-                Include_in_Processing__c,
-                Product_Status__c,
-                Data_Id__c,
-                Putback_Buyback_Amount__c,
-                Purchase_Status__c,
-                Rejection_Reason__c,
-                Comment__c
-            FROM Product_Staging__c
-            WHERE Identifier__c = :documentStorageId AND Status__c != 'Processed'
-            ORDER BY Include_in_Processing__c
-        ]) {
-            if (prodStaging.Include_in_Processing__c) {
-                prodStaging.Status__c = PROCESSED;
-                success += '\n';
-                success +=
-                    prodStaging.Data_Id__c +
-                    ',' +
-                    prodStaging.Putback_Buyback_Amount__c +
-                    ',' +
-                    prodStaging.Purchase_Status__c +
-                    ',' +
-                    prodStaging.Product_Status__c +
-                    ',' +
-                    prodStaging.Rejection_Reason__c;
-                successRecords = successRecords + 1;
-                processedStagingRecords.add(prodStaging);
-            } else {
-                failed += '\n';
-                String commentError = '';
-                if (String.isNotBlank(prodStaging.Comment__c)) {
-                    commentError = prodStaging.Comment__c;
-                    commentError = commentError.replaceAll('<br/>', '');
-                    commentError = commentError.replaceAll('</b>', '');
-                    commentError = commentError.replaceAll('<b>', '');
+        if (docType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
+            success = 'data_id,product_status';
+            failed = 'data_id,product_status,error';
+            for (Product_Staging__c prodStaging : [
+                SELECT
+                    Status__c,
+                    Include_in_Processing__c,
+                    Product_Status__c,
+                    Data_Id__c,
+                    Putback_Buyback_Amount__c,
+                    Purchase_Status__c,
+                    Rejection_Reason__c,
+                    Comment__c
+                FROM Product_Staging__c
+                WHERE Identifier__c = :documentStorageId AND Status__c != 'Processed'
+                ORDER BY Include_in_Processing__c
+            ]) {
+                if (prodStaging.Include_in_Processing__c) {
+                    prodStaging.Status__c = PROCESSED;
+                    success += '\n';
+                    success += prodStaging.Data_Id__c + ',' + prodStaging.Product_Status__c;
+                    successRecords = successRecords + 1;
+                    processedStagingRecords.add(prodStaging);
+                } else {
+                    failed += '\n';
+                    String commentError = '';
+                    if (String.isNotBlank(prodStaging.Comment__c)) {
+                        commentError = prodStaging.Comment__c;
+                        commentError = commentError.replaceAll('<br/>', '');
+                        commentError = commentError.replaceAll('</b>', '');
+                        commentError = commentError.replaceAll('<b>', '');
+                    }
+                    failed +=
+                        prodStaging.Data_Id__c +
+                        ',' +
+                        prodStaging.Product_Status__c +
+                        ',' +
+                        (String.isNotBlank(prodStaging.Comment__c) ? commentError : null);
+                    failedRecords = failedRecords + 1;
                 }
-                failed +=
-                    prodStaging.Data_Id__c +
-                    ',' +
-                    prodStaging.Putback_Buyback_Amount__c +
-                    ',' +
-                    prodStaging.Purchase_Status__c +
-                    ',' +
-                    prodStaging.Product_Status__c +
-                    ',' +
-                    prodStaging.Rejection_Reason__c +
-                    ',' +
-                    (String.isNotBlank(prodStaging.Comment__c) ? commentError : null);
-                failedRecords = failedRecords + 1;
+            }
+        } else {
+            for (Product_Staging__c prodStaging : [
+                SELECT
+                    Status__c,
+                    Include_in_Processing__c,
+                    Product_Status__c,
+                    Data_Id__c,
+                    Putback_Buyback_Amount__c,
+                    Purchase_Status__c,
+                    Rejection_Reason__c,
+                    Comment__c
+                FROM Product_Staging__c
+                WHERE Identifier__c = :documentStorageId AND Status__c != 'Processed'
+                ORDER BY Include_in_Processing__c
+            ]) {
+                if (prodStaging.Include_in_Processing__c) {
+                    prodStaging.Status__c = PROCESSED;
+                    success += '\n';
+                    success +=
+                        prodStaging.Data_Id__c +
+                        ',' +
+                        prodStaging.Putback_Buyback_Amount__c +
+                        ',' +
+                        prodStaging.Purchase_Status__c +
+                        ',' +
+                        prodStaging.Product_Status__c +
+                        ',' +
+                        prodStaging.Rejection_Reason__c;
+                    successRecords = successRecords + 1;
+                    processedStagingRecords.add(prodStaging);
+                } else {
+                    failed += '\n';
+                    String commentError = '';
+                    if (String.isNotBlank(prodStaging.Comment__c)) {
+                        commentError = prodStaging.Comment__c;
+                        commentError = commentError.replaceAll('<br/>', '');
+                        commentError = commentError.replaceAll('</b>', '');
+                        commentError = commentError.replaceAll('<b>', '');
+                    }
+                    failed +=
+                        prodStaging.Data_Id__c +
+                        ',' +
+                        prodStaging.Putback_Buyback_Amount__c +
+                        ',' +
+                        prodStaging.Purchase_Status__c +
+                        ',' +
+                        prodStaging.Product_Status__c +
+                        ',' +
+                        prodStaging.Rejection_Reason__c +
+                        ',' +
+                        (String.isNotBlank(prodStaging.Comment__c) ? commentError : null);
+                    failedRecords = failedRecords + 1;
+                }
             }
         }
         Agency_Portal_Settings__c portalSettings = Agency_Portal_Settings__c.getOrgDefaults();
         system.enqueueJob(
             new PostDocumentAPI(
-                DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE,
+                docType,
                 failed,
                 success,
                 failedRecords,
