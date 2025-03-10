@@ -409,7 +409,14 @@ public class PocDocUtility {
             if (frenchNames.contains(language)) {
                 pdfPageName = 'POCDocDataFrenchMoneyMartNew';
             }
-        } else {
+        } else if (pageName == 'Flexiti') {
+            if (englishNames.contains(language)) {
+                pdfPageName = 'POCDocDataFlexitiNew';
+            }
+            if (frenchNames.contains(language)) {
+                pdfPageName = 'POCDocDataFrenchFlexitiNew';
+            }
+        }else {
             if (englishNames.contains(language)) {
                 pdfPageName = 'POCDocData';
             }

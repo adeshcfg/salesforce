@@ -334,7 +334,9 @@ public class POCDocController {
                 redirectPageName = '/apex/POCDocFrenchFairstonePreview';
             } else if (pageName == 'Money Mart') {
                 redirectPageName = '/apex/POCDocFrenchMoneyMartPreview';
-            } else {
+            } else if (pageName == 'Flexiti') {
+                redirectPageName = '/apex/POCDocFrenchFlexitiPreviewNew';
+            }else {
                 redirectPageName = '/apex/POCDocFrenchStreamPreview';
             }
         } else {
@@ -350,6 +352,8 @@ public class POCDocController {
                 redirectPageName = '/apex/POCDocFairstonePreview';
             } else if (pageName == 'Money Mart') {
                 redirectPageName = '/apex/POCDocMoneyMartPreview';
+            } else if (pageName == 'Flexiti') {
+                redirectPageName = '/apex/POCDocFlexitiPreviewNew';
             } else {
                 redirectPageName = '/apex/POCDocPage';
             }

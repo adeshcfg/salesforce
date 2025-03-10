@@ -84,6 +84,19 @@ public class TestPOCDocController{
         insolAcct.Proof_of_Claim_Required__c = false;
         insolAcct.Asset_Status__c = 'Putback';
         insert insolAcct;
+         
+         blob testData = Blob.valueOf('testing testing');
+         
+         Attachment attach = new Attachment();
+         attach.Name = 'Amended PoC - ';
+         attach.IsPrivate = false;
+         attach.Description = 'test';
+         attach.ParentId = insolAcct.Id;
+         attach.Body = testData;
+         insert attach;
+         
+         
+         PocDocUtility.generateAttachmentRecord(insolAcct.name,insolAcct);
          Test.stopTest();
      }
 
@@ -133,6 +146,27 @@ public class TestPOCDocController{
           objCn.pageName = 'Canadian Tire';  
           objCn.savePOCDoc();  
             
+          //fr//
+          POCDocController objflexi = new POCDocController();          
+          objflexi.language = 'fr';
+          objflexi.pageName = 'Flexiti';  
+          objflexi.savePOCDoc();
+          
+		  POCDocController obj4 = new POCDocController();          
+          obj4.language = 'en_US';
+          obj4.pageName = 'Flexiti';  
+          obj4.savePOCDoc();             
+		  
+		  POCDocController objMM = new POCDocController();          
+          objMM.language = 'fr';
+          objMM.pageName = 'Money Mart';  
+          objMM.savePOCDoc();
+          
+		  POCDocController obj5 = new POCDocController();          
+          obj5.language = 'en_US';
+          obj5.pageName = 'Money Mart';  
+          obj5.savePOCDoc();
+            
           try{
              throw new DMLException('My DML EXCEPTION'); 
           }catch(Exception ex){
@@ -171,6 +205,14 @@ public class TestPOCDocController{
           obj.language = 'en_US';
           obj.pageName = 'GoEasyUnSecured';
           obj.changeLanguage();
+        
+          obj.language = 'en_US';
+          obj.pageName = 'Flexiti';
+          obj.changeLanguage();
+        
+          obj.language = 'fr';
+          obj.pageName = 'Flexiti';
+          obj.changeLanguage();
           
           try{
              throw new DMLException('My DML EXCEPTION'); 
@@ -179,6 +221,6 @@ public class TestPOCDocController{
           }
         Test.stopTest();
           //obj.goToInsolvancyAccount();
-          Test.stopTest();
+          //Test.stopTest();
     }
 }
