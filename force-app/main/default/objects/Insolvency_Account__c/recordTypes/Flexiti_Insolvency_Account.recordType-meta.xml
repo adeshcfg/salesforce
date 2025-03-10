@@ -2,7 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Flexiti_Insolvency_Account</fullName>
     <active>true</active>
-    <description>Record type of Flexiti Insolvency Account</description>
+    <description>Flexiti Insolvency Account</description>
     <label>Flexiti Insolvency Account</label>
     <picklistValues>
         <picklist>Account_Type__c</picklist>

@@ -222,7 +222,8 @@ public class POCDocController {
         }
         String partialPageUrl = appConfig.Use_new_POC_templates__c &&
             pageName != 'FairstoneNew' &&
-            pageName != 'Money Mart'
+            pageName != 'Money Mart' &&
+            pageName != 'Flexiti'
             ? '/apex/' + templatePageName + 'New'
             : '/apex/' + templatePageName;
         pdf = new PageReference(partialPageUrl);
@@ -335,7 +336,7 @@ public class POCDocController {
             } else if (pageName == 'Money Mart') {
                 redirectPageName = '/apex/POCDocFrenchMoneyMartPreview';
             } else if (pageName == 'Flexiti') {
-                redirectPageName = '/apex/POCDocFrenchFlexitiPreviewNew';
+                redirectPageName = '/apex/POCDocFrenchFlexitiPreview';
             }else {
                 redirectPageName = '/apex/POCDocFrenchStreamPreview';
             }
@@ -353,7 +354,7 @@ public class POCDocController {
             } else if (pageName == 'Money Mart') {
                 redirectPageName = '/apex/POCDocMoneyMartPreview';
             } else if (pageName == 'Flexiti') {
-                redirectPageName = '/apex/POCDocFlexitiPreviewNew';
+                redirectPageName = '/apex/POCDocFlexitiPreview';
             } else {
                 redirectPageName = '/apex/POCDocPage';
             }
