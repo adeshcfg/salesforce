@@ -33,6 +33,7 @@ public class TestBuybackPutbackStagingController {
 
         Document_Storage__c docStorage = new Document_Storage__c();
         docStorage.Work_Assignment__c = workAssignment.ID;
+        docStorage.Document_Type__c = DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE;
         insert docStorage;
 
         ProductTriggerHandler.runProductTrigger = false;
@@ -159,7 +160,5 @@ public class TestBuybackPutbackStagingController {
         settings.API_Request_Timeout__c = 90000;
         insert settings;
         return settings;
-    }
-    public static testMethod void testDocAPIcall() {
     }
 }

@@ -397,16 +397,14 @@ public class DisplayBuybackPutbackStagingController {
         }
 
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
-        Document_Storage__c docStorageToUpdate = new Document_Storage__c(
-            Id = recordIdentfier,
-            File_Processing_Status__c = DisplayProductAllocateStagingController.INPROGRESS
-        );
+        Document_Storage__c docStorageToUpdate = [SELECT Id, Document_Type__c FROM Document_Storage__c WHERE Id = :recordIdentfier];
+        docStorageToUpdate.File_Processing_Status__c = DisplayProductAllocateStagingController.INPROGRESS;
         update docStorageToUpdate;
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
         showButton = true;
         //Call Product Update batch for allocation and recall.
         Database.executeBatch(
-            new CFG_ProcessSuccessRecords(workAssignmentId, recordIdentfier, DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE),
+            new CFG_ProcessSuccessRecords(workAssignmentId, recordIdentfier, docStorageToUpdate.Document_Type__c),
             100
         );
         if (listProductStagingWrapper != null) {
