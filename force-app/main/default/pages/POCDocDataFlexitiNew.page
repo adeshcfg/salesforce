@@ -193,13 +193,11 @@
                             <td style="padding-left: 10px">
                                 That I am the President of
                                 <span style="font-family: sans-serif; font-weight: bold">Canaccede International Management Ltd.,</span> servicer for
-                                <apex:outputText style="font-weight: bold" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                               <!-- <apex:outputText style="font-weight: bold" rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                                     <span style="font-weight: bold; font-family: sans-serif"> {!pocPackage.Fairstone_New_Product_Company_Detail__c}</span>
-                                </apex:outputText>
+                                </apex:outputText> -->
                                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                     <span style="font-weight: bold; font-family: sans-serif"> {!pocPackage.CFG_Office_Name__c}</span>
-                                    , who is the purchaser of the account from
-                                    <span style="font-weight: bold; font-family: sans-serif">{!pocPackage.Fairstone_New_Product_Company_Detail__c}</span>
                                 </apex:outputText>
                             </td>
                         </tr>
@@ -553,9 +551,9 @@
                                 Bryan Szemenyei, President<br /> Canaccede International Management Ltd.,<br />
                                 <b
                                     >Servicer for
-                                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                                    <!--<apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                                         {!pocPackage.Fairstone_New_Product_Company_Detail__c}
-                                    </apex:outputText>
+                                    </apex:outputText> -->
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"> {!pocPackage.CFG_Office_Name__c} </apex:outputText>
                                     (creditor)
                                 </b>
@@ -648,13 +646,13 @@
                     <span style="font-family: sans-serif; font-weight: bold">{!UPPER(insolvAcc.Insolvency__r.Debtor_1_Mailing_State_Province__c)}</span>
                     <br />and the claim of
                     <span style="font-weight: bold; font-family: sans-serif">
-                        <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                       <!-- <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                             <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
-                        </apex:outputText>
+                        </apex:outputText> -->
                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                             <b> {!pocPackage.CFG_Office_Name__c} </b>
                         </apex:outputText>
-                        (creditor)
+                        
                     </span>
                 </div>
                 <tr style="text-align: left">

@@ -762,7 +762,7 @@
                                             <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
                                                 <b> {!pocPackage.CFG_Office_Name__c} </b>
                                             </apex:outputText>
-                                            (creditor)
+                                            
                                         </span>
                                     </div>
                                     <br />

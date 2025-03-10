@@ -222,7 +222,8 @@ public class POCDocController {
         }
         String partialPageUrl = appConfig.Use_new_POC_templates__c &&
             pageName != 'FairstoneNew' &&
-            pageName != 'Money Mart' 
+            pageName != 'Money Mart' &&
+            pageName != 'Flexiti'
             ? '/apex/' + templatePageName + 'New'
             : '/apex/' + templatePageName;
         pdf = new PageReference(partialPageUrl);
