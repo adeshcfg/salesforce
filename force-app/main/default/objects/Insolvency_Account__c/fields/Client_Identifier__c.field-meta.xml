@@ -50,6 +50,16 @@
                 <default>false</default>
                 <label>Canadian Tire</label>
             </value>
+            <value>
+                <fullName>Money Mart</fullName>
+                <default>false</default>
+                <label>Money Mart</label>
+            </value>
+            <value>
+                <fullName>Flexiti</fullName>
+                <default>false</default>
+                <label>Flexiti</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

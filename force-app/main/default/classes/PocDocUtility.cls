@@ -411,10 +411,10 @@ public class PocDocUtility {
             }
         } else if (pageName == 'Flexiti') {
             if (englishNames.contains(language)) {
-                pdfPageName = 'POCDocDataFlexitiNew';
+                pdfPageName = 'POCDocDataFlexiti';
             }
             if (frenchNames.contains(language)) {
-                pdfPageName = 'POCDocDataFrenchFlexitiNew';
+                pdfPageName = 'POCDocDataFrenchFlexiti';
             }
         }else {
             if (englishNames.contains(language)) {
