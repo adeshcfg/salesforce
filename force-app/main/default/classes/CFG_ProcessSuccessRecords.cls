@@ -153,12 +153,7 @@ public class CFG_ProcessSuccessRecords implements Database.Batchable<sObject>, D
             // Call Portal API to update product records on Portal
             PortalProductProcessingAPI.processProductBulkBatch(prodIds, new List<Product__c>());
         } else {
-            if (docType == DocumentStorageTriggerHandler.PRODUCT_BUYBACK_PUTBACK_UPDATE_FILE) {
-                DisplayBuybackPutbackStagingController.generateSuccessErrorFiles(documentStorageId, workAssignmentId);
-            }
-            if (docType == DocumentStorageTriggerHandler.PRODUCT_STATUS_UPDATE_FILE) {
-                DisplayProductStatusStagingController.generateSuccessErrorFiles(documentStorageId, workAssignmentId);
-            }
+            DisplayBuybackPutbackStagingController.generateSuccessErrorFiles(documentStorageId, workAssignmentId, docType);
             // Call Portal API to update product records on Portal
             PortalProductProcessingAPI.processProductBulkBatch(prodIds, new List<Product__c>());
         }
