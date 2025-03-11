@@ -778,7 +778,7 @@
                                             <td style="padding-left: 8px">
                                                 Je, Bryan Szemenyei, représentant du créancier dans l'affaire ci-dessus pour la somme de
                                                 <b>
-                                                    <apex:outputText value="{0, number, $#,##0.00}">
+                                                    <apex:outputText value="{0, number, #,##0.00}">
                                                         <apex:param value="{!insolvAcc.Claim_Amount__c}" />
                                                     </apex:outputText> $    
                                                 </b>
@@ -1207,11 +1207,11 @@
                                 <div style="padding-left: 30px">
                                     <apex:outputText value="<br/><br/><br/>" escape="false" />
                                 </div>
-                              <!--  <div style="padding-left:20px;">
+                                <div style="padding-left:20px;">
                                     Si elles sont disponibles, veuillez consulter les états ci-joints pour connaître tous les détails des paiements, crédits et virements survenus au cours des trois mois précédant la date de l’insolvabilité.
                                 </div>
                                 <br /><br />
-                                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
+                               <!-- <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                                     <table>
                                         <tr>
                                             <td style="width: 100px; padding-left: 20px; vertical-align:top;">Observation:</td>
