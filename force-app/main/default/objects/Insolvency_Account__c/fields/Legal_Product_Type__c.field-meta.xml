@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Product_Type__c</fullName>
+    <description>This is the legal name of the product for use when being sent to distressed</description>
+    <externalId>false</externalId>
+    <formula>IF(
+   ISPICKVAL(Account_Type__c, &quot;Core Walmart Rewards Mastercard&quot;), 
+   &quot;Walmart Mastercard&quot;, 
+   TEXT(Account_Type__c)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This is the legal name of the product for use when being sent to distressed</inlineHelpText>
+    <label>Legal Product Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
