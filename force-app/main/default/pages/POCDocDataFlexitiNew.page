@@ -164,7 +164,7 @@
                             <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                         </apex:outputText> -->
                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
-                            <b> {!pocPackage.CFG_Office_Name__c} </b>
+                            <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                         </apex:outputText>
                         (creditor)
                     </span>
@@ -197,7 +197,7 @@
                                     <span style="font-weight: bold; font-family: sans-serif"> {!pocPackage.Fairstone_New_Product_Company_Detail__c}</span>
                                 </apex:outputText> -->
                                 <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
-                                    <span style="font-weight: bold; font-family: sans-serif"> {!pocPackage.CFG_Office_Name__c}</span>
+                                    <span style="font-weight: bold; font-family: sans-serif"> {!pocPackage.Fairstone_New_Product_Company_Detail__c}</span>
                                 </apex:outputText>
                             </td>
                         </tr>
@@ -554,7 +554,7 @@
                                     <!--<apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}">
                                         {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                     </apex:outputText> -->
-                                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"> {!pocPackage.CFG_Office_Name__c} </apex:outputText>
+                                    <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </apex:outputText>
                                     (creditor)
                                 </b>
                             </span>
@@ -610,7 +610,7 @@
                 </div>
                 <div style='float:left;width:455px; padding-top:{!IF(insolvAcc.Claim_Type__c == "Unsecured", "20px;", "20px;")}'>
                     <span style="float: left; padding-left: 25px; font-size: 13px"
-                        ><br /> Canaccede International Management Ltd.<!--{!pocPackage.CFG_Office_Name__c}.--><br />
+                        ><br /> Canaccede International Management Ltd.<br />
                         {!pocPackage.CFG_Office_Address_1__c}<br />
                         {!pocPackage.CFG_Office_City__c} | {!pocPackage.CFG_Office_Province__c} | {!pocPackage.CFG_Office_Postal_Code__c}
                     </span>
@@ -650,7 +650,7 @@
                             <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                         </apex:outputText> -->
                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
-                            <b> {!pocPackage.CFG_Office_Name__c} </b>
+                            <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                         </apex:outputText>
                         
                     </span>
@@ -781,7 +781,7 @@
                                         {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                     </apex:outputText> -->
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}"> 
-                                        {!pocPackage.CFG_Office_Name__c} 
+                                        {!pocPackage.Fairstone_New_Product_Company_Detail__c} 
                                     </apex:outputText>
                                     (creditor)
                                 </span>
