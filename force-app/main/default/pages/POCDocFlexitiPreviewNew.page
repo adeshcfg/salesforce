@@ -220,7 +220,7 @@
                                 If you have any queries, please do not hesitate to contact Canaccede International Management Ltd.,authorized servicer for CFG Canada Funding, LLC at the following contact details: 
                                 <br/><br/>
                                 <div style="padding-left:30px;">
-                                    Canaccede International Management Ltd. {!pocPackage.CFG_Office_Name__c} <br/>
+                                    Canaccede International Management Ltd. {!pocPackage.Fairstone_New_Product_Company_Detail__c} <br/>
                                     {!pocPackage.CFG_Office_Address_1__c}<br/>
                                     {!pocPackage.CFG_Office_City__c}, {!pocPackage.CFG_Office_Province__c} {!pocPackage.CFG_Office_Postal_Code__c}
                                     <table style="width: 320px;">
@@ -333,7 +333,7 @@
                                         <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                                     </apex:outputText> -->
                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
-                                        <b> {!pocPackage.CFG_Office_Name__c} </b>
+                                        <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                                     </apex:outputText>
                                     (creditor)
                                     <br /><br />
@@ -357,7 +357,7 @@
                                             <td style="vertical-align: top">1.</td>
                                             <td style="padding-left: 10px">
                                                 That I am the President of <b> Canaccede International Management Ltd.</b>, servicer for
-                                                    <b> {!pocPackage.CFG_Office_Name__c}</b>
+                                                    <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c}</b>
                                             </td>
                                         </tr>
                                         <tr>
@@ -672,7 +672,7 @@
                                                             {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                                         </apex:outputText> -->
                                                         <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
-                                                            {!pocPackage.CFG_Office_Name__c}
+                                                            {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                                         </apex:outputText>
                                                         (creditor)
                                                     </b>
@@ -760,7 +760,7 @@
                                                 <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                                             </apex:outputText> -->
                                             <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
-                                                <b> {!pocPackage.CFG_Office_Name__c} </b>
+                                                <b> {!pocPackage.Fairstone_New_Product_Company_Detail__c} </b>
                                             </apex:outputText>
                                             
                                         </span>
@@ -893,7 +893,7 @@
                                                         {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                                     </apex:outputText> -->
                                                     <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Unsecured'}">
-                                                        {!pocPackage.CFG_Office_Name__c}
+                                                        {!pocPackage.Fairstone_New_Product_Company_Detail__c}
                                                     </apex:outputText>
                                                     (creditor)
                                                 </b>
