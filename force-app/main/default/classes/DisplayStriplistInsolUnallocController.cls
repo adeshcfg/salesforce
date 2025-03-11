@@ -46,7 +46,7 @@ public class DisplayStriplistInsolUnallocController {
             for (List<StriplistUtil.paymentRecordsWrapper> payWrap : paymentRecordList) {
                 paymentRecordListInner.addAll(payWrap);
             }
-            for(Integer i = 0; i < paymentRecordListInner.size(); i++) {
+            for (Integer i = 0; i < paymentRecordListInner.size(); i++) {
                 wrapperMap.put(i, paymentRecordListInner[i]);
             }
         }
@@ -71,7 +71,6 @@ public class DisplayStriplistInsolUnallocController {
                 paymentInstance.Cheque_Payment_Reference_Number__c = remittanceInstance.Cheque_Payment_Reference_Number__c;
                 if (wrapRecord.amount != null && wrapRecord.amount != 'null') {
                     paymentInstance.Payment_Amount__c = Decimal.valueOf(wrapRecord.amount);
-                    remittanceInstance.Allocated_Payments_Amount__c += paymentInstance.Payment_Amount__c;
                 }
                 paymentInstance.Insolvency_Account__c = wrapRecord.insolvencyAccInstance.Insolvency_Account__c;
                 paymentInstance.Remittance__c = remittanceInstance.Id;
@@ -80,10 +79,9 @@ public class DisplayStriplistInsolUnallocController {
             }
         }
         try {
-            insert listInsolvencyPayment;
-            eftUtilInstance.assignBankInformation(remittanceInstance.Id);
-            remittanceInstance.Allocated_Payments_Count__c += listInsolvencyPayment.size();
-            update remittanceInstance;
+            if (!listInsolvencyPayment.isEmpty()) {
+                insert listInsolvencyPayment;
+            }
         } catch (Exception ex) {
             system.debug('Exception ex: ' + ex);
         }
