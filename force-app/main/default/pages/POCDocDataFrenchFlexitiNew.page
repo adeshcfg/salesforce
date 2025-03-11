@@ -1166,10 +1166,10 @@
                         </tr>
                     </apex:outputText>  -->
                 </table>
-               <!--  <div style="padding-left:7px;">
+                 <div style="padding-left:7px;">
                 <span style="font-family: sans-serif; font-size:13px;">Si elles sont disponibles, veuillez consulter les états ci-joints pour connaître tous les détails des paiements, crédits et virements survenus au cours des trois mois précédant la date de l’insolvabilité.</span>
                 </div>
-                <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" style="padding-left:7px;">
+               <!-- <apex:outputText rendered="{!insolvAcc.Claim_Type__c == 'Secured'}" style="padding-left:7px;">
                     <table>
                         <tr>
                             <td style="width: 100px; padding-left: 20px; vertical-align:top;">Observation:</td>
