@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class for putback/buyback processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-25-2025
+ * @last modified on  : 03-11-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallouts {
@@ -158,7 +158,7 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
         String fullFileName = con.Title + '.' + con.FileExtension;
         String attachmentName = EncodingUtil.urlEncode((con.Title.substringBefore('@') + '.' + con.FileExtension), 'UTF-8');
         // Call API to upload CSV file
-        DocumentAPIClientUtil.ParsedResponse parsedResponse = DocumentAPIClient.postDocument2(csvContentVersionId, attachmentName, 'Buyback_Putback');
+        DocumentAPIClientUtil.ParsedResponse parsedResponse = DocumentAPIClient.postDocument2(csvContentVersionId, attachmentName, 'buybackputback');
         if (parsedResponse != null) {
             Document_Storage__c docStorage = new Document_Storage__c();
             docStorage.Document_Name__c = fullfilename;
