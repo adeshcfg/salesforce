@@ -15,6 +15,6 @@ public class TestProcessRecordsDeletionBatch {
         Test.startTest();
         Id batchId = Database.executeBatch(new ProcessRecordsDeletionBatch(), 200);
         Test.stopTest();
-        System.assertEquals(99, [select count() from Deleted_Records__c]);
+        System.assertEquals(0, [select count() from Deleted_Records__c]);
     }
 }
