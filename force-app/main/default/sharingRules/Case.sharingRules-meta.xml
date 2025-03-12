@@ -7,7 +7,7 @@
         <sharedTo>
             <group>QA_Insolvency_Group</group>
         </sharedTo>
-        <booleanFilter>1 OR 2</booleanFilter>
+        <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
         <criteriaItems>
             <field>Assign_To__c</field>
             <operation>equals</operation>
@@ -16,7 +16,17 @@
         <criteriaItems>
             <field>Assign_To__c</field>
             <operation>equals</operation>
-            <value>SDA,Canaccede,SPL</value>
+            <value>Canaccede</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>SDA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>SPL</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
