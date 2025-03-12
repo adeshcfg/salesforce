@@ -10,7 +10,22 @@
         <criteriaItems>
             <field>Client_Identifier__c</field>
             <operation>equals</operation>
-            <value>Scotia Bank,SPL,SDA,Canaccede</value>
+            <value>Scotia Bank</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Client_Identifier__c</field>
+            <operation>equals</operation>
+            <value>Canaccede</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Client_Identifier__c</field>
+            <operation>equals</operation>
+            <value>SDA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Client_Identifier__c</field>
+            <operation>equals</operation>
+            <value>SPL</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
