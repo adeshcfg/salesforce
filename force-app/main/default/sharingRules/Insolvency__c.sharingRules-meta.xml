@@ -5,9 +5,9 @@
         <accessLevel>Read</accessLevel>
         <label>QA read only</label>
         <sharedTo>
-            <group>QA_Group</group>
+            <group>QA_Insolvency_Group</group>
         </sharedTo>
-        <booleanFilter>1 OR 2</booleanFilter>
+        <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
         <criteriaItems>
             <field>Client_Identifiers__c</field>
             <operation>contains</operation>
@@ -17,6 +17,16 @@
             <field>Client_Identifiers__c</field>
             <operation>contains</operation>
             <value>Canaccede</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>SDA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Client_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>SPL</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

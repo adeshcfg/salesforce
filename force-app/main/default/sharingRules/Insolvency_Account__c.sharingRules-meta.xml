@@ -5,12 +5,12 @@
         <accessLevel>Read</accessLevel>
         <label>QA Access</label>
         <sharedTo>
-            <group>QA_Group</group>
+            <group>QA_Insolvency_Group</group>
         </sharedTo>
         <criteriaItems>
             <field>Client_Identifier__c</field>
             <operation>equals</operation>
-            <value>Canaccede,Scotia Bank</value>
+            <value>Scotia Bank,SPL,SDA,Canaccede</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
