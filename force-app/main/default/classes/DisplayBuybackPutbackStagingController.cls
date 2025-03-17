@@ -403,10 +403,7 @@ public class DisplayBuybackPutbackStagingController {
         DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
         showButton = true;
         //Call Product Update batch for allocation and recall.
-        Database.executeBatch(
-            new CFG_ProcessSuccessRecords(workAssignmentId, recordIdentfier, docStorageToUpdate.Document_Type__c),
-            100
-        );
+        Database.executeBatch(new CFG_ProcessSuccessRecords(workAssignmentId, recordIdentfier, docStorageToUpdate.Document_Type__c), 100);
         if (listProductStagingWrapper != null) {
             listProductStagingWrapper.clear();
         }
@@ -445,17 +442,17 @@ public class DisplayBuybackPutbackStagingController {
                 Product__c prod = new Product__c();
                 prod.Id = mapProductNameId.get(productStaging.Data_Id__c);
                 prod.Purchase_Status__c = productStaging.Purchase_Status__c;
+                prod.Buyback_Putback_Status_Change_Date__c = System.today();
                 if (prod.Purchase_Status__c == BUYBACK_REJECTED) {
                     prod.Rejection_Reason__c = productStaging.Rejection_Reason__c;
-                    if (String.isNotBlank(productStaging.Product_Status__c)) {
-                        prod.Product_Status__c = productStaging.Product_Status__c;
-                        prod.Data_Status_Description__c = statusDescriptionMap.get(prod.Product_Status__c);
-                    }
                 }
                 if (prod.Purchase_Status__c == BUYBACK_APPROVED) {
                     prod.Putback_Buyback_Amount__c = productStaging.Putback_Buyback_Amount__c;
-                    prod.Buyback_Putback_Status_Change_Date__c = System.today();
                     prod.Putback_buyback_Completed_Date__c = System.today();
+                }
+                if (String.isNotBlank(productStaging.Product_Status__c)) {
+                    prod.Product_Status__c = productStaging.Product_Status__c;
+                    prod.Data_Status_Description__c = statusDescriptionMap.get(prod.Product_Status__c);
                 }
                 productIdsToUpdate.add(prod.Id);
                 listProductToUpdate.add(prod);
