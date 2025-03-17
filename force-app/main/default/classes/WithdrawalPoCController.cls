@@ -7,7 +7,8 @@
  *  @date : 04.June.2017
  
  *************************************************************************************************/
- global class WithdrawalPoCController{
+ //false positive: 
+ public class WithdrawalPoCController{
     
     // Variable to fetch data related to custom settings, exceptions
     public PoC_Package_Settings__c pocPackage{set;get;}
@@ -31,8 +32,19 @@
     public String toEmail{set;get;}
     public String subject {set;get;}
     public String emailBody {set;get;}
-    public string Display_Text{set;get;}
-    Map<Integer, String> frenchDates = new Map<Integer, String>();
+    public string displayText{set;get;}
+    public Map<Integer, String> frenchDates = new Map<Integer, String>(1 => 'Jan',
+    2 => 'Fév',
+    3 => 'Mar',
+    4 => 'Avr',
+    5 => 'Mai',
+    6 => 'Juin',
+    7 => 'Juil',
+    8 => 'Août',
+    9 => 'Sep',
+    10 => 'Oct',
+    11 => 'Nov',
+    12 => 'Déc');
     // Stores all attachments that are selected by user
     Set<Id> mySelectedAtt = new Set<Id>();
     
@@ -61,20 +73,7 @@
     }
     
     // Controller to load initial values and insolvancy account details
-    public WithdrawalPoCController(){
-        frenchDates.put(1, 'Jan');
-        frenchDates.put(2, 'Fév');
-        frenchDates.put(3, 'Mar');
-        frenchDates.put(4, 'Avr');
-        frenchDates.put(5, 'Mai');
-        frenchDates.put(6, 'Juin');
-        frenchDates.put(7, 'Juil');
-        frenchDates.put(8, 'Août');
-        frenchDates.put(9, 'Sep');
-        frenchDates.put(10, 'Oct');
-        frenchDates.put(11, 'Nov');
-        frenchDates.put(12, 'Déc');
-        
+    public WithdrawalPoCController(){   
         isAnyException  = false;
         //Trustee Office Active Check
         isActive = true;
@@ -137,12 +136,7 @@
         else{
             toEmail =  insolvAcc.Insolvency__r.Trustee__r.Business_Email__c;
         }
-        //checking if Trsutee Office is Active
-        /*if(insolvAcc.Is_Active__c == False){ 
-           system.debug('Trustee is not Active so Email cannot be sent');
-            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Trustee Office is not Active, Email cannot be sent')); 
-            isActive=false;
-        }*/ 
+
         if(insolvAcc.Insolvency_Status__c != 'Withdraw PoC'){
             withdrawPoCInvalid = 'Insolvency Account status is not equal to Withdraw PoC \n';
         }
@@ -151,8 +145,6 @@
         }
         
         if(insolvAcc.Is_Active__c == False){ 
-           system.debug('Trustee is not Active so Email cannot be sent');
-            //ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Trustee Office is not Active, Email cannot be sent')); 
             isActive=false;
             withdrawPoCInvalid= withdrawPoCInvalid+ 'Trustee Office is not Active so email cannot be sent\n';
         }
@@ -262,7 +254,7 @@
             }
             /*if(insolvAcc.Client_Identifier__c == 'Canaccede'){
                 //emailBody = emailBody.replace('Creditor- '+pocPackage.Client_Company_Name__c+', Account Number: '+insolvAcc.Name+',amount '+insolvAcc.Claim_Amount__c,'Creditor – '+pocPackage.Client_Company_Name__c+', assignee of ‘'+insolvAcc.Originator__c+'’');    
-                emailBody = emailBody.replace('{!Display_Text_As_Per_Bank}',Display_Text);
+                emailBody = emailBody.replace('{!Display_Text_As_Per_Bank}',displayText);
             }
             */
             
@@ -367,8 +359,9 @@
                 
             }
             
-            if(!fileAttachments.isEmpty())
-            mail.setFileAttachments(fileAttachments);
+            if(!fileAttachments.isEmpty()){
+                mail.setFileAttachments(fileAttachments);
+            }
             if(!Test.isRunningTest()) {
                 Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
             }
