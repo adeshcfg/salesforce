@@ -392,6 +392,16 @@ public class DistressedUtilities {
                 if (!mapProductName.containsKey(productStaging.Data_Id__c)) {
                     errorMsg += '<b>ERROR</b>-Invalid Account Number.' + '<br/>';
                 }
+                else {
+                    Product__c product = mapProductName.get(productStaging.Data_Id__c);
+                    if (
+                        (product.Collection_Agency__c != null && product.Collection_Agency__c != 9999) &&
+                        ((product.Purchase_Status__c != null) &&
+                        product.Purchase_Status__c != 'Buyback/Putback Rejected')
+                    ) {
+                        errorMsg += '<b>ERROR</b>-Please initiate recall process.' + '<br/>';
+                    }
+                }
                 if (!statusDescriptionMap.containsKey(productStaging.Product_Status__c)) {
                     errorMsg += '<b>ERROR</b>-Invalid Product Status.' + '<br/>';
                 }
