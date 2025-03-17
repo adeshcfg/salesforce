@@ -33,7 +33,7 @@
     public String subject {set;get;}
     public String emailBody {set;get;}
     public string displayText{set;get;}
-    public Map<Integer, String> frenchDates = new Map<Integer, String>(1 => 'Jan',
+    public Map<Integer, String> frenchDates = new Map<Integer, String>{1 => 'Jan',
     2 => 'Fév',
     3 => 'Mar',
     4 => 'Avr',
@@ -44,7 +44,7 @@
     9 => 'Sep',
     10 => 'Oct',
     11 => 'Nov',
-    12 => 'Déc');
+    12 => 'Déc'};
     // Stores all attachments that are selected by user
     Set<Id> mySelectedAtt = new Set<Id>();
     
