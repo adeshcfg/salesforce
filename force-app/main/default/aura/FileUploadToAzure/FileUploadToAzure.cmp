@@ -18,7 +18,7 @@
     <!-- 'showLoadingSpinner' attribute for show/hide the uploading image and msg in aura:if-->
     <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
     <!-- 'fileName' attribute for display the selected file name -->
-    <aura:attribute name="sObjectName" type="String" />
+    <!-- <aura:attribute name="sObjectName" type="String" /> -->
     <aura:attribute name="FileJSON" type="String" />
     <aura:attribute name="productID" type="String" />
     <aura:attribute name="fileName" type="String" default="No File Selected.." />
@@ -71,7 +71,9 @@
                 <option text="{!ac}" value="{!ac}" />
             </aura:iteration>
         </lightning:select>
-        <lightning:input aura:id="evidence" type="checkbox" label="Buyback/Putback Evidence" />
+        <aura:if isTrue="{!v.sObjectName == 'Product__c'}">
+            <lightning:input aura:id="evidence" type="checkbox" label="Buyback/Putback Evidence" />
+        </aura:if>
         <lightning:fileUpload
             aura:id="fileId1"
             label="Upload Attachment"
