@@ -8,7 +8,7 @@
  
  *************************************************************************************************/
  //false positive: 
- public class WithdrawalPoCController{
+ global class WithdrawalPoCController{
     
     // Variable to fetch data related to custom settings, exceptions
     public PoC_Package_Settings__c pocPackage{set;get;}
