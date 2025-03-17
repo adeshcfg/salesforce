@@ -179,7 +179,7 @@ public class EmailTrusteeController {
         }
         for(ContentVersion conVer: conVerList){
             InsolvAttachments temp = new InsolvAttachments();
-            temp.attId = conVer.Id;
+            temp.attId = conVer.ContentDocumentId;
             temp.selected = false;
             temp.fileName = conVer.Title;
             temp.fileDesc = conVer.Description;
@@ -485,11 +485,20 @@ public class EmailTrusteeController {
                         }
                     } else {
                         if (language == 'fr') {
-                            emailBody = emailBody.replace(
-                                '{!Additional_Info_Text}',
-                                'Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de ' +
-                                pocPackage.Client_Company_Name__c
-                            );
+                            if (insolvAcc.Client_Identifier__c == 'Flexiti') {
+                                emailBody = emailBody.replace(
+                                    '{!Additional_Info_Text}',
+                                    'Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de la ' +
+                                    pocPackage.Client_Company_Name__c
+                                );
+                            }else{
+                                emailBody = emailBody.replace(
+                                    '{!Additional_Info_Text}',
+                                    'Comme vous le savez, Canaccede International Management Ltd. traite les comptes insolvables de ' +
+                                    pocPackage.Client_Company_Name__c
+                                );
+                            }
+                            
                         } else {
                             emailBody = emailBody.replace(
                                 '{!Additional_Info_Text}',
@@ -615,6 +624,13 @@ public class EmailTrusteeController {
                 return 'Money Mart';
             }
         }
+        else if (insolvAcc.Client_Identifier__c == 'Flexiti') {
+            if (language == 'fr') {
+                return 'Flexiti Financial';
+            } else {
+                return 'Flexiti Financial';
+            }
+        }
         return null;
     }
 
@@ -647,6 +663,7 @@ public class EmailTrusteeController {
         //send Email with selected attachments for header templates
         if (insolTemplateWithManAttachList.contains(selectedTemplate)) {
             if (checkAttachment()) {
+                System.debug('docException');
                 docException = true;
                 return null;
             }
@@ -659,7 +676,7 @@ public class EmailTrusteeController {
         for (Attachment selectedAtt : [SELECT Name, Body, BodyLength FROM Attachment WHERE Id IN :mySelectedAtt]) {
             totalFilesize = totalFilesize + selectedAtt.BodyLength;
         }
-        for (ContentVersion conVerSelected : [SELECT id, Title, ContentSize  FROM ContentVersion WHERE Id in : mySelectedAtt]) {
+        for (ContentVersion conVerSelected : [SELECT id, Title, ContentSize, ContentDocumentId  FROM ContentVersion WHERE ContentDocumentId in : mySelectedAtt]) {
             totalFilesize = totalFilesize + conVerSelected.ContentSize;
         }
         // Only for CTB which can have document storage records for statements
@@ -733,7 +750,7 @@ public class EmailTrusteeController {
             }
             //7935
             // Attach files to email
-           	List<ContentVersion> conVerList = [SELECT Title, VersionData, ContentDocumentId FROM ContentVersion WHERE Id IN :mySelectedAtt];
+           	List<ContentVersion> conVerList = [SELECT Title, VersionData, ContentDocumentId FROM ContentVersion WHERE ContentDocumentId IN :mySelectedAtt];
             for (ContentVersion conVerObj : conVerList) {
                 Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();
                 efa.setFileName(conVerObj.Title);
@@ -876,6 +893,25 @@ public class EmailTrusteeController {
     //Check if attachment selcted or not
     public boolean checkAttachment() {
         boolean error = true;
+        Set<Id> conDocIds = new Set<Id>();
+        List<ContentDocumentLink> listOfConDoc = new List<ContentDocumentLink>();
+        System.debug('mySelectedAtt:: '+mySelectedAtt);
+        if(mySelectedAtt.size() > 0){
+            listOfConDoc = [select Id, ContentDocumentId from ContentDocumentLink where ContentDocumentId in :mySelectedAtt];
+        }
+        System.debug('listOfConDoc:: '+listOfConDoc);
+        for(ContentDocumentLink conDocLink : listOfConDoc){
+            if(conDocLink != null || conDocLink.ContentDocumentId != null){
+                conDocIds.add(conDocLink.ContentDocumentId);
+            }
+        }
+        for(ContentVersion conVer: [SELECT Id, Description from ContentVersion where ContentDocumentId in :conDocIds]){
+            System.debug('conVer:: '+conVer);
+            if (conVer.Description == 'PoC Document') {
+                error = false;
+                return error;
+            }
+        }
         list<Attachment> checkedAttchList = new List<Attachment>(
             [SELECT Name, Body, BodyLength, Description, createdDate FROM Attachment WHERE ParentId = :insolvAcc.Id AND Id IN :mySelectedAtt]
         );
@@ -895,6 +931,22 @@ public class EmailTrusteeController {
         list<Attachment> checkedAttchList = new List<Attachment>(
             [SELECT Name, Body, BodyLength, Description, createdDate FROM Attachment WHERE ParentId = :insolvAcc.Id AND Id IN :mySelectedAtt]
         );
+        List<ContentDocumentLink> listOfConDoc = new List<ContentDocumentLink>();
+        if(mySelectedAtt.size() > 0){
+            listOfConDoc = [select Id, ContentDocumentId from ContentDocumentLink where ContentDocumentId in :mySelectedAtt];
+        }
+        Set<Id> conDocIds = new Set<Id>();
+        for(ContentDocumentLink conDocLink : listOfConDoc){
+            if(conDocLink != null || conDocLink.ContentDocumentId != null){
+                conDocIds.add(conDocLink.ContentDocumentId);
+            }
+        }
+        for(ContentVersion conVer: [SELECT Id, Description from ContentVersion where ContentDocumentId in :conDocIds]){
+            if (conVer.Description == 'Account Statement') {
+                accountStateError = true;
+                return accountStateError;
+            }
+        }
         for (Attachment selectedAttach : checkedAttchList) {
             if (selectedAttach.Description == 'Account Statement') {
                 accountStateError = true;
