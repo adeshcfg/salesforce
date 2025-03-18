@@ -104,6 +104,7 @@ public class GenerateDepositSlipProductPDFController {
                                               from remittance__C 
                                               where Deposit_Account_Name__c in :listParameter
                                               AND Status__c = 'Processed'
+                                              AND Do_Not_Process__c = false
                                               AND lastmodifiedDate > :LastDepositSlipCreatedDate
                                               AND recordType.developerName = 'CCS_Dividend'] ;
         system.debug([SELECT Deposit_Account_Name__c, Status__c FROM remittance__C LIMIT 1]);

@@ -52,6 +52,7 @@ public class GenerateDepositSlipProductController {
                                               where lastmodifiedDate >= :LastDepositSlipCreatedDate
                                               AND Status__c = 'Processed'
                                               AND recordType.developerName = 'CCS_Dividend'
+                                              AND Do_Not_Process__c = false
                                               group by Deposit_Account_Name__c ];
         
         if(listAggregateResults.size() == 0){
