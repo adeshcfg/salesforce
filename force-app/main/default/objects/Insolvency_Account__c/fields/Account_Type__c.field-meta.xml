@@ -182,6 +182,11 @@
                 <default>false</default>
                 <label>Payday Loans</label>
             </value>
+            <value>
+                <fullName>Private Label Credit Card</fullName>
+                <default>false</default>
+                <label>Private Label Credit Card</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
