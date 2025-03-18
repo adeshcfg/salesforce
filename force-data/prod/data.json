@@ -2,36 +2,142 @@
     "dml" : {
         "update": [
             {
-                "objectName" : "Application_Config_Settings__c",
-                "recordVariableName" : "Applconfig",
+                "objectName": "CCS_Email_Templates__c",
+                "recordVariableName": "CCSEmail1",
+                "fields": [
+                    {
+                        "fieldApiName": "Id",
+                        "fieldValue": "'a1n3a000003MSxSAAW'"
+                    },
+                    {
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail2",
                 "fields" : [
                     {
                         "fieldApiName": "id",
-                        "fieldValue": "'a0zf1000004ALI2AAO'"
+                        "fieldValue": "'a1n3a000003MSxcAAG'"
                     },
                     {
-                        "fieldApiName": "Bank_Eligible_for_Duplicate_Check__c",
-                        "fieldValue": "'Scotia,SPL,SDA,Fidem,Fairstone,Goeasy,Canadian Tire,Money Mart,Flexiti'"
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail3",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a1n3a000003MSxhAAG'"
                     },
                     {
-                        "fieldApiName": "Eligible_for_Open_Assignment_Calculation__c",
-                        "fieldValue": "'CFG,Scotia Bank,SPL,SDA,Fairstone,Goeasy,Canadian Tire,Money Mart,Flexiti'"
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail4",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a1n3a000003MSxrAAG'"
                     },
                     {
-                        "fieldApiName": "Eligible_for_Claim_Type_Calculation__c",
-                        "fieldValue": "'Scotia Bank,SPL,SDA,Fairstone,Goeasy,Canadian Tire,Money Mart,Flexiti'"
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail5",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a1n3a000003MSxwAAG'"
                     },
                     {
-                        "fieldApiName": "Eligible_for_Validn_Needed_Calculation__c",
-                        "fieldValue": "'Scotia Bank,SPL,SDA,Fairstone,Goeasy,Canadian Tire,Money Mart,Flexiti'"
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail6",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a1n3a000003MSy1AAG'"
                     },
                     {
-                        "fieldApiName": "Profile_Eligible_for_Duplicate_Check__c",
-                        "fieldValue": "'CFG,System Administrator,SPL,SDA,Scotia,Affirm,Fairstone,Goeasy,Canadian Tire,Money Mart,Flexiti'"
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail7",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a1n3a000003MSy6AAG'"
                     },
                     {
-                        "fieldApiName": "Eligible_for_Voting_Decision__c",
-                        "fieldValue": "'Scotia Bank,SDA,SPL,Canaccede,Fidem,Fairstone,Goeasy,Canadian Tire,Money Mart,Flexiti'"
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail8",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a1n3a000003oyKDAAY'"
+                    },
+                    {
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail9",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a1n3a000003oyKIAAY'"
+                    },
+                    {
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail10",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a1n3a000003MSxmAAG'"
+                    },
+                    {
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
                     }
                 ]
             }
