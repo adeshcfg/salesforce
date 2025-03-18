@@ -284,14 +284,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Pending Assignment to Collection Agency</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sent to Collections</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Annulled - Filed New</fullName>
             <default>false</default>
         </values>
