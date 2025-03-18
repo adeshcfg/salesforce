@@ -136,4 +136,15 @@
             <default>false</default>
         </values>
     </picklistValues>
+    <picklistValues>
+        <picklist>Assign_To__c</picklist>
+        <values>
+            <fullName>CFG</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Flexiti</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
