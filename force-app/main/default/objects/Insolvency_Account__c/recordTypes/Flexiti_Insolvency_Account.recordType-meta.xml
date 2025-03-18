@@ -8,7 +8,7 @@
         <picklist>Account_Type__c</picklist>
         <values>
             <fullName>Private Label Credit Card</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -2293,11 +2293,7 @@
         <picklist>Type_of_Service__c</picklist>
         <values>
             <fullName>Service Only</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Service and Sale</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
