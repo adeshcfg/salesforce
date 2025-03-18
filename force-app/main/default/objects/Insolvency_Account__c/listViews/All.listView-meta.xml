@@ -32,5 +32,6 @@
         <group>Insolvency_SPL_Users</group>
         <group>Insolvency_Scotia_Users</group>
         <group>QA_Group</group>
+        <group>Insolvency_Flexiti_Users</group>
     </sharedTo>
 </ListView>
