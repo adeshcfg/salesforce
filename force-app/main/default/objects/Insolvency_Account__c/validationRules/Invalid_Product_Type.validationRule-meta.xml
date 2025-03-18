@@ -38,6 +38,10 @@ AND(RecordType.DeveloperName == &apos;Goeasy_Insolvency_Account&apos;,
 NOT(ISPICKVAL(Account_Type__c ,&apos;Leasing product&apos;)),
 NOT(ISPICKVAL(Account_Type__c, &apos;Secured Personal Installment Loan&apos;)),
 NOT(ISPICKVAL(Account_Type__c,&apos;Unsecured Installment Loan&apos;))
+),
+
+AND(RecordType.DeveloperName == &apos;Flexiti_Insolvency_Account&apos;,
+NOT(ISPICKVAL(Account_Type__c,&apos;Private Label Credit Card&apos;))
 )
 
 )

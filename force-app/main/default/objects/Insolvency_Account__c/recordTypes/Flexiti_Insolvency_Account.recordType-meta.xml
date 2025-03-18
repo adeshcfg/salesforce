@@ -8,7 +8,7 @@
         <picklist>Account_Type__c</picklist>
         <values>
             <fullName>Private Label Credit Card</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -204,13 +204,9 @@
         <values>
             <fullName>Other</fullName>
             <default>false</default>
-        </values>
+        </values>  
         <values>
             <fullName>Pending voting decision</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Deceased</fullName>
             <default>false</default>
         </values>
         <values>
@@ -281,14 +277,6 @@
         <picklist>Insolvency_Status__c</picklist>
         <values>
             <fullName>Annulled</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pending Assignment to Collection Agency</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sent to Collections</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2250,7 +2238,7 @@
     <picklistValues>
         <picklist>Reason_for_No_PoC_Required_Dropdown__c</picklist>
         <values>
-            <fullName>Account Sold</fullName>
+            <fullName>No Open Accounts</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2258,11 +2246,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>No Open Accounts</fullName>
+            <fullName>Unable to Locate</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Other</fullName>
+            <fullName>Account Sold</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2270,13 +2258,9 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Unable to Locate Account</fullName>
+            <fullName>Other</fullName>
             <default>false</default>
-        </values>
-        <values>
-            <fullName>Statute Barred</fullName>
-            <default>false</default>
-        </values>
+        </values>  
     </picklistValues>
     <picklistValues>
         <picklist>Security_Type__c</picklist>
@@ -2293,11 +2277,7 @@
         <picklist>Type_of_Service__c</picklist>
         <values>
             <fullName>Service Only</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Service and Sale</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
