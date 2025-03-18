@@ -89,4 +89,51 @@
             <default>false</default>
         </values>
     </picklistValues>
+    <picklistValues>
+        <picklist>Insolvency_Assignment_Type__c</picklist>
+        <values>
+            <fullName>Account Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Amend Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>More Information Required	</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Needs Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notice of Disallowance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Query</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refund Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secured Communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OSB Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Final</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Withdraw PoC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
