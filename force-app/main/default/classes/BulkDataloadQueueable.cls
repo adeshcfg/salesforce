@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse CSV and insert parsed records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 03-17-2025
+ * @last modified on  : 03-18-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class BulkDataloadQueueable implements Queueable {
@@ -214,20 +214,28 @@ public class BulkDataloadQueueable implements Queueable {
     }
 
     public static Product_Staging__c createBuybackPutbackRecord(List<String> csvData, String documentStorageId) {
+        List<String> validPurchaseStatuses = new List<String>{
+            DisplayBuybackPutbackStagingController.BUYBACK_APPROVED,
+            DisplayBuybackPutbackStagingController.BUYBACK_REJECTED
+        };
         Product_Staging__c psRecord = new Product_Staging__c();
         // Map array indexes to Product Staging fields
         psRecord.Data_Id__c = csvData[0];
         if (String.isNotBlank(csvData[1])) {
             psRecord.Putback_Buyback_Amount__c = Decimal.valueOf(csvData[1]);
         }
-        if (String.isNotBlank(csvData[2])) {
+        if (String.isNotBlank(csvData[2]) && validPurchaseStatuses.contains(csvData[2])) {
             psRecord.Purchase_Status__c = csvData[2];
         }
         if (csvData.size() > 3 && String.isNotBlank(csvData[3])) {
             psRecord.Product_Status__c = csvData[3];
         }
         if (csvData.size() > 4 && String.isNotBlank(csvData[4])) {
-            psRecord.Rejection_Reason__c = csvData[4];
+            if (csvData[4].length() <= 255) {
+                psRecord.Rejection_Reason__c = csvData[4];
+            } else {
+                psRecord.Rejection_Reason__c = 'Field length exceeded';
+            }
         }
         psRecord.Identifier__c = documentStorageId;
         return psRecord;

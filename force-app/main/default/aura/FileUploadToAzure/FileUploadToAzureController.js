@@ -161,6 +161,7 @@
     handleSendFile: function (component, event, helper) {
         var docType = component.find("documentType").get("v.value");
         var docVisiType = component.find("documentVisibility").get("v.value");
+        var isEvidence = component.find("evidence") ? component.find("evidence").get("v.checked") : false;
         if (docType == null || docType == "--None--" || docVisiType == "--None--") {
             var toastEvent = $A.get("e.force:showToast");
             toastEvent.setParams({
@@ -180,7 +181,7 @@
                 DocumentVisibility: component.find("documentVisibility").get("v.value"),
                 isMediaRequest: component.get("v.isMediaRequest"),
                 productId: component.get("v.productID"),
-                isEvidence: component.find("evidence").get("v.checked")
+                isEvidence: isEvidence
             });
             action.setCallback(this, function (response) {
                 var state = response.getState();
