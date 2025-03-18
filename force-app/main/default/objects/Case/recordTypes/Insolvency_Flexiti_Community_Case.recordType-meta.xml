@@ -147,4 +147,40 @@
             <default>false</default>
         </values>
     </picklistValues>
+    <picklistValues>
+        <picklist>CCS_Assignment_Type__c</picklist>
+        <values>
+            <fullName>Balance Updates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DMP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drop Notification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PIF request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payout Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Offer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Needs Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secured Communications</fullName>
+            <default>false</default>
+        </values>
+        
+    </picklistValues>
 </RecordType>
