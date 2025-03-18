@@ -343,11 +343,20 @@ public class DistressedUtilities {
                 expected += 'Account Number cannot be blank<br/>';
             } else {
                 if (!mapProductName.containsKey(productStaging.Data_Id__c)) {
-                    errorMsg = '<b>ERROR</b>-Invalid Account Number.' + '<br/>';
+                    errorMsg = '<b>ERROR</b> - Invalid Account Number.' + '<br/>';
                 }
                 if (mapProductName.containsKey(productStaging.Data_Id__c) && !validProductStatuses.contains(mapProductName.get(productStaging.Data_Id__c).Product_Status__c)) {
-                    errorMsg = '<b>ERROR</b>-Invalid current Product Status.' + '<br/>';
+                    errorMsg += '<b>ERROR</b> - Invalid current Product Status.' + '<br/>';
                     expected += 'Current Product status should be either 297000 or 298000<br/>';
+                }
+                if (String.isBlank(productStaging.Purchase_Status__c)) {
+                    errorMsg += '<b>ERROR</b> - Invalid Purchase Status.' + '<br/>';
+                    expected += 'Purchase status should be either ' + DisplayBuybackPutbackStagingController.BUYBACK_APPROVED + ' or ' + DisplayBuybackPutbackStagingController.BUYBACK_REJECTED + '<br/>';
+                }
+                if (String.isNotBlank(productStaging.Rejection_Reason__c) && productStaging.Rejection_Reason__c == 'Field length exceeded') {
+                    productStaging.Rejection_Reason__c = null;
+                    errorMsg += '<b>ERROR</b> - Rejection reason length exceeded.' + '<br/>';
+                    expected += 'Rejection reason cannot be longer than 255 characters<br/>';
                 }
             }
             if (String.isBlank(errorMsg) && productStaging.Purchase_Status__c == DisplayBuybackPutbackStagingController.BUYBACK_APPROVED) {
