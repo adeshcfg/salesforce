@@ -300,9 +300,10 @@ public class ProductTriggerHandler {
                 prod.addError(System.Label.Duplicate_Account_ID_Validation_Error);
             }
             //for Ticket 4834 - populating bank account number based on Account ID
-            if (prod.name <> null) {
+            //Ticket 8546 -  Delete “Bank Account number” field.
+            /*if (prod.name <> null) {
                 prod.Bank_Refence_Number__c = prod.name;
-            }
+            }*/
 
             //for Ticket 4895 - populating Payment Missed
             if (prod.Proposed_Payment_Amount__c <> null && prod.Proposed_Payment_Amount__c > 0 && prod.Amount_of_payments_missed__c <> null) {
@@ -547,9 +548,10 @@ public class ProductTriggerHandler {
                     }
                 }
                 //for Ticket 4834 - populating bank account number based on Account ID
-                if (prod.name <> null) {
+                //Ticket 8546 -  Delete “Bank Account number” field.
+                /*if (prod.name <> null) {
                     prod.Bank_Refence_Number__c = prod.name;
-                }
+                }*/
                 //for Ticket 4895 - populating Payment Missed
                 if (prod.Proposed_Payment_Amount__c <> null && prod.Proposed_Payment_Amount__c > 0 && prod.Amount_of_payments_missed__c <> null) {
                     prod.Payment_Missed__c = (prod.Amount_of_payments_missed__c / prod.Proposed_Payment_Amount__c);
