@@ -126,6 +126,20 @@
                         "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
                     }
                 ]
+            },
+            {
+                "objectName" : "CCS_Email_Templates__c",
+                "recordVariableName" : "CCSEmail10",
+                "fields" : [
+                    {
+                        "fieldApiName": "id",
+                        "fieldValue": "'a1n3a000003MSxmAAG'"
+                    },
+                    {
+                        "fieldApiName": "Record_Type__c",
+                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                    }
+                ]
             }
 
         ]
