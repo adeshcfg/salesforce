@@ -38,7 +38,6 @@ public class CcsVfTemplateController {
                 Expected_First_disbursement_date__c,
                 CCS_Agency__r.BillingState,
                 Monthly_Payment_Amount__c,
-                Bank_Refence_number__c,
                 Last_Payment_Amount__c,
                 Last_Payment_Date__c,
                 Current_Balance__c,
