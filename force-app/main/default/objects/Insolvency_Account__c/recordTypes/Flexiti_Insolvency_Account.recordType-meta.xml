@@ -2242,7 +2242,7 @@
     <picklistValues>
         <picklist>Reason_for_No_PoC_Required_Dropdown__c</picklist>
         <values>
-            <fullName>Account Sold</fullName>
+            <fullName>No Open Accounts</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2250,11 +2250,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>No Open Accounts</fullName>
+            <fullName>Unable to Locate</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Other</fullName>
+            <fullName>Account Sold</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2262,13 +2262,9 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Unable to Locate Account</fullName>
+            <fullName>Other</fullName>
             <default>false</default>
-        </values>
-        <values>
-            <fullName>Statute Barred</fullName>
-            <default>false</default>
-        </values>
+        </values>  
     </picklistValues>
     <picklistValues>
         <picklist>Security_Type__c</picklist>
