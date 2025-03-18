@@ -224,7 +224,7 @@ public class BulkDataloadQueueable implements Queueable {
         if (String.isNotBlank(csvData[1])) {
             psRecord.Putback_Buyback_Amount__c = Decimal.valueOf(csvData[1]);
         }
-        if (String.isNotBlank(csvData[2]) && validPurchaseStatuses.contains(csvData[2])) {
+        if (csvData.size() > 2 && String.isNotBlank(csvData[2]) && validPurchaseStatuses.contains(csvData[2])) {
             psRecord.Purchase_Status__c = csvData[2];
         }
         if (csvData.size() > 3 && String.isNotBlank(csvData[3])) {
