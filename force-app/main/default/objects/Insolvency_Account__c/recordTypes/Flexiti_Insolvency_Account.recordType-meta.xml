@@ -204,13 +204,9 @@
         <values>
             <fullName>Other</fullName>
             <default>false</default>
-        </values>
+        </values>  
         <values>
             <fullName>Pending voting decision</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Deceased</fullName>
             <default>false</default>
         </values>
         <values>
