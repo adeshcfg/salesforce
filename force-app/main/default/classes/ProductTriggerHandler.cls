@@ -634,7 +634,7 @@ public class ProductTriggerHandler {
                         prod.Product_Status__c = prodOld1.Product_Status__c.replaceFirst('2', '9');
                     }
                     //Data status mapping
-                    if (String.isNotBlank(prod.product_status__C)) {
+                    if (String.isNotBlank(prod.product_status__c) && prodOld1.Product_Status__c != prod.Product_Status__c) {
                         if (null != dataStatusMap.get(prod.product_status__C)) {
                             prod.Data_Status_Description__c = dataStatusMap.get(prod.product_status__C).Description__c;
                         } else {
