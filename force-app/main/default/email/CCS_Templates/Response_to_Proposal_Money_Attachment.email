@@ -19,7 +19,7 @@ Dear Agency,
 <br/><br/>
  I hear by certify that {!Product__c.Current_Balance__c} is our net balance outstanding as of  {!Today}<br/> 
 <br/>
-Legal Name of Creditor: Easyfinancial Services Ltd. <br/>
+Legal Name of Creditor: {!LegalNameofCreditor} <br/>
 Account serviced by: Canaccede International Management<br/>
 Address: Station B – P.O Box 9, London, ON, N6A 4V3<br/>
 Ph #: 1-844-827-9225 Fax: 1-844-827-9226 

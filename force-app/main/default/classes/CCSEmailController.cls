@@ -18,6 +18,7 @@ global class CCSEmailController {
     Map<String, String> pageBreakPDFValues;
     public String recordType { get; set; }
     public string servicerName = '';
+    public string LegalNameofCreditor = '';
     public string settleReference = '';
     public string logoVisiblity = '';
     //template lists for with or without header
@@ -123,11 +124,17 @@ global class CCSEmailController {
             servicerName = 'Servicer for Easyfinancial Services Ltd.';
             settleReference = 'Settlement Offer';
             pro.Proposal_Status__c = 'ACCEPT';
+            LegalNameofCreditor = 'Easyfinancial Services Ltd.';
             height = '100px';
             width = '100%';
             imageUrl = LoRDemandController.getImageUrl('Easyfinancial');
             style = '';
-        } else {
+        } else if (pro.RecordType.DeveloperName == 'Flexiti_CCS_Account'){
+            selectedTempalteName = 'Balance Request';
+            settleReference = 'Settlement Offer';
+            servicerName = 'Servicer for Flexiti Financial Inc.';
+            LegalNameofCreditor = 'Flexiti Financial Inc.';
+        }else {
             selectedTempalteName = 'Product Default Template';
             settleReference = 'Settled in Full Confirmation';
         }
@@ -277,6 +284,7 @@ global class CCSEmailController {
             '{!CCSPackage.CFG_Name__c}' => (CCSPackage.CFG_Name__c != null ? CCSPackage.CFG_Name__c : ''),
             '{!servicerName}' => servicerName,
             '{!settleReference}' => settleReference,
+            '{!LegalNameofCreditor}' => LegalNameofCreditor,    
             '{!logoVisiblity}' => logoVisiblity
         };
 
