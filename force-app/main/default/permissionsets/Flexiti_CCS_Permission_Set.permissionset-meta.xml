@@ -497,7 +497,7 @@
     </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Case.CCS_Case</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>PersonAccount.CCS_Accounts</recordType>
