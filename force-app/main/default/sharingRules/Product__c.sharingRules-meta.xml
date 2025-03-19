@@ -202,6 +202,21 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Flexiti_CCS_Account</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Flexiti Product record sharing rule</description>
+        <label>Flexiti CCS Account</label>
+        <sharedTo>
+            <group>Flexiti_CCS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Flexiti CCS Account</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Goeasy_CCS_Account</fullName>
         <accessLevel>Edit</accessLevel>
         <label>Goeasy CCS Account</label>

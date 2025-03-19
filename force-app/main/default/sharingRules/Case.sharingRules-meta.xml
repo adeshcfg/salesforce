@@ -112,6 +112,42 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Share_Insolvency_Cases_Flexiti_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule of Insolvency Cases Flexiti Users</description>
+        <label>Share Insolvency Cases Flexiti Users</label>
+        <sharedTo>
+            <group>Insolvency_Flexiti_Users</group>
+        </sharedTo>
+        <booleanFilter>(1 OR ((2 OR 3) AND (4 OR 5)))</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Flexiti Community Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Insolvency Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>CCS Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>Flexiti</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Entity_Identifiers__c</field>
+            <operation>equals</operation>
+            <value>Flexiti</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_Insolvency_Cases_Goeasy_Users</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Sharing rule to share Insolvency Cases with Goeasy community users</description>
