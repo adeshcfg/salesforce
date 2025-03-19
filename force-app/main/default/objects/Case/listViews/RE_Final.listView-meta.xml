@@ -47,5 +47,6 @@
         <group>Insolvency_Goeasy_Users</group>
         <group>Insolvency_Money_Mart_Users</group>
         <group>Insolvency_Scotia_Users</group>
+        <group>Insolvency_Flexiti_Users</group>
     </sharedTo>
 </ListView>

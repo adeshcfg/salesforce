@@ -20101,6 +20101,10 @@
         <recordType>Product__c.GoEasy_CCS_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Product__c-Flexiti CCS Account Layout</layout>
+        <recordType>Product__c.Flexiti_CCS_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Product__c-Insolvency Account</layout>
         <recordType>Product__c.Insolvency_Account</recordType>
     </layoutAssignments>
