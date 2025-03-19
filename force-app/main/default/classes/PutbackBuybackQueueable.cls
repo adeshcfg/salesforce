@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class for putback/buyback processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 03-11-2025
+ * @last modified on  : 03-18-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallouts {
@@ -121,6 +121,11 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
         for (Document_Storage__c evidenceDoc : [SELECT Id FROM Document_Storage__c WHERE Product__c IN :productIdList AND Buyback_Putback_Evidence__c = TRUE]) {
             documentIdList.add(evidenceDoc.Id);
         }
+        // When there are no evidence documents for the seller
+        if (documentIdList.isEmpty()) {
+            handleNoEvidenceProcessing(csvContentVersionId, zipDocStorageId);
+            return;
+        }
         // Call Portal API for zip file processing
         Boolean zipFileInitiationSuccessful = initiateZipFileCreation(documentIdList, zipDocStorageId);
         if (!zipFileInitiationSuccessful) {
@@ -149,6 +154,53 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
         }
     }
 
+    /**
+     * @description : Method to handle processing when there are no evidence doc storage records for a seller
+     * @author adesh.ikhar@canaccede.com | 03-18-2025
+     * @param csvContentVersionId
+     * @param zipDocStorageId
+     **/
+    public void handleNoEvidenceProcessing(String csvContentVersionId, String zipDocStorageId) {
+        String csvContentDocId = '';
+        String csvFileName = '';
+        // Call API portal to upload CSV to blob storage and create doc storage record
+        uploadCsvToAzure(csvContentVersionId, zipDocStorageId);
+        DocumentStorageTriggerHandler.runDocumentStorageTrigger = false;
+        update new Document_Storage__c(
+            Id = zipDocStorageId,
+            File_Processing_Status__c = 'Successful',
+            Comment__c = 'No evidence documents found for given seller'
+        );
+        DocumentStorageTriggerHandler.runDocumentStorageTrigger = true;
+        List<ContentVersion> csvConVersion = [SELECT ContentDocumentId, Title FROM ContentVersion WHERE Id = :csvContentVersionId];
+        if (!csvConVersion.isEmpty()) {
+            csvContentDocId = csvConVersion[0].ContentDocumentId;
+            csvFileName = csvConVersion[0].Title;
+        }
+        String csvFiledDownloadLink =
+            '<a href="' +
+            URL.getOrgDomainUrl().toExternalForm() +
+            '/sfc/servlet.shepherd/document/download/' +
+            csvContentDocId +
+            '">' +
+            csvFileName +
+            '.csv' +
+            '</a>';
+        String emailBody =
+            'Please find below link for Putback/Buyback CSV -<br/>' +
+            'CSV - ' +
+            csvFiledDownloadLink +
+            '<br/><br/>' +
+            'ZIP file not generated as no evidence documents found for given seller';
+        CTBFileValidationUtility.sendEmail('Putback/Buyback processing completed', emailBody, System.Label.Putback_Buyback_Email_Ids);
+    }
+
+    /**
+     * @description : Method to call portal API to upload csv to blob storage and create it's doc storage record
+     * @author adesh.ikhar@canaccede.com | 03-18-2025
+     * @param csvContentVersionId
+     * @param zipDocStorageId
+     **/
     public void uploadCsvToAzure(String csvContentVersionId, String zipDocStorageId) {
         ContentVersion con = [
             SELECT Id, FileExtension, Title

@@ -1,7 +1,7 @@
 /**
  * @description       : Test class for PutbackBuybackQueueable and PutbackBuybackUtility
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-14-2025
+ * @last modified on  : 03-19-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 @isTest
@@ -99,6 +99,20 @@ public class PutbackBuybackQueueableTest {
     @IsTest
     static void testPutbackProcessZipGeneration() {
         Document_Storage__c zipDoc = [SELECT Id FROM Document_Storage__c WHERE Document_Name__c = 'Test_Anea.zip'];
+        ContentVersion cv = [SELECT Id FROM ContentVersion WHERE Title = 'Test_Anea'];
+        Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(cv.Id));
+        Map<String, Product__c> productIdListMap = new Map<String, Product__c>([SELECT Id FROM Product__c]);
+        Test.startTest();
+        System.enqueueJob(new PutbackBuybackQueueable(new List<String>(productIdListMap.keySet()), zipDoc.Id, 'Anea', cv.Id));
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testPutbackProcessZipGenerationWithoutEvidence() {
+        Document_Storage__c zipDoc = [SELECT Id FROM Document_Storage__c WHERE Document_Name__c = 'Test_Anea.zip'];
+        Document_Storage__c evidenceDoc = [SELECT Id FROM Document_Storage__c WHERE Document_Name__c = '12345 Evidenece'];
+        evidenceDoc.Buyback_Putback_Evidence__c = false;
+        update evidenceDoc;
         ContentVersion cv = [SELECT Id FROM ContentVersion WHERE Title = 'Test_Anea'];
         Test.setMock(HttpCalloutMock.class, new SftpApiCalloutMock(cv.Id));
         Map<String, Product__c> productIdListMap = new Map<String, Product__c>([SELECT Id FROM Product__c]);
