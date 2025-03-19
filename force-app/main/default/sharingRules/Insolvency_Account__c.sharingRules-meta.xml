@@ -93,6 +93,37 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Share_Flexiti_Insolvency_Accounts</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule of Flexiti Insolvency Accounts</description>
+        <label>Share Flexiti Insolvency Accounts</label>
+        <sharedTo>
+            <group>Insolvency_Flexiti_Users</group>
+        </sharedTo>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <criteriaItems>
+            <field>Client_Identifier__c</field>
+            <operation>equals</operation>
+            <value>Flexiti</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Flexiti Insolvency Account</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Insolvency_Status__c</field>
+            <operation>equals</operation>
+            <value>New</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Purchase_Export_Completed__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_Goeasy_Insolvency_Accounts</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Goeasy Insolvency Accounts</description>
