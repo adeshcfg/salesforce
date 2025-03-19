@@ -333,6 +333,10 @@ public class ProductTriggerHandler {
             if (prod.Pool_Name__c != null) {
                 poolplacementName.add(prod.Pool_Name__c);
             }
+            //Ticket 8531 - default set donation rate to 8% for flexiti CCS account
+            if(prodRTypeIdMap.get('Flexiti_CCS_Account') == prod.RecordTypeId){
+                prod.Accepted_Donation_Rate__c = 8;
+            }
         }
 
         for (Pool__c pool : [SELECT id, Name, Placement_Agency__c FROM Pool__c WHERE id IN :poolplacementName]) {
@@ -447,7 +451,8 @@ public class ProductTriggerHandler {
             if (
                 prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId ||
                 prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ||
-                prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId
+                prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId ||
+                prodRTypeIdMap.get('Flexiti_CCS_Account') == prod.RecordTypeId
             ) {
                 if (String.isNotBlank(prod.Last_Name__c)) {
                     List<Account> matchingCustomers = getMatchingCustomers(prod);
@@ -579,7 +584,8 @@ public class ProductTriggerHandler {
                     if (
                         prodRTypeIdMap.get('Distressed_Account') == prod.RecordTypeId ||
                         prodRTypeIdMap.get('CCS_Account') == prod.RecordTypeId ||
-                        prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId
+                        prodRTypeIdMap.get('GoEasy_CCS_Account') == prod.RecordTypeId ||
+                        prodRTypeIdMap.get('Flexiti_CCS_Account') == prod.RecordTypeId
                     ) {
                         if (prod.customer__c == null) {
                             if (oldCustomerId != null) {
