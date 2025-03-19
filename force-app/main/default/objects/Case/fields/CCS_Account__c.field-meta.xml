@@ -6,7 +6,7 @@
     <label>CCS Account</label>
     <lookupFilter>
         <active>true</active>
-        <booleanFilter>1 OR 2</booleanFilter>
+        <booleanFilter>1 OR 2 OR 3</booleanFilter>
         <filterItems>
             <field>Product__c.RecordType.DeveloperName</field>
             <operation>equals</operation>
@@ -16,6 +16,11 @@
             <field>Product__c.RecordType.DeveloperName</field>
             <operation>equals</operation>
             <value>GoEasy_CCS_Account</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>Flexiti_CCS_Account</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
