@@ -4,4 +4,39 @@
     <active>true</active>
     <description>Record Type of Flexiti CCS Account</description>
     <label>Flexiti CCS Account</label>
+    <picklistValues>
+        <picklist>CCS_Stage__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dropped Notifications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failed %28Program closed by Creditor%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress %28notice has been sent%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missed Payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DMP Details provided</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>For Owner Review</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
