@@ -13,7 +13,7 @@ public class GenerateDepositSlipProductController {
     public static List<Product_Payments__C> listVardeAccounts{get; set;}
     List<Product_Payments__C> insolvPayToUpdate = new List<Product_Payments__C>();
     Map<Id, Double> accountInsolvencyPaymentMap = new Map<Id, Double>();
-    Application_Config_Settings__c appConfigFinal;//=Application_Config_Settings__c.getOrgDefaults();
+    Application_Config_Settings__c appConfigFinal;//==Application_Config_Settings__c.getOrgDefaults();
     Map<String, Deposit_Accounts__c> depositAccountMap = Deposit_Accounts__c.getAll();
     public Deposit_Accounts__c depositAcc {set;get;}
     
