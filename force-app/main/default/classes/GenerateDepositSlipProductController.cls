@@ -178,6 +178,7 @@ public class GenerateDepositSlipProductController {
                                               where Dividend__r.lastmodifiedDate >= :LastDepositSlipCreatedDate
                                               AND Dividend__r.Status__c = 'Processed'
                                               AND dividend__r.recordType.developerName = 'CCS_Dividend'
+                                              AND Dividend__r.Do_Not_Process__c = false
                                               AND Is_Payment_Remitted__c = False];
                                               
         List<Unallocated_payment__C> listUnallocPay = [select id, name, remittance__r.Deposit_Account_Name__c
@@ -186,6 +187,7 @@ public class GenerateDepositSlipProductController {
                                               AND remittance__r.Status__c = 'Processed'
                                               AND allocated__c = false
                                               AND remittance__r.recordType.developerName = 'CCS_Dividend'
+                                              AND remittance__r.Do_Not_Process__c = false
                                               AND Is_Payment_Remitted__c = false
                                               ANd Is_Payments_Reversed__c = null];
         
