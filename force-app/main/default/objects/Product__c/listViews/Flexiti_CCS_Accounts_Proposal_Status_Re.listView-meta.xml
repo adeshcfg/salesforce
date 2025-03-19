@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flexiti_CCS_Accounts_Proposal_Status_Re</fullName>
+    <columns>NAME</columns>
+    <columns>Last_Name__c</columns>
+    <columns>First_Name__c</columns>
+    <columns>Agency_Office__c</columns>
+    <columns>Proposal_Status__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Proposal_Status__c</field>
+        <operation>equals</operation>
+        <value>Reject</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product__c.Flexiti_CCS_Account</value>
+    </filters>
+    <label>Flexiti CCS Proposal - Reject</label>
+    <language>en_US</language>
+    <sharedTo>
+        <group>Flexiti_CCS</group>
+    </sharedTo>
+</ListView>
