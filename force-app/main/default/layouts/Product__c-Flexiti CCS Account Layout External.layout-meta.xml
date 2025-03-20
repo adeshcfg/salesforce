@@ -263,10 +263,6 @@
         <label>CCS</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Bank_Refence_Number__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Proposed_Payment_Amount__c</field>
             </layoutItems>

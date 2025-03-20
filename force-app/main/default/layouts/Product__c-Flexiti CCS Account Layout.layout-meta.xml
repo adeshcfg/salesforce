@@ -271,10 +271,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Bank_Refence_Number__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Proposed_Payment_Amount__c</field>
             </layoutItems>
             <layoutItems>
