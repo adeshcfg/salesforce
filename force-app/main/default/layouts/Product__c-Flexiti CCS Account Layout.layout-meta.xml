@@ -121,6 +121,10 @@
                 <behavior>Edit</behavior>
                 <field>Interest_Amount_Last_Calculated_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>of_Accumulative_Payments_missed__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
