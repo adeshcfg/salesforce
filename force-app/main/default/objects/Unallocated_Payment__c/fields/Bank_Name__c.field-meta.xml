@@ -88,6 +88,11 @@
                 <label>Money Mart</label>
             </value>
             <value>
+                <fullName>Flexiti</fullName>
+                <default>false</default>
+                <label>Flexiti</label>
+            </value>
+            <value>
                 <fullName>NEO</fullName>
                 <default>false</default>
                 <label>NEO</label>
