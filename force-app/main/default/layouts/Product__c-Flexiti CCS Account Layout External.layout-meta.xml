@@ -122,6 +122,10 @@
                 <behavior>Readonly</behavior>
                 <field>Payment_Missed__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>of_Accumulative_Payments_missed__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -258,10 +262,6 @@
         <editHeading>true</editHeading>
         <label>CCS</label>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Bank_Refence_Number__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Proposed_Payment_Amount__c</field>

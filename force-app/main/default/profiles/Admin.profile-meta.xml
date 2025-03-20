@@ -14389,6 +14389,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Product__c.of_Accumulative_Payments_missed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Product__c.Accepted_Interest_rate__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -14615,11 +14620,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.Bank_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Bank_Refence_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
