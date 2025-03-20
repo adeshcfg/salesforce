@@ -14624,11 +14624,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.Bank_Refence_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Product__c.Bank_Reference_Quoted__c</field>
         <readable>true</readable>
     </fieldPermissions>
