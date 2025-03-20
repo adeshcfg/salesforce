@@ -127,6 +127,11 @@
                 <default>false</default>
                 <label>RESOLVE</label>
             </value>
+            <value>
+                <fullName>PRA Group (PRA)</fullName>
+                <default>false</default>
+                <label>PRA Group (PRA)</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Account Sold</controllingFieldValue>
@@ -215,6 +220,10 @@
         <valueSettings>
             <controllingFieldValue>Account Sold</controllingFieldValue>
             <valueName>RESOLVE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account Sold</controllingFieldValue>
+            <valueName>PRA Group (PRA)</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
