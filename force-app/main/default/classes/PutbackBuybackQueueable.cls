@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class for putback/buyback processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 03-18-2025
+ * @last modified on  : 03-20-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallouts {
@@ -123,7 +123,7 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
         }
         // When there are no evidence documents for the seller
         if (documentIdList.isEmpty()) {
-            handleNoEvidenceProcessing(csvContentVersionId, zipDocStorageId);
+            handleNoEvidenceProcessing(csvContentVersionId, zipDocStorageId, productIdList);
             return;
         }
         // Call Portal API for zip file processing
@@ -136,6 +136,7 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
         }
         // Call API portal to upload CSV to blob storage and create doc storage record
         uploadCsvToAzure(csvContentVersionId, zipDocStorageId);
+        updateProductPurchaseStatus(productIdList, 'Buyback/Putback Submitted to Seller');
         // Send processing/failure mail
         CTBFileValidationUtility.sendEmail(
             'Putback/Buyback Processing initiated',
@@ -159,8 +160,9 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
      * @author adesh.ikhar@canaccede.com | 03-18-2025
      * @param csvContentVersionId
      * @param zipDocStorageId
+     * @param productIdList
      **/
-    public void handleNoEvidenceProcessing(String csvContentVersionId, String zipDocStorageId) {
+    public void handleNoEvidenceProcessing(String csvContentVersionId, String zipDocStorageId, List<String> productIdList) {
         String csvContentDocId = '';
         String csvFileName = '';
         // Call API portal to upload CSV to blob storage and create doc storage record
@@ -177,6 +179,7 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
             csvContentDocId = csvConVersion[0].ContentDocumentId;
             csvFileName = csvConVersion[0].Title;
         }
+        updateProductPurchaseStatus(productIdList, 'Buyback/Putback Submitted to Seller');
         String csvFiledDownloadLink =
             '<a href="' +
             URL.getOrgDomainUrl().toExternalForm() +
@@ -193,6 +196,23 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
             '<br/><br/>' +
             'ZIP file not generated as no evidence documents found for given seller';
         CTBFileValidationUtility.sendEmail('Putback/Buyback processing completed', emailBody, System.Label.Putback_Buyback_Email_Ids);
+    }
+
+    /**
+     * @description : Method to update products with given purchase status
+     * @author adesh.ikhar@canaccede.com | 03-19-2025
+     * @param productIdList
+     * @param status
+     **/
+    public void updateProductPurchaseStatus(List<String> productIdList, String status) {
+        List<Product__c> productsToUpdate = new List<Product__c>();
+        for (String productId : productIdList) {
+            productsToUpdate.add(new Product__c(Id = productId, Purchase_Status__c = status, Buyback_Putback_Status_Change_Date__c = System.Today()));
+        }
+        if (!productsToUpdate.isEmpty()) {
+            ProductTriggerHandler.runProductTrigger = false;
+            Database.update(productsToUpdate);
+        }
     }
 
     /**
