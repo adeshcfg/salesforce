@@ -883,6 +883,13 @@ public class ProductTriggerHandler {
 
                 //Set Ignore Warning to false after all checks
                 errorAdded = false;
+                
+                //Ticket 8531 - default set donation rate to 8% for flexiti CCS account
+                if(prodRTypeIdMap.get('Flexiti_CCS_Account') == product.RecordTypeId){
+                    if(product.Accepted_Donation_Rate__c != 8){
+                        product.addError('Accepted Donation Rate should be 8%');
+                    }
+                }
             }
             //insert placement history list
             insert listPlacementHistory;

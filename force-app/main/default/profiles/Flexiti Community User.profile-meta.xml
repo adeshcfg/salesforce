@@ -18792,6 +18792,10 @@
         <recordType>Product__c.Loan_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Product__c-Flexiti CCS Account Layout External</layout>
+        <recordType>Product__c.Flexiti_CCS_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Product__c-Product Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
