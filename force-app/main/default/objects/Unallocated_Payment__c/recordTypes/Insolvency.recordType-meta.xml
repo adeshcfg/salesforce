@@ -57,6 +57,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Flexiti</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>MBNA</fullName>
             <default>false</default>
         </values>
