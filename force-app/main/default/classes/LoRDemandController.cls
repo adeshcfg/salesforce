@@ -351,13 +351,14 @@ public class LoRDemandController {
         mail.setFileAttachments(fileAttachments);
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
 
+        ContentVersion conVer = new ContentVersion();
         try {
             // Update LoR notice sent date
             insolvAcc.LoR_Notice_1_Sent_Date__c = System.Today();
             insolvAcc.Do_Not_Run_Status_Validation__c = true;
             update insolvAcc;
 
-            InsolvencyUtil.saveAttachment(insolvAcc.Id, pdfAttachment, attachmentName, 'LoR Request Document');
+            conVer = InsolvencyUtil.saveContentDocument(insolvAcc.Id, pdfAttachment, attachmentName, 'LoR Request Document');
 
             // Revert back custom setting value with previous value
             InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = true;
@@ -382,17 +383,25 @@ public class LoRDemandController {
         Task emailTask = [SELECT id FROM Task WHERE whatID = :insolvAcc.id ORDER BY CreatedDate DESC LIMIT 1];
         EmailMessage emailmsg = [SELECT Id, parentId FROM EmailMessage WHERE activityId = :emailTask.Id];
 
-        list<Attachment> emailMsgAttachments = new List<Attachment>();
+        /*list<Attachment> emailMsgAttachments = new List<Attachment>();
         Attachment attach = new Attachment();
         attach.ParentId = emailmsg.Id;
         attach.name = attachmentName;
         attach.body = pdfAttachment;
-        attach.Description = 'LoR Request Document';
-        emailMsgAttachments.add(attach);
+        attach.Description = 'LoR Request Document';*/
+
+        ContentDocumentLink conDocLink = new ContentDocumentLink();
+        conDocLink.ContentDocumentId =conVer.ContentDocumentId;
+        conDocLink.LinkedEntityId = emailmsg.Id;
+        conDocLink.ShareType = 'V';
+        conDocLink.Visibility = 'AllUsers';
+        insert conDocLink;
+
+        /*emailMsgAttachments.add(attach);
 
         if (emailMsgAttachments.size() > 0) {
             insert emailMsgAttachments;
-        }
+        }*/
     }
 
     //change the language

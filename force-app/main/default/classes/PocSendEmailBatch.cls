@@ -570,6 +570,41 @@ public class PocSendEmailBatch implements Database.Batchable<SObject>, Database.
             }
         }
 
+        // Attach ContentDocuments to email
+        Map<Id,Id> mapOfConDocIdAndLinkEntityId = new Map<Id,Id>();
+
+        for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId, LinkedEntityId from ContentDocumentLink where LinkedEntityid IN :insolvAcc]){
+            mapOfConDocIdAndLinkEntityId.put(conDocLink.ContentDocumentId,conDocLink.LinkedEntityId);
+        }
+        List<ContentVersion> conVerList = [SELECT Title, VersionData, ContentDocumentId, CreatedDate, Description FROM ContentVersion WHERE Id IN :mapOfConDocIdAndLinkEntityId.keySet() 
+        AND Description = :lstAttachmentTypes
+        ORDER BY CreatedDate DESC];
+        for (ContentVersion conVerObj : conVerList) {
+            Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();
+             // Only add latest POC to the attachments
+            if (!attachedPocAccountIds.contains(mapOfConDocIdAndLinkEntityId.get(conVerObj.ContentDocumentId)) && conVerObj.Description == 'PoC Document') {
+                efa.setFileName(conVerObj.Title);
+                efa.setBody(conVerObj.VersionData);
+                fileAttachments.add(efa);
+                // Track accounts for which we have added POC attachment
+                attachedPocAccountIds.add(mapOfConDocIdAndLinkEntityId.get(conVerObj.ContentDocumentId));
+            }
+            // Only attach files created after For owner review status
+            if (conVerObj.Description != 'PoC Document' && (conVerObj.CreatedDate >= acctIdPreviousStatusDate.get(mapOfConDocIdAndLinkEntityId.get(conVerObj.ContentDocumentId)))) {
+                efa.setFileName(conVerObj.Title);
+                efa.setBody(conVerObj.VersionData);
+                fileAttachments.add(efa);
+            }
+            // Create email attachment
+            if (String.isNotBlank(efa.getFileName())) {
+                if (mapInsolvencyAccountIdToListAttachs.containsKey(mapOfConDocIdAndLinkEntityId.get(conVerObj.ContentDocumentId))) {
+                    mapInsolvencyAccountIdToListAttachs.get(mapOfConDocIdAndLinkEntityId.get(conVerObj.ContentDocumentId)).add(efa);
+                } else {
+                    mapInsolvencyAccountIdToListAttachs.put(mapOfConDocIdAndLinkEntityId.get(conVerObj.ContentDocumentId), new List<Messaging.Emailfileattachment>{ efa });
+                }
+            }
+        }
+        
         // Attach selected document storage files to email
         for (Document conVer : docsToDelete) {
             Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();

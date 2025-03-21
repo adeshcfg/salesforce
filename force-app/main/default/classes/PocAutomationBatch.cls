@@ -42,7 +42,8 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
     public void startProcessing(List<Insolvency_Account__c> insolvAccList) {
         List<String> insolvencyIdListToUpdate = new List<String>();
         List<Insolvency_Account__c> updateAcctList = new List<Insolvency_Account__c>();
-        List<Attachment> attachmentInsertList = new List<Attachment>();
+        List<ContentVersion> conVerInsertList = new List<ContentVersion>();
+        List<ContentDocumentLink> conDocLinkInsertList = new List<ContentDocumentLink>();
         for (Insolvency_Account__c insolvAcc : insolvAccList) {
             // Ignore CTB accounts whose statement received checkbox is false and today's date is not greater than 5 business days from last status changed date
             if (
@@ -72,13 +73,13 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
                 : insolvAcc.Insolvency__r.Trustee__r.Preferred_Language__c;
             String vfPageName = PocDocUtility.getPdfVfPageName(variableMap.get('pageName'), language);
             Blob pdf = generatePdf(vfPageName, variableMap);
-            Attachment pdfAttachment = PocDocUtility.generateAttachmentRecord(variableMap.get('insolAccName'), insolvAcc);
-            pdfAttachment.Body = pdf;
-            attachmentInsertList.add(pdfAttachment);
+            ContentVersion conVer = PocDocUtility.generateContentVersionRecord(variableMap.get('insolAccName'), insolvAcc);
+            conVer.VersionData = pdf;
+            conVerInsertList.add(conVer);
             updateAcctList.add(PocDocUtility.updateAccountFields(insolvAcc));
             insolvencyIdListToUpdate.add(insolvAcc.Insolvency__c);
         }
-        updateData(attachmentInsertList, updateAcctList, insolvencyIdListToUpdate);
+        updateData(conVerInsertList, updateAcctList, insolvencyIdListToUpdate);
     }
 
     /**
@@ -88,15 +89,32 @@ public class PocAutomationBatch implements Schedulable, Database.Batchable<SObje
      * @param updateAcctList
      * @param insolvencyIdListToUpdate
      **/
-    public void updateData(List<Attachment> attachmentInsertList, List<Insolvency_Account__c> updateAcctList, List<String> insolvencyIdListToUpdate) {
+    public void updateData(List<ContentVersion> conVerInsertList, List<Insolvency_Account__c> updateAcctList, List<String> insolvencyIdListToUpdate) {
         List<Insolvency__c> insolvencyListToUpdate = new List<Insolvency__c>();
         Set<Id> setInsolAccIds = new Set<Id>();
         Savepoint sp = Database.setSavepoint();
+        List<ContentDocumentLink> conDocLinkInsertList = new List<ContentDocumentLink>();
         try {
             InsolvencyTriggerHandler.runInsolvencyTrigger = false;
             InsolvencyAccountTriggerHandler.runInsolvencyAccountTrigger = false;
-            if (!attachmentInsertList.isEmpty()) {
-                Database.insert(attachmentInsertList);
+            if (!conVerInsertList.isEmpty()) {
+                Database.insert(conVerInsertList);
+            }
+            Set<Id> setOfConVerIds = new Set<Id>();
+            for(ContentVersion conVer : conVerInsertList){
+                setOfConVerIds.add(conVer.Id);
+            }
+            List<ContentVersion> insertedConVersionList = [SELECT Id, ContentDocumentId, EmailMessageId__c, InsolvencyAccountId__c FROM ContentVersion WHERE Id in : setOfConVerIds];
+            for(ContentVersion conVer : insertedConVersionList){
+                ContentDocumentLink insolvAccConDocLink = new ContentDocumentLink();
+                insolvAccConDocLink.ContentDocumentId = conVer.ContentDocumentId;
+                insolvAccConDocLink.LinkedEntityId = conVer.InsolvencyAccountId__c;
+                insolvAccConDocLink.ShareType = 'V';
+                insolvAccConDocLink.Visibility = 'AllUsers';           
+                conDocLinkInsertList.add(insolvAccConDocLink);
+            }
+            if(conDocLinkInsertList.size() > 0){
+                insert conDocLinkInsertList;
             }
             if (!updateAcctList.isEmpty()) {
                 Database.SaveResult[] srList = Database.update(updateAcctList, false);

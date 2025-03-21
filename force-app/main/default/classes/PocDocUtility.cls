@@ -159,6 +159,29 @@ public class PocDocUtility {
     }
 
     /**
+     * @description : Check if content document of specific type is attached to the account
+     * @author pradeep.kumar@canaccede.com | 03-11-2025
+     * @param type
+     * @param insolAccntId
+     * @return Boolean
+     **/
+    public static Boolean checkConDocTypePresence(String type, String insolAccntId) {
+        Set<Id> setOfConDocIds = new Set<Id>();
+
+        for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId from ContentDocumentLink where LinkedEntityid =: insolAccntId]){
+            setOfConDocIds.add(conDocLink.ContentDocumentId);
+        }
+        List<ContentVersion> conVerList = [SELECT Title, VersionData, ContentDocumentId, CreatedDate, Description FROM ContentVersion WHERE ContentDocumentId IN :setOfConDocIds];
+
+        for (ContentVersion conVer : conVerList) {
+            if (conVer.Description == type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @description : Method to generate and map appropriate variables for POC generation
      * @author adesh.ikhar@canaccede.com | 08-22-2024
      * @param insolvAcc
@@ -483,6 +506,7 @@ public class PocDocUtility {
         conVer.PathOnClient = conVer.Title;
         conVer.IsMajorVersion = true;
         conVer.Description = POCDocController.POC_DOC_DESCRIPTION;
+        conVer.InsolvencyAccountId__c = insolvAcc.Id;
         return conVer;
     }
     

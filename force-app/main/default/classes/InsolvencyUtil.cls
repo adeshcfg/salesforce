@@ -321,6 +321,35 @@
         attach.Description = fileType;
         insert attach;
     }
+
+    /**
+    * @description : Create content document record related to another object record
+    * @author adesh.ikhar@canaccede.com | 07-31-2024 
+    * @param parentId 
+    * @param pdfBody 
+    * @param fileName 
+    * @param fileType 
+    **/
+    public static ContentVersion saveContentDocument(String parentId, Blob pdfBody, String fileName, String fileType){
+        ContentVersion conVer = new ContentVersion();
+        conVer.Title = fileName;
+        conVer.PathOnClient = fileName;
+        conVer.IsMajorVersion = true;
+        conVer.Description = fileType;
+        conVer.VersionData = pdfBody;
+        insert conVer;
+
+        ContentVersion conVerRec = [Select id,ContentDocumentId from ContentVersion Where Id =: conVer.Id];
+
+        ContentDocumentLink conDocLink = new ContentDocumentLink();
+        conDocLink.ContentDocumentId =conVerRec.ContentDocumentId;
+        conDocLink.LinkedEntityId = parentId;
+        conDocLink.ShareType = 'V';
+        conDocLink.Visibility = 'AllUsers';
+        insert conDocLink;
+
+        return conVerRec;
+    }
     
     //Utility method to format Fax As Email Address
      public static string formatFaxAsEmail(String faxNo){
