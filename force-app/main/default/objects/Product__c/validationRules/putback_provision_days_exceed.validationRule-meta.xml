@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>putback_provision_days_exceed</fullName>
-    <active>true</active>
+    <active>false</active>
     <description>The difference between the purchase date and today should be less than putback provision days.</description>
     <errorConditionFormula>AND($Setup.Disable_Metadata_Settings__c.Disable_Product_Validation_WF__c == false ,AND(
 ISCHANGED(Purchase_Status__c),
