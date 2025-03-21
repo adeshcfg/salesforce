@@ -103,7 +103,7 @@
                                                 <tr class="slds-no-hover">
                                                     <th
                                                         class="slds-text-heading--label slds-size--1-of-12"
-                                                        style="display:{!IF(OR(isCommunityReadOnlyUser,isGoeasyBankCommunityUser,attList.size == 0), 'none;', ';')}"
+                                                        style="display:{!IF(OR(isCommunityReadOnlyUser,isGoeasyBankCommunityUser,AND(attList.size == 0,conVerList.size == 0)), 'none;', ';')}"
                                                         scope="col"
                                                     ></th>
                                                     <th class="slds-text-heading--label slds-size--3-of-12" scope="col">Name</th>
@@ -139,7 +139,7 @@
                                                                 >
                                                                     <a
                                                                         href="#"
-                                                                        onclick='window.open("../lightning/page/filePreview?selectedRecordId={!conVer.ContentDocumentId}", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'
+                                                                        onclick='window.open("../lightning/page/filePreview?selectedRecordId={!conVer.ContentDocumentId}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'
                                                                         >{!conVer.Title}</a
                                                                     >
                                                                 </span>
@@ -148,9 +148,11 @@
                                                                     title="{!conVer.Title}"
                                                                     style='display:{!IF(isLightningCommunity, "", "none;")}'
                                                                 >
-                                                                    <a href="{!urlPathPrefix}/lightning/page/filePreview?selectedRecordId={!conVer.ContentDocumentId}"
-                                                                        >{!conVer.Title}</a
-                                                                    >
+                                                                   <!--<a href="{!urlPathPrefix}sfc/servlet.shepherd/document/download/{!conVer.ContentDocumentId}">{!conVer.Title}</a
+                                                                    > -->
+                                                                    <a href="{!urlValue}{!urlPathPrefix}sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId={!conVer.Id}">{!conVer.Title}</a>
+                                                                    <!--<a href="https://cfgroup--cfgdev.sandbox.my.site.com/QAPortal/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId={!conVer.Id}">{!conVer.Title}</a>-->
+                                                                    
                                                                 </span>
                                                             </li>
                                                         </td>
@@ -370,7 +372,7 @@
                                                         >
                                                             <a
                                                                 href="#"
-                                                                onclick='window.open("../lightning/page/filePreview?selectedRecordId=={!conVer.ContentDocumentId}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'
+                                                                onclick='window.open("../lightning/page/filePreview?selectedRecordId={!conVer.ContentDocumentId}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'
                                                                 >{!conVer.Title}</a
                                                             >
                                                         </span>
