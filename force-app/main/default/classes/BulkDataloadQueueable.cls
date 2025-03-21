@@ -2,7 +2,7 @@
  * @description       : Queueable class to parse CSV and insert parsed records
  * @author            : adeshi@a5econsulting.net
  * @group             :
- * @last modified on  : 03-18-2025
+ * @last modified on  : 03-21-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class BulkDataloadQueueable implements Queueable {
@@ -116,7 +116,7 @@ public class BulkDataloadQueueable implements Queueable {
                 // Split comma separated string of data into an array
                 List<String> csvData = recordListString[i].split(',');
                 // Check for empty row
-                if (!csvData.isEmpty() && csvData.size() == 2) {
+                if (!csvData.isEmpty()) {
                     recordsToInsert.add(createProductStatusRecord(csvData, documentStorage.Id));
                 }
             }
@@ -252,7 +252,7 @@ public class BulkDataloadQueueable implements Queueable {
         Product_Staging__c psRecord = new Product_Staging__c();
         // Map array indexes to Product Staging fields
         psRecord.Data_Id__c = csvData[0];
-        if (String.isNotBlank(csvData[1])) {
+        if (csvData.size() > 1 && String.isNotBlank(csvData[1])) {
             psRecord.Product_Status__c = csvData[1];
         }
         psRecord.Identifier__c = documentStorageId;
