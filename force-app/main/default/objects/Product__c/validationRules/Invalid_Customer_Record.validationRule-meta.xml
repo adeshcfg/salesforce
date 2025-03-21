@@ -9,6 +9,10 @@ OR(
 AND($Profile.Name &lt;&gt; &apos;Goeasy Community User&apos;,
  RecordType.DeveloperName = &apos;GoEasy_CCS_Account&apos;,
  Customer__r.RecordType.DeveloperName &lt;&gt; &apos;CCS_Accounts&apos;),
+ 
+ AND($Profile.Name &lt;&gt; &apos;Flexiti Community User&apos;,
+ RecordType.DeveloperName = &apos;Flexiti_CCS_Account&apos;,
+ Customer__r.RecordType.DeveloperName &lt;&gt; &apos;Flexiti_CCS_Customer&apos;),
 
 AND(OR(RecordType.DeveloperName = &apos;Credit_Card_Account&apos;,RecordType.DeveloperName =&apos;Loan_Account&apos;),
  Customer__r.RecordType.DeveloperName &lt;&gt; &apos;Fidem_Customer&apos;),
