@@ -213,19 +213,24 @@ public without sharing class ProductRecallIndividualController {
 
         if (selectedValueAction == PENDING_RECALL) {
             ERROR_MSG = 'Product set to Pending Recall Status from Agency:' + NewPlacementAgency;
-            placementIdentifier = String.valueOf(product.Collection_Agency__c);
+            if(product.Collection_Agency__c <> NULL){
+                placementIdentifier = String.valueOf(product.Collection_Agency__c);
+            }
             product.Placement_Status__c = selectedRecallReason;
             product.Status_Changed_Date__c = Date.today();
             product.External_Status_Current__c = null;
-            product.Status__c =
-                mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +
-                ' - ' +
-                mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
-            product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
-            if (mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c != null) {
-                product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
-                product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
+            if(product.Placement_Status__c <> NULL){
+                product.Status__c =
+                    mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +
+                    ' - ' +
+                    mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
+                product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
+                if (mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c != null) {
+                    product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
+                    product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
+                }
             }
+            
             if (product.Product_Status__c == '297000' || product.Product_Status__c == '298000') {
                 product.Purchase_Status__c = 'Buyback/Putback Initiated';
                 product.Buyback_Putback_Status_Change_Date__c = System.today();
@@ -235,6 +240,7 @@ public without sharing class ProductRecallIndividualController {
             //Ticket 6430 : Point 2
             if (
                 !Test.isRunningTest() &&
+                product.Placement_Status__c <> NULL &&
                 System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) &&
                 mapProductJudgment.containsKey(product.id)
             ) {
@@ -260,7 +266,8 @@ public without sharing class ProductRecallIndividualController {
                 product.Placement_Status__c = product.Placement_Status__c.replaceFirst('8', '9');
             }
             //upadate placment status and data status description from custom setting for the corresponding Placement Status Code
-            if (mapRecallCodeStatus.containsKey(product.Placement_Status__c)) {
+            if (product.Placement_Status__c <> NULL &&
+                mapRecallCodeStatus.containsKey(product.Placement_Status__c)) {
                 product.Status__c =
                     mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +
                     ' - ' +
@@ -308,7 +315,9 @@ public without sharing class ProductRecallIndividualController {
             }
         } else if (selectedValueAction == 'Pending Allocation') {
             // Deactivate account judgment for recalled products
-            if (System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && mapProductJudgment.containsKey(product.id)) {
+            if (product.Placement_Status__c <> NULL &&
+                System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && 
+                mapProductJudgment.containsKey(product.id)) {
                 accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
                 if(product.Refer_to_Legal__c == 'Approved'){
                     product.Refer_to_Legal__c = '';
@@ -331,7 +340,8 @@ public without sharing class ProductRecallIndividualController {
                 product.Placement_Status__c = product.Placement_Status__c.replaceFirst('8', '9');
             }
             //upadate placment status and data status description from custom setting for the corresponding Placement Status Code
-            if (mapRecallCodeStatus.containsKey(product.Placement_Status__c)) {
+            if (product.Placement_Status__c <> NULL &&
+                mapRecallCodeStatus.containsKey(product.Placement_Status__c)) {
                 product.Status__c =
                     mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +
                     ' - ' +
@@ -346,7 +356,10 @@ public without sharing class ProductRecallIndividualController {
             product.Status__c = null;
             product.Sub_Status__c = null;
             product.Placement_Status__c = null;
-            placementIdentifier = String.valueOf(product.Collection_Agency__c);
+            if(product.Collection_Agency__c <> NULL){
+                placementIdentifier = String.valueOf(product.Collection_Agency__c);
+            }
+            
             if (product.Product_Status__c == '297000' || product.Product_Status__c == '298000') {
                 product.Purchase_Status__c = 'Buyback/Putback Initiated';
                 product.Buyback_Putback_Status_Change_Date__c = System.today();
@@ -477,19 +490,25 @@ public without sharing class ProductRecallIndividualController {
             product.Run_Identifier_Check_On__c = System.today();
             if (selectedValueAction == PENDING_RECALL) {
                 ERROR_MSG = 'Product set to Pending Recall Status from Agency:' + NewPlacementAgency;
-                placementIdentifier = String.valueOf(product.Collection_Agency__c);
+                if(product.Collection_Agency__c <> NULL){
+                    placementIdentifier = String.valueOf(product.Collection_Agency__c);
+                }
+                
                 product.External_Status_Current__c = null;
                 product.Placement_Status__c = selectedRecallReason;
                 product.Status_Changed_Date__c = Date.today();
-                product.Status__c =
+                if(product.Placement_Status__c <> NULL){
+                    product.Status__c =
                     mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +
                     ' - ' +
                     mapRecallCodeStatus.get(product.Placement_Status__c).Status__c;
-                product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
-                if (mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c != null) {
-                    product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
-                    product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
+                    product.Sub_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Sub_Status__c;
+                    if (mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c != null) {
+                        product.Product_Status__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Code__c;
+                        product.Data_Status_Description__c = mapRecallCodeStatus.get(product.Placement_Status__c).Data_Status_Description__c;
+                    }
                 }
+                
                 if (product.Product_Status__c == '297000' || product.Product_Status__c == '298000') {
                     product.Purchase_Status__c = 'Buyback/Putback Initiated';
                     product.Buyback_Putback_Status_Change_Date__c = System.today();
@@ -497,7 +516,9 @@ public without sharing class ProductRecallIndividualController {
                 prodNewRecordList.add(product);
             } else if (selectedValueAction == 'Send To Warehouse') {
                 //Ticket 6430 : Point 2
-                if (System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && mapProductJudgment.containsKey(product.id)) {
+                if (product.Placement_Status__c <> NULL &&
+                    System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) &&
+                    mapProductJudgment.containsKey(product.id)) {
                     accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
                     if(product.Refer_to_Legal__c == 'Approved'){
                         product.Refer_to_Legal__c = '';
@@ -520,7 +541,8 @@ public without sharing class ProductRecallIndividualController {
                     product.Placement_Status__c = product.Placement_Status__c.replaceFirst('8', '9');
                 }
                 //upadate placment status and data status description from custom setting for the corresponding Placement Status Code
-                if (mapRecallCodeStatus.containsKey(product.Placement_Status__c)) {
+                if (product.Placement_Status__c <> NULL &&
+                    mapRecallCodeStatus.containsKey(product.Placement_Status__c)) {
                     product.Status__c =
                         mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +
                         ' - ' +
@@ -569,7 +591,9 @@ public without sharing class ProductRecallIndividualController {
                 }
             } else if (selectedValueAction == 'Pending Allocation') {
                 // Deactivate account judgment for recalled products
-                if (System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && mapProductJudgment.containsKey(product.id)) {
+                if (product.Placement_Status__c <> NULL &&
+                    System.Label.Exclude_Judgment_Codes.contains(product.Placement_Status__c) && 
+                    mapProductJudgment.containsKey(product.id)) {
                     accJudgStatusUpdateMap = JudgmentTriggerHandler.inactiveAcctJudStatus(mapProductJudgment);
                     if(product.Refer_to_Legal__c == 'Approved'){
                         product.Refer_to_Legal__c = '';
@@ -591,7 +615,8 @@ public without sharing class ProductRecallIndividualController {
                     product.Placement_Status__c = product.Placement_Status__c.replaceFirst('8', '9');
                 }
                 //upadate placment status and data status description from custom setting for the corresponding Placement Status Code
-                if (mapRecallCodeStatus.containsKey(product.Placement_Status__c)) {
+                if (product.Placement_Status__c <> NULL &&
+                    mapRecallCodeStatus.containsKey(product.Placement_Status__c)) {
                     product.Status__c =
                         mapRecallCodeStatus.get(product.Placement_Status__c).Parent_Status__c +
                         ' - ' +
