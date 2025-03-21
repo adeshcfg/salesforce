@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flexiti_CCS_Case</fullName>
+    <active>true</active>
+    <businessProcess>CCS Cases Process</businessProcess>
+    <description>Assignment record type for flexiti</description>
+    <label>Flexiti CCS Case</label>
+    <picklistValues>
+        <picklist>Assign_To__c</picklist>
+        <values>
+            <fullName>CFG</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Canaccede</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Canadian Tire</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fairstone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fairstone2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Flexiti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Goeasy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Money Mart</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SDA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SPL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scotia Bank</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CCS_Assignment_Type__c</picklist>
+        <values>
+            <fullName>Balance Updates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DMP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drop Notification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Needs Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PIF request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payout Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secured Communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Offer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Form_Types__c</picklist>
+        <values>
+            <fullName>BMO Purchased</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Balance Updates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bulk Response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Insolvency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CCS Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chq Stub</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creditor Package</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Creditors Package %E2%80%93 Critical</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DMP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deficiency %2F Rejected POC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drop Notification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fidem</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Final</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 149 %E2%80%93 Notice to Prove Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 15 %E2%80%93 Deemed Discharge of Trustee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 16 %E2%80%93 Certificate of Compliance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 33 %E2%80%93 Notice of Intention</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 40%2E1 - Notice of Hearing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 49 %E2%80%93 Amendment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 50 - Meeting Of Creditors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 52 %E2%80%93 Notice of Status</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 56 %E2%80%93 Notice of annulment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 69 %E2%80%93 Impending Automatic Discharge</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 71 %E2%80%93 Notice of First Meeting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 76 %E2%80%93 Notice of Proof of Security</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 77 %E2%80%93 Notice of Disallowance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 80 %E2%80%93 Notice of Intended opposition to discharge%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 81 %26 82%E2%80%93 Application for Discharge</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 92 %E2%80%93 Notice of Proposal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form 93 %26 96 %E2%80%93 Revival</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>French Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inspector File</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LendCare</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mallette Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Media Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missing Dividend</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Needs Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OSB Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PIF request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payout Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recall Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refund Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Release Letters</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scotia Secured Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secured Communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Offer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Status of Insolvency Response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trustee Follow Up Response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Voice Mail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vote-Voice Mail</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Help_us_better_serve_you__c</picklist>
+        <values>
+            <fullName>Did we contact you about outstanding debt%3F</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Insolvency_Assignment_Type__c</picklist>
+        <values>
+            <fullName>Account Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Amend Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Balance Updates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Insolvency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chq Stub</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DMP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distressed Sale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drop Notification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fax Confirmation Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Final</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter of Release Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>More Information Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Needs Documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notice of Disallowance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OSB Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PIF request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payout Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Query</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refund Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Secured Communications</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Offer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vehicle Pickup Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Withdraw PoC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Origin</picklist>
+        <values>
+            <fullName>CCS Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Canaccede Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chatter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Priority</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason</picklist>
+        <values>
+            <fullName>Complex functionality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Existing problem</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Instructions not clear</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New problem</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User didn%27t attend training</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Feature Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Problem</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Question</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>
