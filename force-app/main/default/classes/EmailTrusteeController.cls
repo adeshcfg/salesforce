@@ -895,18 +895,15 @@ public class EmailTrusteeController {
         boolean error = true;
         Set<Id> conDocIds = new Set<Id>();
         List<ContentDocumentLink> listOfConDoc = new List<ContentDocumentLink>();
-        System.debug('mySelectedAtt:: '+mySelectedAtt);
         if(mySelectedAtt.size() > 0){
             listOfConDoc = [select Id, ContentDocumentId from ContentDocumentLink where ContentDocumentId in :mySelectedAtt];
         }
-        System.debug('listOfConDoc:: '+listOfConDoc);
         for(ContentDocumentLink conDocLink : listOfConDoc){
             if(conDocLink != null || conDocLink.ContentDocumentId != null){
                 conDocIds.add(conDocLink.ContentDocumentId);
             }
         }
         for(ContentVersion conVer: [SELECT Id, Description from ContentVersion where ContentDocumentId in :conDocIds]){
-            System.debug('conVer:: '+conVer);
             if (conVer.Description == 'PoC Document') {
                 error = false;
                 return error;

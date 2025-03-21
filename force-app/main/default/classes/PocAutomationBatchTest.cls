@@ -113,7 +113,53 @@ public class PocAutomationBatchTest {
         Database.executeBatch(new PocAutomationBatch());
         Test.stopTest();
     }
-
+    
+    @isTest
+    static void isTodayOutsideGivenBusinessDateRange_Test() {
+        Test.startTest();
+        PocDocUtility.isTodayOutsideGivenBusinessDateRange(System.Now() - 2, 5);
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void generateAttachmentRecord_Test() {
+        Test.startTest();
+        Insolvency_Account__c insolvancyAcc = [Select Id,Insolvency_Account__c.Amended_Claim_Flag__c, Name,Insolvency__r.Name, Insolvency__r.Debtor_1_First_Name__c, Insolvency__r.Debtor_1_Last_Name__c FROM Insolvency_Account__c LIMIT 1];
+        PocDocUtility.generateAttachmentRecord('Test Record', insolvancyAcc);
+        ContentVersion conVer = new ContentVersion(Title='TestConVer 1',PathOnClient='path',VersionData = EncodingUtil.base64Decode('String'));
+        insert conVer;
+        PocDocUtility.generateContentDocLinkRecord(conVer, insolvancyAcc);
+        Test.stopTest();
+    } 
+    
+    
+    @isTest
+    static void updateErrorAccounts_Test() {
+        Test.startTest();
+        List<Insolvency_Account__c> insolvancyAcc = [Select Id,Insolvency_Account__c.Amended_Claim_Flag__c, Name,Insolvency__r.Name, Insolvency__r.Debtor_1_First_Name__c, Insolvency__r.Debtor_1_Last_Name__c FROM Insolvency_Account__c];
+        PocDocUtility.updateErrorAccounts(insolvancyAcc, 'Test Record Error');
+        Test.stopTest();
+    } 
+    
+    @isTest
+    static void getPdfVfPageName_Test() {
+        Test.startTest(); 
+        PocDocUtility.getPdfVfPageName('Canaccede', 'en_US'); 
+        PocDocUtility.getPdfVfPageName('Canaccede', 'French'); 
+        PocDocUtility.getPdfVfPageName('Fidem', 'French');
+        PocDocUtility.getPdfVfPageName('CanadianTire', 'en_US');
+        PocDocUtility.getPdfVfPageName('CanadianTire', 'French');
+        PocDocUtility.getPdfVfPageName('GoEasyUnSecured', 'en_US');
+        PocDocUtility.getPdfVfPageName('GoEasyUnSecured', 'French');
+        PocDocUtility.getPdfVfPageName('FairstoneNew', 'en_US');
+        PocDocUtility.getPdfVfPageName('FairstoneNew', 'French');
+        PocDocUtility.getPdfVfPageName('Flexiti', 'en_US');
+        PocDocUtility.getPdfVfPageName('Flexiti', 'French');
+        PocDocUtility.getPdfVfPageName('Money Mart', 'en_US');
+        PocDocUtility.getPdfVfPageName('Money Mart', 'French');
+        Test.stopTest();
+    }
+    
     @isTest
     static void testScheduler() {
         Test.startTest();

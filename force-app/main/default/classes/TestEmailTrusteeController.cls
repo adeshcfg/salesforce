@@ -134,6 +134,8 @@ public class TestEmailTrusteeController {
     
     public static User prepareUser( String profId, String firstName, String lastName, String contactId) {
         String orgId = UserInfo.getOrganizationId();
+        
+        UserRole userrole = [Select Id, DeveloperName From UserRole Where PortalRole = 'PersonAccount' Limit 1];
         String dateString =
             String.valueof(Datetime.now()).replace(' ','').replace(':','').replace('-','');
         Integer randomInt = Integer.valueOf(math.rint(math.random()*1000000));
@@ -141,6 +143,7 @@ public class TestEmailTrusteeController {
         User tempUser = new User(
             FirstName = firstName,
             LastName = lastName,
+            UserRoleId = contactId != null ? userrole.Id : null,
             email = uniqueName + '@sfdc' + orgId + '.org',
             Username = uniqueName + '@sfdc' + orgId + '.org',
             EmailEncodingKey = 'ISO-8859-1',
@@ -152,146 +155,115 @@ public class TestEmailTrusteeController {
             ContactId = contactId 
         );
         return tempUser;
+    } 
+    static testMethod void getInsAccntRecorTypeIdNameMapTest(){
+        InsolvencyUtil.getInsAccntRecorTypeIdNameMap();
     }
     
-    static testMethod void isCommunityUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
+    static testMethod void getInsAccntRecorTypeNameIdMapTest(){
+        InsolvencyUtil.getInsAccntRecorTypeNameIdMap();
+    } 
+    
+    static testMethod void updateInsolvencyAccountOwnerIdsTest(){
+        List<Insolvency_Account__c> insolvansyList = new List<Insolvency_Account__c>();
+        Insolvency_Account__c acc = new Insolvency_Account__c();
+        acc.Name = 'Test- 001';
+        acc.Borrower_Primary__c = 'TestData';
+        acc.Client_Identifier__c = 'Canadian Tire';
+        acc.Balance_Owed__c = 20.0;
+        acc.Amended_Claim_Flag__c = false;
+        acc.Insolvency_Status__c = 'PoC Details Provided';
+        acc.Claim_Amount__c = 100;
+        acc.Insolvency_Status_Last_Changed__c = System.Today();
+        acc.Account_Number_Without_Space__c = 'Test-001';
+        acc.Insolvency_Type__c = 'Consumer Proposal';
+        acc.Acknowledgement_date__c = System.today();
+        insolvansyList.add(acc);
+        insert insolvansyList;
+        InsolvencyUtil.updateInsolvencyAccountOwnerIds(insolvansyList);
+        InsolvencyUtil.saveAttachment(insolvansyList[0].Id, 'Test','Start','pdf');
+        InsolvencyUtil.saveAttachment(insolvansyList[0].Id, Blob.valueof('myString'),'Start1','pdf');
+        InsolvencyUtil.saveContentDocument(insolvansyList[0].Id, Blob.valueof('myString'),'BlobTest','pdf');
+        InsolvencyUtil.formatFaxAsEmail('120(23) 908 - 876');
+        InsolvencyUtil.calculateNextBusinesDate(System.Today());
+        InsolvencyUtil.getRecordTypeToWorkOn();
+        InsolvencyUtil.createFullName('Test', 'User');
+    }
+    
+    static testMethod void fileSizeToStringTest(){
+        InsolvencyUtil.fileSizeToString(1000);
+        InsolvencyUtil.fileSizeToString(1024);
+        InsolvencyUtil.fileSizeToString(1000*1000*1000);
+        InsolvencyUtil.fileSizeToString(1024*1024*1024);
+    }
+    
+    static testMethod void updateOwnerShipTest(){
+        Insolvency__c inslv = new Insolvency__c();
+        inslv.Name = 'Test-Email0010000';
+        inslv.Debtor_1_First_Name__c = 'first';
+        inslv.Debtor_1_Last_Name__c = 'last';
+        insert inslv;
+        InsolvencyUtil.updateOwnerShip(inslv);
+    }
+    
+    static testMethod void isCommunityUserTest(){  
         Profile userProfile = [Select Id,Name from Profile where name Like '%Community User%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        System.runAs(user){
-            InsolvencyUtil.isCommunityUser();
-            InsolvencyUtil.isCommunityReadOnlyUser();
-        }
+        InsolvencyUtil.isCommunityUser();
+        InsolvencyUtil.isCommunityReadOnlyUser();
     }
     
     static testMethod void isCommunityReadOnlyUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
         Profile userProfile = [Select Id,Name from Profile where name Like '%Community User Readonly%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        System.runAs(user){
-            InsolvencyUtil.isCommunityReadOnlyUser();
-            InsolvencyUtil.isCommunityUser();
-        }
+        InsolvencyUtil.isCommunityReadOnlyUser();
+        InsolvencyUtil.isCommunityUser();
     }
     
     static testMethod void isScotiaBankCommunityUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
         Profile userProfile = [Select Id,Name from Profile where name Like '%Scotia Bank%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        System.runAs(user){
-            InsolvencyUtil.isScotiaBankCommunityUser(userProfile.Id);
-            InsolvencyUtil.isChaseBankCommunityUser(userProfile.Id);
-        }
+        InsolvencyUtil.isScotiaBankCommunityUser(userProfile.Id);
+        InsolvencyUtil.isChaseBankCommunityUser(userProfile.Id);
     }
     
-    static testMethod void isChaseBankCommunityUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
+    static testMethod void isChaseBankCommunityUserTest(){ 
         Profile userProfile = [Select Id,Name from Profile where name Like '%SPL%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        System.runAs(user){
-            InsolvencyUtil.isChaseBankCommunityUser(userProfile.Id);
-            InsolvencyUtil.isScotiaBankCommunityUser(userProfile.Id);
-        }
+        InsolvencyUtil.isChaseBankCommunityUser(userProfile.Id);
+        InsolvencyUtil.isScotiaBankCommunityUser(userProfile.Id);
     }
     
-    static testMethod void isSDABankCommunityUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
+    static testMethod void isSDABankCommunityUserTest(){ 
         Profile userProfile = [Select Id,Name from Profile where name Like '%SDA%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        System.runAs(user){
-            InsolvencyUtil.isSDABankCommunityUser(userProfile.Id);
-            InsolvencyUtil.isFairstoneBankCommunityUser(userProfile.Id);
-        }
+        InsolvencyUtil.isSDABankCommunityUser(userProfile.Id);
+        InsolvencyUtil.isFairstoneBankCommunityUser(userProfile.Id);
     }
     
     static testMethod void isFairstoneBankCommunityUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
         Profile userProfile = [Select Id,Name from Profile where name Like '%Fairstone%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        /*System.runAs(user){
-            InsolvencyUtil.isSDABankCommunityUser(userProfile.Id);
-            InsolvencyUtil.isFairstoneBankCommunityUser(userProfile.Id);
-        }*/
+        InsolvencyUtil.isSDABankCommunityUser(userProfile.Id);
+        InsolvencyUtil.isFairstoneBankCommunityUser(userProfile.Id);
     }
     
     static testMethod void isGoeasyBankCommunityUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
         Profile userProfile = [Select Id,Name from Profile where name Like '%Goeasy%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        /*System.runAs(user){
-            InsolvencyUtil.isGoeasyBankCommunityUser(userProfile.Id);
-            InsolvencyUtil.isCanadianTireCommunityUser(userProfile.Id);
-        }*/
+        InsolvencyUtil.isGoeasyBankCommunityUser(userProfile.Id);
+        InsolvencyUtil.isCanadianTireCommunityUser(userProfile.Id);
     }
     
     static testMethod void isCanadianTireCommunityUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
         Profile userProfile = [Select Id,Name from Profile where name Like '%Canadian Tire%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        /*System.runAs(user){
-            InsolvencyUtil.isGoeasyBankCommunityUser(userProfile.Id);
-            InsolvencyUtil.isCanadianTireCommunityUser(userProfile.Id);
-        }*/
+        InsolvencyUtil.isGoeasyBankCommunityUser(userProfile.Id);
+        InsolvencyUtil.isCanadianTireCommunityUser(userProfile.Id);
     }
     
-    static testMethod void isMoneyMartCommunityUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
+    static testMethod void isMoneyMartCommunityUserTest(){  
         Profile userProfile = [Select Id,Name from Profile where name Like '%Money Mart%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        System.runAs(user){
-            InsolvencyUtil.isMoneyMartCommunityUser(userProfile.Id);
-            InsolvencyUtil.isFlexitiCommunityUser(userProfile.Id);
-        }
+        InsolvencyUtil.isMoneyMartCommunityUser(userProfile.Id);
+        InsolvencyUtil.isFlexitiCommunityUser(userProfile.Id);
     }
     
-    static testMethod void isFlexitiCommunityUserTest(){
-        Account objAcc = new Account(name ='Test Account 55');
-        insert objAcc; 
-        
-        Contact objContact = new Contact(LastName ='testCon',AccountId = objAcc.Id);
-        insert objContact;  
-        Profile userProfile = [Select Id,Name from Profile where name Like '%Money Mart%' LIMIT 1];
-        User user = prepareUser(userProfile.Id, 'First', 'Last', objContact.Id);
-        System.runAs(user){
-            InsolvencyUtil.isMoneyMartCommunityUser(userProfile.Id);
-            InsolvencyUtil.isFlexitiCommunityUser(userProfile.Id);
-        }
+    static testMethod void isFlexitiCommunityUserTest(){  
+        Profile userProfile = [Select Id,Name from Profile where name Like '%Flexiti%' LIMIT 1];
+        InsolvencyUtil.isMoneyMartCommunityUser(userProfile.Id);
+        InsolvencyUtil.isFlexitiCommunityUser(userProfile.Id);
     }
     
     
