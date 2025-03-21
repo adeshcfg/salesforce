@@ -360,6 +360,8 @@ insert prod4;
         failedStringSet.add('test');    
         
         DistressedUtilities.allocationValidationOnRecordUpdate(prodStagingList1,prodList1, mapProductName1, docStorage1.id, poolMap2);
+        DistressedUtilities.validatePutbackBuybackRecords(prodStagingList1, mapProductName1, docStorage1.id);
+        DistressedUtilities.validateProductStatusUpdateRecords(prodStagingList1, mapProductName1, docStorage1.id);
         DistressedUtilities.recallValidationOnRecordUpdate(prodStagingList1, prodList1, mapProductName1, docStorage1.id, workAssignment1.id, docStorage1);
         DistressedUtilities.postDocumentAPI(docStorage1.id, workAssignment1.id, 2, 2, successStringSet, failedStringSet, 'test', 'test', prodStagingList1,'Account Status Update File');  
 

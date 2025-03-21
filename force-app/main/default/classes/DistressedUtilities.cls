@@ -589,16 +589,10 @@ public class DistressedUtilities {
             }
             
             //Buyback/Putback Validation
-            if(mapProductName.containsKey(product.Data_Id__c)){
-                if(mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback/Putback Approved' && 
-                   mapProductName.get(product.Data_Id__c).Collection_Agency__c != NULL){
-                   ERROR_MSG += '<b>ERROR</b> - '+'Buyback/Putback status is approved.You cannot assign agency '+'<br/>';
-               }
-            }
-            
             if(mapProductName.containsKey(product.Data_Id__c) && mapProductName.get(product.Data_Id__c).Purchase_Status__c != null){
-            if(mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback/Putback Initiated' || mapProductName.get(product.Data_Id__c).Purchase_Status__c == 'Buyback/Putback Approved'){
-                ERROR_MSG += '<b>ERROR</b> - Products which are in Buyback/Putback status can not be associated with Agency.<br/>';
+            if(mapProductName.get(product.Data_Id__c).Purchase_Status__c != 'Buyback/Putback Rejected'){
+                ERROR_MSG += '<b>ERROR</b> - '+'Product is in Buyback/Putback state'+'<br/>';
+                EXPECTED += 'Cannot allocate Product when Buyback/Putback Status is - ' + mapProductName.get(product.Data_Id__c).Purchase_Status__c + '<br/>';
             }
             }
             //4658 -  Validation for value tier at time of placement

@@ -40,7 +40,6 @@ public with sharing class ProductAllocationIndividualController {
                           Placement_Status__c, Pool_Name__r.Name, RecordTypeID,Allocated_Amount_Total__c,Commission_Rate_at_Time_of_Placement__c,Value_Tier_at_Time_of_Placement__c,
                           Placed_Settlement_Rate__c,Recoverable_Fee__c,Non_Recoverable_Fee__c,Current_Balance__c,Purchase_Status__c,OwnerId,Previous_Ownership__c
                    FROM Product__c WHERE ID= :productID];
-        system.debug('product: '+product);
         if(product.Collection_Agency_Placement__c == NULL || product.Collection_Agency__c == 9999){
             ERROR_MSG = '';
         }
@@ -359,6 +358,9 @@ public with sharing class ProductAllocationIndividualController {
 		if(product.Collection_Agency__c != NULL && product.Collection_Agency__c != 9999){
             ERROR_MSG += '<b>ERROR</b> - '+'Product is already placed with another agency'+'<br/>';
             EXPECTED += 'Current Agency- ' + product.Collection_Agency__c +'<br/>';
+        }
+        if(String.isNotBlank(product.Purchase_Status__c) && product.Purchase_Status__c != 'Buyback/Putback Rejected'){
+            ERROR_MSG += '<b>ERROR</b> - '+'Product is in Buyback/Putback state'+'<br/>';
         }
         if(placement != NULL
              && String.isNotBlank(placement.Serviceable_Province__c)){
