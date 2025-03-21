@@ -112,7 +112,7 @@
                                       <a href="#" onclick='window.open("../lightning/page/filePreview?selectedRecordId={!conVer.ContentDocumentId}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=250,left=400,width=700,height=700");'>{!conVer.Title}</a>
                                     </span>
                                     <span class="slds-m-left_xx-small slds-truncate" title="{!conVer.Title}" style='display:{!IF(isLightningCommunity, "", "none;")}'>
-                                      <a href="{!urlPathPrefix}/lightning/page/filePreview?selectedRecordId={!conVer.ContentDocumentId}" target="_blank">{!conVer.Title}</a>
+                                      <a href="{!urlValue}{!urlPathPrefix}sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId={!conVer.Id}" target="_blank">{!conVer.Title}</a>
                                     </span>
                                   </li>
                                 </td>
