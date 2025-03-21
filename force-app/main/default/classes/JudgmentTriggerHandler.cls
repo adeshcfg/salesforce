@@ -72,6 +72,10 @@
             if (judgRecord.County__c <> null) {
                 listInternalNewJudgment.add(judgRecord);
             }
+            
+            if(judgRecord.Judgment_Date__c > Date.today()){
+                judgRecord.addError('Judgment Date cannot be in future.');
+            }
         }
 
         //method calls once record created in CFG
@@ -331,6 +335,10 @@
             if (judgmentObj.Legal_Status__c == 'Post-Judgment' && judgmentObj.Legal_Sub_Status__c == 'Vacated') {
                 judgmentObj.RecordTypeId = postJudgRcodtypId.Post_Judgment_RecordTypeId__c;
             }
+            
+            if(judgmentObj.Judgment_Date__c > Date.today()){
+                judgmentObj.addError('Judgment Date cannot be in future.');
+            } 
         }
 
         //method calls once record created/update in CFG
