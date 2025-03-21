@@ -36,6 +36,7 @@ global class InsolvencyDragNDropController{
     //7935
     public List<ContentVersion> conVerList {get; set;}
     public Id selectedConVerId { get; set; }
+    public String urlValue {get; set;}
     
     //Utility method to populate Attachment types
     public static List<SelectOption> getAllDocumentOptions() {
@@ -106,6 +107,7 @@ global class InsolvencyDragNDropController{
     
     // controller to load attachments
     public InsolvencyDragNDropController(ApexPages.StandardController controller) {
+        urlValue = URL.getSalesforceBaseUrl().toExternalForm();
         insAcc = (Insolvency__c )controller.getRecord();
         refreshAttList();
         refreshConVerList();

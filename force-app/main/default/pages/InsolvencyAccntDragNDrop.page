@@ -150,8 +150,7 @@
                                                                 >
                                                                    <!--<a href="{!urlPathPrefix}sfc/servlet.shepherd/document/download/{!conVer.ContentDocumentId}">{!conVer.Title}</a
                                                                     > -->
-                                                                    <a href="{!urlValue}{!urlPathPrefix}sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId={!conVer.Id}">{!conVer.Title}</a>
-                                                                    <!--<a href="https://cfgroup--cfgdev.sandbox.my.site.com/QAPortal/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId={!conVer.Id}">{!conVer.Title}</a>-->
+                                                                    <a href="{!urlValue}{!urlPathPrefix}sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId={!conVer.Id}" target="_blank">{!conVer.Title}</a>
                                                                     
                                                                 </span>
                                                             </li>
@@ -381,9 +380,7 @@
                                                             title="{!conVer.Title}"
                                                             style='display:{!IF(isLightningCommunity, "", "none;")}'
                                                         >
-                                                            <a href="{!urlPathPrefix}/lightning/page/filePreview?selectedRecordId={!conVer.ContentDocumentId}" target="_blank"
-                                                                >{!conVer.Title}</a
-                                                            >
+                                                            <a href="{!urlValue}{!urlPathPrefix}sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&versionId={!conVer.Id}" target="_blank">{!conVer.Title}</a>
                                                         </span>
                                                     </li>
                                                 </td>

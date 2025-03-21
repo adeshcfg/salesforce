@@ -33,11 +33,11 @@ global class InsolvencyAccntDragNDropController {
     public Boolean isEasyFinanacial { get; set; }
 	public Boolean isMoneyMartCommunityUser { get; set; }
     public Boolean isFlexitiCommunityUser { get; set; }
-    
     //7935
     public List<ContentVersion> conVerList {get; set;}
     public List<ContentVersion> insolvConVerList { get; set; }
     public Id selectedConVerId { get; set; }
+    public String urlValue {get; set;}
     
     public static List<SelectOption> getAllDocumentOptions() {
         Schema.DescribeFieldResult insolAccDocumenttype = Insolvency_Account__c.Insolvency_Account_Document_Type__c.getDescribe();
@@ -98,7 +98,7 @@ global class InsolvencyAccntDragNDropController {
             conDocIds.add(conDocLink.ContentDocumentId);
         }
         if(conDocIds.size() > 0){
-            conVerList = [SELECT id, ContentDocumentId, Title, Description, CreatedBy.Name, LastModifiedDate, CreatedDate FROM ContentVersion WHERE contentDocumentId in : conDocIds ORDER BY CreatedDate DESC];
+            conVerList = [SELECT id, ContentDocumentId, Title, Description, CreatedBy.Name, LastModifiedDate, CreatedDate  FROM ContentVersion WHERE contentDocumentId in : conDocIds ORDER BY CreatedDate DESC];
         }else{
             conVerList = new List<ContentVersion>();
         }
@@ -138,8 +138,8 @@ global class InsolvencyAccntDragNDropController {
     // controller to load attachments
     public InsolvencyAccntDragNDropController(ApexPages.StandardController controller) {
         insAcc = (Insolvency_Account__c) controller.getRecord();
+        urlValue = URL.getSalesforceBaseUrl().toExternalForm();
         insAcc = [SELECT Insolvency__c, RecordType.Name FROM Insolvency_Account__c WHERE Id = :insAcc.Id];
-
         insolvAttList = new List<Attachment>();
         insolvAttList = [
             SELECT Id, Name, owner.name, Description, CreatedDate, LastModifiedDate, ParentID
@@ -147,8 +147,10 @@ global class InsolvencyAccntDragNDropController {
             WHERE ParentID = :insAcc.Insolvency__c AND Description = 'Creditors Package'
         ];
         Set<Id> conDocIds = new Set<Id>();
-        for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId from ContentDocumentLink where LinkedEntityid =: insAcc.Insolvency__c]){
-            conDocIds.add(conDocLink.ContentDocumentId);
+        if(insAcc.Insolvency__c != null){
+            for(ContentDocumentLink conDocLink : [SELECT Id, ContentDocumentId from ContentDocumentLink where LinkedEntityid =: insAcc.Insolvency__c]){
+                conDocIds.add(conDocLink.ContentDocumentId);
+            }
         }
         if(conDocIds.size() > 0){
             insolvConVerList = [SELECT id, ContentDocumentId, Title, Description, CreatedBy.Name, LastModifiedDate, CreatedDate, owner.name FROM ContentVersion WHERE contentDocumentId in : conDocIds ORDER BY CreatedDate DESC];
