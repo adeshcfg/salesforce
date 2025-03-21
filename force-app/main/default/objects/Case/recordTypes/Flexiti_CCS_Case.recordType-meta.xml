@@ -10,47 +10,11 @@
         <values>
             <fullName>CFG</fullName>
             <default>true</default>
-        </values>
-        <values>
-            <fullName>Canaccede</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Canadian Tire</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fairstone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fairstone2</fullName>
-            <default>false</default>
-        </values>
+        </values>       
         <values>
             <fullName>Flexiti</fullName>
             <default>false</default>
-        </values>
-        <values>
-            <fullName>Goeasy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Money Mart</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SDA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SPL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Scotia Bank</fullName>
-            <default>false</default>
-        </values>
+        </values>        
     </picklistValues>
     <picklistValues>
         <picklist>CCS_Assignment_Type__c</picklist>
