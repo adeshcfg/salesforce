@@ -11,7 +11,7 @@
         <filterItems>
             <field>Account.RecordTypeId</field>
             <operation>equals</operation>
-            <value>Canaccede Customer, Fidem Customer, Easyfinancial CCS Customer</value>
+            <value>Canaccede Customer, Fidem Customer, Easyfinancial CCS Customer, Flexiti CCS Customer</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
