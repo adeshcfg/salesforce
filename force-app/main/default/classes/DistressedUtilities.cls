@@ -353,6 +353,10 @@ public class DistressedUtilities {
                     errorMsg += '<b>ERROR</b> - Invalid Purchase Status.' + '<br/>';
                     expected += 'Purchase status should be either ' + DisplayBuybackPutbackStagingController.BUYBACK_APPROVED + ' or ' + DisplayBuybackPutbackStagingController.BUYBACK_REJECTED + '<br/>';
                 }
+                if (String.isNotBlank(productStaging.Purchase_Status__c) && productStaging.Purchase_Status__c == DisplayBuybackPutbackStagingController.BUYBACK_REJECTED && String.isBlank(productStaging.Rejection_Reason__c)) {
+                    errorMsg += '<b>ERROR</b> - Rejection reason is mandatory.' + '<br/>';
+                    expected += 'Rejection reason is mandatory when purchase status is ' + DisplayBuybackPutbackStagingController.BUYBACK_REJECTED + '<br/>';
+                }
                 if (String.isNotBlank(productStaging.Rejection_Reason__c) && productStaging.Rejection_Reason__c == 'Field length exceeded') {
                     productStaging.Rejection_Reason__c = null;
                     errorMsg += '<b>ERROR</b> - Rejection reason length exceeded.' + '<br/>';
