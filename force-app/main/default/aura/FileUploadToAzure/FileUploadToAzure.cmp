@@ -121,7 +121,9 @@
                         <th>Title</th>
                         <th>Document No.</th>
                         <th>Document Type</th>
-                        <th>Buyback/Putback Evidence</th>
+                        <aura:if isTrue="{!v.sObjectName == 'Product__c'}">
+                            <th>Buyback/Putback Evidence</th>
+                        </aura:if>
                         <th>Document Visibility</th>
                         <th>Created Date</th>
                         <th>Created By</th>
@@ -152,7 +154,9 @@
                             </a>
                         </td>
                         <td class="slds-truncate">{!f.Document_Type__c}</td>
-                        <td class="slds-truncate"><ui:outputCheckbox value="{!f.Buyback_Putback_Evidence__c}" /></td>
+                        <aura:if isTrue="{!v.sObjectName == 'Product__c'}">
+                            <td class="slds-truncate"><ui:outputCheckbox value="{!f.Buyback_Putback_Evidence__c}" /></td>
+                        </aura:if>
                         <td class="slds-truncate">{!f.Visibility__c}</td>
                         <td class="slds-truncate" data-label="Completed Date">
                             <ui:outputDateTime value="{!f.CreatedDate}" />
