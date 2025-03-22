@@ -17,6 +17,17 @@ trigger DistressedNotesTrigger on Distressed_notes__c (before insert, before upd
     }
     
     if(runTrigger){
+        if(Trigger.isBefore) {
+            if(Trigger.isDelete){                    
+                ArchiveUnarchiveUtility.insertDeletedRecords(Trigger.Old);                   
+            }
+        }
+        if(Trigger.isAfter){
+            if(Trigger.isInsert){
+                DistressedNotesTriggerHandler.handleAfterInsert(Trigger.new);
+            }
+            
+        }
         if(DistressedNotesTriggerHandler.runDistressedNotesTrigger){
             if(Trigger.isBefore) {
                 if(Trigger.isInsert){
@@ -25,21 +36,14 @@ trigger DistressedNotesTrigger on Distressed_notes__c (before insert, before upd
                 if(Trigger.isUpdate){
                     DistressedNotesTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
                 }
-                if(Trigger.isDelete){                    
-                    ArchiveUnarchiveUtility.insertDeletedRecords(Trigger.Old);                   
-                }
             }
             
             if(Trigger.isAfter){
-                if(Trigger.isInsert){
-                        DistressedNotesTriggerHandler.handleAfterInsert(Trigger.new);
-                }
                 if(Trigger.isUpdate){
                     DistressedNotesTriggerHandler.handleAfterupdate(Trigger.new, trigger.oldmap);
-                }
-            
+                }            
             }
-          
+            
         }  
     }
 }
