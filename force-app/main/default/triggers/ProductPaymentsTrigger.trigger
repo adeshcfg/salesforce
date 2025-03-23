@@ -19,31 +19,36 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert,before delet
     }
     
     if(runTrigger || test.isRunningTest()){ 
-        	if(ProductPaymentsTriggerHandler.runProductTrigger){
-                if(Trigger.isBefore) {
-                    if(Trigger.isInsert){
-                    ProductPaymentsTriggerHandler.handleBeforeInsert(Trigger.New);
-                    }
-                    //Before delete
-                    if(trigger.isDelete){
-                        ProductPaymentsTriggerHandler.handleBeforeDelete(trigger.old);  
-                        }                      
-                    //Ticket 4546: changes done by tejal for update payment posting month as per payment posting date
-                    if(Trigger.isUpdate){
-                        ProductPaymentsTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
-                    }                    
-                }
-                                
-                //Customer Data Load 
-                if(Trigger.isAfter) {
-                    if(Trigger.isUpdate){
-                        ProductPaymentsTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
-                    }
-                   
-                    if(Trigger.isInsert){
-                    ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.New, trigger.newMap, trigger.oldMap);
-                        }
-                    }                          
-                }
+        if(Trigger.isAfter) {
+            if(Trigger.isInsert){
+                ArchiveUnarchiveUtility.assignExternalCorID(Trigger.New);
             }
         }
+        if(ProductPaymentsTriggerHandler.runProductTrigger){
+            if(Trigger.isBefore) {
+                if(Trigger.isInsert){
+                    ProductPaymentsTriggerHandler.handleBeforeInsert(Trigger.New);
+                }
+                //Before delete
+                if(trigger.isDelete){
+                    ProductPaymentsTriggerHandler.handleBeforeDelete(trigger.old);  
+                }                      
+                //Ticket 4546: changes done by tejal for update payment posting month as per payment posting date
+                if(Trigger.isUpdate){
+                    ProductPaymentsTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
+                }                    
+            }
+            
+            //Customer Data Load 
+            if(Trigger.isAfter) {
+                if(Trigger.isUpdate){
+                    ProductPaymentsTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);
+                }
+                
+                if(Trigger.isInsert){
+                    ProductPaymentsTriggerHandler.handleAfterInsert(Trigger.New, trigger.newMap, trigger.oldMap);
+                }
+            }                          
+        }
+    }
+}

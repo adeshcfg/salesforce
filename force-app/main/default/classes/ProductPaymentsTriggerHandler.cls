@@ -62,8 +62,6 @@
         map<ID, Product_Payments__c> mapNewFees = new Map<ID, Product_Payments__c>();
         Map<String, Id> prodRTypeIdMap = new Map<String, Id>();
 		
-        ArchiveUnarchiveUtility.assignExternalCorID(listProductPayment);
-        
         for(RecordType rType : [SELECT Id, DeveloperName, name FROM RecordType WHERE sobjectType = 'Product_Payments__c' ]){
             prodRTypeIdMap.put(rType.DeveloperName, rType.Id);
         }
