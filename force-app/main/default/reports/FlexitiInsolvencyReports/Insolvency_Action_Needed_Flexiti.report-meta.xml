@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_18674371</developerName>
+        <masterLabel>Number Of Days In Current Status</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>Insolvency__c.Number_Of_Days_In_Current_Status__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>2</to>
+            </sourceValues>
+            <value>0-2 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>2</from>
+                <to>5</to>
+            </sourceValues>
+            <value>3-5 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>5</from>
+                <to>10</to>
+            </sourceValues>
+            <value>6-10 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>10</from>
+            </sourceValues>
+            <value>10+ Days</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Debtor__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Co_Debtor__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Insolvency_Type__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Insolvency_Date__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Insolvency_Status__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Insolvency_Status_Last_Changed__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Number_Of_Days_In_Current_Status__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Insolvency_Received_Date__c</field>
+    </columns>
+    <description>Insolvency Action Needed</description>
+    <filter>
+        <booleanFilter>(1 AND 2) AND 3</booleanFilter>
+        <criteriaItems>
+            <column>Insolvency__c.Num_of_Accounts_Needing_Validation__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterThan</operator>
+            <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency__c.Insolvency_Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>For Owner Review</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency__c.Client_Identifiers__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Flexiti</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_18674371</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Insolvency Action Needed</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Insolvency__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>Insolvency__c.Co_Debtor__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>Insolvency__c.Bulk_Payment_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
