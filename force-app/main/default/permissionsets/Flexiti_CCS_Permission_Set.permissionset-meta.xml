@@ -219,12 +219,7 @@
         <editable>true</editable>
         <field>Product__c.Bank_Name__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Bank_Refence_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.CCS_Agency_Total_Balance__c</field>
