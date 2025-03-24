@@ -105,6 +105,11 @@
         <field>Case.CCS_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Next_Follow_Up_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.CCS_Assignment_Type__c</field>
@@ -497,7 +502,7 @@
     </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Case.CCS_Case</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>PersonAccount.CCS_Accounts</recordType>
