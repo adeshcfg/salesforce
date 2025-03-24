@@ -19823,7 +19823,7 @@
         <default>false</default>
         <personAccountDefault>false</personAccountDefault>
         <recordType>Case.Insolvency_Flexiti_Community_Case</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>    
     <recordTypeVisibilities>
         <default>false</default>
