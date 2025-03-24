@@ -17,4 +17,21 @@ public class TestProcessRecordsDeletionBatch {
         Test.stopTest();
         System.assertEquals(0, [select count() from Deleted_Records__c]);
     }
+    @isTest
+    private static void deleteRecordProcess_SendEmailTest() {
+        Test.startTest();
+        ProcessRecordsDeletionBatch.errorRecIdandErrorMsgMap.put('Error_Rec_Id', 'Error Generated to Evaluate Test Class');
+        ProcessRecordsDeletionBatch processRecord = new ProcessRecordsDeletionBatch();
+        processRecord.sendExceptionEmail();
+        Test.stopTest();
+    }
+    
+   	@isTest
+    private static void deleteRecordProcess_CreateExceptionRecordTest() {
+        Test.startTest();
+        ProcessRecordsDeletionBatch.errorRecIdandErrorMsgMap.put('Error_Rec_Id', 'Error Generated to Evaluate Test Class');
+        ProcessRecordsDeletionBatch processRecord = new ProcessRecordsDeletionBatch();
+        processRecord.createExceptionRecords();
+        Test.stopTest();
+    }
 }

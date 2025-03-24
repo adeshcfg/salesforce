@@ -15,9 +15,9 @@ public class TestDeleteRecordsService {
         RestContext.response= res;
         
         Test.startTest();
-        DeleteRecordsService.deleteRecords();
+        DeleteRecordsService.Response responseMessage = DeleteRecordsService.deleteRecords();
         Test.stopTest();
-        System.assertEquals(true, DeleteRecordsService.isBatchStarted);
+        System.assertEquals(responseMessage.responseMessage, DeleteRecordsService.SUCCESS_MSG);
 
     }
 }

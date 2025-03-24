@@ -6,7 +6,7 @@
  **/
 public class ProcessRecordsDeletionBatch implements Database.Batchable<sObject>, Database.Stateful {
     
-    private static Map<String, String> errorRecIdandErrorMsgMap = new Map<String, String>();
+    public static Map<String, String> errorRecIdandErrorMsgMap = new Map<String, String>();
     
     public Database.QueryLocator start(Database.BatchableContext bc){
         Date todayDate = Date.today();
@@ -16,6 +16,7 @@ public class ProcessRecordsDeletionBatch implements Database.Batchable<sObject>,
     
     public void execute(Database.BatchableContext bc, List<Deleted_Records__c> deletedRecordsList){
         Database.DeleteResult[] deletedRecordsResult =  Database.delete(deletedRecordsList, false);
+        Database.emptyRecycleBin(deletedRecordsList);
         for(Database.DeleteResult deletedRecordResult : deletedRecordsResult) {
             if (!deletedRecordResult.isSuccess()) {
                 List<String> errorMessageList = new List<String>();
@@ -28,16 +29,15 @@ public class ProcessRecordsDeletionBatch implements Database.Batchable<sObject>,
     }
     
     public void finish(Database.BatchableContext bc){
-        if(Test.isRunningTest()){
-            errorRecIdandErrorMsgMap.put('Error_Rec_Id', 'Error Generated to Evaluate Test Class');
+        if(errorRecIdandErrorMsgMap.size() > 0){
+            createExceptionRecords();
+        	sendExceptionEmail();
         }
-        createExceptionRecords();
-        sendExceptionEmail();
     }
     
-    private void sendExceptionEmail(){
+    public void sendExceptionEmail(){
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
-        String userEmail = UserInfo.getUserEmail();
+        String userEmail =System.Label.API_Failed_Email;
         List<String> errorMessageForEmailList = new List<String>();
         List<API_Error__c> listAPIErrors = new List<API_Error__c>();
         Integer counter = 1;
@@ -57,7 +57,7 @@ public class ProcessRecordsDeletionBatch implements Database.Batchable<sObject>,
             }
     }
     
-    private void createExceptionRecords(){
+    public void createExceptionRecords(){
         List<API_Error__c> listAPIErrors = new List<API_Error__c>();
         for(String recordId : errorRecIdandErrorMsgMap.keySet()){
             API_Error__c apiError = new API_Error__c(
