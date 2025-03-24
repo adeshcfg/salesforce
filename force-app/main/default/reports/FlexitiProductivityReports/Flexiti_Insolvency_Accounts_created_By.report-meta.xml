@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Insolvency_Account__c.Insolvency__c</field>
+    </columns>
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Status__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Claim_Type__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Claim_Amount__c</field>
+    </columns>
+    <description>Flexiti Insolvency Accounts created By</description>
+    <filter>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Client_Identifier__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Flexiti</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CUST_CREATED_NAME</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Tina Morabitoweston,Nathalie Sullivan,Nancy Dmytrow,Kimberley Kyle,Cindy Vanstone,Grace Sciarra,Bernadette McNeill,Nancy Kronowetter,Lise Clark,Michael Parks</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CUST_CREATED_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CUST_CREATED_DATE</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>MM Insolvency Accounts created By</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Insolvency_Account__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Insolvency_Account__c.Accounts_Validation_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
