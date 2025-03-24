@@ -43,7 +43,7 @@
         <field>CUST_CREATED_DATE</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>MM Insolvency Accounts created By</name>
+    <name>Flexiti Insolvency Accounts created By</name>
     <params>
         <name>co</name>
         <value>1</value>
