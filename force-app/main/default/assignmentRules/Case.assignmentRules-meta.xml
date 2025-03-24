@@ -66,5 +66,14 @@
                 <value>Canaccede</value>
             </criteriaItems>
         </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Insolvency_Flexiti_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.Assign_To__c</field>
+                <operation>equals</operation>
+                <value>Flexiti</value>
+            </criteriaItems>
+        </ruleEntry>
     </assignmentRule>
 </AssignmentRules>
