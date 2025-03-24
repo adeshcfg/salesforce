@@ -11,6 +11,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Next_Follow_Up_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Case.Assigned_To__c</field>
         <readable>true</readable>
@@ -3285,7 +3290,7 @@
     </pageAccesses>
 <recordTypeVisibilities>
         <recordType>Case.Insolvency_Flexiti_Community_Case</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Insolvency_Account__c.Flexiti_Insolvency_Account</recordType>
