@@ -100,7 +100,7 @@
         <field>BucketField_35011679</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Unsecured Account Pending Flexiti Validation</name>
+    <name>Unsecured Account Pending Flexiti valid</name>
     <params>
         <name>co</name>
         <value>1</value>
