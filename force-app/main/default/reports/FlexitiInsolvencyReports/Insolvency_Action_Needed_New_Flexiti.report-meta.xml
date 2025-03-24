@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <calculatedFormula>FK_Insolvency__c.Unique_Estate__c:SUM</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA1</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Unique Estate</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_66860087</developerName>
+        <masterLabel>Number Of Days In Current Status</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>FK_$Insolvency__c.Number_Of_Days_In_Current_Status__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>2</to>
+            </sourceValues>
+            <value>0-2 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>2</from>
+                <to>5</to>
+            </sourceValues>
+            <value>3-5 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>5</from>
+                <to>10</to>
+            </sourceValues>
+            <value>6-10 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>10</from>
+            </sourceValues>
+            <value>10+ Days</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>FK_NAME</field>
+    </columns>
+    <description>Insolvency Action Needed New</description>
+    <filter>
+        <criteriaItems>
+            <column>FK_$Insolvency__c.Num_of_Accounts_Needing_Validation__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterThan</operator>
+            <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>FK_$Insolvency__c.Insolvency_Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>For Owner Review</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Client_Identifier__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Flexiti</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>FK_$Insolvency__c.Client_Identifiers__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Flexiti</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Insolvency_Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>For Owner Review</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_66860087</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Insolvency Action Needed New</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Insolvency_Account__c@Insolvency_Account__c.Insolvency__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Insolvency_Account__c.Accounts_Validation_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
