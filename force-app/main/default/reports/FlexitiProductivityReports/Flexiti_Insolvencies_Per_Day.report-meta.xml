@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Debtor__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Co_Debtor__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Insolvency_Type__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Insolvency_Date__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Insolvency_Status__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Insolvency_Received_Date__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency__c.Number_Of_Days_In_Current_Status__c</field>
+    </columns>
+    <description>Flexiti Insolvencies Per Day</description>
+    <filter>
+        <criteriaItems>
+            <column>Insolvency__c.Client_Identifiers__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Flexiti</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CUST_CREATED_DATE</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Flexiti Insolvencies Per Day</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Insolvency__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Insolvency__c.Insolvency_Created_Date__c</dateColumn>
+        <interval>INTERVAL_THISMONTH</interval>
+    </timeFrameFilter>
+</Report>

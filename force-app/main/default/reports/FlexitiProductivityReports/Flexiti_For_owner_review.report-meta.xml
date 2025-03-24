@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Debtor_1_Estate_Number__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Date__c</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Insolvency_Status__c</field>
+    </columns>
+    <columns>
+        <field>CUST_ID</field>
+    </columns>
+    <columns>
+        <field>CUST_CREATED_DATE</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Statements_Requested__c</field>
+    </columns>
+    <columns>
+        <field>CUST_LAST_UPDATE</field>
+    </columns>
+    <columns>
+        <field>Insolvency_Account__c.Bank_Name__c</field>
+    </columns>
+    <description>Flexiti – For owner review</description>
+    <filter>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Insolvency_Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>For Owner Review</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Insolvency_Account__c.Bank_Name__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Flexiti</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Insolvency_Account__c.Number_Of_Days_In_Current_Status__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Flexiti – For owner review</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Insolvency_Account__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Insolvency_Account__c.Bulk_Payment_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
