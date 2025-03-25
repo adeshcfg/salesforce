@@ -645,7 +645,7 @@ public class ProductTriggerHandler {
                     }
                     //Data status mapping
                     if (String.isNotBlank(prod.product_status__c) && prodOld1.Product_Status__c != prod.Product_Status__c) {
-                        if (null != dataStatusMap.get(prod.product_status__C)) {
+                        if (dataStatusMap.containsKey(prod.Product_Status__c)) {
                             prod.Data_Status_Description__c = dataStatusMap.get(prod.product_status__C).Description__c;
                         } else {
                             prod.Data_Status_Description__c = '';
@@ -654,8 +654,6 @@ public class ProductTriggerHandler {
                             prod.Purchase_Status__c = 'Buyback/Putback Initiated';
                             prod.Buyback_Putback_Status_Change_Date__c = System.today();
                         }
-                    } else {
-                        prod.Data_Status_Description__c = '';
                     }
                 }
 
