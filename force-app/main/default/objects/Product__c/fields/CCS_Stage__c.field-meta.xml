@@ -112,6 +112,11 @@
                 <default>false</default>
                 <label>Completed</label>
             </value>
+            <value>
+                <fullName>Rejected Proposal</fullName>
+                <default>false</default>
+                <label>Rejected Proposal</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

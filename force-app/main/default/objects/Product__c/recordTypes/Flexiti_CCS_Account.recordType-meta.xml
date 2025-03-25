@@ -38,5 +38,9 @@
             <fullName>For Owner  Review</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Rejected Proposal</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
 </RecordType>
