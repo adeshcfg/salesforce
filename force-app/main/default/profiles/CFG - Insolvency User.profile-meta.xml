@@ -19515,6 +19515,10 @@
         <recordType>Product__c.Insolvency_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Product__c-Flexiti CCS Account Layout</layout>
+        <recordType>Product__c.Flexiti_CCS_Account</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Product__c-Loan Account</layout>
         <recordType>Product__c.Loan_Account</recordType>
     </layoutAssignments>
