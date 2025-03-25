@@ -427,6 +427,7 @@ public class DisplayProductStatusStagingController {
         List<Product__c> listProductToUpdate = new List<Product__c>();
         List<String> productIdsToUpdate = new List<String>();
         Map<String, String> statusDescriptionMap = new Map<String, String>();
+        List<String> putbackStatuses = new List<String>{ '297000', '298000' };
         for (Data_Status_Mapping__c statusMapping : [SELECT Name, Description__c FROM Data_Status_Mapping__c]) {
             statusDescriptionMap.put(statusMapping.Name, statusMapping.Description__c);
         }
@@ -441,6 +442,10 @@ public class DisplayProductStatusStagingController {
                 Product__c prod = new Product__c();
                 prod.Id = mapProductNameId.get(productStaging.Data_Id__c);
                 prod.Product_Status__c = productStaging.Product_Status__c;
+                if (putbackStatuses.contains(prod.Product_Status__c)) {
+                    prod.Purchase_Status__c = 'Buyback/Putback Initiated';
+                    prod.Buyback_Putback_Status_Change_Date__c = System.today();
+                }
                 prod.Data_Status_Description__c = statusDescriptionMap.get(prod.Product_Status__c);
                 productIdsToUpdate.add(prod.Id);
                 listProductToUpdate.add(prod);
@@ -466,7 +471,7 @@ public class DisplayProductStatusStagingController {
         return productIdsToUpdate;
     }
 
-    public static void generateSuccessErrorFiles(String documentStorageId, String workAssignmentId) {
+    /* public static void generateSuccessErrorFiles(String documentStorageId, String workAssignmentId) {
         List<Product_Staging__c> processedStagingRecords = new List<Product_Staging__c>();
         String success = 'data_id,product_status';
         String failed = 'data_id,product_status,error';
@@ -523,7 +528,7 @@ public class DisplayProductStatusStagingController {
                 documentStorageId
             )
         );
-    }
+    } */
 
     public class productStagingWrapper {
         public Product_Staging__c productStaging { get; set; }
