@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class for putback/buyback processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 03-20-2025
+ * @last modified on  : 03-25-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallouts {
@@ -76,7 +76,7 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
                 ',' +
                 PutbackBuybackUtility.convertDateToString(prod.Purchase_Date_Formula__c) +
                 ',' +
-                prod.Primary_Debtor_AKA_Name__c +
+                prod.Customer__r.Name +
                 ',' +
                 prod.Previous_Primary_Account_Number__c +
                 ',' +

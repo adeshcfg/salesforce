@@ -1,7 +1,7 @@
 /**
  * @description       : Test class for PutbackBuybackQueueable and PutbackBuybackUtility
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 03-19-2025
+ * @last modified on  : 03-25-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 @isTest
@@ -91,6 +91,8 @@ public class PutbackBuybackQueueableTest {
         PutbackBuybackUtility.getSellerList();
         PutbackBuybackUtility.canGenerateFile('Anea');
         PutbackBuybackUtility.newMessageException('Error Message');
+        PutbackBuybackUtility.createApiError('Test', 'Test', 'Test', 'test@xyz.com');
+        PutbackBuybackUtility.createInsolvencyError('Test', 'Test', 'Test');
         Test.startTest();
         PutbackBuybackUtility.initiateFormGeneration('Anea');
         Test.stopTest();

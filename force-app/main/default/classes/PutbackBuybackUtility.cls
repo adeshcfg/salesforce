@@ -1,7 +1,7 @@
 /**
  * @description       : Utility class for putback/buyback processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-13-2025
+ * @last modified on  : 03-25-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PutbackBuybackUtility {
@@ -82,7 +82,7 @@ public class PutbackBuybackUtility {
                 Name,
                 Product_Status__c,
                 Purchase_Date_Formula__c,
-                Primary_Debtor_AKA_Name__c,
+                Customer__r.Name,
                 Previous_Primary_Account_Number__c,
                 Purchase_Face_Value__c,
                 Purchase_Price__c,
