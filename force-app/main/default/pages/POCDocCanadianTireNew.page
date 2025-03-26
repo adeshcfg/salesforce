@@ -667,7 +667,7 @@
                      <div class="pageSeperator">
                      </div>
                   </apex:outputPanel>
-                  <apex:outputPanel rendered="{!form37}" >
+                  <apex:outputPanel rendered="{!form37 && insolvAcc.Claim_Type__c == 'Unsecured'}" >
                      <div style="font-size: 13px; margin:auto; padding-top:20px; line-height: 17px; width:90%;">
                         <div style="padding-bottom:10px;">
                                     <div style="text-align:center; float:left; width: 100px;">
