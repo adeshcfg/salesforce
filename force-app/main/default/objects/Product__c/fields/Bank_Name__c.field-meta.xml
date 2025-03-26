@@ -27,6 +27,11 @@
                 <default>false</default>
                 <label>Easyfinancial</label>
             </value>
+            <value>
+                <fullName>Flexiti</fullName>
+                <default>false</default>
+                <label>Flexiti</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

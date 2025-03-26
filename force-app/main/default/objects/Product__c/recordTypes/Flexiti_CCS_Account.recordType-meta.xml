@@ -5,6 +5,13 @@
     <description>Record Type of Flexiti CCS Account</description>
     <label>Flexiti CCS Account</label>
     <picklistValues>
+        <picklist>Bank_Name__c</picklist>
+        <values>
+            <fullName>Flexiti</fullName>
+            <default>false</default>
+        </values>       
+    </picklistValues>
+    <picklistValues>
         <picklist>CCS_Stage__c</picklist>
         <values>
             <fullName>Completed</fullName>
