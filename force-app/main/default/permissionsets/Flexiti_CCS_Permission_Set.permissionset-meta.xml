@@ -497,6 +497,10 @@
     </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Case.CCS_Case</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Case.Flexiti_CCS_Case</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
