@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class for putback/buyback processing
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 03-25-2025
+ * @last modified on  : 03-26-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallouts {
@@ -136,7 +136,7 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
         }
         // Call API portal to upload CSV to blob storage and create doc storage record
         uploadCsvToAzure(csvContentVersionId, zipDocStorageId);
-        updateProductPurchaseStatus(productIdList, 'Buyback/Putback Submitted to Seller');
+        createStagingRecords(productIdList, zipDocStorageId);
         // Send processing/failure mail
         CTBFileValidationUtility.sendEmail(
             'Putback/Buyback Processing initiated',
@@ -204,7 +204,7 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
      * @param productIdList
      * @param status
      **/
-    public void updateProductPurchaseStatus(List<String> productIdList, String status) {
+    public static void updateProductPurchaseStatus(List<String> productIdList, String status) {
         List<Product__c> productsToUpdate = new List<Product__c>();
         for (String productId : productIdList) {
             productsToUpdate.add(new Product__c(Id = productId, Purchase_Status__c = status, Buyback_Putback_Status_Change_Date__c = System.Today()));
@@ -212,6 +212,22 @@ public class PutbackBuybackQueueable implements Queueable, Database.AllowsCallou
         if (!productsToUpdate.isEmpty()) {
             ProductTriggerHandler.runProductTrigger = false;
             Database.update(productsToUpdate);
+        }
+    }
+
+    /**
+     * @description : Method to create staging records for products with given identifier
+     * @author adesh.ikhar@canaccede.com | 03-26-2025
+     * @param productIdList
+     * @param csvContentVersionId
+     **/
+    public void createStagingRecords(List<String> productIdList, String identifier) {
+        List<Product_Staging__c> stagingRecordsToCreate = new List<Product_Staging__c>();
+        for (String productId : productIdList) {
+            stagingRecordsToCreate.add(new Product_Staging__c(Data_Id__c = productId, Identifier__c = identifier));
+        }
+        if (!stagingRecordsToCreate.isEmpty()) {
+            Database.insert(stagingRecordsToCreate);
         }
     }
 

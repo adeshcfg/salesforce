@@ -1,7 +1,7 @@
 /**
  * @description       : Class to handle Zip File Processing Status API which will be called by Portal
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-14-2025
+ * @last modified on  : 03-26-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 @RestResource(urlMapping='/ZipFileProcessor')
@@ -13,6 +13,7 @@ global class ZipFileProcessingStatusApi {
      **/
     @HttpPost
     global static String finishProcessing() {
+        List<String> productIdList = new List<String>();
         Document_Storage__c zipDocStorage = new Document_Storage__c();
         Map<String, Object> responseMap = new Map<String, Object>();
         try {
@@ -29,7 +30,7 @@ global class ZipFileProcessingStatusApi {
             ];
             if (!zipDocStorageList.isEmpty()) {
                 zipDocStorage = zipDocStorageList[0];
-                List<ContentVersion> csvConVersion = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :zipDocStorageList[0].Comment__c];
+                List<ContentVersion> csvConVersion = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :zipDocStorage.Comment__c];
                 if (!csvConVersion.isEmpty()) {
                     csvContentDocId = csvConVersion[0].ContentDocumentId;
                 }
@@ -41,6 +42,7 @@ global class ZipFileProcessingStatusApi {
             } else {
                 zipDocStorage.Document_URL__c = zipFileStatus.docUrl;
                 updateDocStorageStatus(zipDocStorage, 'Processed', requestString);
+                updateProductPurchaseStatus(zipDocStorage.Id);
                 String zipFiledDownloadLink =
                     '<a href="' +
                     URL.getOrgDomainUrl().toExternalForm() +
@@ -94,6 +96,21 @@ global class ZipFileProcessingStatusApi {
         }
         PortalDocumentStorageProcessor.createResponse(JSON.serialize(responseMap, true), 200);
         return JSON.serialize(responseMap, true);
+    }
+
+    /**
+     * @description : Method to update product purchase status using provided identifier from staging records
+     * @author adesh.ikhar@canaccede.com | 03-26-2025
+     * @param identifier
+     **/
+    public static void updateProductPurchaseStatus(String identifier) {
+        List<String> productIdList = new List<String>();
+        List<Product_Staging__c> productStagingList = [SELECT Data_Id__c FROM Product_Staging__c WHERE Identifier__c = :identifier];
+        for (Product_Staging__c staging : productStagingList) {
+            productIdList.add(staging.Data_Id__c);
+        }
+        PutbackBuybackQueueable.updateProductPurchaseStatus(productIdList, 'Buyback/Putback Submitted to Seller');
+        Database.delete(productStagingList);
     }
 
     /**
