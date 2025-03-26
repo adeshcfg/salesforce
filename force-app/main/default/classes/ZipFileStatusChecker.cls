@@ -1,7 +1,7 @@
 /**
  * @description       : Batch class to check for pending zip files in Document Storage for putback/buyback
  * @author            : adesh.ikhar@canaccede.com
- * @last modified on  : 02-13-2025
+ * @last modified on  : 03-26-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class ZipFileStatusChecker implements Database.Batchable<sObject> {
@@ -11,7 +11,7 @@ public class ZipFileStatusChecker implements Database.Batchable<sObject> {
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        String docStorageName = Datetime.now().format('yyyyMMdd') + '_' + sellerName;
+        String docStorageName = Datetime.now().format('yyyyMMdd') + '_' + sellerName + '.zip';
         return Database.getQueryLocator(
             'SELECT Id FROM Document_Storage__c WHERE Document_Name__c = :docStorageName AND File_Processing_Status__c = \'Pending\''
         );
