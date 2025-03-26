@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>CUST_NAME</field>
+        <field>Account.Products__r$Name</field>
     </columns>
     <columns>
-        <field>CUST_ID</field>
+        <field>Account.Products__r$Portfolio_Name_Lookup__c</field>
     </columns>
     <columns>
-        <field>Product__c.Portfolio_Name_Lookup__c</field>
+        <field>Account$BillingState</field>
     </columns>
     <columns>
-        <field>FK_ACC_ADDR1_STATE</field>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Account.Products__r$Remaining_Balance__c</field>
     </columns>
     <columns>
-        <field>Product__c.Remaining_Balance__c</field>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Account.Products__r$Monthly_Payment_Amount__c</field>
     </columns>
     <columns>
-        <field>Product__c.Monthly_Payment_Amount__c</field>
+        <field>Account.Products__r$Last_Payment_Date__c</field>
     </columns>
     <columns>
-        <field>Product__c.Last_Payment_Date__c</field>
+        <field>Account.Products__r$Payment_Frequency__c</field>
     </columns>
-    <columns>
-        <field>Product__c.Payment_Frequency__c</field>
-    </columns>
-    <description>Flexiti CCS Accounts to Close as PIF</description>
+    <description>Flexiti CCS Accts to Close as PIF</description>
     <filter>
         <criteriaItems>
-            <column>CUST_RECORDTYPE</column>
+            <column>Account.Products__r$RecordType</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Product__c.CCS_Account</value>
+            <value>Product__c.Flexiti_CCS_Account</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Product__c.Current_Balance__c</column>
+            <column>Account.Products__r$Current_Balance__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>0</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Product__c.CCS_Stage__c</column>
+            <column>Account.Products__r$CCS_Stage__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>In Progress (notice has been sent)</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Product__c.Bank_Name__c</column>
+            <column>Account.Products__r$Bank_Name__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
@@ -58,21 +57,21 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Product__c.Proposal_Status__c</field>
+        <field>Account.Products__r$Proposal_Status__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Flexiti CCS Accounts to Close as PIF</name>
+    <name>Flexiti CCS Accts to Close as PIF</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>CustomEntity$Product__c@Product__c.CCS_Agency__c</reportType>
+    <reportType>Products_with_CCS_agency__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Product__c.CCS_Proposal_Date__c</dateColumn>
+        <dateColumn>Account.Products__r$CCS_Proposal_Date__c</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>
