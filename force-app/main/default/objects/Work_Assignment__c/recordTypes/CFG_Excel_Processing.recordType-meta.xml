@@ -1025,5 +1025,9 @@
             <fullName>Product Status Update File</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Product Buyback/Putback Update File</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
 </RecordType>

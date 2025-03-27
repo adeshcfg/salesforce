@@ -153,6 +153,11 @@
                 <default>false</default>
                 <label>Product Status Update File</label>
             </value>
+            <value>
+                <fullName>Product Buyback/Putback Update File</fullName>
+                <default>false</default>
+                <label>Product Buyback/Putback Update File</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Payment</controllingFieldValue>
@@ -209,6 +214,10 @@
         <valueSettings>
             <controllingFieldValue>Excel File Processing</controllingFieldValue>
             <valueName>Product Status Update File</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Excel File Processing</controllingFieldValue>
+            <valueName>Product Buyback/Putback Update File</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Bulk Media Request</controllingFieldValue>
