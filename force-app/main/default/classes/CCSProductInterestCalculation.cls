@@ -8,19 +8,24 @@
  *************************************************************************************************/
 public class CCSProductInterestCalculation implements Database.Batchable<sobject> {
     
+public static List<String> RECORDTYPE = new List<String>{'GoEasy_CCS_Account', 'Flexiti_CCS_Account'};
+public static List<String> CCSSTAGE = new List<String>{'Missed Payment', 'In Progress (notice has been sent)'};
+    
+
+    
 public Database.QueryLocator start(Database.BatchableContext bc) {
         // collect the batches of records or objects to be passed to execute
         return Database.getQueryLocator(
             [SELECT ID,  Interest_Rate__c,Accepted_Interest_rate__C, Current_Interest_Amount__c,CCS_Stage__c, 
                     Interest_Amount_Last_Calculated_Date__c,   State__c, Current_Balance__c                     
              FROM Product__c 
-             WHERE RecordType.DeveloperName= 'GoEasy_CCS_Account'  
+             WHERE RecordType.DeveloperName IN :RECORDTYPE 
              AND Current_Balance__c != null 
              AND Current_Balance__c > 0 
              // Interest_Rate__c or Accepted_Interest_rate__c should be present 
              AND ((Interest_Rate__c != NULL 
              AND Interest_Rate__c != 0) OR (Accepted_Interest_rate__C != NULL and Accepted_Interest_rate__C !=0))
-             AND (CCS_Stage__c ='Missed Payment' OR CCS_Stage__c = 'In Progress (notice has been sent)')
+             AND (CCS_Stage__c IN :CCSSTAGE)
             ]
         );
         
