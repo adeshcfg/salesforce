@@ -536,7 +536,7 @@
         </apex:outputPanel>
 
         <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
-        <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true'}" >
+        <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true' && insolvAcc.Claim_Type__c == 'Unsecured'}" >
             <div style='padding-top:12px;font-family: "Arial Unicode MS"; font-size: 13px;'>
                 <div style= "text-align:left; float:left;padding-left:18px; width:200px;">
                     <img src="{!$Resource.CFG}" />

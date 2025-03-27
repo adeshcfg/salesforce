@@ -582,7 +582,7 @@
                 </div></div>
         </apex:outputPanel>
         <!-- ---------------------------------------------------------------------------------- VOTING ---------------------------------------------->
-        <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true'}" >
+        <apex:outputPanel rendered="{! $CurrentPage.parameters.votingLetter == 'true' && insolvAcc.Claim_Type__c == 'Unsecured'}" >
             <!--   <div style='padding-top:10px;font-family: "Arial Unicode MS"; font-size: 13px;'> 
                 <div style="text-align:center; float:left; width:23%;">
                     <apex:image value="{!pocPackage.Header_logo__c}" />
