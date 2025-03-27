@@ -16,6 +16,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Flexiti</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Money Mart</fullName>
             <default>false</default>
         </values>
