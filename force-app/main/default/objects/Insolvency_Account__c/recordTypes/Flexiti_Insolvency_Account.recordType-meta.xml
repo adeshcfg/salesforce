@@ -25,39 +25,11 @@
     <picklistValues>
         <picklist>Agencies_Accounts__c</picklist>
         <values>
-            <fullName>Canaccede Financial Group%28CFG%29</fullName>
+            <fullName>PRA Group (PRA)</fullName>
             <default>false</default>
-        </values>
+        </values>        
         <values>
-            <fullName>Capital Recovery Service Ltd %28CBV%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>EOS Canada Inc</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Financial Debt Recovery%28FDR%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mac Financial Recovery Inc</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PRA Group Canada Inc</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pyxis Customer Solutions Ltd</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Razor Capital</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Resolve Financial Recovery %28RFR%29</fullName>
+            <fullName>Resolve Financial Recovery (RFR)</fullName>
             <default>false</default>
         </values>
     </picklistValues>
