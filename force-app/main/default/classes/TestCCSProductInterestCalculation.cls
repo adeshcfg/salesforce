@@ -17,6 +17,10 @@ public class TestCCSProductInterestCalculation {
         settings.Scope_Suffix__c = '/.default';
         update settings;   
 
+        Disable_Metadata_Settings__c disable = new Disable_Metadata_Settings__c();
+        disable.Disable_Product_Validation_WF__c = true;
+        insert disable;
+        
         Account customer = new Account(FirstName = 'FirstName', LastName = 'Last Name', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Easyfinancial CCS Customer').getRecordTypeId());
         insert customer;
         
