@@ -119,7 +119,7 @@
         <sharedTo>
             <group>Insolvency_Flexiti_Users</group>
         </sharedTo>
-        <booleanFilter>(1 OR ((2 OR 3) AND (4 OR 5)))</booleanFilter>
+        <booleanFilter>(1 OR (2 AND (3 OR 4)))</booleanFilter>
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
@@ -129,11 +129,6 @@
             <field>RecordTypeId</field>
             <operation>equals</operation>
             <value>Insolvency Case</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>RecordTypeId</field>
-            <operation>equals</operation>
-            <value>CCS Case</value>
         </criteriaItems>
         <criteriaItems>
             <field>Assign_To__c</field>
@@ -342,5 +337,31 @@
             <value>Scotia Bank</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Sharing_for_Flexiti_CCS_Case</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing records of Flexiti CCS Case</description>
+        <label>Sharing for Flexiti CCS Case</label>
+        <sharedTo>
+            <group>Flexiti_CCS</group>
+        </sharedTo>
+        <booleanFilter>(1 AND ( 2 OR 3 ))</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Flexiti CCS Case</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Assign_To__c</field>
+            <operation>equals</operation>
+            <value>Flexiti</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Entity_Identifiers__c</field>
+            <operation>contains</operation>
+            <value>Flexiti</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
 </SharingRules>
