@@ -8,7 +8,7 @@
  *************************************************************************************************/
 public class CCSProductInterestCalculation implements Database.Batchable<sobject> {
     
-public static List<String> RECORDTYPE = new List<String>{'GoEasy_CCS_Account', 'Flexiti_CCS_Account'};
+public static List<String> RECORDTYPE = new List<String>{'GoEasy_CCS_Account'};
 public static List<String> CCSSTAGE = new List<String>{'Missed Payment', 'In Progress (notice has been sent)'};
     
 
