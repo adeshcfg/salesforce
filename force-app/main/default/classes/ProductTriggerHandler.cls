@@ -336,6 +336,14 @@ public class ProductTriggerHandler {
             //Ticket 8531 - default set donation rate to 8% for flexiti CCS account
             if(prodRTypeIdMap.get('Flexiti_CCS_Account') == prod.RecordTypeId){
                 prod.Accepted_Donation_Rate__c = 8;
+                //Ticket 8529 - Information provided by Flexiti for CCS
+                prod.FairShare_Percentage__c = 8;
+                if (prod.Original_Balance__c != null && prod.Monthly_Payment_Amount__c != null) {
+                    Decimal minimumPayment = prod.Original_Balance__c * 0.02;
+                    if (prod.Monthly_Payment_Amount__c < minimumPayment) {
+                        prod.addError('Monthly Payment Amount should not be less than 2% of the Original Balance.');
+                    }
+                }
             }
         }
 
@@ -889,6 +897,17 @@ public class ProductTriggerHandler {
                     if(product.Accepted_Donation_Rate__c != 8){
                         product.addError('Accepted Donation Rate should be 8%');
                     }
+                    //Ticket 8529 - Information provided by Flexiti for CCS
+                    if(product.FairShare_Percentage__c != 8){
+                        product.addError('FairShare Percentage should be 8%');
+                    }
+                
+                if (product.Original_Balance__c != null && product.Monthly_Payment_Amount__c != null) {
+                    Decimal minimumPayment = product.Original_Balance__c * 0.02;
+                    if (product.Monthly_Payment_Amount__c < minimumPayment) {
+                        product.addError('Monthly Payment Amount should not be less than 2% of the Original Balance.');
+                    }
+                }
                 }
             }
             //insert placement history list
