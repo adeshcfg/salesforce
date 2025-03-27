@@ -3238,7 +3238,7 @@
     </classAccesses>
     <tabVisibilities>
         <tab>Putback_Buyback_Submission_Form</tab>
-        <visibility>DefaultOff</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Credit_Bureau</tab>
