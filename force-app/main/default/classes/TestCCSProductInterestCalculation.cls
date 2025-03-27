@@ -17,6 +17,10 @@ public class TestCCSProductInterestCalculation {
         settings.Scope_Suffix__c = '/.default';
         update settings;   
 
+        Disable_Metadata_Settings__c disable = new Disable_Metadata_Settings__c();
+        disable.Disable_Product_Validation_WF__c = true;
+        insert disable;
+        
         Account customer = new Account(FirstName = 'FirstName', LastName = 'Last Name', RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Easyfinancial CCS Customer').getRecordTypeId());
         insert customer;
         
@@ -31,6 +35,17 @@ public class TestCCSProductInterestCalculation {
         prod2.Customer__c = customer.id;
         insert prod2;  
         
+        Product__c prod3 = new Product__c();
+        List<User> systemName1 =[Select Name from User where Name ='System API'];
+        prod3.name = '1234567';
+        prod3.CCS_Stage__c = 'In Progress (notice has been sent)';
+        prod3.Current_Balance__c = 500; 
+        prod3.Interest_Rate__c = 10;
+        prod3.Interest_Amount_Last_Calculated_Date__c = Date.newInstance(2024,07,02);
+        prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Flexiti CCS Account').getRecordTypeId();
+        prod3.Customer__c = customer.id;
+        insert prod3;
+
         Test.startTest();
         CCSProductInterestCalculation obj = new CCSProductInterestCalculation();
         DataBase.executeBatch(obj); 
