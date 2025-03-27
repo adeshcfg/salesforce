@@ -133,7 +133,18 @@ public with sharing class VotingEngineFutureCall {
                 Other_Personal_Expenses__c,
                 Other_TransportationExpenses__c,
                 Other_Payments__c,
-                Insolvency_Date__c
+                Insolvency_Date__c,
+                Telephone_Expenses__c,
+                Internet_Expenses__c,
+                Cable_Expenses__c,
+                Hydro_Expenses__c,
+                Heating_Gas_Oil_Expenses__c,
+                Water_Expenses__c,
+                Smoking_Expenses__c,
+                Alcohol_Expenses__c,
+                Car_Lease_Payments_Expenses__c,
+                Repair_Maintenance_Gas_Expenses__c,
+                Public_Transportation_Expenses__c
             FROM Insolvency__c
             WHERE id IN :insolvencyIdList
         ];

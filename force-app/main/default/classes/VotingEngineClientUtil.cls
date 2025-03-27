@@ -49,6 +49,17 @@ public with sharing class VotingEngineClientUtil {
         public Decimal otherTransportationExpensesAmount = 0.0;
         public Decimal otherInsuranceExpensesAmount = 0.0;
         public Decimal otherPaymentsAmount = 0.0;
+        public Decimal telephone;
+        public Decimal internet;
+        public Decimal cable;
+        public Decimal hydro;
+        public Decimal heatingGasOil;
+        public Decimal water;
+        public Decimal smoking;
+        public Decimal alcohol;
+        public Decimal carLeasePayments;
+        public Decimal repairMaintenanceGas;
+        public Decimal publicTransportation;
         public date insolvencyDate = null;
 
         public WebServiceRequestJSONObject parse(String json) {

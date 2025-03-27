@@ -191,6 +191,17 @@ public with sharing class VotingEngineClient {
         if (insolvencyRecord.Insolvency_Date__c != null) {
             WebServiceRequestJSONRecord.insolvencyDate = insolvencyRecord.Insolvency_Date__c;
         }
+        WebServiceRequestJSONRecord.telephone = insolvencyRecord.Telephone_Expenses__c != null ? insolvencyRecord.Telephone_Expenses__c : 0;
+        WebServiceRequestJSONRecord.internet = insolvencyRecord.Internet_Expenses__c != null ? insolvencyRecord.Internet_Expenses__c : 0;
+        WebServiceRequestJSONRecord.cable = insolvencyRecord.Cable_Expenses__c != null ? insolvencyRecord.Cable_Expenses__c : 0;
+        WebServiceRequestJSONRecord.hydro = insolvencyRecord.Hydro_Expenses__c != null ? insolvencyRecord.Hydro_Expenses__c : 0;
+        WebServiceRequestJSONRecord.heatingGasOil = insolvencyRecord.Heating_Gas_Oil_Expenses__c != null ? insolvencyRecord.Heating_Gas_Oil_Expenses__c : 0;
+        WebServiceRequestJSONRecord.water = insolvencyRecord.Water_Expenses__c != null ? insolvencyRecord.Water_Expenses__c : 0;
+        WebServiceRequestJSONRecord.smoking = insolvencyRecord.Smoking_Expenses__c != null ? insolvencyRecord.Smoking_Expenses__c : 0;
+        WebServiceRequestJSONRecord.alcohol = insolvencyRecord.Alcohol_Expenses__c != null ? insolvencyRecord.Alcohol_Expenses__c : 0;
+        WebServiceRequestJSONRecord.carLeasePayments = insolvencyRecord.Car_Lease_Payments_Expenses__c != null ? insolvencyRecord.Car_Lease_Payments_Expenses__c : 0;
+        WebServiceRequestJSONRecord.repairMaintenanceGas = insolvencyRecord.Repair_Maintenance_Gas_Expenses__c != null ? insolvencyRecord.Repair_Maintenance_Gas_Expenses__c : 0;
+        WebServiceRequestJSONRecord.publicTransportation = insolvencyRecord.Public_Transportation_Expenses__c != null ? insolvencyRecord.Public_Transportation_Expenses__c : 0;
         String returnJSONString = JSON.serialize(WebServiceRequestJSONRecord, true);
         return returnJSONString;
     }
