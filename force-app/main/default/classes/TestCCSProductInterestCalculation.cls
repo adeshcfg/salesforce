@@ -32,7 +32,7 @@ public class TestCCSProductInterestCalculation {
         insert prod2;  
         
         Product__c prod3 = new Product__c();
-        List<User> systemName=[Select Name from User where Name ='System API'];
+        List<User> systemName1 =[Select Name from User where Name ='System API'];
         prod3.name = '1234567';
         prod3.CCS_Stage__c = 'In Progress (notice has been sent)';
         prod3.Current_Balance__c = 500; 
