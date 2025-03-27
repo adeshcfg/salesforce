@@ -31,6 +31,17 @@ public class TestCCSProductInterestCalculation {
         prod2.Customer__c = customer.id;
         insert prod2;  
         
+        Product__c prod3 = new Product__c();
+        List<User> systemName=[Select Name from User where Name ='System API'];
+        prod3.name = '1234567';
+        prod3.CCS_Stage__c = 'In Progress (notice has been sent)';
+        prod3.Current_Balance__c = 500; 
+        prod3.Interest_Rate__c = 10;
+        prod3.Interest_Amount_Last_Calculated_Date__c = Date.newInstance(2024,07,02);
+        prod3.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Flexiti CCS Account').getRecordTypeId();
+        prod3.Customer__c = customer.id;
+        insert prod3;
+
         Test.startTest();
         CCSProductInterestCalculation obj = new CCSProductInterestCalculation();
         DataBase.executeBatch(obj); 
