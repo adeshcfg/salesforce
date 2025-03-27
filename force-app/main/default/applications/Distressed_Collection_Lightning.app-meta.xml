@@ -1103,6 +1103,7 @@
     <tabs>Distressed_notes__c</tabs>
     <tabs>Document_Storage__c</tabs>
     <tabs>Buyback_Putback_Seller_Report</tabs>
+    <tabs>Putback_Buyback_Submission_Form</tabs>
     <tabs>Export_Media_Request</tabs>
     <tabs>Product_Staging__c</tabs>
     <uiType>Lightning</uiType>
