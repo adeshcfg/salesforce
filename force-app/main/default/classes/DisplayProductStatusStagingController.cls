@@ -424,7 +424,7 @@ public class DisplayProductStatusStagingController {
     public static List<String> processRecords(List<Product_Staging__c> listProductStagingToProcess) {
         Set<String> setProdutNames = new Set<String>();
         Map<String, String> mapProductNameId = new Map<String, String>();
-        List<Product__c> listProductToUpdate = new List<Product__c>();
+        Map<String, Product__c> mapProductToUpdate = new Map<String, Product__c>();
         List<String> productIdsToUpdate = new List<String>();
         Map<String, String> statusDescriptionMap = new Map<String, String>();
         List<String> putbackStatuses = new List<String>{ '297000', '298000' };
@@ -448,13 +448,13 @@ public class DisplayProductStatusStagingController {
                 }
                 prod.Data_Status_Description__c = statusDescriptionMap.get(prod.Product_Status__c);
                 productIdsToUpdate.add(prod.Id);
-                listProductToUpdate.add(prod);
+                mapProductToUpdate.put(prod.Id, prod);
             }
         }
         try {
-            if (!listProductToUpdate.isEmpty()) {
+            if (!mapProductToUpdate.values().isEmpty()) {
                 ProductTriggerHandler.runProductTrigger = false;
-                Database.update(listProductToUpdate);
+                Database.update(mapProductToUpdate.values());
                 ProductTriggerHandler.runProductTrigger = true;
             }
         } catch (DmlException ex) {
