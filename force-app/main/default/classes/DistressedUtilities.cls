@@ -362,6 +362,10 @@ public class DistressedUtilities {
                     errorMsg += '<b>ERROR</b> - Rejection reason length exceeded.' + '<br/>';
                     expected += 'Rejection reason cannot be longer than 255 characters<br/>';
                 }
+                if (String.isNotBlank(productStaging.Purchase_Status__c) && productStaging.Purchase_Status__c == DisplayBuybackPutbackStagingController.BUYBACK_APPROVED && productStaging.Putback_Buyback_Amount__c == null) {
+                    errorMsg += '<b>ERROR</b> - Buyback/Putback Amount is mandatory.' + '<br/>';
+                    expected += 'Buyback/Putback Amount is mandatory when purchase status is ' + DisplayBuybackPutbackStagingController.BUYBACK_APPROVED + '<br/>';
+                }
             }
             if (String.isBlank(errorMsg) && productStaging.Purchase_Status__c == DisplayBuybackPutbackStagingController.BUYBACK_APPROVED) {
                 productStaging.Product_Status__c = mapProductName.get(productStaging.Data_Id__c).Product_Status__c.replaceFirst('2', '9');
