@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CCS_account_mandatory</fullName>
-    <active>false</active>
+    <active>true</active>
     <description>CCS account field mandatory</description>
-    <errorConditionFormula>AND($Profile.Name = &quot;Goeasy Community User&quot;, RecordType.DeveloperName ==&apos;CCS_Case&apos;, ISBLANK( CCS_Account__c ))</errorConditionFormula>
+    <errorConditionFormula>AND(
+    $User.LastName &lt;&gt; $Label.DataArchiverUser,
+    NOT(
+        OR(
+            RecordType.Name = &quot;CCS Case&quot;,
+            RecordType.Name = &quot;CCS Dividend&quot;,
+            RecordType.Name = &quot;Canaccede EmailToCase&quot;,
+            RecordType.Name = &quot;EmailToCase&quot;,
+            RecordType.Name = &quot;Insolvency Canadian Tire Community Case&quot;,
+            RecordType.Name = &quot;Insolvency Case&quot;,
+            RecordType.Name = &quot;Insolvency Fairstone Community Case&quot;,
+            RecordType.Name = &quot;Insolvency Flexiti Community Case&quot;,
+            RecordType.Name = &quot;Insolvency Money Mart Community Case&quot;,
+            RecordType.Name = &quot;Insolvency SDA Community Case&quot;,
+            RecordType.Name = &quot;Insolvency SPL Community Case&quot;,
+            RecordType.Name = &quot;Insolvency Scotia Community Case&quot;,
+            RecordType.Name = &quot;Remittance&quot;,
+            RecordType.Name = &quot;Web To Case&quot;,
+            AND(RecordType.Name = &quot;Flexiti CCS Case&quot;, $Profile.Name &lt;&gt; &quot;Flexiti Community User&quot;),
+            AND(RecordType.Name = &quot;CCS Case&quot;, $Profile.Name &lt;&gt; &quot;Goeasy Community User&quot;)
+        )
+    ),
+    OR(
+        AND(RecordType.Name = &quot;Flexiti CCS Case&quot;, $Profile.Name &lt;&gt; &quot;Flexiti Community User&quot;),
+        AND(RecordType.Name = &quot;CCS Case&quot;, $Profile.Name &lt;&gt; &quot;Goeasy Community User&quot;),
+        AND(RecordType.Name = &quot;Flexiti CCS Case&quot;, $Profile.Name = &quot;Flexiti Community User&quot;, FALSE), 
+        AND(RecordType.Name = &quot;CCS Case&quot;, $Profile.Name = &quot;Goeasy Community User&quot;, FALSE), 
+        AND(RecordType.Name = &quot;CCS Case&quot;, $Profile.Name &lt;&gt; &quot;Goeasy Community User&quot;),
+        ISBLANK(CCS_Account__c)
+    )
+)</errorConditionFormula>
     <errorDisplayField>CCS_Account__c</errorDisplayField>
     <errorMessage>CCS account is mandatory</errorMessage>
 </ValidationRule>

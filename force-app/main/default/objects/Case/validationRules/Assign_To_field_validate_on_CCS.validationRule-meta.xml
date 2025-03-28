@@ -3,8 +3,19 @@
     <fullName>Assign_To_field_validate_on_CCS</fullName>
     <active>true</active>
     <description>Assign_To_field_validate</description>
-    <errorConditionFormula>AND($User.LastName &lt;&gt; $Label.DataArchiverUser,CCS_Account__c&lt;&gt;null,ISPICKVAL(Assign_To__c, &apos;Goeasy&apos;),
-NOT(CCS_Account__r.RecordType.DeveloperName= &apos;GoEasy_CCS_Account&apos;)
+    <errorConditionFormula>AND(
+    $User.LastName &lt;&gt; $Label.DataArchiverUser,  
+    CCS_Account__c &lt;&gt; null,  
+    OR(
+        AND(
+            ISPICKVAL(Assign_To__c, &apos;Goeasy&apos;), 
+            NOT(CCS_Account__r.RecordType.DeveloperName = &apos;GoEasy_CCS_Account&apos;)
+        ),
+        AND(
+            ISPICKVAL(Assign_To__c, &apos;Flexiti&apos;), 
+            NOT(CCS_Account__r.RecordType.DeveloperName = &apos;Flexiti_CCS_Account&apos;)
+        )
+    )
 )</errorConditionFormula>
     <errorDisplayField>Assign_To__c</errorDisplayField>
     <errorMessage>Wrong Assign To for given CCS Account</errorMessage>
