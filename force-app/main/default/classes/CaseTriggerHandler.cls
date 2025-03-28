@@ -41,6 +41,7 @@ public class CaseTriggerHandler {
         caseRTMap.put('Goeasy', 'Insolvency_Goeasy_Community_Case');
         caseRTMap.put('Canadian Tire', 'Insolvency_Canadian_Tire_Community_Case');
         caseRTMap.put('Money Mart', 'Insolvency_Money_Mart_Community_Case');
+        caseRTMap.put('Flexiti', 'Insolvency_Flexiti_Community_Case');
 
         //Remittance
         caseRTMap.put('Remittance', 'Remittance');
@@ -48,6 +49,7 @@ public class CaseTriggerHandler {
 
         //For CCS Records : Added on 29/03/19 - Chetan Gaikwad
         caseRTMap.put('CCS Case', 'CCS_Case');
+        caseRTMap.put('Flexiti CCS Case', 'Flexiti_CCS_Case');
     }
 
     //Before Case is cretaed
@@ -83,7 +85,7 @@ public class CaseTriggerHandler {
                 }
                 //Update Record Type based on Client Identifier
                 //caseNew.RecordTypeID = caseRecorTypeMap.get(caseRTMap.get(caseNew.Assign_To__c));
-                if (caseNew.Assign_To__c != 'CFG' && caseNew.Assign_To__c != 'Canaccede') {
+                if (caseNew.Assign_To__c != 'CFG' && caseNew.Assign_To__c != 'Canaccede' && caseNew.Assign_To__c != 'Flexiti') {
                     caseNew.RecordTypeID = caseRecorTypeMap.get(caseRTMap.get(caseNew.Assign_To__c));
                 }
 
