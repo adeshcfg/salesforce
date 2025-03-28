@@ -313,6 +313,7 @@ insert apiCallDetails;*/
         prod8.Placement_Status__c = '100010';
         prod8.Credit_Counselling_Date__c = null;
         prod8.Purchase_Status__c = 'Buyback/Putback Approved';
+        prod8.Putback_Buyback_Amount__c = 100;
         prod8.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prod8.Customer__c = customer1.id;
         prod8.Purchase_Province__c = 'PE';
@@ -342,6 +343,7 @@ insert apiCallDetails;*/
         prod10.Placement_Status__c = '100010';
         prod10.Credit_Counselling_Date__c = null;
         prod10.Purchase_Status__c = 'Buyback/Putback Approved';
+        prod10.Putback_Buyback_Amount__c = 100;
         prod10.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         prod10.Customer__c = customer1.id;
         insert prod10;

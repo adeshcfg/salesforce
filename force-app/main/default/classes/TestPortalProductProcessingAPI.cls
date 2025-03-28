@@ -76,7 +76,6 @@ public class TestPortalProductProcessingAPI {
         prod1.Last_Name__c = 'xyz';
         prod1.Pool_Name__c = pool.id;
         prod1.Placement_Status__c = '100010';
-        prod1.Purchase_Status__c = 'Buyback/Putback Initiated';
         prod1.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Credit Card Account').getRecordTypeId();
         insert prod1;
         
@@ -160,6 +159,7 @@ public class TestPortalProductProcessingAPI {
         prod8.Placement_Status__c = '100010';
         prod8.Credit_Counselling_Date__c =null;
         prod8.Purchase_Status__c = 'Buyback/Putback Approved';
+        prod8.Putback_Buyback_Amount__c = 100;
         prod8.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
         insert prod8;
@@ -187,6 +187,7 @@ public class TestPortalProductProcessingAPI {
         prod10.Placement_Status__c = '100010';
         prod10.Credit_Counselling_Date__c =null;
         prod10.Purchase_Status__c = 'Buyback/Putback Approved';
+        prod10.Putback_Buyback_Amount__c = 100;
         prod10.RecordTypeId = Schema.SObjectType.Product__C.getRecordTypeInfosByName().get('Distressed Account').getRecordTypeId();
         //prod2.Insolvency_Date__c =Date.newInstance(2016, 12, 9);
         insert prod10;

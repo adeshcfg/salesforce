@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mandatory_Buyback_Amount</fullName>
+    <active>true</active>
+    <description>Validation to mandate Buyback/Putback amount when Buyback/Putback status is updated to Buyback/Putback Approved</description>
+    <errorConditionFormula>ISPICKVAL(Purchase_Status__c, &apos;Buyback/Putback Approved&apos;) &amp;&amp; ISBLANK(Putback_Buyback_Amount__c)</errorConditionFormula>
+    <errorDisplayField>Putback_Buyback_Amount__c</errorDisplayField>
+    <errorMessage>Buyback/Putback Amount is mandatory when purchase status is Buyback/Putback Approved</errorMessage>
+</ValidationRule>
