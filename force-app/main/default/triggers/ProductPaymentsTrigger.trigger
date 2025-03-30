@@ -20,7 +20,7 @@ trigger ProductPaymentsTrigger on Product_Payments__c(before insert,before delet
     
     if(runTrigger || test.isRunningTest()){ 
         if(Trigger.isAfter) {
-            if(Trigger.isInsert){
+            if(Trigger.isInsert){ 
                 ArchiveUnarchiveUtility.assignExternalCorID(Trigger.New);
             }
         }
