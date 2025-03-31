@@ -144,7 +144,17 @@ public with sharing class VotingEngineFutureCall {
                 Alcohol_Expenses__c,
                 Car_Lease_Payments_Expenses__c,
                 Repair_Maintenance_Gas_Expenses__c,
-                Public_Transportation_Expenses__c
+                Public_Transportation_Expenses__c,
+                Rent_Mortgage_Hypothec_Expenses__c,
+                Property_Taxes_Condo_Fees_Expenses__c,
+                Furniture_Expenses__c,
+                Vehicle_Expenses__c,
+                House_Expenses__c,
+                Furniture_Contents_Expenses__c,
+                Life_Insurance_Expenses__c,
+                Payments_To_Proposal__c,
+                Payments_Other_Than_Mortgage_Vehicle__c,
+                Payment_to_Financial_Advisor__c
             FROM Insolvency__c
             WHERE id IN :insolvencyIdList
         ];

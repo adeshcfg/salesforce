@@ -60,6 +60,16 @@ public with sharing class VotingEngineClientUtil {
         public Decimal carLeasePayments;
         public Decimal repairMaintenanceGas;
         public Decimal publicTransportation;
+        public Decimal rentMortgageHypothec;
+        public Decimal propertyTaxesCondoFees;
+        public Decimal furniture;
+        public Decimal vehicle;
+        public Decimal house;
+        public Decimal furnitureContentsInsurance;
+        public Decimal lifeInsurance;
+        public Decimal paymentsToTheProposal;
+        public Decimal otherSecuredCreditorPayment;
+        public Decimal otherFinancialAdvisorPayment;
         public date insolvencyDate = null;
 
         public WebServiceRequestJSONObject parse(String json) {

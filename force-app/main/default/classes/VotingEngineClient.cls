@@ -202,13 +202,25 @@ public with sharing class VotingEngineClient {
         WebServiceRequestJSONRecord.carLeasePayments = insolvencyRecord.Car_Lease_Payments_Expenses__c != null ? insolvencyRecord.Car_Lease_Payments_Expenses__c : 0;
         WebServiceRequestJSONRecord.repairMaintenanceGas = insolvencyRecord.Repair_Maintenance_Gas_Expenses__c != null ? insolvencyRecord.Repair_Maintenance_Gas_Expenses__c : 0;
         WebServiceRequestJSONRecord.publicTransportation = insolvencyRecord.Public_Transportation_Expenses__c != null ? insolvencyRecord.Public_Transportation_Expenses__c : 0;
+        WebServiceRequestJSONRecord.rentMortgageHypothec = insolvencyRecord.Rent_Mortgage_Hypothec_Expenses__c != null ? insolvencyRecord.Rent_Mortgage_Hypothec_Expenses__c : 0;
+        WebServiceRequestJSONRecord.propertyTaxesCondoFees = insolvencyRecord.Property_Taxes_Condo_Fees_Expenses__c != null ? insolvencyRecord.Property_Taxes_Condo_Fees_Expenses__c : 0;
+        WebServiceRequestJSONRecord.furniture = insolvencyRecord.Furniture_Expenses__c != null ? insolvencyRecord.Furniture_Expenses__c : 0;
+        WebServiceRequestJSONRecord.vehicle = insolvencyRecord.Vehicle_Expenses__c != null ? insolvencyRecord.Vehicle_Expenses__c : 0;
+        WebServiceRequestJSONRecord.house = insolvencyRecord.House_Expenses__c != null ? insolvencyRecord.House_Expenses__c : 0;
+        WebServiceRequestJSONRecord.furnitureContentsInsurance = insolvencyRecord.Furniture_Contents_Expenses__c != null ? insolvencyRecord.Furniture_Contents_Expenses__c : 0;
+        WebServiceRequestJSONRecord.lifeInsurance = insolvencyRecord.Life_Insurance_Expenses__c != null ? insolvencyRecord.Life_Insurance_Expenses__c : 0;
+        WebServiceRequestJSONRecord.paymentsToTheProposal = insolvencyRecord.Payments_To_Proposal__c != null ? insolvencyRecord.Payments_To_Proposal__c : 0;
+        WebServiceRequestJSONRecord.otherSecuredCreditorPayment = insolvencyRecord.Payments_Other_Than_Mortgage_Vehicle__c != null ? insolvencyRecord.Payments_Other_Than_Mortgage_Vehicle__c : 0;
+        WebServiceRequestJSONRecord.otherFinancialAdvisorPayment = insolvencyRecord.Payment_to_Financial_Advisor__c != null ? insolvencyRecord.Payment_to_Financial_Advisor__c : 0;
         String returnJSONString = JSON.serialize(WebServiceRequestJSONRecord, true);
         return returnJSONString;
     }
 
     static List<String> convertToList(String stringValue) {
         List<String> listString = new List<String>();
-        listString.add(stringValue);
+        if (String.isNotBlank(stringValue)) {
+            listString.add(stringValue);
+        }
         return listString;
     }
 
