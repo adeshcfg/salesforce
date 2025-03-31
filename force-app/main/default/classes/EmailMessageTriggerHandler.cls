@@ -63,7 +63,37 @@ public class EmailMessageTriggerHandler {
         if (!listCaseUpdate.isEmpty())
             update listCaseUpdate;
     }
-
+	
+    //Before Insert of Email Message
+    public static void handleBeforeInsert(List<EmailMessage> emailMessageNew) {
+        Set<Id> setOfRelatedToIds = new Set<Id>();
+        Map<Id, List<EmailMessage>> mapOfRelatedToIdAndEmailMessage = new Map<Id, List<EmailMessage>>();
+        for(EmailMessage em : emailMessageNew){
+            String relatedToId = em.RelatedToId;
+            System.debug('relatedToId:: '+relatedToId);
+            if(relatedToId.startsWith('a11')){
+                setOfRelatedToIds.add(em.RelatedToId);
+                if(mapOfRelatedToIdAndEmailMessage.containsKey(em.RelatedToId)){
+                    mapOfRelatedToIdAndEmailMessage.get(em.RelatedToId).add(em);
+                }else{
+                    mapOfRelatedToIdAndEmailMessage.put(em.RelatedToId, new List<EmailMessage>{em});
+                }                
+            }
+        }
+        System.debug('mapOfRelatedToIdAndEmailMessage:: '+mapOfRelatedToIdAndEmailMessage);
+        List<Insolvency_Account__c> listOfInsolvencyAccounts = [SELECT Id FROM Insolvency_Account__c WHERE Id in: setOfRelatedToIds
+                                                               AND (Client_Identifier__c = 'Scotia Bank'
+                                                                   OR Client_Identifier__c = 'Canaccede'
+                                                                   OR Client_Identifier__c = 'SPL'
+                                                                   OR Client_Identifier__c = 'SDA')];
+        List<EmailMessage> emailMessageToUpdate = new List<EmailMessage>();
+        for(Insolvency_Account__c insolAcc : listOfInsolvencyAccounts){
+            emailMessageToUpdate.addAll(mapOfRelatedToIdAndEmailMessage.get(insolAcc.Id));
+        }
+        for(EmailMessage em : emailMessageToUpdate){
+            em.IsExternallyVisible = true;
+        }
+    }
     public static void handleAfterUpdate(List<EmailMessage> emailMessageNew, Map<Id, EmailMessage> oldMap) {
         List<ID> listID = new List<ID>();
         for (EmailMessage em : emailMessageNew) {

@@ -49,6 +49,7 @@
         Insolvency_Account__c insolAcct = new Insolvency_Account__c();
         insolAcct.RecordTypeId = recordTypeList[1].Id;
         insolAcct.Reason_for_No_PoC_Required_Dropdown__c = 'Duplicate';
+        insolAcct.Client_Identifier__c = 'Scotia Bank';
         insolAcct.Insolvency__c = insolv1.Id;
         insolAcct.Account_Number_Without_Space__c = 'Test-001';
         insolAcct.name = 'test11';
@@ -113,6 +114,7 @@
         EmailMessageTriggerHandler.handleBeforeDelete(listEmailMessage);
         EmailMessageTriggerHandler.handleAfterUpdate(listEmailMessage, oldmap);
         EmailMessageTriggerHandler.handleAfterInsert(listEmailMessage);
+        EmailMessageTriggerHandler.handleBeforeInsert(listEmailMessage);
 
     }
 
