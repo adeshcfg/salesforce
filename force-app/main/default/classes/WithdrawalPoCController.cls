@@ -8,11 +8,11 @@
  
  *************************************************************************************************/
  //false positive: 
- global class WithdrawalPoCController{
+ Public class WithdrawalPoCController{
     
     // Variable to fetch data related to custom settings, exceptions
     public PoC_Package_Settings__c pocPackage{set;get;}
-    global Boolean isAnyException {set;get;}
+    Public Boolean isAnyException {set;get;}
     public Boolean isActive {set;get;}
     public String withdrawPoCInvalid {set;get;}
     public Id attachmentSelected{set;get;}
@@ -94,61 +94,8 @@
         attachSizeException = false;
         attachSizeExceptionMessage = config.Maximum_Email_Attachments_Size_Text__c;
         
-        insolvAcc = [SELECT Id, Name, Insolvency__r.Name,
-                            Insolvency_Status__c,
-                            Client_Identifier__c,
-                            Trustee_Company__c,
-                            Is_Active__c,
-                     		Account_Type__c,
-                            Insolvency__r.Trustee__r.Name,
-                            Insolvency__r.Trustee__r.Parent.Name,
-                            Insolvency__r.Trustee__r.BillingStreet, 
-                            Insolvency__r.Trustee__r.BillingCity,
-                            Insolvency__r.Trustee__r.BillingState, 
-                            Insolvency__r.Trustee__r.BillingPostalcode,
-                            Insolvency__r.Trustee__r.Communication_Preference__c, 
-                            Insolvency__r.Trustee__r.Fax, 
-                            Insolvency__r.Trustee__r.Business_Email__c,
-                            Insolvency__r.Trustee__r.Preferred_Language__c,
-                            Insolvency__r.Debtor__c, Insolvency__r.Co_Debtor__c, 
-                            Claim_Amount__c, 
-                            Reason_for_Claim_withdrawal__c,  Date_Claim_Withdrawal_Sent__c,
-                            Debtor_1_Estate_Number__c,
-                            Originator__c 
-                            FROM Insolvency_Account__c 
-                            WHERE Id =: ApexPages.currentPage().getParameters().get('Id')]; 
-        
-        //Set language as per trustee office
-        if(null != insolvAcc.Insolvency__r.Trustee__r.Preferred_Language__c){
-            language = insolvAcc.Insolvency__r.Trustee__r.Preferred_Language__c;
-            if(language == 'French'){
-                language = 'fr';
-            }else{
-                language = 'en_US';
-            }
-        }else{
-            language = 'en_US';
-        }
-                            
-        if(insolvAcc.Insolvency__r.Trustee__r.Communication_Preference__c == 'Fax'){
-            toEmail =  formatFaxAsEmail(insolvAcc.Insolvency__r.Trustee__r.Fax);                        
-        }
-        else{
-            toEmail =  insolvAcc.Insolvency__r.Trustee__r.Business_Email__c;
-        }
+        insolvAcc = getInsolvencyAccountDetails(ApexPages.currentPage().getParameters().get('Id'));
 
-        if(insolvAcc.Insolvency_Status__c != 'Withdraw PoC'){
-            withdrawPoCInvalid = 'Insolvency Account status is not equal to Withdraw PoC \n';
-        }
-        if(insolvAcc.Reason_for_Claim_withdrawal__c == null ){
-            withdrawPoCInvalid = withdrawPoCInvalid+'Reason for Claim withdrawal is not filled \n';
-        }
-        
-        if(insolvAcc.Is_Active__c == False){ 
-            isActive=false;
-            withdrawPoCInvalid= withdrawPoCInvalid+ 'Trustee Office is not Active so email cannot be sent\n';
-        }
-        
         insolvAttachList= new List<InsolvAttachments>();
         
         Datetime now = Datetime.now();
@@ -179,8 +126,68 @@
         pocPackage = (PoC_Package_Settings__c)PoC_Package_Settings__c.getValues(insolvAcc.Client_Identifier__c);
         loadTemplate(language);
     }
-    
-   
+
+    /************************************************************************************
+    * Method description: get insolvency account data
+    * Parameters : Insolvency Account ID
+    * return type: Insolvency_Account__c
+    ************************************************************************************/
+    public Insolvency_Account__c getInsolvencyAccountDetails (ID insolvAccId){
+        Insolvency_Account__c insolvAcc = [SELECT Id, Name, Insolvency__r.Name,
+                            Insolvency_Status__c,
+                            Client_Identifier__c,
+                            Trustee_Company__c,
+                            Is_Active__c,
+                     		Account_Type__c,
+                            Insolvency__r.Trustee__r.Name,
+                            Insolvency__r.Trustee__r.Parent.Name,
+                            Insolvency__r.Trustee__r.BillingStreet, 
+                            Insolvency__r.Trustee__r.BillingCity,
+                            Insolvency__r.Trustee__r.BillingState, 
+                            Insolvency__r.Trustee__r.BillingPostalcode,
+                            Insolvency__r.Trustee__r.Communication_Preference__c, 
+                            Insolvency__r.Trustee__r.Fax, 
+                            Insolvency__r.Trustee__r.Business_Email__c,
+                            Insolvency__r.Trustee__r.Preferred_Language__c,
+                            Insolvency__r.Debtor__c, Insolvency__r.Co_Debtor__c, 
+                            Claim_Amount__c, 
+                            Reason_for_Claim_withdrawal__c,  Date_Claim_Withdrawal_Sent__c,
+                            Debtor_1_Estate_Number__c,
+                            Originator__c 
+                            FROM Insolvency_Account__c 
+                            WHERE Id =: insolvAccId];
+
+        //Set language as per trustee office
+        if(null != insolvAcc.Insolvency__r.Trustee__r.Preferred_Language__c){
+            language = insolvAcc.Insolvency__r.Trustee__r.Preferred_Language__c;
+            if(language == 'French'){
+                language = 'fr';
+            }else{
+                language = 'en_US';
+            }
+        }else{
+            language = 'en_US';
+        }
+        if(insolvAcc.Insolvency__r.Trustee__r.Communication_Preference__c == 'Fax'){
+            toEmail =  formatFaxAsEmail(insolvAcc.Insolvency__r.Trustee__r.Fax);                        
+        }
+        else{
+            toEmail =  insolvAcc.Insolvency__r.Trustee__r.Business_Email__c;
+        }
+
+        if(insolvAcc.Insolvency_Status__c != 'Withdraw PoC'){
+            withdrawPoCInvalid = 'Insolvency Account status is not equal to Withdraw PoC \n';
+        }
+        if(insolvAcc.Reason_for_Claim_withdrawal__c == null ){
+            withdrawPoCInvalid = withdrawPoCInvalid+'Reason for Claim withdrawal is not filled \n';
+        }
+        
+        if(insolvAcc.Is_Active__c == False){ 
+            isActive=false;
+            withdrawPoCInvalid= withdrawPoCInvalid+ 'Trustee Office is not Active so email cannot be sent\n';
+        }
+        return insolvAcc;                    
+    }
     /*********************************************************
     * Method description: Load email template body, subject seelcted from drop down
     * Parameters : none
