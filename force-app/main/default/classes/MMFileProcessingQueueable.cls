@@ -1,7 +1,7 @@
 /**
  * @description       : Queueable class to parse csv, validate fields and create CTB Staging records for MM accounts
  * @author            : adeshi@a5econsulting.net
- * @last modified on  : 01-30-2025
+ * @last modified on  : 03-31-2025
  * @last modified by  : adesh.ikhar@canaccede.com
  **/
 public class MMFileProcessingQueueable implements Queueable, Database.AllowsCallouts {
@@ -134,11 +134,13 @@ public class MMFileProcessingQueueable implements Queueable, Database.AllowsCall
                 break;
             }
             // Get all correlation Ids
-            correlationIdSet.add(csvColumns[CTBFileValidationUtility.CORRELATION_ID]);
             CTB_Staging__c recordToCreate = CTBFileValidationUtility.validateAccountCTBStagingRecord(csvColumns);
             if (recordToCreate.Error_Message__c.contains('No Correlation Id provided')) {
                 accountNumberSet.add(csvColumns[CTBFileValidationUtility.ACCOUNT_NUMBER]);
                 estateNumberSet.add(csvColumns[CTBFileValidationUtility.ESTATE_NUMBER]);
+            }
+            if (String.isNotBlank(recordToCreate.Correlation_Id__c)) {
+                correlationIdSet.add(recordToCreate.Correlation_Id__c);
             }
             recordToCreate.CTB_Update_Filename__c = docStorage.Document_Name__c;
             stagingRecordsToCreate.add(recordToCreate);
