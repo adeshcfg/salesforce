@@ -48,6 +48,13 @@ public class TestTaskTriggerHandler{
         createTask6();
         
     }
+    public Static testMethod void testMethod5(){
+        
+        //Custom settings
+        createCCAB();
+        createTask7();
+        
+    }
     
     //Create Product records
     public static List<Product__c> createProduct(){
@@ -353,6 +360,18 @@ public class TestTaskTriggerHandler{
         
          Application_Config_Settings__c config= new Application_Config_Settings__c();
         config.Run_Product_Coll_Sub_Status_Validation__c= True;
+        config.Run_Insolvency_Status_Validations__c = true;
+            config.Maximum_Email_Attachments_Size__c = 18874368;
+            config.Maximum_Email_Attachments_Size_Text__c = 'You can send attachments only upto 18 MB';
+            config.Run_Insolvency_Account_Trigger__c = true;
+            config.Eligible_for_Validn_Needed_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
+            config.Eligible_for_Claim_Type_Calculation__c = 'Scotia Bank, SPL, Cannacede, SDA, Affirm';
+            config.Profile_Eligible_for_Duplicate_Check__c = 'CFG,System Administrator,SPL,SDA,Scotia,Affirm';
+            config.Bank_Eligible_for_Duplicate_Check__c = 'SPL';
+            config.Ignore_Account_Number_for_DuplicateCheck__c = 'UNKNOWN';
+            config.Run_Insolvency_Trigger__c = false;
+            config.Run_Insolvency_Account_Duplicate_Check__c = true;
+            config.Eligible_for_Voting_Decision__c = 'Scotia Bank,SDA,SPL,Canaccede,Fidem,Fairstone';
         insert config;
         
         
@@ -524,6 +543,47 @@ List<ContentDocument> documents = [SELECT Id, Title, LatestPublishedVersionId FR
         t1.Priority='Normal';
         //t1.Responsavel__c='Felipe';
         t1.whatId = listSettle[0].id;
+        t1.CallClassification1__c = 'test';
+        t1.subject = 'Collection';
+        t1.Type_of_Activity__c = 'Collection';
+        t1.CallType = 'Outbound';
+        t1.Collection_Agency__c = '';
+        t1.First_Name__c ='';
+        t1.Last_Name__c ='';
+        t1.Seller__c='';
+        listTask.add(t1);
+        TaskTriggerHandler.handleBeforeInsert(listTask);
+       
+       }
+    
+    public static void createTask7(){
+       
+     List<Insolvency_Account__c> insolvansyList = new List<Insolvency_Account__c>();
+        Insolvency_Account__c acc = new Insolvency_Account__c();
+        acc.Name = 'Test- 001';
+        acc.Borrower_Primary__c = 'TestData';
+        acc.Client_Identifier__c = 'Scotia Bank';
+        acc.Balance_Owed__c = 20.0;
+        acc.Amended_Claim_Flag__c = false;
+        acc.Insolvency_Status__c = 'PoC Details Provided';
+        acc.Claim_Amount__c = 100;
+        acc.Insolvency_Status_Last_Changed__c = System.Today();
+        acc.Account_Number_Without_Space__c = 'Test-001';
+        acc.Insolvency_Type__c = 'Consumer Proposal';
+        acc.Acknowledgement_date__c = System.today();
+        insolvansyList.add(acc);
+        insert insolvansyList;
+        
+        List<Task> listTask = new List<Task>();
+           
+        listTask = new List<task>();
+        Task t1 = new Task();
+        t1.OwnerId = UserInfo.getUserId();
+        t1.Subject='Collection';
+        t1.Status='Not Started';
+        t1.Priority='Normal';
+        //t1.Responsavel__c='Felipe';
+        t1.whatId = insolvansyList[0].id;
         t1.CallClassification1__c = 'test';
         t1.subject = 'Collection';
         t1.Type_of_Activity__c = 'Collection';

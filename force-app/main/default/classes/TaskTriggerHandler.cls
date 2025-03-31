@@ -9,7 +9,7 @@
 *************************************************************************************************/
 
 public class TaskTriggerHandler{
-
+    
     public static Loan_ReEngineering__c lrpSetting = Loan_ReEngineering__c.getOrgDefaults();
     public static Collection_Custom_Setting__c collCustSett = Collection_Custom_Setting__c.getOrgDefaults();
     public static Docomotion_Custom_Setting__c docomotionCS = Docomotion_Custom_Setting__c.getOrgDefaults();
@@ -17,6 +17,33 @@ public class TaskTriggerHandler{
     
     //Changes for: Ticket#309 All Tasks List
     public static void handleBeforeInsert(List<Task> taskNew1){
+        Set<Id> setOfWhatIdIds = new Set<Id>();
+        Map<Id, List<Task>> mapOfWhatIdIdAndTask = new Map<Id, List<Task>>();
+        for(Task tsk : taskNew1){
+            String whatId = tsk.WhatId;
+            System.debug('whatId:: '+whatId);
+            if(whatId.startsWith('a11')){
+                setOfwhatIdIds.add(tsk.whatId);
+                if(mapOfWhatIdIdAndTask.containsKey(tsk.whatId)){
+                    mapOfWhatIdIdAndTask.get(tsk.whatId).add(tsk);
+                }else{
+                    mapOfWhatIdIdAndTask.put(tsk.whatId, new List<Task>{tsk});
+                }                
+            }
+        }
+        System.debug('mapOfWhatIdIdAndTask:: '+mapOfWhatIdIdAndTask);
+        List<Insolvency_Account__c> listOfInsolvencyAccounts = [SELECT Id FROM Insolvency_Account__c WHERE Id in: setOfwhatIdIds
+                                                               AND (Client_Identifier__c = 'Scotia Bank'
+                                                                   OR Client_Identifier__c = 'Canaccede'
+                                                                   OR Client_Identifier__c = 'SPL'
+                                                                   OR Client_Identifier__c = 'SDA')];
+        List<Task> tasksToUpdate = new List<Task>();
+        for(Insolvency_Account__c insolAcc : listOfInsolvencyAccounts){
+            tasksToUpdate.addAll(mapOfWhatIdIdAndTask.get(insolAcc.Id));
+        }
+        for(Task tsk : tasksToUpdate){
+            tsk.IsVisibleInSelfService = true;
+        }
         
         List<String> DistressedTaskList1 = distressCS.Distressed_Task_Eligible_Objects__c.split(',');
         

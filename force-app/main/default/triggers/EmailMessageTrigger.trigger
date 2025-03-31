@@ -15,6 +15,11 @@ trigger EmailMessageTrigger on EmailMessage (before insert, before update, befor
     
     if(runTrigger){   
         if(!Test.isRunningTest()){
+            if(Trigger.isBefore){
+                if(Trigger.isInsert){
+                    EmailMessageTriggerHandler.handleBeforeInsert(Trigger.new);
+                }
+            }
             if(CaseTriggerHandler.runCaseTrigger){
                 
                 //Before Trigger
