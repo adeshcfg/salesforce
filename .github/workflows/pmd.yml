@@ -33,6 +33,11 @@ jobs:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
+            # Now we install nodejs in the VM, and specify version 14
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: "22"
+
             # Install mustache
             - name: 'Install mustache'
               run: npm install -g mustache
@@ -106,7 +111,7 @@ jobs:
               run: |
                   npm install --global sfdx-cli
                   sfdx --version
-                  sfdx plugins:install @salesforce/sfdx-scanner
+                  sfdx plugins install @salesforce/sfdx-scanner
 
             # Then we install the SFDX-Git-Delta plugin - https://github.com/scolladon/sfdx-git-delta
             # This is an awesome plugin that allows us to extract a package.xml with the metadata
