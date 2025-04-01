@@ -11,8 +11,18 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install SFDX CLI and Scanner
+      run: |
+        npm install sfdx-cli -g
+        sfdx plugins:install @salesforce/sfdx-scanner
+
+    - name: "Create delta packages for new, modified or deleted metadata"
+      run: |
+        mkdir changed-sources
+        sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
+
     - name: Setup PMD
       uses: legetz/setup-pmd@7.1.0
 
     - name: APEX full scan for design rules only
-      run: pmd check --dir ./changed-sources/force-app/main/default/classes -R apex_ruleset.xml -f text
+      run: pmd check --dir changed-sources/force-app/main/default/classes -R apex_ruleset.xml -f text
