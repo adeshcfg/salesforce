@@ -33,11 +33,6 @@ jobs:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
-            # Now we install nodejs in the VM, and specify version 14
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: "16"
-
             # Install mustache
             - name: 'Install mustache'
               run: npm install -g mustache
