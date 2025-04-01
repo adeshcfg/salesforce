@@ -15,7 +15,11 @@ jobs:
       run: |
         npm install sfdx-cli -g
         sfdx plugins:install @salesforce/sfdx-scanner
-        sfdx plugins:install sfdx-git-delta
+        
+    - name: "Installing sfdx git delta"
+      run: |
+        echo y | sfdx plugins:install sfdx-git-delta
+        sfdx plugins
 
     - name: "Create delta packages for new, modified or deleted metadata"
       run: |
