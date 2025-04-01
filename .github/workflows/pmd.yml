@@ -125,9 +125,6 @@ jobs:
                   echo y | sfdx plugins:install sfdx-git-delta
                   sfdx plugins
 
-            - name: Install SFDX Scanner
-              run: sfdx plugins:install @salesforce/sfdx-scanner
-
             # Prior to setting up this workflow, you have to create a Github Secret
             # that contains the sfdx url of the integration/qa org.
 
