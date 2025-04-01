@@ -121,7 +121,7 @@ jobs:
             # for more information on how this works.
 
             - name: "Installing sfdx git delta"
-              run: echo y | sfdx plugins:install sfdx-git-delta
+              run: sfdx plugins:install sfdx-git-delta
 				  
             - name: Install SFDX Scanner
               run: sfdx plugins:install @salesforce/sfdx-scanner
