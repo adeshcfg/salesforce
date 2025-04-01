@@ -111,7 +111,7 @@ jobs:
               run: |
                   npm install --global sfdx-cli
                   sfdx --version
-                  sfdx plugins install @salesforce/sfdx-scanner
+                  sfdx plugins:install @salesforce/sfdx-scanner
 
             # Then we install the SFDX-Git-Delta plugin - https://github.com/scolladon/sfdx-git-delta
             # This is an awesome plugin that allows us to extract a package.xml with the metadata
