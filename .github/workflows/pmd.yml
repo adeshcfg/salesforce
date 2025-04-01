@@ -107,13 +107,11 @@ jobs:
                   echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
 
             # Now Install Salesforce CLI
-            - name: "Install Salesforce CLI"
+            - name: Install SFDX CLI and Scanner
               run: |
-                  wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-                  mkdir ~/sfdx
-                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
-                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
-                  ~/sfdx/bin/sfdx version
+                  npm install --global sfdx-cli
+                  sfdx --version
+                  sfdx plugins install @salesforce/sfdx-scanner
 
             # Then we install the SFDX-Git-Delta plugin - https://github.com/scolladon/sfdx-git-delta
             # This is an awesome plugin that allows us to extract a package.xml with the metadata
