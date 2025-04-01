@@ -11,10 +11,11 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install SFDX CLI and Scanner
+    - name: Install SFDX CLI and Scanner anf SFDX Delta
       run: |
         npm install sfdx-cli -g
         sfdx plugins:install @salesforce/sfdx-scanner
+        sfdx plugins:install sfdx-git-delta
 
     - name: "Create delta packages for new, modified or deleted metadata"
       run: |
