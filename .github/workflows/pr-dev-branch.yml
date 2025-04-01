@@ -2,7 +2,7 @@
 name: Validate PR on Development branch
 
 env:
-  target: dev
+  target: prod
 
 # Definition when the workflow should run
 on: [push]
