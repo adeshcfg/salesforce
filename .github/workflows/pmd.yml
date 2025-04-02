@@ -36,7 +36,7 @@ jobs:
             # Now we install nodejs in the VM, and specify version 14
             - uses: actions/setup-node@v3
               with:
-                  node-version: "22"
+                  node-version: "14"
 
             # Install mustache
             - name: 'Install mustache'
