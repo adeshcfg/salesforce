@@ -33,11 +33,6 @@ jobs:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
-            # Now we install nodejs in the VM, and specify version 14
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: "14"
-
             # Install mustache
             - name: 'Install mustache'
               run: npm install -g mustache
@@ -117,6 +112,11 @@ jobs:
             # This is an awesome plugin that allows us to extract a package.xml with the metadata
             # that has changed between commits. I highly recommend going over the github readme
             # for more information on how this works.
+
+            # Now we install nodejs in the VM, and specify version 22
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: "22"
 
             - name: "Installing sfdx git delta"
               run: |
