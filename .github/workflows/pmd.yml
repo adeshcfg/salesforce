@@ -29,6 +29,8 @@ jobs:
     steps:
       - name: Check out files
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # PREREQUISITES - Only needed if runner doesn't already satisfy these requirements
       - name: Ensure node v20.9.0 or greater
