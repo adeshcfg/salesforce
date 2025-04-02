@@ -51,11 +51,22 @@ jobs:
       - name: Install Latest Salesforce Code Analyzer CLI Plugin
         run: sf plugins install code-analyzer@latest
 
+      - name: "Installing sfdx git delta"
+        run: sf plugins install sfdx-git-delta
+
+      # We use SFDX Git Delta to create a directory with only the metadata that has changed.
+      # this allows us to deploy only those changes, as opposed to deploying the entire branch.
+      # This helps reducing deployment times
+      - name: "Create delta packages for new, modified or deleted metadata"
+        run: |
+            mkdir changed-sources
+            sf sgd source delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
+
       - name: Run Salesforce Code Analyzer
         id: run-code-analyzer
         uses: forcedotcom/run-code-analyzer@v2
         with:
-          run-arguments: --workspace . --view detail --output-file sfca_results.html --output-file sfca_results.json
+          run-arguments: --workspace ./changed-sources --view detail --output-file sfca_results.html --output-file sfca_results.json
           results-artifact-name: salesforce-code-analyzer-results
 
       - name: Check the outputs to determine whether to fail
