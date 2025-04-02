@@ -24,15 +24,36 @@ on:
 
 # Jobs to be executed when the above conditions are met
 jobs:
-    # This is the name of the job. You can give it whatever name you want
-    validate-deployment-on-dev-org:
+  sfdx-scanner:
+    name: sfdx-scanner
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: APEX delta scan
+      uses: mitchspano/sfdx-scan-pull-request@v0.1.16
+      with:
+        pmdconfig: apex_ruleset.xml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  validate-deployment-on-dev-org:
         # As mentioned in the blog post, this job runs inside a VM. Here we
         # can specify which OS this VM should run on.
         # In this case, we are going to run our commands on the latest version
         # of ubuntu
         runs-on: ubuntu-latest
+        needs:
+          - sfdx-scanner
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
+            # Now we install nodejs in the VM, and specify version 14
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: "14"
+
             # Install mustache
             - name: 'Install mustache'
               run: npm install -g mustache
@@ -101,22 +122,10 @@ jobs:
                   TESTS=$(cat testsToRun.txt)       
                   echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
 
-            # Now Install Salesforce CLI
-            - name: Install SFDX CLI and Scanner
-              run: |
-                  npm install --global sfdx-cli
-                  sfdx --version
-                  sfdx plugins:install @salesforce/sfdx-scanner
-
             # Then we install the SFDX-Git-Delta plugin - https://github.com/scolladon/sfdx-git-delta
             # This is an awesome plugin that allows us to extract a package.xml with the metadata
             # that has changed between commits. I highly recommend going over the github readme
             # for more information on how this works.
-
-            # Now we install nodejs in the VM, and specify version 22
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: "22"
 
             - name: "Installing sfdx git delta"
               run: |
