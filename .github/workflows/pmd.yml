@@ -52,7 +52,7 @@ jobs:
         run: sf plugins install code-analyzer@latest
 
       - name: "Installing sfdx git delta"
-        run: sf plugins install sfdx-git-delta
+        run: echo y | sf plugins install sfdx-git-delta
 
       # We use SFDX Git Delta to create a directory with only the metadata that has changed.
       # this allows us to deploy only those changes, as opposed to deploying the entire branch.
