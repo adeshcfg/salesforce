@@ -102,6 +102,8 @@ jobs:
     # In this case, we are going to run our commands on the latest version
     # of ubuntu
     runs-on: ubuntu-latest
+    needs:
+      - salesforce-code-analyzer-workflow
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
         # Now we install nodejs in the VM, and specify version 16
