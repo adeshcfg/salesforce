@@ -16,6 +16,8 @@
     <aura:attribute name="serverRespose" type="Object"/>
     <c:errorHandling aura:id="errorHandling" serverRespose="{!v.serverRespose}" showSpinner="{!v.showSpinner}"/>
     
+
+
     <force:recordData aura:id="forceRecord"
                       recordId="{!v.recordId}"
                       fields="Id,Legal_Sub_Status__c"
