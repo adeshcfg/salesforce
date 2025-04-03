@@ -11,7 +11,7 @@
                     },
                     {
                         "fieldApiName": "Record_Type__c",
-                        "fieldValue": "'Flexiti_CCS_Account,GoEasy_CCS_Account'"
+                        "fieldValue": "'abc,GoEasy_CCS_Account'"
                     }
                 ]
             },
