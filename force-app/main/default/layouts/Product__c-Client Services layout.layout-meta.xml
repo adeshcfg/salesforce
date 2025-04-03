@@ -519,6 +519,8 @@
                 <field>Other_Reason__c</field>
             </layoutItems>
         </layoutColumns>
+
+
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
